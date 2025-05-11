@@ -1,0 +1,39 @@
+{
+    "name": "mlbrgn/spatie-media-library-extensions",
+    "description": "Extensions designed for use with the Spatie Media Library.",
+    "type": "library",
+    "require": {
+        "illuminate/support": "^12.13",
+        "php": "^8.4"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
+        "larastan/larastan": "^3.4",
+        "laravel/pint": "^1.22",
+        "orchestra/testbench": "^10.2",
+        "orchestra/testbench-browser-kit": "^10.1",
+        "pestphp/pest": "^3.8",
+        "pestphp/pest-plugin-drift": "^3.0",
+        "pestphp/pest-plugin-type-coverage": "^3.5",
+        "spatie/laravel-translatable": "^6.11",
+        "symfony/dom-crawler": "^7.2"
+    },
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "Mlbrgn\\SpatieMediaLibraryExtensions\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Evertjan Garretsen",
+            "email": "evertjan@mlbrgn.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
