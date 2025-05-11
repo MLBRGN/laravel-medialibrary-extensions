@@ -9,21 +9,12 @@ use Illuminate\Support\Facades\Response;
 class PackageAssetController extends Controller
 {
     protected array $map = [
-        'preview.css' => '/../dist/css/mlbrgn-preview.css',
-        'preview.js' => '/../dist/js/mlbrgn-preview.js',
-        'main.css' => '/../dist/css/mlbrgn-form-components.css',
-        'main.js' => '/../dist/js/mlbrgn-form-components.js',
-        'html-editor.js' => '/../dist/js/mlbrgn-html-editor.js',
-        'form-validation.js' => '/../dist/js/mlbrgn-form-validation.js',
-        'form-validation.css' => '/../dist/css/mlbrgn-form-validation.css',
-        'button-image.png' => '/../public/images/button-image.png',
-        'icon-envelope.png' => '/../public/images/icon-envelope.png',
-        'sprite.svg' => '/../public/images/sprite.svg',
+        'mediaPreviewModal.js' => '/../../..//dist/js/mediaPreviewModal.js',
+        'preview-modal.css' => '/../../..//dist/css/preview-modal.css',
     ];
 
     public function __invoke(string $name)
     {
-        dd($name);
         if (! isset($this->map[$name])) {
             abort(404);
         }

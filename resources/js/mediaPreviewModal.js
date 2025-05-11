@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const modals = document.querySelectorAll('.media-preview-modal');
     const players = {}; // Store player instances by slide ID
     function stopAllVideoPlayBack() {

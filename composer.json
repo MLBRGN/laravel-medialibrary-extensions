@@ -28,7 +28,10 @@
     "autoload": {
         "psr-4": {
             "Mlbrgn\\SpatieMediaLibraryExtensions\\": "src/"
-        }
+        },
+        "files": [
+          "Helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
       "psr-4": {

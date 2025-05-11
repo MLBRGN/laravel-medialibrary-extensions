@@ -1,0 +1,25 @@
+{
+  "name": "laravel-form-components",
+  "version": "1.0.0",
+  "description": "no",
+  "author": "Evertjan Garretsen - Mlbrgn",
+  "license": "ISC",
+  "private": true,
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "^6.2.1",
+    "laravel-vite-plugin": "^1.0.0",
+    "sass": "^1.77.5"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}

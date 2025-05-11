@@ -2,7 +2,7 @@
 
 return [
 
-    'prefix' => env('MEDIA_LIBRARY_EXTENSION_PREFIX', 'mlbrgn-mle'),
+    'route-prefix' => env('MEDIA_LIBRARY_EXTENSION_ROUTE_PREFIX', 'mlbrgn-mle'),
 
     /*
     |--------------------------------------------------------------------------

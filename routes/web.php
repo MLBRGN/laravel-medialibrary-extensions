@@ -9,26 +9,26 @@ use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\PackageAssetController;
 
 // TODO only auth?
 Route::group([
-    'prefix' => config('media-library-extensions.prefix'),
+    'prefix' => config('media-library-extensions.route-prefix'),
     'as' => 'admin.',
     'middleware' => ['preventBackHistory'],
 ], function () {
     Route::controller(MediaManagerController::class)->group(function () {
         Route::post('media-manager-upload-single', 'mediaUploadSingle')
-            ->name('media-upload-single');
+            ->name(config('media-library-extensions.route-prefix').'-media-upload-single');
         Route::post('media-manager-upload-multiple', 'mediaUploadMultiple')
-            ->name('media-upload-multiple');
+            ->name(config('media-library-extensions.route-prefix').'-media-upload-multiple');
         Route::post('media-manager-set-medium-as-first-in-collection', 'setMediumAsFirstInCollection')
-            ->name('set-medium-as-first-in-collection');
+            ->name(config('media-library-extensions.route-prefix').'-set-medium-as-first-in-collection');
         Route::delete('media-manager/{media}/destroy', 'mediaDestroy')
-            ->name('media-destroy');
+            ->name(config('media-library-extensions.route-prefix').'-media-destroy');
     });
 });
 
 Route::group([
-    'prefix' => config('media-library-extensions.prefix'),
+    'prefix' => config('media-library-extensions.route-prefix'),
 ], function () {
     Route::get(config('media-library-extensions.prefix').'package/assets/{name}', PackageAssetController::class)
-        ->where('name', '[a-zA-Z0-9-]+')
-        ->name('package.assets');
+        ->where('name', '[a-zA-Z0-9-\.{1}]+')
+        ->name(config('media-library-extensions.route-prefix').'-package.assets');
 });

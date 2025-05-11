@@ -2,7 +2,6 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
@@ -26,7 +25,8 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        Log::info('SpatieMediaLibraryExtensionsServiceProvider registered.');
+
+        $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
 
         // Bind services or config
     }
