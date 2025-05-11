@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Media;
+namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
@@ -29,6 +29,6 @@ class MediaLibraryImage extends Component
 
     public function render(): View
     {
-        return view('components.media.library-image');
+        return view('media-library-extensions::components.library-image');
     }
 }

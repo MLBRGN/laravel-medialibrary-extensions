@@ -110,7 +110,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <x-media.preview-modal :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" title="Media carousel"/>
+                        <x-media-library-extensions::preview-modal :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" title="Media carousel"/>
                     </div>
                 @endif
             </div>

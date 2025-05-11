@@ -63,7 +63,7 @@
                                 @endif
                             </div>
                         </div>
-                        <x-media.preview-modal :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" title="Media" single-medium/>
+                        <x-media-library-extensions::preview-modal :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" title="Media" single-medium/>
                     </div>
                 @endif
             </div>

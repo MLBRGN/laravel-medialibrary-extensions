@@ -68,7 +68,7 @@ documentation:
                 @else
                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                         <div class="carousel-item-wrapper d-flex align-items-center justify-content-center">
-                            <x-media.library-image class="image image-zoomed" :media="$medium" conversion="16x9" sizes="95vw" />
+                            <x-media-library-extensions::library-image class="image image-zoomed" :media="$medium" conversion="16x9" sizes="95vw" />
                         </div>
                     </div>
                 @endif
@@ -95,7 +95,7 @@ documentation:
         @endif
     </div>
 </x-info-modal>
-<script src="https://www.youtube.com/iframe_api"></script>
-@once
-    @vite('resources/js/modules/mediaPreviewModal.js')
-@endonce
+{{--<script src="https://www.youtube.com/iframe_api"></script>--}}
+{{--@once--}}
+{{--    @vite('resources/js/modules/mediaPreviewModal.js')--}}
+{{--@endonce--}}

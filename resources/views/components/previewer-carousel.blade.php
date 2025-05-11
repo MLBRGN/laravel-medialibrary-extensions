@@ -56,7 +56,7 @@ Documentation:
                                     {{ $medium->img()->lazy()->attributes(['class' => 'object-fit-contain']) }}
                                 </div>
                             @else
-                                <x-media.library-image class="" :media="$medium" conversion="16x9" sizes="(min-width:768px) 245px, (min-width:992px) 245px, (min-width: 1250px) 325, (min-width: 1400px) 365px, 100vw" />
+                                <x-media-library-extensions::library-image class="" :media="$medium" conversion="16x9" sizes="(min-width:768px) 245px, (min-width:992px) 245px, (min-width: 1250px) 325, (min-width: 1400px) 365px, 100vw" />
                             @endif
                         </a>
                     </div>
@@ -80,5 +80,5 @@ Documentation:
 
     </div>
 
-    <x-media.preview-modal {{ $attributes->merge() }} :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" :youtube-collection-name="$youtubeCollectionName" :logo-collection-name="$logoCollectionName" title="Media carousel"/>
+    <x-media-library-extensions::preview-modal {{ $attributes->merge() }} :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" :youtube-collection-name="$youtubeCollectionName" :logo-collection-name="$logoCollectionName" title="Media carousel"/>
 @endif

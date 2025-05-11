@@ -5,12 +5,12 @@
     "authors": [
         {
             "name": "Evertjan Garretsen",
-            "email": "evertja.garretsenn@mlbrgn.nl"
+            "email": "evertjan.garretsen@mlbrgn.nl"
         }
     ],
     "require": {
         "illuminate/support": "^12.13",
-        "php": "^8.4"
+        "php": "^8.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

@@ -1,0 +1,32 @@
+<?php
+
+namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components;
+
+use Closure;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
+
+class InfoModal extends Component
+{
+    /**
+     * Create a new component instance.
+     *
+     * @return void
+     */
+    public function __construct(
+        public string $modalId,
+        public string $title,
+        public bool $noPadding = false,
+        public bool $showHeader = true,
+        public bool $showBody = true,
+        public string $sizeClass = ''
+    ) {}
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
+        return view('media-library-extensions::components.info-modal');
+    }
+}

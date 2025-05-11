@@ -48,5 +48,5 @@ Documentation:
 
     </div>
 
-    <x-media.preview-modal {{ $attributes->merge() }} :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" :youtube-collection-name="$youtubeCollectionName" title="Media carousel"/>
+    <x-media-library-extensions::preview-modal {{ $attributes->merge() }} :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" :youtube-collection-name="$youtubeCollectionName" title="Media carousel"/>
 @endif
