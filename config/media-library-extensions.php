@@ -2,6 +2,8 @@
 
 return [
 
+    'prefix' => env('MEDIA_LIBRARY_EXTENSION_PREFIX', 'mlbrgn-mle'),
+
     /*
     |--------------------------------------------------------------------------
     | Max Upload Sizes (in kilobytes)

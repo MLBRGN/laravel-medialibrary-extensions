@@ -5,10 +5,11 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Routes;
 // Media manager routes
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\MediaManagerController;
+use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\PackageAssetController;
 
 // TODO only auth?
 Route::group([
-    'prefix' => 'admin',
+    'prefix' => config('media-library-extensions.prefix'),
     'as' => 'admin.',
     'middleware' => ['preventBackHistory'],
 ], function () {
@@ -22,4 +23,12 @@ Route::group([
         Route::delete('media-manager/{media}/destroy', 'mediaDestroy')
             ->name('media-destroy');
     });
+});
+
+Route::group([
+    'prefix' => config('media-library-extensions.prefix'),
+], function () {
+    Route::get(config('media-library-extensions.prefix').'package/assets/{name}', PackageAssetController::class)
+        ->where('name', '[a-zA-Z0-9-]+')
+        ->name('package.assets');
 });

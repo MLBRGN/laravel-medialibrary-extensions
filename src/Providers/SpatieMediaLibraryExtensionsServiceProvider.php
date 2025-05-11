@@ -18,9 +18,10 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/../../resources/js/' => resource_path('js/vendor/media-library-extensions'),
+            __DIR__.'/../../resources/js/' => public_path('js/vendor/media-library-extensions'),
         ], 'js');
 
+        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
     }
 
     public function register(): void
