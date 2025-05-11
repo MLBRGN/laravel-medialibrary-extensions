@@ -1,0 +1,395 @@
+/*
+ * Media components (in media folder)
+ */
+
+// variables
+$carousel-stop-1: $primary;
+$carousel-stop-2: $primary;
+$carousel-control-opacity: .8;// bs built in
+$carousel-control-hover-opacity: 1;// bs built in
+$carousel-control-stroke: #fff;
+
+$carousel-control-next-icon-bg: url("data:image/svg+xml, \
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'> \
+    <radialGradient id = 'g1' cx = '50%' cy = '50%' r = '50%'> \
+    <stop stop-color = '#{$carousel-stop-1}' offset = '0%'/> \
+    <stop stop-color = '#{$carousel-stop-1}' offset = '65%'/> \
+    <stop stop-color = '#{$carousel-stop-2}' offset = '85%'/> \
+    <stop stop-color = '#{$carousel-stop-2}' offset = '100%'/> \
+    </radialGradient> \
+    <path fill='url(#g1)' stroke='#{$carousel-control-stroke}' stroke-width='.8%' d='M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z'/> \
+</svg>");
+
+$carousel-control-prev-icon-bg: url("data:image/svg+xml, \
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'> \
+    <radialGradient id = 'g1' cx = '50%' cy = '50%' r = '50%'> \
+    <stop stop-color = '#{$carousel-stop-1}' offset = '0%'/> \
+    <stop stop-color = '#{$carousel-stop-1}' offset = '65%'/> \
+    <stop stop-color = '#{$carousel-stop-2}' offset = '85%'/> \
+    <stop stop-color = '#{$carousel-stop-2}' offset = '100%'/> \
+    </radialGradient> \
+    <path fill='url(#g1)' stroke='#{$carousel-control-stroke}' stroke-width='.8%' d='M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z'/> \
+</svg>");
+
+/*
+ * Media preview modal preview-modal.blade)
+ */
+
+// override css variables for media-preview-modal
+.media-preview-modal .modal {
+    --bs-modal-padding: 0;
+    --bs-modal-margin: 1em !important;
+    --bs-modal-header-padding-x: 0;
+    --bs-modal-header-padding-y: 0;
+}
+
+.media-preview-modal.modal,
+.media-preview-modal .modal-body,
+.media-preview-modal .modal-content
+{
+    overflow: hidden;
+}
+
+.media-preview-modal {
+    .modal-almost-fullscreen {
+        width: 95vw !important;
+        max-width: none;
+        height: 95%;
+    }
+
+    .modal-almost-fullscreen .modal-content {
+        padding:0;
+        height: 100%;
+        border: 0;
+        box-sizing:border-box;
+    }
+
+    .modal-almost-fullscreen .modal-header,
+    .modal-almost-fullscreen .modal-footer {
+        border-radius: 0;
+    }
+
+    .modal-almost-fullscreen .modal-body {
+        //overflow-y: auto;
+    }
+
+    .btn-close {
+        --bs-btn-close-opacity: 0.9;
+        position: absolute;
+        background-color:$secondary-lightest;
+        // NOTE: image needs to come first!
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z"/></svg>'), $secondary;
+        background-repeat:no-repeat;
+        background-position: center center;
+        border-radius:5px;
+        top: 1rem;
+        padding:0.5em;
+        color: $on-secondary-lightest;
+        right: 1rem;
+        z-index: 3;
+    }
+}
+
+/*
+ * Previewer (previewer.blade)
+ */
+
+.media-preview-medium-container img {
+    height:auto;
+}
+
+.media-preview-medium-url {
+    max-width:200px;
+    word-break: break-all;
+    padding:1em;
+}
+
+/*
+ * Media carousels (preview-modal.blade and previewer-carousel.blade)
+ */
+
+// Shared carousel control styles
+@mixin preview-carousel-controls {
+
+    .carousel-item {
+        height:100%;
+    }
+
+    .carousel-item-wrapper {
+        height:100%;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        top: 0;
+        bottom: 0;
+        width: 5%;
+        min-width: 2.5em;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .carousel-control-prev {
+        border-top-right-radius: 3em;
+        border-bottom-right-radius: 3em;
+        left: 0;
+    }
+
+    .carousel-control-next {
+        border-top-left-radius: 3em;
+        border-bottom-left-radius: 3em;
+        right: 0;
+    }
+
+    .carousel-control-prev.disabled,
+    .carousel-control-next.disabled {
+        opacity: 0.2;
+        pointer-events: none; /* Prevents click events */
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-prev:focus-visible,
+    .carousel-control-next:hover,
+    .carousel-control-next:focus-visible {
+        background-color: rgba($secondary, 0.7);
+    }
+
+    .carousel-indicators button:focus-visible {
+        outline:none;
+    }
+
+    .carousel-indicators {
+        position:absolute;
+        top:1em;
+        height:fit-content;
+        margin-left:15%;
+        margin-right:15%;
+    }
+
+    .carousel-inner {
+        height:100%;
+    }
+
+    .image,
+    .image-zoomed {
+        height:100%;
+        width:100%;
+        object-fit:contain;
+    }
+
+    .image {
+        cursor: zoom-in;
+    }
+
+    .image-zoomed {
+        cursor: default;
+    }
+
+    .youtube-video {
+        position:relative;
+    }
+
+    .youtube-play-button {
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translateY(-50%) translateX(-50%);
+        fill:$primary;
+    }
+}
+
+// previewer-carousel.blade
+.media-preview-carousel {
+    @include preview-carousel-controls;
+
+    width: 100%;
+    height: 100%;
+
+    .carousel-control-prev {
+        border-radius:0;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        opacity:0.75;
+    }
+
+    .carousel-control-next {
+        border-radius:0;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+        opacity:0.5;
+    }
+
+    .carousel-inner {
+        width:100%;
+        height:100%;
+
+        .carousel-item {
+            width:100%;
+            height:100%;
+
+            .cursor-zoom-in {
+                display:block;
+                width:100%;
+                height:100%;
+            }
+
+            .youtube-video {
+                border-radius:$border-radius;
+                display:block;
+                width:100%;
+                height:100%;
+            }
+
+            img {
+                border-radius:$border-radius;
+                display:block;
+                width:100%;
+                height:100%;
+            }
+        }
+    }
+}
+
+// previewer-modal.blade
+.media-preview-modal-carousel {
+    @include preview-carousel-controls;
+
+    height:100%;
+    position:relative;
+
+    .carousel-control-prev {
+        top: 10vh;
+        bottom: 10vh;
+    }
+
+    .carousel-control-next {
+        top: 10vh;
+        bottom: 10vh;
+    }
+
+    .video-wrapper {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background-color: black;
+    }
+
+    //noinspection CssInvalidHtmlTagReference
+    .video-wrapper lite-youtube {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+@media (hover: none) {
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background-color: transparent;
+    }
+}
+
+/*
+ * Media managers (manager-multiple.blade and manager-single.blade)
+ */
+
+.media-manager-preview-image-container {
+    aspect-ratio:1/1;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    position: relative;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    background-color:$neutral;
+    border-radius: .3em;
+}
+
+.media-manager-preview-image-menu {
+    position:absolute;
+    left:0;
+    right:0;
+    inset-block-end: 0;
+    bottom:0;
+    background-color: rgba($black,0.6);
+    color:white;
+    height:auto;
+    max-height:30%;
+    padding:0.3em;
+}
+
+.media-manager {
+}
+
+.media-manager-multiple {
+
+}
+
+.media-manager-single {
+
+}
+
+.media-manager-inner {
+
+}
+
+.media-manager-inner {
+
+}
+
+.media-preview-image {
+    position:relative;
+}
+
+.media-manager-upload {
+    background-color: $neutral-light;
+    //min-width:25vw;
+}
+
+.media-manager-preview {
+    background-color: $neutral-lighter;
+    align-content:center;
+
+}
+
+.media-manager-multiple {
+    .media-manager-preview {
+        padding:1em;
+    }
+}
+
+.media-manager-order {
+    position:absolute;
+    background-color: rgba($black,0.6);;
+    color:white;
+    left:0.2em;
+    top:0.2em;
+    width:1.5em;
+    height:1.5em;
+    aspect-ratio:1;
+    text-align:center;
+    border-radius: .3em;
+}
+
+.media-manager-preview-images {
+    align-items: center;
+    display:grid;
+    grid-gap:1em;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.media-manager-menu-form {
+    // remove unwanted space in form
+    line-height:normal;
+}
+
+/*
+ * Used in all / or multiple media views
+ */
+
+.cursor-zoom-in {
+    cursor: zoom-in;
+}
