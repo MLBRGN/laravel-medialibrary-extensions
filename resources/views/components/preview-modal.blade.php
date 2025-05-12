@@ -116,6 +116,6 @@ documentation:
 {{--</script>--}}
 {{--<script src="{{ asset('mlbrgn/spatie-media-library-extensions/mediaPreviewModal.js') }}"></script>--}}
 @once
-    <script src="{{ mle_package_asset('mediaPreviewModal.js') }}"></script>
+{{--    <script src="{{ mle_package_asset('mediaPreviewModal.js') }}"></script>--}}
     <link rel="stylesheet" href="{{ mle_package_asset('preview-modal.css') }}">
 @endonce

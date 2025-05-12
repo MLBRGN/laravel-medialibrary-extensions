@@ -7,9 +7,9 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Request\MediaManagerUploadSingleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
+use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\SetMediumAsFirstInCollectionRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Models\Media;
 
@@ -29,12 +29,13 @@ class MediaManagerController extends Controller
 
     public function mediaUploadSingle(MediaManagerUploadSingleRequest $request): RedirectResponse
     {
+        // TODO
+        //        $this->authorize('uploadMedia', $model);
 
         $modelType = $request->model_type;
         $modelId = $request->model_id;
         $collectionName = $request->collection_name;
         $model = $this->getModel($modelType, $modelId);
-        $this->authorize('uploadMedia', $model);
         $medium = $request->medium;
 
         if ($request->hasFile('medium')) {
@@ -43,11 +44,11 @@ class MediaManagerController extends Controller
                 ->toMediaCollection($collectionName);
         } else {
             return back()
-                ->with('error', __('app.upload-no-files'));
+                ->with('error', __('media-library-extensions::messages.upload-no-files'));
         }
 
         return back()
-            ->with('success', __('app.upload-successful'));
+            ->with('success', __('media-library-extensions::messages.upload_success'));
     }
 
     public function mediaUploadMultiple(MediaManagerUploadMultipleRequest $request): RedirectResponse
@@ -66,11 +67,11 @@ class MediaManagerController extends Controller
             }
         } else {
             return back()
-                ->with('error', __('app.upload-no-files'));
+                ->with('error', __('media-library-extensions::messages.upload-no-files'));
         }
 
         return back()
-            ->with('success', __('app.upload-successful'));
+            ->with('success', __('media-library-extensions::messages.upload_success'));
     }
 
     public function setMediumAsFirstInCollection(SetMediumAsFirstInCollectionRequest $request): RedirectResponse
@@ -97,7 +98,7 @@ class MediaManagerController extends Controller
         Media::setNewOrder($orderedIds);
 
         return back()
-            ->with('success', __('app.medium-set-as-first-in-collection'));
+            ->with('success', __('media-library-extensions::messages.medium-set-as-first-in-collection'));
     }
 
     public function mediaDestroy(\Spatie\MediaLibrary\MediaCollections\Models\Media $media, MediaManagerDestroyRequest $request): RedirectResponse
@@ -107,6 +108,6 @@ class MediaManagerController extends Controller
         $media->destroy($media->id);
 
         return back()
-            ->with('success', __('app.medium-removed'));
+            ->with('success', __('media-library-extensions::messages.medium-removed'));
     }
 }

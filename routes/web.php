@@ -10,8 +10,6 @@ use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\PackageAssetController;
 // TODO only auth?
 Route::group([
     'prefix' => config('media-library-extensions.route-prefix'),
-    'as' => 'admin.',
-    'middleware' => ['preventBackHistory'],
 ], function () {
     Route::controller(MediaManagerController::class)->group(function () {
         Route::post('media-manager-upload-single', 'mediaUploadSingle')

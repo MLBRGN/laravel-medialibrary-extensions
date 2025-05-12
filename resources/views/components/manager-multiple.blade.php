@@ -116,7 +116,7 @@
             </div>
         </div>
         @if(!$uploadEnabled && $media->count() === 0)
-            <span>Geen media</span>
+            <span>{{ __('media-library-extensions::messages.no-media') }}</span>
         @endif
     @endif
 </div>
