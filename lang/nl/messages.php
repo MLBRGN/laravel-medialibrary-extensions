@@ -11,7 +11,9 @@ return [
     'no-medium-uploaded' => 'Geen medium geüpload.',
     //    'no-model-provided' => 'Geen model meegegeven!',
     //    'no-collection-name-provided' => 'Geen collectienaam meegegeven!',
+    'upload-media' => 'Upload media',
     'upload-or-replace' => '{0}Upload medium|[1,*]Vervang medium',
     'missing_model' => ':component vereist een model, maar er is er geen meegegeven.',
     'missing_collection' => ':component vereist een media collectie naam, maar er is er geen meegegeven.',
+    'delete_medium' => 'Verwijder',
 ];

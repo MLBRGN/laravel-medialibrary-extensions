@@ -36,18 +36,4 @@ abstract class BaseComponent extends Component
         $this->media = $model->getMedia($mediaCollectionName);
         $this->modelKebabName = Str::kebab(class_basename($model));
     }
-
-    // no longer needed now use blade directive, remove when completed
-    //    public function getClass(string $key, string $default = ''): string
-    //    {
-    //        if (! array_key_exists($key, $this->classes)) {
-    //            if (app()->environment('local')) {
-    //                throw new InvalidArgumentException("Class key '{$key}' not defined for theme '{$this->theme}'");
-    //            }
-    //
-    //            return $default;
-    //        }
-    //
-    //        return $this->classes[$key];
-    //    }
 }

@@ -1,12 +1,13 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
+import path from 'path';
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
                 'resources/js/mediaPreviewModal.js',
-                'resources/css/media-preview.scss',
+                'resources/css/media-library-extensions.scss',
             ],
             refresh: true,
         }),
@@ -24,14 +25,19 @@ export default defineConfig({
                     return 'js/[name].js'
                 },
                 assetFileNames: (chunk) => {
-                    if (chunk.name?.endsWith('media-preview')) {
+                    if (chunk.name?.endsWith('media-library-extensions')) {
                         console.log('test');
-                        return 'css/media-preview.css';
+                        return 'css/media-library-extensions.css';
                     }
 
                     return 'css/[name][extname]'
                 },
             },
         },
+    },
+    resolve: {
+        alias: {
+            '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+        }
     },
 })

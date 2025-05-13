@@ -12,6 +12,7 @@ return [
     */
 
     'frontend-theme' => 'bootstrap-5',
+    //    'frontend-theme' => 'plain',
 
     /*
     |--------------------------------------------------------------------------
@@ -62,9 +63,24 @@ return [
     */
 
     'allowed_mimes' => [
-        'image' => ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'svg', 'heic', 'avif'],
-        'video' => ['mp4', 'mov', 'avi'],
-        'document' => ['pdf', 'doc', 'docx'],
+        'image' => [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/bmp',
+            'image/heic',
+            'image/avif',
+        ],
+        'video' => [
+            'mp4',
+            'mov',
+            'avi',
+        ],
+        'document' => [
+            'pdf',
+            'doc',
+            'docx',
+        ],
     ],
 
     /*
@@ -81,26 +97,52 @@ return [
 
     'classes' => [
         'plain' => [
-            'media-manager-single-wrapper' => 'media-manager media-manager-single evertjan',
-            'media-manager-single-form' => 'media-manager-single-form',
+            'media-manager-single-wrapper' => 'media-manager media-manager-single',
+            'media-manager-multiple-wrapper' => 'media-manager media-manager-multiple',
+            'media-manager-single-row' => 'media-manager-row media-manager-single-row',
+            'media-manager-multiple-row' => 'media-manager-row media-manager-multiple-row',
+            'media-manager-single-form' => 'media-manager-form media-manager-single-form',
+            'media-manager-multiple-form' => 'media-manager-form media-manager-multiple-form',
+            'media-manager-single-preview-wrapper' => 'media-manager-preview-wrapper media-manager-single-preview-wrapper',
+            'media-manager-multiple-preview-wrapper' => 'media-manager-preview-wrapper media-manager-multiple-preview-wrapper',
+            'media-manager-single-preview-medium' => 'media-manager-preview-medium media-manager-single-preview-medium',
+            'media-manager-single-preview-medium-link' => 'media-manager-preview-medium-link media-manager-single-preview-medium-link cursor-zoom-in',
+            'media-manager-single-preview-menu' => 'media-manager-preview-menu media-manager-single-preview-menu',
+            'media-manager-single-preview-form' => 'media-manager-preview-form media-manager-single-preview-form',
+            'media-manager-multiple-preview-menu' => 'media-manager-preview-menu media-manager-multiple-preview-menu',
+            'media-manager-multiple-preview-form' => 'media-manager-preview-form media-manager-multiple-preview-form',
+            'media-manager-no-media' => 'media-manager-no-media',
             'media-manager-headings' => 'media-manager-heading',
             'media-manager-upload-wrapper' => 'upload-wrapper',
             'media-manager-preview-image' => 'media-manager-preview-image',
             'media-manager-button-upload' => 'button-upload',
             'media-manager-button-delete' => 'button-delete',
+            'media-manager-button-icon-delete' => 'button-icon-delete',
             'media-manager-input-file' => 'media-manager-input-file',
-            'media-manager-single-image-preview-wrapper' => 'media-manager-single-image-preview-wrapper',
         ],
         'bootstrap-5' => [
-            'media-manager-single-wrapper' => 'media-manager media-manager-single',
-            'media-manager-single-form' => 'media-manager-single-form d-flex flex-column align-items-start gap-3 mb-3',
-            'media-manager-headings' => 'media-manager-heading  mb-4',
+            'media-manager-single-wrapper' => 'media-manager media-manager-single container-fluid',
+            'media-manager-multiple-wrapper' => 'media-manager media-manager-multiple container-fluid',
+            'media-manager-single-row' => 'media-manager-row media-manager-single-row row',
+            'media-manager-multiple-row' => 'media-manager-row media-manager-multiple-row row',
+            'media-manager-single-form' => 'media-manager-form media-manager-single-form col-12 col-md-4',
+            'media-manager-multiple-form' => 'media-manager-form media-manager-multiple-form col-12 col-md-4',
+            'media-manager-single-preview-wrapper' => 'media-manager-preview-wrapper media-manager-single-preview-wrapper col-12 col-md-8 text-center',
+            'media-manager-multiple-preview-wrapper' => 'media-manager-preview-wrapper media-manager-multiple-preview-wrapper col-12 col-sm-8',
+            'media-manager-single-preview-medium' => 'media-manager-preview-medium media-manager-single-preview-medium image-fluid',
+            'media-manager-single-preview-medium-link' => 'media-manager-preview-medium-link media-manager-single-preview-medium-link cursor-zoom-in',
+            'media-manager-single-preview-menu' => 'media-manager-preview-menu media-manager-single-preview-menu d-flex justify-content-end px-2 align-items-center',
+            'media-manager-single-preview-form' => 'media-manager-preview-form media-manager-single-preview-form',
+            'media-manager-multiple-preview-menu' => 'media-manager-preview-menu media-manager-multiple-preview-menu d-flex justify-content-end px-2 align-items-center',
+            'media-manager-multiple-preview-form' => 'media-manager-preview-form media-manager-multiple-preview-form',
+            'media-manager-no-media' => 'media-manager-no-media my-3',
+            'media-manager-headings' => 'media-manager-heading mb-4',
             'media-manager-upload-wrapper' => 'upload-wrapper col-12 col-sm-4 p-5',
             'media-manager-preview-image' => 'media-manager-preview-image',
             'media-manager-button-upload' => 'btn btn-success',
             'media-manager-button-delete' => 'btn btn-danger',
+            'media-manager-button-icon-delete' => 'button-icon-delete btn btn-delete btn-icon btn-icon-delete btn-sm',
             'media-manager-input-file' => 'media-manager-input-file form-control mb-2',
-            'media-manager-single-image-preview-wrapper' => 'media-manager-single-image-preview-wrapper col-md-8',
         ],
     ],
 

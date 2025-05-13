@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class InfoModal extends Component
+class Modal extends Component
 {
     /**
      * Create a new component instance.
@@ -27,6 +27,6 @@ class InfoModal extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('media-library-extensions::components.info-modal');
+        return view('media-library-extensions::components.modal');
     }
 }

@@ -1,5 +1,5 @@
 @php
-    $modalId = 'modal-' . $modalId;
+    $sizeClass = 'large';// TODO
 @endphp
 <div class="modal fade {{ $sizeClass }}" id="{{ $modalId }}" tabindex="-1" aria-labelledby="{{ $modalId }}-title"
      aria-hidden="true">

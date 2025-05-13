@@ -28,3 +28,11 @@ if (! function_exists('mle_media_class')) {
         return $classes[$key] ?? $default;
     }
 }
+
+if (! function_exists('mle_prefix_route')) {
+
+    function mle_prefix_route(string $suffix): string
+    {
+        return config('media-library-extensions.route-prefix').'-'.$suffix;
+    }
+}

@@ -10,7 +10,7 @@ class PackageAssetController extends Controller
 {
     protected array $map = [
         'mediaPreviewModal.js' => '/../../..//dist/js/mediaPreviewModal.js',
-        'preview-modal.css' => '/../../../dist/css/media-preview.css',
+        'media-library-extensions.css' => '/../../../dist/css/media-library-extensions.css',
     ];
 
     public function __invoke(string $name)

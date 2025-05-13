@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 // !!!!! NOTE: remember to clean laravel cache after changes, otherwise cached views are used !!!!!
 // clear the cache in the main application where the components are used by running php artisan optimize:clear
 // and run composer dump-autoload
-class MediaManagerSingle extends BaseComponent
+class MediaManagerMultiple extends BaseComponent
 {
     public $theme;
 
@@ -29,25 +29,21 @@ class MediaManagerSingle extends BaseComponent
         public ?string $mediaCollectionName = null,
         public bool $uploadEnabled = false,
         public ?string $uploadRoute = null,
-        public string $uploadFieldName = 'medium',
+        public string $uploadFieldName = 'media',
         public bool $destroyEnabled = false,
         public ?string $destroyRoute = null,
         public bool $showMediaUrl = false,
-        public string $modalId = 'media-manager-single-modal',
+        public string $modalId = 'media-manager-multiple-modal',
+        public bool $setAsFirstEnabled = false,
+        public bool $showOrder = false,
         public string $title = '',
     ) {
         parent::__construct($model, $mediaCollectionName);
 
-        // get medium only ever working with one medium
-        $medium = $this->medium = $model->getFirstMedia($mediaCollectionName);
-
         // set routes
-        $this->uploadRoute = $this->uploadRoute ?? route(mle_prefix_route('media-upload-single'));
+        $this->uploadRoute = $this->uploadRoute ?? route(mle_prefix_route('media-upload-multiple'));
 
-        // empty action may cause parent form to submit, check for empty route
-        if ($medium) {
-            $this->destroyRoute = ! empty($this->destroyRoute) ? $this->destroyRoute : route(mle_prefix_route('medium-destroy'), $medium->id);
-        }
+        // can't set destroyRoute here, depends on medium to be destroyed
 
         // set allowed mimetypes
         $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))
@@ -58,6 +54,6 @@ class MediaManagerSingle extends BaseComponent
 
     public function render(): View|string
     {
-        return view('media-library-extensions::components.media-manager-single');
+        return view('media-library-extensions::components.media-manager-multiple');
     }
 }

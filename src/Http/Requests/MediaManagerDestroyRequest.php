@@ -20,11 +20,13 @@ class MediaManagerDestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'medium' => [
-                'nullable',
-                'mimes:'.implode(',', config('media.allowed_mimes.image')),
-                'max:'.config('media.max_upload_sizes.image'),
-            ],
+            'medium' => 'required|string',
+            //            'medium_id' => 'nullable',
+            //            'medium' => [
+            //                'nullable',
+            //                'mimes:'.implode(',', config('media.allowed_mimes.image')),
+            //                'max:'.config('media.max_upload_sizes.image'),
+            //            ],
         ];
     }
 }

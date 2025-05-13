@@ -7,11 +7,10 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\SetMediumAsFirstInCollectionRequest;
-use Mlbrgn\SpatieMediaLibraryExtensions\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerController extends Controller
 {
@@ -76,7 +75,6 @@ class MediaManagerController extends Controller
 
     public function setMediumAsFirstInCollection(SetMediumAsFirstInCollectionRequest $request): RedirectResponse
     {
-
         $modelType = $request->model_type;
         $modelId = $request->model_id;
         $collectionName = $request->collection_name;
@@ -101,8 +99,11 @@ class MediaManagerController extends Controller
             ->with('success', __('media-library-extensions::messages.medium-set-as-first-in-collection'));
     }
 
-    public function mediaDestroy(\Spatie\MediaLibrary\MediaCollections\Models\Media $media, MediaManagerDestroyRequest $request): RedirectResponse
+    public function mediumDestroy(string $mediumId): RedirectResponse
     {
+        $media = Media::findOrFail($mediumId);
+
+        // TODO authorize
         //        $this->authorize(Permission::DELETE_ALL_MEDIA, $media);
 
         $media->destroy($media->id);

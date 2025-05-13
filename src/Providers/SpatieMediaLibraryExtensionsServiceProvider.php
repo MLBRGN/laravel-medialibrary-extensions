@@ -4,7 +4,9 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerSingle;
+use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Modal;
 
 class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 {
@@ -29,12 +31,19 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         ], 'your-package-translations');
 
         // this links blade view components to their accompanying view class
-        Blade::component('media-library-extensions::media-manager-single', MediaManagerSingle::class);
+        Blade::component('mle-media-manager-single', MediaManagerSingle::class);
+        Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
+        Blade::component('mle-modal', Modal::class);
+        //        Blade::component('mle-preview-modal', Modal::class);
 
         // blade directives
         Blade::directive('mediaClass', function ($expression) {
-            return "<?php echo mle_media_class({$expression}); ?>";
+            return "<?php echo mle_media_class($expression); ?>";
         });
+
+        // Force Laravel to use the correct model for {media}
+        //        Route::model('media', Media::class);
+        //        Route::model('media', Media::class);
 
     }
 
