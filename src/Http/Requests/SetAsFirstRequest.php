@@ -4,7 +4,7 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SetMediumAsFirstInCollectionRequest extends FormRequest
+class SetAsFirstRequest extends FormRequest
 {
     public function authorize(): bool
     {

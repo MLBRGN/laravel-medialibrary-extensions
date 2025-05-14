@@ -2,8 +2,11 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
 
+use BladeUI\Icons\Factory;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
+use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Modal;
@@ -34,12 +37,22 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component('mle-media-manager-single', MediaManagerSingle::class);
         Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component('mle-modal', Modal::class);
+        Blade::component('mle-debug', Debug::class);
+        Blade::component('mle-icon', Icon::class);
         //        Blade::component('mle-preview-modal', Modal::class);
 
         // blade directives
         Blade::directive('mediaClass', function ($expression) {
             return "<?php echo mle_media_class($expression); ?>";
         });
+
+        // Only register if Blade Icons is available
+        //        if (class_exists(Factory::class)) {
+        //            $this->app->make(Factory::class)->add('bi', [
+        //                'path' => __DIR__.'/../../vendor/davidhsianturi/blade-bootstrap-icons/resources/svg',
+        //                'prefix' => 'bi',
+        //            ]);
+        //        }
 
         // Force Laravel to use the correct model for {media}
         //        Route::model('media', Media::class);

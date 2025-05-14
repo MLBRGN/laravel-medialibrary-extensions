@@ -9,8 +9,8 @@
         }
     ],
     "require": {
-        "illuminate/support": "^12.13",
-        "php": "^8.0"
+        "php": "^8.0",
+        "illuminate/support": "^12.13"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",
@@ -23,6 +23,10 @@
         "pestphp/pest-plugin-type-coverage": "^3.5",
         "spatie/laravel-translatable": "^6.11",
         "symfony/dom-crawler": "^7.2"
+    },
+    "suggest": {
+      "blade-ui-kit/blade-bootstrap-icons": "Optional: Bootstrap icons for use in Blade components",
+      "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons"
     },
     "license": "mit",
     "autoload": {

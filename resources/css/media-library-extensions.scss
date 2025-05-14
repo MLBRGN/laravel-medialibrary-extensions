@@ -286,7 +286,7 @@
 //@import "~bootstrap/scss/containers";
 
 .media-manager {
-
+    position:relative;
 }
 
 .media-manager-multiple {
@@ -309,6 +309,24 @@
 
 .media-manager-multiple-preview-wrapper {
 
+}
+
+.media-manager-debug {
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    //background-color: rgba($black,0.6);
+    height:auto;
+    max-height:30%;
+    padding:0.3em;
+    background-color:slategray;
+    color:yellow;
+    z-index:1;
+}
+
+.media-manager-debug a {
+    color:yellow;
 }
 
 .media-manager-preview-menu {

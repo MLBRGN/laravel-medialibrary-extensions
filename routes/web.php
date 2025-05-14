@@ -15,16 +15,16 @@ Route::group([
 ], function () {
     Route::controller(MediaManagerController::class)
         ->group(function () {
-            Route::post('media-manager-upload-single', 'mediaUploadSingle')
+            Route::post('media-manager-upload-single', 'store')
                 ->name(config('media-library-extensions.route-prefix').'-media-upload-single');
-            Route::post('media-manager-upload-multiple', 'mediaUploadMultiple')
+            Route::post('media-manager-upload-multiple', 'storeMany')
                 ->name(config('media-library-extensions.route-prefix').'-media-upload-multiple');
-            Route::post('media-manager-set-medium-as-first-in-collection', 'setMediumAsFirstInCollection')
-                ->name(config('media-library-extensions.route-prefix').'-set-as-first');
             //            Route::delete('media-manager/{media}/destroy', 'mediaDestroy')
             //                ->name(config('media-library-extensions.route-prefix').'-medium-destroy');
-            Route::delete('media-manager/{medium}/destroy', 'mediumDestroy')
+            Route::delete('media-manager/{medium}/destroy', 'destroy')
                 ->name(config('media-library-extensions.route-prefix').'-medium-destroy');
+            Route::post('media-manager-set-medium-as-first-in-collection', 'setAsFirst')
+                ->name(config('media-library-extensions.route-prefix').'-set-as-first');
         });
 });
 

@@ -36,3 +36,11 @@ if (! function_exists('mle_prefix_route')) {
         return config('media-library-extensions.route-prefix').'-'.$suffix;
     }
 }
+
+if (! function_exists('component_exists')) {
+    function component_exists(string $name): bool
+    {
+        return \Illuminate\Support\Facades\Blade::getClassComponentAliases()->has($name)
+            || \Illuminate\Support\Facades\View::exists("components.$name");
+    }
+}

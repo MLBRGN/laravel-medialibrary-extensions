@@ -3,11 +3,22 @@
 return [
 
     /*
+     |--------------------------------------------------------------------------
+     | Debug mode
+     |--------------------------------------------------------------------------
+     |
+     | Debug mode, disable on production
+     |
+     */
+
+    'debug' => false,
+
+    /*
     |--------------------------------------------------------------------------
     | Frontend theme
     |--------------------------------------------------------------------------
     |
-    | The theme to be used for the frontend. Possible values:
+    | The theme to be used for the frontend.
     |
     */
 
@@ -19,8 +30,8 @@ return [
     | Supported frontend themes
     |--------------------------------------------------------------------------
     |
-    | "plain" => plain html, css and javascript
-    | "bootstrap-5" => bootstrap 5 css and javascript
+    | "plain" => plain HTML, CSS and JavaScript
+    | "bootstrap-5" – Use Bootstrap 5. Requires Bootstrap to be installed in the host/consuming project.
     |
     */
 
@@ -43,7 +54,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Define the maximum allowed upload sizes for various media types.
-    | Example: 16384 KB = 16 MB
+    | Example: 16,384 KB = 16 MB
     |
     */
 
@@ -94,6 +105,31 @@ return [
 
     'max_image_width' => env('MLE_MAX_IMAGE_WIDTH', 1920),
     'max_image_height' => env('MLE_MAX_IMAGE_HEIGHT', 1080),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Icons (uses blade-ui-kit/blade icons
+    |--------------------------------------------------------------------------
+    |
+    | Set icons to be used.
+    | Defaults to Bootstrap icons
+    |
+    */
+
+    'icons' => [
+        'delete' => 'bi-trash3',
+        'setup-as-main' => 'bi-star',
+        'set-as-main' => 'bi-star-fill',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Image dimension restrictions
+    |--------------------------------------------------------------------------
+    |
+    | Define max image dimensions
+    |
+    */
 
     'classes' => [
         'plain' => [

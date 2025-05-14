@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Response;
 class PackageAssetController extends Controller
 {
     protected array $map = [
-        'mediaPreviewModal.js' => '/../../..//dist/js/mediaPreviewModal.js',
+        'media-library-extensions.js' => '/../../..//dist/js/media-library-extensions.js',
         'media-library-extensions.css' => '/../../../dist/css/media-library-extensions.css',
     ];
 

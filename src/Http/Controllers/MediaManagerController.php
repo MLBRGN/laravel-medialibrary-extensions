@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\SetMediumAsFirstInCollectionRequest;
+use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerController extends Controller
@@ -26,7 +26,7 @@ class MediaManagerController extends Controller
         return $model;
     }
 
-    public function mediaUploadSingle(MediaManagerUploadSingleRequest $request): RedirectResponse
+    public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
     {
         // TODO
         //        $this->authorize('uploadMedia', $model);
@@ -50,8 +50,10 @@ class MediaManagerController extends Controller
             ->with('success', __('media-library-extensions::messages.upload_success'));
     }
 
-    public function mediaUploadMultiple(MediaManagerUploadMultipleRequest $request): RedirectResponse
+    public function storeMany(MediaManagerUploadMultipleRequest $request): RedirectResponse
     {
+        // TODO
+        //        $this->authorize('uploadMedia', $model);
 
         $modelType = $request->model_type;
         $modelId = $request->model_id;
@@ -73,8 +75,23 @@ class MediaManagerController extends Controller
             ->with('success', __('media-library-extensions::messages.upload_success'));
     }
 
-    public function setMediumAsFirstInCollection(SetMediumAsFirstInCollectionRequest $request): RedirectResponse
+    public function destroy(string $mediumId): RedirectResponse
     {
+        // TODO authorize
+        //        $this->authorize(Permission::DELETE_ALL_MEDIA, $media);
+        $media = Media::findOrFail($mediumId);
+
+        $media->destroy($media->id);
+
+        return back()
+            ->with('success', __('media-library-extensions::messages.medium-removed'));
+    }
+
+    public function setAsFirst(SetAsFirstRequest $request): RedirectResponse
+    {
+        // TODO authorize
+        //        $this->authorize(Permission::DELETE_ALL_MEDIA, $media);
+
         $modelType = $request->model_type;
         $modelId = $request->model_id;
         $collectionName = $request->collection_name;
@@ -97,18 +114,5 @@ class MediaManagerController extends Controller
 
         return back()
             ->with('success', __('media-library-extensions::messages.medium-set-as-first-in-collection'));
-    }
-
-    public function mediumDestroy(string $mediumId): RedirectResponse
-    {
-        $media = Media::findOrFail($mediumId);
-
-        // TODO authorize
-        //        $this->authorize(Permission::DELETE_ALL_MEDIA, $media);
-
-        $media->destroy($media->id);
-
-        return back()
-            ->with('success', __('media-library-extensions::messages.medium-removed'));
     }
 }

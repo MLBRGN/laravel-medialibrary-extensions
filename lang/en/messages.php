@@ -4,7 +4,8 @@ return [
     'upload_success' => 'Upload was successful!',
     'upload_fail' => 'Upload failed.',
     'upload-no-files' => 'No files uploaded.',
-    'medium-set-as-first-in-collection' => 'Medium set as first in collection',
+    'setup-as-main' => 'Setup as main.',
+    'set-as-main' => 'Set as main.',
     'medium-removed' => 'Medium removed.',
     'no-media' => 'No media.',
     'no-medium' => 'No medium.',
@@ -16,4 +17,5 @@ return [
     'missing_model' => ':component requires a model, but none was provided.',
     'missing_collection' => ':component requires a media collection name, but none was provided.',
     'delete_medium' => 'Delete',
+    'warning' => 'Warning',
 ];

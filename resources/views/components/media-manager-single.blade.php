@@ -1,8 +1,6 @@
-{{--
-    @property string $mediaCollectionName
---}}
 {{--This file will handle shared logic and delegate some UI to a partial.--}}
 <div {{ $attributes->class([mle_media_class('media-manager-single-wrapper') ]) }}>
+    <x-mle-debug/>
     @if(!empty($title))
         <h2 class="@mediaClass('media-manager-headings')">{{ $title }}</h2>
     @endif

@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/mediaPreviewModal.js',
+                'resources/js/media-library-extensions.js',
                 'resources/css/media-library-extensions.scss',
             ],
             refresh: true,
@@ -18,10 +18,9 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 entryFileNames: (chunk) => {
-                    if (chunk.name === 'mediaPreviewModal') {
-                        return 'js/mediaPreviewModal.js'
+                    if (chunk.name === 'media-library-extensions') {
+                        return 'js/media-library-extensions.js'
                     }
-
                     return 'js/[name].js'
                 },
                 assetFileNames: (chunk) => {
@@ -29,7 +28,6 @@ export default defineConfig({
                         console.log('test');
                         return 'css/media-library-extensions.css';
                     }
-
                     return 'css/[name][extname]'
                 },
             },

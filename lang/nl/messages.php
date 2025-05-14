@@ -4,7 +4,8 @@ return [
     'upload_success' => 'Upload was successful!',
     'upload_fail' => 'Upload failed.',
     'upload-no-files' => 'Geen bestanden geüpload.',
-    'medium-set-as-first-in-collection' => 'Medium als eerste in collectie ingesteld.',
+    'setup-as-main' => 'Instellen als hoofd.',
+    'set-as-main' => 'Ingesteld als hoofd.',
     'medium-removed' => 'Medium verwijderd.',
     'no-media' => 'Geen media.',
     'no-medium' => 'Geen medium.',
@@ -16,4 +17,5 @@ return [
     'missing_model' => ':component vereist een model, maar er is er geen meegegeven.',
     'missing_collection' => ':component vereist een media collectie naam, maar er is er geen meegegeven.',
     'delete_medium' => 'Verwijder',
+    'warning' => 'Waarschuwing',
 ];
