@@ -12,7 +12,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "vendor/bin/pest",
+    "test-f": "vendor/bin/pest --filter"
   },
   "devDependencies": {
     "vite": "^6.2.1",

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Mlbrgn\SpatieMediaLibraryExtensions\Console\InstallMediaLibraryExtensions;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\ImageResponsive;
@@ -48,6 +49,9 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
 
+            $this->commands([
+                InstallMediaLibraryExtensions::class,
+            ]);
             $this->publishes([
                 __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->packageName),
             ], 'views');
