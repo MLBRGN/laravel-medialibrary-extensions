@@ -23,4 +23,5 @@ return [
     'next' => 'Next',
     'medium-:name' => 'Medium :name',
     'close' => 'Close',
+    'not-authorized' => 'Not authorized',
 ];

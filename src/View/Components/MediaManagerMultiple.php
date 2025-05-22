@@ -17,8 +17,6 @@ class MediaManagerMultiple extends BaseComponent
 
     public $classes;
 
-    public string $modelKebabName = '';
-
     /** @var Collection<int, Media> */
     public Collection $media;
 

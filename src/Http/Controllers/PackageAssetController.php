@@ -19,6 +19,10 @@ class PackageAssetController extends Controller
 
     public function __invoke(string $name)
     {
+        //        if (! auth()->check()) {
+        //            abort(403, __('media-library-extensions::messages.not-authorized'));
+        //        }
+
         if (! isset($this->map[$name])) {
             abort(404);
         }

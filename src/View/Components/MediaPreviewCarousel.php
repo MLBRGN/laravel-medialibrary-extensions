@@ -18,19 +18,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 //    will cause any youtube video to start autoplaying,
 //    playing stops when closing the dialog or sliding to another slide
 
-class MediaManagerPreviewModal extends BaseComponent
+class MediaPreviewCarousel extends BaseComponent
 {
     public MediaCollection $mediaItems;
 
     public function __construct(
         public ?Model $model,
         public ?string $mediaCollectionName,
-        public string $modalId,
-        public string $title,
-        public string $youtubeCollectionName = '',
-        public string $logoCollectionName = '',
         public bool $singleMedium = false,
-        public string $sizeClass = 'modal-almost-fullscreen',
+        public string $id = 'no-id'
     ) {
         parent::__construct($model, $mediaCollectionName);
 
@@ -53,6 +49,6 @@ class MediaManagerPreviewModal extends BaseComponent
 
     public function render(): View
     {
-        return view('media-library-extensions::components.media-manager-preview-modal');
+        return view('media-library-extensions::components.media-preview-carousel');
     }
 }

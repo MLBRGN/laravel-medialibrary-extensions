@@ -33,14 +33,16 @@ class MediaManagerController extends Controller
 
     public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
     {
+        // TODO check if correct implementation
+        //        $this->authorize('uploadMedia', $model);
+        //        if (! auth()->check()) {
+        //            abort(403, __('media-library-extensions::messages.not-authorized'));
+        //        }
 
         $modelType = $request->model_type;
         $modelId = $request->model_id;
         $collectionName = $request->collection_name;
         $model = $this->getModel($modelType, $modelId);
-
-        // TODO check if correct implementation
-        //        $this->authorize('uploadMedia', $model);
 
         $medium = $request->medium;
 
@@ -61,6 +63,9 @@ class MediaManagerController extends Controller
     {
         // TODO
         //        $this->authorize('uploadMedia', $model);
+        //        if (! auth()->check()) {
+        //            abort(403, __('media-library-extensions::messages.not-authorized'));
+        //        }
 
         $modelType = $request->model_type;
         $modelId = $request->model_id;
@@ -87,12 +92,17 @@ class MediaManagerController extends Controller
 
     public function destroy(string $mediumId): RedirectResponse
     {
+        // TODO check if correct implementation
+        //            $this->authorize('deleteMedia', $model);
+        //        if (! auth()->check()) {
+        //            abort(403, __('media-library-extensions::messages.not-authorized'));
+        //        }
+
         $media = Media::query()->findOrFail($mediumId);
 
         if ($media) {
             $model = $media->model;
-            // TODO check if correct implementation
-            //            $this->authorize('deleteMedia', $model);
+
             $media->delete();
 
             return back()
@@ -108,6 +118,9 @@ class MediaManagerController extends Controller
     {
         // TODO authorize
         //        $this->authorize(Permission::DELETE_ALL_MEDIA, $media);
+        //        if (! auth()->check()) {
+        //            abort(403, __('media-library-extensions::messages.not-authorized'));
+        //        }
 
         $modelType = $request->model_type;
         $modelId = $request->model_id;

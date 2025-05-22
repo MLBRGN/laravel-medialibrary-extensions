@@ -91,21 +91,3 @@
         rel="stylesheet"
         href="{{ mle_package_asset('media-library-extensions.css') }}">
 @endonce
-
-{{-- TODO investigate if i can use blade directive for @includeIF @mediaManagerTheme('media-manager-single')--}}
-{{--        @includeIf("media-library-extensions::components.partials.media-manager-single.{$theme}", [--}}
-{{--            'uploadEnabled' => $uploadEnabled,--}}
-{{--            'uploadRoute' => $uploadRoute,--}}
-{{--            'uploadFieldName' => $uploadFieldName,--}}
-{{--            'destroyEnabled' => $destroyEnabled,--}}
-{{--            'destroyRoute' => $destroyRoute,--}}
-{{--            'model' => $model,--}}
-{{--            'mediaCollectionName' => $mediaCollectionName,--}}
-{{--            'showMediaUrl' => $showMediaUrl,--}}
-{{--            'modalId' => $modalId,--}}
-{{--            'title' => $title,--}}
-{{--            'media' => $media,--}}
-{{--            'modelKebabName' => $modelKebabName,--}}
-{{--            'classes' => $classes,--}}
-{{--            'theme' => $theme--}}
-{{--        ])--}}
