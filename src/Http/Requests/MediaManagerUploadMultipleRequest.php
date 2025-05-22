@@ -4,6 +4,9 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Handle the validation and authorization for uploading multiple media files.
+ */
 class MediaManagerUploadMultipleRequest extends FormRequest
 {
     /**

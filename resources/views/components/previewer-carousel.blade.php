@@ -80,5 +80,5 @@ Documentation:
 
     </div>
 
-    <x-media-library-extensions::preview-modal {{ $attributes->merge() }} :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" :youtube-collection-name="$youtubeCollectionName" :logo-collection-name="$logoCollectionName" title="Media carousel"/>
+    <x-mle-media-manager-preview-modal {{ $attributes->merge() }} :modal-id="$modalId" :model="$model" :media-collection-name="$mediaCollectionName" :youtube-collection-name="$youtubeCollectionName" :logo-collection-name="$logoCollectionName" title="Media carousel"/>
 @endif

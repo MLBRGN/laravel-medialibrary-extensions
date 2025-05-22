@@ -124,10 +124,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Image dimension restrictions
+    | Classes
     |--------------------------------------------------------------------------
     |
-    | Define max image dimensions
+    | Define classes
     |
     */
 
@@ -155,6 +155,23 @@ return [
             'media-manager-button-delete' => 'button-delete',
             'media-manager-button-icon-delete' => 'button-icon-delete',
             'media-manager-input-file' => 'media-manager-input-file',
+            'media-manager-preview-modal' => 'media-manager-preview-modal',
+            'media-manager-preview-modal-carousel' => 'media-manager-preview-modal-carousel carousel slide',
+            'media-manager-preview-modal-carousel-inner' => 'carousel-inner',
+            'media-manager-preview-modal-carousel-indicators' => 'carousel-indicators',
+            'media-manager-preview-modal-carousel-item' => 'carousel-item',
+            'media-manager-preview-modal-carousel-item-wrapper' => 'carousel-item-wrapper',
+            'media-manager-preview-modal-carouse-item-image' => '',
+            'media-manager-preview-modal-carousel-control-prev' => 'carousel-control-prev',
+            'media-manager-preview-modal-carousel-control-next' => 'carousel-control-next',
+            'media-manager-preview-modal-carousel-control-prev-icon' => 'carousel-control-prev-icon',
+            'media-manager-preview-modal-carousel-control-next-icon' => 'carousel-control-next-icon',
+            'media-manager-preview-images' => 'media-manager-preview-images',
+            'media-manager-preview-image-container' => 'media-manager-preview-image-container',
+            'media-manager-menu-form' => 'media-manager-menu-form',
+            'button-close' => 'btn-close',
+            'visually-hidden' => 'visually-hidden',
+            'mle-icon' => 'mle-icon',
         ],
         'bootstrap-5' => [
             'media-manager-single-wrapper' => 'media-manager media-manager-single container-fluid',
@@ -167,18 +184,35 @@ return [
             'media-manager-multiple-preview-wrapper' => 'media-manager-preview-wrapper media-manager-multiple-preview-wrapper col-12 col-sm-8',
             'media-manager-single-preview-medium' => 'media-manager-preview-medium media-manager-single-preview-medium image-fluid',
             'media-manager-single-preview-medium-link' => 'media-manager-preview-medium-link media-manager-single-preview-medium-link cursor-zoom-in',
-            'media-manager-single-preview-menu' => 'media-manager-preview-menu media-manager-single-preview-menu d-flex justify-content-end px-2 align-items-center',
+            'media-manager-single-preview-menu' => 'media-manager-preview-menu media-manager-single-preview-menu',
             'media-manager-single-preview-form' => 'media-manager-preview-form media-manager-single-preview-form',
-            'media-manager-multiple-preview-menu' => 'media-manager-preview-menu media-manager-multiple-preview-menu d-flex justify-content-end px-2 align-items-center',
+            'media-manager-multiple-preview-menu' => 'media-manager-preview-menu media-manager-multiple-preview-menu',
             'media-manager-multiple-preview-form' => 'media-manager-preview-form media-manager-multiple-preview-form',
-            'media-manager-no-media' => 'media-manager-no-media my-3',
-            'media-manager-headings' => 'media-manager-heading mb-4',
-            'media-manager-upload-wrapper' => 'upload-wrapper col-12 col-sm-4 p-5',
+            'media-manager-no-media' => 'media-manager-no-media',
+            'media-manager-headings' => 'media-manager-heading',
+            'media-manager-upload-wrapper' => 'upload-wrapper col-12 col-sm-4',
             'media-manager-preview-image' => 'media-manager-preview-image',
             'media-manager-button-upload' => 'btn btn-success',
             'media-manager-button-delete' => 'btn btn-danger',
             'media-manager-button-icon-delete' => 'button-icon-delete btn btn-delete btn-icon btn-icon-delete btn-sm',
-            'media-manager-input-file' => 'media-manager-input-file form-control mb-2',
+            'media-manager-input-file' => 'media-manager-input-file form-control',
+            'media-manager-preview-modal' => 'media-manager-preview-modal',
+            'media-manager-preview-modal-carousel' => 'media-manager-preview-modal-carousel carousel slide',
+            'media-manager-preview-modal-carousel-inner' => 'carousel-inner',
+            'media-manager-preview-modal-carousel-indicators' => 'carousel-indicators',
+            'media-manager-preview-modal-carousel-item' => 'carousel-item',
+            'media-manager-preview-modal-carousel-item-wrapper' => 'carousel-item-wrapper',
+            'media-manager-preview-modal-carouse-item-image' => 'width-100 height-100 object-cover',
+            'media-manager-preview-modal-carousel-control-prev' => 'carousel-control-prev',
+            'media-manager-preview-modal-carousel-control-next' => 'carousel-control-next',
+            'media-manager-preview-modal-carousel-control-prev-icon' => 'carousel-control-prev-icon',
+            'media-manager-preview-modal-carousel-control-next-icon' => 'carousel-control-next-icon',
+            'media-manager-preview-images' => 'media-manager-preview-images',
+            'media-manager-preview-image-container' => 'media-manager-preview-image-container',
+            'media-manager-menu-form' => 'media-manager-menu-form',
+            'button-close' => 'btn-close',
+            'visually-hidden' => 'visually-hidden',
+            'mle-icon' => 'mle-icon',
         ],
     ],
 

@@ -4,14 +4,20 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
 
 /** @noinspection PhpUnused */
 
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * Class MediaManagerController
+ *
+ * This controller handles media management operations such as uploading single or multiple files,
+ * deleting a medium, and setting a medium as the first in a collection.
+ */
 class MediaManagerController extends Controller
 {
     protected function getModel(string $modelType, string $modelId): ?Model

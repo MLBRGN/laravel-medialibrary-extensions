@@ -4,6 +4,9 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Handles the validation rules for uploading a single media file.
+ */
 class MediaManagerUploadSingleRequest extends FormRequest
 {
     /**

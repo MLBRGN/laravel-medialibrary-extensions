@@ -4,6 +4,9 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Handles authorization and validation rules for media manager destruction requests.
+ */
 class MediaManagerDestroyRequest extends FormRequest
 {
     /**

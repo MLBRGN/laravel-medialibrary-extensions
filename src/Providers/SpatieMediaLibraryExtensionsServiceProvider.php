@@ -7,10 +7,18 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
+use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerMultiple;
+use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerPreviewModal;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Modal;
 
+/**
+ * Service provider for the Media Library Extensions package.
+ *
+ * This provider handles the registration of views, routes, translations, assets,
+ * Blade directives, and Blade components required by the media library extensions.
+ */
 class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 {
     public function boot(): void
@@ -36,9 +44,11 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         // this links blade view components to their accompanying view class
         Blade::component('mle-media-manager-single', MediaManagerSingle::class);
         Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
+        Blade::component('mle-media-manager-preview-modal', MediaManagerPreviewModal::class);
         Blade::component('mle-modal', Modal::class);
         Blade::component('mle-debug', Debug::class);
         Blade::component('mle-icon', Icon::class);
+        Blade::component('mle-image-responsive', ImageResponsive::class);
         //        Blade::component('mle-preview-modal', Modal::class);
 
         // blade directives

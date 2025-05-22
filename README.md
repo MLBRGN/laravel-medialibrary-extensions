@@ -19,11 +19,13 @@ Several resources can be published:
 
 ## Icons
 
-By default it uses bootstrap icons, but this can be customized by installing one of the
-icon sets offered by Blade UI kit: https://github.com/driesvints/blade-icons?tab=readme-ov-file
+For icons to work, you will have to install a Blade UIKit/Blade-icons package.
 
-for example:
+The package is configured to use Bootstrap icons by default. To display them properly install
+
 ```shell
-    composer require blade-ui-kit/blade-heroicons
+   composer require davidhsianturi/blade-bootstrap-icons
 ```
+You can override the icons in the published configuration file of this package and install another Blade UIKit/Blade-icons package
+
 

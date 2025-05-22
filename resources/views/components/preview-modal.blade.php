@@ -8,12 +8,8 @@ documentation:
     playing stops when closing the dialog or sliding to another slide
 --}}
 @props([
-    'modalId' => 'media-preview-modal',
-    'model' => null,
-    'mediaCollectionName' => null,
     'youtubeCollectionName' => null,
     'logoCollectionName' => null,
-    'title' => '',// not shown only for accessibility
     'singleMedium' => false,
 ])
 

@@ -18,4 +18,6 @@ return [
     'missing_collection' => ':component vereist een media collectie naam, maar er is er geen meegegeven.',
     'delete_medium' => 'Verwijder',
     'warning' => 'Waarschuwing',
+    'previous' => 'Vorige',
+    'next' => 'Volgende',
 ];

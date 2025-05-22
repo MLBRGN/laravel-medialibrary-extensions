@@ -6,6 +6,12 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * Trait HandlesMediaConversions
+ *
+ * Defines media conversion methods for generating responsive images
+ * with specific aspect ratios and optimized formats.
+ */
 trait HandlesMediaConversions
 {
     use InteractsWithMedia;

@@ -4,6 +4,7 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class Debug extends Component
 {
@@ -19,7 +20,7 @@ class Debug extends Component
         }
     }
 
-    public function render()
+    public function render(): View
     {
         return view('media-library-extensions::components.debug');
     }

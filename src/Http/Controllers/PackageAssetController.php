@@ -6,6 +6,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
+/**
+ * Handles asset delivery for the package by dynamically resolving file paths
+ * and determining MIME types. It serves the requested asset if it exists
+ * in the predefined map.
+ */
 class PackageAssetController extends Controller
 {
     protected array $map = [

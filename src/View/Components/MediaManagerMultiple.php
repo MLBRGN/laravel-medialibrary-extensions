@@ -3,13 +3,14 @@
 namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // !!!!! NOTE: remember to clean laravel cache after changes, otherwise cached views are used !!!!!
 // clear the cache in the main application where the components are used by running php artisan optimize:clear
 // and run composer dump-autoload
+
 class MediaManagerMultiple extends BaseComponent
 {
     public $theme;
@@ -18,9 +19,8 @@ class MediaManagerMultiple extends BaseComponent
 
     public string $modelKebabName = '';
 
-    public MediaCollection $media;
-
-    public ?Media $medium = null;
+    /** @var Collection<int, Media> */
+    public Collection $media;
 
     public string $allowedMimeTypes = '';
 
@@ -52,7 +52,7 @@ class MediaManagerMultiple extends BaseComponent
             ->implode(',');
     }
 
-    public function render(): View|string
+    public function render(): View
     {
         return view('media-library-extensions::components.media-manager-multiple');
     }

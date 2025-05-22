@@ -1,100 +1,106 @@
-{{--
-documentation:
--   Used by both manager-multiple.blade and previewer.blade
--   Only works with one YT video at the moment, javascript assumes
-    the video has an id of "yt-video-slid"
--   when passed an attribute "autoplay" this attribute is passed on to media-preview-modal and
-    will cause any youtube video to start autoplaying,
-    playing stops when closing the dialog or sliding to another slide
---}}
-@props([
-    'modalId' => 'media-preview-modal',
-    'model' => null,
-    'mediaCollectionName' => null,
-    'youtubeCollectionName' => null,
-    'logoCollectionName' => null,
-    'title' => '',// not shown only for accessibility
-    'singleMedium' => false,
-])
-
-@php
-    // Combine the media items from the collections
-    $mediaItems = $model->getMedia($mediaCollectionName);
-
-    // Prepend the enterprise logo if it exists
-    if (!is_null($logoCollectionName)) {
-        $enterpriseLogo = $model->getMedia($logoCollectionName);
-        if ($enterpriseLogo->isNotEmpty()) {
-            $mediaItems = $enterpriseLogo->concat($mediaItems); // logo goes first
-        }
-    }
-
-    // Append YouTube media if it exists
-    if (!is_null($youtubeCollectionName)) {
-        $mediaItems = $mediaItems->concat($model->getMedia($youtubeCollectionName));
-    }
-@endphp
-<x-media-library-extensions::modal {{ $attributes->merge(['class' => 'media-preview-modal']) }} :modal-id="$modalId" title="{{ $title }}" :show-header="false" :with-padding="false" data-modal-autofocus>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Sluit"></button>
-    <div id="{{$modalId}}-carousel" class="media-preview-modal-carousel carousel slide">
+<x-mle-modal {{ $attributes->merge([
+                'class' => mle_media_class('media-manager-preview-modal')
+             ]) }}
+             :modal-id="$modalId"
+             title="{{ $title }}"
+             :show-header="false"
+             :with-padding="false"
+             :size-class="$sizeClass"
+             data-modal-autofocus>
+    <button
+        type="button"
+        class="@mediaClass('button-close')"
+        data-bs-dismiss="modal"
+        aria-label="Sluit"></button>
+    <div
+        id="{{$modalId}}-carousel"
+        class="@mediaClass('media-manager-preview-modal-carousel')">
         @if(!$singleMedium)
-            <div id="{{$modalId}}-carousel-indicators" class="carousel-indicators">
+            <div
+                id="{{$modalId}}-carousel-indicators"
+                class="@mediaClass('media-manager-preview-modal-carousel-indicators')">
                 @foreach($mediaItems as $index => $medium)
-                    <button type="button" data-bs-target="#{{$modalId}}-carousel" data-bs-slide-to="{{ $loop->index }}"
-                            class="{{ $loop->first ? 'active' : '' }}" {!! $loop->first ? 'aria-current="true"' : '' !!} aria-label="Afbeelding {{ $medium->name }}">
+                    <button
+                        type="button"
+                        data-bs-target="#{{$modalId}}-carousel"
+                        data-bs-slide-to="{{ $loop->index }}"
+                        {!! $loop->first ? 'aria-current="true"' : '' !!}
+                        aria-label="Afbeelding {{ $medium->name }}"
+                        @class([
+                            'active' => $loop->first
+                        ])>
                     </button>
                 @endforeach
             </div>
         @endif
-        <div class="carousel-inner" data-bs-toggle="modal">
+        <div
+            class="@mediaClass('media-manager-preview-modal-carousel-inner')"
+            data-bs-toggle="modal">
             @foreach($mediaItems as $index => $medium)
-                @if($medium->hasCustomProperty('youtube-id'))
-                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}" data-youtube-video data-youtube-video-id="{{ $medium->getCustomProperty('youtube-id') }}">
-                        <div class="carousel-item-wrapper d-flex align-items-center justify-content-center">
-                            <div class="video-wrapper">
-                                <lite-youtube
-                                    id="yt-video-slide"
-                                    videoid="{{ $medium->getCustomProperty('youtube-id') }}"
-                                    posterquality="maxresdefault"
-                                    autopause
-                                    autoload
-                                    params="autoplay=1&loop=0&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1"
-                                    >
-                                    <a class="lite-youtube-fallback" href="https://www.youtube.com/watch?v={{ $medium->getAttribute('youtube-id') }}">Bekijk op YouTube</a>
-                                </lite-youtube>
-                            </div>
+{{--                TODO--}}
+{{--                @if($medium->hasCustomProperty('youtube-id'))--}}
+{{--                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}" data-youtube-video data-youtube-video-id="{{ $medium->getCustomProperty('youtube-id') }}">--}}
+{{--                        <div class="carousel-item-wrapper d-flex align-items-center justify-content-center">--}}
+{{--                            <div class="video-wrapper">--}}
+{{--                                <lite-youtube--}}
+{{--                                    id="yt-video-slide"--}}
+{{--                                    videoid="{{ $medium->getCustomProperty('youtube-id') }}"--}}
+{{--                                    posterquality="maxresdefault"--}}
+{{--                                    autopause--}}
+{{--                                    autoload--}}
+{{--                                    params="autoplay=1&loop=0&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1"--}}
+{{--                                    >--}}
+{{--                                    <a class="lite-youtube-fallback" href="https://www.youtube.com/watch?v={{ $medium->getAttribute('youtube-id') }}">Bekijk op YouTube</a>--}}
+{{--                                </lite-youtube>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @else--}}
+                    <div
+                        @class([
+                            mle_media_class('media-manager-preview-modal-carousel-item'),
+                            'active' => $loop->first
+                        ])
+                       >
+                        <div class="@mediaClass('media-manager-preview-modal-carousel-item-wrapper')">
+                            {{ $medium->img()->lazy()->attributes([
+                                'class' => mle_media_class('media-manager-preview-modal-carouse-item-image')
+                                ]) }}
+{{--                                TODO--}}
+{{--                            <x-media-library-extensions::library-image class="image image-zoomed" :media="$medium" conversion="16x9" sizes="95vw" />--}}
                         </div>
                     </div>
-                @else
-                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                        <div class="carousel-item-wrapper d-flex align-items-center justify-content-center">
-                            <x-media-library-extensions::library-image class="image image-zoomed" :media="$medium" conversion="16x9" sizes="95vw" />
-                        </div>
-                    </div>
-                @endif
+{{--                @endif--}}
             @endforeach
         </div>
         @if(!$singleMedium)
             <button
                 @class([
-                    'carousel-control-prev',
+                    mle_media_class('media-manager-preview-modal-carousel-control-prev'),
                     'disabled' => count($mediaItems) <= 1
-                    ]) type="button" data-bs-target="#{{$modalId}}-carousel"
+                    ])
+                    type="button"
+                    data-bs-target="#{{$modalId}}-carousel"
                     data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Vorige</span>
+                <span
+                    class="@media('media-manager-preview-modal-carousel-control-prev-icon')carousel-control-prev-icon"
+                    aria-hidden="true"></span>
+                <span class="@media('visually-hidden')">{{ __('media-library-extensions::messages.previous') }}Vorige</span>
             </button>
             <button @class([
-                    'carousel-control-next',
+                    mle_media_class('media-manager-preview-modal-carousel-control-next'),
                     'disabled' => count($mediaItems) <= 1
-                    ]) type="button" data-bs-target="#{{$modalId}}-carousel"
+                    ])
+                    type="button"
+                    data-bs-target="#{{$modalId}}-carousel"
                     data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Volgende</span>
+                <span class=@media('media-manager-preview-modal-carousel-control-next-icon')"
+                      aria-hidden="true"></span>
+                <span class="@media('visually-hidden')">Volgende</span>
             </button>
         @endif
     </div>
-</x-media-library-extensions::modal>
+</x-mle-modal>
 {{--TODO--}}
 {{--<script src="https://www.youtube.com/iframe_api"></script>--}}
 {{--@once--}}

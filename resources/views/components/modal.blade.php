@@ -1,9 +1,10 @@
-@php
-    $sizeClass = 'large';// TODO
-@endphp
-<div class="modal fade {{ $sizeClass }}" id="{{ $modalId }}" tabindex="-1" aria-labelledby="{{ $modalId }}-title"
-     aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen-lg-down">
+<div
+    {{ $attributes->merge(['class' => "modal fade $sizeClass"]) }}
+    id="{{ $modalId }}"
+    tabindex="-1"
+    aria-labelledby="{{ $modalId }}-title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-lg-down modal-almost-fullscreen">
         <div class="modal-content justify-content-center">
             @if ($showHeader === true)
                 <div class="modal-header">

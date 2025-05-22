@@ -1,0 +1,103 @@
+/*
+ * Media carousel
+ */
+
+// Shared carousel control styles
+@mixin preview-carousel-controls {
+
+    .carousel-item {
+        height:100%;
+    }
+
+    .carousel-item-wrapper {
+        height:100%;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        border:10px solid orange;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        top: 0;
+        bottom: 0;
+        width: 5%;
+        min-width: 2.5em;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .carousel-control-prev {
+        border-top-right-radius: 3em;
+        border-bottom-right-radius: 3em;
+        left: 0;
+    }
+
+    .carousel-control-next {
+        border-top-left-radius: 3em;
+        border-bottom-left-radius: 3em;
+        right: 0;
+    }
+
+    .carousel-control-prev.disabled,
+    .carousel-control-next.disabled {
+        opacity: 0.2;
+        pointer-events: none; /* Prevents click events */
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-prev:focus-visible,
+    .carousel-control-next:hover,
+    .carousel-control-next:focus-visible {
+        //background-color: rgba($secondary, 0.7);
+    }
+
+    .carousel-indicators button:focus-visible {
+        outline:none;
+    }
+
+    .carousel-indicators {
+        position:absolute;
+        top:1em;
+        height:fit-content;
+        margin-left:15%;
+        margin-right:15%;
+    }
+
+    .carousel-inner {
+        height:100%;
+    }
+
+    .image,
+    .image-zoomed {
+        height:100%;
+        width:100%;
+        object-fit:contain;
+    }
+
+    .image {
+        cursor: zoom-in;
+    }
+
+    .image-zoomed {
+        cursor: default;
+    }
+
+    .youtube-video {
+        position:relative;
+    }
+
+    .youtube-play-button {
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translateY(-50%) translateX(-50%);
+        //fill:$primary;
+    }
+}
+
+@media (hover: none) {
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background-color: transparent;
+    }
+}
