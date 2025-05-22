@@ -4,6 +4,8 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
 
 use BladeUI\Icons\Factory;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
@@ -23,6 +25,11 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+
+        if (!Schema::hasTable('media')) {
+            Log::warning('[MediaLibraryExtensions] The "media" table is missing. Did you run the Spatie Media Library migration?');
+        }
+
         // Register views
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'media-library-extensions');
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');

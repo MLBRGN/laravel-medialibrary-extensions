@@ -5,6 +5,11 @@ This package extends the functionality of Spatie Media Library by:
 - Providing a view to upload multiple media
 - Providing a view to upload single media
 
+## Requirements
+
+This package assumes that spatie/laravel-medialibrary is installed 
+and its default migration has been run to create the media table.
+
 ## Theme
 
 The default themes are:

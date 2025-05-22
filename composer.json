@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/support": "^12.13"
+        "illuminate/support": "^12.13",
+        "spatie/laravel-medialibrary": "^11.12"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",
