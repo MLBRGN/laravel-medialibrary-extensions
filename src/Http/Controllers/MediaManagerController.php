@@ -93,7 +93,6 @@ class MediaManagerController extends Controller
 
         if ($media) {
             $model = $media->model;
-            dd($model);
             // TODO check if correct implementation
             $this->authorize('deleteMedia', $model);
             $media->delete();
