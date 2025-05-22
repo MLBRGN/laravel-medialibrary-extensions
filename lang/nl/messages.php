@@ -21,4 +21,6 @@ return [
     'warning' => 'Waarschuwing',
     'previous' => 'Vorige',
     'next' => 'Volgende',
+    'medium-:name' => 'Medium :name',
+    'close' => 'Sluit',
 ];

@@ -26,8 +26,8 @@ class MediaManagerController extends Controller
         abort_if(! class_exists($modelType), 400, 'Invalid model type');
 
         $model = (new $modelType)::findOrFail($modelId);
-//        $model = (new $modelType)::find($modelId); // Retrieve the model instance by ID
-//        abort_if(! $model, 400, 'Model not found');
+        //        $model = (new $modelType)::find($modelId); // Retrieve the model instance by ID
+        //        abort_if(! $model, 400, 'Model not found');
 
         return $model;
     }
@@ -35,14 +35,13 @@ class MediaManagerController extends Controller
     public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
     {
 
-
         $modelType = $request->model_type;
         $modelId = $request->model_id;
         $collectionName = $request->collection_name;
         $model = $this->getModel($modelType, $modelId);
 
         // TODO check if correct implementation
-        $this->authorize('uploadMedia', $model);
+        //        $this->authorize('uploadMedia', $model);
 
         $medium = $request->medium;
 
@@ -70,7 +69,7 @@ class MediaManagerController extends Controller
         $model = $this->getModel($modelType, $modelId);
 
         // TODO check if correct implementation
-        $this->authorize('uploadMedia', $model);
+        //        $this->authorize('uploadMedia', $model);
 
         if ($request->hasFile('media')) {
             foreach ($request->media as $file) {
@@ -94,7 +93,7 @@ class MediaManagerController extends Controller
         if ($media) {
             $model = $media->model;
             // TODO check if correct implementation
-            $this->authorize('deleteMedia', $model);
+            //            $this->authorize('deleteMedia', $model);
             $media->delete();
 
             return back()

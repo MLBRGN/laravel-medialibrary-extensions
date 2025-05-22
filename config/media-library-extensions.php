@@ -171,7 +171,10 @@ return [
             'media-manager-menu-form' => 'media-manager-menu-form',
             'button-close' => 'btn-close',
             'visually-hidden' => 'visually-hidden',
-            'mle-icon' => 'mle-icon',
+            'icon' => 'icon',
+            'media-manager-modal' => 'media-manager-modal modal fade',
+            'media-manager-modal-body' => 'media-manager-modal-body',
+            'no-padding' => 'no-padding',
         ],
         'bootstrap-5' => [
             'media-manager-single-wrapper' => 'media-manager media-manager-single container-fluid',
@@ -212,7 +215,10 @@ return [
             'media-manager-menu-form' => 'media-manager-menu-form',
             'button-close' => 'btn-close',
             'visually-hidden' => 'visually-hidden',
-            'mle-icon' => 'mle-icon',
+            'icon' => 'icon',
+            'media-manager-modal' => 'media-manager-modal modal fade',
+            'media-manager-modal-body' => 'media-manager-modal-body modal-body',
+            'no-padding' => 'no-padding',
         ],
     ],
 

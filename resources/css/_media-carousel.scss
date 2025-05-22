@@ -14,7 +14,6 @@
         display:flex;
         justify-content: center;
         align-items: center;
-        border:10px solid orange;
     }
 
     .carousel-control-prev,
@@ -59,8 +58,8 @@
         position:absolute;
         top:1em;
         height:fit-content;
-        margin-left:15%;
-        margin-right:15%;
+        //margin-left:15%;
+        //margin-right:15%;
     }
 
     .carousel-inner {
