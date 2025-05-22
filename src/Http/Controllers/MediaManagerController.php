@@ -25,22 +25,25 @@ class MediaManagerController extends Controller
 
         abort_if(! class_exists($modelType), 400, 'Invalid model type');
 
-        $model = (new $modelType)::find($modelId); // Retrieve the model instance by ID
-
-        abort_if(! $model, 400, 'Model not found');
+        $model = (new $modelType)::findOrFail($modelId);
+//        $model = (new $modelType)::find($modelId); // Retrieve the model instance by ID
+//        abort_if(! $model, 400, 'Model not found');
 
         return $model;
     }
 
     public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
     {
-        // TODO
-        //        $this->authorize('uploadMedia', $model);
+
 
         $modelType = $request->model_type;
         $modelId = $request->model_id;
         $collectionName = $request->collection_name;
         $model = $this->getModel($modelType, $modelId);
+
+        // TODO check if correct implementation
+        $this->authorize('uploadMedia', $model);
+
         $medium = $request->medium;
 
         if ($request->hasFile('medium')) {
@@ -66,8 +69,11 @@ class MediaManagerController extends Controller
         $collectionName = $request->collection_name;
         $model = $this->getModel($modelType, $modelId);
 
+        // TODO check if correct implementation
+        $this->authorize('uploadMedia', $model);
+
         if ($request->hasFile('media')) {
-            foreach ($request->media ?? [] as $file) {
+            foreach ($request->media as $file) {
                 $model
                     ->addMedia($file)
                     ->toMediaCollection($collectionName);
@@ -83,14 +89,22 @@ class MediaManagerController extends Controller
 
     public function destroy(string $mediumId): RedirectResponse
     {
-        // TODO authorize
-        //        $this->authorize(Permission::DELETE_ALL_MEDIA, $media);
-        $media = Media::findOrFail($mediumId);
+        $media = Media::query()->findOrFail($mediumId);
 
-        $media->destroy($media->id);
+        if ($media) {
+            $model = $media->model;
+            dd($model);
+            // TODO check if correct implementation
+            $this->authorize('deleteMedia', $model);
+            $media->delete();
+
+            return back()
+                ->with('success', __('media-library-extensions::messages.medium-removed'));
+        }
 
         return back()
-            ->with('success', __('media-library-extensions::messages.medium-removed'));
+            ->with('error', __('media-library-extensions::messages.medium-removed'));
+
     }
 
     public function setAsFirst(SetAsFirstRequest $request): RedirectResponse

@@ -7,6 +7,7 @@ return [
     'setup-as-main' => 'Instellen als hoofd.',
     'set-as-main' => 'Ingesteld als hoofd.',
     'medium-removed' => 'Medium verwijderd.',
+    'medium-could-not-be-removed' => 'Medium kon niet worden verwijderd.',
     'no-media' => 'Geen media.',
     'no-medium' => 'Geen medium.',
     'no-medium-uploaded' => 'Geen medium geüpload.',

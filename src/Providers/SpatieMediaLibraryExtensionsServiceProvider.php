@@ -2,10 +2,13 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Mlbrgn\SpatieMediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\ImageResponsive;
@@ -61,6 +64,8 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::directive('mediaClass', function ($expression) {
             return "<?php echo mle_media_class($expression); ?>";
         });
+
+        Gate::policy(Model::class, MediaPolicy::class); // not ideal for all models
 
         // Only register if Blade Icons is available
         //        if (class_exists(Factory::class)) {

@@ -7,6 +7,7 @@ return [
     'setup-as-main' => 'Setup as main.',
     'set-as-main' => 'Set as main.',
     'medium-removed' => 'Medium removed.',
+    'medium-could-not-be-removed' => 'Medium could not be removed.',
     'no-media' => 'No media.',
     'no-medium' => 'No medium.',
     'no-medium-uploaded' => 'No medium-uploaded.',
