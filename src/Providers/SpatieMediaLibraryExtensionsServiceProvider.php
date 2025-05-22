@@ -2,13 +2,10 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Mlbrgn\SpatieMediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\ImageResponsive;
@@ -25,35 +22,51 @@ use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Modal;
  */
 class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 {
+    private string $vendor = 'mlbrgn';
+
+    private string $packageName = 'media-library-extensions';
+
+    private string $nameSpace = 'media-library-extensions';
+
+    private string $packageNameShort = 'mle';
+
     public function boot(): void
     {
 
         if (! Schema::hasTable('media')) {
-            Log::warning('[MediaLibraryExtensions] The "media" table is missing. Did you run the Spatie Media Library migration?');
+            Log::warning('['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
         // This tells Laravel where to find Blade view files
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'media-library-extensions');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->nameSpace);
 
         // This tells Laravel where to find the route files
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
 
         // This tells Laravel where to find the translation files
-        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'media-library-extensions');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
 
-        $this->publishes([
-            __DIR__.'/../../resources/views' => resource_path('views/vendor/media-library-extensions'),
-        ], 'views');
+        if ($this->app->runningInConsole()) {
 
-        $this->publishes([
-            __DIR__.'/../../dist/js/mediaPreviewModal.js' => public_path('vendor/mlbrgn/js/mediaPreviewModal.js'),
-            __DIR__.'/../../dist/css/preview-modal.css' => public_path('vendor/mlbrgn/css/preview-modal.css'),
-        ], 'mlbrgn-assets');
+            $this->publishes([
+                __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->packageName),
+            ], 'views');
 
-        $this->publishes([
-            __DIR__.'/../lang' => resource_path('lang/vendor/your-package'),
-        ], 'your-package-translations');
+            //            $this->publishes([
+            //                __DIR__.'/../../dist/js/mediaPreviewModal.js' => public_path('vendor/mlbrgn/js/mediaPreviewModal.js'),
+            //                __DIR__.'/../../dist/css/preview-modal.css' => public_path('vendor/mlbrgn/css/preview-modal.css'),
+            //            ], 'mlbrgn-assets');
 
+            $this->publishes([
+                __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->packageName),
+            ], 'translations');
+
+            // Publish assets
+            $this->publishes([
+                __DIR__.'/../../resources/assets' => public_path($this->packageName.'/assets'),
+            ], 'assets');
+
+        }
         // register and expose blade views and classes
         Blade::component('mle-media-manager-single', MediaManagerSingle::class);
         Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
@@ -62,7 +75,7 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // register blade views and classes for internal use
         // TODO i don't know how to hide them from the host applications yet (not expose them)
-        $this->loadViewComponentsAs('mle_internal', [
+        $this->loadViewComponentsAs($this->packageNameShort.'_internal', [
             Debug::class,
             Icon::class,
             Modal::class,
@@ -73,20 +86,6 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
             return "<?php echo mle_media_class($expression); ?>";
         });
 
-        //        Gate::policy(Model::class, MediaPolicy::class); // not ideal for all models
-
-        // Only register if Blade Icons is available
-        //        if (class_exists(Factory::class)) {
-        //            $this->app->make(Factory::class)->add('bi', [
-        //                'path' => __DIR__.'/../../vendor/davidhsianturi/blade-bootstrap-icons/resources/svg',
-        //                'prefix' => 'bi',
-        //            ]);
-        //        }
-
-        // Force Laravel to use the correct model for {media}
-        //        Route::model('media', Media::class);
-        //        Route::model('media', Media::class);
-
     }
 
     public function register(): void
@@ -94,6 +93,5 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
 
-        // Bind services or config
     }
 }

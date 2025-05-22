@@ -2,9 +2,10 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Policies;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 
+// TODO not used at the moment
 class MediaPolicy
 {
     public function uploadMedia(User $user, Model $model): bool

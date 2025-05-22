@@ -2,7 +2,6 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
