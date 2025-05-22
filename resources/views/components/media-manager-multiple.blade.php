@@ -1,7 +1,8 @@
 <div {{ $attributes->class([
-        mle_media_class('media-manager-multiple-wrapper')
+        mle_media_class('media-manager-multiple-wrapper'),
+        'mlbrgn-mle'
     ]) }}>
-    <x-mle-debug/>
+    <x-mle_internal-debug/>
     @if(!empty($title))
         <h2 class="@mediaClass('media-manager-headings')">{{ $title }}</h2>
     @endif
@@ -72,7 +73,7 @@
                                                     class=""
                                                     title="{{ __('media-library-extensions::messages.set-as-main') }}"
                                                     disabled>
-                                                    <x-mle-icon
+                                                    <x-mle_internal-icon
                                                         name="{{ config('media-library-extensions.icons.set-as-main') }}"
                                                         title="{{ __('media-library-extensions::messages.set-as-main') }}"
                                                     />
@@ -100,7 +101,7 @@
                                                     type="submit"
                                                     class=""
                                                     title="{{ __('media-library-extensions::messages.setup-as-main') }}">
-                                                    <x-mle-icon
+                                                    <x-mle_internal-icon
                                                         name="{{ config('media-library-extensions.icons.setup-as-main') }}"
                                                         title="{{ __('media-library-extensions::messages.setup-as-main') }}"
                                                     />
@@ -121,7 +122,7 @@
                                                 type="submit"
                                                 class=""
                                                 title="{{ __('media-library-extensions::messages.delete_medium') }}">
-                                                <x-mle-icon
+                                                <x-mle_internal-icon
                                                     name="{{ config('media-library-extensions.icons.delete') }}"
                                                     :title="__('media-library-extensions::messages.delete_medium')"
                                                  />

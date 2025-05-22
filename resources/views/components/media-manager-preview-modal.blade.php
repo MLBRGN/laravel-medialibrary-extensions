@@ -1,10 +1,10 @@
-<x-mle-modal {{ $attributes->merge([
+<x-mle_internal-modal {{ $attributes->merge([
                 'class' => mle_media_class('media-manager-preview-modal')
              ]) }}
              :modal-id="$modalId"
              title="{{ $title }}"
              :show-header="false"
-             :with-padding="false"
+             :no-padding="true"
              :size-class="$sizeClass"
              data-modal-autofocus>
     <button
@@ -83,9 +83,9 @@
                     data-bs-target="#{{$modalId}}-carousel"
                     data-bs-slide="prev">
                 <span
-                    class="@media('media-manager-preview-modal-carousel-control-prev-icon')carousel-control-prev-icon"
+                    class="@mediaClass('media-manager-preview-modal-carousel-control-prev-icon')carousel-control-prev-icon"
                     aria-hidden="true"></span>
-                <span class="@media('visually-hidden')">{{ __('media-library-extensions::messages.previous') }}Vorige</span>
+                <span class="@mediaClass('visually-hidden')">{{ __('media-library-extensions::messages.previous') }}</span>
             </button>
             <button @class([
                     mle_media_class('media-manager-preview-modal-carousel-control-next'),
@@ -94,13 +94,13 @@
                     type="button"
                     data-bs-target="#{{$modalId}}-carousel"
                     data-bs-slide="next">
-                <span class=@media('media-manager-preview-modal-carousel-control-next-icon')"
+                <span class=@mediaClass('media-manager-preview-modal-carousel-control-next-icon')"
                       aria-hidden="true"></span>
-                <span class="@media('visually-hidden')">Volgende</span>
+                <span class="@mediaClass('visually-hidden')">Volgende</span>
             </button>
         @endif
     </div>
-</x-mle-modal>
+</x-mle_internal-modal>
 {{--TODO--}}
 {{--<script src="https://www.youtube.com/iframe_api"></script>--}}
 {{--@once--}}

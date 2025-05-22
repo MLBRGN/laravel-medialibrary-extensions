@@ -1,8 +1,9 @@
 {{--This file will handle shared logic and delegate some UI to a partial.--}}
 <div {{ $attributes->class([
-        mle_media_class('media-manager-single-wrapper')
+        mle_media_class('media-manager-single-wrapper'),
+       'mlbrgn-mle'
     ]) }}>
-    <x-mle-debug/>
+    <x-mle_internal-debug/>
     @if(!empty($title))
         <h2 class="@mediaClass('media-manager-headings')">{{ $title }}</h2>
     @endif

@@ -30,7 +30,7 @@ documentation:
         $mediaItems = $mediaItems->concat($model->getMedia($youtubeCollectionName));
     }
 @endphp
-<x-mle-modal {{ $attributes->merge(['class' => 'media-preview-modal']) }} :modal-id="$modalId" title="{{ $title }}" :show-header="false" :with-padding="false" data-modal-autofocus>
+<x-mle_internal-modal {{ $attributes->merge(['class' => 'media-preview-modal']) }} :modal-id="$modalId" title="{{ $title }}" :show-header="false" :with-padding="false" data-modal-autofocus>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Sluit"></button>
     <div id="{{$modalId}}-carousel" class="media-preview-modal-carousel carousel slide">
         @if(!$singleMedium)
@@ -90,7 +90,7 @@ documentation:
             </button>
         @endif
     </div>
-</x-mle-modal>
+</x-mle_internal-modal>
 {{--TODO--}}
 {{--<script src="https://www.youtube.com/iframe_api"></script>--}}
 {{--@once--}}

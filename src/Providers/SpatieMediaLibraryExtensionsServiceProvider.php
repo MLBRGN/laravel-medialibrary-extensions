@@ -28,13 +28,17 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        if (!Schema::hasTable('media')) {
+        if (! Schema::hasTable('media')) {
             Log::warning('[MediaLibraryExtensions] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
-        // Register views
+        // This tells Laravel where to find Blade view files
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'media-library-extensions');
+
+        // This tells Laravel where to find the route files
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+
+        // This tells Laravel where to find the translation files
         $this->loadTranslationsFrom(__DIR__.'/../../lang', 'media-library-extensions');
 
         $this->publishes([
@@ -50,22 +54,26 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
             __DIR__.'/../lang' => resource_path('lang/vendor/your-package'),
         ], 'your-package-translations');
 
-        // this links blade view components to their accompanying view class
+        // register and expose blade views and classes
         Blade::component('mle-media-manager-single', MediaManagerSingle::class);
         Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component('mle-media-manager-preview-modal', MediaManagerPreviewModal::class);
-        Blade::component('mle-modal', Modal::class);
-        Blade::component('mle-debug', Debug::class);
-        Blade::component('mle-icon', Icon::class);
         Blade::component('mle-image-responsive', ImageResponsive::class);
-        //        Blade::component('mle-preview-modal', Modal::class);
+
+        // register blade views and classes for internal use
+        // TODO i don't know how to hide them from the host applications yet (not expose them)
+        $this->loadViewComponentsAs('mle_internal', [
+            Debug::class,
+            Icon::class,
+            Modal::class,
+        ]);
 
         // blade directives
         Blade::directive('mediaClass', function ($expression) {
             return "<?php echo mle_media_class($expression); ?>";
         });
 
-        Gate::policy(Model::class, MediaPolicy::class); // not ideal for all models
+        //        Gate::policy(Model::class, MediaPolicy::class); // not ideal for all models
 
         // Only register if Blade Icons is available
         //        if (class_exists(Factory::class)) {
@@ -88,19 +96,4 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // Bind services or config
     }
-
-    //    protected function configureComponents(): void
-    //    {
-    //        $this->callAfterResolving(BladeCompiler::class, function () {
-    //            $this->registerComponent('media-manager-single', MediaManagerSingle::class);
-    //            // Register other components here
-    //        });
-    //    }
-
-    //    protected function registerComponent(string $component, $class): void
-    //    {
-    //        Blade::component('media-library-extensions::components.'.$component, $class);
-    //        //        Blade::component('mlbrgn-form-'.$tagAlias, $class);
-    //        //        Blade::component('media-library-extensions::components.'.$component, 'mypackage-'.$component);
-    //    }
 }
