@@ -17,7 +17,7 @@ arch('Requests are classes, extend Command, have handle method and have suffix R
     ->classes()
     ->toHaveSuffix('Request')
     ->toExtend('Illuminate\Foundation\Http\FormRequest')
-    ->toHaveMethod('rules');;
+    ->toHaveMethod('rules');
 
 arch('Commands are classes, extend Command, and have handle method')
     ->expect('Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands')
