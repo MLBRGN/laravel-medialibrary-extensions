@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Mlbrgn\SpatieMediaLibraryExtensions\Console\InstallMediaLibraryExtensions;
+use Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\ImageResponsive;

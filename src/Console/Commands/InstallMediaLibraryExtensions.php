@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Console;
+namespace Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
