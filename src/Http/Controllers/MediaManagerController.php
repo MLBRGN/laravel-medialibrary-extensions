@@ -5,6 +5,7 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
 /** @noinspection PhpUnused */
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
@@ -19,6 +20,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class MediaManagerController extends Controller
 {
+    use AuthorizesRequests;
+
     protected function getModel(string $modelType, string $modelId): ?Model
     {
 

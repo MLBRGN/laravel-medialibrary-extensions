@@ -42,8 +42,6 @@ abstract class BaseComponent extends Component
             );
         }
 
-        // dump('ensureMediaIsLoaded: '.($this->model->relationLoaded('media') ? 'Yes' : 'No'));
-
         $this->model = $this->ensureMediaIsLoaded($model);
 
         // Then access the media
