@@ -1,0 +1,51 @@
+.mlbrgn-mle-modal {
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1050;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .modal.show {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        animation: slide-down 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    @keyframes slide-down {
+        from { transform: translateY(-40px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        font-size: 24px;
+        color: #aaa;
+        cursor: pointer;
+    }
+
+    .close-btn:hover {
+        color: #000;
+    }
+}

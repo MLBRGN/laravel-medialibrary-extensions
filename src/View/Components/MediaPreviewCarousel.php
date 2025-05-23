@@ -26,7 +26,8 @@ class MediaPreviewCarousel extends BaseComponent
         public ?Model $model,
         public ?string $mediaCollectionName,
         public bool $singleMedium = false,
-        public string $id = 'no-id'
+        public string $id = 'no-id',
+        public bool $clickToOpenInModal = false,// don't want endless recursion
     ) {
         parent::__construct($model, $mediaCollectionName);
 

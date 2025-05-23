@@ -1,7 +1,7 @@
 <div
     id="{{ $id }}-carousel"
     {{ $attributes->merge([
-        'class' => mle_media_class('media-manager-preview-modal-carousel')
+        'class' => mle_media_class('media-manager-preview-modal-carousel'). ' mlbrgn-mle'
      ]) }}>
     @if(!$singleMedium)
         <div
@@ -51,7 +51,20 @@
                 ])
             >
                 <div class="@mediaClass('media-manager-preview-modal-carousel-item-wrapper')">
-                    <x-mle-image-responsive :medium="$medium" />
+                   @if($clickToOpenInModal)
+                    <div
+                        data-bs-toggle="modal"
+                        data-bs-target="#{{$id}}">
+                        <a
+                            class="previewed-image cursor-zoom-in"
+                            data-bs-target="#{{$id}}-carousel"
+                            data-bs-slide-to="{{ $loop->index }}">
+                    @endif
+                            <x-mle-image-responsive :medium="$medium" />
+                    @if($clickToOpenInModal)
+                        </a>
+                    </div>
+                    @endif
 {{--                    {{ $medium->img()->lazy()->attributes([--}}
 {{--                        'class' => mle_media_class('media-manager-preview-modal-carouse-item-image')--}}
 {{--                        ]) }}--}}
@@ -87,5 +100,12 @@
                       aria-hidden="true"></span>
             <span class="@mediaClass('visually-hidden')">Volgende</span>
         </button>
+    @endif
+    @if($clickToOpenInModal)
+        <x-mle-media-manager-preview-modal
+            :modal-id="$id"
+            :model="$model"
+            :media-collection-name="$mediaCollectionName"
+            title="Media carousel"/>
     @endif
 </div>

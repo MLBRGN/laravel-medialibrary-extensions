@@ -7,7 +7,12 @@ export default defineConfig({
         laravel({
             hotFile: 'public/vendor/media-library-extensions/media-library-extensions.hot', // Most important lines
             buildDirectory: 'vendor/media-library-extensions', // Most important lines
-            input: ['resources/css/app.scss', 'resources/js/app.js'],
+            input: [
+                'resources/css/app.scss',
+                'resources/js/app.js',
+                'resources/css/modal-plain.scss',
+                'resources/js/modal-plain.js'
+            ],
             refresh: true,
             // input: [
             //     'resources/js/media-library-extensions.js',
