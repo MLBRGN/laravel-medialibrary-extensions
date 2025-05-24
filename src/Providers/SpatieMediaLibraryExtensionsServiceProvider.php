@@ -14,7 +14,6 @@ use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerPreviewModal;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaPreviewCarousel;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaPreviewer;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Modal;
 
 /**
@@ -76,7 +75,6 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         // register and expose blade views and classes
         Blade::component('mle-media-manager-single', MediaManagerSingle::class);
         Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
-        Blade::component('mle-media-manager-previewer', MediaPreviewer::class);
         Blade::component('mle-media-manager-preview-modal', MediaManagerPreviewModal::class);
         Blade::component('mle-image-responsive', ImageResponsive::class);
 
