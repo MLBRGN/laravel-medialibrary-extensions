@@ -36,6 +36,8 @@ class MediaManagerController extends Controller
 
     public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
     {
+        $flashPrefix = config('media-library-extensions.flash_prefix');
+
         // TODO check if correct implementation
         //        $this->authorize('uploadMedia', $model);
         //        if (! auth()->check()) {
@@ -55,11 +57,11 @@ class MediaManagerController extends Controller
                 ->toMediaCollection($collectionName);
         } else {
             return back()
-                ->with('error', __('media-library-extensions::messages.upload-no-files'));
+                ->with("{$flashPrefix}.error", __('media-library-extensions::messages.upload-no-files'));
         }
 
         return back()
-            ->with('success', __('media-library-extensions::messages.upload_success'));
+            ->with("{$flashPrefix}.success", __('media-library-extensions::messages.upload_success'));
     }
 
     public function storeMany(MediaManagerUploadMultipleRequest $request): RedirectResponse
@@ -69,7 +71,7 @@ class MediaManagerController extends Controller
         //        if (! auth()->check()) {
         //            abort(403, __('media-library-extensions::messages.not-authorized'));
         //        }
-
+        $flashPrefix = config('media-library-extensions.flash_prefix');
         $modelType = $request->model_type;
         $modelId = $request->model_id;
         $collectionName = $request->collection_name;
@@ -86,15 +88,17 @@ class MediaManagerController extends Controller
             }
         } else {
             return back()
-                ->with('error', __('media-library-extensions::messages.upload-no-files'));
+                ->with("{$flashPrefix}.error", __('media-library-extensions::messages.upload-no-files'));
         }
 
         return back()
-            ->with('success', __('media-library-extensions::messages.upload_success'));
+            ->with("{$flashPrefix}.success", __('media-library-extensions::messages.upload_success'));
     }
 
     public function destroy(string $mediumId): RedirectResponse
     {
+        $flashPrefix = config('media-library-extensions.flash_prefix');
+
         // TODO check if correct implementation
         //            $this->authorize('deleteMedia', $model);
         //        if (! auth()->check()) {
@@ -109,16 +113,18 @@ class MediaManagerController extends Controller
             $media->delete();
 
             return back()
-                ->with('success', __('media-library-extensions::messages.medium-removed'));
+                ->with("{$flashPrefix}.success", __('media-library-extensions::messages.medium-removed'));
         }
 
         return back()
-            ->with('error', __('media-library-extensions::messages.medium-removed'));
+            ->with("{$flashPrefix}.error", __('media-library-extensions::messages.medium-removed'));
 
     }
 
     public function setAsFirst(SetAsFirstRequest $request): RedirectResponse
     {
+        $flashPrefix = config('media-library-extensions.flash_prefix');
+
         // TODO authorize
         //        $this->authorize(Permission::DELETE_ALL_MEDIA, $media);
         //        if (! auth()->check()) {
@@ -146,6 +152,6 @@ class MediaManagerController extends Controller
         Media::setNewOrder($orderedIds);
 
         return back()
-            ->with('success', __('media-library-extensions::messages.medium-set-as-first-in-collection'));
+            ->with("{$flashPrefix}.success", __('media-library-extensions::messages.medium-set-as-first-in-collection'));
     }
 }

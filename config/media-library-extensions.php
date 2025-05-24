@@ -124,6 +124,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Flash prefix
+    |--------------------------------------------------------------------------
+    |
+    | Used internally to flash messages to the session, this prefix is used
+    | as a prefix to prevent session messages to clash with the host application
+    |
+    */
+
+    'flash_prefix' => 'media-library-extensions',
+
+    /*
+    |--------------------------------------------------------------------------
     | Classes
     |--------------------------------------------------------------------------
     |

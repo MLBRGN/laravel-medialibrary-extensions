@@ -38,6 +38,7 @@
                     class="@mediaClass('media-manager-button-upload')">
                     {{ trans_choice('media-library-extensions::messages.upload-or-replace', $media->count()) }}
                 </button>
+                <x-mle_internal-flash/>
             </form>
             @if(!$medium)
                 <p class="@mediaClass('media-manager-no-media')">

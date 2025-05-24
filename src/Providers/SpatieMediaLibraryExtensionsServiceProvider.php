@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
+use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Flash;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerMultiple;
@@ -87,6 +88,7 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
             Icon::class,
             Modal::class,
             MediaPreviewCarousel::class,
+            Flash::class
         ]);
 
         // blade directives

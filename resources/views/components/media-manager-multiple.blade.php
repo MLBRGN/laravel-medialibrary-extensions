@@ -38,6 +38,7 @@
                     class="@mediaClass('media-manager-button-upload')">
                     {{  __('media-library-extensions::messages.upload-media') }}
                 </button>
+                <x-mle_internal-flash/>
             </form>
             @if($media->count() === 0)
                 <p class="@mediaClass('media-manager-no-media')">

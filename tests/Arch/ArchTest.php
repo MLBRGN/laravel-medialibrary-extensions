@@ -1,9 +1,5 @@
 <?php
 
-//
-// Pest presets
-//
-
 use Illuminate\Support\Facades\Redirect;
 
 arch()->preset()->php();
