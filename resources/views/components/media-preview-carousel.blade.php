@@ -60,7 +60,8 @@
                             data-bs-target="#{{$id}}-carousel"
                             data-bs-slide-to="{{ $loop->index }}">
                     @endif
-                            <x-mle-image-responsive :medium="$medium" />
+                            {{--<x-media.library-image class="image image-zoomed" :media="$medium" conversion="16x9" sizes="95vw" />--}}
+                            <x-mle-image-responsive class="image image-zoomed" :medium="$medium" conversion="16x9" sizes="95vw" :alt="$medium->name" />
                     @if($clickToOpenInModal)
                         </a>
                     </div>
