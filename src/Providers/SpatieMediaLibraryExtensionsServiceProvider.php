@@ -70,14 +70,14 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
                 __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->packageName),
             ], 'translations');
 
-            // Publish assets
-            $this->publishes([
-                __DIR__.'/../../resources/assets' => public_path($this->packageName.'/assets'),
-            ], 'assets');
+            // Publish assets (not working) empty css and js files
+            //            $this->publishes([
+            //                __DIR__.'/../../resources/assets' => public_path($this->packageName.'/assets'),
+            //            ], 'assets');
 
             $this->publishes([
-                __DIR__.'/../stubs/MediaPolicy.php' => app_path('Policies/MediaPolicy.php'),
-            ], 'media-policy');
+                __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
+            ], 'policy');
 
         }
         // register and expose blade views and classes
@@ -102,19 +102,22 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         });
 
         // register policies
-        $this->registerPolicies();
+        $this->registerPolicy();
 
     }
 
     public function register(): void
     {
-
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
-
     }
 
-    protected function registerPolicies(): void
+    protected function registerPolicy()
     {
-        Gate::policy(Media::class, MediaPolicy::class);
+        // If the host app has defined its own MediaPolicy, use it
+        if (class_exists($appPolicy = 'App\\Policies\\MediaPolicy')) {
+            Gate::policy(Media::class, $appPolicy);
+        } else {
+            Gate::policy(Media::class, MediaPolicy::class);
+        }
     }
 }
