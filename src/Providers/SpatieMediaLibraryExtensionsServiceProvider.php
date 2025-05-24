@@ -3,10 +3,12 @@
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
+use Mlbrgn\SpatieMediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Flash;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
@@ -16,6 +18,7 @@ use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerPreviewModal
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaPreviewCarousel;
 use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Modal;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -72,6 +75,10 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
                 __DIR__.'/../../resources/assets' => public_path($this->packageName.'/assets'),
             ], 'assets');
 
+            $this->publishes([
+                __DIR__.'/../stubs/MediaPolicy.php' => app_path('Policies/MediaPolicy.php'),
+            ], 'media-policy');
+
         }
         // register and expose blade views and classes
         Blade::component('mle-media-manager-single', MediaManagerSingle::class);
@@ -86,13 +93,16 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
             Icon::class,
             Modal::class,
             MediaPreviewCarousel::class,
-            Flash::class
+            Flash::class,
         ]);
 
         // blade directives
         Blade::directive('mediaClass', function ($expression) {
             return "<?php echo mle_media_class($expression); ?>";
         });
+
+        // register policies
+        $this->registerPolicies();
 
     }
 
@@ -101,5 +111,10 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
 
+    }
+
+    protected function registerPolicies(): void
+    {
+        Gate::policy(Media::class, MediaPolicy::class);
     }
 }

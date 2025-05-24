@@ -23,7 +23,6 @@ class MediaManagerDestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'medium' => 'required|string',
             'target_id' => ['required', 'string'],
         ];
     }

@@ -2,20 +2,26 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Policies;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// TODO not used at the moment
 class MediaPolicy
 {
-    public function uploadMedia(User $user, Model $model): bool
+    public function uploadMedia(?Authenticatable $user): bool
     {
-        // default behavior (can be overridden)
         return true;
+        //        return $user !== null;
     }
 
-    public function deleteMedia(User $user, Model $model): bool
+    public function deleteMedia(?Authenticatable $user, Media $media): bool
     {
         return true;
+        //        return $user !== null && $user->id === $media->model->user_id;
+    }
+
+    public function reorderMedia(?Authenticatable $user): bool
+    {
+        return true;
+        //        return $user !== null;
     }
 }

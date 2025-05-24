@@ -7,9 +7,25 @@ use Illuminate\View\View;
 
 class Flash extends Component
 {
+    public string $targetId;
+
+    public ?array $status = null;
+
     public function __construct(
-        public string $targetId
-    ) {}
+        string $targetId
+    ) {
+        $this->targetId = $targetId;
+        $statusKey = flash_prefix('status');
+
+        if (session()->has($statusKey)) {
+            $status = session($statusKey);
+
+            // Only set status if the target matches the component's targetId
+            if (isset($status['target']) && $status['target'] === $this->targetId) {
+                $this->status = $status;
+            }
+        }
+    }
 
     public function render(): View
     {
