@@ -46,9 +46,6 @@ class MediaManagerSingle extends BaseComponent
 
     public $classes;
 
-    /** @var Collection<int, Media> */
-    public Collection $media;
-
     public ?Media $medium = null;
 
     public string $allowedMimeTypes = '';
@@ -64,8 +61,9 @@ class MediaManagerSingle extends BaseComponent
         public bool $showMediaUrl = false,
         public string $modalId = 'media-manager-single-modal',
         public string $title = '',
+        public string $id = ''
     ) {
-        parent::__construct($model, $mediaCollectionName);
+        parent::__construct($model, $mediaCollectionName, $id);
 
         // get medium only ever working with one medium
         $medium = $this->medium = $model->getFirstMedia($mediaCollectionName);

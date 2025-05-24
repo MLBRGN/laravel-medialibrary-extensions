@@ -1,8 +1,8 @@
 <img
-    src="{{ $hasGeneratedConversion ? $medium->getUrl($conversion) : $medium->getUrl() }}"
+    src="{{ $hasGeneratedConversion ? $medium->getUrl($useConversion) : $medium->getUrl() }}"
 
     @if($hasGeneratedConversion)
-        srcset="{{ $medium->getSrcset($conversion) }}"
+        srcset="{{ $medium->getSrcset($useConversion) }}"
         sizes="{{ $sizes }}"
     @endif
     {{ $attributes->merge(['class' => '']) }}
@@ -11,3 +11,4 @@
     @endif
     alt="{!! $alt !!}"
 />
+

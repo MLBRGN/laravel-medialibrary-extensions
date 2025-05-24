@@ -5,7 +5,7 @@ return [
     'upload_fail' => 'Upload failed.',
     'upload-no-files' => 'No files uploaded.',
     'setup-as-main' => 'Setup as main.',
-    'set-as-main' => 'Set as main.',
+    'medium-set-as-main' => 'Medium set as main.',
     'medium-removed' => 'Medium removed.',
     'medium-could-not-be-removed' => 'Medium could not be removed.',
     'no-media' => 'No media.',

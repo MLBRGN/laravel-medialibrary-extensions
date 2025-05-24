@@ -1,5 +1,7 @@
 <?php
 
+use Mlbrgn\SpatieMediaLibraryExtensions\Support\StatusFlash;
+
 if (! function_exists('mle_package_asset')) {
     function mle_package_asset($name): string
     {
@@ -44,3 +46,26 @@ if (! function_exists('component_exists')) {
             || \Illuminate\Support\Facades\View::exists("components.$name");
     }
 }
+
+if (! function_exists('flash_prefix')) {
+    function flash_prefix(string $name): string
+    {
+        return config('media-library-extensions.flash_prefix').$name;
+    }
+}
+
+if (! function_exists('flash_prefix')) {
+    function flash_prefix(string $name): string
+    {
+        return config('media-library-extensions.flash_prefix').$name;
+    }
+}
+
+// TODO remove not needed
+// if (! function_exists('status_flash')) {
+//
+//    function status_flash(): \Mlbrgn\SpatieMediaLibraryExtensions\Support\StatusFlash
+//    {
+//        return new StatusFlash;
+//    }
+// }

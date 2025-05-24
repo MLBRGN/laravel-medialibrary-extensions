@@ -5,7 +5,7 @@ return [
     'upload_fail' => 'Upload failed.',
     'upload-no-files' => 'Geen bestanden geüpload.',
     'setup-as-main' => 'Instellen als hoofd.',
-    'set-as-main' => 'Ingesteld als hoofd.',
+    'medium-set-as-main' => 'Medium ingesteld als hoofd.',
     'medium-removed' => 'Medium verwijderd.',
     'medium-could-not-be-removed' => 'Medium kon niet worden verwijderd.',
     'no-media' => 'Geen media.',

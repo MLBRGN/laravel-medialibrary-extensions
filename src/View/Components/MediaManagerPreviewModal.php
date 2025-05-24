@@ -31,8 +31,9 @@ class MediaManagerPreviewModal extends BaseComponent
         public string $logoCollectionName = '',
         public bool $singleMedium = false,
         public string $sizeClass = 'modal-almost-fullscreen',
+        public string $id = '',
     ) {
-        parent::__construct($model, $mediaCollectionName);
+        parent::__construct($model, $mediaCollectionName, $id);
 
         // Combine the media items from the collections
         $this->mediaItems = $model->getMedia($mediaCollectionName);

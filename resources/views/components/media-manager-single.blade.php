@@ -1,8 +1,9 @@
 {{--This file will handle shared logic and delegate some UI to a partial.--}}
-<div {{ $attributes->class([
+<div id="{{ $id }}" {{ $attributes->class([
         mle_media_class('media-manager-single-wrapper'),
        'mlbrgn-mle'
     ]) }}>
+{{--    <pre>{{ var_dump(session()->all()) }}</pre>--}}
     <x-mle_internal-debug/>
     @if(!empty($title))
         <h2 class="@mediaClass('media-manager-headings')">{{ $title }}</h2>
@@ -33,12 +34,16 @@
                     type="hidden"
                     name="model_id"
                     value="{{ $model->id }}">
+                <input
+                    type="hidden"
+                    name="target_id"
+                    value="{{ $id }}"/>
                 <button
                     type="submit"
                     class="@mediaClass('media-manager-button-upload')">
                     {{ trans_choice('media-library-extensions::messages.upload-or-replace', $media->count()) }}
                 </button>
-                <x-mle_internal-flash/>
+                <x-mle_internal-flash :target-id="$id"/>
             </form>
             @if(!$medium)
                 <p class="@mediaClass('media-manager-no-media')">
@@ -65,6 +70,10 @@
                               method="post">
                             @csrf
                             @method('DELETE')
+                            <input
+                                type="hidden"
+                                name="target_id"
+                                value="{{ $id }}"/>
                             <button
                                 type="submit"
                                 class="@mediaClass('media-manager-button-icon-delete')">

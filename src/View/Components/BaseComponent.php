@@ -3,9 +3,12 @@
 namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use InvalidArgumentException;
+use Mlbrgn\SpatieMediaLibraryExtensions\Support\StatusFlash;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Base class for components that ensures a model and its media collection are properly loaded.
@@ -20,11 +23,15 @@ abstract class BaseComponent extends Component
 
     public $classes;
 
-    //    public MediaCollection $media;
+    /** @var Collection<int, Media> */
+    public Collection $media;
+
+    public ?array $status = [];
 
     public function __construct(
-        public ?Model $model = null,
-        public ?string $mediaCollectionName = null
+        public ?Model $model,
+        public ?string $mediaCollectionName,
+        public string $id,
     ) {
         // This should now trigger if all is wired up properly
         $this->theme = config('media-library-extensions.frontend-theme', 'plain');
@@ -47,8 +54,15 @@ abstract class BaseComponent extends Component
         // Then access the media
         $this->media = $this->model->getMedia($mediaCollectionName);
 
+        $this->status = session(flash_prefix('status'));
+
+        if (empty($this->id)) {
+            $this->id = 'component-'.uniqid();
+        }
+        //        dd($this->status);
+        //        $this->statusMessages = StatusFlash::pull();
         //        $this->media = $model->getMedia($mediaCollectionName);
-        $this->modelKebabName = Str::kebab(class_basename($this->model));
+        //        $this->modelKebabName = Str::kebab(class_basename($this->model));
     }
 
     protected function ensureMediaIsLoaded(Model $model): Model

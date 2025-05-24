@@ -24,12 +24,7 @@ class MediaManagerDestroyRequest extends FormRequest
     {
         return [
             'medium' => 'required|string',
-            //            'medium_id' => 'nullable',
-            //            'medium' => [
-            //                'nullable',
-            //                'mimes:'.implode(',', config('media.allowed_mimes.image')),
-            //                'max:'.config('media.max_upload_sizes.image'),
-            //            ],
+            'target_id' => ['required', 'string'],
         ];
     }
 }

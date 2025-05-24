@@ -31,6 +31,7 @@ class MediaManagerUploadSingleRequest extends FormRequest
                 'mimes:'.implode(',', config('media.allowed_mimes.image')),
                 'max:'.config('media.max_upload_sizes.image'),
             ],
+            'target_id' => ['required', 'string'],
         ];
     }
 }

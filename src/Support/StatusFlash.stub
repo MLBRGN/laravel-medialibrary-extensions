@@ -1,0 +1,46 @@
+<?php
+
+namespace Mlbrgn\SpatieMediaLibraryExtensions\Support;
+
+// TODO remove, not needed
+/**
+ * Handles status flash messages by interacting with the session storage.
+ */
+class StatusFlash
+{
+    protected static function key(): string
+    {
+        return config('media-library-extensions.flash_prefix', 'media-library-extensions.status');
+    }
+
+    public static function success(string $message): void
+    {
+        session()->put(self::key(), [
+            'type' => 'success',
+            'message' => $message,
+        ]);
+    }
+
+    public static function error(string $message): void
+    {
+        session()->put(self::key(), [
+            'type' => 'error',
+            'message' => $message,
+        ]);
+    }
+
+    public static function get(): ?array
+    {
+        return session(self::key());
+    }
+
+    public static function forget(): void
+    {
+        session()->forget(self::key());
+    }
+
+    public static function pull(): ?array
+    {
+        return session()->pull(self::key());
+    }
+}

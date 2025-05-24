@@ -1,8 +1,11 @@
-<div {{ $attributes->class([
+<div
+    id="{{ $id }}"
+    {{ $attributes->class([
         mle_media_class('media-manager-multiple-wrapper'),
         'mlbrgn-mle'
     ]) }}>
     <x-mle_internal-debug/>
+
     @if(!empty($title))
         <h2 class="@mediaClass('media-manager-headings')">{{ $title }}</h2>
     @endif
@@ -33,12 +36,16 @@
                     type="hidden"
                     name="model_id"
                     value="{{ $model->id }}"/>
+                <input
+                    type="hidden"
+                    name="target_id"
+                    value="{{ $id }}"/>
                 <button
                     type="submit"
                     class="@mediaClass('media-manager-button-upload')">
                     {{  __('media-library-extensions::messages.upload-media') }}
                 </button>
-                <x-mle_internal-flash/>
+                <x-mle_internal-flash :target-id="$id"/>
             </form>
             @if($media->count() === 0)
                 <p class="@mediaClass('media-manager-no-media')">
@@ -98,6 +105,10 @@
                                                     type="hidden"
                                                     name="model_id"
                                                     value="{{ $model->id }}">
+                                                <input
+                                                    type="hidden"
+                                                    name="target_id"
+                                                    value="{{ $id }}"/>
                                                 <button
                                                     type="submit"
                                                     class=""
@@ -119,6 +130,10 @@
                                             method="post">
                                             @csrf
                                             @method('DELETE')
+                                            <input
+                                                type="hidden"
+                                                name="target_id"
+                                                value="{{ $id }}"/>
                                             <button
                                                 type="submit"
                                                 class=""

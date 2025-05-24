@@ -33,12 +33,13 @@ class MediaManagerUploadMultipleRequest extends FormRequest
             'model_type' => ['required', 'string'],
             'model_id' => ['required', 'string'],
             'collection_name' => ['required', 'string'],
-            'media' => 'required|array',
+            'media' => 'nullable|array',
             'media.*' => [
                 'nullable',
                 'mimetypes:'.$allowedMimeTypes,
                 'max:'.$maxImageSize,
             ],
+            'target_id' => ['required', 'string'],
         ];
     }
 }

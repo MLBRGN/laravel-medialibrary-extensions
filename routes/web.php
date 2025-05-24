@@ -2,15 +2,13 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Routes;
 
-// Media manager routes
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\MediaManagerController;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\PackageAssetController;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// TODO only auth?
+// TODO authentication
 Route::group([
-    //    'middleware' => ['web'],
+    'middleware' => ['web'], // !important needed for session to work
     'prefix' => config('media-library-extensions.route-prefix'),
 ], function () {
     Route::controller(MediaManagerController::class)

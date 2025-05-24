@@ -132,7 +132,7 @@ return [
     |
     */
 
-    'flash_prefix' => 'media-library-extensions',
+    'flash_prefix' => 'media-library-extensions.status',
 
     /*
     |--------------------------------------------------------------------------
