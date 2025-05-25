@@ -111,7 +111,7 @@ class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
     }
 
-    protected function registerPolicy()
+    protected function registerPolicy(): void
     {
         // If the host app has defined its own MediaPolicy, use it
         if (class_exists($appPolicy = 'App\\Policies\\MediaPolicy')) {

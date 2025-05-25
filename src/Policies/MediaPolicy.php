@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnusedParameterInspection */
+
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Policies;
 
 use Illuminate\Contracts\Auth\Authenticatable;

@@ -20,35 +20,32 @@ class InstallMediaLibraryExtensions extends Command
         if (! $this->configExists('media-library-extensions.php')) {
             $this->publishConfiguration();
             $this->info('Published configuration');
+        } elseif ($this->shouldOverwriteConfig()) {
+            $this->info('Overwriting configuration file...');
+            $this->publishConfiguration(true);
         } else {
-            if ($this->shouldOverwriteConfig()) {
-                $this->info('Overwriting configuration file...');
-                $this->publishConfiguration($force = true);
-            } else {
-                $this->info('Existing configuration was not overwritten');
-            }
+            $this->info('Existing configuration was not overwritten');
         }
 
         $this->info('Installed media library extensions...');
     }
 
-    private function configExists($fileName)
+    private function configExists($fileName): bool
     {
         return File::exists(config_path($fileName));
     }
 
-    private function shouldOverwriteConfig()
+    private function shouldOverwriteConfig(): bool
     {
         return $this->confirm(
-            'Config file already exists. Do you want to overwrite it?',
-            false
+            'Config file already exists. Do you want to overwrite it?'
         );
     }
 
-    private function publishConfiguration($forcePublish = false)
+    private function publishConfiguration($forcePublish = false): void
     {
         $params = [
-            '--provider' => "Mlbrgn\SpatieMediaLibraryExtensions\SpatieMediaLibraryExtensions\Providers\MediaLibraryServiceProvider",
+            '--provider' => 'Mlbrgn\SpatieMediaLibraryExtensions\SpatieMediaLibraryExtensions\Providers\MediaLibraryServiceProvider',
             '--tag' => 'config',
         ];
 
