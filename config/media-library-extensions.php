@@ -201,8 +201,8 @@ return [
             'no-padding' => 'no-padding',
         ],
         'bootstrap-5' => [
-            'media-manager-single-wrapper' => 'media-manager media-manager-single container-fluid',
-            'media-manager-multiple-wrapper' => 'media-manager media-manager-multiple container-fluid',
+            'media-manager-single-wrapper' => 'media-manager media-manager-single container-fluid px-0',
+            'media-manager-multiple-wrapper' => 'media-manager media-manager-multiple container-fluid px-0',
             'media-manager-single-row' => 'media-manager-row media-manager-single-row row',
             'media-manager-multiple-row' => 'media-manager-row media-manager-multiple-row row',
             'media-manager-single-form' => 'media-manager-form media-manager-single-form col-12 col-md-4',
