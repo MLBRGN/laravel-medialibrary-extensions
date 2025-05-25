@@ -140,7 +140,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This prefix is used to prevent status session keys to clash with the
-    } host application
+    | host application
     |
     */
 
