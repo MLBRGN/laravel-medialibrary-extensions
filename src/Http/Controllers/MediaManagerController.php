@@ -2,17 +2,19 @@
 
 namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerController extends Controller
 {
-    protected function getModel(string $modelType, string $modelId): ?Model
+    protected function getModel(string $modelType, string $modelId): ?HasMedia
     {
         abort_if(! class_exists($modelType), 400, 'Invalid model type');
 
@@ -35,6 +37,10 @@ class MediaManagerController extends Controller
         return $redirect;
     }
 
+    /**
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     */
     public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
     {
 
@@ -63,6 +69,10 @@ class MediaManagerController extends Controller
         );
     }
 
+    /**
+     * @throws FileIsTooBig
+     * @throws FileDoesNotExist
+     */
     public function storeMany(MediaManagerUploadMultipleRequest $request): RedirectResponse
     {
         $model = $this->getModel($request->model_type, $request->model_id);
@@ -96,24 +106,22 @@ class MediaManagerController extends Controller
     {
         $targetId = $request->target_id;
 
-        if ($media) {
-            $this->authorize('deleteMedia', $media);
-            $media->delete();
-
-            return $this->redirectBackWithStatus(
-                $targetId,
-                'success',
-                __('media-library-extensions::messages.medium-removed'),
-                $targetId
-            );
-        }
+        $this->authorize('deleteMedia', $media);
+        $media->delete();
 
         return $this->redirectBackWithStatus(
             $targetId,
-            'error',
-            __('media-library-extensions::messages.medium-could-not-be-removed'),
+            'success',
+            __('media-library-extensions::messages.medium-removed'),
             $targetId
         );
+
+//        return $this->redirectBackWithStatus(
+//            $targetId,
+//            'error',
+//            __('media-library-extensions::messages.medium-could-not-be-removed'),
+//            $targetId
+//        );
     }
 
     public function setAsFirst(SetAsFirstRequest $request): RedirectResponse

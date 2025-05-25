@@ -4,6 +4,7 @@ namespace Mlbrgn\SpatieMediaLibraryExtensions\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mlbrgn\SpatieMediaLibraryExtensions\Tests\database\factories\BlogFactory;
 use Mlbrgn\SpatieMediaLibraryExtensions\Traits\HandlesMediaConversions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -34,5 +35,10 @@ class Blog extends Model  implements HasMedia
                 'blog-extra',
             ]);
         }
+    }
+
+    public static function newFactory(): BlogFactory
+    {
+        return BlogFactory::new();
     }
 }

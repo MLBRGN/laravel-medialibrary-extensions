@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\SpatieMediaLibraryExtensions\Providers\SpatieMediaLibraryExtensionsServiceProvider;
 //use Orchestra\Testbench\TestCase as BaseTestCase;
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Database\Migrations\CreateBlogsTable;
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Database\Migrations\CreateMediaTable;
+use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Database\Migrations\create_blogs_table;
+use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Database\Migrations\create_media_table;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -26,8 +26,11 @@ class TestCase extends BaseTestCase
         $this->app['config']->set('session.serialization', 'php');
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            return 'Mlbrgn\\SpatieMediaLibraryExtensions\\Tests\\database\\factories\\' . class_basename($modelName) . 'Factory';
+            return 'Mlbrgn\\SpatieMediaLibraryExtensions\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
         });
+//        Factory::guessFactoryNamesUsing(function (string $modelName) {
+//            return 'Mlbrgn\\SpatieMediaLibraryExtensions\\Tests\\database\\factories\\' . class_basename($modelName) . 'Factory';
+//        });
 
         View::addLocation(__DIR__.'/Feature/views');
     }
@@ -62,10 +65,10 @@ class TestCase extends BaseTestCase
             'prefix' => '',
         ]);
 
-        include_once __DIR__ . '/database/migrations/create_media_table.php';
-        include_once __DIR__ . '/database/migrations/create_blogs_table.php';
-        (new CreateMediaTable())->up();
-        (new CreateBlogsTable())->up();
+        include_once __DIR__.'/Database/migrations/create_media_table.php';
+        include_once __DIR__.'/Database/migrations/create_blogs_table.php';
+        (new create_media_table())->up();
+        (new create_blogs_table())->up();
     }
 
 }
