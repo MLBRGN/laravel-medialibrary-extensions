@@ -15,7 +15,7 @@ class Flash extends Component
         string $targetId
     ) {
         $this->targetId = $targetId;
-        $statusKey = status_session_prefix('status');
+        $statusKey = status_session_prefix();
 
         if (session()->has($statusKey)) {
             $status = session($statusKey);

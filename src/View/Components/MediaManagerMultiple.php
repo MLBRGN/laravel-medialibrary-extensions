@@ -11,10 +11,6 @@ use Illuminate\View\View;
 
 class MediaManagerMultiple extends BaseComponent
 {
-    public $theme;
-
-    public $classes;
-
     public string $allowedMimeTypes = '';
 
     public function __construct(

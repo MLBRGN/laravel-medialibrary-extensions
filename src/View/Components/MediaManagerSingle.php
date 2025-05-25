@@ -42,10 +42,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class MediaManagerSingle extends BaseComponent
 {
-    public $theme;
-
-    public $classes;
-
     public ?Media $medium = null;
 
     public string $allowedMimeTypes = '';
