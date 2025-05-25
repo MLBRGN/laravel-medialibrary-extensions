@@ -13,3 +13,7 @@ trim_trailing_whitespace = false
 
 [*.{yml,yaml,json}]
 indent_size = 2
+
+[*.blade.php]
+insert_final_newline = false
+trim_trailing_whitespace = false
