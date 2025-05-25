@@ -22,7 +22,7 @@ class MediaManagerController extends Controller
     protected function redirectBackWithStatus(string $targetId, string $type, string $message, ?string $fragment = null): RedirectResponse
     {
         $redirect = redirect()->back()
-            ->with(flash_prefix('status'), [
+            ->with(status_session_prefix('status'), [
                 'target' => $targetId,
                 'type' => $type,
                 'message' => $message,

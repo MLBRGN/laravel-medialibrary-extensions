@@ -22,8 +22,8 @@ return [
     |
     */
 
-    'frontend-theme' => 'bootstrap-5',
-    //    'frontend-theme' => 'plain',
+    'frontend_theme' => 'bootstrap-5',
+    //    'frontend_theme' => 'plain',
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'route-prefix' => env('MEDIA_LIBRARY_EXTENSION_ROUTE_PREFIX', 'mlbrgn-mle'),
+    'route_prefix' => env('MEDIA_LIBRARY_EXTENSION_ROUTE_PREFIX', 'mlbrgn-mle'),
 
     /*
     |--------------------------------------------------------------------------
@@ -124,7 +124,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Flash prefix
+    | Show status of requests inside component
     |--------------------------------------------------------------------------
     |
     | Used internally to flash messages to the session, this prefix is used
@@ -132,7 +132,19 @@ return [
     |
     */
 
-    'flash_prefix' => 'media-library-extensions.status',
+    'show_status_in_components' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | `Status session prefix
+    |--------------------------------------------------------------------------
+    |
+    | This prefix is used to prevent status session keys to clash with the
+    } host application
+    |
+    */
+
+    'status_session_prefix' => 'media-library-extensions.status',
 
     /*
     |--------------------------------------------------------------------------

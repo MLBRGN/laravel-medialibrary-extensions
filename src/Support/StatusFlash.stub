@@ -10,7 +10,7 @@ class StatusFlash
 {
     protected static function key(): string
     {
-        return config('media-library-extensions.flash_prefix', 'media-library-extensions.status');
+        return config('media-library-extensions.status_session_prefix', 'media-library-extensions.status');
     }
 
     public static function success(string $message): void

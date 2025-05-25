@@ -64,11 +64,11 @@ arch('No debugging statements left in code')
     ->expect(['dd', 'ddd', 'dump', 'die', 'var_dump', 'sleep', 'print_r', 'echo', 'print', 'phpinfo', 'ray'])
     ->not->toBeUsed();
 
-//arch('Seeders have Seeder suffix')
+// arch('Seeders have Seeder suffix')
 //    ->expect('Database\Seeders')
 //    ->toHaveSuffix('Seeder');
 //
-//arch('Factories have Factory suffix')
+// arch('Factories have Factory suffix')
 //    ->expect('Database\Factories')
 //    ->toHaveSuffix('Factory');
 
@@ -119,7 +119,7 @@ arch('does not contain debugging statements in views', function () {
 });
 
 arch('does not contain debugging statements in JavaScript files', function () {
-    $jsDirectory = realpath(__DIR__ . '/../../resources/js');
+    $jsDirectory = realpath(__DIR__.'/../../resources/js');
 
     $debuggingStatements = ['debugger', 'alert('];
 
@@ -149,5 +149,36 @@ arch('Migrations follow naming convention', function () {
     foreach ($migrations as $migration) {
         $filename = pathinfo($migration, PATHINFO_FILENAME);
         expect($filename)->toMatch('/^\d{4}_\d{2}_\d{2}_\d{6}_.+$/');
+    }
+});
+
+arch('config keys use snake_case', function () {
+    $configDirectory = __DIR__.'/../../config'; // config_path();
+    $allowedConfigs = ['media-library-extensions'];
+
+    $configFiles = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($configDirectory)
+    );
+
+    foreach ($configFiles as $file) {
+        if ($file->isFile() && $file->getExtension() === 'php') {
+            $configKey = $file->getBasename('.php');
+            if (! in_array($configKey, $allowedConfigs)) {
+                continue;
+            }
+            $config = app('config')->get($configKey);
+
+            if (! is_array($config)) {
+                continue;
+            }
+
+            foreach (array_keys($config) as $segment) {
+                if (! preg_match('/^[a-z0-9_]+$/', $segment)) {
+                    dump("❌ Invalid config key segment: '{$segment}' (file: {$configKey}.php)");
+                }
+                expect($segment)
+                    ->toMatch('/^[a-z0-9_]+$/');
+            }
+        }
     }
 });

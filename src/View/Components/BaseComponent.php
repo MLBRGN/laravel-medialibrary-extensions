@@ -34,7 +34,7 @@ abstract class BaseComponent extends Component
         public string $id,
     ) {
         // This should now trigger if all is wired up properly
-        $this->theme = config('media-library-extensions.frontend-theme', 'plain');
+        $this->theme = config('media-library-extensions.frontend_theme', 'plain');
         $this->classes = config("media-library-extensions.classes.{$this->theme}", []);
 
         if (is_null($model)) {
@@ -54,7 +54,7 @@ abstract class BaseComponent extends Component
         // Then access the media
         $this->media = $this->model->getMedia($mediaCollectionName);
 
-        $this->status = session(flash_prefix('status'));
+        $this->status = session(status_session_prefix('status'));
 
         if (empty($this->id)) {
             $this->id = 'component-'.uniqid();
