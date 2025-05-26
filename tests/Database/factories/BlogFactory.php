@@ -1,7 +1,7 @@
 <?php
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Tests\Database\Factories;
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories;
 
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BlogFactory extends Factory

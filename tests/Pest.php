@@ -11,7 +11,7 @@
 |
 */
 
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\TestCase;
+use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->in('Feature')

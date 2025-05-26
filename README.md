@@ -1,6 +1,6 @@
 # Media library extensions
 
-This package extends the functionality of Spatie Media Library by:
+This package adds functionality toMedia Library package by Spatie:
 
 - Providing a view to upload multiple media
 - Providing a view to upload single media

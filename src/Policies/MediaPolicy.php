@@ -2,7 +2,7 @@
 
 /** @noinspection PhpUnusedParameterInspection */
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Policies;
+namespace Mlbrgn\MediaLibraryExtensions\Policies;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

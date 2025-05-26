@@ -1,23 +1,23 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Providers;
+namespace Mlbrgn\MediaLibraryExtensions\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
-use Mlbrgn\SpatieMediaLibraryExtensions\Policies\MediaPolicy;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Debug;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Flash;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Icon;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\ImageResponsive;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerMultiple;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerPreviewModal;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaManagerSingle;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\MediaPreviewCarousel;
-use Mlbrgn\SpatieMediaLibraryExtensions\View\Components\Modal;
+use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
+use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Flash;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Icon;
+use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreviewModal;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaPreviewCarousel;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Modal;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
@@ -26,7 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * This provider handles the registration of views, routes, translations, assets,
  * Blade directives, and Blade components required by the media library extensions.
  */
-class SpatieMediaLibraryExtensionsServiceProvider extends ServiceProvider
+class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 {
     private string $vendor = 'mlbrgn';
 

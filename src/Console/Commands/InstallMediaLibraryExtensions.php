@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands;
+namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -45,7 +45,7 @@ class InstallMediaLibraryExtensions extends Command
     private function publishConfiguration($forcePublish = false): void
     {
         $params = [
-            '--provider' => 'Mlbrgn\SpatieMediaLibraryExtensions\SpatieMediaLibraryExtensions\Providers\MediaLibraryServiceProvider',
+            '--provider' => 'Mlbrgn\MediaLibraryExtensions\SpatieMediaLibraryExtensions\Providers\MediaLibraryServiceProvider',
             '--tag' => 'config',
         ];
 

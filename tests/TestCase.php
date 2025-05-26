@@ -1,14 +1,14 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Tests;
+namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Mlbrgn\SpatieMediaLibraryExtensions\Providers\SpatieMediaLibraryExtensionsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 //use Orchestra\Testbench\TestCase as BaseTestCase;
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Database\Migrations\create_blogs_table;
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Database\Migrations\create_media_table;
+use Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations\create_blogs_table;
+use Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations\create_media_table;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -38,7 +38,7 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            SpatieMediaLibraryExtensionsServiceProvider::class,
+            MediaLibraryExtensionsServiceProvider::class,
         ];
     }
 

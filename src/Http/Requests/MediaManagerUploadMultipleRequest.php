@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests;
+namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
+namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;

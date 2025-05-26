@@ -1,11 +1,11 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Tests\Models;
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\database\factories\BlogFactory;
-use Mlbrgn\SpatieMediaLibraryExtensions\Traits\HandlesMediaConversions;
+use Mlbrgn\MediaLibraryExtensions\Tests\database\factories\BlogFactory;
+use Mlbrgn\MediaLibraryExtensions\Traits\HandlesMediaConversions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

@@ -44,7 +44,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Mlbrgn\\SpatieMediaLibraryExtensions\\": "src/"
+            "Mlbrgn\\MediaLibraryExtensions\\": "src/"
         },
         "files": [
           "Helpers/helpers.php"
@@ -52,7 +52,7 @@
     },
     "autoload-dev": {
       "psr-4": {
-        "Mlbrgn\\SpatieMediaLibraryExtensions\\Tests\\": "tests/"
+        "Mlbrgn\\MediaLibraryExtensions\\Tests\\": "tests/"
       }
     },
     "minimum-stability": "stable",
@@ -60,7 +60,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Mlbrgn\\SpatieMediaLibraryExtensions\\Providers\\SpatieMediaLibraryExtensionsServiceProvider"
+                "Mlbrgn\\MediaLibraryExtensions\\Providers\\MediaLibraryExtensionsServiceProvider"
             ]
         }
     },

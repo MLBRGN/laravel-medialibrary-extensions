@@ -1,12 +1,12 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers;
+namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;

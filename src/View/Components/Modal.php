@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;

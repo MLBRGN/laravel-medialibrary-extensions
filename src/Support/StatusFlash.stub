@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Support;
+namespace Mlbrgn\MediaLibraryExtensions\Support;
 
 // TODO remove, not needed
 /**

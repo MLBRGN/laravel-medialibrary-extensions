@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
-use Mlbrgn\SpatieMediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 it('renders the single media manager component', function () {
     $blog = Blog::factory()->create();

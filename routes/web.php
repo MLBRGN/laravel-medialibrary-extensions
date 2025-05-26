@@ -1,10 +1,10 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\Routes;
+namespace Mlbrgn\MediaLibraryExtensions\Routes;
 
 use Illuminate\Support\Facades\Route;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\MediaManagerController;
-use Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers\PackageAssetController;
+use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
+use Mlbrgn\MediaLibraryExtensions\Http\Controllers\PackageAssetController;
 
 // TODO authentication
 Route::group([

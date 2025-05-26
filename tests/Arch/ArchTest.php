@@ -5,54 +5,54 @@ use Illuminate\Support\Facades\Redirect;
 arch()->preset()->php();
 
 arch('Traits must be traits')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions\Traits')
+    ->expect('Mlbrgn\MediaLibraryExtensions\Traits')
     ->toBeTraits();
 
 arch('Requests are classes, extend Command, have handle method and have suffix Request')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions\Http\Requests')
+    ->expect('Mlbrgn\MediaLibraryExtensions\Http\Requests')
     ->classes()
     ->toHaveSuffix('Request')
     ->toExtend('Illuminate\Foundation\Http\FormRequest')
     ->toHaveMethod('rules');
 
 arch('Commands are classes, extend Command, and have handle method')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands')
+    ->expect('Mlbrgn\MediaLibraryExtensions\Console\Commands')
     ->classes()
     ->toExtend('Illuminate\Console\Command')
     ->toHaveMethod('handle');
 
-arch('Does not extend Console Command outside Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions')
+arch('Does not extend Console Command outside Mlbrgn\MediaLibraryExtensions\Console\Commands')
+    ->expect('Mlbrgn\MediaLibraryExtensions')
     ->not->toExtend('Illuminate\Console\Command')
-    ->ignoring('Mlbrgn\SpatieMediaLibraryExtensions\Console\Commands');
+    ->ignoring('Mlbrgn\MediaLibraryExtensions\Console\Commands');
 
 arch('Providers should have suffix ServiceProvider')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions\Providers')
+    ->expect('Mlbrgn\MediaLibraryExtensions\Providers')
     ->toExtend('Illuminate\Support\ServiceProvider')
     ->toHaveSuffix('ServiceProvider');
 
 arch('Does not extend ServiceProvider outside App\Providers')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions')
+    ->expect('Mlbrgn\MediaLibraryExtensions')
     ->not->toExtend('Illuminate\Support\ServiceProvider')
-    ->ignoring('Mlbrgn\SpatieMediaLibraryExtensions\Providers');
+    ->ignoring('Mlbrgn\MediaLibraryExtensions\Providers');
 
 arch('classes do not have ServiceProvider suffix outside Providers')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions')
+    ->expect('Mlbrgn\MediaLibraryExtensions')
     ->not->toHaveSuffix('ServiceProvider')
-    ->ignoring('Mlbrgn\SpatieMediaLibraryExtensions\Providers');
+    ->ignoring('Mlbrgn\MediaLibraryExtensions\Providers');
 
 arch('classes do not have Controller suffix outside Controllers')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions')
+    ->expect('Mlbrgn\MediaLibraryExtensions')
     ->not->toHaveSuffix('Controller')
-    ->ignoring('Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers');
+    ->ignoring('Mlbrgn\MediaLibraryExtensions\Http\Controllers');
 
 arch('Controllers have suffix Controller')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions\Http\Controllers')
+    ->expect('Mlbrgn\MediaLibraryExtensions\Http\Controllers')
     ->classes()
     ->toHaveSuffix('Controller');
 
 arch('Policies classes have suffix Policy')
-    ->expect('Mlbrgn\SpatieMediaLibraryExtensions\Policies')
+    ->expect('Mlbrgn\MediaLibraryExtensions\Policies')
     ->classes()
     ->toHaveSuffix('Policy');
 

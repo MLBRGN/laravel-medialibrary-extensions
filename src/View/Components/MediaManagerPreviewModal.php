@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\SpatieMediaLibraryExtensions\View\Components;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
