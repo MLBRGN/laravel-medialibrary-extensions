@@ -1,9 +1,25 @@
 {
   "name": "laravel-form-components",
   "version": "1.0.0",
-  "description": "no",
-  "author": "Evertjan Garretsen - Mlbrgn",
-  "license": "ISC",
+  "description": "Extensions designed for use with the Media Library package by Spatie. Adds a single image uploader, multiple image uploader and a modal with carousel",
+  "author": "Evertjan Garretsen - BURO MLBRGN <evertjan.garretsen@mlbrgn.nl> (https://mlbrgn.nl)",
+  "contributors": [
+    {
+      "name": "Evertjan Garretsen",
+      "email": "evertjan.garretsen@mlbrgn.nl",
+      "url": "https://mlbrgn.nl"
+    }
+  ],
+  "keywords": [
+    "laravel-medialibrary",
+    "laravel-medialibrary-extensions",
+    "media",
+    "views",
+    "blade",
+    "laravel",
+    "mlbrgn"
+  ],
+  "license": "MIT",
   "private": true,
   "main": "index.js",
   "directories": {

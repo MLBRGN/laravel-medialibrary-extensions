@@ -1,11 +1,23 @@
 {
-    "name": "mlbrgn/spatie-media-library-extensions",
-    "description": "Extensions designed for use with the Spatie Media Library.",
+    "name": "mlbrgn/laravel-medialibrary-extensions",
+    "description": "Extensions designed for use with the Media Library package by Spatie. Adds a single image uploader, multiple image uploader and a modal with carousel",
     "type": "library",
+    "license": "MIT",
+    "keywords": [
+      "laravel-medialibrary",
+      "laravel-medialibrary-extensions",
+      "media",
+      "views",
+      "blade",
+      "laravel",
+      "mlbrgn"
+    ],
     "authors": [
         {
             "name": "Evertjan Garretsen",
-            "email": "evertjan.garretsen@mlbrgn.nl"
+            "email": "evertjan.garretsen@mlbrgn.nl",
+            "homepage": "https://mlbrgn.nl",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -30,7 +42,6 @@
       "blade-ui-kit/blade-bootstrap-icons": "Optional: Bootstrap icons for use in Blade components",
       "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons"
     },
-    "license": "mit",
     "autoload": {
         "psr-4": {
             "Mlbrgn\\SpatieMediaLibraryExtensions\\": "src/"
@@ -60,5 +71,9 @@
         "sort-packages": true,
         "preferred-install": "dist",
         "optimize-autoloader": true
+    },
+    "scripts": {
+      "analyse": "vendor/bin/phpstan analyse",
+      "test": "vendor/bin/pest"
     }
 }
