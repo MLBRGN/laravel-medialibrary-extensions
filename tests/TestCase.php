@@ -62,7 +62,7 @@ class TestCase extends BaseTestCase
 
         include_once __DIR__.'/Database/migrations/create_media_table.php';
         include_once __DIR__.'/Database/migrations/create_blogs_table.php';
-        (new create_media_table())->up();
-        (new create_blogs_table())->up();
+        (new create_media_table)->up();
+        (new create_blogs_table)->up();
     }
 }
