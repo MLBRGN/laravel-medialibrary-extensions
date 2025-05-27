@@ -21,36 +21,34 @@ abstract class BaseComponent extends Component
 
     public array $classes;
 
-    /** @var Collection<int, Media> */
-    public Collection $media;
-
     public ?array $status = [];
 
     public function __construct(
-        public ?Model $model,
-        public ?string $mediaCollection,
+        //        public ?Model $model,
+        //        public ?string $mediaCollection,
+        //        public ?array $mediaCollections,
         public string $id,
     ) {
         // This should now trigger if all is wired up properly
         $this->theme = config('media-library-extensions.frontend_theme', 'plain');
         $this->classes = config("media-library-extensions.classes.$this->theme", []);
 
-        if (is_null($model)) {
-            throw new InvalidArgumentException(
-                __('media-library-extensions::messages.missing_model', ['component' => static::class])
-            );
-        }
+        //        if (is_null($model)) {
+        //            throw new InvalidArgumentException(
+        //                __('media-library-extensions::messages.missing_model', ['component' => static::class])
+        //            );
+        //        }
 
-        if (is_null($mediaCollection)) {
-            throw new InvalidArgumentException(
-                __('media-library-extensions::messages.missing_collection', ['component' => static::class])
-            );
-        }
+        //        if (is_null($mediaCollection) && collect($this->mediaCollections)->isEmpty()) {
+        //            throw new InvalidArgumentException(
+        //                __('media-library-extensions::messages.missing_collection', ['component' => static::class])
+        //            );
+        //        }
 
-        $this->model = $this->ensureMediaIsLoaded($model);
+        //        $this->model = $this->ensureMediaIsLoaded($model);
 
         // Then access the media
-        $this->media = $this->model->getMedia($mediaCollection);
+        //        $this->media = $this->model->getMedia($mediaCollection);
 
         $this->status = session(status_session_prefix());
 
@@ -63,6 +61,7 @@ abstract class BaseComponent extends Component
         //        $this->modelKebabName = Str::kebab(class_basename($this->model));
     }
 
+    // prevent n+1 queries
     protected function ensureMediaIsLoaded(Model $model): Model
     {
 

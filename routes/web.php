@@ -26,10 +26,10 @@ Route::group([
         });
 });
 
-Route::group([
-    'prefix' => config('media-library-extensions.route_prefix'),
-], function () {
-    Route::get(config('media-library-extensions.prefix').'package/assets/{name}', PackageAssetController::class)
-        ->where('name', '[a-zA-Z0-9-\.{1}]+')
-        ->name(config('media-library-extensions.route_prefix').'-package.assets');
-});
+// Route::group([
+//    'prefix' => config('media-library-extensions.route_prefix'),
+// ], function () {
+//    Route::get(config('media-library-extensions.prefix').'package/assets/{name}', PackageAssetController::class)
+//        ->where('name', '[a-zA-Z0-9-\.{1}]+')
+//        ->name(config('media-library-extensions.route_prefix').'-package.assets');
+// });

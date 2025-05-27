@@ -41,7 +41,7 @@
                 <button
                     type="submit"
                     class="@mediaClass('media-manager-button-upload')">
-                    {{ trans_choice('media-library-extensions::messages.upload-or-replace', $media->count()) }}
+                    {{ trans_choice('media-library-extensions::messages.upload-or-replace', is_null($medium) ? 0 : 1) }}
                 </button>
                 <x-mle_internal-flash :target-id="$id"/>
             </form>
@@ -85,7 +85,7 @@
                 <x-mle-media-manager-preview-modal
                     :modal-id="$modalId"
                     :model="$model"
-                    :media-collection-name="$mediaCollection"
+                    :media-collection="$mediaCollection"
                     title="Media carousel"/>
             </div>
         @endif
@@ -96,8 +96,10 @@
     @endif
 </div>
 @once
-    {{--    <script src="{{ mle_package_asset('mediaPreviewModal.js') }}"></script>--}}
-    <link
+{{--    <script src="{{ asset('blogpackage/js/app.js') }}"></script>--}}
+{{--        <link rel="stylesheet" href="{{ asset('vendor/medialibrary-extensions/app.css') }}">--}}
+{{--    <link href="{{ mle_package_asset('css/app.css')  }}" rel="stylesheet" />--}}
+   {{-- <link
         rel="stylesheet"
-        href="{{ mle_package_asset('media-library-extensions.css') }}">
+        href="{{ mle_package_asset('media-library-extensions.css') }}">--}}
 @endonce

@@ -3,7 +3,9 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // !!!!! NOTE: remember to clean laravel cache after changes, otherwise cached views are used !!!!!
 // clear the cache in the main application where the components are used by running php artisan optimize:clear
@@ -12,6 +14,9 @@ use Illuminate\View\View;
 class MediaManagerMultiple extends BaseComponent
 {
     public string $allowedMimeTypes = '';
+
+    /** @var Collection<int, Media> */
+    public Collection $media;
 
     public function __construct(
         public ?Model $model = null,
@@ -29,18 +34,18 @@ class MediaManagerMultiple extends BaseComponent
         public string $id = ''
 
     ) {
-        parent::__construct($model, $mediaCollection, $id);
+        parent::__construct($id);
 
         // set routes
         $this->uploadRoute = $this->uploadRoute ?? route(mle_prefix_route('media-upload-multiple'));
-
-        // can't set destroyRoute here, depends on medium to be destroyed
 
         // set allowed mimetypes
         $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))
             ->flatten()
             ->unique()
             ->implode(',');
+
+        $this->media = $model->getMedia($mediaCollection);
     }
 
     public function render(): View

@@ -44,6 +44,9 @@ class MediaManagerSingle extends BaseComponent
 {
     public ?Media $medium = null;
 
+    /** @var Collection<int, Media> */
+    //    public Collection $media;
+
     public string $allowedMimeTypes = '';
 
     public function __construct(
@@ -59,10 +62,15 @@ class MediaManagerSingle extends BaseComponent
         public string $title = '',
         public string $id = ''
     ) {
-        parent::__construct($model, $mediaCollection, $id);
+        parent::__construct($id);
 
         // get medium only ever working with one medium
+        //        dd($model);
+        //        dd($mediaCollection);
+        //        dd($model->getFirstMedia($mediaCollection));
         $medium = $this->medium = $model->getFirstMedia($mediaCollection);
+        //        dd($medium);
+        //        $this->media = $this->model->getMedia($mediaCollection);
 
         // set routes
         $this->uploadRoute = $this->uploadRoute ?? route(mle_prefix_route('media-upload-single'));
@@ -77,6 +85,7 @@ class MediaManagerSingle extends BaseComponent
             ->flatten()
             ->unique()
             ->implode(',');
+
     }
 
     public function render(): View

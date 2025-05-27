@@ -62,7 +62,8 @@
                         <div class="@mediaClass('media-manager-preview-image-container')">
                             <div
                                 data-bs-toggle="modal"
-                                data-bs-target="#{{$modalId}}">
+                                data-bs-target="#{{$modalId}}"
+                                class="@mediaClass('mm-something')">
                                 <a
                                     class="previewed-image cursor-zoom-in"
                                     data-bs-target="#{{$modalId}}-carousel"
@@ -153,7 +154,7 @@
                 <x-mle-media-manager-preview-modal
                     :modal-id="$modalId"
                     :model="$model"
-                    :media-collection-name="$mediaCollection"
+                    :media-collection="$mediaCollection"
                     title="Media carousel"/>
             </div>
         @endif

@@ -1,9 +1,9 @@
-@import "media-carousel";
+@use "media-carousel";
 
-@import "general";
-@import "media-manager-preview-modal";
-@import "media-manager";
-@import "media-manager-multiple";
-@import "media-manager-single";
-@import "media-manager-modal";
-@import "previewer";
+@use "general";
+@use "media-manager-preview-modal";
+@use "media-manager";
+@use "media-manager-multiple";
+@use "media-manager-single";
+@use "media-manager-modal";
+@use "previewer";

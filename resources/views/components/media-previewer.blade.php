@@ -127,11 +127,11 @@
             <span class="@mediaClass('visually-hidden')">Volgende</span>
         </button>
     @endif
-    @if($clickToOpenInModal)
+    @if($clickToOpenInModal && 3 > 4)
         <x-mle-media-manager-preview-modal
             :modal-id="$id"
             :model="$model"
-            :media-collection-name="$mediaCollection"
+            :media-collection="$mediaCollection"
             title="Media carousel"/>
     @endif
 </div>

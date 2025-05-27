@@ -25,17 +25,16 @@ class MediaPreviewer extends BaseComponent
     public function __construct(
         public ?Model $model,
         public ?string $mediaCollection = null,
-        public array $mediaCollections = [],
+        public ?array $mediaCollections = [],
         public bool $singleMedium = false,
         public bool $clickToOpenInModal = true,// false to prevent endless inclusion
         public string $id = 'no-id',
-    )
-    {
-        parent::__construct($model, $mediaCollection, $id);
+    ) {
+        parent::__construct($id);
 
-        if (!is_null($this->mediaCollection)) {
+        if (! is_null($this->mediaCollection)) {
             $this->mediaItems = $model->getMedia($this->mediaCollection);
-        } elseif (!empty($this->mediaCollections)) {
+        } elseif (! empty($this->mediaCollections)) {
             $allMedia = collect();
             foreach ($this->mediaCollections as $collectionName) {
                 $allMedia = $allMedia->merge($model->getMedia($collectionName));

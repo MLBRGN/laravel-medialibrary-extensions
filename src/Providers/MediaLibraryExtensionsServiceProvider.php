@@ -59,16 +59,15 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ]);
             $this->publishes([
                 __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->packageName),
-            ], 'views');
+            ], $this->packageName.'-views');
 
-            //            $this->publishes([
-            //                __DIR__.'/../../dist/js/mediaPreviewModal.js' => public_path('vendor/mlbrgn/js/mediaPreviewModal.js'),
-            //                __DIR__.'/../../dist/css/preview-modal.css' => public_path('vendor/mlbrgn/css/preview-modal.css'),
-            //            ], 'mlbrgn-assets');
+            $this->publishes([
+                __DIR__.'/../../public/assets' => public_path('vendor/'.$this->packageName),
+            ], $this->packageName.'-assets');
 
             $this->publishes([
                 __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->packageName),
-            ], 'translations');
+            ], $this->packageName.'-translations');
 
             // Publish assets (not working) empty css and js files
             //            $this->publishes([
@@ -77,7 +76,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
-            ], 'policy');
+            ], $this->packageName.'-policy');
 
         }
         // register and expose blade views and classes

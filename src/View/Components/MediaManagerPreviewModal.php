@@ -27,29 +27,13 @@ class MediaManagerPreviewModal extends BaseComponent
         public ?string $mediaCollection,
         public string $modalId,
         public string $title,
-        public string $youtubeCollectionName = '',
-        public string $logoCollectionName = '',
-        public bool $singleMedium = false,
         public string $sizeClass = 'modal-almost-fullscreen',
         public string $id = '',
     ) {
-        parent::__construct($model, $mediaCollection, $id);
+        parent::__construct($id);
 
-        // Combine the media items from the collections
         $this->mediaItems = $model->getMedia($mediaCollection);
 
-        // Prepend the enterprise logo if it exists
-        //        if (! is_null($logoCollectionName)) {
-        //            $enterpriseLogo = $model->getMedia($logoCollectionName);
-        //            if ($enterpriseLogo->isNotEmpty()) {
-        //                $mediaItems = $enterpriseLogo->concat($mediaItems); // logo goes first
-        //            }
-        //        }
-
-        // Append YouTube media if it exists
-        //        if (! is_null($youtubeCollectionName)) {
-        //            $mediaItems = $mediaItems->concat($model->getMedia($youtubeCollectionName));
-        //        }
     }
 
     public function render(): View

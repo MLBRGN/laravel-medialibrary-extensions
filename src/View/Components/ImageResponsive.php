@@ -23,7 +23,7 @@ class ImageResponsive extends Component
     public function __construct(
         public Media $medium,
         public string $conversion = '',
-        public array $conversions = [],
+        public ?array $conversions = [],
         public string $sizes = '100vw',
         public bool $lazy = true,
         public string $alt = ''
