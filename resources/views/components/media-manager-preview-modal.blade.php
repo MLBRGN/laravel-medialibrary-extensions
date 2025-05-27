@@ -13,10 +13,12 @@
         data-bs-dismiss="modal"
         aria-label="Sluit"></button>
 
-    <x-mle_internal-media-preview-carousel
+    {{-- important set click to open in modal to false otherwise endless inclusion --}}
+    <x-mle-media-previewer
          id="{{ $modalId }}-carousel"
-        :model="$model"
-        :media-collection-name="$mediaCollectionName"/>
+         :model="$model" 
+         :click-to-open-in-modal="false" 
+         :media-collection-name="$mediaCollectionName"/>
 
 </x-mle_internal-modal>
 

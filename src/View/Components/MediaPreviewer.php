@@ -18,7 +18,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 //    will cause any youtube video to start autoplaying,
 //    playing stops when closing the dialog or sliding to another slide
 
-class MediaPreviewCarousel extends BaseComponent
+class MediaPreviewer extends BaseComponent
 {
     public MediaCollection $mediaItems;
 
@@ -26,7 +26,7 @@ class MediaPreviewCarousel extends BaseComponent
         public ?Model $model,
         public ?string $mediaCollectionName,
         public bool $singleMedium = false,
-        public bool $clickToOpenInModal = false,// don't want endless recursion
+        public bool $clickToOpenInModal = true,// false to prevent endless inclusion
         public string $id = 'no-id',
     ) {
         parent::__construct($model, $mediaCollectionName, $id);
@@ -50,6 +50,6 @@ class MediaPreviewCarousel extends BaseComponent
 
     public function render(): View
     {
-        return view('media-library-extensions::components.media-preview-carousel');
+        return view('media-library-extensions::components.media-previewer');
     }
 }

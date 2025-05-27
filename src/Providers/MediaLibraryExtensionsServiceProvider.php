@@ -16,7 +16,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreviewModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaPreviewCarousel;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaPreviewer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Modal;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -85,6 +85,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component('mle-media-manager-preview-modal', MediaManagerPreviewModal::class);
         Blade::component('mle-image-responsive', ImageResponsive::class);
+        Blade::component('mle-media-previewer', MediaPreviewer::class);
 
         // register blade views and classes for internal use
         // TODO i don't know how to hide them from the host applications yet (not expose them)
@@ -92,7 +93,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Debug::class,
             Icon::class,
             Modal::class,
-            MediaPreviewCarousel::class,
             Flash::class,
         ]);
 
