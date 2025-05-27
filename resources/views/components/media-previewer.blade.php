@@ -44,6 +44,26 @@
             {{--                        </div>--}}
             {{--                    </div>--}}
             {{--                @else--}}
+            {{--TODO--}}
+            {{--<script src="https://www.youtube.com/iframe_api"></script>--}}
+            {{--@once--}}
+            {{--    @vite('resources/js/modules/mediaPreviewModal.js')--}}
+            {{--@endonce--}}
+            {{--<script>--}}
+            {{--    @php--}}
+            {{--        $jsFilePath = public_path('js/vendor/media-library-extensions/mediaPreviewModal.js');--}}
+            {{--    @endphp--}}
+            {{--    @if (file_exists($jsFilePath))--}}
+            {{--        {!! file_get_contents($jsFilePath) !!}--}}
+            {{--        console.log('found published js')--}}
+            {{--    @else--}}
+            {{--        console.log("JavaScript file not found, using inline fallback.");--}}
+            {{--        // Your fallback JS code here--}}
+            {{--        // alert("Fallback JS loaded");--}}
+            {{--    @endif--}}
+            {{--    {!! file_get_contents(__DIR__ . '/../../js/mediaPreviewModal.js') !!}--}}
+            {{--</script>--}}
+            {{--<script src="{{ asset('mlbrgn/spatie-media-library-extensions/mediaPreviewModal.js') }}"></script>--}}
             <div
                 @class([
                     mle_media_class('media-manager-preview-modal-carousel-item'),
@@ -52,24 +72,24 @@
             >
                 <div class="@mediaClass('media-manager-preview-modal-carousel-item-wrapper')">
                    @if($clickToOpenInModal)
-                    <div
-                        data-bs-toggle="modal"
-                        data-bs-target="#{{$id}}">
-                        <a
-                            class="previewed-image cursor-zoom-in"
-                            data-bs-target="#{{$id}}-carousel"
-                            data-bs-slide-to="{{ $loop->index }}">
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}">
+                            <a
+                                class="previewed-image cursor-zoom-in"
+                                data-bs-target="#{{$id}}-carousel"
+                                data-bs-slide-to="{{ $loop->index }}">
                     @endif
-                            {{--<x-media.library-image class="image image-zoomed" :media="$medium" conversion="16x9" sizes="95vw" />--}}
-                            <x-mle-image-responsive
-                                class="image image-zoomed"
-                                :medium="$medium"
-                                :conversions="['thumb', '16x9']"
-                                sizes="95vw"
-                                :alt="$medium->name" />
+                                {{--<x-media.library-image class="image image-zoomed" :media="$medium" conversion="16x9" sizes="95vw" />--}}
+                                <x-mle-image-responsive
+                                    class="image image-zoomed"
+                                    :medium="$medium"
+                                    :conversions="['thumb', '16x9']"
+                                    sizes="95vw"
+                                    :alt="$medium->name" />
                     @if($clickToOpenInModal)
-                        </a>
-                    </div>
+                            </a>
+                        </div>
                     @endif
 {{--                    {{ $medium->img()->lazy()->attributes([--}}
 {{--                        'class' => mle_media_class('media-manager-preview-modal-carouse-item-image')--}}
