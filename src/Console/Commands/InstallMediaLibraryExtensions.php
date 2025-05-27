@@ -45,7 +45,7 @@ class InstallMediaLibraryExtensions extends Command
     private function publishConfiguration($forcePublish = false): void
     {
         $params = [
-            '--provider' => 'Mlbrgn\MediaLibraryExtensions\SpatieMediaLibraryExtensions\Providers\MediaLibraryServiceProvider',
+            '--provider' => 'Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryServiceProvider',
             '--tag' => 'config',
         ];
 

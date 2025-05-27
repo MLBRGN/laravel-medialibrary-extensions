@@ -2,6 +2,8 @@
  * Previewer
  */
 
+@use 'mixins/carousel' as carousel;
+
 .media-preview-medium-container img {
     height:auto;
 }
@@ -13,7 +15,7 @@
 }
 
 .media-preview-carousel {
-    //@include preview-carousel-controls;
+    @include carousel.preview-carousel-controls;
 
     width: 100%;
     height: 100%;

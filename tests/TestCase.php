@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
-//use Orchestra\Testbench\TestCase as BaseTestCase;
 use Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations\create_blogs_table;
 use Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations\create_media_table;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
@@ -14,7 +13,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestCase extends BaseTestCase
 {
-
     protected $baseUrl = 'http://activerendwerk.test';
 
     protected function setUp(): void
@@ -26,11 +24,8 @@ class TestCase extends BaseTestCase
         $this->app['config']->set('session.serialization', 'php');
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            return 'Mlbrgn\\SpatieMediaLibraryExtensions\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
+            return 'Mlbrgn\\MediaLibraryExtensions\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory';
         });
-//        Factory::guessFactoryNamesUsing(function (string $modelName) {
-//            return 'Mlbrgn\\SpatieMediaLibraryExtensions\\Tests\\database\\factories\\' . class_basename($modelName) . 'Factory';
-//        });
 
         View::addLocation(__DIR__.'/Feature/views');
     }
@@ -67,8 +62,7 @@ class TestCase extends BaseTestCase
 
         include_once __DIR__.'/Database/migrations/create_media_table.php';
         include_once __DIR__.'/Database/migrations/create_blogs_table.php';
-        (new create_media_table())->up();
-        (new create_blogs_table())->up();
+        (new create_media_table)->up();
+        (new create_blogs_table)->up();
     }
-
 }

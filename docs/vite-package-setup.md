@@ -1,6 +1,6 @@
-# 📦 Vite Integration for `spatie-media-library-extensions` Package
+# 📦 Vite Integration for `laravel-medialibrary-extensions` Package
 
-This guide explains how to set up and load Vite assets (CSS and JS) from the `spatie-media-library-extensions` package inside a Laravel application. Written by ChatGPT.
+This guide explains how to set up and load Vite assets (CSS and JS) from the `laravel-medialibrary-extensions` package inside a Laravel application. Written by ChatGPT.
 
 TODO: Proof-read
 ---
@@ -14,7 +14,7 @@ main-laravel-project/
 ├── app/
 ├── packages/
 │   └── mlbrgn/
-│       └── spatie-media-library-extensions/
+│       └── laravel-medialibrary-extensions/
 │           ├── resources/
 │           │   ├── css/app.css
 │           │   └── js/app.js
@@ -25,14 +25,14 @@ main-laravel-project/
 │           └── package.json
 └── public/
     └── vendor/
-        └── spatie-media-library-extensions/ → symlink to package's `public/` directory
+        └── laravel-medialibrary-extensions/ → symlink to package's `public/` directory
 ```
 
 ---
 
 ## ⚙️ 1. Create Vite Config in Your Package
 
-In `packages/mlbrgn/spatie-media-library-extensions/vite.config.js`:
+In `packages/mlbrgn/laravel-medialibrary-extensions/vite.config.js`:
 
 ```js
 import { defineConfig } from 'vite';
@@ -66,7 +66,7 @@ export default defineConfig({
 ## 📦 2. Install NPM Dependencies
 
 ```bash
-cd packages/mlbrgn/spatie-media-library-extensions
+cd packages/mlbrgn/laravel-medialibrary-extensions
 npm install
 ```
 
@@ -87,7 +87,7 @@ This will create a `.hot` file inside the `public` folder.
 Run this command from the **root of your Laravel app** to create the symlink:
 
 ```bash
-ln -s ../../packages/mlbrgn/spatie-media-library-extensions/public public/vendor/spatie-media-library-extensions
+ln -s ../../packages/mlbrgn/laravel-medialibrary-extensions/public public/vendor/laravel-medialibrary-extensions
 ```
 
 Or use this script:
@@ -95,8 +95,8 @@ Or use this script:
 ```bash
 #!/bin/bash
 
-LINK_TARGET="packages/mlbrgn/spatie-media-library-extensions/public"
-LINK_NAME="public/vendor/spatie-media-library-extensions"
+LINK_TARGET="packages/mlbrgn/laravel-medialibrary-extensions/public"
+LINK_NAME="public/vendor/laravel-medialibrary-extensions"
 
 if [ -L "$LINK_NAME" ] || [ -e "$LINK_NAME" ]; then
     echo "Removing existing link or directory..."
@@ -122,8 +122,8 @@ chmod +x link-package-assets.sh
 In your `resources/views/layouts/app.blade.php` or similar:
 
 ```blade
-{{ Vite::useHotFile('vendor/spatie-media-library-extensions.hot')
-    ->useBuildDirectory('vendor/spatie-media-library-extensions')
+{{ Vite::useHotFile('vendor/laravel-medialibrary-extensions.hot')
+    ->useBuildDirectory('vendor/laravel-medialibrary-extensions')
     ->withEntryPoints([
         'resources/css/app.css',
         'resources/js/app.js',
@@ -137,7 +137,7 @@ In your `resources/views/layouts/app.blade.php` or similar:
 To compile assets for production:
 
 ```bash
-cd packages/mlbrgn/spatie-media-library-extensions
+cd packages/mlbrgn/laravel-medialibrary-extensions
 npm run build
 ```
 
@@ -150,4 +150,4 @@ This will output compiled files to `public/`, which Laravel will use when no `.h
 Now your Laravel app will load your package's assets correctly:
 
 - During development via the Vite dev server
-- In production via the compiled files in `public/vendor/spatie-media-library-extensions/`
+- In production via the compiled files in `public/vendor/laravel-medialibrary-extensions/`

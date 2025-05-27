@@ -3,14 +3,14 @@
 // if (! function_exists('mle_package_asset')) {
 //    function mle_package_asset($name): string
 //    {
-//        return route(config('media-library-extensions.route_prefix').'-package.assets', ['name' => $name]);
+//        return route(config('laravel-medialibrary-extensions.route_prefix').'-package.assets', ['name' => $name]);
 //    }
 // }
 
 if (! function_exists('mle_package_asset')) {
     function mle_package_asset(string $path): string
     {
-        return asset("vendor/laravel-medialibrary-extensions/{$path}");
+        return asset("vendor/media-library-extensions/{$path}");
     }
 }
 

@@ -116,12 +116,12 @@ class MediaManagerController extends Controller
             $targetId
         );
 
-//        return $this->redirectBackWithStatus(
-//            $targetId,
-//            'error',
-//            __('media-library-extensions::messages.medium-could-not-be-removed'),
-//            $targetId
-//        );
+        //        return $this->redirectBackWithStatus(
+        //            $targetId,
+        //            'error',
+        //            __('media-library-extensions::messages.medium-could-not-be-removed'),
+        //            $targetId
+        //        );
     }
 
     public function setAsFirst(SetAsFirstRequest $request): RedirectResponse

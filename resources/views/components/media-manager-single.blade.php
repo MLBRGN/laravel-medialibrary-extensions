@@ -97,7 +97,7 @@
 </div>
 @once
 {{--    <script src="{{ asset('blogpackage/js/app.js') }}"></script>--}}
-{{--        <link rel="stylesheet" href="{{ asset('vendor/medialibrary-extensions/app.css') }}">--}}
+        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
 {{--    <link href="{{ mle_package_asset('css/app.css')  }}" rel="stylesheet" />--}}
    {{-- <link
         rel="stylesheet"

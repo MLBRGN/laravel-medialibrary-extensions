@@ -2,6 +2,8 @@
  * Media manager preview modal
  */
 
+@use 'mixins/carousel' as carousel;
+
 // override css variables for media-preview-modal
 .media-manager-preview-modal .modal {
     --bs-modal-padding: 0;
@@ -58,7 +60,7 @@
 }
 
 .media-manager-preview-modal-carousel {
-    //@include preview-carousel-controls;
+    @include carousel.preview-carousel-controls;
 
     height:100%;
     position:relative;

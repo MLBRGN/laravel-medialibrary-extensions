@@ -3,10 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\View\Component;
-use InvalidArgumentException;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Base class for components that ensures a model and its media collection are properly loaded.

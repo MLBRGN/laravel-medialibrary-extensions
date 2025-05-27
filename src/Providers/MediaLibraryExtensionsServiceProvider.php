@@ -28,13 +28,13 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 {
-    private string $vendor = 'mlbrgn';
+    //    private string $vendor = 'mlbrgn';
 
-    private string $packageName = 'media-library-extensions';
-
-    private string $nameSpace = 'media-library-extensions';
+    private string $packageName = 'laravel-medialibrary-extensions';
 
     private string $packageNameShort = 'mle';
+
+    private string $nameSpace = 'media-library-extensions';
 
     public function boot(): void
     {
@@ -58,33 +58,33 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 InstallMediaLibraryExtensions::class,
             ]);
             $this->publishes([
-                __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->packageName),
-            ], $this->packageName.'-views');
+                __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
+            ], $this->nameSpace.'-views');
 
             $this->publishes([
-                __DIR__.'/../../public/assets' => public_path('vendor/'.$this->packageName),
-            ], $this->packageName.'-assets');
+                __DIR__.'/../../dist' => public_path('vendor/'.$this->nameSpace),
+            ], $this->nameSpace.'-assets');
 
             $this->publishes([
-                __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->packageName),
-            ], $this->packageName.'-translations');
+                __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->nameSpace),
+            ], $this->nameSpace.'-translations');
 
-            // Publish assets (not working) empty css and js files
+            // Publish assets (not working) empty CSS and JS files
             //            $this->publishes([
             //                __DIR__.'/../../resources/assets' => public_path($this->packageName.'/assets'),
             //            ], 'assets');
 
             $this->publishes([
                 __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
-            ], $this->packageName.'-policy');
+            ], $this->nameSpace.'-policy');
 
         }
         // register and expose blade views and classes
-        Blade::component('mle-media-manager-single', MediaManagerSingle::class);
-        Blade::component('mle-media-manager-multiple', MediaManagerMultiple::class);
-        Blade::component('mle-media-manager-preview-modal', MediaManagerPreviewModal::class);
-        Blade::component('mle-image-responsive', ImageResponsive::class);
-        Blade::component('mle-media-previewer', MediaPreviewer::class);
+        Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
+        Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
+        Blade::component($this->packageNameShort.'-media-manager-preview-modal', MediaManagerPreviewModal::class);
+        Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
+        Blade::component($this->packageNameShort.'-media-previewer', MediaPreviewer::class);
 
         // register blade views and classes for internal use
         // TODO i don't know how to hide them from the host applications yet (not expose them)
@@ -107,15 +107,22 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        parent::register();
+
+        // TODO name is now medialibrary-extension
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
     }
 
     protected function registerPolicy(): void
     {
-        // If the host app has defined its own MediaPolicy, use it
-        if (class_exists($appPolicy = 'App\\Policies\\MediaPolicy')) {
+        $appPolicy = 'App\\Policies\\MediaPolicy';
+        $appPolicyPath = app_path('Policies/MediaPolicy.php');
+
+        if (file_exists($appPolicyPath) && class_exists($appPolicy)) {
+            // Host app has published and defined the policy class
             Gate::policy(Media::class, $appPolicy);
         } else {
+            // Use package’s fallback policy
             Gate::policy(Media::class, MediaPolicy::class);
         }
     }

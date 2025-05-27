@@ -63,7 +63,6 @@
             {{--    @endif--}}
             {{--    {!! file_get_contents(__DIR__ . '/../../js/mediaPreviewModal.js') !!}--}}
             {{--</script>--}}
-            {{--<script src="{{ asset('mlbrgn/spatie-media-library-extensions/mediaPreviewModal.js') }}"></script>--}}
             <div
                 @class([
                     mle_media_class('media-manager-preview-modal-carousel-item'),

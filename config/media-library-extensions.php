@@ -144,7 +144,7 @@ return [
     |
     */
 
-    'status_session_prefix' => 'media-library-extensions.status',
+    'status_session_prefix' => 'laravel-medialibrary-extensions.status',
 
     /*
     |--------------------------------------------------------------------------

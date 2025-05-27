@@ -10,7 +10,7 @@ export default defineConfig({
                 'resources/css/app.scss'
             ],
             publicDirectory: 'public',
-            buildDirectory: 'public', // optional
+            // buildDirectory: '', // empty => directly in public
         }),
     ],
     resolve: {
@@ -19,4 +19,18 @@ export default defineConfig({
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
         },
     },
+    build: {
+        outDir: 'dist',
+        emptyOutDir: true,
+        rollupOptions: {
+            output: {
+                entryFileNames: 'app.js',
+                assetFileNames: 'app.css',
+                // entryFileNames: 'vendor/medialibrary-extensions/app.js',// JavaScript entry points,
+                // assetFileNames: 'vendor/medialibrary-extensions/app.css',// CSS, images, fonts, etc.
+
+            },
+        },
+        manifest: false, // no manifest needed
+    }
 })
