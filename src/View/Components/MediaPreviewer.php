@@ -24,32 +24,27 @@ class MediaPreviewer extends BaseComponent
 
     public function __construct(
         public ?Model $model,
-        public ?string $mediaCollectionName,
+        public ?string $mediaCollection = null,
         public array $mediaCollections = [],
         public bool $singleMedium = false,
         public bool $clickToOpenInModal = true,// false to prevent endless inclusion
         public string $id = 'no-id',
-    ) {
-        parent::__construct($model, $mediaCollectionName, $id);
+    )
+    {
+        parent::__construct($model, $mediaCollection, $id);
 
-        foreach ($this->mediaCollections as $mediaCollection) {
-            dump($mediaCollection);
+        if (!is_null($this->mediaCollection)) {
+            $this->mediaItems = $model->getMedia($this->mediaCollection);
+        } elseif (!empty($this->mediaCollections)) {
+            $allMedia = collect();
+            foreach ($this->mediaCollections as $collectionName) {
+                $allMedia = $allMedia->merge($model->getMedia($collectionName));
+            }
+            $this->mediaItems = MediaCollection::make($allMedia);
+        } else {
+            $this->mediaItems = MediaCollection::make();
         }
-        // Combine the media items from the collections
-        $this->mediaItems = $model->getMedia($mediaCollectionName);
 
-        // Prepend the enterprise logo if it exists
-        //        if (! is_null($logoCollectionName)) {
-        //            $enterpriseLogo = $model->getMedia($logoCollectionName);
-        //            if ($enterpriseLogo->isNotEmpty()) {
-        //                $mediaItems = $enterpriseLogo->concat($mediaItems); // logo goes first
-        //            }
-        //        }
-
-        // Append YouTube media if it exists
-        //        if (! is_null($youtubeCollectionName)) {
-        //            $mediaItems = $mediaItems->concat($model->getMedia($youtubeCollectionName));
-        //        }
     }
 
     public function render(): View

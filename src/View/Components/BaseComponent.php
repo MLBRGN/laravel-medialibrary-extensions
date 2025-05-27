@@ -28,7 +28,7 @@ abstract class BaseComponent extends Component
 
     public function __construct(
         public ?Model $model,
-        public ?string $mediaCollectionName,
+        public ?string $mediaCollection,
         public string $id,
     ) {
         // This should now trigger if all is wired up properly
@@ -41,7 +41,7 @@ abstract class BaseComponent extends Component
             );
         }
 
-        if (is_null($mediaCollectionName)) {
+        if (is_null($mediaCollection)) {
             throw new InvalidArgumentException(
                 __('media-library-extensions::messages.missing_collection', ['component' => static::class])
             );
@@ -50,7 +50,7 @@ abstract class BaseComponent extends Component
         $this->model = $this->ensureMediaIsLoaded($model);
 
         // Then access the media
-        $this->media = $this->model->getMedia($mediaCollectionName);
+        $this->media = $this->model->getMedia($mediaCollection);
 
         $this->status = session(status_session_prefix());
 

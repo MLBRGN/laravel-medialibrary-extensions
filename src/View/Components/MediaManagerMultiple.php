@@ -15,7 +15,7 @@ class MediaManagerMultiple extends BaseComponent
 
     public function __construct(
         public ?Model $model = null,
-        public ?string $mediaCollectionName = null,
+        public ?string $mediaCollection = null,
         public bool $uploadEnabled = false,
         public ?string $uploadRoute = null,
         public string $uploadFieldName = 'media',
@@ -29,7 +29,7 @@ class MediaManagerMultiple extends BaseComponent
         public string $id = ''
 
     ) {
-        parent::__construct($model, $mediaCollectionName, $id);
+        parent::__construct($model, $mediaCollection, $id);
 
         // set routes
         $this->uploadRoute = $this->uploadRoute ?? route(mle_prefix_route('media-upload-multiple'));
