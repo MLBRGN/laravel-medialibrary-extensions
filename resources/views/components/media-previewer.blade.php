@@ -131,7 +131,7 @@
         <x-mle-media-manager-preview-modal
             :modal-id="$id"
             :model="$model"
-            :media-collection-name="$mediaCollectionName"
+            :media-collection-name="$mediaCollection"
             title="Media carousel"/>
     @endif
 </div>

@@ -18,7 +18,7 @@
          id="{{ $modalId }}-carousel"
          :model="$model" 
          :click-to-open-in-modal="false" 
-         :media-collection-name="$mediaCollectionName"/>
+         :media-collection-name="$mediaCollection"/>
 
 </x-mle_internal-modal>
 

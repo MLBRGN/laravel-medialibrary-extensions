@@ -59,7 +59,7 @@ abstract class BaseComponent extends Component
         }
         //        dd($this->status);
         //        $this->statusMessages = StatusFlash::pull();
-        //        $this->media = $model->getMedia($mediaCollectionName);
+        //        $this->media = $model->getMedia($mediaCollection);
         //        $this->modelKebabName = Str::kebab(class_basename($this->model));
     }
 

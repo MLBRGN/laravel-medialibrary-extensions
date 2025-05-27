@@ -27,7 +27,7 @@
                 <input
                     type="hidden"
                     name="collection_name"
-                    value="{{ $mediaCollectionName }}"/>
+                    value="{{ $mediaCollection }}"/>
                 <input
                     type="hidden"
                     name="model_type"
@@ -96,7 +96,7 @@
                                                 <input
                                                     type="hidden"
                                                     name="collection_name"
-                                                    value="{{ $mediaCollectionName }}">
+                                                    value="{{ $mediaCollection }}">
                                                 <input
                                                     type="hidden"
                                                     name="model_type"
@@ -153,7 +153,7 @@
                 <x-mle-media-manager-preview-modal
                     :modal-id="$modalId"
                     :model="$model"
-                    :media-collection-name="$mediaCollectionName"
+                    :media-collection-name="$mediaCollection"
                     title="Media carousel"/>
             </div>
         @endif
