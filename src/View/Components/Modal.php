@@ -1,9 +1,10 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
 
 class Modal extends BaseComponent
 {

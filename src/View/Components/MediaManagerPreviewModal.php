@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +15,6 @@ class MediaManagerPreviewModal extends BaseMediaManager
     public function __construct(
         public ?Model $model,
         public ?string $mediaCollection,
-        public string $modalId,
         public string $title,
         public string $sizeClass = 'modal-almost-fullscreen',
         public string $id = '',

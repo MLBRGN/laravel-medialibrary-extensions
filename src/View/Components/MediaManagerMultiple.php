@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +16,8 @@ class MediaManagerMultiple extends BaseMediaManager
     /** @var Collection<int, Media> */
     public Collection $media;
 
+    public string $modalId;
+
     public function __construct(
         public ?Model $model = null,
         public ?string $mediaCollection = null,
@@ -23,7 +27,6 @@ class MediaManagerMultiple extends BaseMediaManager
         public bool $destroyEnabled = false,
         public ?string $destroyRoute = null,
         public bool $showMediaUrl = false,
-        public string $modalId = 'media-manager-multiple-modal',
         public bool $setAsFirstEnabled = false,
         public bool $showOrder = false,
         public string $title = '',
@@ -43,7 +46,7 @@ class MediaManagerMultiple extends BaseMediaManager
             ->implode(',');
 
         $this->media = $model->getMedia($mediaCollection);
-
+        $this->modalId = 'media-manager-multiple-modal';
     }
 
     public function render(): View

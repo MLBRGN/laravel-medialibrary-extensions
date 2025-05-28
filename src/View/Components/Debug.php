@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Facades\Blade;
@@ -16,7 +18,7 @@ class Debug extends Component
     ) {
         $iconExists = $this->iconExists = collect(Blade::getClassComponentAliases())->keys()->contains(config('media-library-extensions.icons.delete'));
         if (! $iconExists) {
-            $this->errors[] = 'Please require the correct  <a href="https://github.com/driesvints/blade-icons" target="_blank">Blade UI Kit icon package</a> for icons to display and set the right icons in the configuration of this package.';
+            $this->errors[] = 'Please require the correct <a href="https://github.com/driesvints/blade-icons" target="_blank">Blade UI Kit icon package</a> for icons to display and set the right icons in the configuration of this package.';
         }
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +18,8 @@ class MediaManagerSingle extends BaseMediaManager
 
     public string $allowedMimeTypes = '';
 
+    public string $modalId;
+
     public function __construct(
         public ?Model $model = null,
         public ?string $mediaCollection = null,
@@ -25,7 +29,6 @@ class MediaManagerSingle extends BaseMediaManager
         public bool $destroyEnabled = false,
         public ?string $destroyRoute = null,
         public bool $showMediaUrl = false,
-        public string $modalId = 'media-manager-single-modal',
         public string $title = '',
         public string $id = '',
         public ?string $frontendTheme = null
@@ -51,6 +54,7 @@ class MediaManagerSingle extends BaseMediaManager
             ->implode(',');
 
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+        $this->modalId = 'media-manager-single-modal';
 
     }
 

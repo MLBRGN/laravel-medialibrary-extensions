@@ -83,7 +83,7 @@
                     @endif
                 </div>
                 <x-mle-media-manager-preview-modal
-                    :modal-id="$modalId"
+                    :id="$modalId"
                     :model="$model"
                     :media-collection="$mediaCollection"
                     title="Media carousel"/>

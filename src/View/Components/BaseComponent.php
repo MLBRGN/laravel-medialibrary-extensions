@@ -1,17 +1,12 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
-/**
- * Base class for components that ensures a model and its media collection are properly loaded.
- *
- * This class is designed to handle media-related operations for a given model. It validates the
- * presence of the required model and media collection name during instantiation and ensures
- * that the media relation is properly loaded before performing any actions.
- */
 abstract class BaseComponent extends Component
 {
     public string $theme;
@@ -38,10 +33,10 @@ abstract class BaseComponent extends Component
 
     public function getView($viewName): View
     {
-        $viewPath = "media-library-extensions::components.{$this->frontend}.{$viewName}";
+        $viewPath = "media-library-extensions::components.$this->frontend.$viewName";
 
         if (! view()->exists($viewPath)) {
-            $viewPath = "media-library-extensions::components.plain.{$viewName}";
+            $viewPath = "media-library-extensions::components.plain.$viewName";
         }
 
         return view($viewPath);

@@ -1,7 +1,7 @@
 <x-mle_internal-modal {{ $attributes->merge([
                 'class' => 'media-manager-preview-modal'
              ]) }}
-                      :modal-id="$modalId"
+                      :modal-id="$id"
                       title="{{ $title }}"
                       :show-header="false"
                       :no-padding="true"
@@ -15,7 +15,7 @@
 
     {{-- important set click to open in modal to false otherwise endless inclusion --}}
     <x-mle-media-previewer
-        id="{{ $modalId }}-carousel"
+        id="{{ $id }}-carousel"
         :model="$model"
         :click-to-open-in-modal="false"
         :media-collection="$mediaCollection"/>

@@ -2,13 +2,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-/**
- * Base class for components that ensures a model and its media collection are properly loaded.
- *
- * This class is designed to handle media-related operations for a given model. It validates the
- * presence of the required model and media collection name during instantiation and ensures
- * that the media relation is properly loaded before performing any actions.
- */
 abstract class BaseMediaPreviewer extends BaseComponent
 {
     public function __construct(
