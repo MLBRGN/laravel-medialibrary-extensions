@@ -1,19 +1,19 @@
 <div
     id="{{ $id }}"
     {{ $attributes->class([
-        mle_media_class('media-manager-multiple-wrapper'),
-        'mlbrgn-mle'
+        'media-manager media-manager-multiple container-fluid px-0',
+        'mlbrgn-mle-component'
     ]) }}>
+
     <x-mle_internal-debug/>
 
     @if(!empty($title))
-        <h2 class="@mediaClass('media-manager-headings')">{{ $title }}</h2>
+        <h2 class="media-manager-heading">{{ $title }}</h2>
     @endif
-
-    <div class="@mediaClass('media-manager-multiple-row')">
+    <div class="media-manager-row media-manager-multiple-row row">
         @if($uploadEnabled && !is_null($uploadRoute))
             <form
-                class="@mediaClass('media-manager-multiple-form')"
+                class="media-manager-form media-manager-multiple-form col-12 col-md-4"
                 action="{{ $uploadRoute }}"
                 enctype="multipart/form-data"
                 method="post">
@@ -22,33 +22,21 @@
                     accept="{{ $allowedMimeTypes }}"
                     name="{{ $uploadFieldName }}[]"
                     type="file"
-                    class="@mediaClass('media-manager-input-file')"
+                    class="media-manager-input-file form-control"
                     multiple/>
-                <input
-                    type="hidden"
-                    name="collection_name"
-                    value="{{ $mediaCollection }}"/>
-                <input
-                    type="hidden"
-                    name="model_type"
-                    value="{{ get_class($model) }}"/>
-                <input
-                    type="hidden"
-                    name="model_id"
-                    value="{{ $model->id }}"/>
-                <input
-                    type="hidden"
-                    name="target_id"
-                    value="{{ $id }}"/>
+                <input type="hidden" name="collection_name" value="{{ $mediaCollection }}"/>
+                <input type="hidden" name="model_type" value="{{ get_class($model) }}"/>
+                <input type="hidden" name="model_id" value="{{ $model->id }}"/>
+                <input type="hidden" name="target_id" value="{{ $id }}"/>
                 <button
                     type="submit"
-                    class="@mediaClass('media-manager-button-upload')">
-                    {{  __('media-library-extensions::messages.upload-media') }}
+                    class="btn btn-success">
+                    {{ __('media-library-extensions::messages.upload-media') }}
                 </button>
                 <x-mle_internal-flash :target-id="$id"/>
             </form>
             @if($media->count() === 0)
-                <p class="@mediaClass('media-manager-no-media')">
+                <p class="media-manager-no-media">
                     {{ __('media-library-extensions::messages.no-media') }}
                 </p>
             @endif
@@ -56,14 +44,14 @@
 
         @if($media->count() > 0)
             {{-- Preview of all images in grid --}}
-            <div class="@mediaClass('media-manager-multiple-preview-wrapper')">
-                <div class="@mediaClass('media-manager-preview-images')">
+            <div class="media-manager-preview-wrapper media-manager-multiple-preview-wrapper col-12 col-sm-8">
+                <div class="media-manager-preview-images">
                     @foreach($media as $medium)
-                        <div class="@mediaClass('media-manager-preview-image-container')">
+                        <div class="media-manager-preview-image-container">
                             <div
                                 data-bs-toggle="modal"
                                 data-bs-target="#{{$modalId}}"
-                                class="@mediaClass('mm-something')">
+                                class="mm-something">
                                 <a
                                     class="previewed-image cursor-zoom-in"
                                     data-bs-target="#{{$modalId}}-carousel"
@@ -72,44 +60,32 @@
                                 </a>
                             </div>
                             @if($setAsFirstEnabled && $showOrder)
-                                <span class="">{{ $medium->order_column }}</span>
+                                <span>{{ $medium->order_column }}</span>
                             @endif
-                            <div class="@mediaClass('media-manager-multiple-preview-menu')">
-                                <div class="">
-                                        @if($setAsFirstEnabled)
-                                            @if($medium->order_column === $media->min('order_column'))
-                                                <button
-                                                    class=""
+                            <div class="media-manager-preview-menu media-manager-multiple-preview-menu">
+                                <div>
+                                    @if($setAsFirstEnabled)
+                                        @if($medium->order_column === $media->min('order_column'))
+                                            <button
+                                                class=""
+                                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                                                disabled>
+                                                <x-mle_internal-icon
+                                                    name="{{ config('media-library-extensions.icons.set-as-main') }}"
                                                     title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                                                    disabled>
-                                                    <x-mle_internal-icon
-                                                        name="{{ config('media-library-extensions.icons.set-as-main') }}"
-                                                        title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                                                    />
-                                                </button>
-                                            @else
-                                            <form class="@mediaClass('media-manager-menu-form')" action="{{ route(mle_prefix_route('set-as-first')) }}" method="post">
+                                                />
+                                            </button>
+                                        @else
+                                            <form
+                                                class="media-manager-menu-form"
+                                                action="{{ route(mle_prefix_route('set-as-first')) }}"
+                                                method="post">
                                                 @csrf
-                                                <input
-                                                    type="hidden"
-                                                    name="medium_id"
-                                                    value="{{ $medium->id }}">
-                                                <input
-                                                    type="hidden"
-                                                    name="collection_name"
-                                                    value="{{ $mediaCollection }}">
-                                                <input
-                                                    type="hidden"
-                                                    name="model_type"
-                                                    value="{{ get_class($model) }}">
-                                                <input
-                                                    type="hidden"
-                                                    name="model_id"
-                                                    value="{{ $model->id }}">
-                                                <input
-                                                    type="hidden"
-                                                    name="target_id"
-                                                    value="{{ $id }}"/>
+                                                <input type="hidden" name="medium_id" value="{{ $medium->id }}">
+                                                <input type="hidden" name="collection_name" value="{{ $mediaCollection }}">
+                                                <input type="hidden" name="model_type" value="{{ get_class($model) }}">
+                                                <input type="hidden" name="model_id" value="{{ $model->id }}">
+                                                <input type="hidden" name="target_id" value="{{ $id }}"/>
                                                 <button
                                                     type="submit"
                                                     class=""
@@ -120,21 +96,18 @@
                                                     />
                                                 </button>
                                             </form>
-                                            @endif
                                         @endif
+                                    @endif
                                 </div>
                                 <div class="media-manager-preview-image-menu-end d-flex align-items-center gap-1">
                                     @if($destroyEnabled)
                                         <form
-                                            class="@mediaClass('media-manager-multiple-preview-medium-form')"
+                                            class="media-manager-preview-form media-manager-multiple-preview-form"
                                             action="{{ route(mle_prefix_route('medium-destroy'), $medium->id) }}"
                                             method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <input
-                                                type="hidden"
-                                                name="target_id"
-                                                value="{{ $id }}"/>
+                                            <input type="hidden" name="target_id" value="{{ $id }}"/>
                                             <button
                                                 type="submit"
                                                 class=""
@@ -142,7 +115,7 @@
                                                 <x-mle_internal-icon
                                                     name="{{ config('media-library-extensions.icons.delete') }}"
                                                     :title="__('media-library-extensions::messages.delete_medium')"
-                                                 />
+                                                />
                                             </button>
                                         </form>
                                     @endif
@@ -163,3 +136,7 @@
         <span>{{ __('media-library-extensions::messages.no-media') }}</span>
     @endif
 </div>
+
+@once
+    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
+@endonce

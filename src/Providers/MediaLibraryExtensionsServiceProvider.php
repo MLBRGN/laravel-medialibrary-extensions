@@ -95,11 +95,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Flash::class,
         ]);
 
-        // blade directives
-        Blade::directive('mediaClass', function ($expression) {
-            return "<?php echo mle_media_class($expression); ?>";
-        });
-
         // register policies
         $this->registerPolicy();
 

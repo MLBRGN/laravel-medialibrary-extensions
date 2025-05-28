@@ -7,11 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// !!!!! NOTE: remember to clean laravel cache after changes, otherwise cached views are used !!!!!
-// clear the cache in the main application where the components are used by running php artisan optimize:clear
-// and run composer dump-autoload
-
-class MediaManagerMultiple extends BaseComponent
+class MediaManagerMultiple extends BaseMediaManager
 {
     public string $allowedMimeTypes = '';
 
@@ -31,10 +27,11 @@ class MediaManagerMultiple extends BaseComponent
         public bool $setAsFirstEnabled = false,
         public bool $showOrder = false,
         public string $title = '',
-        public string $id = ''
+        public string $id = '',
+        public ?string $frontendTheme = null
 
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $frontendTheme);
 
         // set routes
         $this->uploadRoute = $this->uploadRoute ?? route(mle_prefix_route('media-upload-multiple'));
@@ -46,10 +43,11 @@ class MediaManagerMultiple extends BaseComponent
             ->implode(',');
 
         $this->media = $model->getMedia($mediaCollection);
+
     }
 
     public function render(): View
     {
-        return view('media-library-extensions::components.media-manager-multiple');
+        return $this->getView('media-manager-multiple');
     }
 }

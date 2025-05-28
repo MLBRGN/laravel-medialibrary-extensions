@@ -25,17 +25,6 @@ if (! function_exists('media_manager_theme')) {
     }
 }
 
-if (! function_exists('mle_media_class')) {
-
-    function mle_media_class(string $key, string $default = ''): string
-    {
-        $theme = config('media-library-extensions.frontend_theme', 'plain');
-        $classes = config("media-library-extensions.classes.{$theme}", []);
-
-        return $classes[$key] ?? $default;
-    }
-}
-
 if (! function_exists('mle_prefix_route')) {
 
     function mle_prefix_route(string $suffix): string

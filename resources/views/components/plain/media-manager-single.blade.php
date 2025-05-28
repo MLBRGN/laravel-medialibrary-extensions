@@ -1,27 +1,25 @@
 {{--This file will handle shared logic and delegate some UI to a partial.--}}
 <div id="{{ $id }}" {{ $attributes->class([
-        mle_media_class('media-manager-single-wrapper'),
-       'mlbrgn-mle'
+        'mlbrgn-mle-component media-manager-single-wrapper',
     ]) }}>
-{{--    <pre>{{ var_dump(session()->all()) }}</pre>--}}
     <x-mle_internal-debug/>
     @if(!empty($title))
-        <h2 class="@mediaClass('media-manager-headings')">{{ $title }}</h2>
+        <h2 class="media-manager-heading">{{ $title }}</h2>
     @endif
 
-    <div class="@mediaClass('media-manager-single-row')">
+    <div class="media-manager-row media-manager-single-row">
         @if($uploadEnabled && !is_null($uploadRoute))
             <form
                 method="POST"
                 action="{{ $uploadRoute }}"
                 enctype="multipart/form-data"
-                class="@mediaClass('media-manager-single-form')">
+                class="media-manager-form media-manager-single-form">
                 @csrf
                 <input
                     type="file"
                     accept="{{ $allowedMimeTypes }}"
                     name="{{ $uploadFieldName }}"
-                    class="@mediaClass('media-manager-input-file')">
+                    class="media-manager-input-file form-control">
                 <input
                     type="hidden"
                     name="collection_name"
@@ -40,32 +38,30 @@
                     value="{{ $id }}"/>
                 <button
                     type="submit"
-                    class="@mediaClass('media-manager-button-upload')">
+                    class="">
                     {{ trans_choice('media-library-extensions::messages.upload-or-replace', is_null($medium) ? 0 : 1) }}
                 </button>
                 <x-mle_internal-flash :target-id="$id"/>
             </form>
             @if(!$medium)
-                <p class="@mediaClass('media-manager-no-media')">
+                <p class="media-manager-no-media">
                     {{ __('media-library-extensions::messages.no-medium') }}
                 </p>
             @endif
         @endif
 
         @if($medium)
-            <div class="@mediaClass('media-manager-single-preview-wrapper')">
+            <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper">
                 <a
-                    class="@mediaClass('media-manager-single-preview-medium-link')"
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$modalId}}">
+                    class="media-manager-preview-medium-link media-manager-single-preview-medium-link cursor-zoom-in">
                     <img
                         src="{{ $medium->getUrl() }}"
-                        class="@mediaClass('media-manager-single-preview-medium')"
+                        class="media-manager-preview-medium media-manager-single-preview-medium image-fluid"
                         alt=" {{ __('media-library-extensions::messages.no-medium') }}">
                 </a>
-                <div class="@mediaClass('media-manager-single-preview-menu')">
+                <div class="media-manager-preview-menu media-manager-single-preview-menu">
                     @if($destroyEnabled && !is_null($destroyRoute))
-                        <form class="@mediaClass('media-manager-single-preview-form')"
+                        <form class="media-manager-preview-form media-manager-single-preview-form"
                               action="{{ $destroyRoute }}"
                               method="post">
                             @csrf
@@ -76,7 +72,7 @@
                                 value="{{ $id }}"/>
                             <button
                                 type="submit"
-                                class="@mediaClass('media-manager-button-icon-delete')">
+                                class="button-icon-delete">
                                 {{ __('media-library-extensions::messages.delete_medium') }}
                             </button>
                         </form>
@@ -95,11 +91,7 @@
         <span>{{ __('media-library-extensions::messages.no-medium') }}</span>
     @endif
 </div>
+
 @once
-{{--    <script src="{{ asset('blogpackage/js/app.js') }}"></script>--}}
-        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
-{{--    <link href="{{ mle_package_asset('css/app.css')  }}" rel="stylesheet" />--}}
-   {{-- <link
-        rel="stylesheet"
-        href="{{ mle_package_asset('media-library-extensions.css') }}">--}}
+    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
 @endonce

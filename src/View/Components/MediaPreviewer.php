@@ -6,19 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-// !!!!! NOTE: remember to clean laravel cache after changes, otherwise cached views are used !!!!!
-// clear the cache in the main application where the components are used by running php artisan optimize:clear
-// and run composer dump-autoload
-
-// Documentation:
-//    -   Used by both manager-multiple.blade and previewer.blade
-//    -   Only works with one YT video at the moment, javascript assumes
-//    the video has an id of "yt-video-slid"
-//    -   when passed an attribute "autoplay" this attribute is passed on to media-preview-modal and
-//    will cause any youtube video to start autoplaying,
-//    playing stops when closing the dialog or sliding to another slide
-
-class MediaPreviewer extends BaseComponent
+class MediaPreviewer extends BaseMediaPreviewer
 {
     public MediaCollection $mediaItems;
 
@@ -29,8 +17,10 @@ class MediaPreviewer extends BaseComponent
         public bool $singleMedium = false,
         public bool $clickToOpenInModal = true,// false to prevent endless inclusion
         public string $id = 'no-id',
+        public ?string $frontendTheme = null
+
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $frontendTheme);
 
         if (! is_null($this->mediaCollection)) {
             $this->mediaItems = $model->getMedia($this->mediaCollection);
@@ -44,10 +34,12 @@ class MediaPreviewer extends BaseComponent
             $this->mediaItems = MediaCollection::make();
         }
 
+        $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+
     }
 
     public function render(): View
     {
-        return view('media-library-extensions::components.media-previewer');
+        return $this->getView('media-previewer');
     }
 }
