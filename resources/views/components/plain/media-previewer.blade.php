@@ -69,7 +69,7 @@
             <span
                 class="media-manager-preview-modal-carousel-control-next-icon"
                 aria-hidden="true"></span>
-            <span class="visually-hidden">Volgende</span>
+            <span class="visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
         </button>
     @endif
     @if($clickToOpenInModal && 3 > 4)
