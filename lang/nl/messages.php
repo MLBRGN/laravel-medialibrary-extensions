@@ -22,5 +22,6 @@ return [
     'medium-:name' => 'Medium :name',
     'close' => 'Sluit',
     'not-authorized' => 'Niet geautoriseerd',
-    'you-can-only-have-:items-items-in-this-collection' => 'Deze collectie kan tot :items bevatten.',
+    'this-collection-can-contain-up-to-:items-items' => 'Deze collectie kan tot :items bevatten.',
+
 ];

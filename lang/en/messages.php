@@ -22,5 +22,5 @@ return [
     'medium-:name' => 'Medium :name',
     'close' => 'Close',
     'not-authorized' => 'Not authorized',
-    'you-can-only-have-:items-items-in-this-collection' => 'You can only have :items items in this collection.',
+    'this-collection-can-contain-up-to-:items-items' => 'This collection can contain up to  :items items.',
 ];

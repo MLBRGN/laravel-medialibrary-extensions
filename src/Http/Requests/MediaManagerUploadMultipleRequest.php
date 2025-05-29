@@ -26,7 +26,7 @@ class MediaManagerUploadMultipleRequest extends FormRequest
      */
     public function rules(): array
     {
-        $uploadFieldName = config('media-library-extensions.upload_field_name');
+        $uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
         $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
 
         // Try to resolve the model instance to pass to the rule
@@ -46,7 +46,7 @@ class MediaManagerUploadMultipleRequest extends FormRequest
             $uploadFieldName => [
                 'nullable',
                 'array',
-                // Apply the MaxMediaCount rule only if the model is found, else skip it gracefully
+                // Apply the MaxMediaCount rule only if model is found, else skip it gracefully
                 $model ? new MaxMediaCount($model, $this->input('collection_name'), $maxItemsInCollection) : null,
             ],
             $uploadFieldName.'.media.*' => [
