@@ -34,18 +34,12 @@
         type="hidden"
         name="target_id"
         value="{{ $id }}"/>
-    @if($multiple)
-        <button
-            type="submit"
-            class="btn btn-success">
-            {{ __('media-library-extensions::messages.upload-media') }}
-        </button>
-    @else
-        <button
-            type="submit"
-            class="btn btn-success">
-            {{ trans_choice('media-library-extensions::messages.upload-or-replace', $mediaPresent ? 1 : 0) }}
-        </button>
-    @endif
+    <button
+        type="submit"
+        class="btn btn-success">
+        {{ $multiple
+         ? __('media-library-extensions::messages.upload-media')
+         : trans_choice('media-library-extensions::messages.upload-or-replace', $mediaPresent ? 1 : 0) }}
+    </button>
     <x-mle_internal-flash :target-id="$id"/>
 </form>
