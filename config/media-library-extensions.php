@@ -50,19 +50,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Max Upload Sizes (in kilobytes)
+    | Upload field names
     |--------------------------------------------------------------------------
     |
-    | Define the maximum allowed upload sizes for various media types.
+    | The field names used for uploading media
+    |
+    */
+
+    'upload_field_name_single' => 'medium_evertjan',
+    'upload_field_name_multiple' => 'media_bart',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Max Upload Size (in kilobytes)
+    |--------------------------------------------------------------------------
+    |
+    | Define the maximum allowed upload size
     | Example: 16,384 KB = 16 MB
     |
     */
 
-    'max_upload_sizes' => [
-        'image' => env('MLE_MAX_FILE_SIZE', 1024 * 1024 * 16),
-        'video' => env('MLE_MAX_FILE_SIZE', 1024 * 1024 * 16),
-        'document' => env('MLE_MAX_FILE_SIZE', 1024 * 1024 * 16),
-    ],
+    'max_upload_size' => env('MLE_MAX_FILE_SIZE', 1024 * 1024 * 16),
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +81,7 @@ return [
     |
     */
 
-    'allowed_mimes' => [
+    'allowed_mimetypes' => [
         'image' => [
             'image/jpeg',
             'image/png',
@@ -83,14 +91,14 @@ return [
             'image/avif',
         ],
         'video' => [
-            'mp4',
-            'mov',
-            'avi',
+            'video/mp4',
+            'video/quicktime',
+            'video/x-msvideo',
         ],
         'document' => [
-            'pdf',
-            'doc',
-            'docx',
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ],
     ],
 

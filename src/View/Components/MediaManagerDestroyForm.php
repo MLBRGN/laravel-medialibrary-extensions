@@ -4,26 +4,23 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaManagerUploadForm extends BaseComponent
+class MediaManagerDestroyForm extends BaseComponent
 {
     public function __construct(
 
-        public ?Model $model,
-        public ?string $mediaCollection,
+        public Media $medium,
         public string $id,
         public ?string $frontendTheme,
-        public string $allowedMimeTypes,
-        public bool $multiple = false,
-        public bool $mediaPresent = false,
+
     ) {
         parent::__construct($id, $frontendTheme);
     }
 
     public function render(): View
     {
-        return $this->getView('media-manager-upload-form');
+        return $this->getView('media-manager-destroy-form');
     }
 }

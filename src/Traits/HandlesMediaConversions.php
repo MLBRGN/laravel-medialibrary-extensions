@@ -50,8 +50,8 @@ trait HandlesMediaConversions
         }
 
         // Define the maximum allowed resolution (e.g., 1920x1080)
-        $maxWidth = config('media.max_image_width', 1920);
-        $maxHeight = config('media.max_image_height', 1080);
+        $maxWidth = config('media-library-extensions.max_image_width', 1920);
+        $maxHeight = config('media-library-extensions.max_image_height', 1080);
 
         // If the calculated width or height exceeds the max resolution, scale it down while maintaining the aspect ratio
         if ($targetWidth > $maxWidth || $targetHeight > $maxHeight) {

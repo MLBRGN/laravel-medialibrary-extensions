@@ -19,7 +19,7 @@
                 @csrf
                 <input
                     accept="{{ $allowedMimeTypes }}"
-                    name="{{ $uploadFieldName }}[]"
+                    name="{{ config('media-library-extensions.upload_field_name') }}[]"
                     type="file"
                     class="media-manager-input-file form-control"
                     multiple/>

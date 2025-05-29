@@ -1,20 +1,21 @@
 <form
     {{ $attributes->class(['media-manager-form col-12 col-md-4']) }}
-    action="{{ $uploadRoute }}"
+    action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')) }}"
+    
     enctype="multipart/form-data"
     method="post">
     @csrf
     @if($multiple)
         <input
             accept="{{ $allowedMimeTypes }}"
-            name="{{ $uploadFieldName }}[]"
+            name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
             type="file"
             class="media-manager-input-file form-control"
             multiple/>
     @else
         <input
             accept="{{ $allowedMimeTypes }}"
-            name="{{ $uploadFieldName }}"
+            name="{{ config('media-library-extensions.upload_field_name_single') }}"
             type="file"
             class="media-manager-input-file form-control"/>
     @endif

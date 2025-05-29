@@ -49,9 +49,12 @@ class MediaManagerController extends Controller
 
         $targetId = $request->target_id;
         $collectionName = $request->collection_name;
+        $field = config('media-library-extensions.upload_field_name_single');
 
-        if ($request->hasFile('medium')) {
-            $model->addMedia($request->medium)->toMediaCollection($collectionName);
+        if ($request->hasFile($field)) {
+            $model
+                ->addMedia($request->file($field))
+                ->toMediaCollection($collectionName);
 
             return $this->redirectBackWithStatus(
                 $targetId,
@@ -80,9 +83,10 @@ class MediaManagerController extends Controller
 
         $targetId = $request->target_id;
         $collectionName = $request->collection_name;
+        $field = config('media-library-extensions.upload_field_name_multiple');
 
-        if ($request->hasFile('media')) {
-            foreach ($request->media as $file) {
+        if ($request->hasFile($field)) {
+            foreach ($request->file($field) as $file) {
                 $model->addMedia($file)->toMediaCollection($collectionName);
             }
 
@@ -116,12 +120,6 @@ class MediaManagerController extends Controller
             $targetId
         );
 
-        //        return $this->redirectBackWithStatus(
-        //            $targetId,
-        //            'error',
-        //            __('media-library-extensions::messages.medium-could-not-be-removed'),
-        //            $targetId
-        //        );
     }
 
     public function setAsFirst(SetAsFirstRequest $request): RedirectResponse

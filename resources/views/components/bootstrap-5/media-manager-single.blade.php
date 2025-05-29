@@ -11,50 +11,14 @@
     @endif
 
     <div class="media-manager-row media-manager-single-row row">
-        @if($uploadEnabled && !is_null($uploadRoute))
+        @if($uploadEnabled)
             <x-mle_internal-media-manager-upload-form
-                :uploadRoute="$uploadRoute"
                 :allowedMimeTypes="$allowedMimeTypes"
-                :uploadFieldName="$uploadFieldName"
                 :mediaCollection="$mediaCollection"
                 :model="$model"
                 :id="$id"
                 :multiple="false"
-                :media-present="is_null($medium) ? false : true"/>
-{{--            <form--}}
-{{--                method="POST"--}}
-{{--                action="{{ $uploadRoute }}"--}}
-{{--                enctype="multipart/form-data"--}}
-{{--                class="media-manager-form media-manager-single-form col-12 col-md-4">--}}
-{{--                @csrf--}}
-{{--                <input--}}
-{{--                    type="file"--}}
-{{--                    accept="{{ $allowedMimeTypes }}"--}}
-{{--                    name="{{ $uploadFieldName }}"--}}
-{{--                    class="media-manager-input-file form-control">--}}
-{{--                <input--}}
-{{--                    type="hidden"--}}
-{{--                    name="collection_name"--}}
-{{--                    value="{{ $mediaCollection }}">--}}
-{{--                <input--}}
-{{--                    type="hidden"--}}
-{{--                    name="model_type"--}}
-{{--                    value="{{ get_class($model) }}">--}}
-{{--                <input--}}
-{{--                    type="hidden"--}}
-{{--                    name="model_id"--}}
-{{--                    value="{{ $model->id }}">--}}
-{{--                <input--}}
-{{--                    type="hidden"--}}
-{{--                    name="target_id"--}}
-{{--                    value="{{ $id }}"/>--}}
-{{--                <button--}}
-{{--                    type="submit"--}}
-{{--                    class="btn btn-success">--}}
-{{--                    {{ trans_choice('media-library-extensions::messages.upload-or-replace', is_null($medium) ? 0 : 1) }}--}}
-{{--                </button>--}}
-{{--                <x-mle_internal-flash :target-id="$id"/>--}}
-{{--            </form>--}}
+                :media-present="!is_null($medium)"/>
             @if(!$medium)
                 <p class="media-manager-no-media">
                     {{ __('media-library-extensions::messages.no-medium') }}
@@ -74,22 +38,8 @@
                         alt=" {{ __('media-library-extensions::messages.no-medium') }}">
                 </a>
                 <div class="media-manager-preview-menu media-manager-single-preview-menu">
-                    @if($destroyEnabled && !is_null($destroyRoute))
-                        <form class="media-manager-preview-form media-manager-single-preview-form"
-                              action="{{ $destroyRoute }}"
-                              method="post">
-                            @csrf
-                            @method('DELETE')
-                            <input
-                                type="hidden"
-                                name="target_id"
-                                value="{{ $id }}"/>
-                            <button
-                                type="submit"
-                                class="button-icon-delete btn btn-delete btn-icon btn-icon-delete btn-sm">
-                                {{ __('media-library-extensions::messages.delete_medium') }}
-                            </button>
-                        </form>
+                    @if($destroyEnabled)
+                        <x-mle_internal-media-manager-destroy-form :medium="$medium" :id="$id"/>
                     @endif
                 </div>
                 <x-mle-media-previewer-modal

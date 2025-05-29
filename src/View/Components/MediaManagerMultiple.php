@@ -22,7 +22,6 @@ class MediaManagerMultiple extends BaseMediaManager
         public ?Model $model = null,
         public ?string $mediaCollection = null,
         public bool $uploadEnabled = false,
-        public ?string $uploadRoute = null,
         public string $uploadFieldName = 'media',
         public bool $destroyEnabled = false,
         public ?string $destroyRoute = null,
@@ -35,9 +34,6 @@ class MediaManagerMultiple extends BaseMediaManager
 
     ) {
         parent::__construct($id, $frontendTheme);
-
-        // set routes
-        $this->uploadRoute = $this->uploadRoute ?? route(mle_prefix_route('media-upload-multiple'));
 
         // set allowed mimetypes
         $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))

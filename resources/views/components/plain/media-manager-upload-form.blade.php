@@ -1,13 +1,3 @@
-@php use Mlbrgn\LaravelFormComponents\Tests\Feature\Models\ActivityModel; @endphp
-@props([
-    'uploadRoute',
-    'allowedMimeTypes',
-    'uploadFieldName',
-    'mediaCollection',
-    'model',
-    'id'
-])
-
 <form
     {{ $attributes->class(['media-manager-form col-12 col-md-4']) }}
     action="{{ $uploadRoute }}"

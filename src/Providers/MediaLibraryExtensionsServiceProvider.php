@@ -13,6 +13,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Flash;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerDestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerUploadForm;
@@ -95,6 +96,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Modal::class,
             Flash::class,
             MediaManagerUploadForm::class,
+            MediaManagerDestroyForm::class,
         ]);
 
         // register policies

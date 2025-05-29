@@ -20,7 +20,7 @@
                 <input
                     type="file"
                     accept="{{ $allowedMimeTypes }}"
-                    name="{{ $uploadFieldName }}"
+                    name="{{ config('media-library-extensions.upload_field_name') }}"
                     class="media-manager-input-file form-control">
                 <input
                     type="hidden"

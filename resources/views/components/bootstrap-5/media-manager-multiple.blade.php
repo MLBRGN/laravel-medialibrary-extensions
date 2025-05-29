@@ -11,11 +11,9 @@
         <h2 class="media-manager-heading">{{ $title }}</h2>
     @endif
     <div class="media-manager-row media-manager-multiple-row row">
-        @if($uploadEnabled && !is_null($uploadRoute))
+        @if($uploadEnabled)
             <x-mle_internal-media-manager-upload-form
-                :uploadRoute="$uploadRoute" 
                 :allowedMimeTypes="$allowedMimeTypes" 
-                :uploadFieldName="$uploadFieldName" 
                 :mediaCollection="$mediaCollection" 
                 :model="$model" 
                 :id="$id"
@@ -66,11 +64,21 @@
                                                 action="{{ route(mle_prefix_route('set-as-first')) }}"
                                                 method="post">
                                                 @csrf
-                                                <input type="hidden" name="medium_id" value="{{ $medium->id }}">
-                                                <input type="hidden" name="collection_name" value="{{ $mediaCollection }}">
-                                                <input type="hidden" name="model_type" value="{{ get_class($model) }}">
-                                                <input type="hidden" name="model_id" value="{{ $model->id }}">
-                                                <input type="hidden" name="target_id" value="{{ $id }}"/>
+                                                <input type="hidden" 
+                                                       name="medium_id" 
+                                                       value="{{ $medium->id }}">
+                                                <input type="hidden" 
+                                                       name="collection_name" 
+                                                       value="{{ $mediaCollection }}">
+                                                <input type="hidden" 
+                                                       name="model_type" 
+                                                       value="{{ get_class($model) }}">
+                                                <input type="hidden" 
+                                                       name="model_id" 
+                                                       value="{{ $model->id }}">
+                                                <input type="hidden" 
+                                                       name="target_id" 
+                                                       value="{{ $id }}"/>
                                                 <button
                                                     type="submit"
                                                     class=""
@@ -86,23 +94,7 @@
                                 </div>
                                 <div class="media-manager-preview-image-menu-end d-flex align-items-center gap-1">
                                     @if($destroyEnabled)
-                                        <form
-                                            class="media-manager-preview-form media-manager-multiple-preview-form"
-                                            action="{{ route(mle_prefix_route('medium-destroy'), $medium->id) }}"
-                                            method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="target_id" value="{{ $id }}"/>
-                                            <button
-                                                type="submit"
-                                                class=""
-                                                title="{{ __('media-library-extensions::messages.delete_medium') }}">
-                                                <x-mle_internal-icon
-                                                    name="{{ config('media-library-extensions.icons.delete') }}"
-                                                    :title="__('media-library-extensions::messages.delete_medium')"
-                                                />
-                                            </button>
-                                        </form>
+                                       <x-mle_internal-media-manager-destroy-form :medium="$medium" :id="$id"/>
                                     @endif
                                 </div>
                             </div>
