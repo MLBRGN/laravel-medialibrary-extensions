@@ -14,9 +14,10 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Flash;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreviewModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaPreviewer;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaPreviewerModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Modal;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -82,7 +83,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // register and expose blade views and classes
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
-        Blade::component($this->packageNameShort.'-media-manager-preview-modal', MediaManagerPreviewModal::class);
+        Blade::component($this->packageNameShort.'-media-previewer-modal', MediaPreviewerModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-media-previewer', MediaPreviewer::class);
 
@@ -93,6 +94,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Icon::class,
             Modal::class,
             Flash::class,
+            MediaManagerUploadForm::class,
         ]);
 
         // register policies

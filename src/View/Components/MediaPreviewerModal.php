@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-class MediaManagerPreviewModal extends BaseMediaManager
+class MediaPreviewerModal extends BaseMediaManager
 {
     public MediaCollection $mediaItems;
 
@@ -41,6 +41,6 @@ class MediaManagerPreviewModal extends BaseMediaManager
 
     public function render(): View
     {
-        return $this->getView('media-manager-preview-modal');
+        return $this->getView('media-previewer-modal');
     }
 }

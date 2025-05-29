@@ -2,7 +2,9 @@
 <div id="{{ $id }}" {{ $attributes->class([
         'mlbrgn-mle-component media-manager-single-wrapper',
     ]) }}>
+    
     <x-mle_internal-debug/>
+    
     @if(!empty($title))
         <h2 class="media-manager-heading">{{ $title }}</h2>
     @endif
@@ -78,7 +80,7 @@
                         </form>
                     @endif
                 </div>
-                <x-mle-media-manager-preview-modal
+                <x-mle-media-previewer-modal
                     :id="$modalId"
                     :model="$model"
                     :media-collection="$mediaCollection"

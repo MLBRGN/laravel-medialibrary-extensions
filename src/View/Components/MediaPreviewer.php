@@ -18,7 +18,7 @@ class MediaPreviewer extends BaseMediaPreviewer
         public ?array $mediaCollections = [],
         public bool $singleMedium = false,
         public bool $clickToOpenInModal = true,// false to prevent endless inclusion
-        public string $id = 'no-id',
+        public string $id = '',
         public ?string $frontendTheme = null
 
     ) {

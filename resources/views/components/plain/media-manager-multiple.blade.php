@@ -21,12 +21,24 @@
                     accept="{{ $allowedMimeTypes }}"
                     name="{{ $uploadFieldName }}[]"
                     type="file"
-                    class="media-manager-input-file"
+                    class="media-manager-input-file form-control"
                     multiple/>
-                <input type="hidden" name="collection_name" value="{{ $mediaCollection }}"/>
-                <input type="hidden" name="model_type" value="{{ get_class($model) }}"/>
-                <input type="hidden" name="model_id" value="{{ $model->id }}"/>
-                <input type="hidden" name="target_id" value="{{ $id }}"/>
+                <input
+                    type="hidden"
+                    name="collection_name"
+                    value="{{ $mediaCollection }}"/>
+                <input
+                    type="hidden"
+                    name="model_type"
+                    value="{{ get_class($model) }}"/>
+                <input
+                    type="hidden"
+                    name="model_id"
+                    value="{{ $model->id }}"/>
+                <input
+                    type="hidden"
+                    name="target_id"
+                    value="{{ $id }}"/>
                 <button
                     type="submit"
                     class="">
@@ -118,7 +130,7 @@
                         </div>
                     @endforeach
                 </div>
-                <x-mle-media-manager-preview-modal
+                <x-mle-media-previewer-modal
                     :id="$modalId"
                     :model="$model"
                     :media-collection="$mediaCollection"

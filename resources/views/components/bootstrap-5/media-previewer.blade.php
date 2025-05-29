@@ -84,8 +84,8 @@
         </button>
     @endif
     @if($clickToOpenInModal)
-        <x-mle-media-manager-preview-modal
-            :modal-id="$id"
+        <x-mle-media-previewer-modal
+            :id="$id"
             :model="$model"
             :media-collection="$mediaCollection"
             :media-collections="$mediaCollections"

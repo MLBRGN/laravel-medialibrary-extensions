@@ -73,7 +73,7 @@
         </button>
     @endif
     @if($clickToOpenInModal && 3 > 4)
-        <x-mle-media-manager-preview-modal
+        <x-mle-media-previewer-modal
             :modal-id="$id"
             :model="$model"
             :media-collection="$mediaCollection"
