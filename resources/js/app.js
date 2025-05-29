@@ -1,1 +1,1 @@
-import './media-library-extensions';
+import '@/js/modal-bootstrap-5';

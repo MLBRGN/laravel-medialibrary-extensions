@@ -15,6 +15,7 @@ class MediaManagerPreviewModal extends BaseMediaManager
     public function __construct(
         public ?Model $model,
         public ?string $mediaCollection,
+        public ?array $mediaCollections,
         public string $title,
         public string $sizeClass = 'modal-almost-fullscreen',
         public string $id = '',
@@ -22,7 +23,18 @@ class MediaManagerPreviewModal extends BaseMediaManager
     ) {
         parent::__construct($id, $frontendTheme);
 
-        $this->mediaItems = $model->getMedia($mediaCollection);
+        if (! is_null($this->mediaCollection)) {
+            $this->mediaItems = $model->getMedia($this->mediaCollection);
+        } elseif (! empty($this->mediaCollections)) {
+            $allMedia = collect();
+            foreach ($this->mediaCollections as $collectionName) {
+                $allMedia = $allMedia->merge($model->getMedia($collectionName));
+            }
+            $this->mediaItems = MediaCollection::make($allMedia);
+        } else {
+            $this->mediaItems = MediaCollection::make();
+        }
+        //        $this->mediaItems = $model->getMedia($mediaCollection);
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
 
     }

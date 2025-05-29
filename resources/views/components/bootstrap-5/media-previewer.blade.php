@@ -40,14 +40,14 @@
                                 class="previewed-image cursor-zoom-in"
                                 data-bs-target="#{{$id}}-carousel"
                                 data-bs-slide-to="{{ $loop->index }}">
-                                @endif
+                    @endif
                                 <x-mle-image-responsive
                                     class="image image-zoomed"
                                     :medium="$medium"
                                     :conversions="['thumb', '16x9']"
                                     sizes="95vw"
                                     :alt="$medium->name" />
-                                @if($clickToOpenInModal)
+                    @if($clickToOpenInModal)
                             </a>
                         </div>
                     @endif
@@ -83,11 +83,18 @@
             <span class="visually-hidden">Volgende</span>
         </button>
     @endif
-    @if($clickToOpenInModal && 3 > 4)
+    @if($clickToOpenInModal)
         <x-mle-media-manager-preview-modal
             :modal-id="$id"
             :model="$model"
             :media-collection="$mediaCollection"
+            :media-collections="$mediaCollections"
             title="Media carousel"/>
     @endif
 </div>
+
+@once
+    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
+    <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>
+{{--    <script src="https://www.youtube.com/iframe_api"></script>--}}
+@endonce

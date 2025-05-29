@@ -80,3 +80,6 @@
             title="Media carousel"/>
     @endif
 </div>
+@once
+    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
+@endonce
