@@ -5,6 +5,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 
+// TODO deprecated remove
 /**
  * Handles asset delivery for the package by dynamically resolving file paths
  * and determining MIME types. It serves the requested asset if it exists

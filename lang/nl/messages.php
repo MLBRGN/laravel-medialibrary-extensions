@@ -11,8 +11,6 @@ return [
     'no-media' => 'Geen media.',
     'no-medium' => 'Geen medium.',
     'no-medium-uploaded' => 'Geen medium geüpload.',
-    //    'no-model-provided' => 'Geen model meegegeven!',
-    //    'no-collection-name-provided' => 'Geen collectienaam meegegeven!',
     'upload-media' => 'Upload media',
     'upload-or-replace' => '{0}Upload medium|[1,*]Vervang medium',
     'missing_model' => ':component vereist een model, maar er is er geen meegegeven.',
@@ -24,4 +22,5 @@ return [
     'medium-:name' => 'Medium :name',
     'close' => 'Sluit',
     'not-authorized' => 'Niet geautoriseerd',
+    'you-can-only-have-:items-items-in-this-collection' => 'Deze collectie kan tot :items bevatten.',
 ];

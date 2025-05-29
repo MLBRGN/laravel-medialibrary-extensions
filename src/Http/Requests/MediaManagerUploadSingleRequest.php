@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,6 +27,7 @@ class MediaManagerUploadSingleRequest extends FormRequest
     {
         $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
+        // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
             'model_type' => ['required', 'string'],
             'model_id' => ['required', 'string'],

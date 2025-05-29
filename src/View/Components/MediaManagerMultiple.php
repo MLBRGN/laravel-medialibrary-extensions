@@ -4,9 +4,9 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerMultiple extends BaseMediaManager
@@ -19,7 +19,7 @@ class MediaManagerMultiple extends BaseMediaManager
     public string $modalId;
 
     public function __construct(
-        public ?Model $model = null,
+        public ?HasMedia $model = null,
         public ?string $mediaCollection = null,
         public bool $uploadEnabled = false,
         public string $uploadFieldName = 'media',

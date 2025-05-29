@@ -4,14 +4,14 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\HasMedia;
 
 class MediaManagerUploadForm extends BaseComponent
 {
     public function __construct(
 
-        public ?Model $model,
+        public ?HasMedia $model,
         public ?string $mediaCollection,
         public string $id,
         public ?string $frontendTheme,

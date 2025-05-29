@@ -4,8 +4,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends BaseMediaManager
@@ -17,7 +17,7 @@ class MediaManagerSingle extends BaseMediaManager
     public string $modalId;
 
     public function __construct(
-        public ?Model $model = null,
+        public ?HasMedia $model = null,
         public ?string $mediaCollection = null,
         public bool $uploadEnabled = false,
         public string $uploadFieldName = 'medium',
@@ -31,12 +31,7 @@ class MediaManagerSingle extends BaseMediaManager
         parent::__construct($id, $frontendTheme);
 
         // get medium only ever working with one medium
-        $medium = $this->medium = $model->getFirstMedia($mediaCollection);
-
-        // an empty action attribute may cause the parent form to submit, check for empty route
-        //        if ($medium) {
-        //            $this->destroyRoute = ! empty($this->destroyRoute) ? $this->destroyRoute : route(mle_prefix_route('medium-destroy'), $medium->id);
-        //        }
+        $this->medium = $model->getFirstMedia($mediaCollection);
 
         // set allowed mimetypes
         $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))

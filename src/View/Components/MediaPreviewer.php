@@ -4,8 +4,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 class MediaPreviewer extends BaseMediaPreviewer
@@ -13,7 +13,7 @@ class MediaPreviewer extends BaseMediaPreviewer
     public MediaCollection $mediaItems;
 
     public function __construct(
-        public ?Model $model,
+        public ?HasMedia $model,
         public ?string $mediaCollection = null,
         public ?array $mediaCollections = [],
         public bool $singleMedium = false,

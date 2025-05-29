@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

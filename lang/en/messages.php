@@ -11,8 +11,6 @@ return [
     'no-media' => 'No media.',
     'no-medium' => 'No medium.',
     'no-medium-uploaded' => 'No medium-uploaded.',
-    //    'no-model-provided' => 'No model provided!',
-    //    'no-collection-name-provided' => 'No collection name provided!',
     'upload-media' => 'Upload media',
     'upload-or-replace' => '{0}Upload medium|[1,*]Replace medium',
     'missing_model' => ':component requires a model, but none was provided.',
@@ -24,4 +22,5 @@ return [
     'medium-:name' => 'Medium :name',
     'close' => 'Close',
     'not-authorized' => 'Not authorized',
+    'you-can-only-have-:items-items-in-this-collection' => 'You can only have :items items in this collection.',
 ];
