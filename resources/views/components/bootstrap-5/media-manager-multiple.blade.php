@@ -1,3 +1,7 @@
+{{--<pre>--}}
+{{--        Media manager multiple--}}
+{{--        id - {{ $id }}--}}
+{{--    </pre>--}}
 <div
     id="{{ $id }}"
     {{ $attributes->class([
@@ -33,11 +37,11 @@
                         <div class="media-manager-preview-image-container">
                             <div
                                 data-bs-toggle="modal"
-                                data-bs-target="#{{$modalId}}"
+                                data-bs-target="#{{$id}}-modal"
                                 class="mm-something">
                                 <a
                                     class="previewed-image cursor-zoom-in"
-                                    data-bs-target="#{{$modalId}}-carousel"
+                                    data-bs-target="#{{$id}}-modal-carousel"
                                     data-bs-slide-to="{{ $loop->index }}">
                                     <x-mle-image-responsive :medium="$medium" />
                                 </a>
@@ -101,8 +105,8 @@
                         </div>
                     @endforeach
                 </div>
-                <x-mle-media-previewer-modal
-                    :id="$modalId"
+                <x-mle-media-modal
+                    :id="$id"
                     :model="$model"
                     :media-collection="$mediaCollection"
                     title="Media carousel"/>

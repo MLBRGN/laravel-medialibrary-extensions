@@ -1,7 +1,11 @@
+{{--<pre>--}}
+{{--        media-modal--}}
+{{--        id - {{ $id }}--}}
+{{--    </pre>--}}
 <x-mle_internal-modal {{ $attributes->merge([
                 'class' => 'media-manager-preview-modal'
              ]) }}
-                      :modal-id="$id"
+                      :id="$id"
                       title="{{ $title }}"
                       :show-header="false"
                       :no-padding="true"
@@ -14,11 +18,12 @@
         aria-label="Sluit"></button>
 
     {{-- important set click to open in modal to false otherwise endless inclusion --}}
-    <x-mle-media-previewer
-        id="{{ $id }}-carousel"
+    <x-mle-media-carousel
+        id="{{ $id }}"
         :model="$model"
         :click-to-open-in-modal="false"
-        :media-collection="$mediaCollection"/>
+        :media-collection="$mediaCollection"
+        :media-collections="$mediaCollections"/>
 
 </x-mle_internal-modal>
 

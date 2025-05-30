@@ -15,12 +15,12 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Flash;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerDestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerUploadForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaPreviewer;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaPreviewerModal;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Modal;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -86,9 +86,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // register and expose blade views and classes
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
-        Blade::component($this->packageNameShort.'-media-previewer-modal', MediaPreviewerModal::class);
+        Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
-        Blade::component($this->packageNameShort.'-media-previewer', MediaPreviewer::class);
+        Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
 
         // register blade views and classes for internal use
         // TODO i don't know how to hide them from the host applications yet (not expose them)

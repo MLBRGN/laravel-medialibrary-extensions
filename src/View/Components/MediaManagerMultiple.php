@@ -16,8 +16,6 @@ class MediaManagerMultiple extends BaseMediaManager
     /** @var Collection<int, Media> */
     public Collection $media;
 
-    public string $modalId;
-
     public function __construct(
         public ?HasMedia $model = null,
         public ?string $mediaCollection = null,
@@ -42,7 +40,8 @@ class MediaManagerMultiple extends BaseMediaManager
             ->implode(',');
 
         $this->media = $model->getMedia($mediaCollection);
-        $this->modalId = 'media-manager-multiple-modal';
+        $this->id = $this->id.'-mm-multiple';
+
     }
 
     public function render(): View

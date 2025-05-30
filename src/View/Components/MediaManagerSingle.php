@@ -14,8 +14,6 @@ class MediaManagerSingle extends BaseMediaManager
 
     public string $allowedMimeTypes = '';
 
-    public string $modalId;
-
     public function __construct(
         public ?HasMedia $model = null,
         public ?string $mediaCollection = null,
@@ -40,7 +38,7 @@ class MediaManagerSingle extends BaseMediaManager
             ->implode(',');
 
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
-        $this->modalId = 'media-manager-single-modal';
+        $this->id = $this->id.'-mm-single';
 
     }
 

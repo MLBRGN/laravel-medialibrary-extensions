@@ -4,22 +4,25 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-class MediaPreviewerModal extends BaseMediaManager
+class MediaCarousel extends BaseMediaPreviewer
 {
     public MediaCollection $mediaItems;
 
+    public string $previewerId = '';
+
     public function __construct(
         public ?HasMedia $model,
-        public ?string $mediaCollection,
-        public ?array $mediaCollections,
-        public string $title,
-        public string $sizeClass = 'modal-almost-fullscreen',
+        public ?string $mediaCollection = null,
+        public ?array $mediaCollections = [],
+        public bool $singleMedium = false,
+        public bool $clickToOpenInModal = true,// false to prevent endless inclusion
         public string $id = '',
         public ?string $frontendTheme = null
+
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -34,13 +37,14 @@ class MediaPreviewerModal extends BaseMediaManager
         } else {
             $this->mediaItems = MediaCollection::make();
         }
-        //        $this->mediaItems = $model->getMedia($mediaCollection);
+
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
 
+        $this->id = $this->id.'-carousel';
     }
 
     public function render(): View
     {
-        return $this->getView('media-previewer-modal');
+        return $this->getView('media-carousel');
     }
 }

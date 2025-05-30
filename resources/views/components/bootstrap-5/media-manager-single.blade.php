@@ -1,9 +1,11 @@
-{{--This file will handle shared logic and delegate some UI to a partial.--}}
+{{--        <pre>--}}
+{{--        Media manager single--}}
+{{--        id - {{ $id }}--}}
+{{--    </pre>--}}
 <div id="{{ $id }}" {{ $attributes->class([
         'media-manager-single-wrapper',
         'mlbrgn-mle-component'
     ]) }}>
-    
     <x-mle_internal-debug/>
     
     @if(!empty($title))
@@ -31,7 +33,7 @@
                 <a
                     class="media-manager-preview-medium-link media-manager-single-preview-medium-link cursor-zoom-in"
                     data-bs-toggle="modal"
-                    data-bs-target="#{{$modalId}}">
+                    data-bs-target="#{{$id}}-modal">
                     <img
                         src="{{ $medium->getUrl() }}"
                         class="media-manager-preview-medium media-manager-single-preview-medium image-fluid"
@@ -42,8 +44,8 @@
                         <x-mle_internal-media-manager-destroy-form :medium="$medium" :id="$id"/>
                     @endif
                 </div>
-                <x-mle-media-previewer-modal
-                    :id="$modalId"
+                <x-mle-media-modal
+                    :id="$id"
                     :model="$model"
                     :media-collection="$mediaCollection"
                     title="Media carousel"/>

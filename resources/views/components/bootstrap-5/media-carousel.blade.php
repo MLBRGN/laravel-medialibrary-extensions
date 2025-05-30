@@ -1,16 +1,20 @@
+{{--<pre>--}}
+{{--        media-carousel--}}
+{{--        id - {{ $id }}--}}
+{{--    </pre>--}}
 <div
-    id="{{ $id }}-carousel"
+    id="{{ $id }}"
     {{ $attributes->merge([
         'class' => 'mlbrgn-mle-component media-manager-preview-modal-carousel carousel slide'
      ]) }}>
     @if(!$singleMedium)
         <div
-            id="{{ $id }}-carousel-indicators"
+            id="{{ $id }}-indicators"
             class="media-manager-preview-modal-carousel-indicators carousel-indicators">
             @foreach($mediaItems as $index => $medium)
                 <button
                     type="button"
-                    data-bs-target="#{{$id}}-carousel"
+                    data-bs-target="#{{$id}}"
                     data-bs-slide-to="{{ $loop->index }}"
                     {!! $loop->first ? 'aria-current="true"' : '' !!}
                     aria-label="Afbeelding {{ $medium->name }}"
@@ -35,10 +39,11 @@
                     @if($clickToOpenInModal)
                         <div
                             data-bs-toggle="modal"
-                            data-bs-target="#{{$id}}">
+                            data-bs-target="#{{$id}}-modal">
+                            evertjan
                             <a
                                 class="previewed-image cursor-zoom-in"
-                                data-bs-target="#{{$id}}-carousel"
+                                data-bs-target="#{{$id}}-modal-carousel"
                                 data-bs-slide-to="{{ $loop->index }}">
                     @endif
                                 <x-mle-image-responsive
@@ -62,7 +67,7 @@
                 'disabled' => count($mediaItems) <= 1
             ])
             type="button"
-            data-bs-target="#{{$id}}-carousel"
+            data-bs-target="#{{$id}}"
             data-bs-slide="prev">
             <span
                 class="media-manager-preview-modal-carousel-control-prev-icon carousel-control-prev-icon"
@@ -75,7 +80,7 @@
                 'disabled' => count($mediaItems) <= 1
             ])
             type="button"
-            data-bs-target="#{{$id}}-carousel"
+            data-bs-target="#{{$id}}"
             data-bs-slide="next">
             <span
                 class="media-manager-preview-modal-carousel-control-next-icon carousel-control-next-icon"
@@ -84,10 +89,10 @@
         </button>
     @endif
     @if($clickToOpenInModal)
-        <x-mle-media-previewer-modal
+        <x-mle-media-modal
             :id="$id"
             :model="$model"
-            :media-collection="$mediaCollection"
+{{--                :media-collection="$mediaCollection"--}}
             :media-collections="$mediaCollections"
             title="Media carousel"/>
     @endif
