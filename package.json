@@ -27,7 +27,7 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "vite build",
     "test": "vendor/bin/pest",
     "test-f": "vendor/bin/pest --filter"

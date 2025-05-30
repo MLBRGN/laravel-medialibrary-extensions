@@ -42,6 +42,17 @@ abstract class BaseComponent extends Component
         return view($viewPath);
     }
 
+    public function getPartialView($viewName): View
+    {
+        $viewPath = "media-library-extensions::components.$this->frontend.partial.$viewName";
+
+        if (! view()->exists($viewPath)) {
+            $viewPath = "media-library-extensions::components.plain.partial.$viewName";
+        }
+
+        return view($viewPath);
+    }
+
     // prevent n+1 queries
     //    protected function ensureMediaIsLoaded(Model $model): Model
     //    {

@@ -3,6 +3,7 @@
  */
 @use 'mixins/carousel' as carousel;
 
+// TODO why is this needed / wherefore is it used
 @media (hover: none) {
     .carousel-control-prev:hover,
     .carousel-control-next:hover {
@@ -10,63 +11,55 @@
     }
 }
 
-.media-preview-medium-container img {
-    height:auto;
-}
+// TODO these are all classes in media-carousel
+.mlbrgn-mle-component {
 
-.media-preview-medium-url {
-    max-width:200px;
-    word-break: break-all;
-    padding:1em;
-}
+    .media-carousel {
+        --carousel-indicator-width: 12px;
+        --carousel-indicator-height: 12px;
+        --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary
+        --carousel-indicator-hit-area-height: 6px;
+        --carousel-indicator-active-opacity: 0.8;
+        --carousel-indicator-spacer: 6px;
 
-.media-preview-carousel {
-    @include carousel.preview-carousel-controls;
-
-    width: 100%;
-    height: 100%;
-
-    .carousel-control-prev {
-        border-radius:0;
-        //border-top-left-radius: $border-radius;
-        //border-bottom-left-radius: $border-radius;
-        opacity:0.75;
+        --carousel-control-color-stop-1: #ffffff;
+        --carousel-control-color-stop-2: #cccccc;
+        --carousel-control-color-stop-3: #999999;
+        --carousel-control-color-stroke: #333333;
+        border:10px solid var(--carousel-control-color-stroke);
     }
 
-    .carousel-control-next {
-        border-radius:0;
-        //border-top-right-radius: $border-radius;
-        //border-bottom-right-radius: $border-radius;
-        opacity:0.5;
+    .media-carousel-indicators {
     }
 
-    .carousel-inner {
-        width:100%;
-        height:100%;
+    .media-carousel-inner {
 
-        .carousel-item {
-            width:100%;
-            height:100%;
+    }
+    .media-carousel-item-wrapper {
 
-            .cursor-zoom-in {
-                display:block;
-                width:100%;
-                height:100%;
-            }
+    }
+    .previewed-image {
 
-            .youtube-video {
-                //border-radius:$border-radius;
-                display:block;
-                width:100%;
-                height:100%;
-            }
+    }
+    .cursor-zoom-in {
 
-            img {
-                //border-radius:$border-radius;
-                display:block;
-                width:100%;
-                height:100%;
-            }
-        }
+    }
+    .image {
+
+    }
+    .image-zoomed {
+
+    }
+    .media-carousel-control-prev {
+
+    }
+    .media-carousel-control-prev-icon {
+
+    }
+    .media-carousel-control-next-icon {
+
+    }
+    .visually-hidden {
+
     }
 }

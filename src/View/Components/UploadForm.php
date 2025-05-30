@@ -7,7 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
 
-class MediaManagerUploadForm extends BaseComponent
+class UploadForm extends BaseComponent
 {
     public function __construct(
 
@@ -24,6 +24,6 @@ class MediaManagerUploadForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-manager-upload-form');
+        return $this->getPartialView('upload-form');
     }
 }

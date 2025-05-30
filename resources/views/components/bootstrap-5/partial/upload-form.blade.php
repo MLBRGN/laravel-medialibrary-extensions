@@ -42,5 +42,5 @@
          ? __('media-library-extensions::messages.upload-media')
          : trans_choice('media-library-extensions::messages.upload-or-replace', $mediaPresent ? 1 : 0) }}
     </button>
-    <x-mle_internal-flash :target-id="$id"/>
+    <x-mle-partial-flash :target-id="$id"/>
 </form>

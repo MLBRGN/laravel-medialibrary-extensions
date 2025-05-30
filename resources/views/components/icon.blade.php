@@ -1,5 +1,11 @@
 @if ($name && $iconExists)
-    <x-dynamic-component class="icon" :component="$name" :title="$title"/>
+    <x-dynamic-component 
+        class="mle-icon" 
+        :component="$name" 
+        :title="$title"/>
 @else
-    <span role="img" aria-label="{{ $title }}" title="{{ $title }}">❓</span>
+    <span 
+        role="img" 
+        aria-label="{{ $title }}" 
+        title="{{ $title }}">❓</span>
 @endif

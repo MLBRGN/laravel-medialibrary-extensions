@@ -11,6 +11,7 @@ export default defineConfig({
             ],
             publicDirectory: 'public',
             // buildDirectory: '', // empty => directly in public
+            refresh: true,
         }),
     ],
     resolve: {

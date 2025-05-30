@@ -19,3 +19,13 @@ or publish policies class
 ```shell
 php artisan vendor:publish --tag=media-policy
 ```
+
+## Customizing Colors
+
+You can override the default color scheme by defining the following CSS variables in your app:
+
+    --mlbrgn-mle-color-primary: #ffffff;
+    --mlbrgn-mle-color-secondary: #ffffff;
+    --mlbrgn-mle-color-accent: #ffffff;
+    --mlbrgn-mle-container-light-bg: #ffffff;
+    --mlbrgn-mle-container-ligher-bg: #ffffff;

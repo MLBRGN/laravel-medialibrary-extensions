@@ -1,3 +1,4 @@
+{{--TODO class add possibility--}}
 <img
     src="{{ $hasGeneratedConversion ? $medium->getUrl($useConversion) : $medium->getUrl() }}"
 
@@ -11,4 +12,3 @@
     @endif
     alt="{!! $alt !!}"
 />
-

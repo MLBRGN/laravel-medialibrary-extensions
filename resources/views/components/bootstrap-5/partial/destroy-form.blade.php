@@ -12,7 +12,7 @@
             type="submit"
             class=""
             title="{{ __('media-library-extensions::messages.delete_medium') }}">
-        <x-mle_internal-icon
+        <x-mle-partial-icon
                 name="{{ config('media-library-extensions.icons.delete') }}"
                 :title="__('media-library-extensions::messages.delete_medium')"
         />

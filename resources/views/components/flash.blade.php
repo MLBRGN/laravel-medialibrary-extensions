@@ -1,5 +1,5 @@
 @if ($status)
-    <p type="{{ $status['type'] }}">
+    <p class="status-{{ $status['type'] }}">
         {{ $status['message'] }}
     </p>
 @endif

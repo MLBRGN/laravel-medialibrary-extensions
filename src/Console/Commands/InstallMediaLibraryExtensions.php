@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class InstallMediaLibraryExtensions extends Command
 {
-    protected $signature = 'mle:install';
+    protected $signature = 'media-library-extensions:install';
 
     protected $description = 'Install the media library extensions.';
 

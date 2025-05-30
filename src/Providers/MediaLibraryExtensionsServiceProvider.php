@@ -4,24 +4,25 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Providers;
 
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
+use Mlbrgn\MediaLibraryExtensions\Console\Commands\LinkAssets;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Flash;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerDestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Modal;
+use Mlbrgn\MediaLibraryExtensions\View\Components\UploadForm;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
@@ -60,6 +61,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
             $this->commands([
                 InstallMediaLibraryExtensions::class,
+                LinkAssets::class,
             ]);
             $this->publishes([
                 __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
@@ -92,17 +94,18 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // register blade views and classes for internal use
         // TODO i don't know how to hide them from the host applications yet (not expose them)
-        $this->loadViewComponentsAs($this->packageNameShort.'_internal', [
+        $this->loadViewComponentsAs($this->packageNameShort.'-partial', [
             Debug::class,
             Icon::class,
-            Modal::class,
             Flash::class,
-            MediaManagerUploadForm::class,
-            MediaManagerDestroyForm::class,
+            UploadForm::class,
+            DestroyForm::class,
         ]);
 
         // register policies
         $this->registerPolicy();
+
+        $this->addToAbout();
 
     }
 
@@ -126,5 +129,16 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             // Use package’s fallback policy
             Gate::policy(Media::class, MediaPolicy::class);
         }
+    }
+
+    protected function addToAbout(): void
+    {
+        AboutCommand::add($this->packageName, function () {
+            $composer = json_decode(file_get_contents(__DIR__.'/../../composer.json'), true);
+
+            return [
+                'Version' => $composer['version'] ?? 'unknown',
+            ];
+        });
     }
 }

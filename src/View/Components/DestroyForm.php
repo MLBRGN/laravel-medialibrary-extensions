@@ -7,7 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaManagerDestroyForm extends BaseComponent
+class DestroyForm extends BaseComponent
 {
     public function __construct(
 
@@ -21,6 +21,6 @@ class MediaManagerDestroyForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-manager-destroy-form');
+        return $this->getPartialView('destroy-form');
     }
 }
