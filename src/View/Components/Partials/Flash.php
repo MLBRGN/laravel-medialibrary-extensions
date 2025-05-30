@@ -2,7 +2,7 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
@@ -31,6 +31,6 @@ class Flash extends Component
 
     public function render(): View
     {
-        return view('media-library-extensions::components.flash');
+        return view('media-library-extensions::components.partial.flash');
     }
 }

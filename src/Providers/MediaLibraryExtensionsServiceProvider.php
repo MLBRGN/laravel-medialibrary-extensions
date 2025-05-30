@@ -13,16 +13,16 @@ use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\LinkAssets;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Debug;
-use Mlbrgn\MediaLibraryExtensions\View\Components\DestroyForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Flash;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\UploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Flash;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
@@ -92,15 +92,21 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
 
+        // partials for internal use
+        Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
+        Blade::component($this->packageNameShort.'-partial-destroy-form', DestroyForm::class);
+        Blade::component($this->packageNameShort.'-partial-debug', Debug::class);
+        Blade::component($this->packageNameShort.'-partial-icon', Icon::class);
+        Blade::component($this->packageNameShort.'-partial-flash', Flash::class);
+
         // register blade views and classes for internal use
-        // TODO i don't know how to hide them from the host applications yet (not expose them)
-        $this->loadViewComponentsAs($this->packageNameShort.'-partial', [
-            Debug::class,
-            Icon::class,
-            Flash::class,
-            UploadForm::class,
-            DestroyForm::class,
-        ]);
+        //        $this->loadViewComponentsAs($this->packageNameShort.'-partial', [
+        //            Debug::class,
+        //            Icon::class,
+        //            Flash::class,
+        //            //            UploadForm::class,
+        //            //            DestroyForm::class,
+        //        ]);
 
         // register policies
         $this->registerPolicy();

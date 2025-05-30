@@ -2,7 +2,7 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
@@ -24,6 +24,6 @@ class Debug extends Component
 
     public function render(): View
     {
-        return view('media-library-extensions::components.debug');
+        return view('media-library-extensions::components.partial.debug');
     }
 }

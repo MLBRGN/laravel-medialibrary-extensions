@@ -2,7 +2,7 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
@@ -22,6 +22,6 @@ class Icon extends Component
 
     public function render(): View
     {
-        return view('media-library-extensions::components.icon');
+        return view('media-library-extensions::components.partial.icon');
     }
 }
