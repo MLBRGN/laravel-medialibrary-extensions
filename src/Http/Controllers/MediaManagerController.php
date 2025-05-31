@@ -69,7 +69,7 @@ class MediaManagerController extends Controller
         return $this->redirectBackWithStatus(
             $targetId,
             'error',
-            __('media-library-extensions::messages.upload-no-files'),
+            __('media-library-extensions::messages.upload_no_files'),
             $targetId
         );
     }
@@ -103,7 +103,7 @@ class MediaManagerController extends Controller
         return $this->redirectBackWithStatus(
             $targetId,
             'error',
-            __('media-library-extensions::messages.upload-no-files'),
+            __('media-library-extensions::messages.upload_no_files'),
             $targetId
         );
     }
@@ -118,7 +118,7 @@ class MediaManagerController extends Controller
         return $this->redirectBackWithStatus(
             $targetId,
             'success',
-            __('media-library-extensions::messages.medium-removed'),
+            __('media-library-extensions::messages.medium_removed'),
             $targetId
         );
 
@@ -143,7 +143,7 @@ class MediaManagerController extends Controller
         return $this->redirectBackWithStatus(
             $targetId,
             'success',
-            __('media-library-extensions::messages.medium-set-as-main'),
+            __('media-library-extensions::messages.medium_set_as_main'),
             $targetId
         );
     }

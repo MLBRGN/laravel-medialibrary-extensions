@@ -2,6 +2,13 @@
     --mlbrgn-mle-color-primary: #007bff;
     --mlbrgn-mle-color-secondary: #6c757d;
     --mlbrgn-mle-color-accent: #ff5722;
-    --mlbrgn-mle-container-light-bg: #ff5722;
-    --mlbrgn-mle-container-ligher-bg: #ff5722;
+    --mlbrgn-mle-container-bg-light: #e8e7e8;
+    --mlbrgn-mle-container-bg: #cecdcf;
+    --mlbrgn-mle-container-bg-dark: #b5b5b5;
+    --mlbrgn-mle-btn-icon-bg: var(--mlbrgn-mle-container-bg-light);
+    --mlbrgn-mle-btn-icon-border-radius: .5em;
+    --mlbrgn-mle-btn-icon-width: 1em;
+    --mlbrgn-mle-btn-icon-height: 1em;
+    --mlbrgn-mle-menu-bg: var(--mlbrgn-mle-container-bg-dark);
+
 }

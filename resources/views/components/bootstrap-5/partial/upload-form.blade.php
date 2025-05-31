@@ -37,10 +37,10 @@
         value="{{ $id }}"/>
     <button
         type="submit"
-        class="btn btn-success">
+        class="btn btn-primary">
         {{ $multiple
-         ? __('media-library-extensions::messages.upload-media')
-         : trans_choice('media-library-extensions::messages.upload-or-replace', $mediaPresent ? 1 : 0) }}
+         ? __('media-library-extensions::messages.upload_media')
+         : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
     <x-mle-partial-flash :target-id="$id"/>
 </form>

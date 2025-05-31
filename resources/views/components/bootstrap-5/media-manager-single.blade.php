@@ -4,12 +4,12 @@
 {{--    </pre>--}}
 <div class="mlbrgn-mle-component">
     <div id="{{ $id }}" {{ $attributes->class([
-            'media-manager-single-wrapper',
+            'media-manager media-manager-single',
         ]) }}>
         <x-mle-partial-debug/>
         
         @if(!empty($title))
-            <h2 class="media-manager-heading">{{ $title }}</h2>
+            <h2 class="mle-heading">{{ $title }}</h2>
         @endif
     
         <div class="media-manager-row media-manager-single-row row">
@@ -21,23 +21,18 @@
                     :id="$id"
                     :multiple="false"
                     :media-present="!is_null($medium)"/>
-                @if(!$medium)
-                    <p class="media-manager-no-media">
-                        {{ __('media-library-extensions::messages.no-medium') }}
-                    </p>
-                @endif
             @endif
-    
-            @if($medium)
-                <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper col-12 col-md-8 text-center">
+
+            <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper col-12 col-md-8 text-center">
+                @if($medium)
                     <a
-                        class="media-manager-preview-medium-link media-manager-single-preview-medium-link cursor-zoom-in"
+                        class="media-manager-preview-medium-link media-manager-single-preview-medium-link mle-cursor-zoom-in"
                         data-bs-toggle="modal"
                         data-bs-target="#{{$id}}-modal">
                         <img
                             src="{{ $medium->getUrl() }}"
                             class="media-manager-preview-medium media-manager-single-preview-medium image-fluid"
-                            alt=" {{ __('media-library-extensions::messages.no-medium') }}">
+                            alt=" {{ __('media-library-extensions::messages.no_medium') }}">
                     </a>
                     <div class="media-manager-preview-menu media-manager-single-preview-menu">
                         @if($destroyEnabled)
@@ -49,13 +44,12 @@
                         :model="$model"
                         :media-collection="$mediaCollection"
                         title="Media carousel"/>
-                </div>
-            @endif
+                @else
+                    {{-- TODO status class? --}}
+                    <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
+                @endif
+            </div>
         </div>
-    
-        @if(!$uploadEnabled && !$medium)
-            <span>{{ __('media-library-extensions::messages.no-medium') }}</span>
-        @endif
     </div>
 </div>
 

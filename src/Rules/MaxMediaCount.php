@@ -38,6 +38,6 @@ class MaxMediaCount implements ValidationRule
 
     public function message(): string
     {
-        return __('media-library-extensions::messages.this-collection-can-contain-up-to-:items-items', ['items' => $this->max]);
+        return __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => $this->max]);
     }
 }

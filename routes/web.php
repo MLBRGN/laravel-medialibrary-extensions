@@ -24,6 +24,12 @@ Route::group([
             Route::post('media-manager-set-medium-as-first-in-collection', 'setAsFirst')
                 ->name(config('media-library-extensions.route_prefix').'-set-as-first');
         });
+    Route::get('mle-plain', function () {
+        return view('media-library-extensions::components.test.mle-plain-test');
+    })->name('mle-plain-test');
+    Route::get('mle-bootstrap', function () {
+        return view('media-library-extensions::components.test.mle-bootstrap-test');
+    })->name('mle-bootstrap-test');
 });
 
 // Route::group([

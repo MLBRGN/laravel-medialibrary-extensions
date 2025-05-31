@@ -2,11 +2,14 @@
 {{--        media-carousel--}}
 {{--        id - {{ $id }}--}}
 {{--    </pre>--}}
-<div class="mlbrgn-mle-component">
+<div class="mlbrgn-mle-component" {{ $attributes->merge() }}>
     <div
         id="{{ $id }}"
-        {{ $attributes->merge([
-            'class' => 'media-carousel carousel slide'
+        @class([
+            'media-carousel', 
+            'carousel', 
+            'slide',
+            'carousel-fade' => config('media-library-extensions.carousel_fade')       
          ]) }}>
         @if(!$singleMedium)
             <div
@@ -41,9 +44,8 @@
                             <div
                                 data-bs-toggle="modal"
                                 data-bs-target="#{{$id}}-modal">
-                                evertjan
                                 <a
-                                    class="previewed-image cursor-zoom-in"
+                                    class="previewed-image mle-cursor-zoom-in"
                                     data-bs-target="#{{$id}}-modal-carousel"
                                     data-bs-slide-to="{{ $loop->index }}">
                         @endif

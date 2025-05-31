@@ -136,9 +136,21 @@ return [
 
     'icons' => [
         'delete' => 'bi-trash3',
-        'setup-as-main' => 'bi-star',
+        'setup_as_main' => 'bi-star',
         'set-as-main' => 'bi-star-fill',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bootstrap options
+    |--------------------------------------------------------------------------
+    |
+    | Options for bootstrap (when using bootstrap as frontend_theme
+    |
+    */
+
+    // to fade items instead of sliding set to true
+    'carousel_fade' => false,
 
     /*
     |--------------------------------------------------------------------------

@@ -15,7 +15,7 @@
 .mlbrgn-mle-component {
 
     .media-carousel {
-        --carousel-indicator-width: 12px;
+        --carousel-indicator-width: 30px;
         --carousel-indicator-height: 12px;
         --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary
         --carousel-indicator-hit-area-height: 6px;
@@ -26,10 +26,10 @@
         --carousel-control-color-stop-2: #cccccc;
         --carousel-control-color-stop-3: #999999;
         --carousel-control-color-stroke: #333333;
-        border:10px solid var(--carousel-control-color-stroke);
     }
 
     .media-carousel-indicators {
+        background-color:var(--mlbrgn-mle-container-bg-dark);
     }
 
     .media-carousel-inner {
@@ -41,9 +41,6 @@
     .previewed-image {
 
     }
-    .cursor-zoom-in {
-
-    }
     .image {
 
     }
@@ -51,7 +48,10 @@
 
     }
     .media-carousel-control-prev {
-
+        background-color: var(--mlbrgn-mle-container-bg-dark);
+    }
+    .media-carousel-control-next {
+        background-color: var(--mlbrgn-mle-container-bg-dark);
     }
     .media-carousel-control-prev-icon {
 

@@ -34,7 +34,7 @@ class MediaManagerMultiple extends BaseMediaManager
         parent::__construct($id, $frontendTheme);
 
         // set allowed mimetypes
-        $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))
+        $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimetypes.image'))
             ->flatten()
             ->unique()
             ->implode(',');

@@ -56,6 +56,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // This tells Laravel where to find the translation files
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
+        //        $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
         if ($this->app->runningInConsole()) {
 

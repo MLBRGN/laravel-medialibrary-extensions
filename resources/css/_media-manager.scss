@@ -12,7 +12,7 @@
     flex-direction: column;
     justify-content: center;
     align-items:center;
-    //background-color:$neutral;
+    background-color:var(--mlbrgn-mle-container-bg-dark);
     border-radius: .3em;
 }
 
@@ -23,6 +23,25 @@
 .media-manager-preview-wrapper {
     position:relative;
     overflow:hidden;
+}
+
+.media-manager-row {
+    background-color: var(--mlbrgn-mle-container-bg);
+
+}
+
+.media-manager-form {
+    padding:1em;
+    background-color: var(--mlbrgn-mle-container-bg-light);
+
+    input[type="file"] {
+        margin-bottom:1em;
+    }
+}
+
+.media-manager-preview-wrapper {
+    padding:1em;
+    //background-color: var(--mlbrgn-mle-container-bg-light);
 }
 
 .media-manager-debug {
@@ -49,12 +68,11 @@
     right:0;
     inset-block-end: 0;
     bottom:0;
-    //background-color: rgba($black,0.6);
+    background-color: var(--mlbrgn-mle-menu-bg);
     color:white;
     height:auto;
     max-height:30%;
     padding:0.3em;
-    background-color:slategray;
     display:flex;
     justify-content: end;
     padding-inline:1em;
@@ -72,12 +90,11 @@
 }
 
 .media-manager-upload {
-    //background-color: $neutral-light;
-    //min-width:25vw;
+    background-color: var(--mlbrgn-mle-container-bg);
 }
 
 .media-manager-preview {
-    //background-color: $neutral-lighter;
+    background-color: var(--mlbrgn-mle-container-bg-light);
     align-content:center;
     overflow:hidden;
 }
@@ -102,10 +119,6 @@
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 
-.mm-something {
-    width:100%;
-    height:100%;
-}
 
 .media-manager-input-file {
     margin-bottom:0.25rem;
@@ -117,8 +130,4 @@
 
 .media-manager-no-media {
     margin-block:0.7rem;
-}
-
-.media-manager-headings {
-    margin-bottom: 1rem;
 }

@@ -10,7 +10,7 @@
         value="{{ $id }}"/>
     <button
             type="submit"
-            class=""
+            class="mle-btn-icon"
             title="{{ __('media-library-extensions::messages.delete_medium') }}">
         <x-mle-partial-icon
                 name="{{ config('media-library-extensions.icons.delete') }}"
