@@ -11,4 +11,4 @@
         loading="lazy"
     @endif
     alt="{!! $alt !!}"
-/>
+>

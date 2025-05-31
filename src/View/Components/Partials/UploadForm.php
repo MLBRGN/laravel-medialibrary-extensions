@@ -16,7 +16,7 @@ class UploadForm extends BaseComponent
         public ?string $mediaCollection,
         public string $id,
         public ?string $frontendTheme,
-        public string $allowedMimeTypes,
+        public string $allowedMimeTypes = '',
         public bool $multiple = false,
         public bool $mediaPresent = false,
     ) {
@@ -25,6 +25,8 @@ class UploadForm extends BaseComponent
 
     public function render(): View
     {
+        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ');
+
         return $this->getPartialView('upload-form');
     }
 }

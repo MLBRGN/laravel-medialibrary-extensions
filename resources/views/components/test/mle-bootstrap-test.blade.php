@@ -10,7 +10,7 @@
             rel="stylesheet"
 {{--            integrity="sha384-QWTKZyjpPEjISv5WaRU5M6QdFVb2l9gCk0GZg6CJWjvvoE5yOAy+n9C80+XW9HdT"--}}
             crossorigin="anonymous"
-        />
+        >
     </head>
     <body>
         <div class="container-lg mt-5">

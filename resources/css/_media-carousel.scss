@@ -15,7 +15,7 @@
 .mlbrgn-mle-component {
 
     .media-carousel {
-        --carousel-indicator-width: 30px;
+        --carousel-indicator-width: 12px;
         --carousel-indicator-height: 12px;
         --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary
         --carousel-indicator-hit-area-height: 6px;
@@ -26,11 +26,25 @@
         --carousel-control-color-stop-2: #cccccc;
         --carousel-control-color-stop-3: #999999;
         --carousel-control-color-stroke: #333333;
+
+        @include carousel.carousel-controls;
+
+        width:100%;
+        height:auto;
+        aspect-ratio: 16/9;
+        overflow:hidden;
+        background-color: var(--mlbrgn-mle-container-bg-light);
+
+        .media-carousel-indicators {
+            position:absolute;
+            top:1em;
+            height:fit-content;
+            margin-left:15%;
+            margin-right:15%;
+        }
     }
 
-    .media-carousel-indicators {
-        background-color:var(--mlbrgn-mle-container-bg-dark);
-    }
+
 
     .media-carousel-inner {
 
@@ -41,6 +55,10 @@
     .previewed-image {
 
     }
+    // in general
+    //.cursor-zoom-in {
+    //
+    //}
     .image {
 
     }
@@ -48,10 +66,7 @@
 
     }
     .media-carousel-control-prev {
-        background-color: var(--mlbrgn-mle-container-bg-dark);
-    }
-    .media-carousel-control-next {
-        background-color: var(--mlbrgn-mle-container-bg-dark);
+
     }
     .media-carousel-control-prev-icon {
 

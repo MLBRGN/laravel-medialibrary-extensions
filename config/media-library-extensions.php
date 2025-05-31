@@ -57,8 +57,8 @@ return [
     |
     */
 
-    'upload_field_name_single' => 'medium_evertjan',
-    'upload_field_name_multiple' => 'media_bart',
+    'upload_field_name_single' => 'medium',
+    'upload_field_name_multiple' => 'media',
 
     /*
     |--------------------------------------------------------------------------

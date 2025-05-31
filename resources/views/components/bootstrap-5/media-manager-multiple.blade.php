@@ -78,14 +78,14 @@
                                                                value="{{ $model->id }}">
                                                         <input type="hidden"
                                                                name="target_id"
-                                                               value="{{ $id }}"/>
+                                                               value="{{ $id }}">
                                                         <button
                                                             type="submit"
                                                             class="mle-btn-icon"
-                                                            title="{{ __('media-library-extensions::messages.setup_as_main') }}">
+                                                            title="{{ __('media-library-extensions::messages.medium_set_as_main') }}">
                                                             <x-mle-partial-icon
                                                                 name="{{ config('media-library-extensions.icons.setup_as_main') }}"
-                                                                title="{{ __('media-library-extensions::messages.setup_as_main') }}"
+{{--                                                                title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"--}}
                                                             />
                                                         </button>
                                                     </form>

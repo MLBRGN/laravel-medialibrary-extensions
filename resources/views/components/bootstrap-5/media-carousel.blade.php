@@ -10,18 +10,20 @@
             'carousel', 
             'slide',
             'carousel-fade' => config('media-library-extensions.carousel_fade')       
-         ]) }}>
+         ])>
         @if(!$singleMedium)
             <div
                 id="{{ $id }}-indicators"
                 class="media-carousel-indicators carousel-indicators">
                 @foreach($mediaItems as $index => $medium)
+                    
+{{--                    <p>{{ $loop->first ? 'yes' : 'No' }}</p>--}}
                     <button
                         type="button"
                         data-bs-target="#{{$id}}"
                         data-bs-slide-to="{{ $loop->index }}"
-                        {!! $loop->first ? 'aria-current="true"' : '' !!}
-                        aria-label="Afbeelding {{ $medium->name }}"
+                        @if($loop->first) aria-current="true" @endif
+                        aria-label="Afbeelding {{ $medium->name }}" 
                         @class([
                             'active' => $loop->first
                         ])>
@@ -33,9 +35,10 @@
             class="media-carousel-inner carousel-inner"
             data-bs-toggle="modal">
             @foreach($mediaItems as $index => $medium)
-                <div
+                <div 
                     @class([
-                        'media-carousel-item carousel-item',
+                        'media-carousel-item',
+                        'carousel-item',
                         'active' => $loop->first
                     ])
                 >
@@ -66,7 +69,8 @@
         @if(!$singleMedium)
             <button
                 @class([
-                    'media-carousel-control-prev carousel-control-prev',
+                    'media-carousel-control-prev',
+                    'carousel-control-prev',
                     'disabled' => count($mediaItems) <= 1
                 ])
                 type="button"
@@ -79,7 +83,8 @@
             </button>
             <button
                 @class([
-                    'media-carousel-control-next carousel-control-next',
+                    'media-carousel-control-next',
+                    'carousel-control-next',
                     'disabled' => count($mediaItems) <= 1
                 ])
                 type="button"
@@ -104,6 +109,6 @@
 
 @once
     <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
-    <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>
+{{--    <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>--}}
 {{--    <script src="https://www.youtube.com/iframe_api"></script>--}}
 @endonce

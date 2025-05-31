@@ -7,7 +7,7 @@
     <input 
         type="hidden" 
         name="target_id" 
-        value="{{ $id }}"/>
+        value="{{ $id }}">
     <button
             type="submit"
             class="mle-btn-icon"

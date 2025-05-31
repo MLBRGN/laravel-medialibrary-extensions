@@ -1,5 +1,5 @@
 // Shared carousel control styles
-@mixin preview-carousel-controls {
+@mixin carousel-controls {
 
     .carousel-item {
         height:100%;
@@ -43,7 +43,7 @@
     .carousel-control-prev:focus-visible,
     .carousel-control-next:hover,
     .carousel-control-next:focus-visible {
-        //background-color: rgba($secondary, 0.7);
+        background-color: rgba(red, 0.7);
     }
 
     .carousel-indicators button:focus-visible {

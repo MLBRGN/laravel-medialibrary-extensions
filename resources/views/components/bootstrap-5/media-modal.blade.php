@@ -8,7 +8,7 @@
     @endphp
 <div class="mlbrgn-mle-component">
     <div
-        {{ $attributes->merge(['class' => "modal fade $sizeClass"]) }}
+        {{ $attributes->merge(['class' => "media-modal modal fade $sizeClass"]) }}
         id="{{ $id }}"
         tabindex="-1"
         aria-labelledby="{{ $id }}-title"
