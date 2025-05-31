@@ -34,7 +34,7 @@
                                     <div
                                         data-bs-toggle="modal"
                                         data-bs-target="#{{$id}}-modal"
-                                        class="mm-something">
+                                        class="">
                                         <a
                                             class="previewed-image mle-cursor-zoom-in"
                                             data-bs-target="#{{$id}}-modal-carousel"
@@ -42,11 +42,11 @@
                                             <x-mle-image-responsive :medium="$medium" />
                                         </a>
                                     </div>
-                                    @if($setAsFirstEnabled && $showOrder)
-                                        <span>{{ $medium->order_column }}</span>
-                                    @endif
                                     <div class="media-manager-preview-menu media-manager-multiple-preview-menu">
                                         <div>
+                                            @if($setAsFirstEnabled && $showOrder)
+                                                <div class="media-manager-order">{{ $medium->order_column }}</div>
+                                            @endif
                                             @if($setAsFirstEnabled)
                                                 @if($medium->order_column === $media->min('order_column'))
                                                     <button
@@ -64,20 +64,20 @@
                                                         action="{{ route(mle_prefix_route('set-as-first')) }}"
                                                         method="post">
                                                         @csrf
-                                                        <input type="hidden" 
-                                                               name="medium_id" 
+                                                        <input type="hidden"
+                                                               name="medium_id"
                                                                value="{{ $medium->id }}">
-                                                        <input type="hidden" 
-                                                               name="collection_name" 
+                                                        <input type="hidden"
+                                                               name="collection_name"
                                                                value="{{ $mediaCollection }}">
-                                                        <input type="hidden" 
-                                                               name="model_type" 
+                                                        <input type="hidden"
+                                                               name="model_type"
                                                                value="{{ get_class($model) }}">
-                                                        <input type="hidden" 
-                                                               name="model_id" 
+                                                        <input type="hidden"
+                                                               name="model_id"
                                                                value="{{ $model->id }}">
-                                                        <input type="hidden" 
-                                                               name="target_id" 
+                                                        <input type="hidden"
+                                                               name="target_id"
                                                                value="{{ $id }}"/>
                                                         <button
                                                             type="submit"
@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="media-manager-preview-image-menu-end d-flex align-items-center gap-1">
                                             @if($destroyEnabled)
-                                               <x-mle-partial-destroy-form :medium="$medium" :id="$id"/>
+                                                <x-mle-partial-destroy-form :medium="$medium" :id="$id"/>
                                             @endif
                                         </div>
                                     </div>
