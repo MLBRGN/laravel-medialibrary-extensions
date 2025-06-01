@@ -150,7 +150,10 @@ return [
     */
 
     // to fade items instead of sliding set to true
-    'carousel_fade' => false,
+    'carousel_ride' => false, // should carousel automatically switch slides
+    'carousel_ride_interval' => 2000, // time between sliding
+    'carousel_ride_only_after_interaction' => false, // only slide after first interaction with carousel
+    'carousel_fade' => false, // slide effect true for "fade" false for "slide"
 
     /*
     |--------------------------------------------------------------------------

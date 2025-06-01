@@ -23,5 +23,5 @@ return [
     'close' => 'Sluit',
     'not_authorized' => 'Niet geautoriseerd',
     'this_collection_can_contain_up_to_:items_items' => 'Deze collectie kan tot :items bevatten.',
-
+    'slide_to_:index' => 'Ga naar dia :index',
 ];
