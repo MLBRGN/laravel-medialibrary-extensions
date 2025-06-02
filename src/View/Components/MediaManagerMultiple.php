@@ -22,7 +22,6 @@ class MediaManagerMultiple extends BaseMediaManager
         public bool $uploadEnabled = false,
         public string $uploadFieldName = 'media',
         public bool $destroyEnabled = false,
-        public ?string $destroyRoute = null,
         public bool $showMediaUrl = false,
         public bool $setAsFirstEnabled = false,
         public bool $showOrder = false,
