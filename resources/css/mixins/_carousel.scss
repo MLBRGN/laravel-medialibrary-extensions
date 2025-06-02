@@ -43,19 +43,20 @@
     .carousel-control-prev:focus-visible,
     .carousel-control-next:hover,
     .carousel-control-next:focus-visible {
-        background-color: rgba(red, 0.7);
+        //background-color: rgba(var(--mlbrgn-mle-color-primary), 0.7);
+        background-color: rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
     }
 
     .carousel-indicators button:focus-visible {
-        outline:none;
+        outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
+        outline-offset: 0; /* Optional: adds spacing between button and outline */
+        border-radius:0.5em;
     }
 
     .carousel-indicators {
         position:absolute;
         top:1em;
         height:fit-content;
-        //margin-left:15%;
-        //margin-right:15%;
     }
 
     .carousel-inner {
@@ -92,6 +93,7 @@
         top:50%;
         left:50%;
         transform: translateY(-50%) translateX(-50%);
-        //fill:$primary;
+        fill:#f00;
+        color:white;
     }
 }
