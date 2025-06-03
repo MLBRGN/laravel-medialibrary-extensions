@@ -13,6 +13,7 @@
             posterquality="maxresdefault"
             autopause
             autoload
+            autopause
             params="autoplay=1&loop=0&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1"
         >
             <a class="lite-youtube-fallback" href="https://www.youtube.com/watch?v={{ $youtubeId }}">{{ __('media-library-extensions::messages.watch_on_youtube') }}</a>
