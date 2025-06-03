@@ -55,7 +55,7 @@
                                                         disabled>
                                                         <x-mle-partial-icon
                                                             name="{{ config('media-library-extensions.icons.set-as-main') }}"
-                                                            title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                                                            title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
                                                         />
                                                     </button>
                                                 @else
@@ -85,7 +85,7 @@
                                                             title="{{ __('media-library-extensions::messages.medium_set_as_main') }}">
                                                             <x-mle-partial-icon
                                                                 name="{{ config('media-library-extensions.icons.setup_as_main') }}"
-{{--                                                                title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"--}}
+                                                                title="{{ __('media-library-extensions::messages.setup_as_main') }}"
                                                             />
                                                         </button>
                                                     </form>

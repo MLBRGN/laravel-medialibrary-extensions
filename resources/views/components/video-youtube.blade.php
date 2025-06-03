@@ -1,8 +1,13 @@
 @if ($preview)
     <div class="youtube-video">
-        <svg class="youtube-play-button" width="32" height="32">
+        <x-mle-partial-icon
+            class="youtube-play-button"
+            name="{{ config('media-library-extensions.icons.play_video') }}"
+            title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
+        />
+{{--        <svg class="youtube-play-button" width="32" height="32">--}}
 {{--            <use href="/images/svg-sprites/bootstrap-icons-sprite.svg#play-btn-fill"></use>--}}
-        </svg>
+{{--        </svg>--}}
         {{ $medium->img()->lazy()->attributes(['class' => 'object-fit-contain']) }}
     </div>
 @else

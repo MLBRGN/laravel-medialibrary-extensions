@@ -4,8 +4,8 @@ return [
     'upload_success' => 'Upload was successful!',
     'upload_fail' => 'Upload failed.',
     'upload_no_files' => 'Geen bestanden geüpload.',
-    'setup_as_main' => 'Instellen als hoofd.',
-    'medium_set_as_main' => 'Medium ingesteld als hoofd.',
+    'setup_as_main' => 'Instellen als hoofdmedium.',
+    'medium_set_as_main' => 'Ingesteld als hoofdmedium.',
     'medium_removed' => 'Medium verwijderd.',
     'medium_could_not_be_removed' => 'Medium kon niet worden verwijderd.',
     'no_media' => 'Geen media.',
@@ -25,4 +25,5 @@ return [
     'this_collection_can_contain_up_to_:items_items' => 'Deze collectie kan tot :items bevatten.',
     'slide_to_:index' => 'Ga naar dia :index',
     'watch_on_youtube' => 'Bekijk op YouTube',
+    'play_video' => 'Video afspelen',
 ];

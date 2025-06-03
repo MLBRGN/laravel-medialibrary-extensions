@@ -25,4 +25,5 @@ return [
     'this_collection_can_contain_up_to_:items_items' => 'This collection can contain up to  :items items.',
     'slide_to_:index' => 'Slide to :index',
     'watch_on_youtube' => 'Watch on YouTube',
+    'play_video' => 'Play video',
 ];

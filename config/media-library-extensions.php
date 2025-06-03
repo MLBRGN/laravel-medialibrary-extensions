@@ -138,6 +138,7 @@ return [
         'delete' => 'bi-trash3',
         'setup_as_main' => 'bi-star',
         'set-as-main' => 'bi-star-fill',
+        'play_video' => 'bi-play',
     ],
 
     /*
