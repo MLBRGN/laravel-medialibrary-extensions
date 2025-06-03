@@ -1,7 +1,7 @@
 /*
  * Media carousel
  */
-@use 'mixins/carousel' as carousel;
+@use 'mixins/carousel-controls' as carousel;
 
 // TODO why is this needed / wherefore is it used
 @media (hover: none) {
@@ -34,46 +34,6 @@
         aspect-ratio: 16/9;
         overflow:hidden;
         background-color: var(--mlbrgn-mle-container-bg-light);
-
-        .media-carousel-indicators {
-            position:absolute;
-            top:1em;
-            height:fit-content;
-        }
-    }
-
-
-
-    .media-carousel-inner {
-
-    }
-    .media-carousel-item-wrapper {
-
-    }
-    .previewed-image {
-
-    }
-    // in general
-    //.cursor-zoom-in {
-    //
-    //}
-    .image {
-
-    }
-    .image-zoomed {
-
-    }
-    .media-carousel-control-prev {
-
-    }
-    .media-carousel-control-prev-icon {
-
-    }
-    .media-carousel-control-next-icon {
-
-    }
-    .visually-hidden {
-
     }
 
     .media-video-wrapper {
