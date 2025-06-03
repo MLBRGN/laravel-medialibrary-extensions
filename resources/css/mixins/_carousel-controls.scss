@@ -93,10 +93,12 @@
         top:50%;
         left:50%;
         transform: translateY(-50%) translateX(-50%);
-        fill:#f00;
-        color:white;
-        width:20%;
+        fill:#fff;
+        background-color:#f00;
+        width:15%;
         height:auto;
-        aspect-ratio:16/9;
+        aspect-ratio:4/3;
+        border-radius: 1em;
+        opacity:.8;
     }
 }
