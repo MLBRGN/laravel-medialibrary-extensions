@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 events: {
                     onReady: () => {
                         if (autoPlay) {
-                            startVideoPlayBack(youTubeId, true);
+                            startVideoPlayBack(youTubeId);
                         }
                     },
                 },
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function startVideoPlayBack(youTubeId, ready) {
+    function startVideoPlayBack(youTubeId) {
         let player = players[youTubeId]
         if (player) {
             player.playVideo();
