@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Event listener for when the YouTube iframe loads
         modal.addEventListener('liteYoutubeIframeLoaded', (event) => {
-            const targetSlide = event.target.closest('[data-youtube-video]');
+            const targetSlide = event.target.closest('[data-youtube-video-id]');
             if (targetSlide) setupYT(targetSlide);
         });
 

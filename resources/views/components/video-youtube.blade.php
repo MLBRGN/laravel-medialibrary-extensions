@@ -6,7 +6,7 @@
         {{ $medium->img()->lazy()->attributes(['class' => 'object-fit-contain']) }}
     </div>
 @else
-    <div class="media-video-wrapper" data-youtube-video data-youtube-video-id="{{ $youtubeId }}">
+    <div class="media-video-wrapper" data-youtube-video-id="{{ $youtubeId }}">
         <lite-youtube
             id="yt-video-slide"
             videoid="{{ $youtubeId }}"
