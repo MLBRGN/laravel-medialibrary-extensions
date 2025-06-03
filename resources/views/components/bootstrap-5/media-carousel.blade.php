@@ -30,12 +30,16 @@
     
         <div class="media-carousel-inner carousel-inner">
             @foreach($mediaItems as $index => $medium)
-                <div class="carousel-item @if($loop->first) active @endif">
+
+                <div @class([
+                    'carousel-item',
+                    'active' => $loop->first,
+                    'mle-cursor-zoom-in' => $clickToOpenInModal
+                ])>
                     <div class="carousel-item-wrapper d-flex align-items-center justify-content-center" 
                          data-bs-toggle="modal"
                          data-bs-target="#{{$id}}-modal"
                     >
-                    {{-- TODO youtube embed lite-youtube--}}
                     @if($medium->hasCustomProperty('youtube-id'))
                         @if ($inModal)
                             <x-mle-video-youtube :medium="$medium" :preview="false" :youtube-id="$medium->getCustomProperty('youtube-id')"/>
