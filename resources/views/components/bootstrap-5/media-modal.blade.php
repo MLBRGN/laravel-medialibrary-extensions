@@ -4,7 +4,10 @@
         id="{{ $id }}"
         tabindex="-1"
         aria-labelledby="{{ $id }}-title"
-        aria-hidden="true">
+        aria-hidden="true"
+        @if($videoAutoPlay)
+            data-video-autoplay=""
+        @endif>
 
         <div class="modal-dialog modal-fullscreen-lg-down modal-almost-fullscreen">
             <div class="modal-content justify-content-center">
@@ -22,13 +25,17 @@
                         :model="$model"
                         :click-to-open-in-modal="false"
                         :media-collection="$mediaCollection"
-                        :media-collections="$mediaCollections"/>
+                        :media-collections="$mediaCollections"
+                        :in-modal="true"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @once
+    @if(config('media-library-extensions.youtube_support_enabled'))
+        <script src="https://www.youtube.com/iframe_api"></script>
+    @endif
     <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
 @endonce
 

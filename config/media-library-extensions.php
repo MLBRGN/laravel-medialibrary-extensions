@@ -178,4 +178,15 @@ return [
 
     'status_session_prefix' => 'laravel-medialibrary-extensions.status',
 
+    /*
+    |--------------------------------------------------------------------------
+    | YouTube support
+    |--------------------------------------------------------------------------
+    |
+    | enable or disable YouTube support in carousel and modal
+    |
+    */
+
+    'youtube_support_enabled' => true,
+
 ];

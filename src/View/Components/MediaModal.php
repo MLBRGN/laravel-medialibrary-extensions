@@ -19,7 +19,8 @@ class MediaModal extends BaseMediaManager
         public string $title,
         public string $sizeClass = 'modal-almost-fullscreen',
         public string $id = '',
-        public ?string $frontendTheme = null
+        public ?string $frontendTheme = null,
+        public bool $videoAutoPlay = true,
     ) {
         parent::__construct($id, $frontendTheme);
 

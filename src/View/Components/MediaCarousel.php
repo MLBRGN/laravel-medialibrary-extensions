@@ -21,7 +21,8 @@ class MediaCarousel extends BaseMediaPreviewer
         public bool $singleMedium = false,
         public bool $clickToOpenInModal = true,// false to prevent endless inclusion
         public string $id = '',
-        public ?string $frontendTheme = null
+        public ?string $frontendTheme = null,
+        public bool $inModal = false,
 
     ) {
         parent::__construct($id, $frontendTheme);

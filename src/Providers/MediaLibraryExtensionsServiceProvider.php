@@ -23,6 +23,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Flash;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
@@ -91,6 +92,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
+        Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
 
         // partials for internal use

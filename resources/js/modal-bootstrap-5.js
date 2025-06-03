@@ -1,24 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const modals = document.querySelectorAll('.media-preview-modal');
+    const modals = document.querySelectorAll('.media-modal');
     const players = {}; // Store player instances by slide ID
-    function stopAllVideoPlayBack() {
-        Object.values(players).forEach((player) => player.stopVideo && player.stopVideo());
-    }
-
-    function startVideoPlayBack(youTubeId) {
-        players[youTubeId] && players[youTubeId].playVideo();
-    }
 
     modals.forEach((modal) => {
-        const carousel = modal.querySelector('.carousel');
-        let autoPlay = modal.hasAttribute('autoplay');
+        const carousel = modal.querySelector('.media-carousel');
+        let autoPlay = modal.hasAttribute('data-video-autoplay');
 
+        console.log(carousel);
         function setupYT(videoSlide) {
             const youTubeId = videoSlide.getAttribute('data-youtube-video-id');
             const iframe = videoSlide.querySelector('lite-youtube').shadowRoot.querySelector('iframe');
-
-            // instantiate new player instance for slide
+            // instantiate the new player instance for slide
             players[youTubeId] = new YT.Player(iframe, {
                 events: {
                     onReady: () => {
@@ -30,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Event listener for when YouTube iframe loads
+        // Event listener for when the YouTube iframe loads
         modal.addEventListener('liteYoutubeIframeLoaded', (event) => {
             const targetSlide = event.target.closest('[data-youtube-video]');
             if (targetSlide) setupYT(targetSlide);
@@ -53,4 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    function stopAllVideoPlayBack() {
+        Object.values(players).forEach((player) => player.stopVideo && player.stopVideo());
+    }
+
+    function startVideoPlayBack(youTubeId) {
+        players[youTubeId] && players[youTubeId].playVideo();
+    }
 });

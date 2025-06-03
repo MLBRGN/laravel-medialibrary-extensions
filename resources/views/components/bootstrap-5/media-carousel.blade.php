@@ -35,16 +35,24 @@
                          data-bs-toggle="modal"
                          data-bs-target="#{{$id}}-modal"
                     >
-                    {{-- TODO which conversions?--}}
-                    <x-mle-image-responsive
-                        class="d-block w-100"
-                        :medium="$medium"
-                        :conversions="['thumb', '16x9']"
-                        sizes="100vw"
-                        :alt="$medium->name"
-                        data-bs-target="#{{$id}}-modal-carousel"
-                        data-bs-slide-to="{{ $loop->index }}"
-                    />
+                    {{-- TODO youtube embed lite-youtube--}}
+                    @if($medium->hasCustomProperty('youtube-id'))
+                        @if ($inModal)
+                            <x-mle-video-youtube :medium="$medium" :preview="false" :youtube-id="$medium->getCustomProperty('youtube-id')"/>
+                        @else
+                            <x-mle-video-youtube :medium="$medium" :preview="true"/>
+                        @endif
+                    @else
+                        <x-mle-image-responsive
+                            class="d-block w-100"
+                            :medium="$medium"
+                            :conversions="['16x9']"
+                            sizes="100vw"
+                            :alt="$medium->name"
+                            data-bs-target="#{{$id}}-modal-carousel"
+                            data-bs-slide-to="{{ $loop->index }}"
+                        />
+                    @endif
                     </div>
                 </div>
             @endforeach
@@ -83,6 +91,5 @@
 @once
     <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
     <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
 @endonce
 
