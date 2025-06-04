@@ -9,7 +9,7 @@
             data-video-autoplay=""
         @endif>
 
-        <div class="modal-dialog modal-fullscreen-lg-down modal-almost-fullscreen">
+        <div class="modal-dialog">
             <div class="modal-content justify-content-center">
                 <h1 class="modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
                 <div class="modal-body p-0">
@@ -21,6 +21,7 @@
 
                     {{-- important set click to open in modal to false otherwise endless inclusion --}}
                     <x-mle-media-carousel
+                        class="mle-width-100 mle-height-100"
                         id="{{ $id }}"
                         :model="$model"
                         :click-to-open-in-modal="false"

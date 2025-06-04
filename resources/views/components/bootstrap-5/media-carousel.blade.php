@@ -4,7 +4,9 @@
              'media-carousel', 
              'carousel', 
              'slide',
-             'carousel-fade' => config('media-library-extensions.carousel_fade')       
+             'carousel-fade' => config('media-library-extensions.carousel_fade'),
+             'mle-width-100',
+             'mle-height-100'   
           ])
         @if(config('media-library-extensions.carousel_ride'))
             data-bs-ride="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'carousel' }}"
@@ -42,13 +44,15 @@
                     >
                     @if($medium->hasCustomProperty('youtube-id'))
                         @if ($inModal)
-                            <x-mle-video-youtube 
+                            <x-mle-video-youtube
+                                class="mle-video-responsive"
                                 :medium="$medium" 
                                 :preview="false" 
                                 :youtube-id="$medium->getCustomProperty('youtube-id')"
                             />
                         @else
-                            <x-mle-video-youtube 
+                            <x-mle-video-youtube
+                                class="mle-video-responsive"
                                 :medium="$medium" 
                                 :preview="true"  
                                 data-bs-target="#{{$id}}-modal-carousel"
@@ -57,7 +61,7 @@
                         @endif
                     @else
                         <x-mle-image-responsive
-                            class="d-block w-100"
+                            class="mle-image-responsive"
                             :medium="$medium"
                             :conversions="['16x9']"
                             sizes="100vw"

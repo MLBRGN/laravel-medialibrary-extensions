@@ -5,8 +5,25 @@
 // scope css
 .mlbrgn-mle-component {
 
-    //width:100%;
-    //height:100%;
+    .mle-width-100 {
+        width:100%;
+    }
+
+    .mle-height-100 {
+        height:100%;
+    }
+
+    .mle-video-responsive  {
+        width:100%;
+        height:100%;
+        object-fit:contain;
+    }
+
+    .mle-image-responsive {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 
     .mle-heading {
         margin-bottom: 1rem;

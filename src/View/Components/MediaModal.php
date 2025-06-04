@@ -17,7 +17,7 @@ class MediaModal extends BaseMediaManager
         public ?string $mediaCollection,
         public ?array $mediaCollections,
         public string $title,
-        public string $sizeClass = 'modal-almost-fullscreen',
+        public string $sizeClass = 'modal-almost-fullscreen',// TODO remove
         public string $id = '',
         public ?string $frontendTheme = null,
         public bool $videoAutoPlay = true,

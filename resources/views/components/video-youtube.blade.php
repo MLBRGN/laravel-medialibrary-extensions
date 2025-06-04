@@ -5,7 +5,7 @@
             name="{{ config('media-library-extensions.icons.play_video') }}"
             title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
         />
-        {{ $medium->img()->lazy()->attributes(['class' => 'object-fit-contain']) }}
+        {{ $medium->img()->lazy()->attributes(['class' => 'mle-image-responsive']) }}
     </div>
 @else
     <div {{ $attributes->merge() }} class="media-video-wrapper" data-youtube-video-id="{{ $youtubeId }}">
