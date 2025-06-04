@@ -101,4 +101,5 @@ trait HandlesMediaConversions
     {
         $this->addResponsiveAspectRatioConversion($media, $collections, 3 / 2, '3x2', $fit);
     }
+
 }

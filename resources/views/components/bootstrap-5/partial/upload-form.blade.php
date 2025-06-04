@@ -1,11 +1,13 @@
 <form
-    {{ $attributes->class(['media-manager-form col-12 col-md-4']) }}
+    {{ $attributes->class(['media-manager-upload-form']) }}
     action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')) }}"
     enctype="multipart/form-data"
     method="post">
     @csrf
+    <label for="{{ $id }}_media_input" class="form-label">Bestanden</label>
     @if($multiple)
         <input
+            id="{{ $id }}_media_input"
             accept="{{ $allowedMimeTypes }}"
             name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
             type="file"
@@ -13,11 +15,13 @@
             multiple>
     @else
         <input
+            id="{{ $id }}_media_input"
             accept="{{ $allowedMimeTypes }}"
             name="{{ config('media-library-extensions.upload_field_name_single') }}"
             type="file"
             class="media-manager-input-file form-control">
     @endif
+    <p>{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</p>
     <input
         type="hidden"
         name="collection_name"
@@ -34,6 +38,7 @@
         type="hidden"
         name="target_id"
         value="{{ $id }}">
+    
     <button
         type="submit"
         class="btn btn-primary">

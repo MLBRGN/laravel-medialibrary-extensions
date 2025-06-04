@@ -1,5 +1,5 @@
 @if ($preview)
-    <div class="youtube-video">
+    <div {{ $attributes->merge() }} class="youtube-video">
         <x-mle-partial-icon
             class="youtube-play-button"
             name="{{ config('media-library-extensions.icons.play_video') }}"
@@ -11,7 +11,7 @@
         {{ $medium->img()->lazy()->attributes(['class' => 'object-fit-contain']) }}
     </div>
 @else
-    <div class="media-video-wrapper" data-youtube-video-id="{{ $youtubeId }}">
+    <div {{ $attributes->merge() }} class="media-video-wrapper" data-youtube-video-id="{{ $youtubeId }}">
         <lite-youtube
             id="yt-video-slide"
             videoid="{{ $youtubeId }}"

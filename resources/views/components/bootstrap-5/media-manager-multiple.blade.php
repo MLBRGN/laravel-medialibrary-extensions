@@ -16,14 +16,24 @@
             <h2 class="mle-heading">{{ $title }}</h2>
         @endif
         <div class="media-manager-row media-manager-multiple-row row">
-            @if($uploadEnabled)
-                <x-mle-partial-upload-form
-                    :allowedMimeTypes="$allowedMimeTypes" 
-                    :mediaCollection="$mediaCollection" 
-                    :model="$model" 
-                    :id="$id"
-                    :multiple="true"/>
-            @endif
+            
+            <div class="media-manager-form col-12 col-md-4">
+                @if($uploadEnabled)
+                    <x-mle-partial-upload-form
+                        :allowedMimeTypes="$allowedMimeTypes" 
+                        :mediaCollection="$mediaCollection" 
+                        :model="$model" 
+                        :id="$id"
+                        :multiple="true"/>
+                @endif
+                @if($youTubeSupport)
+                    <x-mle-partial-youtube-upload-form
+                        mediaCollection="workplace-youtube-videos"
+                        :model="$model"
+                        :id="$id"
+                    />
+                @endif
+            </div>
 
             <div class="media-manager-preview-wrapper media-manager-multiple-preview-wrapper col-12 col-sm-8">
                 @if($media->count() > 0)

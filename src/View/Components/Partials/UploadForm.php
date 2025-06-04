@@ -10,6 +10,9 @@ use Spatie\MediaLibrary\HasMedia;
 
 class UploadForm extends BaseComponent
 {
+    public bool $mediaPresent = false;
+    public string $allowedMimeTypesHuman = '';
+
     public function __construct(
 
         public ?HasMedia $model,
@@ -18,14 +21,23 @@ class UploadForm extends BaseComponent
         public ?string $frontendTheme,
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
-        public bool $mediaPresent = false,
     ) {
         parent::__construct($id, $frontendTheme);
     }
 
     public function render(): View
     {
-        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ');
+        $allowedImageMimeTypesFromConfig = config('media-library-extensions.allowed_mimetypes.image', []);
+        $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
+        $this->allowedMimeTypesHuman = collect($allowedImageMimeTypesFromConfig)
+            ->map(fn ($mime) => $mimeTypeLabels[$mime] ?? $mime)
+            ->join(', ');
+        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : collect(config('media-library-extensions.allowed_mimetypes.image'))->flatten()->join(', ');
+
+
+        $this->mediaPresent = $this->model && $this->mediaCollection
+            ? $this->model->hasMedia($this->mediaCollection)
+            : false;
 
         return $this->getPartialView('upload-form');
     }

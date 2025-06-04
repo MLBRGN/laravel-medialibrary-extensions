@@ -13,15 +13,16 @@
         @endif
     
         <div class="media-manager-row media-manager-single-row row">
-            @if($uploadEnabled)
-                <x-mle-partial-upload-form
-                    :allowedMimeTypes="$allowedMimeTypes"
-                    :mediaCollection="$mediaCollection"
-                    :model="$model"
-                    :id="$id"
-                    :multiple="false"
-                    :media-present="!is_null($medium)"/>
-            @endif
+            <div class="media-manager-form col-12 col-md-4">
+                @if($uploadEnabled)
+                    <x-mle-partial-upload-form
+                        :allowedMimeTypes="$allowedMimeTypes"
+                        :mediaCollection="$mediaCollection"
+                        :model="$model"
+                        :id="$id"
+                        :multiple="false"/>
+                @endif
+            </div>
 
             <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper col-12 col-md-8 text-center">
                 @if($medium)

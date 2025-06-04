@@ -42,9 +42,18 @@
                     >
                     @if($medium->hasCustomProperty('youtube-id'))
                         @if ($inModal)
-                            <x-mle-video-youtube :medium="$medium" :preview="false" :youtube-id="$medium->getCustomProperty('youtube-id')"/>
+                            <x-mle-video-youtube 
+                                :medium="$medium" 
+                                :preview="false" 
+                                :youtube-id="$medium->getCustomProperty('youtube-id')"
+                            />
                         @else
-                            <x-mle-video-youtube :medium="$medium" :preview="true"/>
+                            <x-mle-video-youtube 
+                                :medium="$medium" 
+                                :preview="true"  
+                                data-bs-target="#{{$id}}-modal-carousel"
+                                data-bs-slide-to="{{ $loop->index }}"
+                            />
                         @endif
                     @else
                         <x-mle-image-responsive

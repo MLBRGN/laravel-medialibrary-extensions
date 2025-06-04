@@ -26,4 +26,5 @@ return [
     'slide_to_:index' => 'Slide to :index',
     'watch_on_youtube' => 'Watch on YouTube',
     'play_video' => 'Play video',
+    'supported_file_formats_:supported_formats' => 'Supported file formats: :supported_formats.',
 ];

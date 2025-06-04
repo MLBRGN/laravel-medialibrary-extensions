@@ -23,6 +23,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Flash;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -97,6 +98,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // partials for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
+        Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
         Blade::component($this->packageNameShort.'-partial-destroy-form', DestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-debug', Debug::class);
         Blade::component($this->packageNameShort.'-partial-icon', Icon::class);

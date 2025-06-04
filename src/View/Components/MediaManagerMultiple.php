@@ -27,8 +27,8 @@ class MediaManagerMultiple extends BaseMediaManager
         public bool $showOrder = false,
         public string $title = '',
         public string $id = '',
-        public ?string $frontendTheme = null
-
+        public ?string $frontendTheme = null,
+        public ?bool $youTubeSupport = null,
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -37,6 +37,8 @@ class MediaManagerMultiple extends BaseMediaManager
             ->flatten()
             ->unique()
             ->implode(',');
+
+        $this->youTubeSupport = $youTubeSupport ?? config('media-library-extensions.youtube_support_enabled');
 
         $this->media = $model->getMedia($mediaCollection);
         $this->id = $this->id.'-mm-multiple';

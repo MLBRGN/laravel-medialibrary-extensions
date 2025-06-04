@@ -54,6 +54,7 @@ class MediaManagerUploadMultipleRequest extends FormRequest
                 'mimetypes:'.implode(',', Arr::flatten(config('media-library-extensions.allowed_mimetypes'))),
                 'max:'.config('media-library-extensions.max_upload_size'),
             ],
+            'youtube_url' => ['nullable', 'url', 'regex:/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//'],
             'target_id' => ['required', 'string'],
         ];
     }

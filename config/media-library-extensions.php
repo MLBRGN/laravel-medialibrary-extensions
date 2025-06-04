@@ -59,6 +59,7 @@ return [
 
     'upload_field_name_single' => 'medium',
     'upload_field_name_multiple' => 'media',
+    'upload_field_name_youtube' => 'youtube_url',
 
     /*
     |--------------------------------------------------------------------------
@@ -97,6 +98,7 @@ return [
             'image/png',
             'image/gif',
             'image/bmp',
+            'image/webp',
             'image/heic',
             'image/avif',
         ],
@@ -110,6 +112,22 @@ return [
             'application/msword',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ],
+    ],
+
+    'mimeTypeLabels' => [
+        'image/jpeg' => 'JPEG',
+        'image/png' => 'PNG',
+        'image/gif' => 'GIF',
+        'image/bmp' => 'BMP',
+        'image/webp' => 'WebP',
+        'image/heic' => 'HEIC',
+        'image/avif' => 'AVIF',
+        'video/mp4' => 'MP4 video',
+        'video/quicktime' => 'QuickTime video',
+        'video/x-msvideo' => 'AVI video',
+        'application/pdf' => 'PDF document',
+        'application/msword' => 'Word document (.doc)',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'Word document (.docx)',
     ],
 
     /*
@@ -188,6 +206,6 @@ return [
     |
     */
 
-    'youtube_support_enabled' => true,
+    'youtube_support_enabled' => false,
 
 ];

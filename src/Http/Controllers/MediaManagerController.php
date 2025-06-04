@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
@@ -99,6 +100,76 @@ class MediaManagerController extends Controller
                 $targetId
             );
         }
+
+        if ($request->filled('youtube_url')) {
+
+            $videoId = extractYouTubeId($request->input('youtube_url'));
+
+            // TODO
+//            if (! $videoId) {
+//                abort(422, 'Invalid YouTube URL');
+//            }
+
+            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
+
+            /** @var HasMedia $model */
+            $model
+                ->addMediaFromUrl($thumbnailUrl)
+                ->usingFileName('youtube-thumbnail-'.$request->youtube_id.'.jpg')
+                ->withCustomProperties([
+                    'youtube_url' => $request->input('youtube_url'),
+                    'youtube_id' => $videoId,
+                    'youtube-id' => $videoId
+                ])
+                ->toMediaCollection('workplace-youtube-videos');
+        }
+
+
+        return $this->redirectBackWithStatus(
+            $targetId,
+            'error',
+            __('media-library-extensions::messages.upload_no_files'),
+            $targetId
+        );
+    }
+
+    public function storeYouTube(MediaManagerUploadYouTubeRequest $request): RedirectResponse
+    {
+        if(!config('media-library-extensions.enable_youtube_support')) {
+            abort(403);
+        }
+
+        $model = $this->getModel($request->model_type, $request->model_id);
+        $this->authorize('uploadMedia', Media::class);
+
+        $targetId = $request->target_id;
+//        $collectionName = $request->collection_name;
+        $collectionName ='workplace-youtube-videos';// TODO
+        $field = config('media-library-extensions.upload_field_name_youtube');
+
+        if ($request->filled($field)) {
+
+            $videoId = extractYouTubeId($request->input($field));
+
+            // TODO
+//            if (! $videoId) {
+//                abort(422, 'Invalid YouTube URL');
+//            }
+
+            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
+
+            /** @var HasMedia $model */
+            $model
+                ->addMediaFromUrl($thumbnailUrl)
+                ->usingFileName('youtube-thumbnail-'.$videoId.'.jpg')
+                ->withCustomProperties([
+                    'youtube_url' => $request->input('youtube_url'),
+                    'youtube_id' => $videoId,
+                    'youtube-id' => $videoId
+                ])
+                ->toMediaCollection($collectionName);
+        }
+
 
         return $this->redirectBackWithStatus(
             $targetId,

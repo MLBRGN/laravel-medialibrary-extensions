@@ -47,3 +47,16 @@ if (! function_exists('status_session_prefix')) {
         return config('media-library-extensions.status_session_prefix');
     }
 }
+
+if (! function_exists('extractYouTubeId')) {
+
+    function extractYouTubeId(string $url): ?string
+    {
+        if (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^\?&"\'<>#]+)/', $url,
+            $matches)) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+}
