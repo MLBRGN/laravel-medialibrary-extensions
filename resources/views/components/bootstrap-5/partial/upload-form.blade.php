@@ -21,7 +21,7 @@
             type="file"
             class="media-manager-input-file form-control">
     @endif
-    <p>{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</p>
+    <span class="form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
         type="hidden"
         name="collection_name"
@@ -41,7 +41,7 @@
     
     <button
         type="submit"
-        class="btn btn-primary">
+        class="btn btn-primary d-block mt-3">
         {{ $multiple
          ? __('media-library-extensions::messages.upload_media')
          : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}

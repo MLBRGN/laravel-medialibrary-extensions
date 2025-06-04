@@ -24,11 +24,6 @@
 }
 
 .media-modal {
-    * {
-        border:0;
-        box-shadow: none;
-        outline: none;
-    }
     .modal-almost-fullscreen {
         width: 95vw !important;
         max-width: none;
@@ -58,6 +53,13 @@
             padding:0.5em;
             right: 1rem;
             z-index: 3;
+            background-color: rgb(from var(--mlbrgn-mle-modal-close-button-bg) r g b / 70%);
+        }
+
+        .btn-close:focus-visible {
+            outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
+            outline-offset: 0; /* Optional: adds spacing between button and outline */
+            border-radius:0.5em;
         }
     }
 

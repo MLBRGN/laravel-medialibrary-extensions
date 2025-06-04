@@ -1,7 +1,3 @@
-{{--<pre>--}}
-{{--        Media manager multiple--}}
-{{--        id - {{ $id }}--}}
-{{--    </pre>--}}
 <div class="mlbrgn-mle-component">
     <div
         id="{{ $id }}"
@@ -28,6 +24,7 @@
                 @endif
                 @if($youTubeSupport)
                     <x-mle-partial-youtube-upload-form
+                        class="mt-3"
                         mediaCollection="workplace-youtube-videos"
                         :model="$model"
                         :id="$id"

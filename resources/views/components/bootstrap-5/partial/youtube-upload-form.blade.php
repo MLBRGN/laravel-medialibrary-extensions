@@ -23,7 +23,7 @@
         <input type="url" name="youtube_url" id="{{ $id }}_youtube_url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." />
     <button
         type="submit"
-        class="btn btn-primary">
+        class="btn btn-primary d-block mt-3">
         {{ trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
     <x-mle-partial-flash :target-id="$id"/>

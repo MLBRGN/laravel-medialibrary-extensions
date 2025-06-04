@@ -206,6 +206,6 @@ return [
     |
     */
 
-    'youtube_support_enabled' => false,
+    'youtube_support_enabled' => true,
 
 ];

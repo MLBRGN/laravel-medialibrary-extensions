@@ -1,7 +1,3 @@
-{{--        <pre>--}}
-{{--        Media manager single--}}
-{{--        id - {{ $id }}--}}
-{{--    </pre>--}}
 <div class="mlbrgn-mle-component">
     <div id="{{ $id }}" {{ $attributes->class([
             'media-manager media-manager-single',
