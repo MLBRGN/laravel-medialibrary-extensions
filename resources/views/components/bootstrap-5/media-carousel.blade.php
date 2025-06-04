@@ -26,7 +26,8 @@
                     data-bs-slide-to="{{ $index }}"
                     @class(['active' => $loop->first])
                     @if($loop->first) aria-current="true" @endif
-                    aria-label="{{ __('media-library-extensions::messages.slide_to_:index', ['index' => $index + 1]) }}"></button>
+                    aria-label="{{ __('media-library-extensions::messages.slide_to_:index', ['index' => $index + 1]) }}">
+                </button>
             @endforeach
         </div>
     
@@ -81,7 +82,10 @@
                  'carousel-control-prev',
                  'disabled' => count($mediaItems) <= 1
              ])
-            type="button" data-bs-target="#{{ $id }}" data-bs-slide="prev">
+            type="button" 
+            data-bs-target="#{{ $id }}" 
+            data-bs-slide="prev" 
+            title="{{ __('media-library-extensions::messages.previous') }}">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
         </button>
@@ -91,7 +95,10 @@
                 'carousel-control-next',
                 'disabled' => count($mediaItems) <= 1
             ])
-            type="button" data-bs-target="#{{ $id }}" data-bs-slide="next">
+            type="button" 
+            data-bs-target="#{{ $id }}" 
+            data-bs-slide="next" 
+            title="{{ __('media-library-extensions::messages.next') }}">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
         </button>

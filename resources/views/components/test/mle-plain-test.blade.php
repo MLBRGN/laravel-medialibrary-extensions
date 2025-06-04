@@ -21,7 +21,7 @@
                 upload-enabled
                 destroy-enabled
                 frontend-theme="plain"
-                title="Blogafbeelding"/>
+                />
         
             <x-mle-media-manager-multiple
                 id="blog-images"
@@ -33,7 +33,7 @@
                 show-order
                 set-as-first-enabled
                 frontend-theme="plain"
-                title="Blogafbeeldingen"/>
+                />
         
             <x-mle-media-manager-multiple
                 id="blog-images-extra"
@@ -45,7 +45,7 @@
                 show-order
                 set-as-first-enabled
                 frontend-theme="plain"
-                title="Blogafbeeldingen extra"/>
+                />
         
             <h1>Blog media carousel</h1>
             <x-mle-media-carousel
@@ -59,7 +59,7 @@
                 show-order
                 set-as-first-enabled
                 frontend-theme="plain"
-                title="Blogafbeeldingen"/>
+                />
         </div>
     </body>
 </html>

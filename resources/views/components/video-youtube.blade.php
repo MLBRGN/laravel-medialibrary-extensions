@@ -3,7 +3,7 @@
         <x-mle-partial-icon
             class="youtube-play-button"
             name="{{ config('media-library-extensions.icons.play_video') }}"
-            title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
+            title="{{ __('media-library-extensions::messages.play_video') }}"
         />
         {{ $medium->img()->lazy()->attributes(['class' => 'mle-image-responsive']) }}
     </div>
@@ -18,7 +18,9 @@
             autopause
             params="autoplay=1&loop=0&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1"
         >
-            <a class="lite-youtube-fallback" href="https://www.youtube.com/watch?v={{ $youtubeId }}">{{ __('media-library-extensions::messages.watch_on_youtube') }}</a>
+            <a 
+                class="lite-youtube-fallback" 
+                href="https://www.youtube.com/watch?v={{ $youtubeId }}">{{ __('media-library-extensions::messages.watch_on_youtube') }}</a>
         </lite-youtube>
     </div>
 @endif

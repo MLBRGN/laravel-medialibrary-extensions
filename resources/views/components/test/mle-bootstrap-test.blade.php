@@ -29,7 +29,7 @@
                     upload-enabled
                     destroy-enabled
                     frontend-theme="bootstrap-5"
-                    title="Blogafbeelding"/>
+                    />
             
                 <x-mle-media-manager-multiple
                     id="blog-images"
@@ -41,7 +41,7 @@
                     show-order
                     set-as-first-enabled
                     frontend-theme="bootstrap-5"
-                    title="Blogafbeeldingen"/>
+                    />
             
                 <x-mle-media-manager-multiple
                     id="blog-images-extra"
@@ -53,7 +53,7 @@
                     show-order
                     set-as-first-enabled
                     frontend-theme="bootstrap-5"
-                    title="Blogafbeeldingen extra"/>
+                    />
             
                 <h1>Blog media carousel</h1>
                 <x-mle-media-carousel
@@ -67,7 +67,7 @@
                     show-order
                     set-as-first-enabled
                     frontend-theme="bootstrap-5"
-                    title="Blogafbeeldingen"/>
+                    />
             </div>
         </div>
         {{-- Bootstrap 5 JS Bundle with Popper --}}

@@ -17,7 +17,8 @@
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
-                        aria-label="Sluit"></button>
+                        aria-label="Sluit"
+                        title="{{ __('media-library-extensions::messages.close') }}"></button>
 
                     {{-- important set click to open in modal to false otherwise endless inclusion --}}
                     <x-mle-media-carousel
