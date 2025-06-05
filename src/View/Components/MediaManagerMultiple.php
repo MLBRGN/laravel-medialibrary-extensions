@@ -25,7 +25,6 @@ class MediaManagerMultiple extends BaseMediaManager
         public bool $showMediaUrl = false,
         public bool $setAsFirstEnabled = false,
         public bool $showOrder = false,
-        public string $title = '',
         public string $id = '',
         public ?string $frontendTheme = null,
         public ?bool $youTubeSupport = null,

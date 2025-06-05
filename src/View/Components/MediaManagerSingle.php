@@ -21,7 +21,6 @@ class MediaManagerSingle extends BaseMediaManager
         public string $uploadFieldName = 'medium',
         public bool $destroyEnabled = false,
         public bool $showMediaUrl = false,
-        public string $title = '',
         public string $id = '',
         public ?string $frontendTheme = null
 

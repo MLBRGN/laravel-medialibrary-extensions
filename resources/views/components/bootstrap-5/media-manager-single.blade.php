@@ -3,10 +3,6 @@
             'media-manager media-manager-single',
         ]) }}>
         <x-mle-partial-debug/>
-        
-        @if(!empty($title))
-            <h2 class="mle-heading">{{ $title }}</h2>
-        @endif
     
         <div class="media-manager-row media-manager-single-row row">
             <div class="media-manager-form col-12 col-md-4">
