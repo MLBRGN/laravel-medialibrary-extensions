@@ -208,4 +208,24 @@ return [
 
     'youtube_support_enabled' => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default YouTube params
+    |--------------------------------------------------------------------------
+    |
+    | The parameters sent to the youtube player (configuration of YouTube player)
+    |
+    */
+
+    'default_youtube_params' => [
+        'autoplay' => 1,
+        'mute' => 0,
+        'loop' => 0,
+        'controls' => 0,
+        'modestbranding' => 1,
+        'playsinline' => 1,
+        'rel' => 0,
+        'enablejsapi' => 1,
+    ]
+
 ];

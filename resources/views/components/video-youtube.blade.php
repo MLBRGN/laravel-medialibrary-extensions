@@ -16,7 +16,7 @@
             autopause
             autoload
             autopause
-            params="autoplay=1&loop=0&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1"
+            params="{{ $youTubeParamsAsString }}"
         >
             <a 
                 class="lite-youtube-fallback" 

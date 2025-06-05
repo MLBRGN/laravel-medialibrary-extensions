@@ -50,6 +50,7 @@
                                 :medium="$medium" 
                                 :preview="false" 
                                 :youtube-id="$medium->getCustomProperty('youtube-id')"
+                                :youtube-params="['mute' => 1]"
                             />
                         @else
                             <x-mle-video-youtube
