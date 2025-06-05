@@ -4,11 +4,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Media Library Extensions Test Page</title>
-        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
-        <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>
+{{--        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
+{{--        <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>--}}
     </head>
     <body>
         <div>
+            <h1 class="text-primary">Laravel Media Library Extensions Component Test Page (Plain theme)</h1>
             @php            
                 // $model that implements HasMedia
                 $model = Blog::first();

@@ -120,7 +120,7 @@
         
     </div>
 </div>
-
-@once
-    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
-@endonce
+<x-mle-partial-assets include-css="true"/>
+{{--@once--}}
+{{--    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
+{{--@endonce--}}

@@ -45,7 +45,8 @@
         </div>
     </div>
 </div>
+<x-mle-partial-assets include-css="true" />
 
-@once
-    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
-@endonce
+{{--@once--}}
+{{--    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
+{{--@endonce--}}

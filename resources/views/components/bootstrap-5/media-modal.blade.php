@@ -34,10 +34,11 @@
         </div>
     </div>
 </div>
-@once
-    @if(config('media-library-extensions.youtube_support_enabled'))
-        <script src="https://www.youtube.com/iframe_api"></script>
-    @endif
-    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
-@endonce
+<x-mle-partial-assets include-css="true" include-js="true"/>
+{{--@once--}}
+{{--    @if(config('media-library-extensions.youtube_support_enabled'))--}}
+{{--        <script src="https://www.youtube.com/iframe_api"></script>--}}
+{{--    @endif--}}
+{{--    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
+{{--@endonce--}}
 

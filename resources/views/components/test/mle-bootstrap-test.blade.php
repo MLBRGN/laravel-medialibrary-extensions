@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="container-lg mt-5">
-            <h1 class="text-primary">Laravel Media Library Extensions Component Test Page</h1>
+            <h1 class="text-primary">Laravel Media Library Extensions Component Test Page (Bootstrap 5 theme)</h1>
        
             <div>
                 @php            

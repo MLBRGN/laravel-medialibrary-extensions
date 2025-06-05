@@ -113,8 +113,13 @@
             title="Media carousel"/>
     @endif
 </div>
-@once
-    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
-    <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>
-@endonce
+@if(config('media-library-extensions.youtube_support_enabled'))
+    <x-mle-partial-assets include-css="true" include-js="true" include-youtube-iframe-api="true"/>
+@else
+    <x-mle-partial-assets include-css="true" include-js="true"/>
+@endif
+{{--@once--}}
+{{--    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
+{{--    <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>--}}
+{{--@endonce--}}
 

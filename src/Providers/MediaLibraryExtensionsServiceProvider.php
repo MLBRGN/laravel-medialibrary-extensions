@@ -13,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\LinkAssets;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
@@ -103,6 +104,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-debug', Debug::class);
         Blade::component($this->packageNameShort.'-partial-icon', Icon::class);
         Blade::component($this->packageNameShort.'-partial-flash', Flash::class);
+        Blade::component($this->packageNameShort.'-partial-assets', Assets::class);
 
         // register blade views and classes for internal use
         //        $this->loadViewComponentsAs($this->packageNameShort.'-partial', [
