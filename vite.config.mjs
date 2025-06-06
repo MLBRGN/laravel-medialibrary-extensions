@@ -8,7 +8,7 @@ export default defineConfig({
             input: [
                 'resources/js/app-bootstrap-5.js',
                 'resources/js/app-plain.js',
-                'resources/js/lite-youtube.js',  // NEW: separate entry for lite-youtube
+                'resources/js/shared/lite-youtube.js',
             ],
             publicDirectory: 'public',
             refresh: true,

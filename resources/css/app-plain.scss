@@ -1,12 +1,12 @@
-@use "css-variables";
+@use "shared/css-variables";
 @use "plain/media-carousel";
 
-@use "general";
+@use "shared/general";
 @use "plain/media-modal";
 @use "plain/media-manager";
 @use "plain/media-manager-multiple";
 @use "plain/media-manager-single";
-@use "lite-youtube";
+@use "shared/lite-youtube";
 
 // dummy content to force build as separate file
 .mlbrgn-mle-component {
