@@ -9,10 +9,10 @@
             data-video-autoplay=""
         @endif>
 
-        <div class="modal-dialog">
-            <div class="modal-content justify-content-center">
-                <h1 class="modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
-                <div class="modal-body p-0">
+        <div class="media-modal-dialog modal-dialog">
+            <div class="media-model-content modal-content justify-content-center">
+                <h1 class="media-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <div class="media-modal-body modal-body p-0">
                     <button
                         type="button"
                         class="btn-close"

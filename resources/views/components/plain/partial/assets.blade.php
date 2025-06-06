@@ -1,4 +1,3 @@
-BS 5
 @if($includeCss)
     @once
         <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">

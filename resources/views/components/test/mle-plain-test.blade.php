@@ -1,4 +1,7 @@
 @php use App\Models\Blog; @endphp
+@php
+   config(['media-library-extensions.frontend_theme' => 'plain']);
+@endphp
 <!DOCTYPE html>
 <html lang="en">
     <head>

@@ -21,6 +21,6 @@ class Assets extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('assets');
+        return $this->getPartialView('assets');
     }
 }

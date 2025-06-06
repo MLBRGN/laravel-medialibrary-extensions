@@ -23,7 +23,7 @@
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }} {{ $clickToOpenInModal ? 'mle-cursor-zoom-in' : '' }}">
                     <div class="carousel-item-wrapper d-flex align-items-center justify-content-center"
                          @if($clickToOpenInModal)
-                             data-open-modal="#{{ $id }}-modal"
+                             data-modal-trigger="#{{ $id }}-modal"
                         @endif>
                         @if($medium->hasCustomProperty('youtube-id'))
                             <x-mle-video-youtube
@@ -51,11 +51,11 @@
         @if ($mediaItems->count() > 1)
             <button type="button" class="carousel-control-prev" data-slide="prev">
                 <span aria-hidden="true">&#10094;</span>
-                <span class="visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
+                <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
             </button>
             <button type="button" class="carousel-control-next" data-slide="next">
                 <span aria-hidden="true">&#10095;</span>
-                <span class="visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
+                <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
             </button>
         @endif
     </div>
@@ -72,9 +72,11 @@
 
 @once
     <style>
-        .plain-carousel {
+        .mlbrgn-mle-component {
+        .media-carousel {
             position: relative;
             overflow: hidden;
+            border:10px solid orange;
         }
 
         .plain-carousel .carousel-inner {
@@ -112,6 +114,7 @@
             display: flex;
             transition: transform 0.5s ease-in-out;
             width: 100%;
+            height: 100%;
         }
 
         .carousel-item {
@@ -166,45 +169,49 @@
         .carousel-indicators button.active {
             background-color: #333;
         }
+        }
     </style>
 
     <script>
-        document.querySelectorAll('[data-carousel]').forEach(carousel => {
-            const items = carousel.querySelectorAll('.carousel-item');
-            const indicators = carousel.querySelectorAll('.carousel-indicators button');
-            const prev = carousel.querySelector('[data-slide="prev"]');
-            const next = carousel.querySelector('[data-slide="next"]');
-            let currentIndex = 0;
-
-            const updateCarousel = (index) => {
-                items.forEach((item, i) => item.classList.toggle('active', i === index));
-                indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
-            };
-
-            indicators.forEach((btn, i) => {
-                btn.addEventListener('click', () => {
-                    currentIndex = i;
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('[data-carousel]').forEach(carousel => {
+                const items = carousel.querySelectorAll('.carousel-item');
+                const indicators = carousel.querySelectorAll('.carousel-indicators button');
+                const prev = carousel.querySelector('[data-slide="prev"]');
+                const next = carousel.querySelector('[data-slide="next"]');
+                let currentIndex = 0;
+    
+                const updateCarousel = (index) => {
+                    items.forEach((item, i) => item.classList.toggle('active', i === index));
+                    indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
+                };
+    
+                indicators.forEach((btn, i) => {
+                    btn.addEventListener('click', () => {
+                        currentIndex = i;
+                        updateCarousel(currentIndex);
+                    });
+                });
+    
+                prev?.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + items.length) % items.length;
                     updateCarousel(currentIndex);
                 });
+    
+                next?.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % items.length;
+                    updateCarousel(currentIndex);
+                });
+                // ride functionality
+                if (3 > 4) {// ride check data-carousel-ride?
+                    let interval = setInterval(() => {
+                        let nextIndex = (currentIndex + 1) % items.length;
+                        goToSlide(nextIndex);
+                    }, 5000); // 5s interval
+                }
             });
-
-            prev?.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
-                updateCarousel(currentIndex);
-            });
-
-            next?.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % items.length;
-                updateCarousel(currentIndex);
-            });
-            // ride functionality
-            if (3 > 4) {// ride check data-carousel-ride?
-                let interval = setInterval(() => {
-                    let nextIndex = (currentIndex + 1) % items.length;
-                    goToSlide(nextIndex);
-                }, 5000); // 5s interval
-            }
         });
+        
     </script>
 @endonce
 @if(config('media-library-extensions.youtube_support_enabled'))

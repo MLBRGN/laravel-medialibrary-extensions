@@ -1,3 +1,4 @@
+MEDIA MODAL
 <div class="mlbrgn-mle-component">
     <div
         {{ $attributes->merge(['class' => "media-modal $sizeClass"]) }}
@@ -10,10 +11,10 @@
             data-video-autoplay=""
         @endif
     >
-        <div class="modal-dialog">
-            <div class="modal-content justify-content-center">
-                <h1 class="modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
-                <div class="modal-body p-0">
+        <div class="media-modal-dialog">
+            <div class="media-modal-content">
+                <h1 class="media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <div class="media-modal-body p-0">
                     <button
                         type="button"
                         class="btn-close"
@@ -35,58 +36,64 @@
     </div>
 </div>
 <style>
-    .media-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.75);
-        z-index: 1050;
-        overflow: hidden;
+    .mlbrgn-mle-component {
+        
+        .media-modal {
+            border:10px solid hotpink;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 1050;
+            overflow: hidden;
+            transform:none;
+        }
+    
+        .media-modal.active {
+            display: flex;
+        }
+    
+        .media-modal .modal-dialog {
+            width: 90vw;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .media-modal .modal-content {
+            background: white;
+            border-radius: 0.5rem;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .media-modal .modal-body {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+        }
+    
+        .btn-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
     }
-
-    .media-modal.active {
-        display: flex;
-    }
-
-    .media-modal .modal-dialog {
-        width: 90vw;
-        max-width: 1000px;
-        max-height: 90vh;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .media-modal .modal-content {
-        background: white;
-        border-radius: 0.5rem;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .media-modal .modal-body {
-        flex-grow: 1;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .btn-close {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
+    
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', () => {

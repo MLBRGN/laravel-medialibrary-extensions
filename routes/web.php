@@ -27,8 +27,8 @@ Route::group([
     Route::get('mle-plain', function () {
         return view('media-library-extensions::components.test.mle-plain-test');
     })->name('mle-plain-test');
-    Route::get('mle-bootstrap', function () {
-        return view('media-library-extensions::components.test.mle-bootstrap-test');
+    Route::get('mle-bootstrap-5', function () {
+        return view('media-library-extensions::components.test.mle-bootstrap-5-test');
     })->name('mle-bootstrap-test');
 });
 

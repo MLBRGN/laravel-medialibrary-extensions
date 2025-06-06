@@ -5,9 +5,10 @@
 .mlbrgn-mle-component {
 
     .modal {
-
         --modal-padding:20px;
+    }
 
+    .media-modal {
         background:white;
         position:fixed;
         top:50%;
@@ -20,13 +21,14 @@
         //overflow:hidden;
     }
 
-    .modal-body {
+    .media-modal-body {
         width:100%;
         height:100%;
         //overflow:hidden;
     }
 
-    .modal-dialog {
+    .media-modal-dialog {
+        border:10px solid yellow;
         width:100%;
         height:100%;
         max-width:100%;
@@ -35,7 +37,7 @@
         //overflow:hidden;
     }
 
-    .modal-content {
+    .media-modal-content {
         padding:0;
         height: 100%;
         width:100%;
