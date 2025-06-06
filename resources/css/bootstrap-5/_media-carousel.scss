@@ -1,7 +1,7 @@
 /*
  * Media carousel
  */
-@use 'mixins/carousel-controls' as carousel;
+@use '../mixins/carousel-controls' as carousel;
 
 // TODO why is this needed / wherefore is it used
 @media (hover: none) {

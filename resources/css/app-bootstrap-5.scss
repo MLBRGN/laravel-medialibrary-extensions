@@ -1,0 +1,18 @@
+@use "css-variables";
+@use "bootstrap-5/media-carousel";
+
+@use "general";
+@use "bootstrap-5/media-modal";
+@use "bootstrap-5/media-manager";
+@use "bootstrap-5/media-manager-multiple";
+@use "bootstrap-5/media-manager-single";
+@use "lite-youtube";
+
+// dummy content to force build as separate file
+.mlbrgn-mle-component {
+    .bootstrap-5 {
+        body {
+            outline: none;
+        }
+    }
+}

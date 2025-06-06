@@ -1,0 +1,47 @@
+/*
+ * Media carousel
+ */
+@use '../mixins/carousel-controls' as carousel;
+
+// TODO why is this needed / wherefore is it used
+@media (hover: none) {
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background-color: transparent;
+    }
+}
+
+// TODO these are all classes in media-carousel
+.mlbrgn-mle-component {
+
+    .media-carousel {
+        --carousel-indicator-width: 12px;
+        --carousel-indicator-height: 12px;
+        --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary
+        --carousel-indicator-hit-area-height: 6px;
+        --carousel-indicator-active-opacity: 0.8;
+        --carousel-indicator-spacer: 6px;
+
+        --carousel-control-color-stop-1: #ffffff;
+        --carousel-control-color-stop-2: #cccccc;
+        --carousel-control-color-stop-3: #999999;
+        --carousel-control-color-stroke: #333333;
+
+        @include carousel.carousel-controls;
+
+        width:100%;
+        height:auto;
+        aspect-ratio: 16/9;
+        overflow:hidden;
+        background-color: var(--mlbrgn-mle-container-bg-light);
+        border:0;
+    }
+
+    .media-carousel-inner{
+        border-image-width:0;
+    }
+    .media-video-wrapper {
+        width:100%;
+        height:100%;
+    }
+}

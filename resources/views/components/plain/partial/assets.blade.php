@@ -1,12 +1,12 @@
 @if($includeCss)
     @once
-        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-plain.css') }}">
     @endonce
 @endif
 
 @if($includeJs)
     @once
-        <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>
+        <script src="{{ asset('vendor/media-library-extensions/app-plain.js') }}"></script>
     @endonce
 @endif
 
@@ -15,6 +15,10 @@
         <script src="https://www.youtube.com/iframe_api"></script>
     @endonce
 @endif
+
+@once
+    <script src="{{ asset('vendor/media-library-extensions/lite-youtube.js') }}"></script>
+@endonce
 
 {{ $slot }}
 

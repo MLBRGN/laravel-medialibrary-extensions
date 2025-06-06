@@ -1,0 +1,18 @@
+@use "css-variables";
+@use "plain/media-carousel";
+
+@use "general";
+@use "plain/media-modal";
+@use "plain/media-manager";
+@use "plain/media-manager-multiple";
+@use "plain/media-manager-single";
+@use "lite-youtube";
+
+// dummy content to force build as separate file
+.mlbrgn-mle-component {
+    .plain {
+        body {
+            outline: none;
+        }
+    }
+}

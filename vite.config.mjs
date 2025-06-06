@@ -6,11 +6,11 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/app.js',
-                'resources/css/app.scss'
+                'resources/js/app-bootstrap-5.js',
+                'resources/js/app-plain.js',
+                'resources/js/lite-youtube.js',  // NEW: separate entry for lite-youtube
             ],
             publicDirectory: 'public',
-            // buildDirectory: '', // empty => directly in public
             refresh: true,
         }),
     ],
@@ -25,13 +25,11 @@ export default defineConfig({
         emptyOutDir: true,
         rollupOptions: {
             output: {
-                entryFileNames: 'app.js',
-                assetFileNames: 'app.css',
-                // entryFileNames: 'vendor/medialibrary-extensions/app.js',// JavaScript entry points,
-                // assetFileNames: 'vendor/medialibrary-extensions/app.css',// CSS, images, fonts, etc.
-
+                entryFileNames: '[name].js',
+                assetFileNames: '[name].css',
+                // You can customize manualChunks here if needed
             },
         },
-        manifest: false, // no manifest needed
-    }
+        manifest: true,  // better to enable manifest for multi-entry builds
+    },
 })
