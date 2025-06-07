@@ -1,4 +1,7 @@
 // Functionality implemented with assistance from AI (ChatGPT)
+
+import { fireEvent } from '@/js/plain/helpers';
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-carousel]').forEach(carousel => {
         const items = carousel.querySelectorAll('.media-carousel-item');
@@ -21,21 +24,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const updateCarousel = (index, direction = 'right') => {
             items.forEach((item) => {
-                item.classList.remove('active', 'slide-left', 'slide-right');
+                item.classList.remove(
+                    'active',
+                    'slide-in-from-left',
+                    'slide-in-from-right',
+                    'slide-out-to-left',
+                    'slide-out-to-right'
+                );
                 item.style.zIndex = 0;
             });
 
             const current = items[currentIndex];
             const next = items[index];
 
-            if (carousel.getAttribute('data-carousel-effect') !== 'fade') {
-                if (direction === 'right') {
-                    current.classList.add('slide-left');
-                    next.classList.add('slide-right');
-                } else {
-                    current.classList.add('slide-right');
-                    next.classList.add('slide-left');
-                }
+            if (carousel.getAttribute('data-carousel-effect') === 'slide') {
+
+                    if (direction === 'right') {
+                        next.classList.add('slide-in-from-right');
+                        current.classList.add('slide-out-to-left');
+                    } else {
+                        next.classList.add('slide-in-from-left');
+                        current.classList.add('slide-out-to-right');
+                    }
             }
 
             // Force reflow to restart animation
@@ -48,11 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             currentIndex = index;
 
-            const event = new CustomEvent('carouselSlided', {
-                bubbles: true,    // Optional: allows the event to bubble up the DOM tree
-                detail: { carousel }  // Optional: you can pass additional data here
-            });
-            carousel.dispatchEvent(event);
+            fireEvent('carouselSlided', carousel);
         };
 
         const goToSlide = (index) => {

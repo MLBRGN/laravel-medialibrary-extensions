@@ -1,55 +1,13 @@
 // Functionality implemented with assistance from AI (ChatGPT)
 // noinspection JSUnresolvedReference
+import { fireEvent, trapFocus, releaseFocus } from '@/js/plain/helpers';
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const modals = document.querySelectorAll('.media-modal');
-    const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
     const players = {}; // Store player instances by slide ID
 
-    const trapFocus = (modal) => {
-        const focusableEls = modal.querySelectorAll(focusableSelectors);
-        if (focusableEls.length === 0) return;
-
-        const first = focusableEls[0];
-        const last = focusableEls[focusableEls.length - 1];
-
-        const handleKeyDown = (e) => {
-            if (e.key === 'Tab') {
-                if (e.shiftKey) {
-                    // Shift + Tab
-                    if (document.activeElement === first) {
-                        e.preventDefault();
-                        last.focus();
-                    }
-                } else {
-                    // Tab
-                    if (document.activeElement === last) {
-                        e.preventDefault();
-                        first.focus();
-                    }
-                }
-            }
-        };
-
-        modal.addEventListener('keydown', handleKeyDown);
-
-        // Save handler reference on modal for removal later
-        modal._trapFocusHandler = handleKeyDown;
-
-        // Focus first element
-        first.focus();
-    };
-
-    const releaseFocus = (modal) => {
-        if (modal._trapFocusHandler) {
-            modal.removeEventListener('keydown', modal._trapFocusHandler);
-            delete modal._trapFocusHandler;
-        }
-    };
-
     const openModal = (modalId) => {
-        console.log('openModal', modalId);
         const modal = document.getElementById(modalId);
         if (!modal) {
             console.log('modal not found', modalId);
@@ -60,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
 
         trapFocus(modal);
+
+        fireEvent('modalOpened', modal);
+
     };
 
     const closeModal = (modal) => {
@@ -68,12 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
 
         releaseFocus(modal);
-
-        const event = new CustomEvent('modalClosed', {
-            bubbles: true,    // Optional: allows the event to bubble up the DOM tree
-            detail: { modal }  // Optional: you can pass additional data here
-        });
-        modal.dispatchEvent(event);
+        fireEvent('modalClosed', modal);
     };
 
     // Attach to all close buttons
@@ -120,9 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
             players[youTubeId] = new YT.Player(iframe, {
                 events: {
                     onReady: () => {
-                        if (autoPlay) {
-                            startVideoPlayBack(youTubeId);
-                        }
+                        // if (autoPlay) {
+                        //     startVideoPlayBack(youTubeId);
+                        // }
                     },
                 },
             });
@@ -134,12 +90,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetSlide) setupYT(targetSlide);
         });
 
-        // Stop the video when the modal is hidden
+        modal.addEventListener('modalOpened', () => {
+            if (!modal.hasAttribute('data-video-autoplay')) return;
+
+            const activeSlide = modal.querySelector('.media-carousel-item.active');
+            if (!activeSlide) return;
+
+            const videoWrapper = activeSlide.querySelector('.media-video-wrapper');
+            if (!videoWrapper || !videoWrapper.hasAttribute('data-youtube-video-id')) return;
+
+            const youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
+            startVideoPlayBack(youtubeId);
+        });
+
+        // Stop the video when the modal is closed
         modal.addEventListener('modalClosed', () => {
             stopAllVideoPlayBack();
         });
 
-        // TODO does not work properly, play and pause inconsistent
         // Handle carousel sliding
         carousel.addEventListener('carouselSlided', (event) => {
             pauseAllVideoPlayBack();
@@ -161,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function stopAllVideoPlayBack() {
+        console.log('stopAllVideoPlayBack');
         Object.values(players).forEach((player) => {
             player.stopVideo()
         });
@@ -168,18 +137,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function pauseAllVideoPlayBack() {
         console.log('pauseAllVideoPlayBack');
-
         Object.values(players).forEach((player) => {
             player.pauseVideo()
         });
     }
 
     function startVideoPlayBack(youTubeId) {
-        console.log('startAllVideoPlayBack');
-
+        console.log('startVideoPlayBack');
         let player = players[youTubeId]
         if (player) {
             player.playVideo();
         }
     }
+
 });
