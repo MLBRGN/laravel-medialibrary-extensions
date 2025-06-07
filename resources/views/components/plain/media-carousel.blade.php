@@ -1,6 +1,12 @@
 <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component']) }}>
     <div id="{{ $id }}"
          class="media-carousel plain-carousel mle-width-100 mle-height-100"
+         @class([
+           'media-carousel', 
+           'plain-carousel',
+           'mle-width-100',
+           'mle-height-100'   
+        ])
          data-carousel
          data-carousel-id="{{ $id }}"
          tabindex="0"
@@ -9,6 +15,7 @@
             data-carousel-ride-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
             data-carousel-ride-only-after-interaction="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'false' }}"
          @endif
+         data-carousel-effect="{{ config('media-library-extensions.carousel_fade') ? 'fade' : 'slide' }}"
         >
 
         {{-- Indicators --}}

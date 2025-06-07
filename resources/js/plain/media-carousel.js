@@ -33,12 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const current = items[currentIndex];
             const next = items[index];
 
-            if (direction === 'right') {
-                current.classList.add('slide-left');
-                next.classList.add('slide-right');
-            } else {
-                current.classList.add('slide-right');
-                next.classList.add('slide-left');
+            if (carousel.getAttribute('data-carousel-effect') !== 'fade') {
+                if (direction === 'right') {
+                    current.classList.add('slide-left');
+                    next.classList.add('slide-right');
+                } else {
+                    current.classList.add('slide-right');
+                    next.classList.add('slide-left');
+                }
             }
 
             // Force reflow to restart animation

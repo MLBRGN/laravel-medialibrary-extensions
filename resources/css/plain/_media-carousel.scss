@@ -3,7 +3,7 @@
  */
 @use '../mixins/carousel-controls' as carousel;
 
-// TODO why is this needed / wherefore is it used
+// Prevents hover background on touch devices that falsely trigger :hover
 @media (hover: none) {
     .carousel-control-prev:hover,
     .carousel-control-next:hover {
@@ -39,8 +39,6 @@
     .media-carousel-inner {
         border-image-width:0;
         display: flex;
-        transition: transform 0.5s ease-in-out;
-        will-change: transform;
         width: 100%;
         height: 100%;
     }
@@ -51,6 +49,9 @@
         position: absolute;
         inset: 0;
         z-index: 0;
+        pointer-events: none;
+
+
         //    min-width: 100%;
         //    max-width: 100%;
         //    flex: 0 0 100%;
@@ -58,26 +59,8 @@
 
     .carousel-item.active {
         opacity: 1;
-        position: relative;
         z-index: 1;
-    }
-
-    .carousel-item.slide-left {
-        animation: slideLeft 0.5s ease;
-    }
-
-    .carousel-item.slide-right {
-        animation: slideRight 0.5s ease;
-    }
-
-    @keyframes slideLeft {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-
-    @keyframes slideRight {
-        from { transform: translateX(-100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
+        pointer-events: auto;
     }
 
    .media-carousel-indicators button.active {
@@ -132,12 +115,78 @@
         height:100%;
     }
 
-    @media (hover: none) and (pointer: coarse) and (max-width: 768px) {
-        .mlbrgn-mle-component {
-            .carousel-control-prev,
-            .carousel-control-next {
-                display: none !important;
+    .media-carousel[data-carousel-effect="slide"] {
+        .media-carousel-inner {
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
+        }
+
+        .carousel-item.active {
+            position:relative;
+        }
+
+        .carousel-item.slide-left {
+            animation: slideLeft 0.5s ease;
+        }
+
+        .carousel-item.slide-right {
+            animation: slideRight 0.5s ease;
+        }
+
+        @keyframes slideLeft {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideRight {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    }
+
+    .media-carousel[data-carousel-effect="fade"] {
+
+        .media-carousel-inner {
+            display:block;
+            transition: none;
+            will-change: unset;
+            border:10px solid yellowgreen;
+        }
+
+        .carousel-item {
+            position: absolute;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+            z-index: 1;
+            animation: fadeIn .5s ease forwards;
+        }
+
+        // Optional: disable custom slide animations if defined
+        .carousel-item.slide-left,
+        .carousel-item.slide-right {
+            animation: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
             }
         }
     }
+
+    @media (hover: none) and (pointer: coarse) and (max-width: 768px) {
+        .carousel-control-prev,
+        .carousel-control-next {
+            //display: none !important;
+            display: none;
+        }
+    }
+
 }
