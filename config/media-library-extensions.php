@@ -167,10 +167,10 @@ return [
     |
     */
 
-    'carousel_ride' => true, // Automatically switch slides
+    'carousel_ride' => false, // Automatically switch slides
     'carousel_ride_interval' => 3000, // Time between slides
-    'carousel_ride_only_after_interaction' => true, // Only slide after first interaction with carousel
-    'carousel_fade' => false, // slide effect true for "fade" false for "slide"
+    'carousel_ride_only_after_interaction' => false, // Only slide after first interaction with carousel
+    'carousel_fade' => false, // slide effect true for "fade" false for "slide" (bootstrap only)
 
     /*
     |--------------------------------------------------------------------------

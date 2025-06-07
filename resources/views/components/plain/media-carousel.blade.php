@@ -4,7 +4,7 @@
          data-carousel
          data-carousel-id="{{ $id }}"
          @if(config('media-library-extensions.carousel_ride'))
-            data-carousel-ride="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'false' }}"
+            data-carousel-ride="{{ config('media-library-extensions.carousel_ride') ? 'true' : 'false' }}"
             data-carousel-ride-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
             data-carousel-ride-only-after-interaction="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'false' }}"
          @endif

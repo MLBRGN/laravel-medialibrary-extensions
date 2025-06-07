@@ -19,15 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const goToSlide = (index) => {
-            currentIndex = index;
+            currentIndex = (index + items.length) % items.length;
             updateCarousel(currentIndex);
         };
 
         const startAutoRide = () => {
-            if (intervalId === null) {
-                intervalId = setInterval(() => {
-                    goToSlide((currentIndex + 1) % items.length);
-                }, rideInterval);
+            stopAutoRide(); // always clear first to avoid duplicates
+            intervalId = setInterval(() => {
+                goToSlide((currentIndex + 1) % items.length);
+            }, rideInterval);
+        };
+
+        const stopAutoRide = () => {
+            if (intervalId !== null) {
+                clearInterval(intervalId);
+                intervalId = null;
             }
         };
 
@@ -37,6 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (ride && rideOnlyAfterInteraction) {
                     startAutoRide();
                 }
+            }
+
+            if (ride && !rideOnlyAfterInteraction) {
+                startAutoRide();
             }
         };
 
@@ -57,8 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
             handleInteraction();
         });
 
-        if (ride && !rideOnlyAfterInteraction) {
-            startAutoRide(); // start immediately if not waiting for interaction
+        carousel.addEventListener('mouseenter', stopAutoRide);
+        carousel.addEventListener('mouseleave', () => {
+            if (ride && (!rideOnlyAfterInteraction || hasInteracted)) {
+                startAutoRide();
+            }
+        });
+
+        if (items.length > 1 && ride && !rideOnlyAfterInteraction) {
+            startAutoRide();
         }
     });
 });
