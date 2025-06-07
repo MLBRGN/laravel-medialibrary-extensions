@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedReference
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const modals = document.querySelectorAll('.media-modal');

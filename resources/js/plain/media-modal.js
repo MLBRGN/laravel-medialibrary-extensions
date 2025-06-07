@@ -1,4 +1,6 @@
 // Functionality implemented with assistance from AI (ChatGPT)
+// noinspection JSUnresolvedReference
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const modals = document.querySelectorAll('.media-modal');
@@ -143,10 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
             pauseAllVideoPlayBack();
 
             if (modal.hasAttribute('data-video-autoplay')) {
-                console.log(event);
-                const videoWrapper = event.target.querySelector('.media-video-wrapper');
+                // Only get the active carousel item
+                const activeSlide = carousel.querySelector('.carousel-item.active');
+
+                if (!activeSlide) return;
+
+                const videoWrapper = activeSlide.querySelector('.media-video-wrapper');
+
                 if (videoWrapper && videoWrapper.hasAttribute('data-youtube-video-id')) {
-                    let youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
+                    const youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
                     startVideoPlayBack(youtubeId);
                 }
             }
