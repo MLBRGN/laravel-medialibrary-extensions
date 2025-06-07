@@ -34,7 +34,6 @@
         aspect-ratio: 16/9;
         background-color: var(--mlbrgn-mle-container-bg-light);
         position: relative;
-        //border:10px solid orange;
         overflow:hidden;
     }
 
@@ -47,25 +46,39 @@
         height: 100%;
     }
 
-    //.media-carousel .carousel-item {
     .carousel-item {
-        min-width: 100%;
-        transition: opacity 0.5s ease-in-out;
+        transition: transform 0.5s ease, opacity 0.5s ease;
         opacity: 0;
         position: absolute;
-        top: 0;
-        left: 0;
-        flex: 0 0 100%;
-        max-width: 100%;
-        display: none;
+        inset: 0;
+        z-index: 0;
+        //    min-width: 100%;
+        //    max-width: 100%;
+        //    flex: 0 0 100%;
     }
 
-    //.media-carousel .carousel-item.active {
     .carousel-item.active {
-        display: block;
-        position: relative;
         opacity: 1;
+        position: relative;
         z-index: 1;
+    }
+
+    .carousel-item.slide-left {
+        animation: slideLeft 0.5s ease;
+    }
+
+    .carousel-item.slide-right {
+        animation: slideRight 0.5s ease;
+    }
+
+    @keyframes slideLeft {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideRight {
+        from { transform: translateX(-100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
     }
 
    .media-carousel-indicators button.active {
@@ -76,7 +89,6 @@
     .carousel-control-next {
         position: absolute;
         top: 50%;
-        //transform: translateY(-50%);
         background: none;
         border: none;
         font-size: 2rem;

@@ -13,15 +13,77 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         let hasInteracted = false;
         let intervalId = null;
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-        const updateCarousel = (index) => {
-            items.forEach((item, i) => item.classList.toggle('active', i === index));
+        // const updateCarousel = (index) => {
+        //     items.forEach((item, i) => item.classList.toggle('active', i === index));
+        //     indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
+        // };
+
+        const updateCarousel = (index, direction = 'right') => {
+            items.forEach((item, i) => {
+                item.classList.remove('active', 'slide-left', 'slide-right');
+                item.style.zIndex = 0;
+            });
+
+            const current = items[currentIndex];
+            const next = items[index];
+
+            if (direction === 'right') {
+                current.classList.add('slide-left');
+                next.classList.add('slide-right');
+            } else {
+                current.classList.add('slide-right');
+                next.classList.add('slide-left');
+            }
+
+            // Force reflow to restart animation
+            void next.offsetWidth;
+
+            current.classList.remove('active');
+            next.classList.add('active');
+
             indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
+
+            currentIndex = index;
         };
 
+        // const goToSlide = (index) => {
+        //     currentIndex = (index + items.length) % items.length;
+        //     updateCarousel(currentIndex);
+        // };
+
+        // const goToSlide = (index) => {
+        //     const direction = index > currentIndex ? 'right' : 'left';
+        //     if (index === currentIndex) return;
+        //     updateCarousel((index + items.length) % items.length, direction);
+        // };
+
         const goToSlide = (index) => {
-            currentIndex = (index + items.length) % items.length;
-            updateCarousel(currentIndex);
+            if (index === currentIndex) return;
+
+            const normalizedIndex = (index + items.length) % items.length;
+            const diff = normalizedIndex - currentIndex;
+            const direction = (diff + items.length) % items.length > items.length / 2 ? 'left' : 'right';
+
+            updateCarousel(normalizedIndex, direction);
+        };
+
+        const handleGesture = () => {
+            const swipeThreshold = 40; // Minimum distance (in px) for a valid swipe
+            const distance = touchEndX - touchStartX;
+
+            if (Math.abs(distance) > swipeThreshold) {
+                if (distance < 0) {
+                    // Swiped left → next
+                    goToSlide((currentIndex + 1) % items.length);
+                } else {
+                    // Swiped right → prev
+                    goToSlide((currentIndex - 1 + items.length) % items.length);
+                }
+                handleInteraction();
+            }
         };
 
         const startAutoRide = () => {
@@ -74,6 +136,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 startAutoRide();
             }
         });
+
+        carousel.addEventListener('focusin', stopAutoRide);
+        carousel.addEventListener('focusout', () => {
+            if (ride && (!rideOnlyAfterInteraction || hasInteracted)) {
+                startAutoRide();
+            }
+        });
+
+        carousel.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                goToSlide((currentIndex - 1 + items.length) % items.length);
+                handleInteraction();
+            } else if (e.key === 'ArrowRight') {
+                goToSlide((currentIndex + 1) % items.length);
+                handleInteraction();
+            }
+        });
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, { passive: true });
 
         if (items.length > 1 && ride && !rideOnlyAfterInteraction) {
             startAutoRide();

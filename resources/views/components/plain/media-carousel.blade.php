@@ -3,6 +3,7 @@
          class="media-carousel plain-carousel mle-width-100 mle-height-100"
          data-carousel
          data-carousel-id="{{ $id }}"
+         tabindex="0"
          @if(config('media-library-extensions.carousel_ride'))
             data-carousel-ride="{{ config('media-library-extensions.carousel_ride') ? 'true' : 'false' }}"
             data-carousel-ride-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
