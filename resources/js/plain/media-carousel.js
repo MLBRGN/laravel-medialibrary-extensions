@@ -50,6 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
             indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
 
             currentIndex = index;
+
+            const event = new CustomEvent('carouselSlided', {
+                bubbles: true,    // Optional: allows the event to bubble up the DOM tree
+                detail: { carousel }  // Optional: you can pass additional data here
+            });
+            carousel.dispatchEvent(event);
         };
 
         // const goToSlide = (index) => {

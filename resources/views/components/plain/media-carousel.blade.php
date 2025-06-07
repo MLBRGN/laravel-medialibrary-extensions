@@ -40,7 +40,7 @@
                                 :medium="$medium"
                                 :preview="$inModal ? false : true"
                                 :youtube-id="$medium->getCustomProperty('youtube-id')"
-                                :youtube-params="$inModal ? ['mute' => 1] : []"
+                                :youtube-params="[]"
                             />
                         @else
                             <x-mle-image-responsive

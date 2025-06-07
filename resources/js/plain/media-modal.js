@@ -1,7 +1,11 @@
 // Functionality implemented with assistance from AI (ChatGPT)
 document.addEventListener('DOMContentLoaded', () => {
+
+    const modals = document.querySelectorAll('.media-modal');
+    const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
+    const players = {}; // Store player instances by slide ID
+
     const trapFocus = (modal) => {
-        const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
         const focusableEls = modal.querySelectorAll(focusableSelectors);
         if (focusableEls.length === 0) return;
 
@@ -62,6 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
 
         releaseFocus(modal);
+
+        const event = new CustomEvent('modalClosed', {
+            bubbles: true,    // Optional: allows the event to bubble up the DOM tree
+            detail: { modal }  // Optional: you can pass additional data here
+        });
+        modal.dispatchEvent(event);
     };
 
     // Attach to all close buttons
@@ -95,4 +105,74 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+    // video playback control
+    modals.forEach((modal) => {
+        const carousel = modal.querySelector('[data-carousel]');
+        let autoPlay = modal.hasAttribute('data-video-autoplay');
+
+        function setupYT(videoSlide) {
+            const youTubeId = videoSlide.getAttribute('data-youtube-video-id');
+            const iframe = videoSlide.querySelector('lite-youtube').shadowRoot.querySelector('iframe');
+            // instantiate the new player instance for slide
+            players[youTubeId] = new YT.Player(iframe, {
+                events: {
+                    onReady: () => {
+                        if (autoPlay) {
+                            startVideoPlayBack(youTubeId);
+                        }
+                    },
+                },
+            });
+        }
+
+        // Event listener for when the YouTube iframe loads
+        modal.addEventListener('liteYoutubeIframeLoaded', (event) => {
+            const targetSlide = event.target.closest('[data-youtube-video-id]');
+            if (targetSlide) setupYT(targetSlide);
+        });
+
+        // Stop the video when the modal is hidden
+        modal.addEventListener('modalClosed', () => {
+            stopAllVideoPlayBack();
+        });
+
+        // TODO does not work properly, play and pause inconsistent
+        // Handle carousel sliding
+        carousel.addEventListener('carouselSlided', (event) => {
+            pauseAllVideoPlayBack();
+
+            if (modal.hasAttribute('data-video-autoplay')) {
+                console.log(event);
+                const videoWrapper = event.target.querySelector('.media-video-wrapper');
+                if (videoWrapper && videoWrapper.hasAttribute('data-youtube-video-id')) {
+                    let youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
+                    startVideoPlayBack(youtubeId);
+                }
+            }
+        });
+    });
+
+    function stopAllVideoPlayBack() {
+        Object.values(players).forEach((player) => {
+            player.stopVideo()
+        });
+    }
+
+    function pauseAllVideoPlayBack() {
+        console.log('pauseAllVideoPlayBack');
+
+        Object.values(players).forEach((player) => {
+            player.pauseVideo()
+        });
+    }
+
+    function startVideoPlayBack(youTubeId) {
+        console.log('startAllVideoPlayBack');
+
+        let player = players[youTubeId]
+        if (player) {
+            player.playVideo();
+        }
+    }
 });
