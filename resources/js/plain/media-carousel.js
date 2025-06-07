@@ -19,11 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let touchEndY = 0;
         const swipeVerticalThreshold = 50;
 
-        // const updateCarousel = (index) => {
-        //     items.forEach((item, i) => item.classList.toggle('active', i === index));
-        //     indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
-        // };
-
         const updateCarousel = (index, direction = 'right') => {
             items.forEach((item) => {
                 item.classList.remove('active', 'slide-left', 'slide-right');
@@ -59,17 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             carousel.dispatchEvent(event);
         };
-
-        // const goToSlide = (index) => {
-        //     currentIndex = (index + items.length) % items.length;
-        //     updateCarousel(currentIndex);
-        // };
-
-        // const goToSlide = (index) => {
-        //     const direction = index > currentIndex ? 'right' : 'left';
-        //     if (index === currentIndex) return;
-        //     updateCarousel((index + items.length) % items.length, direction);
-        // };
 
         const goToSlide = (index) => {
             if (index === currentIndex) return;
