@@ -1,3 +1,4 @@
+// Functionality implemented with assistance from AI (ChatGPT)
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-carousel]').forEach(carousel => {
         const items = carousel.querySelectorAll('.carousel-item');

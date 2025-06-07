@@ -19,7 +19,12 @@
                         class="media-modal-close-button"
                         data-modal-close
                         aria-label="Sluit"
-                        title="{{ __('media-library-extensions::messages.close') }}">X</button>
+                        title="{{ __('media-library-extensions::messages.close') }}">
+                        <x-mle-partial-icon
+                            name="{{ config('media-library-extensions.icons.close') }}"
+                            title="{{ __('media-library-extensions::messages.close') }}"
+                        />
+                    </button>
 
                     <x-mle-media-carousel
                         class="mle-width-100 mle-height-100"

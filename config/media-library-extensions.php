@@ -157,6 +157,7 @@ return [
         'setup_as_main' => 'bi-star',
         'set-as-main' => 'bi-star-fill',
         'play_video' => 'bi-play-fill',
+        'close' => 'bi-x-lg',
     ],
 
     /*

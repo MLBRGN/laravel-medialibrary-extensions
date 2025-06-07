@@ -1,3 +1,4 @@
+// Functionality implemented with assistance from AI (ChatGPT)
 document.addEventListener('DOMContentLoaded', () => {
     const trapFocus = (modal) => {
         const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
