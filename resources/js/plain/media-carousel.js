@@ -4,35 +4,61 @@ document.addEventListener('DOMContentLoaded', () => {
         const indicators = carousel.querySelectorAll('.carousel-indicators button');
         const prev = carousel.querySelector('[data-slide="prev"]');
         const next = carousel.querySelector('[data-slide="next"]');
+
+        const ride = carousel.getAttribute('data-carousel-ride') === 'true';
+        const rideInterval = Number(carousel.getAttribute('data-carousel-ride-interval') ?? '5000');
+        const rideOnlyAfterInteraction = carousel.getAttribute('data-carousel-ride-only-after-interaction') === 'true';
+
         let currentIndex = 0;
+        let hasInteracted = false;
+        let intervalId = null;
 
         const updateCarousel = (index) => {
             items.forEach((item, i) => item.classList.toggle('active', i === index));
             indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
         };
 
+        const goToSlide = (index) => {
+            currentIndex = index;
+            updateCarousel(currentIndex);
+        };
+
+        const startAutoRide = () => {
+            if (intervalId === null) {
+                intervalId = setInterval(() => {
+                    goToSlide((currentIndex + 1) % items.length);
+                }, rideInterval);
+            }
+        };
+
+        const handleInteraction = () => {
+            if (!hasInteracted) {
+                hasInteracted = true;
+                if (ride && rideOnlyAfterInteraction) {
+                    startAutoRide();
+                }
+            }
+        };
+
         indicators.forEach((btn, i) => {
             btn.addEventListener('click', () => {
-                currentIndex = i;
-                updateCarousel(currentIndex);
+                goToSlide(i);
+                handleInteraction();
             });
         });
 
         prev?.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + items.length) % items.length;
-            updateCarousel(currentIndex);
+            goToSlide((currentIndex - 1 + items.length) % items.length);
+            handleInteraction();
         });
 
         next?.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % items.length;
-            updateCarousel(currentIndex);
+            goToSlide((currentIndex + 1) % items.length);
+            handleInteraction();
         });
-        // ride functionality
-        if (3 > 4) {// ride check data-carousel-ride?
-            let interval = setInterval(() => {
-                let nextIndex = (currentIndex + 1) % items.length;
-                goToSlide(nextIndex);
-            }, 5000); // 5s interval
+
+        if (ride && !rideOnlyAfterInteraction) {
+            startAutoRide(); // start immediately if not waiting for interaction
         }
     });
 });

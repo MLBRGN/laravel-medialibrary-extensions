@@ -163,14 +163,13 @@ return [
     |--------------------------------------------------------------------------
     |--------------------------------------------------------------------------
     |
-    | Options for bootstrap (when using bootstrap as frontend_theme
+    | Carousel options
     |
     */
 
-    // to fade items instead of sliding set to true
-    'carousel_ride' => false, // should carousel automatically switch slides
-    'carousel_ride_interval' => 2000, // time between sliding
-    'carousel_ride_only_after_interaction' => false, // only slide after first interaction with carousel
+    'carousel_ride' => true, // Automatically switch slides
+    'carousel_ride_interval' => 3000, // Time between slides
+    'carousel_ride_only_after_interaction' => true, // Only slide after first interaction with carousel
     'carousel_fade' => false, // slide effect true for "fade" false for "slide"
 
     /*
@@ -213,7 +212,7 @@ return [
     | Default YouTube params
     |--------------------------------------------------------------------------
     |
-    | The parameters sent to the youtube player (configuration of YouTube player)
+    | The parameters sent to the YouTube player (configuration of YouTube player)
     |
     */
 
