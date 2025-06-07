@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // };
 
         const updateCarousel = (index, direction = 'right') => {
-            items.forEach((item, i) => {
+            items.forEach((item) => {
                 item.classList.remove('active', 'slide-left', 'slide-right');
                 item.style.zIndex = 0;
             });
