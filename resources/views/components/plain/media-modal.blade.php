@@ -13,7 +13,7 @@
         <div class="media-modal-dialog">
             <div class="media-modal-content">
                 <h1 class="media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
-                <div class="media-modal-body p-0">
+                <div class="media-modal-body">
                     <button
                         type="button"
                         class="media-modal-close-button"

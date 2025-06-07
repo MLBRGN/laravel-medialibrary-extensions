@@ -1,8 +1,8 @@
 // Functionality implemented with assistance from AI (ChatGPT)
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-carousel]').forEach(carousel => {
-        const items = carousel.querySelectorAll('.carousel-item');
-        const indicators = carousel.querySelectorAll('.carousel-indicators button');
+        const items = carousel.querySelectorAll('.media-carousel-item');
+        const indicators = carousel.querySelectorAll('.media-carousel-indicators button');
         const prev = carousel.querySelector('[data-slide="prev"]');
         const next = carousel.querySelector('[data-slide="next"]');
 

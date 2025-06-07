@@ -158,6 +158,8 @@ return [
         'set-as-main' => 'bi-star-fill',
         'play_video' => 'bi-play-fill',
         'close' => 'bi-x-lg',
+        'next' => 'bi-chevron-right',
+        'prev' => 'bi-chevron-left',
     ],
 
     /*

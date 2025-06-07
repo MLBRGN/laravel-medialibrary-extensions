@@ -40,6 +40,14 @@
     .media-carousel-inner{
         border-image-width:0;
     }
+
+    .media-carousel-item-wrapper {
+        height:100%;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .media-video-wrapper {
         width:100%;
         height:100%;

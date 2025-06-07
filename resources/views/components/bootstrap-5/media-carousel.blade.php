@@ -13,6 +13,7 @@
             data-bs-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
         @endif
     >
+        {{-- Indicators --}}
         <div 
             @class([
                 'media-carousel-indicators', 
@@ -30,16 +31,18 @@
                 </button>
             @endforeach
         </div>
-    
+
+        {{-- Slides --}}
         <div class="media-carousel-inner carousel-inner">
             @foreach($mediaItems as $index => $medium)
 
                 <div @class([
+                    'media-carousel-item',
                     'carousel-item',
                     'active' => $loop->first,
                     'mle-cursor-zoom-in' => $clickToOpenInModal
                 ])>
-                    <div class="carousel-item-wrapper d-flex align-items-center justify-content-center" 
+                    <div class="media-carousel-item-wrapper" 
                          data-bs-toggle="modal"
                          data-bs-target="#{{$id}}-modal"
                     >
@@ -76,7 +79,8 @@
                 </div>
             @endforeach
         </div>
-    
+
+        {{-- Prev/Next controls --}}
         <button
             @class([
                  'media-carousel-control-prev',

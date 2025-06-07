@@ -3,14 +3,13 @@
         id="{{ $id }}"
         {{ $attributes->class([
             'media-manager media-manager-multiple',
-            'container-fluid px-0',
         ]) }}>
 
         <x-mle-partial-debug/>
 
-        <div class="media-manager-row media-manager-multiple-row row">
+        <div class="media-manager-row media-manager-multiple-row">
 
-            <div class="media-manager-form col-12 col-md-4">
+            <div class="media-manager-form">
                 @if($uploadEnabled)
                     <x-mle-partial-upload-form
                         :allowedMimeTypes="$allowedMimeTypes"
@@ -29,7 +28,7 @@
                 @endif
             </div>
 
-            <div class="media-manager-preview-wrapper media-manager-multiple-preview-wrapper col-12 col-sm-8">
+            <div class="media-manager-preview-wrapper media-manager-multiple-preview-wrapper">
                 @if($media->count() > 0)
                     <div class="media-manager-preview-images">
                         @foreach($media as $index => $medium)
@@ -50,7 +49,10 @@
                                         @if($setAsFirstEnabled)
                                             @if($medium->order_column === $media->min('order_column'))
                                                 <button class="mle-btn-icon" title="{{ __('media-library-extensions::messages.set-as-main') }}" disabled>
-                                                    <x-mle-partial-icon name="{{ config('media-library-extensions.icons.set-as-main') }}"/>
+                                                    <x-mle-partial-icon 
+                                                        name="{{ config('media-library-extensions.icons.set-as-main') }}"
+                                                        title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
+                                                    />
                                                 </button>
                                             @else
                                                 <form class="media-manager-menu-form" action="{{ route(mle_prefix_route('set-as-first')) }}" method="post">
@@ -61,13 +63,16 @@
                                                     <input type="hidden" name="model_id" value="{{ $model->id }}">
                                                     <input type="hidden" name="target_id" value="{{ $id }}">
                                                     <button type="submit" class="mle-btn-icon" title="{{ __('media-library-extensions::messages.medium_set_as_main') }}">
-                                                        <x-mle-partial-icon name="{{ config('media-library-extensions.icons.setup_as_main') }}"/>
+                                                        <x-mle-partial-icon 
+                                                            name="{{ config('media-library-extensions.icons.setup_as_main') }}"
+                                                            title="{{ __('media-library-extensions::messages.setup_as_main') }}"
+                                                        />
                                                     </button>
                                                 </form>
                                             @endif
                                         @endif
                                     </div>
-                                    <div class="media-manager-preview-image-menu-end d-flex align-items-center gap-1">
+                                    <div class="media-manager-preview-image-menu-end">
                                         @if($destroyEnabled)
                                             <x-mle-partial-destroy-form :medium="$medium" :id="$id"/>
                                         @endif

@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (modal.hasAttribute('data-video-autoplay')) {
                 // Only get the active carousel item
-                const activeSlide = carousel.querySelector('.carousel-item.active');
+                const activeSlide = carousel.querySelector('.media-carousel-item.active');
 
                 if (!activeSlide) return;
 

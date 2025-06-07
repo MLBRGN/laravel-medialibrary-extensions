@@ -4,8 +4,8 @@
         ]) }}>
         <x-mle-partial-debug/>
 
-        <div class="media-manager-row media-manager-single-row row">
-            <div class="media-manager-form col-12 col-md-4">
+        <div class="media-manager-row media-manager-single-row">
+            <div class="media-manager-form">
                 @if($uploadEnabled)
                     <x-mle-partial-upload-form
                         :allowedMimeTypes="$allowedMimeTypes"
@@ -16,7 +16,7 @@
                 @endif
             </div>
 
-            <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper col-12 col-md-8 text-center">
+            <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper">
                 @if($medium)
                     <a
                         class="media-manager-preview-medium-link media-manager-single-preview-medium-link mle-cursor-zoom-in"
@@ -25,7 +25,7 @@
                         data-modal-trigger="{{ $id }}-modal">
                         <x-mle-image-responsive 
                             :medium="$medium" 
-                            class="media-manager-preview-medium media-manager-single-preview-medium image-fluid" 
+                            class="media-manager-preview-medium media-manager-single-preview-medium" 
                             alt="{{ $medium->name }}"/>
                     </a>
                     <div class="media-manager-preview-menu media-manager-single-preview-menu">

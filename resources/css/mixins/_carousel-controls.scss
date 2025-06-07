@@ -1,19 +1,12 @@
 // Shared carousel control styles
 @mixin carousel-controls {
 
-    .carousel-item {
+    .media-carousel-item {
         height:100%;
     }
 
-    .carousel-item-wrapper {
-        height:100%;
-        display:flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .carousel-control-prev,
-    .carousel-control-next {
+    .media-carousel-control-prev,
+    .media-carousel-control-next {
         top: 15%;
         bottom: 15%;
         width: 5%;
@@ -21,45 +14,61 @@
         transition: background-color 0.3s ease-in-out;
     }
 
-    .carousel-control-prev {
+    .media-carousel-control-prev {
         border-top-right-radius: 3em;
         border-bottom-right-radius: 3em;
         left: 0;
     }
 
-    .carousel-control-next {
+    .media-carousel-control-next {
         border-top-left-radius: 3em;
         border-bottom-left-radius: 3em;
         right: 0;
     }
 
-    .carousel-control-prev.disabled,
-    .carousel-control-next.disabled {
+    .media-carousel-control-prev.disabled,
+    .media-carousel-control-next.disabled {
         opacity: 0.2;
         pointer-events: none; /* Prevents click events */
     }
 
-    .carousel-control-prev:hover,
-    .carousel-control-prev:focus-visible,
-    .carousel-control-next:hover,
-    .carousel-control-next:focus-visible {
+    .media-carousel-control-prev:hover,
+    .media-carousel-control-prev:focus-visible,
+    .media-carousel-control-next:hover,
+    .media-carousel-control-next:focus-visible {
         background-color: rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
     }
 
-    .carousel-indicators button:focus-visible {
+    .media-carousel-indicators button:focus-visible {
         outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
         outline-offset: 0; /* Optional: adds spacing between button and outline */
         border-radius:0.5em;
     }
 
-    .carousel-indicators {
+    .media-carousel-indicators {
         position:absolute;
         top:1em;
         height:fit-content;
     }
 
-    .carousel-inner {
+    .media-carousel-inner {
         height:100%;
+    }
+
+
+    .media-carousel-image {
+        height:100%;
+        width:100%;
+        object-fit:contain;
+    }
+
+    // TODO move statements below to general
+    .image {
+        cursor: zoom-in;
+    }
+
+    .image-zoomed {
+        cursor: default;
     }
 
     .image,
@@ -69,19 +78,6 @@
         object-fit:contain;
     }
 
-    .carousel-image {
-        height:100%;
-        width:100%;
-        object-fit:contain;
-    }
-
-    .image {
-        cursor: zoom-in;
-    }
-
-    .image-zoomed {
-        cursor: default;
-    }
 
     .youtube-video {
         position:relative;
