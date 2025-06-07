@@ -15,7 +15,7 @@
                 <div class="media-modal-body modal-body p-0">
                     <button
                         type="button"
-                        class="btn-close"
+                        class="media-modal-close-button btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Sluit"
                         title="{{ __('media-library-extensions::messages.close') }}"></button>
@@ -35,10 +35,4 @@
     </div>
 </div>
 <x-mle-partial-assets include-css="true" include-js="true"/>
-{{--@once--}}
-{{--    @if(config('media-library-extensions.youtube_support_enabled'))--}}
-{{--        <script src="https://www.youtube.com/iframe_api"></script>--}}
-{{--    @endif--}}
-{{--    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
-{{--@endonce--}}
 

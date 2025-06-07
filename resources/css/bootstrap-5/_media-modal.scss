@@ -4,11 +4,9 @@
 
 .mlbrgn-mle-component {
 
-    .modal {
-        --modal-padding:20px;
-    }
-
     .media-modal {
+        --modal-padding:20px;
+
         background:white;
         position:fixed;
         top:50%;
@@ -45,7 +43,25 @@
         //overflow:hidden;
     }
 
-    .btn-close {
+    //.btn-close {
+    //    --bs-btn-close-opacity: 0.9;
+    //    position: absolute;
+    //    background-repeat:no-repeat;
+    //    background-position: center center;
+    //    border-radius:5px;
+    //    top: 1rem;
+    //    padding:0.5em;
+    //    right: 1rem;
+    //    z-index: 3;
+    //    background-color: rgb(from var(--mlbrgn-mle-modal-close-button-bg) r g b / 70%);
+    //}
+    //
+    //.btn-close:focus-visible {
+    //    outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
+    //    outline-offset: 0; /* Optional: adds spacing between button and outline */
+    //    border-radius:0.5em;
+    //}
+    .media-modal-close-button {
         --bs-btn-close-opacity: 0.9;
         position: absolute;
         background-repeat:no-repeat;
@@ -58,7 +74,7 @@
         background-color: rgb(from var(--mlbrgn-mle-modal-close-button-bg) r g b / 70%);
     }
 
-    .btn-close:focus-visible {
+    .media-modal-close-button:focus-visible {
         outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
         outline-offset: 0; /* Optional: adds spacing between button and outline */
         border-radius:0.5em;

@@ -22,11 +22,11 @@
                         class="media-manager-preview-medium-link media-manager-single-preview-medium-link mle-cursor-zoom-in"
                         data-modal-id="{{ $id }}-modal"
                         data-slide-to="0"
-                        data-moal-trigger="{{ $id }}-modal">
-                        <img
-                            src="{{ $medium->getUrl() }}"
-                            class="media-manager-preview-medium media-manager-single-preview-medium image-fluid"
-                            alt="{{ __('media-library-extensions::messages.no_medium') }}">
+                        data-modal-trigger="{{ $id }}-modal">
+                        <x-mle-image-responsive 
+                            :medium="$medium" 
+                            class="media-manager-preview-medium media-manager-single-preview-medium image-fluid" 
+                            alt="{{ $medium->name }}"/>
                     </a>
                     <div class="media-manager-preview-menu media-manager-single-preview-menu">
                         @if($destroyEnabled)
@@ -50,42 +50,4 @@
         </div>
     </div>
 </div>
-
-{{--@once--}}
-{{--    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
-{{--    <script>--}}
-{{--        function openModalSlide(el) {--}}
-{{--            const modalId = el.getAttribute('data-modal-id');--}}
-{{--            const slideTo = parseInt(el.getAttribute('data-slide-to'), 10);--}}
-{{--            const modal = document.getElementById(modalId);--}}
-{{--            const slides = modal.querySelectorAll('.custom-carousel-slide');--}}
-
-{{--            slides.forEach((s, i) => s.classList.toggle('active', i === slideTo));--}}
-{{--            modal.classList.add('open');--}}
-{{--            document.body.style.overflow = 'hidden';--}}
-{{--        }--}}
-
-{{--        function closeModal(modalId) {--}}
-{{--            const modal = document.getElementById(modalId);--}}
-{{--            modal.classList.remove('open');--}}
-{{--            document.body.style.overflow = '';--}}
-{{--        }--}}
-
-{{--        function nextSlide(modalId) {--}}
-{{--            const modal = document.getElementById(modalId);--}}
-{{--            const slides = modal.querySelectorAll('.custom-carousel-slide');--}}
-{{--            let current = Array.from(slides).findIndex(s => s.classList.contains('active'));--}}
-{{--            slides[current].classList.remove('active');--}}
-{{--            slides[(current + 1) % slides.length].classList.add('active');--}}
-{{--        }--}}
-
-{{--        function prevSlide(modalId) {--}}
-{{--            const modal = document.getElementById(modalId);--}}
-{{--            const slides = modal.querySelectorAll('.custom-carousel-slide');--}}
-{{--            let current = Array.from(slides).findIndex(s => s.classList.contains('active'));--}}
-{{--            slides[current].classList.remove('active');--}}
-{{--            slides[(current - 1 + slides.length) % slides.length].classList.add('active');--}}
-{{--        }--}}
-{{--    </script>--}}
-{{--@endonce--}}
-<x-mle-partial-assets include-css="true" />
+<x-mle-partial-assets include-css="true" include-js="true" />

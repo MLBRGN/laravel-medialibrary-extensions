@@ -2,25 +2,26 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
+use Illuminate\View\Component;
 use Illuminate\View\View;
 
-class Assets extends BaseComponent
+class Assets extends Component
 {
 
+    public string $frontend;
     public function __construct(
         public ?string $frontendTheme = null,
         public bool $includeCss = false,
         public bool $includeJs = false,
-        public bool $includeYoutubeIframeApi = false,
+        public bool $includeYoutubePlayer = false,
     ) {
-        parent::__construct('mle-assets', $frontendTheme);
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
     }
 
     public function render(): View
     {
-        return $this->getPartialView('assets');
+        return view('media-library-extensions::components.partial.assets');
     }
 }

@@ -32,14 +32,90 @@
         width:100%;
         height:auto;
         aspect-ratio: 16/9;
-        overflow:hidden;
         background-color: var(--mlbrgn-mle-container-bg-light);
-        border:0;
+        position: relative;
+        //border:10px solid orange;
+        overflow:hidden;
     }
 
-    .media-carousel-inner{
+    .media-carousel-inner {
         border-image-width:0;
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        will-change: transform;
+        width: 100%;
+        height: 100%;
     }
+
+    //.media-carousel .carousel-item {
+    .carousel-item {
+        min-width: 100%;
+        transition: opacity 0.5s ease-in-out;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        flex: 0 0 100%;
+        max-width: 100%;
+        display: none;
+    }
+
+    //.media-carousel .carousel-item.active {
+    .carousel-item.active {
+        display: block;
+        position: relative;
+        opacity: 1;
+        z-index: 1;
+    }
+
+   .media-carousel-indicators button.active {
+        background-color: #000;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        position: absolute;
+        top: 50%;
+        //transform: translateY(-50%);
+        background: none;
+        border: none;
+        font-size: 2rem;
+        z-index: 10;
+        cursor: pointer;
+        color: black;
+    }
+
+    .carousel-control-prev {
+        left: 1rem;
+    }
+
+    .carousel-control-next {
+        right: 1rem;
+    }
+
+    .carousel-indicators {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+        z-index: 2;
+    }
+
+    .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ccc;
+        border: none;
+        cursor: pointer;
+    }
+
+    .carousel-indicators button.active {
+        background-color: #333;
+    }
+
     .media-video-wrapper {
         width:100%;
         height:100%;

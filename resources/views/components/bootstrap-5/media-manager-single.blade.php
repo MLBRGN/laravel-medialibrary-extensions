@@ -22,10 +22,10 @@
                         class="media-manager-preview-medium-link media-manager-single-preview-medium-link mle-cursor-zoom-in"
                         data-bs-toggle="modal"
                         data-bs-target="#{{$id}}-modal">
-                        <img
-                            src="{{ $medium->getUrl() }}"
+                        <x-mle-image-responsive
+                            :medium="$medium"
                             class="media-manager-preview-medium media-manager-single-preview-medium image-fluid"
-                            alt=" {{ __('media-library-extensions::messages.no_medium') }}">
+                            alt="{{ $medium->name }}"/>
                     </a>
                     <div class="media-manager-preview-menu media-manager-single-preview-menu">
                         @if($destroyEnabled)
@@ -45,8 +45,4 @@
         </div>
     </div>
 </div>
-<x-mle-partial-assets include-css="true" />
-
-{{--@once--}}
-{{--    <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
-{{--@endonce--}}
+<x-mle-partial-assets include-css="true" include-js="true" />

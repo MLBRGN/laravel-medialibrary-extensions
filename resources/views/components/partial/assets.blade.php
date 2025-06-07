@@ -1,24 +1,21 @@
 @if($includeCss)
     @once
-        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-bootstrap-5.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-'.$frontend.'.css') }}">
     @endonce
 @endif
 
 @if($includeJs)
     @once
-        <script src="{{ asset('vendor/media-library-extensions/app-bootstrap-5.js') }}"></script>
+        <script src="{{ asset('vendor/media-library-extensions/app-'.$frontend.'.js') }}"></script>
     @endonce
 @endif
 
-@if($includeYoutubeIframeApi)
+@if($includeYoutubePlayer)
     @once
         <script src="https://www.youtube.com/iframe_api"></script>
+        <script src="{{ asset('vendor/media-library-extensions/lite-youtube.js') }}"></script>
     @endonce
 @endif
-
-@once
-    <script src="{{ asset('vendor/media-library-extensions/lite-youtube.js') }}"></script>
-@endonce
 
 {{ $slot }}
 
