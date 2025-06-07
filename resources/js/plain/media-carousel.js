@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let intervalId = null;
         let touchStartX = 0;
         let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const swipeVerticalThreshold = 50;
 
         // const updateCarousel = (index) => {
         //     items.forEach((item, i) => item.classList.toggle('active', i === index));
@@ -156,11 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         carousel.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
         }, { passive: true });
 
         carousel.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
-            handleGesture();
+            touchEndY = e.changedTouches[0].screenY;
+
+            if (Math.abs(touchEndY - touchStartY) < swipeVerticalThreshold) { // only react to mostly horizontal swipes
+                handleGesture();
+            }
         }, { passive: true });
 
         if (items.length > 1 && ride && !rideOnlyAfterInteraction) {
