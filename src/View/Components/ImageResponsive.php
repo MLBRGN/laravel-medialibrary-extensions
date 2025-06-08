@@ -16,7 +16,7 @@ class ImageResponsive extends Component
         public ?array $conversions = [],
         public string $sizes = '100vw',
         public bool $lazy = true,
-        public string $alt = ''
+        public string $alt = ''// set alt to empty for when none provided
     ) {}
 
     public function hasGeneratedConversion(): bool
@@ -41,9 +41,32 @@ class ImageResponsive extends Component
 
     public function render(): View
     {
+        $hasConversion = $this->hasGeneratedConversion();
+        $useConversion = $this->getUseConversion();
+
+        $url = '';
+        $srcset = '';
+
+        try {
+            $url = $hasConversion
+                ? $this->medium->getUrl($useConversion)
+                : $this->medium->getUrl();
+
+            if ($hasConversion) {
+                $srcset = $this->medium->getSrcset($useConversion);
+            }
+        } catch (\Throwable $e) {
+            // Fallback to original URL if conversion fails
+            $url = $this->medium->getUrl();
+            $srcset = '';
+        }
+
         return view('media-library-extensions::components.image-responsive', [
-            'hasGeneratedConversion' => $this->hasGeneratedConversion(),
-            'useConversion' => $this->getUseConversion(),
+            'hasGeneratedConversion' => $hasConversion,
+            'useConversion' => $useConversion,
+            'url' => $url,
+            'srcset' => $srcset,
         ]);
     }
+
 }
