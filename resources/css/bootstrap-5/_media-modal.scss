@@ -44,21 +44,33 @@
     }
 
     .media-modal-close-button {
-        --bs-btn-close-opacity: 0.9;
         position: absolute;
-        background-repeat:no-repeat;
-        background-position: center center;
-        border-radius:5px;
         top: 1rem;
-        padding:0.5em;
         right: 1rem;
         z-index: 3;
-        background-color: rgb(from var(--mlbrgn-mle-modal-close-button-bg) r g b / 70%);
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-sizing: content-box;
+        width: 1em;
+        height: 1em;
+        padding: .25em;
+        background-color: rgb(from var(--mlbrgn-mle-control-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+        color: var(--mlbrgn-mle-control-fg-color);
+        border-radius: .5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .media-modal-close-button:hover {
+        background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+        color: var(--mlbrgn-mle-control-hover-fg-color);
     }
 
     .media-modal-close-button:focus-visible {
-        outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
-        outline-offset: 0; /* Optional: adds spacing between button and outline */
+        outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+        outline-offset: 0;
         border-radius:0.5em;
     }
 

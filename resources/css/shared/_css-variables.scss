@@ -1,5 +1,6 @@
 :root {
     --mlbrgn-mle-color-primary: #007bff;
+    --mlbrgn-mle-color-primary-contrast: #ffffff;
     --mlbrgn-mle-color-secondary: #6c757d;
     --mlbrgn-mle-color-accent: #ff5722;
     --mlbrgn-mle-container-bg-light: #e8e7e8;
@@ -11,5 +12,14 @@
     --mlbrgn-mle-btn-icon-height: 1em;
     --mlbrgn-mle-menu-bg: var(--mlbrgn-mle-container-bg-dark);
     --carousel-focus-outline-color:  var(--mlbrgn-mle-color-primary);
-    --mlbrgn-mle-modal-close-button-bg: white;
+    --mlbrgn-mle-modal-close-button-bg: var(--mlbrgn-mle-color-primary);
+    --mlbrgn-mle-control-focus-outline-color: var(--mlbrgn-mle-color-primary);
+    --mlbrgn-mle-control-bg-color: var(--mlbrgn-mle-color-primary-contrast);
+    --mlbrgn-mle-control-fg-color: var(--mlbrgn-mle-color-primary);
+    --mlbrgn-mle-control-hover-bg-color: var(--mlbrgn-mle-color-primary);
+    --mlbrgn-mle-control-hover-fg-color: var(--mlbrgn-mle-color-primary-contrast);
+    --mlbrgn-mle-control-hover-bg-opacity: 30%;
+    --mlbrgn-mle-control-non-active-color: var(--mlbrgn-mle-color-primary-contrast);
+    --mlbrgn-mle-control-active-color: var(--mlbrgn-mle-color-primary);
+    --mlbrgn-mle-control-bg-opacity: 70%;
 }

@@ -66,13 +66,17 @@
         width: 1em;
         height: 1em;
         padding: .25em;
-        background: transparent;
-        color: var(--bs-btn-close-color);
+        background-color: rgb(from var(--mlbrgn-mle-control-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+        color: var(--mlbrgn-mle-control-fg-color);
         border-radius: .5rem;
-        opacity: var(--bs-btn-close-opacity);
-        display: flex; /* ✅ Added */
-        align-items: center; /* ✅ Added */
-        justify-content: center; /* ✅ Added */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .media-modal-close-button:hover {
+        background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+        color: var(--mlbrgn-mle-control-hover-fg-color);
     }
 
     .media-modal-close-button svg {
@@ -82,8 +86,8 @@
     }
 
     .media-modal-close-button:focus-visible {
-        outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
-        outline-offset: 0; /* Optional: adds spacing between button and outline */
+        outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+        outline-offset: 0;
         border-radius:0.5em;
     }
 

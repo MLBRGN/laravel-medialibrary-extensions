@@ -31,7 +31,7 @@
         width:100%;
         height:auto;
         aspect-ratio: 16/9;
-        background-color: var(--mlbrgn-mle-container-bg-light);
+        background-color: var(--mlbrgn-mle-container-bg-light);// TODO name carousel background?
         position: relative;
         overflow:hidden;
     }
@@ -59,10 +59,6 @@
         opacity: 1;
         z-index: 1;
         pointer-events: auto;
-    }
-
-   .media-carousel-indicators button.active {
-        background-color: #000;
     }
 
     .media-carousel-control-prev,
@@ -97,17 +93,8 @@
 
     .media-carousel-control-prev-icon svg,
     .media-carousel-control-next-icon svg {
-        fill:white;
         width:100%;
         height:100%;
-    }
-
-    .media-carousel-control-prev-icon {
-      //background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0'/%3e%3c/svg%3e") /*rtl:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/%3e%3c/svg%3e")*/;
-    }
-
-    .media-carousel-control-next-icon {
-        //background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/%3e%3c/svg%3e") /*rtl:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0'/%3e%3c/svg%3e")*/;
     }
 
     .media-carousel-indicators {
@@ -118,19 +105,6 @@
         display: flex;
         gap: 0.5rem;
         z-index: 2;
-    }
-
-    .media-carousel-indicators button {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: #ccc;
-        border: none;
-        cursor: pointer;
-    }
-
-    .media-carousel-indicators button.active {
-        background-color: #333;
     }
 
     .media-carousel-item-wrapper {
