@@ -62,13 +62,8 @@
                 <x-mle-media-carousel
                     id="blog-media"
                     :model="$model"
-                    {{--        media-collection="blog-images"--}}
                     :media-collections="['blog-main', 'blog-images', 'blog-images-extra']"
                     class="mt-5"
-                    upload-enabled
-                    destroy-enabled
-                    show-order
-                    set-as-first-enabled
                     frontend-theme="bootstrap-5"
                     />
             </div>
