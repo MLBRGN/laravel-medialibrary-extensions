@@ -22,8 +22,8 @@ return [
     |
     */
 
-//    'frontend_theme' => 'bootstrap-5',
-        'frontend_theme' => 'plain',
+    'frontend_theme' => 'bootstrap-5',
+//        'frontend_theme' => 'plain',
 
     /*
     |--------------------------------------------------------------------------
