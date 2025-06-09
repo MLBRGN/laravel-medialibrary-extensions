@@ -88,6 +88,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
             ], $this->nameSpace.'-policy');
 
+            $this->publishes([
+                __DIR__ . '/../../public' => public_path('vendor/'.$this->nameSpace),
+            ], 'public');
+
         }
         // register and expose blade views and classes
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
