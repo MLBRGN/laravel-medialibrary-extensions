@@ -2,7 +2,7 @@
     "name": "mlbrgn/laravel-medialibrary-extensions",
     "description": "Extensions designed for use with the Media Library package by Spatie. Adds a single image uploader, multiple image uploader and a modal with carousel",
     "type": "library",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "MIT",
     "keywords": [
       "laravel-medialibrary",
