@@ -7,10 +7,9 @@ namespace Mlbrgn\MediaLibraryExtensions\Traits;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * Trait HandlesMediaConversions
+ * Trait YouTubeCollection
  *
- * Defines media conversion methods for generating responsive images
- * with specific aspect ratios and optimized formats.
+ * Defines YouTubeCollection
  */
 trait YouTubeCollection
 {
