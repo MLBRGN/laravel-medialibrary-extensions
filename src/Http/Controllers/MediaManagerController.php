@@ -51,13 +51,32 @@ class MediaManagerController extends Controller
         $this->authorize('uploadMedia', Media::class);
 
         $targetId = $request->target_id;
-        $collectionName = $request->collection_name;
+//        $collectionName = $request->collection_name;
+        $imageCollectionName = $request->image_collection;
+        $documentCollectionName = $request->document_collection;
         $field = config('media-library-extensions.upload_field_name_single');
 
-        if ($request->hasFile($field)) {
+        $file = $request->file($field);
+
+        if ($file) {
+            $mimeType = $file->getMimeType();
+            if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.image'))) {
+                $collection = $imageCollectionName;
+            } elseif (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.document'))) {
+                $collection = $documentCollectionName;
+            } else {
+                // early return when one of the files is not supported
+                return $this->redirectBackWithStatus(
+                    $targetId,
+                    'error',
+                    __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
+                    $targetId
+                );
+            }
+
             $model
                 ->addMedia($request->file($field))
-                ->toMediaCollection($collectionName);
+                ->toMediaCollection($collection);
 
             return $this->redirectBackWithStatus(
                 $targetId,
@@ -81,16 +100,36 @@ class MediaManagerController extends Controller
      */
     public function storeMany(MediaManagerUploadMultipleRequest $request): RedirectResponse
     {
+
         $model = $this->getModel($request->model_type, $request->model_id);
         $this->authorize('uploadMedia', Media::class);
 
         $targetId = $request->target_id;
-        $collectionName = $request->collection_name;
+        $imageCollectionName = $request->image_collection;
+        $documentCollectionName = $request->document_collection;
+
         $field = config('media-library-extensions.upload_field_name_multiple');
 
         if ($request->hasFile($field)) {
+
             foreach ($request->file($field) as $file) {
-                $model->addMedia($file)->toMediaCollection($collectionName);
+                $mimeType = $file->getMimeType();
+                if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.image'))) {
+                    $collection = $imageCollectionName;
+                } elseif (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.document'))) {
+                    $collection = $documentCollectionName;
+                } else {
+                    // early return when one of the files is not supported
+                    return $this->redirectBackWithStatus(
+                        $targetId,
+                        'error',
+                        __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
+                        $targetId
+                    );
+                }
+
+                $model->addMedia($file)
+                    ->toMediaCollection($collection);
             }
 
             return $this->redirectBackWithStatus(
@@ -119,7 +158,6 @@ class MediaManagerController extends Controller
                 ->withCustomProperties([
                     'youtube_url' => $request->input('youtube_url'),
                     'youtube_id' => $videoId,
-                    'youtube-id' => $videoId
                 ])
                 ->toMediaCollection('workplace-youtube-videos');
         }
@@ -135,7 +173,7 @@ class MediaManagerController extends Controller
 
     public function storeYouTube(MediaManagerUploadYouTubeRequest $request): RedirectResponse
     {
-        if(!config('media-library-extensions.enable_youtube_support')) {
+        if(!config('media-library-extensions.youtube_support_enabled')) {
             abort(403);
         }
 
@@ -143,8 +181,7 @@ class MediaManagerController extends Controller
         $this->authorize('uploadMedia', Media::class);
 
         $targetId = $request->target_id;
-//        $collectionName = $request->collection_name;
-        $collectionName ='workplace-youtube-videos';// TODO
+        $collectionName = $request->collection_name;
         $field = config('media-library-extensions.upload_field_name_youtube');
 
         if ($request->filled($field)) {
@@ -163,9 +200,9 @@ class MediaManagerController extends Controller
                 ->addMediaFromUrl($thumbnailUrl)
                 ->usingFileName('youtube-thumbnail-'.$videoId.'.jpg')
                 ->withCustomProperties([
+                    'type' => 'youtube',
                     'youtube_url' => $request->input('youtube_url'),
                     'youtube_id' => $videoId,
-                    'youtube-id' => $videoId
                 ])
                 ->toMediaCollection($collectionName);
         }

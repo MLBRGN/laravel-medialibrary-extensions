@@ -22,6 +22,6 @@ class DestroyForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('destroy-form');
+        return $this->getPartialView('destroy-form', $this->theme);
     }
 }

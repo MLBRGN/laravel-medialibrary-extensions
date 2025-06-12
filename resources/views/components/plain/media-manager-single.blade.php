@@ -16,7 +16,7 @@
                 @endif
             </div>
 
-            <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper">
+            <div class="media-manager-previews media-manager-single-previews">
                 @if($medium)
                     <a
                         class="media-manager-preview-medium-link media-manager-single-preview-medium-link mle-cursor-zoom-in"

@@ -8,7 +8,7 @@ use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-class MediaCarousel extends BaseMediaPreviewer
+class MediaCarousel extends BaseComponent
 {
     public MediaCollection $mediaItems;
 
@@ -46,6 +46,6 @@ class MediaCarousel extends BaseMediaPreviewer
 
     public function render(): View
     {
-        return $this->getView('media-carousel');
+        return $this->getView('media-carousel', $this->theme);
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaManagerSingle extends BaseMediaManager
+class MediaManagerSingle extends BaseComponent
 {
     public ?Media $medium = null;
 
@@ -43,6 +43,6 @@ class MediaManagerSingle extends BaseMediaManager
 
     public function render(): View
     {
-        return $this->getView('media-manager-single');
+        return $this->getView('media-manager-single',  $this->theme);
     }
 }

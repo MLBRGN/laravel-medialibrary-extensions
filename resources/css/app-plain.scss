@@ -2,6 +2,8 @@
 @use "plain/media-carousel";
 
 @use "shared/general";
+@use "shared/media-manager" as sharedManager;
+
 @use "plain/media-modal";
 @use "plain/media-manager";
 @use "plain/media-manager-multiple";

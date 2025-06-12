@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const activeSlide = modal.querySelector('.media-carousel-item.active');
             if (!activeSlide) return;
 
-            const videoWrapper = activeSlide.querySelector('.media-video-wrapper');
+            const videoWrapper = activeSlide.querySelector('.media-video-container');
             if (!videoWrapper || !videoWrapper.hasAttribute('data-youtube-video-id')) return;
 
             const youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!activeSlide) return;
 
-                const videoWrapper = activeSlide.querySelector('.media-video-wrapper');
+                const videoWrapper = activeSlide.querySelector('.media-video-container');
 
                 if (videoWrapper && videoWrapper.hasAttribute('data-youtube-video-id')) {
                     const youtubeId = videoWrapper.getAttribute('data-youtube-video-id');

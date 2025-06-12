@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
             pauseAllVideoPlayBack();
 
             if (modal.hasAttribute('data-video-autoplay')) {
-                const videoWrapper = event.relatedTarget.querySelector('.media-video-wrapper');
-                if (videoWrapper && videoWrapper.hasAttribute('data-youtube-video-id')) {
-                    let youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
+                const videoContainer = event.relatedTarget.querySelector('.media-video-container');
+                if (videoContainer && videoContainer.hasAttribute('data-youtube-video-id')) {
+                    let youtubeId = videoContainer.getAttribute('data-youtube-video-id');
                     startVideoPlayBack(youtubeId);
                 }
             }

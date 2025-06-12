@@ -1,12 +1,12 @@
 @if($includeCss)
     @once
-        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-'.$frontend.'.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-'.$theme.'.css') }}">
     @endonce
 @endif
 
 @if($includeJs)
     @once
-        <script src="{{ asset('vendor/media-library-extensions/app-'.$frontend.'.js') }}"></script>
+        <script src="{{ asset('vendor/media-library-extensions/app-'.$theme.'.js') }}"></script>
     @endonce
 @endif
 

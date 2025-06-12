@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\View;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-class MediaModal extends BaseMediaManager
+class MediaModal extends BaseComponent
 {
     public MediaCollection $mediaItems;
 
@@ -29,7 +29,9 @@ class MediaModal extends BaseMediaManager
         } elseif (! empty($this->mediaCollections)) {
             $allMedia = collect();
             foreach ($this->mediaCollections as $collectionName) {
-                $allMedia = $allMedia->merge($model->getMedia($collectionName));
+                if (!empty($collectionName)) {
+                    $allMedia = $allMedia->merge($model->getMedia($collectionName));
+                }
             }
             $this->mediaItems = MediaCollection::make($allMedia);
         } else {
@@ -42,6 +44,6 @@ class MediaModal extends BaseMediaManager
 
     public function render(): View
     {
-        return $this->getView('media-modal');
+        return $this->getView('media-modal',  $this->theme);
     }
 }

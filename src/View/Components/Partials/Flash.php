@@ -10,7 +10,6 @@ use Illuminate\View\View;
 class Flash extends Component
 {
     public string $targetId;
-
     public ?array $status = null;
 
     public function __construct(

@@ -60,3 +60,23 @@ if (! function_exists('extractYouTubeId')) {
         return null;
     }
 }
+
+if (! function_exists('getHumanMimeTypeLabel')) {
+    function getHumanMimeTypeLabel(string $mimeType): string {
+
+        $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
+        if (array_key_exists($mimeType, $mimeTypeLabels)) {
+            return $mimeTypeLabels[$mimeType];
+        }
+        return $mimeType;
+    }
+}
+
+if (! function_exists('isMediaType')) {
+    function isMediaType($medium, string $type): bool
+    {
+        $mimeType = $medium->mime_type ?? null;
+        $allowed = config("media-library-extensions.allowed_mimetypes.{$type}", []);
+        return in_array($mimeType, $allowed, true);
+    }
+}

@@ -31,7 +31,9 @@ class MediaManagerUploadSingleRequest extends FormRequest
         return [
             'model_type' => ['required', 'string'],
             'model_id' => ['required', 'string'],
-            'collection_name' => ['required', 'string'],
+//            'collection_name' => ['required', 'string'],
+            'image_collection' => ['required', 'string'],
+            'document_collection' => ['nullable', 'string'],
             $uploadFieldNameSingle => [
                 'nullable',
                 'mimetypes:'.implode(',', Arr::flatten(config('media-library-extensions.allowed_mimetypes'))),

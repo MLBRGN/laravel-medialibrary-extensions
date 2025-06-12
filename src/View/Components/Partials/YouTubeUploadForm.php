@@ -16,19 +16,19 @@ class YouTubeUploadForm extends BaseComponent
     public function __construct(
 
         public ?HasMedia $model,
-        public ?string $mediaCollection,
+        public ?string $youtubeCollection,
         public string $id,
         public ?string $frontendTheme,
     ) {
         parent::__construct($id, $frontendTheme);
 
-        $this->mediaPresent = $this->model && $this->mediaCollection
-            ? $this->model->hasMedia($this->mediaCollection)
+        $this->mediaPresent = $this->model && $this->youtubeCollection
+            ? $this->model->hasMedia($this->youtubeCollection)
             : false;
     }
 
     public function render(): View
     {
-        return $this->getPartialView('youtube-upload-form');
+        return $this->getPartialView('youtube-upload-form', $this->frontendTheme);
     }
 }

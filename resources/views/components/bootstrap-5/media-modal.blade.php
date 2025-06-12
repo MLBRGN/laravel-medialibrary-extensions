@@ -10,7 +10,7 @@
         @endif>
 
         <div class="media-modal-dialog modal-dialog">
-            <div class="media-model-content modal-content justify-content-center">
+            <div class="media-modal-content modal-content justify-content-center">
                 <h1 class="media-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
                 <div class="media-modal-body modal-body p-0">
                     <button

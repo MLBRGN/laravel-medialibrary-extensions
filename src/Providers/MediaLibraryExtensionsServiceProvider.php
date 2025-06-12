@@ -13,9 +13,11 @@ use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\LinkAssets;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Assets;
@@ -67,6 +69,11 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 InstallMediaLibraryExtensions::class,
                 LinkAssets::class,
             ]);
+
+            $this->publishes([
+                __DIR__.'/../../config/media-library-extensions.php' => config_path('media-library-extensions.php'),
+            ], $this->nameSpace.'-config');
+
             $this->publishes([
                 __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
             ], $this->nameSpace.'-views');
@@ -79,22 +86,20 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->nameSpace),
             ], $this->nameSpace.'-translations');
 
-            // Publish assets (not working) empty CSS and JS files
-            //            $this->publishes([
-            //                __DIR__.'/../../resources/assets' => public_path($this->packageName.'/assets'),
-            //            ], 'assets');
-
             $this->publishes([
                 __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
             ], $this->nameSpace.'-policy');
 
         }
+
         // register and expose blade views and classes
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
+        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
+        Blade::component($this->packageNameShort.'-document', Document::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
 
         // partials for internal use
@@ -105,15 +110,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-icon', Icon::class);
         Blade::component($this->packageNameShort.'-partial-flash', Flash::class);
         Blade::component($this->packageNameShort.'-partial-assets', Assets::class);
-
-        // register blade views and classes for internal use
-        //        $this->loadViewComponentsAs($this->packageNameShort.'-partial', [
-        //            Debug::class,
-        //            Icon::class,
-        //            Flash::class,
-        //            //            UploadForm::class,
-        //            //            DestroyForm::class,
-        //        ]);
 
         // register policies
         $this->registerPolicy();

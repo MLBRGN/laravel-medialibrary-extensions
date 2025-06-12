@@ -42,12 +42,13 @@ class MediaManagerUploadMultipleRequest extends FormRequest
         return [
             'model_type' => ['required', 'string'],
             'model_id' => ['required', 'string'],
-            'collection_name' => ['required', 'string'],
+            'image_collection' => ['required', 'string'],
+            'document_collection' => ['nullable', 'string'],
             $uploadFieldName => [
                 'nullable',
                 'array',
                 // Apply the MaxMediaCount rule only if model is found, else skip it gracefully
-                $model ? new MaxMediaCount($model, $this->input('collection_name'), $maxItemsInCollection) : null,
+                $model ? new MaxMediaCount($model, $this->input('image_collection'), $maxItemsInCollection) : null,
             ],
             $uploadFieldName.'.media.*' => [
                 'nullable',

@@ -17,6 +17,7 @@ class UploadForm extends BaseComponent
 
         public ?HasMedia $model,
         public ?string $mediaCollection,
+        public ?string $documentCollection,
         public string $id,
         public ?string $frontendTheme,
         public string $allowedMimeTypes = '',
@@ -39,6 +40,6 @@ class UploadForm extends BaseComponent
             ? $this->model->hasMedia($this->mediaCollection)
             : false;
 
-        return $this->getPartialView('upload-form');
+        return $this->getPartialView('upload-form', $this->theme);
     }
 }

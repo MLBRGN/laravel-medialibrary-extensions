@@ -44,7 +44,7 @@
                     'active' => $loop->first,
                     'mle-cursor-zoom-in' => $clickToOpenInModal
                 ])>
-                    <div class="media-carousel-item-wrapper"
+                    <div class="media-carousel-item-container"
                          @if($clickToOpenInModal)
                              data-modal-id="{{ $id }}-modal"
                              data-slide-to="{{ $loop->index }}"
@@ -59,6 +59,7 @@
                                 :youtube-params="[]"
                             />
                         @else
+                            
                             <x-mle-image-responsive
                                 class="mle-image-responsive"
                                 :medium="$medium"

@@ -24,21 +24,6 @@ class ImageResponsive extends Component
         return $this->medium && $this->getUseConversion() !== '';
     }
 
-//    public function getUseConversion(): string
-//    {
-//        if (! empty($this->conversion) && $this->medium->hasGeneratedConversion($this->conversion)) {
-//            return $this->conversion;
-//        }
-//
-//        foreach ($this->conversions as $conversionName) {
-//            if ($this->medium->hasGeneratedConversion($conversionName)) {
-//                return $conversionName;
-//            }
-//        }
-//
-//        return '';
-//    }
-
     public function getUseConversion(): string
     {
         if (! $this->medium) {

@@ -10,13 +10,14 @@
                     <x-mle-partial-upload-form
                         :allowedMimeTypes="$allowedMimeTypes"
                         :mediaCollection="$mediaCollection"
+{{--                        :documentCollection="$documentCollection"--}}
                         :model="$model"
                         :id="$id"
                         :multiple="false"/>
                 @endif
             </div>
 
-            <div class="media-manager-preview-wrapper media-manager-single-preview-wrapper col-12 col-md-8 text-center">
+            <div class="media-manager-previews media-manager-single-previews col-12 col-md-8 text-center">
                 @if($medium)
                     <a
                         class="media-manager-preview-medium-link media-manager-single-preview-medium-link mle-cursor-zoom-in"

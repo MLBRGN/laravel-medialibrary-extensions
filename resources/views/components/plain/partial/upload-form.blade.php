@@ -24,8 +24,14 @@
     <span class="form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
         type="hidden"
-        name="collection_name"
+        name="image_collection"
         value="{{ $mediaCollection }}">
+    @if($documentCollection)
+        <input
+            type="hidden"
+            name="document_collection"
+            value="{{ $documentCollection }}">
+    @endif
     <input
         type="hidden"
         name="model_type"

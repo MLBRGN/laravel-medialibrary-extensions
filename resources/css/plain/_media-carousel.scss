@@ -43,6 +43,14 @@
         height: 100%;
     }
 
+    .media-carousel-item-container {
+        height:100%;
+        width:100%;
+        //display:flex;
+        //justify-content: center;
+        //align-items: center;
+    }
+
     .media-carousel-item {
         transition: transform 0.5s ease, opacity 0.5s ease;
         opacity: 0;
@@ -107,14 +115,12 @@
         z-index: 2;
     }
 
-    .media-carousel-item-wrapper {
+    .media-carousel-item {
+        width:100%;
         height:100%;
-        display:flex;
-        justify-content: center;
-        align-items: center;
     }
 
-    .media-video-wrapper {
+    .media-video-container {
         width:100%;
         height:100%;
     }
@@ -235,6 +241,28 @@
             //display: none !important;
             display: none;
         }
+    }
+
+
+    .media-carousel-image {
+        height:100%;
+        width:100%;
+        object-fit:contain;
+    }
+
+    .image {
+        cursor: zoom-in;
+    }
+
+    .image-zoomed {
+        cursor: default;
+    }
+
+    .image,
+    .image-zoomed {
+        height:100%;
+        width:100%;
+        object-fit:contain;
     }
 
 }

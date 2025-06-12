@@ -2,6 +2,7 @@
 
 return [
     'upload_success' => 'Upload was successful!',
+    'upload_failed_due_to_invalid_mimetype' => 'Upload failed due to invalid file type.',
     'upload_fail' => 'Upload failed.',
     'upload_no_files' => 'No files uploaded.',
     'setup_as_main' => 'Setup as main.',

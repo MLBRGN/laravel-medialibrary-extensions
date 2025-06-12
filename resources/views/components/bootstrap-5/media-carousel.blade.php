@@ -42,7 +42,7 @@
                     'active' => $loop->first,
                     'mle-cursor-zoom-in' => $clickToOpenInModal
                 ])>
-                    <div class="media-carousel-item-wrapper" 
+                    <div class="media-carousel-item-container" 
                          data-bs-toggle="modal"
                          data-bs-target="#{{$id}}-modal"
                     >
@@ -65,15 +65,23 @@
                             />
                         @endif
                     @else
-                        <x-mle-image-responsive
-                            class="mle-image-responsive"
-                            :medium="$medium"
-                            :conversions="['16x9']"
-                            sizes="100vw"
-                            :alt="$medium->name"
-                            data-bs-target="#{{$id}}-modal-carousel"
-                            data-bs-slide-to="{{ $loop->index }}"
-                        />
+                        @if(isMediaType($medium, 'document'))
+                            <x-mle-document :medium="$medium"
+                                            class="mle-document mle-cursor-zoom-in"
+                                            data-bs-target="{{ $id }}-modal"
+                                            data-bs-slide-to="{{ $loop->index }}"
+                            />
+                        @elseif(isMediaType($medium, 'image'))
+                            <x-mle-image-responsive
+                                class="mle-image-responsive"
+                                :medium="$medium"
+                                :conversions="['16x9']"
+                                sizes="100vw"
+                                :alt="$medium->name"
+                                data-bs-target="#{{$id}}-modal-carousel"
+                                data-bs-slide-to="{{ $loop->index }}"
+                            />
+                        @endif
                     @endif
                     </div>
                 </div>

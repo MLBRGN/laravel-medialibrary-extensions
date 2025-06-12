@@ -33,4 +33,10 @@ The package is configured to use Bootstrap icons by default. To display them pro
 ```
 You can override the icons in the published configuration file of this package and install another Blade UIKit/Blade-icons package
 
-
+```shell
+php artisan vendor:publish --tag=media-library-extensions-config
+php artisan vendor:publish --tag=media-library-extensions-views
+php artisan vendor:publish --tag=media-library-extensions-assets
+php artisan vendor:publish --tag=media-library-extensions-policy
+php artisan vendor:publish --tag=media-library-extensions-translations
+```

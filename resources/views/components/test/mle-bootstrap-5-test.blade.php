@@ -6,7 +6,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Media Library Extensions Test Page</title>
+        <title>Component tests: theme bootstrap-5</title>
         {{-- Bootstrap 5.3 CSS CDN --}}
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -17,27 +17,34 @@
     </head>
     <body>
         <div class="container-lg mt-5">
-            <h1 class="text-primary">Laravel Media Library Extensions Component Test Page (Bootstrap 5 theme)</h1>
-       
+            <h1 class="text-primary">Component tests: theme bootstrap-5</h1>
             <div>
                 @php            
                     // $model that implements HasMedia
                     $model = Blog::first();
                 @endphp
+                
+                <h2>Media Manager Single</h2>
+                
                 <x-mle-media-manager-single
                     id="blog-main"
                     :model="$model"
                     media-collection="blog-main"
+                    document-collection="blog-main-documents"
                     class="mt-5"
                     upload-enabled
                     destroy-enabled
                     frontend-theme="bootstrap-5"
                     />
-            
+
+                <h2>Media Manager Multiple</h2>
+                
                 <x-mle-media-manager-multiple
                     id="blog-images"
                     :model="$model"
                     media-collection="blog-images"
+                    youtube-collection="blog-youtube-videos"
+                    document-collection="blog-documents"
                     class="mt-5"
                     upload-enabled
                     destroy-enabled
@@ -45,24 +52,13 @@
                     set-as-first-enabled
                     frontend-theme="bootstrap-5"
                     />
-            
-                <x-mle-media-manager-multiple
-                    id="blog-images-extra"
-                    :model="$model"
-                    media-collection="blog-images-extra"
-                    class="mt-5"
-                    upload-enabled
-                    destroy-enabled
-                    show-order
-                    set-as-first-enabled
-                    frontend-theme="bootstrap-5"
-                    />
-            
-                <h1>Blog media carousel</h1>
+
+                <h2>Media Carousel</h2>
+                
                 <x-mle-media-carousel
                     id="blog-media"
                     :model="$model"
-                    :media-collections="['blog-main', 'blog-images', 'blog-images-extra']"
+                    :media-collections="['blog-images', 'blog-documents', 'blog-youtube-videos']"
                     class="mt-5"
                     frontend-theme="bootstrap-5"
                     />

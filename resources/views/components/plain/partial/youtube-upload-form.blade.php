@@ -6,7 +6,7 @@
     <input
         type="hidden"
         name="collection_name"
-        value="{{ $mediaCollection }}">
+        value="{{ $youtubeCollection }}">
     <input
         type="hidden"
         name="model_type"
