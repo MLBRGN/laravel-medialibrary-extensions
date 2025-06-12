@@ -1,4 +1,4 @@
-<div class="media-manager-preview-media-container">
+<div class="mlbrgn-mle-component media-manager-preview-media-container">
     @if($medium->hasCustomProperty('youtube-id'))
         <x-mle-video-youtube
             class="mle-cursor-zoom-in"

@@ -1,4 +1,4 @@
-<div class="media-manager-preview-media-container">
+<div class="mlbrgn-mle-component media-manager-preview-media-container">
     @if($medium->hasCustomProperty('youtube-id'))
         <div
             data-bs-toggle="modal"
@@ -43,7 +43,7 @@
         @endif
     @endif
     @if($showMenu)
-        <div class="media-manager-preview-menu media-manager-multiple-preview-menu">
+        <div class="media-manager-preview-menu">
             <div>
                 @if($setAsFirstEnabled && $showOrder)
                     <div class="media-manager-order">{{ $medium->order_column }}</div>

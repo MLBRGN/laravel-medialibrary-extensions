@@ -13,7 +13,7 @@
 
 .mlbrgn-mle-component {
 
-    .media-carousel {
+    &.media-carousel {
         --carousel-indicator-width: 12px;
         --carousel-indicator-height: 12px;
         --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary

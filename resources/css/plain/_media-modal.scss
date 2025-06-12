@@ -4,7 +4,7 @@
 
 .mlbrgn-mle-component {
 
-    .media-modal {
+    &.media-modal {
         --modal-padding:20px;
 
         position:fixed;
@@ -23,7 +23,7 @@
         //overflow:hidden;
     }
 
-    .media-modal.active {
+    &.media-modal.active {
         display: flex;
     }
 

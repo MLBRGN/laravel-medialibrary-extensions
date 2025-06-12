@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const goToSlide = (index) => {
             if (index === currentIndex) return;
 
+            console.log('go to slide', index);
             const normalizedIndex = (index + items.length) % items.length;
             const diff = normalizedIndex - currentIndex;
             const direction = (diff + items.length) % items.length > items.length / 2 ? 'left' : 'right';
