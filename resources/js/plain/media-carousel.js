@@ -2,6 +2,14 @@
 
 import { fireEvent } from '@/js/plain/helpers';
 
+// At the top of the file
+const carousels = new Map();
+
+export function getCarouselController(element) {
+    console.log('carousels.get carousels', carousels);
+    return carousels.get(element);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-carousel]').forEach(carousel => {
         const items = carousel.querySelectorAll('.media-carousel-item');
@@ -22,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let touchEndY = 0;
         const swipeVerticalThreshold = 50;
 
-        const updateCarousel = (index, direction = 'right') => {
+        const updateCarousel = (index, direction = 'right', skipAnimation = false) => {
             items.forEach((item) => {
                 item.classList.remove(
                     'active',
@@ -37,19 +45,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const current = items[currentIndex];
             const next = items[index];
 
-            if (carousel.getAttribute('data-carousel-effect') === 'slide') {
+            const useSlideEffect = carousel.getAttribute('data-carousel-effect') === 'slide' && !skipAnimation;
 
-                    if (direction === 'right') {
-                        next.classList.add('slide-in-from-right');
-                        current.classList.add('slide-out-to-left');
-                    } else {
-                        next.classList.add('slide-in-from-left');
-                        current.classList.add('slide-out-to-right');
-                    }
+            if (useSlideEffect) {
+                if (direction === 'right') {
+                    next.classList.add('slide-in-from-right');
+                    current.classList.add('slide-out-to-left');
+                } else {
+                    next.classList.add('slide-in-from-left');
+                    current.classList.add('slide-out-to-right');
+                }
+
+                // Force reflow to restart animation
+                void next.offsetWidth;
             }
 
+            // if (carousel.getAttribute('data-carousel-effect') === 'slide') {
+            //
+            //         if (direction === 'right') {
+            //             next.classList.add('slide-in-from-right');
+            //             current.classList.add('slide-out-to-left');
+            //         } else {
+            //             next.classList.add('slide-in-from-left');
+            //             current.classList.add('slide-out-to-right');
+            //         }
+            // }
+
             // Force reflow to restart animation
-            void next.offsetWidth;
+            // void next.offsetWidth;
 
             current.classList.remove('active');
             next.classList.add('active');
@@ -61,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fireEvent('carouselSlided', carousel);
         };
 
-        const goToSlide = (index) => {
+        const goToSlide = (index, skipAnimation = false) => {
             if (index === currentIndex) return;
 
             console.log('go to slide', index);
@@ -69,14 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const diff = normalizedIndex - currentIndex;
             const direction = (diff + items.length) % items.length > items.length / 2 ? 'left' : 'right';
 
-            updateCarousel(normalizedIndex, direction);
+            updateCarousel(normalizedIndex, direction, skipAnimation);
         };
 
         const handleGesture = () => {
             const swipeThreshold = 40; // Minimum distance (in px) for a valid swipe
             const distance = touchEndX - touchStartX;
 
-            if (Math.abs(distance) > swipeThreshold) {
+                if (Math.abs(distance) > swipeThreshold && Math.abs(distance) > Math.abs(touchEndY - touchStartY)) {
                 if (distance < 0) {
                     // Swiped left → next
                     goToSlide((currentIndex + 1) % items.length);
@@ -173,5 +196,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (items.length > 1 && ride && !rideOnlyAfterInteraction) {
             startAutoRide();
         }
+
+        // Add this at the end of each carousel setup:
+        const controller = {
+            goToSlide: (index, skipAnimation = false) => goToSlide(index, skipAnimation),
+            getCurrentIndex: () => currentIndex,
+            next: () => goToSlide((currentIndex + 1) % items.length),
+            prev: () => goToSlide((currentIndex - 1 + items.length) % items.length),
+            pause: stopAutoRide,
+            resume: startAutoRide,
+        };
+
+        carousels.set(carousel, controller);
+
+        // Optionally expose globally for debugging:
+        carousel._carouselController = controller;
     });
 });

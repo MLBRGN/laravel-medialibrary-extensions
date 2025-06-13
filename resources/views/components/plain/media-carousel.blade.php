@@ -40,28 +40,63 @@
             ])>
                 <div class="media-carousel-item-container"
                      @if($clickToOpenInModal)
-                         data-modal-id="{{ $id }}-modal"
-                         data-slide-to="{{ $loop->index }}"
+{{--                         data-modal-id="{{ $id }}-modal"--}}
                          data-modal-trigger="{{ $id }}-modal"
-                    @endif>
-                    @if($medium->hasCustomProperty('youtube-id'))
-                        <x-mle-video-youtube
-                            class="mle-video-responsive"
-                            :medium="$medium"
-                            :preview="$inModal ? false : true"
-                            :youtube-id="$medium->getCustomProperty('youtube-id')"
-                            :youtube-params="[]"
-                        />
-                    @else
-                        
-                        <x-mle-image-responsive
-                            class="mle-image-responsive"
-                            :medium="$medium"
-                            :conversions="['16x9']"
-                            sizes="100vw"
-                            :alt="$medium->name"
-                        />
+                         data-slide-to="{{ $loop->index }}"
                     @endif
+                >
+                    @if($medium->hasCustomProperty('youtube-id'))
+                        @if ($inModal)
+                            <x-mle-video-youtube
+                                class="mle-video-responsive"
+                                :medium="$medium"
+                                :preview="false"
+                                :youtube-id="$medium->getCustomProperty('youtube-id')"
+                                :youtube-params="[]"
+                            />
+                        @else
+                            <x-mle-video-youtube
+                                class="mle-video-responsive"
+                                :medium="$medium"
+                                :preview="true"
+{{--                                data-slide-to="{{ $loop->index }}"--}}
+                            />
+                        @endif
+                    @else
+                        @if(isMediaType($medium, 'document'))
+                            <x-mle-document :medium="$medium"
+                                class="mle-document mle-cursor-zoom-in"
+{{--                                            data-slide-to="{{ $loop->index }}"--}}
+                            />
+                        @elseif(isMediaType($medium, 'image'))
+                            <x-mle-image-responsive
+                                class="mle-image-responsive"
+                                :medium="$medium"
+                                :conversions="['16x9']"
+                                sizes="100vw"
+                                :alt="$medium->name"
+{{--                                data-slide-to="{{ $loop->index }}"--}}
+                            />
+                        @endif
+                    @endif
+{{--                    @if($medium->hasCustomProperty('youtube-id'))--}}
+{{--                        <x-mle-video-youtube--}}
+{{--                            class="mle-video-responsive"--}}
+{{--                            :medium="$medium"--}}
+{{--                            :preview="$inModal ? false : true"--}}
+{{--                            :youtube-id="$medium->getCustomProperty('youtube-id')"--}}
+{{--                            :youtube-params="[]"--}}
+{{--                        />--}}
+{{--                    @else--}}
+{{--                        --}}
+{{--                        <x-mle-image-responsive--}}
+{{--                            class="mle-image-responsive"--}}
+{{--                            :medium="$medium"--}}
+{{--                            :conversions="['16x9']"--}}
+{{--                            sizes="100vw"--}}
+{{--                            :alt="$medium->name"--}}
+{{--                        />--}}
+{{--                    @endif--}}
                 </div>
             </div>
         @endforeach

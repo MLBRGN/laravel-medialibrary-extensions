@@ -1,13 +1,14 @@
 // Functionality implemented with assistance from AI (ChatGPT)
 // noinspection JSUnresolvedReference
 import { fireEvent, trapFocus, releaseFocus } from '@/js/plain/helpers';
+import { getCarouselController } from '@/js/plain/media-carousel';
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const modals = document.querySelectorAll('.media-modal');
     const players = {}; // Store player instances by slide ID
 
-    const openModal = (modalId) => {
+    const openModal = (modalId, slideTo) => {
         const modal = document.getElementById(modalId);
         if (!modal) {
             console.log('modal not found', modalId);
@@ -18,6 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
 
         trapFocus(modal);
+
+        const carousel = modal.querySelector('[data-carousel]');
+        const controller = getCarouselController(carousel);
+
+        console.log('carousel', carousel, controller);
+        if (controller && slideTo !== undefined && slideTo !== null) {
+            controller.goToSlide(parseInt(slideTo), true);
+        }
 
         fireEvent('modalOpened', modal);
 
@@ -49,9 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Open modal trigger
     document.querySelectorAll('[data-modal-trigger]').forEach(element => {
-        element.addEventListener('click', () => {
+        element.addEventListener('click', (e) => {
+            const closestContainer = e.target.closest('.media-carousel-item-container');
+            const slideTo = closestContainer.dataset.slideTo;
             const target = element.getAttribute('data-modal-trigger');
-            openModal(target);
+
+            openModal(target, slideTo);
         });
     });
 
@@ -90,13 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetSlide) setupYT(targetSlide);
         });
 
-        modal.addEventListener('modalOpened', () => {
+        modal.addEventListener('modalOpened', (e) => {
             if (!modal.hasAttribute('data-video-autoplay')) return;
 
             const activeSlide = modal.querySelector('.media-carousel-item.active');
             if (!activeSlide) return;
 
             const videoWrapper = activeSlide.querySelector('.media-video-container');
+
             if (!videoWrapper || !videoWrapper.hasAttribute('data-youtube-video-id')) return;
 
             const youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
@@ -129,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function stopAllVideoPlayBack() {
+        // TODO first check if playing
         console.log('stopAllVideoPlayBack');
         Object.values(players).forEach((player) => {
             player.stopVideo()
@@ -136,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function pauseAllVideoPlayBack() {
+        // TODO first check if playing
         console.log('pauseAllVideoPlayBack');
         Object.values(players).forEach((player) => {
             player.pauseVideo()
