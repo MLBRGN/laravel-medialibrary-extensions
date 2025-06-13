@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let touchEndY = 0;
         const swipeVerticalThreshold = 50;
 
-        const updateCarousel = (index, direction = 'right', skipAnimation = false) => {
+        const updateCarousel = (index, direction = 'right') => {
+           console.log(index, direction);
             items.forEach((item) => {
                 item.classList.remove(
                     'active',
@@ -45,34 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const current = items[currentIndex];
             const next = items[index];
 
-            const useSlideEffect = carousel.getAttribute('data-carousel-effect') === 'slide' && !skipAnimation;
+            if (carousel.getAttribute('data-carousel-effect') === 'slide') {
 
-            if (useSlideEffect) {
-                if (direction === 'right') {
-                    next.classList.add('slide-in-from-right');
-                    current.classList.add('slide-out-to-left');
-                } else {
-                    next.classList.add('slide-in-from-left');
-                    current.classList.add('slide-out-to-right');
+                const skipAnimation = carousel.classList.contains('temp-no-animation') || carousel.classList.contains('no-animation');
+
+                if (!skipAnimation) {
+                    if (direction === 'right') {
+                        next.classList.add('slide-in-from-right');
+                        current.classList.add('slide-out-to-left');
+                    } else {
+                        next.classList.add('slide-in-from-left');
+                        current.classList.add('slide-out-to-right');
+                    }
+
+                    // Force reflow to restart animation
+                    void next.offsetWidth;
                 }
-
-                // Force reflow to restart animation
-                void next.offsetWidth;
             }
 
-            // if (carousel.getAttribute('data-carousel-effect') === 'slide') {
-            //
-            //         if (direction === 'right') {
-            //             next.classList.add('slide-in-from-right');
-            //             current.classList.add('slide-out-to-left');
-            //         } else {
-            //             next.classList.add('slide-in-from-left');
-            //             current.classList.add('slide-out-to-right');
-            //         }
-            // }
 
-            // Force reflow to restart animation
-            // void next.offsetWidth;
 
             current.classList.remove('active');
             next.classList.add('active');
@@ -85,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const goToSlide = (index, skipAnimation = false) => {
+            console.log('goToSlide', index, skipAnimation);
             if (index === currentIndex) return;
 
             console.log('go to slide', index);
@@ -92,7 +85,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const diff = normalizedIndex - currentIndex;
             const direction = (diff + items.length) % items.length > items.length / 2 ? 'left' : 'right';
 
-            updateCarousel(normalizedIndex, direction, skipAnimation);
+            if (skipAnimation) {
+                carousel.classList.add('temp-no-animation');
+            }
+
+            updateCarousel(normalizedIndex, direction);
+
+            // if (skipAnimation) {
+            //     carousel.classList.remove('temp-no-animation');
+            // }
+            if (skipAnimation) {
+                // Allow DOM to update, then remove the no-animation class
+                setTimeout(() => {
+                    carousel.classList.remove('temp-no-animation');
+                }, 1000);
+            }
         };
 
         const handleGesture = () => {

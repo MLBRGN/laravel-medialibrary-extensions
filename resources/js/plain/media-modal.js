@@ -59,8 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Open modal trigger
     document.querySelectorAll('[data-modal-trigger]').forEach(element => {
         element.addEventListener('click', (e) => {
-            const closestContainer = e.target.closest('.media-carousel-item-container');
-            const slideTo = closestContainer.dataset.slideTo;
+            let slideTo = 0;
+            if (element.hasAttribute('data-slide-to')) {
+                slideTo = element.getAttribute('data-slide-to');
+            }
             const target = element.getAttribute('data-modal-trigger');
 
             openModal(target, slideTo);

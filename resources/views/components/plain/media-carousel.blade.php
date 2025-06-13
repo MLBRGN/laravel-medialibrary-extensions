@@ -40,7 +40,6 @@
             ])>
                 <div class="media-carousel-item-container"
                      @if($clickToOpenInModal)
-{{--                         data-modal-id="{{ $id }}-modal"--}}
                          data-modal-trigger="{{ $id }}-modal"
                          data-slide-to="{{ $loop->index }}"
                     @endif
@@ -59,14 +58,12 @@
                                 class="mle-video-responsive"
                                 :medium="$medium"
                                 :preview="true"
-{{--                                data-slide-to="{{ $loop->index }}"--}}
                             />
                         @endif
                     @else
                         @if(isMediaType($medium, 'document'))
                             <x-mle-document :medium="$medium"
                                 class="mle-document mle-cursor-zoom-in"
-{{--                                            data-slide-to="{{ $loop->index }}"--}}
                             />
                         @elseif(isMediaType($medium, 'image'))
                             <x-mle-image-responsive
@@ -75,7 +72,6 @@
                                 :conversions="['16x9']"
                                 sizes="100vw"
                                 :alt="$medium->name"
-{{--                                data-slide-to="{{ $loop->index }}"--}}
                             />
                         @endif
                     @endif
