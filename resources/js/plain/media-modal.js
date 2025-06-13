@@ -90,9 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             players[youTubeId] = new YT.Player(iframe, {
                 events: {
                     onReady: () => {
-                        // if (autoPlay) {
-                        //     startVideoPlayBack(youTubeId);
-                        // }
+                        if (autoPlay) {
+                            startVideoPlayBack(youTubeId);
+                        }
                     },
                 },
             });
