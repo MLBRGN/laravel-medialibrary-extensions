@@ -156,8 +156,8 @@ class MediaManagerController extends Controller
                 ->addMediaFromUrl($thumbnailUrl)
                 ->usingFileName('youtube-thumbnail-'.$request->youtube_id.'.jpg')
                 ->withCustomProperties([
-                    'youtube_url' => $request->input('youtube_url'),
-                    'youtube_id' => $videoId,
+                    'youtube-url' => $request->input('youtube_url'),
+                    'youtube-id' => $videoId,
                 ])
                 ->toMediaCollection('workplace-youtube-videos');
         }
@@ -201,8 +201,8 @@ class MediaManagerController extends Controller
                 ->usingFileName('youtube-thumbnail-'.$videoId.'.jpg')
                 ->withCustomProperties([
                     'type' => 'youtube',
-                    'youtube_url' => $request->input('youtube_url'),
-                    'youtube_id' => $videoId,
+                    'youtube-url' => $request->input('youtube_url'),
+                    'youtube-id' => $videoId,
                 ])
                 ->toMediaCollection($collectionName);
         }
