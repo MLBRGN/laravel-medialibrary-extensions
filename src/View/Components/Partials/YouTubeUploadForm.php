@@ -29,6 +29,6 @@ class YouTubeUploadForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('youtube-upload-form', $this->frontendTheme);
+        return $this->getPartialView('youtube-upload-form', $this->theme);
     }
 }
