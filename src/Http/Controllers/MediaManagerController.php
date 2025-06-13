@@ -200,7 +200,6 @@ class MediaManagerController extends Controller
                 ->addMediaFromUrl($thumbnailUrl)
                 ->usingFileName('youtube-thumbnail-'.$videoId.'.jpg')
                 ->withCustomProperties([
-                    'type' => 'youtube',
                     'youtube-url' => $request->input('youtube_url'),
                     'youtube-id' => $videoId,
                 ])
