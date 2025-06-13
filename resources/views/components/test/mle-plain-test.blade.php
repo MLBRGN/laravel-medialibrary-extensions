@@ -9,9 +9,18 @@
         <title>Component tests: theme plain</title>
 {{--        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
 {{--        <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>--}}
+   <style>
+       @media (min-width: 1400px) {
+           .mle-container-lg {
+               max-width: 1320px;
+               margin-right: auto;
+               margin-left: auto;
+           }
+       }
+   </style>
     </head>
     <body>
-        <div>
+        <div class="mle-container-lg">
             <h1 class="text-primary">Component tests: theme plain</h1>
             @php            
                 // $model that implements HasMedia
