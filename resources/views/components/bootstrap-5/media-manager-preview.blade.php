@@ -51,7 +51,7 @@
                 @if($setAsFirstEnabled)
                     @if($isFirstInCollection)
                         <button
-                            class="mle-btn-icon"
+                            class="mle-button-icon"
                             title="{{ __('media-library-extensions::messages.set-as-main') }}"
                             disabled>
                             <x-mle-partial-icon
@@ -82,7 +82,7 @@
                                    value="{{ $id }}">
                             <button
                                 type="submit"
-                                class="mle-btn-icon"
+                                class="mle-button-icon"
                                 title="{{ __('media-library-extensions::messages.medium_set_as_main') }}">
                                 <x-mle-partial-icon
                                     name="{{ config('media-library-extensions.icons.setup_as_main') }}"

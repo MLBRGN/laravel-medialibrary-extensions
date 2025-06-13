@@ -10,6 +10,9 @@
 {{--        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
 {{--        <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>--}}
    <style>
+       body {
+           font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+       }
        @media (min-width: 1400px) {
            .mle-container-lg {
                max-width: 1320px;

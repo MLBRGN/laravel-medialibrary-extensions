@@ -37,7 +37,7 @@ class MediaManagerSingle extends BaseComponent
             ->implode(',');
 
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
-        $this->id = $this->id.'-mm-single';
+        $this->id = $this->id.'-media-manager-single';
 
     }
 

@@ -30,7 +30,7 @@
                 @endif
                 @if($setAsFirstEnabled)
                     @if($isFirstInCollection)
-                        <button class="mle-btn-icon" title="{{ __('media-library-extensions::messages.set-as-main') }}" disabled>
+                        <button class="mle-button-icon" title="{{ __('media-library-extensions::messages.set-as-main') }}" disabled>
                             <x-mle-partial-icon 
                                 name="{{ config('media-library-extensions.icons.set-as-main') }}"
                                 title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
@@ -44,7 +44,7 @@
                             <input type="hidden" name="model_type" value="{{ get_class($model) }}">
                             <input type="hidden" name="model_id" value="{{ $model->id }}">
                             <input type="hidden" name="target_id" value="{{ $id }}">
-                            <button type="submit" class="mle-btn-icon" title="{{ __('media-library-extensions::messages.medium_set_as_main') }}">
+                            <button type="submit" class="mle-button-icon" title="{{ __('media-library-extensions::messages.medium_set_as_main') }}">
                                 <x-mle-partial-icon 
                                     name="{{ config('media-library-extensions.icons.setup_as_main') }}"
                                     title="{{ __('media-library-extensions::messages.setup_as_main') }}"

@@ -19,8 +19,18 @@
         type="hidden"
         name="target_id"
         value="{{ $id }}">
-        <label for="{{ $id }}_youtube_url" class="form-label">YouTube Video URL</label>
-        <input type="url" name="youtube_url" id="{{ $id }}_youtube_url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." />
+        <label 
+            for="{{ $id }}-youtube-url" 
+            class="form-label">
+            YouTube Video URL
+        </label>
+        <input
+            id="{{ $id }}-youtube-url"
+            type="url" 
+            name="youtube_url" 
+            class="form-control" 
+            placeholder="https://www.youtube.com/watch?v=..." 
+        />
     <button
         type="submit"
         class="btn btn-primary d-block mt-3">

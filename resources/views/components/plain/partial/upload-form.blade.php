@@ -4,22 +4,22 @@
     enctype="multipart/form-data"
     method="post">
     @csrf
-    <label for="{{ $id }}_media_input" class="form-label">Bestanden</label>
+    <label for="{{ $id }}-media-input" class="mle-label custom-file-label">Bestanden</label>
     @if($multiple)
         <input
-            id="{{ $id }}_media_input"
+            id="{{ $id }}-media-input"
             accept="{{ $allowedMimeTypes }}"
             name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
             type="file"
-            class="media-manager-input-file form-control"
+            class="mle-input custom-file-input"
             multiple>
     @else
         <input
-            id="{{ $id }}_media_input"
+            id="{{ $id }}-media-input"
             accept="{{ $allowedMimeTypes }}"
             name="{{ config('media-library-extensions.upload_field_name_single') }}"
             type="file"
-            class="media-manager-input-file form-control">
+            class="mle-input custom-file-input">
     @endif
     <span class="form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
@@ -44,10 +44,9 @@
         type="hidden"
         name="target_id"
         value="{{ $id }}">
-    
     <button
         type="submit"
-        class="btn btn-primary d-block mt-3">
+        class="mle-button mle-upload-button">
         {{ $multiple
          ? __('media-library-extensions::messages.upload_media')
          : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}

@@ -63,7 +63,7 @@ class MediaManagerMultiple extends BaseComponent
             }
         }
         $this->media = $collections;
-        $this->id = $this->id.'-mm-multiple';
+        $this->id = $this->id.'-media-manager-multiple';
     }
 
     public function render(): View
