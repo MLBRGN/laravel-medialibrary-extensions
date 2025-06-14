@@ -1,5 +1,5 @@
 <div
-    {{ $attributes->merge(['class' => "mlbrgn-mle-component media-modal $sizeClass"]) }}
+    {{ $attributes->merge(['class' => "mlbrgn-mle-component media-modal fade"]) }}
     id="{{ $id }}"
     tabindex="-1"
     role="dialog"

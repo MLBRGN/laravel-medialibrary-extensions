@@ -28,6 +28,8 @@ class UploadForm extends BaseComponent
 
     public function render(): View
     {
+//        dd($this->allowedMimeTypes);
+        // TODO not right
         $allowedImageMimeTypesFromConfig = config('media-library-extensions.allowed_mimetypes.image', []);
         $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
         $this->allowedMimeTypesHuman = collect($allowedImageMimeTypesFromConfig)

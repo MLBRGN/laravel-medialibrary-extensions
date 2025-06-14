@@ -162,10 +162,6 @@
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
 
-    .media-manager-input-file {
-        margin-bottom:0.25rem;
-    }
-
     .upload-container {
         padding: 2rem;
     }
@@ -189,8 +185,7 @@
 
     label {
         display: block;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin-block: 0.5rem;
     }
 
     //input[type="file"] {
@@ -212,21 +207,22 @@
         display: block;
     }
 
-    button[type="submit"] {
+    .mle-button {
         display: inline-block;
         padding: 0.5rem 1rem;
         font-size: 1rem;
-        font-weight: 600;
-        color: #fff;
-        background-color: #007bff;
+        font-weight: 400;
+        background-color: var(--mlbrgn-mle-button-bg-color);
+        color: var(--mlbrgn-mle-button-fg-color);
         border: none;
         border-radius: 0.25rem;
         cursor: pointer;
         transition: background-color 0.2s;
     }
 
-    button[type="submit"]:hover {
-        background-color: #0056b3;
+    .mle-button:hover {
+        background-color: var(--mlbrgn-mle-button-hover-bg-color);
+        color: var(--mlbrgn-mle-button-hover-fg-color);
     }
 
     // custom file input
@@ -240,27 +236,45 @@
     //    color: #212529;
     //}
 
+    .mle-input {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--bs-body-color);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: #fff;// TODO css var
+        background-clip: padding-box;
+        border: var(--mlbrgn-mle-control-border-width) solid var(--mlbrgn-mle-control-border-color);
+        border-radius: var(--mlbrgn-mle-control-border-radius);
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        margin-bottom:0.5rem;
+    }
+
     /* Mimic Bootstrap 5's .form-control for file input */
-    input[type="file"] {
+    .custom-file-input {
         display: block;
         width: 100%;
         padding: 0.375rem 0.75rem;
         font-size: 1rem;
         line-height: 1.5;
         font-family: inherit;
-        color: var(--mlbrgn-mle-control-input-color);
         background-color: var(--mlbrgn-mle-control-bg-color);
+        color: var(--mlbrgn-mle-control-input-color);
         background-clip: padding-box;
-        border: 1px solid #ced4da;
+        border: var(--mlbrgn-mle-control-border-width) solid var(--mlbrgn-mle-control-border-color);
         border-radius: 0.375rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
 
-    input[type="file"]::file-selector-button {
+    .custom-file-input::file-selector-button {
         padding: .375rem .75rem;
         margin: -.375rem -.75rem;
         margin-inline-end: .375rem;
-        color: black;
         font-family: inherit;
         pointer-events: none;
         border-color: inherit;
@@ -269,20 +283,20 @@
         border-inline-end-width: 1px;
         border-radius: 0;
         line-height:1.5rem;
-        background-color: #e9ecef;
+        background-color: var(--mlbrgn-mle-button-bg-color);
+        color: var(--mlbrgn-mle-button-hover-fg-color);
         transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
     }
 
-    /* Optional focus style */
-    input[type="file"]:focus {
+    .custom-file-input:focus {
         border-color: #86b7fe;
         outline: 0;
         box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
     }
 
-    input[type="file"]:hover:not(:disabled):not([readonly])::file-selector-button {
-        background-color: var(--mlbrgn-mle-control-hover-bg-color);
-        color: var(--mlbrgn-mle-control-hover-fg-color);
+    .custom-file-input:hover:not(:disabled):not([readonly])::file-selector-button {
+        background-color: var(--mlbrgn-mle-button-hover-bg-color);
+        color: var(--mlbrgn-mle-button-hover-fg-color);
     }
 
     //.custom-file-label {

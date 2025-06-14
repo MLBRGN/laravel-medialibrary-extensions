@@ -4,14 +4,14 @@
     enctype="multipart/form-data"
     method="post">
     @csrf
-    <label for="{{ $id }}-media-input" class="form-label">Bestanden</label>
+    <label for="{{ $id }}-media-input" class="mle-label form-label">Bestanden</label>
     @if($multiple)
         <input
             id="{{ $id }}-media-input"
             accept="{{ $allowedMimeTypes }}"
             name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
             type="file"
-            class="media-manager-input-file form-control"
+            class="mle-input form-control"
             multiple>
     @else
         <input
@@ -19,7 +19,7 @@
             accept="{{ $allowedMimeTypes }}"
             name="{{ config('media-library-extensions.upload_field_name_single') }}"
             type="file"
-            class="media-manager-input-file form-control">
+            class="mle-input form-control">
     @endif
     <span class="form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input

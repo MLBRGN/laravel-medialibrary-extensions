@@ -17,9 +17,9 @@ mlbrgn-mle-component media-manager media-manager-multiple
         <div class="media-manager-form col-12 col-md-4">
             @if($uploadEnabled)
                 <x-mle-partial-upload-form
-                    :allowedMimeTypes="$allowedMimeTypes" 
-                    :mediaCollection="$mediaCollection" 
-                    :documentCollection="$documentCollection"
+                    :allowed-mime-types="$allowedMimeTypes" 
+                    :media-collection="$mediaCollection" 
+                    :document-collection="$documentCollection"
                     :model="$model" 
                     :id="$id"
                     :multiple="true"/>
@@ -27,7 +27,7 @@ mlbrgn-mle-component media-manager media-manager-multiple
             @if($youtubeCollection)
                 <x-mle-partial-youtube-upload-form
                     class="mt-3"
-                    :youtubeCollection="$youtubeCollection"
+                    :youtube-collection="$youtubeCollection"
                     :model="$model"
                     :id="$id"
                 />

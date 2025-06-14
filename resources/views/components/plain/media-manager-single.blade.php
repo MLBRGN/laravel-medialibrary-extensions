@@ -7,8 +7,9 @@
         <div class="media-manager-form">
             @if($uploadEnabled)
                 <x-mle-partial-upload-form
-                    :allowedMimeTypes="$allowedMimeTypes"
-                    :mediaCollection="$mediaCollection"
+                    :allowed-mime-types="$allowedMimeTypes"
+                    :media-collection="$mediaCollection"
+                    :document-collection="$documentCollection"
                     :model="$model"
                     :id="$id"
                     :multiple="false"/>
@@ -25,7 +26,9 @@
                     <x-mle-image-responsive 
                         :medium="$medium" 
                         class="media-manager-preview-medium" 
-                        alt="{{ $medium->name }}"/>
+                        alt="{{ $medium->name }}"
+                        draggable="false"
+                    />
                 </a>
                 <div class="media-manager-preview-menu">
                     @if($destroyEnabled)

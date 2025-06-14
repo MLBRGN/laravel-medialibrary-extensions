@@ -5,6 +5,10 @@
 // scope css
 .mlbrgn-mle-component {
 
+    * {
+        box-sizing: border-box;
+    }
+
     .mle-width-100 {
         width:100%;
     }
@@ -77,6 +81,18 @@
         aspect-ratio:4/3;
         border-radius: 1em;
         opacity:.8;
+    }
+
+    .mle-button-icon {
+        margin-inline-start: .5rem;
+    }
+
+    img[draggable="false"]{
+        user-drag: none;      /* Safari */
+        -webkit-user-drag: none; /* Safari/Chrome */
+        user-select: none;
+        -webkit-user-select: none;
+        pointer-events: auto;
     }
 
 }

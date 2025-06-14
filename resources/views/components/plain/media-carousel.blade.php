@@ -72,6 +72,7 @@
                                 :conversions="['16x9']"
                                 sizes="100vw"
                                 :alt="$medium->name"
+                                draggable="false"
                             />
                         @endif
                     @endif

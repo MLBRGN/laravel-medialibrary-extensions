@@ -21,7 +21,7 @@
         value="{{ $id }}">
         <label 
             for="{{ $id }}-youtube-url" 
-            class="form-label">
+            class="mle-label">
             YouTube Video URL
         </label>
         <input

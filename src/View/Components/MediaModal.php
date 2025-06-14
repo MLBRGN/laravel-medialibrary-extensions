@@ -37,7 +37,7 @@ class MediaModal extends BaseComponent
         } else {
             $this->mediaItems = MediaCollection::make();
         }
-        $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+//        $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
         $this->id = $this->id.'-modal';
 
     }

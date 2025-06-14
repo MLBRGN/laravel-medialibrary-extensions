@@ -22,8 +22,9 @@ class MediaManagerSingle extends BaseComponent
         public bool $destroyEnabled = false,
         public bool $showMediaUrl = false,
         public string $id = '',
-        public ?string $frontendTheme = null
-
+        public ?string $frontendTheme = null,
+        public string $documentCollection = '',
+        public string $youtubeCollection = '',
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -36,7 +37,7 @@ class MediaManagerSingle extends BaseComponent
             ->unique()
             ->implode(',');
 
-        $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+//        $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
         $this->id = $this->id.'-media-manager-single';
 
     }

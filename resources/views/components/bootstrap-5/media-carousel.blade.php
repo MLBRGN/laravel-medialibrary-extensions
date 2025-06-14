@@ -80,6 +80,7 @@
                             :alt="$medium->name"
                             data-bs-target="#{{$id}}-modal-carousel"
                             data-bs-slide-to="{{ $loop->index }}"
+                            draggable="false"
                         />
                     @endif
                 @endif

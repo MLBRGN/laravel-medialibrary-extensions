@@ -4,7 +4,7 @@
     enctype="multipart/form-data"
     method="post">
     @csrf
-    <label for="{{ $id }}-media-input" class="mle-label custom-file-label">Bestanden</label>
+    <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
     @if($multiple)
         <input
             id="{{ $id }}-media-input"

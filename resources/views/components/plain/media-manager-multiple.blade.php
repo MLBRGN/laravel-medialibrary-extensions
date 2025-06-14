@@ -11,8 +11,9 @@
         <div class="media-manager-form">
             @if($uploadEnabled)
                 <x-mle-partial-upload-form
-                    :allowedMimeTypes="$allowedMimeTypes"
-                    :mediaCollection="$mediaCollection"
+                    :allowed-mime-types="$allowedMimeTypes"
+                    :media-collection="$mediaCollection"
+                    :document-collection="$documentCollection"
                     :model="$model"
                     :id="$id"
                     :multiple="true"/>
@@ -20,7 +21,7 @@
             @if($youtubeCollection)
                 <x-mle-partial-youtube-upload-form
                     class="mt-3"
-                    :youtubeCollection="$youtubeCollection"
+                    :youtube-collection="$youtubeCollection"
                     :model="$model"
                     :id="$id"
                 />
