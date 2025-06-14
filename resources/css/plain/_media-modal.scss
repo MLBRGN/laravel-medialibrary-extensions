@@ -4,87 +4,87 @@
 
 .mlbrgn-mle-component {
 
-    &.media-modal {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.6);
-        border-radius:.5em;
-
-        opacity: 0;
-        pointer-events: none;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease, z-index 0s linear 0.3s;
-        margin:1em;
-
-        &.active {
-            opacity: 1;
-            pointer-events: auto;
-            visibility: visible;
-            z-index: 1000;
-            transition: opacity 0.3s ease, visibility 0.3s ease, z-index 0s;
-        }
-
-        .media-modal-dialog {
-            background: white;
-            //padding: 2rem;
-            transform: translateY(-40px);
-            transition: transform 0.3s ease;
-        }
-
-        &.active .media-modal-dialog {
-            transform: translateY(0);
-        }
-    }
-
     //&.media-modal {
-    //    --modal-padding:20px;
-    //
-    //    position:fixed;
-    //    top:50%;
-    //    left:50%;
-    //    box-sizing:border-box;
-    //    transform: translate(-50%,-50%);
-    //    width: 100vw;
-    //    height: 100vh;
-    //    //display: none;
-    //    align-items: center;
+    //    position: fixed;
+    //    inset: 0;
+    //    z-index: -1;
+    //    display: flex;
     //    justify-content: center;
-    //    background-color: rgba(0, 0, 0, 0.75);
-    //    z-index: 1050;
-    //    //overflow:hidden;
+    //    align-items: center;
+    //    background-color: rgba(0, 0, 0, 0.6);
+    //    border-radius:.5em;
+    //
+    //    opacity: 0;
+    //    pointer-events: none;
+    //    visibility: hidden;
+    //    transition: opacity 0.3s ease, visibility 0.3s ease, z-index 0s linear 0.3s;
+    //    margin:1em;
     //
     //    &.active {
-    //        display: flex;
-    //        //.media-modal-dialog {
-    //        //    transform: translateY(0);
-    //        //}
-    //    }
-    //
-    //    &.fade {
-    //        opacity: 0;
-    //        pointer-events: none;
-    //        transition: opacity .3s ease;
-    //    }
-    //
-    //    &.fade.active {
     //        opacity: 1;
     //        pointer-events: auto;
+    //        visibility: visible;
+    //        z-index: 1000;
+    //        transition: opacity 0.3s ease, visibility 0.3s ease, z-index 0s;
     //    }
     //
-    //    // NEW: slide effect on dialog
     //    .media-modal-dialog {
+    //        background: white;
+    //        //padding: 2rem;
     //        transform: translateY(-40px);
     //        transition: transform 0.3s ease;
     //    }
     //
-    //    &.fade.active .media-modal-dialog {
+    //    &.active .media-modal-dialog {
     //        transform: translateY(0);
     //    }
     //}
+
+    &.media-modal {
+        --modal-padding:20px;
+
+        position:fixed;
+        top:50%;
+        left:50%;
+        box-sizing:border-box;
+        transform: translate(-50%,-50%);
+        width: 100vw;
+        height: 100vh;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.75);
+        z-index: 1050;
+        //overflow:hidden;
+
+        &.active {
+            display: flex;
+            //.media-modal-dialog {
+            //    transform: translateY(0);
+            //}
+        }
+
+        &.fade {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+        }
+
+        &.fade.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        // NEW: slide effect on dialog
+        .media-modal-dialog {
+            transform: translateY(-40px);
+            transition: transform 0.3s ease;
+        }
+
+        &.fade.active .media-modal-dialog {
+            transform: translateY(0);
+        }
+    }
 
     .media-modal-dialog {
         max-width:calc(100% - (2 * var(--modal-padding)));
