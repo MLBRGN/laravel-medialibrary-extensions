@@ -1,6 +1,56 @@
-.media-manager-image-preview {
-    width:100%;
-    height:100%;
-    object-fit: cover;
-    aspect-ratio:1;
+.mlbrgn-mle-component {
+
+    &.media-manager-single {
+        .media-manager-preview-menu {
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0;
+        }
+    }
+
+    .media-manager-image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        aspect-ratio: 1;
+    }
+
+    .media-manager-preview-medium {
+        max-width: 300px;
+    }
+
+    .media-manager-preview-media-container {
+        max-width: 300px;
+    }
+
+    .media-manager-preview-menu {
+        //position:absolute;
+        //left:0;
+        //right:0;
+        //inset-block-end: 0;
+        //bottom:0;
+        //background-color: rgba($black,0.6);
+        width: 100%;
+        color: white;
+        height: auto;
+        max-height: 30%;
+        padding: 0.3em;
+        background-color: slategray; // TODO css variable
+        display: flex;
+        justify-content: end;
+        padding-inline: 1em;
+        align-items: center;
+        line-height: normal;
+    }
+
+    .media-manager-previews {
+        padding-inline:0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .disable-pointer-events lite-youtube {
+        pointer-events: none;
+    }
 }

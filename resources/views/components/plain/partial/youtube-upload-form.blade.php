@@ -1,3 +1,4 @@
+{{--<x-mle-partial-flash :target-id="$id"/>--}}
 <form
     {{ $attributes->class(['media-manager-youtube-upload-form']) }}
     action="{{ route(mle_prefix_route('media-upload-youtube')) }}"
@@ -35,5 +36,4 @@
         class="mle-button mle-upload-button">
         {{ trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
-    <x-mle-partial-flash :target-id="$id"/>
 </form>

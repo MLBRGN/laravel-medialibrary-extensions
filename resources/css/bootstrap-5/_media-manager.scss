@@ -22,12 +22,6 @@
             width: 100%;
             height: 100%;
         }
-
-        .media-manager-preview-medium {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
     }
 
     .media-manager-preview-media-container {
@@ -51,11 +45,6 @@
         aspect-ratio:1;
     }
 
-    .media-manager-previews {
-        position:relative;
-        overflow:hidden;
-    }
-
     .media-manager-debug {
         position:absolute;
         left:0;
@@ -72,26 +61,6 @@
         a {
             color:yellow;
         }
-    }
-
-    .media-manager-preview-menu {
-        //position:absolute;
-        //left:0;
-        //right:0;
-        //inset-block-end: 0;
-        //bottom:0;
-        //background-color: rgba($black,0.6);
-        width:100%;
-        color:white;
-        height:auto;
-        max-height:30%;
-        padding:0.3em;
-        background-color:slategray;
-        display:flex;
-        justify-content: end;
-        padding-inline:1em;
-        align-items: center;
-        line-height:normal;
     }
 
     .media-preview-image {
@@ -123,10 +92,13 @@
     }
 
     .media-manager-preview-grid {
-        align-items: center;
         display:grid;
+        align-items: center;
+        justify-items:start;
         grid-gap:1em;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        //grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
     }
 
     .upload-container {

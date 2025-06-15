@@ -1,5 +1,9 @@
 @if ($status)
-    <p class="status-{{ $status['type'] }}">
-        {{ $status['message'] }}
-    </p>
+    <div {{ $attributes->class([
+            'mle-status-message', 
+            'mle-status-message-'.$status['type'],
+            $extraClasses
+        ])->merge() }}>
+        {{$status['message'] }}
+    </div>
 @endif

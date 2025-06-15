@@ -8,7 +8,7 @@
     ]) }}
      data-carousel
      data-carousel-id="{{ $id }}"
-     tabindex="0"
+     tabindex="-1"
      @if(config('media-library-extensions.carousel_ride'))
         data-carousel-ride="{{ config('media-library-extensions.carousel_ride') ? 'true' : 'false' }}"
         data-carousel-ride-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
@@ -100,7 +100,7 @@
     </div>
 
     {{-- Prev/Next controls --}}
-    @if ($mediaItems->count() > 1)
+{{--    @if ($mediaItems->count() > 1)--}}
         <button 
             type="button"
             @class([
@@ -133,7 +133,7 @@
             </span>
             <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
         </button>
-    @endif
+{{--    @endif--}}
 </div>
 
 @if($clickToOpenInModal)

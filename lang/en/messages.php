@@ -14,6 +14,7 @@ return [
     'no_medium_uploaded' => 'No medium-uploaded.',
     'upload_media' => 'Upload media',
     'upload_or_replace' => '{0}Upload medium|[1,*]Replace medium',
+    'add_video' => 'Add video',
     'missing_model' => ':component requires a model, but none was provided.',
     'missing_collection' => ':component requires a media collection name, but none was provided.',
     'delete_medium' => 'Delete',

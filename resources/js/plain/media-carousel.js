@@ -6,7 +6,6 @@ import { fireEvent } from '@/js/plain/helpers';
 const carousels = new Map();
 
 export function getCarouselController(element) {
-    console.log('carousels.get carousels', carousels);
     return carousels.get(element);
 }
 
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const swipeVerticalThreshold = 50;
 
         const updateCarousel = (index, direction = 'right') => {
-           console.log(index, direction);
             items.forEach((item) => {
                 item.classList.remove(
                     'active',
@@ -64,8 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-
-
             current.classList.remove('active');
             next.classList.add('active');
 
@@ -77,10 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const goToSlide = (index, skipAnimation = false) => {
-            console.log('goToSlide', index, skipAnimation);
             if (index === currentIndex) return;
 
-            console.log('go to slide', index);
             const normalizedIndex = (index + items.length) % items.length;
             const diff = normalizedIndex - currentIndex;
             const direction = (diff + items.length) % items.length > items.length / 2 ? 'left' : 'right';
@@ -178,9 +172,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         carousel.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
+                e.preventDefault();
                 goToSlide((currentIndex - 1 + items.length) % items.length);
                 handleInteraction();
             } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
                 goToSlide((currentIndex + 1) % items.length);
                 handleInteraction();
             }
@@ -208,8 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const controller = {
             goToSlide: (index, skipAnimation = false) => goToSlide(index, skipAnimation),
             getCurrentIndex: () => currentIndex,
-            next: () => goToSlide((currentIndex + 1) % items.length),
-            prev: () => goToSlide((currentIndex - 1 + items.length) % items.length),
+            goToNextSlide: () => goToSlide((currentIndex + 1) % items.length),
+            goToPreviousSlide: () => goToSlide((currentIndex - 1 + items.length) % items.length),
             pause: stopAutoRide,
             resume: startAutoRide,
         };

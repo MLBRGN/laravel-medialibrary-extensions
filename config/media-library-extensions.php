@@ -46,7 +46,21 @@ return [
     |
     */
 
+
     'route_prefix' => env('MEDIA_LIBRARY_EXTENSION_ROUTE_PREFIX', 'mlbrgn-mle'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Route middleware
+    |--------------------------------------------------------------------------
+    |
+    | middleware to use on package's routes.
+    | !!! NOTE web is required for status messages to work
+    | By default the routes are only accessible for authenticated users
+    |
+    */
+
+    'route_middleware' => env('MEDIA_LIBRARY_EXTENSION_ROUTE_MIDDLEWARE', ['web', 'auth']),
 
     /*
     |--------------------------------------------------------------------------

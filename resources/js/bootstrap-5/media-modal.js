@@ -1,5 +1,4 @@
 // noinspection JSUnresolvedReference
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const modals = document.querySelectorAll('.media-modal');
@@ -47,6 +46,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        modal.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('show')) return;
+
+            const carouselElement = modal.querySelector('.media-carousel');
+            if (!carousel) return;
+
+            const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+            if (!carouselInstance) return;
+
+            const isInsideCarousel = carousel.contains(e.target);
+
+            console.log(isInsideCarousel);
+
+            if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && isInsideCarousel) {
+                return; // let the carousel's listener handle it
+            }
+
+            // If outside the carousel (e.g., focus on close button), we handle the keys here
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                e.stopPropagation();
+                carouselInstance.prev();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                e.stopPropagation();
+                carouselInstance.next();
+            }
+        });
     });
 
     function stopAllVideoPlayBack() {
@@ -67,4 +95,5 @@ document.addEventListener('DOMContentLoaded', () => {
             player.playVideo();
         }
     }
+
 });

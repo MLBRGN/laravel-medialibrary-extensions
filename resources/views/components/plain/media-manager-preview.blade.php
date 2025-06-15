@@ -1,6 +1,5 @@
 <div class="mlbrgn-mle-component media-manager-preview-media-container"
-    data-slide-to="{{ $loopIndex }}"
-    data-modal-trigger="{{ $id }}-modal"
+   
 >
     @if($medium->hasCustomProperty('youtube-id'))
         <x-mle-video-youtube
@@ -9,16 +8,22 @@
             :preview="true"
             :youtube-id="$medium->getCustomProperty('youtube-id')"
             :youtube-params="[]"
+            data-slide-to="{{ $loopIndex }}"
+            data-modal-trigger="{{ $id }}-modal"
         />
     @else
         @if(isMediaType($medium, 'document'))
             <x-mle-document :medium="$medium"
-                    class="mle-cursor-zoom-in"
+                class="mle-cursor-zoom-in"
+                data-slide-to="{{ $loopIndex }}"
+                data-modal-trigger="{{ $id }}-modal"
             />
         @else
             <x-mle-image-responsive :medium="$medium"
                 class="media-manager-image-preview mle-cursor-zoom-in"
                 draggable="false"
+                data-slide-to="{{ $loopIndex }}"
+                data-modal-trigger="{{ $id }}-modal"
             />
         @endif
     @endif

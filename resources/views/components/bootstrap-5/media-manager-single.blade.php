@@ -16,24 +16,17 @@
             @endif
         </div>
 
-        <div class="media-manager-previews col-12 col-md-8 text-center">
+        <div class="media-manager-previews col-12 col-md-8">
             @if($medium)
-                <a
-                    class="media-manager-preview-medium-link mle-cursor-zoom-in"
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal">
-                    <x-mle-image-responsive
-                        :medium="$medium"
-                        class="media-manager-preview-medium image-fluid"
-                        alt="{{ $medium->name }}"
-                        draggable="false"
-                    />
-                </a>
-                <div class="media-manager-preview-menu">
-                    @if($destroyEnabled)
-                        <x-mle-partial-destroy-form :medium="$medium" :id="$id"/>
-                    @endif
-                </div>
+                <x-mle-media-manager-preview
+                    :medium="$medium"
+                    :id="$id"
+                    :destroy-enabled="$destroyEnabled"
+                    :set-as-first-enabled="false"
+                    :is-first-in-collection="true"
+                    :model="$model"
+                    :media-collection="$mediaCollection"
+                />
                 <x-mle-media-modal
                     :id="$id"
                     :model="$model"

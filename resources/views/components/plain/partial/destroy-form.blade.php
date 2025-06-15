@@ -1,5 +1,5 @@
 <form
-        {{ $attributes->class(['media-manager-preview-form media-manager-multiple-preview-form']) }}
+        {{ $attributes->class(['media-manager-preview-form']) }}
         action="{{ route(mle_prefix_route('medium-destroy'), $medium->id) }}"
         method="post">
     @csrf

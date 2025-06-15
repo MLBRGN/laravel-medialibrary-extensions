@@ -9,22 +9,25 @@ export function fireEvent(eventName, element) {
 export function trapFocus(modal) {
     const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-    const focusableEls = modal.querySelectorAll(focusableSelectors);
-    if (focusableEls.length === 0) return;
-
-    const first = focusableEls[0];
-    const last = focusableEls[focusableEls.length - 1];
+    const getFocusableElements = () =>
+        Array.from(modal.querySelectorAll(focusableSelectors))
+            .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
 
     const handleKeyDown = (e) => {
+        const focusableEls = getFocusableElements();
+        console.log(focusableEls);
+        const first = focusableEls[0];
+        const last = focusableEls[focusableEls.length - 1];
+
         if (e.key === 'Tab') {
+            if (focusableEls.length === 0) return;
+
             if (e.shiftKey) {
-                // Shift + Tab
                 if (document.activeElement === first) {
                     e.preventDefault();
                     last.focus();
                 }
             } else {
-                // Tab
                 if (document.activeElement === last) {
                     e.preventDefault();
                     first.focus();
@@ -34,12 +37,13 @@ export function trapFocus(modal) {
     };
 
     modal.addEventListener('keydown', handleKeyDown);
-
-    // Save handler reference on modal for removal later
     modal._trapFocusHandler = handleKeyDown;
 
-    // Focus first element
-    first.focus();
+    // Optional: focus first element
+    const focusableEls = getFocusableElements();
+    if (focusableEls.length) {
+        focusableEls[0].focus();
+    }
 }
 
 export function releaseFocus(modal) {

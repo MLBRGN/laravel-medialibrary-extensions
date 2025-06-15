@@ -14,6 +14,7 @@ return [
     'no_medium_uploaded' => 'Geen medium geüpload.',
     'upload_media' => 'Upload media',
     'upload_or_replace' => '{0}Upload medium|[1,*]Vervang medium',
+    'add_video' => 'video toevoegen',
     'missing_model' => ':component vereist een model, maar er is er geen meegegeven.',
     'missing_collection' => ':component vereist een media collectie naam, maar er is er geen meegegeven.',
     'delete_medium' => 'Verwijder',

@@ -2,6 +2,7 @@
     {{ $attributes->merge(['class' => "mlbrgn-mle-component media-modal modal fade $sizeClass"]) }}
     id="{{ $id }}"
     tabindex="-1"
+    role="dialog"
     aria-labelledby="{{ $id }}-title"
     aria-hidden="true"
     @if($videoAutoPlay)

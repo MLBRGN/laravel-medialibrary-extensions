@@ -2,6 +2,7 @@
 @use "bootstrap-5/media-carousel";
 
 @use "shared/general";
+@use "shared/media-carousel"  as sharedCarousel;
 @use "shared/media-manager"  as sharedManager;
 
 @use "bootstrap-5/media-modal";

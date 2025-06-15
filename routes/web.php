@@ -8,7 +8,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Controllers\PackageAssetController;
 
 // TODO authentication
 Route::group([
-    'middleware' => ['web'], // !important needed for session to work
+    'middleware' => config('media-library-extensions.route_middleware'),
     'prefix' => config('media-library-extensions.route_prefix'),
 ], function () {
     Route::controller(MediaManagerController::class)

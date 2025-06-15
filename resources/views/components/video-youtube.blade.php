@@ -22,5 +22,6 @@
                 class="lite-youtube-fallback" 
                 href="https://www.youtube.com/watch?v={{ $youtubeId }}">{{ __('media-library-extensions::messages.watch_on_youtube') }}</a>
         </lite-youtube>
+        <div class="media-video-touch-overlay"></div>
     </div>
 @endif

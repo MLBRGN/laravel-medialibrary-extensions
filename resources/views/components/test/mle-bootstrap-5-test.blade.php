@@ -7,7 +7,6 @@
     <head>
         <meta charset="UTF-8">
         <title>Component tests: theme bootstrap-5</title>
-        {{-- Bootstrap 5.3 CSS CDN --}}
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -24,7 +23,7 @@
                     $model = Blog::first();
                 @endphp
                 
-                <h2>Media Manager Single</h2>
+                <h2 class="my-5">Media Manager Single</h2>
                 
                 <x-mle-media-manager-single
                     id="blog-main"
@@ -37,7 +36,7 @@
                     frontend-theme="bootstrap-5"
                     />
 
-                <h2>Media Manager Multiple</h2>
+                <h2 class="my-5">Media Manager Multiple</h2>
                 
                 <x-mle-media-manager-multiple
                     id="blog-images"
@@ -53,7 +52,7 @@
                     frontend-theme="bootstrap-5"
                     />
 
-                <h2>Media Carousel</h2>
+                <h2 class="my-5"">Media Carousel</h2>
                 
                 <x-mle-media-carousel
                     id="blog-media"

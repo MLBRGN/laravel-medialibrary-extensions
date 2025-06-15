@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const carousel = modal.querySelector('[data-carousel]');
         const controller = getCarouselController(carousel);
 
-        console.log('carousel', carousel, controller);
         if (controller && slideTo !== undefined && slideTo !== null) {
             controller.goToSlide(parseInt(slideTo), true);
         }
@@ -78,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // video playback control
     modals.forEach((modal) => {
         const carousel = modal.querySelector('[data-carousel]');
         let autoPlay = modal.hasAttribute('data-video-autoplay');
@@ -90,9 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
             players[youTubeId] = new YT.Player(iframe, {
                 events: {
                     onReady: () => {
-                        if (autoPlay) {
-                            startVideoPlayBack(youTubeId);
-                        }
+                        // console.log('YouTube ready');
+                        // console.log('videoSlide', videoSlide);
+                        // if (autoPlay) {
+                        //     startVideoPlayBack(youTubeId);
+                        // }
                     },
                 },
             });
@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!activeSlide) return;
 
             const videoWrapper = activeSlide.querySelector('.media-video-container');
-
             if (!videoWrapper || !videoWrapper.hasAttribute('data-youtube-video-id')) return;
 
             const youtubeId = videoWrapper.getAttribute('data-youtube-video-id');
@@ -121,6 +120,42 @@ document.addEventListener('DOMContentLoaded', () => {
         // Stop the video when the modal is closed
         modal.addEventListener('modalClosed', () => {
             stopAllVideoPlayBack();
+        });
+
+        modal.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+
+            const carousel = modal.querySelector('[data-carousel]');
+            if (!carousel) return;
+
+            const controller = getCarouselController(carousel);
+            if (!controller) return;
+
+            const isInsideCarousel = carousel.contains(e.target);
+
+            // Escape should always work
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.media-modal.active').forEach(activeModal => {
+                    closeModal(activeModal);
+                });
+                e.stopPropagation();
+                e.preventDefault();
+            }
+
+            if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && isInsideCarousel) {
+                return; // let the carousel's listener handle it
+            }
+
+            // If outside the carousel (e.g., focus on close button), we handle the keys here
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                e.stopPropagation();
+                controller.goToPreviousSlide();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                e.stopPropagation();
+                controller.goToNextSlide();
+            }
         });
 
         // Handle carousel sliding
@@ -145,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function stopAllVideoPlayBack() {
         // TODO first check if playing
-        console.log('stopAllVideoPlayBack');
+        // console.log('stopAllVideoPlayBack');
         Object.values(players).forEach((player) => {
             player.stopVideo()
         });
@@ -153,15 +188,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function pauseAllVideoPlayBack() {
         // TODO first check if playing
-        console.log('pauseAllVideoPlayBack');
+        // console.log('pauseAllVideoPlayBack');
         Object.values(players).forEach((player) => {
             player.pauseVideo()
         });
     }
 
     function startVideoPlayBack(youTubeId) {
-        console.log('startVideoPlayBack');
+        // console.log('startVideoPlayBack');
         let player = players[youTubeId]
+        // console.log('player', player);
         if (player) {
             player.playVideo();
         }

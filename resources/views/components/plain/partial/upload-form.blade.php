@@ -1,3 +1,4 @@
+<x-mle-partial-flash :target-id="$id"/>
 <form
     {{ $attributes->class(['media-manager-upload-form']) }}
     action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')) }}"
@@ -51,5 +52,4 @@
          ? __('media-library-extensions::messages.upload_media')
          : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
-    <x-mle-partial-flash :target-id="$id"/>
 </form>
