@@ -149,7 +149,7 @@ class MediaManagerController extends Controller
 //                abort(422, 'Invalid YouTube URL');
 //            }
 
-            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
+            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
 
             /** @var HasMedia $model */
             $model
@@ -193,7 +193,7 @@ class MediaManagerController extends Controller
 //                abort(422, 'Invalid YouTube URL');
 //            }
 
-            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg";
+            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
 
             /** @var HasMedia $model */
             $model
