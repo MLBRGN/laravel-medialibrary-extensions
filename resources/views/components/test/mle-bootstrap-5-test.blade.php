@@ -52,7 +52,7 @@
                     frontend-theme="bootstrap-5"
                     />
 
-                <h2 class="my-5"">Media Carousel</h2>
+                <h2 class="my-5">Media Carousel</h2>
                 
                 <x-mle-media-carousel
                     id="blog-media"
