@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
-use Mlbrgn\MediaLibraryExtensions\Console\Commands\LinkAssets;
+use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
@@ -67,7 +67,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
             $this->commands([
                 InstallMediaLibraryExtensions::class,
-                LinkAssets::class,
+                ToggleRepository::class,
             ]);
 
             $this->publishes([
