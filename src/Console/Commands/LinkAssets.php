@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
 
 use Illuminate\Console\Command;

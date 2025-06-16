@@ -1,58 +1,46 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class InstallMediaLibraryExtensions extends Command
 {
-    protected $signature = 'media-library-extensions:install';
+    protected $signature = 'media-library-extensions:install {--force : Overwrite any existing files}';
 
     protected $description = 'Install the media library extensions.';
 
-    public function handle(): void
+    public function handle(): int
     {
-        $this->info('Installing media library extensions...');
+        $force = $this->option('force');
 
-        $this->info('Publishing configuration...');
-
-        if (! $this->configExists('media-library-extensions.php')) {
-            $this->publishConfiguration();
-            $this->info('Published configuration');
-        } elseif ($this->shouldOverwriteConfig()) {
-            $this->info('Overwriting configuration file...');
-            $this->publishConfiguration(true);
-        } else {
-            $this->info('Existing configuration was not overwritten');
+        if (! $force) {
+            $force = $this->confirm('Some files may already exist. Do you want to overwrite them?', false);
         }
 
-        $this->info('Installed media library extensions...');
+        $this->publishWithMessage('media-library-extensions-config', config_path('media-library-extensions.php'), $force);
+        $this->publishWithMessage('media-library-extensions-views', resource_path('views/vendor/media-library-extensions'), $force);
+        $this->publishWithMessage('media-library-extensions-assets', public_path('vendor/media-library-extensions'), $force);
+        $this->publishWithMessage('media-library-extensions-translations', resource_path('lang/vendor/media-library-extensions'), $force);
+        $this->publishWithMessage('media-library-extensions-policy', app_path('Policies/MediaPolicy.php'), $force);
+
+        $this->info('Media Library Extensions installed successfully.');
+        return self::SUCCESS;
     }
 
-    private function configExists($fileName): bool
+    protected function publishWithMessage(string $tag, string $targetPath, bool $force): void
     {
-        return File::exists(config_path($fileName));
-    }
-
-    private function shouldOverwriteConfig(): bool
-    {
-        return $this->confirm(
-            'Config file already exists. Do you want to overwrite it?'
-        );
-    }
-
-    private function publishConfiguration($forcePublish = false): void
-    {
-        $params = [
-            '--provider' => 'Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryServiceProvider',
-            '--tag' => 'config',
-        ];
-
-        if ($forcePublish === true) {
-            $params['--force'] = true;
+        if (file_exists($targetPath) && ! $force) {
+            $this->warn("Skipped publishing [$tag]: file/folder already exists at [$targetPath]");
+            return;
         }
 
-        $this->call('vendor:publish', $params);
+        $this->call('vendor:publish', [
+            '--tag' => $tag,
+            '--force' => $force,
+        ]);
     }
+
 }
