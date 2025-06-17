@@ -1,9 +1,15 @@
 <x-mle-partial-flash :target-id="$id"/>
 <form
     {{ $attributes->class(['media-manager-upload-form']) }}
-    action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')) }}"
+    action="{{ $formAction }}"
     enctype="multipart/form-data"
-    method="post">
+    method="post"
+    @if($useAjax)
+        data-ajax="true"
+        id="{{ $id.'-form' }}"
+        {{--    data-target-id="my-media-manager"--}}
+    @endif
+    >
     @csrf
     <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
     @if($multiple)

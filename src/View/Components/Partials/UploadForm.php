@@ -13,15 +13,22 @@ class UploadForm extends BaseComponent
     public bool $mediaPresent = false;
     public string $allowedMimeTypesHuman = '';
 
+    public string $formActionRoute;// upload form action route
+    public string $previewRefreshRoute;// route to refresh preview media when using ajax
+
     public function __construct(
 
         public ?HasMedia $model,
         public ?string $mediaCollection,
         public ?string $documentCollection,
+        public ?string $youtubeCollection,
         public string $id,
         public ?string $frontendTheme,
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
+        public bool $useAjax = true,
+        public bool $destroyEnabled = false,
+        public bool $setAsFirstEnabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
     }
@@ -41,6 +48,10 @@ class UploadForm extends BaseComponent
         $this->mediaPresent = $this->model && $this->mediaCollection
             ? $this->model->hasMedia($this->mediaCollection)
             : false;
+
+        $this->formActionRoute = $this->multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'));
+//        $this->previewRefreshRoute = $this->multiple ? route(mle_prefix_route('media-upload-multiple-preview')) : route(mle_prefix_route('media-upload-single-preview'));
+        $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));// : route(mle_prefix_route('media-upload-single-preview'));
 
         return $this->getPartialView('upload-form', $this->theme);
     }

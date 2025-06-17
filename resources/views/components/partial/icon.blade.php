@@ -1,6 +1,6 @@
 @if ($name && $iconExists)
     <x-dynamic-component 
-        {{ $attributes->merge(['class' => 'mle-icon']) }}
+{{--        {{ $attributes->merge(['class' => 'mle-icon']) }}--}}
         :component="$name" 
         :title="$title"/>
 @else

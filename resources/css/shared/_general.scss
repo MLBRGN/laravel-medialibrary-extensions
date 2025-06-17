@@ -95,4 +95,35 @@
         pointer-events: auto;
     }
 
+    .mle-spinner-container {
+        display:none;
+    }
+
+    .mle-spinner-container.active {
+        display:flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        gap:1em;
+        margin-bottom:1em;
+    }
+
+    .mle-spinner {
+        width: 30px;   /* adjust size as needed */
+        height: 30px;
+        border: 4px solid rgba(0, 0, 0, 0.1); /* light border */
+        border-top-color: #3498db;             /* colored top border */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;   /* rotation animation */
+    }
+
+    .mle-spinner-text {
+
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
 }

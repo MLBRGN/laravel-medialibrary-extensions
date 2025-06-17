@@ -4,13 +4,16 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends BaseComponent
 {
-    public ?Media $medium = null;
+//    public ?Media $medium = null;
+    public Collection $media;
+
 
     public string $allowedMimeTypes = '';
 
@@ -29,7 +32,9 @@ class MediaManagerSingle extends BaseComponent
         parent::__construct($id, $frontendTheme);
 
         // get medium only ever working with one medium
-        $this->medium = $model->getFirstMedia($mediaCollection);
+//        $this->medium = $model->getFirstMedia($mediaCollection);
+        // NOTE: for simplicity and consistency with media manager multiple using getMedia for a collection although there should be only 1 medidum
+        $this->media = $model->getMedia($mediaCollection);
 
         // set allowed mimetypes
         $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))
