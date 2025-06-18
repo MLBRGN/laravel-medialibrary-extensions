@@ -1,4 +1,4 @@
-@if($useXHR)
+@if($useXhr)
     <div
         id="{{ $id }}-media-upload-form"
         data-ajax-upload-form
@@ -72,13 +72,13 @@
             value="{{ $id }}">
         
         <button
-            type="{{ $useXHR ? 'button' : 'submit' }}"
+            type="{{ $useXhr ? 'button' : 'submit' }}"
             class="btn btn-primary d-block mt-3">
             {{ $multiple
              ? __('media-library-extensions::messages.upload_media')
              : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
         </button>
-@if($useXHR)
+@if($useXhr)
     </div>
     <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true"/>
 @else

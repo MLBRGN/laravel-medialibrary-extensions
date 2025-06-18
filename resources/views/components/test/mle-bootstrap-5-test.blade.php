@@ -34,6 +34,7 @@
                     upload-enabled
                     destroy-enabled
                     frontend-theme="bootstrap-5"
+                    :use-xhr="true"
                     />
 
                 <h2 class="my-5">Media Manager Multiple</h2>

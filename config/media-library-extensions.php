@@ -86,7 +86,7 @@ return [
     |
     */
 
-    'use_xhr' =>  env('MEDIA_LIBRARY_EXTENSION_USE_XHR', true),
+    'use_xhr' =>  env('MEDIA_LIBRARY_EXTENSION_USE_XHR', false),
 
     /*
     |--------------------------------------------------------------------------

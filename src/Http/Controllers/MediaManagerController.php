@@ -32,7 +32,7 @@ class MediaManagerController extends Controller
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
-    public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
+    public function store(MediaManagerUploadSingleRequest $request): RedirectResponse|JsonResponse
     {
 
         $model = $this->getModel($request->model_type, $request->model_id);

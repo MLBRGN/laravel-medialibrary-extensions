@@ -17,7 +17,9 @@
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :model="$model" 
                     :id="$id"
-                    :multiple="true"/>
+                    :multiple="true"
+                    :use-xhr="$useXhr"
+                />
             @endif
             @if($youtubeCollection)
                 <x-mle-partial-youtube-upload-form
@@ -32,6 +34,7 @@
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :model="$model"
+                    :use-xhr="$useXhr"
                 />
             @endif
         </div>

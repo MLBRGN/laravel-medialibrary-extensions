@@ -26,9 +26,9 @@ class UploadForm extends BaseComponent
         public ?string $frontendTheme,
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
-        public ?bool $useXHR = null,
         public bool $destroyEnabled = false,
         public bool $setAsFirstEnabled = false,
+        public ?bool $useXhr = null,
     ) {
         parent::__construct($id, $frontendTheme);
     }
@@ -52,7 +52,8 @@ class UploadForm extends BaseComponent
         $this->formActionRoute = $this->multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'));
         $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));// : route(mle_prefix_route('media-upload-single-preview'));
 
-        $this->useXHR = !is_null($this->useXHR) ? $this->useXHR : config('media-library-extensions.use_xhr');
+        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+
         return $this->getPartialView('upload-form', $this->theme);
     }
 }

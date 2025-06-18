@@ -29,6 +29,7 @@ class MediaManagerMultiple extends BaseComponent
         public bool $showOrder = false,
         public string $id = '',
         public ?string $frontendTheme = null,
+        public ?bool $useXhr = true,
 
     )
     {
@@ -64,6 +65,9 @@ class MediaManagerMultiple extends BaseComponent
             }
         }
         $this->media = $collections;
+
+        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+
         $this->id = $this->id.'-media-manager-multiple';
     }
 

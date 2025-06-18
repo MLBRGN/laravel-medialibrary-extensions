@@ -16,7 +16,9 @@
                     :youtube-collection="$youtubeCollection"
                     :model="$model"
                     :id="$id"
-                    :multiple="true"/>
+                    :multiple="false"
+                    :use-xhr="$useXhr"
+                />
             @endif
             @if($youtubeCollection)
                 <x-mle-partial-youtube-upload-form
@@ -24,6 +26,7 @@
                     :youtube-collection="$youtubeCollection"
                     :model="$model"
                     :id="$id"
+                    :use-xhr="$useXhr"
                 />
             @endif
         </div>
