@@ -32,7 +32,7 @@
             @if($media->count() > 0)
                 <div class="media-manager-preview-grid">
                     @foreach($media as $index => $medium)
-                        <x-mle-media-manager-preview 
+                        <x-mle-media-manager-preview
                             :medium="$medium"
                             :id="$id"
                             loop-index="{{ $loop->index }}"
