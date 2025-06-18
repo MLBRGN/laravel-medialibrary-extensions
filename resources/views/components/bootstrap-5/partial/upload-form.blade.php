@@ -4,27 +4,13 @@
         data-ajax-upload-form
         class="media-manager-upload-form"
         data-media-manager-id="{{ $id }}"
-        data-form-action-route="{{ $formActionRoute }}"
-        data-preview-refresh-route="{{ $previewRefreshRoute }}"
-        data-model-type="{{ $model->getMorphClass() }}"
-        data-model-id="{{ $model->getKey() }}"
-        data-collection="{{ $mediaCollection }}"
-        data-youtube-collection="{{ $youtubeCollection }}"
-        data-document-collection="{{ $documentCollection }}"
-        data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
-        data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
-        data-csrf-token="{{ csrf_token() }}"
-        data-theme="bootstrap-5"
     >
-        <div class="mle-spinner-container" data-spinner-container>
-            <div class="mle-spinner"></div>
-            <div>{{ __('media-library-extensions::messages.please_wait') }}</div>
-        </div>
+    <x-mle-spinner/>
 @else
     <x-mle-partial-flash :target-id="$id"/>
     <form
         {{ $attributes->class(['media-manager-upload-form']) }}
-        action="{{ $formActionRoute }}"
+        action="{{ $mediaUploadRoute }}"
         enctype="multipart/form-data"
         method="post"
     >
@@ -73,7 +59,9 @@
         
         <button
             type="{{ $useXhr ? 'button' : 'submit' }}"
-            class="btn btn-primary d-block mt-3">
+            class="btn btn-primary d-block mt-3"
+            data-action="upload-media"
+        >
             {{ $multiple
              ? __('media-library-extensions::messages.upload_media')
              : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}

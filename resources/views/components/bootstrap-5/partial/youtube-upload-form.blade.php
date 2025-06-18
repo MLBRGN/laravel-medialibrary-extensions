@@ -1,31 +1,17 @@
 @if($useXhr)
     <div
-        id="{{ $id }}-media-upload-form"
+        id="{{ $id }}-youtube-upload-form"
         data-ajax-upload-form
-        class="media-manager-upload-form"
+        class="media-manager-youtube-upload-form"
         data-media-manager-id="{{ $id }}"
-        data-form-action-route="{{ $formActionRoute }}"
-        data-preview-refresh-route="{{ $previewRefreshRoute }}"
-        data-model-type="{{ $model->getMorphClass() }}"
-        data-model-id="{{ $model->getKey() }}"
-        data-collection="{{ $mediaCollection }}"
-        data-youtube-collection="{{ $youtubeCollection }}"
-        data-document-collection="{{ $documentCollection }}"
-        data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
-        data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
-        data-csrf-token="{{ csrf_token() }}"
-        data-theme="bootstrap-5"
     >
-        <div class="mle-spinner-container" data-spinner-container>
-            <div class="mle-spinner"></div>
-            <div>{{ __('media-library-extensions::messages.please_wait') }}</div>
-        </div>
+    <x-mle-spinner/>
 @else
-<form
-    {{ $attributes->class(['media-manager-youtube-upload-form']) }}
-    action="{{ route(mle_prefix_route('media-upload-youtube')) }}"
-    method="post">
-    @csrf
+    <form
+        {{ $attributes->class(['media-manager-youtube-upload-form']) }}
+        action="{{ route(mle_prefix_route('media-upload-youtube')) }}"
+        method="post">
+        @csrf
 @endif
     <input
         type="hidden"
@@ -57,7 +43,8 @@
         />
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
-        class="btn btn-primary d-block mt-3">
+        class="btn btn-primary d-block mt-3"
+        data-action="upload-youtube-medium">
         {{ __('media-library-extensions::messages.add_video') }}
     </button>
 @if($useXhr)
