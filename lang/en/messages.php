@@ -32,4 +32,5 @@ return [
     'watch_on_youtube' => 'Watch on YouTube',
     'play_video' => 'Play video',
     'supported_file_formats_:supported_formats' => 'Supported file formats: :supported_formats.',
+    'no_permission' => 'No permission.',
 ];

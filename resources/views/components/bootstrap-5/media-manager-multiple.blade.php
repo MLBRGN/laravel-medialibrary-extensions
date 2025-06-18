@@ -40,13 +40,15 @@
             <div class="media-manager-preview-grid">
                 @if($media->count() > 0)
                     <x-mle-media-manager-preview
-                        :media="$media"
+{{--                        :media="$media"--}}
                         :id="$id"
                         :show-order="$showOrder"
                         :destroy-enabled="$destroyEnabled"
                         :set-as-first-enabled="$setAsFirstEnabled"
                         :model="$model"
                         :media-collection="$mediaCollection"
+                        :youtube-collection="$youtubeCollection"
+                        :document-collection="$documentCollection"
                     />
                     {{-- TODO title--}}
                     <x-mle-media-modal

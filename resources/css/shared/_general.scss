@@ -83,6 +83,34 @@
         opacity:.8;
     }
 
+    .mle-icon-container {
+        position:relative;
+    }
+
+    .mle-icon-container-youtube-play-button {
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translateY(-50%) translateX(-50%);
+        //fill:#fff;
+        background-color:#f00;
+        width:25%;
+        height:auto;
+        aspect-ratio:4/3;
+        border-radius: .5rem;
+        opacity:.9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mle-icon-container-youtube-play-button svg {
+        fill:#fff;
+        width:30px;
+        height:auto;
+        aspect-ratio:1;
+    }
+
     .mle-button-icon {
         margin-inline-start: .5rem;
     }

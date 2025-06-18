@@ -12,11 +12,14 @@ class MediaManagerPreview extends BaseComponent
 {
     public string $allowedMimeTypes = '';
     public bool $showMenu = false;
+    public Collection $media;
 
     public function __construct(
         public ?HasMedia $model = null,
-        public Collection $media,
+//        public Collection $media,
         public string $mediaCollection = '',
+        public string $documentCollection = '',
+        public string $youtubeCollection = '',
         public string $id = '',
         public ?string $frontendTheme = null,
         public bool $destroyEnabled = false,
@@ -32,6 +35,23 @@ class MediaManagerPreview extends BaseComponent
         } else {
             $this->showMenu = false;
         }
+
+        $collections = collect();
+        if ($model) {
+            if ($mediaCollection) {
+                $collections = $collections->merge($model->getMedia($mediaCollection));
+            }
+
+            if ($youtubeCollection) {
+                $collections = $collections->merge($model->getMedia($youtubeCollection));
+            }
+
+            if ($documentCollection) {
+                $collections = $collections->merge($model->getMedia($documentCollection));
+            }
+        }
+        $this->media = $collections;
+//        {{ print_r($this->media, true); }}
     }
 
     public function render(): View

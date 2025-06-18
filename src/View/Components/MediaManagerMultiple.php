@@ -19,6 +19,8 @@ class MediaManagerMultiple extends BaseComponent
     public function __construct(
         public ?HasMedia $model = null,
         public string $mediaCollection = '',
+        public string $documentCollection = '',
+        public string $youtubeCollection = '',
         public bool $uploadEnabled = false,
         public string $uploadFieldName = 'media',
         public bool $destroyEnabled = false,
@@ -27,8 +29,7 @@ class MediaManagerMultiple extends BaseComponent
         public bool $showOrder = false,
         public string $id = '',
         public ?string $frontendTheme = null,
-        public string $documentCollection = '',
-        public string $youtubeCollection = '',
+
     )
     {
         parent::__construct($id, $frontendTheme);

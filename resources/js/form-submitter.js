@@ -113,6 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
             if (!previewGrid) return;
 
+            console.log('youtube_collection', youtubeCollection)
+            console.log('document_collection', documentCollection)
             const params = new URLSearchParams({
                 model_type: modelType,
                 model_id: modelId,
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document_collection: documentCollection,
                 target_id: mediaManagerId
             });
-
+            console.log('previewRefreshRoute', previewRefreshRoute)
             fetch(`${previewRefreshRoute}?${params}`, {
                 headers: {
                     'Accept': 'text/html'

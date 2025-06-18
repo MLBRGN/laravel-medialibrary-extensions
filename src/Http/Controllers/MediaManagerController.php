@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
@@ -264,12 +265,37 @@ class MediaManagerController extends Controller
     }
 
     // used by ajax to refresh previews of images after upload / delete / new order
-    public function getMediaPreviewerHTML(Request $request): Response
+    public function getMediaPreviewerHTML(GetMediaPreviewerHTMLRequest $request): Response
     {
-        $model = $this->getModel($request->model_type, $request->model_id);
-        $media = $model->getMedia($request->collection);
+//        if (! $request->ajax()) {
+//            abort(403, __('media-library-extensions::messages.no_permission'));
+//        }
 
-        return response()->view('media-library-extensions::components.bootstrap-5.media-manager-preview', [
+
+//        dd($request->model_type, $request->model_id);
+
+        $model = $this->getModel($request->model_type, $request->model_id);
+        $mediaCollection = $request->collection;
+        $youtubeCollection = $request->youtube_collection;
+        $documentCollection = $request->documentCollection;
+
+        $collections = collect();
+        if ($model) {
+            if ($mediaCollection) {
+                $collections = $collections->merge($model->getMedia($mediaCollection));
+            }
+
+            if ($youtubeCollection) {
+                $collections = $collections->merge($model->getMedia($youtubeCollection));
+            }
+
+            if ($documentCollection) {
+                $collections = $collections->merge($model->getMedia($documentCollection));
+            }
+        }
+        $media = $collections;
+
+        $data = [
             'media' => $media,
             'id' => $request->input('target_id'),
             'model' => $model,
@@ -280,7 +306,15 @@ class MediaManagerController extends Controller
             'destroyEnabled' => true,
             'setAsFirstEnabled' => true,
             'showMenu' => true,// TODO don't know why this is needed, but otherwise error
-        ]);
+        ];
+
+//        $html = view('media-library-extensions::components.bootstrap-5.media-manager-preview', $data)->render();
+
+
+//        return response()->json([
+//            'html' => $html,
+//        ]);
+        return response()->view('media-library-extensions::components.bootstrap-5.media-manager-preview', $data);
     }
 
     protected function respondWithStatus(Request $request, string $targetId, string $type, string $message, ?string $fragmentIdentifier = null): JsonResponse|RedirectResponse

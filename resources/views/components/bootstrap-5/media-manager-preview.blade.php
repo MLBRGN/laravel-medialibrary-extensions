@@ -1,9 +1,7 @@
 @foreach($media as $medium)
     <div class="mlbrgn-mle-component media-manager-preview-media-container">
         
-        @dump($medium->collection_name)
         @if($medium->hasCustomProperty('youtube-id'))
-            @dump('YOUTUBE !!!!!!!!!!!!!!!!!!!')
             <div
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-modal"
