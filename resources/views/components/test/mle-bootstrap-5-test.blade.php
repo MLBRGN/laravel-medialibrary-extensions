@@ -34,7 +34,7 @@
                     upload-enabled
                     destroy-enabled
                     frontend-theme="bootstrap-5"
-                    :use-xhr="true"
+                    :use-xhr="config('media-library-extensions.use_xhr')"
                     />
 
                 <h2 class="my-5">Media Manager Multiple</h2>
@@ -51,6 +51,7 @@
                     show-order
                     set-as-first-enabled
                     frontend-theme="bootstrap-5"
+                    :use-xhr="config('media-library-extensions.use_xhr')"
                     />
 
                 <h2 class="my-5">Media Carousel</h2>

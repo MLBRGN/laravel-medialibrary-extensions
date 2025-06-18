@@ -1,4 +1,4 @@
-<x-mle-partial-flash :target-id="$id"/>
+<x-mle-partial-alert :target-id="$id"/>
 <form
     {{ $attributes->class(['media-manager-upload-form']) }}
     action="{{ $formAction }}"

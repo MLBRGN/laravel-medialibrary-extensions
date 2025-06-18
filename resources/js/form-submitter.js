@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const mediaManagerId = mediaManager.id;
         // routes
         const mediaUploadRoute = mediaManager.getAttribute('data-media-upload-route');
+        const youtubeUploadRoute = mediaManager.getAttribute('data-media-youtube-upload-route');
         const previewRefreshRoute = mediaManager.getAttribute('data-preview-refresh-route');
         // destroy and set-as-first routes are stored as a data attribute on "submit" button of the respective form
 
@@ -28,17 +29,18 @@ document.addEventListener('DOMContentLoaded', function () {
         mediaManager.addEventListener('click', function (e) {
 
             const target = e.target.closest('[data-action]');
-            const formElement = target.closest('[data-xhr-form]');
 
             if (!target) {// do not handle clicks om elements without data-action attribute
                 return;
-            } else {
-                e.stopPropagation();
             }
+
+            console.log('target', target);
+            const formElement = target.closest('[data-xhr-form]');
+            console.log('formElement', formElement);
 
             e.preventDefault();
             const action = target.getAttribute('data-action');
-
+            console.log(action);
 
             showSpinner(formElement);
 
@@ -54,15 +56,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
             const mediaManagerPreviewMediaContainer = target.closest('.media-manager-preview-media-container');
-            console.log(mediaManagerPreviewMediaContainer);
+            console.log('mediaManagerPreviewMediaContainer', mediaManagerPreviewMediaContainer);
             const routes = {
                 'upload-media': mediaUploadRoute,
                 'destroy-medium': mediaManagerPreviewMediaContainer?.getAttribute('data-destroy-route') || '',
                 'set-as-first': mediaManagerPreviewMediaContainer?.getAttribute('data-set-as-first-route') || '',
+                'upload-youtube-medium': youtubeUploadRoute,
             };
 
             const route = routes[action] || '';
 
+            console.log(route);
             if (route) {
                 fetch(route, {
                     method: 'POST',

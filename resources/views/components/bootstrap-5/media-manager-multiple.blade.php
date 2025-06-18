@@ -6,7 +6,8 @@
     ]) }}
     data-media-manager=""
     data-media-upload-route="{{ $mediaUploadRoute }}"
-    data-preview-refresh-route="{{ $previewRefreshRoute }}"
+    data-preview-refresh-route="{{ $previewRefreshRoute }}" 
+    data-media-youtube-upload-route="{{ $youtubeUploadRoute }}"
     data-model-type="{{ $model->getMorphClass() }}"
     data-model-id="{{ $model->getKey() }}"
     data-collection="{{ $mediaCollection }}"

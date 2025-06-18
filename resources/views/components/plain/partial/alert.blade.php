@@ -2,7 +2,8 @@
     <div {{ $attributes->class([
             'mle-status-message', 
             'mle-status-message-'.$status['type'],
-            $extraClasses
+            'mle-status-message-success' => $status['type'] === 'success',
+            'mle-status-message-error' => $status['type'] === 'error',
         ])->merge() }}
         data-status-message
     >

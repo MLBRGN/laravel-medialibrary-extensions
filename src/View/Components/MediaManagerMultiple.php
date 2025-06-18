@@ -17,6 +17,7 @@ class MediaManagerMultiple extends BaseComponent
     public Collection $media;
     public string $mediaUploadRoute;// upload form action route
     public string $previewRefreshRoute;// route to refresh preview media when using ajax
+    public string $youtubeUploadRoute;// route to upload youtube video using ajax
 
     public function __construct(
         public ?HasMedia $model = null,
@@ -70,6 +71,7 @@ class MediaManagerMultiple extends BaseComponent
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
         $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
         $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));
+        $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 //        $this->destroyRoute = route(mle_prefix_route('medium-destroy'));
 //        $this->setAsFirstRoute = route(mle_prefix_route('set-as-first'));
 

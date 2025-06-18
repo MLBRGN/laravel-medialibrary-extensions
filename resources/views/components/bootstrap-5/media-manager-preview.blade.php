@@ -102,8 +102,9 @@
         @endif
     </div>
 @endforeach
-{{--<x-mle-media-modal--}}
-{{--    :id="$id"--}}
-{{--    :model="$model"--}}
-{{--    :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"--}}
-{{--    title="Media carousel"/>--}}
+<x-mle-media-modal
+    :id="$id"
+    :model="$model"
+    :media-collection="$mediaCollection"
+    :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
+    title="Media carousel"/>

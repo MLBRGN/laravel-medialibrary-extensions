@@ -6,16 +6,19 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
-class Flash extends Component
+class Alert extends BaseComponent
 {
     public string $targetId;
     public ?array $status = null;
-    public ?string $extraClasses = null;
 
     public function __construct(
+        public string $id,
+        public ?string $frontendTheme,
         string $targetId
     ) {
+        parent::__construct($id, $frontendTheme);
         $this->targetId = $targetId;
         $statusKey = status_session_prefix();
 
@@ -27,14 +30,14 @@ class Flash extends Component
                 $this->status = $status;
             }
 
-            if (config('media-library-extensions.frontend_theme') === 'bootstrap-5') {
-                $this->extraClasses = 'w-100 alert ' . ($status['type'] === 'success' ? 'alert-success' : 'alert-danger');
-            }
+//            if ($theme === 'bootstrap-5') {
+//                $this->extraClasses = 'w-100 alert ' . ($status['type'] === 'success' ? 'alert-success' : 'alert-danger');
+//            }
         }
     }
 
     public function render(): View
     {
-        return view('media-library-extensions::components.partial.flash');
+        return $this->getPartialView('alert', $this->theme);
     }
 }

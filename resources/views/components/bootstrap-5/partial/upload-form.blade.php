@@ -6,10 +6,12 @@
     >
     <x-mle-spinner/>
 @else
-    <x-mle-partial-flash :target-id="$id"/>
+    <x-mle-partial-alert 
+        id="{{ $id.'-alert'}}"
+        :target-id="$id"/>
     <form
         {{ $attributes->class(['media-manager-upload-form']) }}
-        action="{{ $mediaUploadRoute }}"
+        action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))}}"
         enctype="multipart/form-data"
         method="post"
     >

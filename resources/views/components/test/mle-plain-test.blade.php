@@ -44,6 +44,7 @@
                 upload-enabled
                 destroy-enabled
                 frontend-theme="plain"
+                :use-xhr="config('media-library-extensions.use_xhr')"
                 />
 
             <h2>Media Manager Multiple</h2>
@@ -61,6 +62,7 @@
                 show-order
                 set-as-first-enabled
                 frontend-theme="plain"
+                :use-xhr="config('media-library-extensions.use_xhr')"
                 />
         
             <h2>Media Carousel</h2>
