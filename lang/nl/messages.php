@@ -5,6 +5,7 @@ return [
     'upload_failed_due_to_invalid_mimetype' => 'Upload mislukt door ongeldig bestandstype.',
     'upload_fail' => 'Upload mislukt.',
     'upload_no_files' => 'Geen bestanden geüpload.',
+    'upload_no_file' => 'Geen bestand geüpload.',
     'upload_no_youtube_url' => 'Geen YouTube URL.',
     'youtube_video_uploaded' => 'YouTube video geüpload.',
     'setup_as_main' => 'Instellen als hoofdmedium.',

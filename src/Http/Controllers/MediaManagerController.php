@@ -39,7 +39,6 @@ class MediaManagerController extends Controller
         $this->authorize('uploadMedia', Media::class);
 
         $targetId = $request->target_id;
-//        $collectionName = $request->collection_name;
         $imageCollectionName = $request->image_collection;
         $documentCollectionName = $request->document_collection;
         $field = config('media-library-extensions.upload_field_name_single');
@@ -78,14 +77,8 @@ class MediaManagerController extends Controller
         return $this->respondWithStatus(
             $request,
             $targetId,
-            'success',
-            __('media-library-extensions::messages.upload_success'),
-            $targetId
-        );
-        return $this->redirectBackWithStatus(
-            $targetId,
             'error',
-            __('media-library-extensions::messages.upload_no_files'),
+            __('media-library-extensions::messages.upload_no_file'),
             $targetId
         );
     }
@@ -222,7 +215,7 @@ class MediaManagerController extends Controller
         );
     }
 
-    public function destroy(MediaManagerDestroyRequest $request, Media $media): RedirectResponse
+    public function destroy(MediaManagerDestroyRequest $request, Media $media): RedirectResponse|JsonResponse
     {
         $targetId = $request->target_id;
 
@@ -239,7 +232,7 @@ class MediaManagerController extends Controller
 
     }
 
-    public function setAsFirst(SetAsFirstRequest $request): RedirectResponse
+    public function setAsFirst(SetAsFirstRequest $request): RedirectResponse|JsonResponse
     {
         $model = $this->getModel($request->model_type, $request->model_id);
         $this->authorize('reorderMedia', Media::class);
@@ -308,12 +301,6 @@ class MediaManagerController extends Controller
             'showMenu' => true,// TODO don't know why this is needed, but otherwise error
         ];
 
-//        $html = view('media-library-extensions::components.bootstrap-5.media-manager-preview', $data)->render();
-
-
-//        return response()->json([
-//            'html' => $html,
-//        ]);
         return response()->view('media-library-extensions::components.bootstrap-5.media-manager-preview', $data);
     }
 
