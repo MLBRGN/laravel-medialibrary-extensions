@@ -13,9 +13,6 @@ class UploadForm extends BaseComponent
     public bool $mediaPresent = false;
     public string $allowedMimeTypesHuman = '';
 
-    public string $formActionRoute;// upload form action route
-    public string $previewRefreshRoute;// route to refresh preview media when using ajax
-
     public function __construct(
 
         public ?HasMedia $model,
@@ -35,7 +32,6 @@ class UploadForm extends BaseComponent
 
     public function render(): View
     {
-//        dd($this->allowedMimeTypes);
         // TODO not right
         $allowedImageMimeTypesFromConfig = config('media-library-extensions.allowed_mimetypes.image', []);
         $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
@@ -44,13 +40,9 @@ class UploadForm extends BaseComponent
             ->join(', ');
         $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : collect(config('media-library-extensions.allowed_mimetypes.image'))->flatten()->join(', ');
 
-
         $this->mediaPresent = $this->model && $this->mediaCollection
             ? $this->model->hasMedia($this->mediaCollection)
             : false;
-
-        $this->formActionRoute = $this->multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'));
-        $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));// : route(mle_prefix_route('media-upload-single-preview'));
 
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 

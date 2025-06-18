@@ -3,7 +3,19 @@
     {{ $attributes->class([
         'mlbrgn-mle-component media-manager media-manager-multiple',
         'container-fluid px-0',
-    ]) }}>
+    ]) }}
+    data-media-upload-route="{{ $mediaUploadRoute }}"
+    data-preview-refresh-route="{{ $previewRefreshRoute }}"
+    data-model-type="{{ $model->getMorphClass() }}"
+    data-model-id="{{ $model->getKey() }}"
+    data-collection="{{ $mediaCollection }}"
+    data-youtube-collection="{{ $youtubeCollection }}"
+    data-document-collection="{{ $documentCollection }}"
+    data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
+    data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
+    data-csrf-token="{{ csrf_token() }}"
+    data-theme="bootstrap-5"
+    >
     <x-mle-partial-debug/>
 
     <div class="media-manager-row row">

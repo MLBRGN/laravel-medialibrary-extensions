@@ -13,7 +13,7 @@ class YouTubeUploadForm extends BaseComponent
 
     public bool $mediaPresent = false;
 
-    public string $formActionRoute;// upload form action route
+    public string $mediaUploadRoute;// upload form action route
     public string $previewRefreshRoute;// route to refresh preview media when using ajax
 
     public function __construct(
@@ -36,7 +36,7 @@ class YouTubeUploadForm extends BaseComponent
             ? $this->model->hasMedia($this->youtubeCollection)
             : false;
 
-        $this->formActionRoute = route(mle_prefix_route('media-upload-youtube'));
+        $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
         $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));// : route(mle_prefix_route('media-upload-single-preview'));
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
