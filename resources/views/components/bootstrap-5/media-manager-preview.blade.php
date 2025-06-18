@@ -1,5 +1,9 @@
 @foreach($media as $medium)
-    <div class="mlbrgn-mle-component media-manager-preview-media-container">
+    <div 
+        class="mlbrgn-mle-component media-manager-preview-media-container"
+    {{--    data-set-as-first-route="{{ $mediumSetAsFirstRoute }}"--}}
+    {{--    data-destroy-route="{{ $mediumDestroyRoute }}"--}}
+    >
         
         @if($medium->hasCustomProperty('youtube-id'))
             <div
@@ -51,54 +55,23 @@
                     @if($setAsFirstEnabled && $showOrder)
                         <div class="media-manager-order">{{ $medium->order_column }}</div>
                     @endif
-                    @if($setAsFirstEnabled)
-                        @if($medium->order_column === $media->min('order_column'))
-                            <button
-                                class="mle-button mle-button-icon btn btn-primary"
-                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                                disabled>
-                                <x-mle-partial-icon
-                                    name="{{ config('media-library-extensions.icons.set-as-main') }}"
-                                    title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
-                                />
-                            </button>
-                        @else
-                            <form
-                                class="media-manager-menu-form"
-                                action="{{ route(mle_prefix_route('set-as-first')) }}"
-                                method="post">
-                                @csrf
-                                <input type="hidden"
-                                       name="medium_id"
-                                       value="{{ $medium->id }}">
-                                <input type="hidden"
-                                       name="collection_name"
-                                       value="{{ $mediaCollection }}">
-                                <input type="hidden"
-                                       name="model_type"
-                                       value="{{ get_class($model) }}">
-                                <input type="hidden"
-                                       name="model_id"
-                                       value="{{ $model->id }}">
-                                <input type="hidden"
-                                       name="target_id"
-                                       value="{{ $id }}">
-                                <button
-                                    type="submit"
-                                    class="mle-button mle-button-icon btn btn-primary"
-                                    title="{{ __('media-library-extensions::messages.setup_as_main') }}">
-                                    <x-mle-partial-icon
-                                        name="{{ config('media-library-extensions.icons.setup_as_main') }}"
-                                        title="{{ __('media-library-extensions::messages.setup_as_main') }}"
-                                    />
-                                </button>
-                            </form>
-                        @endif
-                    @endif
+{{--                    <x-mle-partial-set-as-first-form--}}
+{{--                        :medium="$medium"--}}
+{{--                        :id="$id"--}}
+{{--                        :set-as-first-enabled="$setAsFirstEnabled"--}}
+{{--                        :media-collection="$mediaCollection"--}}
+{{--                        :model="$model"--}}
+{{--    --}}{{--                        :youtube-collection="$youtubeCollection"--}}
+{{--    --}}{{--                        :document-collection="$documentCollection"--}}
+{{--                    />--}}
                 </div>
                 <div class="media-manager-preview-image-menu-end d-flex align-items-center gap-1">
                     @if($destroyEnabled)
-                        <x-mle-partial-destroy-form :medium="$medium" :id="$id"/>
+                        <x-mle-partial-destroy-form 
+                            :medium="$medium" 
+                            :id="$id"
+    {{--                            data-destroy-route="{{ $mediumDestroyRoute }}"--}}
+                        />
                     @endif
                 </div>
             </div>

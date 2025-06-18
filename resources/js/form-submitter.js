@@ -1,34 +1,47 @@
 document.addEventListener('DOMContentLoaded', function () {
     // TODO better name for formDataContainer
-    const formDataContainers = document.querySelectorAll('[data-ajax-upload-form]');
+    const formElements = document.querySelectorAll('[data-ajax-upload-form]');
 
-    formDataContainers.forEach(formDataContainer => {
+    console.log(formElements);
+    formElements.forEach(formElement => {
 
-        const formActionRoute = formDataContainer.getAttribute('data-form-action-route');
-        const previewRefreshRoute = formDataContainer.getAttribute('data-preview-refresh-route');
-        const formButton = formDataContainer.querySelector('button');
-        const formContainer = formDataContainer.parentNode;
-        const mediaManagerId = formDataContainer.getAttribute('data-media-manager-id');
-        const csrfToken = formDataContainer.getAttribute('data-csrf-token');
-        const theme = formDataContainer.getAttribute('data-theme');
+        const mediaManagerId = formElement.getAttribute('data-media-manager-id');
+        const mediaManager = document.getElementById(mediaManagerId);
+
+        // routes
+        const mediaUploadRoute = mediaManager.getAttribute('data-media-upload-route');
+        const previewRefreshRoute = mediaManager.getAttribute('data-preview-refresh-route');
+        // destroy and set-as-first routes are stored as an data attribute on "submit" button of the respective form
+
+        const mediaManagerPreviews = mediaManager.querySelector('.media-manager-previews');
+        const formButton = formElement.querySelector('button');
+
+        // formContainer
+        const formContainer = mediaManager.querySelector('.media-manager-upload-form');
+        const csrfToken = mediaManager.getAttribute('data-csrf-token');
+        const theme = mediaManager.getAttribute('data-theme');
 
         // needed to refresh previews
-        const modelType = formDataContainer.getAttribute('data-model-type');
-        const modelId = formDataContainer.getAttribute('data-model-id');
-        const collection = formDataContainer.getAttribute('data-collection');
-        // const collections = formDataContainer.getAttribute('data-collections');
-        const youtubeCollection = formDataContainer.getAttribute('data-youtube-collection');
-        const documentCollection = formDataContainer.getAttribute('data-document-collection');
+        const modelType = mediaManager.getAttribute('data-model-type');
+        const modelId = mediaManager.getAttribute('data-model-id');
+        const collection = mediaManager.getAttribute('data-collection');
+        const youtubeCollection = mediaManager.getAttribute('data-youtube-collection');
+        const documentCollection = mediaManager.getAttribute('data-document-collection');
         console.log(modelType, modelId, collection, youtubeCollection, documentCollection);
 
         formButton.addEventListener('click', function (e) {
             e.preventDefault();
 
-            showSpinner(formDataContainer);
+            const button = e.target.closest('button');
+            console.log(button);
+
+            const action = formButton.getAttribute('data-action');
+
+            showSpinner(formElement);
 
             const formData = new FormData();
 
-            formDataContainer.querySelectorAll('input').forEach(input => {
+            formElement.querySelectorAll('input').forEach(input => {
                 if (input.type === 'file') {
                     [...input.files].forEach(file => {
                         formData.append(input.name, file);
@@ -38,78 +51,64 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            fetch(formActionRoute, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                },
-                body: formData,
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('data', data)
+            console.log('formData', formData);
 
-                    extraClasses = '';
+            const routes = {
+                'upload-media': mediaUploadRoute,
+                'destroy-medium': formButton.getAttribute('data-destroy-route') || '',
+                'set-as-first': formButton.getAttribute('data-set-as-first-route') || '',
+            };
 
-                    if (theme === 'bootstrap-5') {
-                        extraClasses += 'alert w-100 ';
-                        extraClasses += data.type === 'success' ? 'alert-success' : 'alert-danger';
-                    }
+            const route = routes[action] || '';
 
-                    showStatusMessage(formContainer, data, extraClasses);
-
-                    console.log(data.message);
-                    const flash = document.getElementById(formDataContainer.dataset.target + '-flash');
-                    if (flash && data.message) {
-                        flash.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                    }
-
-                    refreshMediaManager();
-
+            if (route) {
+                debugger;
+                fetch(route, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
                 })
-                .catch(error => {
-                    console.log('catch', error);
-                    console.log(error.response);
-                    // if (error.response.status === 422) {
-                    //     console.log('Validation errors:', error.response.data.errors);
-                    // } else {
-                    //     console.error('Upload failed:', error.response);
-                    // }
-                    // spinner?.classList.add('d-none');
-                    // alert('Upload failed. See console for details.');
-                    // console.error(error);
-                    refreshMediaManager('media_target_id', 'App\\Models\\Workplace', 1, 'images', 'youtube', 'documents');
+                    .then(async response => {
+                        const data = await response.json();
 
-                }).finally(() => {
-                    console.log('finally');
-                    hideSpinner(formDataContainer);
-                });
+                        if (!response.ok) {
+                            console.log('response not ok')
+                            const errorMessage = data?.message || 'Upload failed';
 
-            /*
-            .then(response => {
-    if (!response.ok) {
-        return response.json().then(errorData => Promise.reject(errorData));
-    }
-    return response.json();
-})
-.then(data => {
-    console.log('Success:', data);
-})
-.catch(error => {
-    console.error('Validation errors:', error.errors);
-});
-             */
+                            showStatusMessage(formContainer, {message: errorMessage, type: 'error'}, theme);
+                        } else {
 
+                            showStatusMessage(formContainer, data, theme);
 
+                            const flash = document.getElementById(formElement.dataset.target + '-flash');
+                            if (flash && data.message) {
+                                flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
+                            }
 
-
+                            refreshMediaManager();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during upload:', error);
+                        // Optionally show fallback error
+                    })
+                    .finally(() => {
+                        hideSpinner(formElement);
+                    });
+            } else {
+                showStatusMessage(formContainer, {
+                    type: 'error',
+                    message: 'invalid action'
+                }, theme);
+            }
         });
 
         // TODO
         function refreshMediaManager() {
             console.log('refresh');
-            const mediaManager = document.getElementById(mediaManagerId);
             const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
             if (!previewGrid) return;
 
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }).then(response => response.text())
                 .then(html => {
-                    console.log('html', html)
+                    // console.log('html', html)
                     previewGrid.innerHTML = html;
                 })
                 .catch(error => {
@@ -156,11 +155,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const showStatusMessage = (container, status, extraClasses = '') => {
+    const showStatusMessage = (container, status, theme) => {
 
-        console.log('showStatusMessage');
+        console.log('showStatusMessage', status.message);
 
-        // first remove previous status message (if any)
+        // first remove the previous status message (if any)
         const oldStatusMessage = container.querySelector('div[data-status-message]');
         oldStatusMessage?.remove();
 
@@ -168,6 +167,12 @@ document.addEventListener('DOMContentLoaded', function () {
         messageDiv.setAttribute('data-status-message', '');
         messageDiv.classList.add('mle-status-message');
         messageDiv.classList.add(`mle-status-message-${status.type}`);
+
+        let extraClasses = '';
+        if (theme === 'bootstrap-5') {
+            extraClasses += 'alert w-100 ';
+            extraClasses += status.type === 'success' ? 'alert-success' : 'alert-danger';
+        }
         if (extraClasses) {
             extraClasses.split(' ').forEach(cls => messageDiv.classList.add(cls));
         }

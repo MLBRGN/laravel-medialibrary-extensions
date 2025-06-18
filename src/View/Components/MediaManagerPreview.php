@@ -21,7 +21,6 @@ class MediaManagerPreview extends BaseComponent
         public string $mediaCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
-        public int $loopIndex,
         public string $id = '',
         public ?string $frontendTheme = null,
         public bool $destroyEnabled = false,
