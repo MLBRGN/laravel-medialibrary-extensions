@@ -13,7 +13,8 @@ class MediaManagerSingle extends BaseComponent
 {
 //    public ?Media $medium = null;
     public Collection $media;
-
+    public string $mediaUploadRoute;// upload form action route
+    public string $previewRefreshRoute;// route to refresh preview media when using ajax
 
     public string $allowedMimeTypes = '';
 
@@ -28,6 +29,7 @@ class MediaManagerSingle extends BaseComponent
         public ?string $frontendTheme = null,
         public string $documentCollection = '',
         public string $youtubeCollection = '',
+        public bool $setAsFirstEnabled = false,
         public ?bool $useXhr = true,
     ) {
         parent::__construct($id, $frontendTheme);
@@ -44,6 +46,8 @@ class MediaManagerSingle extends BaseComponent
             ->implode(',');
 
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
+        $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));
 
         $this->id = $this->id.'-media-manager-single';
 

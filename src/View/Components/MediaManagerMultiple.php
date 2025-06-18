@@ -15,6 +15,8 @@ class MediaManagerMultiple extends BaseComponent
 
     /** @var Collection<int, Media> */
     public Collection $media;
+    public string $mediaUploadRoute;// upload form action route
+    public string $previewRefreshRoute;// route to refresh preview media when using ajax
 
     public function __construct(
         public ?HasMedia $model = null,
@@ -30,7 +32,6 @@ class MediaManagerMultiple extends BaseComponent
         public string $id = '',
         public ?string $frontendTheme = null,
         public ?bool $useXhr = true,
-
     )
     {
         parent::__construct($id, $frontendTheme);
@@ -67,6 +68,10 @@ class MediaManagerMultiple extends BaseComponent
         $this->media = $collections;
 
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
+        $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));
+//        $this->destroyRoute = route(mle_prefix_route('medium-destroy'));
+//        $this->setAsFirstRoute = route(mle_prefix_route('set-as-first'));
 
         $this->id = $this->id.'-media-manager-multiple';
     }
