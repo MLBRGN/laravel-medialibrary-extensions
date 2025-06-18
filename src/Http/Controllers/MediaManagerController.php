@@ -225,7 +225,7 @@ class MediaManagerController extends Controller
         return $this->respondWithStatus(
             $request,
             $targetId,
-            'error',
+            'success',
             __('media-library-extensions::messages.medium_removed'),
             $targetId
         );
@@ -251,7 +251,7 @@ class MediaManagerController extends Controller
         return $this->respondWithStatus(
             $request,
             $targetId,
-            'error',
+            'success',
             __('media-library-extensions::messages.medium_set_as_main'),
             $targetId
         );

@@ -1,15 +1,19 @@
 @foreach($media as $medium)
     <div 
         class="mlbrgn-mle-component media-manager-preview-media-container"
-    {{--    data-set-as-first-route="{{ $mediumSetAsFirstRoute }}"--}}
-    {{--    data-destroy-route="{{ $mediumDestroyRoute }}"--}}
+        data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
+        data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
     >
         
         @if($medium->hasCustomProperty('youtube-id'))
+            
             <div
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-modal"
-                class="media-manager-preview-item-container">
+                class="media-manager-preview-item-container"
+{{--                data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"--}}
+{{--                data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"--}}
+            >
                 <x-mle-video-youtube
                     class="mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
@@ -25,7 +29,10 @@
                 <div
                     data-bs-toggle="modal"
                     data-bs-target="#{{$id}}-modal"
-                    class="media-manager-preview-item-container">
+                    class="media-manager-preview-item-container"
+{{--                    data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"--}}
+{{--                    data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"--}}
+                >
                     <x-mle-document :medium="$medium"
                                     class="previewed-document mle-cursor-zoom-in"
                                     data-bs-target="#{{ $id }}-modal-carousel"
@@ -36,7 +43,10 @@
                 <div
                     data-bs-toggle="modal"
                     data-bs-target="#{{$id}}-modal"
-                    class="media-manager-preview-item-container">
+                    class="media-manager-preview-item-container"
+{{--                    data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"--}}
+{{--                    data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"--}}
+                >
                     <x-mle-image-responsive
                         :medium="$medium"
                         class="media-manager-image-preview mle-cursor-zoom-in"
@@ -55,15 +65,29 @@
                     @if($setAsFirstEnabled && $showOrder)
                         <div class="media-manager-order">{{ $medium->order_column }}</div>
                     @endif
-{{--                    <x-mle-partial-set-as-first-form--}}
-{{--                        :medium="$medium"--}}
-{{--                        :id="$id"--}}
-{{--                        :set-as-first-enabled="$setAsFirstEnabled"--}}
-{{--                        :media-collection="$mediaCollection"--}}
-{{--                        :model="$model"--}}
-{{--    --}}{{--                        :youtube-collection="$youtubeCollection"--}}
-{{--    --}}{{--                        :document-collection="$documentCollection"--}}
-{{--                    />--}}
+                    @if($setAsFirstEnabled)
+                        @if($medium->order_column === $media->min('order_column'))
+                            <button
+                                class="mle-button mle-button-icon btn btn-primary"
+                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                                disabled>
+                                <x-mle-partial-icon
+                                    name="{{ config('media-library-extensions.icons.set-as-main') }}"
+                                    title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
+                                />
+                            </button>
+                        @else
+                            <x-mle-partial-set-as-first-form
+                                :medium="$medium"
+                                :id="$id"
+                                :set-as-first-enabled="$setAsFirstEnabled"
+                                :media-collection="$mediaCollection"
+                                :model="$model"
+                                :youtube-collection="$youtubeCollection"
+                                :document-collection="$documentCollection"
+                            />
+                        @endif
+                    @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end d-flex align-items-center gap-1">
                     @if($destroyEnabled)
@@ -78,3 +102,8 @@
         @endif
     </div>
 @endforeach
+{{--<x-mle-media-modal--}}
+{{--    :id="$id"--}}
+{{--    :model="$model"--}}
+{{--    :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"--}}
+{{--    title="Media carousel"/>--}}

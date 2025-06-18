@@ -12,7 +12,7 @@
     @else
         <form
             class="media-manager-menu-form"
-            action="{{ $mediumSetAsFirstRoute }}"
+            action="{{ mle_prefix_route('set-as-first', $medium) }}"
             method="post">
             @csrf
             <input type="hidden"

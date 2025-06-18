@@ -29,6 +29,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -103,6 +104,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-document', Document::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
+        Blade::component($this->packageNameShort.'-spinner', Spinner::class);
 
         // partials for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);

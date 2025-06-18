@@ -4,6 +4,7 @@
         'mlbrgn-mle-component media-manager media-manager-multiple',
         'container-fluid px-0',
     ]) }}
+    data-media-manager=""
     data-media-upload-route="{{ $mediaUploadRoute }}"
     data-preview-refresh-route="{{ $previewRefreshRoute }}"
     data-model-type="{{ $model->getMorphClass() }}"
@@ -65,17 +66,17 @@
                         :youtube-collection="$youtubeCollection"
                         :document-collection="$documentCollection"
                     />
-                    {{-- TODO title--}}
-                    <x-mle-media-modal
-                        :id="$id"
-                        :model="$model"
-                        :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
-                        title="Media carousel"/>
                 @else
                     {{-- TODO status class? --}}
                     <span>{{ __('media-library-extensions::messages.no_media') }}</span>
                 @endif
             </div>
+            {{-- TODO title--}}
+            <x-mle-media-modal
+                :id="$id"
+                :model="$model"
+                :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
+                title="Media carousel"/>
         </div>
     </div>
 </div>

@@ -1,14 +1,13 @@
 @if($useXhr)
     <div
         id="{{ $id }}-media-destroy-form"
-        data-ajax-upload-form
         class="media-manager-destroy-form"
-        data-media-manager-id="{{ $id }}"
+        data-xhr-form
     >
 @else
     <form
         {{ $attributes->class(['media-manager-preview-form']) }}
-        action="{{ $destroyRoute }}"
+        action="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
         method="post">
 @endif
         @csrf

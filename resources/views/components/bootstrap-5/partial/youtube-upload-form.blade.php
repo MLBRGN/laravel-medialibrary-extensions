@@ -1,9 +1,8 @@
 @if($useXhr)
     <div
         id="{{ $id }}-youtube-upload-form"
-        data-ajax-upload-form
         class="media-manager-youtube-upload-form"
-        data-media-manager-id="{{ $id }}"
+        data-xhr-form
     >
     <x-mle-spinner/>
 @else

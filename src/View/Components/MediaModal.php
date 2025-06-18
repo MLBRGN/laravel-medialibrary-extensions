@@ -16,7 +16,7 @@ class MediaModal extends BaseComponent
         public ?HasMedia $model,
         public ?string $mediaCollection,
         public ?array $mediaCollections,
-        public string $title,
+        public string $title,// TODO do i want this?
         public string $sizeClass = 'modal-almost-fullscreen',// TODO remove
         public string $id = '',
         public ?string $frontendTheme = null,

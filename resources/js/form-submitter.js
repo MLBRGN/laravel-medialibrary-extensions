@@ -1,20 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
     // TODO better name for formDataContainer
-    const formElements = document.querySelectorAll('[data-ajax-upload-form]');
 
-    console.log(formElements);
-    formElements.forEach(formElement => {
+    const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
-        const mediaManagerId = formElement.getAttribute('data-media-manager-id');
-        const mediaManager = document.getElementById(mediaManagerId);
+    console.log(mediaManagers);
+    mediaManagers.forEach(mediaManager => {
 
+        const mediaManagerId = mediaManager.id;
         // routes
         const mediaUploadRoute = mediaManager.getAttribute('data-media-upload-route');
         const previewRefreshRoute = mediaManager.getAttribute('data-preview-refresh-route');
-        // destroy and set-as-first routes are stored as an data attribute on "submit" button of the respective form
-
-        const mediaManagerPreviews = mediaManager.querySelector('.media-manager-previews');
-        const formButton = formElement.querySelector('button');
+        // destroy and set-as-first routes are stored as a data attribute on "submit" button of the respective form
 
         // formContainer
         const formContainer = mediaManager.querySelector('.media-manager-upload-form');
@@ -27,15 +23,22 @@ document.addEventListener('DOMContentLoaded', function () {
         const collection = mediaManager.getAttribute('data-collection');
         const youtubeCollection = mediaManager.getAttribute('data-youtube-collection');
         const documentCollection = mediaManager.getAttribute('data-document-collection');
-        console.log(modelType, modelId, collection, youtubeCollection, documentCollection);
 
-        formButton.addEventListener('click', function (e) {
+        console.log('adding click listener for:', mediaManagerId);
+        mediaManager.addEventListener('click', function (e) {
+
+            const target = e.target.closest('[data-action]');
+            const formElement = target.closest('[data-xhr-form]');
+
+            if (!target) {// do not handle clicks om elements without data-action attribute
+                return;
+            } else {
+                e.stopPropagation();
+            }
+
             e.preventDefault();
+            const action = target.getAttribute('data-action');
 
-            const button = e.target.closest('button');
-            console.log(button);
-
-            const action = formButton.getAttribute('data-action');
 
             showSpinner(formElement);
 
@@ -50,19 +53,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     formData.append(input.name, input.value);
                 }
             });
-
-            console.log('formData', formData);
-
+            const mediaManagerPreviewMediaContainer = target.closest('.media-manager-preview-media-container');
+            console.log(mediaManagerPreviewMediaContainer);
             const routes = {
                 'upload-media': mediaUploadRoute,
-                'destroy-medium': formButton.getAttribute('data-destroy-route') || '',
-                'set-as-first': formButton.getAttribute('data-set-as-first-route') || '',
+                'destroy-medium': mediaManagerPreviewMediaContainer?.getAttribute('data-destroy-route') || '',
+                'set-as-first': mediaManagerPreviewMediaContainer?.getAttribute('data-set-as-first-route') || '',
             };
 
             const route = routes[action] || '';
 
             if (route) {
-                debugger;
                 fetch(route, {
                     method: 'POST',
                     headers: {
