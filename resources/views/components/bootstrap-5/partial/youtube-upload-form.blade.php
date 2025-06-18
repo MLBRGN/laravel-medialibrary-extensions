@@ -1,4 +1,4 @@
-@if($useAjax)
+@if($useXHR)
     <div
         id="{{ $id }}-media-upload-form"
         data-ajax-upload-form
@@ -56,11 +56,11 @@
             placeholder="https://www.youtube.com/watch?v=..." 
         />
     <button
-        type="{{ $useAjax ? 'button' : 'submit' }}"
+        type="{{ $useXHR ? 'button' : 'submit' }}"
         class="btn btn-primary d-block mt-3">
         {{ __('media-library-extensions::messages.add_video') }}
     </button>
-@if($useAjax)
+@if($useXHR)
     </div>
     <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true"/>
 @else

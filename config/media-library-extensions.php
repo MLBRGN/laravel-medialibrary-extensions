@@ -77,16 +77,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | AJAX SUBMIT
+    |  XMLHttpRequest support
     |--------------------------------------------------------------------------
     |
-    | Use ajax to submit forms.
+    | Use XMLHttpRequest (ajax) to submit forms.
     | Benefit: this works in nested forms, when setting this value to false,
     | submitting forms inside components won't work when nested in a form
     |
     */
 
-    'ajax-submit' => true,
+    'use_xhr' =>  env('MEDIA_LIBRARY_EXTENSION_USE_XHR', true),
 
     /*
     |--------------------------------------------------------------------------

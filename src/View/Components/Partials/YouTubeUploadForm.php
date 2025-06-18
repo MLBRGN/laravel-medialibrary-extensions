@@ -28,7 +28,7 @@ class YouTubeUploadForm extends BaseComponent
         public bool $multiple = false,
         public bool $destroyEnabled = false,
         public bool $setAsFirstEnabled = false,
-        public bool $useAjax = true,
+        public ?bool $useXHR = null,
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -38,6 +38,7 @@ class YouTubeUploadForm extends BaseComponent
 
         $this->formActionRoute = route(mle_prefix_route('media-upload-youtube'));
         $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));// : route(mle_prefix_route('media-upload-single-preview'));
+        $this->useXHR = !is_null($this->useXHR) ? $this->useXHR : config('media-library-extensions.use_xhr');
 
     }
 

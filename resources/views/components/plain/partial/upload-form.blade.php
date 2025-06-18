@@ -4,7 +4,7 @@
     action="{{ $formAction }}"
     enctype="multipart/form-data"
     method="post"
-    @if($useAjax)
+    @if($useXHR)
         data-ajax="true"
         id="{{ $id.'-form' }}"
         {{--    data-target-id="my-media-manager"--}}

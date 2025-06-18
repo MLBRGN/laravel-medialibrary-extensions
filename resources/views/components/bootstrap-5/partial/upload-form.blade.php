@@ -1,4 +1,4 @@
-@if($useAjax)
+@if($useXHR)
     <div
         id="{{ $id }}-media-upload-form"
         data-ajax-upload-form
@@ -24,7 +24,7 @@
     <x-mle-partial-flash :target-id="$id"/>
     <form
         {{ $attributes->class(['media-manager-upload-form']) }}
-        action="{{ $formAction }}"
+        action="{{ $formActionRoute }}"
         enctype="multipart/form-data"
         method="post"
     >
@@ -72,13 +72,13 @@
             value="{{ $id }}">
         
         <button
-            type="{{ $useAjax ? 'button' : 'submit' }}"
+            type="{{ $useXHR ? 'button' : 'submit' }}"
             class="btn btn-primary d-block mt-3">
             {{ $multiple
              ? __('media-library-extensions::messages.upload_media')
              : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
         </button>
-@if($useAjax)
+@if($useXHR)
     </div>
     <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true"/>
 @else
