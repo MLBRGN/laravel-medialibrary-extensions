@@ -4,7 +4,6 @@
         class="media-manager-upload-form"
         data-xhr-form
     >
-    <x-mle-spinner/>
 @else
     <x-mle-partial-alert 
         id="{{ $id.'-alert'}}"

@@ -51,6 +51,7 @@
                     :use-xhr="$useXhr"
                 />
             @endif
+            <x-mle-spinner/>
         </div>
 
         <div class="media-manager-previews col-12 col-sm-8">

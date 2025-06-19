@@ -4,7 +4,6 @@
         class="media-manager-youtube-upload-form"
         data-xhr-form
     >
-    <x-mle-spinner/>
 @else
     <form
         {{ $attributes->class(['media-manager-youtube-upload-form']) }}

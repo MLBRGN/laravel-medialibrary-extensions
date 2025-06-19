@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // destroy and set-as-first routes are stored as a data attribute on "submit" button of the respective form
 
         // formContainer
-        const formContainer = mediaManager.querySelector('.media-manager-upload-form');
+        const formContainer = mediaManager.querySelector('.media-manager-form');
         const csrfToken = mediaManager.getAttribute('data-csrf-token');
         const theme = mediaManager.getAttribute('data-theme');
 
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const action = target.getAttribute('data-action');
             console.log(action);
 
-            showSpinner(formElement);
+            showSpinner(formContainer);
 
             const formData = new FormData();
 
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Optionally show fallback error
                     })
                     .finally(() => {
-                        hideSpinner(formElement);
+                        hideSpinner(formContainer);
                     });
             } else {
                 showStatusMessage(formContainer, {
@@ -147,7 +147,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function showSpinner(container) {
+        console.log('container', container);
         const spinnerContainer = container.querySelector('div[data-spinner-container]');
+        console.log('spinnerContainer', spinnerContainer);
         if (spinnerContainer) {
             spinnerContainer.classList.add('active');
         }
