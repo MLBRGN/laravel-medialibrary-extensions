@@ -20,28 +20,42 @@
         </div>
 
         <div class="media-manager-previews">
-            @if($medium)
+            @if($media->count() > 0)
                 <x-mle-media-manager-preview
-                    :medium="$medium"
+                    :media="$media"
                     :id="$id"
+                    :show-order="false"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="false"
-                    :is-first-in-collection="true"
                     :model="$model"
                     :media-collection="$mediaCollection"
                 />
-
-                <x-mle-media-modal
-                    :id="$id"
-                    :model="$model"
-                    :media-collection="$mediaCollection"
-                    :media="collect([$medium])"
-                    :inModal="true"
-                    :plainJs="true"
-                    title="Media carousel"/>
             @else
+                {{-- TODO status class? --}}
                 <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
             @endif
+{{--            @if($medium)--}}
+{{--                <x-mle-media-manager-preview--}}
+{{--                    :medium="$medium"--}}
+{{--                    :id="$id"--}}
+{{--                    :destroy-enabled="$destroyEnabled"--}}
+{{--                    :set-as-first-enabled="false"--}}
+{{--                    :is-first-in-collection="true"--}}
+{{--                    :model="$model"--}}
+{{--                    :media-collection="$mediaCollection"--}}
+{{--                />--}}
+
+{{--                <x-mle-media-modal--}}
+{{--                    :id="$id"--}}
+{{--                    :model="$model"--}}
+{{--                    :media-collection="$mediaCollection"--}}
+{{--                    :media="collect([$medium])"--}}
+{{--                    :inModal="true"--}}
+{{--                    :plainJs="true"--}}
+{{--                    title="Media carousel"/>--}}
+{{--            @else--}}
+{{--                <span>{{ __('media-library-extensions::messages.no_medium') }}</span>--}}
+{{--            @endif--}}
         </div>
     </div>
 </div>

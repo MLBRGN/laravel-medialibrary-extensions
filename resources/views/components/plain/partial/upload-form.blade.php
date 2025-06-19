@@ -1,7 +1,6 @@
-<x-mle-partial-alert :target-id="$id"/>
 <form
     {{ $attributes->class(['media-manager-upload-form']) }}
-    action="{{ $formAction }}"
+    action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))}}"
     enctype="multipart/form-data"
     method="post"
     @if($useXhr)

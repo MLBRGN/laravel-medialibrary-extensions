@@ -1,4 +1,3 @@
-{{--<x-mle-partial-alert :target-id="$id"/>--}}
 <form
     {{ $attributes->class(['media-manager-youtube-upload-form']) }}
     action="{{ route(mle_prefix_route('media-upload-youtube')) }}"
