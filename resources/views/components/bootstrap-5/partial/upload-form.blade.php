@@ -5,9 +5,6 @@
         data-xhr-form
     >
 @else
-    <x-mle-partial-alert 
-        id="{{ $id.'-alert'}}"
-        :target-id="$id"/>
     <form
         {{ $attributes->class(['media-manager-upload-form']) }}
         action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))}}"

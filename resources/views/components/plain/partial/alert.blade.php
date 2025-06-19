@@ -1,12 +1,14 @@
-@if ($status)
+<div class="status-container mle-flex-grow" data-status-container>
     <div {{ $attributes->class([
             'mle-status-message', 
-            'mle-status-message-'.$status['type'],
-            'mle-status-message-success' => $status['type'] === 'success',
-            'mle-status-message-error' => $status['type'] === 'error',
         ])->merge() }}
-        data-status-message
+        data-status-message 
+        data-base-classes="mle-status-message"
+        data-success-classes="mle-status-message-success"
+        data-error-classes="mle-status-message-error"
     >
+    @if ($status)
         {{$status['message'] }}
+    @endif
     </div>
-@endif
+</div>

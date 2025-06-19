@@ -18,18 +18,18 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreviewNew;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Alert;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Alert;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\StatusArea;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -104,7 +104,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-document', Document::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
-        Blade::component($this->packageNameShort.'-spinner', Spinner::class);
 
         // partials for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
@@ -115,6 +114,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-icon', Icon::class);
         Blade::component($this->packageNameShort.'-partial-alert', Alert::class);
         Blade::component($this->packageNameShort.'-partial-assets', Assets::class);
+        Blade::component($this->packageNameShort.'-partial-status-area', StatusArea::class);
+        Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
+
 
         // register policies
         $this->registerPolicy();

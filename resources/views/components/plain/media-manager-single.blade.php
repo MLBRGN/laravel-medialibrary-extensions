@@ -14,6 +14,9 @@
                     :id="$id"
                     :multiple="false"/>
             @endif
+            <x-mle-partial-status-area
+                id="{{ $id }}-status"
+                :target-id="$id"/>
         </div>
 
         <div class="media-manager-previews">

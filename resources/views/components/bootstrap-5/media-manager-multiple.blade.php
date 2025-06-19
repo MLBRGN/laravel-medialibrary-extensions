@@ -51,7 +51,10 @@
                     :use-xhr="$useXhr"
                 />
             @endif
-            <x-mle-spinner/>
+                
+            <x-mle-partial-status-area 
+            id="{{ $id }}-status"
+            :target-id="$id"/>
         </div>
 
         <div class="media-manager-previews col-12 col-sm-8">

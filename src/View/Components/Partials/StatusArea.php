@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
-class Alert extends BaseComponent
+class StatusArea extends BaseComponent
 {
     public string $targetId;
     public ?array $status = null;
@@ -19,6 +19,7 @@ class Alert extends BaseComponent
         string $targetId
     ) {
         parent::__construct($id, $frontendTheme);
+
         $this->targetId = $targetId;
         $statusKey = status_session_prefix();
 
@@ -34,6 +35,6 @@ class Alert extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('alert', $this->theme);
+        return $this->getPartialView('status-area', $this->theme);
     }
 }

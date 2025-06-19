@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     // TODO better name for formDataContainer
 
+    let statusMessageTimeout = null;
+
     const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
     console.log(mediaManagers);
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const target = e.target.closest('[data-action]');
 
-            if (!target) {// do not handle clicks om elements without data-action attribute
+            if (!target) {// do not handle clicks on elements without the "data-action" attribute
                 return;
             }
 
@@ -147,9 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function showSpinner(container) {
-        console.log('container', container);
+        hideStatusMessage(container);
         const spinnerContainer = container.querySelector('div[data-spinner-container]');
-        console.log('spinnerContainer', spinnerContainer);
         if (spinnerContainer) {
             spinnerContainer.classList.add('active');
         }
@@ -163,29 +164,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const showStatusMessage = (container, status, theme) => {
+        const statusContainer = container.querySelector('[data-status-container]');
+        const messageDiv = statusContainer?.querySelector('[data-status-message]');
 
-        console.log('showStatusMessage', status.message);
+        if (!statusContainer || !messageDiv) return;
 
-        // first remove the previous status message (if any)
-        const oldStatusMessage = container.querySelector('div[data-status-message]');
-        oldStatusMessage?.remove();
+        // Get classes from data attributes
+        const baseClasses = messageDiv.getAttribute('data-base-classes') || '';
+        const successClasses = messageDiv.getAttribute('data-success-classes') || '';
+        const errorClasses = messageDiv.getAttribute('data-error-classes') || '';
 
-        const messageDiv = document.createElement('div');
-        messageDiv.setAttribute('data-status-message', '');
-        messageDiv.classList.add('mle-status-message');
-        messageDiv.classList.add(`mle-status-message-${status.type}`);
+        // Reset base classes
+        messageDiv.className = baseClasses;
 
-        let extraClasses = '';
-        if (theme === 'bootstrap-5') {
-            extraClasses += 'alert w-100 ';
-            extraClasses += status.type === 'success' ? 'alert-success' : 'alert-danger';
-        }
-        if (extraClasses) {
-            extraClasses.split(' ').forEach(cls => messageDiv.classList.add(cls));
-        }
+        // Add status-specific classes
+        const classesToAdd = status.type === 'success' ? successClasses : errorClasses;
+        classesToAdd.split(' ').forEach(cls => {
+            if (cls.trim()) messageDiv.classList.add(cls.trim());
+        });
+
+        // Set the message text
         messageDiv.textContent = status.message;
 
-        container.prepend(messageDiv);
+        statusContainer.classList.add('visible');
+
+        // Cancel previous timeout if any
+        if (statusMessageTimeout) {
+            clearTimeout(statusMessageTimeout);
+        }
+
+        statusMessageTimeout = setTimeout(() => {
+            hideStatusMessage(container);
+        }, 5000);
     };
+
+    const hideStatusMessage = (container) => {
+        const statusWrapper = container.querySelector('[data-status-container]');
+        if (statusWrapper) statusWrapper.classList.remove('visible');
+    }
 
 });
