@@ -7,6 +7,21 @@
 @if($includeJs)
     @once
         <script src="{{ asset('vendor/media-library-extensions/app-'.$theme.'.js') }}"></script>
+        @php
+            $translations = [
+                'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),
+                'unauthenticated' => __('media-library-extensions::http.unauthenticated'),
+                'forbidden' => __('media-library-extensions::http.forbidden'),
+                'not_found' => __('media-library-extensions::http.not_found'),
+                'validation_failed' => __('media-library-extensions::http.validation_failed'),
+                'too_many_requests' => __('media-library-extensions::http.too_many_requests'),
+                'server_error' => __('media-library-extensions::http.server_error'),
+                'unknown_error' => __('media-library-extensions::http.unknown_error'),
+            ];
+        @endphp
+        <script>
+            window.mediaLibraryTranslations = {!! json_encode($translations) !!};
+        </script>
     @endonce
 @endif
 

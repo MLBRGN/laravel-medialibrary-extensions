@@ -13,6 +13,7 @@
 {{--            integrity="sha384-QWTKZyjpPEjISv5WaRU5M6QdFVb2l9gCk0GZg6CJWjvvoE5yOAy+n9C80+XW9HdT"--}}
             crossorigin="anonymous"
         >
+{{--        <link rel="icon" type="image/png" href="/favicon.icon" />--}}
     </head>
     <body>
         <div class="container-lg mt-5">

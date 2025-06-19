@@ -2,11 +2,15 @@
     --mlbrgn-mle-color-primary: #007bff;
     --mlbrgn-mle-color-primary-hover: #0056b3;
     --mlbrgn-mle-color-primary-contrast: #ffffff;
-    --mlbrgn-mle-color-secondary: #6c757d;
+    --mlbrgn-mle-color-secondary: #f8f9fa;
+    --mlbrgn-mle-color-secondary-hover: #e9ecef;
+    --mlbrgn-mle-color-secondary-contrast: #000;
     --mlbrgn-mle-color-accent: #ff5722;
     --mlbrgn-mle-container-bg-light: #e8e7e8;
     --mlbrgn-mle-container-bg: #cecdcf;
     --mlbrgn-mle-container-bg-dark: #b5b5b5;
+    --mlbrgn-mle-control-input-color: #000;
+
     --mlbrgn-mle-button-icon-bg: var(--mlbrgn-mle-container-bg-light);
     --mlbrgn-mle-button-icon-border-radius: .5em;
     --mlbrgn-mle-button-icon-width: 1em;
@@ -15,24 +19,35 @@
     --mlbrgn-mle-button-fg-color: var(--mlbrgn-mle-color-primary-contrast);
     --mlbrgn-mle-button-hover-bg-color: var(--mlbrgn-mle-color-primary-hover);
     --mlbrgn-mle-button-hover-fg-color: var(--mlbrgn-mle-color-primary-contrast);
+
+    --mlbrgn-mle-button-alt-icon-bg: var(--mlbrgn-mle-container-bg-light);
+    --mlbrgn-mle-button-alt-icon-border-radius: .5em;
+    --mlbrgn-mle-button-alt-icon-width: 1em;
+    --mlbrgn-mle-button-alt-icon-height: 1em;
+    --mlbrgn-mle-button-alt-bg-color: var(--mlbrgn-mle-color-secondary);
+    --mlbrgn-mle-button-alt-fg-color: var(--mlbrgn-mle-color-secondary-contrast);
+    --mlbrgn-mle-button-alt-hover-bg-color: var(--mlbrgn-mle-color-secondary-hover);
+    --mlbrgn-mle-button-alt-hover-fg-color: var(--mlbrgn-mle-color-secondary-contrast);
+
     --mlbrgn-mle-menu-bg: var(--mlbrgn-mle-container-bg-dark);
     --carousel-focus-outline-color:  var(--mlbrgn-mle-color-primary);
+
     --mlbrgn-mle-modal-close-button-bg: var(--mlbrgn-mle-color-primary);
     --mlbrgn-mle-control-border-width: 1px;
-    --mlbrgn-mle-control-border-color: #dee2e6;
+    --mlbrgn-mle-control-border-color: var(--mlbrgn-mle-color-secondary);
     --mlbrgn-mle-control-border-radius:0.375rem;
     --mlbrgn-mle-control-focus-outline-color: var(--mlbrgn-mle-color-primary);
     --mlbrgn-mle-control-bg-color: var(--mlbrgn-mle-color-primary-contrast);
     --mlbrgn-mle-control-fg-color: var(--mlbrgn-mle-color-primary);
-    --mlbrgn-mle-control-input-color: black;
     --mlbrgn-mle-control-hover-bg-color: var(--mlbrgn-mle-color-primary-hover);
     --mlbrgn-mle-control-hover-fg-color: var(--mlbrgn-mle-color-primary-contrast);
     --mlbrgn-mle-control-hover-bg-opacity: 30%;
     --mlbrgn-mle-control-non-active-color: var(--mlbrgn-mle-color-primary-contrast);
     --mlbrgn-mle-control-active-color: var(--mlbrgn-mle-color-primary);
     --mlbrgn-mle-control-bg-opacity: 70%;
-    --mlbrgn-mle-file-selector-button-bg-color: #f8f9fa;
-    --mlbrgn-mle-file-selector-button-fg-color: black;
-    --mlbrgn-mle-file-selector-button-hover-bg-color: #e9ecef;
-    --mlbrgn-mle-file-selector-button-hover-fg-color: black;
+
+    --mlbrgn-mle-file-selector-button-bg-color: var(--mlbrgn-mle-color-secondary);
+    --mlbrgn-mle-file-selector-button-fg-color: var(--mlbrgn-mle-color-secondary-contrast);
+    --mlbrgn-mle-file-selector-button-hover-bg-color: var(--mlbrgn-mle-color-secondary-hover);
+    --mlbrgn-mle-file-selector-button-hover-fg-color: var(--mlbrgn-mle-color-secondary-contrast);
 }

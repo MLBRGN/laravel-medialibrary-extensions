@@ -102,6 +102,10 @@
         @endif
     </div>
 @endforeach
+{{--@dump('just before modal')--}}
+{{--@dump($mediaCollection)--}}
+{{--@dump($youtubeCollection)--}}
+{{--@dump($documentCollection)--}}
 <x-mle-media-modal
     :id="$id"
     :model="$model"

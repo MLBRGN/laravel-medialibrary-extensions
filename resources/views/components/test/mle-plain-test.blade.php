@@ -5,25 +5,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>Component tests: theme plain</title>
-{{--        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app.css') }}">--}}
-{{--        <script src="{{ asset('vendor/media-library-extensions/app.js') }}"></script>--}}
-   <style>
-       body {
+    <meta charset="UTF-8">
+    <title>Component tests: theme plain</title>
+    <style>
+        body {
            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-       }
-       h2 {
+        }
+        h2 {
            margin-block:1.5em;
-       }
-       @media (min-width: 1400px) {
+        }
+        @media (min-width: 1400px) {
            .mle-container-lg {
                max-width: 1320px;
                margin-right: auto;
                margin-left: auto;
            }
-       }
-   </style>
+        }
+    </style>
+{{--    <link rel="icon" type="image/png" href="/favicon.icon" />--}}
+
     </head>
     <body>
         <div class="mle-container-lg">
@@ -53,7 +53,6 @@
                 id="blog-images"
                 :model="$model"
                 media-collection="blog-images"
-                image-collection="blog-images"
                 youtube-collection="blog-youtube-videos"
                 document-collection="blog-documents"
                 class="mt-5"
@@ -61,7 +60,7 @@
                 destroy-enabled
                 show-order
                 set-as-first-enabled
-                frontend-theme="plain"
+                frontend-theme="bootstrap-5"
                 :use-xhr="config('media-library-extensions.use_xhr')"
                 />
         

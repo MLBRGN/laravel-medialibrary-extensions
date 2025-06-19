@@ -1,15 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // TODO better name for formDataContainer
-
     let statusMessageTimeout = null;
 
     const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
-    console.log('mediaManagers:', mediaManagers);
-    console.log(mediaManagers);
     mediaManagers.forEach(mediaManager => {
 
-        console.log('MediaManager:', mediaManager);
         const mediaManagerId = mediaManager.id;
         // routes
         const mediaUploadRoute = mediaManager.getAttribute('data-media-upload-route');
@@ -48,18 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(action);
 
             showSpinner(formContainer);
+            const formData = getFormData(formElement);
 
-            const formData = new FormData();
-
-            formElement.querySelectorAll('input').forEach(input => {
-                if (input.type === 'file') {
-                    [...input.files].forEach(file => {
-                        formData.append(input.name, file);
-                    });
-                } else {
-                    formData.append(input.name, input.value);
-                }
-            });
             const mediaManagerPreviewMediaContainer = target.closest('.media-manager-preview-media-container');
             console.log('mediaManagerPreviewMediaContainer', mediaManagerPreviewMediaContainer);
             const routes = {
@@ -71,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const route = routes[action] || '';
 
-            console.log(route);
             if (route) {
                 fetch(route, {
                     method: 'POST',
@@ -85,21 +69,19 @@ document.addEventListener('DOMContentLoaded', function () {
                         const data = await response.json();
 
                         if (!response.ok) {
-                            console.log('response not ok')
-                            const errorMessage = data?.message || 'Upload failed';
-
-                            showStatusMessage(formContainer, {message: errorMessage, type: 'error'}, theme);
-                        } else {
-
-                            showStatusMessage(formContainer, data, theme);
-
-                            const flash = document.getElementById(formElement.dataset.target + '-flash');
-                            if (flash && data.message) {
-                                flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
-                            }
-
-                            refreshMediaManager();
+                            handleAjaxError(response, data, formContainer, theme);
+                            return;
                         }
+
+                        showStatusMessage(formContainer, data, theme);
+
+                        const flash = document.getElementById(formElement.dataset.target + '-flash');
+                        if (flash && data.message) {
+                            flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
+                        }
+
+                        refreshMediaManager();
+                        resetFields(formElement);
                     })
                     .catch(error => {
                         console.error('Error during upload:', error);
@@ -116,31 +98,29 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // TODO
         function refreshMediaManager() {
-            console.log('refresh');
             const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
             if (!previewGrid) return;
 
-            console.log('youtube_collection', youtubeCollection)
-            console.log('document_collection', documentCollection)
             const params = new URLSearchParams({
                 model_type: modelType,
                 model_id: modelId,
                 collection: collection,
                 youtube_collection: youtubeCollection,
                 document_collection: documentCollection,
-                target_id: mediaManagerId
+                target_id: mediaManagerId,
+                // show_order: showOrder,
+                // destroyEnabled: true,
+                // setAsFirstEnabled: true,
             });
-            console.log('previewRefreshRoute', previewRefreshRoute)
             fetch(`${previewRefreshRoute}?${params}`, {
                 headers: {
                     'Accept': 'text/html'
                 }
-            }).then(response => response.text())
-                .then(html => {
+            }).then(response => response.json())
+                .then(json => {
                     // console.log('html', html)
-                    previewGrid.innerHTML = html;
+                    previewGrid.innerHTML = json.html;
                 })
                 .catch(error => {
                     console.error('Error refreshing media manager:', error);
@@ -204,6 +184,76 @@ document.addEventListener('DOMContentLoaded', function () {
     const hideStatusMessage = (container) => {
         const statusWrapper = container.querySelector('[data-status-container]');
         if (statusWrapper) statusWrapper.classList.remove('visible');
+    }
+
+    function handleAjaxError(response, data, formContainer, theme) {
+        let errorMessage = trans('upload_failed'); // default fallback message
+
+        switch (response.status) {
+            case 419:
+                errorMessage = trans('csrf_token_mismatch');
+                break;
+            case 401:
+                errorMessage = trans('unauthenticated');
+                break;
+            case 403:
+                errorMessage = trans('forbidden');
+                break;
+            case 404:
+                errorMessage = trans('not_found');
+                break;
+            case 422:
+                if (data.errors) {
+                    // Show all validation errors
+                    for (const field in data.errors) {
+                        data.errors[field].forEach(msg => {
+                            showStatusMessage(formContainer, { message: msg, type: 'error' }, theme);
+                        });
+                    }
+                    return; // return
+                }
+                errorMessage = data.message || trans('validation_failed');// default
+                break;
+            case 429:
+                errorMessage = trans('too_many_requests');
+                break;
+            case 500:
+            case 503:
+                errorMessage = trans('server_error');
+                break;
+            default:
+                errorMessage = data.message || errorMessage;
+                break;
+        }
+
+        showStatusMessage(formContainer, { message: errorMessage, type: 'error' }, theme);
+    }
+
+    function trans(key) {
+        return window.mediaLibraryTranslations?.[key] || key;
+    }
+
+    function getFormData (formElement) {
+        const formData = new FormData();
+
+        formElement.querySelectorAll('input').forEach(input => {
+            if (input.type === 'file') {
+                [...input.files].forEach(file => {
+                    formData.append(input.name, file);
+                });
+            } else {
+                formData.append(input.name, input.value);
+            }
+        });
+        return formData;
+    }
+
+    function resetFields(formElement) {
+        formElement.querySelectorAll('input').forEach(input => {
+            if (input.type !== 'hidden') {
+                input.value = '';
+            }
+        });
     }
 
 });

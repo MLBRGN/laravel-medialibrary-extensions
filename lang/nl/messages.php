@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'upload_success' => 'Upload was successful!',
+    'upload_success' => 'Upload geslaagd.',
     'upload_failed_due_to_invalid_mimetype' => 'Upload mislukt door ongeldig bestandstype.',
     'upload_fail' => 'Upload mislukt.',
     'upload_no_files' => 'Geen bestanden geüpload.',

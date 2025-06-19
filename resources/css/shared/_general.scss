@@ -111,8 +111,20 @@
     .mle-button-icon {
         margin:0;
         margin-inline-start: .5rem;
+        width: 30px;
+        aspect-ratio: 1 / 1;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--mlbrgn-mle-button-alt-bg-color);
+        color: var(--mlbrgn-mle-button-alt-fg-color);
     }
 
+    .mle-button-icon:hover {
+        background-color: var(--mlbrgn-mle-button-alt-hover-bg-color);
+        color: var(--mlbrgn-mle-button-alt-hover-fg-color);
+    }
 
     .mle-youtube-play-button {
         position:absolute;

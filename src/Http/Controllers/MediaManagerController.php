@@ -8,12 +8,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -258,50 +260,31 @@ class MediaManagerController extends Controller
     }
 
     // used by ajax to refresh previews of images after upload / delete / new order
-    public function getMediaPreviewerHTML(GetMediaPreviewerHTMLRequest $request): Response
+    public function getMediaPreviewerHTML(GetMediaPreviewerHTMLRequest $request): Response|JsonResponse
     {
-//        if (! $request->ajax()) {
-//            abort(403, __('media-library-extensions::messages.no_permission'));
-//        }
+        $youtubeCollection = $request->input('youtube_collection');
+        $documentCollection = $request->input('document_collection');
 
+        $component = new MediaManagerPreview(
+            model: $this->getModel($request->model_type, $request->model_id),
+            mediaCollection: $request->input('collection'),
+            youtubeCollection: $request->input('youtube_collection'),
+            documentCollection: $request->input('document_collection'),
+            id: $request->input('target_id'),
+            destroyEnabled: true,
+            setAsFirstEnabled: true,
+            showOrder: false,
+        );
 
-//        dd($request->model_type, $request->model_id);
+        $html = Blade::renderComponent($component);
 
-        $model = $this->getModel($request->model_type, $request->model_id);
-        $mediaCollection = $request->collection;
-        $youtubeCollection = $request->youtube_collection;
-        $documentCollection = $request->documentCollection;
-
-        $collections = collect();
-        if ($model) {
-            if ($mediaCollection) {
-                $collections = $collections->merge($model->getMedia($mediaCollection));
-            }
-
-            if ($youtubeCollection) {
-                $collections = $collections->merge($model->getMedia($youtubeCollection));
-            }
-
-            if ($documentCollection) {
-                $collections = $collections->merge($model->getMedia($documentCollection));
-            }
-        }
-        $media = $collections;
-
-        $data = [
-            'media' => $media,
-            'id' => $request->input('target_id'),
-            'model' => $model,
-            'mediaCollection' => $request->input('collection'),
-            'youtubeCollection' => $request->input('youtube_collection'),
-            'documentCollection' => $request->input('document_collection'),
-            'showOrder' => true, // or fetch from request
-            'destroyEnabled' => true,
-            'setAsFirstEnabled' => true,
-            'showMenu' => true,// TODO don't know why this is needed, but otherwise error
-        ];
-
-        return response()->view('media-library-extensions::components.bootstrap-5.media-manager-preview', $data);
+        return response()->json([
+            'html' => $html,
+            'success' => true,
+            'target' => $request->input('target_id'),
+            // optionally include other metadata
+        ]);
+//        return response($html);
     }
 
     protected function respondWithStatus(Request $request, string $targetId, string $type, string $message, ?string $fragmentIdentifier = null): JsonResponse|RedirectResponse

@@ -13,9 +13,12 @@ function getJsFiles(dir) {
         .map(file => path.relative(__dirname, path.join(dir, file)))
 }
 
+const faviconPath = path.resolve(__dirname, 'resources/assets/images/favicon.ico');
+
 const inputFiles = [
     ...getJsFiles(jsDir),
     ...getJsFiles(sharedDir),
+    faviconPath,
 ]
 
 export default defineConfig({
@@ -37,8 +40,12 @@ export default defineConfig({
         emptyOutDir: true,
         rollupOptions: {
             output: {
-                entryFileNames: '[name].js',
-                assetFileNames: '[name].css',
+                // entryFileNames: '[name].js',
+                // assetFileNames: '[name].css',
+                entryFileNames: '[name].js',      // for entry points
+                chunkFileNames: '[name].js',      // for code-split chunks
+                assetFileNames: '[name][extname]',
+
             },
         },
         manifest: false,
