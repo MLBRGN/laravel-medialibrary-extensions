@@ -2,7 +2,21 @@
     id="{{ $id }}"
     {{ $attributes->class([
         'mlbrgn-mle-component media-manager media-manager-multiple',
-    ]) }}>
+    ]) }}
+    data-media-manager=""
+    data-media-upload-route="{{ $mediaUploadRoute }}"
+    data-preview-refresh-route="{{ $previewRefreshRoute }}"
+    data-media-youtube-upload-route="{{ $youtubeUploadRoute }}"
+    data-model-type="{{ $model->getMorphClass() }}"
+    data-model-id="{{ $model->getKey() }}"
+    data-collection="{{ $mediaCollection }}"
+    data-youtube-collection="{{ $youtubeCollection }}"
+    data-document-collection="{{ $documentCollection }}"
+    data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
+    data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
+    data-csrf-token="{{ csrf_token() }}"
+    data-theme="{{ $theme }}"
+>
 
     <x-mle-partial-debug/>
 
@@ -19,6 +33,7 @@
                     :multiple="true"/>
             @endif
             @if($youtubeCollection)
+                <hr>
                 <x-mle-partial-youtube-upload-form
                     class="mt-3"
                     :youtube-collection="$youtubeCollection"

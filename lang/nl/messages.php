@@ -34,4 +34,7 @@ return [
     'play_video' => 'Video afspelen',
     'supported_file_formats_:supported_formats' => 'Ondersteunde bestandsformaten: :supported_formats.',
     'no_permission' => 'Geen permissie.',
+    'unknown-file-mime-type' => 'Onbekend bestandstype.',
+    'word-document' => 'Word document.',
+    'pdf-document' => 'PDF document.',
 ];

@@ -5,9 +5,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
+    console.log('mediaManagers:', mediaManagers);
     console.log(mediaManagers);
     mediaManagers.forEach(mediaManager => {
 
+        console.log('MediaManager:', mediaManager);
         const mediaManagerId = mediaManager.id;
         // routes
         const mediaUploadRoute = mediaManager.getAttribute('data-media-upload-route');
@@ -32,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const target = e.target.closest('[data-action]');
 
+            console.log('click', target);
             if (!target) {// do not handle clicks on elements without the "data-action" attribute
                 return;
             }

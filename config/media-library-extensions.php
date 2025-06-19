@@ -187,6 +187,9 @@ return [
         'close' => 'bi-x-lg',
         'next' => 'bi-chevron-right',
         'prev' => 'bi-chevron-left',
+        'pdf-document' => 'bi-file-earmark-pdf',
+        'word-document' => 'bi-file-earmark-word',
+        'unknown-file-mime-type' => 'bi-file-earmark'
     ],
 
     /*

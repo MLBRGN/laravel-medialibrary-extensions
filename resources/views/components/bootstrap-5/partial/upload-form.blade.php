@@ -30,7 +30,7 @@
                 type="file"
                 class="mle-input form-control">
         @endif
-        <span class="form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
+        <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
         <input
             type="hidden"
             name="image_collection"
@@ -56,7 +56,7 @@
         
         <button
             type="{{ $useXhr ? 'button' : 'submit' }}"
-            class="btn btn-primary d-block mt-3"
+            class="mle-button btn btn-primary d-block"
             data-action="upload-media"
         >
             {{ $multiple

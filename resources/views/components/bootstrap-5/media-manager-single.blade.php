@@ -1,5 +1,6 @@
 {{--TODO try to unify multiple with single view--}}
-<div id="{{ $id }}" 
+<div 
+    id="{{ $id }}" 
     {{ $attributes->class([
         'mlbrgn-mle-component media-manager media-manager-multiple',
         'container-fluid px-0',
@@ -15,7 +16,7 @@
     data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
     data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
     data-csrf-token="{{ csrf_token() }}"
-    data-theme="bootstrap-5"
+    data-theme="{{ $theme }}"
     >
     <x-mle-partial-debug/>
 
@@ -34,6 +35,7 @@
                 />
             @endif
             @if($youtubeCollection)
+                <hr>
                 <x-mle-partial-youtube-upload-form
                     class="mt-3"
                     :youtube-collection="$youtubeCollection"

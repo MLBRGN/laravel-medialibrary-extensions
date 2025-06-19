@@ -9,8 +9,8 @@
         {{ $attributes->class(['media-manager-youtube-upload-form']) }}
         action="{{ route(mle_prefix_route('media-upload-youtube')) }}"
         method="post">
-        @csrf
 @endif
+    @csrf
     <input
         type="hidden"
         name="collection_name"
@@ -41,8 +41,9 @@
         />
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
-        class="btn btn-primary d-block mt-3"
-        data-action="upload-youtube-medium">
+        class="mle-button btn btn-primary d-block"
+        data-action="upload-youtube-medium"
+    >
         {{ __('media-library-extensions::messages.add_video') }}
     </button>
 @if($useXhr)

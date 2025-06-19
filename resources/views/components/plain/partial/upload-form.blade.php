@@ -1,14 +1,17 @@
-<form
-    {{ $attributes->class(['media-manager-upload-form']) }}
-    action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))}}"
-    enctype="multipart/form-data"
-    method="post"
-    @if($useXhr)
-        data-ajax="true"
-        id="{{ $id.'-form' }}"
-        {{--    data-target-id="my-media-manager"--}}
-    @endif
+@if($useXhr)
+    <div
+        id="{{ $id }}-media-upload-form"
+        class="media-manager-upload-form"
+        data-xhr-form
     >
+@else
+    <form
+        {{ $attributes->class(['media-manager-upload-form']) }}
+        action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))}}"
+        enctype="multipart/form-data"
+        method="post"
+    >
+@endif
     @csrf
     <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
     @if($multiple)
@@ -27,7 +30,7 @@
             type="file"
             class="mle-input custom-file-input">
     @endif
-    <span class="form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
+    <span class="mle-form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
         type="hidden"
         name="image_collection"
@@ -51,10 +54,17 @@
         name="target_id"
         value="{{ $id }}">
     <button
-        type="submit"
-        class="mle-button mle-upload-button">
+        type="{{ $useXhr ? 'button' : 'submit' }}"
+        class="mle-button mle-upload-button"
+        data-action="upload-media"
+    >
         {{ $multiple
          ? __('media-library-extensions::messages.upload_media')
          : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
-</form>
+@if($useXhr)
+    </div>
+    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true"/>
+@else
+    </form>
+@endif
