@@ -38,4 +38,5 @@ return [
     'word-document' => 'Word document.',
     'pdf-document' => 'PDF document.',
     'show_document' => 'Toon document.',
+    'demo_mode_disabled' => 'Demo modus is uitgeschakeld.',
 ];

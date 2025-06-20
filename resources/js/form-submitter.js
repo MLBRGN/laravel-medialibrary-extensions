@@ -102,6 +102,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
             if (!previewGrid) return;
 
+            if (!modelType || !modelId || !collection || !youtubeCollection || !documentCollection || !mediaManagerId) {
+                debugger;
+                throw new Error('missing required params')
+            }
             const params = new URLSearchParams({
                 model_type: modelType,
                 model_id: modelId,

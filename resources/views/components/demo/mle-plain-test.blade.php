@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Component tests: theme plain</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        h2 {
+            margin-block: 1.5em;
+        }
+
+        @media (min-width: 1400px) {
+            .mle-container-lg {
+                max-width: 1320px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+        }
+    </style>
+    {{--    <link rel="icon" type="image/png" href="/favicon.icon" />--}}
+
+</head>
+<body>
+<div class="mle-container-lg">
+    <h1 class="text-primary">Component tests: theme plain</h1>
+
+    <h2>Media Manager Single</h2>
+
+    <x-mle-media-manager-single
+        id="blog-main"
+        :model="$model"
+        media-collection="alien-single-image"
+        document-collection="alien-single-document"
+        youtube-collection="alien-single-youtube-video"
+        class="mt-5"
+        upload-enabled
+        destroy-enabled
+        frontend-theme="plain"
+        :use-xhr="config('media-library-extensions.use_xhr')"
+    />
+
+    <h2>Media Manager Multiple</h2>
+
+    <x-mle-media-manager-multiple
+        id="blog-images"
+        :model="$model"
+        media-collection="alien-multiple-images"
+        document-collection="alien-multiple-documents"
+        youtube-collection="alien-multiple-youtube-videos"
+        class="mt-5"
+        upload-enabled
+        destroy-enabled
+        show-order
+        set-as-first-enabled
+        frontend-theme="bootstrap-5"
+        :use-xhr="config('media-library-extensions.use_xhr')"
+    />
+
+    <h2>Media Carousel</h2>
+
+    <x-mle-media-carousel
+        id="blog-media"
+        :model="$model"
+        :media-collections="[
+                    'alien-single-image', 
+                    'alien-single-document', 
+                    'alien-single-youtube-video',
+                    'alien-multiple-images', 
+                    'alien-multiple-documents', 
+                    'alien-multiple-youtube-videos'
+                ]"
+        class="mt-5"
+        frontend-theme="plain"
+    />
+</div>
+</body>
+</html>

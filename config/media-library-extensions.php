@@ -14,6 +14,18 @@ return [
     'debug' => false,
 
     /*
+     |--------------------------------------------------------------------------
+     | Demo mode
+     |--------------------------------------------------------------------------
+     |
+     | When enabled uses a separate mysql-database.
+     | Used by the demo pages to not interfere with the host application's database
+     |
+     */
+
+    'demo_mode' => env('MEDIA_LIBRARY_EXTENSIONS_DEMO_MODE', false),
+
+    /*
     |--------------------------------------------------------------------------
     | Frontend theme
     |--------------------------------------------------------------------------

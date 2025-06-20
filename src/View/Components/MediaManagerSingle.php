@@ -21,23 +21,18 @@ class MediaManagerSingle extends BaseComponent
     public function __construct(
         public ?HasMedia $model = null,
         public ?string $mediaCollection = null,
+        public string $documentCollection = '',
+        public string $youtubeCollection = '',
         public bool $uploadEnabled = false,
         public string $uploadFieldName = 'medium',
         public bool $destroyEnabled = false,
         public bool $showMediaUrl = false,
         public string $id = '',
         public ?string $frontendTheme = null,
-        public string $documentCollection = '',
-        public string $youtubeCollection = '',
         public bool $setAsFirstEnabled = false,
         public ?bool $useXhr = true,
     ) {
         parent::__construct($id, $frontendTheme);
-
-        // get medium only ever working with one medium
-//        $this->medium = $model->getFirstMedia($mediaCollection);
-        // NOTE: for simplicity and consistency with media manager multiple using getMedia for a collection although there should be only 1 medidum
-        $this->media = $model->getMedia($mediaCollection);
 
         // set allowed mimetypes
         $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))
@@ -48,6 +43,28 @@ class MediaManagerSingle extends BaseComponent
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
         $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
         $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));
+
+        // get medium only ever working with one medium
+//        $this->medium = $model->getFirstMedia($mediaCollection);
+        // NOTE: for simplicity and consistency with media manager multiple using getMedia for a collection although there should be only 1 medidum
+        $this->media = $model->getMedia($mediaCollection);
+
+        // TODO either a document, youtube video or image?
+//        $collections = collect();
+//        if ($model) {
+//            if ($mediaCollection) {
+//                $collections = $collections->merge($model->getMedia($mediaCollection));
+//            }
+//
+//            if ($youtubeCollection) {
+//                $collections = $collections->merge($model->getMedia($youtubeCollection));
+//            }
+//
+//            if ($documentCollection) {
+//                $collections = $collections->merge($model->getMedia($documentCollection));
+//            }
+//        }
+//        $this->media = $collections;
 
         $this->id = $this->id.'-media-manager-single';
 
