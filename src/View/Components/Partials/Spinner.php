@@ -7,19 +7,18 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
-use function Mlbrgn\MediaLibraryExtensions\View\Components\getPartialView;
 
 class Spinner extends BaseComponent
 {
-    public string $targetId;
+    public string $initiatorId;
 
     public function __construct(
         public string $id,
         public ?string $frontendTheme,
-        string $targetId
+        string $initiatorId
     ) {
         parent::__construct($id, $frontendTheme);
-        $this->targetId = $targetId;
+        $this->initiatorId = $initiatorId;
     }
     public function render(): View
     {

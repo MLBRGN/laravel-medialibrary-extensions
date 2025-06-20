@@ -25,7 +25,7 @@
         value="{{ $model->id }}">
     <input
         type="hidden"
-        name="target_id"
+        name="initiator_id"
         value="{{ $id }}">
         <label 
             for="{{ $id }}-youtube-url" 

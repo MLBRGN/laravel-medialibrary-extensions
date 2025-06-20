@@ -20,7 +20,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Alert;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
@@ -112,7 +112,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-set-as-first-form', SetAsFirstForm::class);
         Blade::component($this->packageNameShort.'-partial-debug', Debug::class);
         Blade::component($this->packageNameShort.'-partial-icon', Icon::class);
-        Blade::component($this->packageNameShort.'-partial-alert', Alert::class);
+        Blade::component($this->packageNameShort.'-partial-status', Status::class);
         Blade::component($this->packageNameShort.'-partial-assets', Assets::class);
         Blade::component($this->packageNameShort.'-partial-status-area', StatusArea::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);

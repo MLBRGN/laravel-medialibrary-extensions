@@ -8,25 +8,25 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
-class Alert extends BaseComponent
+class Status extends BaseComponent
 {
-    public string $targetId;
+    public string $initiatorId;
     public ?array $status = null;
 
     public function __construct(
         public string $id,
         public ?string $frontendTheme,
-        string $targetId
+        string $initiatorId
     ) {
         parent::__construct($id, $frontendTheme);
-        $this->targetId = $targetId;
+        $this->initiatorId = $initiatorId;
         $statusKey = status_session_prefix();
 
         if (session()->has($statusKey)) {
             $status = session($statusKey);
 
-            // Only set status if the target matches the component's targetId
-            if (isset($status['target']) && $status['target'] === $this->targetId) {
+            // Only set status if the target matches the component's initiatorId
+            if (isset($status['initiator_id']) && $status['initiator_id'] === $this->initiatorId) {
                 $this->status = $status;
             }
         }
@@ -34,6 +34,6 @@ class Alert extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('alert', $this->theme);
+        return $this->getPartialView('status', $this->theme);
     }
 }

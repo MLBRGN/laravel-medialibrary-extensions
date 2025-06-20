@@ -19,7 +19,7 @@
     data-csrf-token="{{ csrf_token() }}"
     data-theme="{{ $theme }}"
     >
-    <x-mle-partial-debug/>
+    <x-mle-partial-debug :theme="$theme"/>
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
             @if($uploadEnabled)
@@ -55,8 +55,8 @@
             @endif
                 
             <x-mle-partial-status-area 
-            id="{{ $id }}-status"
-            :target-id="$id"/>
+            id="{{ $id }}"
+            :initiator-id="$id"/>
         </div>
 
         <div class="media-manager-previews col-12 col-sm-8">

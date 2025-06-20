@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             return;
                         }
 
-                        showStatusMessage(formContainer, data, theme);
+                        showStatusMessage(formContainer, data);
 
                         const flash = document.getElementById(formElement.dataset.target + '-flash');
                         if (flash && data.message) {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showStatusMessage(formContainer, {
                     type: 'error',
                     message: 'invalid action'
-                }, theme);
+                });
             }
         });
 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 collection: collection,
                 youtube_collection: youtubeCollection,
                 document_collection: documentCollection,
-                target_id: mediaManagerId,
+                initiator_id: mediaManagerId,
                 // show_order: showOrder,
                 // destroyEnabled: true,
                 // setAsFirstEnabled: true,
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const showStatusMessage = (container, status, theme) => {
+    const showStatusMessage = (container, status) => {
         const statusContainer = container.querySelector('[data-status-container]');
         const messageDiv = statusContainer?.querySelector('[data-status-message]');
 
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Show all validation errors
                     for (const field in data.errors) {
                         data.errors[field].forEach(msg => {
-                            showStatusMessage(formContainer, { message: msg, type: 'error' }, theme);
+                            showStatusMessage(formContainer, { message: msg, type: 'error' });
                         });
                     }
                     return; // return
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
         }
 
-        showStatusMessage(formContainer, { message: errorMessage, type: 'error' }, theme);
+        showStatusMessage(formContainer, { message: errorMessage, type: 'error' });
     }
 
     function trans(key) {

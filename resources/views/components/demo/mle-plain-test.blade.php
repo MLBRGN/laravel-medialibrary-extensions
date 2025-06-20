@@ -56,7 +56,7 @@
         destroy-enabled
         show-order
         set-as-first-enabled
-        frontend-theme="bootstrap-5"
+        frontend-theme="plain"
         :use-xhr="config('media-library-extensions.use_xhr')"
     />
 

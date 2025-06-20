@@ -39,4 +39,5 @@ return [
     'pdf-document' => 'PDF document.',
     'show_document' => 'Toon document.',
     'demo_mode_disabled' => 'Demo mode is disabled.',
+    'no_blade_ui_kit_icon_package_detected_download_at_:link' => 'No "Blade UI Kit icon package" detected download at :link',
 ];

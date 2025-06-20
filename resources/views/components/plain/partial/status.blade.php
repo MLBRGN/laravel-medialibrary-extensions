@@ -1,6 +1,8 @@
-<div class="status-container mle-flex-grow" data-status-container>
+<div class="status-container mle-flex-grow visible" data-status-container>
     <div {{ $attributes->class([
             'mle-status-message', 
+            'mle-status-message-success' => ($status && $status['type'] === 'success'),
+            'mle-status-message-error' => ($status && $status['type'] === 'error'),
         ])->merge() }}
         data-status-message 
         data-base-classes="mle-status-message"

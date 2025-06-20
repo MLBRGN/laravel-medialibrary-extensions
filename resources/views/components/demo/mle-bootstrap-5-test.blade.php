@@ -40,7 +40,7 @@
             class="mt-5"
             upload-enabled
             destroy-enabled
-            show-order
+            :show-order="true"
             set-as-first-enabled
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"

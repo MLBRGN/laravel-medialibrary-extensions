@@ -11,7 +11,7 @@ return [
      |
      */
 
-    'debug' => false,
+    'debug' => env('MEDIA_LIBRARY_EXTENSIONS_DEBUG', false),
 
     /*
      |--------------------------------------------------------------------------
@@ -34,8 +34,7 @@ return [
     |
     */
 
-    'frontend_theme' => 'bootstrap-5',
-//        'frontend_theme' => 'plain',
+    'frontend_theme' => env('MEDIA_LIBRARY_EXTENSIONS_FRONTEND_THEME', 'bootstrap-5'),
 
     /*
     |--------------------------------------------------------------------------
@@ -72,7 +71,7 @@ return [
     |
     */
 
-    'route_middleware' => env('MEDIA_LIBRARY_EXTENSIONS_ROUTE_MIDDLEWARE', ['web', 'auth']),
+    'route_middleware' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ROUTE_MIDDLEWARE', 'web,auth')),
 
     /*
     |--------------------------------------------------------------------------
@@ -110,7 +109,7 @@ return [
     |
     */
 
-    'max_upload_size' => env('MLE_MAX_FILE_SIZE', 1024 * 1024 * 16),
+    'max_upload_size' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_FILE_SIZE', 1024 * 1024 * 16),
 
     /*
     |--------------------------------------------------------------------------
@@ -120,7 +119,7 @@ return [
     | The maximum items in a single media collection
     |
     */
-    'max_items_in_collection' => 10,
+    'max_items_in_collection' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_ITEMS_IN_COLLECTION', 10),
 
     /*
     |--------------------------------------------------------------------------
@@ -132,25 +131,9 @@ return [
     */
 
     'allowed_mimetypes' => [
-        'image' => [
-            'image/jpeg',
-            'image/png',
-            'image/gif',
-            'image/bmp',
-            'image/webp',
-            'image/heic',
-            'image/avif',
-        ],
-        'video' => [
-            'video/mp4',
-            'video/quicktime',
-            'video/x-msvideo',
-        ],
-        'document' => [
-            'application/pdf',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        ],
+        'image' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_IMAGE_MIMETYPES', 'image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif')),
+        'video' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_VIDEO_MIMETYPES', 'video/mp4,video/quicktime,video/x-msvideo')),
+        'document' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES', 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
     ],
 
     'mimeTypeLabels' => [
@@ -178,8 +161,8 @@ return [
     |
     */
 
-    'max_image_width' => env('MLE_MAX_IMAGE_WIDTH', 1920),
-    'max_image_height' => env('MLE_MAX_IMAGE_HEIGHT', 1080),
+    'max_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_WIDTH', 1920),
+    'max_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_HEIGHT', 1080),
 
     /*
     |--------------------------------------------------------------------------
@@ -192,16 +175,16 @@ return [
     */
 
     'icons' => [
-        'delete' => 'bi-trash3',
-        'setup_as_main' => 'bi-star',
-        'set-as-main' => 'bi-star-fill',
-        'play_video' => 'bi-play-fill',
-        'close' => 'bi-x-lg',
-        'next' => 'bi-chevron-right',
-        'prev' => 'bi-chevron-left',
-        'pdf-document' => 'bi-file-earmark-pdf',
-        'word-document' => 'bi-file-earmark-word',
-        'unknown-file-mime-type' => 'bi-file-earmark'
+        'delete' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_DELETE', 'bi-trash3'),
+        'setup_as_main' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_SETUP_AS_MAIN', 'bi-star'),
+        'set-as-main' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_SET_AS_MAIN', 'bi-star-fill'),
+        'play_video' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PLAY_VIDEO', 'bi-play-fill'),
+        'close' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_CLOSE', 'bi-x-lg'),
+        'next' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_NEXT', 'bi-chevron-right'),
+        'prev' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PREV', 'bi-chevron-left'),
+        'pdf-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PDF', 'bi-file-earmark-pdf'),
+        'word-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_WORD', 'bi-file-earmark-word'),
+        'unknown-file-mime-type' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_UNKNOWN', 'bi-file-earmark'),
     ],
 
     /*
@@ -212,10 +195,10 @@ return [
     |
     */
 
-    'carousel_ride' => false, // Automatically switch slides
-    'carousel_ride_interval' => 3000, // Time between slides
-    'carousel_ride_only_after_interaction' => false, // Only slide after first interaction with carousel
-    'carousel_fade' => false, // slide effect true for "fade" false for "slide" (bootstrap only)
+    'carousel_ride' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_RIDE', false), // Automatically switch slides
+    'carousel_ride_interval' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_RIDE_INTERVAL', 3000), // Time between slides
+    'carousel_ride_only_after_interaction' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_RIDE_ONLY_AFTER_INTERACTION', false), // Only slide after first interaction with carousel
+    'carousel_fade' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_FADE', false), // slide effect true for "fade" false for "slide" (bootstrap only)
 
     /*
     |--------------------------------------------------------------------------
@@ -227,7 +210,7 @@ return [
     |
     */
 
-    'show_status_in_components' => true,
+    'show_status' => env('MEDIA_LIBRARY_EXTENSIONS_SHOW_STATUS', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -239,7 +222,7 @@ return [
     |
     */
 
-    'status_session_prefix' => 'laravel-medialibrary-extensions.status',
+    'status_session_prefix' => env('MEDIA_LIBRARY_EXTENSIONS_STATUS_SESSION_PREFIX', 'laravel-medialibrary-extensions.status'),
 
     /*
     |--------------------------------------------------------------------------
@@ -250,7 +233,7 @@ return [
     |
     */
 
-    'youtube_support_enabled' => true,
+    'youtube_support_enabled' => env('MEDIA_LIBRARY_EXTENSIONS_YOUTUBE_SUPPORT_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------

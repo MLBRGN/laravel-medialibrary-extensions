@@ -15,10 +15,11 @@ class Debug extends Component
     public array $errors = [];
 
     public function __construct(
+        public ?string $theme = null,
     ) {
         $iconExists = $this->iconExists = collect(Blade::getClassComponentAliases())->keys()->contains(config('media-library-extensions.icons.delete'));
         if (! $iconExists) {
-            $this->errors[] = 'Please require the correct <a href="https://github.com/driesvints/blade-icons" target="_blank">Blade UI Kit icon package</a> for icons to display and set the right icons in the configuration of this package.';
+            $this->errors[] = __('media-library-extensions::messages.no_blade_ui_kit_icon_package_detected_download_at_:link', ['link' => '<a href="https://github.com/driesvints/blade-icons" target="_blank">Blade UI Kit icon package</a>']);
         }
     }
 

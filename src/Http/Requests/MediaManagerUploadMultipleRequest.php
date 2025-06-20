@@ -56,7 +56,7 @@ class MediaManagerUploadMultipleRequest extends FormRequest
                 'max:'.config('media-library-extensions.max_upload_size'),
             ],
             'youtube_url' => ['nullable', 'url', 'regex:/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//'],
-            'target_id' => ['required', 'string'],
+            'initiator_id' => ['required', 'string'],
         ];
     }
 }

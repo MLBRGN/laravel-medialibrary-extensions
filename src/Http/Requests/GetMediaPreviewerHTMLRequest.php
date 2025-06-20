@@ -30,7 +30,7 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'collection' => ['required', 'string'],
             'youtube_collection' => ['nullable', 'string'],
             'document_collection' => ['nullable', 'string'],
-            'target_id' => ['required', 'string'],
+            'initiator_id' => ['required', 'string'],
         ];
     }
 }

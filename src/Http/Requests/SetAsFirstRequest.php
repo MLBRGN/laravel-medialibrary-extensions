@@ -24,7 +24,7 @@ class SetAsFirstRequest extends FormRequest
             'model_id' => 'required|string',
             'collection_name' => ['required', 'string'],
             'medium_id' => 'required|string',
-            'target_id' => ['required', 'string'],
+            'initiator_id' => ['required', 'string'],
         ];
     }
 }

@@ -14,7 +14,7 @@
     @method('DELETE')
     <input 
         type="hidden" 
-        name="target_id" 
+        name="initiator_id" 
         value="{{ $id }}">
     <button
             type="{{ $useXhr ? 'button' : 'submit' }}"

@@ -4,9 +4,9 @@
         data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
         data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
     >
-        
+
         @if($medium->hasCustomProperty('youtube-id'))
-            
+
             <div
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-modal"
@@ -61,10 +61,17 @@
         @endif
         @if($showMenu)
             <div class="media-manager-preview-menu">
-                <div>
-                    @if($setAsFirstEnabled && $showOrder)
-                        <div class="media-manager-order">{{ $medium->order_column }}</div>
+                <div class="media-manager-preview-image-menu-start">
+                    @if($showOrder)
+                        <span
+                            class="mle-pseudo-button mle-pseudo-button-icon"
+                            title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                        >
+                            {{ $medium->order_column }}
+                        </span>
                     @endif
+                </div>
+                <div class="media-manager-preview-image-menu-end">
                     @if($setAsFirstEnabled)
                         @if($medium->order_column === $media->min('order_column'))
                             <button
@@ -88,8 +95,6 @@
                             />
                         @endif
                     @endif
-                </div>
-                <div class="media-manager-preview-image-menu-end d-flex align-items-center gap-1">
                     @if($destroyEnabled)
                         <x-mle-partial-destroy-form 
                             :medium="$medium" 
@@ -102,10 +107,6 @@
         @endif
     </div>
 @endforeach
-{{--@dump('just before modal')--}}
-{{--@dump($mediaCollection)--}}
-{{--@dump($youtubeCollection)--}}
-{{--@dump($documentCollection)--}}
 <x-mle-media-modal
     :id="$id"
     :model="$model"

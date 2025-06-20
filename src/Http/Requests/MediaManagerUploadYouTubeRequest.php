@@ -35,7 +35,7 @@ class MediaManagerUploadYouTubeRequest extends FormRequest
             'model_id' => ['required', 'string'],
             'collection_name' => ['required', 'string'],
              $uploadFieldName => ['nullable', 'url', 'regex:/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//'],
-            'target_id' => ['required', 'string'],
+            'initiator_id' => ['required', 'string'],
         ];
     }
 }

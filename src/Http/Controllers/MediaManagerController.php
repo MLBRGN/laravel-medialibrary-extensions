@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
@@ -40,9 +39,9 @@ class MediaManagerController extends Controller
     {
 
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('uploadMedia', Media::class);
+//        $this->authorize('uploadMedia', Media::class);
 
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
         $imageCollectionName = $request->image_collection;
         $documentCollectionName = $request->document_collection;
         $field = config('media-library-extensions.upload_field_name_single');
@@ -65,10 +64,10 @@ class MediaManagerController extends Controller
                 // early return when one of the files is not supported
                 return $this->respondWithStatus(
                     $request,
-                    $targetId,
+                    $initiatorId,
                     'error',
                     __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
-                    $targetId
+                    $initiatorId
                 );
             }
 
@@ -78,18 +77,18 @@ class MediaManagerController extends Controller
 
             return $this->respondWithStatus(
                 $request,
-                $targetId,
+                $initiatorId,
                 'success',
                 __('media-library-extensions::messages.upload_success'),
-                $targetId
+                $initiatorId
             );
         }
         return $this->respondWithStatus(
             $request,
-            $targetId,
+            $initiatorId,
             'error',
             __('media-library-extensions::messages.upload_no_file'),
-            $targetId
+            $initiatorId
         );
     }
 
@@ -101,9 +100,9 @@ class MediaManagerController extends Controller
     {
 
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('uploadMedia', Media::class);
+//        $this->authorize('uploadMedia', Media::class);
 
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
         $imageCollectionName = $request->image_collection;
         $documentCollectionName = $request->document_collection;
 
@@ -120,10 +119,10 @@ class MediaManagerController extends Controller
                 } else {
                     return $this->respondWithStatus(
                         $request,
-                        $targetId,
+                        $initiatorId,
                         'error',
                         __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
-                        $targetId
+                        $initiatorId
                     );
                 }
 
@@ -133,10 +132,10 @@ class MediaManagerController extends Controller
 
             return $this->respondWithStatus(
                 $request,
-                $targetId,
+                $initiatorId,
                 'success',
                 __('media-library-extensions::messages.upload_success'),
-                $targetId
+                $initiatorId
             );
 
         }
@@ -165,10 +164,10 @@ class MediaManagerController extends Controller
 
         return $this->respondWithStatus(
             $request,
-            $targetId,
+            $initiatorId,
             'error',
             __('media-library-extensions::messages.upload_no_files'),
-            $targetId
+            $initiatorId
         );
 
     }
@@ -180,9 +179,9 @@ class MediaManagerController extends Controller
         }
 
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('uploadMedia', Media::class);
+//        $this->authorize('uploadMedia', Media::class);
 
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
         $collectionName = $request->collection_name;
         $field = config('media-library-extensions.upload_field_name_youtube');
 
@@ -209,27 +208,27 @@ class MediaManagerController extends Controller
 
             return $this->respondWithStatus(
                 $request,
-                $targetId,
+                $initiatorId,
                 'success',
                 __('media-library-extensions::messages.youtube_video_uploaded'),
-                $targetId
+                $initiatorId
             );
         }
 
         return $this->respondWithStatus(
             $request,
-            $targetId,
+            $initiatorId,
             'error',
             __('media-library-extensions::messages.upload_no_youtube_url'),
-            $targetId
+            $initiatorId
         );
     }
 
     public function destroy(MediaManagerDestroyRequest $request, Media $media): RedirectResponse|JsonResponse
     {
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
 
-        $this->authorize('deleteMedia', $media);
+//        $this->authorize('deleteMedia', $media);
 
         if (config('media-library-extensions.demo_mode')) {
             $media->setConnection('media_demo');
@@ -245,10 +244,10 @@ class MediaManagerController extends Controller
 
         return $this->respondWithStatus(
             $request,
-            $targetId,
+            $initiatorId,
             'success',
             __('media-library-extensions::messages.medium_removed'),
-            $targetId
+            $initiatorId
         );
 
     }
@@ -256,9 +255,9 @@ class MediaManagerController extends Controller
     public function setAsFirst(SetAsFirstRequest $request): RedirectResponse|JsonResponse
     {
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('reorderMedia', Media::class);
+//        $this->authorize('reorderMedia', Media::class);
         $collectionName = $request->collection_name;
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
         $mediumId = (int) $request->medium_id;
 
         $media = $model->getMedia($collectionName);
@@ -285,10 +284,10 @@ class MediaManagerController extends Controller
 
         return $this->respondWithStatus(
             $request,
-            $targetId,
+            $initiatorId,
             'success',
             __('media-library-extensions::messages.medium_set_as_main'),
-            $targetId
+            $initiatorId
         );
     }
 
@@ -303,7 +302,7 @@ class MediaManagerController extends Controller
             mediaCollection: $request->input('collection'),
             documentCollection: $request->input('document_collection'),
             youtubeCollection: $request->input('youtube_collection'),
-            id: $request->input('target_id'),
+            id: $request->input('initiator_id'),
             destroyEnabled: true,
             setAsFirstEnabled: true,
             showOrder: false,
@@ -314,17 +313,17 @@ class MediaManagerController extends Controller
         return response()->json([
             'html' => $html,
             'success' => true,
-            'target' => $request->input('target_id'),
+            'target' => $request->input('initiator_id'),
             // optionally include other metadata
         ]);
 //        return response($html);
     }
 
-    protected function respondWithStatus(Request $request, string $targetId, string $type, string $message, ?string $fragmentIdentifier = null): JsonResponse|RedirectResponse
+    protected function respondWithStatus(Request $request, string $initiatorId, string $type, string $message, ?string $fragmentIdentifier = null): JsonResponse|RedirectResponse
     {
         if ($request->expectsJson()) {
             return response()->json([
-                'target_id' => $targetId,
+                'initiator_id' => $initiatorId,
                 'type' => $type,
                 'message' => $message,
             ]);
@@ -332,7 +331,7 @@ class MediaManagerController extends Controller
 
         $redirect = redirect()->back()
             ->with(status_session_prefix(), [
-                'target' => $targetId,
+                'initiator_id' => $initiatorId,
                 'type' => $type,
                 'message' => $message,
             ]);

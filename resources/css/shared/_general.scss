@@ -260,6 +260,13 @@
         stroke-width: 1px;
     }
 
+    .mle-debug {
+        padding:1rem;
+        background-color: var(--mlbrgn-mle-container-bg);
+        color: var(--mlbrgn-mle-container-fg-color);
+        margin-bottom:1rem;
+    }
+
     @keyframes spin {
         to {
             transform: rotate(360deg);
