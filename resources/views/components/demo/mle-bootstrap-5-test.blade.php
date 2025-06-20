@@ -9,7 +9,6 @@
         {{--            integrity="sha384-QWTKZyjpPEjISv5WaRU5M6QdFVb2l9gCk0GZg6CJWjvvoE5yOAy+n9C80+XW9HdT"--}}
         crossorigin="anonymous"
     >
-    {{--        <link rel="icon" type="image/png" href="/favicon.icon" />--}}
 </head>
 <body>
 <div class="container-lg mt-5">
@@ -49,6 +48,8 @@
 
         <h2 class="my-5">Media Carousel</h2>
 
+        <p>NOTE: This carousel does not update when XHR is used in media managers, only on page refresh.</p>
+
         <x-mle-media-carousel
             id="blog-media"
             :model="$model"
@@ -60,7 +61,7 @@
                         'alien-multiple-documents', 
                         'alien-multiple-youtube-videos'
                     ]"
-            class="mt-5"
+            class="my-5"
             frontend-theme="bootstrap-5"
         />
     </div>

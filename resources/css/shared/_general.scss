@@ -255,6 +255,11 @@
         }
     }
 
+    .media-modal-close-button svg path {
+        stroke: currentColor;
+        stroke-width: 1px;
+    }
+
     @keyframes spin {
         to {
             transform: rotate(360deg);

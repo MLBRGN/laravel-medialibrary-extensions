@@ -111,4 +111,5 @@
     :model="$model"
     :media-collection="$mediaCollection"
     :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
+    :video-auto-play="true"
     title="Media carousel"/>

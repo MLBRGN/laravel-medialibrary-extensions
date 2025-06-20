@@ -11,6 +11,10 @@
         h2 {
             margin-block: 1.5em;
         }
+        
+        .demo-media-carousel {
+            margin-block: 3rem;
+        }
 
         @media (min-width: 1400px) {
             .mle-container-lg {
@@ -20,8 +24,6 @@
             }
         }
     </style>
-    {{--    <link rel="icon" type="image/png" href="/favicon.icon" />--}}
-
 </head>
 <body>
 <div class="mle-container-lg">
@@ -35,7 +37,6 @@
         media-collection="alien-single-image"
         document-collection="alien-single-document"
         youtube-collection="alien-single-youtube-video"
-        class="mt-5"
         upload-enabled
         destroy-enabled
         frontend-theme="plain"
@@ -60,6 +61,8 @@
     />
 
     <h2>Media Carousel</h2>
+    
+    <p>NOTE: This carousel does not update when XHR is used in media managers, only on page refresh.</p>
 
     <x-mle-media-carousel
         id="blog-media"
@@ -72,7 +75,7 @@
                     'alien-multiple-documents', 
                     'alien-multiple-youtube-videos'
                 ]"
-        class="mt-5"
+        class="demo-media-carousel"
         frontend-theme="plain"
     />
 </div>
