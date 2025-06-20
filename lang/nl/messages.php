@@ -37,4 +37,5 @@ return [
     'unknown-file-mime-type' => 'Onbekend bestandstype.',
     'word-document' => 'Word document.',
     'pdf-document' => 'PDF document.',
+    'show_document' => 'Toon document.',
 ];

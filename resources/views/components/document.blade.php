@@ -23,10 +23,14 @@
 @endphp
 
 <div {{ $attributes->merge(['class' => 'mle-document']) }}>
-    <x-mle-partial-icon
-        :name="$icon['name']"
-        :title="$icon['title']"
-    />
-
-    <p>{{ getHumanMimeTypeLabel($mime) }}</p>
+    <div class="mle-document-preview">
+        <a href="{{ $medium->getUrl() }}" target="_blank">
+            <x-mle-partial-icon
+                :name="$icon['name']"
+                :title="$icon['title']"
+            />
+{{--        <p>{{ getHumanMimeTypeLabel($mime) }}</p>--}}
+{{--        {{ __('media-library-extensions::messages.show_document') }}--}}
+        </a>
+    </div>
 </div>
