@@ -32,13 +32,12 @@ class UploadForm extends BaseComponent
 
     public function render(): View
     {
-        // TODO not right
-        $allowedImageMimeTypesFromConfig = config('media-library-extensions.allowed_mimetypes.image', []);
+        $allowedMimeTypesFromConfig = collect(config('media-library-extensions.allowed_mimetypes', []))->flatten();
         $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
-        $this->allowedMimeTypesHuman = collect($allowedImageMimeTypesFromConfig)
+        $this->allowedMimeTypesHuman = $allowedMimeTypesFromConfig
             ->map(fn ($mime) => $mimeTypeLabels[$mime] ?? $mime)
             ->join(', ');
-        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : collect(config('media-library-extensions.allowed_mimetypes.image'))->flatten()->join(', ');
+        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : $allowedMimeTypesFromConfig->join(', ');
 
         $this->mediaPresent = $this->model && $this->mediaCollection
             ? $this->model->hasMedia($this->mediaCollection)
