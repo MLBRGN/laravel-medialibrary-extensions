@@ -6,6 +6,7 @@ use Artisan;
 use Closure;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Log;
 use Schema;
 
 class UseDemoModeConnection
@@ -13,6 +14,7 @@ class UseDemoModeConnection
     public function handle($request, Closure $next)
     {
 
+        Log::info('using middleware ' . $request->fullUrl());
         $dbPath = realpath(__DIR__ . '/../../../storage/media-library-extensions-demo.sqlite');
 
         Config::set('database.connections.media_demo', [
@@ -22,7 +24,7 @@ class UseDemoModeConnection
         ]);
         Config::set('database.default', 'media_demo');
 
-        \Log::info('DB connections: ', Config::get('database.connections'));
+//        \Log::info('DB connections: ', Config::get('database.connections'));
         DB::purge('media_demo');
         DB::reconnect('media_demo');
 

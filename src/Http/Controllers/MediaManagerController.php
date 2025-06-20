@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
@@ -46,6 +48,12 @@ class MediaManagerController extends Controller
         $field = config('media-library-extensions.upload_field_name_single');
 
         $file = $request->file($field);
+
+        Log::info('Media connection:', [
+            'model' => get_class($model),
+            'conn' => $model->getConnectionName(),
+            'default' => config('database.default'),
+        ]);
 
         if ($file) {
             $mimeType = $file->getMimeType();
@@ -142,7 +150,7 @@ class MediaManagerController extends Controller
 //                abort(422, 'Invalid YouTube URL');
 //            }
 
-            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
+            $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
 
             /** @var HasMedia $model */
             $model
@@ -187,7 +195,7 @@ class MediaManagerController extends Controller
 //                abort(422, 'Invalid YouTube URL');
 //            }
 
-            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
+            $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
 
             /** @var HasMedia $model */
             $model
@@ -222,6 +230,17 @@ class MediaManagerController extends Controller
         $targetId = $request->target_id;
 
         $this->authorize('deleteMedia', $media);
+
+        if (config('media-library-extensions.demo_mode')) {
+            $media->setConnection('media_demo');
+        }
+
+        Log::info('Media connection:', [
+            'model' => get_class($media),
+            'conn' => $media->getConnectionName(),
+            'default' => config('database.default'),
+        ]);
+
         $media->delete();
 
         return $this->respondWithStatus(
@@ -244,11 +263,25 @@ class MediaManagerController extends Controller
 
         $media = $model->getMedia($collectionName);
 
+        Log::info('set as first Media connection:', [
+            'model' => get_class($model),
+            'conn' => $model->getConnectionName(),
+            'default' => config('database.default'),
+        ]);
+
         // Reorder media so the selected medium is first
         $orderedIds = $media->pluck('id')->toArray();
         $orderedIds = array_filter($orderedIds, fn ($id) => $id !== $mediumId);
         array_unshift($orderedIds, $mediumId);
-        Media::setNewOrder($orderedIds);
+
+        if (config('media-library-extensions.demo_mode')) {
+            $originalConnection = config('database.default');
+            config(['database.default' => 'media_demo']);
+            Media::setNewOrder($orderedIds);
+            config(['database.default' => $originalConnection]);
+        } else {
+            Media::setNewOrder($orderedIds);
+        }
 
         return $this->respondWithStatus(
             $request,
@@ -268,8 +301,8 @@ class MediaManagerController extends Controller
         $component = new MediaManagerPreview(
             model: $this->getModel($request->model_type, $request->model_id),
             mediaCollection: $request->input('collection'),
-            youtubeCollection: $request->input('youtube_collection'),
             documentCollection: $request->input('document_collection'),
+            youtubeCollection: $request->input('youtube_collection'),
             id: $request->input('target_id'),
             destroyEnabled: true,
             setAsFirstEnabled: true,

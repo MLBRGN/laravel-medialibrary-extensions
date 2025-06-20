@@ -2,13 +2,19 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mlbrgn\MediaLibraryExtensions\Traits\HandlesMediaConversions;
+use Mlbrgn\MediaLibraryExtensions\Traits\YouTubeCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Aliens extends Model implements HasMedia
+class Aliens extends Media implements HasMedia
 {
     use InteractsWithMedia;
+    use HandlesMediaConversions;
+    use YouTubeCollection;
 
     protected $table = 'aliens';
     protected $connection = 'media_demo';
