@@ -17,7 +17,7 @@
     data-csrf-token="{{ csrf_token() }}"
     data-theme="{{ $theme }}"
 >
-    <x-mle-partial-debug :theme="$theme"/>
+    <x-mle-partial-debug :theme="$theme" :model="$model"/>
 
     <div class="media-manager-row">
 
@@ -48,19 +48,22 @@
         <div class="media-manager-previews">
             @if($media->count() > 0)
                 <div class="media-manager-preview-grid">
-                    @foreach($media as $index => $medium)
+                    @if($media->count() > 0)
                         <x-mle-media-manager-preview
-                            :medium="$medium"
+                            {{--                        :media="$media"--}}
                             :id="$id"
-                            loop-index="{{ $loop->index }}"
                             :show-order="$showOrder"
                             :destroy-enabled="$destroyEnabled"
                             :set-as-first-enabled="$setAsFirstEnabled"
-                            :is-first-in-collection="$medium->order_column === $media->min('order_column')"
                             :model="$model"
                             :media-collection="$mediaCollection"
+                            :youtube-collection="$youtubeCollection"
+                            :document-collection="$documentCollection"
                         />
-                    @endforeach
+                    @else
+                        {{-- TODO status class? --}}
+                        <span>{{ __('media-library-extensions::messages.no_media') }}</span>
+                    @endif
                 </div>
                 
                 {{-- TODO title? --}}

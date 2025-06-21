@@ -3,6 +3,7 @@
         'mlbrgn-mle-component',
         'media-carousel', 
         'media-carousel-plain',
+        'media-carousel-empty' => $mediaCount === 0,
         'mle-width-100',
         'mle-height-100'   
     ]) }}
@@ -19,7 +20,7 @@
 
     {{-- Indicators --}}
     <div
-        class="media-carousel-indicators {{ $mediaItems->count() < 2 ? 'mle-display-none' : '' }}">
+        class="media-carousel-indicators {{ $mediaCount < 2 ? 'mle-display-none' : '' }}">
         @foreach($mediaItems as $index => $medium)
             <button
                 type="button"
@@ -32,7 +33,7 @@
 
     {{-- Slides --}}
     <div class="media-carousel-inner">
-        @foreach($mediaItems as $index => $medium)
+        @forelse($mediaItems as $index => $medium)
             <div @class([
                 'media-carousel-item',
                 'active' => $loop->first,
@@ -76,64 +77,53 @@
                             />
                         @endif
                     @endif
-{{--                    @if($medium->hasCustomProperty('youtube-id'))--}}
-{{--                        <x-mle-video-youtube--}}
-{{--                            class="mle-video-responsive"--}}
-{{--                            :medium="$medium"--}}
-{{--                            :preview="$inModal ? false : true"--}}
-{{--                            :youtube-id="$medium->getCustomProperty('youtube-id')"--}}
-{{--                            :youtube-params="[]"--}}
-{{--                        />--}}
-{{--                    @else--}}
-{{--                        --}}
-{{--                        <x-mle-image-responsive--}}
-{{--                            class="mle-image-responsive"--}}
-{{--                            :medium="$medium"--}}
-{{--                            :conversions="['16x9']"--}}
-{{--                            sizes="100vw"--}}
-{{--                            :alt="$medium->name"--}}
-{{--                        />--}}
-{{--                    @endif--}}
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div @class([
+                'media-carousel-item',
+                'active',
+            ])>
+                <div class="media-carousel-item-container">
+                    <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
+                </div>
+            </div>
+        @endforelse
     </div>
 
     {{-- Prev/Next controls --}}
-{{--    @if ($mediaItems->count() > 1)--}}
-        <button 
-            type="button"
-            @class([
-              'media-carousel-control-prev',
-              'disabled' => count($mediaItems) <= 1
-             ])
-            data-slide="prev">
+    <button 
+        type="button"
+        @class([
+          'media-carousel-control-prev',
+          'disabled' => $mediaCount <= 1
+         ])
+        data-slide="prev">
 {{--                <span aria-hidden="true">&#10094;</span>--}}
-            <span class="media-carousel-control-prev-icon" aria-hidden="true">
-                 <x-mle-partial-icon
-                     name="{{ config('media-library-extensions.icons.prev') }}"
-                     title="{{ __('media-library-extensions::messages.previous') }}"
-                 />
-            </span>
-            <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
-        </button>
-        <button 
-            type="button"
-            @class([
-             'media-carousel-control-next',
-             'disabled' => count($mediaItems) <= 1
-            ])
-            data-slide="next">
+        <span class="media-carousel-control-prev-icon" aria-hidden="true">
+             <x-mle-partial-icon
+                 name="{{ config('media-library-extensions.icons.prev') }}"
+                 title="{{ __('media-library-extensions::messages.previous') }}"
+             />
+        </span>
+        <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
+    </button>
+    <button 
+        type="button"
+        @class([
+         'media-carousel-control-next',
+         'disabled' => $mediaCount <= 1
+        ])
+        data-slide="next">
 {{--                <span aria-hidden="true">&#10095;</span>--}}
-            <span class="media-carousel-control-next-icon" aria-hidden="true">
-                  <x-mle-partial-icon
-                      name="{{ config('media-library-extensions.icons.next') }}"
-                      title="{{ __('media-library-extensions::messages.next') }}"
-                  />
-            </span>
-            <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
-        </button>
-{{--    @endif--}}
+        <span class="media-carousel-control-next-icon" aria-hidden="true">
+              <x-mle-partial-icon
+                  name="{{ config('media-library-extensions.icons.next') }}"
+                  title="{{ __('media-library-extensions::messages.next') }}"
+              />
+        </span>
+        <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
+    </button>
 </div>
 
 @if($clickToOpenInModal)

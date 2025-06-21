@@ -19,7 +19,7 @@
     data-csrf-token="{{ csrf_token() }}"
     data-theme="{{ $theme }}"
     >
-    <x-mle-partial-debug :theme="$theme"/>
+    <x-mle-partial-debug :theme="$theme" :model="$model"/>
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
             @if($uploadEnabled)

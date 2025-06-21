@@ -15,7 +15,7 @@
     data-csrf-token="{{ csrf_token() }}"
     data-theme="{{ $theme }}"
 >
-    <x-mle-partial-debug :theme="$theme"/>
+    <x-mle-partial-debug :theme="$theme" :model="$model"/>
 
     <div class="media-manager-row">
         <div class="media-manager-form">

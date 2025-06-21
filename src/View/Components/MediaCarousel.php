@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 class MediaCarousel extends BaseComponent
 {
     public MediaCollection $mediaItems;
+    public int $mediaCount;
 
     public string $previewerId = '';
 
@@ -47,6 +48,8 @@ class MediaCarousel extends BaseComponent
         } else {
             $this->mediaItems = MediaCollection::make();
         }
+
+        $this->mediaCount = $this->mediaItems->count();
 
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
 

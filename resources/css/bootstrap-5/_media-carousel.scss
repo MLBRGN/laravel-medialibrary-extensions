@@ -37,6 +37,10 @@
         border:0;
     }
 
+    &.media-carousel-empty {
+        aspect-ratio: 16/1;
+    }
+
     .media-carousel-inner {
         border-image-width:0;
         width: 100%;
