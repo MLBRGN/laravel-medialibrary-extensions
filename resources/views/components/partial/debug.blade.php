@@ -1,4 +1,4 @@
-@if(config('media-library-extensions.debug'))
+@if(config('media-library-extensions.debug') && !app()->environment('production'))
     <div class="mle-debug-wrapper">
         <button type="button" class="mle-debug-toggle" aria-expanded="false" aria-controls="mle-debug-content">
             🐞 Show Debug Info

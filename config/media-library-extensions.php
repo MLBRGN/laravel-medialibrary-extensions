@@ -7,7 +7,7 @@ return [
      | Debug mode
      |--------------------------------------------------------------------------
      |
-     | Debug mode, disable on production
+     | Debug mode, is not honored on production environment sites!
      |
      */
 
