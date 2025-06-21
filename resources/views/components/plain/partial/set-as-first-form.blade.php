@@ -14,8 +14,8 @@
            name="medium_id"
            value="{{ $medium->id }}">
     <input type="hidden"
-           name="collection_name"
-           value="{{ $mediaCollection }}">
+           name="target_media_collection"
+           value="{{ $targetMediaCollection }}">
     <input type="hidden"
            name="model_type"
            value="{{ get_class($model) }}">

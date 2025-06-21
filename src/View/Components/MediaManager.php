@@ -21,7 +21,7 @@ class MediaManager extends BaseComponent
 
     public function __construct(
         public ?HasMedia $model = null,
-        public string $mediaCollection = '',
+        public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
         public bool $uploadEnabled = false,
@@ -46,8 +46,8 @@ class MediaManager extends BaseComponent
 
         $collections = collect();
         if ($model) {
-            if ($mediaCollection) {
-                $collections = $collections->merge($model->getMedia($mediaCollection));
+            if ($imageCollection) {
+                $collections = $collections->merge($model->getMedia($imageCollection));
             }
 
             if ($youtubeCollection) {

@@ -7,18 +7,29 @@
         'media-manager-single' => !$multiple,
     ]) }}
     data-media-manager=""
+
+    data-initiator-id="{{ $id }}"
+    
+    data-model-type="{{ $model->getMorphClass() }}"
+    data-model-id="{{ $model->getKey() }}"
+    
+    data-image-collection="{{ $imageCollection }}"
+    data-document-collection="{{ $documentCollection }}"
+    data-youtube-collection="{{ $youtubeCollection }}"
+
+    data-frontend-theme="{{ $theme }}"
+    
+    data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
+    data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
+    data-show-media-url="{{ $showMediaUrl ? 'true' : 'false' }}"
+    data-show-order="{{ $showOrder ? 'true' : 'false' }}"
+
     data-media-upload-route="{{ $mediaUploadRoute }}"
     data-preview-refresh-route="{{ $previewRefreshRoute }}"
     data-media-youtube-upload-route="{{ $youtubeUploadRoute }}"
-    data-model-type="{{ $model->getMorphClass() }}"
-    data-model-id="{{ $model->getKey() }}"
-    data-collection="{{ $mediaCollection }}"
-    data-youtube-collection="{{ $youtubeCollection }}"
-    data-document-collection="{{ $documentCollection }}"
-    data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
-    data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
+    
     data-csrf-token="{{ csrf_token() }}"
-    data-theme="{{ $theme }}"
+    
     >
     <x-mle-partial-debug :theme="$theme" :model="$model"/>
     <div class="media-manager-row">
@@ -26,7 +37,8 @@
             @if($uploadEnabled)
                 <x-mle-partial-upload-form
                     :allowed-mime-types="$allowedMimeTypes"
-                    :media-collection="$mediaCollection"
+                    :upload-to-collection="$imageCollection"
+                    :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
                     :destroy-enabled="$destroyEnabled"
@@ -42,7 +54,7 @@
                     class="mt-3"
                     :model="$model"
                     :id="$id"
-                    :media-collection="$mediaCollection"
+                    :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
                     :model="$model"
@@ -65,7 +77,7 @@
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :model="$model"
-                    :media-collection="$mediaCollection"
+                    :image-collection="$imageCollection"
                     :youtube-collection="$youtubeCollection"
                     :document-collection="$documentCollection"
                 />
@@ -74,7 +86,7 @@
             <x-mle-media-modal
                 :id="$id"
                 :model="$model"
-                :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
+                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
                 title="Media carousel"
 {{--                :media="$media"--}}
                 :inModal="true"

@@ -81,11 +81,12 @@
                             <x-mle-partial-set-as-first-form
                                 :medium="$medium"
                                 :id="$id"
-                                :set-as-first-enabled="$setAsFirstEnabled"
-                                :media-collection="$mediaCollection"
                                 :model="$model"
-                                :youtube-collection="$youtubeCollection"
+                                :target-media-collection="$imageCollection"
+                                :image-collection="$imageCollection"
                                 :document-collection="$documentCollection"
+                                :youtube-collection="$youtubeCollection"
+                                :set-as-first-enabled="$setAsFirstEnabled"
                             />
                         @endif
                     @endif
@@ -107,7 +108,7 @@
 <x-mle-media-modal
     :id="$id"
     :model="$model"
-    :media-collection="$mediaCollection"
-    :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
+    :media-collection="$imageCollection"
+    :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
     :video-auto-play="true"
     title="Media carousel"/>

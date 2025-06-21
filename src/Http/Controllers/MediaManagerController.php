@@ -256,11 +256,11 @@ class MediaManagerController extends Controller
     {
         $model = $this->getModel($request->model_type, $request->model_id);
 //        $this->authorize('reorderMedia', Media::class);
-        $collectionName = $request->collection_name;
+        $targetMediaCollection = $request->target_media_collection;
         $initiatorId = $request->initiator_id;
         $mediumId = (int) $request->medium_id;
 
-        $media = $model->getMedia($collectionName);
+        $media = $model->getMedia($targetMediaCollection);
 
         Log::info('set as first Media connection:', [
             'model' => get_class($model),
@@ -294,18 +294,39 @@ class MediaManagerController extends Controller
     // used by ajax to refresh previews of images after upload / delete / new order
     public function getMediaPreviewerHTML(GetMediaPreviewerHTMLRequest $request): Response|JsonResponse
     {
-        $youtubeCollection = $request->input('youtube_collection');
+        $initiatorId = $request->input('initiator_id');
+        $id = $initiatorId;
+
+        $modelType = $request->input('model_type');
+        $modelId = $request->input('model_id');
+        $model = $this->getModel($modelType, $modelId);
+
+        $imageCollection = $request->input('image_collection');
         $documentCollection = $request->input('document_collection');
+        $youtubeCollection = $request->input('youtube_collection');
+
+        $frontendTheme = $request->input('frontend_theme');
+
+        $destroyEnabled = $request->input('destroy_enabled');
+        $setAsFirstEnabled = $request->input('set_as_first_enabled');
+        $showMediaUrl = $request->input('show_media_url');
+        $showOrder = $request->input('show_order');
 
         $component = new MediaManagerPreview(
-            model: $this->getModel($request->model_type, $request->model_id),
-            mediaCollection: $request->input('collection'),
-            documentCollection: $request->input('document_collection'),
-            youtubeCollection: $request->input('youtube_collection'),
-            id: $request->input('initiator_id'),
-            destroyEnabled: true,
-            setAsFirstEnabled: true,
-            showOrder: false,
+            id: $id,
+
+            model: $model,
+
+            imageCollection: $imageCollection,
+            documentCollection: $documentCollection,
+            youtubeCollection: $youtubeCollection,
+
+            frontendTheme: $frontendTheme,
+
+            destroyEnabled: $destroyEnabled,
+            setAsFirstEnabled: $setAsFirstEnabled,
+            showMediaUrl: $showMediaUrl,
+            showOrder: $showOrder,
         );
 
         $html = Blade::renderComponent($component);
@@ -313,10 +334,8 @@ class MediaManagerController extends Controller
         return response()->json([
             'html' => $html,
             'success' => true,
-            'target' => $request->input('initiator_id'),
-            // optionally include other metadata
+            'target' => $initiatorId,
         ]);
-//        return response($html);
     }
 
     protected function respondWithStatus(Request $request, string $initiatorId, string $type, string $message, ?string $fragmentIdentifier = null): JsonResponse|RedirectResponse

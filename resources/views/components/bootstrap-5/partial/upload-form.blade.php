@@ -33,8 +33,12 @@
         <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
         <input
             type="hidden"
+            name="upload_to_collection"
+            value="{{ $uploadToCollection }}">
+        <input
+            type="hidden"
             name="image_collection"
-            value="{{ $mediaCollection }}">
+            value="{{ $imageCollection }}">
         @if($documentCollection)
             <input
                 type="hidden"

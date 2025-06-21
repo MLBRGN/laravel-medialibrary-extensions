@@ -18,9 +18,10 @@ class SetAsFirstForm extends BaseComponent
         public string $id,
         public ?string $frontendTheme,
         public ?bool $useXhr = null,
-        public string $mediaCollection = '',
-//        public string $youtubeCollection = '',
-//        public string $documentCollection = '',
+        public ?string $targetMediaCollection = null,
+        public ?string $imageCollection = '',
+        public string $documentCollection = '',
+        public string $youtubeCollection = '',
         public bool $setAsFirstEnabled = false,
         public ?HasMedia $model,
     ) {

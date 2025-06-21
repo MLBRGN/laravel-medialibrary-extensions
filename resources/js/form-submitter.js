@@ -15,14 +15,24 @@ document.addEventListener('DOMContentLoaded', function () {
         // formContainer
         const formContainer = mediaManager.querySelector('.media-manager-form');
         const csrfToken = mediaManager.getAttribute('data-csrf-token');
-        const theme = mediaManager.getAttribute('data-theme');
+        const frontEndTheme = mediaManager.getAttribute('data-frontend-theme');
 
         // needed to refresh previews
+        const initiatorId = mediaManager.getAttribute('data-initiator-id');
+
         const modelType = mediaManager.getAttribute('data-model-type');
         const modelId = mediaManager.getAttribute('data-model-id');
-        const collection = mediaManager.getAttribute('data-collection');
-        const youtubeCollection = mediaManager.getAttribute('data-youtube-collection');
+
+        const imageCollection = mediaManager.getAttribute('data-image-collection');
         const documentCollection = mediaManager.getAttribute('data-document-collection');
+        const youtubeCollection = mediaManager.getAttribute('data-youtube-collection');
+
+        const frontendTheme = mediaManager.getAttribute('data-frontend-theme');
+
+        const destroyEnabled = mediaManager.getAttribute('data-destroy-enabled');
+        const setAsFirstEnabled = mediaManager.getAttribute('data-set-as-first-enabled');
+        const showMediaUrl = mediaManager.getAttribute('data-show-media-url');
+        const showOrder = mediaManager.getAttribute('data-show-order');
 
         console.log('adding click listener for:', mediaManagerId);
         mediaManager.addEventListener('click', function (e) {
@@ -102,27 +112,34 @@ document.addEventListener('DOMContentLoaded', function () {
             const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
             if (!previewGrid) return;
 
-            if (!modelType || !modelId || !collection || !youtubeCollection || !documentCollection || !mediaManagerId) {
+            if (!modelType || !modelId || !imageCollection || !youtubeCollection || !documentCollection || !mediaManagerId) {
                 debugger;
                 throw new Error('missing required params')
             }
-            const params = new URLSearchParams({
+
+            const params = {
                 model_type: modelType,
                 model_id: modelId,
-                collection: collection,
+                image_collection: imageCollection,
                 youtube_collection: youtubeCollection,
                 document_collection: documentCollection,
-                initiator_id: mediaManagerId,
-                // show_order: showOrder,
-                // destroyEnabled: true,
-                // setAsFirstEnabled: true,
-            });
-            fetch(`${previewRefreshRoute}?${params}`, {
+                initiator_id: initiatorId,
+                destroy_enabled: destroyEnabled === 'true',
+                set_as_first_enabled: setAsFirstEnabled === 'true',
+                show_media_url: showMediaUrl === 'true',
+                show_order: showOrder === 'true',
+                frontend_theme: frontendTheme,
+            }
+            console.log('params', params);
+
+            const searchParams = new URLSearchParams(params);
+            fetch(`${previewRefreshRoute}?${searchParams}?`, {
                 headers: {
                     'Accept': 'text/html'
                 }
             }).then(response => response.json())
                 .then(json => {
+                    console.log('fetch', json);
                     // console.log('html', html)
                     previewGrid.innerHTML = json.html;
                 })

@@ -32,7 +32,7 @@
         <x-mle-media-manager-single
             id="blog-main"
             :model="$model"
-            media-collection="alien-single-image"
+            image-collection="alien-single-image"
             document-collection="alien-single-document"
             youtube-collection="alien-single-youtube-video"
             class="mt-5"
@@ -62,7 +62,7 @@
         <x-mle-media-manager-multiple
             id="blog-images"
             :model="$model"
-            media-collection="alien-multiple-images"
+            image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
             youtube-collection="alien-multiple-youtube-videos"
             class="mt-5"

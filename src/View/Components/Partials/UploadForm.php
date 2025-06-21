@@ -16,7 +16,8 @@ class UploadForm extends BaseComponent
     public function __construct(
 
         public ?HasMedia $model,
-        public ?string $mediaCollection,
+        public ?string $uploadToCollection,
+        public ?string $imageCollection,
         public ?string $documentCollection,
         public ?string $youtubeCollection,
         public string $id,
@@ -39,8 +40,8 @@ class UploadForm extends BaseComponent
             ->join(', ');
         $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : $allowedMimeTypesFromConfig->join(', ');
 
-        $this->mediaPresent = $this->model && $this->mediaCollection
-            ? $this->model->hasMedia($this->mediaCollection)
+        $this->mediaPresent = $this->model && $this->uploadToCollection
+            ? $this->model->hasMedia($this->uploadToCollection)
             : false;
 
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
