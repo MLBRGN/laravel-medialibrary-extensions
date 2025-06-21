@@ -1,4 +1,4 @@
-@foreach($media as $medium)
+@forelse($media as $medium)
     <div 
         class="mlbrgn-mle-component media-manager-preview-media-container"
         data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
@@ -106,7 +106,11 @@
             </div>
         @endif
     </div>
-@endforeach
+@empty
+    <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">
+        <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
+    </div>
+@endforelse
 <x-mle-media-modal
     :id="$id"
     :model="$model"

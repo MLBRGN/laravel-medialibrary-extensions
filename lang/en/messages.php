@@ -40,4 +40,5 @@ return [
     'show_document' => 'Toon document.',
     'demo_mode_disabled' => 'Demo mode is disabled.',
     'no_blade_ui_kit_icon_package_detected_download_at_:link' => 'No "Blade UI Kit icon package" detected download at :link',
+    'note_carousel_only_updates_on_refresh_of_page' => 'NOTE: This carousel only updates on refresh of page even when XHR is enabled for media managers.'
 ];

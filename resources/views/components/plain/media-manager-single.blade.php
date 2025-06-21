@@ -45,7 +45,7 @@
 
         <div class="media-manager-previews">
             <div class="media-manager-preview-grid">
-                @if($media->count() > 0)
+{{--                @if($media->count() > 0)--}}
                     <x-mle-media-manager-preview
                         :media="$media"
                         :id="$id"
@@ -55,10 +55,11 @@
                         :model="$model"
                         :media-collection="$mediaCollection"
                     />
-                @else
-                    {{-- TODO status class? --}}
-                    <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
-                @endif
+{{--                @else--}}
+{{--                    <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">--}}
+{{--                        <span class="mle-no-media">{{ __('media-library-extensions::messages.no_medium') }}</span>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
             </div>
         </div>
     </div>

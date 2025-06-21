@@ -46,39 +46,36 @@
         </div>
 
         <div class="media-manager-previews">
-            @if($media->count() > 0)
-                <div class="media-manager-preview-grid">
-                    @if($media->count() > 0)
-                        <x-mle-media-manager-preview
-                            {{--                        :media="$media"--}}
-                            :id="$id"
-                            :show-order="$showOrder"
-                            :destroy-enabled="$destroyEnabled"
-                            :set-as-first-enabled="$setAsFirstEnabled"
-                            :model="$model"
-                            :media-collection="$mediaCollection"
-                            :youtube-collection="$youtubeCollection"
-                            :document-collection="$documentCollection"
-                        />
-                    @else
-                        {{-- TODO status class? --}}
-                        <span>{{ __('media-library-extensions::messages.no_media') }}</span>
-                    @endif
-                </div>
+            <div class="media-manager-preview-grid">
+{{--                @if($media->count() > 0)--}}
+                    <x-mle-media-manager-preview
+                        {{--                        :media="$media"--}}
+                        :id="$id"
+                        :show-order="$showOrder"
+                        :destroy-enabled="$destroyEnabled"
+                        :set-as-first-enabled="$setAsFirstEnabled"
+                        :model="$model"
+                        :media-collection="$mediaCollection"
+                        :youtube-collection="$youtubeCollection"
+                        :document-collection="$documentCollection"
+                    />
+{{--                @else--}}
+{{--                    <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">--}}
+{{--                        <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+            </div>
                 
-                {{-- TODO title? --}}
-                <x-mle-media-modal
-                    :id="$id"
-                    :model="$model"
+            {{-- TODO title? --}}
+            <x-mle-media-modal
+                :id="$id"
+                :model="$model"
 {{--                        :media-collection="$mediaCollection"--}}
-                    :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
-                    title="Media carousel"
-                    :media="$media"
-                    :inModal="true"
-                    :plainJs="true" />
-            @else
-                <span>{{ __('media-library-extensions::messages.no_media') }}</span>
-            @endif
+                :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
+                title="Media carousel"
+                :media="$media"
+                :inModal="true"
+                :plainJs="true" />
         </div>
     </div>
 </div>

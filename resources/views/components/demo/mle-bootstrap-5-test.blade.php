@@ -48,7 +48,7 @@
 
         <h2 class="my-5">Media Carousel</h2>
 
-        <p>NOTE: This carousel does not update when XHR is used in media managers, only on page refresh.</p>
+        <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
 
         <x-mle-media-carousel
             id="blog-media"
