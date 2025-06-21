@@ -1,13 +1,15 @@
-{{--TODO try to unify multiple with single view--}}
 <div 
     id="{{ $id }}"
     {{ $attributes->class([
-        'mlbrgn-mle-component media-manager media-manager-multiple',
+        'mlbrgn-mle-component',
+        'media-manager',
+        'media-manager-multiple' => $multiple,
+        'media-manager-single' => !$multiple,
         'container-fluid px-0',
     ]) }}
     data-media-manager=""
     data-media-upload-route="{{ $mediaUploadRoute }}"
-    data-preview-refresh-route="{{ $previewRefreshRoute }}" 
+    data-preview-refresh-route="{{ $previewRefreshRoute }}"
     data-media-youtube-upload-route="{{ $youtubeUploadRoute }}"
     data-model-type="{{ $model->getMorphClass() }}"
     data-model-id="{{ $model->getKey() }}"
@@ -24,16 +26,15 @@
         <div class="media-manager-form col-12 col-md-4">
             @if($uploadEnabled)
                 <x-mle-partial-upload-form
-                    :allowed-mime-types="$allowedMimeTypes" 
-                    :media-collection="$mediaCollection" 
+                    :allowed-mime-types="$allowedMimeTypes"
+                    :media-collection="$mediaCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :model="$model" 
                     :id="$id"
-                    :multiple="true"
-                    :use-xhr="$useXhr"
+                    :multiple="$multiple"
                 />
             @endif
             @if($youtubeCollection)
@@ -50,41 +51,35 @@
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :model="$model"
-                    :use-xhr="$useXhr"
                 />
             @endif
-                
-            <x-mle-partial-status-area 
-            id="{{ $id }}"
-            :initiator-id="$id"/>
+            <x-mle-partial-status-area
+                id="{{ $id }}"
+                :initiator-id="$id"/>
         </div>
-
-        <div class="media-manager-previews col-12 col-sm-8">
+        <div class="media-manager-previews col-12 col-md-8">
             <div class="media-manager-preview-grid">
-{{--                @if($media->count() > 0)--}}
-                    <x-mle-media-manager-preview
-{{--                        :media="$media"--}}
-                        :id="$id"
-                        :show-order="$showOrder"
-                        :destroy-enabled="$destroyEnabled"
-                        :set-as-first-enabled="$setAsFirstEnabled"
-                        :model="$model"
-                        :media-collection="$mediaCollection"
-                        :youtube-collection="$youtubeCollection"
-                        :document-collection="$documentCollection"
-                    />
-{{--                @else--}}
-{{--                    <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">--}}
-{{--                        <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
+                <x-mle-media-manager-preview
+                    {{--:media="$media"--}}
+                    :id="$id"
+                    :show-order="$showOrder"
+                    :destroy-enabled="$destroyEnabled"
+                    :set-as-first-enabled="$setAsFirstEnabled"
+                    :model="$model"
+                    :media-collection="$mediaCollection"
+                    :youtube-collection="$youtubeCollection"
+                    :document-collection="$documentCollection"
+                />
             </div>
             {{-- TODO title--}}
             <x-mle-media-modal
                 :id="$id"
                 :model="$model"
                 :media-collections="[$mediaCollection, $youtubeCollection, $documentCollection]"
-                title="Media carousel"/>
+                title="Media carousel"
+{{--                :media="$media"--}}
+                :inModal="true"
+                :plainJs="false" />
         </div>
     </div>
 </div>

@@ -32,11 +32,11 @@
                     :click-to-open-in-modal="false"
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"
-                    :in-modal="true"/>
+                    :in-modal="true"
+                />
             </div>
         </div>
     </div>
 </div>
 <x-mle-partial-assets include-css="true" include-js="true"/>
-
 

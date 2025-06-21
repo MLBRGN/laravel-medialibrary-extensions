@@ -8,11 +8,9 @@
         @if($medium->hasCustomProperty('youtube-id'))
 
             <div
+                class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-modal"
-                class="media-manager-preview-item-container"
-{{--                data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"--}}
-{{--                data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"--}}
             >
                 <x-mle-video-youtube
                     class="mle-video-responsive mle-cursor-zoom-in"
@@ -30,8 +28,6 @@
                     data-bs-toggle="modal"
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
-{{--                    data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"--}}
-{{--                    data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"--}}
                 >
                     <x-mle-document :medium="$medium"
                                     class="previewed-document mle-cursor-zoom-in"
@@ -44,8 +40,6 @@
                     data-bs-toggle="modal"
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
-{{--                    data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"--}}
-{{--                    data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"--}}
                 >
                     <x-mle-image-responsive
                         :medium="$medium"
@@ -96,10 +90,9 @@
                         @endif
                     @endif
                     @if($destroyEnabled)
-                        <x-mle-partial-destroy-form 
-                            :medium="$medium" 
+                        <x-mle-partial-destroy-form
+                            :medium="$medium"
                             :id="$id"
-    {{--                            data-destroy-route="{{ $mediumDestroyRoute }}"--}}
                         />
                     @endif
                 </div>

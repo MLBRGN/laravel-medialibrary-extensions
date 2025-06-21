@@ -7,8 +7,8 @@
     aria-hidden="true"
     @if($videoAutoPlay)
         data-video-autoplay=""
-    @endif>
-
+    @endif
+>
     <div class="media-modal-dialog modal-dialog">
         <div class="media-modal-content modal-content justify-content-center">
             <h1 class="media-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
@@ -24,16 +24,10 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-{{--                    <button--}}
-{{--                        type="button"--}}
-{{--                        class="media-modal-close-button btn-close"--}}
-{{--                        data-bs-dismiss="modal"--}}
-{{--                        aria-label="Sluit"--}}
-{{--                        title="{{ __('media-library-extensions::messages.close') }}"></button>--}}
 
                 {{-- important set click to open in modal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
-                    class="mle-width-100 mle-height-100 purple"
+                    class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
                     :model="$model"
                     :click-to-open-in-modal="false"

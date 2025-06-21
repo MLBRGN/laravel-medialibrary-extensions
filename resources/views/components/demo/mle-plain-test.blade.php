@@ -31,6 +31,20 @@
 
     <h2>Media Manager Single</h2>
 
+{{--    <x-mle-media-manager--}}
+{{--        id="blog-main"--}}
+{{--        :model="$model"--}}
+{{--        media-collection="alien-single-image"--}}
+{{--        document-collection="alien-single-document"--}}
+{{--        youtube-collection="alien-single-youtube-video"--}}
+{{--        class="mt-5"--}}
+{{--        upload-enabled--}}
+{{--        destroy-enabled--}}
+{{--        frontend-theme="plain"--}}
+{{--        :use-xhr="config('media-library-extensions.use_xhr')"--}}
+{{--        :multiple="false"--}}
+{{--    />--}}
+    
     <x-mle-media-manager-single
         id="blog-main"
         :model="$model"
@@ -45,6 +59,21 @@
 
     <h2>Media Manager Multiple</h2>
 
+{{--    <x-mle-media-manager--}}
+{{--        id="blog-images"--}}
+{{--        :model="$model"--}}
+{{--        media-collection="alien-multiple-images"--}}
+{{--        document-collection="alien-multiple-documents"--}}
+{{--        youtube-collection="alien-multiple-youtube-videos"--}}
+{{--        class="mt-5"--}}
+{{--        upload-enabled--}}
+{{--        destroy-enabled--}}
+{{--        :show-order="true"--}}
+{{--        set-as-first-enabled--}}
+{{--        frontend-theme="plain"--}}
+{{--        :use-xhr="config('media-library-extensions.use_xhr')"--}}
+{{--        :multiple="true"--}}
+{{--    />--}}
     <x-mle-media-manager-multiple
         id="blog-images"
         :model="$model"
@@ -58,6 +87,7 @@
         set-as-first-enabled
         frontend-theme="plain"
         :use-xhr="config('media-library-extensions.use_xhr')"
+        :multiple="true"
     />
 
     <h2>Media Carousel</h2>

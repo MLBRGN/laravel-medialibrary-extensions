@@ -2,8 +2,8 @@
      {{ $attributes->class([
         'mlbrgn-mle-component',
         'media-carousel', 
-        'media-carousel-plain',
         'media-carousel-empty' => $mediaCount === 0,
+        'media-carousel-plain',
         'mle-width-100',
         'mle-height-100'   
     ]) }}
@@ -20,12 +20,20 @@
 
     {{-- Indicators --}}
     <div
-        class="media-carousel-indicators {{ $mediaCount < 2 ? 'mle-display-none' : '' }}">
+        @class([
+            'media-carousel-indicators', 
+            'carousel-indicators', 
+            'mle-display-none' => $mediaCount < 2
+        ])
+    >
         @foreach($mediaItems as $index => $medium)
             <button
                 type="button"
                 data-slide-to="{{ $index }}"
-                class="{{ $loop->first ? 'active' : '' }}"
+                @class(['active' => $loop->first])
+                @if($loop->first) 
+                    aria-current="true" 
+                @endif
                 aria-label="{{ __('media-library-extensions::messages.slide_to_:index', ['index' => $index + 1]) }}">
             </button>
         @endforeach
@@ -93,13 +101,12 @@
 
     {{-- Prev/Next controls --}}
     <button 
-        type="button"
         @class([
           'media-carousel-control-prev',
           'disabled' => $mediaCount <= 1
          ])
+        type="button"
         data-slide="prev">
-{{--                <span aria-hidden="true">&#10094;</span>--}}
         <span class="media-carousel-control-prev-icon" aria-hidden="true">
              <x-mle-partial-icon
                  name="{{ config('media-library-extensions.icons.prev') }}"
@@ -109,13 +116,12 @@
         <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
     </button>
     <button 
-        type="button"
         @class([
          'media-carousel-control-next',
          'disabled' => $mediaCount <= 1
         ])
+        type="button"
         data-slide="next">
-{{--                <span aria-hidden="true">&#10095;</span>--}}
         <span class="media-carousel-control-next-icon" aria-hidden="true">
               <x-mle-partial-icon
                   name="{{ config('media-library-extensions.icons.next') }}"

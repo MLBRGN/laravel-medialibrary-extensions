@@ -20,14 +20,17 @@
             'media-carousel-indicators', 
             'carousel-indicators', 
             'mle-display-none' => $mediaCount < 2
-        ])>
+        ])
+    >
         @foreach($mediaItems as $index => $medium)
             <button
                 type="button"
                 data-bs-target="#{{ $id }}"
                 data-bs-slide-to="{{ $index }}"
                 @class(['active' => $loop->first])
-                @if($loop->first) aria-current="true" @endif
+                @if($loop->first) 
+                    aria-current="true" 
+                @endif
                 aria-label="{{ __('media-library-extensions::messages.slide_to_:index', ['index' => $index + 1]) }}">
             </button>
         @endforeach
