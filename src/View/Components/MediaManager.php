@@ -11,6 +11,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManager extends BaseComponent
 {
+    public array $config;
+
     public string $allowedMimeTypes = '';
 
     /** @var Collection<int, Media> */
@@ -75,6 +77,25 @@ class MediaManager extends BaseComponent
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->id = $this->id.'-media-manager-single';
         }
+
+        // Config array passed to view
+        $this->config = [
+            'id' => $this->id,
+            'model_type' => $model?->getMorphClass(),
+            'model_id' => $model?->getKey(),
+            'image_collection' => $this->imageCollection,
+            'document_collection' => $this->documentCollection,
+            'youtube_collection' => $this->youtubeCollection,
+            'media_upload_route' => $this->mediaUploadRoute,
+            'preview_refresh_route' => $this->previewRefreshRoute,
+            'youtube_upload_route' => $this->youtubeUploadRoute,
+            'csrf_token' => csrf_token(),
+            'frontend_theme' => $this->frontendTheme,
+            'destroy_enabled' => $this->destroyEnabled,
+            'set_as_first_enabled' => $this->setAsFirstEnabled,
+            'show_media_url' => $this->showMediaUrl,
+            'show_order' => $this->showOrder,
+        ];
     }
 
     public function render(): View

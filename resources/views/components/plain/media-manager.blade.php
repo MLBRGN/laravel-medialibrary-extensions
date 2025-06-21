@@ -7,30 +7,8 @@
         'media-manager-single' => !$multiple,
     ]) }}
     data-media-manager=""
-
-    data-initiator-id="{{ $id }}"
-    
-    data-model-type="{{ $model->getMorphClass() }}"
-    data-model-id="{{ $model->getKey() }}"
-    
-    data-image-collection="{{ $imageCollection }}"
-    data-document-collection="{{ $documentCollection }}"
-    data-youtube-collection="{{ $youtubeCollection }}"
-
-    data-frontend-theme="{{ $theme }}"
-    
-    data-destroy-enabled="{{ $destroyEnabled ? 'true' : 'false' }}"
-    data-set-as-first-enabled="{{ $setAsFirstEnabled ? 'true' : 'false' }}"
-    data-show-media-url="{{ $showMediaUrl ? 'true' : 'false' }}"
-    data-show-order="{{ $showOrder ? 'true' : 'false' }}"
-
-    data-media-upload-route="{{ $mediaUploadRoute }}"
-    data-preview-refresh-route="{{ $previewRefreshRoute }}"
-    data-media-youtube-upload-route="{{ $youtubeUploadRoute }}"
-    
-    data-csrf-token="{{ csrf_token() }}"
-    
     >
+    <input type="hidden" class="media-manager-config" value='@json($config)' />
     <x-mle-partial-debug :theme="$theme" :model="$model"/>
     <div class="media-manager-row">
         <div class="media-manager-form">
@@ -71,7 +49,6 @@
         <div class="media-manager-previews">
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
-                    {{--:media="$media"--}}
                     :id="$id"
                     :show-order="$showOrder"
                     :destroy-enabled="$destroyEnabled"
@@ -88,7 +65,6 @@
                 :model="$model"
                 :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
                 title="Media carousel"
-{{--                :media="$media"--}}
                 :inModal="true"
                 :plainJs="true" />
         </div>
