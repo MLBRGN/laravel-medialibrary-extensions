@@ -9,7 +9,7 @@
     data-media-manager=""
     >
     <input type="hidden" class="media-manager-config" value='@json($config)' />
-    <x-mle-partial-debug :theme="$theme" :model="$model"/>
+    <x-mle-partial-debug :theme="$theme" :model="$model" :config="$config"/>
     <div class="media-manager-row">
         <div class="media-manager-form">
             @if($uploadEnabled)
