@@ -48,7 +48,7 @@
             </div>
 
             <div class="mle-debug-section">
-                <h3>🎛️ Environment Config</h3>
+                <h3>🎛️ (Environment) Config</h3>
                 <ul>
                     <li><strong>Theme:</strong> {{ $theme }}</li>
                     <li><strong>XHR Enabled:</strong> {{ config('media-library-extensions.use_xhr') ? 'Yes' : 'No' }}</li>
