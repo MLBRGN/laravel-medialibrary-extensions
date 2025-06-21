@@ -113,7 +113,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!previewGrid) return;
 
             if (!modelType || !modelId || !imageCollection || !youtubeCollection || !documentCollection || !mediaManagerId) {
-                debugger;
+                console.log('modelType', modelType);
+                console.log('modelId', modelId);
+                console.log('imageCollection', imageCollection);
+                console.log('youtubeCollection', youtubeCollection);
+                console.log('documentCollection', documentCollection);
+                console.log('mediaManagerId', mediaManagerId);
                 throw new Error('missing required params')
             }
 
