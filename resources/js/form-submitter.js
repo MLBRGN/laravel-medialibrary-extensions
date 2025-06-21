@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const data = await response.json();
 
                     if (!response.ok) {
-                        handleAjaxError(response, data, formContainer, theme);
+                        handleAjaxError(response, data, formContainer);
                         return;
                     }
 
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (statusWrapper) statusWrapper.classList.remove('visible');
     }
 
-    function handleAjaxError(response, data, formContainer, theme) {
+    function handleAjaxError(response, data, formContainer) {
         let errorMessage = trans('upload_failed'); // default fallback message
 
         switch (response.status) {
