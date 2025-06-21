@@ -40,3 +40,7 @@ php artisan vendor:publish --tag=media-library-extensions-assets
 php artisan vendor:publish --tag=media-library-extensions-policy
 php artisan vendor:publish --tag=media-library-extensions-translations
 ```
+
+## Testing
+
+This package uses [Pest PHP](https://pestphp.com/) for testing. For more information on how to write tests for this package, see the [TESTING.md](TESTING.md) guide.
