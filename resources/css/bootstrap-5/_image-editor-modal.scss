@@ -4,7 +4,7 @@
 
 .mlbrgn-mle-component.theme-bootstrap-5 {
 
-    &.media-modal {
+    &.image-editor {
         --modal-padding:20px;
 
         background:white;
@@ -19,13 +19,12 @@
         //overflow:hidden;
     }
 
-    .media-modal-body {
+    .image-editor-modal-body {
         width:100%;
         height:100%;
-        //overflow:hidden;
     }
 
-    .media-modal-dialog {
+    .image-editor-modal-dialog {
         width:100%;
         height:100%;
         max-width:100%;
@@ -34,7 +33,7 @@
         //overflow:hidden;
     }
 
-    .media-modal-content {
+    .image-editor-modal-content {
         width:100%;
         height:100%;
         padding:0;
@@ -43,7 +42,7 @@
         //overflow:hidden;
     }
 
-    .media-modal-close-button {
+    .image-editor-modal-close-button {
         position: absolute;
         top: 1rem;
         right: 1rem;
@@ -63,12 +62,12 @@
         justify-content: center;
     }
 
-    .media-modal-close-button:hover {
+    .image-editor-modal-close-button:hover {
         background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
         color: var(--mlbrgn-mle-control-hover-fg-color);
     }
 
-    .media-modal-close-button:focus-visible {
+    .image-editor-modal-close-button:focus-visible {
         outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
         outline-offset: 0;
         border-radius:0.5em;

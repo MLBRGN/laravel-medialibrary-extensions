@@ -40,7 +40,7 @@
         
 @if($useXhr)
     </div>
-    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true"/>
+    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
 @else
     </form>
 @endif

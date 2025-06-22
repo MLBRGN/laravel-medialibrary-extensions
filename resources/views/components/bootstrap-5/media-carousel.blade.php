@@ -1,6 +1,7 @@
 <div id="{{ $id }}"
      {{ $attributes->class([
         'mlbrgn-mle-component',
+        'theme-'.$theme,
         'media-carousel', 
         'media-carousel-empty' => $mediaCount === 0,
         'carousel', 
@@ -8,7 +9,7 @@
         'carousel-fade' => config('media-library-extensions.carousel_fade'),
         'mle-width-100',
         'mle-height-100'
-      ]) }}
+      ])->merge() }}
     @if(config('media-library-extensions.carousel_ride'))
         data-bs-ride="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'carousel' }}"
         data-bs-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
@@ -137,4 +138,4 @@
         :media-collections="$mediaCollections"
         title="Media carousel"/>
 @endif
-<x-mle-partial-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}"/>
+<x-mle-partial-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$theme"/>

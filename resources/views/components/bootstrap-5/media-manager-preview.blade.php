@@ -1,8 +1,14 @@
 @forelse($media as $medium)
     <div 
-        class="mlbrgn-mle-component media-manager-preview-media-container"
+        {{ $attributes->class([
+            'mlbrgn-mle-component',
+             'theme-'.$theme,
+             'media-manager-preview-media-container'
+        ]) }}
+{{--        class="mlbrgn-mle-component media-manager-preview-media-container"--}}
         data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
         data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
+{{--        data-edit-image-route="{{ route(mle_prefix_route('edit-image'), $medium) }}"--}}
     >
 
         @if($medium->hasCustomProperty('youtube-id'))
@@ -49,6 +55,7 @@
                         draggable="false"
                     />
                 </div>
+                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model="$model"/>
             @else
                 no suitable type
             @endif
@@ -66,6 +73,21 @@
                     @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">
+                    @if(isMediaType($medium, 'image'))
+                        <button
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-image-editor-modal-{{$medium->id}}"
+                            class="mle-button mle-button-icon btn btn-primary"
+                            title="{{ __('media-library-extensions::messages.edit') }}"
+    {{--                        data-action="edit-image"--}}
+                        >
+                            <x-mle-partial-icon
+                                name="{{ config('media-library-extensions.icons.edit') }}"
+                                title="{{ __('media-library-extensions::messages.edit') }}"
+                            />
+                        </button>
+                    @endif
                     @if($setAsFirstEnabled)
                         @if($medium->order_column === $media->min('order_column'))
                             <button
@@ -111,4 +133,5 @@
     :media-collection="$imageCollection"
     :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
     :video-auto-play="true"
+    :frontend-theme="$theme"
     title="Media carousel"/>

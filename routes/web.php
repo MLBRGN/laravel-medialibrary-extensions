@@ -30,6 +30,11 @@ Route::group([
                 ->name(config('media-library-extensions.route_prefix').'-set-as-first');
             Route::get('/media-manager-refresh-preview', 'getMediaPreviewerHTML')
                 ->name(config('media-library-extensions.route_prefix').'-media-upload-refresh-preview');
+//            Route::get('media-manager-edit-image', 'editImage')
+//                ->name(config('media-library-extensions.route_prefix').'-edit-image');
+            // using post because technically i delete the old medium and add a new one and no method spoofing needed
+            Route::post('media-manager/{media}/save-updated-medium', 'saveUpdatedMedium')
+                ->name(config('media-library-extensions.route_prefix').'-save-updated-medium');
         });
 
     Route::controller(DemoController::class)

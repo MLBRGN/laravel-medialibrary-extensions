@@ -185,6 +185,7 @@ return [
         'pdf-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PDF', 'bi-file-earmark-pdf'),
         'word-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_WORD', 'bi-file-earmark-word'),
         'unknown-file-mime-type' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_UNKNOWN', 'bi-file-earmark'),
+        'edit' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-pencil'),
     ],
 
     /*

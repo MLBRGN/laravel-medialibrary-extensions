@@ -15,6 +15,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Spatie\MediaLibrary\HasMedia;
@@ -288,6 +289,68 @@ class MediaManagerController extends Controller
             'success',
             __('media-library-extensions::messages.medium_set_as_main'),
             $initiatorId
+        );
+    }
+
+    public function saveUpdatedMedium(Request $request): RedirectResponse|JsonResponse
+//    public function saveUpdatedMedium(SaveUpdatedMediumRequest $request): RedirectResponse|JsonResponse
+    {
+
+        Log::info('All request data', $request->all());
+
+
+//        if (config('media-library-extensions.demo_mode')) {
+//            $media->setConnection('media_demo');
+//        }
+
+        // Step 1: Retrieve model and parameters from the request
+        $modelType = $request->input('model_type');
+        $modelId = $request->input('model_id');
+        $mediumId = $request->input('medium_id');
+        $collection = $request->input('collection');
+        $file = $request->file('file');
+
+//        return response()->json([
+//            'modelId' => $modelId,
+//            'mediumId' => $mediumId,
+//            'collection' => $collection,
+//        ]);
+        abort_unless(class_exists($modelType), 400, 'Invalid model type');
+        $model = $modelType::findOrFail($modelId);
+
+        // Step 2: Find and delete the existing media item if any
+        // querying the model so we know the media item belongs to the model
+        $existingMedia = $model
+            ->getMedia($collection)
+            ->firstWhere('id', $mediumId);
+
+        $name = null;
+        $customProperties = [];
+
+        if ($existingMedia) {
+            $name = $existingMedia->name;
+            $customProperties = $existingMedia->custom_properties ?? [];
+
+            $existingMedia->delete(); // delete the old image
+        }
+
+        // Step 3: Add the new file
+        $fileAdder = $model->addMedia($file);
+
+        if ($name) {
+            $fileAdder->usingName($name);
+        }
+
+        $fileAdder
+            ->withCustomProperties($customProperties)
+            ->toMediaCollection($collection);
+
+        return $this->respondWithStatus(
+            $request,
+            'blaat',
+            'success',
+            __('media-library-extensions::messages.medium_removed'),
+            'blaat'
         );
     }
 

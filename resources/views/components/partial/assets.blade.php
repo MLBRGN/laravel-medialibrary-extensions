@@ -6,7 +6,7 @@
 
 @if($includeJs)
     @once
-        <script src="{{ asset('vendor/media-library-extensions/app-'.$theme.'.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/media-library-extensions/app-'.$theme.'.js') }}"></script>
         @php
             $translations = [
                 'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),
@@ -22,6 +22,12 @@
         <script>
             window.mediaLibraryTranslations = {!! json_encode($translations) !!};
         </script>
+    @endonce
+@endif
+
+@if($includeImageEditorJs)
+    @once
+        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>
     @endonce
 @endif
 

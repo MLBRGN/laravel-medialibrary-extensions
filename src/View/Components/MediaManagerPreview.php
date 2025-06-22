@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -50,6 +51,7 @@ class MediaManagerPreview extends BaseComponent
             }
         }
         $this->media = $collections;
+
     }
 
     public function render(): View

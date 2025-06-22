@@ -2,10 +2,11 @@
     id="{{ $id }}"
     {{ $attributes->class([
         'mlbrgn-mle-component',
+        'theme-'.$theme,
         'media-manager',
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,
-    ]) }}
+    ])->merge() }}
     data-media-manager=""
     >
     <input type="hidden" class="media-manager-config" value='@json($config)' />
@@ -70,4 +71,4 @@
         </div>
     </div>
 </div>
-<x-mle-partial-assets include-css="true" include-js="true"/>
+<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$theme"/>

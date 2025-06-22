@@ -1,6 +1,11 @@
 @forelse($media as $medium)
     <div
-        class="mlbrgn-mle-component media-manager-preview-media-container"
+        {{ $attributes->class([
+              'mlbrgn-mle-component',
+               'theme-'.$theme,
+               'media-manager-preview-media-container'
+          ]) }}
+{{--        class="mlbrgn-mle-component media-manager-preview-media-container"--}}
         data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
         data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
     >
@@ -111,4 +116,5 @@
     :media-collection="$imageCollection"
     :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
     :video-auto-play="true"
+    :frontend-theme="$theme"
     title="Media carousel"/>

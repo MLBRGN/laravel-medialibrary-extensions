@@ -16,6 +16,7 @@ class Assets extends Component
         public ?string $frontendTheme = null,
         public bool $includeCss = false,
         public bool $includeJs = false,
+        public bool $includeImageEditorJs = false,
         public bool $includeFormSubmitter = false,
         public bool $includeYoutubePlayer = false,
     ) {
