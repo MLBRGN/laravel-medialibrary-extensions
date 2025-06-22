@@ -4,7 +4,6 @@
         'mlbrgn-mle-component',
         'theme-'. $theme,
         'image-editor-modal',
-        'modal',
         'fade',
         ])->merge() }}
     id="{{ $id }}"
@@ -14,15 +13,15 @@
     aria-hidden="true"
     data-modal
 >
-    <div class="image-editor-modal-dialog modal-dialog">
-        <div class="image-editor-modal-content modal-content justify-content-center">
-            <h1 class="image-editor-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
-            <div class="image-editor-modal-body modal-body p-0">
+    <div class="image-editor-modal-dialog">
+        <div class="image-editor-modal-content">
+            <h1 class="image-editor-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+            <div class="image-editor-modal-body">
                 <button
+                    data-modal-close
+                    aria-label="Sluit"
                     type="button"
                     class="image-editor-modal-close-button"
-                    data-bs-dismiss="modal"
-                    aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
                     <x-mle-partial-icon
                         name="{{ config('media-library-extensions.icons.close') }}"

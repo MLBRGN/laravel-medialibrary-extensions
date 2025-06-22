@@ -54,6 +54,7 @@
                         draggable="false"
                     />
                 </div>
+{{--                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model="$model"/>--}}
             @else
                 no suitable type
             @endif
@@ -71,6 +72,21 @@
                     @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">
+{{--                    @if(isMediaType($medium, 'image'))--}}
+{{--                        <button--}}
+{{--                            type="button"--}}
+{{--                            data-bs-toggle="modal"--}}
+{{--                            data-bs-target="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
+{{--                            class="mle-button mle-button-icon btn btn-primary"--}}
+{{--                            title="{{ __('media-library-extensions::messages.edit') }}"--}}
+{{--                            --}}{{--                        data-action="edit-image"--}}
+{{--                        >--}}
+{{--                            <x-mle-partial-icon--}}
+{{--                                name="{{ config('media-library-extensions.icons.edit') }}"--}}
+{{--                                title="{{ __('media-library-extensions::messages.edit') }}"--}}
+{{--                            />--}}
+{{--                        </button>--}}
+{{--                    @endif--}}
                     @if($setAsFirstEnabled)
                         @if($medium->order_column === $media->min('order_column'))
                             <button
