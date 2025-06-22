@@ -1,15 +1,15 @@
-@if($useXhr)
-    <div
-        id="{{ $id }}-youtube-upload-form"
-        class="media-manager-youtube-upload-form"
-        data-xhr-form
-    >
-@else
-    <form
-        {{ $attributes->class(['media-manager-youtube-upload-form']) }}
-        action="{{ route(mle_prefix_route('media-upload-youtube')) }}"
-        method="post">
-@endif
+<x-media-library-extensions::partial.conditional-form
+    :use-xhr="$useXhr"
+    :form-attributes="[
+        'action' => route(mle_prefix_route('media-upload-youtube')),
+        'method' => 'POST'
+    ]"
+    :div-attributes="[
+        'data-xhr-form' => true, 
+        'id' => $id.'-youtube-upload-form'
+    ]"
+    class="media-manager-youtube-upload-form"
+>
     @csrf
     <input
         type="hidden"
@@ -46,9 +46,7 @@
     >
         {{ __('media-library-extensions::messages.add_video') }}
     </button>
+</x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    </div>
     <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
-@else
-    </form>
 @endif
