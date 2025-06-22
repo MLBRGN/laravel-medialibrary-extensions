@@ -1,17 +1,16 @@
-@if($useXhr)
-    <div
-        id="{{ $id }}-media-upload-form"
-        class="media-manager-upload-form"
-        data-xhr-form
-    >
-@else
-    <form
-        {{ $attributes->class(['media-manager-upload-form']) }}
-        action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))}}"
-        enctype="multipart/form-data"
-        method="post"
-    >
-@endif
+<x-media-library-extensions::partial.conditional-form
+    :use-xhr="$useXhr"
+    :form-attributes="[
+        'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
+        'method' => 'POST',
+        'enctype' => 'multipart/form-data'
+    ]"
+    :div-attributes="[
+        'data-xhr-form' => true, 
+        'id' => $id.'-media-upload-form'
+    ]"
+    class="media-manager-upload-form"
+>
     @csrf
     <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
     @if($multiple)
@@ -66,9 +65,7 @@
          ? __('media-library-extensions::messages.upload_media')
          : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
+</x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    </div>
     <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
-@else
-    </form>
 @endif
