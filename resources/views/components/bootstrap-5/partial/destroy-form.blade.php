@@ -1,15 +1,15 @@
-@if($useXhr)
-    <div
-        id="{{ $id }}-media-destroy-form"
-        class="media-manager-destroy-form"
-        data-xhr-form
-    >
-@else
-    <form
-        {{ $attributes->class(['media-manager-preview-form']) }}
-        action="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
-        method="post">
-@endif
+<x-media-library-extensions::partial.conditional-form
+    :use-xhr="$useXhr"
+    :form-attributes="[
+        'action' => route(mle_prefix_route('medium-destroy'), $medium),
+        'method' => 'POST'
+    ]"
+    :div-attributes="[
+        'data-xhr-form' => true, 
+        'id' => $id.'-media-destroy-form'
+    ]"
+    class="media-manager-destroy-form"
+>
         @csrf
         @method('DELETE')
         <input
@@ -27,9 +27,7 @@
                 :title="__('media-library-extensions::messages.delete_medium')"
             />
         </button>
+</x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    </div>
     <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
-@else
-    </form>
 @endif

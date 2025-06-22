@@ -1,15 +1,16 @@
-@if($useXhr)
-    <div
-        id="{{ $id }}-media-set-as-first-form"
-        class="media-manager-destroy-form"
-        data-xhr-form
-    >
-@else
-    <form
-        class="media-manager-menu-form"
-        action="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
-        method="post">
-@endif
+<x-media-library-extensions::partial.conditional-form
+    :use-xhr="$useXhr"
+    :form-attributes="[
+        'action' => route(mle_prefix_route('set-as-first'), $medium),
+        'method' => 'POST'
+    ]"
+    :div-attributes="[
+        'data-xhr-form' => true, 
+        'id' => $id.'-media-set-as-first-form'
+    ]"
+    class="set-as-first-form"
+>
+    @csrf
     <input type="hidden"
            name="medium_id"
            value="{{ $medium->id }}">
@@ -36,9 +37,7 @@
             title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         />
     </button>
+</x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    </div>
     <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
-@else
-    </form>
 @endif
