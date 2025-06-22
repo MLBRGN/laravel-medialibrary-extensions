@@ -29,7 +29,8 @@
                 </button>
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
                 <image-editor 
-                    id="imageEditor"
+                    id="{{ $id }}-image-editor"
+                    data-initiator-id="{{ $id }}"
                     data-medium-name="{{ $medium->name }}"
                     data-medium-path="{{ $medium->getFullUrl() }}"
                 />
@@ -37,4 +38,5 @@
         </div>
     </div>
 </div>
-<x-mle-partial-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$theme"/>
+{{--<x-mle-partial-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$theme"/>--}}
+<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$theme"/>

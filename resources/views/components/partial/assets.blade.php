@@ -25,11 +25,11 @@
     @endonce
 @endif
 
-@if($includeImageEditorJs)
-    @once
-        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>
-    @endonce
-@endif
+{{--@if($includeImageEditorJs)--}}
+{{--    @once--}}
+{{--        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
 
 @if($includeFormSubmitter)
     @once
