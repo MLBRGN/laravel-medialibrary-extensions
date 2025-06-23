@@ -1,11 +1,15 @@
 <?php
 
 return [
-    'upload_success' => 'Upload was successful!',
+    'upload_success' => 'Upload geslaagd.',
     'upload_failed_due_to_invalid_mimetype' => 'Upload mislukt door ongeldig bestandstype.',
     'upload_fail' => 'Upload mislukt.',
     'upload_no_files' => 'Geen bestanden geüpload.',
+    'upload_no_file' => 'Geen bestand geüpload.',
+    'upload_no_youtube_url' => 'Geen YouTube URL.',
+    'youtube_video_uploaded' => 'YouTube video geüpload.',
     'setup_as_main' => 'Instellen als hoofdmedium.',
+    'please_wait' => 'Een moment a.u.b.',
     'medium_set_as_main' => 'Ingesteld als hoofdmedium.',
     'medium_removed' => 'Medium verwijderd.',
     'medium_could_not_be_removed' => 'Medium kon niet worden verwijderd.',
@@ -24,9 +28,18 @@ return [
     'medium_:name' => 'Medium :name',
     'close' => 'Sluit',
     'not_authorized' => 'Niet geautoriseerd',
-    'this_collection_can_contain_up_to_:items_items' => 'Deze collectie kan tot :items bevatten.',
+    'this_collection_can_contain_up_to_:items_items' => 'Deze collectie kan tot :items items bevatten.',
     'slide_to_:index' => 'Ga naar dia :index',
     'watch_on_youtube' => 'Bekijk op YouTube',
     'play_video' => 'Video afspelen',
     'supported_file_formats_:supported_formats' => 'Ondersteunde bestandsformaten: :supported_formats.',
-];
+    'no_permission' => 'Geen permissie.',
+    'unknown-file-mime-type' => 'Onbekend bestandstype.',
+    'word-document' => 'Word document.',
+    'pdf-document' => 'PDF document.',
+    'show_document' => 'Toon document.',
+    'demo_mode_disabled' => 'Demo modus is uitgeschakeld.',
+    'no_blade_ui_kit_icon_package_detected_download_at_:link' => 'Geen "Blade UI Kit icon package" gedetecteerd download via :link',
+    'note_carousel_only_updates_on_refresh_of_page' => 'LET OP: Deze carrousel wordt alleen bijgewerkt na het verversen van de pagina, zelfs wanneer XHR is ingeschakeld voor media managers.',
+    'edit' => 'Bewerken',
+    ];

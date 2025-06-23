@@ -3,7 +3,10 @@
             'mle-status-message', 
             'mle-status-message-'.$status['type'],
             $extraClasses
-        ])->merge() }}>
+        ])->merge() }}
+        id="{{ $id }}"
+        data-status-message
+    >
         {{$status['message'] }}
     </div>
 @endif

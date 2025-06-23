@@ -15,13 +15,15 @@ class DestroyForm extends BaseComponent
         public Media $medium,
         public string $id,
         public ?string $frontendTheme,
-
+        public ?bool $useXhr = null,
     ) {
         parent::__construct($id, $frontendTheme);
     }
 
     public function render(): View
     {
+        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+
         return $this->getPartialView('destroy-form', $this->theme);
     }
 }

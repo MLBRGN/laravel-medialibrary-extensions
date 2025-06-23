@@ -1,7 +1,7 @@
 @if ($preview)
     <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
         <x-mle-partial-icon
-            class="mle-youtube-play-button"
+            class="mle-icon-container-youtube-play-button"
             name="{{ config('media-library-extensions.icons.play_video') }}"
             title="{{ __('media-library-extensions::messages.play_video') }}"
         />

@@ -1,13 +1,15 @@
 <div id="{{ $id }}"
      {{ $attributes->class([
         'mlbrgn-mle-component',
+        'theme-'.$theme,
         'media-carousel', 
+        'media-carousel-empty' => $mediaCount === 0,
         'carousel', 
         'slide',
         'carousel-fade' => config('media-library-extensions.carousel_fade'),
         'mle-width-100',
-        'mle-height-100'   
-      ]) }}
+        'mle-height-100'
+      ])->merge() }}
     @if(config('media-library-extensions.carousel_ride'))
         data-bs-ride="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'carousel' }}"
         data-bs-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
@@ -18,15 +20,18 @@
         @class([
             'media-carousel-indicators', 
             'carousel-indicators', 
-            'mle-display-none' => $mediaItems->count() < 2
-        ])>
+            'mle-display-none' => $mediaCount < 2
+        ])
+    >
         @foreach($mediaItems as $index => $medium)
             <button
                 type="button"
                 data-bs-target="#{{ $id }}"
                 data-bs-slide-to="{{ $index }}"
                 @class(['active' => $loop->first])
-                @if($loop->first) aria-current="true" @endif
+                @if($loop->first) 
+                    aria-current="true" 
+                @endif
                 aria-label="{{ __('media-library-extensions::messages.slide_to_:index', ['index' => $index + 1]) }}">
             </button>
         @endforeach
@@ -34,8 +39,7 @@
 
     {{-- Slides --}}
     <div class="media-carousel-inner carousel-inner">
-        @foreach($mediaItems as $index => $medium)
-
+        @forelse($mediaItems as $index => $medium)
             <div @class([
                 'media-carousel-item',
                 'carousel-item',
@@ -86,7 +90,16 @@
                 @endif
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div @class([
+                'media-carousel-item',
+                'active',
+            ])>
+                <div class="media-carousel-item-container">
+                    <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
+                </div>
+            </div>
+        @endforelse
     </div>
 
     {{-- Prev/Next controls --}}
@@ -94,7 +107,7 @@
         @class([
              'media-carousel-control-prev',
              'carousel-control-prev',
-             'disabled' => count($mediaItems) <= 1
+             'disabled' => $mediaCount <= 1
          ])
         type="button" 
         data-bs-target="#{{ $id }}" 
@@ -107,7 +120,7 @@
         @class([
             'media-carousel-control-next',
             'carousel-control-next',
-            'disabled' => count($mediaItems) <= 1
+            'disabled' => $mediaCount <= 1
         ])
         type="button" 
         data-bs-target="#{{ $id }}" 
@@ -125,4 +138,4 @@
         :media-collections="$mediaCollections"
         title="Media carousel"/>
 @endif
-<x-mle-partial-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}"/>
+<x-mle-partial-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$theme"/>

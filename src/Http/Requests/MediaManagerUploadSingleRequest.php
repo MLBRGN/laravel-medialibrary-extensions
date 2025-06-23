@@ -39,7 +39,7 @@ class MediaManagerUploadSingleRequest extends FormRequest
                 'mimetypes:'.implode(',', Arr::flatten(config('media-library-extensions.allowed_mimetypes'))),
                 'max:'.config('media-library-extensions.max_upload_size'),
             ],
-            'target_id' => ['required', 'string'],
+            'initiator_id' => ['required', 'string'],
         ];
     }
 }

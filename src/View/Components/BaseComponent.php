@@ -25,7 +25,7 @@ abstract class BaseComponent extends Component
             $this->id = 'component-'.uniqid();
         }
 
-        $this->theme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+        $this->theme = $frontendTheme ?? config('media-library-extensions.frontend_theme');
 
     }
 

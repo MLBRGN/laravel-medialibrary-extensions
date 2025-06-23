@@ -1,8 +1,15 @@
-{{--<x-mle-partial-flash :target-id="$id"/>--}}
-<form
-    {{ $attributes->class(['media-manager-youtube-upload-form']) }}
-    action="{{ route(mle_prefix_route('media-upload-youtube')) }}"
-    method="post">
+<x-media-library-extensions::partial.conditional-form
+    :use-xhr="$useXhr"
+    :form-attributes="[
+        'action' => route(mle_prefix_route('media-upload-youtube')),
+        'method' => 'POST'
+    ]"
+    :div-attributes="[
+        'data-xhr-form' => true, 
+        'id' => $id.'-youtube-upload-form'
+    ]"
+    class="media-manager-youtube-upload-form"
+>
     @csrf
     <input
         type="hidden"
@@ -18,7 +25,7 @@
         value="{{ $model->id }}">
     <input
         type="hidden"
-        name="target_id"
+        name="initiator_id"
         value="{{ $id }}">
         <label 
             for="{{ $id }}-youtube-url" 
@@ -32,8 +39,13 @@
             class="mle-input" 
             placeholder="https://www.youtube.com/watch?v=..." />
     <button
-        type="submit"
-        class="mle-button mle-upload-button">
+        type="{{ $useXhr ? 'button' : 'submit' }}"
+        class="mle-button mle-upload-button"
+        data-action="upload-youtube-medium"
+    >
         {{ trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
-</form>
+</x-media-library-extensions::partial.conditional-form>
+@if($useXhr)
+    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
+@endif

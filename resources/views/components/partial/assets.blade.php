@@ -6,40 +6,48 @@
 
 @if($includeJs)
     @once
-        <script src="{{ asset('vendor/media-library-extensions/app-'.$theme.'.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/media-library-extensions/app-'.$theme.'.js') }}"></script>
+        @php
+            $translations = [
+                'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),
+                'unauthenticated' => __('media-library-extensions::http.unauthenticated'),
+                'forbidden' => __('media-library-extensions::http.forbidden'),
+                'not_found' => __('media-library-extensions::http.not_found'),
+                'validation_failed' => __('media-library-extensions::http.validation_failed'),
+                'too_many_requests' => __('media-library-extensions::http.too_many_requests'),
+                'server_error' => __('media-library-extensions::http.server_error'),
+                'unknown_error' => __('media-library-extensions::http.unknown_error'),
+            ];
+        @endphp
+        <script>
+            window.mediaLibraryTranslations = {!! json_encode($translations) !!};
+        </script>
+    @endonce
+@endif
+
+{{--@if($includeImageEditorJs)--}}
+{{--    @once--}}
+{{--        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+@if($includeFormSubmitter)
+    @once
+        <script src="{{ asset('vendor/media-library-extensions/form-submitter.js') }}"></script>
     @endonce
 @endif
 
 @if($includeYoutubePlayer)
     @once
         <script src="https://www.youtube.com/iframe_api"></script>
-        <script src="{{ asset('vendor/media-library-extensions/lite-youtube.js') }}"></script>
+        <script>
+            if (!customElements.get('lite-youtube')) {
+                const script = document.createElement('script');
+                script.src = "{{ asset('vendor/media-library-extensions/lite-youtube.js') }}";
+                document.head.appendChild(script);
+            }
+        </script>
     @endonce
 @endif
 
 {{ $slot }}
-
-{{--<div {{ $attributes->merge(['class' => 'mlbrgn-mle-component']) }} id="{{ $id }}">--}}
-
-{{--    <!-- Your component content here -->--}}
-
-{{--    <script>--}}
-{{--        (function() {--}}
-{{--            if (!window.__mle_assets_loaded) {--}}
-{{--                window.__mle_assets_loaded = true;--}}
-
-{{--                // Load CSS--}}
-{{--                var link = document.createElement('link');--}}
-{{--                link.rel = 'stylesheet';--}}
-{{--                link.href = "{{ asset('vendor/media-library-extensions/app.css') }}";--}}
-{{--                document.head.appendChild(link);--}}
-
-{{--                // Load JS--}}
-{{--                var script = document.createElement('script');--}}
-{{--                script.src = "{{ asset('vendor/media-library-extensions/app.js') }}";--}}
-{{--                script.defer = true;  // avoid blocking render--}}
-{{--                document.head.appendChild(script);--}}
-{{--            }--}}
-{{--        })();--}}
-{{--    </script>--}}
-{{--</div>--}}

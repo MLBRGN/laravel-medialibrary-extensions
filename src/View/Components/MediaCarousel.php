@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 class MediaCarousel extends BaseComponent
 {
     public MediaCollection $mediaItems;
+    public int $mediaCount;
 
     public string $previewerId = '';
 
@@ -27,17 +28,28 @@ class MediaCarousel extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
-        if (! is_null($this->mediaCollection)) {
-            $this->mediaItems = $model->getMedia($this->mediaCollection);
-        } elseif (! empty($this->mediaCollections)) {
-            $allMedia = collect();
-            foreach ($this->mediaCollections as $collectionName) {
-                $allMedia = $allMedia->merge($model->getMedia($collectionName));
+        if ($model) {
+            if (!empty($this->mediaCollections)) {
+                // Use multiple collections if provided
+                $allMedia = collect();
+                foreach ($this->mediaCollections as $collectionName) {
+                    if (!empty($collectionName)) {
+                        $allMedia = $allMedia->merge($model->getMedia($collectionName));
+                    }
+                }
+                $this->mediaItems = MediaCollection::make($allMedia);
+            } elseif (!empty($this->mediaCollection)) {
+                // Fallback to the single collection
+                $this->mediaItems = $model->getMedia($this->mediaCollection);
+            } else {
+                // Fallback to a collection
+                $this->mediaItems = MediaCollection::make();
             }
-            $this->mediaItems = MediaCollection::make($allMedia);
         } else {
             $this->mediaItems = MediaCollection::make();
         }
+
+        $this->mediaCount = $this->mediaItems->count();
 
         $this->frontend = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
 

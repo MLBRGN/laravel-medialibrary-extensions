@@ -22,9 +22,9 @@ class SetAsFirstRequest extends FormRequest
         return [
             'model_type' => 'required|string',
             'model_id' => 'required|string',
-            'collection_name' => ['required', 'string'],
+            'target_media_collection' => ['required', 'string'],
             'medium_id' => 'required|string',
-            'target_id' => ['required', 'string'],
+            'initiator_id' => ['required', 'string'],
         ];
     }
 }

@@ -16,6 +16,8 @@ class Assets extends Component
         public ?string $frontendTheme = null,
         public bool $includeCss = false,
         public bool $includeJs = false,
+        public bool $includeImageEditorJs = false,
+        public bool $includeFormSubmitter = false,
         public bool $includeYoutubePlayer = false,
     ) {
         $this->theme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');

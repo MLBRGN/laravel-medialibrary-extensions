@@ -16,24 +16,30 @@ class MediaModal extends BaseComponent
         public ?HasMedia $model,
         public ?string $mediaCollection,
         public ?array $mediaCollections,
-        public string $title,
-        public string $sizeClass = 'modal-almost-fullscreen',// TODO remove
+        public string $title,// TODO do i want this?
         public string $id = '',
         public ?string $frontendTheme = null,
         public bool $videoAutoPlay = true,
     ) {
         parent::__construct($id, $frontendTheme);
 
-        if (! is_null($this->mediaCollection)) {
-            $this->mediaItems = $model->getMedia($this->mediaCollection);
-        } elseif (! empty($this->mediaCollections)) {
-            $allMedia = collect();
-            foreach ($this->mediaCollections as $collectionName) {
-                if (!empty($collectionName)) {
-                    $allMedia = $allMedia->merge($model->getMedia($collectionName));
+        if ($model) {
+            if (!empty($this->mediaCollections)) {
+                // Use multiple collections if provided
+                $allMedia = collect();
+                foreach ($this->mediaCollections as $collectionName) {
+                    if (!empty($collectionName)) {
+                        $allMedia = $allMedia->merge($model->getMedia($collectionName));
+                    }
                 }
+                $this->mediaItems = MediaCollection::make($allMedia);
+            } elseif (!empty($this->mediaCollection)) {
+                // Fallback to the single collection
+                $this->mediaItems = $model->getMedia($this->mediaCollection);
+            } else {
+                // Fallback to a collection
+                $this->mediaItems = MediaCollection::make();
             }
-            $this->mediaItems = MediaCollection::make($allMedia);
         } else {
             $this->mediaItems = MediaCollection::make();
         }

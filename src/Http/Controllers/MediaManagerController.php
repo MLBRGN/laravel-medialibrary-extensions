@@ -4,12 +4,20 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -21,42 +29,31 @@ class MediaManagerController extends Controller
     {
         abort_if(! class_exists($modelType), 400, 'Invalid model type');
 
-        return (new $modelType)::findOrFail($modelId);
-    }
-
-    protected function redirectBackWithStatus(string $targetId, string $type, string $message, ?string $fragment = null): RedirectResponse
-    {
-        $redirect = redirect()->back()
-            ->with(status_session_prefix(), [
-                'target' => $targetId,
-                'type' => $type,
-                'message' => $message,
-            ]);
-
-        if ($fragment) {
-            $redirect = $redirect->withFragment($fragment);
-        }
-
-        return $redirect;
+        return (new $modelType())::findOrFail($modelId);
     }
 
     /**
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
-    public function store(MediaManagerUploadSingleRequest $request): RedirectResponse
+    public function store(MediaManagerUploadSingleRequest $request): RedirectResponse|JsonResponse
     {
 
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('uploadMedia', Media::class);
+//        $this->authorize('uploadMedia', Media::class);
 
-        $targetId = $request->target_id;
-//        $collectionName = $request->collection_name;
+        $initiatorId = $request->initiator_id;
         $imageCollectionName = $request->image_collection;
         $documentCollectionName = $request->document_collection;
         $field = config('media-library-extensions.upload_field_name_single');
 
         $file = $request->file($field);
+
+        Log::info('Media connection:', [
+            'model' => get_class($model),
+            'conn' => $model->getConnectionName(),
+            'default' => config('database.default'),
+        ]);
 
         if ($file) {
             $mimeType = $file->getMimeType();
@@ -66,11 +63,12 @@ class MediaManagerController extends Controller
                 $collection = $documentCollectionName;
             } else {
                 // early return when one of the files is not supported
-                return $this->redirectBackWithStatus(
-                    $targetId,
+                return $this->respondWithStatus(
+                    $request,
+                    $initiatorId,
                     'error',
                     __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
-                    $targetId
+                    $initiatorId
                 );
             }
 
@@ -78,19 +76,20 @@ class MediaManagerController extends Controller
                 ->addMedia($request->file($field))
                 ->toMediaCollection($collection);
 
-            return $this->redirectBackWithStatus(
-                $targetId,
+            return $this->respondWithStatus(
+                $request,
+                $initiatorId,
                 'success',
                 __('media-library-extensions::messages.upload_success'),
-                $targetId
+                $initiatorId
             );
         }
-
-        return $this->redirectBackWithStatus(
-            $targetId,
+        return $this->respondWithStatus(
+            $request,
+            $initiatorId,
             'error',
-            __('media-library-extensions::messages.upload_no_files'),
-            $targetId
+            __('media-library-extensions::messages.upload_no_file'),
+            $initiatorId
         );
     }
 
@@ -98,13 +97,13 @@ class MediaManagerController extends Controller
      * @throws FileIsTooBig
      * @throws FileDoesNotExist
      */
-    public function storeMany(MediaManagerUploadMultipleRequest $request): RedirectResponse
+    public function storeMany(MediaManagerUploadMultipleRequest $request): RedirectResponse|JsonResponse
     {
 
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('uploadMedia', Media::class);
+//        $this->authorize('uploadMedia', Media::class);
 
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
         $imageCollectionName = $request->image_collection;
         $documentCollectionName = $request->document_collection;
 
@@ -119,12 +118,12 @@ class MediaManagerController extends Controller
                 } elseif (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.document'))) {
                     $collection = $documentCollectionName;
                 } else {
-                    // early return when one of the files is not supported
-                    return $this->redirectBackWithStatus(
-                        $targetId,
+                    return $this->respondWithStatus(
+                        $request,
+                        $initiatorId,
                         'error',
                         __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
-                        $targetId
+                        $initiatorId
                     );
                 }
 
@@ -132,12 +131,14 @@ class MediaManagerController extends Controller
                     ->toMediaCollection($collection);
             }
 
-            return $this->redirectBackWithStatus(
-                $targetId,
+            return $this->respondWithStatus(
+                $request,
+                $initiatorId,
                 'success',
                 __('media-library-extensions::messages.upload_success'),
-                $targetId
+                $initiatorId
             );
+
         }
 
         if ($request->filled('youtube_url')) {
@@ -149,7 +150,7 @@ class MediaManagerController extends Controller
 //                abort(422, 'Invalid YouTube URL');
 //            }
 
-            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
+            $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
 
             /** @var HasMedia $model */
             $model
@@ -162,25 +163,26 @@ class MediaManagerController extends Controller
                 ->toMediaCollection('workplace-youtube-videos');
         }
 
-
-        return $this->redirectBackWithStatus(
-            $targetId,
+        return $this->respondWithStatus(
+            $request,
+            $initiatorId,
             'error',
             __('media-library-extensions::messages.upload_no_files'),
-            $targetId
+            $initiatorId
         );
+
     }
 
-    public function storeYouTube(MediaManagerUploadYouTubeRequest $request): RedirectResponse
+    public function storeYouTube(MediaManagerUploadYouTubeRequest $request): RedirectResponse|JsonResponse
     {
         if(!config('media-library-extensions.youtube_support_enabled')) {
             abort(403);
         }
 
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('uploadMedia', Media::class);
+//        $this->authorize('uploadMedia', Media::class);
 
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
         $collectionName = $request->collection_name;
         $field = config('media-library-extensions.upload_field_name_youtube');
 
@@ -193,7 +195,7 @@ class MediaManagerController extends Controller
 //                abort(422, 'Invalid YouTube URL');
 //            }
 
-            $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
+            $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
 
             /** @var HasMedia $model */
             $model
@@ -204,54 +206,223 @@ class MediaManagerController extends Controller
                     'youtube-id' => $videoId,
                 ])
                 ->toMediaCollection($collectionName);
+
+            return $this->respondWithStatus(
+                $request,
+                $initiatorId,
+                'success',
+                __('media-library-extensions::messages.youtube_video_uploaded'),
+                $initiatorId
+            );
         }
 
-
-        return $this->redirectBackWithStatus(
-            $targetId,
+        return $this->respondWithStatus(
+            $request,
+            $initiatorId,
             'error',
-            __('media-library-extensions::messages.upload_no_files'),
-            $targetId
+            __('media-library-extensions::messages.upload_no_youtube_url'),
+            $initiatorId
         );
     }
 
-    public function destroy(MediaManagerDestroyRequest $request, Media $media): RedirectResponse
+    public function destroy(MediaManagerDestroyRequest $request, Media $media): RedirectResponse|JsonResponse
     {
-        $targetId = $request->target_id;
+        $initiatorId = $request->initiator_id;
 
-        $this->authorize('deleteMedia', $media);
+//        $this->authorize('deleteMedia', $media);
+
+        if (config('media-library-extensions.demo_mode')) {
+            $media->setConnection('media_demo');
+        }
+
+        Log::info('Media connection:', [
+            'model' => get_class($media),
+            'conn' => $media->getConnectionName(),
+            'default' => config('database.default'),
+        ]);
+
         $media->delete();
 
-        return $this->redirectBackWithStatus(
-            $targetId,
+        return $this->respondWithStatus(
+            $request,
+            $initiatorId,
             'success',
             __('media-library-extensions::messages.medium_removed'),
-            $targetId
+            $initiatorId
         );
 
     }
 
-    public function setAsFirst(SetAsFirstRequest $request): RedirectResponse
+    public function setAsFirst(SetAsFirstRequest $request): RedirectResponse|JsonResponse
     {
         $model = $this->getModel($request->model_type, $request->model_id);
-        $this->authorize('reorderMedia', Media::class);
-        $collectionName = $request->collection_name;
-        $targetId = $request->target_id;
+//        $this->authorize('reorderMedia', Media::class);
+        $targetMediaCollection = $request->target_media_collection;
+        $initiatorId = $request->initiator_id;
         $mediumId = (int) $request->medium_id;
 
-        $media = $model->getMedia($collectionName);
+        $media = $model->getMedia($targetMediaCollection);
+
+        Log::info('set as first Media connection:', [
+            'model' => get_class($model),
+            'conn' => $model->getConnectionName(),
+            'default' => config('database.default'),
+        ]);
 
         // Reorder media so the selected medium is first
         $orderedIds = $media->pluck('id')->toArray();
         $orderedIds = array_filter($orderedIds, fn ($id) => $id !== $mediumId);
         array_unshift($orderedIds, $mediumId);
-        Media::setNewOrder($orderedIds);
 
-        return $this->redirectBackWithStatus(
-            $targetId,
+        if (config('media-library-extensions.demo_mode')) {
+            $originalConnection = config('database.default');
+            config(['database.default' => 'media_demo']);
+            Media::setNewOrder($orderedIds);
+            config(['database.default' => $originalConnection]);
+        } else {
+            Media::setNewOrder($orderedIds);
+        }
+
+        return $this->respondWithStatus(
+            $request,
+            $initiatorId,
             'success',
             __('media-library-extensions::messages.medium_set_as_main'),
-            $targetId
+            $initiatorId
         );
     }
+
+    public function saveUpdatedMedium(Request $request): RedirectResponse|JsonResponse
+//    public function saveUpdatedMedium(SaveUpdatedMediumRequest $request): RedirectResponse|JsonResponse
+    {
+
+        Log::info('All request data', $request->all());
+
+
+//        if (config('media-library-extensions.demo_mode')) {
+//            $media->setConnection('media_demo');
+//        }
+
+        // Step 1: Retrieve model and parameters from the request
+        $modelType = $request->input('model_type');
+        $modelId = $request->input('model_id');
+        $mediumId = $request->input('medium_id');
+        $collection = $request->input('collection');
+        $file = $request->file('file');
+
+//        return response()->json([
+//            'modelId' => $modelId,
+//            'mediumId' => $mediumId,
+//            'collection' => $collection,
+//        ]);
+        abort_unless(class_exists($modelType), 400, 'Invalid model type');
+        $model = $modelType::findOrFail($modelId);
+
+        // Step 2: Find and delete the existing media item if any
+        // querying the model so we know the media item belongs to the model
+        $existingMedia = $model
+            ->getMedia($collection)
+            ->firstWhere('id', $mediumId);
+
+        $name = null;
+        $customProperties = [];
+
+        if ($existingMedia) {
+            $name = $existingMedia->name;
+            $customProperties = $existingMedia->custom_properties ?? [];
+
+            $existingMedia->delete(); // delete the old image
+        }
+
+        // Step 3: Add the new file
+        $fileAdder = $model->addMedia($file);
+
+        if ($name) {
+            $fileAdder->usingName($name);
+        }
+
+        $fileAdder
+            ->withCustomProperties($customProperties)
+            ->toMediaCollection($collection);
+
+        return $this->respondWithStatus(
+            $request,
+            'blaat',
+            'success',
+            __('media-library-extensions::messages.medium_removed'),
+            'blaat'
+        );
+    }
+
+    // used by ajax to refresh previews of images after upload / delete / new order
+    public function getMediaPreviewerHTML(GetMediaPreviewerHTMLRequest $request): Response|JsonResponse
+    {
+        $initiatorId = $request->input('initiator_id');
+        $id = $initiatorId;
+
+        $modelType = $request->input('model_type');
+        $modelId = $request->input('model_id');
+        $model = $this->getModel($modelType, $modelId);
+
+        $imageCollection = $request->input('image_collection');
+        $documentCollection = $request->input('document_collection');
+        $youtubeCollection = $request->input('youtube_collection');
+
+        $frontendTheme = $request->input('frontend_theme');
+
+        $destroyEnabled = $request->input('destroy_enabled');
+        $setAsFirstEnabled = $request->input('set_as_first_enabled');
+        $showMediaUrl = $request->input('show_media_url');
+        $showOrder = $request->input('show_order');
+
+        $component = new MediaManagerPreview(
+            id: $id,
+
+            model: $model,
+
+            imageCollection: $imageCollection,
+            documentCollection: $documentCollection,
+            youtubeCollection: $youtubeCollection,
+
+            frontendTheme: $frontendTheme,
+
+            destroyEnabled: $destroyEnabled,
+            setAsFirstEnabled: $setAsFirstEnabled,
+            showMediaUrl: $showMediaUrl,
+            showOrder: $showOrder,
+        );
+
+        $html = Blade::renderComponent($component);
+
+        return response()->json([
+            'html' => $html,
+            'success' => true,
+            'target' => $initiatorId,
+        ]);
+    }
+
+    protected function respondWithStatus(Request $request, string $initiatorId, string $type, string $message, ?string $fragmentIdentifier = null): JsonResponse|RedirectResponse
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'initiator_id' => $initiatorId,
+                'type' => $type,
+                'message' => $message,
+            ]);
+        }
+
+        $redirect = redirect()->back()
+            ->with(status_session_prefix(), [
+                'initiator_id' => $initiatorId,
+                'type' => $type,
+                'message' => $message,
+            ]);
+
+        if ($fragmentIdentifier) {
+            $redirect = $redirect->withFragment($fragmentIdentifier);
+        }
+
+        return $redirect;
+    }
+
 }

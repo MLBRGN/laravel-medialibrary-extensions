@@ -12,7 +12,7 @@
 }
 
 // TODO these are all classes in media-carousel
-.mlbrgn-mle-component {
+.mlbrgn-mle-component.theme-bootstrap-5 {
 
     &.media-carousel {
         --carousel-indicator-width: 12px;
@@ -35,6 +35,10 @@
         overflow:hidden;
         background-color: var(--mlbrgn-mle-container-bg-light);
         border:0;
+    }
+
+    &.media-carousel-empty {
+        aspect-ratio: 16/1;
     }
 
     .media-carousel-inner {

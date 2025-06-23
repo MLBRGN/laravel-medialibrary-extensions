@@ -1,9 +1,16 @@
-<x-mle-partial-flash :target-id="$id"/>
-<form
-    {{ $attributes->class(['media-manager-upload-form']) }}
-    action="{{ $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')) }}"
-    enctype="multipart/form-data"
-    method="post">
+<x-media-library-extensions::partial.conditional-form
+    :use-xhr="$useXhr"
+    :form-attributes="[
+        'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
+        'method' => 'POST',
+        'enctype' => 'multipart/form-data'
+    ]"
+    :div-attributes="[
+        'data-xhr-form' => true, 
+        'id' => $id.'-media-upload-form'
+    ]"
+    class="media-manager-upload-form"
+>
     @csrf
     <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
     @if($multiple)
@@ -22,11 +29,15 @@
             type="file"
             class="mle-input custom-file-input">
     @endif
-    <span class="form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
+    <span class="mle-form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
+        <input
+            type="hidden"
+            name="upload_to_collection"
+            value="{{ $uploadToCollection }}">
     <input
         type="hidden"
         name="image_collection"
-        value="{{ $mediaCollection }}">
+        value="{{ $imageCollection }}">
     @if($documentCollection)
         <input
             type="hidden"
@@ -43,13 +54,18 @@
         value="{{ $model->id }}">
     <input
         type="hidden"
-        name="target_id"
+        name="initiator_id"
         value="{{ $id }}">
     <button
-        type="submit"
-        class="mle-button mle-upload-button">
+        type="{{ $useXhr ? 'button' : 'submit' }}"
+        class="mle-button mle-upload-button"
+        data-action="upload-media"
+    >
         {{ $multiple
          ? __('media-library-extensions::messages.upload_media')
          : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
     </button>
-</form>
+</x-media-library-extensions::partial.conditional-form>
+@if($useXhr)
+    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
+@endif

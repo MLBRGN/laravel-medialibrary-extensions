@@ -1,5 +1,10 @@
 <div
-    {{ $attributes->merge(['class' => "mlbrgn-mle-component media-modal fade"]) }}
+    {{ $attributes->class([
+        'mlbrgn-mle-component',
+        'theme-'. $theme,
+        'media-modal',
+        'fade',
+        ])->merge() }}
     id="{{ $id }}"
     tabindex="-1"
     role="dialog"
@@ -8,6 +13,7 @@
     @if($videoAutoPlay)
         data-video-autoplay=""
     @endif
+    data-modal
 >
     <div class="media-modal-dialog">
         <div class="media-modal-content">
@@ -32,11 +38,12 @@
                     :click-to-open-in-modal="false"
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"
-                    :in-modal="true"/>
+                    :frontend-theme="$theme"
+                    :in-modal="true"
+                />
             </div>
         </div>
     </div>
 </div>
-<x-mle-partial-assets include-css="true" include-js="true"/>
-
+<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$theme"/>
 

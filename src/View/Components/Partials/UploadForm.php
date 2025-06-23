@@ -16,31 +16,35 @@ class UploadForm extends BaseComponent
     public function __construct(
 
         public ?HasMedia $model,
-        public ?string $mediaCollection,
+        public ?string $uploadToCollection,
+        public ?string $imageCollection,
         public ?string $documentCollection,
+        public ?string $youtubeCollection,
         public string $id,
         public ?string $frontendTheme,
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
+        public bool $destroyEnabled = false,
+        public bool $setAsFirstEnabled = false,
+        public ?bool $useXhr = null,
     ) {
         parent::__construct($id, $frontendTheme);
     }
 
     public function render(): View
     {
-//        dd($this->allowedMimeTypes);
-        // TODO not right
-        $allowedImageMimeTypesFromConfig = config('media-library-extensions.allowed_mimetypes.image', []);
+        $allowedMimeTypesFromConfig = collect(config('media-library-extensions.allowed_mimetypes', []))->flatten();
         $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
-        $this->allowedMimeTypesHuman = collect($allowedImageMimeTypesFromConfig)
+        $this->allowedMimeTypesHuman = $allowedMimeTypesFromConfig
             ->map(fn ($mime) => $mimeTypeLabels[$mime] ?? $mime)
             ->join(', ');
-        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : collect(config('media-library-extensions.allowed_mimetypes.image'))->flatten()->join(', ');
+        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : $allowedMimeTypesFromConfig->join(', ');
 
-
-        $this->mediaPresent = $this->model && $this->mediaCollection
-            ? $this->model->hasMedia($this->mediaCollection)
+        $this->mediaPresent = $this->model && $this->uploadToCollection
+            ? $this->model->hasMedia($this->uploadToCollection)
             : false;
+
+        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         return $this->getPartialView('upload-form', $this->theme);
     }

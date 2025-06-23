@@ -1,8 +1,9 @@
 @if ($name && $iconExists)
-    <x-dynamic-component 
-        {{ $attributes->merge(['class' => 'mle-icon']) }}
-        :component="$name" 
-        :title="$title"/>
+    <span {{ $attributes->merge(['class' => 'mle-icon-container']) }} role="img" aria-label="{{ $title }}" title="{{ $title }}">
+        <x-dynamic-component 
+            :component="$name" 
+            :title="$title"/>
+    </span>
 @else
     <span 
         role="img" 

@@ -11,7 +11,7 @@
     }
 }
 
-.mlbrgn-mle-component {
+.mlbrgn-mle-component.theme-plain {
 
     &.media-carousel {
         --carousel-indicator-width: 12px;
@@ -34,6 +34,10 @@
         background-color: var(--mlbrgn-mle-container-bg-light);// TODO name carousel background?
         position: relative;
         overflow:hidden;
+    }
+
+    &.media-carousel-empty {
+        aspect-ratio: 16/1;
     }
 
     .media-carousel-inner {
