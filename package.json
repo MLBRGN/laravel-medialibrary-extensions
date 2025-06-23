@@ -1,6 +1,6 @@
 {
   "name": "media-library-extensions",
-  "version": "1.0.0",
+  "version": "0.0.10",
   "description": "Extensions designed for use with the Media Library package by Spatie. Adds a single image uploader, multiple image uploader and a modal with carousel and XHR uploading support.",
   "author": "Evertjan Garretsen - BURO MLBRGN <evertjan.garretsen@mlbrgn.nl> (https://mlbrgn.nl)",
   "contributors": [
@@ -38,8 +38,8 @@
     "vite": "^6.2.1"
   },
   "dependencies": {
-    "@evertjanmlbrgn/imageeditor": "^1.0.32",
-    "@evertjanmlbrgn/imageshared": "^1.0.47",
+    "@evertjanmlbrgn/imageeditor": "^1.0.34",
+    "@evertjanmlbrgn/imageshared": "^1.0.48",
     "@justinribeiro/lite-youtube": "^1.8.2",
     "bootstrap": "^5.3.3"
   }
