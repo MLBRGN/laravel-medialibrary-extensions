@@ -3,37 +3,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
-  mediaManagers.forEach(mediaManager => {
-    const mediaManagerId = mediaManager.id;
-    const formContainer = mediaManager.querySelector('.media-manager-form');
-    const configInput = mediaManager.querySelector('.media-manager-config');
-    if (!configInput) return;
+      mediaManagers.forEach(mediaManager => {
+        const mediaManagerId = mediaManager.id;
+        const formContainer = mediaManager.querySelector('.media-manager-form');
+        const configInput = mediaManager.querySelector('.media-manager-config');
+        if (!configInput) return;
 
-    let config = {};
-    try {
-      config = JSON.parse(configInput.value);
-    } catch (e) {
-      console.error(`Invalid JSON config for ${mediaManagerId}:`, e);
-      return;
-    }
+        let config = {};
+        try {
+          config = JSON.parse(configInput.value);
+        } catch (e) {
+          console.error(`Invalid JSON config for ${mediaManagerId}:`, e);
+          return;
+        }
 
-    const {
-      id: initiatorId,
-      model_type: modelType,
-      model_id: modelId,
-      image_collection: imageCollection,
-      document_collection: documentCollection,
-      youtube_collection: youtubeCollection,
-      frontend_theme: frontendTheme,
-      destroy_enabled: destroyEnabled,
-      set_as_first_enabled: setAsFirstEnabled,
-      show_media_url: showMediaUrl,
-      show_order: showOrder,
-      media_upload_route: mediaUploadRoute,
-      preview_refresh_route: previewRefreshRoute,
-      youtube_upload_route: youtubeUploadRoute,
-      csrf_token: csrfToken,
-    } = config;
+        const {
+          id: initiatorId,
+          model_type: modelType,
+          model_id: modelId,
+          image_collection: imageCollection,
+          document_collection: documentCollection,
+          youtube_collection: youtubeCollection,
+          frontend_theme: frontendTheme,
+          destroy_enabled: destroyEnabled,
+          set_as_first_enabled: setAsFirstEnabled,
+          show_media_url: showMediaUrl,
+          show_order: showOrder,
+          media_upload_route: mediaUploadRoute,
+          preview_refresh_route: previewRefreshRoute,
+          youtube_upload_route: youtubeUploadRoute,
+          csrf_token: csrfToken,
+        } = config;
 
         mediaManager.addEventListener('click', function (e) {
             const target = e.target.closest('[data-action]');
@@ -47,17 +47,17 @@ document.addEventListener('DOMContentLoaded', function () {
             showSpinner(formContainer);
             const formData = getFormData(formElement);
 
-      // Setup route mapping
-      const actionRoutes = {
-        'upload-media': mediaUploadRoute,
-        'upload-youtube-medium': youtubeUploadRoute,
-      };
+          // Setup route mapping
+          const actionRoutes = {
+            'upload-media': mediaUploadRoute,
+            'upload-youtube-medium': youtubeUploadRoute,
+          };
 
-      const mediaContainer = target.closest('.media-manager-preview-media-container');
-      if (mediaContainer) {
-        actionRoutes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
-        actionRoutes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
-      }
+          const mediaContainer = target.closest('.media-manager-preview-media-container');
+          if (mediaContainer) {
+            actionRoutes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
+            actionRoutes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
+          }
 
             const route = actionRoutes[action];
             if (!route) {
@@ -101,41 +101,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 .finally(() => {
                     hideSpinner(formContainer);
                 });
-        });
+            });
 
-        function refreshMediaManager() {
-            const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
-            if (!previewGrid) return;
+            function refreshMediaManager() {
+                const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
+                if (!previewGrid) return;
 
-            const params = {
-                model_type: modelType,
-                model_id: modelId,
-                image_collection: imageCollection,
-                youtube_collection: youtubeCollection,
-                document_collection: documentCollection,
-                initiator_id: initiatorId,
-                destroy_enabled: destroyEnabled === 'true',
-                set_as_first_enabled: setAsFirstEnabled === 'true',
-                show_media_url: showMediaUrl === 'true',
-                show_order: showOrder === 'true',
-                frontend_theme: frontendTheme,
-            }
-
-            const searchParams = new URLSearchParams(params);
-
-            fetch(`${previewRefreshRoute}?${searchParams}`, {
-                headers: {
-                    'Accept': 'application/json'
+                const params = {
+                    model_type: modelType,
+                    model_id: modelId,
+                    image_collection: imageCollection,
+                    youtube_collection: youtubeCollection,
+                    document_collection: documentCollection,
+                    initiator_id: initiatorId,
+                    destroy_enabled: destroyEnabled === 'true',
+                    set_as_first_enabled: setAsFirstEnabled === 'true',
+                    show_media_url: showMediaUrl === 'true',
+                    show_order: showOrder === 'true',
+                    frontend_theme: frontendTheme,
                 }
-            }).then(response => response.json())
-                .then(json => {
-                    previewGrid.innerHTML = json.html;
-                })
-                .catch(error => {
-                    console.error('Error refreshing media manager:', error);
-                });
-        }
-    });
+
+                const searchParams = new URLSearchParams(params);
+
+                fetch(`${previewRefreshRoute}?${searchParams}`, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => response.json())
+                    .then(json => {
+                        previewGrid.innerHTML = json.html;
+                    })
+                    .catch(error => {
+                        console.error('Error refreshing media manager:', error);
+                    });
+            }
+        });
 
     function showSpinner(container) {
         hideStatusMessage(container);

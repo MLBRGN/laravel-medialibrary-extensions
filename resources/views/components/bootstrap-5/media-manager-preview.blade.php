@@ -12,7 +12,6 @@
     >
 
         @if($medium->hasCustomProperty('youtube-id'))
-
             <div
                 class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
@@ -73,7 +72,7 @@
                     @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">
-                    @if(isMediaType($medium, 'image'))
+                    @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
                         <button
                             type="button"
                             data-bs-toggle="modal"

@@ -12,13 +12,23 @@ document.addEventListener('imageEditorReady', (e) => {
     // console.log('Calling setImage:', { name, path, initiatorId });
     imageEditor.setImage(name, path, initiatorId);
 
-    imageEditor.setConfiguration({debug: true});
+    imageEditor.setConfiguration({
+        debug: false,// Image disapears when debug is true when selecting
+        rotateDegreesStep: 90
+    });
     // console.log(imageEditor.configuration);
 
 });
 
 EventBus.register('onImageSave', (e) => {
-    updateMedia(e.detail)
+
+    const modal = document.getElementById(e.detail.id);
+    // updateMedia(e.detail)
+    modal.dispatchEvent(new CustomEvent('onImageUpdated', {
+        bubbles: true,
+        composed: true,
+        detail: e.detail
+    }));
     console.log('onImageSave using event bus', e.detail);
 });
 
@@ -32,8 +42,11 @@ EventBus.register('onCloseImageEditor', (e) => {
 
 const updateMedia = (detail) => {
 
-    const imageEditor = document.getElementById(detail.id);
-    const configInput = imageEditor.parentNode.querySelector('.image-editor-modal-config');
+    const modal = document.getElementById(detail.id);
+    // console.log('imageEditor', imageEditor);
+    // const initiatorId = imageEditor.getAttribute('data-initiator-id');
+    const configInput = modal.querySelector('.image-editor-modal-config');
+    // console.log('initiatorId', initiatorId);
     if (!configInput) return;
 
     let config = {};
@@ -83,7 +96,14 @@ const updateMedia = (detail) => {
                     return;
                 }
 
+                // close modal
+
                 console.log('data', data)
+                console.log('modal', modal);
+                // const modal = document.getElementById(initiatorId);
+                console.log('close modal',  modal);
+                const closeButton = modal.querySelector('.image-editor-modal-close-button');
+                closeButton.click()
                 // showStatusMessage(formContainer, data);
 
                 // const flash = document.getElementById(formElement.dataset.target + '-flash');
