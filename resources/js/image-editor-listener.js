@@ -14,7 +14,13 @@ document.addEventListener('imageEditorReady', (e) => {
 
     imageEditor.setConfiguration({
         debug: false,// Image disapears when debug is true when selecting
-        rotateDegreesStep: 90
+        rotateDegreesStep: 90,
+        freeSelectDisabled: true,
+        freeRotateDisabled: true,
+        freeResizeDisabled: true,
+        filtersDisabled: true,
+        selectionAspectRatios: ['16:9', '4:3'],
+        selectionAspectRatio: '16:9',
     });
     // console.log(imageEditor.configuration);
 
