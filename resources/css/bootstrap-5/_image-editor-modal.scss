@@ -22,6 +22,7 @@
     .image-editor-modal-body {
         width:100%;
         height:100%;
+        overflow:hidden;
     }
 
     .image-editor-modal-dialog {
@@ -71,6 +72,11 @@
         outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
         outline-offset: 0;
         border-radius:0.5em;
+    }
+
+    image-editor {
+        width:100%;
+        height:100%;
     }
 
 }
