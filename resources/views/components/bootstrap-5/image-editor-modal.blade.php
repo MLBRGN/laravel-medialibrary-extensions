@@ -31,7 +31,7 @@
                 <image-editor 
                     id="{{ $id }}-image-editor"
                     data-initiator-id="{{ $id }}"
-                    data-medium-name="{{ $medium->name }}"
+                    data-medium-name="{{ $medium->file_name }}"
                     data-medium-path="{{ $medium->getFullUrl() }}"
                 />
             </div>

@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import path from 'path'
 import fs from 'fs'
+// import { watchNodeModules } from "vite-plugin-watch-node-modules";
 
 const jsDir = path.resolve(__dirname, 'resources/js')
 const sharedDir = path.resolve(jsDir, 'shared')
@@ -28,7 +29,19 @@ export default defineConfig({
             publicDirectory: 'public',
             refresh: true,
         }),
+        // watchNodeModules(["@evertjanmlbrgn/imageeditor", "@evertjanmlbrgn/imageshared"], {
+        //     // cwd: path.join(process.cwd(), "../../../"),
+        //     cwd: process.cwd()
+        // }),
     ],
+    // server: {
+    //     watch: {
+    //         // Watch node_modules in this specific path
+    //         ignored: [
+    //             '!**/packages/mlbrgn/laravel-medialibrary-extensions/node_modules/@evertjanmlbrgn/imageeditor/**'
+    //         ]
+    //     }
+    // },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources'),

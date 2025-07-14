@@ -13,11 +13,13 @@ class ImageEditorModal extends BaseComponent
 
     public array $config = [];
     public string $saveUpdatedMediumRoute;
+
     public function __construct(
         public Media $medium,
         public HasMedia $model,
         public string $title = 'no title',// TODO do i want this?
         public string $id = '',
+        public string $mediaManagerId = '',
         public ?string $frontendTheme = null,
     ) {
         parent::__construct($id, $frontendTheme);
@@ -35,6 +37,7 @@ class ImageEditorModal extends BaseComponent
             'collection' => $medium?->collection_name,
             'csrf_token' => csrf_token(),
             'save_updated_medium_route' => $this->saveUpdatedMediumRoute,
+            'media_manager_id' => $mediaManagerId,
         ];
     }
 

@@ -54,7 +54,7 @@
                         draggable="false"
                     />
                 </div>
-                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model="$model"/>
+                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model="$model" media-manager-id="{{ $id }}"/>
             @else
                 no suitable type
             @endif

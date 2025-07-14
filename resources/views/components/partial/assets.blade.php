@@ -25,15 +25,15 @@
     @endonce
 @endif
 
-{{--@if($includeImageEditorJs)--}}
-{{--    @once--}}
-{{--        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>--}}
-{{--    @endonce--}}
-{{--@endif--}}
-
-@if($includeFormSubmitter)
+@if($includeImageEditorJs)
     @once
-        <script src="{{ asset('vendor/media-library-extensions/form-submitter.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>
+    @endonce
+@endif
+
+@if($includeMediaManagerJs)
+    @once
+        <script type="module" src="{{ asset('vendor/media-library-extensions/media-manager.js') }}"></script>
     @endonce
 @endif
 
