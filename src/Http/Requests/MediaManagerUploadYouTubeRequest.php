@@ -31,8 +31,9 @@ class MediaManagerUploadYouTubeRequest extends FormRequest
 
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
+            'temporary_upload' => ['required', 'string'],
             'model_type' => ['required', 'string'],
-            'model_id' => ['required', 'string'],
+            'model_id' => ['required_if:temporary_upload,no'],
             'collection_name' => ['required', 'string'],
              $uploadFieldName => ['nullable', 'url', 'regex:/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//'],
             'initiator_id' => ['required', 'string'],

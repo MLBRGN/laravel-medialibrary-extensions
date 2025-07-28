@@ -238,6 +238,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Temporary files
+    |--------------------------------------------------------------------------
+    |
+    | when no model exists at the moment of uploading (when the model is not yet created)
+    | temporary files are used
+    |
+    */
+
+    'temp_media_path' => 'tmp-media',
+    'temp_media_lifetime' => 24, // hours
+
+    /*
+    |--------------------------------------------------------------------------
     | Default YouTube params
     |--------------------------------------------------------------------------
     |

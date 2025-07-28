@@ -15,14 +15,15 @@
         type="hidden"
         name="collection_name"
         value="{{ $youtubeCollection }}">
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'yes' : 'no' }}"/>
     <input
         type="hidden"
         name="model_type"
-        value="{{ get_class($model) }}">
+        value="{{ $modelType }}">
     <input
         type="hidden"
         name="model_id"
-        value="{{ $model->id }}">
+        value="{{ $modelId }}">
     <input
         type="hidden"
         name="initiator_id"

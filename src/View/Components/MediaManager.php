@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use _PHPStan_ac6dae9b0\Nette\Neon\Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
@@ -15,6 +16,11 @@ class MediaManager extends BaseComponent
 
     public string $allowedMimeTypes = '';
 
+    public HasMedia|null $model = null;
+    public ?string $modelType = null;
+    public mixed $modelId = null;
+    public bool $temporaryUpload = false;
+
     /** @var Collection<int, Media> */
     public Collection $media;
     public string $mediaUploadRoute;// upload form action route
@@ -22,7 +28,7 @@ class MediaManager extends BaseComponent
     public string $youtubeUploadRoute;// route to upload youtube video using ajax
 
     public function __construct(
-        public ?HasMedia $model = null,
+        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
@@ -40,6 +46,23 @@ class MediaManager extends BaseComponent
     {
         parent::__construct($id, $frontendTheme);
 
+        if (is_null($modelOrClassName)) {
+            throw new Exception('model-or-class-name attribute must be set');
+        }
+
+        if ($modelOrClassName instanceof HasMedia) {
+            $this->model = $modelOrClassName;
+            $this->modelType = $modelOrClassName->getMorphClass();
+            $this->modelId = $modelOrClassName->getKey();
+        } elseif (is_string($modelOrClassName)) {
+            $this->model = null;
+            $this->modelType = $modelOrClassName;
+            $this->modelId = null;
+            $this->temporaryUpload = true;
+        } else {
+            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
+        }
+
         // set allowed mimetypes
         $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))
             ->flatten()
@@ -47,17 +70,17 @@ class MediaManager extends BaseComponent
             ->implode(',');
 
         $collections = collect();
-        if ($model) {
+        if ($this->model) {
             if ($imageCollection) {
-                $collections = $collections->merge($model->getMedia($imageCollection));
+                $collections = $collections->merge($this->model->getMedia($imageCollection));
             }
 
             if ($youtubeCollection) {
-                $collections = $collections->merge($model->getMedia($youtubeCollection));
+                $collections = $collections->merge($this->model->getMedia($youtubeCollection));
             }
 
             if ($documentCollection) {
-                $collections = $collections->merge($model->getMedia($documentCollection));
+                $collections = $collections->merge($this->model->getMedia($documentCollection));
             }
         }
         $this->media = $collections;
@@ -81,8 +104,10 @@ class MediaManager extends BaseComponent
         // Config array passed to view
         $this->config = [
             'id' => $this->id,
-            'model_type' => $model?->getMorphClass(),
-            'model_id' => $model?->getKey(),
+//            'model' => $this->model,
+            'model_type' => $this->modelType,
+            'model_id' => $this->modelId,
+            'temporary_upload' => $this->temporaryUpload,
             'image_collection' => $this->imageCollection,
             'document_collection' => $this->documentCollection,
             'youtube_collection' => $this->youtubeCollection,

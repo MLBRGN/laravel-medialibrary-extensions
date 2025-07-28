@@ -13,22 +13,20 @@
 >
     @csrf
     <label for="{{ $id }}-media-input" class="mle-label form-label">Bestanden</label>
-    @if($multiple)
-        <input
-            id="{{ $id }}-media-input"
-            accept="{{ $allowedMimeTypes }}"
+
+    <input
+        id="{{ $id }}-media-input"
+        accept="{{ $allowedMimeTypes }}"
+        type="file"
+        class="mle-input form-control"
+        @if($multiple)
             name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
-            type="file"
-            class="mle-input form-control"
-            multiple>
-    @else
-        <input
-            id="{{ $id }}-media-input"
-            accept="{{ $allowedMimeTypes }}"
+            multiple 
+        @else
             name="{{ config('media-library-extensions.upload_field_name_single') }}"
-            type="file"
-            class="mle-input form-control">
-    @endif
+        @endif
+        >
+    
     <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
         type="hidden"
@@ -44,14 +42,15 @@
             name="document_collection"
             value="{{ $documentCollection }}">
     @endif
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'yes' : 'no' }}"/>
     <input
         type="hidden"
         name="model_type"
-        value="{{ get_class($model) }}">
+        value="{{ $modelType }}">
     <input
         type="hidden"
         name="model_id"
-        value="{{ $model->id }}">
+        value="{{ $modelId }}">
     <input
         type="hidden"
         name="initiator_id"

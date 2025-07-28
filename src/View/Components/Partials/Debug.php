@@ -18,6 +18,8 @@ class Debug extends Component
 
     public function __construct(
         public ?HasMedia $model = null,
+        public string|null $modelType = null,
+        public string|null $modelId = null,
         public ?string $theme = null,
         public array $config = [],
     ) {

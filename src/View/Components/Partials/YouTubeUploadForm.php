@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
+use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\HasMedia;
@@ -16,10 +17,16 @@ class YouTubeUploadForm extends BaseComponent
     public string $mediaUploadRoute;// upload form action route
     public string $previewRefreshRoute;// route to refresh preview media when using ajax
 
+    public HasMedia|null $model = null;
+    public ?string $modelType = null;
+    public mixed $modelId = null;
+//    public bool $temporaryUpload = false;
+
     // TODO NOT RIGHT which collections to use?
     public function __construct(
 
-        public ?HasMedia $model,
+        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
+        public bool $temporaryUpload = false,
         public ?string $youtubeCollection,
         public string $id,
         public ?string $frontendTheme,
@@ -32,6 +39,22 @@ class YouTubeUploadForm extends BaseComponent
         public ?bool $useXhr = null,
     ) {
         parent::__construct($id, $frontendTheme);
+
+        if (is_null($this->modelOrClassName)) {
+            throw new Exception('model-or-class-name attribute must be set');
+        }
+
+        if ($this->modelOrClassName instanceof HasMedia) {
+            $this->model = $this->modelOrClassName;
+            $this->modelType = $this->modelOrClassName->getMorphClass();
+            $this->modelId = $this->modelOrClassName->getKey();
+        } elseif (is_string($this->modelOrClassName)) {
+            $this->model = null;
+            $this->modelType = $this->modelOrClassName;
+            $this->modelId = null;
+        } else {
+            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
+        }
 
         $this->mediaPresent = $this->model && $this->youtubeCollection
             ? $this->model->hasMedia($this->youtubeCollection)

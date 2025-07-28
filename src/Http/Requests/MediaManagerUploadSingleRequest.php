@@ -29,8 +29,9 @@ class MediaManagerUploadSingleRequest extends FormRequest
 
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
+            'temporary_upload' => ['required', 'string'],
             'model_type' => ['required', 'string'],
-            'model_id' => ['required', 'string'],
+            'model_id' => ['required_if:temporary_upload,no'],
 //            'collection_name' => ['required', 'string'],
             'image_collection' => ['required', 'string'],
             'document_collection' => ['nullable', 'string'],
