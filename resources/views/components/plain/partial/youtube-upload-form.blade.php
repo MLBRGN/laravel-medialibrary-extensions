@@ -19,14 +19,16 @@
         type="hidden"
         name="model_type"
         value="{{ get_class($model) }}">
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
+    <input type="hidden" name="temporary_upload_uuid" value="{{ $temporaryUploadUuid }}"/>
+    <input
+        type="hidden"
+        name="model_type"
+        value="{{ $modelType }}">
     <input
         type="hidden"
         name="model_id"
-        value="{{ $model->id }}">
-    <input
-        type="hidden"
-        name="initiator_id"
-        value="{{ $id }}">
+        value="{{ $modelId }}">
         <label 
             for="{{ $id }}-youtube-url" 
             class="mle-label">

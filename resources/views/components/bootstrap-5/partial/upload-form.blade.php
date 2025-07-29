@@ -42,7 +42,8 @@
             name="document_collection"
             value="{{ $documentCollection }}">
     @endif
-    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'yes' : 'no' }}"/>
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
+    <input type="hidden" name="temporary_upload_uuid" value="{{ $temporaryUploadUuid }}"/>
     <input
         type="hidden"
         name="model_type"

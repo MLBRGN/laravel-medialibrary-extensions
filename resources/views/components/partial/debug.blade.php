@@ -10,7 +10,8 @@
             <div class="mle-debug-section">
                 <h3>🗄️ Model</h3>
                 <ul>
-                    <li><strong>Temporary upload:</strong> {{ $config['temporary_upload'] ? 'Yes' : 'No' }}</li>
+                    <li><strong>Temporary upload:</strong> {{ $config['temporary_upload'] === 'true' ? 'Yes' : 'No' }}</li>
+                    <li><strong>Temporary upload uuid:</strong> {{ $config['temporary_upload_uuid'] }}</li>
                     <li><strong>Model Type:</strong> {{ $config['model_type'] ?? 'n/a' }}</li>
                     <li><strong>Model ID:</strong> {{ $config['model_id'] ?? 'n/a' }}</li>
                 </ul>
@@ -44,7 +45,7 @@
                 <ul>
                     <li><strong>Media Upload Route:</strong> <code>{{ $config['media_upload_route'] }}</code></li>
                     <li><strong>YouTube Upload Route:</strong> <code>{{ $config['youtube_upload_route'] }}</code></li>
-                    <li><strong>Preview Refresh Route:</strong> <code>{{ $config['preview_refresh_route'] }}</code></li>
+                    <li><strong>Preview Update Route:</strong> <code>{{ $config['preview_update_route'] }}</code></li>
                 </ul>
             </div>
 
@@ -113,6 +114,6 @@
 {{--        <li><strong>Use XHR:</strong> {{ $useXhr ? 'true' : 'false' }}</li>--}}
 {{--        <li><strong>Media Upload Route:</strong> <code>{{ $mediaUploadRoute }}</code></li>--}}
 {{--        <li><strong>YouTube Upload Route:</strong> <code>{{ $youtubeUploadRoute }}</code></li>--}}
-{{--        <li><strong>Preview Refresh Route:</strong> <code>{{ $previewRefreshRoute }}</code></li>--}}
+{{--        <li><strong>Preview Update Route:</strong> <code>{{ $previewUpdateRoute }}</code></li>--}}
 {{--    </ul>--}}
 {{--</div>--}}

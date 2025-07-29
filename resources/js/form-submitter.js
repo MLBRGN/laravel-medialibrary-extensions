@@ -1,249 +1,135 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const mediaManagers = document.querySelectorAll('[data-media-manager]');
     let statusMessageTimeout = null;
 
-    const mediaManagers = document.querySelectorAll('[data-media-manager]');
-
-      mediaManagers.forEach(mediaManager => {
-        const mediaManagerId = mediaManager.id;
+    mediaManagers.forEach(mediaManager => {
         const formContainer = mediaManager.querySelector('.media-manager-form');
-        const configInput = mediaManager.querySelector('.media-manager-config');
-        if (!configInput) return;
 
-        let config = {};
-        try {
-          config = JSON.parse(configInput.value);
-        } catch (e) {
-          console.error(`Invalid JSON config for ${mediaManagerId}:`, e);
-          return;
-        }
+        mediaManager.addEventListener('click', async function (e) {
+            const config = getMediaManagerConfig(mediaManager);
+            if (!config) return;
 
-        const {
-          id: initiatorId,
-          model_type: modelType,
-          model_id: modelId,
-          image_collection: imageCollection,
-          document_collection: documentCollection,
-          youtube_collection: youtubeCollection,
-          frontend_theme: frontendTheme,
-          destroy_enabled: destroyEnabled,
-          set_as_first_enabled: setAsFirstEnabled,
-          show_media_url: showMediaUrl,
-          show_order: showOrder,
-          media_upload_route: mediaUploadRoute,
-          preview_refresh_route: previewRefreshRoute,
-          youtube_upload_route: youtubeUploadRoute,
-          csrf_token: csrfToken,
-        } = config;
-
-        mediaManager.addEventListener('click', function (e) {
             const target = e.target.closest('[data-action]');
-            if (!target) {// do not handle clicks on elements without the "data-action" attribute
-                return;
-            }
+            if (!target) return;
+
             e.preventDefault();
             const action = target.getAttribute('data-action');
             const formElement = target.closest('[data-xhr-form]');
+            const route = getRouteFromAction(action, target, config);
 
-            showSpinner(formContainer);
-            const formData = getFormData(formElement);
-
-          // Setup route mapping
-          const actionRoutes = {
-            'upload-media': mediaUploadRoute,
-            'upload-youtube-medium': youtubeUploadRoute,
-          };
-
-          const mediaContainer = target.closest('.media-manager-preview-media-container');
-          if (mediaContainer) {
-            actionRoutes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
-            actionRoutes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
-          }
-
-            const route = actionRoutes[action];
             if (!route) {
                 showStatusMessage(formContainer, {
                     type: 'error',
-                    message: 'Invalid action',
+                    message: trans('invalid_action'),
                 });
-                hideSpinner(formContainer);
                 return;
             }
 
-            fetch(route, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                },
-                body: formData,
-            })
-                .then(async response => {
-                    const data = await response.json();
+            showSpinner(formContainer);
 
-                    if (!response.ok) {
-                        handleAjaxError(response, data, formContainer);
-                        return;
-                    }
-
-                    showStatusMessage(formContainer, data);
-
-                    const flash = document.getElementById(formElement.dataset.target + '-flash');
-                    if (flash && data.message) {
-                        flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
-                    }
-
-                    refreshMediaManager();
-                    resetFields(formElement);
-                })
-                .catch(error => {
-                    console.error('Error during upload:', error);
-                })
-                .finally(() => {
-                    hideSpinner(formContainer);
+            try {
+                const formData = getFormData(formElement);
+                const response = await fetch(route, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': config.csrf_token,
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
                 });
-            });
 
-            function refreshMediaManager() {
-                const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
-                if (!previewGrid) return;
+                const data = await response.json();
 
-                const params = {
-                    model_type: modelType,
-                    model_id: modelId,
-                    image_collection: imageCollection,
-                    youtube_collection: youtubeCollection,
-                    document_collection: documentCollection,
-                    initiator_id: initiatorId,
-                    destroy_enabled: destroyEnabled === 'true',
-                    set_as_first_enabled: setAsFirstEnabled === 'true',
-                    show_media_url: showMediaUrl === 'true',
-                    show_order: showOrder === 'true',
-                    frontend_theme: frontendTheme,
+                if (!response.ok) {
+                    handleAjaxError(response, data, formContainer);
+                    return;
                 }
 
-                const searchParams = new URLSearchParams(params);
+                showStatusMessage(formContainer, data);
+                updatePreview(mediaManager, config);
 
-                fetch(`${previewRefreshRoute}?${searchParams}`, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).then(response => response.json())
-                    .then(json => {
-                        previewGrid.innerHTML = json.html;
-                    })
-                    .catch(error => {
-                        console.error('Error refreshing media manager:', error);
-                    });
+                const flash = document.getElementById(`${formElement.dataset.target}-flash`);
+                if (flash && data.message) {
+                    flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
+                }
+
+                resetFields(formElement);
+
+            } catch (error) {
+                console.error('Error during upload:', error);
+                showStatusMessage(formContainer, {
+                    type: 'error',
+                    message: trans('upload_failed'),
+                });
+            } finally {
+                hideSpinner(formContainer);
             }
         });
+    });
 
-    function showSpinner(container) {
-        hideStatusMessage(container);
-        const spinnerContainer = container.querySelector('div[data-spinner-container]');
-        if (spinnerContainer) {
-            spinnerContainer.classList.add('active');
+    function getMediaManagerConfig(mediaManager) {
+        const configInput = mediaManager.querySelector('.media-manager-config');
+        if (!configInput) return null;
+
+        try {
+            return JSON.parse(configInput.value);
+        } catch (e) {
+            console.error(`Invalid JSON config for ${mediaManager.id}:`, e);
+            return null;
         }
     }
 
-    function hideSpinner(container) {
-        const spinnerContainer = container.querySelector('div[data-spinner-container]');
-        if (spinnerContainer) {
-            spinnerContainer.classList.remove('active');
+    function getRouteFromAction(action, target, config) {
+        const mediaContainer = target.closest('.media-manager-preview-media-container');
+        const routes = {
+            'upload-media': config.media_upload_route,
+            'upload-youtube-medium': config.youtube_upload_route,
+        };
+
+        if (mediaContainer) {
+            routes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
+            routes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
         }
+
+        return routes[action] || null;
     }
 
-    const showStatusMessage = (container, status) => {
-        const statusContainer = container.querySelector('[data-status-container]');
-        const messageDiv = statusContainer?.querySelector('[data-status-message]');
+    function updatePreview(mediaManager, config) {
+        const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
+        if (!previewGrid) return;
 
-        if (!statusContainer || !messageDiv) return;
-
-        // Get classes from data attributes
-        const baseClasses = messageDiv.getAttribute('data-base-classes') || '';
-        const successClasses = messageDiv.getAttribute('data-success-classes') || '';
-        const errorClasses = messageDiv.getAttribute('data-error-classes') || '';
-
-        // Reset base classes
-        messageDiv.className = baseClasses;
-
-        // Add status-specific classes
-        const classesToAdd = status.type === 'success' ? successClasses : errorClasses;
-        classesToAdd.split(' ').forEach(cls => {
-            if (cls.trim()) messageDiv.classList.add(cls.trim());
+        const params = new URLSearchParams({
+            model_type: config.model_type,
+            model_id: config.model_id,
+            image_collection: config.image_collection,
+            youtube_collection: config.youtube_collection,
+            document_collection: config.document_collection,
+            initiator_id: config.id,
+            frontend_theme: config.frontend_theme,
+            destroy_enabled: config.destroy_enabled,
+            set_as_first_enabled: config.set_as_first_enabled,
+            show_media_url: config.show_media_url,
+            show_order: config.show_order,
+            temporary_uploads: config.temporary_upload,
         });
 
-        // Set the message text
-        messageDiv.textContent = status.message;
-        statusContainer.classList.add('visible');
-
-        // Cancel previous timeout if any
-        if (statusMessageTimeout) {
-            clearTimeout(statusMessageTimeout);
-        }
-
-        statusMessageTimeout = setTimeout(() => {
-            hideStatusMessage(container);
-        }, 5000);
-    };
-
-    const hideStatusMessage = (container) => {
-        const statusWrapper = container.querySelector('[data-status-container]');
-        if (statusWrapper) statusWrapper.classList.remove('visible');
+        fetch(`${config.preview_update_route}?${params}`, {
+            headers: { 'Accept': 'application/json' }
+        })
+            .then(response => response.json())
+            .then(json => {
+                previewGrid.innerHTML = json.html;
+            })
+            .catch(error => {
+                console.error('Error refreshing media manager:', error);
+            });
     }
 
-    function handleAjaxError(response, data, formContainer) {
-        let errorMessage = trans('upload_failed'); // default fallback message
-
-        switch (response.status) {
-            case 419:
-                errorMessage = trans('csrf_token_mismatch');
-                break;
-            case 401:
-                errorMessage = trans('unauthenticated');
-                break;
-            case 403:
-                errorMessage = trans('forbidden');
-                break;
-            case 404:
-                errorMessage = trans('not_found');
-                break;
-            case 422:
-                if (data.errors) {
-                    // Show all validation errors
-                    for (const field in data.errors) {
-                        data.errors[field].forEach(msg => {
-                            showStatusMessage(formContainer, { message: msg, type: 'error' });
-                        });
-                    }
-                    return; // return
-                }
-                errorMessage = data.message || trans('validation_failed');// default
-                break;
-            case 429:
-                errorMessage = trans('too_many_requests');
-                break;
-            case 500:
-            case 503:
-                errorMessage = trans('server_error');
-                break;
-            default:
-                errorMessage = data.message || errorMessage;
-                break;
-        }
-
-        showStatusMessage(formContainer, { message: errorMessage, type: 'error' });
-    }
-
-    function trans(key) {
-        return window.mediaLibraryTranslations?.[key] || key;
-    }
-
-    function getFormData (formElement) {
+    function getFormData(formElement) {
         const formData = new FormData();
-
         formElement.querySelectorAll('input').forEach(input => {
             if (input.type === 'file') {
-                [...input.files].forEach(file => {
+                Array.from(input.files).forEach(file => {
                     formData.append(input.name, file);
                 });
             } else {
@@ -261,4 +147,66 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function showSpinner(container) {
+        hideStatusMessage(container);
+        container.querySelector('[data-spinner-container]')?.classList.add('active');
+    }
+
+    function hideSpinner(container) {
+        container.querySelector('[data-spinner-container]')?.classList.remove('active');
+    }
+
+    function showStatusMessage(container, { type, message }) {
+        const statusContainer = container.querySelector('[data-status-container]');
+        const messageDiv = statusContainer?.querySelector('[data-status-message]');
+        if (!statusContainer || !messageDiv) return;
+
+        const base = messageDiv.getAttribute('data-base-classes') || '';
+        const typeClasses = type === 'success'
+            ? messageDiv.getAttribute('data-success-classes') || ''
+            : messageDiv.getAttribute('data-error-classes') || '';
+
+        messageDiv.className = base;
+        typeClasses.split(' ').forEach(cls => cls && messageDiv.classList.add(cls));
+        messageDiv.textContent = message;
+        statusContainer.classList.add('visible');
+
+        clearTimeout(statusMessageTimeout);
+        statusMessageTimeout = setTimeout(() => hideStatusMessage(container), 5000);
+    }
+
+    function hideStatusMessage(container) {
+        container.querySelector('[data-status-container]')?.classList.remove('visible');
+    }
+
+    function handleAjaxError(response, data, formContainer) {
+        let message = trans('upload_failed');
+
+        switch (response.status) {
+            case 419: message = trans('csrf_token_mismatch'); break;
+            case 401: message = trans('unauthenticated'); break;
+            case 403: message = trans('forbidden'); break;
+            case 404: message = trans('not_found'); break;
+            case 422:
+                if (data.errors) {
+                    Object.values(data.errors).flat().forEach(msg => {
+                        showStatusMessage(formContainer, { type: 'error', message: msg });
+                    });
+                    return;
+                }
+                message = data.message || trans('validation_failed');
+                break;
+            case 429: message = trans('too_many_requests'); break;
+            case 500:
+            case 503: message = trans('server_error'); break;
+            default:
+                message = data.message || message;
+        }
+
+        showStatusMessage(formContainer, { type: 'error', message });
+    }
+
+    function trans(key) {
+        return window.mediaLibraryTranslations?.[key] || key;
+    }
 });

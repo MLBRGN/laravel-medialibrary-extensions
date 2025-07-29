@@ -4,23 +4,63 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-/**
- * Trait HandlesMediaConversions
- *
- * Defines media conversion methods for generating responsive images
- * with specific aspect ratios and optimized formats.
- */
-trait HandlesMediaConversions
+// TODO Other name / better name
+// TODO should also handle temporary media attachment to model using boot method
+trait InteractsWithMediaExtended
 {
     use InteractsWithMedia;
 
     /** @noinspection PhpUnused */
     public bool $registerMediaConversionsUsingModelInstance = true; // Search for "Using model properties in a conversion"
 
+//static::created(function (Model $model) {
+//    $draftKey = request('draft_key');
+//
+//    if (!$draftKey) {
+//        return;
+//    }
+//
+//    $mediaItems = Media::where('custom_properties->draft_key', $draftKey)
+//        ->where('custom_properties->attach_to_model_type', static::class)
+//        ->whereNull('model_id')
+//        ->get();
+//
+//    foreach ($mediaItems as $media) {
+//        $media->model_id = $model->id;
+//        $media->model_type = $model::class;
+//        $media->collection_name = Arr::get($media->custom_properties, 'target_collection', 'default');
+//        $media->save();
+//    }
+//});
+
+    /**
+     * Automatically called by Laravel when the trait is used on an Eloquent model.
+     * Used here to attach temporary media after model creation or updates.
+     */
+    public static function bootInteractsWithMediaExtended(): void
+    {
+        Log::info('TEST: bootInteractsWithMediaExtended');
+//        static::saving(function ($model) {
+        static::created(function ($model) {
+            Log::info('TEST: model type'. $model->getMorphClass());
+            Log::info('TEST: model type'. $model->getKey());
+            // Example: move any temporary media to permanent collections
+            if (! $model->exists || ! $model->getKey()) {
+                return; // We can't attach media if model doesn't exist yet
+            }
+
+            // You might store temporary media by model type + session/user ID, then reassign it here
+            if (method_exists($model, 'attachPendingMedia')) {
+                $model->attachPendingMedia();
+            }
+        });
+    }
     // /*
     protected function addResponsiveAspectRatioConversion(Media $media, array $collections, float $aspectRatio, string $aspectRatioName, Fit $fit): void
     {

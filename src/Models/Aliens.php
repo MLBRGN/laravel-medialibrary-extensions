@@ -3,7 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Mlbrgn\MediaLibraryExtensions\Traits\HandlesMediaConversions;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Traits\YouTubeCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Aliens extends Model implements HasMedia
 {
     use InteractsWithMedia;
-    use HandlesMediaConversions;
+    use InteractsWithMediaExtended;
     use YouTubeCollection;
 
     protected $table = 'aliens';

@@ -23,7 +23,7 @@ class StoreYouTubeMediaAction
             abort(403);
         }
 
-        if ($request->temporary_upload === 'yes') {
+        if ($request->temporary_upload === 'true') {
             abort(501, 'Temporary upload not yet implemented');
         }
 

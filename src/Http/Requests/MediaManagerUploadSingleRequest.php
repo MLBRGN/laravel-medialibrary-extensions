@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 
 /**
  * Handles the validation rules for uploading a single media file.
@@ -29,9 +30,9 @@ class MediaManagerUploadSingleRequest extends FormRequest
 
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
-            'temporary_upload' => ['required', 'string'],
+            'temporary_upload' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
-            'model_id' => ['required_if:temporary_upload,no'],
+            'model_id' => ['required_if:temporary_upload,false'],
 //            'collection_name' => ['required', 'string'],
             'image_collection' => ['required', 'string'],
             'document_collection' => ['nullable', 'string'],

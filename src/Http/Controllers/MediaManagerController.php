@@ -6,9 +6,8 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SaveUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
@@ -21,8 +20,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerController extends Controller
@@ -58,53 +55,9 @@ class MediaManagerController extends Controller
         return $saveUpdatedMediumAction->execute($request);
     }
 
-    // TODO move to dedicated file or class
-    // used by ajax to refresh previews of images after upload / delete / new order
-    public function getMediaPreviewerHTML(GetMediaPreviewerHTMLRequest $request): Response|JsonResponse
+    public function getUpdatedPreviewerHTML(GetMediaPreviewerHTMLRequest $request, GetMediaPreviewerHTMLAction $getMediaPreviewerHTMLAction): JsonResponse
     {
-        $mediaService = app(MediaService::class);
-        $initiatorId = $request->input('initiator_id');
-        $id = $initiatorId;
-
-        $modelType = $request->input('model_type');
-        $modelId = $request->input('model_id');
-        $model = $mediaService->resolveModel($modelType, $modelId);
-
-        $imageCollection = $request->input('image_collection');
-        $documentCollection = $request->input('document_collection');
-        $youtubeCollection = $request->input('youtube_collection');
-
-        $frontendTheme = $request->input('frontend_theme');
-
-        $destroyEnabled = $request->input('destroy_enabled');
-        $setAsFirstEnabled = $request->input('set_as_first_enabled');
-        $showMediaUrl = $request->input('show_media_url');
-        $showOrder = $request->input('show_order');
-
-        $component = new MediaManagerPreview(
-            id: $id,
-
-            model: $model,
-
-            imageCollection: $imageCollection,
-            documentCollection: $documentCollection,
-            youtubeCollection: $youtubeCollection,
-
-            frontendTheme: $frontendTheme,
-
-            destroyEnabled: $destroyEnabled,
-            setAsFirstEnabled: $setAsFirstEnabled,
-            showMediaUrl: $showMediaUrl,
-            showOrder: $showOrder,
-        );
-
-        $html = Blade::renderComponent($component);
-
-        return response()->json([
-            'html' => $html,
-            'success' => true,
-            'target' => $initiatorId,
-        ]);
+        return $getMediaPreviewerHTMLAction->execute($request);
     }
 
 }

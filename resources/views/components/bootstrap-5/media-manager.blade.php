@@ -19,6 +19,7 @@
                 <x-mle-partial-upload-form
                     :model-or-class-name="$modelOrClassName"
                     :temporary-upload="$temporaryUpload"
+                    :temporary-upload-uuid="$temporaryUploadUuid"
                     :id="$id"
                     :allowed-mime-types="$allowedMimeTypes"
                     :upload-to-collection="$imageCollection"
@@ -36,15 +37,13 @@
                     class="mt-3"
                     :model-or-class-name="$modelOrClassName"
                     :temporary-upload="$temporaryUpload"
+                    :temporary-upload-uuid="$temporaryUploadUuid"
                     :id="$id"
                     :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
-                    :model="$model"
-                    :id="$id"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
-                    :model="$model"
                 />
             @endif
             <x-mle-partial-status-area

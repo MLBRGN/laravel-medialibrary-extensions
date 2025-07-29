@@ -598,6 +598,8 @@ var oi=Object.defineProperty;var Zt=u=>{throw TypeError(u)};var ni=(u,s,e)=>s in
         border: var(--field-border);
         border-radius: var(--field-border-radius);
         padding: var(--field-padding);
+        padding-left: 1em;
+        padding-right: 1em;
     }
 
     .input:disabled {

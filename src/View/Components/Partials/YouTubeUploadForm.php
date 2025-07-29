@@ -15,7 +15,7 @@ class YouTubeUploadForm extends BaseComponent
     public bool $mediaPresent = false;
 
     public string $mediaUploadRoute;// upload form action route
-    public string $previewRefreshRoute;// route to refresh preview media when using ajax
+    public string $previewUpdateRoute;// route to update preview media when using ajax
 
     public HasMedia|null $model = null;
     public ?string $modelType = null;
@@ -27,6 +27,7 @@ class YouTubeUploadForm extends BaseComponent
 
         public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
         public bool $temporaryUpload = false,
+        public string $temporaryUploadUuid = '',
         public ?string $youtubeCollection,
         public string $id,
         public ?string $frontendTheme,
@@ -61,7 +62,7 @@ class YouTubeUploadForm extends BaseComponent
             : false;
 
         $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
-        $this->previewRefreshRoute = route(mle_prefix_route('media-upload-refresh-preview'));// : route(mle_prefix_route('media-upload-single-preview'));
+        $this->previewUpdateRoute = route(mle_prefix_route('preview-update'));// : route(mle_prefix_route('media-upload-single-preview'));
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
     }

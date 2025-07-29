@@ -44,14 +44,16 @@
             name="document_collection"
             value="{{ $documentCollection }}">
     @endif
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
+    <input type="hidden" name="temporary_upload_uuid" value="{{ $temporaryUploadUuid }}"/>
     <input
         type="hidden"
         name="model_type"
-        value="{{ get_class($model) }}">
+        value="{{ $modelType }}">
     <input
         type="hidden"
         name="model_id"
-        value="{{ $model->id }}">
+        value="{{ $modelId }}">
     <input
         type="hidden"
         name="initiator_id"

@@ -31,23 +31,14 @@
 
     <h2>Media Manager Single</h2>
 
-{{--    <x-mle-media-manager--}}
-{{--        id="blog-main"--}}
-{{--        :model="$model"--}}
-{{--        media-collection="alien-single-image"--}}
-{{--        document-collection="alien-single-document"--}}
-{{--        youtube-collection="alien-single-youtube-video"--}}
-{{--        class="mt-5"--}}
-{{--        upload-enabled--}}
-{{--        destroy-enabled--}}
-{{--        frontend-theme="plain"--}}
-{{--        :use-xhr="config('media-library-extensions.use_xhr')"--}}
-{{--        :multiple="false"--}}
-{{--    />--}}
-    
+    <label>
+        <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-main-media-manager-single"/>
+        Use Temporary Uploads
+    </label>
+
     <x-mle-media-manager-single
         id="blog-main"
-        :model="$model"
+        :model-or-class-name="$model"
         image-collection="alien-single-image"
         document-collection="alien-single-document"
         youtube-collection="alien-single-youtube-video"
@@ -59,24 +50,14 @@
 
     <h2>Media Manager Multiple</h2>
 
-{{--    <x-mle-media-manager--}}
-{{--        id="blog-images"--}}
-{{--        :model="$model"--}}
-{{--        media-collection="alien-multiple-images"--}}
-{{--        document-collection="alien-multiple-documents"--}}
-{{--        youtube-collection="alien-multiple-youtube-videos"--}}
-{{--        class="mt-5"--}}
-{{--        upload-enabled--}}
-{{--        destroy-enabled--}}
-{{--        :show-order="true"--}}
-{{--        set-as-first-enabled--}}
-{{--        frontend-theme="plain"--}}
-{{--        :use-xhr="config('media-library-extensions.use_xhr')"--}}
-{{--        :multiple="true"--}}
-{{--    />--}}
+    <label>
+        <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-images-media-manager-multiple"/>
+        Use Temporary Uploads
+    </label>
+
     <x-mle-media-manager-multiple
         id="blog-images"
-        :model="$model"
+        :model-or-class-name="$model"
         image-collection="alien-multiple-images"
         document-collection="alien-multiple-documents"
         youtube-collection="alien-multiple-youtube-videos"
@@ -109,5 +90,8 @@
         frontend-theme="plain"
     />
 </div>
+@once
+    <script type="module" src="{{ asset('vendor/media-library-extensions/demo.js') }}"></script>
+@endonce
 </body>
 </html>

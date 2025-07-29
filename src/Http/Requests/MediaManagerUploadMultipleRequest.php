@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 
 /**
@@ -40,9 +41,9 @@ class MediaManagerUploadMultipleRequest extends FormRequest
 
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
-            'temporary_upload' => ['required', 'string'],
+            'temporary_upload' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
-            'model_id' => ['required_if:temporary_upload,no'],
+            'model_id' => ['required_if:temporary_upload,false'],
             'upload_to_collection' => ['required', 'string'],
             'image_collection' => ['nullable', 'string'],
             'document_collection' => ['nullable', 'string'],

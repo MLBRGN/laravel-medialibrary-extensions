@@ -23,6 +23,7 @@ class UploadForm extends BaseComponent
 
         public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
         public bool $temporaryUpload = false,
+        public string $temporaryUploadUuid = '',
         public ?string $uploadToCollection,
         public ?string $imageCollection,
         public ?string $documentCollection,

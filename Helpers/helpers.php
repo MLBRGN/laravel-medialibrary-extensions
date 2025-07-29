@@ -7,6 +7,8 @@
 //    }
 // }
 
+use Symfony\Component\VarDumper\VarDumper;
+
 if (! function_exists('mle_package_asset')) {
     function mle_package_asset(string $path): string
     {
@@ -78,5 +80,12 @@ if (! function_exists('isMediaType')) {
         $mimeType = $medium->mime_type ?? null;
         $allowed = config("media-library-extensions.allowed_mimetypes.{$type}", []);
         return in_array($mimeType, $allowed, true);
+    }
+}
+
+if (! function_exists('sanitize_filename')) {
+    function sanitizeFilename(string $name): string
+    {
+        return Str::slug($name, '_'); // converts to lowercase, replaces spaces/special chars with underscore
     }
 }

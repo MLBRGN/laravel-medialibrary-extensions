@@ -28,8 +28,8 @@ Route::group([
                 ->name(config('media-library-extensions.route_prefix').'-medium-destroy');
             Route::post('media-manager-set-medium-as-first-in-collection', 'setAsFirst')
                 ->name(config('media-library-extensions.route_prefix').'-set-as-first');
-            Route::get('/media-manager-refresh-preview', 'getMediaPreviewerHTML')
-                ->name(config('media-library-extensions.route_prefix').'-media-upload-refresh-preview');
+            Route::get('/media-manager-preview-update', 'getUpdatedPreviewerHTML')
+                ->name(config('media-library-extensions.route_prefix').'-preview-update');
 //            Route::get('media-manager-edit-image', 'editImage')
 //                ->name(config('media-library-extensions.route_prefix').'-edit-image');
             // using post because technically i delete the old medium and add a new one and no method spoofing needed
