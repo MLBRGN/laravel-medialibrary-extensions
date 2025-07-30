@@ -6,9 +6,9 @@
              'media-manager-preview-media-container'
         ]) }}
         data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
-        data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
+        data-temporary-upload-destroy-route="{{ route(mle_prefix_route('temporary-upload-destroy'), $medium) }}"
     >
-        @if($medium->hasExtraProperty('youtube-id'))
+        @if($medium->isYouTubeVideo())
             <div
                 class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
@@ -43,40 +43,75 @@
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
                 >
-                <img src="{{ $medium->getUrlAttribute() }}" class="media-manager-image-preview mle-cursor-zoom-in" alt="{{ $medium->original_filename }}"/>
+                    <img src="{{ $medium->getUrlAttribute() }}" class="media-manager-image-preview mle-cursor-zoom-in" alt="{{ $medium->original_filename }}"/>
                   
                 </div>
 {{--                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model="$model"/>--}}
             @else
                 no suitable type
             @endif
-        @endif
-{{--        @php--}}
-{{--            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));--}}
-{{--        @endphp--}}
-
-{{--        @if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg']))--}}
-{{--            <div class="media-manager-preview-item-container">--}}
-{{--                <img--}}
-{{--                    src="{{ $file['url'] }}"--}}
-{{--                    alt="{{ $file['name'] }}"--}}
-{{--                    class="media-manager-image-preview mle-cursor-zoom-in"--}}
-{{--                    draggable="false"--}}
-{{--                />--}}
-{{--            </div>--}}
-{{--        @elseif (in_array($ext, ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt']))--}}
-{{--            <div class="media-manager-preview-item-container">--}}
-{{--                <a href="{{ $file['url'] }}" target="_blank" class="previewed-document">--}}
-{{--                    {{ $file['name'] }}--}}
-{{--                </a>--}}
-{{--            </div>--}}
-{{--        @else--}}
-{{--            <div>No preview available for {{ $file['name'] }}</div>--}}
-{{--        @endif--}}
-
-{{--        @if ($destroyEnabled)--}}
-{{--            --}}{{-- TODO: Add delete button or other UI for temporary files if desired --}}
-{{--        @endif--}}
+            @if($showMenu)
+                <div class="media-manager-preview-menu">
+                    <div class="media-manager-preview-image-menu-start">
+                        @if($showOrder)
+                            <span
+                                class="mle-pseudo-button mle-pseudo-button-icon"
+                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                            >
+                                TODO
+{{--                            {{ $medium->order_column }}--}}
+                            </span>
+                        @endif
+                    </div>
+                    <div class="media-manager-preview-image-menu-end">
+                        @if($medium->isImage() && !$medium->isYouTubeVideo())
+                            <button
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#{{$id}}-image-editor-modal-{{$medium->id}}"
+                                class="mle-button mle-button-icon btn btn-primary"
+                                title="{{ __('media-library-extensions::messages.edit') }}"
+                                data-action="edit-image"
+                            >
+                                <x-mle-partial-icon
+                                    name="{{ config('media-library-extensions.icons.edit') }}"
+                                    title="{{ __('media-library-extensions::messages.edit') }}"
+                                />
+                            </button>
+                        @endif
+{{--                        @if($setAsFirstEnabled)--}}
+{{--                            @if($medium->order_column === $media->min('order_column'))--}}
+{{--                                <button--}}
+{{--                                    class="mle-button mle-button-icon btn btn-primary"--}}
+{{--                                    title="{{ __('media-library-extensions::messages.set-as-main') }}"--}}
+{{--                                    disabled>--}}
+{{--                                    <x-mle-partial-icon--}}
+{{--                                        name="{{ config('media-library-extensions.icons.set-as-main') }}"--}}
+{{--                                        title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"--}}
+{{--                                    />--}}
+{{--                                </button>--}}
+{{--                            @else--}}
+{{--                                <x-mle-partial-set-as-first-form--}}
+{{--                                    :medium="$medium"--}}
+{{--                                    :id="$id"--}}
+{{--                                    :model="$model"--}}
+{{--                                    :target-media-collection="$imageCollection"--}}
+{{--                                    :image-collection="$imageCollection"--}}
+{{--                                    :document-collection="$documentCollection"--}}
+{{--                                    :youtube-collection="$youtubeCollection"--}}
+{{--                                    :set-as-first-enabled="$setAsFirstEnabled"--}}
+{{--                                />--}}
+{{--                            @endif--}}
+                        @endif
+                        @if($destroyEnabled)
+                            <x-mle-partial-temporary-upload-destroy-form
+                                :medium="$medium"
+                                :id="$id"
+                            />
+                        @endif
+                    </div>
+                </div>
+            @endif
     </div>
 @empty
     <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">

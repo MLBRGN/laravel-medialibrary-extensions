@@ -11,7 +11,6 @@
                 <h3>🗄️ Model</h3>
                 <ul>
                     <li><strong>Temporary upload:</strong> {{ $config['temporary_upload'] === 'true' ? 'Yes' : 'No' }}</li>
-                    <li><strong>Temporary upload uuid:</strong> {{ $config['temporary_uploads_uuid'] }}</li>
                     <li><strong>Model Type:</strong> {{ $config['model_type'] ?? 'n/a' }}</li>
                     <li><strong>Model ID:</strong> {{ $config['model_id'] ?? 'n/a' }}</li>
                 </ul>

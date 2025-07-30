@@ -9,9 +9,9 @@
         'data-xhr-form' => true, 
         'id' => $id.'-media-upload-form'
     ]"
+    method="post"
     class="media-manager-upload-form"
 >
-    @csrf
     <label for="{{ $id }}-media-input" class="mle-label form-label">Bestanden</label>
 
     <input
@@ -39,7 +39,6 @@
             value="{{ $documentCollection }}">
     @endif
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
-    <input type="hidden" name="temporary_uploads_uuid" value="{{ $temporaryUploadsUuid }}"/>
     <input
         type="hidden"
         name="model_type"

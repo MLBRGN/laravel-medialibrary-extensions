@@ -24,7 +24,6 @@ class StoreSingleTemporaryAction
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
-        $temporaryUploadsUuid = $request->temporary_uploads_uuid;
         $file = $request->file($field);
 
         if (!Schema::hasTable('mle_temporary_uploads')) {
@@ -39,7 +38,7 @@ class StoreSingleTemporaryAction
             return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
         }
 
-        $directory = "{$basePath}/{$temporaryUploadsUuid}";
+        $directory = "{$basePath}";
 
         $originalName = $file->getClientOriginalName();
         $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
@@ -52,7 +51,7 @@ class StoreSingleTemporaryAction
             $request,
             $initiatorId,
             __('media-library-extensions::messages.upload_success'),
-            ['temporary_uploads_uuid' => $temporaryUploadsUuid, 'saved_file' => $filename]
+            ['saved_file' => $filename]
         );
 
     }

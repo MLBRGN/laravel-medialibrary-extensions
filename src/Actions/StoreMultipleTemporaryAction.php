@@ -29,7 +29,6 @@ class StoreMultipleTemporaryAction
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
-        $temporaryUploadsUuid = $request->temporary_uploads_uuid;
         $files = $request->file($field);
 
         if (!Schema::hasTable('mle_temporary_uploads')) {
@@ -44,9 +43,9 @@ class StoreMultipleTemporaryAction
             return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
         }
 
-        $directory = "{$basePath}/{$temporaryUploadsUuid}";
+        $directory = "{$basePath}";
 
-        $savedFiles = collect($files)->map(function ($file) use ($disk, $directory, $temporaryUploadsUuid, $request) {
+        $savedFiles = collect($files)->map(function ($file) use ($disk, $directory, $request) {
             $originalName = $file->getClientOriginalName();
             $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
             $extension = $file->getClientOriginalExtension();
@@ -77,7 +76,7 @@ class StoreMultipleTemporaryAction
             $request,
             $initiatorId,
             __('media-library-extensions::messages.upload_success'),
-            ['temporary_uploads_uuid' => $temporaryUploadsUuid, 'saved_files' => $savedFiles]
+            ['saved_files' => $savedFiles]
         );
     }
 

@@ -26,6 +26,8 @@ Route::group([
                 ->name(config('media-library-extensions.route_prefix').'-media-upload-youtube');
             Route::delete('media-manager/{media}/destroy', 'destroy')
                 ->name(config('media-library-extensions.route_prefix').'-medium-destroy');
+            Route::delete('media-manager/{temporaryUpload}/temporary-upload-destroy', 'temporaryUploadDestroy')
+                ->name(config('media-library-extensions.route_prefix').'-temporary-upload-destroy');
             Route::post('media-manager-set-medium-as-first-in-collection', 'setAsFirst')
                 ->name(config('media-library-extensions.route_prefix').'-set-as-first');
             Route::get('/media-manager-preview-update', 'getUpdatedPreviewerHTML')

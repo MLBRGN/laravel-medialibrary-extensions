@@ -1,7 +1,7 @@
 <x-media-library-extensions::partial.conditional-form
     :use-xhr="$useXhr"
     :form-attributes="[
-        'action' => route(mle_prefix_route('medium-destroy'), $medium),
+        'action' => route(mle_prefix_route('temporary-upload-destroy'), $medium),
         'method' => 'POST'
     ]"
     :div-attributes="[
@@ -19,7 +19,7 @@
             type="{{ $useXhr ? 'button' : 'submit' }}"
             class="mle-button mle-button-icon btn btn-primary"
             title="{{ __('media-library-extensions::messages.delete_medium') }}"
-            data-action="destroy-medium"
+            data-action="temporary-upload-destroy"
         >
             <x-mle-partial-icon
                 name="{{ config('media-library-extensions.icons.delete') }}"

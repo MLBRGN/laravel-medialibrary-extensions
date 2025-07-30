@@ -8,9 +8,9 @@
         'data-xhr-form' => true, 
         'id' => $id.'-youtube-upload-form'
     ]"
+    method="post"
     class="media-manager-youtube-upload-form"
 >
-    @csrf
     <input
         type="hidden"
         name="collection_name"
@@ -20,7 +20,6 @@
         name="model_type"
         value="{{ get_class($model) }}">
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
-    <input type="hidden" name="temporary_uploads_uuid" value="{{ $temporaryUploadsUuid }}"/>
     <input
         type="hidden"
         name="model_type"

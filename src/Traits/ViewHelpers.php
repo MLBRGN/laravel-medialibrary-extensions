@@ -10,9 +10,11 @@ trait ViewHelpers {
     {
         $viewPath = "media-library-extensions::components.$theme.$viewName";
 
-        if (! view()->exists($viewPath)) {
-            $viewPath = "media-library-extensions::components.plain.$viewName";
-        }
+//        dd($viewPath);
+
+//        if (! view()->exists($viewPath)) {
+//            $viewPath = "media-library-extensions::components.plain.$viewName";
+//        }
 
         return view($viewPath);
     }
@@ -21,9 +23,9 @@ trait ViewHelpers {
     {
         $viewPath = "media-library-extensions::components.$theme.partial.$viewName";
 
-        if (! view()->exists($viewPath)) {
-            $viewPath = "media-library-extensions::components.plain.partial.$viewName";
-        }
+//        if (! view()->exists($viewPath)) {
+//            $viewPath = "media-library-extensions::components.plain.partial.$viewName";
+//        }
 
         return view($viewPath);
     }

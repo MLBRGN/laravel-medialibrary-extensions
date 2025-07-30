@@ -21,7 +21,6 @@ class MediaManager extends BaseComponent
     public ?string $modelType = null;
     public mixed $modelId = null;
     public bool $temporaryUpload = false;
-    public string $temporaryUploadsUuid = '';
 
     /** @var Collection<int, Media> */
     public Collection $media;
@@ -48,6 +47,7 @@ class MediaManager extends BaseComponent
     {
         parent::__construct($id, $frontendTheme);
 
+        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
         if (is_null($modelOrClassName)) {
             throw new Exception('model-or-class-name attribute must be set');
         }
@@ -61,7 +61,6 @@ class MediaManager extends BaseComponent
             $this->modelType = $modelOrClassName;
             $this->modelId = null;
             $this->temporaryUpload = true;
-            $this->temporaryUploadsUuid = (string) Str::uuid();
         } else {
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
@@ -123,7 +122,6 @@ class MediaManager extends BaseComponent
             'show_media_url' => $this->showMediaUrl,
             'show_order' => $this->showOrder,
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
-            'temporary_uploads_uuid' => $this->temporaryUploadsUuid,
         ];
     }
 

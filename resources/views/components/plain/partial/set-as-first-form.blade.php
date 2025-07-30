@@ -8,9 +8,9 @@
         'data-xhr-form' => true, 
         'id' => $id.'-media-set-as-first-form'
     ]"
+    method="put"
     class="set-as-first-form"
 >
-    @csrf
     <input type="hidden"
            name="medium_id"
            value="{{ $medium->id }}">

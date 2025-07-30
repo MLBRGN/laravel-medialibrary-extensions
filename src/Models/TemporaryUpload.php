@@ -42,6 +42,11 @@ class TemporaryUpload extends Model
         return str_starts_with($this->mime_type, 'image/');
     }
 
+    public function isYouTubeVideo(): bool
+    {
+        return $this->hasExtraProperty('youtube-id');
+    }
+
     // TODO use config values?
     public function isDocument(): bool
     {
@@ -54,6 +59,11 @@ class TemporaryUpload extends Model
 
     public function hasExtraProperty(string $key): bool
     {
-        return false;
+        return array_key_exists($key, $this->extra_properties ?? []);
+    }
+
+    public function getExtraProperty(string $key, mixed $default = null): mixed
+    {
+        return $this->extra_properties[$key] ?? $default;
     }
 }
