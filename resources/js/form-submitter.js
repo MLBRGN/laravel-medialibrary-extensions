@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (method.toLowerCase() === 'delete') {
                     formData.append('_method', 'DELETE');
                 }
+                if (method.toLowerCase() === 'put') {
+                    formData.append('_method', 'PUT');
+                }
+                if (method.toLowerCase() === 'patch') {
+                    formData.append('_method', 'PATCH');
+                }
                 const response = await fetch(route, {
                     method: 'POST',
                     headers: {
