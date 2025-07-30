@@ -40,7 +40,7 @@ trait InteractsWithMediaExtended
                 $documentCollection = $upload->extra_properties['document_collection'] ?? null;
 
                 if ($imageCollection) {
-                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $imageCollection);
+                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $imageCollection, $upload->order_column);
                 } elseif ($documentCollection) {
                     self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $documentCollection);
                 } else {
@@ -55,14 +55,19 @@ trait InteractsWithMediaExtended
         });
     }
 
-    protected static function safeAddMedia($model, $path, $disk, $filename, $collection): void
+    protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null): void
     {
         try {
-            $model
+            $media = $model
                 ->addMediaFromDisk($path, $disk)
                 ->preservingOriginal()
                 ->usingFileName($filename)
                 ->toMediaCollection($collection);
+
+            if ($order !== null) {
+                $media->order_column = $order;
+                $media->save();
+            }
         } catch (Exception $e) {
             Log::error('Failed to attach media: '.$e->getMessage(), [
                 'path' => $path,

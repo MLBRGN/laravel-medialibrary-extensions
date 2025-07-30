@@ -5,7 +5,7 @@
              'theme-'.$theme,
              'media-manager-preview-media-container'
         ]) }}
-        data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
+        data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"
         data-temporary-upload-destroy-route="{{ route(mle_prefix_route('temporary-upload-destroy'), $medium) }}"
     >
         @if($medium->isYouTubeVideo())
@@ -40,7 +40,7 @@
             @elseif($medium->isImage())
                 <div
                     data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
+{{--                    data-bs-target="#{{$id}}-modal"--}}
                     class="media-manager-preview-item-container"
                 >
                     <img src="{{ $medium->getUrlAttribute() }}" class="media-manager-image-preview mle-cursor-zoom-in" alt="{{ $medium->original_filename }}"/>
@@ -58,8 +58,7 @@
                                 class="mle-pseudo-button mle-pseudo-button-icon"
                                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
                             >
-                                TODO
-{{--                            {{ $medium->order_column }}--}}
+                            {{ $medium->order_column }}
                             </span>
                         @endif
                     </div>
@@ -79,29 +78,30 @@
                                 />
                             </button>
                         @endif
-{{--                        @if($setAsFirstEnabled)--}}
-{{--                            @if($medium->order_column === $media->min('order_column'))--}}
-{{--                                <button--}}
-{{--                                    class="mle-button mle-button-icon btn btn-primary"--}}
-{{--                                    title="{{ __('media-library-extensions::messages.set-as-main') }}"--}}
-{{--                                    disabled>--}}
-{{--                                    <x-mle-partial-icon--}}
-{{--                                        name="{{ config('media-library-extensions.icons.set-as-main') }}"--}}
-{{--                                        title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"--}}
-{{--                                    />--}}
-{{--                                </button>--}}
-{{--                            @else--}}
-{{--                                <x-mle-partial-set-as-first-form--}}
-{{--                                    :medium="$medium"--}}
-{{--                                    :id="$id"--}}
+                        @if($setAsFirstEnabled)
+                            @if($medium->order_column === $media->min('order_column'))
+                                <button
+                                    class="mle-button mle-button-icon btn btn-primary"
+                                    title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                                    disabled>
+                                    <x-mle-partial-icon
+                                        name="{{ config('media-library-extensions.icons.set-as-main') }}"
+                                        title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
+                                    />
+                                </button>
+                            @else
+                                <x-mle-partial-temporary-upload-set-as-first-form
+                                    :medium="$medium"
+                                    :id="$id"
 {{--                                    :model="$model"--}}
-{{--                                    :target-media-collection="$imageCollection"--}}
-{{--                                    :image-collection="$imageCollection"--}}
-{{--                                    :document-collection="$documentCollection"--}}
-{{--                                    :youtube-collection="$youtubeCollection"--}}
-{{--                                    :set-as-first-enabled="$setAsFirstEnabled"--}}
-{{--                                />--}}
-{{--                            @endif--}}
+                                    :target-media-collection="$imageCollection"
+                                    :image-collection="$imageCollection"
+                                    :document-collection="$documentCollection"
+                                    :youtube-collection="$youtubeCollection"
+                                    :set-as-first-enabled="$setAsFirstEnabled"
+                                />
+                                @endif
+                            @endif
                         @endif
                         @if($destroyEnabled)
                             <x-mle-partial-temporary-upload-destroy-form

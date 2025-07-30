@@ -54,6 +54,11 @@ class StoreMultipleTemporaryAction
             // Store file
             Storage::disk($disk)->putFileAs($directory, $file, $filename);
 
+            $sessionId = $request->session()->getId();
+
+            $maxOrderColumn = TemporaryUpload::where('session_id', $sessionId)->max('order_column') ?? 0;
+            $nextOrder = $maxOrderColumn + 1;
+
             // Create DB record
             TemporaryUpload::create([
                 'disk' => $disk,
@@ -62,10 +67,11 @@ class StoreMultipleTemporaryAction
                 'mime_type' => $file->getMimeType(),
                 'user_id' => Auth::check() ? Auth::id() : null,
                 'session_id' => $request->session()->getId(),
+                'order_column' => $nextOrder,
                 'extra_properties' => [
                     'image_collection' => $request->input('image_collection'),
                     'document_collection' => $request->input('document_collection'),
-//                    'youtube_collection' => $request->input('youtube_collection'),
+                    'youtube_collection' => $request->input('youtube_collection'),
                 ],
             ]);
 

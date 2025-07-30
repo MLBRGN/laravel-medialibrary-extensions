@@ -34,6 +34,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\StatusArea;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadDestroyForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
@@ -122,6 +123,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-destroy-form', DestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-temporary-upload-destroy-form', TemporaryUploadDestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-set-as-first-form', SetAsFirstForm::class);
+        Blade::component($this->packageNameShort.'-partial-temporary-upload-set-as-first-form', TemporaryUploadSetAsFirstForm::class);
         Blade::component($this->packageNameShort.'-partial-debug', Debug::class);
         Blade::component($this->packageNameShort.'-partial-icon', Icon::class);
         Blade::component($this->packageNameShort.'-partial-status-area', StatusArea::class);

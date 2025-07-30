@@ -11,6 +11,7 @@ use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SaveUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeMediaAction;
@@ -22,6 +23,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -56,6 +58,11 @@ class MediaManagerController extends Controller
     public function setAsFirst(SetAsFirstRequest $request, SetMediumAsFirstAction $setMediumAsFirstAction): RedirectResponse|JsonResponse
     {
         return $setMediumAsFirstAction->execute($request);
+    }
+
+    public function setTemporaryUploadAsFirst(SetTemporaryUploadAsFirstRequest $request, SetTemporaryUploadAsFirstAction $setTemporaryUploadAsFirstAction): RedirectResponse|JsonResponse
+    {
+        return $setTemporaryUploadAsFirstAction->execute($request);
     }
 
     public function saveUpdatedMedium(SaveUpdatedMediumRequest $request, SaveUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse

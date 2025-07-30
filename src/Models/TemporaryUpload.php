@@ -17,7 +17,8 @@ class TemporaryUpload extends Model
         'mime_type',
         'session_id',
         'user_id',
-        'extra_properties'
+        'extra_properties',
+        'order_column',
     ];
 
     protected $casts = [
@@ -28,7 +29,7 @@ class TemporaryUpload extends Model
 
     public static function forCurrentSession(): Collection
     {
-        return self::where('session_id', session()->getId())->get();
+        return self::where('session_id', session()->getId())->orderBy('order_column', 'asc')->get();
     }
 
     public function getUrlAttribute(): string

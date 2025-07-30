@@ -19,9 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('session_id')->nullable();
             $table->json('extra_properties')->nullable();
+            $table->unsignedInteger('order_column')->nullable()->index();
 
             $table->timestamps();
-
 
             $table->index('session_id');
             $table->index('user_id');

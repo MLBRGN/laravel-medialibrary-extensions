@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             e.preventDefault();
             const action = target.getAttribute('data-action');
+            console.log('action', action);
             const formElement = target.closest('[data-xhr-form]');
             const method = formElement.getAttribute('data-xhr-method') ?? 'post';
             const route = getRouteFromAction(action, target, config);
@@ -100,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
             routes['temporary-upload-destroy'] = mediaContainer.dataset.temporaryUploadDestroyRoute || '';
             routes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
             routes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
+            routes['temporary-upload-set-as-first'] = mediaContainer.dataset.temporaryUploadSetAsFirstRoute || '';
         }
 
         return routes[action] || null;

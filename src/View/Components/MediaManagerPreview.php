@@ -41,7 +41,7 @@ class MediaManagerPreview extends BaseComponent
         $collections = collect();
 
         if ($temporaryUploads) {
-             $collections = $collections->merge(TemporaryUpload::where('session_id', session()->getId())->get());
+             $collections = $collections->merge(TemporaryUpload::forCurrentSession());
         } else {
             if ($model) {
                 if ($imageCollection) {
