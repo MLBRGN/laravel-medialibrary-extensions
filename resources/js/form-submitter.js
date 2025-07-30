@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             const action = target.getAttribute('data-action');
             const formElement = target.closest('[data-xhr-form]');
+            const method = formElement.getAttribute('data-xhr-method') ?? 'post';
             const route = getRouteFromAction(action, target, config);
 
             if (!route) {
@@ -29,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             try {
                 const formData = getFormData(formElement);
+                if (method.toLowerCase() === 'delete') {
+                    formData.append('_method', 'DELETE');
+                }
                 const response = await fetch(route, {
                     method: 'POST',
                     headers: {
