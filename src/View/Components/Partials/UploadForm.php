@@ -20,16 +20,14 @@ class UploadForm extends BaseComponent
 //    public bool $temporaryUpload = false;
 
     public function __construct(
-
-        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
-        public bool $temporaryUpload = false,
-        public string $temporaryUploadUuid = '',
-        public ?string $uploadToCollection,
+        public string $id,
+        public ?string $frontendTheme,
         public ?string $imageCollection,
         public ?string $documentCollection,
         public ?string $youtubeCollection,
-        public string $id,
-        public ?string $frontendTheme,
+        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
+        public bool $temporaryUpload = false,
+        public string $temporaryUploadsUuid = '',
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
         public bool $destroyEnabled = false,
@@ -63,8 +61,9 @@ class UploadForm extends BaseComponent
             ->join(', ');
         $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : $allowedMimeTypesFromConfig->join(', ');
 
-        $this->mediaPresent = $this->model && $this->uploadToCollection
-            ? $this->model->hasMedia($this->uploadToCollection)
+        // TODO look at this
+        $this->mediaPresent = $this->model && $this->imageCollection
+            ? $this->model->hasMedia($this->imageCollection)
             : false;
 
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');

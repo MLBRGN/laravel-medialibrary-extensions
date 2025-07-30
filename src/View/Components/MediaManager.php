@@ -21,7 +21,7 @@ class MediaManager extends BaseComponent
     public ?string $modelType = null;
     public mixed $modelId = null;
     public bool $temporaryUpload = false;
-    public string $temporaryUploadUuid = '';
+    public string $temporaryUploadsUuid = '';
 
     /** @var Collection<int, Media> */
     public Collection $media;
@@ -61,7 +61,7 @@ class MediaManager extends BaseComponent
             $this->modelType = $modelOrClassName;
             $this->modelId = null;
             $this->temporaryUpload = true;
-            $this->temporaryUploadUuid = (string) Str::uuid();;
+            $this->temporaryUploadsUuid = (string) Str::uuid();
         } else {
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
@@ -90,7 +90,7 @@ class MediaManager extends BaseComponent
 
         $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
-        // routes, set-as-first and destroy are medium specific routes, so not defined here
+        // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
         $this->previewUpdateRoute = route(mle_prefix_route('preview-update'));
         $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 
@@ -123,7 +123,7 @@ class MediaManager extends BaseComponent
             'show_media_url' => $this->showMediaUrl,
             'show_order' => $this->showOrder,
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
-            'temporary_upload_uuid' => $this->temporaryUploadUuid,
+            'temporary_uploads_uuid' => $this->temporaryUploadsUuid,
         ];
     }
 

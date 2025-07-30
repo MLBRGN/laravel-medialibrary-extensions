@@ -33,7 +33,7 @@ class Debug extends Component
             ]);
         }
 
-        // Optional: guard against null model to avoid exception
+        // Optional: guard against model being null to avoid exception
         if ($this->model) {
             $this->collections = Media::where('model_type', $model->getMorphClass())
                 ->get()

@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Throwable;
 
 class ImageResponsive extends Component
 {
@@ -59,11 +60,10 @@ class ImageResponsive extends Component
 
                 $srcset = $hasConversion ? $this->medium->getSrcset($useConversion) : '';
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable) {
             // Optional: Log the error
             // Log::warning('ImageResponsive failed to get media URL', ['exception' => $e]);
-            $url = $this->medium?->getUrl() ?? '';
-            $srcset = '';
+            $url = $this->medium->getUrl();
         }
 
         return view('media-library-extensions::components.image-responsive', [

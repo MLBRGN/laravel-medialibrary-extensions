@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
             show_media_url: config.show_media_url,
             show_order: config.show_order,
             temporary_uploads: config.temporary_upload,
+            temporary_uploads_uuid: config.temporary_uploads_uuid,
         });
 
         fetch(`${config.preview_update_route}?${params}`, {

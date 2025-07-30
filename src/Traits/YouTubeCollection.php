@@ -16,7 +16,7 @@ trait YouTubeCollection
 
     use InteractsWithMedia;
 
-    protected function addYouTubeCollection($name) {
+    protected function addYouTubeCollection($name): void {
         $this
             ->addMediaCollection($name)
             ->singleFile();

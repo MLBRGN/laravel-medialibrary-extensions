@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
-use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 

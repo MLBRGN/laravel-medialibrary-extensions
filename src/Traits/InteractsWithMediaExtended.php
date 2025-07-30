@@ -1,11 +1,11 @@
-<?php
-
-/** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
-use Illuminate\Database\Eloquent\Model;
+use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -19,49 +19,61 @@ trait InteractsWithMediaExtended
     /** @noinspection PhpUnused */
     public bool $registerMediaConversionsUsingModelInstance = true; // Search for "Using model properties in a conversion"
 
-//static::created(function (Model $model) {
-//    $draftKey = request('draft_key');
-//
-//    if (!$draftKey) {
-//        return;
-//    }
-//
-//    $mediaItems = Media::where('custom_properties->draft_key', $draftKey)
-//        ->where('custom_properties->attach_to_model_type', static::class)
-//        ->whereNull('model_id')
-//        ->get();
-//
-//    foreach ($mediaItems as $media) {
-//        $media->model_id = $model->id;
-//        $media->model_type = $model::class;
-//        $media->collection_name = Arr::get($media->custom_properties, 'target_collection', 'default');
-//        $media->save();
-//    }
-//});
-
     /**
-     * Automatically called by Laravel when the trait is used on an Eloquent model.
-     * Used here to attach temporary media after model creation or updates.
+     * Used to attach temporary media after model creation
      */
     public static function bootInteractsWithMediaExtended(): void
     {
-        Log::info('TEST: bootInteractsWithMediaExtended');
-//        static::saving(function ($model) {
         static::created(function ($model) {
-            Log::info('TEST: model type'. $model->getMorphClass());
-            Log::info('TEST: model type'. $model->getKey());
-            // Example: move any temporary media to permanent collections
-            if (! $model->exists || ! $model->getKey()) {
-                return; // We can't attach media if model doesn't exist yet
+            Log::info('checking for temporary media for model with model type: '.$model->getMorphClass().' and id: '.$model->getKey());
+
+            if (!$model->exists || !$model->getKey()) {
+                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey(). ' does not exist');
+                return;
             }
 
-            // You might store temporary media by model type + session/user ID, then reassign it here
-            if (method_exists($model, 'attachPendingMedia')) {
-                $model->attachPendingMedia();
+            $uploads = TemporaryUpload::where('session_id', session()->getId())->get();
+
+            foreach ($uploads as $upload) {
+
+                $imageCollection = $upload->extra_properties['image_collection'] ?? null;
+                $documentCollection = $upload->extra_properties['document_collection'] ?? null;
+
+                if ($imageCollection) {
+                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $imageCollection);
+                } elseif ($documentCollection) {
+                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $documentCollection);
+                } else {
+                    throw new Exception('No image or document collection provided');
+//                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, 'default');
+                }
+
+                Storage::disk($upload->disk)->delete($upload->path);
+                $upload->delete();
             }
+
         });
     }
-    // /*
+
+    protected static function safeAddMedia($model, $path, $disk, $filename, $collection): void
+    {
+        try {
+            $model
+                ->addMediaFromDisk($path, $disk)
+                ->preservingOriginal()
+                ->usingFileName($filename)
+                ->toMediaCollection($collection);
+        } catch (Exception $e) {
+            Log::error('Failed to attach media: '.$e->getMessage(), [
+                'path' => $path,
+                'disk' => $disk,
+                'filename' => $filename,
+                'collection' => $collection,
+                'trace' => $e->getTraceAsString(),
+            ]);
+        }
+    }
+
     protected function addResponsiveAspectRatioConversion(Media $media, array $collections, float $aspectRatio, string $aspectRatioName, Fit $fit): void
     {
         $originalPath = $media->getPath();
@@ -105,13 +117,9 @@ trait InteractsWithMediaExtended
             $targetHeight = (int) round($targetHeight * $scale);
         }
 
-        //        $tolerance = 0.01; // Allow 1% deviation
         if ($targetHeight === 0) {
             return;
         }
-
-        //        $actualAspectRatio = $targetWidth / $targetHeight;
-        //        $isAcceptable = abs($actualAspectRatio - $aspectRatio) <= $tolerance;
 
         // Add the conversion with the calculated dimensions
         $this

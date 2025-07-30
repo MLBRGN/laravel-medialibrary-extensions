@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
@@ -11,7 +11,7 @@ class YouTubeService
         $videoId = extractYouTubeId($youtubeUrl);
 
         // TODO: validate $videoId if needed
-        $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
+        $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
 
         $model
             ->addMediaFromUrl($thumbnailUrl)

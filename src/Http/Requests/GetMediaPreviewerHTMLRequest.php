@@ -1,6 +1,4 @@
-<?php
-
-/** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
@@ -30,6 +28,7 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'initiator_id' => ['required', 'string'],
 
             'temporary_uploads' => ['required', Rule::in(['true', 'false'])],
+            'temporary_uploads_uuid' => ['nullable'],
 
             'model_type' => ['required', 'string'],// model_id handled by withValidator, for conditional validation
 

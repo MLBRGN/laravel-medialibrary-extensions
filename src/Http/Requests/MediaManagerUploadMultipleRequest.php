@@ -44,14 +44,13 @@ class MediaManagerUploadMultipleRequest extends FormRequest
             'temporary_upload' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload,false'],
-            'upload_to_collection' => ['required', 'string'],
             'image_collection' => ['nullable', 'string'],
             'document_collection' => ['nullable', 'string'],
             $uploadFieldName => [
                 'nullable',
                 'array',
-                // Apply the MaxMediaCount rule only if model is found, else skip it gracefully
-                $model ? new MaxMediaCount($model, $this->input('upload_to_collection'), $maxItemsInCollection) : null,
+                // Apply the MaxMediaCount rule only if the model is found, else skip it gracefully
+                $model ? new MaxMediaCount($model, $this->input('image_collection'), $maxItemsInCollection) : null,
             ],
             $uploadFieldName.'.media.*' => [
                 'nullable',

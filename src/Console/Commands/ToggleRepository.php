@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
 
@@ -58,7 +59,7 @@ class ToggleRepository extends Command
                 $this->removePath($linkPath);
                 $this->info("🔗 Removed local path for $name");
 
-                // Restore original version if saved
+                // Restore the original version if saved
                 if (isset($originalRequires[$name])) {
                     $composer['require'][$name] = $originalRequires[$name];
                     unset($composer['extra']['original_require'][$name]);
@@ -80,7 +81,7 @@ class ToggleRepository extends Command
                     'options' => ['symlink' => true],
                 ];
 
-                // Save current version before switching
+                // Save the current version before switching
                 $currentVersion = $composer['require'][$name] ?? null;
                 if ($currentVersion && $currentVersion !== 'dev-main') {
                     if (!isset($composer['extra']['original_require'][$name])) {

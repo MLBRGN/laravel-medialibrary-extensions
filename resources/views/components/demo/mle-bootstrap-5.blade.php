@@ -16,10 +16,10 @@
     <div>
         <h2 class="my-5">Media Manager Single</h2>
 
-        <label>
-            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-main-media-manager-single"/>
-            Use Temporary Uploads
-        </label>
+{{--        <label>--}}
+{{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-main-media-manager-single"/>--}}
+{{--            Use Temporary Uploads--}}
+{{--        </label>--}}
 
         <x-mle-media-manager-single
             id="blog-main"
@@ -34,16 +34,59 @@
             :use-xhr="config('media-library-extensions.use_xhr')"
         />
 
+        <h2 class="my-5">Media Manager Single (Temporary uploads)</h2>
+
+        {{--        <label>--}}
+        {{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-main-media-manager-single"/>--}}
+        {{--            Use Temporary Uploads--}}
+        {{--        </label>--}}
+
+        <x-mle-media-manager-single
+            id="blog-main"
+            model-or-class-name="\App\Models\Aliens"
+            image-collection="alien-single-image"
+            document-collection="alien-single-document"
+            youtube-collection="alien-single-youtube-video"
+            class="mt-5"
+            upload-enabled
+            destroy-enabled
+            frontend-theme="bootstrap-5"
+            :use-xhr="config('media-library-extensions.use_xhr')"
+        />
+        
         <h2 class="my-5">Media Manager Multiple</h2>
 
-        <label>
-            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-images-media-manager-multiple"/>
-            Use Temporary Uploads
-        </label>
+{{--        <label>--}}
+{{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-images-media-manager-multiple"/>--}}
+{{--            Use Temporary Uploads--}}
+{{--        </label>--}}
 
         <x-mle-media-manager-multiple
             id="blog-images"
             :model-or-class-name="$model"
+            image-collection="alien-multiple-images"
+            document-collection="alien-multiple-documents"
+            youtube-collection="alien-multiple-youtube-videos"
+            class="mt-5"
+            upload-enabled
+            destroy-enabled
+            :show-order="true"
+            set-as-first-enabled
+            frontend-theme="bootstrap-5"
+            :use-xhr="config('media-library-extensions.use_xhr')"
+            :multiple="true"
+        />
+
+        <h2 class="my-5">Media Manager Multiple (Temporary uploads)</h2>
+
+        {{--        <label>--}}
+        {{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-images-media-manager-multiple"/>--}}
+        {{--            Use Temporary Uploads--}}
+        {{--        </label>--}}
+
+        <x-mle-media-manager-multiple
+            id="blog-images"
+            model-or-class-name="\App\Models\Aliens"
             image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
             youtube-collection="alien-multiple-youtube-videos"

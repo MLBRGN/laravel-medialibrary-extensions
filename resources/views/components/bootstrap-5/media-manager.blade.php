@@ -19,7 +19,7 @@
                 <x-mle-partial-upload-form
                     :model-or-class-name="$modelOrClassName"
                     :temporary-upload="$temporaryUpload"
-                    :temporary-upload-uuid="$temporaryUploadUuid"
+                    :temporary-uploads-uuid="$temporaryUploadsUuid"
                     :id="$id"
                     :allowed-mime-types="$allowedMimeTypes"
                     :upload-to-collection="$imageCollection"
@@ -37,7 +37,7 @@
                     class="mt-3"
                     :model-or-class-name="$modelOrClassName"
                     :temporary-upload="$temporaryUpload"
-                    :temporary-upload-uuid="$temporaryUploadUuid"
+                    :temporary-uploads-uuid="$temporaryUploadsUuid"
                     :id="$id"
                     :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
@@ -61,6 +61,7 @@
                     :image-collection="$imageCollection"
                     :youtube-collection="$youtubeCollection"
                     :document-collection="$documentCollection"
+                    :temporary-uploads="$temporaryUpload"
                 />
             </div>
             {{-- TODO title--}}

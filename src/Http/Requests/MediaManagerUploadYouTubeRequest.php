@@ -5,9 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
-use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 
 /**
  * Handle the validation and authorization for uploading multiple media files.

@@ -27,7 +27,7 @@ class VideoYouTube extends Component
             'modestbranding' => 1,// Reduces YouTube branding
             'playsinline' => 1,// On iOS, plays the video inline instead of opening fullscreen.
             'rel' => 0, // Prevents showing related videos from other channels at the end
-            'enablejsapi' => 1,	// Required by lite-youtube. Enables JavaScript API control of the player.
+            'enablejsapi' => 1,	// Required by "lite-youtube". Enables JavaScript API control of the player.
             'cc_load_policy' => 1,// Forces closed captions to be displayed (if available).
             'cc_lang_pref' => 'en',// Sets the default language for captions (e.g., en, nl).
             'iv_load_policy' => 3,// Shows (1) or hides (3) video annotations like popups or cards.

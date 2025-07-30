@@ -30,7 +30,7 @@ class UseDemoModeConnection
             'prefix' => '',
         ]);
 
-        // Set as default connection (optional — only if you want all queries to use it)
+        // Set as the default connection (optional — only if you want all queries to use it)
         Config::set('database.default', 'media_demo');
 
         // Reset and reconnect the connection
@@ -53,30 +53,4 @@ class UseDemoModeConnection
 
         return $next($request);
     }
-//    public function handle($request, Closure $next)
-//    {
-//
-//        Log::info('using middleware ' . $request->fullUrl());
-//        $dbPath = realpath(__DIR__ . '/../../../storage/media-library-extensions-demo.sqlite');
-//
-//        Config::set('database.connections.media_demo', [
-//            'driver' => 'sqlite',
-//            'database' => $dbPath,
-//            'prefix' => '',
-//        ]);
-//        Config::set('database.default', 'media_demo');
-//
-////        \Log::info('DB connections: ', Config::get('database.connections'));
-//        DB::purge('media_demo');
-//        DB::reconnect('media_demo');
-//
-//        if (! Schema::connection('media_demo')->hasTable('aliens')) {
-//            Artisan::call('migrate', [
-//                '--database' => 'media_demo',
-//                '--path' => realpath(__DIR__ . '/../../../database/migrations/demo'),
-//                '--realpath' => true,
-//            ]);
-//        }
-//        return $next($request);
-//    }
 }

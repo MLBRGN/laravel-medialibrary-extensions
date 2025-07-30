@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpUnusedParameterInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Policies;

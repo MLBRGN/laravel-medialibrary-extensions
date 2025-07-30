@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const config = JSON.parse(mediaManagerConfigJson);
                 config.temporary_upload = enabled;
 
-                if (enabled && !config.temporary_upload_uuid) {
-                    config.temporary_upload_uuid = 'dummy-non-uuid';
+                if (enabled && !config.temporary_uploads_uuid) {
+                    config.temporary_uploads_uuid = 'dummy-non-uuid';
                 }
 
                 mediaManagerConfigInput.value = JSON.stringify(config);

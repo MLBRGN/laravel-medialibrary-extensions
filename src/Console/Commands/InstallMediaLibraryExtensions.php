@@ -1,6 +1,4 @@
-<?php
-
-/** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
 

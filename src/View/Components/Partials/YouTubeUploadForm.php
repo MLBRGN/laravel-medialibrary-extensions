@@ -24,15 +24,14 @@ class YouTubeUploadForm extends BaseComponent
 
     // TODO NOT RIGHT which collections to use?
     public function __construct(
-
-        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
-        public bool $temporaryUpload = false,
-        public string $temporaryUploadUuid = '',
         public ?string $youtubeCollection,
         public string $id,
         public ?string $frontendTheme,
         public ?string $mediaCollection,
         public ?string $documentCollection,
+        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
+        public bool $temporaryUpload = false,
+        public string $temporaryUploadsUuid = '',
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
         public bool $destroyEnabled = false,

@@ -33,7 +33,6 @@ class MediaManagerUploadSingleRequest extends FormRequest
             'temporary_upload' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload,false'],
-//            'collection_name' => ['required', 'string'],
             'image_collection' => ['required', 'string'],
             'document_collection' => ['nullable', 'string'],
             $uploadFieldNameSingle => [

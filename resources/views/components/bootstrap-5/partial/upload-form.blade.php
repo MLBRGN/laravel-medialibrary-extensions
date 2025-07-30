@@ -30,10 +30,6 @@
     <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
         type="hidden"
-        name="upload_to_collection"
-        value="{{ $uploadToCollection }}">
-    <input
-        type="hidden"
         name="image_collection"
         value="{{ $imageCollection }}">
     @if($documentCollection)
@@ -43,7 +39,7 @@
             value="{{ $documentCollection }}">
     @endif
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
-    <input type="hidden" name="temporary_upload_uuid" value="{{ $temporaryUploadUuid }}"/>
+    <input type="hidden" name="temporary_uploads_uuid" value="{{ $temporaryUploadsUuid }}"/>
     <input
         type="hidden"
         name="model_type"

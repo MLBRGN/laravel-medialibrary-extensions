@@ -5,8 +5,8 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
 
 class MediaManagerPreview extends BaseComponent
@@ -26,10 +26,12 @@ class MediaManagerPreview extends BaseComponent
         public bool $setAsFirstEnabled = false,
         public bool $showMediaUrl = false,
         public bool $showOrder = false,
+        public bool $temporaryUploads = false,
     )
     {
         parent::__construct($id, $frontendTheme);
 
+//        dd('session in preview class: '.session()->getId());
         if ($destroyEnabled || $showOrder || $setAsFirstEnabled) {
             $this->showMenu = true;
         } else {
@@ -37,21 +39,25 @@ class MediaManagerPreview extends BaseComponent
         }
 
         $collections = collect();
-        if ($model) {
-            if ($imageCollection) {
-                $collections = $collections->merge($model->getMedia($imageCollection));
-            }
 
-            if ($youtubeCollection) {
-                $collections = $collections->merge($model->getMedia($youtubeCollection));
-            }
+        if ($temporaryUploads) {
+             $collections = $collections->merge(TemporaryUpload::where('session_id', session()->getId())->get());
+        } else {
+            if ($model) {
+                if ($imageCollection) {
+                    $collections = $collections->merge($model->getMedia($imageCollection));
+                }
 
-            if ($documentCollection) {
-                $collections = $collections->merge($model->getMedia($documentCollection));
+                if ($youtubeCollection) {
+                    $collections = $collections->merge($model->getMedia($youtubeCollection));
+                }
+
+                if ($documentCollection) {
+                    $collections = $collections->merge($model->getMedia($documentCollection));
+                }
             }
         }
         $this->media = $collections;
-
     }
 
     public function render(): View

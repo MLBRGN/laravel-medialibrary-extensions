@@ -20,7 +20,7 @@
         name="model_type"
         value="{{ get_class($model) }}">
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
-    <input type="hidden" name="temporary_upload_uuid" value="{{ $temporaryUploadUuid }}"/>
+    <input type="hidden" name="temporary_uploads_uuid" value="{{ $temporaryUploadsUuid }}"/>
     <input
         type="hidden"
         name="model_type"

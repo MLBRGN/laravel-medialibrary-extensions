@@ -31,8 +31,8 @@ class ImageEditorModal extends BaseComponent
             'id' => $this->id,
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->getKey(),
-            'medium_id' => $medium?->id,
-            'collection' => $medium?->collection_name,
+            'medium_id' => $medium->id,
+            'collection' => $medium->collection_name,
             'csrf_token' => csrf_token(),
             'save_updated_medium_route' => $this->saveUpdatedMediumRoute,
         ];

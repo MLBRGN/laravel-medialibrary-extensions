@@ -50,6 +50,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Temporary uploads
+    |--------------------------------------------------------------------------
+    |
+    | When no model exists yet, in case of a "create" form, temporary
+    | files are used because the files cannot be directly coupled to the model for
+    | it doesn't exist yet. Configure the disk and path to use.
+    | NOTE: The disk and path must be publicly accessible for preview images to show
+    | during temporary uploads
+    |
+    */
+
+    'temporary_upload_disk' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_DISK', 'local'),
+    'temporary_upload_path' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_PATH', 'temp/media-library-extensions'),
+
+    // TODO Do i need user check for temporary uploads?
+
+    /*
+    |--------------------------------------------------------------------------
     | Route prefix
     |--------------------------------------------------------------------------
     |
