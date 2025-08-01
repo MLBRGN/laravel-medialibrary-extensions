@@ -15,10 +15,6 @@
         type="hidden"
         name="collection_name"
         value="{{ $youtubeCollection }}">
-    <input
-        type="hidden"
-        name="model_type"
-        value="{{ get_class($model) }}">
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
     <input
         type="hidden"
@@ -28,6 +24,10 @@
         type="hidden"
         name="model_id"
         value="{{ $modelId }}">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="{{ $id }}">
         <label 
             for="{{ $id }}-youtube-url" 
             class="mle-label">
@@ -44,7 +44,7 @@
         class="mle-button mle-upload-button"
         data-action="upload-youtube-medium"
     >
-        {{ trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
+        {{ __('media-library-extensions::messages.add_video') }}
     </button>
 </x-media-library-extensions::partial.conditional-form>
 @if($useXhr)

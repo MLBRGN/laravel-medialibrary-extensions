@@ -8,8 +8,19 @@
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         }
 
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 0;
+            margin-bottom: .5rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+        h1 {
+            color:#0d6efd;
+            font-size: 2.5rem;
+        }
         h2 {
             margin-block: 1.5em;
+            font-size: 2rem;
         }
         
         .demo-media-carousel {
@@ -30,12 +41,7 @@
     <h1 class="text-primary">Component tests: theme plain</h1>
 
     <h2>Media Manager Single</h2>
-
-    <label>
-        <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-main-media-manager-single"/>
-        Use Temporary Uploads
-    </label>
-
+    
     <x-mle-media-manager-single
         id="blog-main"
         :model-or-class-name="$model"
@@ -48,16 +54,43 @@
         :use-xhr="config('media-library-extensions.use_xhr')"
     />
 
+    <h2>Media Manager Single (Temporary uploads)</h2>
+
+    <x-mle-media-manager-single
+        id="blog-main-temporary-uploads"
+        model-or-class-name="\App\Models\Aliens"
+        image-collection="alien-single-image"
+        document-collection="alien-single-document"
+        youtube-collection="alien-single-youtube-video"
+        upload-enabled
+        destroy-enabled
+        frontend-theme="plain"
+        :use-xhr="config('media-library-extensions.use_xhr')"
+    />
+
     <h2>Media Manager Multiple</h2>
-
-    <label>
-        <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-images-media-manager-multiple"/>
-        Use Temporary Uploads
-    </label>
-
+    
     <x-mle-media-manager-multiple
         id="blog-images"
         :model-or-class-name="$model"
+        image-collection="alien-multiple-images"
+        document-collection="alien-multiple-documents"
+        youtube-collection="alien-multiple-youtube-videos"
+        class="mt-5"
+        upload-enabled
+        destroy-enabled
+        show-order
+        set-as-first-enabled
+        frontend-theme="plain"
+        :use-xhr="config('media-library-extensions.use_xhr')"
+        :multiple="true"
+    />
+
+    <h2>Media Manager Multiple (Temporary uploads)</h2>
+
+    <x-mle-media-manager-multiple
+        id="blog-images-temporary-uploads"
+        model-or-class-name="\App\Models\Aliens"
         image-collection="alien-multiple-images"
         document-collection="alien-multiple-documents"
         youtube-collection="alien-multiple-youtube-videos"

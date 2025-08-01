@@ -127,6 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        document.addEventListener('onImageUpdated', (e) => {
+            console.log('✅ Global listener got event:', e.detail);
+        });
+
+        modal.addEventListener('onImageUpdated', (e) => {
+            console.log('onImageUpdated', e);
+        })
+
         // Handle carousel slide event
         if (carousel) {
             carousel.addEventListener('carouselSlided', () => {

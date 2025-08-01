@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\Models;
+namespace Mlbrgn\MediaLibraryExtensions\Models\demo;
 
 use Illuminate\Database\Eloquent\Model;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
@@ -15,7 +15,7 @@ class Aliens extends Model implements HasMedia
     use YouTubeCollection;
 
     protected $table = 'aliens';
-    protected $connection = 'media_demo';
+//    protected $connection = 'media_demo';
     protected $guarded = [];
 
     public function registerMediaCollections(): void
@@ -44,6 +44,11 @@ class Aliens extends Model implements HasMedia
         $this->addMediaCollection('alien-multiple-youtube-videos')
             ->useDisk('public');
 
+    }
+
+    public function getConnectionName(): string
+    {
+        return config('media-library-extensions.temp_database_name');
     }
 
 }

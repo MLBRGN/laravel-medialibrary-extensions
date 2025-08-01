@@ -4,6 +4,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class TemporaryUpload extends Model
@@ -27,9 +28,29 @@ class TemporaryUpload extends Model
 
     protected $appends = ['url'];
 
+    public static function isAvailable(): bool
+    {
+        $instance = new static();
+        $connection = $instance->getConnectionName(); // null = default connection
+        $table = $instance->getTable();
+
+        return Schema::connection($connection)->hasTable($table);
+    }
+
+    public function getConnectionName()
+    {
+        if (config('media-library-extensions.demo_pages_enabled')) {
+            return config('media-library-extensions.temp_database_name');
+        }
+
+        return parent::getConnectionName();
+    }
+
     public static function forCurrentSession(): Collection
     {
-        return self::where('session_id', session()->getId())->orderBy('order_column', 'asc')->get();
+        return self::where('session_id', session()->getId())
+            ->orderBy('order_column', 'asc')
+            ->get();
     }
 
     public function getUrlAttribute(): string

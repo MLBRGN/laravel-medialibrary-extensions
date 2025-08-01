@@ -5,13 +5,17 @@
 namespace Mlbrgn\MediaLibraryExtensions\Providers;
 
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Media as MediaDemo;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaUploadService;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryMediaService;
@@ -135,6 +139,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->registerPolicy();
 
         $this->registerServices();
+        $this->setupDemoDatabase();
         $this->addToAbout();
 
     }
@@ -159,6 +164,22 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             // Use package’s fallback policy
             Gate::policy(Media::class, MediaPolicy::class);
         }
+    }
+
+    protected function setupDemoDatabase(): void
+    {
+//        if (config('media-library-extensions.demo_pages_enabled')) {
+//            $connectionName = config('media-library-extensions.temp_database_name');
+//            Media::resolveConnectionUsing(function () use ($connectionName) {
+//                return $connectionName;
+//            });
+//
+//            // Override connection on key models
+//            TemporaryUpload::resolveConnectionUsing(function () use ($connectionName) {
+//                return $connectionName;
+//            });
+//
+//        }
     }
 
     protected function registerServices(): void

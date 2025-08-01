@@ -10,8 +10,8 @@
     data-media-manager=""
     >
     <input type="hidden" class="media-manager-config" value='@json($config)' />
-    <x-mle-partial-debug :theme="$theme" :model="$model" :config="$config"/>
-    <div class="media-manager-row">
+    <x-mle-partial-debug :theme="$theme" :model="$model" :config="$config" :model-type="$modelType" :modelId="$modelId"/>
+    <div class="media-manager-row row">
         <div class="media-manager-form">
             @if($uploadEnabled)
                 <x-mle-partial-upload-form
@@ -57,6 +57,7 @@
                     :image-collection="$imageCollection"
                     :youtube-collection="$youtubeCollection"
                     :document-collection="$documentCollection"
+                    :temporary-uploads="$temporaryUpload"
                 />
             </div>
             {{-- TODO title--}}

@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('aliens', function (Blueprint $table) {
+        $connection = config('media-library-extensions.temp_database_name');
+        Schema::connection($connection)->create('aliens', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -15,6 +16,7 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('aliens');
+        $connection = config('media-library-extensions.temp_database_name');
+        Schema::connection($connection)->dropIfExists('aliens');
     }
 };

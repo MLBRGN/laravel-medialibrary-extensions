@@ -38,7 +38,6 @@ return [
     'word-document' => 'Word document.',
     'pdf-document' => 'PDF document.',
     'show_document' => 'Toon document.',
-    'demo_mode_disabled' => 'Demo modus is uitgeschakeld.',
     'no_blade_ui_kit_icon_package_detected_download_at_:link' => 'Geen "Blade UI Kit icon package" gedetecteerd download via :link',
     'note_carousel_only_updates_on_refresh_of_page' => 'LET OP: Deze carrousel wordt alleen bijgewerkt na het verversen van de pagina, zelfs wanneer XHR is ingeschakeld voor media managers.',
     'edit' => 'Bewerken',

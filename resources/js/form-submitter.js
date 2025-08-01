@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const action = target.getAttribute('data-action');
             console.log('action', action);
             const formElement = target.closest('[data-xhr-form]');
-            const method = formElement.getAttribute('data-xhr-method') ?? 'post';
+            const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
             const route = getRouteFromAction(action, target, config);
 
             if (!route) {

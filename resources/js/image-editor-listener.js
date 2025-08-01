@@ -29,7 +29,9 @@ document.addEventListener('imageEditorReady', (e) => {
 EventBus.register('onImageSave', (e) => {
 
     const modal = document.getElementById(e.detail.id);
+    console.log('modal', modal);
     // updateMedia(e.detail)
+    console.log('dispatching', e.detail)
     modal.dispatchEvent(new CustomEvent('onImageUpdated', {
         bubbles: true,
         composed: true,

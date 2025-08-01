@@ -5,7 +5,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;

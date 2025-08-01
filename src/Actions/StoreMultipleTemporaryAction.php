@@ -3,10 +3,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
@@ -24,20 +24,11 @@ class StoreMultipleTemporaryAction
 
     public function execute(MediaManagerUploadMultipleRequest $request): RedirectResponse|JsonResponse
     {
-
         $field = config('media-library-extensions.upload_field_name_multiple');
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
         $files = $request->file($field);
-
-        if (!Schema::hasTable('mle_temporary_uploads')) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                __('media-library-extensions::messages.Temporary_uploads_not_available,_please_run_migrations_first'),
-            );
-        }
 
         if (empty($files)) {
             return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
@@ -45,7 +36,7 @@ class StoreMultipleTemporaryAction
 
         $directory = "{$basePath}";
 
-        $savedFiles = collect($files)->map(function ($file) use ($disk, $directory, $request) {
+        $savedFiles = collect($files)->map(function ($file) use ($initiatorId, $disk, $directory, $request) {
             $originalName = $file->getClientOriginalName();
             $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
             $extension = $file->getClientOriginalExtension();
@@ -60,7 +51,7 @@ class StoreMultipleTemporaryAction
             $nextOrder = $maxOrderColumn + 1;
 
             // Create DB record
-            TemporaryUpload::create([
+            $upload = new TemporaryUpload([
                 'disk' => $disk,
                 'path' => "{$directory}/{$filename}",
                 'original_filename' => $originalName,
@@ -75,6 +66,21 @@ class StoreMultipleTemporaryAction
                 ],
             ]);
 
+            try {
+                $upload->save();
+            } catch (QueryException $e) {
+                // Check if it's a "table not found" error (MySQL / SQLite / etc.)
+                if (str_contains($e->getMessage(), 'mle_temporary_uploads')) {
+                    return MediaResponse::error(
+                        $request,
+                        $initiatorId,
+                        __('media-library-extensions::messages.Temporary_uploads_not_available,_please_run_migrations_first'),
+                    );
+                }
+
+                // Re-throw for other unexpected DB errors
+                throw $e;
+            }
             return $filename;
         })->all();
 

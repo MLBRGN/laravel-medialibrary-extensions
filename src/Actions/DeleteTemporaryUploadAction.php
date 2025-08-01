@@ -17,20 +17,6 @@ class DeleteTemporaryUploadAction
     public function execute(MediaManagerTemporaryUploadDestroyRequest $request, TemporaryUpload $temporaryUpload): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
-
-//        dd('trying to delete temporary upload');
-        // $this->authorize('deleteMedia', $media); // Authorization can be handled in the controller or via policies
-
-//        if (config('media-library-extensions.demo_mode')) {
-//            $temporaryUpload->setConnection('media_demo');
-//        }
-
-//        Log::info('Media connection:', [
-//            'model' => get_class($media),
-//            'conn' => $media->getConnectionName(),
-//            'default' => config('database.default'),
-//        ]);
-
         $temporaryUpload->delete();
 
         return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_removed'));

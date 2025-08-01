@@ -3,10 +3,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
-use Hoa\File\Temporary\Temporary;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -46,6 +44,7 @@ class SetTemporaryUploadAsFirstAction
 
     protected function setTemporaryUploadOrder(array $orderedIds): void
     {
+
         foreach ($orderedIds as $index => $id) {
             TemporaryUpload::where('id', $id)->update(['order_column' => $index + 1]);
         }

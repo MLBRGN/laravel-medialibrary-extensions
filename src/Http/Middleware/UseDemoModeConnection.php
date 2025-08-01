@@ -7,7 +7,9 @@ use Closure;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Log;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Schema;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UseDemoModeConnection
 {
@@ -15,42 +17,36 @@ class UseDemoModeConnection
     {
         Log::info('Using demo DB middleware for: ' . $request->fullUrl());
 
-        // Define the SQLite database path
-        $dbPath = storage_path('media-library-extensions-demo.sqlite');
+        $connectionName = config('media-library-extensions.temp_database_name');
+        $databasePath = storage_path('media-library-extensions-demo.sqlite');
 
-        // Ensure the SQLite file exists
-        if (!file_exists($dbPath)) {
-            touch($dbPath);
+        if (!file_exists($databasePath)) {
+            touch($databasePath);
         }
 
-        // Set up the demo connection
-        Config::set('database.connections.media_demo', [
+        Config::set("database.connections.{$connectionName}", [
             'driver' => 'sqlite',
-            'database' => $dbPath,
+            'database' => $databasePath,
             'prefix' => '',
         ]);
 
-        // Set as the default connection (optional — only if you want all queries to use it)
-        Config::set('database.default', 'media_demo');
+        // Purge and reconnect
+        DB::purge($connectionName);
+        DB::reconnect($connectionName);
 
-        // Reset and reconnect the connection
-        DB::purge('media_demo');
-        DB::reconnect('media_demo');
-
-        // Run migrations if not already migrated
-        if (!Schema::connection('media_demo')->hasTable('aliens')) {
+        // Run migrations if needed
+        if (!Schema::connection($connectionName)->hasTable('aliens')) {
             Log::info('Running demo migrations...');
-
             Artisan::call('migrate', [
-                '--database' => 'media_demo',
+                '--database' => $connectionName,
                 '--path' => realpath(__DIR__ . '/../../../database/migrations/demo'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
-
             Log::info('Demo migrations completed.');
         }
 
         return $next($request);
     }
+
 }

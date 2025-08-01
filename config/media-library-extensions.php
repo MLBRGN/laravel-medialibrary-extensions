@@ -15,15 +15,14 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Demo mode
+     | Demo pages
      |--------------------------------------------------------------------------
      |
-     | When enabled uses a separate mysql-database.
-     | Used by the demo pages to not interfere with the host application's database
+     | Enable / Disable demo pages
      |
      */
 
-    'demo_mode' => env('MEDIA_LIBRARY_EXTENSIONS_DEMO_MODE', false),
+    'demo_pages_enabled' => env('MEDIA_LIBRARY_EXTENSIONS_DEMO_PAGES_ENABLED', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -264,6 +263,7 @@ return [
     |
     */
 
+    'temp_database_name' => 'media_demo',
     'temp_media_path' => 'tmp-media',
     'temp_media_lifetime' => 24, // hours
 

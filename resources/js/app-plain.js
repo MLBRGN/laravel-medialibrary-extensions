@@ -2,6 +2,7 @@
 
 import '@/js/plain/media-carousel';
 import '@/js/plain/media-modal';
+import '@/js/plain/image-editor-modal';
 import '@/css/app-plain.scss';
 import '@/js/image-editor-listener'
 import ImageEditor from "@evertjanmlbrgn/ImageEditor/ImageEditor";// imported for side effects

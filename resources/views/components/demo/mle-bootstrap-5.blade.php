@@ -16,13 +16,8 @@
     <div>
         <h2 class="my-5">Media Manager Single</h2>
 
-{{--        <label>--}}
-{{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-main-media-manager-single"/>--}}
-{{--            Use Temporary Uploads--}}
-{{--        </label>--}}
-
         <x-mle-media-manager-single
-            id="blog-main"
+            id="aliens-main"
             :model-or-class-name="$model"
             image-collection="alien-single-image"
             document-collection="alien-single-document"
@@ -36,13 +31,8 @@
 
         <h2 class="my-5">Media Manager Single (Temporary uploads)</h2>
 
-        {{--        <label>--}}
-        {{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-main-media-manager-single"/>--}}
-        {{--            Use Temporary Uploads--}}
-        {{--        </label>--}}
-
         <x-mle-media-manager-single
-            id="blog-main"
+            id="aliens-main-temporary-uploads"
             model-or-class-name="\App\Models\Aliens"
             image-collection="alien-single-image"
             document-collection="alien-single-document"
@@ -56,13 +46,8 @@
         
         <h2 class="my-5">Media Manager Multiple</h2>
 
-{{--        <label>--}}
-{{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-images-media-manager-multiple"/>--}}
-{{--            Use Temporary Uploads--}}
-{{--        </label>--}}
-
         <x-mle-media-manager-multiple
-            id="blog-images"
+            id="alien-images"
             :model-or-class-name="$model"
             image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
@@ -79,13 +64,8 @@
 
         <h2 class="my-5">Media Manager Multiple (Temporary uploads)</h2>
 
-        {{--        <label>--}}
-        {{--            <input type="checkbox" id="upload-mode-toggle" data-temporary-upload-toggle data-for-media-manager="blog-images-media-manager-multiple"/>--}}
-        {{--            Use Temporary Uploads--}}
-        {{--        </label>--}}
-
         <x-mle-media-manager-multiple
-            id="blog-images"
+            id="alien-images-temporary-uploads"
             model-or-class-name="\App\Models\Aliens"
             image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
@@ -105,7 +85,7 @@
         <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
 
         <x-mle-media-carousel
-            id="blog-media"
+            id="alien-media"
             :model="$model"
             :media-collections="[
                         'alien-single-image', 

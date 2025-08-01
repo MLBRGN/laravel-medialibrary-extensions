@@ -47,14 +47,6 @@ class SetMediumAsFirstAction
 
     protected function setMediaOrder(array $orderedIds): void
     {
-        if (config('media-library-extensions.demo_mode')) {
-            $originalConnection = config('database.default');
-
-            config(['database.default' => 'media_demo']);
-            Media::setNewOrder($orderedIds);
-            config(['database.default' => $originalConnection]);
-        } else {
-            Media::setNewOrder($orderedIds);
-        }
+        Media::setNewOrder($orderedIds);
     }
 }

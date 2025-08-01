@@ -1,6 +1,7 @@
 // noinspection ES6UnusedImports
 
 import '@/js/bootstrap-5/media-modal';
+import '@/js/bootstrap-5/image-editor-modal';
 import '@/css/app-bootstrap-5.scss';
 import '@/js/image-editor-listener'
 import ImageEditor from "@evertjanmlbrgn/ImageEditor/ImageEditor";// imported for side effects

@@ -18,10 +18,6 @@ class DeleteMediumAction
 
         // $this->authorize('deleteMedia', $media); // Authorization can be handled in the controller or via policies
 
-        if (config('media-library-extensions.demo_mode')) {
-            $media->setConnection('media_demo');
-        }
-
         Log::info('Media connection:', [
             'model' => get_class($media),
             'conn' => $media->getConnectionName(),

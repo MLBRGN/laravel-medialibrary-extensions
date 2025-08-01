@@ -6,7 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use _PHPStan_ac6dae9b0\Nette\Neon\Exception;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -25,8 +24,8 @@ class MediaManager extends BaseComponent
     /** @var Collection<int, Media> */
     public Collection $media;
     public string $mediaUploadRoute;// upload form action route
-    public string $previewUpdateRoute;// route to update preview media when using ajax
-    public string $youtubeUploadRoute;// route to upload youtube video using ajax
+    public string $previewUpdateRoute;// route to update preview media when using XHR
+    public string $youtubeUploadRoute;// route to upload a YouTube video using XHR
 
     public function __construct(
         public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
@@ -113,7 +112,9 @@ class MediaManager extends BaseComponent
             'document_collection' => $this->documentCollection,
             'youtube_collection' => $this->youtubeCollection,
             'media_upload_route' => $this->mediaUploadRoute,
+            'temporary_upload_route' => 'TODO',
             'preview_update_route' => $this->previewUpdateRoute,
+            'temporary_upload_preview_update_route' => 'TODO',
             'youtube_upload_route' => $this->youtubeUploadRoute,
             'csrf_token' => csrf_token(),
             'frontend_theme' => $this->frontendTheme,
