@@ -1,6 +1,6 @@
 <?php
-
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\Support\Collection;

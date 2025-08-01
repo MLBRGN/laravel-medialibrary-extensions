@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Middleware;
 
@@ -7,9 +8,7 @@ use Closure;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Log;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Schema;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UseDemoModeConnection
 {

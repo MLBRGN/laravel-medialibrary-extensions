@@ -1,5 +1,4 @@
 <?php
-
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
