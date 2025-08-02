@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('disk');
             $table->string('path');
             $table->string('original_filename');
+            $table->string('collection_name');
             $table->string('mime_type')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('session_id')->nullable();

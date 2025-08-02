@@ -40,7 +40,18 @@ class MediaManagerPreview extends BaseComponent
         $collections = collect();
 
         if ($temporaryUploads) {
-             $collections = $collections->merge(TemporaryUpload::forCurrentSession());
+//             $collections = $collections->merge(TemporaryUpload::forCurrentSession());
+            if ($imageCollection) {
+                $collections = $collections->merge(TemporaryUpload::forCurrentSession($imageCollection));
+            }
+
+            if ($youtubeCollection) {
+                $collections = $collections->merge(TemporaryUpload::forCurrentSession($youtubeCollection));
+            }
+
+            if ($documentCollection) {
+                $collections = $collections->merge(TemporaryUpload::forCurrentSession($documentCollection));
+            }
         } else {
             if ($model) {
                 if ($imageCollection) {

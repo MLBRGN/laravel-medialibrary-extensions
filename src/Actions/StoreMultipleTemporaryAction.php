@@ -7,7 +7,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
@@ -35,17 +34,31 @@ class StoreMultipleTemporaryAction
         }
 
         $directory = "{$basePath}";
+        $sessionId = $request->session()->getId();
 
-        $savedFiles = collect($files)->map(function ($file) use ($initiatorId, $disk, $directory, $request) {
+        $savedFiles = [];
+        $skippedFiles = [];
+
+        foreach ($files as $file) {
             $originalName = $file->getClientOriginalName();
+            $collection = $this->mediaService->determineCollection($file);
+
+            if (is_null($collection)) {
+                $skippedFiles[] = [
+                    'filename' => $originalName,
+                    'reason' => __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', [
+                        'mimetype' => $file->getMimeType(),
+                    ]),
+                ];
+                continue;
+            }
+
             $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
             $extension = $file->getClientOriginalExtension();
             $filename = "{$safeFilename}.{$extension}";
 
             // Store file
             Storage::disk($disk)->putFileAs($directory, $file, $filename);
-
-            $sessionId = $request->session()->getId();
 
             $maxOrderColumn = TemporaryUpload::where('session_id', $sessionId)->max('order_column') ?? 0;
             $nextOrder = $maxOrderColumn + 1;
@@ -55,9 +68,10 @@ class StoreMultipleTemporaryAction
                 'disk' => $disk,
                 'path' => "{$directory}/{$filename}",
                 'original_filename' => $originalName,
+                'collection_name' => $collection,
                 'mime_type' => $file->getMimeType(),
                 'user_id' => Auth::check() ? Auth::id() : null,
-                'session_id' => $request->session()->getId(),
+                'session_id' => $sessionId,
                 'order_column' => $nextOrder,
                 'extra_properties' => [
                     'image_collection' => $request->input('image_collection'),
@@ -66,30 +80,33 @@ class StoreMultipleTemporaryAction
                 ],
             ]);
 
-            try {
-                $upload->save();
-            } catch (QueryException $e) {
-                // Check if it's a "table not found" error (MySQL / SQLite / etc.)
-                if (str_contains($e->getMessage(), 'mle_temporary_uploads')) {
-                    return MediaResponse::error(
-                        $request,
-                        $initiatorId,
-                        __('media-library-extensions::messages.Temporary_uploads_not_available,_please_run_migrations_first'),
-                    );
-                }
+            $upload->save();
+            $savedFiles[] = $filename;
+        }
 
-                // Re-throw for other unexpected DB errors
-                throw $e;
-            }
-            return $filename;
-        })->all();
+        if (empty($savedFiles)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
+            );
+        }
 
+        $messageExtra = '';
+        foreach ($skippedFiles as $skippedFile) {
+            $messageExtra .= '"' . $skippedFile['filename'] . '":  ' . $skippedFile['reason'] . ',';
+        }
         return MediaResponse::success(
             $request,
             $initiatorId,
             __('media-library-extensions::messages.upload_success'),
-            ['saved_files' => $savedFiles]
+            [
+                'message_extra' => $messageExtra,
+                'saved_files' => $savedFiles,
+                'skipped_files' => $skippedFiles,
+            ]
         );
     }
+
 
 }

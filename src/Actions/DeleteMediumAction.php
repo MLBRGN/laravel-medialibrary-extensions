@@ -5,7 +5,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -18,11 +17,9 @@ class DeleteMediumAction
 
         // $this->authorize('deleteMedia', $media); // Authorization can be handled in the controller or via policies
 
-        Log::info('Media connection:', [
-            'model' => get_class($media),
-            'conn' => $media->getConnectionName(),
-            'default' => config('database.default'),
-        ]);
+//        if (config('media-library-extensions.demo_pages_enabled')) {
+//            $media->setConnection('media_demo');
+//        }
 
         $media->delete();
 

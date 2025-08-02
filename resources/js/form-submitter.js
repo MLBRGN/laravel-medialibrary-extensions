@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let statusMessageTimeout = null;
 
     mediaManagers.forEach(mediaManager => {
-        const formContainer = mediaManager.querySelector('.media-manager-form');
+        const container = mediaManager.querySelector('.media-manager-row');
 
         mediaManager.addEventListener('click', async function (e) {
             const config = getMediaManagerConfig(mediaManager);
@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const route = getRouteFromAction(action, target, config);
 
             if (!route) {
-                showStatusMessage(formContainer, {
+                showStatusMessage(container, {
                     type: 'error',
                     message: trans('invalid_action'),
                 });
                 return;
             }
 
-            showSpinner(formContainer);
+            showSpinner(container);
 
             try {
                 const formData = getFormData(formElement);
@@ -52,11 +52,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    handleAjaxError(response, data, formContainer);
+                    handleAjaxError(response, data, container);
                     return;
                 }
 
-                showStatusMessage(formContainer, data);
+                showStatusMessage(container, data);
                 updatePreview(mediaManager, config);
 
                 const flash = document.getElementById(`${formElement.dataset.target}-flash`);
@@ -68,12 +68,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             } catch (error) {
                 console.error('Error during upload:', error);
-                showStatusMessage(formContainer, {
+                showStatusMessage(container, {
                     type: 'error',
                     message: trans('upload_failed'),
                 });
             } finally {
-                hideSpinner(formContainer);
+                hideSpinner(container);
             }
         });
     });
@@ -169,7 +169,9 @@ document.addEventListener('DOMContentLoaded', function () {
         container.querySelector('[data-spinner-container]')?.classList.remove('active');
     }
 
-    function showStatusMessage(container, { type, message }) {
+    function showStatusMessage(container, data) {
+
+        const { type, message, message_extra: messageExtra = null } = data;
         const statusContainer = container.querySelector('[data-status-container]');
         const messageDiv = statusContainer?.querySelector('[data-status-message]');
         if (!statusContainer || !messageDiv) return;
@@ -182,6 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
         messageDiv.className = base;
         typeClasses.split(' ').forEach(cls => cls && messageDiv.classList.add(cls));
         messageDiv.textContent = message;
+        if (messageExtra) {
+            messageDiv.textContent += '\n\n' + messageExtra;
+        }
         statusContainer.classList.add('visible');
 
         clearTimeout(statusMessageTimeout);
@@ -192,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
         container.querySelector('[data-status-container]')?.classList.remove('visible');
     }
 
-    function handleAjaxError(response, data, formContainer) {
+    function handleAjaxError(response, data, container) {
         let message = trans('upload_failed');
 
         switch (response.status) {
@@ -203,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
             case 422:
                 if (data.errors) {
                     Object.values(data.errors).flat().forEach(msg => {
-                        showStatusMessage(formContainer, { type: 'error', message: msg });
+                        showStatusMessage(container, { type: 'error', message: msg });
                     });
                     return;
                 }
@@ -216,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 message = data.message || message;
         }
 
-        showStatusMessage(formContainer, { type: 'error', message });
+        showStatusMessage(container, { type: 'error', message });
     }
 
     function trans(key) {

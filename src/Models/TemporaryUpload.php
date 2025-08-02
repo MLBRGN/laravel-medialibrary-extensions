@@ -16,6 +16,7 @@ class TemporaryUpload extends Model
         'disk',
         'path',
         'original_filename',
+        'collection_name',
         'mime_type',
         'session_id',
         'user_id',
@@ -47,9 +48,12 @@ class TemporaryUpload extends Model
         return parent::getConnectionName();
     }
 
-    public static function forCurrentSession(): Collection
+    public static function forCurrentSession($collectionName = null): Collection
     {
         return self::where('session_id', session()->getId())
+            ->when($collectionName, fn($query) =>
+                $query->where('collection_name', $collectionName)
+            )
             ->orderBy('order_column', 'asc')
             ->get();
     }

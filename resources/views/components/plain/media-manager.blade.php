@@ -11,8 +11,10 @@
     >
     <input type="hidden" class="media-manager-config" value='@json($config)' />
     <x-mle-partial-debug :theme="$theme" :model="$model" :config="$config" :model-type="$modelType" :modelId="$modelId"/>
+    {{ $component_start ?? '' }}
     <div class="media-manager-row row">
-        <div class="media-manager-form">
+        <div class="media-manager-form col-12 col-md-4">
+            {{ $form_start ?? '' }}
             @if($uploadEnabled)
                 <x-mle-partial-upload-form
                     :model-or-class-name="$modelOrClassName"
@@ -42,11 +44,12 @@
                     :set-as-first-enabled="$setAsFirstEnabled"
                 />
             @endif
+            {{ $form_end ?? '' }}
+        </div>
+        <div class="media-manager-previews">
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"/>
-        </div>
-        <div class="media-manager-previews">
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
                     :id="$id"
@@ -70,5 +73,6 @@
                 :plainJs="true" />
         </div>
     </div>
+    {{ $component_end ?? '' }}
 </div>
 <x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$theme"/>

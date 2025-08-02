@@ -3,6 +3,7 @@
 return [
     'upload_success' => 'Upload geslaagd.',
     'upload_failed_due_to_invalid_mimetype' => 'Upload mislukt door ongeldig bestandstype.',
+    'upload_failed_due_to_invalid_mimetype_:mimetype' => 'Upload mislukt door ongeldig bestandstype :mimetype.',
     'upload_fail' => 'Upload mislukt.',
     'upload_no_files' => 'Geen bestanden geüpload.',
     'upload_no_file' => 'Geen bestand geüpload.',

@@ -6,7 +6,15 @@ use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\UseDemoModeConnection;
+use Mlbrgn\MediaLibraryExtensions\Models\Media;
 
+// Prepare base middleware from config
+$baseMiddleware = config('media-library-extensions.route_middleware', []);
+
+// Conditionally add RegisterDemoDatabase if demo pages are enabled
+//if (config('media-library-extensions.demo_pages_enabled')) {
+//    $baseMiddleware[] = RegisterDemoDatabase::class;
+//}
 Route::group([
     'middleware' => config('media-library-extensions.route_middleware', []),
     'prefix' => config('media-library-extensions.route_prefix'),
@@ -32,6 +40,9 @@ if (config('media-library-extensions.demo_pages_enabled')) {
         ),
         'prefix' => config('media-library-extensions.route_prefix'),
     ], function () {
+        // Local route model binding
+        Route::bind('media', fn ($value) => Media::findOrFail($value));
+
         Route::controller(DemoController::class)->group(function () {
             Route::get('mle-demo-plain', 'demoPlain')->name('mle-demo-plain');
             Route::get('mle-demo-bootstrap-5', 'demoBootstrap5')->name('mle-demo-bootstrap-5');

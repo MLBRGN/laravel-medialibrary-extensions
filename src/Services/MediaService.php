@@ -15,16 +15,16 @@ class MediaService
 
     public function determineCollection($file): ?string
     {
-        $mime = $file->getMimeType();
+        $mimeType = $file->getMimeType();
 
-        if (in_array($mime, config('media-library-extensions.allowed_mimetypes.image'))) {
+        if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.image'))) {
             return request()->input('image_collection');
         }
 
-        if (in_array($mime, config('media-library-extensions.allowed_mimetypes.document'))) {
+        if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.document'))) {
             return request()->input('document_collection');
         }
 
-        return null;
+        return null;// means not supported
     }
 }

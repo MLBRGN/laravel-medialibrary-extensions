@@ -7,7 +7,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
@@ -29,15 +28,50 @@ class StoreSingleTemporaryAction
         $file = $request->file($field);
 
         if (! $file) {
-            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.upload_no_files')
+            );
         }
 
-        $directory = "{$basePath}";
-
         $originalName = $file->getClientOriginalName();
+        $mimetype = $file->getMimeType();
+        $collection = $this->mediaService->determineCollection($file);
+
+        if (is_null($collection)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $mimetype]),
+                [
+                    'skipped_file' => [
+                        'filename' => $originalName,
+                        'reason' => __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $mimetype]),
+                    ],
+                ]
+            );
+        }
+
+        $sessionId = $request->session()->getId();
+        $userId = Auth::check() ? Auth::id() : null;
+
+        // 🔁 Remove existing upload for this session/user
+        $existing = TemporaryUpload::query()
+            ->where('session_id', $sessionId)
+            ->when($userId, fn ($q) => $q->orWhere('user_id', $userId))
+            ->first();
+
+        if ($existing) {
+            Storage::disk($existing->disk)->delete($existing->path);
+            $existing->delete();
+        }
+
+        // 📁 Save the new file
         $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
         $extension = $file->getClientOriginalExtension();
         $filename = "{$safeFilename}.{$extension}";
+        $directory = "{$basePath}";
 
         Storage::disk($disk)->putFileAs($directory, $file, $filename);
 
@@ -45,9 +79,10 @@ class StoreSingleTemporaryAction
             'disk' => $disk,
             'path' => "{$directory}/{$filename}",
             'original_filename' => $originalName,
-            'mime_type' => $file->getMimeType(),
-            'user_id' => Auth::check() ? Auth::id() : null,
-            'session_id' => $request->session()->getId(),
+            'collection_name' => $collection,
+            'mime_type' => $mimetype,
+            'user_id' => $userId,
+            'session_id' => $sessionId,
             'order_column' => 1,
             'extra_properties' => [
                 'image_collection' => $request->input('image_collection'),
@@ -55,22 +90,7 @@ class StoreSingleTemporaryAction
                 'youtube_collection' => $request->input('youtube_collection'),
             ],
         ]);
-
-        try {
-            $upload->save();
-        } catch (QueryException $e) {
-            // Check if it's a "table not found" error (MySQL / SQLite / etc.)
-            if (str_contains($e->getMessage(), 'mle_temporary_uploads')) {
-                return MediaResponse::error(
-                    $request,
-                    $initiatorId,
-                    __('media-library-extensions::messages.Temporary_uploads_not_available,_please_run_migrations_first'),
-                );
-            }
-
-            // Re-throw for other unexpected DB errors
-            throw $e;
-        }
+        $upload->save();
 
         return MediaResponse::success(
             $request,
@@ -78,6 +98,6 @@ class StoreSingleTemporaryAction
             __('media-library-extensions::messages.upload_success'),
             ['saved_file' => $filename]
         );
-
     }
+
 }

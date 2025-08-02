@@ -1,4 +1,4 @@
-@php use Mlbrgn\MediaLibraryExtensions\Models\demo\Media;use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
+@php use Mlbrgn\MediaLibraryExtensions\Models\Media;use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if(config('media-library-extensions.debug') && !app()->environment('production'))
     <div class="mle-debug-wrapper">
         <button type="button" class="mle-debug-toggle" aria-expanded="false" aria-controls="mle-debug-content">
@@ -30,15 +30,17 @@
                     <li><strong>Media upload route:</strong> <code>{{ $config['media_upload_route'] }}</code></li>
                     <li><strong>YouTube upload route:</strong> <code>{{ $config['youtube_upload_route'] }}</code></li>
                     <li><strong>Preview update route:</strong> <code>{{ $config['preview_update_route'] }}</code></li>
-                    
-                    <li><strong>Temporary upload  route:</strong> <code>{{ $config['temporary_upload_route'] }}</code></li>
-                    <li><strong>Temporary upload preview update route:</strong> <code>{{ $config['temporary_upload_preview_update_route'] }}</code></li>
+
+                    <li><strong>Temporary upload route:</strong> <code>{{ $config['temporary_upload_route'] }}</code>
+                    </li>
+                    <li><strong>Temporary upload preview update route:</strong>
+                        <code>{{ $config['temporary_upload_preview_update_route'] }}</code></li>
                     {{--                    <li><strong>YouTube Upload Route:</strong> <code>{{ $config['youtube_upload_route'] }}</code></li>--}}
                     {{--                    <li><strong>Preview Update Route:</strong> <code>{{ $config['preview_update_route'] }}</code></li>--}}
 
                 </ul>
             </div>
-            
+
             <div class="mle-debug-section">
                 <h3>🎞️ Component config: Collections</h3>
                 <ul>
@@ -55,10 +57,12 @@
                 <h3>🎛️ Component config: Enabled features</h3>
                 <ul>
                     <li><strong>Destroy enabled:</strong> {{ $config['destroy_enabled'] ? 'true' : 'false' }}</li>
-                    <li><strong>"Set-as-first" Enabled:</strong> {{ $config['set_as_first_enabled'] ? 'true' : 'false' }}</li>
+                    <li><strong>"Set-as-first"
+                            Enabled:</strong> {{ $config['set_as_first_enabled'] ? 'true' : 'false' }}</li>
                     <li><strong>Show media-URL:</strong> {{ $config['show_media_url'] ? 'true' : 'false' }}</li>
                     <li><strong>Show order:</strong> {{ $config['show_order'] ? 'true' : 'false' }}</li>
-                    <li><strong>Temporary upload:</strong> {{ $config['temporary_upload'] === 'true' ? 'Yes' : 'No' }}</li>
+                    <li><strong>Temporary upload:</strong> {{ $config['temporary_upload'] === 'true' ? 'Yes' : 'No' }}
+                    </li>
                 </ul>
             </div>
 
@@ -67,16 +71,20 @@
                 <ul>
                     {{--                    @if(config('media-library-extensions.demo_pages_enabled'))--}}
                     {{--                        <li><strong>Database connection (demo model):</strong> {{ $model->getConnectionName() ?? config('database.default') }}</li>--}}
-                    {{--                    @endif--}}
-                    <li><strong>Media model:</strong> {{ get_class(app(\Spatie\MediaLibrary\MediaCollections\Models\Media::class)) ?? 'unknown' }}
-                    </li>
-                    <li><strong>TemporaryUpload model db connection):</strong> {{ app(TemporaryUpload::class)->getConnectionName() ?? 'unknown' }}
-                    </li>
-                    <li><strong>Connection:</strong> {{ app(Media::class)->getConnectionName() ?? config('database.default') }}</li>
-{{--                    <li><strong>Database:</strong> {{ app(Media::class)->getConnection()->getDatabaseName() }}</li>--}}
+{{--                    --}}{{--                    @endif--}}
+{{--                    <li><strong>Media--}}
+{{--                            model:</strong> {{ get_class(app(\Spatie\MediaLibrary\MediaCollections\Models\Media::class)) ?? 'unknown' }}--}}
+{{--                    </li>--}}
+{{--                    <li><strong>TemporaryUpload model db--}}
+{{--                            connection):</strong> {{ app(TemporaryUpload::class)->getConnectionName() ?? 'unknown' }}--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <strong>Connection:</strong> {{ app(Media::class)->getConnectionName() ?? config('database.default') }}--}}
+{{--                    </li>--}}
+                    {{--                    <li><strong>Database:</strong> {{ app(Media::class)->getConnection()->getDatabaseName() }}</li>--}}
                 </ul>
             </div>
-            
+
             <div class="mle-debug-section">
                 <h3>🎛️ Config file values</h3>
                 <ul>
@@ -89,9 +97,10 @@
                     </li>
                     <li><strong>Allowed Mime
                             Types:</strong> {{ collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ') }}
-                    </li>                </ul>
+                    </li>
+                </ul>
             </div>
-          
+
 
             @if(collect($errors)->isNotEmpty())
                 <div class="mle-debug-errors">

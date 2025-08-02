@@ -26,6 +26,8 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+//use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 class MediaManagerController extends Controller
 {
 

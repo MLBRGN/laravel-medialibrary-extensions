@@ -4,14 +4,18 @@
 namespace Mlbrgn\MediaLibraryExtensions\Providers;
 
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
+use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaUploadService;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryMediaService;
@@ -38,7 +42,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsF
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -132,7 +136,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
         // register policies
-        $this->registerDemoDatabase();
+        if (config('media-library-extensions.demo_pages_enabled')) {
+            $this->registerDemoDatabase();
+        }
+
+        // only affects routes using {media} and inside this package
+        Route::model('media', Media::class);
+
         $this->registerPolicy();
         $this->registerServices();
         $this->addToAbout();
@@ -161,6 +171,26 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             'database' => $databasePath,
             'prefix' => '',
         ]);
+
+        // Purge and reconnect
+        DB::purge($connectionName);
+        DB::reconnect($connectionName);
+
+        // Run migrations if needed
+        if (!Schema::connection($connectionName)->hasTable('aliens')) {
+            Log::info('Running demo migrations...');
+            Artisan::call('migrate', [
+                '--database' => $connectionName,
+                '--path' => realpath(__DIR__ . '/../../database/migrations/demo'),
+                '--realpath' => true,
+                '--force' => true,
+            ]);
+            Log::info('Demo migrations completed.');
+
+//            app()->bind(Media::class, function () {
+//                return new \Mlbrgn\MediaLibraryExtensions\Models\demo\Media();
+//            });
+        }
 
     }
 
