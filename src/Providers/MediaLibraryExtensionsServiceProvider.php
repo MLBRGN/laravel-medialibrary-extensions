@@ -121,7 +121,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-document', Document::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
-        Blade::component($this->packageNameShort.'-image-editor-modal-temporary-upload', ImageEditorModalTemporaryUpload::class);
 
         // partials for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);

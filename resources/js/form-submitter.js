@@ -1,3 +1,5 @@
+import config from "bootstrap/js/src/util/config";
+
 document.addEventListener('DOMContentLoaded', function () {
     const mediaManagers = document.querySelectorAll('[data-media-manager]');
     let statusMessageTimeout = null;
@@ -31,14 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             try {
                 const formData = getFormData(formElement);
-                if (method.toLowerCase() === 'delete') {
-                    formData.append('_method', 'DELETE');
-                }
-                if (method.toLowerCase() === 'put') {
-                    formData.append('_method', 'PUT');
-                }
-                if (method.toLowerCase() === 'patch') {
-                    formData.append('_method', 'PATCH');
+                const normalizedMethod = method.toUpperCase();
+                if (['DELETE', 'PUT', 'PATCH'].includes(normalizedMethod)) {
+                    formData.append('_method', normalizedMethod);
                 }
                 const response = await fetch(route, {
                     method: 'POST',
@@ -59,10 +56,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 showStatusMessage(container, data);
                 updatePreview(mediaManager, config);
 
-                const flash = document.getElementById(`${formElement.dataset.target}-flash`);
-                if (flash && data.message) {
-                    flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
-                }
+                // const flash = document.getElementById(`${formElement.dataset.target}-flash`);
+                // if (flash && data.message) {
+                //     flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
+                // }
 
                 resetFields(formElement);
 
@@ -76,6 +73,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 hideSpinner(container);
             }
         });
+
+        mediaManager.addEventListener('refreshRequest', function (e) {
+            const config = getMediaManagerConfig(mediaManager);
+            console.log('Refresh requested:', e);
+            updatePreview(mediaManager, config);
+        })
     });
 
     function getMediaManagerConfig(mediaManager) {
@@ -95,17 +98,30 @@ document.addEventListener('DOMContentLoaded', function () {
         const routes = {
             'upload-media': config.media_upload_route,
             'upload-youtube-medium': config.youtube_upload_route,
+            'temporary-upload-destroy': mediaContainer?.dataset?.temporaryUploadDestroyRoute,
+            'destroy-medium': mediaContainer?.dataset?.destroyRoute,
+            'set-as-first': mediaContainer?.dataset?.setAsFirstRoute,
+            'temporary-upload-set-as-first': mediaContainer?.dataset?.temporaryUploadSetAsFirstRoute,
         };
-
-        if (mediaContainer) {
-            routes['temporary-upload-destroy'] = mediaContainer.dataset.temporaryUploadDestroyRoute || '';
-            routes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
-            routes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
-            routes['temporary-upload-set-as-first'] = mediaContainer.dataset.temporaryUploadSetAsFirstRoute || '';
-        }
 
         return routes[action] || null;
     }
+    // function getRouteFromAction(action, target, config) {
+    //     const mediaContainer = target.closest('.media-manager-preview-media-container');
+    //     const routes = {
+    //         'upload-media': config.media_upload_route,
+    //         'upload-youtube-medium': config.youtube_upload_route,
+    //     };
+    //
+    //     if (mediaContainer) {
+    //         routes['temporary-upload-destroy'] = mediaContainer.dataset.temporaryUploadDestroyRoute || '';
+    //         routes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
+    //         routes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
+    //         routes['temporary-upload-set-as-first'] = mediaContainer.dataset.temporaryUploadSetAsFirstRoute || '';
+    //     }
+    //
+    //     return routes[action] || null;
+    // }
 
     function updatePreview(mediaManager, config) {
         const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
@@ -227,4 +243,5 @@ document.addEventListener('DOMContentLoaded', function () {
     function trans(key) {
         return window.mediaLibraryTranslations?.[key] || key;
     }
+
 });

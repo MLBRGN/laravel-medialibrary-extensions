@@ -5,12 +5,21 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 class SaveUpdatedMediumAction
 {
+    public function __construct(
+        protected MediaService $mediaService
+    ) {}
+
     public function execute(SaveUpdatedMediumRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
@@ -21,37 +30,69 @@ class SaveUpdatedMediumAction
         $modelId = $request->input('model_id');
         $mediumId = $request->input('medium_id');
         $collection = $request->input('collection');
+        $temporaryUpload = $request->boolean('temporary_upload');
         $file = $request->file('file');
 
-        abort_unless(class_exists($modelType), 400, 'Invalid model type');
+//        if (! $file) {
+//            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
+//        }
 
-        $model = $modelType::findOrFail($modelId);
+//            if (! $collection) {
+//                return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+//            }
 
-        // Find the existing media to replace
-        $existingMedia = $model
-            ->getMedia($collection)
-            ->firstWhere('id', $mediumId);
+        if(!$temporaryUpload) {
+            abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
-        $name = null;
-        $customProperties = [];
+            $model = $this->mediaService->resolveModel($modelType, $modelId);
+            $model->addMedia($file)->toMediaCollection($collection);
 
-        if ($existingMedia) {
-            $name = $existingMedia->name;
-            $customProperties = $existingMedia->custom_properties ?? [];
+            // Find the existing media to replace
+            $existingMedium = Media::findOrFail($mediumId);
 
-            $existingMedia->delete();
+            if ($existingMedium) {
+                $existingMedium->delete();
+            }
+
+        } else {
+            $existingMedium = TemporaryUpload::findOrFail($mediumId);
+
+            $disk = config('media-library-extensions.temporary_upload_disk');
+            $basePath = config('media-library-extensions.temporary_upload_path');
+            // 📁 Save the new file
+            $safeFilename = sanitizeFilename(pathinfo($existingMedium->name, PATHINFO_FILENAME));
+            $extension = $file->getClientOriginalExtension();
+            $filename = "{$safeFilename}.{$extension}";
+            $directory = "{$basePath}";
+
+            Storage::disk($disk)->putFileAs($directory, $file, $filename);
+
+            $originalName = $file->getClientOriginalName();
+            $mimetype = $file->getMimeType();
+
+            $sessionId = $request->session()->getId();
+            $userId = Auth::check() ? Auth::id() : null;
+
+            $upload = new TemporaryUpload([
+                'disk' => $disk,
+                'path' => "{$directory}/{$filename}",
+                'original_filename' => $originalName,
+                'collection_name' => $collection,
+                'mime_type' => $mimetype,
+                'user_id' => $userId,
+                'session_id' => $sessionId,
+                'order_column' => 1,
+                'extra_properties' => [
+                    'image_collection' => $request->input('image_collection'),
+                    'document_collection' => $request->input('document_collection'),
+                    'youtube_collection' => $request->input('youtube_collection'),
+                ],
+            ]);
+            $upload->save();
+
+            $existingMedium->delete();
         }
 
-        $fileAdder = $model->addMedia($file);
-
-        if ($name) {
-            $fileAdder->usingName($name);
-        }
-
-        $fileAdder->withCustomProperties($customProperties)
-            ->toMediaCollection($collection);
-
-        // Return a response; replace 'blaat' with real initiator or relevant data
         return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_removed'));
     }
 }

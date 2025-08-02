@@ -4,6 +4,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Handles the validation rules and authorization for the SetAsFirstRequest.
@@ -19,8 +20,10 @@ class SaveUpdatedMediumRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'initiator_id' => ['required', 'string'],
+            'temporary_upload' => ['required', 'string'],
             'model_type' => 'required|string',
-            'model_id' => 'required|string',
+            'model_id' => ['required_if:temporary_upload,false'],
             'medium_id' => 'required|string',
             'collection' => 'required|string',
             'file' => 'required|file',

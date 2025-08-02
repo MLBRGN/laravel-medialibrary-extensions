@@ -9,7 +9,6 @@ document.addEventListener('imageEditorReady', (e) => {
     const name = imageEditor.getAttribute('data-medium-name');
     const path = imageEditor.getAttribute('data-medium-path');
 
-    // console.log('Calling setImage:', { name, path, initiatorId });
     imageEditor.setImage(name, path, initiatorId);
 
     imageEditor.setConfiguration({
@@ -51,11 +50,9 @@ EventBus.register('onCloseImageEditor', (e) => {
 
 const updateMedia = (detail) => {
 
+    console.log('updateMedia', detail);
     const modal = document.getElementById(detail.id);
-    // console.log('imageEditor', imageEditor);
-    // const initiatorId = imageEditor.getAttribute('data-initiator-id');
     const configInput = modal.querySelector('.image-editor-modal-config');
-    // console.log('initiatorId', initiatorId);
     if (!configInput) return;
 
     let config = {};
@@ -65,6 +62,7 @@ const updateMedia = (detail) => {
     } catch (e) {
         console.error('Invalid JSON config');
     }
+    console.log('config', config);
 
     const {
         model_type: modelType,
@@ -73,21 +71,24 @@ const updateMedia = (detail) => {
         collection: collection,
         csrf_token: csrfToken,
         save_updated_medium_route: saveUpdatedMediumRoute,
-        // id: initiatorId,
-        // frontend_theme: frontendTheme,
+        temporary_upload: temporaryUpload,
     } = config;
 
+    console.log('temporaryUpload', temporaryUpload);
     console.log('modelType', modelType);
     console.log('saveUpdatedMediumRoute', saveUpdatedMediumRoute);
 
     const file = detail.file;
     const formData = new FormData();
+    formData.append('initiator_id', config.initiator_id);
     formData.append('model_type', config.model_type);
-    formData.append('model_id', config.model_id);
+    formData.append('model_id', config.model_id ?? '');
     formData.append('medium_id', config.medium_id);
     formData.append('collection', config.collection);
+    formData.append('temporary_upload', config.temporary_upload);
     formData.append('file', file); // 'media' must match Laravel's expected field
 
+    console.log('saveUpdatedMediaRoute', saveUpdatedMediumRoute);
         fetch(saveUpdatedMediumRoute, {
             method: 'POST',
             headers: {
@@ -100,28 +101,19 @@ const updateMedia = (detail) => {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    // handleAjaxError(response, data, formContainer);
                     handleAjaxError(response, data);
                     return;
                 }
 
-                // close modal
-
-                console.log('data', data)
-                console.log('modal', modal);
-                // const modal = document.getElementById(initiatorId);
-                console.log('close modal',  modal);
-                const closeButton = modal.querySelector('.image-editor-modal-close-button');
-                closeButton.click()
                 // showStatusMessage(formContainer, data);
 
-                // const flash = document.getElementById(formElement.dataset.target + '-flash');
-                // if (flash && data.message) {
-                //     flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
-                // }
-
-                // refreshMediaManager();
-                // resetFields(formElement);
+                const initiator = document.querySelector('#'+config.initiator_id);
+                console.log('initiator', initiator);
+                initiator.dispatchEvent(new CustomEvent('refreshRequest', {
+                    bubbles: true,
+                    composed: true,
+                    detail: []
+                }));
             })
             .then(data => {
                 console.log('Upload successful:', data);
