@@ -71,6 +71,11 @@ class MediaManagerController extends Controller
         return $saveUpdatedMediumAction->execute($request);
     }
 
+    public function saveUpdatedTemporaryUpload(SaveUpdatedMediumRequest $request, SaveUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
+    {
+        return $saveUpdatedMediumAction->execute($request);
+    }
+
     public function getUpdatedPreviewerHTML(GetMediaPreviewerHTMLRequest $request, GetMediaPreviewerHTMLAction $getMediaPreviewerHTMLAction): JsonResponse
     {
         return $getMediaPreviewerHTMLAction->execute($request);

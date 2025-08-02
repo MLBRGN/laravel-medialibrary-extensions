@@ -22,6 +22,7 @@ use Mlbrgn\MediaLibraryExtensions\Services\TemporaryMediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeUploadService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
+use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModalTemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
@@ -120,6 +121,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-document', Document::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
+        Blade::component($this->packageNameShort.'-image-editor-modal-temporary-upload', ImageEditorModalTemporaryUpload::class);
 
         // partials for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);

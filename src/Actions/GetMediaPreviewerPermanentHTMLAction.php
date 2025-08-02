@@ -3,6 +3,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
+use Exception;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -16,6 +17,9 @@ class GetMediaPreviewerPermanentHTMLAction
         protected MediaService $mediaService
     ) {}
 
+    /**
+     * @throws Exception
+     */
     public function execute(GetMediaPreviewerHTMLRequest $request): JsonResponse|Response
     {
         $initiatorId = $request->input('initiator_id');
@@ -26,7 +30,7 @@ class GetMediaPreviewerPermanentHTMLAction
 
         $component = new MediaManagerPreview(
             id: $initiatorId,
-            model: $model,
+            modelOrClassName: $model,
             imageCollection: $request->input('image_collection'),
             documentCollection: $request->input('document_collection'),
             youtubeCollection: $request->input('youtube_collection'),

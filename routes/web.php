@@ -29,6 +29,7 @@ Route::group([
         Route::put('media-manager-set-temporary-upload-as-first-in-collection', 'setTemporaryUploadAsFirst')->name(config('media-library-extensions.route_prefix').'-temporary-upload-set-as-first');
         Route::get('/media-manager-preview-update', 'getUpdatedPreviewerHTML')->name(config('media-library-extensions.route_prefix').'-preview-update');
         Route::post('media-manager/{media}/save-updated-medium', 'saveUpdatedMedium')->name(config('media-library-extensions.route_prefix').'-save-updated-medium');
+        Route::post('media-manager/{temporaryUpload}/save-updated-temporary-upload', 'saveUpdatedTemporaryUpload')->name(config('media-library-extensions.route_prefix').'-save-updated-temporary-upload');
     });
 });
 

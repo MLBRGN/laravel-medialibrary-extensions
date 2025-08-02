@@ -28,7 +28,8 @@ class TemporaryUpload extends Model
         'extra_properties' => 'array',
     ];
 
-    protected $appends = ['url'];
+    // used when serializing
+    protected $appends = ['url', 'name'];
 
     public static function isAvailable(): bool
     {
@@ -58,8 +59,17 @@ class TemporaryUpload extends Model
             ->get();
     }
 
+    public function getNameAttribute(): string
+    {
+        return $this->original_filename;
+    }
+
     public function getUrlAttribute(): string
     {
+        return Storage::disk($this->disk)->url($this->path);
+    }
+
+    public function getFullUrl(): string {
         return Storage::disk($this->disk)->url($this->path);
     }
 

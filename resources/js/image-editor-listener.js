@@ -38,6 +38,7 @@ EventBus.register('onImageSave', (e) => {
         detail: e.detail
     }));
     console.log('onImageSave using event bus', e.detail);
+    updateMedia(e.detail);
 });
 
 EventBus.register('onCanvasStatusMessage', (e) => {

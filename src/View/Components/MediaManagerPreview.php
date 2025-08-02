@@ -3,6 +3,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -14,9 +15,14 @@ class MediaManagerPreview extends BaseComponent
     public bool $showMenu = false;
     public Collection $media;
 
+    public HasMedia|null $model = null;
+    public ?string $modelType = null;
+    public mixed $modelId = null;
+    public bool $temporaryUpload = false;
+
     public function __construct(
         public string $id = '',
-        public ?HasMedia $model = null,
+        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
@@ -30,6 +36,22 @@ class MediaManagerPreview extends BaseComponent
     {
         parent::__construct($id, $frontendTheme);
 
+        if (is_null($modelOrClassName)) {
+            throw new Exception('model-or-class-name attribute must be set');
+        }
+
+        if ($modelOrClassName instanceof HasMedia) {
+            $this->model = $modelOrClassName;
+            $this->modelType = $modelOrClassName->getMorphClass();
+            $this->modelId = $modelOrClassName->getKey();
+        } elseif (is_string($modelOrClassName)) {
+            $this->model = null;
+            $this->modelType = $modelOrClassName;
+            $this->modelId = null;
+            $this->temporaryUpload = true;
+        } else {
+            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
+        }
 //        dd('session in preview class: '.session()->getId());
         if ($destroyEnabled || $showOrder || $setAsFirstEnabled) {
             $this->showMenu = true;
@@ -53,17 +75,17 @@ class MediaManagerPreview extends BaseComponent
                 $collections = $collections->merge(TemporaryUpload::forCurrentSession($documentCollection));
             }
         } else {
-            if ($model) {
+            if ($this->model) {
                 if ($imageCollection) {
-                    $collections = $collections->merge($model->getMedia($imageCollection));
+                    $collections = $collections->merge($this->model->getMedia($imageCollection));
                 }
 
                 if ($youtubeCollection) {
-                    $collections = $collections->merge($model->getMedia($youtubeCollection));
+                    $collections = $collections->merge($this->model->getMedia($youtubeCollection));
                 }
 
                 if ($documentCollection) {
-                    $collections = $collections->merge($model->getMedia($documentCollection));
+                    $collections = $collections->merge($this->model->getMedia($documentCollection));
                 }
             }
         }

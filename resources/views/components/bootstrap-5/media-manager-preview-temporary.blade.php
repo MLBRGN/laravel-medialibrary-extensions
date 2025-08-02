@@ -43,10 +43,11 @@
 {{--                    data-bs-target="#{{$id}}-modal"--}}
                     class="media-manager-preview-item-container"
                 >
-                    <img src="{{ $medium->getUrlAttribute() }}" class="media-manager-image-preview mle-cursor-zoom-in" alt="{{ $medium->original_filename }}"/>
+                    <img src="{{ $medium->getFullUrl() }}" class="media-manager-image-preview mle-cursor-zoom-in" alt="{{ $medium->original_filename }}"/>
                   
                 </div>
 {{--                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model="$model"/>--}}
+                <x-mle-image-editor-modal-temporary-upload id="{{ $id }}" :medium="$medium" :model-or-class-name="$modelType"/>
             @else
                 no suitable type
             @endif
@@ -70,7 +71,7 @@
                                 data-bs-target="#{{$id}}-image-editor-modal-{{$medium->id}}"
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.edit') }}"
-                                data-action="edit-image"
+{{--                                data-action="edit-image"--}}
                             >
                                 <x-mle-partial-icon
                                     name="{{ config('media-library-extensions.icons.edit') }}"
