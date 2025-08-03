@@ -95,6 +95,7 @@ class TestCase extends Orchestra
     }
 
     protected function defineDatabaseMigrations(): void {
+        // also loads migrations from service provider!!!
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 //        include_once __DIR__.'/Database/Migrations/create_media_table.php';

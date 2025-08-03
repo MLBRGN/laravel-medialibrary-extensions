@@ -77,8 +77,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
         //        $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
+        // Migrate database tables necessary for this package to do it's work
         // only migrations in the top folder are loaded, so no need to exclude the demo folder
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        // note these will also run when testing
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        }
 
         if ($this->app->runningInConsole()) {
 
