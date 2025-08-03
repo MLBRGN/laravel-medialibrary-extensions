@@ -4,7 +4,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('test only', function () {
     $media = $this->getTestModel()
-        ->addMedia($this->getTestFile('test.jpg'))
+        ->addMedia($this->getUploadedFile('test.jpg'))
         ->preservingOriginal()
         ->toMediaCollection('blog-images');
 

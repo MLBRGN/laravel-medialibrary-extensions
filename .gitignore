@@ -12,4 +12,4 @@
 /.phpunit.result.cache
 /.phpunit.cache/test-results
 /storage/media-library-extensions-demo.sqlite
-
+/tests/Support/tmp/

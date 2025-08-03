@@ -52,6 +52,7 @@ class TestCase extends Orchestra
 //        $this->createDirectory($this->getTempDirectory());
 //        $this->createDirectory($this->getMediaDirectory());
 
+        $this->refreshTestFiles();
 
         $app['config']->set('app.key', 'base64:BOiGLFUC+84Du2o8GYos0kGJaj4zGX9M9BkLsAj04Ik=');
         $app['config']->set('session.serialization', 'php');
@@ -126,13 +127,24 @@ class TestCase extends Orchestra
         return $this->getTempDirectory('media'.($suffix == '' ? '' : '/'.$suffix));
     }
 
-    public function getTestFile($fileName): string
+    public function getUploadedFile($fileName): string
     {
-        return __DIR__.'/Support/files/'.$fileName;
+        return __DIR__.'/Support/uploads/'.$fileName;
+    }
+
+    protected function refreshTestFiles(): void
+    {
+        $this->createDirectory($this->getTemporaryUploadsDirectory());
+        File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
     }
 
     public function getTestModel() {
         return $this->testModel;
+    }
+
+    private function getTemporaryUploadsDirectory()
+    {
+        return __DIR__.'/Support/tmp/uploads';
     }
 
 }

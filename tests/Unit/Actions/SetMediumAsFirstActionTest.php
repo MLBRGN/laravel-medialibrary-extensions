@@ -59,7 +59,7 @@ it('2 returns error when no media in collection', function () {
     $targetCollection = 'images';
 
     $model = $this->getTestModel();
-    $testJpg = $this->getTestFile('test.jpg');
+    $testJpg = $this->getUploadedFile('test.jpg');
 
 //    dd('test');
 //    $fakeUploadedFile1 = new UploadedFile(
