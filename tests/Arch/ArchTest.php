@@ -176,7 +176,7 @@ arch('config keys use snake_case', function () {
 
             foreach (array_keys($config) as $segment) {
                 if (! preg_match('/^[a-z0-9_]+$/', $segment)) {
-                    dump("❌ Invalid config key segment: '{$segment}' (file: {$configKey}.php)");
+                    dump("Invalid config key segment: '{$segment}' (file: {$configKey}.php)");
                 }
                 expect($segment)
                     ->toMatch('/^[a-z0-9_]+$/');
