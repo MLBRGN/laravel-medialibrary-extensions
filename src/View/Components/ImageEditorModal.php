@@ -24,10 +24,10 @@ class ImageEditorModal extends BaseComponent
     public function __construct(
         public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
+        public string $id,
+        public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
-        public string $id = '',
         public ?string $frontendTheme = null,
-        public string $initiatorId
     ) {
         parent::__construct($id, $frontendTheme);
 
