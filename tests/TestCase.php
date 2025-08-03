@@ -128,7 +128,7 @@ class TestCase extends Orchestra
         File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
     }
 
-    public function getTestModel(): Model {
+    public function getTestBlogModel(): Model {
         return $this->testModel;
     }
 

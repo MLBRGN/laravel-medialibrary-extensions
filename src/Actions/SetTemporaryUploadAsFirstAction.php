@@ -23,10 +23,22 @@ class SetTemporaryUploadAsFirstAction
         $collection = $request->target_media_collection;
         $mediumId = (int) $request->medium_id;
 
+//        dump($collection);
+//        dump($request->session()->getId());
+//        dd(TemporaryUpload::all());
         $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())
             ->when($collection, fn ($query) => $query->where('extra_properties->image_collection', $collection))
             ->orderBy('order_column')
             ->get();
+
+//        dd($mediaItems);
+        if($mediaItems->count() === 0){
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.no_media'),
+            );
+        }
 
         $orderedIds = $mediaItems->pluck('id')->toArray();
 
@@ -45,7 +57,6 @@ class SetTemporaryUploadAsFirstAction
 
     protected function setTemporaryUploadOrder(array $orderedIds): void
     {
-
         foreach ($orderedIds as $index => $id) {
             TemporaryUpload::where('id', $id)->update(['order_column' => $index + 1]);
         }

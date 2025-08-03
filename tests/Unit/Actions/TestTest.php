@@ -2,7 +2,7 @@
 
 it('test only', function () {
     $testImage = $this->getUploadedFile('test.jpg');
-    $media = $this->getTestModel()
+    $media = $this->getTestBlogModel()
         ->addMedia($testImage)
         ->toMediaCollection('blog-images');
 
