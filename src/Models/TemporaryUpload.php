@@ -42,7 +42,7 @@ class TemporaryUpload extends Model
 
     public function getConnectionName()
     {
-        if (config('media-library-extensions.demo_pages_enabled')) {
+        if (config('media-library-extensions.demo_pages_enabled') && \Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper::isRequestFromDemoPage()) {
             return config('media-library-extensions.temp_database_name');
         }
 

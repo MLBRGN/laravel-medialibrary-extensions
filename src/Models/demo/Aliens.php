@@ -48,7 +48,11 @@ class Aliens extends Model implements HasMedia
 
     public function getConnectionName(): string
     {
-        return config('media-library-extensions.temp_database_name');
+        if (config('media-library-extensions.demo_pages_enabled') && \Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper::isRequestFromDemoPage()) {
+            return config('media-library-extensions.temp_database_name');
+        }
+
+        return parent::getConnectionName();
     }
 
 }

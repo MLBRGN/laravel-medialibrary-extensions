@@ -138,6 +138,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // register policies
         if (config('media-library-extensions.demo_pages_enabled')) {
+            // Always register the demo database connection, but the models will only use it
+            // if the request is from a demo page (checked in the model's getConnectionName method)
             $this->registerDemoDatabase();
         }
 
