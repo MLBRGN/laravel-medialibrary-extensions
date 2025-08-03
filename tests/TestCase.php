@@ -3,6 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -49,8 +50,9 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
 
-//        $this->createDirectory($this->getTempDirectory());
-//        $this->createDirectory($this->getMediaDirectory());
+        $this->createDirectory($this->getTempDirectory());
+        $this->createDirectory($this->getMediaDirectory());
+        $this->createDirectory($this->getTemporaryUploadsDirectory());
 
         $this->refreshTestFiles();
 
@@ -83,8 +85,6 @@ class TestCase extends Orchestra
 
         $app->bind('path.public', fn () => $this->getTempDirectory());
 
-//        config()->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
-
         $app['config']->set('media-library.media_model', Media::class);
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
@@ -92,21 +92,12 @@ class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
-
     }
 
     protected function defineDatabaseMigrations(): void {
         // also loads migrations from service provider!!!
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
-//        include_once __DIR__.'/Database/Migrations/create_media_table.php';
-//        include_once __DIR__.'/Database/Migrations/create_blogs_table.php';
-//        include_once __DIR__.'/Database/Migrations/create_temporary_uploads_table.php';
-//        include_once __DIR__.'/Database/Migrations/create_aliens_table.php';
-//        (new create_media_table)->up();
-//        (new create_blogs_table)->up();
-//        (new create_temporary_uploads_table)->up();
-//        (new create_aliens_table)->up();
     }
 
     protected function createDirectory($directory): void
@@ -129,20 +120,19 @@ class TestCase extends Orchestra
 
     public function getUploadedFile($fileName): string
     {
-        return __DIR__.'/Support/uploads/'.$fileName;
+        return $this->getTempDirectory('uploads/'.$fileName);
     }
 
     protected function refreshTestFiles(): void
     {
-        $this->createDirectory($this->getTemporaryUploadsDirectory());
         File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
     }
 
-    public function getTestModel() {
+    public function getTestModel(): Model {
         return $this->testModel;
     }
 
-    private function getTemporaryUploadsDirectory()
+    private function getTemporaryUploadsDirectory(): string
     {
         return __DIR__.'/Support/tmp/uploads';
     }
