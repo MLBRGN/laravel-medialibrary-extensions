@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations\create_blogs_table;
 use Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations\create_media_table;
+use Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations\create_temporary_uploads_table;
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -62,7 +63,9 @@ class TestCase extends BaseTestCase
 
         include_once __DIR__.'/Database/Migrations/create_media_table.php';
         include_once __DIR__.'/Database/Migrations/create_blogs_table.php';
+        include_once __DIR__.'/Database/Migrations/create_temporary_uploads_table.php';
         (new create_media_table)->up();
         (new create_blogs_table)->up();
+        (new create_temporary_uploads_table())->up();
     }
 }

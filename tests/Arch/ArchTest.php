@@ -144,11 +144,13 @@ arch('Does not use the redirect facade for redirecting')
     ->toBeUsedIn('App\Http\Controllers');
 
 arch('Migrations follow naming convention', function () {
-    $migrations = glob(database_path('migrations/*.php'));
+    $migrationPath = __DIR__ . '/../../database/migrations/*.php'; // adjust as needed
+    $migrations = glob($migrationPath);
 
     foreach ($migrations as $migration) {
         $filename = pathinfo($migration, PATHINFO_FILENAME);
-        expect($filename)->toMatch('/^\d{4}_\d{2}_\d{2}_\d{6}_.+$/');
+        expect($filename)
+            ->toMatch('/^\d{4}_\d{2}_\d{2}_\d{6}_.+$/');
     }
 });
 

@@ -1,0 +1,42 @@
+<?php
+
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
+
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
+use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+
+uses(TestCase::class);
+
+// Concrete subclass for testing the abstract BaseComponent
+class TestComponent extends BaseComponent
+{
+    public function render()
+    {
+        return ''; // Dummy render method
+    }
+}
+
+it('initializes with provided id and theme', function () {
+    Session::put(status_session_prefix(), ['success' => 'All good']);
+    Config::set('media-library-extensions.frontend_theme', 'default-theme');
+
+    $component = new TestComponent('my-id', 'custom-theme');
+
+    expect($component->id)->toBe('my-id')
+        ->and($component->theme)->toBe('custom-theme')
+        ->and($component->status)->toBe(['success' => 'All good']);
+});
+
+it('generates a unique id if none provided', function () {
+    Session::put(status_session_prefix(), null);
+    Config::set('media-library-extensions.frontend_theme', 'fallback-theme');
+
+    $component = new TestComponent('');
+
+    expect($component->id)->toStartWith('component-')
+        ->and(strlen($component->id))->toBeGreaterThan(strlen('component-'))
+        ->and($component->theme)->toBe('fallback-theme')
+        ->and($component->status)->toBeNull();
+});

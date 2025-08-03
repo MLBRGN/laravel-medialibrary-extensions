@@ -9,7 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\YouTubeCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Aliens extends Model implements HasMedia
+class Alien extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use InteractsWithMediaExtended;
