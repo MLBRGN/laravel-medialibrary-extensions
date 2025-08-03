@@ -6,8 +6,6 @@ use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     // Define fake routes used in your MediaManager components
     Route::name('mlbrgn-mle.media-upload-multiple')->post('media-upload-multiple', fn () => 'uploaded');

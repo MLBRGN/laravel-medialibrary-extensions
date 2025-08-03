@@ -7,8 +7,6 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     Storage::fake('media');
     Session::start();

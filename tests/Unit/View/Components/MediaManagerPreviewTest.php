@@ -8,8 +8,6 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     // Mock TemporaryUpload::forCurrentSession static method for tests using temporary uploads
     //    TemporaryUpload::shouldReceive('forCurrentSession')->andReturn(collect());

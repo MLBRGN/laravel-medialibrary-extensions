@@ -27,11 +27,18 @@ class SetMediumAsFirstAction
 
         $mediaItems = $model->getMedia($collection);
 
-        Log::info('set as first Media connection:', [
-            'model' => get_class($model),
-            'conn' => $model->getConnectionName(),
-            'default' => config('database.default'),
-        ]);
+        if($mediaItems->count() === 0){
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.no_media'),
+            );
+        }
+//        Log::info('set as first Media connection:', [
+//            'model' => get_class($model),
+//            'conn' => $model->getConnectionName(),
+//            'default' => config('database.default'),
+//        ]);
 
         $orderedIds = $mediaItems->pluck('id')->toArray();
         $orderedIds = array_filter($orderedIds, fn ($id) => $id !== $mediumId);

@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Session;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
-uses(TestCase::class);
-
 // Concrete subclass for testing the abstract BaseComponent
 class TestComponent extends BaseComponent
 {

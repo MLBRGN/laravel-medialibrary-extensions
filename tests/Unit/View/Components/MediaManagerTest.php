@@ -9,8 +9,6 @@ use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     // Stub necessary config
     Config::set('media-library-extensions.allowed_mimes.image', ['image/jpeg', 'image/png']);

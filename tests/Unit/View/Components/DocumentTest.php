@@ -6,8 +6,6 @@ use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-uses(TestCase::class);
-
 it('renders the correct view with given properties', function () {
     $media = mock(Media::class);
 

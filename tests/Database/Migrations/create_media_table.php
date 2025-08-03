@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class create_media_table extends Migration
+return new class extends Migration
 {
     public function up(): void
     {
@@ -31,4 +31,4 @@ class create_media_table extends Migration
             $table->nullableTimestamps();
         });
     }
-}
+};

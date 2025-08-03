@@ -6,8 +6,6 @@ use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-uses(TestCase::class);
-
 it('returns empty conversion if no media is provided', function () {
     $component = new ImageResponsive(null);
 

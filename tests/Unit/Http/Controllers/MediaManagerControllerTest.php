@@ -24,8 +24,6 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-uses(TestCase::class);
-
 it('delegates store single', function () {
     $request = mock(MediaManagerUploadSingleRequest::class);
     $action = mock(StoreSingleMediumAction::class);

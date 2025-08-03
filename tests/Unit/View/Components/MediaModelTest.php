@@ -10,8 +10,6 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-uses(TestCase::class);
-
 it('initializes with a single media collection', function () {
     $media = collect([Mockery::mock(Media::class), Mockery::mock(Media::class)]);
 

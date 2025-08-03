@@ -5,8 +5,6 @@ use Illuminate\View\View as ViewInstance;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\Traits\ViewHelpers;
 
-uses(TestCase::class);
-
 class ViewHelpersTestDummy
 {
     use ViewHelpers;

@@ -9,8 +9,6 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Mockery;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     Config::set('media-library-extensions.default_youtube_params', [
         'autoplay' => 1,

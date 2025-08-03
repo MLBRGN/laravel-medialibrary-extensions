@@ -11,8 +11,6 @@ use Mockery;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-uses(TestCase::class);
-
 beforeEach(function () {
     Route::macro('mle_prefix_route', fn ($name) => "mle.$name");
 
