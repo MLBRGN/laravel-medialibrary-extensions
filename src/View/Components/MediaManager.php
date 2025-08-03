@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -15,16 +16,22 @@ class MediaManager extends BaseComponent
 
     public string $allowedMimeTypes = '';
 
-    public HasMedia|null $model = null;
+    public ?HasMedia $model = null;
+
     public ?string $modelType = null;
+
     public mixed $modelId = null;
+
     public bool $temporaryUpload = false;
 
     /** @var Collection<int, Media> */
     public Collection $media;
-    public string $mediaUploadRoute;// upload form action route
-    public string $previewUpdateRoute;// route to update preview media when using XHR
-    public string $youtubeUploadRoute;// route to upload a YouTube video using XHR
+
+    public string $mediaUploadRoute; // upload form action route
+
+    public string $previewUpdateRoute; // route to update preview media when using XHR
+
+    public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
     public function __construct(
         public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
@@ -41,8 +48,7 @@ class MediaManager extends BaseComponent
         public ?string $frontendTheme = null,
         public ?bool $useXhr = true,
         public bool $multiple = false,
-    )
-    {
+    ) {
         parent::__construct($id, $frontendTheme);
 
         $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
@@ -85,13 +91,13 @@ class MediaManager extends BaseComponent
         }
         $this->media = $collections;
 
-        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
         $this->previewUpdateRoute = route(mle_prefix_route('preview-update'));
         $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 
-        if($this->multiple) {
+        if ($this->multiple) {
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->id = $this->id.'-media-manager-multiple';
@@ -104,7 +110,7 @@ class MediaManager extends BaseComponent
         // Config array passed to view
         $this->config = [
             'id' => $this->id,
-//            'model' => $this->model,
+            //            'model' => $this->model,
             'model_type' => $this->modelType,
             'model_id' => $this->modelId,
             'image_collection' => $this->imageCollection,

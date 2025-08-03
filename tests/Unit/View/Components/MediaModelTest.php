@@ -2,14 +2,13 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mockery;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 uses(TestCase::class);
 

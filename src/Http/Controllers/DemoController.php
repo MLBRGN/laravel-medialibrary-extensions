@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
@@ -33,5 +34,4 @@ class DemoController extends Controller
             'model' => $model,
         ]);
     }
-
 }

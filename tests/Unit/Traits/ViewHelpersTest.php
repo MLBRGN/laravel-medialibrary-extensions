@@ -7,7 +7,8 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ViewHelpers;
 
 uses(TestCase::class);
 
-class ViewHelpersTestDummy {
+class ViewHelpersTestDummy
+{
     use ViewHelpers;
 }
 
@@ -25,7 +26,7 @@ it('returns themed view path for getView', function () {
         ->once()
         ->andReturn(Mockery::mock(ViewInstance::class));
 
-    $dummy = new ViewHelpersTestDummy();
+    $dummy = new ViewHelpersTestDummy;
     $view = $dummy->getView($viewName, $theme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
@@ -41,7 +42,7 @@ it('returns themed partial view path for getPartialView', function () {
         ->once()
         ->andReturn(Mockery::mock(ViewInstance::class));
 
-    $dummy = new ViewHelpersTestDummy();
+    $dummy = new ViewHelpersTestDummy;
     $view = $dummy->getPartialView($viewName, $theme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);

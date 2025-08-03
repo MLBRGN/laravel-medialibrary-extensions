@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -21,8 +22,7 @@ class MediaManagerSingle extends MediaManager
         string $id = '',
         ?string $frontendTheme = null,
         ?bool $useXhr = true,
-    )
-    {
+    ) {
         parent::__construct(
             modelOrClassName: $modelOrClassName,
             imageCollection: $imageCollection,

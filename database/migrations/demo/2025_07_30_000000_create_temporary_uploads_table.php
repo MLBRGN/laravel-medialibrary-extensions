@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use Illuminate\Database\Migrations\Migration;

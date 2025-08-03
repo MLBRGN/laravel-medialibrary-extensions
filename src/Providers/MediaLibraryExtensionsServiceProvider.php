@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Providers;
@@ -22,7 +23,6 @@ use Mlbrgn\MediaLibraryExtensions\Services\TemporaryMediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeUploadService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModalTemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
@@ -30,20 +30,19 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\StatusArea;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadDestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
-use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -165,7 +164,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $connectionName = config('media-library-extensions.temp_database_name');
         $databasePath = storage_path('media-library-extensions-demo.sqlite');
 
-        if (!file_exists($databasePath)) {
+        if (! file_exists($databasePath)) {
             touch($databasePath);
         }
 
@@ -180,19 +179,19 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         DB::reconnect($connectionName);
 
         // Run migrations if needed
-        if (!Schema::connection($connectionName)->hasTable('aliens')) {
+        if (! Schema::connection($connectionName)->hasTable('aliens')) {
             Log::info('Running demo migrations...');
             Artisan::call('migrate', [
                 '--database' => $connectionName,
-                '--path' => realpath(__DIR__ . '/../../database/migrations/demo'),
+                '--path' => realpath(__DIR__.'/../../database/migrations/demo'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
             Log::info('Demo migrations completed.');
 
-//            app()->bind(Media::class, function () {
-//                return new \Mlbrgn\MediaLibraryExtensions\Models\demo\Media();
-//            });
+            //            app()->bind(Media::class, function () {
+            //                return new \Mlbrgn\MediaLibraryExtensions\Models\demo\Media();
+            //            });
         }
 
     }
@@ -214,15 +213,15 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     protected function registerServices(): void
     {
         $this->app->singleton(TemporaryMediaService::class, function ($app) {
-            return new TemporaryMediaService();
+            return new TemporaryMediaService;
         });
 
         $this->app->singleton(MediaUploadService::class, function ($app) {
-            return new MediaUploadService();
+            return new MediaUploadService;
         });
 
         $this->app->singleton(YouTubeUploadService::class, function ($app) {
-            return new YouTubeUploadService();
+            return new YouTubeUploadService;
         });
 
     }

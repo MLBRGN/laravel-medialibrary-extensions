@@ -1,7 +1,9 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Helpers;
+
 namespace Mlbrgn\MediaLibraryExtensions\Helpers;
 
 use Illuminate\Http\JsonResponse;

@@ -1,10 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Route;
 
 uses(TestCase::class);
 

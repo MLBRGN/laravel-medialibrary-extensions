@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -23,16 +24,16 @@ class MediaModal extends BaseComponent
         parent::__construct($id, $frontendTheme);
 
         if ($model) {
-            if (!empty($this->mediaCollections)) {
+            if (! empty($this->mediaCollections)) {
                 // Use multiple collections if provided
                 $allMedia = collect();
                 foreach ($this->mediaCollections as $collectionName) {
-                    if (!empty($collectionName)) {
+                    if (! empty($collectionName)) {
                         $allMedia = $allMedia->merge($model->getMedia($collectionName));
                     }
                 }
                 $this->mediaItems = MediaCollection::make($allMedia);
-            } elseif (!empty($this->mediaCollection)) {
+            } elseif (! empty($this->mediaCollection)) {
                 // Fallback to the single collection
                 $this->mediaItems = $model->getMedia($this->mediaCollection);
             } else {
@@ -48,6 +49,6 @@ class MediaModal extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-modal',  $this->theme);
+        return $this->getView('media-modal', $this->theme);
     }
 }

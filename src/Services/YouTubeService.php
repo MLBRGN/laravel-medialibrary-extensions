@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Services;
@@ -16,7 +17,7 @@ class YouTubeService
 
         $model
             ->addMediaFromUrl($thumbnailUrl)
-            ->usingFileName('youtube-thumbnail-' . ($customId ?? $videoId) . '.jpg')
+            ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
             ->withCustomProperties([
                 'youtube-url' => $youtubeUrl,
                 'youtube-id' => $videoId,

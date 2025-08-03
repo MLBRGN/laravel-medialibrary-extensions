@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
@@ -26,11 +27,10 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-//use Spatie\MediaLibrary\MediaCollections\Models\Media;
+// use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerController extends Controller
 {
-
     public function store(MediaManagerUploadSingleRequest $request, StoreSingleMediumAction $storeSingleMediumAction): RedirectResponse|JsonResponse
     {
         return $storeSingleMediumAction->execute($request);
@@ -80,5 +80,4 @@ class MediaManagerController extends Controller
     {
         return $getMediaPreviewerHTMLAction->execute($request);
     }
-
 }

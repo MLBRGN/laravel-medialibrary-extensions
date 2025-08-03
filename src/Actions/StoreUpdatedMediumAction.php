@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
@@ -33,15 +34,15 @@ class SaveUpdatedMediumAction
         $temporaryUpload = $request->boolean('temporary_upload');
         $file = $request->file('file');
 
-//        if (! $file) {
-//            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
-//        }
+        //        if (! $file) {
+        //            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
+        //        }
 
-//            if (! $collection) {
-//                return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
-//            }
+        //            if (! $collection) {
+        //                return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+        //            }
 
-        if(!$temporaryUpload) {
+        if (! $temporaryUpload) {
             abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
             $model = $this->mediaService->resolveModel($modelType, $modelId);

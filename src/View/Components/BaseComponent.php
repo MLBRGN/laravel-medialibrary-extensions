@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -11,6 +12,7 @@ abstract class BaseComponent extends Component
     use ViewHelpers;
 
     public string $theme;
+
     public ?array $status = [];
 
     public function __construct(
@@ -27,5 +29,4 @@ abstract class BaseComponent extends Component
         $this->theme = $frontendTheme ?? config('media-library-extensions.frontend_theme');
 
     }
-
 }

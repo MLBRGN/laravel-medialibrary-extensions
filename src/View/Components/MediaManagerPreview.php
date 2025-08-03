@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -12,12 +13,17 @@ use Spatie\MediaLibrary\HasMedia;
 class MediaManagerPreview extends BaseComponent
 {
     public string $allowedMimeTypes = '';
+
     public bool $showMenu = false;
+
     public Collection $media;
 
-    public HasMedia|null $model = null;
+    public ?HasMedia $model = null;
+
     public ?string $modelType = null;
+
     public mixed $modelId = null;
+
     public bool $temporaryUpload = false;
 
     public function __construct(
@@ -32,8 +38,7 @@ class MediaManagerPreview extends BaseComponent
         public bool $showMediaUrl = false,
         public bool $showOrder = false,
         public bool $temporaryUploads = false,
-    )
-    {
+    ) {
         parent::__construct($id, $frontendTheme);
 
         if (is_null($modelOrClassName)) {
@@ -52,7 +57,7 @@ class MediaManagerPreview extends BaseComponent
         } else {
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
-//        dd('session in preview class: '.session()->getId());
+        //        dd('session in preview class: '.session()->getId());
         if ($destroyEnabled || $showOrder || $setAsFirstEnabled) {
             $this->showMenu = true;
         } else {
@@ -62,7 +67,7 @@ class MediaManagerPreview extends BaseComponent
         $collections = collect();
 
         if ($temporaryUploads) {
-//             $collections = $collections->merge(TemporaryUpload::forCurrentSession());
+            //             $collections = $collections->merge(TemporaryUpload::forCurrentSession());
             if ($imageCollection) {
                 $collections = $collections->merge(TemporaryUpload::forCurrentSession($imageCollection));
             }
@@ -94,6 +99,6 @@ class MediaManagerPreview extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-manager-preview',  $this->theme);
+        return $this->getView('media-manager-preview', $this->theme);
     }
 }

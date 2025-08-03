@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
@@ -17,9 +18,9 @@ class DeleteMediumAction
 
         // $this->authorize('deleteMedia', $media); // Authorization can be handled in the controller or via policies
 
-//        if (config('media-library-extensions.demo_pages_enabled')) {
-//            $media->setConnection('media_demo');
-//        }
+        //        if (config('media-library-extensions.demo_pages_enabled')) {
+        //            $media->setConnection('media_demo');
+        //        }
 
         $media->delete();
 

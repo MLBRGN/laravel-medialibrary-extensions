@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -8,7 +9,6 @@ use Illuminate\View\View;
 
 class Assets extends Component
 {
-
     public string $theme;
 
     public function __construct(

@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -16,12 +17,12 @@ class SetAsFirstForm extends BaseComponent
         public Media $medium,
         public string $id,
         public ?string $frontendTheme,
-        public ?bool $useXhr = null,
-        public ?string $targetMediaCollection = null,
-        public ?string $imageCollection = '',
-        public string $documentCollection = '',
-        public string $youtubeCollection = '',
-        public bool $setAsFirstEnabled = false,
+        public ?bool $useXhr,
+        public ?string $targetMediaCollection,
+        public ?string $imageCollection,
+        public string $documentCollection,
+        public string $youtubeCollection,
+        public bool $setAsFirstEnabled,
         public ?HasMedia $model,
     ) {
         parent::__construct($id, $frontendTheme);
@@ -29,7 +30,8 @@ class SetAsFirstForm extends BaseComponent
 
     public function render(): View
     {
-        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+
         return $this->getPartialView('set-as-first-form', $this->theme);
     }
 }

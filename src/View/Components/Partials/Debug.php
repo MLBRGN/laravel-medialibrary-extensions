@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -13,13 +14,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Debug extends Component
 {
     public bool $iconExists = false;
+
     public array $errors = [];
+
     public Collection $collections;
 
     public function __construct(
         public ?HasMedia $model = null,
-        public string|null $modelType = null,
-        public string|null $modelId = null,
+        public ?string $modelType = null,
+        public ?string $modelId = null,
         public ?string $theme = null,
         public array $config = [],
     ) {

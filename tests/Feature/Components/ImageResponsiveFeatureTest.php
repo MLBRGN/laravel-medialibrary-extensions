@@ -1,6 +1,7 @@
 <?php
+
 //
-///**
+// /**
 // * EXAMPLE TEST FILE
 // *
 // * This file contains example tests for the ImageResponsive component.
@@ -11,11 +12,11 @@
 // * You might need to manually create these views or adapt the tests to your specific setup.
 // */
 //
-//use Illuminate\Support\Facades\Blade;
-//use Illuminate\Support\Facades\View;
-//use Spatie\MediaLibrary\MediaCollections\Models\Media;
+// use Illuminate\Support\Facades\Blade;
+// use Illuminate\Support\Facades\View;
+// use Spatie\MediaLibrary\MediaCollections\Models\Media;
 //
-//beforeEach(function () {
+// beforeEach(function () {
 //    // Register a test view that uses the component
 //    View::addNamespace('test', __DIR__ . '/../../Feature/views');
 //
@@ -36,9 +37,9 @@
 //            />
 //        ');
 //    }
-//})->skip();
+// })->skip();
 //
-//it('renders the component with a media object', function () {
+// it('renders the component with a media object', function () {
 //    // Arrange
 //    $medium = Mockery::mock(Media::class);
 //    $medium->shouldReceive('hasGeneratedConversion')->with('thumb')->andReturn(true);
@@ -64,9 +65,9 @@
 //    expect($html)->toContain('loading="lazy"');
 //    expect($html)->toContain('alt="Test image"');
 //    expect($html)->toContain('class="test-class"');
-//})->skip();
+// })->skip();
 //
-//it('renders the fallback image when no media is provided', function () {
+// it('renders the fallback image when no media is provided', function () {
 //    // Act
 //    $html = Blade::render(
 //        '@include("test::test-image-responsive")',
@@ -83,9 +84,9 @@
 //    expect($html)->toContain('src="' . asset('vendor/media-library-extensions/images/fallback.png') . '"');
 //    expect($html)->toContain('alt="Missing image"');
 //    expect($html)->toContain('class="test-class opacity-50"');
-//})->skip();
+// })->skip();
 //
-//it('renders the component in a route', function () {
+// it('renders the component in a route', function () {
 //    // Arrange
 //    $medium = Mockery::mock(Media::class);
 //    $medium->shouldReceive('hasGeneratedConversion')->with('thumb')->andReturn(true);
@@ -126,4 +127,4 @@
 //    ])
 //    ->assertStatus(200)
 //    ->assertViewIs('test-route-image');
-//})->skip();
+// })->skip();

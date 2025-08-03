@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -11,14 +12,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageEditorModal extends BaseComponent
 {
-
     public array $config = [];
+
     public string $saveUpdatedMediumRoute;
 
+    public ?HasMedia $model = null;
 
-    public HasMedia|null $model = null;
     public ?string $modelType = null;
+
     public mixed $modelId = null;
+
     public bool $temporaryUpload = false;
 
     public function __construct(
@@ -69,9 +72,10 @@ class ImageEditorModal extends BaseComponent
 
     public function render(): View
     {
-        if($this->temporaryUpload) {
+        if ($this->temporaryUpload) {
             return $this->getView('image-editor-modal-temporary-upload', $this->theme);
         }
-        return $this->getView('image-editor-modal',  $this->theme);
+
+        return $this->getView('image-editor-modal', $this->theme);
     }
 }

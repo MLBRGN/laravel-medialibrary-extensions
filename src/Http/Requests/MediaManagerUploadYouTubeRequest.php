@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
@@ -26,14 +27,13 @@ class MediaManagerUploadYouTubeRequest extends FormRequest
     {
         $uploadFieldName = config('media-library-extensions.upload_field_name_youtube');
 
-
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
             'temporary_upload' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload,false'],
             'collection_name' => ['required', 'string'],
-             $uploadFieldName => ['nullable', 'url', 'regex:/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//'],
+            $uploadFieldName => ['nullable', 'url', 'regex:/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//'],
             'initiator_id' => ['required', 'string'],
         ];
     }

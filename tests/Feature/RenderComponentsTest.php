@@ -7,7 +7,7 @@ it('can test using browserKit', function () {
         $this->visit('/render_components');
     } catch (Throwable $e) {
         echo $e->getMessage();
-        echo $e->getFile() . ':' . $e->getLine();
+        echo $e->getFile().':'.$e->getLine();
         throw $e;
     }
 })->skip();

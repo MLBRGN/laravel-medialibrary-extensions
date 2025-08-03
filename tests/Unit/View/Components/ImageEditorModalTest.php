@@ -1,4 +1,5 @@
 <?php
+
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Exception;
@@ -27,11 +28,11 @@ test('constructs with model', function () {
 
     $medium = new Media([
         'id' => 101,
-        'collection_name' => 'avatars'
+        'collection_name' => 'avatars',
     ]);
 
     $component = new ImageEditorModal(
-        id:'uploader-0',
+        id: 'uploader-0',
         modelOrClassName: $model,
         medium: $medium,
         initiatorId: 'uploader-1',
@@ -50,11 +51,11 @@ test('constructs with model', function () {
 test('constructs with model class name string for temporary upload', function () {
     $medium = new Media([
         'id' => 202,
-        'collection_name' => 'covers'
+        'collection_name' => 'covers',
     ]);
 
     $component = new ImageEditorModal(
-        id:'uploader-1',
+        id: 'uploader-1',
         modelOrClassName: 'App\\Models\\TemporaryThing',
         medium: $medium,
         initiatorId: 'uploader-2'
@@ -74,7 +75,7 @@ test('throws when modelOrClassName is null', function () {
 
     $medium = new Media([
         'id' => 303,
-        'collection_name' => 'documents'
+        'collection_name' => 'documents',
     ]);
 
     new ImageEditorModal(
@@ -91,7 +92,7 @@ test('throws when modelOrClassName is an invalid type', function () {
 
     $medium = new Media([
         'id' => 404,
-        'collection_name' => 'invalids'
+        'collection_name' => 'invalids',
     ]);
 
     new ImageEditorModal(

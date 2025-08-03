@@ -8,7 +8,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 uses(TestCase::class);
 
-
 beforeEach(function () {
     Config::set('media-library-extensions.frontend_theme', 'bootstrap-5');
 });

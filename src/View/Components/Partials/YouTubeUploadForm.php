@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -10,16 +11,18 @@ use Spatie\MediaLibrary\HasMedia;
 
 class YouTubeUploadForm extends BaseComponent
 {
-
     public bool $mediaPresent = false;
 
-    public string $mediaUploadRoute;// upload form action route
-    public string $previewUpdateRoute;// route to update preview media when using ajax
+    public string $mediaUploadRoute; // upload form action route
 
-    public HasMedia|null $model = null;
+    public string $previewUpdateRoute; // route to update preview media when using ajax
+
+    public ?HasMedia $model = null;
+
     public ?string $modelType = null;
+
     public mixed $modelId = null;
-//    public bool $temporaryUpload = false;
+    //    public bool $temporaryUpload = false;
 
     // TODO NOT RIGHT which collections to use?
     public function __construct(
@@ -59,8 +62,8 @@ class YouTubeUploadForm extends BaseComponent
             : false;
 
         $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
-        $this->previewUpdateRoute = route(mle_prefix_route('preview-update'));// : route(mle_prefix_route('media-upload-single-preview'));
-        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $this->previewUpdateRoute = route(mle_prefix_route('preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
     }
 

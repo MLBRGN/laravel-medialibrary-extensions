@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Services;
@@ -12,9 +13,10 @@ class TemporaryMediaService
     // TODO IMPLEMENT
     public function storeTemporary(UploadedFile $file, string $draftId): string
     {
-        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        $filename = uniqid().'.'.$file->getClientOriginalExtension();
         $path = "tmp-media/$draftId/$filename";
         Storage::put($path, file_get_contents($file));
+
         return $filename;
     }
 

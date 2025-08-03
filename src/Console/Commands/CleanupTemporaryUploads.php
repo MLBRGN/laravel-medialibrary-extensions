@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
@@ -26,7 +27,7 @@ class CleanupTemporaryUploads extends Command
         }
 
         $this->info("Cleaned up {$expiredUploads->count()} expired temporary uploads.");
+
         return self::SUCCESS;
     }
-
 }

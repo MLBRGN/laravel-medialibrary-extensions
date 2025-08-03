@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Collection;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -12,7 +12,7 @@ uses(TestCase::class);
 
 beforeEach(function () {
     // Mock TemporaryUpload::forCurrentSession static method for tests using temporary uploads
-//    TemporaryUpload::shouldReceive('forCurrentSession')->andReturn(collect());
+    //    TemporaryUpload::shouldReceive('forCurrentSession')->andReturn(collect());
 });
 
 it('throws exception if modelOrClassName is null', function () {
@@ -21,9 +21,9 @@ it('throws exception if modelOrClassName is null', function () {
 
 it('accepts a HasMedia model instance and sets properties accordingly', function () {
     $model = Blog::create(['title' => 'test']);
-//    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-//    $mockModel->shouldReceive('getKey')->andReturn(123);
-//    $mockModel->shouldReceive('getMedia')->andReturn(collect());
+    //    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
+    //    $mockModel->shouldReceive('getKey')->andReturn(123);
+    //    $mockModel->shouldReceive('getMedia')->andReturn(collect());
 
     $component = new MediaManagerPreview(
         modelOrClassName: $model,
@@ -36,7 +36,7 @@ it('accepts a HasMedia model instance and sets properties accordingly', function
         ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
         ->and($component->modelId)->toBe($model->id)
         ->and($component->temporaryUpload)->toBeFalse();
-//        ->and($component->media)->toBeInstanceOf(Collection);
+    //        ->and($component->media)->toBeInstanceOf(Collection);
 });
 
 it('accepts a string model class name and sets temporaryUpload to true', function () {
@@ -144,10 +144,10 @@ it('render returns the correct view', function () {
 });
 
 it('render returns the correct view when only class name provided', function () {
-//    $mockModel = Mockery::mock(HasMedia::class);
-//    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-//    $mockModel->shouldReceive('getKey')->andReturn(1);
-//    $mockModel->shouldReceive('getMedia')->andReturn(collect());
+    //    $mockModel = Mockery::mock(HasMedia::class);
+    //    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
+    //    $mockModel->shouldReceive('getKey')->andReturn(1);
+    //    $mockModel->shouldReceive('getMedia')->andReturn(collect());
 
     $component = new MediaManagerPreview(modelOrClassName: 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog');
 
@@ -158,7 +158,7 @@ it('render returns the correct view when only class name provided', function () 
         ->and($component->showMediaUrl)->toBeFalse()
         ->and($component->showOrder)->toBeFalse()
         ->and($component->temporaryUpload)->toBeTrue();
-//        ->and($component->frontendTheme)->toBe('bootstrap-5');
+    //        ->and($component->frontendTheme)->toBe('bootstrap-5');
     expect($view)->toBeInstanceOf(Illuminate\View\View::class);
     expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-manager-preview');
 });

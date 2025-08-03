@@ -7,8 +7,6 @@
 //    }
 // }
 
-use Symfony\Component\VarDumper\VarDumper;
-
 if (! function_exists('mle_package_asset')) {
     function mle_package_asset(string $path): string
     {
@@ -64,12 +62,14 @@ if (! function_exists('extractYouTubeId')) {
 }
 
 if (! function_exists('getHumanMimeTypeLabel')) {
-    function getHumanMimeTypeLabel(string $mimeType): string {
+    function getHumanMimeTypeLabel(string $mimeType): string
+    {
 
         $mimetypeLabels = config('media-library-extensions.mimetype_labels');
         if (array_key_exists($mimeType, $mimetypeLabels)) {
             return $mimetypeLabels[$mimeType];
         }
+
         return $mimeType;
     }
 }
@@ -79,6 +79,7 @@ if (! function_exists('isMediaType')) {
     {
         $mimeType = $medium->mime_type ?? null;
         $allowed = config("media-library-extensions.allowed_mimetypes.{$type}", []);
+
         return in_array($mimeType, $allowed, true);
     }
 }

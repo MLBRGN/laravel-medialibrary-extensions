@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Models\demo;
@@ -16,6 +17,7 @@ class Alien extends Model implements HasMedia
     use YouTubeCollection;
 
     protected $table = 'aliens';
+
     protected $guarded = [];
 
     public function registerMediaCollections(): void
@@ -52,7 +54,6 @@ class Alien extends Model implements HasMedia
             return config('media-library-extensions.temp_database_name');
         }
 
-        return parent::getConnectionName();
+        return config('database.default');
     }
-
 }

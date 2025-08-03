@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
@@ -26,6 +27,7 @@ class InstallMediaLibraryExtensions extends Command
         $this->publishWithMessage('media-library-extensions-policy', app_path('Policies/MediaPolicy.php'), $force);
 
         $this->info('Media Library Extensions installed successfully.');
+
         return self::SUCCESS;
     }
 
@@ -33,6 +35,7 @@ class InstallMediaLibraryExtensions extends Command
     {
         if (file_exists($targetPath) && ! $force) {
             $this->warn("Skipped publishing [$tag]: file/folder already exists at [$targetPath]");
+
             return;
         }
 
@@ -41,5 +44,4 @@ class InstallMediaLibraryExtensions extends Command
             '--force' => $force,
         ]);
     }
-
 }

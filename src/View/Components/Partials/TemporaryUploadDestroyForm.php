@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -6,7 +7,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TemporaryUploadDestroyForm extends BaseComponent
 {
@@ -22,7 +22,7 @@ class TemporaryUploadDestroyForm extends BaseComponent
 
     public function render(): View
     {
-        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         return $this->getPartialView('temporary-upload-destroy-form', $this->theme);
     }

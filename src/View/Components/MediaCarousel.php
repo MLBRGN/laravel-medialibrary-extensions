@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -10,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 class MediaCarousel extends BaseComponent
 {
     public MediaCollection $mediaItems;
+
     public int $mediaCount;
 
     public string $previewerId = '';
@@ -28,16 +30,16 @@ class MediaCarousel extends BaseComponent
         parent::__construct($id, $frontendTheme);
 
         if ($model) {
-            if (!empty($this->mediaCollections)) {
+            if (! empty($this->mediaCollections)) {
                 // Use multiple collections if provided
                 $allMedia = collect();
                 foreach ($this->mediaCollections as $collectionName) {
-                    if (!empty($collectionName)) {
+                    if (! empty($collectionName)) {
                         $allMedia = $allMedia->merge($model->getMedia($collectionName));
                     }
                 }
                 $this->mediaItems = MediaCollection::make($allMedia);
-            } elseif (!empty($this->mediaCollection)) {
+            } elseif (! empty($this->mediaCollection)) {
                 // Fallback to the single collection
                 $this->mediaItems = $model->getMedia($this->mediaCollection);
             } else {

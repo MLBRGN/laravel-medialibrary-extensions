@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -9,6 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 class Status extends BaseComponent
 {
     public string $initiatorId;
+
     public ?array $status = null;
 
     public function __construct(

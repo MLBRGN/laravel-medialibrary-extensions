@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
@@ -28,8 +29,9 @@ trait InteractsWithMediaExtended
         static::created(function ($model) {
             Log::info('checking for temporary media for model with model type: '.$model->getMorphClass().' and id: '.$model->getKey());
 
-            if (!$model->exists || !$model->getKey()) {
-                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey(). ' does not exist');
+            if (! $model->exists || ! $model->getKey()) {
+                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+
                 return;
             }
 
@@ -46,7 +48,7 @@ trait InteractsWithMediaExtended
                     self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $documentCollection);
                 } else {
                     throw new Exception('No image or document collection provided');
-//                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, 'default');
+                    //                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, 'default');
                 }
 
                 Storage::disk($upload->disk)->delete($upload->path);
@@ -155,5 +157,4 @@ trait InteractsWithMediaExtended
     {
         $this->addResponsiveAspectRatioConversion($media, $collections, 3 / 2, '3x2', $fit);
     }
-
 }

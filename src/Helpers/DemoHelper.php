@@ -8,12 +8,10 @@ class DemoHelper
 {
     /**
      * Determine if the current request is from a demo page.
-     *
-     * @return bool
      */
     public static function isRequestFromDemoPage(): bool
     {
-        if (!config('media-library-extensions.demo_pages_enabled')) {
+        if (! config('media-library-extensions.demo_pages_enabled')) {
             return false;
         }
 
@@ -22,13 +20,13 @@ class DemoHelper
         $referer = Request::header('referer');
 
         // Check if the current URL is a demo page
-        $isDemoUrl = str_contains($currentUrl, $routePrefix . '/mle-demo-plain') ||
-                     str_contains($currentUrl, $routePrefix . '/mle-demo-bootstrap-5');
+        $isDemoUrl = str_contains($currentUrl, $routePrefix.'/mle-demo-plain') ||
+                     str_contains($currentUrl, $routePrefix.'/mle-demo-bootstrap-5');
 
         // Check if the referer is a demo page
         $isFromDemoPage = $referer && (
-            str_contains($referer, $routePrefix . '/mle-demo-plain') ||
-            str_contains($referer, $routePrefix . '/mle-demo-bootstrap-5')
+            str_contains($referer, $routePrefix.'/mle-demo-plain') ||
+            str_contains($referer, $routePrefix.'/mle-demo-bootstrap-5')
         );
 
         // Return true if either the current URL is a demo page or the referer is a demo page

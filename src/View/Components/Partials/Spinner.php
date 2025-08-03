@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -18,9 +19,9 @@ class Spinner extends BaseComponent
         parent::__construct($id, $frontendTheme);
         $this->initiatorId = $initiatorId;
     }
+
     public function render(): View
     {
         return $this->getPartialView('spinner', $this->theme);
     }
-
 }

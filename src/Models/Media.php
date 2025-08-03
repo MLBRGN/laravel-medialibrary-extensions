@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Models;
@@ -20,5 +21,4 @@ class Media extends BaseMedia
 
         return parent::getConnectionName();
     }
-
 }

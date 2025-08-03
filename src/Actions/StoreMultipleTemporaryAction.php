@@ -1,9 +1,9 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
-use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -50,6 +50,7 @@ class StoreMultipleTemporaryAction
                         'mimetype' => $file->getMimeType(),
                     ]),
                 ];
+
                 continue;
             }
 
@@ -94,8 +95,9 @@ class StoreMultipleTemporaryAction
 
         $messageExtra = '';
         foreach ($skippedFiles as $skippedFile) {
-            $messageExtra .= '"' . $skippedFile['filename'] . '":  ' . $skippedFile['reason'] . ',';
+            $messageExtra .= '"'.$skippedFile['filename'].'":  '.$skippedFile['reason'].',';
         }
+
         return MediaResponse::success(
             $request,
             $initiatorId,
@@ -107,6 +109,4 @@ class StoreMultipleTemporaryAction
             ]
         );
     }
-
-
 }

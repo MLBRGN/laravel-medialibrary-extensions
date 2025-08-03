@@ -12,9 +12,9 @@ use Mlbrgn\MediaLibraryExtensions\Models\Media;
 $baseMiddleware = config('media-library-extensions.route_middleware', []);
 
 // Conditionally add RegisterDemoDatabase if demo pages are enabled
-//if (config('media-library-extensions.demo_pages_enabled')) {
+// if (config('media-library-extensions.demo_pages_enabled')) {
 //    $baseMiddleware[] = RegisterDemoDatabase::class;
-//}
+// }
 Route::group([
     'middleware' => config('media-library-extensions.route_middleware', []),
     'prefix' => config('media-library-extensions.route_prefix'),

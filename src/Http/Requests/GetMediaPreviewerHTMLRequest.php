@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
@@ -30,7 +31,7 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
 
             'temporary_uploads' => ['required', Rule::in(['true', 'false'])],
 
-            'model_type' => ['required', 'string'],// model_id handled by withValidator, for conditional validation
+            'model_type' => ['required', 'string'], // model_id handled by withValidator, for conditional validation
 
             'image_collection' => ['nullable', 'string'],
             'document_collection' => ['nullable', 'string'],
@@ -51,5 +52,4 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             return $this->input('temporary_uploads') === 'false';
         });
     }
-
 }

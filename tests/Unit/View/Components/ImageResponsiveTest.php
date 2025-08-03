@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\View;
-use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\View\View as ViewInstance;
+use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
+use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 uses(TestCase::class);
 

@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
@@ -12,13 +13,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 trait YouTubeCollection
 {
-
     use InteractsWithMedia;
 
-    protected function addYouTubeCollection($name): void {
+    protected function addYouTubeCollection($name): void
+    {
         $this
             ->addMediaCollection($name)
             ->singleFile();
     }
-
 }

@@ -42,5 +42,5 @@ return [
     'no_blade_ui_kit_icon_package_detected_download_at_:link' => 'Geen "Blade UI Kit icon package" gedetecteerd download via :link',
     'note_carousel_only_updates_on_refresh_of_page' => 'LET OP: Deze carrousel wordt alleen bijgewerkt na het verversen van de pagina, zelfs wanneer XHR is ingeschakeld voor media managers.',
     'edit' => 'Bewerken',
-    'Temporary_uploads_not_available,_please_run_migrations_first' => 'Tijdelijke uploads niet beschikbaar, voer eerst de migraties uit.'
-    ];
+    'Temporary_uploads_not_available,_please_run_migrations_first' => 'Tijdelijke uploads niet beschikbaar, voer eerst de migraties uit.',
+];

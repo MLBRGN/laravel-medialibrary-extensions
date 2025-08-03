@@ -1,18 +1,19 @@
 <?php
+
 //
-//use Illuminate\Support\Facades\Artisan;
-//use Illuminate\Support\Facades\Config;
-//use Illuminate\Support\Facades\DB;
-//use Illuminate\Support\Facades\Schema;
-//use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
+// use Illuminate\Support\Facades\Artisan;
+// use Illuminate\Support\Facades\Config;
+// use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\Schema;
+// use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 //
-//beforeEach(function () {
+// beforeEach(function () {
 //    // Set default configuration for tests
 //    Config::set('media-library-extensions.demo_pages_enabled', true);
 //    Config::set('media-library-extensions.temp_database_name', 'media_demo');
-//});
+// });
 //
-//it('registers demo database when demo pages are enabled', function () {
+// it('registers demo database when demo pages are enabled', function () {
 //    // Arrange
 //    $provider = new MediaLibraryExtensionsServiceProvider(app());
 //
@@ -44,9 +45,9 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-//})->skip();
+// })->skip();
 //
-//it('runs migrations if aliens table does not exist', function () {
+// it('runs migrations if aliens table does not exist', function () {
 //    // Arrange
 //    $provider = new MediaLibraryExtensionsServiceProvider(app());
 //
@@ -84,9 +85,9 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-//})->skip();;
+// })->skip();;
 //
-//it('uses the configured database name', function () {
+// it('uses the configured database name', function () {
 //    // Arrange
 //    $provider = new MediaLibraryExtensionsServiceProvider(app());
 //    Config::set('media-library-extensions.temp_database_name', 'custom_demo_db');
@@ -119,9 +120,9 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-//})->skip();;
+// })->skip();;
 //
-//it('does not register demo database when demo pages are disabled', function () {
+// it('does not register demo database when demo pages are disabled', function () {
 //    // Arrange
 //    Config::set('media-library-extensions.demo_pages_enabled', false);
 //
@@ -137,4 +138,4 @@
 //    $provider->boot();
 //
 //    // Assert - verification is done by Mockery expectations
-//})->skip();;
+// })->skip();;

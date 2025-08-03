@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Services;
@@ -10,6 +11,7 @@ class MediaService
     public function resolveModel(string $modelType, string $modelId): HasMedia
     {
         abort_unless(class_exists($modelType), 400, 'Invalid model type');
+
         return $modelType::findOrFail($modelId);
     }
 
@@ -25,6 +27,6 @@ class MediaService
             return request()->input('document_collection');
         }
 
-        return null;// means not supported
+        return null; // means not supported
     }
 }

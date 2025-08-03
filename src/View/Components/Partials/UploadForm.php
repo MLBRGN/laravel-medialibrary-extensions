@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
@@ -11,12 +12,15 @@ use Spatie\MediaLibrary\HasMedia;
 class UploadForm extends BaseComponent
 {
     public bool $mediaPresent = false;
+
     public string $allowedMimeTypesHuman = '';
 
-    public HasMedia|null $model = null;
+    public ?HasMedia $model = null;
+
     public ?string $modelType = null;
+
     public mixed $modelId = null;
-//    public bool $temporaryUpload = false;
+    //    public bool $temporaryUpload = false;
 
     public function __construct(
         public string $id,
@@ -64,7 +68,7 @@ class UploadForm extends BaseComponent
             ? $this->model->hasMedia($this->imageCollection)
             : false;
 
-        $this->useXhr = !is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         return $this->getPartialView('upload-form', $this->theme);
     }

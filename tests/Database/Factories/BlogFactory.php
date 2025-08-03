@@ -1,8 +1,9 @@
 <?php
+
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories;
 
-use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 class BlogFactory extends Factory
 {

@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -72,5 +73,4 @@ class ImageResponsive extends Component
             'srcset' => $srcset,
         ]);
     }
-
 }

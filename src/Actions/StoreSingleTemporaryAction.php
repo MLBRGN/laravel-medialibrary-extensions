@@ -1,9 +1,9 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
-use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -99,5 +99,4 @@ class StoreSingleTemporaryAction
             ['saved_file' => $filename]
         );
     }
-
 }

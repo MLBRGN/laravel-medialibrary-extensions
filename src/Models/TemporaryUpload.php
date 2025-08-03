@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Models;
@@ -10,8 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class TemporaryUpload extends Model
 {
-
     protected $table = 'mle_temporary_uploads';
+
     protected $fillable = [
         'disk',
         'path',
@@ -33,7 +34,7 @@ class TemporaryUpload extends Model
 
     public static function isAvailable(): bool
     {
-        $instance = new static();
+        $instance = new static;
         $connection = $instance->getConnectionName(); // null = default connection
         $table = $instance->getTable();
 
@@ -52,8 +53,7 @@ class TemporaryUpload extends Model
     public static function forCurrentSession($collectionName = null): Collection
     {
         return self::where('session_id', session()->getId())
-            ->when($collectionName, fn($query) =>
-                $query->where('collection_name', $collectionName)
+            ->when($collectionName, fn ($query) => $query->where('collection_name', $collectionName)
             )
             ->orderBy('order_column', 'asc')
             ->get();
@@ -69,7 +69,8 @@ class TemporaryUpload extends Model
         return Storage::disk($this->disk)->url($this->path);
     }
 
-    public function getFullUrl(): string {
+    public function getFullUrl(): string
+    {
         return Storage::disk($this->disk)->url($this->path);
     }
 

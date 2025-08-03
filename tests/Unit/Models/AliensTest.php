@@ -1,12 +1,13 @@
 <?php
+
 //
-//use Illuminate\Support\Facades\Config;
-//use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
-//use Mlbrgn\MediaLibraryExtensions\Models\demo\Aliens;
+// use Illuminate\Support\Facades\Config;
+// use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
+// use Mlbrgn\MediaLibraryExtensions\Models\demo\Aliens;
 //
-//// Create a test double for the Aliens class
-//class AliensTest extends Aliens
-//{
+// // Create a test double for the Aliens class
+// class AliensTest extends Aliens
+// {
 //    protected $parentConnection = 'default_connection';
 //
 //    public function getParentConnectionName()
@@ -29,24 +30,24 @@
 //
 //        return $this->getParentConnectionName();
 //    }
-//}
+// }
 //
-//beforeEach(function () {
+// beforeEach(function () {
 //    // Set default configuration for tests
 //    Config::set('media-library-extensions.demo_pages_enabled', true);
 //    Config::set('media-library-extensions.temp_database_name', 'media_demo');
-//})->skip();
+// })->skip();
 //
-//it('uses default connection when demo pages are disabled', function () {
+// it('uses default connection when demo pages are disabled', function () {
 //    // Arrange
 //    Config::set('media-library-extensions.demo_pages_enabled', false);
 //    $aliens = new TestAliens();
 //
 //    // Act & Assert
 //    expect($aliens->getConnectionName())->toBe('default_connection');
-//})->skip();
+// })->skip();
 //
-//it('uses default connection when not on a demo page', function () {
+// it('uses default connection when not on a demo page', function () {
 //    // Arrange
 //    $aliens = new TestAliens();
 //
@@ -58,9 +59,9 @@
 //
 //    // Act & Assert
 //    expect($aliens->getConnectionName())->toBe('default_connection');
-//})->skip();
+// })->skip();
 //
-//it('uses demo connection when on a demo page', function () {
+// it('uses demo connection when on a demo page', function () {
 //    // Arrange
 //    $aliens = new TestAliens();
 //
@@ -72,9 +73,9 @@
 //
 //    // Act & Assert
 //    expect($aliens->getConnectionName())->toBe('media_demo');
-//})->skip();
+// })->skip();
 //
-//it('uses the configured demo database name', function () {
+// it('uses the configured demo database name', function () {
 //    // Arrange
 //    Config::set('media-library-extensions.temp_database_name', 'custom_demo_db');
 //    $aliens = new TestAliens();
@@ -87,9 +88,9 @@
 //
 //    // Act & Assert
 //    expect($aliens->getConnectionName())->toBe('custom_demo_db');
-//})->skip();
+// })->skip();
 //
-//it('has the expected media collections', function () {
+// it('has the expected media collections', function () {
 //    // This test would require a more complex setup with a real database connection
 //    // For now, we'll just test that the method exists
 //    $aliens = new Aliens();
@@ -100,4 +101,4 @@
 //    expect($uses)->toContain('Spatie\MediaLibrary\InteractsWithMedia');
 //    expect($uses)->toContain('Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended');
 //    expect($uses)->toContain('Mlbrgn\MediaLibraryExtensions\Traits\YouTubeCollection');
-//})->skip();
+// })->skip();

@@ -1,6 +1,5 @@
 <?php
 
-
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
@@ -12,9 +11,9 @@ it('adds a YouTube media collection as single file', function () {
     // Manually trigger the registration
     $model->addYouTubeCollection('my-collection');
 
-//    dd($model->mediaCollections);
-//    $collection = collect($model->mediaCollections)->firstWhere('name', 'youtube_videos');
-//
-//    expect($collection)->not->toBeNull()
-//        ->and($collection->singleFile)->toBeTrue();
+    //    dd($model->mediaCollections);
+    //    $collection = collect($model->mediaCollections)->firstWhere('name', 'youtube_videos');
+    //
+    //    expect($collection)->not->toBeNull()
+    //        ->and($collection->singleFile)->toBeTrue();
 })->todo();

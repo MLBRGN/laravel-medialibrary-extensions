@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Database\Migrations;
@@ -34,4 +35,4 @@ class create_temporary_uploads_table extends Migration
     {
         Schema::dropIfExists('mle_temporary_uploads');
     }
-};
+}

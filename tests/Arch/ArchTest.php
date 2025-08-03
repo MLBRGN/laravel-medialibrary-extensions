@@ -144,7 +144,7 @@ arch('Does not use the redirect facade for redirecting')
     ->toBeUsedIn('App\Http\Controllers');
 
 arch('Migrations follow naming convention', function () {
-    $migrationPath = __DIR__ . '/../../database/migrations/*.php'; // adjust as needed
+    $migrationPath = __DIR__.'/../../database/migrations/*.php'; // adjust as needed
     $migrations = glob($migrationPath);
 
     foreach ($migrations as $migration) {

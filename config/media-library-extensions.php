@@ -74,7 +74,6 @@ return [
     |
     */
 
-
     'route_prefix' => env('MEDIA_LIBRARY_EXTENSIONS_ROUTE_PREFIX', 'mlbrgn-mle'),
 
     /*
@@ -114,7 +113,7 @@ return [
     |
     */
 
-    'use_xhr' =>  env('MEDIA_LIBRARY_EXTENSIONS_USE_XHR', true),
+    'use_xhr' => env('MEDIA_LIBRARY_EXTENSIONS_USE_XHR', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -285,6 +284,6 @@ return [
         'playsinline' => 1,
         'rel' => 0,
         'enablejsapi' => 1,
-    ]
+    ],
 
 ];

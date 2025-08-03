@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Console\Commands;
@@ -25,8 +26,9 @@ class ToggleRepository extends Command
     {
         $composerPath = base_path('composer.json');
 
-        if (!file_exists($composerPath)) {
+        if (! file_exists($composerPath)) {
             $this->error('composer.json not found!');
+
             return self::FAILURE;
         }
 
@@ -39,21 +41,19 @@ class ToggleRepository extends Command
         foreach ($this->packages as $name => $data) {
             $pathRepo = $data['path'];
             $symlinkName = $data['symlink'];
-            $linkPath = public_path('vendor/' . $symlinkName);
-            $targetPath = realpath(base_path(trim($pathRepo, './') . '/dist'));
+            $linkPath = public_path('vendor/'.$symlinkName);
+            $targetPath = realpath(base_path(trim($pathRepo, './').'/dist'));
 
-            $isLinked = collect($repositories)->contains(fn($repo) =>
-                ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo
+            $isLinked = collect($repositories)->contains(fn ($repo) => ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo
             );
 
             if ($isLinked) {
-                if (!$this->option('force') && !$this->confirm("Remove local path for [$name]?")) {
+                if (! $this->option('force') && ! $this->confirm("Remove local path for [$name]?")) {
                     continue;
                 }
 
                 // Remove from repositories
-                $repositories = array_values(array_filter($repositories, fn($repo) =>
-                !($repo['type'] === 'path' && $repo['url'] === $pathRepo)
+                $repositories = array_values(array_filter($repositories, fn ($repo) => ! ($repo['type'] === 'path' && $repo['url'] === $pathRepo)
                 ));
 
                 $this->removePath($linkPath);
@@ -70,7 +70,7 @@ class ToggleRepository extends Command
 
                 $toggled[] = $name;
             } else {
-                if (!$this->option('force') && !$this->confirm("Use local path for [$name]?")) {
+                if (! $this->option('force') && ! $this->confirm("Use local path for [$name]?")) {
                     continue;
                 }
 
@@ -84,7 +84,7 @@ class ToggleRepository extends Command
                 // Save the current version before switching
                 $currentVersion = $composer['require'][$name] ?? null;
                 if ($currentVersion && $currentVersion !== 'dev-main') {
-                    if (!isset($composer['extra']['original_require'][$name])) {
+                    if (! isset($composer['extra']['original_require'][$name])) {
                         $composer['extra']['original_require'][$name] = $currentVersion;
                         $this->info("💾 Saved original version for $name: $currentVersion");
                     } else {
@@ -96,7 +96,7 @@ class ToggleRepository extends Command
                 $composer['require'][$name] = 'dev-main';
                 $this->info("🔖 Set version for $name to dev-main");
 
-                if (!$targetPath || !is_dir($targetPath)) {
+                if (! $targetPath || ! is_dir($targetPath)) {
                     $this->warn("⚠️ dist folder not found for $name, skipping symlink.");
                 } else {
                     $this->removePath($linkPath);
@@ -119,8 +119,8 @@ class ToggleRepository extends Command
         file_put_contents($composerPath, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         if (count($toggled)) {
-            $this->info('📦 Running composer update for: ' . implode(', ', $toggled));
-            $process = Process::fromShellCommandline('composer update ' . implode(' ', $toggled));
+            $this->info('📦 Running composer update for: '.implode(', ', $toggled));
+            $process = Process::fromShellCommandline('composer update '.implode(' ', $toggled));
             $process->setTty(Process::isTtySupported());
             $process->run(function ($type, $buffer) {
                 echo $buffer;

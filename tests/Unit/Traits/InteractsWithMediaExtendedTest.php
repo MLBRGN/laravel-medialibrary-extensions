@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Storage;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
@@ -65,8 +65,7 @@ it('logs error when safeAddMedia fails', function () {
     $refMethod->invoke($model, $model, 'fake-path.jpg', 'media', 'file.jpg', 'images');
 
     Log::shouldHaveReceived('error')
-        ->withArgs(fn ($message, $context) =>
-            str_contains($message, 'Failed to attach media') &&
+        ->withArgs(fn ($message, $context) => str_contains($message, 'Failed to attach media') &&
             $context['path'] === 'fake-path.jpg'
         );
 });
