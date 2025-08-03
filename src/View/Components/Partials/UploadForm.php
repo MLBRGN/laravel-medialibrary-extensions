@@ -53,9 +53,9 @@ class UploadForm extends BaseComponent
         }
 
         $allowedMimeTypesFromConfig = collect(config('media-library-extensions.allowed_mimetypes', []))->flatten();
-        $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
+        $mimetype_labels = config('media-library-extensions.mimetype_labels');
         $this->allowedMimeTypesHuman = $allowedMimeTypesFromConfig
-            ->map(fn ($mime) => $mimeTypeLabels[$mime] ?? $mime)
+            ->map(fn ($mime) => $mimetype_labels[$mime] ?? $mime)
             ->join(', ');
         $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : $allowedMimeTypesFromConfig->join(', ');
 

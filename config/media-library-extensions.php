@@ -153,7 +153,7 @@ return [
         'document' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES', 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
     ],
 
-    'mimeTypeLabels' => [
+    'mimetype_labels' => [
         'image/jpeg' => 'JPEG',
         'image/png' => 'PNG',
         'image/gif' => 'GIF',

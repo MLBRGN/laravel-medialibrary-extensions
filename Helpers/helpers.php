@@ -66,9 +66,9 @@ if (! function_exists('extractYouTubeId')) {
 if (! function_exists('getHumanMimeTypeLabel')) {
     function getHumanMimeTypeLabel(string $mimeType): string {
 
-        $mimeTypeLabels = config('media-library-extensions.mimeTypeLabels');
-        if (array_key_exists($mimeType, $mimeTypeLabels)) {
-            return $mimeTypeLabels[$mimeType];
+        $mimetypeLabels = config('media-library-extensions.mimetype_labels');
+        if (array_key_exists($mimeType, $mimetypeLabels)) {
+            return $mimetypeLabels[$mimeType];
         }
         return $mimeType;
     }
