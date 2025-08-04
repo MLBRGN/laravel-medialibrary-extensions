@@ -12,8 +12,6 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// TODO Other name / better name
-// TODO should also handle temporary media attachment to model using boot method
 trait InteractsWithMediaExtended
 {
     use InteractsWithMedia;
@@ -58,7 +56,6 @@ trait InteractsWithMediaExtended
     }
 
     protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null, $extraProperties = []): void
-//    protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null): void
     {
         try {
             $media = $model
@@ -157,5 +154,12 @@ trait InteractsWithMediaExtended
     protected function addResponsive3x2Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
     {
         $this->addResponsiveAspectRatioConversion($media, $collections, 3 / 2, '3x2', $fit);
+    }
+
+    protected function addYouTubeCollection($name): void
+    {
+        $this
+            ->addMediaCollection($name)
+            ->singleFile();
     }
 }
