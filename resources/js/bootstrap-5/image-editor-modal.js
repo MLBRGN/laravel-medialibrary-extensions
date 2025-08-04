@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modals.forEach((modal) => {
 
+        // NOT WORKING
+        modal.addEventListener('imageEditorReady', (e) => {
+            console.log('Image editor editor ready!!!!!!');
+        });
+
         // fires immediately when the show method is called, don't wait for animations
         modal.addEventListener('show.bs.modal', function () {
             console.log('Image editor shown');
@@ -27,6 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // // Optional: You can also set any other needed attributes or properties here
             placeholder.appendChild(editor);
+
+            // ✅ Add event listener BEFORE appending
+            document.addEventListener('imageEditorReady', (e) => {
+                console.log('Image editor editor ready!!!!!!');
+            });
+
+            editor.addEventListener('imageEditorReady', (e) => {
+                console.log('Image editor editor ready!!!!!!');
+            });
             //
             // imageEditorInitialized = true;
         });
@@ -37,11 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // const placeholder = modalElement.querySelector('#image-editor-placeholder');
             // placeholder.innerHTML = '';
             // imageEditorInitialized = false;
-        });
-
-        // NOT WORKING
-        modal.addEventListener('imageEditorReady', (e) => {
-          console.log('Image editor editor ready!!!!!!');
         });
 
         modal.addEventListener('onImageUpdated', (e) => {
