@@ -15,7 +15,7 @@ it('returns error when no media in collection', function () {
 //    $media1 = TemporaryUpload::create([
 //        'disk' => 'media',
 //        'path' => 'uploads/skip1.jpg',
-//        'original_filename' => 'skip.jpg',
+//        'file_name' => 'skip.jpg',
 //        'collection_name' => 'test',
 //        'extra_properties' => [], // no collection info
 //        'session_id' => session()->getId(),
@@ -23,7 +23,7 @@ it('returns error when no media in collection', function () {
 //    $media2 = TemporaryUpload::create([
 //        'disk' => 'media',
 //        'path' => 'uploads/skip2.jpg',
-//        'original_filename' => 'skip.jpg',
+//        'file_name' => 'skip.jpg',
 //        'collection_name' => 'test',
 //        'extra_properties' => [], // no collection info
 //        'session_id' => session()->getId(),
@@ -69,7 +69,7 @@ it('can set as first in collection', function () {
     $media1 = TemporaryUpload::create([
         'disk' => 'media',
         'path' => 'uploads/skip1.jpg',
-        'original_filename' => 'skip.jpg',
+        'file_name' => 'skip.jpg',
         'collection_name' => $targetCollection,
         'extra_properties' => [], // no collection info
         'session_id' => session()->getId(),
@@ -78,7 +78,7 @@ it('can set as first in collection', function () {
     $media2 = TemporaryUpload::create([
         'disk' => 'media',
         'path' => 'uploads/skip2.jpg',
-        'original_filename' => 'skip.jpg',
+        'file_name' => 'skip.jpg',
         'collection_name' => $targetCollection,
         'extra_properties' => [], // no collection info
         'session_id' => session()->getId(),

@@ -6,13 +6,14 @@ document.addEventListener('imageEditorReady', (e) => {
     const imageEditor = e.detail.instance;
 
     const initiatorId = imageEditor.getAttribute('data-initiator-id');
-    const name = imageEditor.getAttribute('data-medium-name');
+    const name = imageEditor.getAttribute('data-medium-display-name');
     const path = imageEditor.getAttribute('data-medium-path');
 
+    console.log('Image editor setImage:', name, path );
     imageEditor.setImage(name, path, initiatorId);
 
     imageEditor.setConfiguration({
-        debug: false,// Image disapears when debug is true when selecting
+        debug: false,// Image disappears when debug is true when selecting
         rotateDegreesStep: 90,
         freeSelectDisabled: true,
         freeRotateDisabled: true,
@@ -72,6 +73,7 @@ const updateMedia = (detail) => {
     console.log('saveUpdatedMediumRoute', saveUpdatedMediumRoute);
 
     const file = detail.file;
+    console.log('file', file);
     const formData = new FormData();
     formData.append('initiator_id', config.initiator_id);
     formData.append('model_type', config.model_type);

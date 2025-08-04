@@ -46,9 +46,20 @@ trait InteractsWithMediaExtended
                     ])
                     ->toArray();;
 
-                self::safeAddMedia($model, $temporaryUpload->path, $temporaryUpload->disk, $temporaryUpload->original_filename, $temporaryUpload->collection_name, $temporaryUpload->order_column, $extraProperties);
+                self::safeAddMedia(
+                    $model,
+                    $temporaryUpload->path,
+                    $temporaryUpload->disk,
+                    $temporaryUpload->getNameWithExtension(),
+                    $temporaryUpload->collection_name,
+                    $temporaryUpload->order_column,
+                    $extraProperties
+                );
 
+                // remove the file
                 Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
+
+                // remove record from the database
                 $temporaryUpload->delete();
             }
 

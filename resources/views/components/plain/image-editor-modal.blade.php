@@ -31,7 +31,7 @@
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
                 <image-editor 
                     id="imageEditor"
-                    data-medium-name="{{ $medium->name }}"
+                    data-medium-display-name="{{ media_display_name($medium) }}"
                     data-medium-path="{{ $medium->getFullUrl() }}"
                 />
             </div>

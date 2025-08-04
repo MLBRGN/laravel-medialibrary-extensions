@@ -43,6 +43,7 @@ class StoreUpdatedMediumAction
         //            }
 
         if (! $temporaryUpload) {
+
             abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
             $model = $this->mediaService->resolveModel($modelType, $modelId);
@@ -77,7 +78,7 @@ class StoreUpdatedMediumAction
             $upload = new TemporaryUpload([
                 'disk' => $disk,
                 'path' => "{$directory}/{$filename}",
-                'original_filename' => $originalName,
+                'file_name' => $originalName,
                 'collection_name' => $collection,
                 'mime_type' => $mimetype,
                 'user_id' => $userId,

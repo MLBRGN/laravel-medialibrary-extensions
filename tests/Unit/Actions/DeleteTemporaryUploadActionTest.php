@@ -11,7 +11,7 @@ it('deletes the temporary upload and returns a JSON response when request expect
     $temporaryUpload =TemporaryUpload::create([
         'disk' => 'media',
         'path' => 'uploads/temp.jpg',
-        'original_filename' => 'temp.jpg',
+        'file_name' => 'temp.jpg',
         'collection_name' => 'test',
         'extra_properties' => ['image_collection' => 'images'],
         'session_id' => session()->getId(),
@@ -41,7 +41,7 @@ it('deletes the temporary upload and returns a redirect response with flash data
     $temporaryUpload = TemporaryUpload::create([
         'disk' => 'media',
         'path' => 'uploads/temp.jpg',
-        'original_filename' => 'temp.jpg',
+        'file_name' => 'temp.jpg',
         'collection_name' => 'test',
         'extra_properties' => ['image_collection' => 'images'],
         'session_id' => session()->getId(),

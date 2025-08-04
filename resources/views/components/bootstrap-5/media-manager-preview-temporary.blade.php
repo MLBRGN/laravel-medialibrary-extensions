@@ -43,7 +43,11 @@
 {{--                    data-bs-target="#{{$id}}-modal"--}}
                     class="media-manager-preview-item-container"
                 >
-                    <img src="{{ $medium->getFullUrl() }}" class="media-manager-image-preview mle-cursor-zoom-in" alt="{{ $medium->original_filename }}"/>
+                    <img 
+                        src="{{ $medium->getFullUrl() }}" 
+                        class="media-manager-image-preview mle-cursor-zoom-in" 
+                        alt="{{ $medium->name }}"
+                    />
                   
                 </div>
                 <x-mle-image-editor-modal 

@@ -78,7 +78,8 @@ class StoreSingleTemporaryAction
         $upload = new TemporaryUpload([
             'disk' => $disk,
             'path' => "{$directory}/{$filename}",
-            'original_filename' => $originalName,
+            'name' => $safeFilename,
+            'file_name' => $originalName,
             'collection_name' => $collection,
             'mime_type' => $mimetype,
             'user_id' => $userId,

@@ -16,7 +16,8 @@ class TemporaryUpload extends Model
     protected $fillable = [
         'disk',
         'path',
-        'original_filename',
+        'name',
+        'file_name',
         'collection_name',
         'mime_type',
         'session_id',
@@ -30,7 +31,7 @@ class TemporaryUpload extends Model
     ];
 
     // used when serializing
-    protected $appends = ['url', 'name'];
+    protected $appends = ['url'];
 
     public static function isAvailable(): bool
     {
@@ -59,10 +60,10 @@ class TemporaryUpload extends Model
             ->get();
     }
 
-    public function getNameAttribute(): string
-    {
-        return $this->original_filename;
-    }
+//    public function getNameAttribute(): string
+//    {
+//        return $this->file_name;
+//    }
 
     public function getUrlAttribute(): string
     {
@@ -103,5 +104,10 @@ class TemporaryUpload extends Model
     public function getExtraProperty(string $key, mixed $default = null): mixed
     {
         return $this->extra_properties[$key] ?? $default;
+    }
+
+    public function getNameWithExtension(): string
+    {
+        return $this->name . '.' . pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 }

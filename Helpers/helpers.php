@@ -7,6 +7,9 @@
 //    }
 // }
 
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 if (! function_exists('mle_package_asset')) {
     function mle_package_asset(string $path): string
     {
@@ -88,5 +91,17 @@ if (! function_exists('sanitize_filename')) {
     function sanitizeFilename(string $name): string
     {
         return Str::slug($name, '_'); // converts to lowercase, replaces spaces/special chars with underscore
+    }
+}
+
+// used to get the "display" file name of the medium, this may differ from the
+// file name of the stored medium. I want the display name with file extension
+// that is what this function provides
+if (! function_exists('media_display_name')) {
+    function media_display_name(Media|TemporaryUpload $media): string
+    {
+        $extension = pathinfo($media->file_name, PATHINFO_EXTENSION);
+
+        return "{$media->name}.{$extension}";
     }
 }

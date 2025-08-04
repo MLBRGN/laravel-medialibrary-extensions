@@ -17,7 +17,7 @@ it('attaches temporary media on model creation', function () {
     $upload = TemporaryUpload::create([
         'disk' => 'media',
         'path' => 'uploads/temp.jpg',
-        'original_filename' => 'temp.jpg',
+        'file_name' => 'temp.jpg',
         'collection_name' => 'test',
         'extra_properties' => ['image_collection' => 'images'],
         'session_id' => session()->getId(),
@@ -39,7 +39,7 @@ it('skips attachment if no collection is defined', function () {
     TemporaryUpload::create([
         'disk' => 'media',
         'path' => 'uploads/skip.jpg',
-        'original_filename' => 'skip.jpg',
+        'file_name' => 'skip.jpg',
         'collection_name' => 'test',
         'extra_properties' => [], // no collection info
         'session_id' => session()->getId(),
