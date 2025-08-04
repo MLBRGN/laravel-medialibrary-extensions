@@ -46,7 +46,16 @@
                     <img src="{{ $medium->getFullUrl() }}" class="media-manager-image-preview mle-cursor-zoom-in" alt="{{ $medium->original_filename }}"/>
                   
                 </div>
-                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model-or-class-name="$modelType"/>
+                <x-mle-image-editor-modal
+                    title="TODO"
+                    :initiator-id="$id"
+                    id="{{ $id }}" 
+                    :medium="$medium" 
+                    :model-or-class-name="$modelType"
+                    :image-collection="$imageCollection"
+                    :document-collection="$documentCollection"
+                    :youtube-collection="$youtubeCollection"
+                />
             @else
                 no suitable type
             @endif

@@ -15,7 +15,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
-class SaveUpdatedMediumAction
+class StoreUpdatedMediumAction
 {
     public function __construct(
         protected MediaService $mediaService

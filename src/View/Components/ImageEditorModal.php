@@ -31,6 +31,9 @@ class ImageEditorModal extends BaseComponent
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public ?string $frontendTheme = null,
+        string $imageCollection = '',
+        string $documentCollection = '',
+        string $youtubeCollection = '',
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -67,6 +70,9 @@ class ImageEditorModal extends BaseComponent
             'csrf_token' => csrf_token(),
             'save_updated_medium_route' => $this->saveUpdatedMediumRoute,
             'temporary_upload' => $this->temporaryUpload,
+            'image_collection' => $imageCollection,
+            'document_collection' => $documentCollection,
+            'youtube_collection' => $youtubeCollection,
         ];
     }
 

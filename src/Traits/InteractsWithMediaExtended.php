@@ -35,35 +35,36 @@ trait InteractsWithMediaExtended
                 return;
             }
 
-            $uploads = TemporaryUpload::where('session_id', session()->getId())->get();
+            $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
 
-            foreach ($uploads as $upload) {
+            foreach ($temporaryUploads as $temporaryUpload) {
 
-                $imageCollection = $upload->extra_properties['image_collection'] ?? null;
-                $documentCollection = $upload->extra_properties['document_collection'] ?? null;
+                // filter out unwanted extra properties
+                $extraProperties = collect($temporaryUpload->extra_properties)
+                    ->except([
+                        'image_collection',
+                        'document_collection',
+                        'youtube_collection',
+                    ])
+                    ->toArray();;
 
-                if ($imageCollection) {
-                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $imageCollection, $upload->order_column);
-                } elseif ($documentCollection) {
-                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, $documentCollection);
-                } else {
-                    throw new Exception('No image or document collection provided');
-                    //                    self::safeAddMedia($model, $upload->path, $upload->disk, $upload->original_filename, 'default');
-                }
+                self::safeAddMedia($model, $temporaryUpload->path, $temporaryUpload->disk, $temporaryUpload->original_filename, $temporaryUpload->collection_name, $temporaryUpload->order_column, $extraProperties);
 
-                Storage::disk($upload->disk)->delete($upload->path);
-                $upload->delete();
+                Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
+                $temporaryUpload->delete();
             }
 
         });
     }
 
-    protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null): void
+    protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null, $extraProperties = []): void
+//    protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null): void
     {
         try {
             $media = $model
                 ->addMediaFromDisk($path, $disk)
                 ->preservingOriginal()
+                ->withCustomProperties($extraProperties)
                 ->usingFileName($filename)
                 ->toMediaCollection($collection);
 

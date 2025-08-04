@@ -52,7 +52,16 @@
                         draggable="false"
                     />
                 </div>
-                <x-mle-image-editor-modal id="{{ $id }}" :medium="$medium" :model-or-class-name="$model"/>
+                <x-mle-image-editor-modal
+                    title="TODO"
+                    :initiator-id="$id"
+                    id="{{ $id }}" 
+                    :medium="$medium" 
+                    :model-or-class-name="$model"
+                    :image-collection="$imageCollection"
+                    :document-collection="$documentCollection"
+                    :youtube-collection="$youtubeCollection"
+                />
             @else
                 no suitable type
             @endif

@@ -26,17 +26,6 @@ document.addEventListener('imageEditorReady', (e) => {
 });
 
 EventBus.register('onImageSave', (e) => {
-
-    const modal = document.getElementById(e.detail.id);
-    console.log('modal', modal);
-    // updateMedia(e.detail)
-    console.log('dispatching', e.detail)
-    modal.dispatchEvent(new CustomEvent('onImageUpdated', {
-        bubbles: true,
-        composed: true,
-        detail: e.detail
-    }));
-    console.log('onImageSave using event bus', e.detail);
     updateMedia(e.detail);
 });
 
@@ -50,8 +39,12 @@ EventBus.register('onCloseImageEditor', (e) => {
 
 const updateMedia = (detail) => {
 
-    console.log('updateMedia', detail);
     const modal = document.getElementById(detail.id);
+    console.log('modal', modal);
+    // updateMedia(e.detail)
+    console.log('dispatching', detail)
+    console.log('onImageSave using event bus', detail);
+    console.log('updateMedia', detail);
     const configInput = modal.querySelector('.image-editor-modal-config');
     if (!configInput) return;
 
@@ -85,6 +78,9 @@ const updateMedia = (detail) => {
     formData.append('model_id', config.model_id ?? '');
     formData.append('medium_id', config.medium_id);
     formData.append('collection', config.collection);
+    formData.append('image_collection', config.image_collection);
+    formData.append('document_collection', config.document_collection);
+    formData.append('youtube_collection', config.youtube_collection);
     formData.append('temporary_upload', config.temporary_upload);
     formData.append('file', file); // 'media' must match Laravel's expected field
 
@@ -107,20 +103,28 @@ const updateMedia = (detail) => {
 
                 // showStatusMessage(formContainer, data);
 
-                const initiator = document.querySelector('#'+config.initiator_id);
-                console.log('initiator', initiator);
-                initiator.dispatchEvent(new CustomEvent('refreshRequest', {
-                    bubbles: true,
-                    composed: true,
-                    detail: []
-                }));
+
+
             })
             .then(data => {
                 console.log('Upload successful:', data);
             })
             .catch(error => {
                 console.error('Upload failed:', error);
-            });
+            }).finally(() => {
+                modal.dispatchEvent(new CustomEvent('onImageUpdated', {
+                    bubbles: true,
+                    composed: true,
+                    detail: detail
+                }));
+            const initiator = document.querySelector('#'+config.initiator_id);
+            console.log('initiator', initiator);
+            initiator.dispatchEvent(new CustomEvent('refreshRequest', {
+                bubbles: true,
+                composed: true,
+                detail: []
+            }));
+        });
 
 }
 

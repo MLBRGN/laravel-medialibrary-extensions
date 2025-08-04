@@ -27,6 +27,9 @@ class SaveUpdatedMediumRequest extends FormRequest
             'medium_id' => 'required|string',
             'collection' => 'required|string',
             'file' => 'required|file',
+            'image_collection' => 'required|string',
+            'document_collection' => 'required|string',
+            'youtube_collection' => 'nullable|string',
         ];
     }
 }

@@ -52,6 +52,9 @@
                     :initiator-id="$id"
                     :medium="$medium" 
                     :model-or-class-name="$modelType"
+                    :image-collection="$imageCollection"
+                    :document-collection="$documentCollection"
+                    :youtube-collection="$youtubeCollection"
                 />
             @else
                 no suitable type

@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\SaveUpdatedMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
@@ -66,12 +66,12 @@ class MediaManagerController extends Controller
         return $setTemporaryUploadAsFirstAction->execute($request);
     }
 
-    public function saveUpdatedMedium(SaveUpdatedMediumRequest $request, SaveUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
+    public function saveUpdatedMedium(SaveUpdatedMediumRequest $request, StoreUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
     {
         return $saveUpdatedMediumAction->execute($request);
     }
 
-    public function saveUpdatedTemporaryUpload(SaveUpdatedMediumRequest $request, SaveUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
+    public function saveUpdatedTemporaryUpload(SaveUpdatedMediumRequest $request, StoreUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
     {
         return $saveUpdatedMediumAction->execute($request);
     }
