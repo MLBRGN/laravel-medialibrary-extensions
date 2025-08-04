@@ -38,8 +38,8 @@
     "vite": "^6.2.1"
   },
   "dependencies": {
-    "@evertjanmlbrgn/imageeditor": "^1.0.34",
-    "@evertjanmlbrgn/imageshared": "^1.0.48",
+    "@evertjanmlbrgn/imageeditor": "^1.0.93",
+    "@evertjanmlbrgn/imageshared": "^1.0.52",
     "@justinribeiro/lite-youtube": "^1.8.2",
     "bootstrap": "^5.3.3"
   }

@@ -12,6 +12,9 @@
     aria-labelledby="{{ $id }}-title"
     aria-hidden="true"
     data-modal
+    data-image-editor-modal
+    data-medium-display-name="{{ media_display_name($medium) }}"
+    data-medium-path="{{ $medium->getFullUrl() }}"
 >
     <div class="image-editor-modal-dialog">
         <div class="image-editor-modal-content">
@@ -29,11 +32,14 @@
                     />
                 </button>
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
-                <image-editor 
-                    id="imageEditor"
-                    data-medium-display-name="{{ media_display_name($medium) }}"
-                    data-medium-path="{{ $medium->getFullUrl() }}"
-                />
+                {{-- instantiated when model opens, just in time --}}
+                <div id="image-editor-placeholder"></div>
+{{--                <image-editor --}}
+{{--                    id="imageEditor"--}}
+{{--                    data-initiator-id="{{ $id }}"--}}
+{{--                    data-medium-display-name="{{ media_display_name($medium) }}"--}}
+{{--                    data-medium-path="{{ $medium->getFullUrl() }}"--}}
+{{--                />--}}
             </div>
         </div>
     </div>

@@ -11,6 +11,10 @@
     role="dialog"
     aria-labelledby="{{ $id }}-title"
     aria-hidden="true"
+    data-modal
+    data-image-editor-modal
+    data-medium-display-name="{{ media_display_name($medium) }}"
+    data-medium-path="{{ $medium->getFullUrl() }}"
 >
     <div class="image-editor-modal-dialog modal-dialog">
         <div class="image-editor-modal-content modal-content justify-content-center">
@@ -28,12 +32,14 @@
                     />
                 </button>
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
-                <image-editor 
-                    id="{{ $id }}-image-editor"
-                    data-initiator-id="{{ $id }}"
-                    data-medium-display-name="{{ media_display_name($medium) }}"
-                    data-medium-path="{{ $medium->getFullUrl() }}"
-                />
+                {{-- instantiated when model opens, just in time --}}
+                <div id="image-editor-placeholder"></div>
+{{--                <image-editor --}}
+{{--                    id="{{ $id }}-image-editor"--}}
+{{--                    data-initiator-id="{{ $id }}"--}}
+{{--                    data-medium-display-name="{{ media_display_name($medium) }}"--}}
+{{--                    data-medium-path="{{ $medium->getFullUrl() }}"--}}
+{{--                />--}}
             </div>
         </div>
     </div>

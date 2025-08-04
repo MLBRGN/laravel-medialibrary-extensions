@@ -49,21 +49,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Temporary uploads
+    | Temporary Uploads
     |--------------------------------------------------------------------------
     |
-    | When no model exists yet, in case of a "create" form, temporary
-    | files are used because the files cannot be directly coupled to the model for
-    | it doesn't exist yet. Configure the disk and path to use.
-    | NOTE: The disk and path must be publicly accessible for preview images to show
-    | during temporary uploads
+    | During "create" forms, the model does not yet exist, so uploaded media
+    | files cannot be immediately associated with it. Instead, they are stored
+    | temporarily until the model is created and the media can be attached.
+    |
+    | You can configure the storage disk and path used for these temporary files.
+    |
+    | IMPORTANT: The configured disk and path must be publicly accessible if you
+    | want to display preview images or file thumbnails during the upload process.
+    | Typically, this means using the `public` disk and ensuring a valid symlink
+    | (via `php artisan storage:link`) exists from public/storage.
     |
     */
 
-    'temporary_upload_disk' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_DISK', 'local'),
+    'temporary_upload_disk' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_DISK', 'public'),
     'temporary_upload_path' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_PATH', 'temp/media-library-extensions'),
-
-    // TODO Do i need user check for temporary uploads?
 
     /*
     |--------------------------------------------------------------------------
