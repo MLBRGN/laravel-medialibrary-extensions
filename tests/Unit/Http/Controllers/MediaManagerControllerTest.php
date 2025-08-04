@@ -21,7 +21,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('delegates store single', function () {

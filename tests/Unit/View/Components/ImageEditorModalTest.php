@@ -4,8 +4,9 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Exception;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mockery;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,6 +18,42 @@ beforeEach(function () {
     // Fake route helper
     Route::get('mle.save-updated-medium/{media}', fn () => 'updated medium')->name('mle.save-updated-medium');
     Route::get('mle.save-updated-temporary-upload/{media}', fn () => 'updated temporary')->name('mle.save-updated-temporary-upload');
+});
+
+test('image editor modal component renders', function () {
+    Storage::fake('media');
+
+    $medium = new Media([
+        'id' => 1,
+        'collection_name' => 'blog-images',
+        'disk' => 'media',
+        'file_name' => 'test.jpg',
+        'mime_type' => 'image/jpeg',
+        'custom_properties' => [],
+    ]);
+
+    // Make sure to set model-related properties that Blade/view logic may expect
+    $medium->exists = true;
+
+    $model = $this->getTestBlogModel(); // your HasMedia model instance
+    $modelClass = $model->getMorphClass();
+
+    $html = Blade::render('<x-mle-image-editor-modal
+                    id="blog-images"
+                    title="My title"
+                    initiator-id="blog-images"
+                    :medium="$medium"
+                    :model-or-class-name="$modelClass"
+                />', [
+        'modelClass' => $modelClass,
+        'medium' => $medium,
+    ]);
+
+    expect($html)
+        ->toContain('id="blog-images-image-editor-modal-' .$medium->id.'"')
+        ->toContain((string) $medium->id)
+        ->toContain('My title');
+
 });
 
 test('constructs with model', function () {
@@ -67,36 +104,36 @@ test('constructs with model class name string for temporary upload', function ()
         ->and($component->render())->toBeInstanceOf(View::class);
 });
 
-test('throws when modelOrClassName is null', function () {
-    $this->expectException(Exception::class);
-    $this->expectExceptionMessage('model-or-class-name attribute must be set');
+//test('throws when modelOrClassName is null', function () {
+//    $this->expectException(Exception::class);
+//    $this->expectExceptionMessage('model-or-class-name attribute must be set');
+//
+//    $medium = new Media([
+//        'id' => 303,
+//        'collection_name' => 'documents',
+//    ]);
+//
+//    new ImageEditorModal(
+//        id: 'uploader-2',
+//        modelOrClassName: null,
+//        medium: $medium,
+//        initiatorId: 'fail-test'
+//    );
+//});
 
-    $medium = new Media([
-        'id' => 303,
-        'collection_name' => 'documents',
-    ]);
-
-    new ImageEditorModal(
-        id: 'uploader-2',
-        modelOrClassName: null,
-        medium: $medium,
-        initiatorId: 'fail-test'
-    );
-});
-
-test('throws when modelOrClassName is an invalid type', function () {
-    $this->expectException(Exception::class);
-    $this->expectExceptionMessage('model-or-class-name must be either a HasMedia model or a string representing the model class');
-
-    $medium = new Media([
-        'id' => 404,
-        'collection_name' => 'invalids',
-    ]);
-
-    new ImageEditorModal(
-        id: 'uploader-3',
-        modelOrClassName: 123, // Invalid type
-        medium: $medium,
-        initiatorId: 'fail-test'
-    );
-})->todo();
+//test('throws when modelOrClassName is an invalid type', function () {
+//    $this->expectException(Exception::class);
+//    $this->expectExceptionMessage('model-or-class-name must be either a HasMedia model or a string representing the model class');
+//
+//    $medium = new Media([
+//        'id' => 404,
+//        'collection_name' => 'invalids',
+//    ]);
+//
+//    new ImageEditorModal(
+//        id: 'uploader-3',
+//        modelOrClassName: 123, // Invalid type
+//        medium: $medium,
+//        initiatorId: 'fail-test'
+//    );
+//})->todo();

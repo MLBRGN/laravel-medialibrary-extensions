@@ -3,7 +3,6 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mockery;
 use Spatie\MediaLibrary\HasMedia;

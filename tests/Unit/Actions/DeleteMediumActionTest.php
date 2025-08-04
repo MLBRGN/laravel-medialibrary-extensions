@@ -7,10 +7,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mockery;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Support\Facades\Lang;
 use function PHPUnit\Framework\assertArrayIsEqualToArrayOnlyConsideringListOfKeys;
 
 beforeEach(function () {

@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 beforeEach(function () {
     Storage::fake('media');

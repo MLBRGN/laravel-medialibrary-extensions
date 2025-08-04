@@ -2,9 +2,40 @@
 
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as ViewInstance;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+it('image responsive component renders', function () {
+    $media = Mockery::mock(Media::class);
+    $media->shouldReceive('hasGeneratedConversion')
+        ->with('thumb')
+        ->andReturn(true);
+
+    $media->shouldReceive('getUrl')
+        ->with('thumb')
+        ->andReturn('/media/thumb.jpg');
+
+    $media->shouldReceive('getSrcset')
+        ->with('thumb')
+        ->andReturn('/media/thumb-1x.jpg 1x, /media/thumb-2x.jpg 2x');
+
+    $html = Blade::render('<x-mle-image-responsive
+        :medium="$medium"
+        conversion="thumb"
+        :conversions="[\'thumb\', \'web\']"
+        sizes="50vw"
+        :lazy="false"
+        alt="Sample image"
+    />', [
+        'medium' => $media,
+    ]);
+
+    expect($html)
+        ->toContain('src="/media/thumb.jpg"')
+        ->toContain('srcset="/media/thumb-1x.jpg 1x, /media/thumb-2x.jpg 2x"')
+        ->toContain('alt="Sample image"')
+        ->toContain('sizes="50vw"');
+});
 
 it('returns empty conversion if no media is provided', function () {
     $component = new ImageResponsive(null);

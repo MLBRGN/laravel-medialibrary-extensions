@@ -1,7 +1,6 @@
 <?php
 
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 beforeEach(function () {
     $this->mediaService = Mockery::mock(Mlbrgn\MediaLibraryExtensions\Services\MediaService::class);

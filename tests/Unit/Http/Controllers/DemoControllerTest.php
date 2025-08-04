@@ -2,7 +2,6 @@
 
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 it('sets config and returns view with model for demoPlain', function () {
     $controller = new DemoController;

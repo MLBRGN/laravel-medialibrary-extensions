@@ -4,7 +4,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Mockery;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

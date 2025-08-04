@@ -3,10 +3,10 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Exception;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 
 beforeEach(function () {
@@ -17,6 +17,34 @@ beforeEach(function () {
     Config::set('media-library-extensions.upload_field_name_single', 'media_single');
     Config::set('media-library-extensions.upload_field_name_multiple', 'media_multiple');
 });
+
+test('media manager component renders', function () {
+
+    $model = $this->getTestBlogModel();
+
+    $html = Blade::render('<x-mle-media-manager
+        :model-or-class-name="$model"
+        image-collection="blog-images"
+        youtube-collection="blog-youtube"
+        document-collection="blog-documents"
+        upload-enabled
+        destroy-enabled
+        set-as-first-enabled
+        show-media-url
+        show-order
+        id="blog"
+        multiple
+    />', [
+        'model' => $model,
+    ]);
+
+//    dd($html);
+    expect($html)
+        ->toContain('blog-media-manager-multiple')
+        ->toContain('Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog')
+        ->toContain('media_multiple')
+        ->toContain('csrf_token');
+})->only();
 
 it('initializes without temporary upload when a eloquent model is provided', function () {
     config()->set('media-library-extensions.demo_pages_enabled', false);

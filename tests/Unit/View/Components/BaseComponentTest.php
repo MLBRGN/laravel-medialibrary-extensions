@@ -4,7 +4,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 // Concrete subclass for testing the abstract BaseComponent

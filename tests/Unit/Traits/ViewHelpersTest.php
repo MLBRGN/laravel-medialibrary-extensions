@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as ViewInstance;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\Traits\ViewHelpers;
 
 class ViewHelpersTestDummy

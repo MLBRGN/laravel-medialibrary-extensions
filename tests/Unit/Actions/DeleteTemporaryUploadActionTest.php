@@ -5,7 +5,6 @@ use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 it('deletes the temporary upload and returns a JSON response when request expects JSON', function () {
     $temporaryUpload =TemporaryUpload::create([

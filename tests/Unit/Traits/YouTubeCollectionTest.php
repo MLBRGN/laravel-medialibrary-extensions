@@ -1,7 +1,6 @@
 <?php
 
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 it('adds a YouTube media collection as single file', function () {
     $model = Blog::create(['title' => 'My Blog Title']);
