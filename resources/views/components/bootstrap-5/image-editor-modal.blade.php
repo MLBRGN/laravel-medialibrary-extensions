@@ -35,12 +35,12 @@
                 <div id="image-editor-placeholder" class="image-editor"></div>
 
 {{--                old way--}}
-                <image-editor 
-                    id="{{ $id }}-image-editor"
-                    data-initiator-id="{{ $id }}"
-                    data-medium-display-name="{{ media_display_name($medium) }}"
-                    data-medium-path="{{ $medium->getFullUrl() }}"
-                />
+{{--                <image-editor --}}
+{{--                    id="{{ $id }}-image-editor"--}}
+{{--                    data-initiator-id="{{ $id }}"--}}
+{{--                    data-medium-display-name="{{ media_display_name($medium) }}"--}}
+{{--                    data-medium-path="{{ $medium->getFullUrl() }}"--}}
+{{--                />--}}
 
             </div>
         </div>
