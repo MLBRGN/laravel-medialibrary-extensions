@@ -9,6 +9,9 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 
 document.addEventListener('onCloseImageEditor', (e) => {
     console.log('onCloseImageEditor:', e.detail);
+    const modal = e.detail.imageEditorInstance.closest('[data-image-editor-modal]');
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
 });
 
 const updateMedia = (detail) => {
