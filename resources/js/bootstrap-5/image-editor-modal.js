@@ -5,8 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modals = document.querySelectorAll('[data-image-editor-modal]');
 
     const initializeImageEditor  = function (detail) {
+        console.log('initializeImageEditor:', detail);
         // You now have full access to the image editor instance
-        const imageEditor = detail.instance;
+        const imageEditor = detail.imageEditorInstance;
 
         const initiatorId = imageEditor.getAttribute('data-initiator-id');
         const name = imageEditor.getAttribute('data-medium-display-name');
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             editor.setAttribute('data-initiator-id', initiatorId)
 
             editor.addEventListener('imageEditorReady', (e) => {
-                // console.log('Image editor is ready:', detail);
+                console.log('Image editor is ready:', e);
                 initializeImageEditor(e.detail);
             });
 
