@@ -3,25 +3,22 @@
 // });
 
 document.addEventListener('onImageSave', (e) => {
-    updateMedia(e.detail);
+    console.log('onImageSave:', e.detail, e);
+    // updateMedia(e.detail);
 });
 
 document.addEventListener('onCanvasStatusMessage', (e) => {
-    console.log('onCanvasStatusMessage', e.detail);
+    console.log('onCanvasStatusMessage:', e.detail);
 });
 
 document.addEventListener('onCloseImageEditor', (e) => {
-    console.log('onCloseImageEditor', e.detail);
+    console.log('onCloseImageEditor:', e.detail);
 });
 
 const updateMedia = (detail) => {
 
+    console.log('updateMedia', detail);
     const modal = document.getElementById(detail.id);
-    // console.log('modal', modal);
-    // updateMedia(e.detail)
-    // console.log('dispatching', detail)
-    // console.log('onImageSave using event bus', detail);
-    // console.log('updateMedia', detail);
     const configInput = modal.querySelector('.image-editor-modal-config');
     if (!configInput) return;
 
@@ -32,7 +29,6 @@ const updateMedia = (detail) => {
     } catch (e) {
         console.error('Invalid JSON config');
     }
-    // console.log('config', config);
 
     const {
         model_type: modelType,
@@ -44,12 +40,7 @@ const updateMedia = (detail) => {
         temporary_upload: temporaryUpload,
     } = config;
 
-    // console.log('temporaryUpload', temporaryUpload);
-    // console.log('modelType', modelType);
-    // console.log('saveUpdatedMediumRoute', saveUpdatedMediumRoute);
-
     const file = detail.file;
-    // console.log('file', file);
     const formData = new FormData();
     formData.append('initiator_id', config.initiator_id);
     formData.append('model_type', config.model_type);
@@ -62,51 +53,54 @@ const updateMedia = (detail) => {
     formData.append('temporary_upload', config.temporary_upload);
     formData.append('file', file); // 'media' must match Laravel's expected field
 
-    // console.log('saveUpdatedMediaRoute', saveUpdatedMediumRoute);
-        fetch(saveUpdatedMediumRoute, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: formData
+    fetch(saveUpdatedMediumRoute, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+        .then(async response => {
+            const data = await response.json();
+
+            if (!response.ok) {
+                handleAjaxError(response, data);
+                return;
+            }
+
+            return data;
+            // showStatusMessage(formContainer, data);
         })
-            .then(async response => {
-                const data = await response.json();
+        .then(data => {
+            console.log('Upload successful:', data);
+        })
+        .catch(error => {
+            console.error('Upload failed:', error);
+        }).finally(() => {
 
-                if (!response.ok) {
-                    handleAjaxError(response, data);
-                    return;
-                }
+        modal.dispatchEvent(new CustomEvent('onImageUpdated', {
+            bubbles: true,
+            composed: true,
+            detail: detail
+        }));
 
-                return data;
-                // showStatusMessage(formContainer, data);
-            })
-            .then(data => {
-                console.log('Upload successful:', data);
-            })
-            .catch(error => {
-                console.error('Upload failed:', error);
-            }).finally(() => {
-                modal.dispatchEvent(new CustomEvent('onImageUpdated', {
-                    bubbles: true,
-                    composed: true,
-                    detail: detail
-                }));
+        console.log(modal);
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        console.log('modalInstance', modalInstance);
+        modalInstance.hide();
 
-            const initiator = document.querySelector('#'+config.initiator_id);
-            // console.log('initiator', initiator);
-            initiator.dispatchEvent(new CustomEvent('refreshRequest', {
-                bubbles: true,
-                composed: true,
-                detail: []
-            }));
-        });
-
+        // const initiator = document.querySelector('#' + config.initiator_id);
+        // // console.log('initiator', initiator);
+        // initiator.dispatchEvent(new CustomEvent('refreshRequest', {
+        //     bubbles: true,
+        //     composed: true,
+        //     detail: []
+        // }));
+    });
 }
 
-function handleAjaxError(response, data) {
-// function handleAjaxError(response, data, formContainer) {
+function handleAjaxError (response, data) {
     let errorMessage = trans('upload_failed'); // default fallback message
 
     switch (response.status) {
@@ -130,7 +124,7 @@ function handleAjaxError(response, data) {
                         // showStatusMessage(formContainer, { message: msg, type: 'error' });
                     });
                 }
-                return; // return
+                return;
             }
             errorMessage = data.message || trans('validation_failed');// default
             break;
@@ -150,6 +144,6 @@ function handleAjaxError(response, data) {
     // showStatusMessage(formContainer, { message: errorMessage, type: 'error' });
 }
 
-function trans(key) {
+function trans (key) {
     return window.mediaLibraryTranslations?.[key] || key;
 }
