@@ -1,5 +1,5 @@
 document.addEventListener('onImageSave', (e) => {
-    console.log('onImageSave:', e.detail, e);
+    // console.log('onImageSave:', e.detail, e);
     updateMedia(e.detail);
 });
 
@@ -8,7 +8,7 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 });
 
 document.addEventListener('onCloseImageEditor', (e) => {
-    console.log('onCloseImageEditor:', e.detail);
+    // console.log('onCloseImageEditor:', e.detail);
     const modal = e.detail.imageEditorInstance.closest('[data-image-editor-modal]');
     const modalInstance = bootstrap.Modal.getInstance(modal);
     modalInstance.hide();
@@ -16,7 +16,6 @@ document.addEventListener('onCloseImageEditor', (e) => {
 
 const updateMedia = (detail) => {
 
-    console.log('updateMedia', detail);
     // const imageEditorInstance = document.getElementById(detail.imageEditorInstance);
     // console.log('imageEditorInstance', imageEditorInstance);
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
