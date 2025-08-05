@@ -1,10 +1,6 @@
-// EventBus.register('onImageSave', (e) => {
-//     updateMedia(e.detail);
-// });
-
 document.addEventListener('onImageSave', (e) => {
     console.log('onImageSave:', e.detail, e);
-    // updateMedia(e.detail);
+    updateMedia(e.detail);
 });
 
 document.addEventListener('onCanvasStatusMessage', (e) => {
@@ -18,8 +14,10 @@ document.addEventListener('onCloseImageEditor', (e) => {
 const updateMedia = (detail) => {
 
     console.log('updateMedia', detail);
-    const modal = document.getElementById(detail.id);
-    const configInput = modal.querySelector('.image-editor-modal-config');
+    // const imageEditorInstance = document.getElementById(detail.imageEditorInstance);
+    // console.log('imageEditorInstance', imageEditorInstance);
+    const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
+    const configInput = modal.querySelector('[data-image-editor-modal-config]');
     if (!configInput) return;
 
     let config = {};
@@ -79,24 +77,16 @@ const updateMedia = (detail) => {
             console.error('Upload failed:', error);
         }).finally(() => {
 
-        modal.dispatchEvent(new CustomEvent('onImageUpdated', {
-            bubbles: true,
-            composed: true,
-            detail: detail
-        }));
-
-        console.log(modal);
         const modalInstance = bootstrap.Modal.getInstance(modal);
-        console.log('modalInstance', modalInstance);
         modalInstance.hide();
 
-        // const initiator = document.querySelector('#' + config.initiator_id);
-        // // console.log('initiator', initiator);
-        // initiator.dispatchEvent(new CustomEvent('refreshRequest', {
-        //     bubbles: true,
-        //     composed: true,
-        //     detail: []
-        // }));
+        const initiator = document.querySelector('#' + config.initiator_id);
+        // console.log('initiator', initiator);
+        initiator.dispatchEvent(new CustomEvent('refreshRequest', {
+            bubbles: true,
+            composed: true,
+            detail: []
+        }));
     });
 }
 

@@ -66,12 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // TODO refactor ImageEditor and add proper cleanup one day
             // imageEditorInitialized = false;
         });
-
-        modal.addEventListener('onImageUpdated', (e) => {
-            console.log('onImageUpdated', e);
-            const modalInstance = bootstrap.Modal.getInstance(modal);
-            modalInstance.hide();
-        })
     });
 
 });
