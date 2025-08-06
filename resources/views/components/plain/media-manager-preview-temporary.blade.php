@@ -47,6 +47,8 @@
                         src="{{ $medium->getFullUrl() }}" 
                         class="media-manager-image-preview mle-cursor-zoom-in" 
                         alt="{{ $medium->name }}"
+                        data-bs-target="#{{$id}}-modal-carousel"
+                        data-bs-slide-to="{{ $loop->index }}"
                     />
                   
                 </div>

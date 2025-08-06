@@ -11,7 +11,13 @@
     data-media-manager=""
     >
     <input type="hidden" class="media-manager-config" value='@json($config)' />
-    <x-mle-partial-debug :theme="$theme" :model="$model" :config="$config" :model-type="$modelType" :modelId="$modelId"/>
+    <x-mle-partial-debug 
+        :theme="$theme" 
+        :model="$model" 
+        :config="$config" 
+        :model-type="$modelType" 
+        :modelId="$modelId"
+    />
     {{ $component_start ?? '' }}
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
