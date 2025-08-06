@@ -78,6 +78,7 @@ class StoreUpdatedMediumAction
             $upload = new TemporaryUpload([
                 'disk' => $disk,
                 'path' => "{$directory}/{$filename}",
+                'name' => $safeFilename,
                 'file_name' => $originalName,
                 'collection_name' => $collection,
                 'mime_type' => $mimetype,

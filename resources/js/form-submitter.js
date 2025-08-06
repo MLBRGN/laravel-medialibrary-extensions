@@ -148,6 +148,18 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(json => {
                 previewGrid.innerHTML = json.html;
+                // Re-initialize any new modals inside the refreshed preview grid
+                // previewGrid.querySelectorAll('[data-image-editor-modal]')
+                //     .forEach(initializeImageEditorModal);
+
+                previewGrid.querySelectorAll('[data-image-editor-modal]')
+                    .forEach(modal => {
+                        console.log('dispatch initializeImageEditorModal')
+                        document.dispatchEvent(new CustomEvent('initializeImageEditorModal', {
+                            bubbles: false,
+                            detail: {modal: modal} // add config or props here if needed
+                        }));
+                    });
             })
             .catch(error => {
                 console.error('Error refreshing media manager:', error);

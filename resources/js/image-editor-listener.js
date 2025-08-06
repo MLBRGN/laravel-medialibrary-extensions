@@ -1,5 +1,5 @@
 document.addEventListener('onImageSave', (e) => {
-    // console.log('onImageSave:', e.detail, e);
+    console.log('onImageSave:', e.detail, e);
     updateMedia(e.detail);
 });
 
@@ -19,7 +19,7 @@ const updateMedia = (detail) => {
     // const imageEditorInstance = document.getElementById(detail.imageEditorInstance);
     // console.log('imageEditorInstance', imageEditorInstance);
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
-    const configInput = modal.querySelector('[data-image-editor-modal-config]');
+    const configInput = modal.querySelector('.image-editor-modal-config');
     if (!configInput) return;
 
     let config = {};

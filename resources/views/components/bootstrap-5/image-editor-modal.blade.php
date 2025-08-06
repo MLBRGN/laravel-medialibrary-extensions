@@ -30,7 +30,7 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-                <input type="hidden" class="image-editor-modal-config" value='@json($config)' data-image-editor-modal-config/>
+                <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
                 {{-- instantiated when model opens, just in time --}} 
                 <div id="image-editor-placeholder" class="image-editor"></div>
 
