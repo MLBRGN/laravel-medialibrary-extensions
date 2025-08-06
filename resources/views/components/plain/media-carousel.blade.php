@@ -1,21 +1,15 @@
 @if ($temporaryUpload)
-    @include('media-library-extensions::components.plain.media-carousel-temporary', [
+    @include('media-library-extensions::components.bootstrap-5.media-carousel-temporary', [
         'media' => $media,
-        'destroyEnabled' => $destroyEnabled,
+//        'modelType' => $modelType,
+//        'modelId' => null,
         'id' => $id,
         'theme' => $frontendTheme,
     ])
 @else
-    @include('media-library-extensions::components.plain.media-carousel-permanent', [
+    @include('media-library-extensions::components.bootstrap-5.media-carousel-permanent', [
         'media' => $media,
         'model' => $model,
-        'destroyEnabled' => $destroyEnabled,
-        'setAsFirstEnabled' => $setAsFirstEnabled,
-        'showOrder' => $showOrder,
-        'showMenu' => true,
-        'imageCollection' => $imageCollection,
-        'documentCollection' => $documentCollection,
-        'youtubeCollection' => $youtubeCollection,
         'id' => $id,
         'frontendTheme' => $frontendTheme,
     ])

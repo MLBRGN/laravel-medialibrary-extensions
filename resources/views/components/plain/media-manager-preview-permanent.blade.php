@@ -52,8 +52,9 @@
                         draggable="false"
                     />
                 </div>
+                {{-- TODO title --}}
                 <x-mle-image-editor-modal
-                    title="TODO"
+                    title=""
                     :initiator-id="$id"
                     id="{{ $id }}" 
                     :medium="$medium" 
