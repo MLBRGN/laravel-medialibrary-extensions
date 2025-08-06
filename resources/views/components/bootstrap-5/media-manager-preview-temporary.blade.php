@@ -57,7 +57,7 @@
                     title="TODO"
                     :initiator-id="$id"
                     :medium="$medium" 
-                    :model-or-class-name="$modelType"
+                    :model-or-class-name="$modelOrClassName"
                     :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
@@ -133,3 +133,11 @@
         <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
     </div>
 @endforelse
+<x-mle-media-modal
+    :id="$id"
+    :model-or-class-name="$modelOrClassName"
+    :media-collection="$imageCollection"
+    :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
+    :video-auto-play="true"
+    :frontend-theme="$theme"
+    title="Media carousel"/>

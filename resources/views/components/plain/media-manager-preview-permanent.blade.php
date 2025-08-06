@@ -57,7 +57,7 @@
                     :initiator-id="$id"
                     id="{{ $id }}" 
                     :medium="$medium" 
-                    :model-or-class-name="$model"
+                    :model-or-class-name="$modelOrClassName"
                     :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
@@ -135,7 +135,7 @@
 @endforelse
 <x-mle-media-modal
     :id="$id"
-    :model-or-class-name="$model"
+    :model-or-class-name="$modelOrClassName"
     :media-collection="$imageCollection"
     :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
     :video-auto-play="true"
