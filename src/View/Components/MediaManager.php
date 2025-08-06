@@ -75,6 +75,10 @@ class MediaManager extends BaseComponent
             ->unique()
             ->implode(',');
 
+        // Always disable "set-as-first" when multiple files disabled
+        if (!$this->multiple) {
+            $this->setAsFirstEnabled = false;
+        }
         $collections = collect();
         if ($this->model) {
             if ($imageCollection) {
