@@ -11,10 +11,15 @@ export function getCarouselController(element) {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-carousel]').forEach(carousel => {
+        console.log('carousel', carousel);
         const items = carousel.querySelectorAll('.media-carousel-item');
         const indicators = carousel.querySelectorAll('.media-carousel-indicators button');
         const prev = carousel.querySelector('[data-slide="prev"]');
         const next = carousel.querySelector('[data-slide="next"]');
+        console.log('prev', prev, 'next', next);
+        if (prev === null) {
+            console.log(carousel);
+        }
 
         const ride = carousel.getAttribute('data-carousel-ride') === 'true';
         const rideInterval = Number(carousel.getAttribute('data-carousel-ride-interval') ?? '5000');
@@ -147,11 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         prev?.addEventListener('click', () => {
+            console.log('prev slide')
             goToSlide((currentIndex - 1 + items.length) % items.length);
             handleInteraction();
         });
 
         next?.addEventListener('click', () => {
+            console.log('next slide')
+
             goToSlide((currentIndex + 1) % items.length);
             handleInteraction();
         });

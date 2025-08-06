@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const players = {}; // key: youtubeId, value: YT.Player instance
 
     function openModal(modalId, slideTo = 0) {
-        const modal = document.getElementById(modalId);
+        console.log('openModal', modalId, 'slideTo', slideTo);
+        const modal = document.querySelector(modalId);
         if (!modal) return console.warn('Modal not found:', modalId);
 
         modal.classList.add('active');
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         const trigger = e.target.closest('[data-modal-trigger]');
         if (trigger) {
+            console.log('found trigger', trigger);
             e.preventDefault();
             openModal(trigger.getAttribute('data-modal-trigger'), trigger.getAttribute('data-slide-to') || 0);
             return;
@@ -61,9 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal initialization for YT players and keyboard control
     function setupModal(modal) {
+        // console.log('setupModal', modal);
         const carousel = modal.querySelector('[data-carousel]');
         const autoPlay = modal.hasAttribute('data-video-autoplay');
 
+        // console.log('carousel', carousel);
         // Setup YouTube player when iframe loaded
         modal.addEventListener('liteYoutubeIframeLoaded', (e) => {
             const videoSlide = e.target.closest('[data-youtube-video-id]');

@@ -40,6 +40,7 @@
                     :media-collections="$mediaCollections"
                     :frontend-theme="$theme"
                     :in-modal="true"
+                    data-carousel
                 />
             </div>
         </div>

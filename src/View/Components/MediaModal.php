@@ -6,13 +6,10 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
 use Illuminate\Contracts\View\View;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 class MediaModal extends BaseComponent
 {
-    public MediaCollection $mediaItems;
 
     public ?HasMedia $model = null;
 
@@ -50,31 +47,6 @@ class MediaModal extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-        $allMedia = collect();
-
-        if ($this->temporaryUpload) {
-            if (!empty($this->mediaCollections)) {
-                foreach ($this->mediaCollections as $collectionName) {
-                    if (!empty($collectionName)) {
-                        $allMedia = $allMedia->merge(TemporaryUpload::forCurrentSession($collectionName));
-                    }
-                }
-            } elseif (!empty($this->mediaCollection)) {
-                $allMedia = TemporaryUpload::forCurrentSession($this->mediaCollection);
-            }
-        } elseif ($this->model) {
-            if (!empty($this->mediaCollections)) {
-                foreach ($this->mediaCollections as $collectionName) {
-                    if (!empty($collectionName)) {
-                        $allMedia = $allMedia->merge($this->model->getMedia($collectionName));
-                    }
-                }
-            } elseif (!empty($this->mediaCollection)) {
-                $allMedia = $this->model->getMedia($this->mediaCollection);
-            }
-        }
-
-        $this->mediaItems = MediaCollection::make($allMedia);
         $this->id = $this->id . '-modal';
 
     }

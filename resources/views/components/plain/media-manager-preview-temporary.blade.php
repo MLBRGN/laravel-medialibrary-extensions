@@ -11,8 +11,8 @@
         @if($medium->isYouTubeVideo())
             <div
                 class="media-manager-preview-item-container"
-                data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-modal"
+                data-modal-trigger="#{{$id}}-modal"
+                data-slide-to="{{ $loop->index }}"
             >
                 <x-mle-video-youtube
                     class="mle-video-responsive mle-cursor-zoom-in"
@@ -27,8 +27,8 @@
         @else
             @if($medium->isDocument())
                 <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
                     <x-mle-document :medium="$medium"
@@ -39,8 +39,8 @@
                 </div>
             @elseif($medium->isImage())
                 <div
-                    data-bs-toggle="modal"
-{{--                    data-bs-target="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
                     <img 

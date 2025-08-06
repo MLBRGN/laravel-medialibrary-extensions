@@ -79,26 +79,6 @@ class MediaCarousel extends BaseComponent
 
         $this->mediaItems = MediaCollection::make($allMedia);
         $this->media = $this->mediaItems;
-//        if ($model) {
-//            if (! empty($this->mediaCollections)) {
-//                // Use multiple collections if provided
-//                $allMedia = collect();
-//                foreach ($this->mediaCollections as $collectionName) {
-//                    if (! empty($collectionName)) {
-//                        $allMedia = $allMedia->merge($model->getMedia($collectionName));
-//                    }
-//                }
-//                $this->mediaItems = MediaCollection::make($allMedia);
-//            } elseif (! empty($this->mediaCollection)) {
-//                // Fallback to the single collection
-//                $this->mediaItems = $model->getMedia($this->mediaCollection);
-//            } else {
-//                // Fallback to a collection
-//                $this->mediaItems = MediaCollection::make();
-//            }
-//        } else {
-//            $this->mediaItems = MediaCollection::make();
-//        }
 
         $this->mediaCount = $this->mediaItems->count();
 

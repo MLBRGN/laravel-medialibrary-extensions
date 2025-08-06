@@ -54,7 +54,7 @@
                          data-slide-to="{{ $loop->index }}"
                     @endif
                 >
-                    @if($medium->hasCustomProperty('youtube-id'))
+                    @if($medium->isYouTubeVideo())
                         @if ($inModal)
                             <x-mle-video-youtube
                                 class="mle-video-responsive"
@@ -71,18 +71,15 @@
                             />
                         @endif
                     @else
-                        @if(isMediaType($medium, 'document'))
+                        @if($medium->isDocument())
                             <x-mle-document :medium="$medium"
                                 class="mle-document mle-cursor-zoom-in"
                             />
-                        @elseif(isMediaType($medium, 'image'))
-                            <x-mle-image-responsive
-                                class="mle-image-responsive"
-                                :medium="$medium"
-                                :conversions="['16x9']"
-                                sizes="100vw"
-                                :alt="$medium->name"
-                                draggable="false"
+                        @elseif($medium->isImage()))
+                            <img
+                                src="{{ $medium->getFullUrl() }}"
+                                class="media-manager-image-preview mle-cursor-zoom-in"
+                                alt="{{ $medium->name }}"
                             />
                         @endif
                     @endif

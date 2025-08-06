@@ -1,5 +1,5 @@
 @if ($temporaryUpload)
-    @include('media-library-extensions::components.bootstrap-5.media-carousel-temporary', [
+    @include('media-library-extensions::components.plain.media-carousel-temporary', [
         'media' => $media,
 //        'modelType' => $modelType,
 //        'modelId' => null,
@@ -7,7 +7,7 @@
         'theme' => $frontendTheme,
     ])
 @else
-    @include('media-library-extensions::components.bootstrap-5.media-carousel-permanent', [
+    @include('media-library-extensions::components.plain.media-carousel-permanent', [
         'media' => $media,
         'model' => $model,
         'id' => $id,

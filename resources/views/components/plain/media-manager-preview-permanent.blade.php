@@ -12,8 +12,8 @@
         @if($medium->hasCustomProperty('youtube-id'))
             <div
                 class="media-manager-preview-item-container"
-                data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-modal"
+                data-modal-trigger="#{{$id}}-modal"
+                data-slide-to="{{ $loop->index }}"
             >
                 <x-mle-video-youtube
                     class="mle-video-responsive mle-cursor-zoom-in"
@@ -28,8 +28,8 @@
         @else
             @if(isMediaType($medium, 'document'))
                 <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
                     <x-mle-document :medium="$medium"
@@ -40,8 +40,8 @@
                 </div>
             @elseif(isMediaType($medium, 'image'))
                 <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
                     <x-mle-image-responsive

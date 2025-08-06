@@ -44,7 +44,7 @@ test('media manager component renders', function () {
         ->toContain('Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog')
         ->toContain('media_multiple')
         ->toContain('csrf_token');
-})->only();
+});
 
 it('initializes without temporary upload when a eloquent model is provided', function () {
     config()->set('media-library-extensions.demo_pages_enabled', false);
