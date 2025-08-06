@@ -57,7 +57,7 @@ class MediaManagerPreview extends BaseComponent
         } else {
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
-        //        dd('session in preview class: '.session()->getId());
+
         if ($destroyEnabled || $showOrder || $setAsFirstEnabled) {
             $this->showMenu = true;
         } else {
@@ -67,7 +67,6 @@ class MediaManagerPreview extends BaseComponent
         $collections = collect();
 
         if ($temporaryUploads) {
-            //             $collections = $collections->merge(TemporaryUpload::forCurrentSession());
             if ($imageCollection) {
                 $collections = $collections->merge(TemporaryUpload::forCurrentSession($imageCollection));
             }
@@ -79,8 +78,7 @@ class MediaManagerPreview extends BaseComponent
             if ($documentCollection) {
                 $collections = $collections->merge(TemporaryUpload::forCurrentSession($documentCollection));
             }
-        } else {
-            if ($this->model) {
+        } elseif ($this->model) {
                 if ($imageCollection) {
                     $collections = $collections->merge($this->model->getMedia($imageCollection));
                 }
@@ -92,7 +90,6 @@ class MediaManagerPreview extends BaseComponent
                 if ($documentCollection) {
                     $collections = $collections->merge($this->model->getMedia($documentCollection));
                 }
-            }
         }
         $this->media = $collections;
     }

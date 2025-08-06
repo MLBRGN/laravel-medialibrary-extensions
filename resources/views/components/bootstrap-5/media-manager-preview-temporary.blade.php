@@ -40,7 +40,7 @@
             @elseif($medium->isImage())
                 <div
                     data-bs-toggle="modal"
-{{--                    data-bs-target="#{{$id}}-modal"--}}
+                    data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
                 >
                     <img 

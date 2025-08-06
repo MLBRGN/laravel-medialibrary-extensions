@@ -34,7 +34,7 @@
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
-                    :model="$model"
+                    :model-or-class-name="$modelOrClassName"
                     :click-to-open-in-modal="false"
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"

@@ -51,36 +51,22 @@
                 id="{{ $id }}"
                 :initiator-id="$id"/>
             <div class="media-manager-preview-grid">
-                @if(isset($model))
-                    <x-mle-media-manager-preview
-                        :id="$id"
-                        :show-order="$showOrder"
-                        :destroy-enabled="$destroyEnabled"
-                        :set-as-first-enabled="$setAsFirstEnabled"
-                        :model-or-class-name="$model"
-                        :image-collection="$imageCollection"
-                        :youtube-collection="$youtubeCollection"
-                        :document-collection="$documentCollection"
-                        :temporary-uploads="$temporaryUpload"
-                    />
-                @else
-                    <x-mle-media-manager-preview
-                        :id="$id"
-                        :show-order="$showOrder"
-                        :destroy-enabled="$destroyEnabled"
-                        :set-as-first-enabled="$setAsFirstEnabled"
-                        :model-or-class-name="$modelType"
-                        :image-collection="$imageCollection"
-                        :youtube-collection="$youtubeCollection"
-                        :document-collection="$documentCollection"
-                        :temporary-uploads="$temporaryUpload"
-                    />
-                @endif
+                <x-mle-media-manager-preview
+                    :id="$id"
+                    :show-order="$showOrder"
+                    :destroy-enabled="$destroyEnabled"
+                    :set-as-first-enabled="$setAsFirstEnabled"
+                    :model-or-class-name="$modelOrClassName"
+                    :image-collection="$imageCollection"
+                    :youtube-collection="$youtubeCollection"
+                    :document-collection="$documentCollection"
+                    :temporary-uploads="$temporaryUpload"
+                />
             </div>
             {{-- TODO title--}}
             <x-mle-media-modal
                 :id="$id"
-                :model="$model"
+                :model-or-class-name="$modelOrClassName"
                 :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
                 title="Media carousel"
                 :inModal="true"

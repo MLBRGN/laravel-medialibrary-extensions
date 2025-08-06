@@ -86,7 +86,7 @@
 
         <x-mle-media-carousel
             id="alien-media"
-            :model="$model"
+            :model-or-class-name="$model"
             :media-collections="[
                         'alien-single-image', 
                         'alien-single-document', 

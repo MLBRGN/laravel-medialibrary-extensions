@@ -79,6 +79,7 @@ class MediaManager extends BaseComponent
         if (!$this->multiple) {
             $this->setAsFirstEnabled = false;
         }
+
         $collections = collect();
         if ($this->model) {
             if ($imageCollection) {

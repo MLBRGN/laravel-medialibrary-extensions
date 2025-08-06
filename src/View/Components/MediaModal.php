@@ -4,7 +4,9 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Exception;
 use Illuminate\Contracts\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
@@ -12,8 +14,16 @@ class MediaModal extends BaseComponent
 {
     public MediaCollection $mediaItems;
 
+    public ?HasMedia $model = null;
+
+    public ?string $modelType = null;
+
+    public mixed $modelId = null;
+
+    public bool $temporaryUpload = false;
+
     public function __construct(
-        public ?HasMedia $model,
+        public HasMedia|string|null $modelOrClassName = null,
         public ?string $mediaCollection,
         public ?array $mediaCollections,
         public string $title,// TODO do i want this?
@@ -23,27 +33,49 @@ class MediaModal extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
-        if ($model) {
-            if (! empty($this->mediaCollections)) {
-                // Use multiple collections if provided
-                $allMedia = collect();
+        if (is_null($modelOrClassName)) {
+            throw new Exception('model-or-class-name attribute must be set');
+        }
+
+        if ($modelOrClassName instanceof HasMedia) {
+            $this->model = $modelOrClassName;
+            $this->modelType = $modelOrClassName->getMorphClass();
+            $this->modelId = $modelOrClassName->getKey();
+        } elseif (is_string($modelOrClassName)) {
+            $this->model = null;
+            $this->modelType = $modelOrClassName;
+            $this->modelId = null;
+            $this->temporaryUpload = true;
+        } else {
+            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
+        }
+
+        $allMedia = collect();
+
+        if ($this->temporaryUpload) {
+            if (!empty($this->mediaCollections)) {
                 foreach ($this->mediaCollections as $collectionName) {
-                    if (! empty($collectionName)) {
-                        $allMedia = $allMedia->merge($model->getMedia($collectionName));
+                    if (!empty($collectionName)) {
+                        $allMedia = $allMedia->merge(TemporaryUpload::forCurrentSession($collectionName));
                     }
                 }
-                $this->mediaItems = MediaCollection::make($allMedia);
-            } elseif (! empty($this->mediaCollection)) {
-                // Fallback to the single collection
-                $this->mediaItems = $model->getMedia($this->mediaCollection);
-            } else {
-                // Fallback to a collection
-                $this->mediaItems = MediaCollection::make();
+            } elseif (!empty($this->mediaCollection)) {
+                $allMedia = TemporaryUpload::forCurrentSession($this->mediaCollection);
             }
-        } else {
-            $this->mediaItems = MediaCollection::make();
+        } elseif ($this->model) {
+            if (!empty($this->mediaCollections)) {
+                foreach ($this->mediaCollections as $collectionName) {
+                    if (!empty($collectionName)) {
+                        $allMedia = $allMedia->merge($this->model->getMedia($collectionName));
+                    }
+                }
+            } elseif (!empty($this->mediaCollection)) {
+                $allMedia = $this->model->getMedia($this->mediaCollection);
+            }
         }
-        $this->id = $this->id.'-modal';
+
+        $this->mediaItems = MediaCollection::make($allMedia);
+        $this->id = $this->id . '-modal';
 
     }
 

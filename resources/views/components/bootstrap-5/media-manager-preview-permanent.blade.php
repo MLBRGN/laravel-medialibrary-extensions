@@ -135,7 +135,7 @@
 @endforelse
 <x-mle-media-modal
     :id="$id"
-    :model="$model"
+    :model-or-class-name="$model"
     :media-collection="$imageCollection"
     :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
     :video-auto-play="true"
