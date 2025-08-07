@@ -1,8 +1,11 @@
 // noinspection ES6UnusedImports
 
 import '@/js/plain/media-carousel';
-import '@/js/plain/media-modal';
-import '@/js/plain/image-editor-modal';
+// import '@/js/plain/media-modal';
+// import '@/js/plain/image-editor-modal';
+import '@/js/plain/modal-core'
+import '@/js/plain/modal-media'
+import '@/js/plain/modal-image-editor'
 import '@/css/app-plain.scss';
 import '@/js/image-editor-listener'
 // import ImageEditor from "@evertjanmlbrgn/ImageEditor/ImageEditor";// imported for side effects

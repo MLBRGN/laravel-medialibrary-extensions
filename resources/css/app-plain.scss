@@ -5,8 +5,9 @@
 @use "shared/media-carousel"  as sharedCarousel;
 @use "shared/media-manager" as sharedManager;
 
-@use "plain/image-editor-modal";
-@use "plain/media-modal";
+//@use "plain/image-editor-modal";
+//@use "plain/media-modal";
+@use "plain/modal_core";
 @use "plain/media-manager";
 @use "shared/lite-youtube";
 

@@ -3,6 +3,7 @@
         'mlbrgn-mle-component',
         'theme-'. $theme,
         'media-modal',
+        'modal',
         'fade',
         ])->merge() }}
     id="{{ $id }}"
@@ -15,13 +16,13 @@
     @endif
     data-modal
 >
-    <div class="media-modal-dialog">
-        <div class="media-modal-content">
+    <div class="media-modal-dialog modal-dialog">
+        <div class="media-modal-content modal-content">
             <h1 class="media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
-            <div class="media-modal-body">
+            <div class="media-modal-body modal-body">
                 <button
                     type="button"
-                    class="media-modal-close-button"
+                    class="media-modal-close-button modal-close-button"
                     data-modal-close
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
