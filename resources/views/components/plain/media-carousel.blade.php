@@ -1,8 +1,6 @@
 @if ($temporaryUpload)
     @include('media-library-extensions::components.plain.media-carousel-temporary', [
         'media' => $media,
-//        'modelType' => $modelType,
-//        'modelId' => null,
         'id' => $id,
         'theme' => $frontendTheme,
     ])

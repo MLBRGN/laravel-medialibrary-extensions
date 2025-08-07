@@ -35,6 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Delegated click handler
     document.addEventListener('click', (e) => {
+        // e.stopPropagation();
+
+        const target = e.target;
+        console.log('target', target);
         const trigger = e.target.closest('[data-modal-trigger]');
         if (trigger) {
             console.log('found trigger', trigger);

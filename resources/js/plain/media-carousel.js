@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     'slide-out-to-left',
                     'slide-out-to-right'
                 );
-                item.style.zIndex = 0;
             });
 
             const current = items[currentIndex];

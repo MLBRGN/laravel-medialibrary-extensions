@@ -50,7 +50,7 @@
             ])>
                 <div class="media-carousel-item-container"
                      @if($clickToOpenInModal)
-                         data-modal-trigger="{{ $id }}-modal"
+                         data-modal-trigger="#{{ $id }}-modal"
                          data-slide-to="{{ $loop->index }}"
                     @endif
                 >
