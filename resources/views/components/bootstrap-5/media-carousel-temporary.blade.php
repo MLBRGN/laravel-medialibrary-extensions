@@ -1,7 +1,7 @@
 <div id="{{ $id }}"
      {{ $attributes->class([
         'mlbrgn-mle-component',
-        'theme-'.$theme,
+        'theme-'.$frontendTheme,
         'media-carousel', 
         'media-carousel-empty' => $mediaCount === 0,
         'carousel', 
@@ -133,4 +133,4 @@
         :media-collections="$mediaCollections"
         title="Media carousel"/>
 @endif
-<x-mle-partial-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$theme"/>
+<x-mle-partial-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$frontendTheme"/>

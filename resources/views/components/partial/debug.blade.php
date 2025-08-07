@@ -151,7 +151,7 @@
 {{--        <li><strong>Set-as-First Enabled:</strong> {{ $setAsFirstEnabled ? 'true' : 'false' }}</li>--}}
 {{--        <li><strong>Show Media URL:</strong> {{ $showMediaUrl ? 'true' : 'false' }}</li>--}}
 {{--        <li><strong>Show Order:</strong> {{ $showOrder ? 'true' : 'false' }}</li>--}}
-{{--        <li><strong>Frontend Theme:</strong> {{ $theme }}</li>--}}
+{{--        <li><strong>Frontend Theme:</strong> {{ $frontendTheme }}</li>--}}
 {{--        <li><strong>Use XHR:</strong> {{ $useXhr ? 'true' : 'false' }}</li>--}}
 {{--        <li><strong>Media Upload Route:</strong> <code>{{ $mediaUploadRoute }}</code></li>--}}
 {{--        <li><strong>YouTube Upload Route:</strong> <code>{{ $youtubeUploadRoute }}</code></li>--}}

@@ -2,7 +2,7 @@
     @include('media-library-extensions::components.bootstrap-5.media-carousel-temporary', [
         'media' => $media,
         'id' => $id,
-        'theme' => $frontendTheme,
+        'frontendTheme' => $frontendTheme,
     ])
 @else
     @include('media-library-extensions::components.bootstrap-5.media-carousel-permanent', [

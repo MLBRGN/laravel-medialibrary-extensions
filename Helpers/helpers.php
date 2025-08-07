@@ -18,15 +18,15 @@ if (! function_exists('mle_package_asset')) {
 }
 
 // TODO still needed?
-if (! function_exists('media_manager_theme')) {
-    function media_manager_theme(): string
-    {
-        $supported = config('media-library-extensions.supported_frontend_themes', ['plain']);
-        $configured = config('media-library-extensions.frontend_theme', 'plain');
-
-        return in_array($configured, $supported) ? $configured : 'plain';
-    }
-}
+//if (! function_exists('media_manager_theme')) {
+//    function media_manager_theme(): string
+//    {
+//        $supported = config('media-library-extensions.supported_frontend_themes', ['plain']);
+//        $configured = config('media-library-extensions.frontend_theme', 'plain');
+//
+//        return in_array($configured, $supported) ? $configured : 'plain';
+//    }
+//}
 
 if (! function_exists('mle_prefix_route')) {
 

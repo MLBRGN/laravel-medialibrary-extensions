@@ -2,7 +2,7 @@
     id="{{ $id }}"
     {{ $attributes->class([
         'mlbrgn-mle-component',
-        'theme-'.$theme,
+        'theme-'.$frontendTheme,
         'media-manager',
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,
@@ -11,7 +11,7 @@
     >
     <input type="hidden" class="media-manager-config" value='@json($config)' />
     <x-mle-partial-debug 
-        :theme="$theme" 
+        :frontend-theme="$frontendTheme" 
         :model="$model" 
         :config="$config" 
         :model-type="$modelType" 
@@ -67,6 +67,7 @@
                     :youtube-collection="$youtubeCollection"
                     :document-collection="$documentCollection"
                     :temporary-uploads="$temporaryUpload"
+                    :frontend-theme="$frontendTheme"
                 />
             </div>
             {{-- TODO title--}}
@@ -81,4 +82,4 @@
     </div>
     {{ $component_end ?? '' }}
 </div>
-<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$theme"/>
+<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>

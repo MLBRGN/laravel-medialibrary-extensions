@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
         'mlbrgn-mle-component',
-        'theme-'. $theme,
+        'theme-'. $frontendTheme,
         'media-modal',
         'modal',
         'fade',
@@ -15,6 +15,7 @@
         data-video-autoplay=""
     @endif
     data-modal
+    data-media-modal
 >
     <div class="media-modal-dialog modal-dialog">
         <div class="media-modal-content modal-content">
@@ -31,7 +32,6 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
@@ -39,7 +39,7 @@
                     :click-to-open-in-modal="false"
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"
-                    :frontend-theme="$theme"
+                    :frontend-theme="$frontendTheme"
                     :in-modal="true"
                     data-carousel
                 />
@@ -47,5 +47,5 @@
         </div>
     </div>
 </div>
-<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$theme"/>
+<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
 

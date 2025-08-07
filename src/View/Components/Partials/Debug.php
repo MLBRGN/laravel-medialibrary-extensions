@@ -23,7 +23,7 @@ class Debug extends Component
         public ?HasMedia $model = null,
         public ?string $modelType = null,
         public ?string $modelId = null,
-        public ?string $theme = null,
+        public ?string $frontendTheme = null,
         public array $config = [],
     ) {
         $this->iconExists = collect(Blade::getClassComponentAliases())

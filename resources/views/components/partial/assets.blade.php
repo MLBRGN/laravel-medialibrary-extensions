@@ -1,12 +1,12 @@
 @if($includeCss)
     @once
-        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-'.$theme.'.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-'.$frontendTheme.'.css') }}">
     @endonce
 @endif
 
 @if($includeJs)
     @once
-        <script type="module" src="{{ asset('vendor/media-library-extensions/app-'.$theme.'.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>
         @php
             $translations = [
                 'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),

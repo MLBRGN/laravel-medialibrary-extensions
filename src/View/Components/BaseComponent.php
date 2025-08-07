@@ -11,8 +11,6 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
-    public string $theme;
-
     public ?array $status = [];
 
     public function __construct(
@@ -26,7 +24,6 @@ abstract class BaseComponent extends Component
             $this->id = 'component-'.uniqid();
         }
 
-        $this->theme = $frontendTheme ?? config('media-library-extensions.frontend_theme');
-
+        $this->frontendTheme= $frontendTheme ?? config('media-library-extensions.frontend_theme');
     }
 }

@@ -1,17 +1,17 @@
 <div
-    {{ $attributes->merge(['class' => 'mlbrgn-mle-component image-editor-modal modal fade']) }}
     {{ $attributes->class([
-        'mlbrgn-mle-component',
-        'theme-'. $theme,
-        'image-editor-modal',
-        'modal',
-        'fade',
-        ])->merge() }}
+          'mlbrgn-mle-component',
+          'theme-'. $frontendTheme,
+          'image-editor-modal',
+          'modal',
+          'fade',
+          ])->merge() }}
     id="{{ $id }}"
     tabindex="-1"
     role="dialog"
     aria-labelledby="{{ $id }}-title"
     aria-hidden="true"
+    data-theme="{{$frontendTheme}}"
     data-modal
     data-image-editor-modal
     data-medium-display-name="{{ media_display_name($medium) }}"
@@ -22,10 +22,10 @@
             <h1 class="image-editor-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             <div class="image-editor-modal-body modal-body">
                 <button
-                    data-modal-close
-                    aria-label="Sluit"
                     type="button"
                     class="image-editor-modal-close-button modal-close-button"
+                    data-modal-close
+                    aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
                     <x-mle-partial-icon
                         name="{{ config('media-library-extensions.icons.close') }}"
@@ -35,6 +35,7 @@
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
                 {{-- instantiated when model opens, just in time --}}
                 <div id="image-editor-placeholder" class="image-editor"></div>
+                <p>Hello world</p>
 {{--                <image-editor --}}
 {{--                    id="imageEditor"--}}
 {{--                    data-initiator-id="{{ $id }}"--}}
@@ -45,5 +46,5 @@
         </div>
     </div>
 </div>
-<x-mle-partial-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$theme"/>
+<x-mle-partial-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$frontendTheme"/>
 

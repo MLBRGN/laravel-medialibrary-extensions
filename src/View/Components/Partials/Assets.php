@@ -9,8 +9,6 @@ use Illuminate\View\View;
 
 class Assets extends Component
 {
-    public string $theme;
-
     public function __construct(
         public ?string $frontendTheme = null,
         public bool $includeCss = false,
@@ -19,7 +17,7 @@ class Assets extends Component
         public bool $includeFormSubmitter = false,
         public bool $includeYoutubePlayer = false,
     ) {
-        $this->theme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+        $this->frontendTheme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
     }
 
     public function render(): View

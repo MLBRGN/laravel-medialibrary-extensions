@@ -96,6 +96,6 @@ class MediaManagerPreview extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-manager-preview', $this->theme);
+        return $this->getView('media-manager-preview', $this->frontendTheme);
     }
 }

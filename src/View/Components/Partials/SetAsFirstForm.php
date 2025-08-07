@@ -32,6 +32,6 @@ class SetAsFirstForm extends BaseComponent
     {
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
-        return $this->getPartialView('set-as-first-form', $this->theme);
+        return $this->getPartialView('set-as-first-form', $this->frontendTheme);
     }
 }

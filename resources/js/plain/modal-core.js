@@ -5,11 +5,12 @@ export function closeModal(modal) {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+
     releaseFocus(modal);
     fireEvent('modalClosed', modal);
 }
 
-export function openModal(modalId, slideTo = 0, controller = null) {
+export function openModal(modalId) {
     const modal = document.querySelector(modalId);
     if (!modal) return;
 
@@ -18,25 +19,47 @@ export function openModal(modalId, slideTo = 0, controller = null) {
     document.body.style.overflow = 'hidden';
 
     trapFocus(modal);
-
-    if (controller) {
-        controller.goToSlide(parseInt(slideTo), true);
-    }
-
     fireEvent('modalOpened', modal);
 }
 
 export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
+    // console.log('setupModalBase', modal);
     modal.addEventListener('modalOpened', onOpen);
     modal.addEventListener('modalClosed', onClose);
+}
 
-    // Optional image update listener
-    document.addEventListener('onImageUpdated', (e) => {
-        console.log('✅ Global listener got event:', e.detail);
+/**
+ * Initializes default modal click + keyboard behavior.
+ */
+export function initModalEvents() {
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        console.log('target', target);
+        const trigger = target.closest('[data-modal-trigger]');
+        if (trigger) {
+            e.preventDefault();
+            const modalId = trigger.getAttribute('data-modal-trigger');
+            openModal(modalId);
+            return;
+        }
+
+        const closeBtn = target.closest('[data-modal-close]');
+        // console.log('closeBtn', closeBtn);
+        if (closeBtn) {
+            const modal = closeBtn.closest('[data-modal]');
+            if (modal) closeModal(modal);
+            return;
+        } else {
+            console.log('no close button')
+        }
+
+        const modal = target.closest('[data-modal]');
+        if (modal && target === modal) closeModal(modal);
     });
 
-    modal.addEventListener('onImageUpdated', (e) => {
-        console.log('onImageUpdated', e);
-        closeModal(modal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('[data-modal].active').forEach(closeModal);
+        }
     });
 }

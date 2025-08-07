@@ -32,6 +32,6 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
     {
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
-        return $this->getPartialView('temporary-upload-set-as-first-form', $this->theme);
+        return $this->getPartialView('temporary-upload-set-as-first-form', $this->frontendTheme);
     }
 }

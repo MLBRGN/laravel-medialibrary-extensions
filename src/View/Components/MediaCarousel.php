@@ -89,6 +89,6 @@ class MediaCarousel extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-carousel', $this->theme);
+        return $this->getView('media-carousel', $this->frontendTheme);
     }
 }

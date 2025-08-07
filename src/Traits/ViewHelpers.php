@@ -8,15 +8,15 @@ use Illuminate\View\View;
 
 trait ViewHelpers
 {
-    public function getView($viewName, $theme): View
+    public function getView($viewName, $frontendTheme): View
     {
-        $viewPath = "media-library-extensions::components.$theme.$viewName";
+        $viewPath = "media-library-extensions::components.$frontendTheme.$viewName";
         return view($viewPath);
     }
 
-    public function getPartialView($viewName, $theme): View
+    public function getPartialView($viewName, $frontendTheme): View
     {
-        $viewPath = "media-library-extensions::components.$theme.partial.$viewName";
+        $viewPath = "media-library-extensions::components.$frontendTheme.partial.$viewName";
         return view($viewPath);
     }
 }

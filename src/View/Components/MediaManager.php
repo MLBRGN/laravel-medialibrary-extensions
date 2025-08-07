@@ -138,6 +138,6 @@ class MediaManager extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-manager', $this->theme);
+        return $this->getView('media-manager', $this->frontendTheme);
     }
 }

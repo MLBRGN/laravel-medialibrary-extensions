@@ -28,5 +28,5 @@
     </button>
 </x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$theme"/>
+    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
 @endif

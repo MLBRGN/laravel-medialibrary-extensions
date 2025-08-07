@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
         'mlbrgn-mle-component',
-        'theme-'. $theme,
+        'theme-'. $frontendTheme,
         'media-modal',
         'modal',
         'fade',
@@ -21,7 +21,8 @@
             <div class="media-modal-body modal-body p-0">
                 <button
                     type="button"
-                    class="media-modal-close-button"
+                    data-modal-close
+                    class="media-modal-close-button modal-close-button"
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
@@ -39,12 +40,12 @@
                     :click-to-open-in-modal="false"
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"
-                    :frontend-theme="$theme"
+                    :frontend-theme="$frontendTheme"
                     :in-modal="true"
                 />
             </div>
         </div>
     </div>
 </div>
-<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$theme"/>
+<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
 

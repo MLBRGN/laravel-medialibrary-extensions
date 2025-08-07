@@ -2,7 +2,7 @@
     <div
         {{ $attributes->class([
             'mlbrgn-mle-component',
-             'theme-'.$theme,
+             'theme-'.$frontendTheme,
              'media-manager-preview-media-container'
         ]) }}
         data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"
@@ -62,6 +62,7 @@
                     :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
+                    :frontend-theme="$frontendTheme"
                 />
             @else
                 no suitable type
@@ -139,5 +140,5 @@
     :media-collection="$imageCollection"
     :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
     :video-auto-play="true"
-    :frontend-theme="$theme"
+    :frontend-theme="$frontendTheme"
     title="Media carousel"/>

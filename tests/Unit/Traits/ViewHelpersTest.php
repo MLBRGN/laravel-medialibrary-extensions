@@ -14,9 +14,9 @@ beforeEach(function () {
 });
 
 it('returns themed view path for getView', function () {
-    $theme = 'custom';
+    $frontendTheme = 'custom';
     $viewName = 'example';
-    $expectedViewPath = "media-library-extensions::components.$theme.$viewName";
+    $expectedViewPath = "media-library-extensions::components.$frontendTheme.$viewName";
 
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -24,15 +24,15 @@ it('returns themed view path for getView', function () {
         ->andReturn(Mockery::mock(ViewInstance::class));
 
     $dummy = new ViewHelpersTestDummy;
-    $view = $dummy->getView($viewName, $theme);
+    $view = $dummy->getView($viewName, $frontendTheme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
 });
 
 it('returns themed partial view path for getPartialView', function () {
-    $theme = 'custom';
+    $frontendTheme = 'custom';
     $viewName = 'example-partial';
-    $expectedViewPath = "media-library-extensions::components.$theme.partial.$viewName";
+    $expectedViewPath = "media-library-extensions::components.$frontendTheme.partial.$viewName";
 
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -40,7 +40,7 @@ it('returns themed partial view path for getPartialView', function () {
         ->andReturn(Mockery::mock(ViewInstance::class));
 
     $dummy = new ViewHelpersTestDummy;
-    $view = $dummy->getPartialView($viewName, $theme);
+    $view = $dummy->getPartialView($viewName, $frontendTheme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
 });

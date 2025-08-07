@@ -35,6 +35,6 @@ class StatusArea extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('status-area', $this->theme);
+        return $this->getPartialView('status-area', $this->frontendTheme);
     }
 }

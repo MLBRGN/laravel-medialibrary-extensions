@@ -19,6 +19,8 @@ const updateMedia = (detail) => {
     // const imageEditorInstance = document.getElementById(detail.imageEditorInstance);
     // console.log('imageEditorInstance', imageEditorInstance);
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
+    console.log('modal', modal)
+    const theme = modal.getAttribute('data-theme');
     const configInput = modal.querySelector('.image-editor-modal-config');
     if (!configInput) return;
 
@@ -79,8 +81,12 @@ const updateMedia = (detail) => {
             console.error('Upload failed:', error);
         }).finally(() => {
 
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance.hide();
+        if (theme === 'bootstrap-5') {
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance.hide();
+        } else if (theme === 'plain') {
+            // something else
+        }
 
         const initiator = document.querySelector('#' + config.initiator_id);
         // console.log('initiator', initiator);

@@ -79,9 +79,9 @@ class ImageEditorModal extends BaseComponent
     public function render(): View
     {
         if ($this->temporaryUpload) {
-            return $this->getView('image-editor-modal-temporary-upload', $this->theme);
+            return $this->getView('image-editor-modal-temporary-upload', $this->frontendTheme);
         }
 
-        return $this->getView('image-editor-modal', $this->theme);
+        return $this->getView('image-editor-modal', $this->frontendTheme);
     }
 }

@@ -1,76 +1,13 @@
 /*
- * Media manager modal
+ * Image editor modal
  */
 
 .mlbrgn-mle-component.theme-plain {
 
-    &.image-editor-modal {
-        --modal-padding:20px;
-
-        background:white;
-        position:fixed;
-        top:50%;
-        left:50%;
-        box-sizing:border-box;
-        transform: translate(-50%,-50%);
-        max-width:calc(100% - (2 * var(--modal-padding)));
-        max-height:calc(100% - (2 * var(--modal-padding)));
-        border-radius:.5em;
-        //overflow:hidden;
-    }
-
-    .image-editor-modal-body {
+    image-editor,
+    .image-editor {
         width:100%;
         height:100%;
-    }
-
-    .image-editor-modal-dialog {
-        width:100%;
-        height:100%;
-        max-width:100%;
-        max-height:100%;
-        margin:0;
-        //overflow:hidden;
-    }
-
-    .image-editor-modal-content {
-        width:100%;
-        height:100%;
-        padding:0;
-        border: 0;
-        box-sizing:border-box;
-        //overflow:hidden;
-    }
-
-    .image-editor-modal-close-button {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        z-index: 3;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        box-sizing: content-box;
-        width: 1em;
-        height: 1em;
-        padding: .25em;
-        background-color: rgb(from var(--mlbrgn-mle-control-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
-        color: var(--mlbrgn-mle-control-fg-color);
-        border-radius: .5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .image-editor-modal-close-button:hover {
-        background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
-        color: var(--mlbrgn-mle-control-hover-fg-color);
-    }
-
-    .image-editor-modal-close-button:focus-visible {
-        outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
-        outline-offset: 0;
-        border-radius:0.5em;
     }
 
 }

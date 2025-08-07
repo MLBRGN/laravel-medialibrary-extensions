@@ -1,8 +1,13 @@
-// modal-video-carousel.js
-import { closeModal, openModal, setupModalBase } from './modal-core';
+import {
+    closeModal,
+    initModalEvents as initBaseModalEvents,
+    openModal as baseOpenModal,
+    setupModalBase
+} from './modal-core';
+
 import { getCarouselController } from '@/js/plain/media-carousel';
 
-const players = {}; // youtubeId: YT.Player
+const players = {}; // key: youtubeId, value: YT.Player instance
 
 function stopAllVideoPlayBack() {
     Object.values(players).forEach(p => p.stopVideo());
@@ -15,7 +20,7 @@ function startVideoPlayBack(ytId) {
     if (player) player.playVideo();
 }
 
-function setupVideoCarouselModal(modal) {
+function setupMediaModal(modal) {
     const carousel = modal.querySelector('[data-carousel]');
     const autoPlay = modal.hasAttribute('data-video-autoplay');
 
@@ -56,6 +61,7 @@ function setupVideoCarouselModal(modal) {
         pauseAllVideoPlayBack();
 
         if (!autoPlay) return;
+
         const activeSlide = carousel.querySelector('.media-carousel-item.active');
         const videoWrapper = activeSlide?.querySelector('.media-video-container[data-youtube-video-id]');
         if (videoWrapper) {
@@ -74,36 +80,35 @@ function setupVideoCarouselModal(modal) {
     });
 }
 
-// Auto-init
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-modal]').forEach(setupVideoCarouselModal);
+/**
+ * Overrides modal trigger clicks to support carousel slideTo for media modals.
+ */
+function initMediaModalEvents() {
+    initBaseModalEvents(); // still listen for Escape and close buttons
 
     document.addEventListener('click', (e) => {
         const trigger = e.target.closest('[data-modal-trigger]');
         if (trigger) {
-            e.preventDefault();
             const modalId = trigger.getAttribute('data-modal-trigger');
-            const slideTo = trigger.getAttribute('data-slide-to') || 0;
+            const slideTo = parseInt(trigger.getAttribute('data-slide-to') || '0', 10);
+
             const modal = document.querySelector(modalId);
-            const controller = getCarouselController(modal?.querySelector('[data-carousel]'));
-            openModal(modalId, slideTo, controller);
+            baseOpenModal(modalId); // open modal first
+
+            const carousel = modal?.querySelector('[data-carousel]');
+            const controller = getCarouselController(carousel);
+            if (controller) {
+                controller.goToSlide(slideTo, true);
+            }
+
             return;
         }
-
-        const closeBtn = e.target.closest('[data-modal-close]');
-        if (closeBtn) {
-            const modal = closeBtn.closest('[data-modal]');
-            if (modal) closeModal(modal);
-            return;
-        }
-
-        const modal = e.target.closest('[data-modal]');
-        if (modal && e.target === modal) closeModal(modal);
     });
+}
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('[data-modal].active').forEach(closeModal);
-        }
-    });
+// Auto-init
+document.addEventListener('DOMContentLoaded', () => {
+    initMediaModalEvents();
+
+    document.querySelectorAll('[data-media-modal]').forEach(setupMediaModal);
 });
