@@ -83,11 +83,9 @@
                     @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
                         <button
                             type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#{{$id}}-image-editor-modal-{{$medium->id}}"
+                            data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"
                             class="mle-button mle-button-icon btn btn-primary"
                             title="{{ __('media-library-extensions::messages.edit') }}"
-                            data-action="edit-image"
                         >
                             <x-mle-partial-icon
                                 name="{{ config('media-library-extensions.icons.edit') }}"
