@@ -28,7 +28,7 @@ class UploadForm extends BaseComponent
         public ?string $imageCollection,
         public ?string $documentCollection,
         public ?string $youtubeCollection,
-        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
+        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public bool $temporaryUpload = false,
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
@@ -41,14 +41,23 @@ class UploadForm extends BaseComponent
 
     public function render(): View
     {
-        if (is_null($this->modelOrClassName)) {
-            throw new Exception('model-or-class-name attribute must be set');
-        }
+
         if ($this->modelOrClassName instanceof HasMedia) {
             $this->model = $this->modelOrClassName;
             $this->modelType = $this->modelOrClassName->getMorphClass();
             $this->modelId = $this->modelOrClassName->getKey();
         } elseif (is_string($this->modelOrClassName)) {
+            if (! class_exists($this->modelOrClassName)) {
+                throw new Exception(__('media-library-extensions::messages.class_not_found', [
+                    'class' => $this->modelOrClassName,
+                ]));
+            }
+            if (! is_subclass_of($this->modelOrClassName, HasMedia::class)) {
+                throw new Exception(__('media-library-extensions::messages.must_implement_has_media', [
+                    'class' => $this->modelOrClassName,
+                    'interface' => HasMedia::class,
+                ]));
+            }
             $this->model = null;
             $this->modelType = $this->modelOrClassName;
             $this->modelId = null;

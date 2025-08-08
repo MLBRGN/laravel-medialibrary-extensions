@@ -85,7 +85,7 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-// })->skip();;
+// })->skip();
 //
 // it('uses the configured database name', function () {
 //    // Arrange
@@ -120,7 +120,7 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-// })->skip();;
+// })->skip();
 //
 // it('does not register demo database when demo pages are disabled', function () {
 //    // Arrange
@@ -138,4 +138,4 @@
 //    $provider->boot();
 //
 //    // Assert - verification is done by Mockery expectations
-// })->skip();;
+// })->skip();

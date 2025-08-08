@@ -45,4 +45,6 @@ return [
     'note_carousel_only_updates_on_refresh_of_page' => 'LET OP: Deze carrousel wordt alleen bijgewerkt na het verversen van de pagina, zelfs wanneer XHR is ingeschakeld voor media managers.',
     'edit' => 'Bewerken',
     'Temporary_uploads_not_available,_please_run_migrations_first' => 'Tijdelijke uploads niet beschikbaar, voer eerst de migraties uit.',
+    'class_not_found' => 'Class ":class" niet gevonden.',
+    'must_implement_has_media' => 'Class ":class" moet :interface implementeren.',
 ];

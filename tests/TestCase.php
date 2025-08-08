@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -23,13 +24,18 @@ class TestCase extends Orchestra
         parent::setUp();
 
         $this->testModel = Blog::create(['title' => 'Test Model']);
-
+        $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
+        $this->app['translator']->addNamespace(
+            'medialibrary-extensions',
+            __DIR__ . '/../lang'
+        );
     }
 
     protected function getPackageProviders($app): array
     {
         return [
             MediaLibraryExtensionsServiceProvider::class,
+//            \Illuminate\Translation\TranslationServiceProvider::class,
         ];
     }
 
@@ -130,6 +136,21 @@ class TestCase extends Orchestra
 
     public function getTestBlogModel(): Model {
         return $this->testModel;
+    }
+
+    public function getTestModelNotExtendingHasMedia() {
+        return $this->testModelNotExtendingHasMedia;
+    }
+
+    public function getMediaModel($id = 1): Model {
+        return new Media([
+            'id' => $id,
+            'collection_name' => 'blog-images',
+            'disk' => 'media',
+            'file_name' => 'test.jpg',
+            'mime_type' => 'image/jpeg',
+            'custom_properties' => [],
+        ]);
     }
 
     private function getTemporaryUploadsDirectory(): string

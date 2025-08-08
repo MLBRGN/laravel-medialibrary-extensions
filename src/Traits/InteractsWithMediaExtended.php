@@ -44,7 +44,7 @@ trait InteractsWithMediaExtended
                         'document_collection',
                         'youtube_collection',
                     ])
-                    ->toArray();;
+                    ->toArray();
 
                 self::safeAddMedia(
                     $model,

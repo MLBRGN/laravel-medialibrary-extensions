@@ -11,7 +11,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Blog extends Model implements HasMedia
 {
-    use HasFactory;
     use InteractsWithMediaExtended;
 
     protected $guarded = [];

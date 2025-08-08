@@ -32,8 +32,8 @@ it('accepts a HasMedia model instance and sets properties accordingly', function
     expect($component->model)->toBe($model)
         ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
         ->and($component->modelId)->toBe($model->id)
-        ->and($component->temporaryUpload)->toBeFalse();
-    //        ->and($component->media)->toBeInstanceOf(Collection);
+        ->and($component->temporaryUpload)->toBeFalse()
+        ->and($component->media)->toBeInstanceOf(Collection::class);
 });
 
 it('accepts a string model class name and sets temporaryUpload to true', function () {

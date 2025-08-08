@@ -45,4 +45,6 @@ return [
     'note_carousel_only_updates_on_refresh_of_page' => 'NOTE: This carousel only updates on refresh of page even when XHR is enabled for media managers.',
     'edit' => 'Edit',
     'Temporary_uploads_not_available,_please_run_migrations_first' => 'Temporary uploads not available, please run migrations first.',
+    'class_not_found' => 'Class ":class" does not exist.',
+    'must_implement_has_media' => 'Class ":class" must implement :interface.',
 ];
