@@ -9,6 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
@@ -17,7 +18,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestr
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -117,8 +118,8 @@ it('delegates set temporary upload as first', function () {
 });
 
 it('delegates save updated medium', function () {
-    $request = mock(SaveUpdatedMediumRequest::class);
-    $action = mock(SaveUpdatedMediumAction::class);
+    $request = mock(StoreUpdatedMediumRequest::class);
+    $action = mock(StoreUpdatedMediumAction::class);
     $response = new JsonResponse(['saved' => true]);
 
     $action->shouldReceive('execute')->once()->with($request)->andReturn($response);
@@ -130,8 +131,8 @@ it('delegates save updated medium', function () {
 });
 
 it('delegates save updated temporary upload', function () {
-    $request = mock(SaveUpdatedMediumRequest::class);
-    $action = mock(SaveUpdatedMediumAction::class);
+    $request = mock(StoreUpdatedMediumRequest::class);
+    $action = mock(StoreUpdatedMediumAction::class);
     $response = new JsonResponse(['saved' => true]);
 
     $action->shouldReceive('execute')->once()->with($request)->andReturn($response);

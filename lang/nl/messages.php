@@ -13,6 +13,8 @@ return [
     'please_wait' => 'Een moment a.u.b.',
     'medium_set_as_main' => 'Ingesteld als hoofdmedium.',
     'medium_removed' => 'Medium verwijderd.',
+    'medium_replaced' => 'Medium vervangen.',
+    'medium_replacement_failed' => 'Medium kon niet vervangen worden.',
     'medium_could_not_be_removed' => 'Medium kon niet worden verwijderd.',
     'no_media' => 'Geen media.',
     'no_medium' => 'Geen medium.',

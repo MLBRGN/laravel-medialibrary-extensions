@@ -1,8 +1,14 @@
 import config from "bootstrap/js/src/util/config";
+import {
+    showStatusMessage,
+    handleAjaxError,
+    trans,
+    showSpinner,
+    hideSpinner
+} from './xhrStatus';
 
 document.addEventListener('DOMContentLoaded', function () {
     const mediaManagers = document.querySelectorAll('[data-media-manager]');
-    let statusMessageTimeout = null;
 
     mediaManagers.forEach(mediaManager => {
         const container = mediaManager.querySelector('.media-manager-row');
@@ -106,22 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return routes[action] || null;
     }
-    // function getRouteFromAction(action, target, config) {
-    //     const mediaContainer = target.closest('.media-manager-preview-media-container');
-    //     const routes = {
-    //         'upload-media': config.media_upload_route,
-    //         'upload-youtube-medium': config.youtube_upload_route,
-    //     };
-    //
-    //     if (mediaContainer) {
-    //         routes['temporary-upload-destroy'] = mediaContainer.dataset.temporaryUploadDestroyRoute || '';
-    //         routes['destroy-medium'] = mediaContainer.dataset.destroyRoute || '';
-    //         routes['set-as-first'] = mediaContainer.dataset.setAsFirstRoute || '';
-    //         routes['temporary-upload-set-as-first'] = mediaContainer.dataset.temporaryUploadSetAsFirstRoute || '';
-    //     }
-    //
-    //     return routes[action] || null;
-    // }
 
     function updatePreview(mediaManager, config) {
         const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
@@ -187,73 +177,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
-    function showSpinner(container) {
-        hideStatusMessage(container);
-        container.querySelector('[data-spinner-container]')?.classList.add('active');
-    }
-
-    function hideSpinner(container) {
-        container.querySelector('[data-spinner-container]')?.classList.remove('active');
-    }
-
-    function showStatusMessage(container, data) {
-
-        const { type, message, message_extra: messageExtra = null } = data;
-        const statusContainer = container.querySelector('[data-status-container]');
-        const messageDiv = statusContainer?.querySelector('[data-status-message]');
-        if (!statusContainer || !messageDiv) return;
-
-        const base = messageDiv.getAttribute('data-base-classes') || '';
-        const typeClasses = type === 'success'
-            ? messageDiv.getAttribute('data-success-classes') || ''
-            : messageDiv.getAttribute('data-error-classes') || '';
-
-        messageDiv.className = base;
-        typeClasses.split(' ').forEach(cls => cls && messageDiv.classList.add(cls));
-        messageDiv.textContent = message;
-        if (messageExtra) {
-            messageDiv.textContent += '\n\n' + messageExtra;
-        }
-        statusContainer.classList.add('visible');
-
-        clearTimeout(statusMessageTimeout);
-        statusMessageTimeout = setTimeout(() => hideStatusMessage(container), 5000);
-    }
-
-    function hideStatusMessage(container) {
-        container.querySelector('[data-status-container]')?.classList.remove('visible');
-    }
-
-    function handleAjaxError(response, data, container) {
-        let message = trans('upload_failed');
-
-        switch (response.status) {
-            case 419: message = trans('csrf_token_mismatch'); break;
-            case 401: message = trans('unauthenticated'); break;
-            case 403: message = trans('forbidden'); break;
-            case 404: message = trans('not_found'); break;
-            case 422:
-                if (data.errors) {
-                    Object.values(data.errors).flat().forEach(msg => {
-                        showStatusMessage(container, { type: 'error', message: msg });
-                    });
-                    return;
-                }
-                message = data.message || trans('validation_failed');
-                break;
-            case 429: message = trans('too_many_requests'); break;
-            case 500:
-            case 503: message = trans('server_error'); break;
-            default:
-                message = data.message || message;
-        }
-
-        showStatusMessage(container, { type: 'error', message });
-    }
-
-    function trans(key) {
-        return window.mediaLibraryTranslations?.[key] || key;
-    }
-
 });

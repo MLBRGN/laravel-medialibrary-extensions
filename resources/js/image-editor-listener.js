@@ -1,3 +1,5 @@
+import {showStatusMessage} from "@/js/xhrStatus";
+
 document.addEventListener('onImageSave', (e) => {
     console.log('onImageSave:', e.detail, e);
     updateMedia(e.detail);
@@ -31,6 +33,9 @@ const updateMedia = (detail) => {
     } catch (e) {
         console.error('Invalid JSON config');
     }
+
+    const initiator = document.querySelector('#' + config.initiator_id);
+    console.log('initiator', initiator);
 
     const {
         model_type: modelType,
@@ -76,9 +81,19 @@ const updateMedia = (detail) => {
         })
         .then(data => {
             console.log('Upload successful:', data);
+            const container = initiator.querySelector('.media-manager-row')
+            showStatusMessage(container, {
+                type: 'success',
+                message: trans('medium_replaced'),
+            });
         })
         .catch(error => {
             console.error('Upload failed:', error);
+            const container = initiator.querySelector('.media-manager-row')
+            showStatusMessage(container, {
+                type: 'error',
+                message: trans('medium_replacement_failed'),
+            });
         }).finally(() => {
 
         if (theme === 'bootstrap-5') {
@@ -88,7 +103,6 @@ const updateMedia = (detail) => {
             // something else
         }
 
-        const initiator = document.querySelector('#' + config.initiator_id);
         // console.log('initiator', initiator);
         initiator.dispatchEvent(new CustomEvent('refreshRequest', {
             bubbles: true,

@@ -13,6 +13,8 @@ return [
     'please_wait' => 'Please wait.',
     'medium_set_as_main' => 'Medium set as main.',
     'medium_removed' => 'Medium removed.',
+    'medium_replaced' => 'Medium replaced.',
+    'medium_replacement_failed' => 'Medium replacement failed.',
     'medium_could_not_be_removed' => 'Medium could not be removed.',
     'no_media' => 'No media.',
     'no_medium' => 'No medium.',

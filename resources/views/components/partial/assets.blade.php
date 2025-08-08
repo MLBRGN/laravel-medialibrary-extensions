@@ -17,6 +17,8 @@
                 'too_many_requests' => __('media-library-extensions::http.too_many_requests'),
                 'server_error' => __('media-library-extensions::http.server_error'),
                 'unknown_error' => __('media-library-extensions::http.unknown_error'),
+                'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),
+                'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),
             ];
         @endphp
         <script>
@@ -33,7 +35,7 @@
 
 @if($includeFormSubmitter)
     @once
-        <script src="{{ asset('vendor/media-library-extensions/form-submitter.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/media-library-extensions/form-submitter.js') }}"></script>
     @endonce
 @endif
 

@@ -1,3 +1,4 @@
+@php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if ($preview)
     <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
         <x-mle-partial-icon
@@ -5,7 +6,16 @@
             name="{{ config('media-library-extensions.icons.play_video') }}"
             title="{{ __('media-library-extensions::messages.play_video') }}"
         />
-        {{ $medium->img()->lazy()->attributes(['class' => 'mle-image-responsive']) }}
+        @if($medium instanceof TemporaryUpload)
+            <img
+                src="{{ $medium->getFullUrl() }}"
+                class="media-manager-image-preview mle-cursor-zoom-in"
+                alt="{{ $medium->name }}"
+            />
+        @else
+            {{ $medium->img()->lazy()->attributes(['class' => 'mle-image-responsive']) }}
+        @endif
+            
     </div>
 @else
     <div {{ $attributes->merge(['class' => 'media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}">
@@ -18,8 +28,8 @@
             autopause
             params="{{ $youTubeParamsAsString }}"
         >
-            <a 
-                class="lite-youtube-fallback" 
+            <a
+                class="lite-youtube-fallback"
                 href="https://www.youtube.com/watch?v={{ $youtubeId }}">{{ __('media-library-extensions::messages.watch_on_youtube') }}</a>
         </lite-youtube>
         <div class="media-video-touch-overlay"></div>

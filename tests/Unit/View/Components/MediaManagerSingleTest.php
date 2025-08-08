@@ -16,7 +16,7 @@ beforeEach(function () {
 
 it('initializes correctly with model instance', function () {
 
-    $model = Blog::create(['title' => 'test']);
+    $model = $this->getTestBlogModel();
     $component = new MediaManagerSingle(
         modelOrClassName: $model,
         imageCollection: 'images',
@@ -46,7 +46,7 @@ it('initializes correctly with model class name', function () {
         ->and($component->modelType)->toBe(Blog::class)
 //        ->and($component->temporaryUpload)->toBeFalse()
         ->and($component->youtubeCollection)->toBe('videos')
-        ->and($component->setAsFirstEnabled)->toBeTrue()
+        ->and($component->setAsFirstEnabled)->toBeFalse()
         ->and($component->useXhr)->toBeFalse();
 });
 

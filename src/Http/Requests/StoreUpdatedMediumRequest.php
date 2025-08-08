@@ -10,7 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Handles the validation rules and authorization for the SetAsFirstRequest.
  * This class ensures that the necessary input parameters are present and valid.
  */
-class SaveUpdatedMediumRequest extends FormRequest
+class StoreUpdatedMediumRequest extends FormRequest
 {
     public function authorize(): bool
     {

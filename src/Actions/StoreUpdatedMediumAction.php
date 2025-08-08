@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
@@ -21,7 +21,7 @@ class StoreUpdatedMediumAction
         protected MediaService $mediaService
     ) {}
 
-    public function execute(SaveUpdatedMediumRequest $request): JsonResponse|RedirectResponse
+    public function execute(StoreUpdatedMediumRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
 
@@ -96,6 +96,6 @@ class StoreUpdatedMediumAction
             $existingMedium->delete();
         }
 
-        return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_removed'));
+        return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_replaced'));
     }
 }

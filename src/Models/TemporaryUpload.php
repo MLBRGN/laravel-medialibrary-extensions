@@ -106,6 +106,12 @@ class TemporaryUpload extends Model
         return $this->extra_properties[$key] ?? $default;
     }
 
+    // TODO. This wrapper exists because media library uses custom property and i use extra property
+    public function getCustomProperty(string $key, mixed $default = null): mixed
+    {
+        return $this->getExtraProperty($key, $default);
+    }
+
     public function getNameWithExtension(): string
     {
         return $this->name . '.' . pathinfo($this->file_name, PATHINFO_EXTENSION);

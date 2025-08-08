@@ -1,5 +1,5 @@
 @php
-    $mime = $medium->mime_type;
+    use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;$mime = $medium->mime_type;
 
     $iconMap = [
         'application/pdf' => [
@@ -24,13 +24,17 @@
 
 <div {{ $attributes->merge(['class' => 'mle-document']) }}>
     <div class="mle-document-preview">
-        <a href="{{ $medium->getUrl() }}" target="_blank">
-            <x-mle-partial-icon
-                :name="$icon['name']"
-                :title="$icon['title']"
-            />
-{{--        <p>{{ getHumanMimeTypeLabel($mime) }}</p>--}}
-{{--        {{ __('media-library-extensions::messages.show_document') }}--}}
-        </a>
+        @if($medium instanceof TemporaryUpload)
+            Document not yet implemented for temporary uploads
+        @else
+            <a href="{{ $medium->getUrl() }}" target="_blank">
+                <x-mle-partial-icon
+                    :name="$icon['name']"
+                    :title="$icon['title']"
+                />
+                {{--        <p>{{ getHumanMimeTypeLabel($mime) }}</p>--}}
+                {{--        {{ __('media-library-extensions::messages.show_document') }}--}}
+            </a>
+        @endif
     </div>
 </div>

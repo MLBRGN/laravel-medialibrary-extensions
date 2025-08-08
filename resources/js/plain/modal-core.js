@@ -33,6 +33,7 @@ export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
  */
 export function initModalEvents() {
     document.addEventListener('click', (e) => {
+        e.stopPropagation();
         const target = e.target;
         console.log('target', target);
         const trigger = target.closest('[data-modal-trigger]');

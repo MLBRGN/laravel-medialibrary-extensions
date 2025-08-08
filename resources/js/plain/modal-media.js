@@ -92,6 +92,7 @@ function initMediaModalEvents() {
             const modalId = trigger.getAttribute('data-modal-trigger');
             const slideTo = parseInt(trigger.getAttribute('data-slide-to') || '0', 10);
 
+            console.log('modalId', modalId, 'slideTo', slideTo);
             const modal = document.querySelector(modalId);
             baseOpenModal(modalId); // open modal first
 
@@ -99,6 +100,8 @@ function initMediaModalEvents() {
             const controller = getCarouselController(carousel);
             if (controller) {
                 controller.goToSlide(slideTo, true);
+            } else {
+                console.log('no controller');
             }
 
             return;

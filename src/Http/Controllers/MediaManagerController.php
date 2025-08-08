@@ -21,7 +21,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestr
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SaveUpdatedMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -66,12 +66,12 @@ class MediaManagerController extends Controller
         return $setTemporaryUploadAsFirstAction->execute($request);
     }
 
-    public function saveUpdatedMedium(SaveUpdatedMediumRequest $request, StoreUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
+    public function saveUpdatedMedium(StoreUpdatedMediumRequest $request, StoreUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
     {
         return $saveUpdatedMediumAction->execute($request);
     }
 
-    public function saveUpdatedTemporaryUpload(SaveUpdatedMediumRequest $request, StoreUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
+    public function saveUpdatedTemporaryUpload(StoreUpdatedMediumRequest $request, StoreUpdatedMediumAction $saveUpdatedMediumAction): RedirectResponse|JsonResponse
     {
         return $saveUpdatedMediumAction->execute($request);
     }

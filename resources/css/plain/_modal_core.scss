@@ -81,6 +81,7 @@
         border: 0;
         box-sizing:border-box;
         background-color: var(--mlbrgn-mle-container-bg-light);
+        overflow:hidden;
     }
 
     .modal-close-button {
