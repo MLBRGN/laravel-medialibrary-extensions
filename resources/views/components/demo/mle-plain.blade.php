@@ -58,7 +58,7 @@
 
     <x-mle-media-manager-single
         id="blog-main-temporary-uploads"
-        model-or-class-name="\App\Models\Aliens"
+        model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
         image-collection="alien-single-image"
         document-collection="alien-single-document"
         youtube-collection="alien-single-youtube-video"
@@ -90,7 +90,7 @@
 
     <x-mle-media-manager-multiple
         id="blog-images-temporary-uploads"
-        model-or-class-name="\App\Models\Aliens"
+        model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
         image-collection="alien-multiple-images"
         document-collection="alien-multiple-documents"
         youtube-collection="alien-multiple-youtube-videos"
