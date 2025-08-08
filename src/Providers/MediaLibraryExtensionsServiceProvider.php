@@ -18,9 +18,6 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaUploadService;
-use Mlbrgn\MediaLibraryExtensions\Services\TemporaryMediaService;
-use Mlbrgn\MediaLibraryExtensions\Services\YouTubeUploadService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
@@ -216,17 +213,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     protected function registerServices(): void
     {
-        $this->app->singleton(TemporaryMediaService::class, function ($app) {
-            return new TemporaryMediaService;
-        });
-
-        $this->app->singleton(MediaUploadService::class, function ($app) {
-            return new MediaUploadService;
-        });
-
-        $this->app->singleton(YouTubeUploadService::class, function ($app) {
-            return new YouTubeUploadService;
-        });
 
     }
 
