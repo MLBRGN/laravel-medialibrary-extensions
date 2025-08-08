@@ -33,6 +33,7 @@ it('delegates to temporary action when temporary_upload is true', function () {
 
     expect($result)->toBe($expectedResponse);
 });
+
 it('delegates to permanent action when temporary_upload is not true', function () {
     $request = Mockery::mock(MediaManagerUploadMultipleRequest::class);
     $request->shouldReceive('all')->andReturn(['temporary_upload' => 'false']);

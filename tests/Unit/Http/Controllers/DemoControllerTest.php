@@ -7,8 +7,10 @@ it('sets config and returns view with model for demoPlain', function () {
     $controller = new DemoController;
     $response = $controller->demoPlain();
 
-    expect(config('media-library-extensions.frontend_theme'))->toBe('plain');
-    expect($response->name())->toBe('media-library-extensions::components.demo.mle-plain');
+    expect($response)->toBeInstanceOf(\Illuminate\View\View::class)
+        ->and($response->name())->toBe('media-library-extensions::components.demo.mle-plain')
+        ->and($response->getData()['model'])->toBeInstanceOf(Alien::class)
+        ->and(config('media-library-extensions.frontend_theme'))->toBe('plain');
 
     $model = $response->getData()['model'];
     expect($model)->toBeInstanceOf(Alien::class);
@@ -44,4 +46,12 @@ it('uses existing Alien if present for demoBootstrap5', function () {
 
     $model = $response->getData()['model'];
     expect($model->id)->toBe($existingAlien->id);
+});
+
+it('creates model if none exists', function () {
+    expect(Alien::count())->toBe(0);
+
+    (new DemoController())->demoPlain();
+
+    expect(Alien::count())->toBe(1);
 });

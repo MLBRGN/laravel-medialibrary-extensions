@@ -45,20 +45,6 @@ class StoreMultiplePermanentAction
             );
         }
 
-        if ($request->filled('youtube_url')) {
-            $this->youTubeService->uploadThumbnailFromUrl(
-                model: $model,
-                youtubeUrl: $request->input('youtube_url'),
-                collection: 'workplace-youtube-videos',
-                customId: $request->input('youtube_id')
-            );
-
-            return MediaResponse::success(
-                $request, $initiatorId,
-                __('media-library-extensions::messages.youtube_video_uploaded')
-            );
-        }
-
         return MediaResponse::error(
             $request, $initiatorId,
             __('media-library-extensions::messages.upload_no_files')

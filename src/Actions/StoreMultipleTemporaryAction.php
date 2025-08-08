@@ -87,55 +87,6 @@ class StoreMultipleTemporaryAction
             $savedFiles[] = $filename;
         }
 
-        // Handle YouTube uploads (if no files, or in addition to files)
-//        if ($request->filled('youtube_url')) {
-//            $youtubeCollection = $request->input('youtube_collection') ?? 'workplace-youtube-videos';
-//            $youtubeId = $request->input('youtube_id');
-//            $youtubeUrl = $request->input('youtube_url');
-//
-//            $thumbnailPath = $this->youTubeService->downloadThumbnail(
-//                youtubeUrl: $youtubeUrl,
-//                disk: $disk,
-//                pathPrefix: $directory,
-//                customId: $youtubeId
-//            );
-//
-//            if ($thumbnailPath) {
-//                $safeFilename = sanitizeFilename(pathinfo($thumbnailPath, PATHINFO_FILENAME));
-//                $originalName = basename($thumbnailPath);
-//                $extension = pathinfo($thumbnailPath, PATHINFO_EXTENSION);
-//                $mimeType = Storage::disk($disk)->mimeType($thumbnailPath);
-//
-//                $maxOrderColumn = TemporaryUpload::where('session_id', $sessionId)->max('order_column') ?? 0;
-//                $nextOrder = $maxOrderColumn + 1;
-//
-//                $upload = new TemporaryUpload([
-//                    'disk' => $disk,
-//                    'path' => $thumbnailPath,
-//                    'name' => $safeFilename,
-//                    'file_name' => $originalName,
-//                    'collection_name' => $youtubeCollection,
-//                    'mime_type' => $mimeType,
-//                    'user_id' => Auth::check() ? Auth::id() : null,
-//                    'session_id' => $sessionId,
-//                    'order_column' => $nextOrder,
-//                    'extra_properties' => [
-//                        'youtube_url' => $youtubeUrl,
-//                        'youtube_id' => $youtubeId,
-//                        'youtube_collection' => $youtubeCollection,
-//                    ],
-//                ]);
-//
-//                $upload->save();
-//                $savedFiles[] = $originalName;
-//            } else {
-//                return MediaResponse::error(
-//                    $request, $initiatorId,
-//                    __('media-library-extensions::messages.youtube_thumbnail_download_failed')
-//                );
-//            }
-//        }
-
         if (empty($savedFiles)) {
             return MediaResponse::error(
                 $request,
