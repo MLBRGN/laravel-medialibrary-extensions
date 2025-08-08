@@ -22,17 +22,16 @@ test('it stores multiple valid files and returns JSON success', function () {
     $this->mediaService
         ->shouldReceive('determineCollection')->twice()->andReturn('images');
 
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
     $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'xyz',
     ], [], [
-        'media' => [$file1, $file2]
+        $uploadFieldNameMultiple => [$file1, $file2]
     ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
-
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
 
     $response = $this->action->execute($request);
 
@@ -53,16 +52,15 @@ test('it stores multiple valid files and returns redirect success', function () 
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn('images');
 
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
     $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'abc',
     ], [], [
-        'media' => [$file]
+        $uploadFieldNameMultiple => [$file]
     ]);
     $request->setLaravelSession(app('session.store'));
-
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
 
     $response = $this->action->execute($request);
 
@@ -91,8 +89,6 @@ test('it returns error if no files are given (JSON)', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
-
     $response = $this->action->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
@@ -118,10 +114,6 @@ test('it returns error if no files are given (redirect)', function () {
 
     $request->setLaravelSession(app('session.store'));
 
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
-
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
-
     $response = $this->action->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\RedirectResponse::class);
@@ -146,16 +138,15 @@ test('it returns error if file has invalid mimetype (JSON)', function () {
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn(null);
 
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
     $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'bad',
     ], [], [
-        'media' => [$file]
+        $uploadFieldNameMultiple => [$file]
     ]);
     $request->headers->set('Accept', 'application/json');
-
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
 
     $response = $this->action->execute($request);
 
@@ -175,18 +166,15 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn(null);
 
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
     $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'bad',
     ], [], [
-        'media' => [$file]
+        $uploadFieldNameMultiple => [$file]
     ]);
     $request->setLaravelSession(app('session.store'));
-
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
-
-    config(['media-library-extensions.upload_field_name_multiple' => 'media']);
 
     $response = $this->action->execute($request);
 

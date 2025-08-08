@@ -1,40 +1,35 @@
 <?php
 
 use Illuminate\Http\UploadedFile;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultiplePermanentAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleTemporaryAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleTemporaryAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 
 beforeEach(function () {
     $this->mediaService = \Mockery::mock(MediaService::class);
-    $this->youTubeService = \Mockery::mock(YouTubeService::class);
-    $this->action = new StoreMultipleTemporaryAction($this->mediaService, $this->youTubeService);
+    $this->action = new StoreSingleTemporaryAction($this->mediaService);
 });
 
-test('it stores multiple valid files and returns JSON success', function () {
+test('it stores file and returns JSON success', function () {
     $file1 = UploadedFile::fake()->image('photo1.jpg');
-    $file2 = UploadedFile::fake()->image('photo2.jpg');
     $model = $this->getTestBlogModel();
 
     $this->mediaService
-        ->shouldReceive('determineCollection')->twice()->andReturn('images');
+        ->shouldReceive('determineCollection')->once()->andReturn('images');
 
-    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
-        'temporary_upload' => true,
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'xyz',
     ], [], [
-        $uploadFieldNameMultiple => [$file1, $file2]
+        $uploadFieldNameSingle => $file1
     ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
 
     $response = $this->action->execute($request);
-
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
@@ -44,19 +39,20 @@ test('it stores multiple valid files and returns JSON success', function () {
         ]);
 });
 
-test('it stores multiple valid files and returns redirect success', function () {
+test('it stores file and returns redirect success', function () {
     $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getTestBlogModel();
+
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn('images');
 
-    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'abc',
     ], [], [
-        $uploadFieldNameMultiple => [$file]
+        $uploadFieldNameSingle => $file
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -74,32 +70,31 @@ test('it stores multiple valid files and returns redirect success', function () 
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_success'));
 });
 
-test('it returns error if no files are given (JSON)', function () {
+test('it returns error if no file is given (JSON)', function () {
     $model = $this->getTestBlogModel();
 
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'abc',
     ]);
     $request->headers->set('Accept', 'application/json');
-    $request->setLaravelSession(app('session.store'));
 
     $response = $this->action->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
-      ->and($response->getData(true))
-              ->toMatchArray([
-                  'initiatorId' => 'abc',
-                  'type' => 'error',
-                  'message' => __('media-library-extensions::messages.upload_no_files'),
-              ]);
+        ->and($response->getData(true))
+        ->toMatchArray([
+            'initiatorId' => 'abc',
+            'type' => 'error',
+            'message' => __('media-library-extensions::messages.upload_no_files'),
+        ]);
 });
 
-test('it returns error if no files are given (redirect)', function () {
+test('it returns error if no file is given (redirect)', function () {
     $model = $this->getTestBlogModel();
 
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'abc',
@@ -129,23 +124,23 @@ test('it returns error if file has invalid mimetype (JSON)', function () {
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn(null);
 
-    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'bad',
     ], [], [
-        $uploadFieldNameMultiple => [$file]
+        $uploadFieldNameSingle => $file
     ]);
     $request->headers->set('Accept', 'application/json');
-    $request->setLaravelSession(app('session.store'));
 
     $response = $this->action->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true)['type'])->toBe('error')
         ->and($response->getData(true)['message'])->toBe(
-            __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype')
+            __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' =>  $file->getMimetype()])
         );
 });
 
@@ -156,13 +151,14 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn(null);
 
-    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => 'bad',
     ], [], [
-        $uploadFieldNameMultiple => [$file]
+        $uploadFieldNameSingle => $file
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -178,5 +174,5 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
 
     expect($sessionData['type'])->toBe('error');
     expect($sessionData['initiatorId'])->toBe('bad');
-    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' =>  $file->getMimetype()]));
 });
