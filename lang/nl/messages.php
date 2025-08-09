@@ -9,6 +9,7 @@ return [
     'upload_no_file' => 'Geen bestand geüpload.',
     'upload_no_youtube_url' => 'Geen YouTube URL.',
     'youtube_video_uploaded' => 'YouTube video geüpload.',
+    'youtube_thumbnail_download_failed' => 'YouTube videoafbeelding kon niet worden gedownload.',
     'setup_as_main' => 'Instellen als hoofdmedium.',
     'please_wait' => 'Een moment a.u.b.',
     'medium_set_as_main' => 'Ingesteld als hoofdmedium.',

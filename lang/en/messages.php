@@ -9,6 +9,7 @@ return [
     'upload_no_file' => 'No file uploaded.',
     'upload_no_youtube_url' => 'Geen YouTube URL.',
     'youtube_video_uploaded' => 'YouTube video uploaded.',
+    'youtube_thumbnail_download_failed' => 'YouTube thumbnail download failed.',
     'setup_as_main' => 'Setup as main.',
     'please_wait' => 'Please wait.',
     'medium_set_as_main' => 'Medium set as main.',

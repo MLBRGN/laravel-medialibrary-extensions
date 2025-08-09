@@ -1,0 +1,132 @@
+<?php
+
+use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
+use function Pest\Laravel\{actingAs, post};
+
+// ---------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------
+beforeEach(function () {
+    Storage::fake('tmp');
+    config()->set('media-library-extensions.temporary_upload_disk', 'tmp');
+    config()->set('media-library-extensions.temporary_upload_path', 'temp-uploads');
+
+    // Fake Auth user
+    $this->user = \App\Models\User::factory()->create();
+    actingAs($this->user);
+});
+
+// ---------------------------------------------------------
+// uploadThumbnailFromUrl
+// ---------------------------------------------------------
+it('uploads a youtube thumbnail to the model', function () {
+    $model = $this->getTestBlogModel();
+    $service = new YouTubeService();
+
+    // Mock method chaining of Spatie's media library
+    $mockMediaAdder = Mockery::mock();
+    $mockMediaAdder
+        ->shouldReceive('usingFileName')->once()->andReturnSelf()
+        ->shouldReceive('withCustomProperties')->once()->andReturnSelf()
+        ->shouldReceive('toMediaCollection')->once();
+
+    $model->shouldReceive('addMediaFromUrl')
+        ->once()
+        ->with('https://img.youtube.com/vi/abc123/maxresdefault.jpg')
+        ->andReturn($mockMediaAdder);
+
+    // Helper function extractYouTubeId() assumed returns abc123
+    function extractYouTubeId($url) { return 'abc123'; }
+
+    $service->uploadThumbnailFromUrl($model, 'https://youtu.be/abc123', 'videos');
+});
+
+// ---------------------------------------------------------
+// storeTemporaryThumbnailFromUrl
+// ---------------------------------------------------------
+it('stores a temporary youtube thumbnail successfully', function () {
+    $service = new YouTubeService();
+    $sessionId = 'sess-1';
+
+    // Stub helper functions
+    function extractYouTubeId($url) { return 'abc123'; }
+    function sanitizeFilename($name) { return $name; }
+
+    // Fake file_get_contents to return mock data
+    $contents = 'fake-image-bytes';
+    test()->swap('file_get_contents', fn() => $contents);
+
+    // Fake Storage mimeType
+    Storage::disk('tmp')->put('temp-uploads/youtube-abc123.jpg', $contents);
+    Storage::disk('tmp')->shouldReceive('mimeType')
+        ->with('temp-uploads/youtube-abc123.jpg')
+        ->andReturn('image/jpeg');
+
+    $tempUpload = $service->storeTemporaryThumbnailFromUrl(
+        youtubeUrl: 'https://youtu.be/abc123',
+        sessionId: $sessionId,
+        customId: null,
+        collection: 'custom-collection',
+    );
+
+    expect($tempUpload)->toBeInstanceOf(TemporaryUpload::class)
+        ->and($tempUpload->disk)->toBe('tmp')
+        ->and($tempUpload->path)->toBe('temp-uploads/youtube-abc123.jpg')
+        ->and($tempUpload->collection_name)->toBe('custom-collection')
+        ->and($tempUpload->extra_properties['youtube-id'])->toBe('abc123');
+});
+
+it('returns null when extractYouTubeId fails', function () {
+    $service = new YouTubeService();
+    function extractYouTubeId($url) { return null; }
+
+    $result = $service->storeTemporaryThumbnailFromUrl(
+        youtubeUrl: 'invalid-url',
+        sessionId: 'sess-1'
+    );
+
+    expect($result)->toBeNull();
+});
+
+it('returns null when thumbnail download fails', function () {
+    $service = new YouTubeService();
+    function extractYouTubeId($url) { return 'abc123'; }
+
+    // file_get_contents returns false
+    test()->swap('file_get_contents', fn() => false);
+
+    $result = $service->storeTemporaryThumbnailFromUrl(
+        youtubeUrl: 'https://youtu.be/abc123',
+        sessionId: 'sess-1'
+    );
+
+    expect($result)->toBeNull();
+});
+
+// ---------------------------------------------------------
+// storeTemporaryThumbnailFromRequest
+// ---------------------------------------------------------
+it('stores temporary thumbnail from request', function () {
+    $service = Mockery::mock(YouTubeService::class)->makePartial();
+    $service->shouldReceive('storeTemporaryThumbnailFromUrl')
+        ->once()
+        ->with(
+            youtubeUrl: 'https://youtu.be/abc123',
+            sessionId: 'sess-id',
+            customId: 'abc123',
+            collection: 'videos'
+        )
+        ->andReturn(new TemporaryUpload());
+
+    $request = Mockery::mock(MediaManagerUploadYouTubeRequest::class);
+    $request->shouldReceive('input')->with('youtube_url')->andReturn('https://youtu.be/abc123');
+    $request->shouldReceive('input')->with('youtube_id')->andReturn('abc123');
+    $request->collection_name = 'videos';
+    $request->shouldReceive('session->getId')->andReturn('sess-id');
+
+    $result = $service->storeTemporaryThumbnailFromRequest($request);
+    expect($result)->toBeInstanceOf(TemporaryUpload::class);
+});

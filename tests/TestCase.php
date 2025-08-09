@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
@@ -150,6 +151,18 @@ class TestCase extends Orchestra
             'file_name' => 'test.jpg',
             'mime_type' => 'image/jpeg',
             'custom_properties' => [],
+        ]);
+    }
+
+    public function getTemporaryUpload($fileName = 'temp.jpg'): TemporaryUpload {
+        return TemporaryUpload::create([
+            'disk' => 'media',
+            'path' => 'uploads/temp.jpg',
+            'name' => 'temp',
+            'file_name' => $fileName,
+            'collection_name' => 'test',
+            'extra_properties' => ['image_collection' => 'images'],
+            'session_id' => session()->getId(),
         ]);
     }
 
