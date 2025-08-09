@@ -30,6 +30,10 @@ class TestCase extends Orchestra
             'medialibrary-extensions',
             __DIR__ . '/../lang'
         );
+
+        Route::get('/login', function () {
+            return 'Login (dummy)';
+        })->name('login');
     }
 
     protected function getPackageProviders($app): array

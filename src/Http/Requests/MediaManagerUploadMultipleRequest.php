@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
+use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
 
 /**
  * Handle the validation and authorization for uploading multiple media files.
@@ -30,9 +31,11 @@ class MediaManagerUploadMultipleRequest extends FormRequest
         $uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
         $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
 
-        // Try to resolve the model instance to pass to the rule
+        $temporaryUpload = $this->input('temporary_upload', 'false');
+
+        // Resolve model only if temporary_upload = 'false'
         $model = null;
-        if ($this->filled('model_type') && $this->filled('model_id')) {
+        if ($temporaryUpload === 'false' && $this->filled('model_type') && $this->filled('model_id')) {
             $modelClass = $this->input('model_type');
             if (class_exists($modelClass)) {
                 $model = $modelClass::find($this->input('model_id'));
@@ -50,7 +53,9 @@ class MediaManagerUploadMultipleRequest extends FormRequest
                 'nullable',
                 'array',
                 // Apply the MaxMediaCount rule only if the model is found, else skip it gracefully
-                $model ? new MaxMediaCount($model, $this->input('image_collection'), $maxItemsInCollection) : null,
+                $temporaryUpload === 'false'
+                    ? new MaxMediaCount($model, $this->input('image_collection'), $maxItemsInCollection)
+                    : new MaxTemporaryUploadCount($this->input('model_type'), $this->input('image_collection'), $maxItemsInCollection),
             ],
             $uploadFieldName.'.media.*' => [
                 'nullable',

@@ -1,10 +1,13 @@
 <?php
 
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultiplePermanentAction;
+use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
+use Spatie\MediaLibrary\HasMedia;
 
 beforeEach(function () {
     $this->mediaService = \Mockery::mock(MediaService::class);
@@ -190,3 +193,85 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
     expect($sessionData['initiatorId'])->toBe('bad');
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
+
+test('it returns error if max media count is exceeded (JSON)', function () {
+
+    $model = $this->getTestBlogModel();
+    $model->save(); // must be persisted for media attachment
+
+    // Attach 1 existing media item
+    $model->addMedia(UploadedFile::fake()->image('existing.jpg'))
+        ->toMediaCollection('images');
+
+    // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
+    Config::set('media-library-extensions.route_middleware',[]);
+    Config::set('media-library-extensions.max_items_in_collection', 2);
+
+    $file1 = UploadedFile::fake()->image('photo1.jpg');
+    $file2 = UploadedFile::fake()->image('photo2.jpg');
+    $file3 = UploadedFile::fake()->image('photo3.jpg');
+    $file4 = UploadedFile::fake()->image('photo4.jpg');
+
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
+
+    $response = $this->withoutMiddleware(Authenticate::class)->postJson(
+        route(config('media-library-extensions.route_prefix').'-media-upload-multiple'),
+        [
+            'model_type'   => $model->getMorphClass(),
+            'model_id'     => $model->getKey(),
+            'initiator_id' => 'overlimit',
+            'image_collection' => 'images',
+            'temporary_upload' => 'false',
+            $uploadFieldNameMultiple => [$file1, $file2, $file3, $file4],
+        ]
+    );
+
+    $response->assertStatus(422); // Validation failed
+    $response->assertJsonValidationErrors(['media']); // or your field name
+
+    $responseData = $response->json();
+
+    expect($responseData['message'])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_collection')]));
+    expect($responseData['errors']['media'][0])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_collection')]));
+});
+
+test('it returns error if max media count is exceeded (redirect)', function () {
+    $model = $this->getTestBlogModel();
+    $model->save(); // must be persisted for media attachment
+
+    // Attach 1 existing media item
+    $model->addMedia(UploadedFile::fake()->image('existing.jpg'))
+        ->toMediaCollection('images');
+
+    // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
+    Config::set('media-library-extensions.route_middleware',[]);
+    Config::set('media-library-extensions.max_items_in_collection', 2);
+
+    $file1 = UploadedFile::fake()->image('photo1.jpg');
+    $file2 = UploadedFile::fake()->image('photo2.jpg');
+    $file3 = UploadedFile::fake()->image('photo3.jpg');
+    $file4 = UploadedFile::fake()->image('photo4.jpg');
+
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
+
+    $response = $this->withoutMiddleware(Authenticate::class)->post(
+        route(config('media-library-extensions.route_prefix').'-media-upload-multiple'),
+        [
+            'model_type'   => $model->getMorphClass(),
+            'model_id'     => $model->getKey(),
+            'initiator_id' => 'overlimit',
+            'image_collection' => 'images',
+            'temporary_upload' => 'false',
+            $uploadFieldNameMultiple => [$file1, $file2, $file3, $file4],
+        ]
+    );
+
+    $response->assertStatus(302);
+
+// Assert validation error is flashed to session
+    $response->assertSessionHasErrors([
+        'media' => __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_collection')]),
+    ]);
+});
+
+

@@ -36,7 +36,7 @@ it('throws exception if given a class string that does not implement HasMedia', 
     $component->render();
 })->throws(Exception::class);
 //    ->throws(Exception::class, 'model-or-class-name must be either a HasMedia model or a string representing the model class')
-//->only();
+//;
 
 it('sets mediaPresent to true if model has media in the given image collection', function () {
     $model = $this->getTestBlogModel();

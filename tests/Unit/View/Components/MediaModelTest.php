@@ -28,7 +28,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 ////    expect($component->mediaItems)
 ////        ->toBeInstanceOf(MediaCollection::class)
 ////        ->and($component->mediaItems->count())->toBe(2);
-//})->only();
+//});
 //
 //it('initializes with multiple media collections', function () {
 //    $media1 = collect([Mockery::mock(Media::class)]);
