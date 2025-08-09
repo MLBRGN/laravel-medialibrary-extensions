@@ -64,7 +64,6 @@ class StoreMultipleTemporaryAction
             $maxOrderColumn = TemporaryUpload::where('session_id', $sessionId)->max('order_column') ?? 0;
             $nextOrder = $maxOrderColumn + 1;
 
-//            dd($safeFilename);
             // Create DB record
             $upload = new TemporaryUpload([
                 'disk' => $disk,
