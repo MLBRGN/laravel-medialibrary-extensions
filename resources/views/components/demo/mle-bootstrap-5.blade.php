@@ -17,7 +17,7 @@
         <h2 class="my-5">Media Manager Single</h2>
 
         <x-mle-media-manager-single
-            id="aliens-main"
+            id="alien-single"
             :model-or-class-name="$model"
             image-collection="alien-single-image"
             document-collection="alien-single-document"
@@ -32,7 +32,7 @@
         <h2 class="my-5">Media Manager Single (Temporary uploads)</h2>
 
         <x-mle-media-manager-single
-            id="aliens-main-temporary-uploads"
+            id="aliens-single-temporary-uploads"
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
             image-collection="alien-single-image"
             document-collection="alien-single-document"
@@ -47,7 +47,7 @@
         <h2 class="my-5">Media Manager Multiple</h2>
 
         <x-mle-media-manager-multiple
-            id="alien-images"
+            id="alien-multiple"
             :model-or-class-name="$model"
             image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
@@ -65,7 +65,7 @@
         <h2 class="my-5">Media Manager Multiple (Temporary uploads)</h2>
 
         <x-mle-media-manager-multiple
-            id="alien-images-temporary-uploads"
+            id="alien-multiple-temporary-uploads"
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
             image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
@@ -85,8 +85,27 @@
         <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
 
         <x-mle-media-carousel
-            id="alien-media"
+            id="alien-media-carousel"
             :model-or-class-name="$model"
+            :media-collections="[
+                        'alien-single-image', 
+                        'alien-single-document', 
+                        'alien-single-youtube-video',
+                        'alien-multiple-images', 
+                        'alien-multiple-documents', 
+                        'alien-multiple-youtube-videos'
+                    ]"
+            class="my-5"
+            frontend-theme="bootstrap-5"
+        />
+
+        <h2 class="my-5">Media Carousel (Temporary)</h2>
+
+        <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
+
+        <x-mle-media-carousel
+            id="alien-media-carousel-temporary-uploads"
+            model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
             :media-collections="[
                         'alien-single-image', 
                         'alien-single-document', 

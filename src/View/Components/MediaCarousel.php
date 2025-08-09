@@ -19,7 +19,7 @@ class MediaCarousel extends BaseComponent
 
     public string $previewerId = '';
 
-    public ?HasMedia $model = null;
+    public HasMedia|null $model = null;
 
     public ?string $modelType = null;
 
@@ -28,7 +28,7 @@ class MediaCarousel extends BaseComponent
     public bool $temporaryUpload = false;
 
     public function __construct(
-        HasMedia|string|null $modelOrClassName = null,
+        public HasMedia|string $modelOrClassName,
         public ?string $mediaCollection = null,
         public ?array $mediaCollections = [],
         public bool $singleMedium = false,

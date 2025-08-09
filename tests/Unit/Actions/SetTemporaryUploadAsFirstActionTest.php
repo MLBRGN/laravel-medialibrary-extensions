@@ -64,8 +64,6 @@ it('can set as first in collection', function () {
     $initiatorId = 'initiator-123';
     $targetCollection = 'blog-images';
 
-//    dump(session()->getId());
-
     $media1 = TemporaryUpload::create([
         'disk' => 'media',
         'path' => 'uploads/skip1.jpg',
@@ -95,7 +93,6 @@ it('can set as first in collection', function () {
 
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
-    dump(session()->getId());
 
     $mediaService = new MediaService();
     $action = new SetTemporaryUploadAsFirstAction($mediaService);

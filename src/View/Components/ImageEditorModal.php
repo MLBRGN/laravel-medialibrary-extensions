@@ -16,7 +16,7 @@ class ImageEditorModal extends BaseComponent
 
     public string $saveUpdatedMediumRoute;
 
-    public ?HasMedia $model = null;
+    public HasMedia|null $model = null;
 
     public ?string $modelType = null;
 
@@ -25,7 +25,7 @@ class ImageEditorModal extends BaseComponent
     public bool $temporaryUpload = false;
 
     public function __construct(
-        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
+        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
         public string $id,
         public string $initiatorId,
@@ -38,10 +38,6 @@ class ImageEditorModal extends BaseComponent
         parent::__construct($id, $frontendTheme);
 
         $this->id = $this->id.'-image-editor-modal-'.$medium->id;
-
-        if (is_null($modelOrClassName)) {
-            throw new Exception('model-or-class-name attribute must be set');
-        }
 
         if ($modelOrClassName instanceof HasMedia) {
             $this->model = $modelOrClassName;

@@ -18,7 +18,7 @@ class MediaManagerPreview extends BaseComponent
 
     public Collection $media;
 
-    public ?HasMedia $model = null;
+    public HasMedia|null $model = null;
 
     public ?string $modelType = null;
 
@@ -27,8 +27,8 @@ class MediaManagerPreview extends BaseComponent
     public bool $temporaryUpload = false;
 
     public function __construct(
+        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public string $id = '',
-        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
@@ -40,10 +40,6 @@ class MediaManagerPreview extends BaseComponent
         public bool $temporaryUploads = false,
     ) {
         parent::__construct($id, $frontendTheme);
-
-        if (is_null($modelOrClassName)) {
-            throw new Exception('model-or-class-name attribute must be set');
-        }
 
         if ($modelOrClassName instanceof HasMedia) {
             $this->model = $modelOrClassName;

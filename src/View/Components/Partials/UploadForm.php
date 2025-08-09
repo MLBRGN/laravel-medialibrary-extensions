@@ -15,7 +15,7 @@ class UploadForm extends BaseComponent
 
     public string $allowedMimeTypesHuman = '';
 
-    public ?HasMedia $model = null;
+    public HasMedia|null $model = null;
 
     public ?string $modelType = null;
 

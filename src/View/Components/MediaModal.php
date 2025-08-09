@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 class MediaModal extends BaseComponent
 {
 
-    public ?HasMedia $model = null;
+    public HasMedia|null $model = null;
 
     public ?string $modelType = null;
 
@@ -20,7 +20,7 @@ class MediaModal extends BaseComponent
     public bool $temporaryUpload = false;
 
     public function __construct(
-        public HasMedia|string|null $modelOrClassName = null,
+        public HasMedia|string $modelOrClassName,
         public ?string $mediaCollection,
         public ?array $mediaCollections,
         public string $title,// TODO do i want this?
@@ -29,11 +29,6 @@ class MediaModal extends BaseComponent
         public bool $videoAutoPlay = true,
     ) {
         parent::__construct($id, $frontendTheme);
-
-        if (is_null($modelOrClassName)) {
-            throw new Exception('model-or-class-name attribute must be set');
-        }
-
         if ($modelOrClassName instanceof HasMedia) {
             $this->model = $modelOrClassName;
             $this->modelType = $modelOrClassName->getMorphClass();

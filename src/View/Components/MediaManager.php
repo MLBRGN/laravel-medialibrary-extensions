@@ -16,7 +16,7 @@ class MediaManager extends BaseComponent
 
     public string $allowedMimeTypes = '';
 
-    public ?HasMedia $model = null;
+    public HasMedia|null $model = null;
 
     public ?string $modelType = null;
 
@@ -34,7 +34,7 @@ class MediaManager extends BaseComponent
     public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
     public function __construct(
-        public HasMedia|string|null $modelOrClassName = null,// either a modal that implements HasMedia or it's class name
+        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
@@ -52,9 +52,6 @@ class MediaManager extends BaseComponent
         parent::__construct($id, $frontendTheme);
 
         $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
-        if (is_null($modelOrClassName)) {
-            throw new Exception('model-or-class-name attribute must be set');
-        }
 
         if ($modelOrClassName instanceof HasMedia) {
             $this->model = $modelOrClassName;

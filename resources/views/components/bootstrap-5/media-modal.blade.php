@@ -31,7 +31,7 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-
+               
                 {{-- important set click to open in modal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"

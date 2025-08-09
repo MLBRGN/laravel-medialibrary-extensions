@@ -20,7 +20,7 @@ class Debug extends Component
     public Collection $collections;
 
     public function __construct(
-        public ?HasMedia $model = null,
+        public HasMedia|null $model = null,
         public ?string $modelType = null,
         public ?string $modelId = null,
         public ?string $frontendTheme = null,

@@ -17,7 +17,7 @@ class YouTubeUploadForm extends BaseComponent
 
     public string $previewUpdateRoute; // route to update preview media when using ajax
 
-    public ?HasMedia $model = null;
+    public HasMedia|null $model = null;
 
     public ?string $modelType = null;
 

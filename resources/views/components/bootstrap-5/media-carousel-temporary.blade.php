@@ -128,7 +128,7 @@
 @if($clickToOpenInModal)
     <x-mle-media-modal
         :id="$id"
-        :model-or-class-name="$model"
+        :model-or-class-name="$modelOrClassName"
         :media-collection="$mediaCollection"
         :media-collections="$mediaCollections"
         title="Media carousel"/>

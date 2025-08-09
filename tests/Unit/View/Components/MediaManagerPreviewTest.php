@@ -12,10 +12,6 @@ beforeEach(function () {
     //    TemporaryUpload::shouldReceive('forCurrentSession')->andReturn(collect());
 });
 
-it('throws exception if modelOrClassName is null', function () {
-    new MediaManagerPreview(modelOrClassName: null);
-})->throws(Exception::class, 'model-or-class-name attribute must be set');
-
 it('accepts a HasMedia model instance and sets properties accordingly', function () {
     $model = Blog::create(['title' => 'test']);
     //    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
@@ -126,7 +122,7 @@ it('merges temporary uploads when temporaryUploads is true', function () {
         ->and($component->media->count())->toBe(6);
 })->todo();
 
-it('render returns the correct view', function () {
+it('returns the correct view', function () {
     $mockModel = Mockery::mock(HasMedia::class);
     $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
     $mockModel->shouldReceive('getKey')->andReturn(1);

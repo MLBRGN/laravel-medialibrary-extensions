@@ -70,10 +70,6 @@ it('initializes with temporary upload when only model class name provided', func
         ->and($component->uploadFieldName)->toBe('media_multiple');
 });
 
-it('throws if modelOrClassName is null', function () {
-    new MediaManager(modelOrClassName: null);
-})->throws(Exception::class, 'model-or-class-name attribute must be set');
-
 // it('throws if modelOrClassName is invalid type', function () {
 //    new MediaManager(modelOrClassName: new stdClass());
 // })->throws(Exception::class, 'model-or-class-name must be either a HasMedia model or a string representing the model class');
