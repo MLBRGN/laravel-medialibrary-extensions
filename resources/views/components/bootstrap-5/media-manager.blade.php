@@ -61,6 +61,7 @@
                 <x-mle-media-manager-preview
                     :id="$id"
                     :show-order="$showOrder"
+                    :show-menu="$showMenu"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :model-or-class-name="$modelOrClassName"

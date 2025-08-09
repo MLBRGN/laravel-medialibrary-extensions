@@ -50,7 +50,6 @@
                         data-bs-target="#{{$id}}-modal-carousel"
                         data-bs-slide-to="{{ $loop->index }}"
                     />
-                  
                 </div>
                 <x-mle-image-editor-modal 
                     id="{{ $id }}"
@@ -66,14 +65,15 @@
             @else
                 no suitable type
             @endif
-            @if($showMenu)
-                <div class="media-manager-preview-menu">
-                    <div class="media-manager-preview-image-menu-start">
-                        @if($showOrder)
-                            <span
-                                class="mle-pseudo-button mle-pseudo-button-icon"
-                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                            >
+        @endif
+        @if($showMenu)
+            <div class="media-manager-preview-menu">
+                <div class="media-manager-preview-image-menu-start">
+                    @if($showOrder)
+                        <span
+                            class="mle-pseudo-button mle-pseudo-button-icon"
+                            title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                        >
                             {{ $medium->order_column }}
                             </span>
                         @endif
@@ -115,7 +115,6 @@
                                     :youtube-collection="$youtubeCollection"
                                     :set-as-first-enabled="$setAsFirstEnabled"
                                 />
-                                @endif
                             @endif
                         @endif
                         @if($destroyEnabled)

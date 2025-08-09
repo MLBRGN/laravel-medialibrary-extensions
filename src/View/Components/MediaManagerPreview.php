@@ -14,8 +14,6 @@ class MediaManagerPreview extends BaseComponent
 {
     public string $allowedMimeTypes = '';
 
-    public bool $showMenu = false;
-
     public Collection $media;
 
     public HasMedia|null $model = null;
@@ -37,6 +35,7 @@ class MediaManagerPreview extends BaseComponent
         public bool $setAsFirstEnabled = false,
         public bool $showMediaUrl = false,
         public bool $showOrder = false,
+        public bool $showMenu = true,
         public bool $temporaryUploads = false,
     ) {
         parent::__construct($id, $frontendTheme);

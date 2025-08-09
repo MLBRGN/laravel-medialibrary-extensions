@@ -19,6 +19,7 @@ class MediaManagerMultiple extends MediaManager
         bool $setAsFirstEnabled = false,
         bool $showMediaUrl = false,
         bool $showOrder = false,
+        bool $showMenu = true,
         string $id = '',
         ?string $frontendTheme = null,
         ?bool $useXhr = true,

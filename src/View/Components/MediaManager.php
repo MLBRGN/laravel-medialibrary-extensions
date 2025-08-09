@@ -44,6 +44,7 @@ class MediaManager extends BaseComponent
         public bool $setAsFirstEnabled = false,
         public bool $showMediaUrl = false,
         public bool $showOrder = false,
+        public bool $showMenu = true,
         public string $id = '',
         public ?string $frontendTheme = null,
         public ?bool $useXhr = true,
