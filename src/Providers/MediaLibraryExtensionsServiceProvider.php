@@ -147,7 +147,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Route::model('media', Media::class);
 
         $this->registerPolicy();
-        $this->registerServices();
         $this->addToAbout();
 
     }
@@ -156,7 +155,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     {
         parent::register();
 
-        // TODO name is now medialibrary-extension
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
     }
 
@@ -181,18 +179,14 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // Run migrations if needed
         if (! Schema::connection($connectionName)->hasTable('aliens')) {
-            Log::info('Running demo migrations...');
+//            Log::info('Running demo migrations...');
             Artisan::call('migrate', [
                 '--database' => $connectionName,
                 '--path' => realpath(__DIR__.'/../../database/migrations/demo'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
-            Log::info('Demo migrations completed.');
-
-            //            app()->bind(Media::class, function () {
-            //                return new \Mlbrgn\MediaLibraryExtensions\Models\demo\Media();
-            //            });
+//            Log::info('Demo migrations completed.');
         }
 
     }
@@ -209,11 +203,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             // Use package’s fallback policy
             Gate::policy(Media::class, MediaPolicy::class);
         }
-    }
-
-    protected function registerServices(): void
-    {
-
     }
 
     protected function addToAbout(): void
