@@ -86,14 +86,49 @@ class TemporaryUpload extends Model
         return $this->hasExtraProperty('youtube-id');
     }
 
-    // TODO use config values?
+//    public function isDocument(): bool
+//    {
+//        return in_array($this->mime_type, [
+//            'application/pdf', 'text/plain', 'application/msword',
+//            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+//            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//        ]);
+//    }
+//
+//    public function isVideo(): bool
+//    {
+//        return in_array($this->mime_type, [
+//            'application/pdf', 'text/plain', 'application/msword',
+//            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+//            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//        ]);
+//    }
+//
+//    public function isAudio(): bool
+//    {
+//        return in_array($this->mime_type, [
+//            'application/pdf', 'text/plain', 'application/msword',
+//            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+//            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//        ]);
+//    }
+
     public function isDocument(): bool
     {
-        return in_array($this->mime_type, [
-            'application/pdf', 'text/plain', 'application/msword',
-            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        ]);
+        $allowed = config('media-library-extensions.allowed_mimetypes.document', []);
+        return in_array($this->mime_type, $allowed, true);
+    }
+
+    public function isVideo(): bool
+    {
+        $allowed = config('media-library-extensions.allowed_mimetypes.video', []);
+        return in_array($this->mime_type, $allowed, true);
+    }
+
+    public function isAudio(): bool
+    {
+        $allowed = config('media-library-extensions.allowed_mimetypes.audio', []);
+        return in_array($this->mime_type, $allowed, true);
     }
 
     public function hasExtraProperty(string $key): bool

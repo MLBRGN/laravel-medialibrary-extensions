@@ -105,7 +105,12 @@
 <div {{ $attributes->merge(['class' => 'mle-document']) }}>
     <div class="mle-document-preview">
         @if($medium instanceof TemporaryUpload)
-            Document not yet implemented for temporary uploads
+            <a href="{{ $medium->getFullUrl() }}" target="_blank">
+                <x-mle-partial-icon
+                    :name="$icon['name']"
+                    :title="$icon['title']"
+                />
+            </a>
         @else
             <a href="{{ $medium->getUrl() }}" target="_blank">
                 <x-mle-partial-icon

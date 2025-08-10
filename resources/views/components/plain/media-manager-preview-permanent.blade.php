@@ -55,10 +55,12 @@
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
                 >
-                    <audio controls class="media-manager-audio-preview">
-                        <source src="{{ $medium->getUrl() }}" type="{{ $medium->mime_type }}">
-                        {{ __('media-library-extensions::messages.your_browser_does_not_support_the_audio_element') }}
-                    </audio>
+                    <div class="media-manager-audio-preview">
+                        <audio controls>
+                            <source src="{{ $medium->getUrl() }}" type="{{ $medium->mime_type }}">
+                            {{ __('media-library-extensions::messages.your_browser_does_not_support_the_audio_element') }}
+                        </audio>
+                    </div>
 {{--                    <x-mle-audio />--}}
                 </div>
             @elseif(isMediaType($medium, 'image'))

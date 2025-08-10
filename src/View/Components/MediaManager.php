@@ -120,6 +120,8 @@ class MediaManager extends BaseComponent
             'model_id' => $this->modelId,
             'image_collection' => $this->imageCollection,
             'document_collection' => $this->documentCollection,
+            'video_collection' => $this->videoCollection,
+            'audio_collection' => $this->audioCollection,
             'youtube_collection' => $this->youtubeCollection,
             'media_upload_route' => $this->mediaUploadRoute,
             'temporary_upload_route' => 'TODO',

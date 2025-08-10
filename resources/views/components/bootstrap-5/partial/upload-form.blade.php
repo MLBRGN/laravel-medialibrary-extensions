@@ -43,16 +43,12 @@
             type="hidden"
             name="video_collection"
             value="{{ $videoCollection }}">
-    @else
-        no video
     @endif
     @if($audioCollection)
         <input
             type="hidden"
             name="audio_collection"
             value="{{ $audioCollection }}">
-    @else
-        no audio
     @endif
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
     <input

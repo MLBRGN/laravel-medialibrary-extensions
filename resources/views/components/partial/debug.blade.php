@@ -46,6 +46,8 @@
                 <ul>
                     <li><strong>Image Collection:</strong> {{ $config['image_collection'] ?? 'n/a' }}</li>
                     <li><strong>Document Collection:</strong> {{ $config['document_collection'] ?? 'n/a' }}</li>
+                    <li><strong>Video Collection:</strong> {{ $config['video_collection'] ?? 'n/a' }}</li>
+                    <li><strong>Audio Collection:</strong> {{ $config['audio_collection'] ?? 'n/a' }}</li>
                     <li><strong>YouTube Collection:</strong> {{ $config['youtube_collection'] ?? 'n/a' }}</li>
                     @foreach($collections as $collection)
                         <li><strong>{{ $collection }}</strong>: {{ $model->getMedia($collection)->count() }} items</li>
