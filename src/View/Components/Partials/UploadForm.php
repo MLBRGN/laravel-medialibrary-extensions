@@ -28,6 +28,8 @@ class UploadForm extends BaseComponent
         public ?string $imageCollection,
         public ?string $documentCollection,
         public ?string $youtubeCollection,
+        public ?string $videoCollection,
+        public ?string $audioCollection,
         public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public bool $temporaryUpload = false,
         public string $allowedMimeTypes = '',

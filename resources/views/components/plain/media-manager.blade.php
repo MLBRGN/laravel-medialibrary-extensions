@@ -31,6 +31,8 @@
                     :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
+                    :video-collection="$videoCollection"
+                    :audio-collection="$audioCollection"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :multiple="$multiple"

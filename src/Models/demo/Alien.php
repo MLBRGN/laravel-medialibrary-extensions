@@ -35,6 +35,16 @@ class Alien extends Model implements HasMedia
             ->singleFile()
             ->useDisk('public');
 
+        $this
+            ->addMediaCollection('alien-single-video')
+            ->singleFile()
+            ->useDisk('public');
+
+        $this
+            ->addMediaCollection('alien-single-audio')
+            ->singleFile()
+            ->useDisk('public');
+
         $this->addMediaCollection('alien-multiple-images')
             ->useDisk('public');
 
@@ -44,6 +54,11 @@ class Alien extends Model implements HasMedia
         $this->addMediaCollection('alien-multiple-youtube-videos')
             ->useDisk('public');
 
+        $this->addMediaCollection('alien-multiple-videos')
+            ->useDisk('public');
+
+        $this->addMediaCollection('alien-multiple-audio')
+            ->useDisk('public');
     }
 
     public function getConnectionName(): string

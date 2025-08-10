@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const container = mediaManager.querySelector('.media-manager-row');
 
         mediaManager.addEventListener('click', async function (e) {
+            console.log('bla bla')
             const config = getMediaManagerConfig(mediaManager);
             if (!config) return;
 
@@ -123,6 +124,8 @@ document.addEventListener('DOMContentLoaded', function () {
             image_collection: config.image_collection,
             youtube_collection: config.youtube_collection,
             document_collection: config.document_collection,
+            video_collection: config.video_collection,
+            audio_collection: config.audio_collection,
             initiator_id: config.id,
             frontend_theme: config.frontend_theme,
             destroy_enabled: config.destroy_enabled,
@@ -159,6 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function getFormData(formElement) {
         const formData = new FormData();
         formElement.querySelectorAll('input').forEach(input => {
+            console.log('input', input);
             if (input.type === 'file') {
                 Array.from(input.files).forEach(file => {
                     formData.append(input.name, file);

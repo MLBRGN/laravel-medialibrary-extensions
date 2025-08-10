@@ -4,7 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use _PHPStan_ac6dae9b0\Nette\Neon\Exception;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\HasMedia;
@@ -38,6 +38,8 @@ class MediaManager extends BaseComponent
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
+        public string $videoCollection = '',
+        public string $audioCollection = '',
         public bool $uploadEnabled = false,
         public string $uploadFieldName = 'media',
         public bool $destroyEnabled = false,

@@ -27,6 +27,15 @@ class MediaService
             return request()->input('document_collection');
         }
 
+        if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.audio'))) {
+            return request()->input('audio_collection');
+        }
+
+        if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.video'))) {
+            return request()->input('video_collection');
+        }
+
+
         return null; // means not supported
     }
 }

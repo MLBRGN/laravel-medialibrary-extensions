@@ -22,6 +22,8 @@
             image-collection="alien-single-image"
             document-collection="alien-single-document"
             youtube-collection="alien-single-youtube-video"
+            video-collection="alien-single-video"
+            audio-collection="alien-single-audio"
             class="mt-5"
             upload-enabled
             destroy-enabled
@@ -37,6 +39,8 @@
             image-collection="alien-single-image"
             document-collection="alien-single-document"
             youtube-collection="alien-single-youtube-video"
+            video-collection="alien-single-video"
+            audio-collection="alien-single-audio"
             class="mt-5"
             upload-enabled
             destroy-enabled
@@ -52,6 +56,8 @@
             image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
             youtube-collection="alien-multiple-youtube-videos"
+            video-collection="alien-multiple-videos"
+            audio-collection="alien-multiple-audio"
             class="mt-5"
             upload-enabled
             destroy-enabled
@@ -70,6 +76,8 @@
             image-collection="alien-multiple-images"
             document-collection="alien-multiple-documents"
             youtube-collection="alien-multiple-youtube-videos"
+            video-collection="alien-multiple-videos"
+            audio-collection="alien-multiple-audio"
             class="mt-5"
             upload-enabled
             destroy-enabled
@@ -91,9 +99,13 @@
                         'alien-single-image', 
                         'alien-single-document', 
                         'alien-single-youtube-video',
+                        'alien-single-video',
+                        'alien-single-audio',
                         'alien-multiple-images', 
                         'alien-multiple-documents', 
-                        'alien-multiple-youtube-videos'
+                        'alien-multiple-youtube-videos',
+                        'alien-multiple-video',
+                        'alien-multiple-audio',
                     ]"
             class="my-5"
             frontend-theme="bootstrap-5"
@@ -110,9 +122,13 @@
                         'alien-single-image', 
                         'alien-single-document', 
                         'alien-single-youtube-video',
+                        'alien-single-video',
+                        'alien-single-audio',
                         'alien-multiple-images', 
                         'alien-multiple-documents', 
-                        'alien-multiple-youtube-videos'
+                        'alien-multiple-youtube-videos',
+                        'alien-multiple-video',
+                        'alien-multiple-audio',
                     ]"
             class="my-5"
             frontend-theme="bootstrap-5"

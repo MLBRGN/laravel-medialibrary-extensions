@@ -40,6 +40,18 @@
             name="document_collection"
             value="{{ $documentCollection }}">
     @endif
+    @if($videoCollection)
+        <input
+            type="hidden"
+            name="video_collection"
+            value="{{ $videoCollection }}">
+    @endif
+    @if($audioCollection)
+        <input
+            type="hidden"
+            name="audio_collection"
+            value="{{ $audioCollection }}">
+    @endif
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
     <input
         type="hidden"
