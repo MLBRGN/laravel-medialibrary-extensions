@@ -28,7 +28,6 @@ class ToggleRepository extends Command
 
         if (! file_exists($composerPath)) {
             $this->error('composer.json not found!');
-
             return self::FAILURE;
         }
 
@@ -44,17 +43,21 @@ class ToggleRepository extends Command
             $linkPath = public_path('vendor/'.$symlinkName);
             $targetPath = realpath(base_path(trim($pathRepo, './').'/dist'));
 
-            $isLinked = collect($repositories)->contains(fn ($repo) => ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo
-            );
+            $isLinked = collect($repositories)->contains(fn ($repo) => ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo);
 
             if ($isLinked) {
                 if (! $this->option('force') && ! $this->confirm("Remove local path for [$name]?")) {
                     continue;
                 }
 
+                // Clean vendor package folder
+                $this->cleanVendorPackage($name);
+
+                // Clean published views folder
+                $this->cleanPublishedViews();
+
                 // Remove from repositories
-                $repositories = array_values(array_filter($repositories, fn ($repo) => ! ($repo['type'] === 'path' && $repo['url'] === $pathRepo)
-                ));
+                $repositories = array_values(array_filter($repositories, fn ($repo) => ! ($repo['type'] === 'path' && $repo['url'] === $pathRepo)));
 
                 $this->removePath($linkPath);
                 $this->info("🔗 Removed local path for $name");
@@ -73,6 +76,12 @@ class ToggleRepository extends Command
                 if (! $this->option('force') && ! $this->confirm("Use local path for [$name]?")) {
                     continue;
                 }
+
+                // Clean vendor package folder
+                $this->cleanVendorPackage($name);
+
+                // Clean published views folder
+                $this->cleanPublishedViews();
 
                 // Add to repositories
                 $repositories[] = [
@@ -143,6 +152,25 @@ class ToggleRepository extends Command
         } elseif (file_exists($path)) {
             File::delete($path);
             $this->info("🗑 Removed file: $path");
+        }
+    }
+
+    protected function cleanVendorPackage(string $name): void
+    {
+        // Convert composer package name to vendor path: mlbrgn/laravel-medialibrary-extensions → vendor/mlbrgn/laravel-medialibrary-extensions
+        $vendorPath = base_path('vendor/' . str_replace('/', DIRECTORY_SEPARATOR, $name));
+        if (is_link($vendorPath) || is_dir($vendorPath) || file_exists($vendorPath)) {
+            $this->removePath($vendorPath);
+            $this->info("🧹 Cleaned vendor package directory: $vendorPath");
+        }
+    }
+
+    protected function cleanPublishedViews(): void
+    {
+        $viewsPath = resource_path('views/vendor/laravel-media-library-extensions');
+        if (is_dir($viewsPath)) {
+            File::deleteDirectory($viewsPath);
+            $this->info("🧹 Cleaned published views directory: $viewsPath");
         }
     }
 }
