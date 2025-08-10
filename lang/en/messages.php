@@ -37,6 +37,7 @@ return [
     'watch_on_youtube' => 'Watch on YouTube',
     'play_video' => 'Play video',
     'supported_file_formats_:supported_formats' => 'Supported file formats: :supported_formats.',
+    'non_supported_file_format' => 'Non-supported file format',
     'no_permission' => 'No permission.',
     'unknown-file-mime-type' => 'Unknown file type.',
     'word-document' => 'Word document.',
@@ -48,4 +49,5 @@ return [
     'Temporary_uploads_not_available,_please_run_migrations_first' => 'Temporary uploads not available, please run migrations first.',
     'class_not_found' => 'Class ":class" does not exist.',
     'must_implement_has_media' => 'Class ":class" must implement :interface.',
+    'your_browser_does_not_support_the_audio_element' => 'Your browser does not support the audio element.'
 ];

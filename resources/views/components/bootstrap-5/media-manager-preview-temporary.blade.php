@@ -63,7 +63,7 @@
                     :frontend-theme="$frontendTheme"
                 />
             @else
-                no suitable type
+                {{ __('media-library-extensions::messages.non_supported_file_format') }}
             @endif
         @endif
         @if($showMenu)

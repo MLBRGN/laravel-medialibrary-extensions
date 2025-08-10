@@ -49,6 +49,8 @@
                     :image-collection="$imageCollection"
                     :document-collection="$documentCollection"
                     :youtube-collection="$youtubeCollection"
+                    :video-collection="$videoCollection"
+                    :audio-collection="$audioCollection"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                 />
@@ -70,6 +72,8 @@
                     :image-collection="$imageCollection"
                     :youtube-collection="$youtubeCollection"
                     :document-collection="$documentCollection"
+                    :video-collection="$videoCollection"
+                    :audio-collection="$audioCollection"
                     :temporary-uploads="$temporaryUpload"
                     :frontend-theme="$frontendTheme"
                 />
@@ -78,7 +82,7 @@
             <x-mle-media-modal
                 :id="$id"
                 :model-or-class-name="$modelOrClassName"
-                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
+                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"
                 title="Media carousel"
                 :inModal="true"
                 :plainJs="false" />

@@ -149,13 +149,53 @@ return [
     |
     */
 
+//    'allowed_mimetypes' => [
+//        'image' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_IMAGE_MIMETYPES', 'image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif')),
+//        'video' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_VIDEO_MIMETYPES', 'video/mp4,video/quicktime,video/x-msvideo')),
+//        'document' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES', 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
+//    ],
+
     'allowed_mimetypes' => [
-        'image' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_IMAGE_MIMETYPES', 'image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif')),
-        'video' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_VIDEO_MIMETYPES', 'video/mp4,video/quicktime,video/x-msvideo')),
-        'document' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES', 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
+        'image' => explode(',', env(
+            'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_IMAGE_MIMETYPES',
+            'image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif'
+        )),
+
+        'video' => explode(',', env(
+            'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_VIDEO_MIMETYPES',
+            'video/mp4,video/quicktime,video/webm'
+        )),
+
+        'document' => explode(',', env(
+            'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES',
+            'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        )),
+
+        'audio' => explode(',', env(
+            'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_AUDIO_MIMETYPES',
+            'audio/mpeg,audio/ogg,audio/wav,audio/webm'
+        )),
     ],
 
+//
+//    'mimetype_labels' => [
+//        'image/jpeg' => 'JPEG',
+//        'image/png' => 'PNG',
+//        'image/gif' => 'GIF',
+//        'image/bmp' => 'BMP',
+//        'image/webp' => 'WebP',
+//        'image/heic' => 'HEIC',
+//        'image/avif' => 'AVIF',
+//        'video/mp4' => 'MP4 video',
+//        'video/quicktime' => 'QuickTime video',
+//        'video/x-msvideo' => 'AVI video',
+//        'application/pdf' => 'PDF document',
+//        'application/msword' => 'Word document (.doc)',
+//        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'Word document (.docx)',
+//    ],
+
     'mimetype_labels' => [
+        // Images
         'image/jpeg' => 'JPEG',
         'image/png' => 'PNG',
         'image/gif' => 'GIF',
@@ -163,13 +203,28 @@ return [
         'image/webp' => 'WebP',
         'image/heic' => 'HEIC',
         'image/avif' => 'AVIF',
+
+        // Video
         'video/mp4' => 'MP4 video',
         'video/quicktime' => 'QuickTime video',
-        'video/x-msvideo' => 'AVI video',
+        'video/webm' => 'WebM video',
+
+        // Documents
         'application/pdf' => 'PDF document',
         'application/msword' => 'Word document (.doc)',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'Word document (.docx)',
+        'application/vnd.ms-excel' => 'Excel spreadsheet (.xls)',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'Excel spreadsheet (.xlsx)',
+        'application/vnd.ms-powerpoint' => 'PowerPoint presentation (.ppt)',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'PowerPoint presentation (.pptx)',
+
+        // Audio
+        'audio/mpeg' => 'MP3 audio',
+        'audio/ogg' => 'OGG audio',
+        'audio/wav' => 'WAV audio',
+        'audio/webm' => 'WebM audio',
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -202,9 +257,13 @@ return [
         'next' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_NEXT', 'bi-chevron-right'),
         'prev' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PREV', 'bi-chevron-left'),
         'pdf-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PDF', 'bi-file-earmark-pdf'),
-        'word-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_WORD', 'bi-file-earmark-word'),
+        'wordprocessing-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_WORD', 'bi-file-earmark-richtext'),
+        'spreadsheet-document' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-spreadsheet'),
+        'presentation-document' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-slides'),
         'unknown-file-mime-type' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_UNKNOWN', 'bi-file-earmark'),
         'edit' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-pencil'),
+        'video-file' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-play'),
+        'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-music'),
     ],
 
     /*

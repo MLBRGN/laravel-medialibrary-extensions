@@ -79,6 +79,8 @@ class StoreMultipleTemporaryAction
                     'image_collection' => $request->input('image_collection'),
                     'document_collection' => $request->input('document_collection'),
                     'youtube_collection' => $request->input('youtube_collection'),
+                    'video_collection' => $request->input('video_collection', null),
+                    'audio_collection' => $request->input('audio_collection', null),
                 ],
             ]);
 

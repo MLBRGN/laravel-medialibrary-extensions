@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Illuminate\Support\Facades\Blade;
 use Spatie\MediaLibrary\HasMedia;
 
 class MediaManagerMultiple extends MediaManager
@@ -13,6 +14,8 @@ class MediaManagerMultiple extends MediaManager
         string $imageCollection = '',
         string $documentCollection = '',
         string $youtubeCollection = '',
+        string $videoCollection = '',
+        string $audioCollection = '',
         bool $uploadEnabled = false,
         string $uploadFieldName = 'media',
         bool $destroyEnabled = false,
@@ -24,17 +27,25 @@ class MediaManagerMultiple extends MediaManager
         ?string $frontendTheme = null,
         ?bool $useXhr = true,
     ) {
+//        Blade::component('mle-audio', Audio::class);
+//        dd(Blade::getClassComponentAliases());
+//        dump(Blade::getClassComponentAliases());
+//        dd(class_exists(Audio::class), class_exists(Video::class));
+
         parent::__construct(
             modelOrClassName: $modelOrClassName,
             imageCollection: $imageCollection,
             documentCollection: $documentCollection,
             youtubeCollection: $youtubeCollection,
+            videoCollection: $videoCollection,
+            audioCollection: $audioCollection,
             uploadEnabled: $uploadEnabled,
             uploadFieldName: $uploadFieldName,
             destroyEnabled: $destroyEnabled,
             setAsFirstEnabled: $setAsFirstEnabled,
             showMediaUrl: $showMediaUrl,
             showOrder: $showOrder,
+            showMenu: $showMenu,
             id: $id,
             frontendTheme: $frontendTheme,
             useXhr: $useXhr,

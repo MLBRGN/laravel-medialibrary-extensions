@@ -38,6 +38,29 @@
                                     data-bs-slide-to="{{ $loop->index }}"
                     />
                 </div>
+            @elseif(isMediaType($medium, 'video'))
+                <div
+                    data-bs-toggle="modal"
+                    data-bs-target="#{{$id}}-modal"
+                    class="media-manager-preview-item-container"
+                >
+                    <video controls class="media-manager-video-preview" preload="metadata">
+                        <source src="{{ $medium->getUrl() }}" type="{{ $medium->mime_type }}">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            @elseif(isMediaType($medium, 'audio'))
+                <div
+                    data-bs-toggle="modal"
+                    data-bs-target="#{{$id}}-modal"
+                    class="media-manager-preview-item-container"
+                >
+                    <audio controls class="media-manager-audio-preview">
+                        <source src="{{ $medium->getUrl() }}" type="{{ $medium->mime_type }}">
+                        {{ __('media-library-extensions::messages.your_browser_does_not_support_the_audio_element') }}
+                    </audio>
+{{--                    <x-mle-audio />--}}
+                </div>
             @elseif(isMediaType($medium, 'image'))
                 <div
                     data-modal-trigger="#{{$id}}-modal"
@@ -65,7 +88,7 @@
                     :frontend-theme="$frontendTheme"
                 />
             @else
-                no suitable type
+                {{ __('media-library-extensions::messages.non_supported_file_format') }}
             @endif
         @endif
         @if($showMenu)

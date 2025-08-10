@@ -18,6 +18,7 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
@@ -39,6 +40,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadDestro
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 
 /**
@@ -119,6 +121,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-document', Document::class);
+        Log::info('Registering audio component');
+        Blade::component($this->packageNameShort.'-audio', Audio::class);
+        Log::info('Registering video component');
+        Blade::component($this->packageNameShort.'-video', Video::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
 

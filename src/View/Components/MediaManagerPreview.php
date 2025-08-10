@@ -30,6 +30,8 @@ class MediaManagerPreview extends BaseComponent
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
+        public string $videoCollection = '',
+        public string $audioCollection = '',
         public ?string $frontendTheme = null,
         public bool $destroyEnabled = false,
         public bool $setAsFirstEnabled = false,
@@ -73,6 +75,14 @@ class MediaManagerPreview extends BaseComponent
             if ($documentCollection) {
                 $collections = $collections->merge(TemporaryUpload::forCurrentSession($documentCollection));
             }
+
+            if ($videoCollection) {
+                $collections = $collections->merge(TemporaryUpload::forCurrentSession($videoCollection));
+            }
+
+            if ($audioCollection) {
+                $collections = $collections->merge(TemporaryUpload::forCurrentSession($audioCollection));
+            }
         } elseif ($this->model) {
                 if ($imageCollection) {
                     $collections = $collections->merge($this->model->getMedia($imageCollection));
@@ -85,6 +95,15 @@ class MediaManagerPreview extends BaseComponent
                 if ($documentCollection) {
                     $collections = $collections->merge($this->model->getMedia($documentCollection));
                 }
+
+                if ($videoCollection) {
+                    $collections = $collections->merge($this->model->getMedia($videoCollection));
+                }
+
+                if ($audioCollection) {
+                    $collections = $collections->merge($this->model->getMedia($audioCollection));
+                }
+
         }
         $this->media = $collections;
     }
