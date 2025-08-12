@@ -17,6 +17,17 @@ if (! function_exists('mle_package_asset')) {
     }
 }
 
+function mimetype_label(string $mimeType): string
+{
+    $map = config('media-library-extensions.mimetype_labels', []);
+
+    if (! isset($map[$mimeType])) {
+        return $mimeType; // fallback
+    }
+
+    return __('media-library-extensions::'.$map[$mimeType]);
+}
+
 // TODO still needed?
 //if (! function_exists('media_manager_theme')) {
 //    function media_manager_theme(): string

@@ -75,9 +75,25 @@
                             <x-mle-document :medium="$medium"
                                 class="mle-document mle-cursor-zoom-in"
                             />
-                        @elseif($medium->isImage()))
+                        @elseif($medium->isVideo())
+                            <div
+                                data-bs-toggle="modal"
+                                data-bs-target="#{{$id}}-modal"
+                                class="media-manager-preview-item-container"
+                            >
+                                <x-mle-video :medium="$medium" />
+                            </div>
+                        @elseif($medium->isAudio())
+                            <div
+                                data-bs-toggle="modal"
+                                data-bs-target="#{{$id}}-modal"
+                                class="media-manager-preview-item-container"
+                            >
+                                <x-mle-audio :medium="$medium" />
+                            </div>
+                        @elseif($medium->isImage())
                             <img
-                                src="{{ $medium->getFullUrl() }}"
+                                src="{{ $medium->getUrl() }}"
                                 class="media-manager-image-preview mle-cursor-zoom-in"
                                 alt="{{ $medium->name }}"
                             />
@@ -133,7 +149,7 @@
 @if($clickToOpenInModal)
     <x-mle-media-modal
         :id="$id"
-        :model-or-class-name="$model"
+        :model-or-class-name="$modelOrClassName"
         :media-collection="$mediaCollection"
         :media-collections="$mediaCollections"
         title="Media carousel"/>

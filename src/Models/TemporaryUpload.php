@@ -70,7 +70,7 @@ class TemporaryUpload extends Model
         return Storage::disk($this->disk)->url($this->path);
     }
 
-    public function getFullUrl(): string
+    public function getUrl(): string
     {
         return Storage::disk($this->disk)->url($this->path);
     }

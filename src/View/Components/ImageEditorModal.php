@@ -31,9 +31,11 @@ class ImageEditorModal extends BaseComponent
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public ?string $frontendTheme = null,
-        string $imageCollection = '',
-        string $documentCollection = '',
-        string $youtubeCollection = '',
+        ?string $imageCollection = '',
+        ?string $documentCollection = '',
+        ?string $youtubeCollection = '',
+        ?string $videoCollection = '',
+        ?string $audioCollection = '',
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -69,6 +71,8 @@ class ImageEditorModal extends BaseComponent
             'image_collection' => $imageCollection,
             'document_collection' => $documentCollection,
             'youtube_collection' => $youtubeCollection,
+            'video_collection' => $videoCollection,
+            'audio_collection' => $audioCollection,
         ];
     }
 

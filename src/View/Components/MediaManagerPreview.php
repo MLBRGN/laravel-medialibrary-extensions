@@ -27,11 +27,11 @@ class MediaManagerPreview extends BaseComponent
     public function __construct(
         public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public string $id = '',
-        public string $imageCollection = '',
-        public string $documentCollection = '',
-        public string $youtubeCollection = '',
-        public string $videoCollection = '',
-        public string $audioCollection = '',
+        public ?string $imageCollection = '',
+        public ?string $documentCollection = '',
+        public ?string $youtubeCollection = '',
+        public ?string $videoCollection = '',
+        public ?string $audioCollection = '',
         public ?string $frontendTheme = null,
         public bool $destroyEnabled = false,
         public bool $setAsFirstEnabled = false,

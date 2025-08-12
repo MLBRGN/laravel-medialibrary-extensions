@@ -27,6 +27,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerYouTube;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Debug;
@@ -116,6 +117,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
+        Log::info('Registering media-manager-youtube component');
+        Blade::component($this->packageNameShort.'-media-manager-youtube', MediaManagerYouTube::class);
         Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
@@ -142,6 +145,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-assets', Assets::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
+//                dd(Blade::getClassComponentAliases());
         // register policies
         if (config('media-library-extensions.demo_pages_enabled')) {
             // Always register the demo database connection, but the models will only use it

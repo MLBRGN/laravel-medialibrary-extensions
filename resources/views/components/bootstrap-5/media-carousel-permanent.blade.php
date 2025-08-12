@@ -75,6 +75,22 @@
                                         data-bs-target="{{ $id }}-modal"
                                         data-bs-slide-to="{{ $loop->index }}"
                         />
+                    @elseif(isMediaType($medium, 'video'))
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-video :medium="$medium" />
+                        </div>
+                    @elseif(isMediaType($medium, 'audio'))
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-audio :medium="$medium" />
+                        </div>
                     @elseif(isMediaType($medium, 'image'))
                         <x-mle-image-responsive
                             class="mle-image-responsive"

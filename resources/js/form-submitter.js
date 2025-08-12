@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
         if (!previewGrid) return;
 
+        console.log('config', config);
         const params = new URLSearchParams({
             model_type: config.model_type,
             model_id: config.model_id,

@@ -75,9 +75,25 @@
                                         data-bs-target="{{ $id }}-modal"
                                         data-bs-slide-to="{{ $loop->index }}"
                         />
+                    @elseif($medium->isVideo())
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-video :medium="$medium" />
+                        </div>
+                    @elseif($medium->isAudio())
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-audio :medium="$medium" />
+                        </div>
                     @elseif($medium->isImage())
                             <img
-                                src="{{ $medium->getFullUrl() }}"
+                                src="{{ $medium->getUrl() }}"
                                 class="media-manager-image-preview mle-cursor-zoom-in"
                                 alt="{{ $medium->name }}"
                             />

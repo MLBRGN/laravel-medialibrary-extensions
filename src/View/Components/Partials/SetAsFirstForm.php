@@ -20,8 +20,10 @@ class SetAsFirstForm extends BaseComponent
         public ?bool $useXhr,
         public ?string $targetMediaCollection,
         public ?string $imageCollection,
-        public string $documentCollection,
-        public string $youtubeCollection,
+        public ?string $documentCollection,
+        public ?string $youtubeCollection,
+        public ?string $videoCollection = '',
+        public ?string $audioCollection = '',
         public bool $setAsFirstEnabled,
         public ?HasMedia $model,
     ) {

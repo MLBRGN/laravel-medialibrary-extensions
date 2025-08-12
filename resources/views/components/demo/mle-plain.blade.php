@@ -110,6 +110,38 @@
         :multiple="true"
     />
 
+    <h2 class="my-5">Media Manager YouTube</h2>
+
+    <x-mle-media-manager-youtube
+        id="alien-multiple"
+        :model-or-class-name="$model"
+        youtube-collection="alien-multiple-youtube-videos"
+        class="mt-5"
+        upload-enabled
+        destroy-enabled
+        :show-order="true"
+        set-as-first-enabled
+        frontend-theme="plain"
+        :use-xhr="config('media-library-extensions.use_xhr')"
+        :multiple="true"
+    />
+
+    <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
+
+    <x-mle-media-manager-youtube
+        id="alien-multiple-temporary-uploads"
+        model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+        youtube-collection="alien-multiple-youtube-videos"
+        class="mt-5"
+        upload-enabled
+        destroy-enabled
+        :show-order="true"
+        set-as-first-enabled
+        frontend-theme="plain"
+        :use-xhr="config('media-library-extensions.use_xhr')"
+        :multiple="true"
+    />
+    
     <h2>Media Carousel</h2>
 
     <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
@@ -153,7 +185,7 @@
                         'alien-multiple-audio',
                     ]"
         class="my-5"
-        frontend-theme="bootstrap-5"
+        frontend-theme="plain"
     />
 </div>
 @once

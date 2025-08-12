@@ -20,8 +20,10 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         public ?bool $useXhr = null,
         public ?string $targetMediaCollection = null,
         public ?string $imageCollection = '',
-        public string $documentCollection = '',
-        public string $youtubeCollection = '',
+        public ?string $documentCollection = '',
+        public ?string $youtubeCollection = '',
+        public ?string $videoCollection = '',
+        public ?string $audioCollection = '',
         public bool $setAsFirstEnabled = false,
         //        public ?HasMedia $model,
     ) {

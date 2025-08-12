@@ -69,15 +69,16 @@ class MediaManager extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-        // set allowed mimetypes
-        $this->allowedMimeTypes = collect(config('media-library-extensions.allowed_mimes.image'))
-            ->flatten()
-            ->unique()
-            ->implode(',');
+//        $this->setAllowedMimeTypes();
 
-        // Always disable "set-as-first" when multiple files disabled
+        // Override: Always disable "set-as-first" when multiple files disabled
         if (!$this->multiple) {
             $this->setAsFirstEnabled = false;
+        }
+
+        // Override: Always set upload enabled to false when no document collections provided
+        if (!$this->imageCollection && !$this->documentCollection && !$this->videoCollection && !$this->audioCollection) {
+            $this->uploadEnabled = false;
         }
 
         $collections = collect();
@@ -142,4 +143,27 @@ class MediaManager extends BaseComponent
     {
         return $this->getView('media-manager', $this->frontendTheme);
     }
+
+//    private function setAllowedMimeTypes(): void
+//    {
+//        $allowedMimeTypes = collect();
+//        if ($this->imageCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image'));
+//        }
+//        if ($this->documentCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document'));
+//        }
+//        if ($this->videoCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video'));
+//        }
+//        if ($this->audioCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio'));
+//        }
+//
+//        $this->allowedMimeTypes = $allowedMimeTypes
+//            ->flatten()
+//            ->unique()
+//            ->implode(',');
+//
+//    }
 }

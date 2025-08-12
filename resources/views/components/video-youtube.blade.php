@@ -8,7 +8,7 @@
         />
         @if($medium instanceof TemporaryUpload)
             <img
-                src="{{ $medium->getFullUrl() }}"
+                src="{{ $medium->getUrl() }}"
                 class="mle-video-responsive mle-cursor-zoom-in"
                 alt="{{ $medium->name }}"
             />

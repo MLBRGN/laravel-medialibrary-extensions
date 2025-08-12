@@ -23,7 +23,7 @@ class MediaModal extends BaseComponent
         public HasMedia|string $modelOrClassName,
         public ?string $mediaCollection,
         public ?array $mediaCollections,
-        public string $title,// TODO do i want this?
+        public ?string $title,// TODO do i want this?
         public string $id = '',
         public ?string $frontendTheme = null,
         public bool $videoAutoPlay = true,

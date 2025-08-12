@@ -67,12 +67,7 @@ class UploadForm extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-        $allowedMimeTypesFromConfig = collect(config('media-library-extensions.allowed_mimetypes', []))->flatten();
-        $mimetype_labels = config('media-library-extensions.mimetype_labels');
-        $this->allowedMimeTypesHuman = $allowedMimeTypesFromConfig
-            ->map(fn ($mime) => $mimetype_labels[$mime] ?? $mime)
-            ->join(', ');
-        $this->allowedMimeTypes = ! empty($this->allowedMimeTypes) ? $this->allowedMimeTypes : $allowedMimeTypesFromConfig->join(', ');
+        $this->setAllowedMimeTypes();
 
         // TODO look at this
         $this->mediaPresent = $this->model && $this->imageCollection
@@ -82,5 +77,33 @@ class UploadForm extends BaseComponent
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         return $this->getPartialView('upload-form', $this->frontendTheme);
+    }
+
+    private function setAllowedMimeTypes(): void
+    {
+        // TODO attribute mimetype override?
+        $allowedMimeTypes = collect();
+        if ($this->imageCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image'));
+        }
+        if ($this->documentCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document'));
+        }
+        if ($this->videoCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video'));
+        }
+        if ($this->audioCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio'));
+        }
+
+        $this->allowedMimeTypesHuman = $allowedMimeTypes
+            ->map(fn ($mime) => mimetype_label($mime))
+            ->join(', ');
+
+        $this->allowedMimeTypes = $allowedMimeTypes
+            ->flatten()
+            ->unique()
+            ->implode(',');
+
     }
 }

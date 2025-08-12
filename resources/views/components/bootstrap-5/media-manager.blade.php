@@ -23,24 +23,26 @@
         <div class="media-manager-form col-12 col-md-4">
             {{ $form_start ?? '' }}
             @if($uploadEnabled)
-                <x-mle-partial-upload-form
-                    :model-or-class-name="$modelOrClassName"
-                    :temporary-upload="$temporaryUpload"
-                    :id="$id"
-                    :allowed-mime-types="$allowedMimeTypes"
-                    :upload-to-collection="$imageCollection"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :video-collection="$videoCollection"
-                    :audio-collection="$audioCollection"
-                    :destroy-enabled="$destroyEnabled"
-                    :set-as-first-enabled="$setAsFirstEnabled"
-                    :multiple="$multiple"
-                />
+                @if($imageCollection || $documentCollection || $videoCollection || $audioCollection)
+                    <x-mle-partial-upload-form
+                        :model-or-class-name="$modelOrClassName"
+                        :temporary-upload="$temporaryUpload"
+                        :id="$id"
+                        :allowed-mime-types="$allowedMimeTypes"
+                        :upload-to-collection="$imageCollection"
+                        :image-collection="$imageCollection"
+                        :document-collection="$documentCollection"
+                        :youtube-collection="$youtubeCollection"
+                        :video-collection="$videoCollection"
+                        :audio-collection="$audioCollection"
+                        :destroy-enabled="$destroyEnabled"
+                        :set-as-first-enabled="$setAsFirstEnabled"
+                        :multiple="$multiple"
+                        :allowed-mimetypes="$allowedMimeTypes"
+                    />
+                @endif
             @endif
             @if($youtubeCollection)
-                <hr>
                 <x-mle-partial-youtube-upload-form
                     class="mt-3"
                     :model-or-class-name="$modelOrClassName"

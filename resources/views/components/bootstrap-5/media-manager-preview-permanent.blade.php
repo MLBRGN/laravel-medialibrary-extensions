@@ -44,13 +44,7 @@
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
                 >
-{{--                    <div class="media-manager-audio-preview">--}}
-                        <video controls class="media-manager-video-preview" preload="metadata">
-                            <source src="{{ $medium->getUrl() }}" type="{{ $medium->mime_type }}">
-                            Your browser does not support the video tag.
-                        </video>
-{{--                    </div>--}}
-{{--                    <x-mle-video :medium="$medium" />--}}
+                    <x-mle-video :medium="$medium" />
                 </div>
             @elseif(isMediaType($medium, 'audio'))
                 <div
@@ -58,13 +52,7 @@
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
                 >
-                <div class="media-manager-audio-preview">
-                    <audio controls>
-                        <source src="{{ $medium->getUrl() }}" type="{{ $medium->mime_type }}">
-                        {{ __('media-library-extensions::messages.your_browser_does_not_support_the_audio_element') }}
-                    </audio>
-                </div>
-{{--                    <x-mle-audio />--}}
+                    <x-mle-audio :medium="$medium" />
                 </div>
             @elseif(isMediaType($medium, 'image'))
                 <div
@@ -165,7 +153,7 @@
     :id="$id"
     :model-or-class-name="$modelOrClassName"
     :media-collection="$imageCollection"
-    :media-collections="[$imageCollection, $youtubeCollection, $documentCollection]"
+    :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"
     :video-auto-play="true"
     :frontend-theme="$frontendTheme"
     title="Media carousel"/>

@@ -14,7 +14,7 @@
     data-theme="{{$frontendTheme}}"
     data-image-editor-modal
     data-medium-display-name="{{ media_display_name($medium) }}"
-    data-medium-path="{{ $medium->getFullUrl() }}"
+    data-medium-path="{{ $medium->getUrl() }}"
 >
     <div class="image-editor-modal-dialog modal-dialog">
         <div class="image-editor-modal-content modal-content justify-content-center">
@@ -41,7 +41,7 @@
 {{--                    id="{{ $id }}-image-editor"--}}
 {{--                    data-initiator-id="{{ $id }}"--}}
 {{--                    data-medium-display-name="{{ media_display_name($medium) }}"--}}
-{{--                    data-medium-path="{{ $medium->getFullUrl() }}"--}}
+{{--                    data-medium-path="{{ $medium->getUrl() }}"--}}
 {{--                />--}}
 
             </div>
