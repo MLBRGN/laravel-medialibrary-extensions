@@ -44,7 +44,12 @@
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
                 >
-                    <x-mle-video :medium="$medium" />
+                    <x-mle-video 
+                        :medium="$medium" 
+                        class="mle-cursor-zoom-in"
+                        data-bs-target="#{{ $id }}-modal-carousel"
+                        data-bs-slide-to="{{ $loop->index }}"
+                    />
                 </div>
             @elseif(isMediaType($medium, 'audio'))
                 <div
@@ -52,7 +57,12 @@
                     data-bs-target="#{{$id}}-modal"
                     class="media-manager-preview-item-container"
                 >
-                    <x-mle-audio :medium="$medium" />
+                    <x-mle-audio 
+                        :medium="$medium" 
+                        class="mle-cursor-zoom-in"
+                        data-bs-target="#{{ $id }}-modal-carousel"
+                        data-bs-slide-to="{{ $loop->index }}"
+                    />
                 </div>
             @elseif(isMediaType($medium, 'image'))
                 <div

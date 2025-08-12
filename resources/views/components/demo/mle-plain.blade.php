@@ -113,7 +113,7 @@
     <h2 class="my-5">Media Manager YouTube</h2>
 
     <x-mle-media-manager-youtube
-        id="alien-multiple"
+        id="alien-media-manager-youtube"
         :model-or-class-name="$model"
         youtube-collection="alien-multiple-youtube-videos"
         class="mt-5"
@@ -129,7 +129,7 @@
     <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
 
     <x-mle-media-manager-youtube
-        id="alien-multiple-temporary-uploads"
+        id="alien-media-manager-youtube-temporary"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
         youtube-collection="alien-multiple-youtube-videos"
         class="mt-5"
@@ -158,7 +158,7 @@
                     'alien-multiple-images', 
                     'alien-multiple-documents', 
                     'alien-multiple-youtube-videos',
-                    'alien-multiple-video',
+                    'alien-multiple-videos',
                     'alien-multiple-audio',
                 ]"
         class="demo-media-carousel"
@@ -181,7 +181,7 @@
                         'alien-multiple-images', 
                         'alien-multiple-documents', 
                         'alien-multiple-youtube-videos',
-                        'alien-multiple-video',
+                        'alien-multiple-videos',
                         'alien-multiple-audio',
                     ]"
         class="my-5"

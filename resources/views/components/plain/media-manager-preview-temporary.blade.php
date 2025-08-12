@@ -20,8 +20,8 @@
                     :preview="true"
                     :youtube-id="$medium->getCustomProperty('youtube-id')"
                     :youtube-params="[]"
-                    data-bs-target="#{{$id}}-modal-carousel"
-                    data-bs-slide-to="{{ $loop->index }}"
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
                 />
             </div>
         @else
@@ -33,25 +33,31 @@
                 >
                     <x-mle-document :medium="$medium"
                                     class="previewed-document mle-cursor-zoom-in"
-                                    data-bs-target="#{{ $id }}-modal-carousel"
-                                    data-bs-slide-to="{{ $loop->index }}"
+                                    data-modal-trigger="#{{$id}}-modal"
+                                    data-slide-to="{{ $loop->index }}"
                     />
                 </div>
             @elseif($medium->isVideo())
                 <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
-                    <x-mle-video :medium="$medium" />
+                    <x-mle-video 
+                        :medium="$medium" 
+                        class="mle-cursor-zoom-in" 
+                    />
                 </div>
             @elseif($medium->isAudio())
                 <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
-                    <x-mle-audio :medium="$medium" />
+                    <x-mle-audio 
+                        :medium="$medium" 
+                        class="mle-cursor-zoom-in" 
+                    />
                 </div>
             @elseif($medium->isImage())
                 <div
@@ -63,8 +69,8 @@
                         src="{{ $medium->getUrl() }}" 
                         class="media-manager-image-preview mle-cursor-zoom-in" 
                         alt="{{ $medium->name }}"
-                        data-bs-target="#{{$id}}-modal-carousel"
-                        data-bs-slide-to="{{ $loop->index }}"
+                        data-modal-trigger="#{{$id}}-modal"
+                        data-slide-to="{{ $loop->index }}"
                     />
                   
                 </div>
