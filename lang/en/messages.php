@@ -34,6 +34,7 @@ return [
     'not_authorized' => 'Not authorized',
     'this_collection_can_contain_up_to_:items_items' => 'This collection can contain up to :items items.',
     'slide_to_:index' => 'Slide to :index',
+    'could_not_load_player' => 'Could not load player.',
     'watch_on_youtube' => 'Watch on YouTube',
     'play_video' => 'Play video',
     'supported_file_formats_:supported_formats' => 'Supported file formats: :supported_formats.',
