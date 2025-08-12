@@ -87,7 +87,7 @@ class YouTubeService
             'user_id' => Auth::id(),
             'session_id' => $sessionId,
             'order_column' => $maxOrder + 1,
-            'extra_properties' => [
+            'custom_properties' => [
                 'youtube-url' => $youtubeUrl,
                 'youtube-id' => $videoId,
             ],

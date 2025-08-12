@@ -85,7 +85,7 @@ class StoreSingleTemporaryAction
             'user_id' => $userId,
             'session_id' => $sessionId,
             'order_column' => 1,
-            'extra_properties' => [
+            'custom_properties' => [
                 'image_collection' => $request->input('image_collection'),
                 'document_collection' => $request->input('document_collection'),
                 'youtube_collection' => $request->input('youtube_collection'),

@@ -9,7 +9,7 @@
         data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
     >
 
-        @if($medium->hasCustomProperty('youtube-id'))
+        @if(isMediaType($medium, 'youtube-video'))
             <div
                 class="media-manager-preview-item-container"
                 data-modal-trigger="#{{$id}}-modal"

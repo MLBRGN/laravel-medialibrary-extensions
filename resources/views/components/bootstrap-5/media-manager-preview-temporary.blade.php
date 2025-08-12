@@ -8,14 +8,14 @@
         data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"
         data-temporary-upload-destroy-route="{{ route(mle_prefix_route('temporary-upload-destroy'), $medium) }}"
     >
-        @if($medium->isYouTubeVideo())
+        @if(isMediaType($medium, 'youtube-video'))
             <div
                 class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-modal"
             >
                 <x-mle-video-youtube
-                    class="mle-video-responsive mle-cursor-zoom-in"
+                    class="mle-video-youtube mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
                     :youtube-id="$medium->getCustomProperty('youtube-id')"
@@ -24,73 +24,71 @@
                     data-bs-slide-to="{{ $loop->index }}"
                 />
             </div>
-        @else
-            @if($medium->isDocument())
-                <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-document :medium="$medium"
-                                    class="previewed-document mle-cursor-zoom-in"
-                                    data-bs-target="#{{ $id }}-modal-carousel"
-                                    data-bs-slide-to="{{ $loop->index }}"
-                    />
-                </div>
-            @elseif($medium->isVideo())
-                <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-video 
-                        :medium="$medium" 
-                        class="mle-cursor-zoom-in"
-                        data-bs-target="#{{ $id }}-modal-carousel"
-                        data-bs-slide-to="{{ $loop->index }}" 
-                    />
-                </div>
-            @elseif($medium->isAudio())
-                <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-audio 
-                        :medium="$medium" 
-                        class="mle-cursor-zoom-in"
-                        data-bs-target="#{{ $id }}-modal-carousel"
-                        data-bs-slide-to="{{ $loop->index }}" 
-                    />
-                </div>
-            @elseif($medium->isImage())
-                <div
-                    data-bs-toggle="modal"
-                    data-bs-target="#{{$id}}-modal"
-                    class="media-manager-preview-item-container"
-                >
-                    <img 
-                        src="{{ $medium->getUrl() }}" 
-                        class="media-manager-image-preview mle-cursor-zoom-in" 
-                        alt="{{ $medium->name }}"
-                        data-bs-target="#{{$id}}-modal-carousel"
-                        data-bs-slide-to="{{ $loop->index }}"
-                    />
-                </div>
-                <x-mle-image-editor-modal 
-                    id="{{ $id }}"
-                    title="TODO"
-                    :initiator-id="$id"
-                    :medium="$medium" 
-                    :model-or-class-name="$modelOrClassName"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :frontend-theme="$frontendTheme"
+        @elseif(isMediaType($medium, 'document'))
+            <div
+                data-bs-toggle="modal"
+                data-bs-target="#{{$id}}-modal"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-document :medium="$medium"
+                                class="previewed-document mle-cursor-zoom-in"
+                                data-bs-target="#{{ $id }}-modal-carousel"
+                                data-bs-slide-to="{{ $loop->index }}"
                 />
-            @else
-                {{ __('media-library-extensions::messages.non_supported_file_format') }}
-            @endif
+            </div>
+        @elseif(isMediaType($medium, 'video'))
+            <div
+                data-bs-toggle="modal"
+                data-bs-target="#{{$id}}-modal"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-video 
+                    :medium="$medium" 
+                    class="mle-cursor-zoom-in"
+                    data-bs-target="#{{ $id }}-modal-carousel"
+                    data-bs-slide-to="{{ $loop->index }}" 
+                />
+            </div>
+        @elseif(isMediaType($medium, 'audio'))
+            <div
+                data-bs-toggle="modal"
+                data-bs-target="#{{$id}}-modal"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-audio 
+                    :medium="$medium" 
+                    class="mle-cursor-zoom-in"
+                    data-bs-target="#{{ $id }}-modal-carousel"
+                    data-bs-slide-to="{{ $loop->index }}" 
+                />
+            </div>
+        @elseif(isMediaType($medium, 'image'))
+            <div
+                data-bs-toggle="modal"
+                data-bs-target="#{{$id}}-modal"
+                class="media-manager-preview-item-container"
+            >
+                <img 
+                    src="{{ $medium->getUrl() }}" 
+                    class="media-manager-image-preview mle-cursor-zoom-in" 
+                    alt="{{ $medium->name }}"
+                    data-bs-target="#{{$id}}-modal-carousel"
+                    data-bs-slide-to="{{ $loop->index }}"
+                />
+            </div>
+            <x-mle-image-editor-modal 
+                id="{{ $id }}"
+                title="TODO"
+                :initiator-id="$id"
+                :medium="$medium" 
+                :model-or-class-name="$modelOrClassName"
+                :image-collection="$imageCollection"
+                :document-collection="$documentCollection"
+                :youtube-collection="$youtubeCollection"
+                :frontend-theme="$frontendTheme"
+            />
+        @else
+            {{ __('media-library-extensions::messages.non_supported_file_format') }}
         @endif
         @if($showMenu)
             <div class="media-manager-preview-menu">
@@ -105,7 +103,7 @@
                         @endif
                     </div>
                     <div class="media-manager-preview-image-menu-end">
-                        @if($medium->isImage() && !$medium->isYouTubeVideo())
+                        @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                             <button
                                 type="button"
                                 data-bs-toggle="modal"

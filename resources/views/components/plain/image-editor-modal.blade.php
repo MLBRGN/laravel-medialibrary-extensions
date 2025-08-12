@@ -35,7 +35,6 @@
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
                 {{-- instantiated when model opens, just in time --}}
                 <div id="image-editor-placeholder" class="image-editor"></div>
-                <p>Hello world</p>
 {{--                <image-editor --}}
 {{--                    id="imageEditor"--}}
 {{--                    data-initiator-id="{{ $id }}"--}}

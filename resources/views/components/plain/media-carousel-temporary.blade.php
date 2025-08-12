@@ -54,7 +54,7 @@
                          data-slide-to="{{ $loop->index }}"
                     @endif
                 >
-                    @if($medium->isYouTubeVideo())
+                    @if(isMediaType($medium, 'youtube-video'))
                         @if ($inModal)
                             <x-mle-video-youtube
                                 class="mle-video-responsive"
@@ -70,34 +70,32 @@
                                 :preview="true"
                             />
                         @endif
-                    @else
-                        @if($medium->isDocument())
-                            <x-mle-document :medium="$medium"
-                                class="mle-document mle-cursor-zoom-in"
-                            />
-                        @elseif($medium->isVideo())
-                            <div
-                                data-bs-toggle="modal"
-                                data-bs-target="#{{$id}}-modal"
-                                class="media-manager-preview-item-container"
-                            >
-                                <x-mle-video :medium="$medium" />
-                            </div>
-                        @elseif($medium->isAudio())
-                            <div
-                                data-bs-toggle="modal"
-                                data-bs-target="#{{$id}}-modal"
-                                class="media-manager-preview-item-container"
-                            >
-                                <x-mle-audio :medium="$medium" />
-                            </div>
-                        @elseif($medium->isImage())
-                            <img
-                                src="{{ $medium->getUrl() }}"
-                                class="media-manager-image-preview mle-cursor-zoom-in"
-                                alt="{{ $medium->name }}"
-                            />
-                        @endif
+                    @elseif(isMediaType($medium, 'document'))
+                        <x-mle-document :medium="$medium"
+                            class="mle-document mle-cursor-zoom-in"
+                        />
+                    @elseif(isMediaType($medium, 'video'))
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-video :medium="$medium" />
+                        </div>
+                    @elseif(isMediaType($medium, 'audio'))
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-audio :medium="$medium" />
+                        </div>
+                    @elseif(isMediaType($medium, 'image'))
+                        <img
+                            src="{{ $medium->getUrl() }}"
+                            class="media-manager-image-preview mle-cursor-zoom-in"
+                            alt="{{ $medium->name }}"
+                        />
                     @endif
                 </div>
             </div>

@@ -8,7 +8,7 @@
         data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"
         data-temporary-upload-destroy-route="{{ route(mle_prefix_route('temporary-upload-destroy'), $medium) }}"
     >
-        @if($medium->isYouTubeVideo())
+        @if(isMediaType($medium, 'youtube-video'))
             <div
                 class="media-manager-preview-item-container"
                 data-modal-trigger="#{{$id}}-modal"
@@ -24,71 +24,69 @@
                     data-slide-to="{{ $loop->index }}"
                 />
             </div>
-        @else
-            @if($medium->isDocument())
-                <div
-                    data-modal-trigger="#{{$id}}-modal"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-document :medium="$medium"
-                                    class="previewed-document mle-cursor-zoom-in"
-                                    data-modal-trigger="#{{$id}}-modal"
-                                    data-slide-to="{{ $loop->index }}"
-                    />
-                </div>
-            @elseif($medium->isVideo())
-                <div
-                    data-modal-trigger="#{{$id}}-modal"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-video 
-                        :medium="$medium" 
-                        class="mle-cursor-zoom-in" 
-                    />
-                </div>
-            @elseif($medium->isAudio())
-                <div
-                    data-modal-trigger="#{{$id}}-modal"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-audio 
-                        :medium="$medium" 
-                        class="mle-cursor-zoom-in" 
-                    />
-                </div>
-            @elseif($medium->isImage())
-                <div
-                    data-modal-trigger="#{{$id}}-modal"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <img 
-                        src="{{ $medium->getUrl() }}" 
-                        class="media-manager-image-preview mle-cursor-zoom-in" 
-                        alt="{{ $medium->name }}"
-                        data-modal-trigger="#{{$id}}-modal"
-                        data-slide-to="{{ $loop->index }}"
-                    />
-                  
-                </div>
-                {{-- TODO title --}}
-                <x-mle-image-editor-modal
-                    title=""
-                    :initiator-id="$id"
-                    id="{{ $id }}" 
-                    :medium="$medium" 
-                    :model-or-class-name="$modelOrClassName"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :frontend-theme="$frontendTheme"
+        @elseif(isMediaType($medium, 'document'))
+            <div
+                data-modal-trigger="#{{$id}}-modal"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-document :medium="$medium"
+                                class="previewed-document mle-cursor-zoom-in"
+                                data-modal-trigger="#{{$id}}-modal"
+                                data-slide-to="{{ $loop->index }}"
                 />
-            @else
-                {{ __('media-library-extensions::messages.non_supported_file_format') }}
-            @endif
+            </div>
+        @elseif(isMediaType($medium, 'video'))
+            <div
+                data-modal-trigger="#{{$id}}-modal"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-video 
+                    :medium="$medium" 
+                    class="mle-cursor-zoom-in" 
+                />
+            </div>
+        @elseif(isMediaType($medium, 'audio'))
+            <div
+                data-modal-trigger="#{{$id}}-modal"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-audio 
+                    :medium="$medium" 
+                    class="mle-cursor-zoom-in" 
+                />
+            </div>
+        @elseif(isMediaType($medium, 'image'))
+            <div
+                data-modal-trigger="#{{$id}}-modal"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <img 
+                    src="{{ $medium->getUrl() }}" 
+                    class="media-manager-image-preview mle-cursor-zoom-in" 
+                    alt="{{ $medium->name }}"
+                    data-modal-trigger="#{{$id}}-modal"
+                    data-slide-to="{{ $loop->index }}"
+                />
+              
+            </div>
+            {{-- TODO title --}}
+            <x-mle-image-editor-modal
+                title=""
+                :initiator-id="$id"
+                id="{{ $id }}" 
+                :medium="$medium" 
+                :model-or-class-name="$modelOrClassName"
+                :image-collection="$imageCollection"
+                :document-collection="$documentCollection"
+                :youtube-collection="$youtubeCollection"
+                :frontend-theme="$frontendTheme"
+            />
+        @else
+            {{ __('media-library-extensions::messages.non_supported_file_format') }}
         @endif
         @if($showMenu)
             <div class="media-manager-preview-menu">
@@ -103,7 +101,7 @@
                         @endif
                     </div>
                     <div class="media-manager-preview-image-menu-end">
-                        @if($medium->isImage() && !$medium->isYouTubeVideo())
+                        @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                             <button
                                 type="button"
                                 data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"

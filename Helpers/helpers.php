@@ -91,6 +91,10 @@ if (! function_exists('getHumanMimeTypeLabel')) {
 if (! function_exists('isMediaType')) {
     function isMediaType($medium, string $type): bool
     {
+        if ($type === 'youtube-video') {
+            return $medium->hasCustomProperty('youtube-id');
+        }
+
         $mimeType = $medium->mime_type ?? null;
         $allowed = config("media-library-extensions.allowed_mimetypes.{$type}", []);
 

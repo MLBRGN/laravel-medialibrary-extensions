@@ -76,7 +76,7 @@ it('stores a temporary youtube thumbnail successfully', function () {
         ->and($tempUpload->disk)->toBe('tmp')
         ->and($tempUpload->path)->toBe('temp-uploads/youtube-abc123.jpg')
         ->and($tempUpload->collection_name)->toBe('custom-collection')
-        ->and($tempUpload->extra_properties['youtube-id'])->toBe('abc123');
+        ->and($tempUpload->custom_properties['youtube-id'])->toBe('abc123');
 });
 
 it('returns null when extractYouTubeId fails', function () {

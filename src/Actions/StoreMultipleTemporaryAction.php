@@ -75,7 +75,7 @@ class StoreMultipleTemporaryAction
                 'user_id' => Auth::check() ? Auth::id() : null,
                 'session_id' => $sessionId,
                 'order_column' => $nextOrder,
-                'extra_properties' => [
+                'custom_properties' => [
                     'image_collection' => $request->input('image_collection'),
                     'document_collection' => $request->input('document_collection'),
                     'youtube_collection' => $request->input('youtube_collection'),

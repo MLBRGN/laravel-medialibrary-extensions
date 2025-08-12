@@ -36,12 +36,6 @@
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
                 {{-- instantiated when model opens, just in time --}}
                 <div id="image-editor-placeholder" class="image-editor"></div>
-{{--                <image-editor --}}
-{{--                    id="{{ $id }}-image-editor"--}}
-{{--                    data-initiator-id="{{ $id }}"--}}
-{{--                    data-medium-display-name="{{ media_display_name($medium) }}"--}}
-{{--                    data-medium-path="{{ $medium->getUrl() }}"--}}
-{{--                />--}}
             </div>
         </div>
     </div>

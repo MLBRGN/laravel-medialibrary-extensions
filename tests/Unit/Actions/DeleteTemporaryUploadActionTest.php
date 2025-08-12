@@ -13,7 +13,7 @@ it('deletes the temporary upload and returns a JSON response when request expect
         'name' => 'temp',
         'file_name' => 'temp.jpg',
         'collection_name' => 'test',
-        'extra_properties' => ['image_collection' => 'images'],
+        'custom_properties' => ['image_collection' => 'images'],
         'session_id' => session()->getId(),
     ]);
 
@@ -44,7 +44,7 @@ it('deletes the temporary upload and returns a redirect response with flash data
         'name' => 'temp',
         'file_name' => 'temp.jpg',
         'collection_name' => 'test',
-        'extra_properties' => ['image_collection' => 'images'],
+        'custom_properties' => ['image_collection' => 'images'],
         'session_id' => session()->getId(),
     ]);
 

@@ -165,7 +165,7 @@ class TestCase extends Orchestra
             'name' => 'temp',
             'file_name' => $fileName,
             'collection_name' => 'test',
-            'extra_properties' => ['image_collection' => 'images'],
+            'custom_properties' => ['image_collection' => 'images'],
             'session_id' => session()->getId(),
         ]);
     }

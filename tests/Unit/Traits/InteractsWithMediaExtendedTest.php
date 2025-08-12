@@ -18,7 +18,7 @@ it('attaches temporary media on model creation', function () {
         'path' => 'uploads/temp.jpg',
         'file_name' => 'temp.jpg',
         'collection_name' => 'test',
-        'extra_properties' => ['image_collection' => 'images'],
+        'custom_properties' => ['image_collection' => 'images'],
         'session_id' => session()->getId(),
     ]);
 
@@ -41,7 +41,7 @@ it('skips attachment if no collection is defined', function () {
         'name' => 'skip',
         'file_name' => 'skip.jpg',
         'collection_name' => 'test',
-        'extra_properties' => [], // no collection info
+        'custom_properties' => [], // no collection info
         'session_id' => session()->getId(),
     ]);
 

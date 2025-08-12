@@ -124,7 +124,7 @@
 // it('determines if the upload is a YouTube video', function () {
 //    // Arrange
 //    $temporaryUpload = new TemporaryUpload();
-//    $temporaryUpload->extra_properties = ['youtube-id' => 'abc123'];
+//    $temporaryUpload->custom_properties = ['youtube-id' => 'abc123'];
 //
 //    // Act & Assert
 //    expect($temporaryUpload->isYouTubeVideo())->toBeTrue();

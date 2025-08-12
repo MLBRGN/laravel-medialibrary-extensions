@@ -37,8 +37,8 @@ trait InteractsWithMediaExtended
 
             foreach ($temporaryUploads as $temporaryUpload) {
 
-                // filter out unwanted extra properties
-                $extraProperties = collect($temporaryUpload->extra_properties)
+                // filter out unwanted custom properties
+                $customProperties = collect($temporaryUpload->custom_properties)
                     ->except([
                         'image_collection',
                         'document_collection',
@@ -53,7 +53,7 @@ trait InteractsWithMediaExtended
                     $temporaryUpload->getNameWithExtension(),
                     $temporaryUpload->collection_name,
                     $temporaryUpload->order_column,
-                    $extraProperties
+                    $customProperties
                 );
 
                 // remove the file
@@ -66,13 +66,13 @@ trait InteractsWithMediaExtended
         });
     }
 
-    protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null, $extraProperties = []): void
+    protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null, $customProperties = []): void
     {
         try {
             $media = $model
                 ->addMediaFromDisk($path, $disk)
                 ->preservingOriginal()
-                ->withCustomProperties($extraProperties)
+                ->withCustomProperties($customProperties)
                 ->usingFileName($filename)
                 ->toMediaCollection($collection);
 

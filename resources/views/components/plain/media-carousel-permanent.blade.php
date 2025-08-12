@@ -54,7 +54,7 @@
                          data-slide-to="{{ $loop->index }}"
                     @endif
                 >
-                    @if($medium->hasCustomProperty('youtube-id'))
+                    @if(isMediaType($medium, 'youtube-video'))
                         @if ($inModal)
                             <x-mle-video-youtube
                                 class="mle-video-responsive"
@@ -70,37 +70,35 @@
                                 :preview="true"
                             />
                         @endif
-                    @else
-                        @if(isMediaType($medium, 'document'))
-                            <x-mle-document :medium="$medium"
-                                class="mle-document mle-cursor-zoom-in"
-                            />
-                        @elseif(isMediaType($medium, 'video'))
-                            <div
-                                data-bs-toggle="modal"
-                                data-bs-target="#{{$id}}-modal"
-                                class="media-manager-preview-item-container"
-                            >
-                                <x-mle-video :medium="$medium" />
-                            </div>
-                        @elseif(isMediaType($medium, 'audio'))
-                            <div
-                                data-bs-toggle="modal"
-                                data-bs-target="#{{$id}}-modal"
-                                class="media-manager-preview-item-container"
-                            >
-                                <x-mle-audio :medium="$medium" />
-                            </div>
-                        @elseif(isMediaType($medium, 'image'))
-                            <x-mle-image-responsive
-                                class="mle-image-responsive"
-                                :medium="$medium"
-                                :conversions="['16x9']"
-                                sizes="100vw"
-                                :alt="$medium->name"
-                                draggable="false"
-                            />
-                        @endif
+                    @elseif(isMediaType($medium, 'document'))
+                        <x-mle-document :medium="$medium"
+                            class="mle-document mle-cursor-zoom-in"
+                        />
+                    @elseif(isMediaType($medium, 'video'))
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-video :medium="$medium" />
+                        </div>
+                    @elseif(isMediaType($medium, 'audio'))
+                        <div
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{$id}}-modal"
+                            class="media-manager-preview-item-container"
+                        >
+                            <x-mle-audio :medium="$medium" />
+                        </div>
+                    @elseif(isMediaType($medium, 'image'))
+                        <x-mle-image-responsive
+                            class="mle-image-responsive"
+                            :medium="$medium"
+                            :conversions="['16x9']"
+                            sizes="100vw"
+                            :alt="$medium->name"
+                            draggable="false"
+                        />
                     @endif
                 </div>
             </div>

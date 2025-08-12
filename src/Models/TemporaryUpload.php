@@ -22,12 +22,12 @@ class TemporaryUpload extends Model
         'mime_type',
         'session_id',
         'user_id',
-        'extra_properties',
+        'custom_properties',
         'order_column',
     ];
 
     protected $casts = [
-        'extra_properties' => 'array',
+        'custom_properties' => 'array',
     ];
 
     // used when serializing
@@ -60,11 +60,6 @@ class TemporaryUpload extends Model
             ->get();
     }
 
-//    public function getNameAttribute(): string
-//    {
-//        return $this->file_name;
-//    }
-
     public function getUrlAttribute(): string
     {
         return Storage::disk($this->disk)->url($this->path);
@@ -75,76 +70,14 @@ class TemporaryUpload extends Model
         return Storage::disk($this->disk)->url($this->path);
     }
 
-    // TODO use config values?
-    public function isImage(): bool
-    {
-        return str_starts_with($this->mime_type, 'image/');
-    }
-
-    public function isYouTubeVideo(): bool
-    {
-        return $this->hasExtraProperty('youtube-id');
-    }
-
-//    public function isDocument(): bool
-//    {
-//        return in_array($this->mime_type, [
-//            'application/pdf', 'text/plain', 'application/msword',
-//            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-//            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-//        ]);
-//    }
-//
-//    public function isVideo(): bool
-//    {
-//        return in_array($this->mime_type, [
-//            'application/pdf', 'text/plain', 'application/msword',
-//            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-//            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-//        ]);
-//    }
-//
-//    public function isAudio(): bool
-//    {
-//        return in_array($this->mime_type, [
-//            'application/pdf', 'text/plain', 'application/msword',
-//            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-//            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-//        ]);
-//    }
-
-    public function isDocument(): bool
-    {
-        $allowed = config('media-library-extensions.allowed_mimetypes.document', []);
-        return in_array($this->mime_type, $allowed, true);
-    }
-
-    public function isVideo(): bool
-    {
-        $allowed = config('media-library-extensions.allowed_mimetypes.video', []);
-        return in_array($this->mime_type, $allowed, true);
-    }
-
-    public function isAudio(): bool
-    {
-        $allowed = config('media-library-extensions.allowed_mimetypes.audio', []);
-        return in_array($this->mime_type, $allowed, true);
-    }
-
-    public function hasExtraProperty(string $key): bool
-    {
-        return array_key_exists($key, $this->extra_properties ?? []);
-    }
-
-    public function getExtraProperty(string $key, mixed $default = null): mixed
-    {
-        return $this->extra_properties[$key] ?? $default;
-    }
-
-    // TODO. This wrapper exists because media library uses custom property and i use extra property
     public function getCustomProperty(string $key, mixed $default = null): mixed
     {
-        return $this->getExtraProperty($key, $default);
+        return $this->custom_properties[$key] ?? $default;
+    }
+
+    public function hasCustomProperty(string $key, mixed $default = null): mixed
+    {
+        return array_key_exists($key, $this->custom_properties ?? []);
     }
 
     public function getNameWithExtension(): string

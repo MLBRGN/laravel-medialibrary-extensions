@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('session_id')->nullable();
-            $table->json('extra_properties')->nullable();
+            $table->json('custom_properties')->nullable();
             $table->unsignedInteger('order_column')->nullable()->index();
 
             $table->timestamps();

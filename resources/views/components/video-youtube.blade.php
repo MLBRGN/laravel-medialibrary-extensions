@@ -9,7 +9,7 @@
         @if($medium instanceof TemporaryUpload)
             <img
                 src="{{ $medium->getUrl() }}"
-                class="mle-video-responsive mle-cursor-zoom-in"
+                class="mle-youtube-video mle-video-responsive mle-cursor-zoom-in"
                 alt="{{ $medium->name }}"
             />
         @else
