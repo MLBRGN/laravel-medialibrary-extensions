@@ -39,13 +39,25 @@
                     href="https://www.youtube.com/watch?v={{ $youtubeId }}"
                     target="_blank"
                 >
-                    {{ __('media-library-extensions::messages.could_not_load_player') }}
-                    <br>
-                    {{ __('media-library-extensions::messages.watch_on_youtube') }}
+                    <div class="mle-youtube-video mle-video-responsive">
+                        <x-mle-partial-icon
+                            class="mle-icon-container-youtube-play-button"
+                            name="{{ config('media-library-extensions.icons.play_video') }}"
+                            title="{{ __('media-library-extensions::messages.play_video') }}"
+                        >
+                            
+                        </x-mle-partial-icon>
+                        <div class="mle-youtube-video-fallback-text">
+                            <p>
+                                {{ __('media-library-extensions::messages.could_not_load_video') }}
+                                {{ __('media-library-extensions::messages.watch_on_youtube') }}
+                            </p>
+                        </div>
+                    </div>
                 </a>
             </lite-youtube>
             <div class="media-video-touch-overlay"></div>
         </div>
     </div>
-    <x-mle-partial-assets include-css="true" include-js="false" :frontend-theme="$frontendTheme"/>
 @endif
+<x-mle-partial-assets include-css="true" include-js="false" include-youtube-player="true" :frontend-theme="$frontendTheme"/>

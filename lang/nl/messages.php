@@ -34,7 +34,7 @@ return [
     'not_authorized' => 'Niet geautoriseerd',
     'this_collection_can_contain_up_to_:items_items' => 'Deze collectie kan tot :items items bevatten.',
     'slide_to_:index' => 'Ga naar dia :index',
-    'could_not_load_player' => 'Kon speler niet laden.',
+    'could_not_load_video' => 'Kon video niet laden.',
     'watch_on_youtube' => 'Bekijk op YouTube.',
     'play_video' => 'Video afspelen',
     'supported_file_formats_:supported_formats' => 'Ondersteunde bestandsformaten: :supported_formats.',
