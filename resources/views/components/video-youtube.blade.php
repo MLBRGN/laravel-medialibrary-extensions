@@ -1,7 +1,7 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if ($preview)
     <div class="mlbrgn-mle-component">
-        <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component mle-youtube-video mle-video-responsive']) }}>
+        <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
             <x-mle-partial-icon
                 class="mle-icon-container-youtube-play-button"
                 name="{{ config('media-library-extensions.icons.play_video') }}"
@@ -14,9 +14,12 @@
                     alt="{{ $medium->name }}"
                 />
             @else
-                {{ $medium->img()->lazy()->attributes(['class' => 'mle-image-responsive']) }}
+                {{ 
+                    $medium->img()
+                    ->lazy()
+                    ->attributes(['class' => 'mle-image-responsive']) 
+                }}
             @endif
-                
         </div>
     </div>
 @else

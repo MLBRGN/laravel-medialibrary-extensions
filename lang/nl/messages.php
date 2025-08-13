@@ -50,5 +50,6 @@ return [
     'Temporary_uploads_not_available,_please_run_migrations_first' => 'Tijdelijke uploads niet beschikbaar, voer eerst de migraties uit.',
     'class_not_found' => 'Class ":class" niet gevonden.',
     'must_implement_has_media' => 'Class ":class" moet :interface implementeren.',
-    'your_browser_does_not_support_the_audio_element' => 'Uw browser ondersteunt het audio element niet.'
+    'your_browser_does_not_support_the_audio_element' => 'Uw browser ondersteunt het audio element niet.',
+    'collection_:collection_contains_no_youtube_videos' => 'Collectie ":colletion" bevat geen YouTube videos.',
 ];

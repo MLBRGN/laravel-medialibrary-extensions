@@ -43,6 +43,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
+use Mlbrgn\MediaLibraryExtensions\View\Components\YouTubeVideo;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -123,6 +124,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
+        Blade::component($this->packageNameShort.'-youtube-video', YouTubeVideo::class);
         Blade::component($this->packageNameShort.'-document', Document::class);
         Log::info('Registering audio component');
         Blade::component($this->packageNameShort.'-audio', Audio::class);

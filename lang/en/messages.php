@@ -50,5 +50,6 @@ return [
     'Temporary_uploads_not_available,_please_run_migrations_first' => 'Temporary uploads not available, please run migrations first.',
     'class_not_found' => 'Class ":class" does not exist.',
     'must_implement_has_media' => 'Class ":class" must implement :interface.',
-    'your_browser_does_not_support_the_audio_element' => 'Your browser does not support the audio element.'
+    'your_browser_does_not_support_the_audio_element' => 'Your browser does not support the audio element.',
+    'collection_:collection_contains_no_youtube_videos' => 'Collection ":colletion" contains no YouTube videos.',
 ];
