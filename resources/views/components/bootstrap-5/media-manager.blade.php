@@ -20,7 +20,11 @@
     />
     {{ $component_start ?? '' }}
     <div class="media-manager-row row">
-        <div class="media-manager-form col-12 col-md-4">
+        <div @class([
+                'media-manager-form',
+                 'col-12 col-md-4' => $uploadEnabled,
+                 'col-0' => !$uploadEnabled
+            ])>
             {{ $form_start ?? '' }}
             @if($uploadEnabled)
                 @if($imageCollection || $documentCollection || $videoCollection || $audioCollection)
@@ -59,7 +63,13 @@
             @endif
             {{ $form_end ?? '' }}
         </div>
-        <div class="media-manager-previews col-12 col-md-8">
+        <div
+            @class([
+                'media-manager-previews',
+                 'col-12 col-md-8' => $uploadEnabled,
+                 'col-12' => !$uploadEnabled
+            ])
+            class="media-manager-previews col-12 col-md-8">
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"/>

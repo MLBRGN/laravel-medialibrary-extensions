@@ -28,8 +28,10 @@ class StoreUpdatedMediumRequest extends FormRequest
             'collection' => 'required|string',
             'file' => 'required|file',
             'image_collection' => 'required|string',
-            'document_collection' => 'required|string',
+            'document_collection' => 'nullable|string',
             'youtube_collection' => 'nullable|string',
+            'audio_collection' => 'nullable|string',
+            'video_collection' => 'nullable|string',
         ];
     }
 }

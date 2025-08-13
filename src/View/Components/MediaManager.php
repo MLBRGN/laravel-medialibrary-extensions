@@ -81,6 +81,10 @@ class MediaManager extends BaseComponent
             $this->uploadEnabled = false;
         }
 
+        if (!$this->imageCollection && !$this->documentCollection && !$this->videoCollection && !$this->audioCollection && !$this->youtubeCollection) {
+           throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+        }
+
         $collections = collect();
         if ($this->model) {
             if ($imageCollection) {
