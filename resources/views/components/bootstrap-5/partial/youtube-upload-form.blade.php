@@ -38,12 +38,14 @@
             type="url" 
             name="youtube_url" 
             class="form-control" 
-            placeholder="https://www.youtube.com/watch?v=..." 
+            placeholder="https://www.youtube.com/watch?v=..."
+            @disabled($disabled)
         />
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button btn btn-primary d-block"
         data-action="upload-youtube-medium"
+        @disabled($disabled)
     >
         {{ __('media-library-extensions::messages.add_video') }}
     </button>

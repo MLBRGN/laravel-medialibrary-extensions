@@ -40,6 +40,7 @@ class YouTubeUploadForm extends BaseComponent
         public bool $destroyEnabled = false,
         public bool $setAsFirstEnabled = false,
         public ?bool $useXhr = null,
+        public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 

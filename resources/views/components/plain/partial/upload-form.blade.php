@@ -20,14 +20,18 @@
             name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
             type="file"
             class="mle-input custom-file-input"
-            multiple>
+            multiple
+            @disabled($disabled)
+        >
     @else
         <input
             id="{{ $id }}-media-input"
             accept="{{ $allowedMimeTypes }}"
             name="{{ config('media-library-extensions.upload_field_name_single') }}"
             type="file"
-            class="mle-input custom-file-input">
+            class="mle-input custom-file-input"
+            @disabled($disabled)
+        >
     @endif
     <span class="mle-form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
@@ -69,6 +73,7 @@
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button mle-upload-button"
         data-action="upload-media"
+        @disabled($disabled)
     >
         {{ $multiple
          ? __('media-library-extensions::messages.upload_media')

@@ -4,6 +4,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Exception;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
 
 class MediaManagerSingle extends MediaManager
@@ -44,5 +46,25 @@ class MediaManagerSingle extends MediaManager
             frontendTheme: $frontendTheme,
             useXhr: $useXhr,
         );
+
+        $collections = [
+            $imageCollection,
+            $documentCollection,
+            $youtubeCollection,
+            $videoCollection,
+            $audioCollection,
+        ];
+
+        $totalMediaCount = 0;
+
+        foreach ($collections as $collectionName) {
+            if ($modelOrClassName instanceof HasMedia) {
+                $totalMediaCount += $modelOrClassName->getMedia($collectionName)->count();
+            } elseif (is_string($modelOrClassName)) {
+                $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName)->count();
+            }
+        }
+
+        $this->disableForm = $totalMediaCount >= 1;
     }
 }

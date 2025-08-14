@@ -23,6 +23,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaFirstAvailable;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
@@ -125,6 +126,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-youtube-video', YouTubeVideo::class);
+        Blade::component($this->packageNameShort.'-first-available', MediaFirstAvailable::class);
         Blade::component($this->packageNameShort.'-document', Document::class);
         Log::info('Registering audio component');
         Blade::component($this->packageNameShort.'-audio', Audio::class);

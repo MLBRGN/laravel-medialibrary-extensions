@@ -1,6 +1,6 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if ($preview)
-    <div class="mlbrgn-mle-component">
+    <div class="mlbrgn-mle-component youtube-container">
         <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
             <x-mle-partial-icon
                 class="mle-icon-container-youtube-play-button"

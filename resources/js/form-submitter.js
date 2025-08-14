@@ -62,14 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 showStatusMessage(container, data);
                 updatePreview(mediaManager, config);
-
-                // const flash = document.getElementById(`${formElement.dataset.target}-flash`);
-                // if (flash && data.message) {
-                //     flash.innerHTML = `<div class="alert alert-${data.type}">${data.message}</div>`;
-                // }
-
                 resetFields(formElement);
-
             } catch (error) {
                 console.error('Error during upload:', error);
                 showStatusMessage(container, {
@@ -115,7 +108,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updatePreview(mediaManager, config) {
+        console.log('update preview:', mediaManager);
         const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
+        const forms = mediaManager.querySelectorAll('form, [data-xhr-form]');
         if (!previewGrid) return;
 
         console.log('config', config);
@@ -142,6 +137,19 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(json => {
                 previewGrid.innerHTML = json.html;
+
+                // when only as ingle medium is allowed, disable / enable form elements
+                if (!config.multiple) {
+                    if (json.mediaCount !== undefined && json.mediaCount !== null) {
+                        if (json.mediaCount < 1) {
+                            console.log('enable form elements');
+                            enableFormElements(forms);
+                        } else {
+                            console.log('disable form elements');
+                            disableFormElements(forms);
+                        }
+                    }
+                }
                 // Re-initialize any new modals inside the refreshed preview grid
                 // previewGrid.querySelectorAll('[data-image-editor-modal]')
                 //     .forEach(initializeImageEditorModal);
@@ -181,5 +189,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 input.value = '';
             }
         });
+    }
+
+    function setFormElementsDisabled(forms, disabled) {
+        console.log('setFormElementsDisabled', forms, 'disabled', disabled);
+        forms.forEach(form => {
+            form.querySelectorAll('input:not([type="hidden"]), button')
+                .forEach(el => el.disabled = disabled);
+        });
+    }
+
+    function disableFormElements(forms) {
+        setFormElementsDisabled(forms, true);
+    }
+
+    function enableFormElements(forms) {
+        setFormElementsDisabled(forms, false);
     }
 });

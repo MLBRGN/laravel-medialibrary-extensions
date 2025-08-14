@@ -24,6 +24,8 @@ class MediaManager extends BaseComponent
 
     public bool $temporaryUpload = false;
 
+    public bool $disableForm = false;
+
     /** @var Collection<int, Media> */
     public Collection $media;
 
@@ -140,6 +142,7 @@ class MediaManager extends BaseComponent
             'show_media_url' => $this->showMediaUrl,
             'show_order' => $this->showOrder,
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
+            'multiple' => $this->multiple,
         ];
     }
 

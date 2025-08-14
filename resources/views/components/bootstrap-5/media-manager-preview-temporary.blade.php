@@ -18,8 +18,6 @@
                     class="mle-video-youtube mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
-                    :youtube-id="$medium->getCustomProperty('youtube-id')"
-                    :youtube-params="[]"
                     data-bs-target="#{{$id}}-modal-carousel"
                     data-bs-slide-to="{{ $loop->index }}"
                 />

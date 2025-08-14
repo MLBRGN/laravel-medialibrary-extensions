@@ -10,6 +10,7 @@
     ])->merge() }}
     data-media-manager=""
     >
+    
     <input type="hidden" class="media-manager-config" value='@json($config)' />
     <x-mle-partial-debug 
         :frontend-theme="$frontendTheme" 
@@ -43,6 +44,7 @@
                         :set-as-first-enabled="$setAsFirstEnabled"
                         :multiple="$multiple"
                         :allowed-mimetypes="$allowedMimeTypes"
+                        :disabled="$disableForm"
                     />
                 @endif
             @endif
@@ -59,6 +61,7 @@
                     :audio-collection="$audioCollection"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
+                    :disabled="$disableForm"
                 />
             @endif
             {{ $form_end ?? '' }}

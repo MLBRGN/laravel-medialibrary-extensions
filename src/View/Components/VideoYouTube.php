@@ -12,11 +12,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class VideoYouTube extends Component
 {
     public string $youTubeParamsAsString;
+    public string $youtubeId = '';
 
     public function __construct(
         public Media|TemporaryUpload $medium,
         public bool $preview = true,
-        public string $youtubeId = '',
         public ?array $youtubeParams = [],
         public ?string $frontendTheme = null,
     ) {
@@ -37,6 +37,7 @@ class VideoYouTube extends Component
             'fs' => 1, // Hides (0) or shows (1) the fullscreen button
         ]);
 
+        $this->youtubeId = $medium->getCustomProperty('youtube-id');
         $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
         $this->youTubeParamsAsString = http_build_query($mergedParams);
 

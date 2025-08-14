@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 trait InteractsWithMediaExtended
@@ -167,10 +168,9 @@ trait InteractsWithMediaExtended
         $this->addResponsiveAspectRatioConversion($media, $collections, 3 / 2, '3x2', $fit);
     }
 
-    protected function addYouTubeCollection($name): void
+    protected function addYouTubeCollection($name): MediaCollection
     {
-        $this
-            ->addMediaCollection($name)
-            ->singleFile();
+        return $this
+            ->addMediaCollection($name);
     }
 }

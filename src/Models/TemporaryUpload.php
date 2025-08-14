@@ -60,6 +60,13 @@ class TemporaryUpload extends Model
             ->get();
     }
 
+    public static function countMediaForCurrentSession($collectionName = null): int
+    {
+        return self::where('session_id', session()->getId())->count();
+//            ->where('model_type', $modelOrClassName)
+//            ->where('session_id', session()->getId());
+    }
+
     public function getUrlAttribute(): string
     {
         return Storage::disk($this->disk)->url($this->path);

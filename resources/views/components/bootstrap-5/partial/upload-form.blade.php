@@ -25,6 +25,7 @@
         @else
             name="{{ config('media-library-extensions.upload_field_name_single') }}"
         @endif
+        @disabled($disabled)
         >
     
     <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
@@ -68,6 +69,7 @@
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button btn btn-primary d-block"
         data-action="upload-media"
+        @disabled($disabled)
     >
         {{ $multiple
          ? __('media-library-extensions::messages.upload_media')

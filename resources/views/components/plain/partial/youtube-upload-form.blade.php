@@ -38,11 +38,14 @@
             type="url" 
             name="youtube_url" 
             class="mle-input" 
-            placeholder="https://www.youtube.com/watch?v=..." />
+            placeholder="https://www.youtube.com/watch?v=..."
+            @disabled($disabled)
+        />
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button mle-upload-button"
         data-action="upload-youtube-medium"
+        @disabled($disabled)
     >
         {{ __('media-library-extensions::messages.add_video') }}
     </button>

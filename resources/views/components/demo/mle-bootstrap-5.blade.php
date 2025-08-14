@@ -168,12 +168,20 @@
 
         <h2 class="my-5">Youtube video</h2>
         
-        <x-mle-youtube-video :model-or-class-name="$model" collection="alien-single-youtube-video" :preview="false"/>
+{{--        <x-mle-youtube-video :model-or-class-name="$model" collection="alien-single-youtube-video" :preview="false"/>--}}
 
         <h2 class="my-5">Youtube video temporary</h2>
         
-        <x-mle-youtube-video model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien" collection="alien-single-youtube-video" :preview="false"/>
-        
+{{--        <x-mle-youtube-video model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien" collection="alien-single-youtube-video" :preview="false"/>--}}
+
+        <h2 class="my-5">Media first available</h2>
+
+        <x-mle-first-available 
+            id="media-first-available"
+            :model-or-class-name="$model" 
+            :media-collections="['alien-single-audio', 'alien-single-video', 'alien-single-document', 'alien-single-image', 'alien-single-youtube-video']"
+        />
+
     </div>
 </div>
 {{-- Bootstrap 5 JS Bundle with Popper --}}

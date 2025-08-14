@@ -60,8 +60,6 @@
                                 class="mle-video-responsive"
                                 :medium="$medium"
                                 :preview="false"
-                                :youtube-id="$medium->getCustomProperty('youtube-id')"
-                                :youtube-params="[]"
                             />
                         @else
                             <x-mle-video-youtube

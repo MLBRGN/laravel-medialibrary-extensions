@@ -37,6 +37,7 @@
                         :destroy-enabled="$destroyEnabled"
                         :set-as-first-enabled="$setAsFirstEnabled"
                         :multiple="$multiple"
+                        :disabled="$disableForm"
                     />
                 @endif
             @endif
@@ -53,6 +54,8 @@
                     :audio-collection="$audioCollection"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
+                    :disabled="$disableForm"
+
                 />
             @endif
             {{ $form_end ?? '' }}

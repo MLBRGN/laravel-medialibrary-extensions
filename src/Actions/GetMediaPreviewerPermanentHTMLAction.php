@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 
@@ -29,14 +30,36 @@ class GetMediaPreviewerPermanentHTMLAction
             $request->input('model_id'),
         );
 
+        $imageCollection = $request->input('image_collection', '');
+        $documentCollection = $request->input('document_collection', '');
+        $youtubeCollection = $request->input('youtube_collection', '');
+        $videoCollection = $request->input('video_collection', '');
+        $audioCollection = $request->input('audio_collection', '');
+
+        $collections = collect([
+            $imageCollection,
+            $documentCollection,
+            $youtubeCollection,
+            $videoCollection,
+            $audioCollection,
+        ])
+            ->filter(fn ($collection) => !empty($collection)) // removes null, '', false
+            ->all();
+
+        $totalMediaCount = 0;
+
+        foreach ($collections as $collectionName) {
+            $totalMediaCount += $model->getMedia($collectionName)->count();
+        }
+
         $component = new MediaManagerPreview(
             id: $initiatorId,
             modelOrClassName: $model,
-            imageCollection: $request->input('image_collection', ''),
-            documentCollection: $request->input('document_collection', ''),
-            youtubeCollection: $request->input('youtube_collection', ''),
-            videoCollection: $request->input('video_collection', ''),
-            audioCollection: $request->input('audio_collection', ''),
+            imageCollection: $imageCollection,
+            documentCollection: $documentCollection,
+            youtubeCollection: $youtubeCollection,
+            videoCollection: $videoCollection,
+            audioCollection: $audioCollection,
             frontendTheme: $request->input('frontend_theme'),
             destroyEnabled: $request->input('destroy_enabled'),
             setAsFirstEnabled: $request->input('set_as_first_enabled'),
@@ -48,6 +71,7 @@ class GetMediaPreviewerPermanentHTMLAction
 
         return response()->json([
             'html' => $html,
+            'mediaCount' => $totalMediaCount,
             'success' => true,
             'target' => $initiatorId,
         ]);
