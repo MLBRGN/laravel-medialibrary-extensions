@@ -2,7 +2,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -14,12 +13,16 @@ trait ChecksMediaLimits
      */
     protected function countModelMediaInCollections(HasMedia $model, array $collections): int
     {
+//        $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
+
         $count =  collect($collections)
             ->filter()
             ->reduce(function (int $total, string $collection) use ($model) {
                 $mediaItems = $model->getMedia($collection);
+//                Log::info("Media for collection '{$collection}' count: " . $mediaItems->count());
                 return $total + $mediaItems->count();
             }, 0);
+//        Log::info("Total count for collections '{$count}'");
         return $count;
     }
 
