@@ -30,14 +30,6 @@
                     <li><strong>Media upload route:</strong> <code>{{ $config['media_upload_route'] }}</code></li>
                     <li><strong>YouTube upload route:</strong> <code>{{ $config['youtube_upload_route'] }}</code></li>
                     <li><strong>Preview update route:</strong> <code>{{ $config['preview_update_route'] }}</code></li>
-
-                    <li><strong>Temporary upload route:</strong> <code>{{ $config['temporary_upload_route'] }}</code>
-                    </li>
-                    <li><strong>Temporary upload preview update route:</strong>
-                        <code>{{ $config['temporary_upload_preview_update_route'] }}</code></li>
-                    {{--                    <li><strong>YouTube Upload Route:</strong> <code>{{ $config['youtube_upload_route'] }}</code></li>--}}
-                    {{--                    <li><strong>Preview Update Route:</strong> <code>{{ $config['preview_update_route'] }}</code></li>--}}
-
                 </ul>
             </div>
 

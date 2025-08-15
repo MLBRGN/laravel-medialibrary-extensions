@@ -110,12 +110,12 @@ class MediaManager extends BaseComponent
         $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 
         if ($this->multiple) {
-            $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
+            $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
             $this->id = $this->id.'-media-manager-multiple';
         } else {
-            $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
+            $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
             $this->id = $this->id.'-media-manager-single';
         }
 
@@ -131,9 +131,7 @@ class MediaManager extends BaseComponent
             'audio_collection' => $this->audioCollection,
             'youtube_collection' => $this->youtubeCollection,
             'media_upload_route' => $this->mediaUploadRoute,
-            'temporary_upload_route' => 'TODO',
             'preview_update_route' => $this->previewUpdateRoute,
-            'temporary_upload_preview_update_route' => 'TODO',
             'youtube_upload_route' => $this->youtubeUploadRoute,
             'csrf_token' => csrf_token(),
             'frontend_theme' => $this->frontendTheme,
