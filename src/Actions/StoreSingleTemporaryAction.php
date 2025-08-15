@@ -75,7 +75,7 @@ class StoreSingleTemporaryAction
         $sessionId = $request->session()->getId();
         $userId = Auth::check() ? Auth::id() : null;
 
-        // 🔁 Remove existing upload for this session/user
+        // Remove existing upload for this session/user
         $existing = TemporaryUpload::query()
             ->where('session_id', $sessionId)
             ->when($userId, fn ($q) => $q->orWhere('user_id', $userId))
@@ -86,7 +86,7 @@ class StoreSingleTemporaryAction
             $existing->delete();
         }
 
-        // 📁 Save the new file
+        // Save the new file
         $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
         $extension = $file->getClientOriginalExtension();
         $filename = "{$safeFilename}.{$extension}";

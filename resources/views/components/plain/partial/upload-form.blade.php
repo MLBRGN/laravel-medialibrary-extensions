@@ -59,7 +59,7 @@
     @if($youtubeCollection)
         <input
             type="hidden"
-            name="audio_collection"
+            name="youtube_collection"
             value="{{ $youtubeCollection }}">
     @endif
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
