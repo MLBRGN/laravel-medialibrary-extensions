@@ -4,8 +4,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
@@ -37,7 +39,7 @@ class StoreSinglePermanentAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();
+        ])->filter()->all();// remove falsy values
 
         if ($this->modelHasAnyMedia($model, $collections)) {
             return MediaResponse::error(
@@ -53,7 +55,18 @@ class StoreSinglePermanentAction
             return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
         }
 
-        $model->addMedia($file)->toMediaCollection($collection);
+        try {
+            $model->addMedia($file)
+                ->withCustomProperties(['priority' => 1])
+                ->toMediaCollection($collection);
+        } catch (Exception $e) {
+            Log::error($e);
+            return MediaResponse::error(
+                $request,
+                $request->initiator_id,
+                __('media-library-extensions::messages.something_went_wrong')
+            );
+        }
 
         return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.upload_success'));
     }

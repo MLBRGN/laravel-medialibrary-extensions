@@ -60,13 +60,6 @@ class TemporaryUpload extends Model
             ->get();
     }
 
-    public static function countMediaForCurrentSession($collectionName = null): int
-    {
-        return self::where('session_id', session()->getId())->count();
-//            ->where('model_type', $modelOrClassName)
-//            ->where('session_id', session()->getId());
-    }
-
     public function getUrlAttribute(): string
     {
         return Storage::disk($this->disk)->url($this->path);
@@ -86,6 +79,28 @@ class TemporaryUpload extends Model
     {
         return array_key_exists($key, $this->custom_properties ?? []);
     }
+
+    public function setCustomProperty(string $key, mixed $value): static
+    {
+        $customProperties = $this->custom_properties ?? [];
+
+        $customProperties[$key] = $value;
+
+        $this->custom_properties = $customProperties;
+
+        return $this;
+    }
+
+//    public function forgetCustomProperty(string $key): static
+//    {
+//        $customProperties = $this->custom_properties ?? [];
+//
+//        unset($customProperties[$key]);
+//
+//        $this->custom_properties = $customProperties;
+//
+//        return $this;
+//    }
 
     public function getNameWithExtension(): string
     {

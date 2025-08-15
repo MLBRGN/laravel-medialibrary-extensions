@@ -37,7 +37,7 @@ class StoreYouTubeVideoPermanentAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();
+        ])->filter()->all();// remove falsy values
 
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
         $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);

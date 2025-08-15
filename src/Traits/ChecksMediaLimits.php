@@ -16,7 +16,7 @@ trait ChecksMediaLimits
 //        $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
 
         $count = collect($collections)
-            ->filter()
+            ->filter()// remove falsy values
             ->reduce(function (int $total, string $collection) use ($model) {
                 $mediaItems = $model->getMedia($collection);
 //                Log::info("Media for collection '{$collection}' count: " . $mediaItems->count());
@@ -32,7 +32,7 @@ trait ChecksMediaLimits
     protected function countTemporaryUploadsInCollections(array $collections): int
     {
         $count = collect($collections)
-            ->filter()
+            ->filter()// remove falsy values
             ->reduce(function (int $total, string $collection) {
                 $temporaryItems = TemporaryUpload::forCurrentSession($collection);
 //                Log::info("Temporary items for collection '{$collection}' count: " . $temporaryItems->count());

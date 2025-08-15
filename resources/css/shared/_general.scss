@@ -247,8 +247,9 @@
     }
 
     .mle-debug-wrapper {
-        margin: 1.5rem 0;
+        margin: .5rem 0;
         font-family: system-ui, sans-serif;
+        float:right;
     }
 
     /* Toggle button */
@@ -256,8 +257,8 @@
         background: var(--mlbrgn-mle-color-primary-lighter);
         color: var(--mlbrgn-mle-color-primary-lighter-contrast);
         border: 1px solid var(--mlbrgn-mle-color-primary-lighter-contrast);
-        padding: 0.5rem 0.75rem;
-        font-size: 0.95rem;
+        padding: 0.2rem 0.4rem;
+        font-size: 0.5rem;
         border-radius: 0.3rem;
         cursor: pointer;
         margin-bottom: 0.5rem;

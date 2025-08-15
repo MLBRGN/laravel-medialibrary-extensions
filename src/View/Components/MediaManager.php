@@ -27,7 +27,7 @@ class MediaManager extends BaseComponent
     public bool $disableForm = false;
 
     /** @var Collection<int, Media> */
-    public Collection $media;
+//    public Collection $media;
 
     public string $mediaUploadRoute; // upload form action route
 
@@ -87,21 +87,37 @@ class MediaManager extends BaseComponent
            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
         }
 
-        $collections = collect();
-        if ($this->model) {
-            if ($imageCollection) {
-                $collections = $collections->merge($this->model->getMedia($imageCollection));
-            }
+        // TODO GETTING MEDIA SHOULD NOT BE NECESSARY HERE
+//        $collections = collect();
+//        if ($this->model) {
+//            $collections = collect([
+//                $imageCollection,
+//                $youtubeCollection,
+//                $documentCollection,
+//                $videoCollection,
+//                $audioCollection,
+//            ])
+//                ->filter()// remove falsy values
+//                ->reduce(
+//                    fn($carry, $name) => $carry->merge($this->model->getMedia($name)),
+//                    collect()
+//                );
+//        }
+//
+//        // Sort by custom property "priority"
+//        $this->media = $collections
+//            ->sortBy(fn(Media $m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+//            ->values();
 
-            if ($youtubeCollection) {
-                $collections = $collections->merge($this->model->getMedia($youtubeCollection));
-            }
-
-            if ($documentCollection) {
-                $collections = $collections->merge($this->model->getMedia($documentCollection));
-            }
-        }
-        $this->media = $collections;
+        // Temporarily inspect what the view will get
+//         dump($this->media->map(fn ($m) => [
+//             'id' => $m->id,
+//             'priority' => $m->getCustomProperty('priority'),
+//             'file_name' => $m->file_name,
+//             'order' => $m->order_column,
+//             'collection' => $m->collection_name,
+//         ]));
+//        dump($this->media);
 
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 

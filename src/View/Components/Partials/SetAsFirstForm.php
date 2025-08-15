@@ -12,13 +12,14 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SetAsFirstForm extends BaseComponent
 {
+    public ?string $targetMediaCollection = null;
+
     public function __construct(
         public Collection $media,
         public Media $medium,
         public string $id,
         public ?string $frontendTheme,
         public ?bool $useXhr,
-        public ?string $targetMediaCollection,
         public ?string $imageCollection,
         public ?string $documentCollection,
         public ?string $youtubeCollection,
@@ -28,6 +29,8 @@ class SetAsFirstForm extends BaseComponent
         public ?HasMedia $model,
     ) {
         parent::__construct($id, $frontendTheme);
+
+        $this->targetMediaCollection = $medium->collection_name;
     }
 
     public function render(): View

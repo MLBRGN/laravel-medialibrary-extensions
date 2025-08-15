@@ -56,7 +56,7 @@ class MediaFirstAvailable extends Component
             // Find the first medium from the ordered collections
             $this->medium = collect($this->mediaCollections ?? [])
                 ->map(fn (string $collection) => $this->model->getFirstMedia($collection))
-                ->filter()
+                ->filter()// remove falsy values
                 ->first();
         } elseif (is_string($modelOrClassName)) {
             throw new Exception('Temporary uploads Not implemented yet');

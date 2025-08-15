@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerPreview extends BaseComponent
 {
@@ -61,51 +62,29 @@ class MediaManagerPreview extends BaseComponent
             $this->showMenu = false;
         }
 
-        $collections = collect();
+        $collectionNames = collect([
+            $imageCollection,
+            $youtubeCollection,
+            $documentCollection,
+            $videoCollection,
+            $audioCollection,
+        ])->filter(); // remove falsy values
 
-        if ($temporaryUploads) {
-            if ($imageCollection) {
-                $collections = $collections->merge(TemporaryUpload::forCurrentSession($imageCollection));
-            }
-
-            if ($youtubeCollection) {
-                $collections = $collections->merge(TemporaryUpload::forCurrentSession($youtubeCollection));
-            }
-
-            if ($documentCollection) {
-                $collections = $collections->merge(TemporaryUpload::forCurrentSession($documentCollection));
-            }
-
-            if ($videoCollection) {
-                $collections = $collections->merge(TemporaryUpload::forCurrentSession($videoCollection));
-            }
-
-            if ($audioCollection) {
-                $collections = $collections->merge(TemporaryUpload::forCurrentSession($audioCollection));
-            }
-        } elseif ($this->model) {
-                if ($imageCollection) {
-                    $collections = $collections->merge($this->model->getMedia($imageCollection));
+        $this->media = $collectionNames
+            ->reduce(function ($carry, $collectionName) use ($temporaryUploads) {
+                if ($temporaryUploads) {
+                    return $carry->merge(TemporaryUpload::forCurrentSession($collectionName));
                 }
 
-                if ($youtubeCollection) {
-                    $collections = $collections->merge($this->model->getMedia($youtubeCollection));
+                if ($this->model) {
+                    return $carry->merge($this->model->getMedia($collectionName));
                 }
 
-                if ($documentCollection) {
-                    $collections = $collections->merge($this->model->getMedia($documentCollection));
-                }
+                return $carry;
+            }, collect())
+            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+            ->values();
 
-                if ($videoCollection) {
-                    $collections = $collections->merge($this->model->getMedia($videoCollection));
-                }
-
-                if ($audioCollection) {
-                    $collections = $collections->merge($this->model->getMedia($audioCollection));
-                }
-
-        }
-        $this->media = $collections;
     }
 
     public function render(): View

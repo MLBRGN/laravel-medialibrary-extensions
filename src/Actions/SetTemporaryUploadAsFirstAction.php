@@ -23,12 +23,16 @@ class SetTemporaryUploadAsFirstAction
         $collection = $request->target_media_collection;
         $mediumId = (int) $request->medium_id;
 
+//        $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())
+//            ->when($collection, fn ($query) => $query->where('custom_properties->image_collection', $collection))
+//            ->orderBy('order_column')
+//            ->get();
+
+        // Pull all temporary uploads for this session (any collection)
         $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())
-            ->when($collection, fn ($query) => $query->where('custom_properties->image_collection', $collection))
-            ->orderBy('order_column')
             ->get();
 
-        if($mediaItems->count() === 0){
+        if ($mediaItems->isEmpty()) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
@@ -36,13 +40,27 @@ class SetTemporaryUploadAsFirstAction
             );
         }
 
-        $orderedIds = $mediaItems->pluck('id')->toArray();
+        // Find the target upload
+        $targetMedia = $mediaItems->firstWhere('id', $mediumId);
+        if (!$targetMedia) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.medium_not_found'),
+            );
+        }
+        // Sort by current priority
+        $sorted = $mediaItems->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
-        // Move selected ID to the front
-        $orderedIds = array_filter($orderedIds, fn ($id) => $id !== $mediumId);
-        array_unshift($orderedIds, $mediumId);
+        // Move target to front
+        $reordered = $sorted->reject(fn($m) => $m->id === $mediumId)->prepend($targetMedia);
 
-        $this->setTemporaryUploadOrder($orderedIds);
+        // Reassign priorities
+        $priority = 0;
+        foreach ($reordered as $media) {
+            $media->setCustomProperty('priority', $priority++);
+            $media->save();
+        }
 
         return MediaResponse::success(
             $request,

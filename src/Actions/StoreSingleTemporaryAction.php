@@ -44,7 +44,7 @@ class StoreSingleTemporaryAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();
+        ])->filter()->all();// remove falsy values
 
         if ($this->temporaryUploadsHaveAnyMedia($collections)) {
             return MediaResponse::error(
@@ -108,6 +108,9 @@ class StoreSingleTemporaryAction
                 'image_collection' => $request->input('image_collection'),
                 'document_collection' => $request->input('document_collection'),
                 'youtube_collection' => $request->input('youtube_collection'),
+                'video_collection' => $request->input('video_collection'),
+                'audio_collection' => $request->input('audio_collection'),
+                'priority' => 1
             ],
         ]);
         $upload->save();

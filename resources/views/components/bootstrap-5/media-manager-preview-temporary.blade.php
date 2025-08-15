@@ -83,6 +83,8 @@
                 :image-collection="$imageCollection"
                 :document-collection="$documentCollection"
                 :youtube-collection="$youtubeCollection"
+                :audio-collection="$audioCollection"
+                :video-collection="$videoCollection"
                 :frontend-theme="$frontendTheme"
             />
         @else
@@ -116,7 +118,9 @@
                             </button>
                         @endif
                         @if($setAsFirstEnabled)
-                            @if($medium->order_column === $media->min('order_column'))
+                                @if(5>100)
+                            
+{{--                            @if($medium->order_column === $media->min('order_column'))--}}
                                 <button
                                     class="mle-button mle-button-icon btn btn-primary"
                                     title="{{ __('media-library-extensions::messages.set-as-main') }}"
@@ -130,11 +134,12 @@
                                 <x-mle-partial-temporary-upload-set-as-first-form
                                     :medium="$medium"
                                     :id="$id"
-{{--                                    :model="$model"--}}
-                                    :target-media-collection="$imageCollection"
+                                    {{-- temporary uploads have no model --}}
                                     :image-collection="$imageCollection"
                                     :document-collection="$documentCollection"
                                     :youtube-collection="$youtubeCollection"
+                                    :audio-collection="$audioCollection"
+                                    :video-collection="$videoCollection"
                                     :set-as-first-enabled="$setAsFirstEnabled"
                                 />
                             @endif

@@ -43,7 +43,7 @@ class StoreMultipleTemporaryAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();
+        ])->filter()->all();// remove falsy values
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
         if ($this->countTemporaryUploadsInCollections($collections) >= $maxItemsInCollection) {
@@ -102,8 +102,9 @@ class StoreMultipleTemporaryAction
                     'image_collection' => $request->input('image_collection'),
                     'document_collection' => $request->input('document_collection'),
                     'youtube_collection' => $request->input('youtube_collection'),
-                    'video_collection' => $request->input('video_collection', null),
-                    'audio_collection' => $request->input('audio_collection', null),
+                    'video_collection' => $request->input('video_collection'),
+                    'audio_collection' => $request->input('audio_collection'),
+                    'priority' => $nextOrder,
                 ],
             ]);
 

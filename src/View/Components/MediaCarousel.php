@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
@@ -53,37 +54,28 @@ class MediaCarousel extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-        $allMedia = collect();
+        // Merge media from multiple or single collection
+        $allMedia = collect(
+            $this->mediaCollections ?: [$this->mediaCollection]
+        )
+            ->filter()// remove false values
+            ->reduce(function (Collection $carry, string $collectionName) {
+                if ($this->temporaryUpload) {
+                    return $carry->merge(TemporaryUpload::forCurrentSession($collectionName));
+                }
+                return $carry->merge($this->model->getMedia($collectionName));
+            }, collect());
 
-        if ($this->temporaryUpload) {
-            if (!empty($this->mediaCollections)) {
-                foreach ($this->mediaCollections as $collectionName) {
-                    if (!empty($collectionName)) {
-                        $allMedia = $allMedia->merge(TemporaryUpload::forCurrentSession($collectionName));
-                    }
-                }
-            } elseif (!empty($this->mediaCollection)) {
-                $allMedia = TemporaryUpload::forCurrentSession($this->mediaCollection);
-            }
-        } elseif ($this->model) {
-            if (!empty($this->mediaCollections)) {
-                foreach ($this->mediaCollections as $collectionName) {
-                    if (!empty($collectionName)) {
-                        $allMedia = $allMedia->merge($this->model->getMedia($collectionName));
-                    }
-                }
-            } elseif (!empty($this->mediaCollection)) {
-                $allMedia = $this->model->getMedia($this->mediaCollection);
-            }
-        }
+        // Sort by 'priority' custom property (both TemporaryUpload and Media support getCustomProperty)
+        $allMedia = $allMedia
+            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+            ->values();
 
         $this->mediaItems = MediaCollection::make($allMedia);
         $this->media = $this->mediaItems;
 
         $this->mediaCount = $this->mediaItems->count();
-
         $this->frontendTheme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
-
         $this->id = $this->id.'-carousel';
     }
 

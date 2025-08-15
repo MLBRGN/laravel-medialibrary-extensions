@@ -42,7 +42,7 @@ class StoreYouTubeVideoTemporaryAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();
+        ])->filter()->all();// remove falsy values
 
         $currentMediaCount = $this->countTemporaryUploadsInCollections($collections);
         if ($currentMediaCount >= $maxItemsInCollection) {

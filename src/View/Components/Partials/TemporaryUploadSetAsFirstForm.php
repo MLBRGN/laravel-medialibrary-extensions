@@ -12,13 +12,14 @@ use Spatie\MediaLibrary\HasMedia;
 
 class TemporaryUploadSetAsFirstForm extends BaseComponent
 {
+    public ?string $targetMediaCollection = null;
+
     public function __construct(
         public Collection $media,
         public TemporaryUpload $medium,
         public string $id,
         public ?string $frontendTheme,
         public ?bool $useXhr = null,
-        public ?string $targetMediaCollection = null,
         public ?string $imageCollection = '',
         public ?string $documentCollection = '',
         public ?string $youtubeCollection = '',
@@ -28,6 +29,8 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         //        public ?HasMedia $model,
     ) {
         parent::__construct($id, $frontendTheme);
+
+        $this->targetMediaCollection = $medium->collection_name;
     }
 
     public function render(): View

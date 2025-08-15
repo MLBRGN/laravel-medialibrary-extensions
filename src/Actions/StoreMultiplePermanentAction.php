@@ -4,8 +4,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
@@ -40,7 +42,7 @@ class StoreMultiplePermanentAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();
+        ])->filter()->all();// remove falsy values
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
         if ($this->countModelMediaInCollections($model, $collections) >= $maxItemsInCollection) {
@@ -53,6 +55,11 @@ class StoreMultiplePermanentAction
             );
         }
 
+        // Determine priority for this file
+        $currentMaxPriority = $model->getMedia()
+            ->filter(fn($m) => in_array($m->collection_name, $collections))
+            ->max(fn($m) => $m->getCustomProperty('priority', 0));
+
         foreach ($files as $file) {
             $collection = $this->mediaService->determineCollection($file);
 
@@ -63,7 +70,20 @@ class StoreMultiplePermanentAction
                 );
             }
 
-            $model->addMedia($file)->toMediaCollection($collection);
+            try {
+                $model->addMedia($file)
+                    ->withCustomProperties([
+                        'priority' => $currentMaxPriority++
+                    ])
+                    ->toMediaCollection($collection);
+            } catch (Exception $e) {
+                Log::error($e);
+                return MediaResponse::error(
+                    $request,
+                    $request->initiator_id,
+                    __('media-library-extensions::messages.something_went_wrong')
+                );
+            }
         }
 
         return MediaResponse::success(

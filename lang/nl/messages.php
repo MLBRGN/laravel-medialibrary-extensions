@@ -55,4 +55,5 @@ return [
     'no_media_collections' => 'Geen mediacollecties',
     'only_one_medium_allowed' => 'Slechts een bestand toegestaan.',
     'invalid_youtube_url' => 'Ongeldig YouTube URL.',
+    'something_went_wrong' => 'Er ging iets verkeerd.',
 ];

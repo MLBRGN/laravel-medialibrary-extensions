@@ -84,6 +84,8 @@
                 :image-collection="$imageCollection"
                 :document-collection="$documentCollection"
                 :youtube-collection="$youtubeCollection"
+                :audio-collection="$audioCollection"
+                :video-collection="$videoCollection"
                 :frontend-theme="$frontendTheme"
             />
         @else
@@ -117,7 +119,8 @@
                         </button>
                     @endif
                     @if($setAsFirstEnabled)
-                        @if($medium->order_column === $media->min('order_column'))
+{{--                        @if($medium->order_column === $media->min('order_column'))--}}
+                        @if(5>100)
                             <button
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
@@ -132,10 +135,11 @@
                                 :medium="$medium"
                                 :id="$id"
                                 :model="$model"
-                                :target-media-collection="$imageCollection"
                                 :image-collection="$imageCollection"
                                 :document-collection="$documentCollection"
                                 :youtube-collection="$youtubeCollection"
+                                :audio-collection="$audioCollection"
+                                :video-collection="$videoCollection"
                                 :set-as-first-enabled="$setAsFirstEnabled"
                             />
                         @endif
