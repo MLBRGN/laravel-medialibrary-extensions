@@ -13,9 +13,12 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleReques
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultipleTemporaryAction
 {
+    use ChecksMediaLimits;
+
     public function __construct(
         protected MediaService $mediaService,
         protected YouTubeService $youTubeService
@@ -31,6 +34,25 @@ class StoreMultipleTemporaryAction
 
         if (empty($files)) {
             return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
+        }
+
+        $collections = collect([
+            $request->input('image_collection'),
+            $request->input('document_collection'),
+            $request->input('youtube_collection'),
+            $request->input('video_collection'),
+            $request->input('audio_collection'),
+        ])->filter()->all();
+
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
+        if ($this->countTemporaryUploadsInCollections($collections) > $maxItemsInCollection) {
+            return MediaResponse::error(
+                $request,
+                $request->initiator_id,
+                __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                    'items' => $maxItemsInCollection
+                ])
+            );
         }
 
         $directory = "{$basePath}";

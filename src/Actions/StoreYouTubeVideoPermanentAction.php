@@ -13,9 +13,12 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreYouTubeVideoPermanentAction
 {
+    use ChecksMediaLimits;
+
     public function __construct(
         protected MediaService $mediaService,
         protected YouTubeService $youTubeService
@@ -36,31 +39,20 @@ class StoreYouTubeVideoPermanentAction
 
         if (!$multiple) {
 
-            $imageCollection = $request->input('image_collection', '');
-            $documentCollection = $request->input('document_collection', '');
-            $youtubeCollection = $request->input('youtube_collection', '');
-            $videoCollection = $request->input('video_collection', '');
-            $audioCollection = $request->input('audio_collection', '');
-
             $collections = collect([
-                $imageCollection,
-                $documentCollection,
-                $youtubeCollection,
-                $videoCollection,
-                $audioCollection,
-            ])
-                ->filter(fn($collection) => !empty($collection)) // removes null, '', false
-                ->all();
+                $request->input('image_collection'),
+                $request->input('document_collection'),
+                $request->input('youtube_collection'),
+                $request->input('video_collection'),
+                $request->input('audio_collection'),
+            ])->filter()->all();
 
-            $totalMediaCount = 0;
-
-            foreach ($collections as $collectionName) {
-                $totalMediaCount += $model->getMedia($collectionName)->count();
-            }
-
-            if ($totalMediaCount > 0) {
-                return MediaResponse::error($request, $initiatorId,
-                    __('media-library-extensions::messages.only_one_medium_allowed'));
+            if ($this->modelHasAnyMedia($model, $collections)) {
+                return MediaResponse::error(
+                    $request,
+                    $request->initiator_id,
+                    __('media-library-extensions::messages.only_one_medium_allowed')
+                );
             }
         }
 

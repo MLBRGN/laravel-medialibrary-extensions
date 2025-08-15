@@ -28,6 +28,10 @@ class StoreSinglePermanentAction
         $field = config('media-library-extensions.upload_field_name_single');
         $file = $request->file($field);
 
+        if (! $file) {
+            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
+        }
+
         $collections = collect([
             $request->input('image_collection'),
             $request->input('document_collection'),
@@ -42,10 +46,6 @@ class StoreSinglePermanentAction
                 $request->initiator_id,
                 __('media-library-extensions::messages.only_one_medium_allowed')
             );
-        }
-
-        if (! $file) {
-            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
         }
 
         $collection = $this->mediaService->determineCollection($file);

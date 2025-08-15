@@ -31,6 +31,14 @@ class StoreSingleTemporaryAction
         $initiatorId = $request->initiator_id;
         $file = $request->file($field);
 
+        if (! $file) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.upload_no_files')
+            );
+        }
+
         $collections = collect([
             $request->input('image_collection'),
             $request->input('document_collection'),
@@ -44,14 +52,6 @@ class StoreSingleTemporaryAction
                 $request,
                 $request->initiator_id,
                 __('media-library-extensions::messages.only_one_medium_allowed')
-            );
-        }
-
-        if (! $file) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                __('media-library-extensions::messages.upload_no_files')
             );
         }
 
