@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
@@ -19,13 +20,33 @@ class Debug extends Component
 
     public Collection $collections;
 
+    public HasMedia|null $model = null;
+
+    public ?string $modelType = null;
+
+    public mixed $modelId = null;
+
+    public bool $temporaryUpload = false;
+
     public function __construct(
-        public HasMedia|null $model = null,
-        public ?string $modelType = null,
-        public ?string $modelId = null,
+        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public ?string $frontendTheme = null,
         public array $config = [],
     ) {
+
+        if ($modelOrClassName instanceof HasMedia) {
+            $this->model = $modelOrClassName;
+            $this->modelType = $modelOrClassName->getMorphClass();
+            $this->modelId = $modelOrClassName->getKey();
+        } elseif (is_string($modelOrClassName)) {
+            $this->model = null;
+            $this->modelType = $modelOrClassName;
+            $this->modelId = null;
+            $this->temporaryUpload = true;
+        } else {
+            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
+        }
+
         $this->iconExists = collect(Blade::getClassComponentAliases())
             ->keys()
             ->contains(config('media-library-extensions.icons.delete'));
@@ -38,7 +59,7 @@ class Debug extends Component
 
         // Optional: guard against model being null to avoid exception
         if ($this->model) {
-            $this->collections = Media::where('model_type', $model->getMorphClass())
+            $this->collections = Media::where('model_type', $this->model->getMorphClass())
                 ->get()
                 ->pluck('collection_name')
                 ->unique();

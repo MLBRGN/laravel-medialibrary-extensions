@@ -14,10 +14,8 @@
     <input type="hidden" class="media-manager-config" value='@json($config)' />
     <x-mle-partial-debug 
         :frontend-theme="$frontendTheme" 
-        :model="$model" 
+        :model-or-class-name="$modelOrClassName" 
         :config="$config" 
-        :model-type="$modelType" 
-        :modelId="$modelId"
     />
     {{ $component_start ?? '' }}
     <div class="media-manager-row row">
