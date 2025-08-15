@@ -44,7 +44,7 @@
                         :set-as-first-enabled="$setAsFirstEnabled"
                         :multiple="$multiple"
                         :allowed-mimetypes="$allowedMimeTypes"
-{{--                        :disabled="$disableForm"--}}
+                        :disabled="$disableForm"
                     />
                 @endif
             @endif
@@ -61,7 +61,7 @@
                     :audio-collection="$audioCollection"
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
-{{--                    :disabled="$disableForm"--}}
+                    :disabled="$disableForm"
                     :multiple="$multiple"
                 />
             @endif

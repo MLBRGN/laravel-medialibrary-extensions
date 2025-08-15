@@ -1,6 +1,7 @@
 :root {
     --mlbrgn-mle-color-primary: #007bff;
     --mlbrgn-mle-color-primary-hover: #0056b3;
+    --mlbrgn-mle-color-primary-disabled: #d2dcec;
     --mlbrgn-mle-color-primary-contrast: #ffffff;
     --mlbrgn-mle-color-primary-lighter: #d5eaf6;
     --mlbrgn-mle-color-primary-lighter-contrast: #000;
@@ -12,6 +13,7 @@
     --mlbrgn-mle-container-bg: #cecdcf;
     --mlbrgn-mle-container-bg-dark: #b5b5b5;
     --mlbrgn-mle-control-input-color: #000;
+    --mlbrgn-mle-color-contrast-disabled: #9cb1e1;
 
     --mlbrgn-mle-button-icon-bg: var(--mlbrgn-mle-container-bg-light);
     --mlbrgn-mle-button-icon-border-radius: .5em;
@@ -21,6 +23,8 @@
     --mlbrgn-mle-button-fg-color: var(--mlbrgn-mle-color-primary-contrast);
     --mlbrgn-mle-button-hover-bg-color: var(--mlbrgn-mle-color-primary-hover);
     --mlbrgn-mle-button-hover-fg-color: var(--mlbrgn-mle-color-primary-contrast);
+    --mlbrgn-mle-button-disabled-bg-color: var(--mlbrgn-mle-color-primary-disabled);
+    --mlbrgn-mle-button-disabled-fg-color: var(--mlbrgn-mle-color-contrast-disabled);
 
     --mlbrgn-mle-button-alt-icon-bg: var(--mlbrgn-mle-container-bg-light);
     --mlbrgn-mle-button-alt-icon-border-radius: .5em;

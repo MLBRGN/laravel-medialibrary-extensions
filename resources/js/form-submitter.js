@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const container = mediaManager.querySelector('.media-manager-row');
 
         mediaManager.addEventListener('click', async function (e) {
-            console.log('bla bla')
             const config = getMediaManagerConfig(mediaManager);
             if (!config) return;
 
@@ -142,11 +141,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!config.multiple) {
                     if (json.mediaCount !== undefined && json.mediaCount !== null) {
                         if (json.mediaCount < 1) {
-                            console.log('enable form elements');
-                            // enableFormElements(forms);
+                            // console.log('enable form elements');
+                            enableFormElements(forms);
                         } else {
-                            console.log('disable form elements');
-                            // disableFormElements(forms);
+                            // console.log('disable form elements');
+                            disableFormElements(forms);
                         }
                     }
                 }
@@ -156,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 previewGrid.querySelectorAll('[data-image-editor-modal]')
                     .forEach(modal => {
-                        console.log('dispatch initializeImageEditorModal')
+                        // console.log('dispatch initializeImageEditorModal')
                         document.dispatchEvent(new CustomEvent('initializeImageEditorModal', {
                             bubbles: false,
                             detail: {modal: modal} // add config or props here if needed
@@ -171,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function getFormData(formElement) {
         const formData = new FormData();
         formElement.querySelectorAll('input').forEach(input => {
-            console.log('input', input);
             if (input.type === 'file') {
                 Array.from(input.files).forEach(file => {
                     formData.append(input.name, file);

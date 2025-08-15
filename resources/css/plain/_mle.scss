@@ -5,5 +5,28 @@
         background-color: var(--mlbrgn-mle-button-bg-color);
     }
 
+    .mle-button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--mlbrgn-mle-button-fg-color);
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin-block: .2rem;
+    }
+
+    .mle-button:hover {
+        background-color: var(--mlbrgn-mle-button-hover-bg-color);
+        color: var(--mlbrgn-mle-button-hover-fg-color);
+    }
+
+    .mle-button:disabled {
+        background-color: var(--mlbrgn-mle-button-disabled-bg-color);
+        color: var(--mlbrgn-mle-button-disabled-fg-color);
+        cursor:default;
+    }
+
 }
 

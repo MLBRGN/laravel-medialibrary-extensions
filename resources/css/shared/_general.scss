@@ -89,31 +89,8 @@
 
     .mle-button {
         display: block;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        font-weight: 400;
-        color: var(--mlbrgn-mle-button-fg-color);
-        border: none;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
         margin-block: 1rem;
     }
-
-    .mle-button:hover {
-        background-color: var(--mlbrgn-mle-button-hover-bg-color);
-        color: var(--mlbrgn-mle-button-hover-fg-color);
-    }
-
-    //.mle-upload-button {
-    //    background-color: var(--mlbrgn-mle-button-bg-color);
-    //    color: var(--mlbrgn-mle-button-fg-color);
-    //}
-    //
-    //.mle-upload-button:hover {
-    //    background-color: var(--mlbrgn-mle-button-bg-color);
-    //    color: var(--mlbrgn-mle-button-fg-color);
-    //}
 
     .mle-button-icon {
         margin:0;
