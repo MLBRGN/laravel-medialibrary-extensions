@@ -28,27 +28,37 @@ class StoreYouTubeVideoTemporaryAction
         }
 
         $initiatorId = $request->initiator_id;
+        $field = config('media-library-extensions.upload_field_name_youtube');
         $multiple = $request->boolean('multiple');
 
-        $field = config('media-library-extensions.upload_field_name_youtube');
-
-        if (!$multiple) {
-            $collections = collect([
-                $request->input('image_collection'),
-                $request->input('document_collection'),
-                $request->input('youtube_collection'),
-                $request->input('video_collection'),
-                $request->input('audio_collection'),
-            ])->filter()->all();
-
-            if ($this->temporaryUploadsHaveAnyMedia($collections)) {
-                return MediaResponse::error(
-                    $request,
-                    $request->initiator_id,
-                    __('media-library-extensions::messages.only_one_medium_allowed')
-                );
-            }
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
+        if(!$multiple) {
+            $maxItemsInCollection = 1;
         }
+
+        $collections = collect([
+            $request->input('image_collection'),
+            $request->input('document_collection'),
+            $request->input('youtube_collection'),
+            $request->input('video_collection'),
+            $request->input('audio_collection'),
+        ])->filter()->all();
+
+        $currentMediaCount = $this->countTemporaryUploadsInCollections($collections);
+        if ($currentMediaCount >= $maxItemsInCollection) {
+            $message = $maxItemsInCollection === 1
+                ? __('media-library-extensions::messages.only_one_medium_allowed')
+                : __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                    'items' => $maxItemsInCollection,
+                ]);
+
+            return MediaResponse::error(
+                $request,
+                $request->initiator_id,
+                $message
+            );
+        }
+
         if ($request->filled($field)) {
 
             $tempUpload = $this->youTubeService->storeTemporaryThumbnailFromRequest($request);

@@ -31,26 +31,35 @@ class StoreYouTubeVideoPermanentAction
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
 
+        $collections = collect([
+            $request->input('image_collection'),
+            $request->input('document_collection'),
+            $request->input('youtube_collection'),
+            $request->input('video_collection'),
+            $request->input('audio_collection'),
+        ])->filter()->all();
+
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
+        $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
         $field = config('media-library-extensions.upload_field_name_youtube');
 
-        if (!$multiple) {
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
+        if(!$multiple) {
+            $maxItemsInCollection = 1;
+        }
+        $currentMediaCount = $this->countModelMediaInCollections($model, $collections);
+        if ($currentMediaCount >= $maxItemsInCollection) {
+            $message = $maxItemsInCollection === 1
+                ? __('media-library-extensions::messages.only_one_medium_allowed')
+                : __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                    'items' => $maxItemsInCollection,
+                ]);
 
-            $collections = collect([
-                $request->input('image_collection'),
-                $request->input('document_collection'),
-                $request->input('youtube_collection'),
-                $request->input('video_collection'),
-                $request->input('audio_collection'),
-            ])->filter()->all();
-
-            if ($this->modelHasAnyMedia($model, $collections)) {
-                return MediaResponse::error(
-                    $request,
-                    $request->initiator_id,
-                    __('media-library-extensions::messages.only_one_medium_allowed')
-                );
-            }
+            return MediaResponse::error(
+                $request,
+                $request->initiator_id,
+                $message
+            );
         }
 
         if ($request->filled($field)) {

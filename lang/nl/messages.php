@@ -54,4 +54,5 @@ return [
     'collection_:collection_contains_no_youtube_videos' => 'Collectie ":collection" bevat geen YouTube videos.',
     'no_media_collections' => 'Geen mediacollecties',
     'only_one_medium_allowed' => 'Slechts een bestand toegestaan.',
+    'invalid_youtube_url' => 'Ongeldig YouTube URL.',
 ];

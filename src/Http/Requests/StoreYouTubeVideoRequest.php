@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Mlbrgn\MediaLibraryExtensions\Rules\YouTubeUrl;
 
 /**
  * Handle the validation and authorization for uploading multiple media files.
@@ -37,10 +38,9 @@ class StoreYouTubeVideoRequest extends FormRequest
             'document_collection' => ['nullable', 'string'],
             'video_collection' => ['nullable', 'string'],
             'audio_collection' => ['nullable', 'string'],
-            $uploadFieldName => ['nullable', 'url', 'regex:/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//'],
+            $uploadFieldName => ['nullable', 'url', new YouTubeUrl()],
             'initiator_id' => ['required', 'string'],
             'multiple' => ['required', Rule::in(['true', 'false'])],
-
         ];
     }
 }

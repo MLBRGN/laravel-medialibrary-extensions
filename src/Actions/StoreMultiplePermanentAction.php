@@ -43,7 +43,7 @@ class StoreMultiplePermanentAction
         ])->filter()->all();
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
-        if ($this->countModelMediaInCollections($model, $collections) > $maxItemsInCollection) {
+        if ($this->countModelMediaInCollections($model, $collections) >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
                 $request->initiator_id,

@@ -25,8 +25,6 @@ class StoreUpdatedMediumAction
     {
         $initiatorId = $request->initiator_id;
 
-        Log::info('All request data', $request->all());
-
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $mediumId = $request->input('medium_id');

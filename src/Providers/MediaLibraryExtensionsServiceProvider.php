@@ -119,7 +119,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
-        Log::info('Registering media-manager-youtube component');
         Blade::component($this->packageNameShort.'-media-manager-youtube', MediaManagerYouTube::class);
         Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
@@ -128,9 +127,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-youtube-video', YouTubeVideo::class);
         Blade::component($this->packageNameShort.'-first-available', MediaFirstAvailable::class);
         Blade::component($this->packageNameShort.'-document', Document::class);
-        Log::info('Registering audio component');
         Blade::component($this->packageNameShort.'-audio', Audio::class);
-        Log::info('Registering video component');
         Blade::component($this->packageNameShort.'-video', Video::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
@@ -193,14 +190,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // Run migrations if needed
         if (! Schema::connection($connectionName)->hasTable('aliens')) {
-//            Log::info('Running demo migrations...');
+
             Artisan::call('migrate', [
                 '--database' => $connectionName,
                 '--path' => realpath(__DIR__.'/../../database/migrations/demo'),
                 '--realpath' => true,
                 '--force' => true,
             ]);
-//            Log::info('Demo migrations completed.');
         }
 
     }

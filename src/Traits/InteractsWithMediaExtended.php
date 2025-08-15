@@ -26,7 +26,7 @@ trait InteractsWithMediaExtended
     public static function bootInteractsWithMediaExtended(): void
     {
         static::created(function ($model) {
-            Log::info('checking for temporary media for model with model type: '.$model->getMorphClass().' and id: '.$model->getKey());
+//            Log::info('checking for temporary media for model with model type: '.$model->getMorphClass().' and id: '.$model->getKey());
 
             if (! $model->exists || ! $model->getKey()) {
                 Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');

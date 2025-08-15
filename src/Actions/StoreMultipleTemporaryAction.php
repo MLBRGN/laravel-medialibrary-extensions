@@ -45,7 +45,7 @@ class StoreMultipleTemporaryAction
         ])->filter()->all();
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
-        if ($this->countTemporaryUploadsInCollections($collections) > $maxItemsInCollection) {
+        if ($this->countTemporaryUploadsInCollections($collections) >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
                 $request->initiator_id,

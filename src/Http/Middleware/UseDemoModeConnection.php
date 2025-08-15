@@ -32,7 +32,6 @@ class UseDemoModeConnection
         //                return new \Mlbrgn\MediaLibraryExtensions\Models\Media();
         //            });
         //        }
-        //        Log::info('Using demo DB middleware for: ' . $request->fullUrl());
 
         //        $connectionName = config('media-library-extensions.temp_database_name');
         //        $databasePath = storage_path('media-library-extensions-demo.sqlite');
@@ -53,14 +52,12 @@ class UseDemoModeConnection
         //
         //        // Run migrations if needed
         //        if (!Schema::connection($connectionName)->hasTable('aliens')) {
-        //            Log::info('Running demo migrations...');
         //            Artisan::call('migrate', [
         //                '--database' => $connectionName,
         //                '--path' => realpath(__DIR__ . '/../../../database/migrations/demo'),
         //                '--realpath' => true,
         //                '--force' => true,
         //            ]);
-        //            Log::info('Demo migrations completed.');
         //        }
 
         return $next($request);

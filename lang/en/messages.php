@@ -54,4 +54,5 @@ return [
     'collection_:collection_contains_no_youtube_videos' => 'Collection ":collection" contains no YouTube videos.',
     'no_media_collections' => 'No Media Collections',
     'only_one_medium_allowed' => 'Only one medium allowed.',
+    'invalid_youtube_url' => 'Invalid YouTube URL.',
 ];
