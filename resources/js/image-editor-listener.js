@@ -11,6 +11,10 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 
 document.addEventListener('onCloseImageEditor', (e) => {
     // console.log('onCloseImageEditor:', e.detail);
+    if (typeof bootstrap === 'undefined' || !bootstrap.Modal) {
+        console.warn('Bootstrap Modal is not available.');
+        return;
+    }
     const modal = e.detail.imageEditorInstance.closest('[data-image-editor-modal]');
     const modalInstance = bootstrap.Modal.getInstance(modal);
     modalInstance.hide();
@@ -97,8 +101,12 @@ const updateMedia = (detail) => {
         }).finally(() => {
 
         if (theme === 'bootstrap-5') {
-            const modalInstance = bootstrap.Modal.getInstance(modal);
-            modalInstance.hide();
+            if (typeof bootstrap === 'undefined' || !bootstrap.Modal) {
+                console.warn('Bootstrap Modal is not available.');
+            } else {
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+            }
         } else if (theme === 'plain') {
             // something else
         }

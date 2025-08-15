@@ -40,8 +40,6 @@ export default defineConfig({
         emptyOutDir: true,
         rollupOptions: {
             output: {
-                // entryFileNames: '[name].js',
-                // assetFileNames: '[name].css',
                 entryFileNames: '[name].js',      // for entry points
                 chunkFileNames: '[name].js',      // for code-split chunks
                 assetFileNames: '[name][extname]',

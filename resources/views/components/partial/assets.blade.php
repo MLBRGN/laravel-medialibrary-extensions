@@ -27,11 +27,11 @@
     @endonce
 @endif
 
-{{--@if($includeImageEditorJs)--}}
-{{--    @once--}}
-{{--        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>--}}
-{{--    @endonce--}}
-{{--@endif--}}
+@if($includeImageEditorJs)
+    @once
+        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>
+    @endonce
+@endif
 
 @if($includeFormSubmitter)
     @once
@@ -39,15 +39,46 @@
     @endonce
 @endif
 
+{{--@if($includeYoutubePlayer)--}}
+{{--    @once--}}
+{{--        <script src="https://www.youtube.com/iframe_api"></script>--}}
+{{--        <script>--}}
+{{--            if (!customElements.get('lite-youtube')) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.src = "{{ asset('vendor/media-library-extensions/lite-youtube.js') }}";--}}
+{{--                document.head.appendChild(script);--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@once--}}
+{{--    <script src="https://www.youtube.com/iframe_api" defer></script>--}}
+{{--    <script type="module" src="{{ asset('vendor/media-library-extensions/lite-youtube.js') }}" defer></script>--}}
+{{--@endonce--}}
 @if($includeYoutubePlayer)
     @once
-        <script src="https://www.youtube.com/iframe_api"></script>
-        <script>
-            if (!customElements.get('lite-youtube')) {
-                const script = document.createElement('script');
-                script.src = "{{ asset('vendor/media-library-extensions/lite-youtube.js') }}";
-                document.head.appendChild(script);
-            }
+        <script type="module">
+            // Loading the "lite-youtube" extension caused issues with the host app,
+            // now waiting for dom to be loaded and only
+            // loading YT iframe api and "lite-youtube" when not loaded
+            // already (by host app)
+            document.addEventListener('DOMContentLoaded', function() {
+                if (!window.YT) {
+                    const tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    document.head.appendChild(tag);
+                }
+
+                if (!customElements.get('lite-youtube')) {
+                    console.log('no lite-youtube, loading');
+                    const script = document.createElement('script');
+                    script.src = "{{ asset('vendor/media-library-extensions/lite-youtube.js') }}";
+                    document.head.appendChild(script);
+                } else {
+                    console.log('lite-youtube already present');
+                }
+            })
         </script>
     @endonce
 @endif
