@@ -10,7 +10,6 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
-use Mlbrgn\MediaLibraryExtensions\Traits\ChecksSingleMediumLimit;
 
 class StoreSinglePermanentAction
 {
