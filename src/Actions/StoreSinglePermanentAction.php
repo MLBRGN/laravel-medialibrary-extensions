@@ -57,7 +57,7 @@ class StoreSinglePermanentAction
 
         try {
             $model->addMedia($file)
-                ->withCustomProperties(['priority' => 1])
+                ->withCustomProperties(['priority' => 0])
                 ->toMediaCollection($collection);
         } catch (Exception $e) {
             Log::error($e);

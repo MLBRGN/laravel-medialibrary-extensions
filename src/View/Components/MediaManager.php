@@ -87,38 +87,6 @@ class MediaManager extends BaseComponent
            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
         }
 
-        // TODO GETTING MEDIA SHOULD NOT BE NECESSARY HERE
-//        $collections = collect();
-//        if ($this->model) {
-//            $collections = collect([
-//                $imageCollection,
-//                $youtubeCollection,
-//                $documentCollection,
-//                $videoCollection,
-//                $audioCollection,
-//            ])
-//                ->filter()// remove falsy values
-//                ->reduce(
-//                    fn($carry, $name) => $carry->merge($this->model->getMedia($name)),
-//                    collect()
-//                );
-//        }
-//
-//        // Sort by custom property "priority"
-//        $this->media = $collections
-//            ->sortBy(fn(Media $m) => $m->getCustomProperty('priority', PHP_INT_MAX))
-//            ->values();
-
-        // Temporarily inspect what the view will get
-//         dump($this->media->map(fn ($m) => [
-//             'id' => $m->id,
-//             'priority' => $m->getCustomProperty('priority'),
-//             'file_name' => $m->file_name,
-//             'order' => $m->order_column,
-//             'collection' => $m->collection_name,
-//         ]));
-//        dump($this->media);
-
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here

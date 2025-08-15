@@ -10,11 +10,7 @@ class MediaManagerYouTube extends MediaManager
 {
     public function __construct(
         HasMedia|string $modelOrClassName,
-        string $imageCollection = '',
-        string $documentCollection = '',
         string $youtubeCollection = '',
-        string $videoCollection = '',
-        string $audioCollection = '',
         bool $uploadEnabled = false,
         string $uploadFieldName = 'media',
         bool $destroyEnabled = false,
@@ -25,14 +21,15 @@ class MediaManagerYouTube extends MediaManager
         string $id = '',
         ?string $frontendTheme = null,
         ?bool $useXhr = true,
+        ?bool $multiple = true,
     ) {
         parent::__construct(
             modelOrClassName: $modelOrClassName,
-            imageCollection: '',
-            documentCollection: '',
+            imageCollection: '',// always empty
+            documentCollection: '',// always empty
             youtubeCollection: $youtubeCollection,
-            videoCollection: '',
-            audioCollection: '',
+            videoCollection: '',// always empty
+            audioCollection: '',// always empty
             uploadEnabled: $uploadEnabled,
             uploadFieldName: $uploadFieldName,
             destroyEnabled: $destroyEnabled,
@@ -43,7 +40,7 @@ class MediaManagerYouTube extends MediaManager
             id: $id,
             frontendTheme: $frontendTheme,
             useXhr: $useXhr,
-            multiple: true,
+            multiple: $multiple,
         );
     }
 }

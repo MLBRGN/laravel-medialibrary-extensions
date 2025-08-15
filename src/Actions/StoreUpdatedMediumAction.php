@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -32,34 +33,33 @@ class StoreUpdatedMediumAction
         $temporaryUpload = $request->boolean('temporary_upload');
         $file = $request->file('file');
 
-        //        if (! $file) {
-        //            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
-        //        }
-
-        //            if (! $collection) {
-        //                return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
-        //            }
-
-        if (! $temporaryUpload) {
+        if (!$temporaryUpload) {
 
             abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
             $model = $this->mediaService->resolveModel($modelType, $modelId);
-            $model->addMedia($file)->toMediaCollection($collection);
 
-            // Find the existing media to replace
-            $existingMedium = Media::findOrFail($mediumId);
-
+            $existingMedium = Media::find($mediumId);
             if ($existingMedium) {
                 $existingMedium->delete();
+            } else {
+                Log::warning("Media with ID {$mediumId} not found when trying to replace it.");
             }
 
+            try {
+                $model->addMedia($file)
+                    ->toMediaCollection($collection);
+            } catch (Exception $e) {
+                return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.something_went_wrong'));
+
+            }
+            Log::info('trying to find medium with id'. $mediumId);
         } else {
-            $existingMedium = TemporaryUpload::findOrFail($mediumId);
+            $existingMedium = TemporaryUpload::find($mediumId);
 
             $disk = config('media-library-extensions.temporary_upload_disk');
             $basePath = config('media-library-extensions.temporary_upload_path');
-            // 📁 Save the new file
+            // Save the new file
             $safeFilename = sanitizeFilename(pathinfo($existingMedium->name, PATHINFO_FILENAME));
             $extension = $file->getClientOriginalExtension();
             $filename = "{$safeFilename}.{$extension}";
@@ -91,7 +91,11 @@ class StoreUpdatedMediumAction
             ]);
             $upload->save();
 
-            $existingMedium->delete();
+            if ($existingMedium) {
+                $existingMedium->delete();
+            } else {
+                Log::warning("Media with ID {$mediumId} not found when trying to replace it.");
+            }
         }
 
         return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_replaced'));

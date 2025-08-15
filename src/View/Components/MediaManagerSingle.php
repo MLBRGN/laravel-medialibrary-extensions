@@ -20,7 +20,6 @@ class MediaManagerSingle extends MediaManager
         bool $uploadEnabled = false,
         string $uploadFieldName = 'media',
         bool $destroyEnabled = false,
-        bool $setAsFirstEnabled = false,
         bool $showMediaUrl = false,
         bool $showOrder = false,
         bool $showMenu = true,
@@ -38,13 +37,14 @@ class MediaManagerSingle extends MediaManager
             uploadEnabled: $uploadEnabled,
             uploadFieldName: $uploadFieldName,
             destroyEnabled: $destroyEnabled,
-            setAsFirstEnabled: $setAsFirstEnabled,
+            setAsFirstEnabled: false,// always false
             showMediaUrl: $showMediaUrl,
             showOrder: $showOrder,
             showMenu: $showMenu,
             id: $id,
             frontendTheme: $frontendTheme,
             useXhr: $useXhr,
+            multiple: false,// always false
         );
 
         $collections = [
@@ -65,6 +65,7 @@ class MediaManagerSingle extends MediaManager
             }
         }
 
+        // boolean property to disable form(s) in blade view(s)
         $this->disableForm = $totalMediaCount >= 1;
     }
 }

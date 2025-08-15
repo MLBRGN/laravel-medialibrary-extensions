@@ -53,18 +53,18 @@ class GetMediaPreviewerPermanentHTMLAction
         }
 
         $component = new MediaManagerPreview(
-            id: $initiatorId,
             modelOrClassName: $model,
+            id: $initiatorId,
             imageCollection: $imageCollection,
             documentCollection: $documentCollection,
             youtubeCollection: $youtubeCollection,
             videoCollection: $videoCollection,
             audioCollection: $audioCollection,
             frontendTheme: $request->input('frontend_theme'),
-            destroyEnabled: $request->input('destroy_enabled'),
-            setAsFirstEnabled: $request->input('set_as_first_enabled'),
+            destroyEnabled: $request->input('destroy_enabled') === 'true',
+            setAsFirstEnabled: $request->input('set_as_first_enabled') === 'true',
             showMediaUrl: $request->input('show_media_url'),
-            showOrder: $request->input('show_order'),
+            showOrder: $request->input('show_order') === 'true',
         );
 
         $html = Blade::renderComponent($component);

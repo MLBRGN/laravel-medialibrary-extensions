@@ -103,14 +103,14 @@ class StoreSingleTemporaryAction
             'mime_type' => $mimetype,
             'user_id' => $userId,
             'session_id' => $sessionId,
-            'order_column' => 1,
+            'order_column' => 0,
             'custom_properties' => [
                 'image_collection' => $request->input('image_collection'),
                 'document_collection' => $request->input('document_collection'),
                 'youtube_collection' => $request->input('youtube_collection'),
                 'video_collection' => $request->input('video_collection'),
                 'audio_collection' => $request->input('audio_collection'),
-                'priority' => 1
+                'priority' => 0
             ],
         ]);
         $upload->save();

@@ -99,7 +99,7 @@ it('renders the correct view with expected data when a valid conversion is used'
             }),
             []
         )
-        ->andReturn($mockView); // ✅ Must return a View instance
+        ->andReturn($mockView); // Must return a View instance
 
     $component = new \Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive($media, conversion: 'thumb');
     $result = $component->render();
