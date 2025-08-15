@@ -75,7 +75,7 @@
         data-action="upload-youtube-medium"
         @disabled($disabled)
     >
-        {{ __('media-library-extensions::messages.add_video') }}
+        {{ __('media-library-extensions::messages.add_youtube_video') }}
     </button>
 </x-media-library-extensions::partial.conditional-form>
 @if($useXhr)

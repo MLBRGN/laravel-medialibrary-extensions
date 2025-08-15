@@ -83,7 +83,7 @@
     >
         {{ $multiple
          ? __('media-library-extensions::messages.upload_media')
-         : trans_choice('media-library-extensions::messages.upload_or_replace', $mediaPresent ? 1 : 0) }}
+         : __('media-library-extensions::messages.upload_medium') }}
     </button>
 </x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
