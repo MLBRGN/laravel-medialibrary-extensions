@@ -138,15 +138,15 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(json => {
                 previewGrid.innerHTML = json.html;
 
-                // when only as ingle medium is allowed, disable / enable form elements
+                // when only as single medium is allowed, disable / enable form elements
                 if (!config.multiple) {
                     if (json.mediaCount !== undefined && json.mediaCount !== null) {
                         if (json.mediaCount < 1) {
                             console.log('enable form elements');
-                            enableFormElements(forms);
+                            // enableFormElements(forms);
                         } else {
                             console.log('disable form elements');
-                            disableFormElements(forms);
+                            // disableFormElements(forms);
                         }
                     }
                 }

@@ -51,6 +51,7 @@ return [
     'class_not_found' => 'Class ":class" niet gevonden.',
     'must_implement_has_media' => 'Class ":class" moet :interface implementeren.',
     'your_browser_does_not_support_the_audio_element' => 'Uw browser ondersteunt het audio element niet.',
-    'collection_:collection_contains_no_youtube_videos' => 'Collectie ":colletion" bevat geen YouTube videos.',
+    'collection_:collection_contains_no_youtube_videos' => 'Collectie ":collection" bevat geen YouTube videos.',
     'no_media_collections' => 'Geen mediacollecties',
+    'only_one_medium_allowed' => 'Slechts een bestand toegestaan.',
 ];

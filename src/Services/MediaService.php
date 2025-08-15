@@ -35,7 +35,6 @@ class MediaService
             return request()->input('video_collection');
         }
 
-
         return null; // means not supported
     }
 }

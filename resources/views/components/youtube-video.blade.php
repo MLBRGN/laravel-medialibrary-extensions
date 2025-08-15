@@ -1,6 +1,6 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if (!$medium)
-    {{ __('media-library-extensions::messages.collection_:collection_contains_no_youtube_videos', ['colletion' => $collection]) }}
+    {{ __('media-library-extensions::messages.collection_:collection_contains_no_youtube_videos', ['collection' => $collection]) }}
 @else
     @if ($preview)
         <div class="mlbrgn-mle-component">

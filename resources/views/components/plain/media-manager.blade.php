@@ -55,7 +55,7 @@
                     :destroy-enabled="$destroyEnabled"
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :disabled="$disableForm"
-
+                    :multiple="$multiple"
                 />
             @endif
             {{ $form_end ?? '' }}

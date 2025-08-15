@@ -188,3 +188,86 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
     expect($sessionData['initiatorId'])->toBe('bad');
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
+
+test('it returns error if model already has media in given collections (JSON)', function () {
+    $file = UploadedFile::fake()->image('photo.jpg');
+    $model = $this->getTestBlogModel();
+
+    $model
+        ->addMedia($file)
+        ->toMediaCollection('videos');
+
+    $this->mediaService
+        ->shouldReceive('resolveModel')
+        ->once()
+        ->andReturn($model);
+
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+        'model_type' => $model->getMorphClass(),
+        'model_id' => $model->getKey(),
+        'initiator_id' => 'exists',
+        'image_collection' => 'images',
+        'document_collection' => 'documents',
+        'youtube_collection' => 'youtube',
+        'video_collection' => 'videos',
+        'audio_collection' => 'audios',
+    ], [], [
+        $uploadFieldNameSingle => $file
+    ]);
+    $request->headers->set('Accept', 'application/json');
+
+    $response = $this->action->execute($request);
+
+    expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
+        ->and($response->getData(true))
+        ->toMatchArray([
+            'initiatorId' => 'exists',
+            'type' => 'error',
+            'message' => __('media-library-extensions::messages.only_one_medium_allowed'),
+        ]);
+});
+
+test('it returns error if model already has media in given collections (redirect)', function () {
+    $file = UploadedFile::fake()->image('photo.jpg');
+    $model = $this->getTestBlogModel();
+
+    $model
+        ->addMedia($file)
+        ->toMediaCollection('documents');
+
+    $this->mediaService
+        ->shouldReceive('resolveModel')
+        ->once()
+        ->andReturn($model);
+
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+
+    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+        'model_type' => get_class($model),
+        'model_id' => 1,
+        'initiator_id' => 'exists',
+        'image_collection' => 'images',
+        'document_collection' => 'documents',
+        'youtube_collection' => 'youtube',
+        'video_collection' => 'videos',
+        'audio_collection' => 'audios',
+    ], [], [
+        $uploadFieldNameSingle => $file
+    ]);
+
+    $request->setLaravelSession(app('session.store'));
+
+    $response = $this->action->execute($request);
+    expect($response)->toBeInstanceOf(Illuminate\Http\RedirectResponse::class);
+
+    $session = $request->session();
+    expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
+
+    $sessionData = $session->get('laravel-medialibrary-extensions.status');
+
+    expect($sessionData['type'])->toBe('error');
+    expect($sessionData['initiatorId'])->toBe('exists');
+    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.only_one_medium_allowed'));
+});

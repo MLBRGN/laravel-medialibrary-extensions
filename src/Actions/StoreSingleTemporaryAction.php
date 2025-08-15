@@ -12,9 +12,13 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksSingleMediumLimit;
 
 class StoreSingleTemporaryAction
 {
+    use ChecksMediaLimits;
+
     public function __construct(
         protected MediaService $mediaService
     ) {}
@@ -26,6 +30,22 @@ class StoreSingleTemporaryAction
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
         $file = $request->file($field);
+
+        $collections = collect([
+            $request->input('image_collection'),
+            $request->input('document_collection'),
+            $request->input('youtube_collection'),
+            $request->input('video_collection'),
+            $request->input('audio_collection'),
+        ])->filter()->all();
+
+        if ($this->temporaryUploadsHaveAnyMedia($collections)) {
+            return MediaResponse::error(
+                $request,
+                $request->initiator_id,
+                __('media-library-extensions::messages.only_one_medium_allowed')
+            );
+        }
 
         if (! $file) {
             return MediaResponse::error(

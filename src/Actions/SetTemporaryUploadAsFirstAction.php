@@ -24,11 +24,10 @@ class SetTemporaryUploadAsFirstAction
         $mediumId = (int) $request->medium_id;
 
         $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())
-            ->when($collection, fn ($query) => $query->where('extra_properties->image_collection', $collection))
+            ->when($collection, fn ($query) => $query->where('custom_properties->image_collection', $collection))
             ->orderBy('order_column')
             ->get();
 
-//        dd($mediaItems);
         if($mediaItems->count() === 0){
             return MediaResponse::error(
                 $request,

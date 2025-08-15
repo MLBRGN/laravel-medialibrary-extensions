@@ -6,32 +6,26 @@ namespace Mlbrgn\MediaLibraryExtensions\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Spatie\MediaLibrary\HasMedia;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class MaxTemporaryUploadCount implements ValidationRule
 {
-    protected string $modelClassName;
+    use ChecksMediaLimits;
 
-    protected string $collectionName;
-
+    protected array $collections;
     protected int $max;
 
-    public function __construct(
-        string $modelClassName,
-        string $collectionName,
-        int $max)
+    public function __construct(array|string $collections, int $max)
     {
-        $this->modelClassName = $modelClassName;
-        $this->collectionName = $collectionName;
+        $this->collections = (array) $collections;
         $this->max = $max;
     }
 
     public function validate(string $attribute, $value, Closure $fail): void
     {
-        $allMedia = TemporaryUpload::forCurrentSession($this->collectionName);
         $newCount = is_array($value) ? count($value) : 1;
-        $existingCount = $allMedia->count();
+
+        $existingCount = $this->countTemporaryUploadsInCollections($this->collections);
 
         if (($existingCount + $newCount) > $this->max) {
             $fail($this->message());
@@ -40,6 +34,12 @@ class MaxTemporaryUploadCount implements ValidationRule
 
     public function message(): string
     {
-        return __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => $this->max]);
+        if ($this->max === 1) {
+            return __('media-library-extensions::messages.only_one_medium_allowed');
+        }
+
+        return __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+            'items' => $this->max,
+        ]);
     }
 }

@@ -6,9 +6,10 @@ namespace Mlbrgn\MediaLibraryExtensions\Services;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class YouTubeService
 {
@@ -17,28 +18,32 @@ class YouTubeService
         string $youtubeUrl,
         string $collection,
         ?string $customId = null
-    ): void
+    ): ?Media
     {
         $videoId = extractYouTubeId($youtubeUrl);
 
         // TODO: validate $videoId if needed
         $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
 
-        $model
-            ->addMediaFromUrl($thumbnailUrl)
-            ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
-            ->withCustomProperties([
-                'youtube-url' => $youtubeUrl,
-                'youtube-id' => $videoId,
-            ])
-            ->toMediaCollection($collection);
+        try {
+            return $model
+                ->addMediaFromUrl($thumbnailUrl)
+                ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
+                ->withCustomProperties([
+                    'youtube-url' => $youtubeUrl,
+                    'youtube-id' => $videoId,
+                ])
+                ->toMediaCollection($collection);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
-    public function storeTemporaryThumbnailFromRequest(MediaManagerUploadYouTubeRequest $request): ?TemporaryUpload
+    public function storeTemporaryThumbnailFromRequest(StoreYouTubeVideoRequest $request): ?TemporaryUpload
     {
         $youtubeUrl = $request->input('youtube_url');
         $youtubeId = $request->input('youtube_id');
-        $collection = $request->collection_name;
+        $collection = $request->input('youtube_collection');
         $sessionId = $request->session()->getId();
 
         return $this->storeTemporaryThumbnailFromUrl(

@@ -42,6 +42,14 @@ class MediaManagerUploadMultipleRequest extends FormRequest
             }
         }
 
+        $collectionFields = array_filter([
+            $this->input('image_collection'),
+            $this->input('document_collection'),
+            $this->input('video_collection'),
+            $this->input('audio_collection'),
+            $this->input('youtube_collection'),
+        ]);
+
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
             'temporary_upload' => ['required', 'string', Rule::in(['true', 'false'])],
@@ -49,13 +57,15 @@ class MediaManagerUploadMultipleRequest extends FormRequest
             'model_id' => ['required_if:temporary_upload,false'],
             'image_collection' => ['nullable', 'string'],
             'document_collection' => ['nullable', 'string'],
+            'youtube_collection' => ['nullable', 'string'],
+            'video_collection' => ['nullable', 'string'],
+            'audio_collection' => ['nullable', 'string'],
             $uploadFieldName => [
                 'nullable',
                 'array',
-                // Apply the MaxMediaCount rule only if the model is found, else skip it gracefully
                 $temporaryUpload === 'false'
-                    ? new MaxMediaCount($model, $this->input('image_collection'), $maxItemsInCollection)
-                    : new MaxTemporaryUploadCount($this->input('model_type'), $this->input('image_collection'), $maxItemsInCollection),
+                    ? new MaxMediaCount($model, $collectionFields, $maxItemsInCollection)
+                    : new MaxTemporaryUploadCount($collectionFields, $maxItemsInCollection),
             ],
             $uploadFieldName.'.media.*' => [
                 'nullable',

@@ -10,14 +10,14 @@ use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeMediaAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadYouTubeRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
@@ -51,8 +51,8 @@ it('delegates store many', function () {
 });
 
 it('delegates store YouTube', function () {
-    $request = mock(MediaManagerUploadYouTubeRequest::class);
-    $action = mock(StoreYouTubeMediaAction::class);
+    $request = mock(StoreYouTubeVideoRequest::class);
+    $action = mock(StoreYouTubeVideoAction::class);
     $response = new JsonResponse(['success' => true]);
 
     $action->shouldReceive('execute')->once()->with($request)->andReturn($response);

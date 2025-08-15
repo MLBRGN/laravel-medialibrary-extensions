@@ -29,10 +29,12 @@
         >
     
     <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
-    <input
-        type="hidden"
-        name="image_collection"
-        value="{{ $imageCollection }}">
+    @if($imageCollection)
+        <input
+            type="hidden"
+            name="image_collection"
+            value="{{ $imageCollection }}">
+    @endif
     @if($documentCollection)
         <input
             type="hidden"

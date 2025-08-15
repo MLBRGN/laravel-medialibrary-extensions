@@ -11,11 +11,36 @@
     method="post"
     class="media-manager-youtube-upload-form"
 >
+  
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
     <input
         type="hidden"
-        name="collection_name"
+        name="youtube_collection"
         value="{{ $youtubeCollection }}">
-    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
+    @if($imageCollection)
+        <input
+            type="hidden"
+            name="image_collection"
+            value="{{ $imageCollection }}">
+    @endif
+    @if($documentCollection)
+        <input
+            type="hidden"
+            name="document_collection"
+            value="{{ $documentCollection }}">
+    @endif
+    @if($videoCollection)
+        <input
+            type="hidden"
+            name="video_collection"
+            value="{{ $videoCollection }}">
+    @endif
+    @if($audioCollection)
+        <input
+            type="hidden"
+            name="audio_collection"
+            value="{{ $audioCollection }}">
+    @endif
     <input
         type="hidden"
         name="model_type"
@@ -28,19 +53,23 @@
         type="hidden"
         name="initiator_id"
         value="{{ $id }}">
-        <label 
-            for="{{ $id }}-youtube-url" 
-            class="mle-label form-label">
-            YouTube Video URL
-        </label>
-        <input
-            id="{{ $id }}-youtube-url"
-            type="url" 
-            name="youtube_url" 
-            class="form-control" 
-            placeholder="https://www.youtube.com/watch?v=..."
-            @disabled($disabled)
-        />
+    <input
+        type="hidden"
+        name="multiple"
+        value="{{ $multiple ? 'true' : 'false' }}">
+    <label 
+        for="{{ $id }}-youtube-url" 
+        class="mle-label form-label">
+        YouTube Video URL
+    </label>
+    <input
+        id="{{ $id }}-youtube-url"
+        type="url" 
+        name="youtube_url" 
+        class="form-control" 
+        placeholder="https://www.youtube.com/watch?v=..."
+        @disabled($disabled)
+    />
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button btn btn-primary d-block"

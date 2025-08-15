@@ -12,23 +12,6 @@ it('returns error when no media in collection', function () {
     $initiatorId = 'initiator-123';
     $targetCollection = 'images';
 
-//    $media1 = TemporaryUpload::create([
-//        'disk' => 'media',
-//        'path' => 'uploads/skip1.jpg',
-//        'file_name' => 'skip.jpg',
-//        'collection_name' => 'test',
-//        'custom_properties' => [], // no collection info
-//        'session_id' => session()->getId(),
-//    ]);
-//    $media2 = TemporaryUpload::create([
-//        'disk' => 'media',
-//        'path' => 'uploads/skip2.jpg',
-//        'file_name' => 'skip.jpg',
-//        'collection_name' => 'test',
-//        'custom_properties' => [], // no collection info
-//        'session_id' => session()->getId(),
-//    ]);
-
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,

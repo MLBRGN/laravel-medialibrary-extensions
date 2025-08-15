@@ -19,6 +19,7 @@ class VideoYouTube extends Component
         public bool $preview = true,
         public ?array $youtubeParams = [],
         public ?string $frontendTheme = null,
+        public ?bool $multiple = true,
     ) {
 
         $defaultYouTubeParams = config('media-library-extensions.default_youtube_params', [

@@ -1,0 +1,89 @@
+<?php
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+namespace Mlbrgn\MediaLibraryExtensions\Actions;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
+
+class StoreYouTubeVideoPermanentAction
+{
+    public function __construct(
+        protected MediaService $mediaService,
+        protected YouTubeService $youTubeService
+    ) {}
+
+    public function execute(StoreYouTubeVideoRequest $request): RedirectResponse|JsonResponse
+    {
+        if (! config('media-library-extensions.youtube_support_enabled')) {
+            abort(403);
+        }
+
+        $initiatorId = $request->initiator_id;
+        $collection = $request->youtube_collection;
+        $multiple = $request->boolean('multiple');
+
+        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
+        $field = config('media-library-extensions.upload_field_name_youtube');
+
+        if (!$multiple) {
+
+            $imageCollection = $request->input('image_collection', '');
+            $documentCollection = $request->input('document_collection', '');
+            $youtubeCollection = $request->input('youtube_collection', '');
+            $videoCollection = $request->input('video_collection', '');
+            $audioCollection = $request->input('audio_collection', '');
+
+            $collections = collect([
+                $imageCollection,
+                $documentCollection,
+                $youtubeCollection,
+                $videoCollection,
+                $audioCollection,
+            ])
+                ->filter(fn($collection) => !empty($collection)) // removes null, '', false
+                ->all();
+
+            $totalMediaCount = 0;
+
+            foreach ($collections as $collectionName) {
+                $totalMediaCount += $model->getMedia($collectionName)->count();
+            }
+
+            if ($totalMediaCount > 0) {
+                return MediaResponse::error($request, $initiatorId,
+                    __('media-library-extensions::messages.only_one_medium_allowed'));
+            }
+        }
+
+        if ($request->filled($field)) {
+            $thumbnail = $this->youTubeService->uploadThumbnailFromUrl(
+                model: $model,
+                youtubeUrl: $request->input($field),
+                collection: $collection
+            );
+
+            if (! $thumbnail) {
+                return MediaResponse::error(
+                    $request,
+                    $initiatorId,
+                    __('media-library-extensions::messages.youtube_thumbnail_download_failed')
+                );
+            }
+
+            return MediaResponse::success($request, $initiatorId,
+                __('media-library-extensions::messages.youtube_video_uploaded'));
+        }
+
+        return MediaResponse::error($request, $initiatorId,
+            __('media-library-extensions::messages.upload_no_youtube_url'));
+    }
+}
