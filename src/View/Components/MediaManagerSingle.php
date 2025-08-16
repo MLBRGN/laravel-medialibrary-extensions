@@ -26,6 +26,7 @@ class MediaManagerSingle extends MediaManager
         string $id = '',
         ?string $frontendTheme = null,
         ?bool $useXhr = true,
+        string $allowedMimeTypes = '',
     ) {
         parent::__construct(
             modelOrClassName: $modelOrClassName,
@@ -45,6 +46,7 @@ class MediaManagerSingle extends MediaManager
             frontendTheme: $frontendTheme,
             useXhr: $useXhr,
             multiple: false,// always false
+            allowedMimeTypes: $allowedMimeTypes,
         );
 
         $collections = [

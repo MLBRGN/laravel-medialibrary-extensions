@@ -26,6 +26,7 @@ class MediaManagerMultiple extends MediaManager
         string $id = '',
         ?string $frontendTheme = null,
         ?bool $useXhr = true,
+        string $allowedMimeTypes = '',
     ) {
         parent::__construct(
             modelOrClassName: $modelOrClassName,
@@ -45,6 +46,7 @@ class MediaManagerMultiple extends MediaManager
             frontendTheme: $frontendTheme,
             useXhr: $useXhr,
             multiple: true,
+            allowedMimeTypes: $allowedMimeTypes,
         );
     }
 }

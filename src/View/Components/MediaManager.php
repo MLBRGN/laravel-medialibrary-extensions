@@ -14,7 +14,7 @@ class MediaManager extends BaseComponent
 {
     public array $config;
 
-    public string $allowedMimeTypes = '';
+//    public string $allowedMimeTypes = '';
 
     public HasMedia|null $model = null;
 
@@ -53,6 +53,7 @@ class MediaManager extends BaseComponent
         public ?string $frontendTheme = null,
         public ?bool $useXhr = true,
         public bool $multiple = false,
+        public string $allowedMimeTypes = ''
     ) {
         parent::__construct($id, $frontendTheme);
 

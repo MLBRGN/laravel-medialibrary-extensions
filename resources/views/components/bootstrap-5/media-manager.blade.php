@@ -34,7 +34,6 @@
                         :destroy-enabled="$destroyEnabled"
                         :set-as-first-enabled="$setAsFirstEnabled"
                         :multiple="$multiple"
-                        :allowed-mimetypes="$allowedMimeTypes"
                         :disabled="$disableForm"
                     />
                 @endif
