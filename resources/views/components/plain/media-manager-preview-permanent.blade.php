@@ -93,12 +93,14 @@
             <div class="media-manager-preview-menu">
                 <div class="media-manager-preview-image-menu-start">
                     @if($showOrder)
-                        <span
-                            class="mle-pseudo-button mle-pseudo-button-icon"
-                            title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                        >
-                            {{ $medium->order_column }}
-                        </span>
+                        @if($medium->hasCustomProperty('priority'))
+                            <span
+                                class="mle-pseudo-button mle-pseudo-button-icon"
+                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                            >
+                                {{ $medium->getCustomProperty('priority') + 1 }}
+                            </span>
+                        @endif
                     @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">

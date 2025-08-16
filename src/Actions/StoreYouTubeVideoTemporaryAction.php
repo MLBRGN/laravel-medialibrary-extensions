@@ -44,8 +44,9 @@ class StoreYouTubeVideoTemporaryAction
             $request->input('audio_collection'),
         ])->filter()->all();// remove falsy values
 
-        $currentMediaCount = $this->countTemporaryUploadsInCollections($collections);
-        if ($currentMediaCount >= $maxItemsInCollection) {
+        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
+        $nextPriority = $temporaryUploadsInCollections;
+        if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
             $message = $maxItemsInCollection === 1
                 ? __('media-library-extensions::messages.only_one_medium_allowed')
                 : __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
@@ -69,6 +70,8 @@ class StoreYouTubeVideoTemporaryAction
                     __('media-library-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
+            $tempUpload->setCustomProperty('priority', $nextPriority);
+            $tempUpload->save();
 
             return MediaResponse::success(
                 $request, $initiatorId,

@@ -16,14 +16,29 @@ class DeleteMediumAction
     {
         $initiatorId = $request->initiator_id;
 
-        // $this->authorize('deleteMedia', $media); // Authorization can be handled in the controller or via policies
-
-        //        if (config('media-library-extensions.demo_pages_enabled')) {
-        //            $media->setConnection('media_demo');
-        //        }
-
+        // Delete the medium
+        $model = $media->model; // Get the associated model
         $media->delete();
 
-        return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_removed'));
+        // Re-sort all media across all collections
+        $this->reorderAllMedia($model);
+
+        return MediaResponse::success(
+            $request,
+            $initiatorId,
+            __('media-library-extensions::messages.medium_removed')
+        );
+    }
+
+    protected function reorderAllMedia($model): void
+    {
+        // Get all media for the model, sorted by existing priority
+        $mediaItems = $model->getMedia()->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
+
+        $priority = 0;
+        foreach ($mediaItems as $media) {
+            $media->setCustomProperty('priority', $priority++);
+            $media->save();
+        }
     }
 }

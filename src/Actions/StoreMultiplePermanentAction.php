@@ -55,10 +55,10 @@ class StoreMultiplePermanentAction
             );
         }
 
-        // Determine priority for this file
+        // Determine current max priority
         $currentMaxPriority = $model->getMedia()
             ->filter(fn($m) => in_array($m->collection_name, $collections))
-            ->max(fn($m) => $m->getCustomProperty('priority', 0));
+            ->max(fn($m) => $m->getCustomProperty('priority', 0)) ?? 0;
 
         foreach ($files as $file) {
             $collection = $this->mediaService->determineCollection($file);

@@ -17,6 +17,24 @@ class DeleteTemporaryUploadAction
         $initiatorId = $request->initiator_id;
         $temporaryUpload->delete();
 
+        $this->reorderAllMedia();
+
         return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_removed'));
+    }
+
+    protected function reorderAllMedia(): void
+    {
+        // Get all temporary uploads for this session (any collection)
+        $mediaItems = TemporaryUpload::where('session_id', session()->getId())
+            ->get();
+
+        $sorted = $mediaItems->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
+
+        // Reassign priorities
+        $priority = 0;
+        foreach ($sorted as $medium) {
+            $medium->setCustomProperty('priority', $priority++);
+            $medium->save();
+        }
     }
 }

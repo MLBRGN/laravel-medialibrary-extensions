@@ -46,7 +46,9 @@ class StoreMultipleTemporaryAction
         ])->filter()->all();// remove falsy values
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
-        if ($this->countTemporaryUploadsInCollections($collections) >= $maxItemsInCollection) {
+        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
+        $nextPriority = $temporaryUploadsInCollections;
+        if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
                 $request->initiator_id,
@@ -84,9 +86,6 @@ class StoreMultipleTemporaryAction
             // Store file
             Storage::disk($disk)->putFileAs($directory, $file, $filename);
 
-            $maxOrderColumn = TemporaryUpload::where('session_id', $sessionId)->max('order_column') ?? 0;
-            $nextOrder = $maxOrderColumn + 1;
-
             // Create DB record
             $upload = new TemporaryUpload([
                 'disk' => $disk,
@@ -97,16 +96,18 @@ class StoreMultipleTemporaryAction
                 'mime_type' => $file->getMimeType(),
                 'user_id' => Auth::check() ? Auth::id() : null,
                 'session_id' => $sessionId,
-                'order_column' => $nextOrder,
+                'order_column' => $nextPriority,
                 'custom_properties' => [
                     'image_collection' => $request->input('image_collection'),
                     'document_collection' => $request->input('document_collection'),
                     'youtube_collection' => $request->input('youtube_collection'),
                     'video_collection' => $request->input('video_collection'),
                     'audio_collection' => $request->input('audio_collection'),
-                    'priority' => $nextOrder,
+                    'priority' => $nextPriority,
                 ],
             ]);
+
+            $nextPriority++;
 
             $upload->save();
             $savedFiles[] = $filename;
