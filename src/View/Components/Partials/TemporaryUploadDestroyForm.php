@@ -16,6 +16,11 @@ class TemporaryUploadDestroyForm extends BaseComponent
         public string $id,
         public ?string $frontendTheme,
         public ?bool $useXhr = null,
+        public ?string $imageCollection = '',
+        public ?string $documentCollection = '',
+        public ?string $youtubeCollection = '',
+        public ?string $videoCollection = '',
+        public ?string $audioCollection = '',
     ) {
         parent::__construct($id, $frontendTheme);
     }

@@ -26,7 +26,6 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         public ?string $videoCollection = '',
         public ?string $audioCollection = '',
         public bool $setAsFirstEnabled = false,
-        //        public ?HasMedia $model,
     ) {
         parent::__construct($id, $frontendTheme);
 

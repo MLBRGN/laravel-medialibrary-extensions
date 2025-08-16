@@ -145,6 +145,11 @@
                             <x-mle-partial-temporary-upload-destroy-form
                                 :medium="$medium"
                                 :id="$id"
+                                :image-collection="$imageCollection"
+                                :document-collection="$documentCollection"
+                                :youtube-collection="$youtubeCollection"
+                                :audio-collection="$audioCollection"
+                                :video-collection="$videoCollection"
                             />
                         @endif
                     </div>

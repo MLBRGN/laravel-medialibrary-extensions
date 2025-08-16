@@ -43,11 +43,13 @@ class StoreYouTubeVideoPermanentAction
         $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
         $field = config('media-library-extensions.upload_field_name_youtube');
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
         if(!$multiple) {
             $maxItemsInCollection = 1;
         }
         $currentMediaCount = $this->countModelMediaInCollections($model, $collections);
+        $nextPriority = $currentMediaCount;
+
         if ($currentMediaCount >= $maxItemsInCollection) {
             $message = $maxItemsInCollection === 1
                 ? __('media-library-extensions::messages.only_one_medium_allowed')
@@ -76,6 +78,9 @@ class StoreYouTubeVideoPermanentAction
                     __('media-library-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
+
+            $thumbnail->setCustomProperty('priority', $nextPriority);
+            $thumbnail->save();
 
             return MediaResponse::success($request, $initiatorId,
                 __('media-library-extensions::messages.youtube_video_uploaded'));

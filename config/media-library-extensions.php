@@ -138,7 +138,7 @@ return [
     | The maximum items in a single media collection
     |
     */
-    'max_items_in_collection' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_ITEMS_IN_COLLECTION', 10),
+    'max_items_in_shared_media_collections' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_ITEMS_IN_SHARED_MEDIA_COLLECTIONS', 10),
 
     /*
     |--------------------------------------------------------------------------

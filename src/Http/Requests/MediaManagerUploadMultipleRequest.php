@@ -29,7 +29,7 @@ class MediaManagerUploadMultipleRequest extends FormRequest
     public function rules(): array
     {
         $uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
 
         $temporaryUpload = $this->input('temporary_upload', 'false');
 

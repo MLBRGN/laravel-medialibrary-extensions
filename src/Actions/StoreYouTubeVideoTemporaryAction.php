@@ -31,7 +31,7 @@ class StoreYouTubeVideoTemporaryAction
         $field = config('media-library-extensions.upload_field_name_youtube');
         $multiple = $request->boolean('multiple');
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
         if(!$multiple) {
             $maxItemsInCollection = 1;
         }

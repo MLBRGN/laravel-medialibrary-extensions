@@ -22,7 +22,7 @@ class StoreMultipleTemporaryAction
 
     public function __construct(
         protected MediaService $mediaService,
-        protected YouTubeService $youTubeService
+//        protected YouTubeService $youTubeService
     ) {}
 
     public function execute(MediaManagerUploadMultipleRequest $request): RedirectResponse|JsonResponse
@@ -45,7 +45,7 @@ class StoreMultipleTemporaryAction
             $request->input('audio_collection'),
         ])->filter()->all();// remove falsy values
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
         $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
         $nextPriority = $temporaryUploadsInCollections;
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {

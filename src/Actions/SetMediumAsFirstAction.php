@@ -23,7 +23,17 @@ class SetMediumAsFirstAction
         $initiatorId = $request->initiator_id;
         $mediumId = (int) $request->medium_id;
 
-        $mediaItems = $model->getMedia("*");
+        $collections = collect([
+            $request->input('image_collection'),
+            $request->input('document_collection'),
+            $request->input('youtube_collection'),
+            $request->input('video_collection'),
+            $request->input('audio_collection'),
+        ])->filter()->all();
+
+        // Flatten all media across the given collections
+        $mediaItems = collect($collections)
+            ->flatMap(fn ($collection) => $model->getMedia($collection));
 
         if ($mediaItems->count() === 0) {
             return MediaResponse::error(
@@ -61,40 +71,5 @@ class SetMediumAsFirstAction
             $initiatorId,
             __('media-library-extensions::messages.medium_set_as_main')
         );
-    }
-
-//    public function execute(SetAsFirstRequest $request): JsonResponse|RedirectResponse
-//    {
-//        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
-//        $initiatorId = $request->initiator_id;
-//        $collection = $request->target_media_collection;
-//        $mediumId = (int) $request->medium_id;
-//
-//        $mediaItems = $model->getMedia($collection);
-//
-//        if($mediaItems->count() === 0){
-//            return MediaResponse::error(
-//                $request,
-//                $initiatorId,
-//                __('media-library-extensions::messages.no_media'),
-//            );
-//        }
-//
-//        $orderedIds = $mediaItems->pluck('id')->toArray();
-//        $orderedIds = array_filter($orderedIds, fn ($id) => $id !== $mediumId);
-//        array_unshift($orderedIds, $mediumId);
-//
-//        $this->setMediaOrder($orderedIds);
-//
-//        return MediaResponse::success(
-//            $request,
-//            $initiatorId,
-//            __('media-library-extensions::messages.medium_set_as_main')
-//        );
-//    }
-
-    protected function setMediaOrder(array $orderedIds): void
-    {
-        Media::setNewOrder($orderedIds);
     }
 }

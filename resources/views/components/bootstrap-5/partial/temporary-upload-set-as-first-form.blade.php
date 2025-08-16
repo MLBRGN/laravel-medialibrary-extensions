@@ -17,12 +17,36 @@
     <input type="hidden"
            name="target_media_collection"
            value="{{ $targetMediaCollection }}">
-{{--    <input type="hidden"--}}
-{{--           name="model_type"--}}
-{{--           value="{{ get_class($model) }}">--}}
-{{--    <input type="hidden"--}}
-{{--           name="model_id"--}}
-{{--           value="{{ $model->id }}">--}}
+    @if($imageCollection)
+        <input
+            type="hidden"
+            name="image_collection"
+            value="{{ $imageCollection }}">
+    @endif
+    @if($documentCollection)
+        <input
+            type="hidden"
+            name="document_collection"
+            value="{{ $documentCollection }}">
+    @endif
+    @if($videoCollection)
+        <input
+            type="hidden"
+            name="video_collection"
+            value="{{ $videoCollection }}">
+    @endif
+    @if($audioCollection)
+        <input
+            type="hidden"
+            name="audio_collection"
+            value="{{ $audioCollection }}">
+    @endif
+    @if($youtubeCollection)
+        <input
+            type="hidden"
+            name="youtube_collection"
+            value="{{ $youtubeCollection }}">
+    @endif
     <input type="hidden"
            name="initiator_id"
            value="{{ $id }}">

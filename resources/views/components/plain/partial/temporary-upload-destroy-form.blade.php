@@ -15,6 +15,36 @@
             type="hidden"
             name="initiator_id"
             value="{{ $id }}">
+        @if($imageCollection)
+            <input
+                type="hidden"
+                name="image_collection"
+                value="{{ $imageCollection }}">
+        @endif
+        @if($documentCollection)
+            <input
+                type="hidden"
+                name="document_collection"
+                value="{{ $documentCollection }}">
+        @endif
+        @if($videoCollection)
+            <input
+                type="hidden"
+                name="video_collection"
+                value="{{ $videoCollection }}">
+        @endif
+        @if($audioCollection)
+            <input
+                type="hidden"
+                name="audio_collection"
+                value="{{ $audioCollection }}">
+        @endif
+        @if($youtubeCollection)
+            <input
+                type="hidden"
+                name="youtube_collection"
+                value="{{ $youtubeCollection }}">
+        @endif
         <button
             type="{{ $useXhr ? 'button' : 'submit' }}"
             class="mle-button mle-button-icon"

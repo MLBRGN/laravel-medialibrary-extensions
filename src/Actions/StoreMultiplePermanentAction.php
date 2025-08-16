@@ -20,7 +20,7 @@ class StoreMultiplePermanentAction
 
     public function __construct(
         protected MediaService $mediaService,
-        protected YouTubeService $youTubeService
+//        protected YouTubeService $youTubeService
     ) {
     }
 
@@ -44,8 +44,11 @@ class StoreMultiplePermanentAction
             $request->input('audio_collection'),
         ])->filter()->all();// remove falsy values
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_collection');
-        if ($this->countModelMediaInCollections($model, $collections) >= $maxItemsInCollection) {
+        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
+        $mediaInCollections = $this->countModelMediaInCollections($model, $collections);
+        $nextPriority = $mediaInCollections;
+
+        if ($mediaInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
                 $request->initiator_id,
@@ -54,42 +57,48 @@ class StoreMultiplePermanentAction
                 ])
             );
         }
-
-        // Determine current max priority
-        $currentMaxPriority = $model->getMedia()
-            ->filter(fn($m) => in_array($m->collection_name, $collections))
-            ->max(fn($m) => $m->getCustomProperty('priority', 0)) ?? 0;
+        $successCount = 0;
+        $errors = [];
 
         foreach ($files as $file) {
             $collection = $this->mediaService->determineCollection($file);
 
             if (!$collection) {
-                return MediaResponse::error(
-                    $request, $initiatorId,
-                    __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype')
-                );
+                $errors[] = $file->getClientOriginalName();
+                continue; // skip invalid mimetype but continue with others
             }
 
             try {
                 $model->addMedia($file)
                     ->withCustomProperties([
-                        'priority' => $currentMaxPriority++
+                        'priority' => $nextPriority
                     ])
                     ->toMediaCollection($collection);
+                $nextPriority++;
+                $successCount++;
             } catch (Exception $e) {
                 Log::error($e);
-                return MediaResponse::error(
-                    $request,
-                    $request->initiator_id,
-                    __('media-library-extensions::messages.something_went_wrong')
-                );
+                $errors[] = $file->getClientOriginalName();
             }
         }
 
-        return MediaResponse::success(
-            $request, $initiatorId,
-            __('media-library-extensions::messages.upload_success')
-        );
+// Return appropriate response
+        if ($successCount === 0) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.upload_failed_all')
+            );
+        }
+
+        $message = __('media-library-extensions::messages.upload_success');
+        if (!empty($errors)) {
+            $message .= ' ' . __('media-library-extensions::messages.upload_failed_some', [
+                    'files' => implode(', ', $errors)
+                ]);
+        }
+
+        return MediaResponse::success($request, $initiatorId, $message);
 
     }
 }

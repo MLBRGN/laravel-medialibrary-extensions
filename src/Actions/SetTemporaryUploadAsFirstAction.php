@@ -20,16 +20,19 @@ class SetTemporaryUploadAsFirstAction
     public function execute(SetTemporaryUploadAsFirstRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
-        $collection = $request->target_media_collection;
         $mediumId = (int) $request->medium_id;
 
-//        $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())
-//            ->when($collection, fn ($query) => $query->where('custom_properties->image_collection', $collection))
-//            ->orderBy('order_column')
-//            ->get();
+        $collections = collect([
+            $request->input('image_collection'),
+            $request->input('document_collection'),
+            $request->input('youtube_collection'),
+            $request->input('video_collection'),
+            $request->input('audio_collection'),
+        ])->filter()->all();
 
-        // Pull all temporary uploads for this session (any collection)
+        // Get temporary uploads for this session limited to the given collections
         $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())
+            ->when(!empty($collections), fn ($query) => $query->whereIn('collection_name', $collections))
             ->get();
 
         if ($mediaItems->isEmpty()) {
@@ -67,12 +70,5 @@ class SetTemporaryUploadAsFirstAction
             $initiatorId,
             __('media-library-extensions::messages.medium_set_as_main')
         );
-    }
-
-    protected function setTemporaryUploadOrder(array $orderedIds): void
-    {
-        foreach ($orderedIds as $index => $id) {
-            TemporaryUpload::where('id', $id)->update(['order_column' => $index + 1]);
-        }
     }
 }

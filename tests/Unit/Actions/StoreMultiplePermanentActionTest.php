@@ -205,7 +205,7 @@ test('it returns error if max media count is exceeded (JSON)', function () {
 
     // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
     Config::set('media-library-extensions.route_middleware',[]);
-    Config::set('media-library-extensions.max_items_in_collection', 2);
+    Config::set('media-library-extensions.max_items_in_shared_media_collections', 2);
 
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
@@ -231,8 +231,8 @@ test('it returns error if max media count is exceeded (JSON)', function () {
 
     $responseData = $response->json();
 
-    expect($responseData['message'])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_collection')]));
-    expect($responseData['errors']['media'][0])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_collection')]));
+    expect($responseData['message'])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_shared_media_collections')]));
+    expect($responseData['errors']['media'][0])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_shared_media_collections')]));
 });
 
 test('it returns error if max media count is exceeded (redirect)', function () {
@@ -245,7 +245,7 @@ test('it returns error if max media count is exceeded (redirect)', function () {
 
     // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
     Config::set('media-library-extensions.route_middleware',[]);
-    Config::set('media-library-extensions.max_items_in_collection', 2);
+    Config::set('media-library-extensions.max_items_in_shared_media_collections', 2);
 
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
@@ -270,7 +270,7 @@ test('it returns error if max media count is exceeded (redirect)', function () {
 
 // Assert validation error is flashed to session
     $response->assertSessionHasErrors([
-        'media' => __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_collection')]),
+        'media' => __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_shared_media_collections')]),
     ]);
 });
 
