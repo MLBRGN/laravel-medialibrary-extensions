@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 
 class UploadForm extends BaseComponent
 {
-    public bool $mediaPresent = false;
+//    public bool $mediaPresent = false;
 
     public string $allowedMimeTypesHuman = '';
 
@@ -70,10 +70,24 @@ class UploadForm extends BaseComponent
 
         $this->setAllowedMimeTypes();
 
-        // TODO look at this
-        $this->mediaPresent = $this->model && $this->imageCollection
-            ? $this->model->hasMedia($this->imageCollection)
-            : false;
+//        $this->mediaPresent = false;
+//
+//        if ($this->model) {
+//            $collections = collect([
+//                $this->imageCollection,
+//                $this->documentCollection,
+//                $this->youtubeCollection,
+//                $this->videoCollection,
+//                $this->audioCollection,
+//            ])->filter(); // remove null/empty
+//
+//            foreach ($collections as $collection) {
+//                if ($this->model->hasMedia($collection)) {
+//                    $this->mediaPresent = true;
+//                    break; // found media, no need to continue
+//                }
+//            }
+//        }
 
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
@@ -82,23 +96,38 @@ class UploadForm extends BaseComponent
 
     private function setAllowedMimeTypes(): void
     {
-        // TODO attribute mimetype override?
-        $allowedMimeTypes = collect();
-        if ($this->imageCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image'));
-        }
-        if ($this->documentCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document'));
-        }
-        if ($this->videoCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video'));
-        }
-        if ($this->audioCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio'));
+        // Use override if provided
+        if (!empty($this->allowedMimeTypes)) {
+            $this->allowedMimeTypesHuman = collect(explode(',', $this->allowedMimeTypes))
+                ->map(fn($mime) => mimetype_label($mime))
+                ->join(', ');
+
+            return;
         }
 
+        // Allowed mimetypes based on provided collections
+        $allowedMimeTypes = collect();
+
+        if ($this->imageCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image', []));
+        }
+
+        if ($this->documentCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document', []));
+        }
+
+        if ($this->videoCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video', []));
+        }
+
+        if ($this->audioCollection) {
+            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio', []));
+        }
+
+        $allowedMimeTypes = $allowedMimeTypes->flatten()->unique();
+
         $this->allowedMimeTypesHuman = $allowedMimeTypes
-            ->map(fn ($mime) => mimetype_label($mime))
+            ->map(fn($mime) => mimetype_label($mime))
             ->join(', ');
 
         $this->allowedMimeTypes = $allowedMimeTypes
@@ -107,4 +136,36 @@ class UploadForm extends BaseComponent
             ->implode(',');
 
     }
+
+//    private function setAllowedMimeTypes(): void
+//    {
+//        // TODO attribute mimetype override?
+//        // Only allow mimetypes if the corresponding collection is set
+//        $allowedMimeTypes = collect();
+//        if ($this->imageCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image'));
+//        }
+//
+//        if ($this->documentCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document'));
+//        }
+//
+//        if ($this->videoCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video'));
+//        }
+//
+//        if ($this->audioCollection) {
+//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio'));
+//        }
+//
+//        $this->allowedMimeTypesHuman = $allowedMimeTypes
+//            ->map(fn ($mime) => mimetype_label($mime))
+//            ->join(', ');
+//
+//        $this->allowedMimeTypes = $allowedMimeTypes
+//            ->flatten()
+//            ->unique()
+//            ->implode(',');
+//
+//    }
 }

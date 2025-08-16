@@ -71,8 +71,6 @@ class MediaManager extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-//        $this->setAllowedMimeTypes();
-
         // Override: Always disable "set-as-first" when multiple files disabled
         if (!$this->multiple) {
             $this->setAsFirstEnabled = false;
@@ -106,7 +104,6 @@ class MediaManager extends BaseComponent
         // Config array passed to view
         $this->config = [
             'id' => $this->id,
-            //            'model' => $this->model,
             'model_type' => $this->modelType,
             'model_id' => $this->modelId,
             'image_collection' => $this->imageCollection,

@@ -4,7 +4,7 @@ return [
     'upload_success' => 'Upload was successful.',
     'upload_failed_due_to_invalid_mimetype' => 'Upload failed due to invalid file type.',
     'upload_failed_due_to_invalid_mimetype_:mimetype' => 'Upload failed due to invalid file type :mimetype.',
-    'upload_fail' => 'Upload failed.',
+    'upload_failed' => 'Upload failed.',
     'upload_no_files' => 'No files uploaded.',
     'upload_no_file' => 'No file uploaded.',
     'upload_no_youtube_url' => 'Geen YouTube URL.',

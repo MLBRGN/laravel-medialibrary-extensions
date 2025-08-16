@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 
 class YouTubeUploadForm extends BaseComponent
 {
-    public bool $mediaPresent = false;
+//    public bool $mediaPresent = false;
 
     public string $mediaUploadRoute; // upload form action route
 
@@ -67,9 +67,9 @@ class YouTubeUploadForm extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-        $this->mediaPresent = $this->model && $this->youtubeCollection
-            ? $this->model->hasMedia($this->youtubeCollection)
-            : false;
+//        $this->mediaPresent = $this->model && $this->youtubeCollection
+//            ? $this->model->hasMedia($this->youtubeCollection)
+//            : false;
 
         $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
         $this->previewUpdateRoute = route(mle_prefix_route('preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));

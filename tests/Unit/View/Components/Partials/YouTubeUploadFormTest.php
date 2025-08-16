@@ -31,8 +31,8 @@ it('initializes with a HasMedia model', function () {
 
     expect($component->model)->toBe($model)
         ->and($component->modelType)->toBe($model->getMorphClass())
-        ->and($component->modelId)->toBe($model->getKey())
-        ->and($component->mediaPresent)->toBeFalse();
+        ->and($component->modelId)->toBe($model->getKey());
+//        ->and($component->mediaPresent)->toBeFalse();
 //        ->and($component->mediaUploadRoute)->toBe('/fake-upload-route')
 //        ->and($component->previewUpdateRoute)->toBe('/fake-preview-update');
 });
@@ -60,7 +60,7 @@ it('initializes with a model class string', function () {
     expect($component->model)->toBeNull()
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBeNull()
-        ->and($component->mediaPresent)->toBeFalse()
+//        ->and($component->mediaPresent)->toBeFalse()
         ->and($component->useXhr)->toBeTrue();
 });
 

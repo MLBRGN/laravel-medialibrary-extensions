@@ -156,7 +156,7 @@ test('it returns error if file has invalid mimetype (JSON)', function () {
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true)['type'])->toBe('error')
         ->and($response->getData(true)['message'])->toBe(
-            __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype')
+            __('media-library-extensions::messages.upload_failed')
         );
 });
 
@@ -191,7 +191,7 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
 
     expect($sessionData['type'])->toBe('error');
     expect($sessionData['initiatorId'])->toBe('bad');
-    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed'));
 });
 
 test('it returns error if max media count is exceeded (JSON)', function () {

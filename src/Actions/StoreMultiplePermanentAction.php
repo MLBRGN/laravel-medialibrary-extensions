@@ -87,13 +87,13 @@ class StoreMultiplePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                __('media-library-extensions::messages.upload_failed_all')
+                __('media-library-extensions::messages.upload_failed')
             );
         }
 
         $message = __('media-library-extensions::messages.upload_success');
         if (!empty($errors)) {
-            $message .= ' ' . __('media-library-extensions::messages.upload_failed_some', [
+            $message .= ' ' . __('media-library-extensions::messages.some_uploads_failed', [
                     'files' => implode(', ', $errors)
                 ]);
         }

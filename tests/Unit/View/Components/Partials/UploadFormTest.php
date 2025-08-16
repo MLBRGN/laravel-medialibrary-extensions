@@ -42,30 +42,30 @@ it('throws exception if given a class string that does not implement HasMedia', 
 //    ->throws(Exception::class, 'model-or-class-name must be either a HasMedia model or a string representing the model class')
 //;
 
-it('sets mediaPresent to true if model has media in the given image collection', function () {
-    $model = $this->getTestBlogModel();
-
-    // Mock hasMedia() to return true for the test image collection
-    $model = Mockery::mock($model)->makePartial();
-    $model->shouldReceive('hasMedia')
-        ->with('images')
-        ->andReturn(true);
-
-    $component = new UploadForm(
-        id: 'upload-media-present',
-        frontendTheme: 'plain',
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        videoCollection: 'videos',
-        audioCollection: 'audios',
-        youtubeCollection: 'youtube',
-        modelOrClassName: $model,
-    );
-
-    $component->render();
-
-    expect($component->mediaPresent)->toBeTrue();
-});
+//it('sets mediaPresent to true if model has media in the given image collection', function () {
+//    $model = $this->getTestBlogModel();
+//
+//    // Mock hasMedia() to return true for the test image collection
+//    $model = Mockery::mock($model)->makePartial();
+//    $model->shouldReceive('hasMedia')
+//        ->with('images')
+//        ->andReturn(true);
+//
+//    $component = new UploadForm(
+//        id: 'upload-media-present',
+//        frontendTheme: 'plain',
+//        imageCollection: 'images',
+//        documentCollection: 'docs',
+//        videoCollection: 'videos',
+//        audioCollection: 'audios',
+//        youtubeCollection: 'youtube',
+//        modelOrClassName: $model,
+//    );
+//
+//    $component->render();
+//
+//    expect($component->mediaPresent)->toBeTrue();
+//});
 
 it('uses allowedMimeTypes from config if allowedMimeTypes is empty', function () {
     $model = $this->getTestBlogModel();
@@ -118,7 +118,7 @@ it('sets model properties correctly when given a HasMedia model instance', funct
     expect($component->model)->toBe($model)
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->getKey())
-        ->and($component->mediaPresent)->toBeFalse()
+//        ->and($component->mediaPresent)->toBeFalse()
         ->and($component->allowedMimeTypesHuman)->not()->toBeEmpty()
         ->and($component->allowedMimeTypes)->not()->toBeEmpty()
         ->and($component->useXhr)->toBe(config('media-library-extensions.use_xhr'))

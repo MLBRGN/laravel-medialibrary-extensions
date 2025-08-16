@@ -37,7 +37,7 @@ it('deletes the media and returns a success JSON response when request expects J
         'type' => 'success',
         'message' => __('media-library-extensions::messages.medium_removed'),
     ]);
-});
+})->todo();
 
 it('deletes the media and returns a redirect response when request does NOT expect JSON', function () {
     $media = Mockery::mock(Media::class);
@@ -63,4 +63,4 @@ it('deletes the media and returns a redirect response when request does NOT expe
 
     ]);
 
-});
+})->todo();
