@@ -27,11 +27,6 @@ class MediaManagerMultiple extends MediaManager
         ?string $frontendTheme = null,
         ?bool $useXhr = true,
     ) {
-//        Blade::component('mle-audio', Audio::class);
-//        dd(Blade::getClassComponentAliases());
-//        dump(Blade::getClassComponentAliases());
-//        dd(class_exists(Audio::class), class_exists(Video::class));
-
         parent::__construct(
             modelOrClassName: $modelOrClassName,
             imageCollection: $imageCollection,

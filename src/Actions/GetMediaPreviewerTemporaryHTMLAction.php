@@ -49,8 +49,8 @@ class GetMediaPreviewerTemporaryHTMLAction
         }
 
         $component = new MediaManagerPreview(
-            id: $initiatorId,
             modelOrClassName: $request->input('model_type'),
+            id: $initiatorId,
             imageCollection: $imageCollection,
             documentCollection: $documentCollection,
             youtubeCollection: $youtubeCollection,
@@ -61,7 +61,8 @@ class GetMediaPreviewerTemporaryHTMLAction
             setAsFirstEnabled: $request->input('set_as_first_enabled'),
             showMediaUrl: $request->input('show_media_url'),
             showOrder: $request->input('show_order'),
-            temporaryUploads: true,
+            showMenu: $request->input('show_menu') === 'true',
+            temporaryUploads: $request->input('temporary_uploads') === 'true',
         );
 
         $html = Blade::renderComponent($component);

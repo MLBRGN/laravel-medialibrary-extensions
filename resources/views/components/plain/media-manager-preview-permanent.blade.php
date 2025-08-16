@@ -8,7 +8,6 @@
         data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
         data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
     >
-
         @if(isMediaType($medium, 'youtube-video'))
             <div
                 class="media-manager-preview-item-container"

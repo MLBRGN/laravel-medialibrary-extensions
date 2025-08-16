@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
             set_as_first_enabled: config.set_as_first_enabled,
             show_media_url: config.show_media_url,
             show_order: config.show_order,
+            show_menu: config.show_menu,
             temporary_uploads: config.temporary_upload,
         });
 

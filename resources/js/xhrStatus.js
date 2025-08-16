@@ -27,7 +27,7 @@ export function showStatusMessage(container, data) {
 }
 
 export function hideStatusMessage(container) {
-    // container.querySelector('[data-status-container]')?.classList.remove('visible');
+    container.querySelector('[data-status-container]')?.classList.remove('visible');
 }
 
 export function showSpinner(container, customMessage = null) {
@@ -44,7 +44,7 @@ export function showSpinner(container, customMessage = null) {
 }
 
 export function hideSpinner(container) {
-    // container.querySelector('[data-spinner-container]')?.classList.remove('active');
+    container.querySelector('[data-spinner-container]')?.classList.remove('active');
 }
 
 export function handleAjaxError(response, data, container) {

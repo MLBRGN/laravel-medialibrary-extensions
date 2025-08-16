@@ -32,10 +32,13 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'temporary_uploads' => ['required', Rule::in(['true', 'false'])],
 
             'model_type' => ['required', 'string'], // model_id handled by withValidator, for conditional validation
+//            modelOrClassName: $model,
 
             'image_collection' => ['nullable', 'string'],
             'document_collection' => ['nullable', 'string'],
             'youtube_collection' => ['nullable', 'string'],
+            'video_collection' => ['nullable', 'string'],
+            'audio_collection' => ['nullable', 'string'],
 
             'frontend_theme' => ['nullable', 'string'],
 
@@ -43,7 +46,9 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'set_as_first_enabled' => ['required', Rule::in(['true', 'false'])],
             'show_media_url' => ['nullable', Rule::in(['true', 'false'])],
             'show_order' => ['required', Rule::in(['true', 'false'])],
-        ];
+            'show_menu' => ['nullable', Rule::in(['true', 'false'])],
+
+            ];
     }
 
     public function withValidator(Validator $validator): void

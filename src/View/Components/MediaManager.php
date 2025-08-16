@@ -123,6 +123,7 @@ class MediaManager extends BaseComponent
             'set_as_first_enabled' => $this->setAsFirstEnabled,
             'show_media_url' => $this->showMediaUrl,
             'show_order' => $this->showOrder,
+            'show_menu' => $this->showMenu,
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
             'multiple' => $this->multiple,
         ];
@@ -133,26 +134,4 @@ class MediaManager extends BaseComponent
         return $this->getView('media-manager', $this->frontendTheme);
     }
 
-//    private function setAllowedMimeTypes(): void
-//    {
-//        $allowedMimeTypes = collect();
-//        if ($this->imageCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image'));
-//        }
-//        if ($this->documentCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document'));
-//        }
-//        if ($this->videoCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video'));
-//        }
-//        if ($this->audioCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio'));
-//        }
-//
-//        $this->allowedMimeTypes = $allowedMimeTypes
-//            ->flatten()
-//            ->unique()
-//            ->implode(',');
-//
-//    }
 }

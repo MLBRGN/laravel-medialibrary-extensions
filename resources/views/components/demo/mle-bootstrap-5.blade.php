@@ -66,6 +66,7 @@
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
             :multiple="true"
+            :show-menu="false"
         />
 
         <h2 class="my-5">Media Manager Multiple (Temporary uploads)</h2>

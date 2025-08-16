@@ -56,9 +56,8 @@ class MediaManagerPreview extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-        if ($destroyEnabled || $showOrder || $setAsFirstEnabled) {
-            $this->showMenu = true;
-        } else {
+        // when non of the menu items visible, set showMenu to false
+        if (!$destroyEnabled && !$showOrder && !$setAsFirstEnabled) {
             $this->showMenu = false;
         }
 
