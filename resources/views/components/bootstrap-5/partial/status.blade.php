@@ -8,7 +8,7 @@
             'alert-danger' => ($status && $status['type'] === 'error'),
         ])->merge() }}
         data-status-message
-        data-base-classes="mle-status-message w-100 alert alert-dismissible visible"
+        data-base-classes="mle-status-message alert alert-dismissible visible"
         data-success-classes="alert-success"
         data-error-classes="alert-danger"
     >

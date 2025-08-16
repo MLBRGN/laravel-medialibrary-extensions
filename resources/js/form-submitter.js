@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updatePreview(mediaManager, config) {
         console.log('update preview:', mediaManager);
+        const container = mediaManager.querySelector('.media-manager-row');
         const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
         const forms = mediaManager.querySelectorAll('form, [data-xhr-form]');
         if (!previewGrid) return;
@@ -130,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
             temporary_uploads: config.temporary_upload,
         });
 
+        // showSpinner(container);
         fetch(`${config.preview_update_route}?${params}`, {
             headers: { 'Accept': 'application/json' }
         })
@@ -143,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 return data;
-                // showStatusMessage(formContainer, data);
             })
             .then(json => {
                 if (!json.html) {
@@ -179,6 +180,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error('Error refreshing media manager:', error);
 
+            })
+            .finally(() => {
+                // hideSpinner(container);
             });
     }
 

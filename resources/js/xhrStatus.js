@@ -14,13 +14,8 @@ export function showStatusMessage(container, data) {
         : messageDiv.getAttribute('data-error-classes') || '';
 
     messageDiv.className = [base, typeClasses].filter(Boolean).join(' ');
-    // messageDiv.className = base;
-    // typeClasses.split(' ').forEach(cls => cls && messageDiv.classList.add(cls));
     messageDiv.textContent = [message, messageExtra].filter(Boolean).join('\n\n')
-    // messageDiv.textContent = message;
-    // if (messageExtra) {
-    //     messageDiv.textContent += '\n\n' + messageExtra;
-    // }
+
     statusContainer.classList.remove('visible');
     void statusContainer.offsetWidth; // force reflow
     statusContainer.classList.add('visible');
@@ -32,16 +27,24 @@ export function showStatusMessage(container, data) {
 }
 
 export function hideStatusMessage(container) {
-    container.querySelector('[data-status-container]')?.classList.remove('visible');
+    // container.querySelector('[data-status-container]')?.classList.remove('visible');
 }
 
-export function showSpinner(container) {
+export function showSpinner(container, customMessage = null) {
     hideStatusMessage(container); // Optional: hides message before showing spinner
-    container.querySelector('[data-spinner-container]')?.classList.add('active');
+    const spinnerContainer = container.querySelector('[data-spinner-container]');
+    if (!spinnerContainer) return;
+
+    if (customMessage) {
+        // Find the spinner text span or create it if missing
+        let textEl = spinnerContainer.querySelector('.mle-spinner-text');
+        textEl.textContent = message;
+    }
+    spinnerContainer.classList.add('active');
 }
 
 export function hideSpinner(container) {
-    container.querySelector('[data-spinner-container]')?.classList.remove('active');
+    // container.querySelector('[data-spinner-container]')?.classList.remove('active');
 }
 
 export function handleAjaxError(response, data, container) {
