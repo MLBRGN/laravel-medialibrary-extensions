@@ -147,13 +147,15 @@ return [
     |
     | Define allowed mime types for uploads. This makes it easy to reuse.
     |
+    | Legacy formats (not recommended anymore for use on the web)
+    | image/bmp, image/x-ms-bmp
+    | image/tiff,
+    | image/x-icon, image/vnd.microsoft.icon (Favicons)
+    |
+    | Experimental formats:
+    | image/jxl JPEG XL (only safari)
+    |
     */
-
-//    'allowed_mimetypes' => [
-//        'image' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_IMAGE_MIMETYPES', 'image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif')),
-//        'video' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_VIDEO_MIMETYPES', 'video/mp4,video/quicktime,video/x-msvideo')),
-//        'document' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES', 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
-//    ],
 
     'allowed_mimetypes' => [
         'image' => explode(',', env(
@@ -177,54 +179,36 @@ return [
         )),
     ],
 
-//
-//    'mimetype_labels' => [
-//        'image/jpeg' => 'JPEG',
-//        'image/png' => 'PNG',
-//        'image/gif' => 'GIF',
-//        'image/bmp' => 'BMP',
-//        'image/webp' => 'WebP',
-//        'image/heic' => 'HEIC',
-//        'image/avif' => 'AVIF',
-//        'video/mp4' => 'MP4 video',
-//        'video/quicktime' => 'QuickTime video',
-//        'video/x-msvideo' => 'AVI video',
-//        'application/pdf' => 'PDF document',
-//        'application/msword' => 'Word document (.doc)',
-//        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'Word document (.docx)',
-//    ],
-
     'mimetype_labels' => [
         // Images
-        'image/jpeg' => 'JPEG',
-        'image/png' => 'PNG',
-        'image/gif' => 'GIF',
-        'image/bmp' => 'BMP',
-        'image/webp' => 'WebP',
-        'image/heic' => 'HEIC',
-        'image/avif' => 'AVIF',
+        'image/jpeg' => 'mimetypes.jpeg',
+        'image/png' => 'mimetypes.png',
+        'image/gif' => 'mimetypes.gif',
+        'image/bmp' => 'mimetypes.bmp',
+        'image/webp' => 'mimetypes.webp',
+        'image/heic' => 'mimetypes.heic',
+        'image/avif' => 'mimetypes.avif',
 
         // Video
-        'video/mp4' => 'MP4 video',
-        'video/quicktime' => 'QuickTime video',
-        'video/webm' => 'WebM video',
+        'video/mp4' => 'mimetypes.video_mp4',
+        'video/quicktime' => 'mimetypes.video_quicktime',
+        'video/webm' => 'mimetypes.video_webm',
 
         // Documents
-        'application/pdf' => 'PDF document',
-        'application/msword' => 'Word document (.doc)',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'Word document (.docx)',
-        'application/vnd.ms-excel' => 'Excel spreadsheet (.xls)',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'Excel spreadsheet (.xlsx)',
-        'application/vnd.ms-powerpoint' => 'PowerPoint presentation (.ppt)',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'PowerPoint presentation (.pptx)',
+        'application/pdf' => 'mimetypes.pdf',
+        'application/msword' => 'mimetypes.doc',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'mimetypes.docx',
+        'application/vnd.ms-excel' => 'mimetypes.xls',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'mimetypes.xlsx',
+        'application/vnd.ms-powerpoint' => 'mimetypes.ppt',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'mimetypes.pptx',
 
         // Audio
-        'audio/mpeg' => 'MP3 audio',
-        'audio/ogg' => 'OGG audio',
-        'audio/wav' => 'WAV audio',
-        'audio/webm' => 'WebM audio',
+        'audio/mpeg' => 'mimetypes.audio_mp3',
+        'audio/ogg' => 'mimetypes.audio_ogg',
+        'audio/wav' => 'mimetypes.audio_wav',
+        'audio/webm' => 'mimetypes.audio_webm',
     ],
-
 
     /*
     |--------------------------------------------------------------------------
