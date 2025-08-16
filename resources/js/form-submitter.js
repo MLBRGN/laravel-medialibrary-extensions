@@ -133,8 +133,22 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(`${config.preview_update_route}?${params}`, {
             headers: { 'Accept': 'application/json' }
         })
-            .then(response => response.json())
+            // .then(response => response.json())
+            .then(async response => {
+                const data = await response.json();
+
+                if (!response.ok) {
+                    handleAjaxError(response, data);
+                    return;
+                }
+
+                return data;
+                // showStatusMessage(formContainer, data);
+            })
             .then(json => {
+                if (!json.html) {
+                    return;
+                }
                 previewGrid.innerHTML = json.html;
 
                 // when only as single medium is allowed, disable / enable form elements
@@ -164,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Error refreshing media manager:', error);
+
             });
     }
 

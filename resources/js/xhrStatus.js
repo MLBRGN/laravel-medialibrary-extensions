@@ -61,9 +61,6 @@ export function handleAjaxError(response, data, container) {
                     message: allErrors[0],
                     message_extra: allErrors.slice(1).join('\n')
                 });
-                // Object.values(data.errors).flat().forEach(msg => {
-                //     showStatusMessage(container, { type: 'error', message: msg });
-                // });
                 return;
             }
             message = data.message || trans('validation_failed');

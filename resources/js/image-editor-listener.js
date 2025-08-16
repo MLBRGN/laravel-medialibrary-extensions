@@ -1,4 +1,4 @@
-import {showStatusMessage} from "@/js/xhrStatus";
+import {handleAjaxError, showStatusMessage} from "@/js/xhrStatus";
 
 document.addEventListener('onImageSave', (e) => {
     console.log('onImageSave:', e.detail, e);
@@ -24,10 +24,7 @@ const closeBootstrapModal = (modal) => {
 }
 const updateMedia = (detail) => {
 
-    // const imageEditorInstance = document.getElementById(detail.imageEditorInstance);
-    // console.log('imageEditorInstance', imageEditorInstance);
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
-    console.log('modal', modal)
     const theme = modal.getAttribute('data-theme');
     const configInput = modal.querySelector('.image-editor-modal-config');
     if (!configInput) return;
@@ -41,7 +38,7 @@ const updateMedia = (detail) => {
     }
 
     const initiator = document.querySelector('#' + config.initiator_id);
-    console.log('initiator', initiator);
+    const container = initiator.querySelector('.media-manager-row')
 
     const {
         model_type: modelType,
@@ -75,91 +72,33 @@ const updateMedia = (detail) => {
         body: formData
     })
         .then(async response => {
-            const data = await response.json();
-
+            const json = await response.json();
             if (!response.ok) {
-                handleAjaxError(response, data);
-                return;
+                handleAjaxError(response, json, container);
+                throw new Error('Upload failed');// stops the chain, goes to .catch
             }
 
-            return data;
-            // showStatusMessage(formContainer, data);
+            return json;
         })
-        .then(data => {
-            console.log('Upload successful:', data);
-            const container = initiator.querySelector('.media-manager-row')
+        .then(json => {
             showStatusMessage(container, {
                 type: 'success',
                 message: trans('medium_replaced'),
             });
+            initiator.dispatchEvent(new CustomEvent('refreshRequest', {
+                bubbles: true,
+                composed: true,
+                detail: []
+            }));
         })
-        .catch(error => {
-            console.error('Upload failed:', error);
-            const container = initiator.querySelector('.media-manager-row')
-            showStatusMessage(container, {
-                type: 'error',
-                message: trans('medium_replacement_failed'),
-            });
-        }).finally(() => {
-
-        if (theme === 'bootstrap-5') {
-            closeBootstrapModal(modal);
-        } else if (theme === 'plain') {
-            // TODO close modal
-            // something else
-        }
-
-        // console.log('initiator', initiator);
-        initiator.dispatchEvent(new CustomEvent('refreshRequest', {
-            bubbles: true,
-            composed: true,
-            detail: []
-        }));
-    });
-}
-
-function handleAjaxError (response, data) {
-    let errorMessage = trans('upload_failed'); // default fallback message
-
-    switch (response.status) {
-        case 419:
-            errorMessage = trans('csrf_token_mismatch');
-            break;
-        case 401:
-            errorMessage = trans('unauthenticated');
-            break;
-        case 403:
-            errorMessage = trans('forbidden');
-            break;
-        case 404:
-            errorMessage = trans('not_found');
-            break;
-        case 422:
-            if (data.errors) {
-                // Show all validation errors
-                for (const field in data.errors) {
-                    data.errors[field].forEach(msg => {
-                        // showStatusMessage(formContainer, { message: msg, type: 'error' });
-                    });
-                }
-                return;
+        .finally(() => {
+            if (theme === 'bootstrap-5') {
+                closeBootstrapModal(modal);
+            } else if (theme === 'plain') {
+                // TODO close modal
+                // something else
             }
-            errorMessage = data.message || trans('validation_failed');// default
-            break;
-        case 429:
-            errorMessage = trans('too_many_requests');
-            break;
-        case 500:
-        case 503:
-            errorMessage = trans('server_error');
-            break;
-        default:
-            errorMessage = data.message || errorMessage;
-            break;
-    }
-
-    console.log(errorMessage);
-    // showStatusMessage(formContainer, { message: errorMessage, type: 'error' });
+    });
 }
 
 function trans (key) {
