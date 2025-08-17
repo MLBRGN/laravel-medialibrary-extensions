@@ -7,7 +7,7 @@
                 data-bs-target="#{{$id}}-modal"
             >
                 <x-mle-video-youtube
-                    class="mle-video-youtube mle-video-responsive mle-cursor-zoom-in"
+                    class="mle-video-youtube mle-video-responsive"
                     :medium="$medium"
                     :preview="false"
                     data-bs-target="#{{$id}}-modal-carousel"
@@ -21,7 +21,7 @@
                 class="media-manager-preview-item-container"
             >
                 <x-mle-document :medium="$medium"
-                                class="previewed-document mle-cursor-zoom-in"
+                                class="previewed-document"
                                 data-bs-target="#{{ $id }}-modal-carousel"
                                 data-bs-slide-to="0"
                 />
@@ -34,7 +34,6 @@
             >
                 <x-mle-video
                     :medium="$medium"
-                    class="mle-cursor-zoom-in"
                     data-bs-target="#{{ $id }}-modal-carousel"
                     data-bs-slide-to="0"
                 />
@@ -47,7 +46,6 @@
             >
                 <x-mle-audio
                     :medium="$medium"
-                    class="mle-cursor-zoom-in"
                     data-bs-target="#{{ $id }}-modal-carousel"
                     data-bs-slide-to="0"
                 />
@@ -60,7 +58,7 @@
             >
                 <x-mle-image-responsive
                     :medium="$medium"
-                    class="media-manager-image-preview mle-cursor-zoom-in"
+                    class="media-manager-image-preview"
                     data-bs-target="#{{$id}}-modal-carousel"
                     data-bs-slide-to="0"
                     draggable="false"

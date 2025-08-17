@@ -18,14 +18,16 @@
                     class="mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
-                    data-modal-trigger="#{{$id}}-modal"
+{{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                 />
             </div>
         @else
             @if(isMediaType($medium, 'document'))
                 <div
-                    data-modal-trigger="#{{$id}}-modal"
+{{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
@@ -37,7 +39,8 @@
                 </div>
             @elseif(isMediaType($medium, 'video'))
                 <div
-                    data-modal-trigger="#{{$id}}-modal"
+{{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
@@ -48,7 +51,8 @@
                 </div>
             @elseif(isMediaType($medium, 'audio'))
                 <div
-                    data-modal-trigger="#{{$id}}-modal"
+{{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
@@ -59,14 +63,16 @@
                 </div>
             @elseif(isMediaType($medium, 'image'))
                 <div
-                    data-modal-trigger="#{{$id}}-modal"
+{{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
                     <x-mle-image-responsive
                         :medium="$medium"
                         class="media-manager-image-preview mle-cursor-zoom-in"
-                        data-modal-trigger="#{{$id}}-modal"
+{{--                        data-modal-trigger="#{{$id}}-modal"--}}
+                        data-modal-trigger="#{{$id}}-mod"
                         data-slide-to="{{ $loop->index }}"
                         draggable="false"
                     />
@@ -107,7 +113,8 @@
                     @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
                         <button
                             type="button"
-                            data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"
+{{--                            data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
+                            data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
                             class="mle-button mle-button-icon btn btn-primary"
                             title="{{ __('media-library-extensions::messages.edit') }}"
                         >

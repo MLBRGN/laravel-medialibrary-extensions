@@ -11,32 +11,37 @@
         @if(isMediaType($medium, 'youtube-video'))
             <div
                 class="media-manager-preview-item-container"
-                data-modal-trigger="#{{$id}}-modal"
+{{--                data-modal-trigger="#{{$id}}-modal"--}}
+                data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
             >
                 <x-mle-video-youtube
                     class="mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
-                    data-modal-trigger="#{{$id}}-modal"
+{{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                 />
             </div>
         @elseif(isMediaType($medium, 'document'))
             <div
-                data-modal-trigger="#{{$id}}-modal"
+                {{--data-modal-trigger="#{{$id}}-modal"--}}
+                data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-document :medium="$medium"
                                 class="previewed-document mle-cursor-zoom-in"
-                                data-modal-trigger="#{{$id}}-modal"
+                                data-modal-trigger="#{{$id}}-mod"
+{{--                                data-modal-trigger="#{{$id}}-modal"--}}
                                 data-slide-to="{{ $loop->index }}"
                 />
             </div>
         @elseif(isMediaType($medium, 'video'))
             <div
-                data-modal-trigger="#{{$id}}-modal"
+                {{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
                 class="media-manager-preview-item-container"
             >
@@ -47,7 +52,8 @@
             </div>
         @elseif(isMediaType($medium, 'audio'))
             <div
-                data-modal-trigger="#{{$id}}-modal"
+                {{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
                 class="media-manager-preview-item-container"
             >
@@ -58,7 +64,8 @@
             </div>
         @elseif(isMediaType($medium, 'image'))
             <div
-                data-modal-trigger="#{{$id}}-modal"
+                {{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
                 class="media-manager-preview-item-container"
             >
@@ -66,7 +73,8 @@
                     src="{{ $medium->getUrl() }}" 
                     class="media-manager-image-preview mle-cursor-zoom-in" 
                     alt="{{ $medium->name }}"
-                    data-modal-trigger="#{{$id}}-modal"
+                    {{--                    data-modal-trigger="#{{$id}}-modal"--}}
+                    data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                 />
               
@@ -106,7 +114,8 @@
                         @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                             <button
                                 type="button"
-                                data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"
+                                data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
+{{--                                data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.edit') }}"
                             >

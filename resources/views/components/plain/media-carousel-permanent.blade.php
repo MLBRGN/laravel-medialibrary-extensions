@@ -48,11 +48,12 @@
                 @class([
                 'media-carousel-item',
                 'active' => $loop->first,
-                'mle-cursor-zoom-in' => $clickToOpenInModal
+                'mle-cursor-zoom-in' => $expandableInModal
             ])>
                 <div class="media-carousel-item-container"
-                     @if($clickToOpenInModal)
-                         data-modal-trigger="#{{ $id }}-modal"
+                     @if($expandableInModal)
+{{--                         data-modal-trigger="#{{ $id }}-modal"--}}
+                         data-modal-trigger="#{{ $id }}-mod"
                          data-slide-to="{{ $loop->index }}"
                     @endif
                 >
@@ -76,16 +77,16 @@
                         />
                     @elseif(isMediaType($medium, 'video'))
                         <div
-                            data-bs-toggle="modal"
-                            data-bs-target="#{{$id}}-modal"
+{{--                            data-modal-trigger="#{{ $id }}-modal"--}}
+                            data-modal-trigger="#{{ $id }}-mod"
                             class="media-manager-preview-item-container"
                         >
                             <x-mle-video :medium="$medium" />
                         </div>
                     @elseif(isMediaType($medium, 'audio'))
                         <div
-                            data-bs-toggle="modal"
-                            data-bs-target="#{{$id}}-modal"
+{{--                            data-modal-trigger="#{{ $id }}-modal"--}}
+                            data-modal-trigger="#{{ $id }}-mod"
                             class="media-manager-preview-item-container"
                         >
                             <x-mle-audio :medium="$medium" />
@@ -147,7 +148,7 @@
     </button>
 </div>
 
-@if($clickToOpenInModal)
+@if($expandableInModal)
     <x-mle-media-modal
         :id="$id"
         :model-or-class-name="$modelOrClassName"

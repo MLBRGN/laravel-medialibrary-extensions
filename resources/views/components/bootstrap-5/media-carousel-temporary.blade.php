@@ -46,11 +46,12 @@
                 'media-carousel-item',
                 'carousel-item',
                 'active' => $loop->first,
-                'mle-cursor-zoom-in' => $clickToOpenInModal
+                'mle-cursor-zoom-in' => $expandableInModal
             ])>
                 <div class="media-carousel-item-container" 
                      data-bs-toggle="modal"
-                     data-bs-target="#{{$id}}-modal"
+{{--                     data-bs-target="#{{$id}}-modal"--}}
+                     data-bs-target="#{{$id}}-mod"
                 >
                 @if(isMediaType($medium, 'youtube-video'))
                     @if ($inModal)
@@ -64,20 +65,23 @@
                             class="mle-video-responsive"
                             :medium="$medium" 
                             :preview="true"  
-                            data-bs-target="#{{$id}}-modal-carousel"
+{{--                            data-bs-target="#{{$id}}-modal-carousel"--}}
+                            data-bs-target="#{{$id}}-mod-crs"
                             data-bs-slide-to="{{ $loop->index }}"
                         />
                     @endif
                 @elseif(isMediaType($medium, 'document'))
                     <x-mle-document :medium="$medium"
                                     class="mle-document mle-cursor-zoom-in"
-                                    data-bs-target="{{ $id }}-modal"
+{{--                                    data-bs-target="{{ $id }}-modal"--}}
+                                    data-bs-target="{{ $id }}-mod"
                                     data-bs-slide-to="{{ $loop->index }}"
                     />
                 @elseif(isMediaType($medium, 'video'))
                     <div
                         data-bs-toggle="modal"
-                        data-bs-target="#{{$id}}-modal"
+{{--                        data-bs-target="#{{$id}}-modal"--}}
+                        data-bs-target="#{{$id}}-mod"
                         class="media-manager-preview-item-container"
                     >
                         <x-mle-video :medium="$medium" />
@@ -85,7 +89,8 @@
                 @elseif(isMediaType($medium, 'audio'))
                     <div
                         data-bs-toggle="modal"
-                        data-bs-target="#{{$id}}-modal"
+{{--                        data-bs-target="#{{$id}}-modal"--}}
+                        data-bs-target="#{{$id}}-mod"
                         class="media-manager-preview-item-container"
                     >
                         <x-mle-audio :medium="$medium" />
@@ -139,7 +144,7 @@
         <span class="visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
     </button>
 </div>
-@if($clickToOpenInModal)
+@if($expandableInModal)
     <x-mle-media-modal
         :id="$id"
         :model-or-class-name="$modelOrClassName"

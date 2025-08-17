@@ -91,7 +91,7 @@
 
         <h2 class="my-5">Media Manager YouTube</h2>
 
-        <x-mle-media-manager-youtube
+        <x-mle-media-manager-multiple
             id="alien-media-manager-youtube"
             :model-or-class-name="$model"
             youtube-collection="alien-multiple-youtube-videos"
@@ -107,7 +107,7 @@
 
         <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
 
-        <x-mle-media-manager-youtube
+        <x-mle-media-manager-multiple
             id="alien-media-manager-youtube-temporary"
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
             youtube-collection="alien-multiple-youtube-videos"

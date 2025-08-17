@@ -25,7 +25,6 @@
                     type="button"
                     data-modal-close
                     class="image-editor-modal-close-button modal-close-button"
-                    data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
                     <x-mle-partial-icon

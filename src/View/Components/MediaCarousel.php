@@ -33,7 +33,7 @@ class MediaCarousel extends BaseComponent
         public ?string $mediaCollection = null,
         public ?array $mediaCollections = [],
         public bool $singleMedium = false,
-        public bool $clickToOpenInModal = true,// false to prevent endless inclusion
+        public bool $expandableInModal = true,
         public string $id = '',
         public ?string $frontendTheme = null,
         public bool $inModal = false,
@@ -76,7 +76,8 @@ class MediaCarousel extends BaseComponent
 
         $this->mediaCount = $this->mediaItems->count();
         $this->frontendTheme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
-        $this->id = $this->id.'-carousel';
+//        $this->id = $this->id.'-carousel';
+        $this->id = $this->id.'-crs';
     }
 
     public function render(): View

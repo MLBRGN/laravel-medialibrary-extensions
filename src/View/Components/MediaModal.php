@@ -42,7 +42,8 @@ class MediaModal extends BaseComponent
             throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-        $this->id = $this->id . '-modal';
+//        $this->id = $this->id . '-modal';
+        $this->id = $this->id . '-mod';
 
     }
 

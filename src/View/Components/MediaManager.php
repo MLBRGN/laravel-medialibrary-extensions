@@ -95,11 +95,13 @@ class MediaManager extends BaseComponent
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
-            $this->id = $this->id.'-media-manager-multiple';
+//            $this->id = $this->id.'-media-manager-multiple';
+            $this->id = $this->id.'-mmm';
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
-            $this->id = $this->id.'-media-manager-single';
+//            $this->id = $this->id.'-media-manager-single';
+            $this->id = $this->id.'-mms';
         }
 
         // Config array passed to view

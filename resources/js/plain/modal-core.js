@@ -11,8 +11,13 @@ export function closeModal(modal) {
 }
 
 export function openModal(modalId) {
+    console.log('openModal: ', modalId);
     const modal = document.querySelector(modalId);
-    if (!modal) return;
+    if (!modal) {
+        debugger;
+        console.log('could not find modal' + modalId);
+        return;
+    }
 
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');

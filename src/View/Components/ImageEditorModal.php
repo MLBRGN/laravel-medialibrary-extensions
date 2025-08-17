@@ -39,7 +39,8 @@ class ImageEditorModal extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
-        $this->id = $this->id.'-image-editor-modal-'.$medium->id;
+//        $this->id = $this->id.'-image-editor-modal-'.$medium->id;
+        $this->id = $this->id.'-iem-'.$medium->id;
 
         if ($modelOrClassName instanceof HasMedia) {
             $this->model = $modelOrClassName;
