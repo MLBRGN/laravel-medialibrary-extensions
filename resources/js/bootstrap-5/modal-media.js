@@ -9,13 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let autoPlay = modal.hasAttribute('data-video-autoplay');
         const modalId = modal.id;
 
-        console.log('initializing media modal', {
-            'carousel': carousel,
-            'autoPlay': autoPlay
-        })
         function setupYT(videoSlide) {
-            // console.log('videoSlide', videoSlide.parentNode.parentNode.parentNode);
-            // console.log('videoSlide id', videoSlide.parentNode.parentNode.parentNode.id);
             const youTubeId = videoSlide.getAttribute('data-youtube-video-id');
             const playerId = modalId+'-'+youTubeId;
             const iframe = videoSlide.querySelector('lite-youtube').shadowRoot.querySelector('iframe');
@@ -63,32 +57,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
             if (!carouselInstance) return;
-
-            console.log('carouselInstance', carouselInstance);
-            carouselInstance.to(0)// !!! triggers slide event so call stopAllVideoPlayBack after this
             stopAllVideoPlayBack();
 
+            carousel.removeEventListener('slide.bs.carousel', slideEventListener);
+            carouselInstance.to(0)// !!! triggers slide event so call stopAllVideoPlayBack after this
+            carousel.addEventListener('slide.bs.carousel', slideEventListener);
         });
 
-        // Handle carousel sliding
-        carousel.addEventListener('slide.bs.carousel', (event) => {
-            console.log('slide event detected', event.target);
+        const slideEventListener = (event) => {
             pauseAllVideoPlayBack();
 
-            // const nextSlide = event.relatedTarget; // the slide becoming active
-            // console.log('next slide', nextSlide);
-            // console.log('next slide id', nextSlide.id);
             if (modal.hasAttribute('data-video-autoplay')) {
                 const videoContainer = event.relatedTarget.querySelector('.media-video-container');
                 if (videoContainer && videoContainer.hasAttribute('data-youtube-video-id')) {
                     let youTubeId = videoContainer.getAttribute('data-youtube-video-id');
                     const playerId = modalId+'-'+youTubeId;
 
-                    // pauseAllVideoPlayBack();
                     startVideoPlayBack(playerId);
                 }
             }
-        });
+        }
+
+        // Handle carousel sliding
+        carousel.addEventListener('slide.bs.carousel', slideEventListener);
 
         modal.addEventListener('keydown', (e) => {
             if (!modal.classList.contains('show')) return;
@@ -119,13 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function controlVideoPlayback(youTubeId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
-        // console.log({
-        //     'youtubeId': youTubeId,
-        //     'action': action,
-        //     'attempt': attempt,
-        //     'maxAttempts': maxAttempts,
-        //     'timeOut': timeOut,
-        // })
         const actionsMap = {
             playVideo: 'playVideo',
             pauseVideo: 'pauseVideo',
@@ -141,14 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const player = players[youTubeId];
 
         if (!player || !player.isReady) {
-            console.log('No player, or player not ready yet', youTubeId, 'player', player, 'playerIsReady', player?.isReady);
+            // console.log('No player, or player not ready yet', youTubeId, 'player', player, 'playerIsReady', player?.isReady);
             if (attempt < maxAttempts) {
                 setTimeout(() => controlVideoPlayback(youTubeId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
             }
             return;
         }
 
-        console.log(action, youTubeId);
+        // console.log(action, youTubeId);
         if (method) player[method]();
     }
 
