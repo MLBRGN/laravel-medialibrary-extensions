@@ -35,6 +35,7 @@
             }
         }
     </style>
+    <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}"/>
 </head>
 <body>
 <div class="mle-container-lg">

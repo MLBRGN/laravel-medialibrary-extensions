@@ -2,6 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Routes;
 
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
@@ -48,5 +49,18 @@ if (config('media-library-extensions.demo_pages_enabled')) {
             Route::get('mle-demo-plain', 'demoPlain')->name('mle-demo-plain');
             Route::get('mle-demo-bootstrap-5', 'demoBootstrap5')->name('mle-demo-bootstrap-5');
         });
+
+        Route::get('favicon.ico', function () {
+            $path = __DIR__ . '/../resources/assets/favicon.ico';
+
+            if (! file_exists($path)) {
+                abort(404);
+            }
+
+            return Response::file($path, [
+                'Content-Type' => 'image/x-icon',
+                'Cache-Control' => 'public, max-age=31536000', // cache for 1 year
+            ]);
+        })->name('mle.favicon');
     });
 }

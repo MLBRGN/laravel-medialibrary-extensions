@@ -35,12 +35,41 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetSlide) setupYT(targetSlide);
         });
 
-        // Stop the video when the modal is hidden
-        modal.addEventListener('hidden.bs.modal', () => {
-            stopAllVideoPlayBack();
+        // when the carousel opens on the first slide and this happens to be a YouTube video,
+        // we need to start playing the video on modal open.
+        modal.addEventListener('shown.bs.modal', (e) => {
+            if (!modal.hasAttribute('data-video-autoplay')) {
+                return;
+            }
+
+            const modalTrigger = e.relatedTarget;
+            const slideToElement = modalTrigger.querySelector('[data-bs-slide-to]');
+            if (slideToElement) {
+                const slideTo = slideToElement.getAttribute('data-bs-slide-to')
+                if (slideTo === '0') {
+                    const firstVideoContainer = carousel.querySelector('.carousel-item .media-video-container');
+                    const youTubeId = firstVideoContainer.getAttribute('data-youtube-video-id');
+                    const playerId = modalId + '-' + youTubeId;
+                    startVideoPlayBack(playerId);
+                }
+            }
         });
 
-        console.log('addEventListener slide.bs.carousel', modal.id, carousel.id);
+        // Stop the video when the modal is hidden
+        modal.addEventListener('hidden.bs.modal', () => {
+
+            const carouselElement = modal.querySelector('.media-carousel');
+            if (!carouselElement) return;
+
+            const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+            if (!carouselInstance) return;
+
+            console.log('carouselInstance', carouselInstance);
+            carouselInstance.to(0)// !!! triggers slide event so call stopAllVideoPlayBack after this
+            stopAllVideoPlayBack();
+
+        });
+
         // Handle carousel sliding
         carousel.addEventListener('slide.bs.carousel', (event) => {
             console.log('slide event detected', event.target);
@@ -55,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let youTubeId = videoContainer.getAttribute('data-youtube-video-id');
                     const playerId = modalId+'-'+youTubeId;
 
+                    // pauseAllVideoPlayBack();
                     startVideoPlayBack(playerId);
                 }
             }
@@ -64,14 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!modal.classList.contains('show')) return;
 
             const carouselElement = modal.querySelector('.media-carousel');
-            if (!carousel) return;
+            if (!carouselElement) return;
 
             const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
             if (!carouselInstance) return;
 
             const isInsideCarousel = carousel.contains(e.target);
-
-            console.log('isInsideCarousel', isInsideCarousel);
 
             if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && isInsideCarousel) {
                 return; // let the carousel's listener handle it
@@ -91,13 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function controlVideoPlayback(youTubeId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
-        console.log({
-            'youtubeId': youTubeId,
-            'action': action,
-            'attempt': attempt,
-            'maxAttempts': maxAttempts,
-            'timeOut': timeOut,
-        })
+        // console.log({
+        //     'youtubeId': youTubeId,
+        //     'action': action,
+        //     'attempt': attempt,
+        //     'maxAttempts': maxAttempts,
+        //     'timeOut': timeOut,
+        // })
         const actionsMap = {
             playVideo: 'playVideo',
             pauseVideo: 'pauseVideo',
@@ -112,18 +140,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const player = players[youTubeId];
 
-        console.log(`${action}VideoPlayBack`, { youTubeId, attempt, maxAttempts, timeOut });
-
         if (!player || !player.isReady) {
-            console.log('No player, or player not ready yet', youTubeId);
+            console.log('No player, or player not ready yet', youTubeId, 'player', player, 'playerIsReady', player?.isReady);
             if (attempt < maxAttempts) {
-                setTimeout(() => controlVideoPlayback(youTubeId, action, attempt + 1, maxAttempts, timeOut * 1.5), timeOut);
+                setTimeout(() => controlVideoPlayback(youTubeId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
             }
             return;
         }
 
-        console.log(`${action}ing video`, youTubeId);
-        console.log('player', player);
+        console.log(action, youTubeId);
         if (method) player[method]();
     }
 
