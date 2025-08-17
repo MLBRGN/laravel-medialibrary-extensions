@@ -40,7 +40,9 @@
     {{-- Slides --}}
     <div class="media-carousel-inner carousel-inner">
         @forelse($mediaItems as $index => $medium)
-            <div @class([
+            <div
+{{--                id="{{ $id }}-slide-{{ $loop->index }}"--}}
+                @class([
                 'media-carousel-item',
                 'carousel-item',
                 'active' => $loop->first,

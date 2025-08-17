@@ -7,17 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
     modals.forEach((modal) => {
         const carousel = modal.querySelector('.media-carousel');
         let autoPlay = modal.hasAttribute('data-video-autoplay');
+        const modalId = modal.id;
 
+        console.log('initializing media modal', {
+            'carousel': carousel,
+            'autoPlay': autoPlay
+        })
         function setupYT(videoSlide) {
+            // console.log('videoSlide', videoSlide.parentNode.parentNode.parentNode);
+            // console.log('videoSlide id', videoSlide.parentNode.parentNode.parentNode.id);
             const youTubeId = videoSlide.getAttribute('data-youtube-video-id');
+            const playerId = modalId+'-'+youTubeId;
             const iframe = videoSlide.querySelector('lite-youtube').shadowRoot.querySelector('iframe');
             // instantiate the new player instance for slide
-            players[youTubeId] = new YT.Player(iframe, {
+            players[playerId] = new YT.Player(iframe, {
                 events: {
                     onReady: () => {
-                        if (autoPlay) {
-                            startVideoPlayBack(youTubeId);
-                        }
+                        players[playerId].isReady = true;
                     },
                 },
             });
@@ -34,15 +40,22 @@ document.addEventListener('DOMContentLoaded', () => {
             stopAllVideoPlayBack();
         });
 
+        console.log('addEventListener slide.bs.carousel', modal.id, carousel.id);
         // Handle carousel sliding
         carousel.addEventListener('slide.bs.carousel', (event) => {
+            console.log('slide event detected', event.target);
             pauseAllVideoPlayBack();
 
+            // const nextSlide = event.relatedTarget; // the slide becoming active
+            // console.log('next slide', nextSlide);
+            // console.log('next slide id', nextSlide.id);
             if (modal.hasAttribute('data-video-autoplay')) {
                 const videoContainer = event.relatedTarget.querySelector('.media-video-container');
                 if (videoContainer && videoContainer.hasAttribute('data-youtube-video-id')) {
-                    let youtubeId = videoContainer.getAttribute('data-youtube-video-id');
-                    startVideoPlayBack(youtubeId);
+                    let youTubeId = videoContainer.getAttribute('data-youtube-video-id');
+                    const playerId = modalId+'-'+youTubeId;
+
+                    startVideoPlayBack(playerId);
                 }
             }
         });
@@ -58,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const isInsideCarousel = carousel.contains(e.target);
 
-            console.log(isInsideCarousel);
+            console.log('isInsideCarousel', isInsideCarousel);
 
             if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && isInsideCarousel) {
                 return; // let the carousel's listener handle it
@@ -77,23 +90,65 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function stopAllVideoPlayBack() {
-        Object.values(players).forEach((player) => {
-            player.stopVideo()
-        });
+    function controlVideoPlayback(youTubeId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
+        console.log({
+            'youtubeId': youTubeId,
+            'action': action,
+            'attempt': attempt,
+            'maxAttempts': maxAttempts,
+            'timeOut': timeOut,
+        })
+        const actionsMap = {
+            playVideo: 'playVideo',
+            pauseVideo: 'pauseVideo',
+            stopVideo: 'stopVideo'
+        };
+
+        const method = actionsMap[action];
+        if (!actionsMap[action]) {
+            console.warn(`Unknown action: ${action}`);
+            return;
+        }
+
+        const player = players[youTubeId];
+
+        console.log(`${action}VideoPlayBack`, { youTubeId, attempt, maxAttempts, timeOut });
+
+        if (!player || !player.isReady) {
+            console.log('No player, or player not ready yet', youTubeId);
+            if (attempt < maxAttempts) {
+                setTimeout(() => controlVideoPlayback(youTubeId, action, attempt + 1, maxAttempts, timeOut * 1.5), timeOut);
+            }
+            return;
+        }
+
+        console.log(`${action}ing video`, youTubeId);
+        console.log('player', player);
+        if (method) player[method]();
+    }
+
+    function pauseVideoPlayBack(youTubeId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+       controlVideoPlayback(youTubeId, 'pauseVideo', attempt, maxAttempts, timeOut);
+    }
+
+    function stopVideoPlayBack(youTubeId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+        controlVideoPlayback(youTubeId, 'stopVideo', attempt, maxAttempts, timeOut);
+    }
+
+    function startVideoPlayBack(youTubeId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+        controlVideoPlayback(youTubeId, 'playVideo', attempt, maxAttempts, timeOut);
     }
 
     function pauseAllVideoPlayBack() {
-        Object.values(players).forEach((player) => {
-            player.pauseVideo()
-        });
+        Object.keys(players).forEach((id) => pauseVideoPlayBack(id, 0, 10, 200));
     }
 
-    function startVideoPlayBack(youTubeId) {
-        let player = players[youTubeId]
-        if (player) {
-            player.playVideo();
-        }
+    function stopAllVideoPlayBack() {
+        Object.keys(players).forEach((id) => stopVideoPlayBack(id, 0, 10, 200));
+    }
+
+    function generatePlayerKey() {
+        return 'player-' + Date.now() + '-' + Math.floor(Math.random() * 1e6);
     }
 
 });
