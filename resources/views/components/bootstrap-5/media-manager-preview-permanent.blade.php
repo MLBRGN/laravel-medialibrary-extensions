@@ -126,6 +126,7 @@
                     @if($setAsFirstEnabled)
                         @if($medium->getCustomProperty('priority') === 0)
                             <button
+                                type="button"
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
                                 disabled>

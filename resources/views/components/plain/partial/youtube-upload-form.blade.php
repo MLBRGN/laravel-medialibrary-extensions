@@ -71,7 +71,7 @@
     >
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
-        class="mle-button mle-upload-button"
+        class="mle-button mle-button-submit mle-upload-button"
         data-action="upload-youtube-medium"
         @disabled($disabled)
     >

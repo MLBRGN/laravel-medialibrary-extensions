@@ -50,12 +50,6 @@
     }
 
     .media-manager-preview-menu {
-        //position:absolute;
-        //left:0;
-        //right:0;
-        //inset-block-end: 0;
-        //bottom:0;
-        //background-color: rgba($black,0.6);
         width: 100%;
         color: var(--mlbrgn-mle-preview-menu-fg-color);
         height: auto;
@@ -67,6 +61,10 @@
         padding-inline: 1em;
         align-items: center;
         line-height: normal;
+
+        .mle-button {
+            margin:0;
+        }
     }
 
     .media-manager-previews {

@@ -47,7 +47,7 @@
         @endif
         <button
             type="{{ $useXhr ? 'button' : 'submit' }}"
-            class="mle-button mle-button-icon"
+            class="mle-button mle-button-submit mle-button-icon"
             title="{{ __('media-library-extensions::messages.delete_medium') }}"
             data-action="temporary-upload-destroy"
         >

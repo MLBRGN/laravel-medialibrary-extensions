@@ -77,7 +77,7 @@
         value="{{ $id }}">
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
-        class="mle-button mle-upload-button"
+        class="mle-button mle-button-submit mle-upload-button"
         data-action="upload-media"
         @disabled($disabled)
     >

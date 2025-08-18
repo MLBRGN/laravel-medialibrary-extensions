@@ -125,6 +125,7 @@
                         @if($setAsFirstEnabled)
                             @if($medium->order_column === $media->min('order_column'))
                                 <button
+                                    type="button"
                                     class="mle-button mle-button-icon btn btn-primary"
                                     title="{{ __('media-library-extensions::messages.set-as-main') }}"
                                     disabled>

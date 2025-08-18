@@ -110,7 +110,6 @@
                     @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
                         <button
                             type="button"
-{{--                            data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
                             data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
                             class="mle-button mle-button-icon btn btn-primary"
                             title="{{ __('media-library-extensions::messages.edit') }}"
@@ -124,6 +123,7 @@
                     @if($setAsFirstEnabled)
                         @if($medium->order_column === $media->min('order_column'))
                             <button
+                                type="button"
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
                                 disabled>

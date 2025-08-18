@@ -52,7 +52,7 @@
            value="{{ $id }}">
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
-        class="mle-button mle-button-icon"
+        class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-action="temporary-upload-set-as-first"
     >

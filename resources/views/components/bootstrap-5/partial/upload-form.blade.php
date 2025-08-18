@@ -75,7 +75,7 @@
     
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
-        class="mle-button btn btn-primary d-block"
+        class="mle-button mle-button-submit btn btn-primary d-block"
         data-action="upload-media"
         @disabled($disabled)
     >
