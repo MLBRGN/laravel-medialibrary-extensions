@@ -112,57 +112,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Mark as initialized
         modal.dataset.imageEditorInitialized = 'true';
-    }
 
-    function controlVideoPlayback(youTubeId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
-        const actionsMap = {
-            playVideo: 'playVideo',
-            pauseVideo: 'pauseVideo',
-            stopVideo: 'stopVideo'
-        };
+        function controlVideoPlayback(playerId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
+            const actionsMap = {
+                playVideo: 'playVideo',
+                pauseVideo: 'pauseVideo',
+                stopVideo: 'stopVideo'
+            };
 
-        const method = actionsMap[action];
-        if (!actionsMap[action]) {
-            console.warn(`Unknown action: ${action}`);
-            return;
-        }
-
-        const player = players[youTubeId];
-
-        if (!player || !player.isReady) {
-            // console.log('No player, or player not ready yet', youTubeId, 'player', player, 'playerIsReady', player?.isReady);
-            if (attempt < maxAttempts) {
-                setTimeout(() => controlVideoPlayback(youTubeId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
+            const method = actionsMap[action];
+            if (!actionsMap[action]) {
+                console.warn(`Unknown action: ${action}`);
+                return;
             }
-            return;
+
+            const player = players[playerId];
+
+            if (!player || !player.isReady) {
+                console.log('No player, or player not ready yet', playerId, 'player', player, 'playerIsReady', player?.isReady);
+                if (attempt < maxAttempts) {
+                    setTimeout(() => controlVideoPlayback(playerId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
+                }
+                return;
+            }
+
+            if (method) player[method]();
         }
 
-        // console.log(action, youTubeId);
-        if (method) player[method]();
-    }
+        function pauseVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+            controlVideoPlayback(playerId, 'pauseVideo', attempt, maxAttempts, timeOut);
+        }
 
-    function pauseVideoPlayBack(youTubeId, attempt = 0, maxAttempts = 10, timeOut = 200) {
-       controlVideoPlayback(youTubeId, 'pauseVideo', attempt, maxAttempts, timeOut);
-    }
+        function stopVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+            controlVideoPlayback(playerId, 'stopVideo', attempt, maxAttempts, timeOut);
+        }
 
-    function stopVideoPlayBack(youTubeId, attempt = 0, maxAttempts = 10, timeOut = 200) {
-        controlVideoPlayback(youTubeId, 'stopVideo', attempt, maxAttempts, timeOut);
-    }
+        function startVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+            console.log('startVideoPlayBack', playerId, attempt, maxAttempts, timeOut);
+            controlVideoPlayback(playerId, 'playVideo', attempt, maxAttempts, timeOut);
+        }
 
-    function startVideoPlayBack(youTubeId, attempt = 0, maxAttempts = 10, timeOut = 200) {
-        controlVideoPlayback(youTubeId, 'playVideo', attempt, maxAttempts, timeOut);
-    }
+        function pauseAllVideoPlayBack() {
+            Object.keys(players).forEach((playerId) => pauseVideoPlayBack(playerId, 0, 10, 200));
+        }
 
-    function pauseAllVideoPlayBack() {
-        Object.keys(players).forEach((id) => pauseVideoPlayBack(id, 0, 10, 200));
-    }
+        function stopAllVideoPlayBack() {
+            Object.keys(players).forEach((playerId) => stopVideoPlayBack(playerId, 0, 10, 200));
+        }
 
-    function stopAllVideoPlayBack() {
-        Object.keys(players).forEach((id) => stopVideoPlayBack(id, 0, 10, 200));
-    }
-
-    function generatePlayerKey() {
-        return 'player-' + Date.now() + '-' + Math.floor(Math.random() * 1e6);
     }
 
     // listen to preview updated to reinitialize functionality

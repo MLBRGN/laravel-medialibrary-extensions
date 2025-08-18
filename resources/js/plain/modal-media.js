@@ -12,42 +12,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let players = {}; // key: youtubeId, value: YT.Player instance
 
-    function stopAllVideoPlayBack() {
-        Object.values(players).forEach(p => p.stopVideo());
-    }
-    function pauseAllVideoPlayBack() {
-        Object.values(players).forEach(p => p.pauseVideo());
-    }
-    function startVideoPlayBack(ytId) {
-        const player = players[ytId];
-        if (player) player.playVideo();
-    }
-
     function setupMediaModal(modal) {
         const carousel = modal.querySelector('[data-carousel]');
         const autoPlay = modal.hasAttribute('data-video-autoplay');
+        const modalId = modal.id;
 
+        console.log('autoPlay', autoPlay);
         setupModalBase(modal, stopAllVideoPlayBack, () => {
             if (!autoPlay) return;
 
             const activeSlide = modal.querySelector('.media-carousel-item.active');
             const videoWrapper = activeSlide?.querySelector('.media-video-container[data-youtube-video-id]');
+            console.log('activeSlide', activeSlide);
+            console.log('videoWrapper', videoWrapper);
             if (videoWrapper) {
-                startVideoPlayBack(videoWrapper.getAttribute('data-youtube-video-id'));
+                console.log('startVideoPlayBack');
+
+                const modalId = modal.id;
+                const youTubeId = videoWrapper.getAttribute('data-youtube-video-id');
+                const playerId = modalId + '-' + youTubeId
+                startVideoPlayBack(playerId);
             }
         });
 
         carousel?.addEventListener('carouselSlided', () => {
+            console.log('carouselSlided, pause videos');
             pauseAllVideoPlayBack();
 
+            console.log('autoPlay');
             if (!autoPlay) return;
 
             const activeSlide = carousel.querySelector('.media-carousel-item.active');
             const videoWrapper = activeSlide?.querySelector('.media-video-container[data-youtube-video-id]');
             if (videoWrapper) {
-                startVideoPlayBack(videoWrapper.getAttribute('data-youtube-video-id'));
+                console.log('startVideoPlayBack');
+
+                const modalId = modal.id;
+                const youTubeId = videoWrapper.getAttribute('data-youtube-video-id');
+                const playerId = modalId + '-' + youTubeId
+                startVideoPlayBack(playerId);
             }
         });
+
+        function controlVideoPlayback(playerId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
+            const actionsMap = {
+                playVideo: 'playVideo',
+                pauseVideo: 'pauseVideo',
+                stopVideo: 'stopVideo'
+            };
+
+            const method = actionsMap[action];
+            if (!actionsMap[action]) {
+                console.warn(`Unknown action: ${action}`);
+                return;
+            }
+
+            const player = players[playerId];
+
+            if (!player || !player.isReady) {
+                console.log('No player, or player not ready yet', playerId, 'player', player, 'playerIsReady', player?.isReady);
+                if (attempt < maxAttempts) {
+                    setTimeout(() => controlVideoPlayback(playerId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
+                }
+                return;
+            }
+
+            if (method) player[method]();
+        }
+
+        function pauseVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+            controlVideoPlayback(playerId, 'pauseVideo', attempt, maxAttempts, timeOut);
+        }
+
+        function stopVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+            controlVideoPlayback(playerId, 'stopVideo', attempt, maxAttempts, timeOut);
+        }
+
+        function startVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
+            controlVideoPlayback(playerId, 'playVideo', attempt, maxAttempts, timeOut);
+        }
+
+        function pauseAllVideoPlayBack() {
+            Object.keys(players).forEach((playerId) => pauseVideoPlayBack(playerId, 0, 10, 200));
+        }
+
+        function stopAllVideoPlayBack() {
+            Object.keys(players).forEach((playerId) => stopVideoPlayBack(playerId, 0, 10, 200));
+        }
     }
 
     function initMediaModalEvents() {
@@ -80,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const slideTo = parseInt(trigger.getAttribute('data-slide-to') || '0', 10);
 
         console.log('slideTo', slideTo);
-        // TODO value correct, but not sliding
         baseOpenModal(modalId);
 
         const modal = document.querySelector(modalId);
@@ -99,13 +149,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = e.target.closest('[data-media-modal]');
         if (!modal) return;
 
+        const modalId = modal.id;
         const videoSlide = e.target.closest('[data-youtube-video-id]');
-        const ytId = videoSlide?.getAttribute('data-youtube-video-id');
-        const iframe = videoSlide?.querySelector('lite-youtube')?.shadowRoot?.querySelector('iframe');
+        const youTubeId = videoSlide?.getAttribute('data-youtube-video-id');
+        if (!youTubeId) return;
 
-        if (ytId && iframe && !players[ytId]) {
-            players[ytId] = new YT.Player(iframe);
-        }
+        const playerId = modalId + '-' + youTubeId;
+        if (players[playerId]) return; // already initialized
+
+        const liteYoutube = videoSlide.querySelector('lite-youtube');
+        const iframe = liteYoutube?.shadowRoot?.querySelector('iframe');
+        if (!iframe) return;
+
+        players[playerId] = new YT.Player(iframe, {
+            events: {
+                onReady: (event) => {
+                    console.log('player ready', playerId);
+                    players[playerId].isReady = true;
+                },
+            },
+        });
     }
 
     registerModalEventHandler('click', mediaModalClickHandler);
