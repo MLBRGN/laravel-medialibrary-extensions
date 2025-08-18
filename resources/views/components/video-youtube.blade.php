@@ -12,6 +12,7 @@
                     src="{{ $medium->getUrl() }}"
                     class="mle-youtube-video mle-video-responsive mle-cursor-zoom-in"
                     alt="{{ $medium->name }}"
+                    draggable="false"
                 >
             @else
                 {{ 

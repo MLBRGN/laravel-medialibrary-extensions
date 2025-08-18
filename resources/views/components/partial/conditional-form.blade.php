@@ -11,6 +11,9 @@
 @else
     <form {{ $attributes->merge($formAttributes)->class(['conditional-form']) }} enctype="multipart/form-data" method="{{ $method }}">
         @csrf
+        @if(!in_array(strtolower($method), ['get', 'post']))
+            @method($method)
+        @endif
         {{ $slot }}
     </form>
 @endif
