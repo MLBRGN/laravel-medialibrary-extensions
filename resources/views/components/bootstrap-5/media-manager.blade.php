@@ -10,7 +10,7 @@
     ])->merge() }}
     data-media-manager=""
     >
-    <input type="hidden" class="media-manager-config" value='@json($config)' />
+    <input type="hidden" class="media-manager-config" value='@json($config)'>
     {{ $component_start ?? '' }}
     <div class="media-manager-row row">
         <div @class([
@@ -62,7 +62,7 @@
                 'media-manager-previews',
                 'col-12 col-md-8'
             ])
-            class="media-manager-previews col-12 col-md-8">
+            >
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"/>
@@ -84,13 +84,13 @@
                 />
             </div>
             {{-- TODO title--}}
-            <x-mle-media-modal
-                :id="$id"
-                :model-or-class-name="$modelOrClassName"
-                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"
-                title="Media carousel"
-                :inModal="true"
-                :plainJs="false" />
+{{--            <x-mle-media-modal--}}
+{{--                :id="$id"--}}
+{{--                :model-or-class-name="$modelOrClassName"--}}
+{{--                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"--}}
+{{--                title="Media carousel"--}}
+{{--                :inModal="true"--}}
+{{--                :plainJs="false" />--}}
         </div>
     </div>
     {{ $component_end ?? '' }}

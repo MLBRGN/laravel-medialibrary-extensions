@@ -9,7 +9,9 @@
     id="{{ $id }}"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="{{ $id }}-title"
+    @if($title)
+        aria-labelledby="{{ $id }}-title"
+    @endif
     aria-hidden="true"
     @if($videoAutoPlay)
         data-video-autoplay=""
@@ -17,7 +19,9 @@
 >
     <div class="media-modal-dialog modal-dialog">
         <div class="media-modal-content modal-content justify-content-center">
-            <h1 class="media-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+            @if($title)
+                <h1 class="media-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+            @endif
             <div class="media-modal-body modal-body p-0">
                 <button
                     type="button"

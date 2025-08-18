@@ -1,17 +1,19 @@
 // noinspection JSUnresolvedReference
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    const modals = document.querySelectorAll('.media-modal');
-    const players = {}; // Store player instances by slide ID
+    let players = {}; // Store player instances by slide ID
 
-    modals.forEach((modal) => {
+    const initializeModal = function (modal) {
+        if (modal.dataset.imageEditorInitialized) return;
+
         const carousel = modal.querySelector('.media-carousel');
         let autoPlay = modal.hasAttribute('data-video-autoplay');
         const modalId = modal.id;
 
-        function setupYT(videoSlide) {
+        function setupYT (videoSlide) {
             const youTubeId = videoSlide.getAttribute('data-youtube-video-id');
-            const playerId = modalId+'-'+youTubeId;
+            const playerId = modalId + '-' + youTubeId;
             const iframe = videoSlide.querySelector('lite-youtube').shadowRoot.querySelector('iframe');
             // instantiate the new player instance for slide
             players[playerId] = new YT.Player(iframe, {
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const videoContainer = event.relatedTarget.querySelector('.media-video-container');
                 if (videoContainer && videoContainer.hasAttribute('data-youtube-video-id')) {
                     let youTubeId = videoContainer.getAttribute('data-youtube-video-id');
-                    const playerId = modalId+'-'+youTubeId;
+                    const playerId = modalId + '-' + youTubeId;
 
                     startVideoPlayBack(playerId);
                 }
@@ -107,7 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 carouselInstance.next();
             }
         });
-    });
+
+        // Mark as initialized
+        modal.dataset.imageEditorInitialized = 'true';
+    }
 
     function controlVideoPlayback(youTubeId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
         const actionsMap = {
@@ -159,5 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function generatePlayerKey() {
         return 'player-' + Date.now() + '-' + Math.floor(Math.random() * 1e6);
     }
+
+    // listen to preview updated to reinitialize functionality
+    document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
+        players = {};// reset players variable
+        const mediaManager = e.detail.mediaManager;
+        console.log('reinitialize modals for media manager', mediaManager);
+        mediaManager.querySelectorAll('.media-modal').forEach(initializeModal);
+    });
+
+    document.querySelectorAll('.media-modal').forEach(initializeModal);
 
 });

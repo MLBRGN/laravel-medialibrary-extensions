@@ -108,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updatePreview(mediaManager, config) {
         console.log('update preview:', mediaManager);
-        const container = mediaManager.querySelector('.media-manager-row');
         const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
         const forms = mediaManager.querySelectorAll('form, [data-xhr-form]');
         if (!previewGrid) return;
@@ -169,21 +168,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 // previewGrid.querySelectorAll('[data-image-editor-modal]')
                 //     .forEach(initializeImageEditorModal);
 
-                previewGrid.querySelectorAll('[data-image-editor-modal]')
-                    .forEach(modal => {
-                        // console.log('dispatch initializeImageEditorModal')
-                        document.dispatchEvent(new CustomEvent('initializeImageEditorModal', {
-                            bubbles: false,
-                            detail: {modal: modal} // add config or props here if needed
-                        }));
-                    });
+                // can be listened to by other parts of the code to, for example, reinitialize functionality
+                document.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
+                    bubbles: false,
+                    detail: {
+                        'mediaManager': mediaManager,
+                        'previewGrid': previewGrid,
+                    }
+                }));
             })
             .catch(error => {
                 console.error('Error refreshing media manager:', error);
 
             })
             .finally(() => {
-                // hideSpinner(container);
             });
     }
 

@@ -2,8 +2,8 @@
     <img
         {{ $attributes->merge(['class' => '']) }}
         src="{{ $url }}"
-        srcset="{{ $srcset }}"
-        sizes="{{ $sizes }}"
+        @if ($srcset) srcset="{{ $srcset }}" @endif
+        @if ($srcset && $sizes) sizes="{{ $sizes }}" @endif
         alt="{{ $alt }}"
         @if ($lazy) loading="lazy" @endif
     >

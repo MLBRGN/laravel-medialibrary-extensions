@@ -27,6 +27,7 @@ class TemporaryUploadDestroyForm extends BaseComponent
 
     public function render(): View
     {
+        $this->id = $this->id . '-destroy-form-'. $this->medium->id;
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         return $this->getPartialView('temporary-upload-destroy-form', $this->frontendTheme);

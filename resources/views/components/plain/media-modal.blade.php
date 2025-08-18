@@ -9,7 +9,9 @@
     id="{{ $id }}"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="{{ $id }}-title"
+    @if($title)
+        aria-labelledby="{{ $id }}-title"
+    @endif
     aria-hidden="true"
     @if($videoAutoPlay)
         data-video-autoplay=""
@@ -19,7 +21,9 @@
 >
     <div class="media-modal-dialog modal-dialog">
         <div class="media-modal-content modal-content">
-            <h1 class="media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+            @if($title)
+                <h1 class="media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+            @endif
             <div class="media-modal-body modal-body">
                 <button
                     type="button"
@@ -41,7 +45,7 @@
                     :media-collections="$mediaCollections"
                     :frontend-theme="$frontendTheme"
                     :in-modal="true"
-                    data-carousel
+{{--                    data-carousel--}}
                 />
             </div>
         </div>

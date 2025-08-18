@@ -3,7 +3,7 @@ import { setupModalBase, closeModal, initModalEvents } from './modal-core';
 function setupImageEditorModal(modal) {
     if (modal.dataset.imageEditorInitialized) return;
 
-    const placeholder = modal.querySelector('#image-editor-placeholder');
+    const placeholder = modal.querySelector('[image-editor-placeholder]');
     let editor = null;
 
     const onClose = () => {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Component tests: theme bootstrap-5</title>
-    <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}">
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -66,7 +66,6 @@
             set-as-first-enabled
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
-            :multiple="true"
             :show-menu="true"
         />
 
@@ -87,7 +86,6 @@
             set-as-first-enabled
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
-            :multiple="true"
         />
 
         <h2 class="my-5">Media Manager YouTube</h2>
@@ -103,7 +101,6 @@
             set-as-first-enabled
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
-            :multiple="true"
         />
 
         <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
@@ -119,7 +116,6 @@
             set-as-first-enabled
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
-            :multiple="true"
         />
 
         <h2 class="my-5">Media Carousel</h2>

@@ -6,7 +6,7 @@
     ]"
     :div-attributes="[
         'data-xhr-form' => true, 
-        'id' => $id.'-media-destroy-form'
+        'id' => $id
     ]"
     method="delete"
     class="media-manager-destroy-form"

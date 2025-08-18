@@ -96,7 +96,7 @@
                             src="{{ $medium->getUrl() }}"
                             class="media-manager-image-preview mle-cursor-zoom-in"
                             alt="{{ $medium->name }}"
-                        />
+                        >
                     @endif
                 </div>
             </div>

@@ -30,6 +30,8 @@ class SetAsFirstForm extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
+        $this->id = $this->id . '-set-as-first-form-' . $this->medium->id;
+
         $this->targetMediaCollection = $medium->collection_name;
     }
 

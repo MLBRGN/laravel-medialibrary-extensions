@@ -82,7 +82,7 @@
                     {{--                    data-bs-target="#{{$id}}-modal-carousel"--}}
                     data-bs-target="#{{$id}}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
-                />
+                >
             </div>
             <x-mle-image-editor-modal 
                 id="{{ $id }}"

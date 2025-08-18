@@ -12,7 +12,7 @@
     class="media-manager-youtube-upload-form"
 >
   
-    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}">
     <input
         type="hidden"
         name="youtube_collection"
@@ -69,7 +69,7 @@
         class="form-control" 
         placeholder="https://www.youtube.com/watch?v=..."
         @disabled($disabled)
-    />
+    >
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button btn btn-primary d-block"

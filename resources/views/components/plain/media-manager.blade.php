@@ -9,7 +9,7 @@
     ])->merge() }}
     data-media-manager=""
     >
-    <input type="hidden" class="media-manager-config" value='@json($config)' />
+    <input type="hidden" class="media-manager-config" value='@json($config)'>
     <x-mle-partial-debug 
         :frontend-theme="$frontendTheme" 
         :model-or-class-name="$modelOrClassName" 
@@ -80,13 +80,13 @@
                 />
             </div>
             {{-- TODO title--}}
-            <x-mle-media-modal
-                :id="$id"
-                :model-or-class-name="$modelOrClassName"
-                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"
-                title="Media carousel"
-                :inModal="true"
-                :plainJs="true" />
+{{--            <x-mle-media-modal--}}
+{{--                :id="$id"--}}
+{{--                :model-or-class-name="$modelOrClassName"--}}
+{{--                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"--}}
+{{--                title="Media carousel"--}}
+{{--                :inModal="true"--}}
+{{--                :plainJs="true" />--}}
         </div>
     </div>
     {{ $component_end ?? '' }}

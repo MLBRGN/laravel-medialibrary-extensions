@@ -35,7 +35,7 @@
             }
         }
     </style>
-    <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}">
 </head>
 <body>
 <div class="mle-container-lg">
@@ -88,7 +88,6 @@
         set-as-first-enabled
         frontend-theme="plain"
         :use-xhr="config('media-library-extensions.use_xhr')"
-        :multiple="true"
     />
 
     <h2>Media Manager Multiple (Temporary uploads)</h2>
@@ -108,7 +107,6 @@
         set-as-first-enabled
         frontend-theme="plain"
         :use-xhr="config('media-library-extensions.use_xhr')"
-        :multiple="true"
     />
 
     <h2 class="my-5">Media Manager YouTube</h2>
@@ -124,7 +122,6 @@
         set-as-first-enabled
         frontend-theme="plain"
         :use-xhr="config('media-library-extensions.use_xhr')"
-        :multiple="true"
     />
 
     <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
@@ -140,7 +137,6 @@
         set-as-first-enabled
         frontend-theme="plain"
         :use-xhr="config('media-library-extensions.use_xhr')"
-        :multiple="true"
     />
     
     <h2>Media Carousel</h2>

@@ -9,7 +9,9 @@
     id="{{ $id }}"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="{{ $id }}-title"
+    @if($title)
+        aria-labelledby="{{ $id }}-title"
+    @endif
     aria-hidden="true"
     data-theme="{{$frontendTheme}}"
     data-modal
@@ -19,7 +21,9 @@
 >
     <div class="image-editor-modal-dialog modal-dialog">
         <div class="image-editor-modal-content modal-content justify-content-center">
-            <h1 class="image-editor-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+            @if($title)
+                <h1 class="image-editor-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+            @endif
             <div class="image-editor-modal-body modal-body p-0">
                 <button
                     type="button"
@@ -33,9 +37,9 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-                <input type="hidden" class="image-editor-modal-config" value='@json($config)' />
+                <input type="hidden" class="image-editor-modal-config" value='@json($config)'>
                 {{-- instantiated when model opens, just in time --}}
-                <div id="image-editor-placeholder" class="image-editor"></div>
+                <div data-image-editor-placeholder class="image-editor"></div>
 {{--                <image-editor --}}
 {{--                    id="{{ $id }}-image-editor"--}}
 {{--                    data-initiator-id="{{ $id }}"--}}

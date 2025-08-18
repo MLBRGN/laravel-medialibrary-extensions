@@ -27,12 +27,15 @@ class Debug extends Component
     public mixed $modelId = null;
 
     public bool $temporaryUpload = false;
+    public string $id;
 
     public function __construct(
         public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public ?string $frontendTheme = null,
         public array $config = [],
     ) {
+
+        $this->id = uniqid();
 
         if ($modelOrClassName instanceof HasMedia) {
             $this->model = $modelOrClassName;

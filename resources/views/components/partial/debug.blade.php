@@ -1,11 +1,11 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\Media;use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if(config('media-library-extensions.debug') && !app()->environment('production'))
     <div class="mle-debug-wrapper">
-        <button type="button" class="mle-debug-toggle" aria-expanded="false" aria-controls="mle-debug-content">
+        <button type="button" class="mle-debug-toggle" aria-expanded="false" aria-controls="{{ $id }}-debug-content">
             🐞 Show Debug Info
         </button>
 
-        <div class="mle-debug hidden" id="mle-debug-content">
+        <div class="mle-debug hidden" id="{{ $id }}-debug-content">
             <h2>📦 Media Library Extensions Debug Info</h2>
 
             <div class="mle-debug-section">
@@ -132,24 +132,3 @@
         });
     </script>
 @endonce
-
-{{--<div class="mle-debug border rounded p-2 mb-3 bg-light small text-muted">--}}
-{{--    <h6 class="mb-2">Media Manager Debug</h6>--}}
-{{--    <ul class="list-unstyled mb-0">--}}
-{{--        <li><strong>ID:</strong> {{ $id }}</li>--}}
-{{--        <li><strong>Model:</strong> {{ get_class($model) }} (ID: {{ $model->getKey() }})</li>--}}
-{{--        <li><strong>Image Collection:</strong> {{ $imageCollection }}</li>--}}
-{{--        <li><strong>Document Collection:</strong> {{ $documentCollection }}</li>--}}
-{{--        <li><strong>YouTube Collection:</strong> {{ $youtubeCollection }}</li>--}}
-{{--        <li><strong>Upload Enabled:</strong> {{ $uploadEnabled ? 'true' : 'false' }}</li>--}}
-{{--        <li><strong>Destroy Enabled:</strong> {{ $destroyEnabled ? 'true' : 'false' }}</li>--}}
-{{--        <li><strong>Set-as-First Enabled:</strong> {{ $setAsFirstEnabled ? 'true' : 'false' }}</li>--}}
-{{--        <li><strong>Show Media URL:</strong> {{ $showMediaUrl ? 'true' : 'false' }}</li>--}}
-{{--        <li><strong>Show Order:</strong> {{ $showOrder ? 'true' : 'false' }}</li>--}}
-{{--        <li><strong>Frontend Theme:</strong> {{ $frontendTheme }}</li>--}}
-{{--        <li><strong>Use XHR:</strong> {{ $useXhr ? 'true' : 'false' }}</li>--}}
-{{--        <li><strong>Media Upload Route:</strong> <code>{{ $mediaUploadRoute }}</code></li>--}}
-{{--        <li><strong>YouTube Upload Route:</strong> <code>{{ $youtubeUploadRoute }}</code></li>--}}
-{{--        <li><strong>Preview Update Route:</strong> <code>{{ $previewUpdateRoute }}</code></li>--}}
-{{--    </ul>--}}
-{{--</div>--}}

@@ -76,7 +76,7 @@
                     {{--                    data-modal-trigger="#{{$id}}-modal"--}}
                     data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
-                />
+                >
               
             </div>
             {{-- TODO title --}}

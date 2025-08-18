@@ -15,7 +15,7 @@
                         src="{{ $medium->getUrl() }}"
                         class="mle-youtube-video mle-video-responsive mle-cursor-zoom-in"
                         alt="{{ $medium->name }}"
-                    />
+                    >
                 @else
                     {{ 
                         $medium->img()
@@ -29,12 +29,11 @@
         <div class="mlbrgn-mle-component">
             <div {{ $attributes->merge(['class' => 'mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}">
                 <lite-youtube
-                    id="yt-video-slide"
+{{--                    id="yt-video-slide"--}}
                     videoid="{{ $youtubeId }}"
                     posterquality="maxresdefault"
                     autopause
                     autoload
-                    autopause
                     params="{{ $youTubeParamsAsString }}"
                 >
                     <a

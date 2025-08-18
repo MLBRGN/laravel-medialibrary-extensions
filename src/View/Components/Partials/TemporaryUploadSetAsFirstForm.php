@@ -29,6 +29,7 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
+        $this->id = $this->id . '-destroy-form-'.$this->medium->id;
         $this->targetMediaCollection = $medium->collection_name;
     }
 

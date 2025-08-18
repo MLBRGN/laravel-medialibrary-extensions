@@ -62,7 +62,7 @@
             name="youtube_collection"
             value="{{ $youtubeCollection }}">
     @endif
-    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}"/>
+    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}">
     <input
         type="hidden"
         name="model_type"
