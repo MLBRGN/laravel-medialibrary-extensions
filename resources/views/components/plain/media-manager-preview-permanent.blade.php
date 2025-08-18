@@ -21,6 +21,7 @@
 {{--                    data-modal-trigger="#{{$id}}-modal"--}}
                     data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
+                    :frontend-theme="$frontendTheme"
                 />
             </div>
         @else
@@ -39,31 +40,28 @@
                 </div>
             @elseif(isMediaType($medium, 'video'))
                 <div
-{{--                    data-modal-trigger="#{{$id}}-modal"--}}
                     data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
                     <x-mle-video 
                         :medium="$medium" 
-                        class="mle-cursor-zoom-in" 
+                        class="mle-cursor-zoom-in"
                     />
                 </div>
             @elseif(isMediaType($medium, 'audio'))
                 <div
-{{--                    data-modal-trigger="#{{$id}}-modal"--}}
                     data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
                 >
                     <x-mle-audio 
                         :medium="$medium" 
-                        class="mle-cursor-zoom-in" 
+                        class="mle-cursor-zoom-in"
                     />
                 </div>
             @elseif(isMediaType($medium, 'image'))
                 <div
-{{--                    data-modal-trigger="#{{$id}}-modal"--}}
                     data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     class="media-manager-preview-item-container"
@@ -71,7 +69,6 @@
                     <x-mle-image-responsive
                         :medium="$medium"
                         class="media-manager-image-preview mle-cursor-zoom-in"
-{{--                        data-modal-trigger="#{{$id}}-modal"--}}
                         data-modal-trigger="#{{$id}}-mod"
                         data-slide-to="{{ $loop->index }}"
                         draggable="false"
@@ -146,6 +143,7 @@
                                 :audio-collection="$audioCollection"
                                 :video-collection="$videoCollection"
                                 :set-as-first-enabled="$setAsFirstEnabled"
+                                :frontend-theme="$frontendTheme"
                             />
                         @endif
                     @endif
@@ -158,6 +156,7 @@
                             :youtube-collection="$youtubeCollection"
                             :audio-collection="$audioCollection"
                             :video-collection="$videoCollection"
+                            :frontend-theme="$frontendTheme"
                         />
                     @endif
                 </div>

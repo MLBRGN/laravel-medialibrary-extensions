@@ -12,16 +12,15 @@
             <div
                 class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
-{{--                data-bs-target="#{{$id}}-modal"--}}
                 data-bs-target="#{{$id}}-mod"
             >
                 <x-mle-video-youtube
                     class="mle-video-youtube mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
-{{--                    data-bs-target="#{{$id}}-modal-carousel"--}}
                     data-bs-target="#{{$id}}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
+                    :frontend-theme="$frontendTheme"
                 />
             </div>
         @elseif(isMediaType($medium, 'document'))
@@ -41,14 +40,12 @@
         @elseif(isMediaType($medium, 'video'))
             <div
                 data-bs-toggle="modal"
-{{--                data-bs-target="#{{$id}}-modal"--}}
                 data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-video 
                     :medium="$medium" 
                     class="mle-cursor-zoom-in"
-{{--                    data-bs-target="#{{ $id }}-modal-carousel"--}}
                     data-bs-target="#{{ $id }}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
                 />
@@ -56,14 +53,12 @@
         @elseif(isMediaType($medium, 'audio'))
             <div
                 data-bs-toggle="modal"
-{{--                data-bs-target="#{{$id}}-modal"--}}
                 data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-audio 
                     :medium="$medium" 
                     class="mle-cursor-zoom-in"
-{{--                    data-bs-target="#{{ $id }}-modal-carousel"--}}
                     data-bs-target="#{{ $id }}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
                 />
@@ -71,7 +66,6 @@
         @elseif(isMediaType($medium, 'image'))
             <div
                 data-bs-toggle="modal"
-{{--                data-bs-target="#{{$id}}-modal"--}}
                 data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
@@ -119,9 +113,7 @@
                             <button
                                 type="button"
                                 data-bs-toggle="modal"
-                                {{--                            data-bs-target="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
                                 data-bs-target="#{{$id}}-iem-{{$medium->id}}"
-{{--                                data-bs-target="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.edit') }}"
                             >
@@ -146,13 +138,13 @@
                                 <x-mle-partial-temporary-upload-set-as-first-form
                                     :medium="$medium"
                                     :id="$id"
-                                    {{-- temporary uploads have no model --}}
                                     :image-collection="$imageCollection"
                                     :document-collection="$documentCollection"
                                     :youtube-collection="$youtubeCollection"
                                     :audio-collection="$audioCollection"
                                     :video-collection="$videoCollection"
                                     :set-as-first-enabled="$setAsFirstEnabled"
+                                    :frontend-theme="$frontendTheme"
                                 />
                             @endif
                         @endif
@@ -165,6 +157,7 @@
                                 :youtube-collection="$youtubeCollection"
                                 :audio-collection="$audioCollection"
                                 :video-collection="$videoCollection"
+                                :frontend-theme="$frontendTheme"
                             />
                         @endif
                     </div>
