@@ -10,14 +10,21 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 });
 
 document.addEventListener('onCloseImageEditor', (e) => {
-    const modal = e.detail.imageEditorInstance.closest('[data-image-editor-modal]');
-    // closeBootstrapModal(modal);
+    const imageEditor = e.detail.imageEditorInstance;
+    const modal = imageEditor.closest('[data-image-editor-modal]');
+    const initiatorId = imageEditor.getAttribute('data-initiator-id');
+    const initiator = document.querySelector('#' + initiatorId);
+    console.log('initiator', initiator);
+    initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+        bubbles: true,
+        composed: true,
+        detail: {'modal': modal}
+    }));
 });
 
 const updateMedia = (detail) => {
 
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
-    const theme = modal.getAttribute('data-theme');
     const configInput = modal.querySelector('.image-editor-modal-config');
     if (!configInput) return;
 
