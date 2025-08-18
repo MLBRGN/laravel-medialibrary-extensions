@@ -1,6 +1,33 @@
 // modal-core.js
 import { fireEvent, trapFocus, releaseFocus } from '@/js/plain/helpers';
 
+let listenersBound = false;
+
+// Event Handler Registry
+const eventHandlers = new Map();
+// structure: { "click": Set<fn>, "keydown": Set<fn>, ... }
+
+export function registerModalEventHandler(type, fn) {
+    if (!eventHandlers.has(type)) {
+        eventHandlers.set(type, new Set());
+    }
+    eventHandlers.get(type).add(fn);
+}
+
+export function unregisterModalEventHandler(type, fn) {
+    if (eventHandlers.has(type)) {
+        eventHandlers.get(type).delete(fn);
+    }
+}
+
+// Internal event dispatcher
+function eventDispatcher(type, e) {
+    if (!eventHandlers.has(type)) return;
+    for (const handler of eventHandlers.get(type)) {
+        handler(e);
+    }
+}
+
 export function closeModal(modal) {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
@@ -14,7 +41,7 @@ export function openModal(modalId) {
     console.log('openModal: ', modalId);
     const modal = document.querySelector(modalId);
     if (!modal) {
-        console.log('could not find modal' + modalId);
+        console.log('could not find modal ' + modalId);
         return;
     }
 
@@ -27,44 +54,54 @@ export function openModal(modalId) {
 }
 
 export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
-    // console.log('setupModalBase', modal);
     modal.addEventListener('modalOpened', onOpen);
     modal.addEventListener('modalClosed', onClose);
 }
 
-/**
- * Initializes default modal click + keyboard behavior.
- */
-export function initModalEvents() {
-    document.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const target = e.target;
-        console.log('target', target);
-        const trigger = target.closest('[data-modal-trigger]');
-        if (trigger) {
-            e.preventDefault();
-            const modalId = trigger.getAttribute('data-modal-trigger');
-            openModal(modalId);
-            return;
-        }
+function defaultClickHandler(e) {
+    const target = e.target;
+    const trigger = target.closest('[data-modal-trigger]');
+    if (trigger) {
+        e.preventDefault();
+        const modalId = trigger.getAttribute('data-modal-trigger');
+        openModal(modalId);
+        return;
+    }
 
-        const closeBtn = target.closest('[data-modal-close]');
-        // console.log('closeBtn', closeBtn);
-        if (closeBtn) {
-            const modal = closeBtn.closest('[data-modal]');
-            if (modal) closeModal(modal);
-            return;
-        } else {
-            console.log('no close button')
-        }
+    const closeBtn = target.closest('[data-modal-close]');
+    if (closeBtn) {
+        const modal = closeBtn.closest('[data-modal]');
+        if (modal) closeModal(modal);
+        return;
+    }
 
-        const modal = target.closest('[data-modal]');
-        if (modal && target === modal) closeModal(modal);
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('[data-modal].active').forEach(closeModal);
-        }
-    });
+    const modal = target.closest('[data-modal]');
+    if (modal && target === modal) closeModal(modal);
 }
+
+function defaultKeydownHandler(e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('[data-modal].active').forEach(closeModal);
+    }
+}
+
+export function initModalEvents() {
+    if (!listenersBound) {
+        document.addEventListener('click', e => eventDispatcher('click', e));
+        document.addEventListener('keydown', e => eventDispatcher('keydown', e));
+        listenersBound = true;
+    }
+
+    // ensure defaults are always registered
+    registerModalEventHandler('click', defaultClickHandler);
+    registerModalEventHandler('keydown', defaultKeydownHandler);
+}
+
+export function reinitModalEvents() {
+    // clear only registered handlers
+    eventHandlers.clear();
+    // but don’t re-bind the DOM listeners
+    initModalEvents();
+}
+
+

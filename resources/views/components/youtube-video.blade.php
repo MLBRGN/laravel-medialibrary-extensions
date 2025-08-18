@@ -35,11 +35,13 @@
                     autopause
                     autoload
                     params="{{ $youTubeParamsAsString }}"
+                    tabindex="-1"
                 >
                     <a
                         class="lite-youtube-fallback"
                         href="https://www.youtube.com/watch?v={{ $youtubeId }}"
                         target="_blank"
+                        tabindex="-1"
                     >
                         <div class="mle-youtube-video mle-video-responsive">
                             <x-mle-partial-icon
