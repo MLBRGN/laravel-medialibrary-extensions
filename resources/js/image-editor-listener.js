@@ -11,17 +11,9 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 
 document.addEventListener('onCloseImageEditor', (e) => {
     const modal = e.detail.imageEditorInstance.closest('[data-image-editor-modal]');
-    closeBootstrapModal(modal);
+    // closeBootstrapModal(modal);
 });
 
-const closeBootstrapModal = (modal) => {
-    if (typeof bootstrap === 'undefined' || !bootstrap.Modal) {
-        console.warn('Bootstrap Modal is not available.');
-        return;
-    }
-    const modalInstance = bootstrap.Modal.getInstance(modal);
-    modalInstance.hide();
-}
 const updateMedia = (detail) => {
 
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
@@ -85,20 +77,18 @@ const updateMedia = (detail) => {
                 type: 'success',
                 message: trans('medium_replaced'),
             });
+            console.log('send closeModalRequest')
+            initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+                bubbles: true,
+                composed: true,
+                detail: {'modal': modal}
+            }));
             initiator.dispatchEvent(new CustomEvent('refreshRequest', {
                 bubbles: true,
                 composed: true,
                 detail: []
             }));
         })
-        .finally(() => {
-            if (theme === 'bootstrap-5') {
-                closeBootstrapModal(modal);
-            } else if (theme === 'plain') {
-                // TODO close modal
-                // something else
-            }
-    });
 }
 
 function trans (key) {

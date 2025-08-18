@@ -1,5 +1,7 @@
 // noinspection JSUnresolvedReference
 
+import {closeModal} from "@/js/plain/modal-core";
+
 document.addEventListener('DOMContentLoaded', () => {
 
     let players = {}; // Store player instances by slide ID

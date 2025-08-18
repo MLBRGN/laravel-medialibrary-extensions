@@ -11,14 +11,16 @@
         bottom: 15%;
         width: 5%;
         min-width: 2.5em;
-        transition: background-color 0.3s ease-in-out;
-        background-color: rgb(from var(--mlbrgn-mle-control-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
-        color: var(--mlbrgn-mle-control-fg-color);
+        //transition: background-color .3s ease-in-out, color .3s ease-in-out;
+        transition: background-color .3s ease-in-out;
+        background-color: rgb(from var(--mlbrgn-mle-carousel-control-bg-color) r g b / var(--mlbrgn-mle-carousel-control-bg-opacity));
+        //color: var(--mlbrgn-mle-carousel-control-fg-color);
     }
 
     .media-carousel-control-prev svg,
     .media-carousel-control-next svg {
-        fill: var(--mlbrgn-mle-control-fg-color);
+        fill: var(--mlbrgn-mle-carousel-control-fg-color);
+        transition: fill 0.3s ease-in-out;
     }
 
     .media-carousel-control-prev {
@@ -43,14 +45,15 @@
     .media-carousel-control-prev:focus-visible,
     .media-carousel-control-next:hover,
     .media-carousel-control-next:focus-visible {
-        background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-hover-bg-opacity));
+        background-color: rgb(from var(--mlbrgn-mle-carousel-control-hover-bg-color) r g b / var(--mlbrgn-mle-carousel-control-hover-bg-opacity));
+        //color: var(--mlbrgn-mle-carousel-control-hover-fg-color);
     }
 
     .media-carousel-control-prev:hover svg,
     .media-carousel-control-prev:focus-visible svg,
     .media-carousel-control-next:hover svg,
     .media-carousel-control-next:focus-visible svg {
-        fill: var(--mlbrgn-mle-control-hover-fg-color);
+        fill: var(--mlbrgn-mle-carousel-control-hover-fg-color);
     }
 
     .media-carousel-indicators button:focus-visible {

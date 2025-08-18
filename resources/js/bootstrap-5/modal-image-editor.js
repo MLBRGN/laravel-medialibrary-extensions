@@ -1,6 +1,15 @@
 // noinspection JSUnresolvedReference
 document.addEventListener('DOMContentLoaded', () => {
 
+    const closeBootstrapModal = (modal) => {
+        if (typeof bootstrap === 'undefined' || !bootstrap.Modal) {
+            console.warn('Bootstrap Modal is not available.');
+            return;
+        }
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+    }
+
     function initializeImageEditor(detail) {
         const imageEditor = detail.imageEditorInstance;
 
@@ -60,6 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
         mediaManager.querySelectorAll('[data-image-editor-modal]')
             .forEach(initializeImageEditorModal);
         console.log('reinitialize image editor modals for media manager', mediaManager);
+    });
+
+    document.addEventListener('imageEditorModalCloseRequest', (e) => {
+        const modal = e.detail.modal;
+        console.log('imageEditorModalCloseRequest', modal);
+        closeBootstrapModal(modal);
     });
 
     document.querySelectorAll('[data-image-editor-modal]').forEach(initializeImageEditorModal);

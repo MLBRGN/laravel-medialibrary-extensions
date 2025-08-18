@@ -52,6 +52,15 @@
     --mlbrgn-mle-control-active-color: var(--mlbrgn-mle-color-primary);
     --mlbrgn-mle-control-bg-opacity: 70%;
 
+    --mlbrgn-mle-carousel-control-bg-opacity: 30%;
+    --mlbrgn-mle-carousel-control-hover-bg-opacity: 70%;
+    --mlbrgn-mle-carousel-control-bg-color: var(--mlbrgn-mle-color-primary-lighter);
+    //--mlbrgn-mle-carousel-control-bg-color: var(--mlbrgn-mle-color-primary);
+    --mlbrgn-mle-carousel-control-fg-color: var(--mlbrgn-mle-color-primary-contrast);
+    --mlbrgn-mle-carousel-control-hover-bg-color: var(--mlbrgn-mle-color-primary-lighter);
+    //--mlbrgn-mle-carousel-control-hover-bg-color: var(--mlbrgn-mle-color-primary-hover);
+    --mlbrgn-mle-carousel-control-hover-fg-color: var(--mlbrgn-mle-color-primary-lighter-contrast);
+
     --mlbrgn-mle-file-selector-button-bg-color: var(--mlbrgn-mle-color-secondary);
     --mlbrgn-mle-file-selector-button-fg-color: var(--mlbrgn-mle-color-secondary-contrast);
     --mlbrgn-mle-file-selector-button-hover-bg-color: var(--mlbrgn-mle-color-secondary-hover);

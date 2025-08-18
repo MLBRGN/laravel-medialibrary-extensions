@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const placeholder = modal.querySelector('[data-image-editor-placeholder]');
 
         const onClose = () => {
+            console.log('onClose')
             const editor = editors.get(modal);
             if (editor) {
                 editor.remove();
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const onOpen = () => {
+            console.log('onOpen')
             if (editors.has(modal)) return; // already exists
 
             let config = {};
@@ -89,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // initial init
     initModalEvents();
+
     document.querySelectorAll('[data-image-editor-modal]').forEach(setupImageEditorModal);
 
     // reinitialize after previews update
@@ -98,5 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .forEach(setupImageEditorModal);
 
         console.log('reinitialized image editor modals for media manager', mediaManager);
+    });
+
+    document.addEventListener('imageEditorModalCloseRequest', (e) => {
+        const modal = e.detail.modal;
+        console.log('imageEditorModalCloseRequest', modal);
+        closeModal(modal);
     });
 });
