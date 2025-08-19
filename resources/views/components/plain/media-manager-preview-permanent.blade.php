@@ -23,72 +23,70 @@
                     :frontend-theme="$frontendTheme"
                 />
             </div>
-        @else
-            @if(isMediaType($medium, 'document'))
-                <div
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-document :medium="$medium"
-                                    class="previewed-document mle-cursor-zoom-in"
-                                    data-modal-trigger="#{{$id}}-modal"
-                                    data-slide-to="{{ $loop->index }}"
-                    />
-                </div>
-            @elseif(isMediaType($medium, 'video'))
-                <div
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-video 
-                        :medium="$medium" 
-                        class="mle-cursor-zoom-in"
-                    />
-                </div>
-            @elseif(isMediaType($medium, 'audio'))
-                <div
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-audio 
-                        :medium="$medium" 
-                        class="mle-cursor-zoom-in"
-                    />
-                </div>
-            @elseif(isMediaType($medium, 'image'))
-                <div
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
-                    class="media-manager-preview-item-container"
-                >
-                    <x-mle-image-responsive
-                        :medium="$medium"
-                        class="media-manager-image-preview mle-cursor-zoom-in"
-                        data-modal-trigger="#{{$id}}-mod"
-                        data-slide-to="{{ $loop->index }}"
-                        draggable="false"
-                    />
-                </div>
-                {{-- TODO title --}}
-                <x-mle-image-editor-modal
-                    title=""
-                    :initiator-id="$id"
-                    id="{{ $id }}" 
-                    :medium="$medium" 
-                    :model-or-class-name="$modelOrClassName"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :audio-collection="$audioCollection"
-                    :video-collection="$videoCollection"
-                    :frontend-theme="$frontendTheme"
+        @elseif(isMediaType($medium, 'document'))
+            <div
+                data-modal-trigger="#{{$id}}-mod"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-document :medium="$medium"
+                                class="previewed-document mle-cursor-zoom-in"
+                                data-modal-trigger="#{{$id}}-modal"
+                                data-slide-to="{{ $loop->index }}"
                 />
-            @else
-                {{ __('media-library-extensions::messages.non_supported_file_format') }}
-            @endif
+            </div>
+        @elseif(isMediaType($medium, 'video'))
+            <div
+                data-modal-trigger="#{{$id}}-mod"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-video 
+                    :medium="$medium" 
+                    class="mle-cursor-zoom-in"
+                />
+            </div>
+        @elseif(isMediaType($medium, 'audio'))
+            <div
+                data-modal-trigger="#{{$id}}-mod"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-audio 
+                    :medium="$medium" 
+                    class="mle-cursor-zoom-in"
+                />
+            </div>
+        @elseif(isMediaType($medium, 'image'))
+            <div
+                data-modal-trigger="#{{$id}}-mod"
+                data-slide-to="{{ $loop->index }}"
+                class="media-manager-preview-item-container"
+            >
+                <x-mle-image-responsive
+                    :medium="$medium"
+                    class="media-manager-image-preview mle-cursor-zoom-in"
+                    data-modal-trigger="#{{$id}}-mod"
+                    data-slide-to="{{ $loop->index }}"
+                    draggable="false"
+                />
+            </div>
+            {{-- TODO title --}}
+            <x-mle-image-editor-modal
+                title=""
+                :initiator-id="$id"
+                id="{{ $id }}" 
+                :medium="$medium" 
+                :model-or-class-name="$modelOrClassName"
+                :image-collection="$imageCollection"
+                :document-collection="$documentCollection"
+                :youtube-collection="$youtubeCollection"
+                :audio-collection="$audioCollection"
+                :video-collection="$videoCollection"
+                :frontend-theme="$frontendTheme"
+            />
+        @else
+            {{ __('media-library-extensions::messages.non_supported_file_format') }}
         @endif
         @if($showMenu)
             <div class="media-manager-preview-menu">
