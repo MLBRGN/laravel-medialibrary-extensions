@@ -12,7 +12,6 @@
             <div
                 class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
-{{--                data-bs-target="#{{$id}}-modal"--}}
                 data-bs-target="#{{$id}}-mod"
             >
                 <x-mle-video-youtube
@@ -32,7 +31,6 @@
             >
                 <x-mle-document :medium="$medium"
                                 class="previewed-document mle-cursor-zoom-in"
-{{--                                data-bs-target="#{{ $id }}-modal-carousel"--}}
                                 data-bs-target="#{{ $id }}-mod-crs"
                                 data-bs-slide-to="{{ $loop->index }}"
                 />
@@ -66,7 +64,6 @@
         @elseif(isMediaType($medium, 'image'))
             <div
                 data-bs-toggle="modal"
-{{--                data-bs-target="#{{$id}}-modal"--}}
                 data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >

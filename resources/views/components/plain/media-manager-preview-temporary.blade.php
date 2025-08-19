@@ -11,7 +11,6 @@
         @if(isMediaType($medium, 'youtube-video'))
             <div
                 class="media-manager-preview-item-container"
-{{--                data-modal-trigger="#{{$id}}-modal"--}}
                 data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
             >
@@ -19,7 +18,6 @@
                     class="mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
-{{--                    data-modal-trigger="#{{$id}}-modal"--}}
                     data-modal-trigger="#{{$id}}-mod"
                     data-slide-to="{{ $loop->index }}"
                     :frontend-theme="$frontendTheme"
@@ -27,7 +25,6 @@
             </div>
         @elseif(isMediaType($medium, 'document'))
             <div
-                {{--data-modal-trigger="#{{$id}}-modal"--}}
                 data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
                 class="media-manager-preview-item-container"
@@ -123,7 +120,7 @@
                             </button>
                         @endif
                         @if($setAsFirstEnabled)
-                            @if($medium->order_column === $media->min('order_column'))
+                            @if($medium->getCustomProperty('priority') === 0)
                                 <button
                                     type="button"
                                     class="mle-button mle-button-icon btn btn-primary"

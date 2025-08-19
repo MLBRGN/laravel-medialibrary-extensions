@@ -26,13 +26,11 @@
         @elseif(isMediaType($medium, 'document'))
             <div
                 data-bs-toggle="modal"
-{{--                data-bs-target="#{{$id}}-modal"--}}
                 data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-document :medium="$medium"
                                 class="previewed-document mle-cursor-zoom-in"
-{{--                                data-bs-target="#{{ $id }}-modal-carousel"--}}
                                 data-bs-target="#{{ $id }}-mod-crs"
                                 data-bs-slide-to="{{ $loop->index }}"
                 />
@@ -73,7 +71,6 @@
                     src="{{ $medium->getUrl() }}" 
                     class="media-manager-image-preview mle-cursor-zoom-in" 
                     alt="{{ $medium->name }}"
-                    {{--                    data-bs-target="#{{$id}}-modal-carousel"--}}
                     data-bs-target="#{{$id}}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
                     draggable="false"
