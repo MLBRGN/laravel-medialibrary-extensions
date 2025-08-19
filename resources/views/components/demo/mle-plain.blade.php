@@ -184,6 +184,15 @@
         class="my-5"
         frontend-theme="plain"
     />
+
+    <h2 class="my-5">Media first available</h2>
+
+    <x-mle-first-available
+        id="media-first-available"
+        :model-or-class-name="$model"
+        :media-collections="['alien-single-audio', 'alien-single-video', 'alien-single-document', 'alien-single-image', 'alien-single-youtube-video']"
+    />
+
 </div>
 @once
     <script type="module" src="{{ asset('vendor/media-library-extensions/demo.js') }}"></script>
