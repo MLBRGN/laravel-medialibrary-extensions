@@ -133,7 +133,12 @@
         data-bs-target="#{{ $id }}" 
         data-bs-slide="prev" 
         title="{{ __('media-library-extensions::messages.previous') }}">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="carousel-control-prev-icon" aria-hidden="true">
+              <x-mle-partial-icon
+                  name="{{ config('media-library-extensions.icons.prev') }}"
+                  title="{{ __('media-library-extensions::messages.previous') }}"
+              />
+        </span>
         <span class="visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
     </button>
     <button
@@ -146,7 +151,12 @@
         data-bs-target="#{{ $id }}" 
         data-bs-slide="next" 
         title="{{ __('media-library-extensions::messages.next') }}">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="carousel-control-next-icon" aria-hidden="true">
+               <x-mle-partial-icon
+                   name="{{ config('media-library-extensions.icons.next') }}"
+                   title="{{ __('media-library-extensions::messages.next') }}"
+               />
+        </span>
         <span class="visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
     </button>
 </div>
