@@ -49,15 +49,6 @@
 
     .mle-visually-hidden {
         display: none;
-
-        //width: 1px !important;
-        //height: 1px !important;
-        //padding: 0 !important;
-        //margin: -1px !important;
-        //overflow: hidden !important;
-        //clip: rect(0, 0, 0, 0) !important;
-        //white-space: nowrap !important;
-        //border: 0 !important;
     }
 
     .mle-youtube-video {
@@ -92,7 +83,7 @@
         margin-block: 1rem;
     }
 
-    .mle-button-icon {
+    .mle-button.mle-button-icon {
         margin:0;
         margin-inline-start: .5rem;
         width: 30px;
@@ -103,6 +94,7 @@
         justify-content: center;
         background-color: var(--mlbrgn-mle-button-alt-bg-color);
         color: var(--mlbrgn-mle-button-alt-fg-color);
+        border:1px solid #0d6efd;
     }
 
     .mle-button-icon:hover {
@@ -125,7 +117,11 @@
     }
 
     .mle-icon-container {
-        position:relative;
+        line-height: 1;
+        display: flex;
+        aspect-ratio: 1;
+        align-items: center;
+        justify-content: center;
     }
 
     .mle-icon-container-youtube-play-button {
@@ -200,16 +196,6 @@
         width:fit-content;
     }
 
-    //.mle-spinner {
-    //    width: 1.5rem;
-    //    height: 1.5rem;
-    //    border: 0.2em solid #ccc;
-    //    border-top-color: #007bff;
-    //    border-radius: 50%;
-    //    animation: spin 1s linear infinite;
-    //    display: inline-block; /* or block */
-    //    vertical-align: middle;
-    //}
     .mle-spinner {
         flex: 0 0 auto;          /* don't let flexbox resize it */
         display: inline-block;   /* prevent inline distortions */
@@ -381,148 +367,6 @@
         padding-left: 1.25rem;
         color: var(--mlbrgn-mle-color-primary);
     }
-
-
-
-    //    .mle-debug {
-//    background: #f9f9f9;
-//    border: 1px solid #ddd;
-//    padding: 1rem;
-//    margin-top: 1rem;
-//    font-size: 0.875rem;
-//    color: #333;
-//    border-radius: 6px;
-//}
-//
-//.mle-debug h2 {
-//    font-size: 1.25rem;
-//    margin-bottom: 1rem;
-//}
-//
-//.mle-debug-wrapper .mle-debug-toggle {
-//    background: #e2e8f0;
-//    border: none;
-//    padding: 0.5rem 1rem;
-//    font-weight: bold;
-//    border-radius: 4px;
-//    cursor: pointer;
-//    margin-bottom: 0.5rem;
-//}
-//
-//.mle-debug .mle-debug-section {
-//    flex: 1 1 300px;
-//    margin: 0 1rem 1rem 0;
-//    min-width: 250px;
-//    background: #fff;
-//    border: 1px solid #eee;
-//    padding: 1rem;
-//    border-radius: 4px;
-//    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.05);
-//}
-//
-//.mle-debug .mle-debug-section h3 {
-//    font-size: 1rem;
-//    margin-bottom: 0.75rem;
-//    border-bottom: 1px solid #eee;
-//    padding-bottom: 0.25rem;
-//    color: #444;
-//}
-//
-//.mle-debug .mle-debug-section ul {
-//    list-style: none;
-//    padding: 0;
-//    margin: 0;
-//}
-//
-//.mle-debug .mle-debug-section ul li {
-//    margin-bottom: 0.5rem;
-//}
-//
-//.mle-debug .mle-debug-section code {
-//    background-color: #f1f5f9;
-//    padding: 0.2rem 0.4rem;
-//    border-radius: 3px;
-//}
-//
-//.mle-debug .mle-debug-errors {
-//    margin-top: 1.5rem;
-//    border: 1px solid #f87171;
-//    background: #fef2f2;
-//    color: #991b1b;
-//    padding: 1rem;
-//    border-radius: 4px;
-//}
-//
-//.mle-debug .mle-debug-errors h3 {
-//    margin-bottom: 0.5rem;
-//}
-//
-//.mle-debug .mle-debug-errors ul {
-//    padding-left: 1rem;
-//    list-style: disc;
-//}
-//
-//.mle-debug #mle-debug-content {
-//    display: flex;
-//    flex-wrap: wrap;
-//    gap: 1rem;
-//}
-//
-//
-//
-//
-//
-//    .mle-debug-wrapper {
-//        margin: 1.5rem 0;
-//        font-family: system-ui, sans-serif;
-//    }
-//
-//    .mle-debug-toggle {
-//        background: var(--mlbrgn-mle-color-primary-lighter);
-//        color: var(--mlbrgn-mle-color-primary-lighter-contrast);
-//        border: 1px solid var(--mlbrgn-mle-color-primary-lighter-contrast);
-//        padding: 0.5rem 0.75rem;
-//        font-size: 0.95rem;
-//        border-radius: 0.3rem;
-//        cursor: pointer;
-//    }
-//
-//    .mle-debug {
-//        background-color: var(--mlbrgn-mle-color-primary-lighter);
-//        border: 1px solid var(--mlbrgn-mle-color-primary-lighter-contrast);
-//        color: var(--mlbrgn-mle-color-primary-lighter-contrast);
-//        padding: 1rem;
-//        border-radius: 0.5rem;
-//        margin-top: 1rem;
-//    }
-//
-//    .mle-debug h2 {
-//        font-size: 1.25rem;
-//        margin-top: 0;
-//        margin-bottom: 0.75rem;
-//        color: var(--mlbrgn-mle-color-primary);
-//    }
-//
-//    .mle-debug ul {
-//        list-style: none;
-//        padding-left: 0;
-//        margin-bottom: 0;
-//    }
-//
-//    .mle-debug li {
-//        margin: 0.25rem 0;
-//    }
-//
-//    .mle-debug-errors h3 {
-//        color: var(--mlbrgn-mle-color-primary);
-//        margin-top: 1rem;
-//        font-size: 1rem;
-//    }
-//
-//    .mle-debug-errors ul {
-//        padding-left: 1.25rem;
-//        color: var(--mlbrgn-mle-color-primary);
-//    }
 
     .hidden {
         display: none;

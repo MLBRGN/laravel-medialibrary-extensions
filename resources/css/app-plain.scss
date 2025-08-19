@@ -2,11 +2,9 @@
 @use "plain/media-carousel";
 
 @use "shared/general";
-@use "shared/media-carousel"  as sharedCarousel;
+@use "shared/media-carousel" as sharedCarousel;
 @use "shared/media-manager" as sharedManager;
 
-//@use "plain/image-editor-modal";
-//@use "plain/media-modal";
 @use "plain/mle";
 @use "plain/modal_core";
 @use "plain/media-modal";
