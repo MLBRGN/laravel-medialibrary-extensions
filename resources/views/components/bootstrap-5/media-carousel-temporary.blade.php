@@ -41,17 +41,18 @@
     <div class="media-carousel-inner carousel-inner">
         @forelse($mediaItems as $index => $medium)
             <div
-{{--                id="{{ $id }}-slide-{{ $loop->index }}"--}}
                 @class([
                 'media-carousel-item',
                 'carousel-item',
                 'active' => $loop->first,
                 'mle-cursor-zoom-in' => $expandableInModal
             ])>
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-{{--                     data-bs-target="#{{$id}}-modal"--}}
-                     data-bs-target="#{{$id}}-mod"
+                <div class="media-carousel-item-container"
+                     @if($expandableInModal)
+                         data-bs-toggle="modal"
+                         data-bs-target="#{{$id}}-mod"
+                    @endif
+                     
                 >
                 @if(isMediaType($medium, 'youtube-video'))
                     @if ($inModal)
@@ -65,7 +66,6 @@
                             class="mle-video-responsive"
                             :medium="$medium" 
                             :preview="true"  
-{{--                            data-bs-target="#{{$id}}-modal-carousel"--}}
                             data-bs-target="#{{$id}}-mod-crs"
                             data-bs-slide-to="{{ $loop->index }}"
                         />
@@ -73,14 +73,12 @@
                 @elseif(isMediaType($medium, 'document'))
                     <x-mle-document :medium="$medium"
                                     class="mle-document mle-cursor-zoom-in"
-{{--                                    data-bs-target="{{ $id }}-modal"--}}
                                     data-bs-target="{{ $id }}-mod"
                                     data-bs-slide-to="{{ $loop->index }}"
                     />
                 @elseif(isMediaType($medium, 'video'))
                     <div
                         data-bs-toggle="modal"
-{{--                        data-bs-target="#{{$id}}-modal"--}}
                         data-bs-target="#{{$id}}-mod"
                         class="media-manager-preview-item-container"
                     >
@@ -89,7 +87,6 @@
                 @elseif(isMediaType($medium, 'audio'))
                     <div
                         data-bs-toggle="modal"
-{{--                        data-bs-target="#{{$id}}-modal"--}}
                         data-bs-target="#{{$id}}-mod"
                         class="media-manager-preview-item-container"
                     >

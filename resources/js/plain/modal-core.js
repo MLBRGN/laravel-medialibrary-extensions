@@ -59,6 +59,9 @@ export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
 }
 
 function defaultClickHandler(e) {
+    console.log('click target', e.target);
+    e.stopPropagation();
+
     const target = e.target;
     const trigger = target.closest('[data-modal-trigger]');
     if (trigger) {

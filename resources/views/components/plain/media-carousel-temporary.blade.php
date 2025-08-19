@@ -50,10 +50,9 @@
                 'active' => $loop->first,
                 'mle-cursor-zoom-in' => $expandableInModal
             ])>
-                <div class="media-carousel-item-container evertjan"
+                <div class="media-carousel-item-container"
                      @if($expandableInModal)
-{{--                         data-modal-trigger="{{ $id }}-modal"--}}
-                         data-modal-trigger="{{ $id }}-mod"
+                         data-modal-trigger="#{{ $id }}-mod"
                          data-slide-to="{{ $loop->index }}"
                     @endif
                 >
@@ -77,7 +76,6 @@
                         />
                     @elseif(isMediaType($medium, 'video'))
                         <div
-{{--                            data-modal-trigger="{{ $id }}-modal"--}}
                             data-modal-trigger="{{ $id }}-mod"
                             class="media-manager-preview-item-container"
                         >
@@ -85,7 +83,6 @@
                         </div>
                     @elseif(isMediaType($medium, 'audio'))
                         <div
-{{--                            data-modal-trigger="{{ $id }}-modal"--}}
                             data-modal-trigger="{{ $id }}-mod"
                             class="media-manager-preview-item-container"
                         >

@@ -33,7 +33,7 @@
                     class="media-manager-preview-item-container"
                 >
                     <x-mle-document :medium="$medium"
-                                    class="evertjan previewed-document mle-cursor-zoom-in"
+                                    class="previewed-document mle-cursor-zoom-in"
                                     data-modal-trigger="#{{$id}}-modal"
                                     data-slide-to="{{ $loop->index }}"
                     />

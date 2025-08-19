@@ -125,20 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function mediaModalClickHandler(e) {
         const trigger = e.target.closest('[data-modal-trigger]');
+        console.log('trigger', trigger);
         if (!trigger) return;
 
         const modalId = trigger.getAttribute('data-modal-trigger');
         const slideTo = parseInt(trigger.getAttribute('data-slide-to') || '0', 10);
-
-        console.log('slideTo', slideTo);
-        baseOpenModal(modalId);
-
         const modal = document.querySelector(modalId);
         const carousel = modal?.querySelector('[data-carousel]');
+        const controller = getCarouselController(carousel);
+
+        console.log('modalId', modalId);
+        console.log('slideTo', slideTo);
         console.log('modal', modal);
         console.log('carousel', carousel);
         // console.log('carousels', carousels);
-        const controller = getCarouselController(carousel);
         console.log('controller', controller);
         if (controller) {
             controller.goToSlide(slideTo, true);
