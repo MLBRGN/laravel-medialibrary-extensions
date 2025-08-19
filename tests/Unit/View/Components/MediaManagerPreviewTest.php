@@ -78,10 +78,12 @@ it('sets showMenu to false if all destroyEnabled, showOrder and setAsFirstEnable
 
     expect($component->showMenu)->toBeFalse();
 });
-
 it('merges media from model collections correctly', function () {
     $media1 = Mockery::mock(Media::class);
+    $media1->shouldReceive('getCustomProperty')->with('priority', PHP_INT_MAX)->andReturn(PHP_INT_MAX);
+
     $media2 = Mockery::mock(Media::class);
+    $media2->shouldReceive('getCustomProperty')->with('priority', PHP_INT_MAX)->andReturn(PHP_INT_MAX);
 
     $collectionImages = collect([$media1]);
     $collectionDocs = collect([$media2]);
@@ -103,6 +105,7 @@ it('merges media from model collections correctly', function () {
     expect($component->media)->toBeInstanceOf(Collection::class)
         ->and($component->media->count())->toBe(2);
 });
+
 
 it('merges temporary uploads when temporaryUploads is true', function () {
     // Mock TemporaryUpload::forCurrentSession to return collections with different counts

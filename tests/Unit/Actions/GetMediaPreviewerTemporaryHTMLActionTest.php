@@ -43,7 +43,7 @@ it('renders temporary media preview HTML and returns JSON response', function ()
             expect($component->setAsFirstEnabled)->toBe($requestData['set_as_first_enabled']);
             expect($component->showMediaUrl)->toBe($requestData['show_media_url']);
             expect($component->showOrder)->toBe($requestData['show_order']);
-            expect($component->temporaryUploads)->toBeTrue();
+            expect($component->temporaryUpload)->toBeTrue();
 
             return true;
         })
@@ -60,4 +60,4 @@ it('renders temporary media preview HTML and returns JSON response', function ()
         'success' => true,
         'target' => $initiatorId,
     ]);
-})->todo();
+});

@@ -5,7 +5,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 beforeEach(function () {
@@ -84,7 +83,7 @@ it('replaces a permanent medium (redirect)', function () {
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiatorId'])->toBe('eg');
+    expect($status['initiator_id'])->toBe('eg');
     expect($status['type'])->toBe('success');
     expect($status['message'])->toBe(__('media-library-extensions::messages.medium_replaced'));
 });

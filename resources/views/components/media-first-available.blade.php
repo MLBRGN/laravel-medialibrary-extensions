@@ -69,4 +69,4 @@
         @endif
     </div>
 @endif
-<x-mle-partial-assets include-css="true" include-js="false" include-youtube-player="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets include-css="true" include-js="false" include-youtube-player="true" :frontend-theme="$frontendTheme"/>

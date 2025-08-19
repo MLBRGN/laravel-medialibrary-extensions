@@ -86,7 +86,7 @@ it('stores temporary thumbnail successfully (redirect)', function () {
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiatorId'])->toBe('abc');
+    expect($status['initiator_id'])->toBe('abc');
     expect($status['type'])->toBe('success');
     expect($status['message'])->toBe(__('media-library-extensions::messages.youtube_video_uploaded'));
 });
@@ -137,7 +137,7 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiatorId'])->toBe('abc');
+    expect($status['initiator_id'])->toBe('abc');
     expect($status['type'])->toBe('error');
     expect($status['message'])->toBe(__('media-library-extensions::messages.youtube_thumbnail_download_failed'));
 });
@@ -186,7 +186,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiatorId'])->toBe('abc');
+    expect($status['initiator_id'])->toBe('abc');
     expect($status['type'])->toBe('error');
     expect($status['message'])->toBe(__('media-library-extensions::messages.upload_no_youtube_url'));
 });

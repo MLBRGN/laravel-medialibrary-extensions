@@ -126,7 +126,7 @@
         data-bs-slide="prev" 
         title="{{ __('media-library-extensions::messages.previous') }}">
         <span class="carousel-control-prev-icon" aria-hidden="true">
-              <x-mle-partial-icon
+              <x-mle-shared-icon
                   name="{{ config('media-library-extensions.icons.prev') }}"
                   title="{{ __('media-library-extensions::messages.previous') }}"
               />
@@ -144,7 +144,7 @@
         data-bs-slide="next" 
         title="{{ __('media-library-extensions::messages.next') }}">
         <span class="carousel-control-next-icon" aria-hidden="true">
-               <x-mle-partial-icon
+               <x-mle-shared-icon
                    name="{{ config('media-library-extensions.icons.next') }}"
                    title="{{ __('media-library-extensions::messages.next') }}"
                />
@@ -160,4 +160,4 @@
         :media-collections="$mediaCollections"
         title="Media carousel"/>
 @endif
-<x-mle-partial-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$frontendTheme"/>

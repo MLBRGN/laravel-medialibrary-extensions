@@ -31,7 +31,7 @@
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
-                    <x-mle-partial-icon
+                    <x-mle-shared-icon
                         name="{{ config('media-library-extensions.icons.close') }}"
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
@@ -52,5 +52,5 @@
         </div>
     </div>
 </div>
-{{--<x-mle-partial-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$frontendTheme"/>--}}
-<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
+{{--<x-mle-shared-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$frontendTheme"/>--}}
+<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>

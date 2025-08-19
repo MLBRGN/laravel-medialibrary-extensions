@@ -19,4 +19,5 @@ trait ViewHelpers
         $viewPath = "media-library-extensions::components.$frontendTheme.partial.$viewName";
         return view($viewPath);
     }
+    
 }

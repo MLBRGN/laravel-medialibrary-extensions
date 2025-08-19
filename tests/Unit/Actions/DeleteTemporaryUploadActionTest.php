@@ -67,7 +67,7 @@ it('deletes the temporary upload and returns a redirect response with flash data
     expect($flashData)->not()->toBeNull();
 
     expect($flashData)->toMatchArray([
-        'initiatorId' => 'initiator-456',
+        'initiator_id' => 'initiator-456',
         'type' => 'success',
         'message' => __('media-library-extensions::messages.medium_removed'),
     ]);

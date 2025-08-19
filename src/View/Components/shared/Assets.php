@@ -2,7 +2,7 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\shared;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
@@ -22,6 +22,6 @@ class Assets extends Component
 
     public function render(): View
     {
-        return view('media-library-extensions::components.partial.assets');
+        return view('media-library-extensions::components.shared.assets');
     }
 }

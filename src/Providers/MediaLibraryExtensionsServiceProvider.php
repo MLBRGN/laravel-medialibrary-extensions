@@ -29,10 +29,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Assets;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
@@ -41,6 +38,9 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadDestro
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Assets;
+use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Mlbrgn\MediaLibraryExtensions\View\Components\YouTubeVideo;
@@ -130,6 +130,11 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
 
+        // shared partials for internal use
+        Blade::component($this->packageNameShort.'-shared-debug', Debug::class);
+        Blade::component($this->packageNameShort.'-shared-icon', Icon::class);
+        Blade::component($this->packageNameShort.'-shared-assets', Assets::class);
+
         // partials for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
         Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
@@ -137,11 +142,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-temporary-upload-destroy-form', TemporaryUploadDestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-set-as-first-form', SetAsFirstForm::class);
         Blade::component($this->packageNameShort.'-partial-temporary-upload-set-as-first-form', TemporaryUploadSetAsFirstForm::class);
-        Blade::component($this->packageNameShort.'-partial-debug', Debug::class);
-        Blade::component($this->packageNameShort.'-partial-icon', Icon::class);
         Blade::component($this->packageNameShort.'-partial-status-area', StatusArea::class);
         Blade::component($this->packageNameShort.'-partial-status', Status::class);
-        Blade::component($this->packageNameShort.'-partial-assets', Assets::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
 //                dd(Blade::getClassComponentAliases());

@@ -68,7 +68,7 @@ test('it stores file and returns redirect success', function () {
     $sessionData = $session->get('laravel-medialibrary-extensions.status');
 
     expect($sessionData['type'])->toBe('success');
-    expect($sessionData['initiatorId'])->toBe('abc');
+    expect($sessionData['initiator_id'])->toBe('abc');
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_success'));
 });
 
@@ -121,7 +121,7 @@ test('it returns error if no file is given (redirect)', function () {
     $sessionData = $session->get('laravel-medialibrary-extensions.status');
 
     expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiatorId'])->toBe('abc');
+    expect($sessionData['initiator_id'])->toBe('abc');
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_no_files'));
 });
 
@@ -185,7 +185,7 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
     $sessionData = $session->get('laravel-medialibrary-extensions.status');
 
     expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiatorId'])->toBe('bad');
+    expect($sessionData['initiator_id'])->toBe('bad');
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
 
@@ -268,6 +268,6 @@ test('it returns error if model already has media in given collections (redirect
     $sessionData = $session->get('laravel-medialibrary-extensions.status');
 
     expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiatorId'])->toBe('exists');
+    expect($sessionData['initiator_id'])->toBe('exists');
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.only_one_medium_allowed'));
 });

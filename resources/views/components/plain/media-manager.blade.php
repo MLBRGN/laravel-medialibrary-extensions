@@ -10,7 +10,7 @@
     data-media-manager=""
     >
     <input type="hidden" class="media-manager-config" value='@json($config)'>
-    <x-mle-partial-debug 
+    <x-mle-shared-debug 
         :frontend-theme="$frontendTheme" 
         :model-or-class-name="$modelOrClassName" 
         :config="$config" 
@@ -91,4 +91,4 @@
     </div>
     {{ $component_end ?? '' }}
 </div>
-<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>

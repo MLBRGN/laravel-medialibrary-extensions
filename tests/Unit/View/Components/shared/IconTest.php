@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Icon;
+use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Icon;
 
 it('detects when the Blade UI icon alias exists', function () {
     // Fake component alias

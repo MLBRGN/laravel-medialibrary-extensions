@@ -117,7 +117,7 @@
                             class="mle-button mle-button-icon btn btn-primary"
                             title="{{ __('media-library-extensions::messages.edit') }}"
                         >
-                            <x-mle-partial-icon
+                            <x-mle-shared-icon
                                 name="{{ config('media-library-extensions.icons.edit') }}"
                                 title="{{ __('media-library-extensions::messages.edit') }}"
                             />
@@ -130,7 +130,7 @@
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
                                 disabled>
-                                <x-mle-partial-icon
+                                <x-mle-shared-icon
                                     name="{{ config('media-library-extensions.icons.set-as-main') }}"
                                     title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
                                 />

@@ -95,10 +95,10 @@
     </div>
     {{ $component_end ?? '' }}
 
-    <x-mle-partial-debug
+    <x-mle-shared-debug
         :frontend-theme="$frontendTheme"
         :model-or-class-name="$modelOrClassName"
         :config="$config"
     />
 </div>
-<x-mle-partial-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>

@@ -22,17 +22,6 @@ class MediaResponse
         return self::respond($request, $initiatorId, 'error', $message, $extraData);
     }
 
-//    protected static function respond(Request $request, string $initiatorId, string $type, string $message, array $extraData = []): JsonResponse|RedirectResponse
-//    {
-//        $base = compact('initiatorId', 'type', 'message');
-//
-//        if ($request->expectsJson()) {
-//            return response()->json(array_merge($base, $extraData));
-//        }
-//
-//        return redirect()->back()->with(status_session_prefix(), $base);
-//    }
-
     protected static function respond(Request $request, string $initiatorId, string $type, string $message, array $extraData = []): JsonResponse|RedirectResponse
     {
         if ($request->expectsJson()) {

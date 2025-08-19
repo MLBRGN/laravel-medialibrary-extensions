@@ -50,7 +50,7 @@ test('image editor modal component renders', function () {
     ]);
 
     expect($html)
-        ->toContain('id="blog-images-image-editor-modal-' .$medium->id.'"')
+        ->toContain('id="blog-images-iem-' .$medium->id.'"')
         ->toContain((string) $medium->id)
         ->toContain('My title');
 

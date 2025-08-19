@@ -1,4 +1,4 @@
-<x-media-library-extensions::partial.conditional-form
+<x-media-library-extensions::shared.conditional-form
     :use-xhr="$useXhr"
     :form-attributes="[
         'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
@@ -85,5 +85,5 @@
     </button>
 </x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
+    <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
 @endif

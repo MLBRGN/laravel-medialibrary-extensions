@@ -24,10 +24,11 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
         id: 'set-as-first-btn',
         frontendTheme: 'plain',
         useXhr: null,
-        targetMediaCollection: 'default',
         imageCollection: 'images',
         documentCollection: 'documents',
         youtubeCollection: 'youtube',
+        videoCollection:  'videos',
+        audioCollection: 'audios',
         setAsFirstEnabled: true,
     );
 

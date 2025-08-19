@@ -2,7 +2,7 @@
 @if ($preview)
     <div class="mlbrgn-mle-component youtube-container">
         <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
-            <x-mle-partial-icon
+            <x-mle-shared-icon
                 class="mle-icon-container-youtube-play-button"
                 name="{{ config('media-library-extensions.icons.play_video') }}"
                 title="{{ __('media-library-extensions::messages.play_video') }}"
@@ -42,7 +42,7 @@
                     tabindex="-1"
                 >
                     <div class="mle-youtube-video mle-video-responsive">
-                        <x-mle-partial-icon
+                        <x-mle-shared-icon
                             class="mle-icon-container-youtube-play-button"
                             name="{{ config('media-library-extensions.icons.play_video') }}"
                             title="{{ __('media-library-extensions::messages.play_video') }}"
@@ -62,4 +62,4 @@
         </div>
     </div>
 @endif
-<x-mle-partial-assets include-css="true" include-js="false" include-youtube-player="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets include-css="true" include-js="false" include-youtube-player="true" :frontend-theme="$frontendTheme"/>

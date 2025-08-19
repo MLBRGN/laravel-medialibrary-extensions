@@ -15,7 +15,8 @@ class SetTemporaryUploadAsFirstAction
 {
     public function __construct(
         protected MediaService $mediaService
-    ) {}
+    ) {
+    }
 
     public function execute(SetTemporaryUploadAsFirstRequest $request): JsonResponse|RedirectResponse
     {
@@ -29,6 +30,15 @@ class SetTemporaryUploadAsFirstAction
             $request->input('video_collection'),
             $request->input('audio_collection'),
         ])->filter()->all();
+
+        // TODO validation should handle this, but doesn't work
+        if (count($collections) === 0) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.no_media_collections'),
+            );
+        }
 
         // Get temporary uploads for this session limited to the given collections
         $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())

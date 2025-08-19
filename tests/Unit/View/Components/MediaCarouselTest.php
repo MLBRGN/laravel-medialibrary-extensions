@@ -61,7 +61,7 @@ it('falls back to empty media collection when no model is provided', function ()
 
     expect($component->mediaItems)->toBeInstanceOf(MediaCollection::class)
         ->and($component->mediaCount)->toBe(0)
-        ->and($component->id)->toBe('carousel-empty-carousel');
+        ->and($component->id)->toBe('carousel-empty-crs');
 });
 
 it('uses provided frontend theme if given', function () {

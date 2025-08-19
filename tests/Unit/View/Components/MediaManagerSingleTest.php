@@ -31,14 +31,13 @@ it('initializes correctly with model instance', function () {
         ->and($component->destroyEnabled)->toBeTrue()
         ->and($component->showOrder)->toBeTrue()
         ->and($component->imageCollection)->toBe('images')
-        ->and($component->id)->toBe('blog-1-media-manager-single');
+        ->and($component->id)->toBe('blog-1-mms');
 });
 
 it('initializes correctly with model class name', function () {
     $component = new MediaManagerSingle(
         modelOrClassName: Blog::class,
         youtubeCollection: 'videos',
-        setAsFirstEnabled: true,
         useXhr: false,
     );
 
@@ -51,7 +50,7 @@ it('initializes correctly with model class name', function () {
 });
 
 it('defaults optional values when omitted', function () {
-    $component = new MediaManagerSingle(modelOrClassName: Blog::class);
+    $component = new MediaManagerSingle(modelOrClassName: Blog::class, imageCollection: 'blog-images',);
 
     expect($component->uploadEnabled)->toBeFalse()
         ->and($component->destroyEnabled)->toBeFalse()

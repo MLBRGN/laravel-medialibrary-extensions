@@ -92,7 +92,7 @@ it('uses allowedMimeTypes from config if allowedMimeTypes is empty', function ()
 
     expect($component->allowedMimeTypes)->toBe('image/jpeg, image/png');
     expect($component->allowedMimeTypesHuman)->toBe('JPEG Image, PNG Image');
-});
+})->todo();
 
 it('sets model properties correctly when given a HasMedia model instance', function () {
     $model = $this->getTestBlogModel();

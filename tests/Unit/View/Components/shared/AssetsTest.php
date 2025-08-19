@@ -1,6 +1,6 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Assets;
+use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Assets;
 
 it('sets default values from config', function () {
     config(['media-library-extensions.frontend_theme' => 'default-theme']);
@@ -37,5 +37,5 @@ it('renders the correct view', function () {
     $component = new Assets();
     $view = $component->render();
 
-    expect($view->name())->toBe('media-library-extensions::components.partial.assets');
+    expect($view->name())->toBe('media-library-extensions::components.shared.assets');
 });

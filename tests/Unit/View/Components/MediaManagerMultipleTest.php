@@ -31,7 +31,7 @@ it('initializes correctly with model instance', function () {
         ->and($component->destroyEnabled)->toBeTrue()
         ->and($component->showOrder)->toBeTrue()
         ->and($component->imageCollection)->toBe('images')
-        ->and($component->id)->toBe('blog-1-media-manager-multiple');
+        ->and($component->id)->toBe('blog-1-mmm');
 });
 
 it('initializes correctly with model class name', function () {
@@ -50,7 +50,7 @@ it('initializes correctly with model class name', function () {
 });
 
 it('defaults optional values when omitted', function () {
-    $component = new MediaManagerMultiple(modelOrClassName: Blog::class);
+    $component = new MediaManagerMultiple(modelOrClassName: Blog::class, imageCollection: 'blog-images',);
 
     expect($component->uploadEnabled)->toBeFalse()
         ->and($component->destroyEnabled)->toBeFalse()

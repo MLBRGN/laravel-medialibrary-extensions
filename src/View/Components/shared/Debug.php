@@ -2,7 +2,7 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\shared;
 
 use Exception;
 use Illuminate\Support\Collection;
@@ -73,6 +73,6 @@ class Debug extends Component
 
     public function render(): View
     {
-        return view('media-library-extensions::components.partial.debug');
+        return view('media-library-extensions::components.shared.debug');
     }
 }

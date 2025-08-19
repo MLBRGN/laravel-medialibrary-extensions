@@ -1,4 +1,4 @@
-<x-media-library-extensions::partial.conditional-form
+<x-media-library-extensions::shared.conditional-form
     :use-xhr="$useXhr"
     :form-attributes="[
         'action' => route(mle_prefix_route('temporary-upload-set-as-first'), $medium),
@@ -56,14 +56,14 @@
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-action="temporary-upload-set-as-first"
     >
-        <x-mle-partial-icon
+        <x-mle-shared-icon
             name="{{ config('media-library-extensions.icons.setup_as_main') }}"
             title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         />
     </button>
 </x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    <x-mle-partial-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
+    <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
 @endif
 
     

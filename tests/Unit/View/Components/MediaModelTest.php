@@ -76,7 +76,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 //        ->and($component->mediaItems)->toHaveCount(0);
 //});
 
-it('appends -modal to the id', function () {
+it('appends -mod to the id', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaModal(
         modelOrClassName: $model,
@@ -86,7 +86,7 @@ it('appends -modal to the id', function () {
         id: 'media1'
     );
 
-    expect($component->id)->toBe('media1-modal');
+    expect($component->id)->toBe('media1-mod');
 });
 
 it('returns the correct view on render', function () {

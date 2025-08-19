@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 class SetMediumAsFirstAction
@@ -30,6 +29,15 @@ class SetMediumAsFirstAction
             $request->input('video_collection'),
             $request->input('audio_collection'),
         ])->filter()->all();
+
+        // TODO validation should handle this, but doesn't work
+        if (count($collections) === 0) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                __('media-library-extensions::messages.no_media_collections'),
+            );
+        }
 
         // Flatten all media across the given collections
         $mediaItems = collect($collections)

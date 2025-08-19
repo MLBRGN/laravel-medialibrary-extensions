@@ -40,7 +40,7 @@ test('media manager component renders', function () {
 
 //    dd($html);
     expect($html)
-        ->toContain('blog-media-manager-multiple')
+        ->toContain('blog-mmm')
         ->toContain('Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog')
         ->toContain('media_multiple')
         ->toContain('csrf_token');
@@ -49,7 +49,7 @@ test('media manager component renders', function () {
 it('initializes without temporary upload when a eloquent model is provided', function () {
     config()->set('media-library-extensions.demo_pages_enabled', false);
     $model = Blog::create(['title' => 'test']);
-    $component = new MediaManager(modelOrClassName: $model, multiple: true);
+    $component = new MediaManager(modelOrClassName: $model, multiple: true, imageCollection: 'blog-main');
 
     expect($component->model)->not()->toBeNull()
         ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
@@ -60,7 +60,7 @@ it('initializes without temporary upload when a eloquent model is provided', fun
 });
 
 it('initializes with temporary upload when only model class name provided', function () {
-    $component = new MediaManager(modelOrClassName: 'App\\Models\\Post', multiple: true);
+    $component = new MediaManager(modelOrClassName: 'App\\Models\\Post', multiple: true, imageCollection: 'blog-main');
 
     expect($component->model)->toBeNull()
         ->and($component->modelType)->toBe('App\\Models\\Post')
