@@ -47,6 +47,13 @@ class MediaResponse
             'type' => $type,
             'message' => $message,
         ];
-        return redirect()->back()->with(status_session_prefix(), $base);
+
+        // Take the previous URL and append "#initiatorId"
+        $targetUrl = url()->previous() . '#' . $initiatorId;
+
+        return redirect()
+            ->to($targetUrl)
+            ->with(status_session_prefix(), $base);
+
     }
 }
