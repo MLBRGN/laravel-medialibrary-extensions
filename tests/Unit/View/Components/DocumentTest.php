@@ -58,7 +58,7 @@ test('document component renders unknown file type', function () {
     expect($html)
         ->toContain('class="mle-document"')
         ->toContain('class="mle-document-preview"')
-        ->toContain(__('media-library-extensions::messages.unknown-file-mime-type'));
+        ->toContain(__('media-library-extensions::messages.unknown_file_mimetype'));
 });
 
 it('renders the correct view with given properties', function () {
@@ -143,7 +143,7 @@ it('uses default alt text if none is provided', function () {
 //    expect($html)
 //        ->toContain('class="mle-document"')
 //        ->toContain('class="mle-document-preview"')
-//        ->toContain(__('media-library-extensions::messages.unknown-file-mime-type'));
+//        ->toContain(__('media-library-extensions::messages.unknown_file_mimetype'));
 //
 //});
 //

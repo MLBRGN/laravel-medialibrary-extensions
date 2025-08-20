@@ -11,9 +11,14 @@
     --mlbrgn-mle-color-accent: #ff5722;
     --mlbrgn-mle-container-bg-light: #e8e7e8;
     --mlbrgn-mle-container-bg: #cecdcf;
+    --mlbrgn-mle-container-fg-color: #333;
     --mlbrgn-mle-container-bg-dark: #b5b5b5;
     --mlbrgn-mle-control-input-color: #000;
     --mlbrgn-mle-color-contrast-disabled: #9cb1e1;
+    --mlbrgn-mle-box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    --mlbrgn-mle-document-preview-bg-icon-color: var(--mlbrgn-mle-container-bg-dark);
+    --mlbrgn-mle-document-preview-fg-icon-color: var(--mlbrgn-mle-container-bg-dark);
 
     --mlbrgn-mle-button-icon-bg: var(--mlbrgn-mle-container-bg-light);
     --mlbrgn-mle-button-icon-border-radius: .5em;

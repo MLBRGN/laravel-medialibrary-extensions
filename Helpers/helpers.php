@@ -17,15 +17,28 @@ if (! function_exists('mle_package_asset')) {
     }
 }
 
-function mimetype_label(string $mimeType): string
-{
-    $map = config('media-library-extensions.mimetype_labels', []);
+if (! function_exists('mle_human_mimetype_label')) {
+    function mle_human_mimetype_label(string $mimeType): string
+    {
+        $map = config('media-library-extensions.mimetype_labels', []);
 
-    if (! isset($map[$mimeType])) {
-        return $mimeType; // fallback
+        if (!isset($map[$mimeType])) {
+            return $mimeType; // fallback
+        }
+
+        return __('media-library-extensions::'.$map[$mimeType]);
     }
+}
 
-    return __('media-library-extensions::'.$map[$mimeType]);
+if (! function_exists('mle_human_filesize')) {
+    function mle_human_filesize(int|null $bytes, int $decimals = 2): string
+    {
+        if ($bytes === null) return  __('media-library-extensions::messages.unknown_file_size');
+        $size = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        $factor = floor((strlen((string) $bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)) . ' ' . $size[$factor];
+    }
 }
 
 // TODO still needed?
@@ -75,18 +88,18 @@ if (! function_exists('extractYouTubeId')) {
     }
 }
 
-if (! function_exists('getHumanMimeTypeLabel')) {
-    function getHumanMimeTypeLabel(string $mimeType): string
-    {
-
-        $mimetypeLabels = config('media-library-extensions.mimetype_labels');
-        if (array_key_exists($mimeType, $mimetypeLabels)) {
-            return $mimetypeLabels[$mimeType];
-        }
-
-        return $mimeType;
-    }
-}
+//if (! function_exists('getHumanMimeTypeLabel')) {
+//    function getHumanMimeTypeLabel(string $mimeType): string
+//    {
+//
+//        $mimetypeLabels = config('media-library-extensions.mimetype_labels');
+//        if (array_key_exists($mimeType, $mimetypeLabels)) {
+//            return $mimetypeLabels[$mimeType];
+//        }
+//
+//        return $mimeType;
+//    }
+//}
 
 if (! function_exists('isMediaType')) {
     function isMediaType($medium, string $type): bool

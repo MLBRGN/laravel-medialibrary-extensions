@@ -4,7 +4,7 @@
             <div
                 class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-modal"
+                data-bs-target="#{{$id}}-mod"
             >
                 <x-mle-video-youtube
                     class="mle-video-youtube mle-video-responsive"
@@ -17,7 +17,7 @@
         @elseif(isMediaType($medium, 'document'))
             <div
                 data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-modal"
+                data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-document :medium="$medium"
@@ -29,7 +29,7 @@
         @elseif(isMediaType($medium, 'video'))
             <div
                 data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-modal"
+                data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-video
@@ -41,7 +41,7 @@
         @elseif(isMediaType($medium, 'audio'))
             <div
                 data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-modal"
+                data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-audio
@@ -53,7 +53,7 @@
         @elseif(isMediaType($medium, 'image'))
             <div
                 data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-modal"
+                data-bs-target="#{{$id}}-mod"
                 class="media-manager-preview-item-container"
             >
                 <x-mle-image-responsive

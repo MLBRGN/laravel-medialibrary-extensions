@@ -18,8 +18,6 @@
                     class="mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
                     :frontend-theme="$frontendTheme"
                 />
             </div>
@@ -31,8 +29,6 @@
             >
                 <x-mle-document :medium="$medium"
                                 class="previewed-document mle-cursor-zoom-in"
-                                data-modal-trigger="#{{$id}}-mod"
-                                data-slide-to="{{ $loop->index }}"
                 />
             </div>
         @elseif(isMediaType($medium, 'video'))
@@ -67,8 +63,6 @@
                     src="{{ $medium->getUrl() }}" 
                     class="media-manager-image-preview mle-cursor-zoom-in" 
                     alt="{{ $medium->name }}"
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
                     draggable="false"
                 >
               

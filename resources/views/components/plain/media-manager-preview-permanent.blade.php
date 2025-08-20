@@ -11,15 +11,13 @@
         @if(isMediaType($medium, 'youtube-video'))
             <div
                 class="media-manager-preview-item-container"
-                data-modal-trigger="#{{$id}}-modal"
+                data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
             >
                 <x-mle-video-youtube
                     class="mle-video-responsive mle-cursor-zoom-in"
                     :medium="$medium"
                     :preview="true"
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
                     :frontend-theme="$frontendTheme"
                 />
             </div>
@@ -31,8 +29,6 @@
             >
                 <x-mle-document :medium="$medium"
                                 class="previewed-document mle-cursor-zoom-in"
-                                data-modal-trigger="#{{$id}}-modal"
-                                data-slide-to="{{ $loop->index }}"
                 />
             </div>
         @elseif(isMediaType($medium, 'video'))
@@ -66,8 +62,6 @@
                 <x-mle-image-responsive
                     :medium="$medium"
                     class="media-manager-image-preview mle-cursor-zoom-in"
-                    data-modal-trigger="#{{$id}}-mod"
-                    data-slide-to="{{ $loop->index }}"
                     draggable="false"
                 />
             </div>

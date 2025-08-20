@@ -244,7 +244,7 @@ return [
         'wordprocessing-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_WORD', 'bi-file-earmark-richtext'),
         'spreadsheet-document' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-spreadsheet'),
         'presentation-document' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-slides'),
-        'unknown-file-mime-type' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_UNKNOWN', 'bi-file-earmark'),
+        'unknown_file_mimetype' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_UNKNOWN', 'bi-file-earmark'),
         'edit' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-pencil'),
         'video-file' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-play'),
         'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-music'),

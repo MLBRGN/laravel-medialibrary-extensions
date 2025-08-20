@@ -99,7 +99,7 @@ class UploadForm extends BaseComponent
         // Use override if provided
         if (!empty($this->allowedMimeTypes)) {
             $this->allowedMimeTypesHuman = collect(explode(',', $this->allowedMimeTypes))
-                ->map(fn($mime) => mimetype_label($mime))
+                ->map(fn($mime) => mle_human_mimetype_label($mime))
                 ->join(', ');
 
             return;
@@ -127,7 +127,7 @@ class UploadForm extends BaseComponent
         $allowedMimeTypes = $allowedMimeTypes->flatten()->unique();
 
         $this->allowedMimeTypesHuman = $allowedMimeTypes
-            ->map(fn($mime) => mimetype_label($mime))
+            ->map(fn($mime) => mle_human_mimetype_label($mime))
             ->join(', ');
 
         $this->allowedMimeTypes = $allowedMimeTypes
@@ -159,7 +159,7 @@ class UploadForm extends BaseComponent
 //        }
 //
 //        $this->allowedMimeTypesHuman = $allowedMimeTypes
-//            ->map(fn ($mime) => mimetype_label($mime))
+//            ->map(fn ($mime) => mle_human_mimetype_label($mime))
 //            ->join(', ');
 //
 //        $this->allowedMimeTypes = $allowedMimeTypes

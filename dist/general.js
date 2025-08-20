@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("[data-mle-document-link]").forEach(e=>{console.log("add listener to click on link",e),e.addEventListener("click",o=>{o.preventDefault(),o.stopPropagation(),o.stopImmediatePropagation(),console.log("clicked",e)})})});

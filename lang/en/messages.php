@@ -40,7 +40,8 @@ return [
     'supported_file_formats_:supported_formats' => 'Supported file formats: :supported_formats.',
     'non_supported_file_format' => 'Non-supported file format',
     'no_permission' => 'No permission.',
-    'unknown-file-mime-type' => 'Unknown file type.',
+    'unknown_file_mimetype' => 'Unknown file type.',
+    'unknown_file_size' => 'Unknown file size.',
     'word-document' => 'Word document.',
     'pdf-document' => 'PDF document.',
     'show_document' => 'Toon document.',
@@ -56,4 +57,5 @@ return [
     'only_one_medium_allowed' => 'Only one medium allowed.',
     'invalid_youtube_url' => 'Invalid YouTube URL.',
     'something_went_wrong' => 'Something went wrong.',
+    'open_document' => 'Open document',
 ];

@@ -85,8 +85,8 @@ class Document extends Component
         ];
 
         $this->icon = $iconMap[$mimetype] ?? [
-            'name' => config('media-library-extensions.icons.unknown-file-mime-type'),
-            'title' => __('media-library-extensions::messages.unknown-file-mime-type'),
+            'name' => config('media-library-extensions.icons.unknown_file_mimetype'),
+            'title' => __('media-library-extensions::messages.unknown_file_mimetype'),
         ];
 
     }

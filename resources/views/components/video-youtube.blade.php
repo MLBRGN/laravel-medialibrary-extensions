@@ -1,6 +1,6 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if ($preview)
-    <div class="mlbrgn-mle-component youtube-container">
+{{--    <div class="mlbrgn-mle-component youtube-container">--}}
         <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
             <x-mle-shared-icon
                 class="mle-icon-container-youtube-play-button"
@@ -22,10 +22,10 @@
                 }}
             @endif
         </div>
-    </div>
+{{--    </div>--}}
 @else
-    <div class="mlbrgn-mle-component">
-        <div {{ $attributes->merge(['class' => 'mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}">
+{{--    <div class="mlbrgn-mle-component">--}}
+        <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}">
             <lite-youtube
 {{--                id="yt-video-slide"--}}
                 videoid="{{ $youtubeId }}"
@@ -60,6 +60,6 @@
             </lite-youtube>
             <div class="media-video-touch-overlay"></div>
         </div>
-    </div>
+{{--    </div>--}}
 @endif
 <x-mle-shared-assets include-css="true" include-js="false" include-youtube-player="true" :frontend-theme="$frontendTheme"/>

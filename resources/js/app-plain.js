@@ -1,5 +1,6 @@
 // noinspection ES6UnusedImports
 
+import '@/js/shared/general';
 import '@/js/plain/media-carousel';
 import '@/js/plain/modal-core'
 import '@/js/plain/modal-media'

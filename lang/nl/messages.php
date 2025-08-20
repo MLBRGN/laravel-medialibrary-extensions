@@ -41,7 +41,8 @@ return [
     'supported_file_formats_:supported_formats' => 'Ondersteunde bestandsformaten: :supported_formats.',
     'non_supported_file_format' => 'Niet ondersteund bestandsformaat',
     'no_permission' => 'Geen permissie.',
-    'unknown-file-mime-type' => 'Onbekend bestandstype.',
+    'unknown_file_mimetype' => 'Onbekend bestandstype.',
+    'unknown_file_size' => 'Bestandsgrootte onbekend.',
     'word-document' => 'Word document.',
     'pdf-document' => 'PDF document.',
     'show_document' => 'Toon document.',
@@ -57,4 +58,5 @@ return [
     'only_one_medium_allowed' => 'Slechts een bestand toegestaan.',
     'invalid_youtube_url' => 'Ongeldig YouTube URL.',
     'something_went_wrong' => 'Er ging iets verkeerd.',
+    'open_document' => 'Open document',
 ];

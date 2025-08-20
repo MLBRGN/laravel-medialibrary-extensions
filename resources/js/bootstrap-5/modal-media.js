@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // when the carousel opens on the first slide and this happens to be a YouTube video,
         // we need to start playing the video on modal open.
         modal.addEventListener('shown.bs.modal', (e) => {
+            console.log('relatedTarget', e.relatedTarget);
+            console.log('target', e.target);
             if (!modal.hasAttribute('data-video-autoplay')) {
                 return;
             }
