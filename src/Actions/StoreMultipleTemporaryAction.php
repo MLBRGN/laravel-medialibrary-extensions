@@ -7,13 +7,11 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultipleTemporaryAction
@@ -22,7 +20,6 @@ class StoreMultipleTemporaryAction
 
     public function __construct(
         protected MediaService $mediaService,
-//        protected YouTubeService $youTubeService
     ) {}
 
     public function execute(MediaManagerUploadMultipleRequest $request): RedirectResponse|JsonResponse
@@ -94,6 +91,7 @@ class StoreMultipleTemporaryAction
                 'file_name' => $originalName,
                 'collection_name' => $collection,
                 'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
                 'user_id' => Auth::check() ? Auth::id() : null,
                 'session_id' => $sessionId,
                 'order_column' => $nextPriority,

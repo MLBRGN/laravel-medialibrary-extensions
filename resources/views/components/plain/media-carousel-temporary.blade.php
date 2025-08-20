@@ -44,7 +44,6 @@
     <div class="media-carousel-inner">
         @forelse($mediaItems as $index => $medium)
             <div
-{{--                id="{{ $id }}-slide-{{ $loop->index }}"--}}
                 @class([
                 'media-carousel-item',
                 'active' => $loop->first,
@@ -73,6 +72,7 @@
                     @elseif(isMediaType($medium, 'document'))
                         <x-mle-document :medium="$medium"
                             class="mle-document mle-cursor-zoom-in"
+                            :preview="false"
                         />
                     @elseif(isMediaType($medium, 'video'))
                         <div

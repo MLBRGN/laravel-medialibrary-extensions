@@ -10,13 +10,21 @@
                 {{ Str::limit($medium->file_name, 15) }}
             </p>
             <p>
-                {{ mle_human_filesize($medium->size) }}
+                {{ mle_human_filesize($medium->size, 0) }}
             </p>
+            @if(!$preview)
+                <a href="{{ $medium->getUrl() }}" target="_blank" class="mle-document-link" data-mle-document-link>
+            @endif
                 <x-mle-shared-icon
                     class="mle-document-fg-icon"
                     :name="$icon['name']"
                     :title="$icon['title']"
                 />
+                    
+            @if(!$preview)
+                    {{ __('media-library-extensions::messages.open_document') }}
+                </a>
+            @endif
         </div>
     </div>
 </div>

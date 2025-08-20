@@ -20,6 +20,7 @@ class TemporaryUpload extends Model
         'file_name',
         'collection_name',
         'mime_type',
+        'size',
         'session_id',
         'user_id',
         'custom_properties',

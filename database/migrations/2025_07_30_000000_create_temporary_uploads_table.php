@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('file_name')->comment('Stored as name of the file');
             $table->string('collection_name');
             $table->string('mime_type')->nullable();
+            $table->unsignedBigInteger('size');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('session_id')->nullable();
             $table->json('custom_properties')->nullable();

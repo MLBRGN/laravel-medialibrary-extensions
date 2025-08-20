@@ -74,6 +74,7 @@
                     @elseif(isMediaType($medium, 'document'))
                         <x-mle-document :medium="$medium"
                             class="mle-document mle-cursor-zoom-in"
+                            :preview="false"
                         />
                     @elseif(isMediaType($medium, 'video'))
                         <div

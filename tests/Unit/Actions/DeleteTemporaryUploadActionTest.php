@@ -7,13 +7,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestr
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 it('deletes the temporary upload and returns a JSON response when request expects JSON', function () {
-    $temporaryUpload =TemporaryUpload::create([
-        'disk' => 'media',
-        'path' => 'uploads/temp.jpg',
-        'name' => 'temp',
-        'file_name' => 'temp.jpg',
-        'collection_name' => 'test',
-        'custom_properties' => ['image_collection' => 'images'],
+    $temporaryUpload = $this->getTemporaryUpload('temp.jpg', [
         'session_id' => session()->getId(),
     ]);
 
@@ -38,13 +32,7 @@ it('deletes the temporary upload and returns a JSON response when request expect
 });
 
 it('deletes the temporary upload and returns a redirect response with flash data when request does NOT expect JSON', function () {
-    $temporaryUpload = TemporaryUpload::create([
-        'disk' => 'media',
-        'path' => 'uploads/temp.jpg',
-        'name' => 'temp',
-        'file_name' => 'temp.jpg',
-        'collection_name' => 'test',
-        'custom_properties' => ['image_collection' => 'images'],
+    $temporaryUpload = $this->getTemporaryUpload('temp.jpg', [
         'session_id' => session()->getId(),
     ]);
 

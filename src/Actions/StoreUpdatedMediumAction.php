@@ -80,6 +80,7 @@ class StoreUpdatedMediumAction
                 'file_name' => $originalName,
                 'collection_name' => $collection,
                 'mime_type' => $mimetype,
+                'size' => $file->getSize(),
                 'user_id' => $userId,
                 'session_id' => $sessionId,
                 'order_column' => 1,

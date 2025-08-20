@@ -151,24 +151,14 @@ it('can set as first in collection JSON', function () {
     $initiatorId = 'initiator-123';
     $targetCollection = 'blog-images';
 
-    $media1 = TemporaryUpload::create([
-        'disk' => 'media',
-        'path' => 'uploads/skip1.jpg',
-        'name' => 'skip',
-        'file_name' => 'skip.jpg',
+    $media1 = $this->getTemporaryUpload('temp1.jpg', [
         'collection_name' => $targetCollection,
-        'custom_properties' => [], // no collection info
-        'session_id' => session()->getId(),
+        'custom_properties' => [],
     ]);
 
-    $media2 = TemporaryUpload::create([
-        'disk' => 'media',
-        'path' => 'uploads/skip2.jpg',
-        'name' => 'skip',
-        'file_name' => 'skip.jpg',
+    $media2 = $this->getTemporaryUpload('temp2.jpg', [
         'collection_name' => $targetCollection,
-        'custom_properties' => [], // no collection info
-        'session_id' => session()->getId(),
+        'custom_properties' => [],
     ]);
 
     // Create request object
@@ -210,24 +200,14 @@ it('can set as first in collection', function () {
     $initiatorId = 'initiator-123';
     $targetCollection = 'blog-images';
 
-    $media1 = TemporaryUpload::create([
-        'disk' => 'media',
-        'path' => 'uploads/skip1.jpg',
-        'name' => 'skip',
-        'file_name' => 'skip.jpg',
+    $media1 = $this->getTemporaryUpload('temp1.jpg', [
         'collection_name' => $targetCollection,
-        'custom_properties' => [], // no collection info
-        'session_id' => session()->getId(),
+        'custom_properties' => [],
     ]);
 
-    $media2 = TemporaryUpload::create([
-        'disk' => 'media',
-        'path' => 'uploads/skip2.jpg',
-        'name' => 'skip',
-        'file_name' => 'skip.jpg',
+    $media2 = $this->getTemporaryUpload('temp2.jpg', [
         'collection_name' => $targetCollection,
-        'custom_properties' => [], // no collection info
-        'session_id' => session()->getId(),
+        'custom_properties' => [],
     ]);
 
     // Create request object

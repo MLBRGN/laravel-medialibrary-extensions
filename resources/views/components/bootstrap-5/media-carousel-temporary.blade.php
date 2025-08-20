@@ -72,9 +72,10 @@
                     @endif
                 @elseif(isMediaType($medium, 'document'))
                     <x-mle-document :medium="$medium"
-                                    class="mle-document mle-cursor-zoom-in"
-                                    data-bs-target="{{ $id }}-mod"
-                                    data-bs-slide-to="{{ $loop->index }}"
+                        class="mle-document mle-cursor-zoom-in"
+                        data-bs-target="{{ $id }}-mod"
+                        data-bs-slide-to="{{ $loop->index }}"
+                        :preview="false"
                     />
                 @elseif(isMediaType($medium, 'video'))
                     <div

@@ -158,16 +158,20 @@ class TestCase extends Orchestra
         ]);
     }
 
-    public function getTemporaryUpload($fileName = 'temp.jpg'): TemporaryUpload {
-        return TemporaryUpload::create([
+    public function getTemporaryUpload(string $fileName = 'temp.jpg', array $overrides = []): TemporaryUpload
+    {
+        $defaults = [
             'disk' => 'media',
-            'path' => 'uploads/temp.jpg',
-            'name' => 'temp',
+            'path' => 'uploads/' . $fileName,
+            'name' => pathinfo($fileName, PATHINFO_FILENAME),
+            'size' => 1024024,
             'file_name' => $fileName,
             'collection_name' => 'test',
             'custom_properties' => ['image_collection' => 'images'],
             'session_id' => session()->getId(),
-        ]);
+        ];
+
+        return TemporaryUpload::create(array_merge($defaults, $overrides));
     }
 
     private function getTemporaryUploadsDirectory(): string

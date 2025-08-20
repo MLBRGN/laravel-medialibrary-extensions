@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultiplePermanentAction
@@ -20,7 +19,6 @@ class StoreMultiplePermanentAction
 
     public function __construct(
         protected MediaService $mediaService,
-//        protected YouTubeService $youTubeService
     ) {
     }
 
