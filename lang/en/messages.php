@@ -57,5 +57,5 @@ return [
     'only_one_medium_allowed' => 'Only one medium allowed.',
     'invalid_youtube_url' => 'Invalid YouTube URL.',
     'something_went_wrong' => 'Something went wrong.',
-    'open_document' => 'Open document',
+    'download_document' => 'Download document',
 ];

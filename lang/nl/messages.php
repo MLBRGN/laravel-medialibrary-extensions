@@ -58,5 +58,5 @@ return [
     'only_one_medium_allowed' => 'Slechts een bestand toegestaan.',
     'invalid_youtube_url' => 'Ongeldig YouTube URL.',
     'something_went_wrong' => 'Er ging iets verkeerd.',
-    'open_document' => 'Open document',
+    'download_document' => 'Download document',
 ];

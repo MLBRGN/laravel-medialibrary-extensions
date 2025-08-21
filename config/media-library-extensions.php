@@ -263,6 +263,16 @@ return [
     'carousel_ride_only_after_interaction' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_RIDE_ONLY_AFTER_INTERACTION', false), // Only slide after first interaction with carousel
     'carousel_fade' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_FADE', false), // slide effect true for "fade" false for "slide" (bootstrap only)
 
+
+    /*
+    |--------------------------------------------------------------------------
+    |--------------------------------------------------------------------------
+    |
+    | Media preview modal options
+    |
+    */
+    'preview_modal embed_pdf' => env('MEDIA_LIBRARY_EXTENSIONS_PREVIEW_MODAL_EMBED_PDF', false),
+
     /*
     |--------------------------------------------------------------------------
     | Show status of requests inside component

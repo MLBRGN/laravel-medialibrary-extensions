@@ -25,7 +25,7 @@
 {{--    </div>--}}
 @else
 {{--    <div class="mlbrgn-mle-component">--}}
-        <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}">
+        <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}" data-mle-youtube-video>
             <lite-youtube
 {{--                id="yt-video-slide"--}}
                 videoid="{{ $youtubeId }}"

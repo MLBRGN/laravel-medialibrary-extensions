@@ -1,4 +1,4 @@
-<div {{ $attributes->class('mle-document') }}>
+<div {{ $attributes->class('mle-document') }} mle-document>
     <div class="mle-document-preview">
         <x-mle-shared-icon
             class="mle-document-bg-icon"
@@ -22,8 +22,14 @@
                 />
                     
             @if(!$preview)
-                    {{ __('media-library-extensions::messages.open_document') }}
+                    {{ __('media-library-extensions::messages.download_document') }}
                 </a>
+            @endif
+            
+            @if(config('media-library-extensions.preview_modal embed_pdf'))
+                @if(!$preview && $medium->mime_type === 'application/pdf')
+                    <embed src="{{ $medium->getUrl() }}" type="application/pdf" width="100%" height="600px" class="mle-document-embed" />
+                @endif
             @endif
         </div>
     </div>
