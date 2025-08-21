@@ -15,8 +15,8 @@ export function initCarousel(carousel) {
         carousels.delete(carousel);
     }
 
-    const items = carousel.querySelectorAll('.media-carousel-item');
-    if (!items.length) return;
+    const slides = carousel.querySelectorAll('.media-carousel-item');
+    if (!slides.length) return;
 
     const indicators = carousel.querySelectorAll('.media-carousel-indicators button');
     const prev = carousel.querySelector('[data-slide="prev"]');
@@ -26,15 +26,15 @@ export function initCarousel(carousel) {
     const rideInterval = Number(carousel.getAttribute('data-carousel-ride-interval') ?? '5000');
     const rideOnlyAfterInteraction = carousel.getAttribute('data-carousel-ride-only-after-interaction') === 'true';
 
-    let currentIndex = 0;
+    let currentSlideIndex = 0;
     let hasInteracted = false;
     let intervalId = null;
     let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
     const swipeVerticalThreshold = 50;
 
-    const updateCarousel = (index, direction = 'right') => {
-        items.forEach((item) => {
-            item.classList.remove(
+    const updateCarousel = (toSlideIndex, direction = 'right') => {
+        slides.forEach((slide) => {
+            slide.classList.remove(
                 'active',
                 'slide-in-from-left',
                 'slide-in-from-right',
@@ -43,39 +43,39 @@ export function initCarousel(carousel) {
             );
         });
 
-        const current = items[currentIndex];
-        const nextItem = items[index];
+        const currentSlide = slides[currentSlideIndex];
+        const nextSlide = slides[toSlideIndex];
 
         if (carousel.getAttribute('data-carousel-effect') === 'slide') {
             const skipAnimation = carousel.classList.contains('temp-no-animation') || carousel.classList.contains('no-animation');
 
             if (!skipAnimation) {
                 if (direction === 'right') {
-                    nextItem.classList.add('slide-in-from-right');
-                    current.classList.add('slide-out-to-left');
+                    nextSlide.classList.add('slide-in-from-right');
+                    currentSlide.classList.add('slide-out-to-left');
                 } else {
-                    nextItem.classList.add('slide-in-from-left');
-                    current.classList.add('slide-out-to-right');
+                    nextSlide.classList.add('slide-in-from-left');
+                    currentSlide.classList.add('slide-out-to-right');
                 }
-                void nextItem.offsetWidth; // force reflow
+                void nextSlide.offsetWidth; // force reflow
             }
         }
 
-        current.classList.remove('active');
-        nextItem.classList.add('active');
+        currentSlide.classList.remove('active');
+        nextSlide.classList.add('active');
 
-        indicators.forEach((btn, i) => btn.classList.toggle('active', i === index));
-        currentIndex = index;
+        indicators.forEach((btn, i) => btn.classList.toggle('active', i === toSlideIndex));
+        currentSlideIndex = toSlideIndex;
 
-        fireEvent('carouselSlided', carousel);
+        fireEvent('mleCarouselSlided', carousel, {'carousel': carousel, 'currentSlide': nextSlide, 'currentSlideIndex': currentSlideIndex});
     };
 
-    const goToSlide = (index, skipAnimation = false) => {
-        if (index === currentIndex) return;
+    const goToSlide = (slideIndex, skipAnimation = false) => {
+        if (slideIndex === currentSlideIndex) return;
 
-        const normalizedIndex = (index + items.length) % items.length;
-        const diff = normalizedIndex - currentIndex;
-        const direction = (diff + items.length) % items.length > items.length / 2 ? 'left' : 'right';
+        const normalizedIndex = (slideIndex + slides.length) % slides.length;
+        const diff = normalizedIndex - currentSlideIndex;
+        const direction = (diff + slides.length) % slides.length > slides.length / 2 ? 'left' : 'right';
 
         if (skipAnimation) {
             carousel.classList.add('temp-no-animation');
@@ -94,8 +94,8 @@ export function initCarousel(carousel) {
         const distanceX = touchEndX - touchStartX;
 
         if (Math.abs(distanceX) > swipeThreshold && Math.abs(distanceX) > Math.abs(touchEndY - touchStartY)) {
-            if (distanceX < 0) goToSlide((currentIndex + 1) % items.length);
-            else goToSlide((currentIndex - 1 + items.length) % items.length);
+            if (distanceX < 0) goToSlide((currentSlideIndex + 1) % slides.length);
+            else goToSlide((currentSlideIndex - 1 + slides.length) % slides.length);
             handleInteraction();
         }
 
@@ -104,7 +104,7 @@ export function initCarousel(carousel) {
 
     const startAutoRide = () => {
         stopAutoRide();
-        intervalId = setInterval(() => goToSlide((currentIndex + 1) % items.length), rideInterval);
+        intervalId = setInterval(() => goToSlide((currentSlideIndex + 1) % slides.length), rideInterval);
     };
 
     const stopAutoRide = () => {
@@ -127,8 +127,8 @@ export function initCarousel(carousel) {
         handleInteraction();
     }));
 
-    prev?.addEventListener('click', () => { goToSlide((currentIndex - 1 + items.length) % items.length); handleInteraction(); });
-    next?.addEventListener('click', () => { goToSlide((currentIndex + 1) % items.length); handleInteraction(); });
+    prev?.addEventListener('click', () => { goToSlide((currentSlideIndex - 1 + slides.length) % slides.length); handleInteraction(); });
+    next?.addEventListener('click', () => { goToSlide((currentSlideIndex + 1) % slides.length); handleInteraction(); });
 
     carousel.addEventListener('mouseenter', stopAutoRide);
     carousel.addEventListener('mouseleave', () => { if (ride && (!rideOnlyAfterInteraction || hasInteracted)) startAutoRide(); });
@@ -136,8 +136,8 @@ export function initCarousel(carousel) {
     carousel.addEventListener('focusout', () => { if (ride && (!rideOnlyAfterInteraction || hasInteracted)) startAutoRide(); });
 
     carousel.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide((currentIndex - 1 + items.length) % items.length); handleInteraction(); }
-        else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide((currentIndex + 1) % items.length); handleInteraction(); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide((currentSlideIndex - 1 + slides.length) % slides.length); handleInteraction(); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide((currentSlideIndex + 1) % slides.length); handleInteraction(); }
     });
 
     carousel.addEventListener('touchstart', (e) => {
@@ -152,14 +152,14 @@ export function initCarousel(carousel) {
         if (Math.abs(touchEndY - touchStartY) < swipeVerticalThreshold) handleGesture();
     }, { passive: true });
 
-    if (items.length > 1 && ride && !rideOnlyAfterInteraction) startAutoRide();
+    if (slides.length > 1 && ride && !rideOnlyAfterInteraction) startAutoRide();
 
     // controller API
     const controller = {
-        goToSlide: (index, skipAnimation = false) => goToSlide(index, skipAnimation),
-        getCurrentIndex: () => currentIndex,
-        goToNextSlide: () => goToSlide((currentIndex + 1) % items.length),
-        goToPreviousSlide: () => goToSlide((currentIndex - 1 + items.length) % items.length),
+        goToSlide: (slideIndex, skipAnimation = false) => goToSlide(slideIndex, skipAnimation),
+        getCurrentSlideIndex: () => currentSlideIndex,
+        goToNextSlide: () => goToSlide((currentSlideIndex + 1) % slides.length),
+        goToPreviousSlide: () => goToSlide((currentSlideIndex - 1 + slides.length) % slides.length),
         pause: stopAutoRide,
         resume: startAutoRide,
     };

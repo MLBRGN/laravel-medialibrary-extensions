@@ -1,7 +1,7 @@
-export function fireEvent(eventName, element) {
+export function fireEvent(eventName, element, detail) {
     const event = new CustomEvent(eventName, {
         bubbles: true,
-        detail: {element}
+        detail: detail
     });
     element.dispatchEvent(event);
 }

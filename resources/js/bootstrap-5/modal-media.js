@@ -1,16 +1,14 @@
 // noinspection JSUnresolvedReference
 
-import {closeModal} from "@/js/plain/modal-core";
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    let players = {}; // Store player instances by slide ID
+    let ytlPlayers = {}; // Store YouTube-lite players
+    let nativeMediaPlayers = {};// store native media players (audio / video)
 
-    const initializeModal = function (modal) {
+    const initializeMediaModal = function (modal) {
         if (modal.dataset.imageEditorInitialized) return;
 
         const carousel = modal.querySelector('.media-carousel');
-        let autoPlay = modal.hasAttribute('data-video-autoplay');
         const modalId = modal.id;
 
         function setupYT (videoSlide) {
@@ -18,13 +16,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const playerId = modalId + '-' + youTubeId;
             const iframe = videoSlide.querySelector('lite-youtube').shadowRoot.querySelector('iframe');
             // instantiate the new player instance for slide
-            players[playerId] = new YT.Player(iframe, {
+            ytlPlayers[playerId] = new YT.Player(iframe, {
                 events: {
                     onReady: () => {
-                        players[playerId].isReady = true;
+                        ytlPlayers[playerId].isReady = true;
                     },
                 },
             });
+        }
+
+        function setupNativeMedia(slide) {
+
+            const audio = slide.querySelector('audio');
+            const video = slide.querySelector('video');
+            let nativeMediaPlayerId = null;
+            if (audio) {
+                nativeMediaPlayerId = audio.id;
+                nativeMediaPlayers[nativeMediaPlayerId] = audio;
+            }
+            if (video) {
+                nativeMediaPlayerId = video.id;
+                nativeMediaPlayers[nativeMediaPlayerId] = video;
+            }
+            console.log('nativeMediaPlayerId', nativeMediaPlayerId);
+
+            return nativeMediaPlayerId;
+        }
+
+        function controlNativeMedia(nativeMediaPlayerId, action) {
+            const media = nativeMediaPlayers[nativeMediaPlayerId];
+            if (!media) return;
+
+            try {
+                if (action === 'play') media.play();
+                else if (action === 'pause') media.pause();
+            } catch (err) {
+                console.warn(`Failed to ${action} media:`, err);
+            }
         }
 
         // Event listener for when the YouTube iframe loads
@@ -33,25 +61,51 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetSlide) setupYT(targetSlide);
         });
 
-        // when the carousel opens on the first slide and this happens to be a YouTube video,
-        // we need to start playing the video on modal open.
+        // when the carousel opens on the first slide and this is a YT video an audio or a video element,
+        // we need to start autoplaying on modal open.
         modal.addEventListener('shown.bs.modal', (e) => {
-            console.log('relatedTarget', e.relatedTarget);
-            console.log('target', e.target);
-            if (!modal.hasAttribute('data-video-autoplay')) {
-                return;
-            }
+            // nothing to do, return
+            if (!modal.hasAttribute('data-autoplay')) return;
 
             const modalTrigger = e.relatedTarget;
+            if (!modalTrigger) return;
+
             const slideToElement = modalTrigger.querySelector('[data-bs-slide-to]');
-            if (slideToElement) {
-                const slideTo = slideToElement.getAttribute('data-bs-slide-to')
-                if (slideTo === '0') {
-                    const firstVideoContainer = carousel.querySelector('.carousel-item .media-video-container');
-                    const youTubeId = firstVideoContainer.getAttribute('data-youtube-video-id');
-                    const playerId = modalId + '-' + youTubeId;
-                    startVideoPlayBack(playerId);
+            if (!slideToElement) return;
+
+            const slideTo = slideToElement.getAttribute('data-bs-slide-to');
+            if (slideTo !== '0') return;
+
+            const firstSlide = carousel.querySelector('.carousel-item:first-child');
+            if (!firstSlide) return;
+
+            const audioElement = firstSlide.querySelector('[data-mle-audio]');
+            const videoElement = firstSlide.querySelector('[data-mle-video]');
+            const youtubeVideoContainer = firstSlide.querySelector('[data-mle-youtube-video]');
+
+            // TODO messy, use controlNativeMedia
+            if (audioElement) {
+                try {
+                    audioElement.play();
+                } catch (err) {
+                    console.warn('Audio autoplay failed:', err);
                 }
+            }
+
+            if (videoElement) {
+                try {
+                    videoElement.play();
+                } catch (err) {
+                    console.warn('Video autoplay failed:', err);
+                }
+            }
+
+            if (youtubeVideoContainer) {
+                const youTubeId = youtubeVideoContainer.getAttribute('data-youtube-video-id');
+                if (!youTubeId) return;
+
+                const playerId = `${modalId}-${youTubeId}`;
+                controlYouTubePlayback(playerId, 'playVideo');
             }
         });
 
@@ -63,24 +117,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
             if (!carouselInstance) return;
-            stopAllVideoPlayBack();
+            // stopAllYouTubePlayBack();
+            stopAllPlayBack();
 
             carousel.removeEventListener('slide.bs.carousel', slideEventListener);
-            carouselInstance.to(0)// !!! triggers slide event so call stopAllVideoPlayBack after this
+            carouselInstance.to(0)
             carousel.addEventListener('slide.bs.carousel', slideEventListener);
         });
 
         const slideEventListener = (event) => {
-            pauseAllVideoPlayBack();
 
-            if (modal.hasAttribute('data-video-autoplay')) {
-                const videoContainer = event.relatedTarget.querySelector('.media-video-container');
-                if (videoContainer && videoContainer.hasAttribute('data-youtube-video-id')) {
-                    let youTubeId = videoContainer.getAttribute('data-youtube-video-id');
-                    const playerId = modalId + '-' + youTubeId;
+            if (!modal.hasAttribute('data-autoplay')) return;
 
-                    startVideoPlayBack(playerId);
-                }
+            pauseAllPlayBack()
+
+            console.log('autoplay')
+            const slide = event.relatedTarget;
+            if (!slide) return;
+
+            const nativeMediaPlayerId = setupNativeMedia(slide);
+            controlNativeMedia(nativeMediaPlayerId, 'play');
+
+            const ytContainer = slide.querySelector('[data-mle-youtube-video]');
+            if (ytContainer && ytContainer.hasAttribute('data-youtube-video-id')) {
+                let youTubeId = ytContainer.getAttribute('data-youtube-video-id');
+                const playerId = modalId + '-' + youTubeId;
+
+                controlYouTubePlayback(playerId, 'playVideo');
             }
         }
 
@@ -117,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mark as initialized
         modal.dataset.imageEditorInitialized = 'true';
 
-        function controlVideoPlayback(playerId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
+        function controlYouTubePlayback(playerId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
             const actionsMap = {
                 playVideo: 'playVideo',
                 pauseVideo: 'pauseVideo',
@@ -130,12 +193,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const player = players[playerId];
+            const player = ytlPlayers[playerId];
 
             if (!player || !player.isReady) {
                 console.log('No player, or player not ready yet', playerId, 'player', player, 'playerIsReady', player?.isReady);
                 if (attempt < maxAttempts) {
-                    setTimeout(() => controlVideoPlayback(playerId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
+                    setTimeout(() => controlYouTubePlayback(playerId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
                 }
                 return;
             }
@@ -143,37 +206,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (method) player[method]();
         }
 
-        function pauseVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
-            controlVideoPlayback(playerId, 'pauseVideo', attempt, maxAttempts, timeOut);
+        function pauseAllPlayBack() {
+            Object.keys(ytlPlayers).forEach((playerId) => controlYouTubePlayback(playerId, 'pauseVideo'));
+            Object.keys(nativeMediaPlayers).forEach(id => controlNativeMedia(id, 'pause'));
         }
 
-        function stopVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
-            controlVideoPlayback(playerId, 'stopVideo', attempt, maxAttempts, timeOut);
+        function stopAllPlayBack() {
+            Object.keys(ytlPlayers).forEach((playerId) => controlYouTubePlayback(playerId, 'stopVideo'));
+            Object.keys(nativeMediaPlayers).forEach(id => controlNativeMedia(id, 'pause'));
         }
-
-        function startVideoPlayBack(playerId, attempt = 0, maxAttempts = 10, timeOut = 200) {
-            console.log('startVideoPlayBack', playerId, attempt, maxAttempts, timeOut);
-            controlVideoPlayback(playerId, 'playVideo', attempt, maxAttempts, timeOut);
-        }
-
-        function pauseAllVideoPlayBack() {
-            Object.keys(players).forEach((playerId) => pauseVideoPlayBack(playerId, 0, 10, 200));
-        }
-
-        function stopAllVideoPlayBack() {
-            Object.keys(players).forEach((playerId) => stopVideoPlayBack(playerId, 0, 10, 200));
-        }
-
     }
 
     // listen to preview updated to reinitialize functionality
     document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
-        players = {};// reset players variable
+        ytlPlayers = {};
+        nativeMediaPlayers = {};
         const mediaManager = e.detail.mediaManager;
         console.log('reinitialize modals for media manager', mediaManager);
-        mediaManager.querySelectorAll('.media-modal').forEach(initializeModal);
+        mediaManager.querySelectorAll('.media-modal').forEach(initializeMediaModal);
     });
 
-    document.querySelectorAll('.media-modal').forEach(initializeModal);
+    document.querySelectorAll('.media-modal').forEach(initializeMediaModal);
 
 });

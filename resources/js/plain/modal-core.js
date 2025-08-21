@@ -28,16 +28,18 @@ function eventDispatcher(type, e) {
     }
 }
 
-export function closeModal(modal) {
+export function closeModal(modal, originalEvent) {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = 'initial';
 
     releaseFocus(modal);
-    fireEvent('modalClosed', modal);
+    fireEvent('mleModalClosed', modal, {
+        modal: modal,  originalEvent: originalEvent
+    });
 }
 
-export function openModal(modalId) {
+export function openModal(modalId, trigger, originalEvent) {
     console.log('openModal: ', modalId);
     const modal = document.querySelector(modalId);
     if (!modal) {
@@ -50,12 +52,16 @@ export function openModal(modalId) {
     document.body.style.overflow = 'hidden';
 
     trapFocus(modal);
-    fireEvent('modalOpened', modal);
+    fireEvent('mleModalOpened', modal, {
+        modal: modal,
+        trigger: trigger,
+        originalEvent: originalEvent
+    });
 }
 
 export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
-    modal.addEventListener('modalOpened', onOpen);
-    modal.addEventListener('modalClosed', onClose);
+    modal.addEventListener('mleModalOpened', onOpen);
+    modal.addEventListener('mleModalClosed', onClose);
 }
 
 function defaultClickHandler(e) {
@@ -67,19 +73,19 @@ function defaultClickHandler(e) {
     if (trigger) {
         e.preventDefault();
         const modalId = trigger.getAttribute('data-modal-trigger');
-        openModal(modalId);
+        openModal(modalId, trigger, e);
         return;
     }
 
     const closeBtn = target.closest('[data-modal-close]');
     if (closeBtn) {
         const modal = closeBtn.closest('[data-modal]');
-        if (modal) closeModal(modal);
+        if (modal) closeModal(modal, e);
         return;
     }
 
     const modal = target.closest('[data-modal]');
-    if (modal && target === modal) closeModal(modal);
+    if (modal && target === modal) closeModal(modal, e);
 }
 
 function defaultKeydownHandler(e) {

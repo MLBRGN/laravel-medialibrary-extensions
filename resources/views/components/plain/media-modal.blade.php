@@ -14,7 +14,7 @@
     @endif
     aria-hidden="true"
     @if($videoAutoPlay)
-        data-video-autoplay=""
+        data-autoplay=""
     @endif
     data-modal
     data-media-modal
