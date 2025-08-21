@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
             if (!carouselInstance) return;
-            // stopAllYouTubePlayBack();
             stopAllPlayBack();
 
             carousel.removeEventListener('slide.bs.carousel', slideEventListener);

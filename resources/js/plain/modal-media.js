@@ -54,6 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modal.addEventListener('mleModalClosed', (e) => {
             stopAllMediaPlayBack()
+            const modal = e.detail.modal;
+            const controller = getCarouselController(modal.querySelector('[data-carousel]'));
+            if (!controller) return;
+            // go back to slide 0
+            // otherwise slide event won't get triggered when going to the same slide after closing modal
+            controller.goToSlide(0, true);
         });
 
         function setupNativeMedia(slide) {
@@ -76,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         carousel?.addEventListener('mleCarouselSlided', (e) => {
             const carousel = e.detail.carousel;
             const currentSlide = e.detail.currentSlide;
-            const modal =carousel.closest('[data-modal]');
+            const modal = carousel.closest('[data-modal]');
             const autoPlay = modal.hasAttribute('data-autoplay');
             if (!autoPlay) return;
 
