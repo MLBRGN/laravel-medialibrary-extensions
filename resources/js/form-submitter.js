@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             e.preventDefault();
             const action = target.getAttribute('data-action');
-            console.log('action', action);
+            // console.log('action', action);
             const formElement = target.closest('[data-xhr-form]');
             const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
             const route = getRouteFromAction(action, target, config);
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         mediaManager.addEventListener('refreshRequest', function (e) {
             const config = getMediaManagerConfig(mediaManager);
-            console.log('Refresh requested:', e);
+            // console.log('Refresh requested:', e);
             updatePreview(mediaManager, config);
         })
     });
@@ -107,12 +107,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updatePreview(mediaManager, config) {
-        console.log('update preview:', mediaManager);
+        // console.log('update preview:', mediaManager);
         const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
         const forms = mediaManager.querySelectorAll('form, [data-xhr-form]');
         if (!previewGrid) return;
 
-        console.log('config', config);
+        // console.log('config', config);
         const params = new URLSearchParams({
             model_type: config.model_type,
             model_id: config.model_id,
@@ -164,9 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 }
-                // Re-initialize any new modals inside the refreshed preview grid
-                // previewGrid.querySelectorAll('[data-image-editor-modal]')
-                //     .forEach(initializeImageEditorModal);
 
                 // can be listened to by other parts of the code to, for example, reinitialize functionality
                 document.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
@@ -208,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function setFormElementsDisabled(forms, disabled) {
-        console.log('setFormElementsDisabled', forms, 'disabled', disabled);
         forms.forEach(form => {
             form.querySelectorAll('input:not([type="hidden"]), button')
                 .forEach(el => el.disabled = disabled);

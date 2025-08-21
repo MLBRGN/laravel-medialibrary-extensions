@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 nativeMediaPlayerId = video.id;
                 nativeMediaPlayers[nativeMediaPlayerId] = video;
             }
-            console.log('nativeMediaPlayerId', nativeMediaPlayerId);
 
             return nativeMediaPlayerId;
         }
@@ -131,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             pauseAllPlayBack()
 
-            console.log('autoplay')
             const slide = event.relatedTarget;
             if (!slide) return;
 
@@ -196,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const player = ytlPlayers[playerId];
 
             if (!player || !player.isReady) {
-                console.log('No player, or player not ready yet', playerId, 'player', player, 'playerIsReady', player?.isReady);
+                // console.log('No player, or player not ready yet', playerId, 'player', player, 'playerIsReady', player?.isReady);
                 if (attempt < maxAttempts) {
                     setTimeout(() => controlYouTubePlayback(playerId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
                 }
@@ -222,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ytlPlayers = {};
         nativeMediaPlayers = {};
         const mediaManager = e.detail.mediaManager;
-        console.log('reinitialize modals for media manager', mediaManager);
         mediaManager.querySelectorAll('.media-modal').forEach(initializeMediaModal);
     });
 

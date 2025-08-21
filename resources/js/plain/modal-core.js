@@ -40,10 +40,9 @@ export function closeModal(modal, originalEvent) {
 }
 
 export function openModal(modalId, trigger, originalEvent) {
-    console.log('openModal: ', modalId);
     const modal = document.querySelector(modalId);
     if (!modal) {
-        console.log('could not find modal ' + modalId);
+        // console.log('could not find modal ' + modalId);
         return;
     }
 
@@ -65,7 +64,6 @@ export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
 }
 
 function defaultClickHandler(e) {
-    console.log('click target', e.target);
     e.stopPropagation();
 
     const target = e.target;
@@ -107,10 +105,8 @@ export function initModalEvents() {
 }
 
 export function reinitModalEvents() {
-    // clear only registered handlers
-    eventHandlers.clear();
-    // but don’t re-bind the DOM listeners
-    initModalEvents();
+    eventHandlers.clear();// clear only registered handlers
+    initModalEvents();// but don’t re-bind the DOM listeners
 }
 
 

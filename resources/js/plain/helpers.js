@@ -15,7 +15,6 @@ export function trapFocus(modal) {
 
     const handleKeyDown = (e) => {
         const focusableEls = getFocusableElements();
-        console.log(focusableEls);
         const first = focusableEls[0];
         const last = focusableEls[focusableEls.length - 1];
 

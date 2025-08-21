@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         // img.addEventListener("error", imageFallbackListener, { once: true });
         img.addEventListener("error", () => {
-            console.log('could not load image')
+            // console.log('could not load image')
             replaceImageWithFallback(img);
         });
 
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Extra safeguard: run once after DOM is ready (covers cached broken images)
         if (img.complete && (img.naturalWidth === 0 || img.naturalHeight === 0)) {
-            console.log('could not load image, second check', img.src)
+            // console.log('could not load image, second check', img.src)
             replaceImageWithFallback(img);
         }
     });

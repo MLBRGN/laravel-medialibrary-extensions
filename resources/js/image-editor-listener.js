@@ -1,7 +1,7 @@
 import {handleAjaxError, showStatusMessage} from "@/js/xhrStatus";
 
 document.addEventListener('onImageSave', (e) => {
-    console.log('onImageSave:', e.detail, e);
+    // console.log('onImageSave:', e.detail, e);
     updateMedia(e.detail);
 });
 
@@ -14,7 +14,7 @@ document.addEventListener('onCloseImageEditor', (e) => {
     const modal = imageEditor.closest('[data-image-editor-modal]');
     const initiatorId = imageEditor.getAttribute('data-initiator-id');
     const initiator = document.querySelector('#' + initiatorId);
-    console.log('initiator', initiator);
+
     initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
         bubbles: true,
         composed: true,
@@ -70,32 +70,32 @@ const updateMedia = (detail) => {
         },
         body: formData
     })
-        .then(async response => {
-            const json = await response.json();
-            if (!response.ok) {
-                handleAjaxError(response, json, container);
-                throw new Error('Upload failed');// stops the chain, goes to .catch
-            }
+    .then(async response => {
+        const json = await response.json();
+        if (!response.ok) {
+            handleAjaxError(response, json, container);
+            throw new Error('Upload failed');// stops the chain, goes to .catch
+        }
 
-            return json;
-        })
-        .then(json => {
-            showStatusMessage(container, {
-                type: 'success',
-                message: trans('medium_replaced'),
-            });
-            console.log('send closeModalRequest')
-            initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
-                bubbles: true,
-                composed: true,
-                detail: {'modal': modal}
-            }));
-            initiator.dispatchEvent(new CustomEvent('refreshRequest', {
-                bubbles: true,
-                composed: true,
-                detail: []
-            }));
-        })
+        return json;
+    })
+    .then(json => {
+        showStatusMessage(container, {
+            type: 'success',
+            message: trans('medium_replaced'),
+        });
+
+        initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+            bubbles: true,
+            composed: true,
+            detail: {'modal': modal}
+        }));
+        initiator.dispatchEvent(new CustomEvent('refreshRequest', {
+            bubbles: true,
+            composed: true,
+            detail: []
+        }));
+    })
 }
 
 function trans (key) {

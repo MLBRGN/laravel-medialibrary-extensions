@@ -18,12 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setupModalBase(modal);
 
         modal.addEventListener('mleModalOpened', (e) => {
-            console.log('originalEvent', e.detail.originalEvent);
             const trigger = e.detail.trigger;
-            console.log('trigger', trigger);
             if (!trigger) return;
             const modal = e.detail.modal;
-            console.log('modalOpened', modal);
             if (!modal) return;
             const modalId = modal.id;
 
@@ -31,29 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!autoPlay) return;
 
             const carousel = modal.querySelector('[data-carousel]');
-            console.log('carousel', carousel);
             if (!carousel) return;
 
             const firstSlide = carousel.querySelector('.media-carousel-item:first-child');
-            console.log('firstSlide', firstSlide);
             if (!firstSlide) return;
 
             // TODO need the slideTo index to know if i should start playing
             const slideTo = parseInt(trigger.getAttribute('data-slide-to') || '0', 10);
 
             if (slideTo === 0) {
-                console.log('sliding to first slide')
                 const audio = firstSlide.querySelector('[data-mle-audio]');
                 const video = firstSlide.querySelector('[data-mle-video]');
                 const ytContainer = firstSlide.querySelector('[data-mle-youtube-video]');
 
-                console.log('ytContainer', ytContainer, 'audio', audio, 'video', video);
                 audio?.play().catch(err => console.warn('Audio autoplay failed:', err));
                 video?.play().catch(err => console.warn('Video autoplay failed:', err));
 
                 if (ytContainer) {
                     const youTubeId = ytContainer.getAttribute('data-youtube-video-id');
-                    console.log('youTubeId', youTubeId);
                     const playerId = `${modalId}-${youTubeId}`
                     if (youTubeId) controlYouTubePlayback(playerId, 'playVideo');
                 }
@@ -61,8 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         modal.addEventListener('mleModalClosed', (e) => {
-            const modal = e.detail.modal;
-            console.log('modalClosed', modal);
             stopAllMediaPlayBack()
         });
 
@@ -79,45 +69,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 nativeMediaPlayerId = video.id;
                 nativeMediaPlayers[nativeMediaPlayerId] = video;
             }
-            console.log('nativeMediaPlayerId', nativeMediaPlayerId);
 
             return nativeMediaPlayerId;
         }
 
         carousel?.addEventListener('mleCarouselSlided', (e) => {
-            console.log('e', e)
             const carousel = e.detail.carousel;
             const currentSlide = e.detail.currentSlide;
-            console.log('carousel', carousel);
-            console.log('currentSlide', currentSlide);
             const modal =carousel.closest('[data-modal]');
             const autoPlay = modal.hasAttribute('data-autoplay');
-            console.log('autoPlay', autoPlay);
             if (!autoPlay) return;
 
             pauseAllMediaPlayBack();
-            // pauseAllYouTubePlayBack();
 
-            console.log('autoPlay');
             if (!autoPlay) return;
 
             const nativeMediaPlayerId = setupNativeMedia(currentSlide);
             controlNativeMedia(nativeMediaPlayerId, 'play');
 
-            // const activeSlide = carousel.querySelector('.media-carousel-item.active');
-            // const videoWrapper = currentSlide?.querySelector('.media-video-container[data-youtube-video-id]');
-
             const audio = currentSlide.querySelector('[data-mle-audio]');
             const video = currentSlide.querySelector('[data-mle-video]');
             const ytContainer = currentSlide.querySelector('[data-mle-youtube-video]');
 
-            console.log('ytContainer', ytContainer, 'audio', audio, 'video', video);
             audio?.play().catch(err => console.warn('Audio autoplay failed:', err));
             video?.play().catch(err => console.warn('Video autoplay failed:', err));
 
             if (ytContainer) {
-                console.log('startYouTubePlayBack');
-
                 const modalId = modal.id;
                 const youTubeId = ytContainer.getAttribute('data-youtube-video-id');
                 const playerId = modalId + '-' + youTubeId
@@ -126,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         function controlNativeMedia(playerId, action) {
-            console.log('controlNativeMedia', playerId, action);
             const media = nativeMediaPlayers[playerId];
             if (!media) return;
             try {
@@ -150,11 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            console.log('playerId', playerId);
             const player = ytlPlayers[playerId];
 
             if (!player || !player.isReady) {
-                console.log('No player, or player not ready yet', playerId, 'player', player, 'playerIsReady', player?.isReady);
+                // console.log('No player, or player not ready yet', playerId, 'player', player, 'playerIsReady', player?.isReady);
                 if (attempt < maxAttempts) {
                     setTimeout(() => controlYouTubePlayback(playerId, action, attempt + 1, maxAttempts, timeOut * 1.2), timeOut);
                 }
@@ -165,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function pauseAllMediaPlayBack() {
-            console.log('pauseAllMediaPlayBack');
             Object.keys(ytlPlayers).forEach(id => controlYouTubePlayback(id, 'pauseVideo'));
             Object.keys(nativeMediaPlayers).forEach(id => controlNativeMedia(id, 'pause'));
         }
@@ -202,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // extra functionality that needs to be performed when modal is clicked?
     function mediaModalClickHandler(e) {
         const trigger = e.target.closest('[data-modal-trigger]');
-        console.log('trigger', trigger);
         if (!trigger) return;
 
         const modalId = trigger.getAttribute('data-modal-trigger');
@@ -211,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const carousel = modal?.querySelector('[data-carousel]');
         const controller = getCarouselController(carousel);
 
-        console.log('slideTo', slideTo);
         if (controller) {
             controller.goToSlide(slideTo, true);
         }
@@ -255,7 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ytlPlayers = {};
         nativeMediaPlayers = {};
         const mediaManager = e.detail.mediaManager;
-        console.log('reinitialize modals for media manager', mediaManager);
 
         reinitModalEvents();
         registerModalEventHandler('click', mediaModalClickHandler);

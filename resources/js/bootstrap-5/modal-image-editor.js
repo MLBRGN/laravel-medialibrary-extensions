@@ -68,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const mediaManager = e.detail.mediaManager;
         mediaManager.querySelectorAll('[data-image-editor-modal]')
             .forEach(initializeImageEditorModal);
-        console.log('reinitialize image editor modals for media manager', mediaManager);
+        // console.log('reinitialize image editor modals for media manager', mediaManager);
     });
 
     document.addEventListener('imageEditorModalCloseRequest', (e) => {
         const modal = e.detail.modal;
-        console.log('imageEditorModalCloseRequest', modal);
+        // console.log('imageEditorModalCloseRequest', modal);
         closeBootstrapModal(modal);
     });
 
