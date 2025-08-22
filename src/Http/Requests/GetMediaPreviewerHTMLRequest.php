@@ -44,7 +44,6 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
 
             'destroy_enabled' => ['required', Rule::in(['true', 'false'])],
             'set_as_first_enabled' => ['required', Rule::in(['true', 'false'])],
-            'show_media_url' => ['nullable', Rule::in(['true', 'false'])],
             'show_order' => ['required', Rule::in(['true', 'false'])],
             'show_menu' => ['nullable', Rule::in(['true', 'false'])],
 

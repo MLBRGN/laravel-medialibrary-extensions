@@ -53,7 +53,6 @@
                     <li><strong>Destroy enabled:</strong> {{ $config['destroy_enabled'] ? 'true' : 'false' }}</li>
                     <li><strong>"Set-as-first"
                             Enabled:</strong> {{ $config['set_as_first_enabled'] ? 'true' : 'false' }}</li>
-                    <li><strong>Show media-URL:</strong> {{ $config['show_media_url'] ? 'true' : 'false' }}</li>
                     <li><strong>Show order:</strong> {{ $config['show_order'] ? 'true' : 'false' }}</li>
                     <li><strong>Show menu:</strong> {{ $config['show_menu'] ? 'true' : 'false' }}</li>
                     <li><strong>Temporary upload:</strong> {{ $config['temporary_upload'] === 'true' ? 'Yes' : 'No' }}

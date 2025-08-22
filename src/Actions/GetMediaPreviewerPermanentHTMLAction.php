@@ -62,7 +62,6 @@ class GetMediaPreviewerPermanentHTMLAction
             frontendTheme: $request->input('frontend_theme'),
             destroyEnabled: $request->input('destroy_enabled') === 'true',
             setAsFirstEnabled: $request->input('set_as_first_enabled') === 'true',
-            showMediaUrl: $request->input('show_media_url'),
             showOrder: $request->input('show_order') === 'true',
             showMenu: $request->input('show_menu') === 'true',
             temporaryUploads: $request->input('temporary_uploads') === 'true',

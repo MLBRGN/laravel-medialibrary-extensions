@@ -36,7 +36,6 @@ class MediaManagerPreview extends BaseComponent
         public ?string $frontendTheme = null,
         public bool $destroyEnabled = false,
         public bool $setAsFirstEnabled = false,
-        public bool $showMediaUrl = false,
         public bool $showOrder = false,
         public bool $showMenu = true,
         public bool $temporaryUploads = false,

@@ -151,7 +151,6 @@ it('render returns the correct view when only class name provided', function () 
 
     expect($component->destroyEnabled)->toBeFalse()
         ->and($component->setAsFirstEnabled)->toBeFalse()
-        ->and($component->showMediaUrl)->toBeFalse()
         ->and($component->showOrder)->toBeFalse()
         ->and($component->temporaryUpload)->toBeTrue();
     //        ->and($component->frontendTheme)->toBe('bootstrap-5');

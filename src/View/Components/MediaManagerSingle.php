@@ -20,7 +20,6 @@ class MediaManagerSingle extends MediaManager
         bool $uploadEnabled = false,
         string $uploadFieldName = 'media',
         bool $destroyEnabled = false,
-        bool $showMediaUrl = false,
         bool $showOrder = false,
         bool $showMenu = true,
         string $id = '',
@@ -39,7 +38,6 @@ class MediaManagerSingle extends MediaManager
             uploadFieldName: $uploadFieldName,
             destroyEnabled: $destroyEnabled,
             setAsFirstEnabled: false,// always false
-            showMediaUrl: $showMediaUrl,
             showOrder: $showOrder,
             showMenu: $showMenu,
             id: $id,

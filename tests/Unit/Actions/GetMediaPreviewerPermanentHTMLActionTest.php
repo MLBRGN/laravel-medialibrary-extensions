@@ -21,7 +21,6 @@ it('renders media preview HTML and returns JSON response', function () {
         'frontend_theme' => 'bootstrap-5',
         'destroy_enabled' => true,
         'set_as_first_enabled' => false,
-        'show_media_url' => true,
         'show_order' => false,
     ];
 

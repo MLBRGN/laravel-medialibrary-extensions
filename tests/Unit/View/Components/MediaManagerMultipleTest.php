@@ -55,7 +55,6 @@ it('defaults optional values when omitted', function () {
     expect($component->uploadEnabled)->toBeFalse()
         ->and($component->destroyEnabled)->toBeFalse()
         ->and($component->setAsFirstEnabled)->toBeFalse()
-        ->and($component->showMediaUrl)->toBeFalse()
         ->and($component->showOrder)->toBeFalse()
         ->and($component->uploadFieldName)->toBe('media')
         ->and($component->frontendTheme)->toBe('bootstrap-5')

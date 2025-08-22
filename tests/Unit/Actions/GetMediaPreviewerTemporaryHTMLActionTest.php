@@ -24,7 +24,6 @@ it('renders temporary media preview HTML and returns JSON response', function ()
         'frontend_theme' => 'bootstrap-5',
         'destroy_enabled' => true,
         'set_as_first_enabled' => false,
-        'show_media_url' => true,
         'show_order' => false,
     ];
 
@@ -41,7 +40,6 @@ it('renders temporary media preview HTML and returns JSON response', function ()
             expect($component->frontendTheme)->toBe($requestData['frontend_theme']);
             expect($component->destroyEnabled)->toBe($requestData['destroy_enabled']);
             expect($component->setAsFirstEnabled)->toBe($requestData['set_as_first_enabled']);
-            expect($component->showMediaUrl)->toBe($requestData['show_media_url']);
             expect($component->showOrder)->toBe($requestData['show_order']);
             expect($component->temporaryUpload)->toBeTrue();
 

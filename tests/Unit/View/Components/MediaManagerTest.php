@@ -30,7 +30,6 @@ test('media manager component renders', function () {
         upload-enabled
         destroy-enabled
         set-as-first-enabled
-        show-media-url
         show-order
         id="blog"
         multiple
