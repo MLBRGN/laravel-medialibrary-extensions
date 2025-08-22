@@ -10,11 +10,6 @@
     data-media-manager=""
     >
     <input type="hidden" class="media-manager-config" value='@json($config)'>
-    <x-mle-shared-debug 
-        :frontend-theme="$frontendTheme" 
-        :model-or-class-name="$modelOrClassName" 
-        :config="$config" 
-    />
     {{ $component_start ?? '' }}
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
@@ -90,5 +85,11 @@
         </div>
     </div>
     {{ $component_end ?? '' }}
+
+    <x-mle-shared-debug
+        :frontend-theme="$frontendTheme"
+        :model-or-class-name="$modelOrClassName"
+        :config="$config"
+    />
 </div>
 <x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
