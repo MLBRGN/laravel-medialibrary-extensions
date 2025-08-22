@@ -26,10 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function setupNativeMedia(slide) {
-
             const audio = slide.querySelector('audio');
             const video = slide.querySelector('video');
+
             let nativeMediaPlayerId = null;
+
+            // audio an video use the medium id,
+            // so on refresh just overwrite the nativeMediaPlayer registration
             if (audio) {
                 nativeMediaPlayerId = audio.id;
                 nativeMediaPlayers[nativeMediaPlayerId] = audio;
@@ -78,27 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstSlide = carousel.querySelector('.carousel-item:first-child');
             if (!firstSlide) return;
 
-            const audioElement = firstSlide.querySelector('[data-mle-audio]');
-            const videoElement = firstSlide.querySelector('[data-mle-video]');
+            const nativeMediaPlayerId = setupNativeMedia(firstSlide);
+            controlNativeMedia(nativeMediaPlayerId, 'play');
+
             const youtubeVideoContainer = firstSlide.querySelector('[data-mle-youtube-video]');
-
-            // TODO messy, use controlNativeMedia
-            if (audioElement) {
-                try {
-                    audioElement.play();
-                } catch (err) {
-                    console.warn('Audio autoplay failed:', err);
-                }
-            }
-
-            if (videoElement) {
-                try {
-                    videoElement.play();
-                } catch (err) {
-                    console.warn('Video autoplay failed:', err);
-                }
-            }
-
             if (youtubeVideoContainer) {
                 const youTubeId = youtubeVideoContainer.getAttribute('data-youtube-video-id');
                 if (!youTubeId) return;
@@ -116,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
             if (!carouselInstance) return;
-            stopAllPlayBack();
+
+            stopAllMediaPlayBack();
 
             carousel.removeEventListener('slide.bs.carousel', slideEventListener);
             carouselInstance.to(0)
@@ -127,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!modal.hasAttribute('data-autoplay')) return;
 
-            pauseAllPlayBack()
+            pauseAllMediaPlayBack()
 
             const slide = event.relatedTarget;
             if (!slide) return;
@@ -203,12 +190,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (method) player[method]();
         }
 
-        function pauseAllPlayBack() {
+        function pauseAllMediaPlayBack() {
             Object.keys(ytlPlayers).forEach((playerId) => controlYouTubePlayback(playerId, 'pauseVideo'));
             Object.keys(nativeMediaPlayers).forEach(id => controlNativeMedia(id, 'pause'));
         }
 
-        function stopAllPlayBack() {
+        function stopAllMediaPlayBack() {
+            console.log('stopAllMediaPlayBack');
             Object.keys(ytlPlayers).forEach((playerId) => controlYouTubePlayback(playerId, 'stopVideo'));
             Object.keys(nativeMediaPlayers).forEach(id => controlNativeMedia(id, 'pause'));
         }

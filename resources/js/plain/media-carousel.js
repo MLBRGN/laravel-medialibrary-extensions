@@ -32,7 +32,7 @@ export function initCarousel(carousel) {
     let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
     const swipeVerticalThreshold = 50;
 
-    const updateCarousel = (toSlideIndex, direction = 'right') => {
+    const updateCarousel = (toSlideIndex, direction = 'right', skipFireEvent = false) => {
         slides.forEach((slide) => {
             slide.classList.remove(
                 'active',
@@ -70,7 +70,7 @@ export function initCarousel(carousel) {
         fireEvent('mleCarouselSlided', carousel, {'carousel': carousel, 'currentSlide': nextSlide, 'currentSlideIndex': currentSlideIndex});
     };
 
-    const goToSlide = (slideIndex, skipAnimation = false) => {
+    const goToSlide = (slideIndex, skipAnimation = false, skipFireEvent = false) => {
         if (slideIndex === currentSlideIndex) return;
 
         const normalizedIndex = (slideIndex + slides.length) % slides.length;
@@ -82,7 +82,7 @@ export function initCarousel(carousel) {
             void carousel.offsetWidth; // force reflow
         }
 
-        updateCarousel(normalizedIndex, direction);
+        updateCarousel(normalizedIndex, direction, skipFireEvent);
 
         if (skipAnimation) {
             carousel.classList.remove('temp-no-animation');
@@ -156,7 +156,7 @@ export function initCarousel(carousel) {
 
     // controller API
     const controller = {
-        goToSlide: (slideIndex, skipAnimation = false) => goToSlide(slideIndex, skipAnimation),
+        goToSlide: (slideIndex, skipAnimation = false, skifFireEvent = false) => goToSlide(slideIndex, skipAnimation, skifFireEvent),
         getCurrentSlideIndex: () => currentSlideIndex,
         goToNextSlide: () => goToSlide((currentSlideIndex + 1) % slides.length),
         goToPreviousSlide: () => goToSlide((currentSlideIndex - 1 + slides.length) % slides.length),

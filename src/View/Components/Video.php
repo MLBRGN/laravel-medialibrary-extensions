@@ -17,7 +17,8 @@ class Video extends Component
     public function __construct(
         public Media|TemporaryUpload $medium,
     ) {
-        $this->id = 'video-'.Str::uuid();
+//        $this->id = 'video-'.Str::uuid();
+        $this->id = 'mle-video-'.$medium->id;
     }
 
     public function render(): View

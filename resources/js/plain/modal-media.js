@@ -37,13 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const slideTo = parseInt(trigger.getAttribute('data-slide-to') || '0', 10);
 
             if (slideTo === 0) {
-                const audio = firstSlide.querySelector('[data-mle-audio]');
-                const video = firstSlide.querySelector('[data-mle-video]');
+                const nativeMediaPlayerId = setupNativeMedia(firstSlide);
+                controlNativeMedia(nativeMediaPlayerId, 'play');
+
                 const ytContainer = firstSlide.querySelector('[data-mle-youtube-video]');
-
-                audio?.play().catch(err => console.warn('Audio autoplay failed:', err));
-                video?.play().catch(err => console.warn('Video autoplay failed:', err));
-
                 if (ytContainer) {
                     const youTubeId = ytContainer.getAttribute('data-youtube-video-id');
                     const playerId = `${modalId}-${youTubeId}`
@@ -59,14 +56,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!controller) return;
             // go back to slide 0
             // otherwise slide event won't get triggered when going to the same slide after closing modal
-            controller.goToSlide(0, true);
+            controller.goToSlide(0, true, true);
+
+            stopAllMediaPlayBack();
+
         });
 
         function setupNativeMedia(slide) {
-
             const audio = slide.querySelector('audio');
             const video = slide.querySelector('video');
+
             let nativeMediaPlayerId = null;
+
+            // audio an video use the medium id,
+            // so on refresh just overwrite the nativeMediaPlayer registration
             if (audio) {
                 nativeMediaPlayerId = audio.id;
                 nativeMediaPlayers[nativeMediaPlayerId] = audio;
@@ -93,12 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const nativeMediaPlayerId = setupNativeMedia(currentSlide);
             controlNativeMedia(nativeMediaPlayerId, 'play');
 
-            const audio = currentSlide.querySelector('[data-mle-audio]');
-            const video = currentSlide.querySelector('[data-mle-video]');
-            const ytContainer = currentSlide.querySelector('[data-mle-youtube-video]');
+            // const audio = currentSlide.querySelector('[data-mle-audio]');
+            // const video = currentSlide.querySelector('[data-mle-video]');
+            //
 
-            audio?.play().catch(err => console.warn('Audio autoplay failed:', err));
-            video?.play().catch(err => console.warn('Video autoplay failed:', err));
+            // audio?.play().catch(err => console.warn('Audio autoplay failed:', err));
+            // video?.play().catch(err => console.warn('Video autoplay failed:', err));
+            const ytContainer = currentSlide.querySelector('[data-mle-youtube-video]');
 
             if (ytContainer) {
                 const modalId = modal.id;
