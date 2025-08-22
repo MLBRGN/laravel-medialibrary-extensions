@@ -11,14 +11,14 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
-    public ?array $status = [];
+//    public ?array $status = [];
 
     public function __construct(
         public string $id,
         public ?string $frontendTheme = null
 
     ) {
-        $this->status = session(status_session_prefix());
+//        $this->status = session(status_session_prefix());
 
         if (empty($this->id)) {
             $this->id = 'component-'.uniqid();

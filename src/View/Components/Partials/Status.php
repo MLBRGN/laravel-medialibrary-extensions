@@ -9,26 +9,27 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 class Status extends BaseComponent
 {
-    public string $initiatorId;
-
     public ?array $status = null;
 
     public function __construct(
         public string $id,
         public ?string $frontendTheme,
-        string $initiatorId
+        public string $initiatorId
     ) {
         parent::__construct($id, $frontendTheme);
-        $this->initiatorId = $initiatorId;
-        $statusKey = status_session_prefix();
+
+        $statusKey = status_session_prefix(); // always one global key
 
         if (session()->has($statusKey)) {
-            $status = session($statusKey);
+            $sessionStatus = session($statusKey);
 
-            // Only set status if the target matches the component's initiatorId
-            if (isset($status['initiator_id']) && $status['initiator_id'] === $this->initiatorId) {
-                $this->status = $status;
+            // Only attach if the initiator matches this component
+            if (($sessionStatus['initiator_id'] ?? null) === $this->initiatorId) {
+                $this->status = $sessionStatus;
             }
+//            else {
+//                $this->status = null; // explicitly clear for non-matching
+//            }
         }
     }
 

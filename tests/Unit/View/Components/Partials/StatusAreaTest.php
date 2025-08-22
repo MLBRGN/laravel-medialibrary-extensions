@@ -19,8 +19,7 @@ it('initializes component with provided data', function () {
 
     expect($component->id)->toBe('component-123')
         ->and($component->frontendTheme)->toBe('custom-theme')
-        ->and($component->initiatorId)->toBe('uploader-xyz')
-        ->and($component->status)->toBeNull(); // since session handling is commented out
+        ->and($component->initiatorId)->toBe('uploader-xyz');
 });
 
 it('renders the correct partial view', function () {

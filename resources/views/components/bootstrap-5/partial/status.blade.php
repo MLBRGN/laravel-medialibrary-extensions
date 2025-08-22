@@ -1,4 +1,9 @@
-<div class="status-container mle-flex-grow visible" data-status-container>
+<div 
+    class="status-container mle-flex-grow visible" 
+    data-status-container 
+    data-status-timeout="{{ config('media-library-extensions.status_message_timeout', 5000) }}"
+>
+    
     <div {{ $attributes->class([
             'mle-status-message', 
             'alert',
@@ -11,8 +16,17 @@
         data-success-classes="alert-success"
         data-error-classes="alert-danger"
     >
-    @if ($status)
-        {{$status['message'] }}
-    @endif
+        @if ($status)
+            {{$status['message'] }}
+        @endif
     </div>
+    @if(!config('media-library-extensions.use_xhr'))
+        <script>
+            document.querySelectorAll('[data-status-message]').forEach(el => {
+                setTimeout(() => {
+                    el.classList.add('hidden');
+                }, {{ config('media-library-extensions.status_message_timeout', 5000) }});
+            });
+        </script>
+    @endif
 </div>

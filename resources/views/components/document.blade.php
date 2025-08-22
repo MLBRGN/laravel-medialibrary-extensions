@@ -26,7 +26,7 @@
                 </a>
             @endif
             
-            @if(config('media-library-extensions.preview_modal embed_pdf'))
+            @if(config('media-library-extensions.preview_modal_embed_pdf'))
                 @if(!$preview && $medium->mime_type === 'application/pdf')
                     <embed src="{{ $medium->getUrl() }}" type="application/pdf" width="100%" height="600px" class="mle-document-embed" />
                 @endif

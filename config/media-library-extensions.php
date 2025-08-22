@@ -271,19 +271,20 @@ return [
     | Media preview modal options
     |
     */
-    'preview_modal embed_pdf' => env('MEDIA_LIBRARY_EXTENSIONS_PREVIEW_MODAL_EMBED_PDF', false),
+    'preview_modal_embed_pdf' => env('MEDIA_LIBRARY_EXTENSIONS_PREVIEW_MODAL_EMBED_PDF', false),
 
     /*
     |--------------------------------------------------------------------------
-    | Show status of requests inside component
+    | Status messages
     |--------------------------------------------------------------------------
     |
-    | Used internally to flash messages to the session, this prefix is used
+    | show_status: Used internally to flash messages to the session, this prefix is used
     | as a prefix to prevent session messages to clash with the host application
-    |
+    | status_message_timeout: Control the duration the status message stays on screen
     */
 
     'show_status' => env('MEDIA_LIBRARY_EXTENSIONS_SHOW_STATUS', true),
+    'status_message_timeout' => env('MEDIA_LIBRARY_EXTENSIONS_STATUS_MESSAGE_TIMEOUT', 4000),// in milliseconds
 
     /*
     |--------------------------------------------------------------------------

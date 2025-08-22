@@ -20,9 +20,10 @@ export function showStatusMessage(container, data) {
     void statusContainer.offsetWidth; // force reflow
     statusContainer.classList.add('visible');
 
+    const timeoutDuration = parseInt(statusContainer.dataset.statusTimeout, 10) || 5000;
     // Track timeout per container
     clearTimeout(statusMessageTimeoutMap.get(container));
-    const timeout = setTimeout(() => hideStatusMessage(container), 5000);
+    const timeout = setTimeout(() => hideStatusMessage(container), timeoutDuration);
     statusMessageTimeoutMap.set(container, timeout);
 }
 
