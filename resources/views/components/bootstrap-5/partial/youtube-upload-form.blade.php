@@ -5,13 +5,12 @@
         'method' => 'POST'
     ]"
     :div-attributes="[
-        'data-xhr-form' => true, 
+        'data-xhr-form' => $useXhr, 
         'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
     class="media-manager-youtube-upload-form"
 >
-  
     <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}">
     <input
         type="hidden"

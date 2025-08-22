@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
     mediaManagers.forEach(mediaManager => {
+
+        // if not using XHR skip media manager
+        const useXhr = mediaManager.hasAttribute('data-use-xhr') && mediaManager.getAttribute('data-use-xhr') === 'true';
+        if (!useXhr) return
+
         const container = mediaManager.querySelector('.media-manager-row');
 
         mediaManager.addEventListener('click', async function (e) {

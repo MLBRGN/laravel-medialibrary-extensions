@@ -8,6 +8,7 @@
         'media-manager-single' => !$multiple,
     ])->merge() }}
     data-media-manager=""
+    data-use-xhr="{{ $useXhr ? 'true' : 'false' }}"
     >
     <input type="hidden" class="media-manager-config" value='@json($config)'>
     {{ $component_start ?? '' }}
@@ -31,6 +32,7 @@
                         :set-as-first-enabled="$setAsFirstEnabled"
                         :multiple="$multiple"
                         :disabled="$disableForm"
+                        :use-xhr="$useXhr"
                     />
                 @endif
             @endif
@@ -49,6 +51,7 @@
                     :set-as-first-enabled="$setAsFirstEnabled"
                     :disabled="$disableForm"
                     :multiple="$multiple"
+                    :use-xhr="$useXhr"
                 />
             @endif
             {{ $form_end ?? '' }}
@@ -72,16 +75,9 @@
                     :audio-collection="$audioCollection"
                     :temporary-uploads="$temporaryUpload"
                     :frontend-theme="$frontendTheme"
+                    :use-xhr="$useXhr"
                 />
             </div>
-            {{-- TODO title--}}
-{{--            <x-mle-media-modal--}}
-{{--                :id="$id"--}}
-{{--                :model-or-class-name="$modelOrClassName"--}}
-{{--                :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"--}}
-{{--                title="Media carousel"--}}
-{{--                :inModal="true"--}}
-{{--                :plainJs="true" />--}}
         </div>
     </div>
     {{ $component_end ?? '' }}

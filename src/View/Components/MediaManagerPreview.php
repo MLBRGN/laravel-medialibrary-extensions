@@ -39,6 +39,7 @@ class MediaManagerPreview extends BaseComponent
         public bool $showOrder = false,
         public bool $showMenu = true,
         public bool $temporaryUploads = false,
+        public ?bool $useXhr = true,
     ) {
         parent::__construct($id, $frontendTheme);
 

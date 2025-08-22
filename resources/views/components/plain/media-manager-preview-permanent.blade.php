@@ -134,6 +134,7 @@
                                 :video-collection="$videoCollection"
                                 :set-as-first-enabled="$setAsFirstEnabled"
                                 :frontend-theme="$frontendTheme"
+                                :use-xhr="$useXhr"
                             />
                         @endif
                     @endif
@@ -147,6 +148,7 @@
                             :audio-collection="$audioCollection"
                             :video-collection="$videoCollection"
                             :frontend-theme="$frontendTheme"
+                            :use-xhr="$useXhr"
                         />
                     @endif
                 </div>

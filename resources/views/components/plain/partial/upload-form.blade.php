@@ -6,33 +6,26 @@
         'enctype' => 'multipart/form-data'
     ]"
     :div-attributes="[
-        'data-xhr-form' => true, 
+        'data-xhr-form' => $useXhr, 
         'id' => $id.'-media-upload-form'
     ]"
     method="post"
     class="media-manager-upload-form"
 >
     <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
-    @if($multiple)
-        <input
-            id="{{ $id }}-media-input"
-            accept="{{ $allowedMimeTypes }}"
+    <input
+        id="{{ $id }}-media-input"
+        accept="{{ $allowedMimeTypes }}"
+        type="file"
+        class="mle-input form-control"
+        @if($multiple)
             name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
-            type="file"
-            class="mle-input custom-file-input"
             multiple
-            @disabled($disabled)
-        >
-    @else
-        <input
-            id="{{ $id }}-media-input"
-            accept="{{ $allowedMimeTypes }}"
+        @else
             name="{{ config('media-library-extensions.upload_field_name_single') }}"
-            type="file"
-            class="mle-input custom-file-input"
-            @disabled($disabled)
-        >
-    @endif
+        @endif
+        @disabled($disabled)
+    >
     <span class="mle-form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
     <input
         type="hidden"

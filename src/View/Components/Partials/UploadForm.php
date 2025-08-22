@@ -11,8 +11,6 @@ use Spatie\MediaLibrary\HasMedia;
 
 class UploadForm extends BaseComponent
 {
-//    public bool $mediaPresent = false;
-
     public string $allowedMimeTypesHuman = '';
 
     public HasMedia|null $model = null;
@@ -20,7 +18,6 @@ class UploadForm extends BaseComponent
     public ?string $modelType = null;
 
     public mixed $modelId = null;
-    //    public bool $temporaryUpload = false;
 
     public function __construct(
         public string $id,
@@ -70,25 +67,6 @@ class UploadForm extends BaseComponent
 
         $this->setAllowedMimeTypes();
 
-//        $this->mediaPresent = false;
-//
-//        if ($this->model) {
-//            $collections = collect([
-//                $this->imageCollection,
-//                $this->documentCollection,
-//                $this->youtubeCollection,
-//                $this->videoCollection,
-//                $this->audioCollection,
-//            ])->filter(); // remove null/empty
-//
-//            foreach ($collections as $collection) {
-//                if ($this->model->hasMedia($collection)) {
-//                    $this->mediaPresent = true;
-//                    break; // found media, no need to continue
-//                }
-//            }
-//        }
-
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         return $this->getPartialView('upload-form', $this->frontendTheme);
@@ -137,35 +115,4 @@ class UploadForm extends BaseComponent
 
     }
 
-//    private function setAllowedMimeTypes(): void
-//    {
-//        // TODO attribute mimetype override?
-//        // Only allow mimetypes if the corresponding collection is set
-//        $allowedMimeTypes = collect();
-//        if ($this->imageCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image'));
-//        }
-//
-//        if ($this->documentCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document'));
-//        }
-//
-//        if ($this->videoCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video'));
-//        }
-//
-//        if ($this->audioCollection) {
-//            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio'));
-//        }
-//
-//        $this->allowedMimeTypesHuman = $allowedMimeTypes
-//            ->map(fn ($mime) => mle_human_mimetype_label($mime))
-//            ->join(', ');
-//
-//        $this->allowedMimeTypes = $allowedMimeTypes
-//            ->flatten()
-//            ->unique()
-//            ->implode(',');
-//
-//    }
 }

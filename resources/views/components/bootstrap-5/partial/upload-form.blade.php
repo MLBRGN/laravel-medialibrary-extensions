@@ -6,14 +6,13 @@
         'enctype' => 'multipart/form-data'
     ]"
     :div-attributes="[
-        'data-xhr-form' => true, 
+        'data-xhr-form' => $useXhr, 
         'id' => $id.'-media-upload-form'
     ]"
     method="post"
     class="media-manager-upload-form"
 >
     <label for="{{ $id }}-media-input" class="mle-label form-label">Bestanden</label>
-
     <input
         id="{{ $id }}-media-input"
         accept="{{ $allowedMimeTypes }}"
