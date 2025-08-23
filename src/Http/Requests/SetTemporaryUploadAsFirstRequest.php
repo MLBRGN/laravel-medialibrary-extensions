@@ -21,6 +21,7 @@ class SetTemporaryUploadAsFirstRequest extends MediaManagerRequest
             'target_media_collection' => ['required', 'string'],
             'medium_id' => 'required|string',
             'initiator_id' => ['required', 'string'],
+            'media_manager_id' => ['required', 'string'],
 
             'image_collection' => 'required_without_all:video_collection,audio_collection,document_collection,youtube_collection',
             'video_collection' => 'required_without_all:image_collection,audio_collection,document_collection,youtube_collection',

@@ -66,6 +66,7 @@ class ImageEditorModal extends BaseComponent
         $this->config = [
             'id' => $this->id,
             'initiator_id' => $this->initiatorId,
+            'media_manager_id' => $this->mediaManagerId,
             'model_type' => $this->modelType,
             'model_id' => $this->modelId,
             'medium_id' => $this->medium->id,

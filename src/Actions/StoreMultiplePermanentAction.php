@@ -26,12 +26,18 @@ class StoreMultiplePermanentAction
     {
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+
         $field = config('media-library-extensions.upload_field_name_multiple');
         $files = $request->file($field);
 
         if (empty($files)) {
-            return MediaResponse::error($request, $initiatorId,
-                __('media-library-extensions::messages.upload_no_files'));
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.upload_no_files')
+            );
         }
 
         $collections = collect([
@@ -49,7 +55,8 @@ class StoreMultiplePermanentAction
         if ($mediaInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
-                $request->initiator_id,
+                $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection
                 ])
@@ -85,6 +92,7 @@ class StoreMultiplePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.upload_failed')
             );
         }
@@ -96,7 +104,11 @@ class StoreMultiplePermanentAction
                 ]);
         }
 
-        return MediaResponse::success($request, $initiatorId, $message);
+        return MediaResponse::success(
+            $request,
+            $initiatorId,
+            $mediaManagerId,
+            $message);
 
     }
 }

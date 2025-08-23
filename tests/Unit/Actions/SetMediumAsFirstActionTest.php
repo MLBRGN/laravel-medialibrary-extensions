@@ -9,6 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('fails when no collections provided JSON', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
@@ -24,6 +25,7 @@ it('fails when no collections provided JSON', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
     ]);
@@ -41,6 +43,7 @@ it('fails when no collections provided JSON', function () {
 
     expect($data)->toMatchArray([
         'initiatorId' => $initiatorId,
+//        'media_manager_id' => $mediaManagerId,
         'type' => 'error',
         'message' => __('media-library-extensions::messages.no_media_collections'),
     ]);
@@ -49,6 +52,7 @@ it('fails when no collections provided JSON', function () {
 
 it('fails when no collections provided', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
@@ -64,6 +68,7 @@ it('fails when no collections provided', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
     ]);
@@ -82,6 +87,7 @@ it('fails when no collections provided', function () {
     expect($flashData)->not()->toBeNull()
         ->and($flashData)->toMatchArray([
             'initiator_id' => $initiatorId,
+//            'media_manager_id' => $mediaManagerId,
             'type' => 'error',
             'message' => __('media-library-extensions::messages.no_media_collections'),
         ]);
@@ -90,6 +96,7 @@ it('fails when no collections provided', function () {
 
 it('returns error when no media in collection JSON', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
@@ -105,6 +112,7 @@ it('returns error when no media in collection JSON', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'image_collection' => 'blog-non-existing-collection',
@@ -131,6 +139,7 @@ it('returns error when no media in collection JSON', function () {
 
 it('returns error when no media in collection', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
@@ -146,6 +155,7 @@ it('returns error when no media in collection', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'image_collection' => 'blog-non-existing-collection',
@@ -174,6 +184,7 @@ it('returns error when no media in collection', function () {
 it('can set as first in collection JSON', function () {
 
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
     $model = $this->getTestBlogModel();
@@ -189,6 +200,7 @@ it('can set as first in collection JSON', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'image_collection' => 'blog-images',
@@ -216,6 +228,7 @@ it('can set as first in collection JSON', function () {
 it('can set as first in collection', function () {
 
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
     $model = $this->getTestBlogModel();
@@ -231,6 +244,7 @@ it('can set as first in collection', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'image_collection' => 'blog-images',

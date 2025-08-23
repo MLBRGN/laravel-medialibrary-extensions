@@ -15,11 +15,18 @@ class DeleteTemporaryUploadAction
     public function execute(MediaManagerTemporaryUploadDestroyRequest $request, TemporaryUpload $temporaryUpload): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+
         $temporaryUpload->delete();
 
         $this->reorderAllMedia($request);
 
-        return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_removed'));
+        return MediaResponse::success(
+            $request,
+            $initiatorId,
+            $mediaManagerId,
+            __('media-library-extensions::messages.medium_removed')
+        );
     }
 
     protected function reorderAllMedia($request): void

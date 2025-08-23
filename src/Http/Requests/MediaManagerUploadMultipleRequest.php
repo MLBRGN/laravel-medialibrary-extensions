@@ -72,6 +72,7 @@ class MediaManagerUploadMultipleRequest extends MediaManagerRequest
                 'max:'.config('media-library-extensions.max_upload_size'),
             ],
             'initiator_id' => ['required', 'string'],
+            'media_manager_id' => ['required', 'string'],
         ];
     }
 }

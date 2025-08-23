@@ -25,6 +25,7 @@ class StoreUpdatedMediumAction
     public function execute(StoreUpdatedMediumRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
@@ -50,7 +51,11 @@ class StoreUpdatedMediumAction
                 $model->addMedia($file)
                     ->toMediaCollection($collection);
             } catch (Exception $e) {
-                return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.something_went_wrong'));
+                return MediaResponse::error(
+                    $request,
+                    $initiatorId,
+                    $mediaManagerId,
+                    __('media-library-extensions::messages.something_went_wrong'));
 
             }
             Log::info('trying to find medium with id'. $mediumId);
@@ -99,6 +104,10 @@ class StoreUpdatedMediumAction
             }
         }
 
-        return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.medium_replaced'));
+        return MediaResponse::success(
+            $request,
+            $initiatorId,
+            $mediaManagerId,
+            __('media-library-extensions::messages.medium_replaced'));
     }
 }

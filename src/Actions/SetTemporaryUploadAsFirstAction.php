@@ -21,6 +21,8 @@ class SetTemporaryUploadAsFirstAction
     public function execute(SetTemporaryUploadAsFirstRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+
         $mediumId = (int) $request->medium_id;
 
         $collections = collect([
@@ -36,6 +38,7 @@ class SetTemporaryUploadAsFirstAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.no_media_collections'),
             );
         }
@@ -49,6 +52,7 @@ class SetTemporaryUploadAsFirstAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.no_media'),
             );
         }
@@ -59,6 +63,7 @@ class SetTemporaryUploadAsFirstAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.medium_not_found'),
             );
         }
@@ -78,6 +83,7 @@ class SetTemporaryUploadAsFirstAction
         return MediaResponse::success(
             $request,
             $initiatorId,
+            $mediaManagerId,
             __('media-library-extensions::messages.medium_set_as_main')
         );
     }

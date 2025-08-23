@@ -19,7 +19,7 @@ class StoreUpdatedMediumRequest extends MediaManagerRequest
     {
         return [
             'initiator_id' => ['required', 'string'],
-            'media_manager_id' => ['nullable', 'string'],
+            'media_manager_id' => ['required', 'string'],
             'temporary_upload' => ['required', 'string'],
             'model_type' => 'required|string',
             'model_id' => ['required_if:temporary_upload,false'],

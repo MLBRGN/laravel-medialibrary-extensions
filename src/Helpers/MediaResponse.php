@@ -14,21 +14,17 @@ use Illuminate\Support\ViewErrorBag;
 
 class MediaResponse
 {
-    public static function success(Request $request, string $initiatorId, string $message, array $extraData = []): JsonResponse|RedirectResponse
+    public static function success(Request $request, string $initiatorId, string $mediaManagerId, string $message, array $extraData = []): JsonResponse|RedirectResponse
     {
-        return self::respond($request, $initiatorId, 'success', $message, $extraData);
+        return self::respond($request, $initiatorId, $mediaManagerId, 'success', $message, $extraData);
     }
 
-    public static function error(Request $request, string $initiatorId, string $message, array $extraData = []): JsonResponse|RedirectResponse
+    public static function error(Request $request, string $initiatorId, string $mediaManagerId, string $message, array $extraData = []): JsonResponse|RedirectResponse
     {
-        return self::respond($request, $initiatorId, 'error', $message, $extraData, 422);
+        return self::respond($request, $initiatorId, $mediaManagerId, 'error', $message, $extraData, 422);
     }
-//    public static function error(Request $request, string $initiatorId, string $message, array $extraData = []): JsonResponse|RedirectResponse
-//    {
-//        return self::respond($request, $initiatorId, 'error', $message, $extraData);
-//    }
 
-    protected static function respond(Request $request, string $initiatorId, string $type, string $message, array $extraData = [], int $status = 200): JsonResponse|RedirectResponse
+    protected static function respond(Request $request, string $initiatorId, string $mediaManagerId, string $type, string $message, array $extraData = [], int $status = 200): JsonResponse|RedirectResponse
     {
         if ($request->expectsJson()) {
             // camelCase for JSON (JS-friendly)
@@ -39,6 +35,7 @@ class MediaResponse
         // snake_case for session (PHP convention)
         $base = [
             'initiator_id' => $initiatorId,
+            'media_manager_id' => $mediaManagerId,
             'type' => $type,
             'message' => $message,
         ];
@@ -57,7 +54,7 @@ class MediaResponse
         }
 
         // Take the previous URL and append "#initiatorId"
-        $targetUrl = url()->previous() . '#' . $initiatorId;
+        $targetUrl = url()->previous() . '#' . $mediaManagerId;
 
         return redirect()
             ->to($targetUrl)

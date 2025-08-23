@@ -12,7 +12,10 @@ it('deletes the temporary upload and returns a JSON response when request expect
     ]);
 
     $request = MediaManagerTemporaryUploadDestroyRequest::create('/dummy-url', 'DELETE', [], [], [], [], null);
-    $request->merge(['initiator_id' => 'initiator-123']);
+    $request->merge([
+        'initiator_id' => 'initiator-123',
+        'media_manager_id' => 'media-manager-123'
+    ]);
 
     // Force expectsJson = true
     $request->headers->set('Accept', 'application/json');
@@ -37,7 +40,10 @@ it('deletes the temporary upload and returns a redirect response with flash data
     ]);
 
     $request = MediaManagerTemporaryUploadDestroyRequest::create('/dummy-url', 'DELETE');
-    $request->merge(['initiator_id' => 'initiator-456']);
+    $request->merge([
+        'initiator_id' => 'initiator-456',
+        'media_manager_id' => 'media-manager-123'
+    ]);
 
     // No 'Accept: application/json' header => expectsJson is false
 

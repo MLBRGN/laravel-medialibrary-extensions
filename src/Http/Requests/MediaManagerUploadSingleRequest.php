@@ -65,6 +65,7 @@ class MediaManagerUploadSingleRequest extends MediaManagerRequest
                     : new MaxTemporaryUploadCount($collectionFields, $maxItemsInCollection),
             ],
             'initiator_id' => ['required', 'string'],
+            'media_manager_id' => ['required', 'string'],
         ];
     }
 }

@@ -28,10 +28,17 @@ class StoreMultipleTemporaryAction
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+
         $files = $request->file($field);
 
         if (empty($files)) {
-            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.upload_no_files')
+            );
         }
 
         $collections = collect([
@@ -48,7 +55,8 @@ class StoreMultipleTemporaryAction
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
-                $request->initiator_id,
+                $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection
                 ])
@@ -115,6 +123,7 @@ class StoreMultipleTemporaryAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
             );
         }
@@ -127,6 +136,7 @@ class StoreMultipleTemporaryAction
         return MediaResponse::success(
             $request,
             $initiatorId,
+            $mediaManagerId,
             __('media-library-extensions::messages.upload_success'),
             [
                 'message_extra' => $messageExtra,

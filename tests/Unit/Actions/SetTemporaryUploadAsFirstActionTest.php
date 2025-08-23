@@ -9,11 +9,14 @@ use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('fails when no collections provided JSON', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
+
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
     ]);
@@ -42,11 +45,13 @@ it('fails when no collections provided JSON', function () {
 
 it('fails when no collections provided', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
     ]);
@@ -76,11 +81,13 @@ it('fails when no collections provided', function () {
 
 it('returns error when no media in collection JSON', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         'image_collection' => 'blog-non-existing-collection',
@@ -111,11 +118,13 @@ it('returns error when no media in collection JSON', function () {
 
 it('returns error when no media in collection', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         'image_collection' => 'blog-non-existing-collection',
@@ -149,6 +158,7 @@ it('can set as first in collection JSON', function () {
     $this->withSession([]); // boot a session in the test
 
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
     $media1 = $this->getTemporaryUpload('temp1.jpg', [
@@ -164,6 +174,7 @@ it('can set as first in collection JSON', function () {
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'image_collection' => 'blog-images',
@@ -198,6 +209,7 @@ it('can set as first in collection', function () {
     $this->withSession([]); // boot a session in the test
 
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
     $media1 = $this->getTemporaryUpload('temp1.jpg', [
@@ -213,6 +225,7 @@ it('can set as first in collection', function () {
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'image_collection' => 'blog-images',

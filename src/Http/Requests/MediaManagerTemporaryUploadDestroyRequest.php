@@ -24,6 +24,7 @@ class MediaManagerTemporaryUploadDestroyRequest extends MediaManagerRequest
     {
         return [
             'initiator_id' => ['required', 'string'],
+            'media_manager_id' => ['required', 'string'],
         ];
     }
 }

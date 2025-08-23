@@ -16,6 +16,7 @@ class DeleteMediumAction
     public function execute(MediaManagerDestroyRequest $request, Media $media): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
 
         // Delete the medium
         $model = $media->model; // Get the associated model
@@ -27,6 +28,7 @@ class DeleteMediumAction
         return MediaResponse::success(
             $request,
             $initiatorId,
+            $mediaManagerId,
             __('media-library-extensions::messages.medium_removed')
         );
     }

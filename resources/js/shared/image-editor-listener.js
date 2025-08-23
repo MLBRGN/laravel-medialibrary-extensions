@@ -26,6 +26,8 @@ const updateMedia = (detail) => {
 
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
     const configInput = modal.querySelector('.image-editor-modal-config');
+    // console.log('1', document.querySelector('[data-image-editor-modal-config]'));
+    // console.log('2', modal.querySelector('[data-image-editor-modal-config]'));
     if (!configInput) return;
 
     let config = {};
@@ -51,15 +53,11 @@ const updateMedia = (detail) => {
         const dt = new DataTransfer();
         dt.items.add(file);
         fileInput.files = dt.files;
-        console.log('submit form', form);
         form.submit();
         return
     }
 
     const initiator = document.querySelector('#' + config.initiator_id);
-    console.log('config', config)
-
-    console.log('initiator', initiator);
     const container = initiator.querySelector('.media-manager-row')
 
     const {
@@ -75,6 +73,7 @@ const updateMedia = (detail) => {
     const file = detail.file;
     const formData = new FormData();
     formData.append('initiator_id', config.initiator_id);
+    formData.append('media_manager_id', config.media_manager_id ?? '');
     formData.append('model_type', config.model_type);
     formData.append('model_id', config.model_id ?? '');
     formData.append('medium_id', config.medium_id);
@@ -83,6 +82,7 @@ const updateMedia = (detail) => {
     formData.append('document_collection', config.document_collection);
     formData.append('youtube_collection', config.youtube_collection);
     formData.append('temporary_upload', config.temporary_upload);
+    // formData.append('set_as_first_enabled', config.set_as_first_enabled);
     formData.append('file', file); // 'media' must match Laravel's expected field
 
     fetch(saveUpdatedMediumRoute, {

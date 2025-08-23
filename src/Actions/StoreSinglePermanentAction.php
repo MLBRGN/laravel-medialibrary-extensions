@@ -26,11 +26,17 @@ class StoreSinglePermanentAction
     {
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+
         $field = config('media-library-extensions.upload_field_name_single');
         $file = $request->file($field);
 
         if (! $file) {
-            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_no_files'));
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.upload_no_files'));
         }
 
         $collections = collect([
@@ -44,7 +50,8 @@ class StoreSinglePermanentAction
         if ($this->modelHasAnyMedia($model, $collections)) {
             return MediaResponse::error(
                 $request,
-                $request->initiator_id,
+                $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.only_one_medium_allowed')
             );
         }
@@ -52,7 +59,11 @@ class StoreSinglePermanentAction
         $collection = $this->mediaService->determineCollection($file);
 
         if (! $collection) {
-            return MediaResponse::error($request, $initiatorId, __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
         }
 
         try {
@@ -63,11 +74,16 @@ class StoreSinglePermanentAction
             Log::error($e);
             return MediaResponse::error(
                 $request,
-                $request->initiator_id,
+                $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.something_went_wrong')
             );
         }
 
-        return MediaResponse::success($request, $initiatorId, __('media-library-extensions::messages.upload_success'));
+        return MediaResponse::success(
+            $request,
+            $initiatorId,
+            $mediaManagerId,
+            __('media-library-extensions::messages.upload_success'));
     }
 }

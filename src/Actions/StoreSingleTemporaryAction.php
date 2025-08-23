@@ -28,12 +28,15 @@ class StoreSingleTemporaryAction
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+
         $file = $request->file($field);
 
         if (! $file) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.upload_no_files')
             );
         }
@@ -49,7 +52,8 @@ class StoreSingleTemporaryAction
         if ($this->temporaryUploadsHaveAnyMedia($collections)) {
             return MediaResponse::error(
                 $request,
-                $request->initiator_id,
+                $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.only_one_medium_allowed')
             );
         }
@@ -62,6 +66,7 @@ class StoreSingleTemporaryAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $mimetype]),
                 [
                     'skipped_file' => [
@@ -119,6 +124,7 @@ class StoreSingleTemporaryAction
         return MediaResponse::success(
             $request,
             $initiatorId,
+            $mediaManagerId,
             __('media-library-extensions::messages.upload_success'),
             ['saved_file' => $filename]
         );

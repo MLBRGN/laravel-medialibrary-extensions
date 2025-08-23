@@ -32,12 +32,14 @@ abstract class MediaManagerRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $request = $this; // the FormRequest itself
-        $initiatorId = $request->input('initiator_id') ?? 'default';
+        $initiatorId = $request->input('initiator_id') ?? 'unknown';
+        $mediaManagerId = $request->input('media_manager_id') ?? 'unknown';
         $errors = $validator->errors();
 
         $response = MediaResponse::error(
             $request,
             $initiatorId,
+            $mediaManagerId,
             $errors->first(),
             ['errors' => $errors->messages()]
         );

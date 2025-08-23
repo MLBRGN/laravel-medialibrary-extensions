@@ -39,6 +39,7 @@ class StoreYouTubeVideoRequest extends MediaManagerRequest
             'audio_collection' => ['nullable', 'string'],
             $uploadFieldName => ['nullable', 'url', new YouTubeUrl()],
             'initiator_id' => ['required', 'string'],
+            'media_manager_id' => ['required', 'string'],
             'multiple' => ['required', Rule::in(['true', 'false'])],
         ];
     }

@@ -13,6 +13,8 @@ beforeEach(function () {
 });
 
 it('replaces a permanent medium (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 
     $testImage = $this->getUploadedFile('test.jpg');
@@ -26,7 +28,8 @@ it('replaces a permanent medium (JSON)', function () {
         'medium_id' => $existingMedium->id,
         'collection' => 'images',
         'temporary_upload' => false,
-        'initiator_id' => 'eg'
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
     ], [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
 
@@ -41,16 +44,18 @@ it('replaces a permanent medium (JSON)', function () {
     $response = $action->execute($request);
 
     expect($response->getStatusCode())->toBe(200)
-    ->and($response->getData(true))  ->toMatchArray([
-            'initiatorId' => 'eg',
+    ->and($response->getData(true))
+        ->toMatchArray([
+            'initiatorId' => $initiatorId,
             'type' => 'success',
             'message' => __('media-library-extensions::messages.medium_replaced'),
         ]);
     $this->assertDatabaseMissing('media', ['id' => $existingMedium->id]);
 });
 
-
 it('replaces a permanent medium (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 
     $testImage = $this->getUploadedFile('test.jpg');
@@ -64,7 +69,8 @@ it('replaces a permanent medium (redirect)', function () {
         'medium_id' => $existingMedium->id,
         'collection' => 'images',
         'temporary_upload' => false,
-        'initiator_id' => 'eg'
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
     ], [], ['file' => $file]);
     $request->setLaravelSession(app('session')->driver());
 
@@ -84,12 +90,14 @@ it('replaces a permanent medium (redirect)', function () {
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiator_id'])->toBe('eg');
+    expect($status['initiator_id'])->toBe($initiatorId);
     expect($status['type'])->toBe('success');
     expect($status['message'])->toBe(__('media-library-extensions::messages.medium_replaced'));
 });
 
 it('replaces a temporary upload (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $existingUpload = $this->getTemporaryUpload('old_temp_file.jpg');
     $file = UploadedFile::fake()->image('new_temp_file.jpg');
 
@@ -97,7 +105,8 @@ it('replaces a temporary upload (JSON)', function () {
         'medium_id' => $existingUpload->id,
         'collection' => 'temp-images',
         'temporary_upload' => true,
-        'initiator_id' => 'temp_upload_test'
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
     ], [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session')->driver());
@@ -113,7 +122,7 @@ it('replaces a temporary upload (JSON)', function () {
 
     expect($response->getStatusCode())->toBe(200)
     ->and($response->getData(true))->toMatchArray([
-        'initiatorId' => 'temp_upload_test',
+        'initiatorId' => $initiatorId,
         'type' => 'success',
         'message' => __('media-library-extensions::messages.medium_replaced'),
     ]);
@@ -130,6 +139,8 @@ it('replaces a temporary upload (JSON)', function () {
 use Illuminate\Support\Facades\Validator;
 
 it('stores validation errors in initiator-specific error bag when not using XHR', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 
     $model = $this->getTestBlogModel();
@@ -139,7 +150,8 @@ it('stores validation errors in initiator-specific error bag when not using XHR'
         'model_id' => $model->getKey(),
         'medium_id' => '123',
         'temporary_upload' => 'false',
-        'initiator_id' => 'eg',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
     ], [], ['file' => $file]);
 
     $request->setLaravelSession(app('session')->driver());

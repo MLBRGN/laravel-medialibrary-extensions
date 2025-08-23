@@ -28,6 +28,8 @@ class StoreYouTubeVideoPermanentAction
         }
 
         $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
 
@@ -59,7 +61,8 @@ class StoreYouTubeVideoPermanentAction
 
             return MediaResponse::error(
                 $request,
-                $request->initiator_id,
+                $initiatorId,
+                $mediaManagerId,
                 $message
             );
         }
@@ -75,6 +78,7 @@ class StoreYouTubeVideoPermanentAction
                 return MediaResponse::error(
                     $request,
                     $initiatorId,
+                    $mediaManagerId,
                     __('media-library-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
@@ -82,11 +86,17 @@ class StoreYouTubeVideoPermanentAction
             $thumbnail->setCustomProperty('priority', $nextPriority);
             $thumbnail->save();
 
-            return MediaResponse::success($request, $initiatorId,
+            return MediaResponse::success(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
                 __('media-library-extensions::messages.youtube_video_uploaded'));
         }
 
-        return MediaResponse::error($request, $initiatorId,
+        return MediaResponse::error(
+            $request,
+            $initiatorId,
+            $mediaManagerId,
             __('media-library-extensions::messages.upload_no_youtube_url'));
     }
 }

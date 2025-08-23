@@ -36,10 +36,13 @@ it('aborts if youtube support is disabled', function () {
 });
 
 it('stores permanent thumbnail successfully (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
         'youtube_collection' => 'test-collection',
@@ -66,18 +69,21 @@ it('stores permanent thumbnail successfully (JSON)', function () {
 
     expect($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => 'abc',
+            'initiatorId' => $initiatorId,
             'type' => 'success',
             'message' => __('media-library-extensions::messages.youtube_video_uploaded'),
         ]);
 });
 
 it('stores permanent thumbnail successfully (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'test-collection',
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'model_type' => $model->getMorphClass(),
@@ -109,16 +115,19 @@ it('stores permanent thumbnail successfully (redirect)', function () {
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiator_id'])->toBe('abc');
+    expect($status['initiator_id'])->toBe($initiatorId);
     expect($status['type'])->toBe('success');
     expect($status['message'])->toBe(__('media-library-extensions::messages.youtube_video_uploaded'));
 });
 
 it('returns error when permanent thumbnail fails to download (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'test-collection',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
@@ -140,17 +149,20 @@ it('returns error when permanent thumbnail fails to download (JSON)', function (
     $response = $this->action->execute($request);
     expect($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => 'abc',
+            'initiatorId' => $initiatorId,
             'type' => 'error',
             'message' => __('media-library-extensions::messages.youtube_thumbnail_download_failed'),
         ]);
 });
 
 it('returns error when permanent thumbnail fails to download (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'test-collection',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
@@ -177,17 +189,20 @@ it('returns error when permanent thumbnail fails to download (redirect)', functi
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiator_id'])->toBe('abc');
+    expect($status['initiator_id'])->toBe($initiatorId);
     expect($status['type'])->toBe('error');
     expect($status['message'])->toBe(__('media-library-extensions::messages.youtube_thumbnail_download_failed'));
 });
 
 it('uploads youtube thumbnail to model successfully (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -214,18 +229,21 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
     $response = $this->action->execute($request);
     expect($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => 'abc',
+            'initiatorId' => $initiatorId,
             'type' => 'success',
             'message' => __('media-library-extensions::messages.youtube_video_uploaded'),
         ]);
 });
 
 it('uploads youtube thumbnail to model successfully (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -258,17 +276,20 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiator_id'])->toBe('abc');
+    expect($status['initiator_id'])->toBe($initiatorId);
     expect($status['type'])->toBe('success');
     expect($status['message'])->toBe(__('media-library-extensions::messages.youtube_video_uploaded'));
 });
 
 it('returns error when no youtube url provided for direct upload (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -284,18 +305,21 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $response = $this->action->execute($request);
     expect($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => 'abc',
+            'initiatorId' => $initiatorId,
             'type' => 'error',
             'message' => __('media-library-extensions::messages.upload_no_youtube_url'),
         ]);
 });
 
 it('returns error when no youtube url provided for direct upload (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
-        'initiator_id' => 'abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -317,7 +341,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     expect($session->has('laravel-medialibrary-extensions.status'))->toBeTrue();
 
     $status = $session->get('laravel-medialibrary-extensions.status');
-    expect($status['initiator_id'])->toBe('abc');
+    expect($status['initiator_id'])->toBe($initiatorId);
     expect($status['type'])->toBe('error');
     expect($status['message'])->toBe(__('media-library-extensions::messages.upload_no_youtube_url'));
 });

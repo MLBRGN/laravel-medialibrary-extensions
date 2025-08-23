@@ -122,6 +122,7 @@
                                 />
                             </button>
                         @endif
+                    
                         @if($setAsFirstEnabled)
                             @if($medium->getCustomProperty('priority') === 0)
                                 <button
