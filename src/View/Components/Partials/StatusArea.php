@@ -9,16 +9,16 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 class StatusArea extends BaseComponent
 {
-    public string $initiatorId;
 
     public function __construct(
         public string $id,
         public ?string $frontendTheme,
-        string $initiatorId
+        public string $initiatorId,
+        public string $mediaManagerId
+
     ) {
         parent::__construct($id, $frontendTheme);
 
-        $this->initiatorId = $initiatorId;
     }
 
     public function render(): View

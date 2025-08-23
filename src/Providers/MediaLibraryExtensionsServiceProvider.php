@@ -39,9 +39,9 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadDestro
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Assets;
-use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Debug;
-use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Icon;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 

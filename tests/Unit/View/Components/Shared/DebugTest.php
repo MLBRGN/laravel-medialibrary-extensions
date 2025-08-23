@@ -2,7 +2,7 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
-use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 
 // Minimal fake component for testing Blade UI Kit icons
 class FakeBladeIconComponent extends \Illuminate\View\Component

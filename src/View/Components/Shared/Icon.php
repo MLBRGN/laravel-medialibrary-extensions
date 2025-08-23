@@ -2,7 +2,7 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components\shared;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\Shared;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;

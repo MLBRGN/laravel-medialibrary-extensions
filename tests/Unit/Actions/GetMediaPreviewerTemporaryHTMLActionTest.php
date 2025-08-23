@@ -22,9 +22,9 @@ it('renders temporary media preview HTML and returns JSON response', function ()
         'document_collection' => 'docs',
         'youtube_collection' => 'youtube',
         'frontend_theme' => 'bootstrap-5',
-        'destroy_enabled' => true,
-        'set_as_first_enabled' => false,
-        'show_order' => false,
+        'destroy_enabled' => 'true',
+        'set_as_first_enabled' => 'false',
+        'show_order' => 'false',
     ];
 
     $request = GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
@@ -38,9 +38,9 @@ it('renders temporary media preview HTML and returns JSON response', function ()
             expect($component->documentCollection)->toBe($requestData['document_collection']);
             expect($component->youtubeCollection)->toBe($requestData['youtube_collection']);
             expect($component->frontendTheme)->toBe($requestData['frontend_theme']);
-            expect($component->destroyEnabled)->toBe($requestData['destroy_enabled']);
-            expect($component->setAsFirstEnabled)->toBe($requestData['set_as_first_enabled']);
-            expect($component->showOrder)->toBe($requestData['show_order']);
+            expect($component->destroyEnabled)->toBeTrue();
+            expect($component->setAsFirstEnabled)->toBeFalse();
+            expect($component->showOrder)->toBeFalse();
             expect($component->temporaryUpload)->toBeTrue();
 
             return true;

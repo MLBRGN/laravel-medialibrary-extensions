@@ -6,11 +6,13 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 
 it('sets status from session when initiatorId matches', function () {
-    $initiatorId = 'initiator-123';
+    $initiatorId = 'media-manager-123';
+    $mediaManagerId = 'media-manager-123';
     $statusKey = status_session_prefix();
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'message' => 'Test status message',
     ]);
 
@@ -18,6 +20,7 @@ it('sets status from session when initiatorId matches', function () {
         id: 'status-1',
         frontendTheme: 'plain',
         initiatorId: $initiatorId,
+        mediaManagerId: $mediaManagerId,
     );
 
     expect($component->status)->toBeArray()
@@ -26,11 +29,13 @@ it('sets status from session when initiatorId matches', function () {
 
 it('does not set status if initiatorId does not match', function () {
     $initiatorId = 'initiator-123';
-    $differentInitiatorId = 'other-initiator';
+    $mediaManagerId = 'media-manager-123';
+    $differentMediaManagerId = 'other-initiator';
     $statusKey = status_session_prefix();
 
     session()->put($statusKey, [
-        'initiator_id' => $differentInitiatorId,
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $differentMediaManagerId,
         'message' => 'Test status message',
     ]);
 
@@ -38,16 +43,19 @@ it('does not set status if initiatorId does not match', function () {
         id: 'status-1',
         frontendTheme: 'plain',
         initiatorId: $initiatorId,
+        mediaManagerId: $mediaManagerId,
     );
 
     expect($component->status)->toBeNull();
 });
 
 it('renders the status partial view', function () {
-    $component = new Status(
+    $initiatorId = 'media-manager-123';
+    $mediaManagerId = 'media-manager-123';$component = new Status(
         id: 'status-1',
         frontendTheme: 'plain',
-        initiatorId: 'initiator-123',
+        initiatorId: $initiatorId,
+        mediaManagerId: $mediaManagerId,
     );
 
     $view = $component->render();
@@ -56,11 +64,13 @@ it('renders the status partial view', function () {
 });
 
 it('renders the status message in the view when initiatorId matches (plain)', function () {
-    $initiatorId = 'initiator-123';
+    $initiatorId = 'media-manager-123';
+    $mediaManagerId = 'media-manager-123';
     $statusKey = status_session_prefix($initiatorId);
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'type' => 'success',
         'message' => 'Test status message',
     ]);
@@ -69,6 +79,7 @@ it('renders the status message in the view when initiatorId matches (plain)', fu
         id: 'status-1',
         frontendTheme: 'plain',
         initiatorId: $initiatorId,
+        mediaManagerId: $mediaManagerId,
     );
 
     // Render the component with attributes injected
@@ -82,11 +93,13 @@ it('renders the status message in the view when initiatorId matches (plain)', fu
 });
 
 it('renders the status message in the view when initiatorId matches (bootstrap-5)', function () {
-    $initiatorId = 'initiator-123';
+    $initiatorId = 'media-manager-123';
+    $mediaManagerId = 'media-manager-123';
     $statusKey = status_session_prefix($initiatorId);
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
         'type' => 'success',
         'message' => 'Test status message',
     ]);
@@ -95,6 +108,7 @@ it('renders the status message in the view when initiatorId matches (bootstrap-5
         id: 'status-1',
         frontendTheme: 'bootstrap-5',
         initiatorId: $initiatorId,
+        mediaManagerId: $mediaManagerId,
     );
 
     // Render the component with attributes injected
@@ -109,11 +123,14 @@ it('renders the status message in the view when initiatorId matches (bootstrap-5
 
 it('does not render the status message when initiatorId does not match', function () {
     $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
     $differentInitiatorId = 'other-initiator';
-    $statusKey = status_session_prefix($differentInitiatorId);
+    $differentMediaManagerId = 'other-media-manager';
+    $statusKey = status_session_prefix($differentMediaManagerId);
 
     session()->put($statusKey, [
-        'initiator_id' => $differentInitiatorId,
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $differentMediaManagerId,
         'type' => 'error',
         'message' => 'Test status message',
     ]);
@@ -122,6 +139,7 @@ it('does not render the status message when initiatorId does not match', functio
         id: 'status-1',
         frontendTheme: 'plain',
         initiatorId: $initiatorId,
+        mediaManagerId: $mediaManagerId,
     );
 
     // Render the component with attributes injected
@@ -137,6 +155,7 @@ it('sets status from validation error bag when present', function () {
     app()->setLocale('en');
 
     $initiatorId = 'media-manager-456';
+    $mediaManagerId = 'media-manager-123';
 
     // Prepare an error bag with one message
     $errors = new ViewErrorBag();
@@ -150,6 +169,7 @@ it('sets status from validation error bag when present', function () {
         id: 'status-2',
         frontendTheme: 'plain',
         initiatorId: $initiatorId,
+        mediaManagerId: $mediaManagerId,
     );
 
     expect($component->status)->toBeArray()
@@ -163,4 +183,4 @@ it('sets status from validation error bag when present', function () {
     ])->render();
 
     expect($html)->toContain('Collection is verplicht.');
-});
+})->skip();

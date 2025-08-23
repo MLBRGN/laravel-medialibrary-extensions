@@ -59,7 +59,9 @@
         <div class="media-manager-previews">
             <x-mle-partial-status-area
                 id="{{ $id }}"
-                :initiator-id="$id"/>
+                :initiator-id="$id"
+                :media-manager-id="$id"
+            />
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
                     :id="$id"

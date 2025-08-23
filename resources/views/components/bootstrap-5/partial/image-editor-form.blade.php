@@ -30,7 +30,7 @@
            value="{{ $mediaManagerId }}">
     <input type="hidden"
            name="temporary_upload"
-           value="{{ $temporaryUpload }}">
+           value="{{ $temporaryUpload ? 'true' : 'false' }}">
     <input type="hidden"
            name="collection"
            value="{{ $medium->collection_name }}">

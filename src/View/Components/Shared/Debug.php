@@ -2,7 +2,7 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components\shared;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\Shared;
 
 use Exception;
 use Illuminate\Support\Collection;

@@ -1,6 +1,6 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\View\Components\shared\Assets;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 
 it('sets default values from config', function () {
     config(['media-library-extensions.frontend_theme' => 'default-theme']);
