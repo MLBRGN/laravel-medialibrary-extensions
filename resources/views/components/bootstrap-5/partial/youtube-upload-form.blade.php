@@ -11,7 +11,10 @@
     method="post"
     class="media-manager-youtube-upload-form"
 >
-    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}">
+    <input 
+        type="hidden" 
+        name="temporary_upload" 
+        value="{{ $temporaryUpload ? 'true' : 'false' }}">
     <input
         type="hidden"
         name="youtube_collection"
@@ -52,6 +55,10 @@
         type="hidden"
         name="initiator_id"
         value="{{ $id }}">
+    <input 
+        type="hidden"
+        name="media_manager_id"
+        value="{{ $mediaManagerId }}">
     <input
         type="hidden"
         name="multiple"

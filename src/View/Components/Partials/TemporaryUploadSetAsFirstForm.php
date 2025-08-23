@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\HasMedia;
 class TemporaryUploadSetAsFirstForm extends BaseComponent
 {
     public ?string $targetMediaCollection = null;
+    public ?string $mediaManagerId = '';
 
     public function __construct(
         public Collection $media,
@@ -29,13 +30,15 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
+        $this->mediaManagerId = $this->id;
         $this->id = $this->id . '-destroy-form-'.$this->medium->id;
         $this->targetMediaCollection = $medium->collection_name;
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+
     }
 
     public function render(): View
     {
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         return $this->getPartialView('temporary-upload-set-as-first-form', $this->frontendTheme);
     }

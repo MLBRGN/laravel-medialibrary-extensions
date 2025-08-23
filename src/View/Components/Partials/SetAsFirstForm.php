@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class SetAsFirstForm extends BaseComponent
 {
     public ?string $targetMediaCollection = null;
+    public ?string $mediaManagerId = '';
 
     public function __construct(
         public Collection $media,
@@ -30,6 +31,7 @@ class SetAsFirstForm extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
+        $this->mediaManagerId = $this->id;
         $this->id = $this->id . '-set-as-first-form-' . $this->medium->id;
 
         $this->targetMediaCollection = $medium->collection_name;

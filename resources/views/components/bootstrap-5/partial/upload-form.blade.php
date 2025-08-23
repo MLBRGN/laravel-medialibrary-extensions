@@ -58,7 +58,10 @@
             name="youtube_collection"
             value="{{ $youtubeCollection }}">
     @endif
-    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}">
+    <input 
+        type="hidden" 
+        name="temporary_upload" 
+        value="{{ $temporaryUpload ? 'true' : 'false' }}">
     <input
         type="hidden"
         name="model_type"
@@ -71,7 +74,10 @@
         type="hidden"
         name="initiator_id"
         value="{{ $id }}">
-    
+    <input 
+        type="hidden"
+        name="media_manager_id"
+        value="{{ $mediaManagerId }}">
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit btn btn-primary d-block"

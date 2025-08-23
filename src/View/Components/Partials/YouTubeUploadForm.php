@@ -20,6 +20,7 @@ class YouTubeUploadForm extends BaseComponent
     public ?string $modelType = null;
 
     public mixed $modelId = null;
+    public ?string $mediaManagerId = '';
 
     public function __construct(
         public ?string $youtubeCollection,
@@ -39,6 +40,8 @@ class YouTubeUploadForm extends BaseComponent
         public ?bool $useXhr = null,
         public ?bool $disabled = false,
     ) {
+        $this->mediaManagerId = $this->id;
+
         parent::__construct($id, $frontendTheme);
 
         if ($this->modelOrClassName instanceof HasMedia) {

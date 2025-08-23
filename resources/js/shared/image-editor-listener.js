@@ -42,21 +42,12 @@ const updateMedia = (detail) => {
     if (!useXhr) {
         const file = detail.file;
         const form = modal.querySelector('[data-image-editor-update-form]');
-        console.log('form', form);
 
         // get or create the file input
         let fileInput = form.querySelector('input[type="file"][name="file"]');
-        console.log('fileInput', fileInput);
         if (!fileInput) return
-        // if (!fileInput) {
-        //     fileInput = document.createElement('input');
-        //     fileInput.type = 'file';
-        //     fileInput.name = 'file';
-        //     fileInput.hidden = true;
-        //     form.appendChild(fileInput);
-        // }
-        console.log('test', 'test')
-        // assign File object using DataTransfer
+
+        // assign the File object using DataTransfer
         const dt = new DataTransfer();
         dt.items.add(file);
         fileInput.files = dt.files;

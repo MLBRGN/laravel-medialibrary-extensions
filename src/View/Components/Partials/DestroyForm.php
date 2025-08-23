@@ -10,6 +10,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DestroyForm extends BaseComponent
 {
+    public ?string $mediaManagerId = '';
+
     public function __construct(
 
         public Media $medium,
@@ -28,6 +30,7 @@ class DestroyForm extends BaseComponent
     public function render(): View
     {
 
+        $this->mediaManagerId = $this->id;
         $this->id = $this->id . '-destroy-form-'.$this->medium->id;
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 

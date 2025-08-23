@@ -2,6 +2,8 @@
 
 use Illuminate\View\ComponentAttributeBag;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
 
 it('sets status from session when initiatorId matches', function () {
     $initiatorId = 'initiator-123';
@@ -129,4 +131,36 @@ it('does not render the status message when initiatorId does not match', functio
     ])->render();
 
     expect($html)->not()->toContain('Test status message');
+});
+
+it('sets status from validation error bag when present', function () {
+    app()->setLocale('en');
+
+    $initiatorId = 'media-manager-456';
+
+    // Prepare an error bag with one message
+    $errors = new ViewErrorBag();
+    $errors->put('media_manager_'.$initiatorId, new MessageBag([
+        'collection' => ['Collection is verplicht.'],
+    ]));
+
+    session()->put('errors', $errors);
+
+    $component = new Status(
+        id: 'status-2',
+        frontendTheme: 'plain',
+        initiatorId: $initiatorId,
+    );
+
+    expect($component->status)->toBeArray()
+        ->and($component->status['type'])->toBe('error')
+        ->and($component->status['message'])->toContain('Collection is verplicht.');
+
+    // Render the component with attributes injected
+    $html = $component->render()->with([
+        'status' => $component->status,
+        'attributes' => new ComponentAttributeBag(),
+    ])->render();
+
+    expect($html)->toContain('Collection is verplicht.');
 });

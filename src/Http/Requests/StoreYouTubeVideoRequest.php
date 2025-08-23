@@ -4,14 +4,13 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Rules\YouTubeUrl;
 
 /**
- * Handle the validation and authorization for uploading multiple media files.
+ * Handle the validation and authorization for uploading a YouTube video
  */
-class StoreYouTubeVideoRequest extends FormRequest
+class StoreYouTubeVideoRequest extends MediaManagerRequest
 {
     /**
      * Determine if the user is authorized to make this request.

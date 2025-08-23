@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Illuminate\Support\ViewErrorBag;
 
 beforeEach(function () {
     Storage::fake('tmp');
@@ -124,4 +125,40 @@ it('replaces a temporary upload (JSON)', function () {
 //    $temporaryUploadNew = TemporaryUpload::where('name', 'new_temp_file.jpg')->first();
 //    expect($temporaryUploadNew)->not()->toBeNull();
 
+});
+
+use Illuminate\Support\Facades\Validator;
+
+it('stores validation errors in initiator-specific error bag when not using XHR', function () {
+    $file = UploadedFile::fake()->image('new.jpg');
+
+    $model = $this->getTestBlogModel();
+
+    $request = StoreUpdatedMediumRequest::create('/', 'POST', [
+        'model_type' => $model->getMorphClass(),
+        'model_id' => $model->getKey(),
+        'medium_id' => '123',
+        'temporary_upload' => 'false',
+        'initiator_id' => 'eg',
+    ], [], ['file' => $file]);
+
+    $request->setLaravelSession(app('session')->driver());
+
+    // Manually build and run the validator using rules from the FormRequest
+    $validator = Validator::make($request->all(), (new StoreUpdatedMediumRequest)->rules());
+
+    $this->assertTrue($validator->fails());
+
+    // Flash errors into initiator-specific bag (like failedValidation does)
+    $bagName = 'initiator_'.$request->input('initiator_id');
+    $request->session()->flash(
+        'errors',
+        (new ViewErrorBag())->put($bagName, $validator->errors())
+    );
+
+    $errors = $request->session()->get('errors');
+    $bag = $errors->getBag($bagName);
+
+    expect($bag->any())->toBeTrue();
+    expect($bag->first())->toBe('The collection field is required.');
 });

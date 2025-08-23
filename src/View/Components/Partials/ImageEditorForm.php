@@ -5,7 +5,6 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;

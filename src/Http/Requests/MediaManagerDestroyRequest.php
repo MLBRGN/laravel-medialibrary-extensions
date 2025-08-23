@@ -4,12 +4,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 /**
- * Handles authorization and validation rules for media manager destruction requests.
+ * Handles authorization and validation rules for media manager medium destroy requests.
  */
-class MediaManagerDestroyRequest extends FormRequest
+class MediaManagerDestroyRequest extends MediaManagerRequest
 {
     /**
      * Determine if the user is authorized to make this request.

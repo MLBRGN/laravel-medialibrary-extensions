@@ -10,6 +10,8 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 class TemporaryUploadDestroyForm extends BaseComponent
 {
+    public ?string $mediaManagerId = '';
+
     public function __construct(
 
         public TemporaryUpload $medium,
@@ -23,13 +25,14 @@ class TemporaryUploadDestroyForm extends BaseComponent
         public ?string $audioCollection = '',
     ) {
         parent::__construct($id, $frontendTheme);
+
+        $this->mediaManagerId = $this->id;
+        $this->id = $this->id . '-destroy-form-'. $this->medium->id;
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
     }
 
     public function render(): View
     {
-        $this->id = $this->id . '-destroy-form-'. $this->medium->id;
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
-
         return $this->getPartialView('temporary-upload-destroy-form', $this->frontendTheme);
     }
 }

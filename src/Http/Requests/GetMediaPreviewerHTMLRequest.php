@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 /**
- * Handles authorization and validation rules for media manager destruction requests.
+ * Handles authorization and validation rules for media manager preview update request
  */
 class GetMediaPreviewerHTMLRequest extends FormRequest
 {

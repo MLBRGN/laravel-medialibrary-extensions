@@ -27,10 +27,12 @@
         @disabled($disabled)
     >
     <span class="mle-form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
-    <input
-        type="hidden"
-        name="image_collection"
-        value="{{ $imageCollection }}">
+    @if($imageCollection)
+        <input
+            type="hidden"
+            name="image_collection"
+            value="{{ $imageCollection }}">
+    @endif
     @if($documentCollection)
         <input
             type="hidden"
@@ -55,7 +57,10 @@
             name="youtube_collection"
             value="{{ $youtubeCollection }}">
     @endif
-    <input type="hidden" name="temporary_upload" value="{{ $temporaryUpload ? 'true' : 'false' }}">
+    <input 
+        type="hidden" 
+        name="temporary_upload" 
+        value="{{ $temporaryUpload ? 'true' : 'false' }}">
     <input
         type="hidden"
         name="model_type"
@@ -68,6 +73,10 @@
         type="hidden"
         name="initiator_id"
         value="{{ $id }}">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="{{ $mediaManagerId }}">
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-upload-button"

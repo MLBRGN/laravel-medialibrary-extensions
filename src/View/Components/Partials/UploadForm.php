@@ -11,6 +11,8 @@ use Spatie\MediaLibrary\HasMedia;
 
 class UploadForm extends BaseComponent
 {
+    public ?string $mediaManagerId = '';
+
     public string $allowedMimeTypesHuman = '';
 
     public HasMedia|null $model = null;
@@ -36,11 +38,9 @@ class UploadForm extends BaseComponent
         public ?bool $useXhr = null,
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $frontendTheme);
-    }
+        $this->mediaManagerId = $this->id;
 
-    public function render(): View
-    {
+        parent::__construct($id, $frontendTheme);
 
         if ($this->modelOrClassName instanceof HasMedia) {
             $this->model = $this->modelOrClassName;
@@ -68,7 +68,10 @@ class UploadForm extends BaseComponent
         $this->setAllowedMimeTypes();
 
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+    }
 
+    public function render(): View
+    {
         return $this->getPartialView('upload-form', $this->frontendTheme);
     }
 

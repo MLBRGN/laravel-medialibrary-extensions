@@ -26,6 +26,10 @@
     <input type="hidden"
            name="initiator_id"
            value="{{ $id }}">
+    <input 
+           type="hidden"
+           name="media_manager_id"
+           value="{{ $mediaManagerId }}">
     @if($imageCollection)
         <input
             type="hidden"

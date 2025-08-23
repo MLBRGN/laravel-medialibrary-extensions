@@ -50,6 +50,10 @@
     <input type="hidden"
            name="initiator_id"
            value="{{ $id }}">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="{{ $mediaManagerId }}">
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-button-icon"
