@@ -79,6 +79,7 @@ class YouTubeService
 
         Storage::disk($disk)->put($fullPath, $contents);
         $mimeType = Storage::disk($disk)->mimeType($fullPath);
+        $size = Storage::disk($disk)->size($fullPath);
 
         $maxOrder = TemporaryUpload::where('session_id', $sessionId)->max('order_column') ?? 0;
 
@@ -87,6 +88,7 @@ class YouTubeService
             'path' => $fullPath,
             'name' => $filename,
             'file_name' => $filename,
+            'size' => $size,
             'collection_name' => $collection ?? 'workplace-youtube-videos',
             'mime_type' => $mimeType,
             'user_id' => Auth::id(),
