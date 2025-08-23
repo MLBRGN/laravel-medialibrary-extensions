@@ -39,9 +39,23 @@
                 <input type="hidden" class="image-editor-modal-config" value='@json($config)'>
                 {{-- instantiated when model opens, just in time --}}
                 <div data-image-editor-placeholder class="image-editor"></div>
+
+                <x-mle-partial-image-editor-form
+                    :model-or-class-name="$modelOrClassName"
+                    id="{{ $id }}"
+                    :initiator-id="$id"
+                    :media-manager-id="$mediaManagerId"
+                    :medium="$medium"
+                    :image-collection="$imageCollection"
+                    :document-collection="$documentCollection"
+                    :youtube-collection="$youtubeCollection"
+                    :audio-collection="$audioCollection"
+                    :video-collection="$videoCollection"
+                    :frontend-theme="$frontendTheme"
+                    :use-xhr="$useXhr"
+                />
             </div>
         </div>
     </div>
 </div>
-{{--<x-mle-shared-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$frontendTheme"/>--}}
 <x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>

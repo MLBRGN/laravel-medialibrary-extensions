@@ -12,15 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     mediaManagers.forEach(mediaManager => {
 
-        // if not using XHR skip media manager
-        const useXhr = mediaManager.hasAttribute('data-use-xhr') && mediaManager.getAttribute('data-use-xhr') === 'true';
-        if (!useXhr) return
-
         const container = mediaManager.querySelector('.media-manager-row');
 
         mediaManager.addEventListener('click', async function (e) {
             const config = getMediaManagerConfig(mediaManager);
             if (!config) return;
+
+            // if not using XHR skip let form handle normal submission
+            const useXhr = config.use_xhr;
+            if (!useXhr) return
 
             const target = e.target.closest('[data-action]');
             if (!target) return;

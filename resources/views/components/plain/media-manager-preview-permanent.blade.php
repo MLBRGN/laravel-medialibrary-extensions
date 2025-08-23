@@ -65,7 +65,6 @@
                     draggable="false"
                 />
             </div>
-            {{-- TODO title --}}
             <x-mle-image-editor-modal
                 title=""
                 :initiator-id="$id"
@@ -78,6 +77,7 @@
                 :audio-collection="$audioCollection"
                 :video-collection="$videoCollection"
                 :frontend-theme="$frontendTheme"
+                :use-xhr="$useXhr"
             />
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}

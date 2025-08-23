@@ -40,17 +40,23 @@
                 {{-- instantiated when model opens, just in time --}} 
                 <div data-image-editor-placeholder class="image-editor"></div>
 
-{{--                old way--}}
-{{--                <image-editor --}}
-{{--                    id="{{ $id }}-image-editor"--}}
-{{--                    data-initiator-id="{{ $id }}"--}}
-{{--                    data-medium-display-name="{{ media_display_name($medium) }}"--}}
-{{--                    data-medium-path="{{ $medium->getUrl() }}"--}}
-{{--                />--}}
-
+                <x-mle-partial-image-editor-form
+                    :model-or-class-name="$modelOrClassName"
+                    id="{{ $id }}"
+                    :initiator-id="$id"
+                    :media-manager-id="$mediaManagerId"
+                    :medium="$medium"
+                    :image-collection="$imageCollection"
+                    :document-collection="$documentCollection"
+                    :youtube-collection="$youtubeCollection"
+                    :audio-collection="$audioCollection"
+                    :video-collection="$videoCollection"
+                    :frontend-theme="$frontendTheme"
+                    :use-xhr="$useXhr"
+                />
+                
             </div>
         </div>
     </div>
 </div>
-{{--<x-mle-shared-assets include-css="true" include-js="true" include-image-editor-js="true" :frontend-theme="$frontendTheme"/>--}}
 <x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>

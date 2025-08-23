@@ -12,7 +12,7 @@ it('sets default values from config', function () {
         ->and($component->includeJs)->toBeFalse()
         ->and($component->includeImageEditorJs)->toBeFalse()
         ->and($component->includeFormSubmitter)->toBeFalse()
-        ->and($component->includeYoutubePlayer)->toBeFalse();
+        ->and($component->includeLiteYoutube)->toBeFalse();
 });
 
 it('accepts custom constructor values', function () {
@@ -22,7 +22,7 @@ it('accepts custom constructor values', function () {
         includeJs: true,
         includeImageEditorJs: true,
         includeFormSubmitter: true,
-        includeYoutubePlayer: true,
+        includeLiteYoutube: true,
     );
 
     expect($component->frontendTheme)->toBe('custom-theme')
@@ -30,7 +30,7 @@ it('accepts custom constructor values', function () {
         ->and($component->includeJs)->toBeTrue()
         ->and($component->includeImageEditorJs)->toBeTrue()
         ->and($component->includeFormSubmitter)->toBeTrue()
-        ->and($component->includeYoutubePlayer)->toBeTrue();
+        ->and($component->includeLiteYoutube)->toBeTrue();
 });
 
 it('renders the correct view', function () {

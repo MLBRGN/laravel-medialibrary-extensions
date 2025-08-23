@@ -39,24 +39,7 @@
     @endonce
 @endif
 
-{{--@if($includeYoutubePlayer)--}}
-{{--    @once--}}
-{{--        <script src="https://www.youtube.com/iframe_api"></script>--}}
-{{--        <script>--}}
-{{--            if (!customElements.get('lite-youtube')) {--}}
-{{--                const script = document.createElement('script');--}}
-{{--                script.src = "{{ asset('vendor/media-library-extensions/lite-youtube.js') }}";--}}
-{{--                document.head.appendChild(script);--}}
-{{--            }--}}
-{{--        </script>--}}
-{{--    @endonce--}}
-{{--@endif--}}
-
-{{--@once--}}
-{{--    <script src="https://www.youtube.com/iframe_api" defer></script>--}}
-{{--    <script type="module" src="{{ asset('vendor/media-library-extensions/lite-youtube.js') }}" defer></script>--}}
-{{--@endonce--}}
-@if($includeYoutubePlayer)
+@if($includeLiteYoutube)
     @once
         <script type="module">
             // Loading the "lite-youtube" extension caused issues with the host app,

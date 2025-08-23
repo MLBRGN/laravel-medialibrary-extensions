@@ -30,6 +30,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\ImageEditorForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
@@ -135,6 +136,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // partials for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
+        Blade::component($this->packageNameShort.'-partial-image-editor-form', ImageEditorForm::class);
         Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
         Blade::component($this->packageNameShort.'-partial-destroy-form', DestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-temporary-upload-destroy-form', TemporaryUploadDestroyForm::class);

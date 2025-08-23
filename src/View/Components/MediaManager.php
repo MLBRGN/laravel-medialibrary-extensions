@@ -124,6 +124,7 @@ class MediaManager extends BaseComponent
             'show_menu' => $this->showMenu,
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
             'multiple' => $this->multiple,
+            'use_xhr' => $this->useXhr,
         ];
     }
 

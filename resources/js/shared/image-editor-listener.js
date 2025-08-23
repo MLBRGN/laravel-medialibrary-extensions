@@ -1,4 +1,4 @@
-import {handleAjaxError, showStatusMessage} from "@/js/xhrStatus";
+import {handleAjaxError, showStatusMessage} from "@/js/shared/xhrStatus";
 
 document.addEventListener('onImageSave', (e) => {
     // console.log('onImageSave:', e.detail, e);
@@ -36,7 +36,39 @@ const updateMedia = (detail) => {
         console.error('Invalid JSON config');
     }
 
+    const useXhr = config.use_xhr;
+    console.log('useXhr', useXhr);
+
+    if (!useXhr) {
+        const file = detail.file;
+        const form = modal.querySelector('[data-image-editor-update-form]');
+        console.log('form', form);
+
+        // get or create the file input
+        let fileInput = form.querySelector('input[type="file"][name="file"]');
+        console.log('fileInput', fileInput);
+        if (!fileInput) return
+        // if (!fileInput) {
+        //     fileInput = document.createElement('input');
+        //     fileInput.type = 'file';
+        //     fileInput.name = 'file';
+        //     fileInput.hidden = true;
+        //     form.appendChild(fileInput);
+        // }
+        console.log('test', 'test')
+        // assign File object using DataTransfer
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files;
+        console.log('submit form', form);
+        form.submit();
+        return
+    }
+
     const initiator = document.querySelector('#' + config.initiator_id);
+    console.log('config', config)
+
+    console.log('initiator', initiator);
     const container = initiator.querySelector('.media-manager-row')
 
     const {

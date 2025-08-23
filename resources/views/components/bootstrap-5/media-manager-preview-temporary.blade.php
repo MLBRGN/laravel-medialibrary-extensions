@@ -88,6 +88,7 @@
                 :audio-collection="$audioCollection"
                 :video-collection="$videoCollection"
                 :frontend-theme="$frontendTheme"
+                :use-xhr="$useXhr"
             />
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}

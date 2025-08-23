@@ -162,4 +162,4 @@
         :media-collections="$mediaCollections"
         title="Media carousel"/>
 @endif
-<x-mle-shared-assets include-css="true" include-js="true" include-youtube-player="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets include-css="true" include-js="true" include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$frontendTheme"/>

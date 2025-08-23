@@ -1,31 +1,42 @@
 <x-media-library-extensions::shared.conditional-form
     :use-xhr="$useXhr"
-    :form-attributes="[
-        'action' => route(mle_prefix_route('set-as-first'), $medium),
-        'method' => 'POST'
+    :form-attributes="
+    [
+        'action' => $saveUpdatedMediumRoute,
+        'method' => 'POST',
+        'data-image-editor-update-form' => '',
     ]"
     :div-attributes="[
         'data-xhr-form' => $useXhr, 
-        'id' => $id.'-media-set-as-first-form'
     ]"
-    method="put"
-    class="set-as-first-form"
+    id="{{ $id }}"
+    method="post"
+    class="mle-image-editor-form"
 >
     <input type="hidden"
            name="medium_id"
            value="{{ $medium->id }}">
     <input type="hidden"
-           name="target_media_collection"
-           value="{{ $targetMediaCollection }}">
-    <input type="hidden"
            name="model_type"
-           value="{{ $model->getMorphClass() }}">
+           value="{{ $modelType }}">
     <input type="hidden"
            name="model_id"
-           value="{{ $model->getKey() }}">
+           value="{{ $modelId }}">
     <input type="hidden"
            name="initiator_id"
            value="{{ $id }}">
+    <input type="hidden"
+           name="media_manager_id"
+           value="{{ $mediaManagerId }}">
+    <input type="hidden"
+           name="temporary_upload"
+           value="{{ $temporaryUpload }}">
+    <input type="hidden"
+           name="collection"
+           value="{{ $medium->collection_name }}">
+    <input type="file"
+           name="file"
+           hidden>
     @if($imageCollection)
         <input
             type="hidden"
@@ -71,5 +82,3 @@
 @if($useXhr)
     <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
 @endif
-
-    
