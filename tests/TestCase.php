@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -34,6 +35,7 @@ class TestCase extends Orchestra
         Route::get('/login', function () {
             return 'Login (dummy)';
         })->name('login');
+
     }
 
     protected function getPackageProviders($app): array
@@ -132,6 +134,14 @@ class TestCase extends Orchestra
     public function getUploadedFile($fileName): string
     {
         return $this->getTempDirectory('uploads/'.$fileName);
+    }
+
+    /**
+     * Helper to create temporary uploads in tests.
+     */
+    protected function createTemporaryUpload(array $attributes = [])
+    {
+        return TemporaryUploadFactory::new()->create($attributes);
     }
 
     protected function refreshTestFiles(): void
