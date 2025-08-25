@@ -17,7 +17,7 @@ $baseMiddleware = config('media-library-extensions.route_middleware', []);
 //    $baseMiddleware[] = RegisterDemoDatabase::class;
 // }
 Route::group([
-    'middleware' => config('media-library-extensions.route_middleware', []),
+    'middleware' => config('media-library-extensions.route_middleware', ['web', 'auth']),
     'prefix' => config('media-library-extensions.route_prefix'),
 ], function () {
     Route::controller(MediaManagerController::class)->group(function () {

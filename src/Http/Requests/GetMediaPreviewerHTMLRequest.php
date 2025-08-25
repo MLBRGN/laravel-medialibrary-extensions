@@ -34,11 +34,11 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'model_type' => ['required', 'string'], // model_id handled by withValidator, for conditional validation
 //            modelOrClassName: $model,
 
-            'image_collection' => ['nullable', 'string'],
-            'document_collection' => ['nullable', 'string'],
-            'youtube_collection' => ['nullable', 'string'],
-            'video_collection' => ['nullable', 'string'],
-            'audio_collection' => ['nullable', 'string'],
+            'image_collection' => 'required_without_all:video_collection,audio_collection,document_collection,youtube_collection',
+            'video_collection' => 'required_without_all:image_collection,audio_collection,document_collection,youtube_collection',
+            'audio_collection' => 'required_without_all:image_collection,video_collection,document_collection,youtube_collection',
+            'document_collection' => 'required_without_all:image_collection,video_collection,audio_collection,youtube_collection',
+            'youtube_collection' => 'required_without_all:image_collection,video_collection,audio_collection,document_collection',
 
             'frontend_theme' => ['nullable', 'string'],
 

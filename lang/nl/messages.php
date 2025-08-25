@@ -59,4 +59,5 @@ return [
     'invalid_youtube_url' => 'Ongeldig YouTube URL.',
     'something_went_wrong' => 'Er ging iets verkeerd.',
     'download_document' => 'Download document',
+    'medium_not_found' => 'Medium niet gevonden.',
 ];

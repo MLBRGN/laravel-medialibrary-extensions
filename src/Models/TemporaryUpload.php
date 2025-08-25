@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class TemporaryUpload extends Model
 {
+
+//    public static function booted()
+//    {
+//        static::retrieved(function ($model) {
+//            dump('retrieved model', $model->id, $model->getConnectionName());
+//        });
+//    }
+
     protected $table = 'mle_temporary_uploads';
 
     protected $fillable = [

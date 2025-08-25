@@ -4,6 +4,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -12,6 +13,7 @@ use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvide
 use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -19,6 +21,8 @@ use Orchestra\Testbench\TestCase as Orchestra;
 class TestCase extends Orchestra
 {
     protected $baseUrl = 'http://medialibrary-extensions.test';
+    protected Blog $testModel;
+    protected Ufo $testModelNotExtendingHasMedia;
 
     // runs before every test
     protected function setUp(): void
@@ -32,17 +36,23 @@ class TestCase extends Orchestra
             __DIR__ . '/../lang'
         );
 
-        Route::get('/login', function () {
-            return 'Login (dummy)';
-        })->name('login');
+        Route::get('/login', fn () => 'Login (dummy)')->name('login');
 
+        Config::set('media-library-extensions.demo_pages_enabled', false);
+
+        if (empty(config('app.key'))) {
+            $key = 'base64:'.base64_encode(random_bytes(32));
+            Config::set('app.key', $key);
+        }
+
+        // Use a persistent session driver
+//        Config::set('session.driver', 'file');
     }
 
     protected function getPackageProviders($app): array
     {
         return [
             MediaLibraryExtensionsServiceProvider::class,
-//            \Illuminate\Translation\TranslationServiceProvider::class,
         ];
     }
 
@@ -113,12 +123,19 @@ class TestCase extends Orchestra
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
     }
 
-    protected function createDirectory($directory): void
+//    protected function createDirectory($directory): void
+//    {
+//        if (File::isDirectory($directory)) {
+//            File::deleteDirectory($directory);
+//        }
+//        File::makeDirectory($directory);
+//    }
+    protected function createDirectory(string $directory): void
     {
         if (File::isDirectory($directory)) {
             File::deleteDirectory($directory);
         }
-        File::makeDirectory($directory);
+        File::makeDirectory($directory, 0755, true);
     }
 
     public function getTempDirectory(string $suffix = ''): string
@@ -131,23 +148,34 @@ class TestCase extends Orchestra
         return $this->getTempDirectory('media'.($suffix == '' ? '' : '/'.$suffix));
     }
 
+    private function getTemporaryUploadsDirectory(): string
+    {
+        return __DIR__.'/Support/tmp/uploads';
+    }
+
     public function getUploadedFile($fileName): string
     {
         return $this->getTempDirectory('uploads/'.$fileName);
     }
 
-    /**
-     * Helper to create temporary uploads in tests.
-     */
+    protected function refreshTestFiles(): void
+    {
+        // reset uploads dir
+        $this->createDirectory($this->getTemporaryUploadsDirectory());
+
+        // copy all fixture images into uploads dir
+        File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
+    }
+
     protected function createTemporaryUpload(array $attributes = [])
     {
         return TemporaryUploadFactory::new()->create($attributes);
     }
 
-    protected function refreshTestFiles(): void
-    {
-        File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
+    public function getUser(): User {
+        return new User(['id' => 123, 'name' => 'Test User']);
     }
+
 
     public function getTestBlogModel(): Model {
         return $this->testModel;
@@ -184,9 +212,62 @@ class TestCase extends Orchestra
         return TemporaryUpload::create(array_merge($defaults, $overrides));
     }
 
-    private function getTemporaryUploadsDirectory(): string
+    public function getModelWithMedia(
+        string $collection = 'images',
+        int|array $files = 1 // number of files or explicit file names
+    ) {
+        $model = $this->getTestBlogModel();
+
+        $available = [
+            'test.jpg',
+            'test2.jpg',
+            'test3.jpg',
+            'test.png',
+            'test2.png',
+            'test3.png',
+        ];
+
+        // Normalize input
+        if (is_int($files)) {
+            $count = $files;  // keep the integer separately
+            $files = [];
+            for ($i = 0; $i < $count; $i++) {
+                $files[] = $available[$i % count($available)];
+            }
+        }
+
+        foreach ($files as $fileName) {
+            $source = __DIR__ . '/Support/files/' . $fileName;
+
+            if (! File::exists($source)) {
+                throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
+            }
+
+            $target = $this->getUploadedFile($fileName);
+            File::ensureDirectoryExists(dirname($target));
+
+            if (! File::exists($target)) {
+                File::copy($source, $target);
+            }
+
+            $model
+                ->addMedia($target)
+                ->preservingOriginal()
+                ->toMediaCollection($collection);
+        }
+
+        return $model->fresh();
+    }
+
+    public function getTestImagePath(string $fileName = 'test.jpg'): string
     {
-        return __DIR__.'/Support/tmp/uploads';
+        $source = __DIR__ . '/Support/files/' . $fileName;
+        $target = $this->getUploadedFile($fileName);
+
+        File::ensureDirectoryExists(dirname($target));
+        File::copy($source, $target);
+
+        return $target;
     }
 
 }

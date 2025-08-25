@@ -1,18 +1,11 @@
 <?php
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 
 covers(DeleteTemporaryUploadAction::class);
 
 it('returns error response when no collections provided JSON', function () {
-    // Disable auth middleware for this test
-    $this->withoutMiddleware();
-
+    $user = $this->getUser();
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
 
@@ -23,7 +16,7 @@ it('returns error response when no collections provided JSON', function () {
     ]);
 
     // Call your route with empty payload to trigger 422
-    $response = $this->deleteJson(
+    $response = $this->actingAs($user)->deleteJson(
         route(config('media-library-extensions.route_prefix') . '-temporary-upload-destroy', $upload),
         ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerId]
     );
@@ -38,9 +31,7 @@ it('returns error response when no collections provided JSON', function () {
 
 
 it('returns error response when no collections provided Redirect', function () {
-    // Disable auth middleware for this test
-    $this->withoutMiddleware();
-
+    $user = $this->getUser();
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
 
@@ -50,7 +41,7 @@ it('returns error response when no collections provided Redirect', function () {
         'custom_properties' => ['priority' => 0],
     ]);
 
-    $response = $this->delete(
+    $response = $this->actingAs($user)->delete(
         route(config('media-library-extensions.route_prefix') . '-temporary-upload-destroy', $upload),
         ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerId]
     );
@@ -69,51 +60,151 @@ it('returns error response when no collections provided Redirect', function () {
         ]);
 });
 
-it('deletes the temporary upload and returns redirect with flash data when request does NOT expect JSON', function () {
-    $temporaryUpload = $this->getTemporaryUpload('temp.jpg', ['session_id' => session()->getId()]);
+it('deletes the temporary upload and returns JSON', function () {
+    $user = $this->getUser();
+    $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
+    $imageCollectionName = 'images';
 
-    $request = MediaManagerTemporaryUploadDestroyRequest::create('/dummy-url', 'DELETE');
-    $request->merge([
-        'initiator_id' => 'initiator-456',
-        'media_manager_id' => 'media-manager-123',
+//    // Dump all queries executed during the request
+//    DB::listen(function ($query) {
+//        dump($query->sql, $query->bindings);
+//    });
+
+    // Create a temporary upload
+    $temporaryUpload = $this->createTemporaryUpload([
+        'collection_name' => $imageCollectionName,
+        'custom_properties' => ['priority' => 0],
     ]);
 
-    $action = new DeleteTemporaryUploadAction();
-    $response = $action->execute($request, $temporaryUpload);
+    $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
 
-    expect(TemporaryUpload::find($temporaryUpload->id))->toBeNull();
-    expect($response)->toBeInstanceOf(RedirectResponse::class);
+    // Call your route with empty payload to trigger 422
+    $route =  route(mle_prefix_route('temporary-upload-destroy'), $temporaryUpload);
+    $response = $this->actingAs($user)->deleteJson(
+        $route,
+        [
+            'initiator_id' => $initiatorId,
+            'media_manager_id' => $mediaManagerId,
+            'image_collection' => $imageCollectionName,
+        ]
+    );
+
+    $response->assertStatus(200)
+        ->assertJson([
+            'initiatorId' => $initiatorId,
+            'type' => 'success',
+            'message' => __('media-library-extensions::messages.medium_removed'),
+        ]);
+
+    $this->assertDatabaseMissing('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
+});
+
+it('deletes the temporary upload and returns redirect', function () {
+
+    $user = $this->getUser();
+    $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
+    $imageCollectionName = 'images';
+
+//    // Dump all queries executed during the request
+//    DB::listen(function ($query) {
+//        dump($query->sql, $query->bindings);
+//    });
+
+    // Create a temporary upload
+    $temporaryUpload = $this->createTemporaryUpload([
+        'collection_name' => $imageCollectionName,
+        'custom_properties' => ['priority' => 0],
+    ]);
+
+    $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
+
+
+    // Call your route with empty payload to trigger 422
+    $route =  route(mle_prefix_route('temporary-upload-destroy'), $temporaryUpload);
+    $response = $this->actingAs($user)->delete(
+        $route,
+        [
+            'initiator_id' => $initiatorId,
+            'media_manager_id' => $mediaManagerId,
+            'image_collection' => $imageCollectionName,
+        ]
+    );
+
+    $response->assertRedirect();
 
     $flashKey = config('media-library-extensions.status_session_prefix');
     $flashData = $response->getSession()->get($flashKey);
 
     expect($flashData)->not()->toBeNull()
         ->and($flashData)->toMatchArray([
-            'initiator_id' => 'initiator-456',
+            'initiator_id' => $initiatorId,
             'type' => 'success',
             'message' => __('media-library-extensions::messages.medium_removed'),
         ]);
-})->todo();
+    $this->assertDatabaseMissing('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
+});
 
-it('reorders all temporary uploads on delete', function () {
-    $upload1 = $this->createTemporaryUpload(['collection_name' => 'images', 'custom_properties' => ['priority' => 0]]);
-    $upload2 = $this->createTemporaryUpload(['collection_name' => 'images', 'custom_properties' => ['priority' => 1]]);
-    $upload3 = $this->createTemporaryUpload(['collection_name' => 'videos', 'custom_properties' => ['priority' => 2]]);
+it('reorders all temporary uploads on delete with dummy session id', function () {
 
-    $response = $this->followingRedirects()->delete(
-        route(config('media-library-extensions.route_prefix') . '-temporary-upload-destroy', $upload2),
-        []
-    );
+    $user = $this->getUser();
 
-    $response->assertStatus(200);
+    $sessionId = 'test-session-id';
 
-    $this->assertDatabaseHas('mle_temporary_uploads', ['id' => $upload1->id]);
-    $this->assertDatabaseMissing('mle_temporary_uploads', ['id' => $upload2->id]);
-    $this->assertDatabaseHas('mle_temporary_uploads', ['id' => $upload3->id]);
+    $imageCollectionName = 'images';
+    $initiatorId = 'initiator-123';
+    $mediaManagerId = 'media-manager-123';
 
-    $upload1->refresh();
-    $upload3->refresh();
+    // Create temporary uploads with the dummy session ID
+    $temporaryUpload1 = $this->createTemporaryUpload([
+        'collection_name' => $imageCollectionName,
+        'custom_properties' => ['priority' => 0],
+        'session_id' => $sessionId,
+    ]);
+    $temporaryUpload2 = $this->createTemporaryUpload([
+        'collection_name' => $imageCollectionName,
+        'custom_properties' => ['priority' => 1],
+        'session_id' => $sessionId,
+    ]);
+    $temporaryUpload3 = $this->createTemporaryUpload([
+        'collection_name' => $imageCollectionName,
+        'custom_properties' => ['priority' => 2],
+        'session_id' => $sessionId,
+    ]);
 
-    expect($upload1->getCustomProperty('priority'))->toBe(0);
-    expect($upload3->getCustomProperty('priority'))->toBe(2);
-})->todo();
+    $route = route(mle_prefix_route('temporary-upload-destroy'), $temporaryUpload2);
+
+    // Pass a dummy session ID via request headers
+    $response = $this->actingAs($user)
+        ->delete($route, [
+            'initiator_id' => $initiatorId,
+            'media_manager_id' => $mediaManagerId,
+            'image_collection' => $imageCollectionName,
+        ],
+        [
+            'X-Test-Session-Id' => $sessionId,
+        ]);
+
+    $flashKey = config('media-library-extensions.status_session_prefix');
+    $flashData = $response->getSession()->get($flashKey);
+
+    expect($flashData)->not()->toBeNull()
+        ->and($flashData)->toMatchArray([
+            'initiator_id' => $initiatorId,
+            'type' => 'success',
+            'message' => __('media-library-extensions::messages.medium_removed'),
+        ]);
+
+    // Ensure the deleted upload is gone, others remain
+    $this->assertDatabaseHas('mle_temporary_uploads', ['id' => $temporaryUpload1->id]);
+    $this->assertDatabaseMissing('mle_temporary_uploads', ['id' => $temporaryUpload2->id]);
+    $this->assertDatabaseHas('mle_temporary_uploads', ['id' => $temporaryUpload3->id]);
+
+    // Refresh and check priorities
+    $temporaryUpload1->refresh();
+    $temporaryUpload3->refresh();
+
+    expect($temporaryUpload1->getCustomProperty('priority'))->toBe(0);
+    expect($temporaryUpload3->getCustomProperty('priority'))->toBe(1);
+});
