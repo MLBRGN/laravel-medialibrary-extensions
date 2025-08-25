@@ -25,7 +25,7 @@ it('returns error response when no collections provided JSON', function () {
         ->assertJson([
             'initiatorId' => $initiatorId,
             'type' => 'error',
-            'message' => __('media-library-extensions::messages.no_media_collections'),
+            'message' => 'The image collection field is required when none of video collection / audio collection / document collection / youtube collection are present.',
         ]);
 });
 
@@ -56,7 +56,7 @@ it('returns error response when no collections provided Redirect', function () {
         ->and($flashData)->toMatchArray([
             'initiator_id' => $initiatorId,
             'type' => 'error',
-            'message' => __('media-library-extensions::messages.no_media_collections'),
+            'message' => 'The image collection field is required when none of video collection / audio collection / document collection / youtube collection are present.',
         ]);
 });
 

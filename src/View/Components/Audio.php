@@ -17,7 +17,6 @@ class Audio extends Component
     public function __construct(
         public Media|TemporaryUpload $medium,
     ) {
-//        $this->id = 'audio-'.Str::uuid();
         $this->id = 'mle-audio-'.$medium->id;
     }
 

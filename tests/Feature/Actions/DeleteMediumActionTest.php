@@ -11,7 +11,9 @@ it('deletes the medium and returns JSON', function () {
     $imageCollectionName = 'images';
 
     // Create a model with media
-    $model = $this->getModelWithMedia($imageCollectionName,2);
+    $model = $this->getModelWithMedia([
+        'image' => 2,
+    ]);
 
     // Attach a medium
     $media = $model->addMedia($this->getTestImagePath())
@@ -45,7 +47,9 @@ it('deletes the medium and returns Redirect', function () {
     $imageCollectionName = 'images';
 
     // Create a model with media
-    $model = $this->getModelWithMedia($imageCollectionName,2);
+    $model = $this->getModelWithMedia([
+        'image' => 2,
+    ]);
 
     // Attach a medium
     $media = $model->addMedia($this->getTestImagePath())
@@ -84,7 +88,9 @@ it('reorders all media on delete', function () {
     $imageCollectionName = 'images';
 
     // Create model with multiple media items
-    $model = $this->getModelWithMedia($imageCollectionName,4);
+    $model = $this->getModelWithMedia([
+        'image' => 2,
+    ]);
 
     $media1 = $model->addMedia($this->getTestImagePath())
         ->withCustomProperties(['priority' => 0])

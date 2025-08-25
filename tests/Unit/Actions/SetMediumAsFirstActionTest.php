@@ -13,7 +13,7 @@ it('fails when no collections provided JSON', function () {
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
-    $testImage = $this->getUploadedFile('test.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
 
     $media1 = $model->addMedia($testImage)
         ->toMediaCollection('blog-images');
@@ -56,7 +56,7 @@ it('fails when no collections provided', function () {
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
-    $testImage = $this->getUploadedFile('test.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
 
     $media1 = $model->addMedia($testImage)
         ->toMediaCollection('blog-images');
@@ -100,7 +100,7 @@ it('returns error when no media in collection JSON', function () {
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
-    $testImage = $this->getUploadedFile('test.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
 
     $media1 = $model->addMedia($testImage)
         ->toMediaCollection('blog-images');
@@ -143,7 +143,7 @@ it('returns error when no media in collection', function () {
     $targetCollection = 'images';
     $model = $this->getTestBlogModel();
 
-    $testImage = $this->getUploadedFile('test.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
 
     $media1 = $model->addMedia($testImage)
         ->toMediaCollection('blog-images');
@@ -188,7 +188,7 @@ it('can set as first in collection JSON', function () {
     $targetCollection = 'blog-images';
 
     $model = $this->getTestBlogModel();
-    $testImage = $this->getUploadedFile('test.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
 
     $media1 = $model->addMedia($testImage)
     ->toMediaCollection('blog-images');
@@ -232,7 +232,7 @@ it('can set as first in collection', function () {
     $targetCollection = 'blog-images';
 
     $model = $this->getTestBlogModel();
-    $testImage = $this->getUploadedFile('test.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
 
     $media1 = $model->addMedia($testImage)
         ->toMediaCollection('blog-images');

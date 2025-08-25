@@ -50,7 +50,7 @@ it('detects when the Blade UI icon alias is missing', function () {
 
 it('populates media collections from a model', function () {
     $model = $this->getTestBlogModel();
-    $testImage = $this->getUploadedFile('test.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
     $model->addMedia($testImage)
         ->toMediaCollection('test-collection');
 

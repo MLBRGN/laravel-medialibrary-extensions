@@ -10,8 +10,8 @@ it('deletes a medium and reorders priorities', function () {
     // Arrange: attach some media
     $model = $this->getTestBlogModel();
 
-    $testImage = $this->getUploadedFile('test.png');
-    $testImage2 = $this->getUploadedFile('test2.png');
+    $testImage = $this->getFixtureUploadedFile('test.png');
+    $testImage2 = $this->getFixtureUploadedFile('test2.png');
     $first = $model->addMedia($testImage)
         ->preservingOriginal()
         ->withCustomProperties(['priority' => 5])

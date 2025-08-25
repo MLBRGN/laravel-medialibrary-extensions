@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -17,7 +16,6 @@ class Video extends Component
     public function __construct(
         public Media|TemporaryUpload $medium,
     ) {
-//        $this->id = 'video-'.Str::uuid();
         $this->id = 'mle-video-'.$medium->id;
     }
 

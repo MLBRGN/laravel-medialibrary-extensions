@@ -17,7 +17,7 @@ it('replaces a permanent medium (JSON)', function () {
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 
-    $testImage = $this->getUploadedFile('test.jpg');
+    $testImage = $this->getFixtureUploadedFile('test.jpg');
     $existingMedium = $this->getTestBlogModel()
         ->addMedia($testImage)
         ->toMediaCollection('blog-images');
@@ -58,7 +58,7 @@ it('replaces a permanent medium (redirect)', function () {
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 
-    $testImage = $this->getUploadedFile('test.jpg');
+    $testImage = $this->getFixtureUploadedFile('test.jpg');
     $existingMedium = $this->getTestBlogModel()
         ->addMedia($testImage)
         ->toMediaCollection('blog-images');
