@@ -59,4 +59,6 @@ return [
     'something_went_wrong' => 'Something went wrong.',
     'download_document' => 'Download document',
     'medium_not_found' => 'Medium not found.',
+    'class_does_not_exist' =>  'Class ":class_name" does not exist.',
+    'class_must_implement' =>  'Class must implement ":class_name"',
 ];

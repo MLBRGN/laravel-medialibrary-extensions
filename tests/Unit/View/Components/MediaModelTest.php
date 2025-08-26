@@ -2,79 +2,11 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
-use Mockery;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-//it('initializes with a single media collection', function () {
-//    $media = collect([Mockery::mock(Media::class), Mockery::mock(Media::class)]);
-//
-//    $model = $this->getTestBlogModel();
-////    $mockModel = Mockery::mock(HasMedia::class);
-////    $mockModel->shouldReceive('getMedia')
-////        ->with('images')
-////        ->andReturn(MediaCollection::make($media));
-//
-//    $component = new MediaModal(
-//        modelOrClassName: $model,
-//        mediaCollection: 'images',
-//        mediaCollections: null,
-//        title: 'Single Collection Test'
-//    );
-//
-////    expect($component->mediaItems)
-////        ->toBeInstanceOf(MediaCollection::class)
-////        ->and($component->mediaItems->count())->toBe(2);
-//});
-//
-//it('initializes with multiple media collections', function () {
-//    $media1 = collect([Mockery::mock(Media::class)]);
-//    $media2 = collect([Mockery::mock(Media::class), Mockery::mock(Media::class)]);
-//
-//    $mockModel = Mockery::mock(HasMedia::class);
-//    $mockModel->shouldReceive('getMedia')->with('images')->andReturn(MediaCollection::make($media1));
-//    $mockModel->shouldReceive('getMedia')->with('docs')->andReturn(MediaCollection::make($media2));
-//
-//    $component = new MediaModal(
-//        modelOrClassName: $mockModel,
-//        mediaCollection: null,
-//        mediaCollections: ['images', 'docs'],
-//        title: 'Multiple Collections Test'
-//    );
-//
-//    expect($component->mediaItems)
-//        ->toBeInstanceOf(MediaCollection::class)
-//        ->and($component->mediaItems->count())->toBe(3);
-//});
-//
-//it('initializes with an empty collection if model is null', function () {
-//    $component = new MediaModal(
-//        modelOrClassName: null,
-//        mediaCollection: 'images',
-//        mediaCollections: null,
-//        title: 'No Model Test'
-//    );
-//
-//    expect($component->mediaItems)->toBeInstanceOf(MediaCollection::class)
-//        ->and($component->mediaItems)->toHaveCount(0);
-//});
-//
-//it('initializes with an empty collection if no mediaCollection or mediaCollections is provided', function () {
-//    $mockModel = Mockery::mock(HasMedia::class);
-//
-//    $component = new MediaModal(
-//        modelOrClassName: $mockModel,
-//        mediaCollection: null,
-//        mediaCollections: null,
-//        title: 'No Collections Test'
-//    );
-//
-//    expect($component->mediaItems)->toBeInstanceOf(MediaCollection::class)
-//        ->and($component->mediaItems)->toHaveCount(0);
-//});
+use function Livewire\on;
 
 it('appends -mod to the id', function () {
     $model = $this->getTestBlogModel();
@@ -102,4 +34,128 @@ it('returns the correct view on render', function () {
 
     expect($view)->toBeInstanceOf(View::class)
         ->and($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-modal');
+});
+
+it('renders the correct Blade view (bootstrap-5)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $frontendTheme = 'bootstrap-5';
+    $component = new MediaModal(
+        modelOrClassName: $model,
+        mediaCollection: 'image_collection',
+        mediaCollections: null,
+        title: 'Render Test',
+        frontendTheme: $frontendTheme
+    );
+    $view = $component->render();
+//    dd($view);
+    expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-modal');
+});
+
+it('renders the correct Blade view (plain)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $frontendTheme = 'plain';
+    $component = new MediaModal(
+        modelOrClassName: $model,
+        mediaCollection: 'image_collection',
+        mediaCollections: null,
+        title: 'Render Test',
+        frontendTheme: $frontendTheme
+    );
+    $view = $component->render();
+    expect($view->name())->toBe('media-library-extensions::components.plain.media-modal');
+
+});
+
+it('renders the correct html multiple media-collections (plain)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collections="$collections" title="test" :frontend-theme="$frontendTheme" />',
+        [
+            'model' => $model,
+            'collections' => ['image_collection', 'document_collection', 'video_collection', 'audio_collection', 'youtube_collection'],
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders the correct html multiple media-collections (bootstrap-5)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collections="$collections" title="test" :frontend-theme="$frontendTheme" />',
+        [
+            'model' => $model,
+            'collections' => ['image_collection', 'document_collection', 'video_collection', 'audio_collection', 'youtube_collection'],
+            'frontendTheme' => 'bootstrap-5'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders the correct html single media-collection (plain)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collection="$collection" title="test" :frontend-theme="$frontendTheme" />',
+        [
+            'model' => $model,
+            'collection' => 'image_collection',
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders the correct html single media-collection (bootstrap-5)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collection="$collection" title="test" :frontend-theme="$frontendTheme" />',
+        [
+            'model' => $model,
+            'collection' => 'image_collection',
+            'frontendTheme' => 'bootstrap-5'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('sets temporary upload mode when given a class string', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $component = new MediaModal(
+        modelOrClassName: $model->getMorphClass(),
+        mediaCollection: 'images',
+        mediaCollections: null,
+        title: 'Temp Upload'
+    );
+
+    expect($component->temporaryUpload)->toBeTrue()
+        ->and($component->model)->toBeNull()
+        ->and($component->modelType)->toBe($model->getMorphClass());
+});
+
+it('throws if given class string does not exist', function () {
+    $modelOrClassName = 'NonExistent\Model';
+    expect(fn () => new MediaModal(
+        modelOrClassName: $modelOrClassName,
+        mediaCollection: null,
+        mediaCollections: null,
+        title: 'Invalid'
+    ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_does_not_exist', [
+        'class_name' => $modelOrClassName
+    ]));
+});
+
+it('throws if given class string does not implement HasMedia', function () {
+    expect(fn () => new MediaModal(
+        modelOrClassName: \stdClass::class,
+        mediaCollection: null,
+        mediaCollections: null,
+        title: 'Invalid'
+    ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_must_implement', [
+        'class_name' => HasMedia::class
+    ]));
 });

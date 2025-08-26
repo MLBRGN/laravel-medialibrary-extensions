@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
+use Spatie\MediaLibrary\HasMedia;
+use function Livewire\on;
 
 beforeEach(function () {
     // Stub necessary config
@@ -59,16 +62,84 @@ it('initializes without temporary upload when a eloquent model is provided', fun
 });
 
 it('initializes with temporary upload when only model class name provided', function () {
-    $component = new MediaManager(modelOrClassName: 'App\\Models\\Post', multiple: true, imageCollection: 'blog-main');
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $component = new MediaManager(modelOrClassName: $model->getMorphClass(), multiple: true, imageCollection: 'blog-main');
 
     expect($component->model)->toBeNull()
-        ->and($component->modelType)->toBe('App\\Models\\Post')
+        ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBeNull()
         ->and($component->temporaryUpload)->toBeTrue()
         ->and($component->mediaUploadRoute)->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
         ->and($component->uploadFieldName)->toBe('media_multiple');
 });
 
-// it('throws if modelOrClassName is invalid type', function () {
-//    new MediaManager(modelOrClassName: new stdClass());
-// })->throws(Exception::class, 'model-or-class-name must be either a HasMedia model or a string representing the model class');
+it('renders the correct html multiple (plain)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="true"/>',
+        [
+            'modelOrClassName' => $model,
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders the correct html multiple (bootstrap-5)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="true" />',
+        [
+            'modelOrClassName' => $model,
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders the correct html single (plain)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        [
+            'modelOrClassName' => $model,
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders the correct html single (bootstrap-5)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        [
+            'modelOrClassName' => $model,
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('throws if given class string does not exist', function () {
+    $modelOrClassName = 'NonExistent\Model';
+    expect(fn () => new MediaManager(
+        modelOrClassName: $modelOrClassName,
+        imageCollection: 'blog-main',
+    ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_does_not_exist', [
+        'class_name' => $modelOrClassName
+    ]));
+});
+
+it('throws if given class string does not implement HasMedia', function () {
+    expect(fn () => new MediaManager(
+        modelOrClassName: \stdClass::class,
+        imageCollection: 'blog-main',
+    ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_must_implement', [
+        'class_name' => HasMedia::class
+    ]));
+});

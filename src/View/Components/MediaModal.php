@@ -29,20 +29,26 @@ class MediaModal extends BaseComponent
         public bool $videoAutoPlay = true,
     ) {
         parent::__construct($id, $frontendTheme);
+
         if ($modelOrClassName instanceof HasMedia) {
             $this->model = $modelOrClassName;
             $this->modelType = $modelOrClassName->getMorphClass();
             $this->modelId = $modelOrClassName->getKey();
         } elseif (is_string($modelOrClassName)) {
+            if (! class_exists($modelOrClassName)) {
+                throw new \InvalidArgumentException(__('media-library-extensions::messages.class_does_not_exist', ['class_name' => $modelOrClassName]));
+            }
+
+            if (! is_subclass_of($modelOrClassName, HasMedia::class)) {
+                throw new \InvalidArgumentException(__('media-library-extensions::messages.class_must_implement', ['class_name' => HasMedia::class]));
+            }
+
             $this->model = null;
             $this->modelType = $modelOrClassName;
             $this->modelId = null;
             $this->temporaryUpload = true;
-        } else {
-            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
 
-//        $this->id = $this->id . '-modal';
         $this->id = $this->id . '-mod';
 
     }

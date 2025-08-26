@@ -1,7 +1,6 @@
 <?php
 
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Blade;
 

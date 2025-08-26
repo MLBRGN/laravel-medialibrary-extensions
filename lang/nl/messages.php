@@ -60,4 +60,6 @@ return [
     'something_went_wrong' => 'Er ging iets verkeerd.',
     'download_document' => 'Download document',
     'medium_not_found' => 'Medium niet gevonden.',
+    'class_does_not_exist' =>  'Class ":class_name" bestaat niet.',
+    'class_must_implement' =>  'Class moet ":class_name" implementeren.',
 ];
