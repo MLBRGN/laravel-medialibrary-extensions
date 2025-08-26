@@ -1,0 +1,4 @@
+<video class="media-manager-video-preview" id="test-video" id="mle-video-1" controls preload="metadata" data-mle-video>
+    <source src="/media/1/test.mp3" type="audio/mpeg">
+    Your browser does not support the video tag.
+</video>

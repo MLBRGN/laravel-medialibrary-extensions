@@ -1,0 +1,181 @@
+<div
+    id="test-media-modal-mms"
+    class="mlbrgn-mle-component theme-plain media-manager media-manager-single" multiple="false"
+    data-media-manager=""
+    data-use-xhr="true"
+    >
+    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mms","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":null,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","destroy_enabled":false,"set_as_first_enabled":false,"show_order":false,"show_menu":true,"temporary_upload":"true","multiple":false,"use_xhr":true}'>
+    
+    <div class="media-manager-row row">
+        <div class="media-manager-form col-12 col-md-4">
+            
+                                    
+        </div>
+        <div class="media-manager-previews">
+            <div class="status-area">
+    <div class="mle-spinner-container" media-manager-id="test-media-modal-mms" data-spinner-container>
+
+    <span class="mle-spinner-text">Please wait.</span>
+</div>
+    <div 
+    class="status-container mle-flex-grow visible" 
+    data-status-container
+    data-status-timeout="4000"
+>
+    <div class="mle-status-message"
+        data-status-message 
+        data-base-classes="mle-status-message"
+        data-success-classes="mle-status-message-success"
+        data-error-classes="mle-status-message-error"
+    >
+            </div>
+    </div>
+</div>            <div class="media-manager-preview-grid">
+                <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">
+        <span class="mle-no-media">No media.</span>
+    </div>
+<div
+    class="mlbrgn-mle-component theme-plain media-modal modal fade"
+    id="test-media-modal-mms-mod"
+    tabindex="-1"
+    role="dialog"
+            aria-labelledby="test-media-modal-mms-mod-title"
+        aria-hidden="true"
+            data-autoplay=""
+        data-modal
+    data-media-modal
+>
+    <div class="media-modal-dialog modal-dialog">
+        <div class="media-modal-content modal-content">
+                            <h1 class="media-modal-title mle-visually-hidden" id="test-media-modal-mms-mod-title">Media carousel</h1>
+                        <div class="media-modal-body modal-body">
+                <button
+                    type="button"
+                    class="media-modal-close-button modal-close-button"
+                    data-modal-close
+                    aria-label="Sluit"
+                    title="Close">
+                    <span 
+        role="img" 
+        aria-label="Close" 
+        title="Close">❓</span>
+                </button>
+                <div id="test-media-modal-mms-mod-crs"
+     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-empty media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     data-carousel
+     data-carousel-id="test-media-modal-mms-mod-crs"
+     tabindex="-1"
+          data-carousel-effect="slide"
+    >
+
+    
+    <div
+        class="media-carousel-indicators carousel-indicators mle-display-none"
+    >
+            </div>
+
+    
+    <div class="media-carousel-inner">
+                    <div class="media-carousel-item active">
+                <div class="media-carousel-item-container">
+                    <span class="mle-no-media">No media.</span>
+                </div>
+            </div>
+            </div>
+
+    
+    <button 
+        class="media-carousel-control-prev disabled"
+        type="button"
+        data-slide="prev">
+        <span class="media-carousel-control-prev-icon" aria-hidden="true">
+             <span 
+        role="img" 
+        aria-label="Previous" 
+        title="Previous">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Previous</span>
+    </button>
+    <button 
+        class="media-carousel-control-next disabled"
+        type="button"
+        data-slide="next">
+        <span class="media-carousel-control-next-icon" aria-hidden="true">
+              <span 
+        role="img" 
+        aria-label="Next" 
+        title="Next">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Next</span>
+    </button>
+</div>
+
+<link rel="stylesheet" href="http://localhost/vendor/media-library-extensions/app-plain.css">
+    
+            <script type="module" src="http://localhost/vendor/media-library-extensions/app-plain.js"></script>
+                <script>
+            window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
+        </script>
+    
+
+
+            <script type="module">
+            // Loading the "lite-youtube" extension caused issues with the host app,
+            // now waiting for dom to be loaded and only
+            // loading YT iframe api and "lite-youtube" when not loaded
+            // already (by host app)
+            document.addEventListener('DOMContentLoaded', function() {
+                if (!window.YT) {
+                    const tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    document.head.appendChild(tag);
+                }
+
+                if (!customElements.get('lite-youtube')) {
+                    console.log('no lite-youtube, loading');
+                    const script = document.createElement('script');
+                    script.src = "http://localhost/vendor/media-library-extensions/lite-youtube.js";
+                    document.head.appendChild(script);
+                } else {
+                    console.log('lite-youtube already present');
+                }
+            })
+        </script>
+    
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.mle-debug-wrapper').forEach(function (wrapper) {
+                const toggleBtn = wrapper.querySelector('.mle-debug-toggle');
+                const debugSection = wrapper.querySelector('.mle-debug');
+
+                if (toggleBtn && debugSection) {
+                    toggleBtn.addEventListener('click', function () {
+                        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+
+                        toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+                        debugSection.classList.toggle('hidden');
+                        toggleBtn.textContent = isExpanded
+                            ? '🐞 Show Debug Info'
+                            : '🐞 Hide Debug Info';
+                    });
+                }
+            });
+        });
+    </script>
+</div>

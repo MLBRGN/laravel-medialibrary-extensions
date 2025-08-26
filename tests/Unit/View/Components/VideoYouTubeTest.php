@@ -99,3 +99,12 @@ it('returns correct view on render', function () {
     expect($view)->toBeInstanceOf(View::class)
         ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
 });
+
+it('renders view and matches snapshot', function () {
+//    $component = new VideoYouTube(createMockMedia());
+//
+//    $view = $component->render();
+//
+//    expect($view)->toBeInstanceOf(View::class)
+//        ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
+})->todo();

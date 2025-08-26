@@ -54,6 +54,8 @@ test('image editor modal component renders', function () {
         ->toContain((string) $medium->id)
         ->toContain('My title');
 
+    expect($html)->toMatchSnapshot();
+
 });
 
 test('constructs with model', function () {

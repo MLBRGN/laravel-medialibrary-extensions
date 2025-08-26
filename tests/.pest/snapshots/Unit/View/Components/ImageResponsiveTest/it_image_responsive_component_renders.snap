@@ -1,0 +1,6 @@
+<img
+        class=""
+        src="/media/thumb.jpg"
+         srcset="/media/thumb-1x.jpg 1x, /media/thumb-2x.jpg 2x"          sizes="50vw"         alt="Sample image"
+                data-mle-image
+    >

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Spatie\MediaLibrary\HasMedia;
@@ -74,3 +75,20 @@ it('uses provided frontend theme if given', function () {
 
     expect($component->frontendTheme)->toBe('tailwind');
 });
+
+it('renders view and matches snapshot', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $mediaCollections = ['images', 'documents'];
+
+    $html = Blade::render('<x-mle-media-carousel
+                    :model-or-class-name="$modelOrClassName"
+                    id="media-carousel"
+                    :media-collections="$mediaCollections"
+                />', [
+        'modelOrClassName' => $model,
+        'mediaCollections' => $mediaCollections,
+    ]);
+
+    expect($html)->toMatchSnapshot();
+});
+

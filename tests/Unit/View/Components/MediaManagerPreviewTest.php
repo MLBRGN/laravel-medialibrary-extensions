@@ -157,3 +157,27 @@ it('render returns the correct view when only class name provided', function () 
     expect($view)->toBeInstanceOf(Illuminate\View\View::class);
     expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-manager-preview');
 });
+
+it('renders view and matches snapshot (plain)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $html = Blade::render(
+        '<x-mle-media-manager-preview id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme"/>',
+        [
+            'modelOrClassName' => $model,
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders view and matches snapshot (bootstrap-5)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $html = Blade::render(
+        '<x-mle-media-manager-preview id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme"/>',
+        [
+            'modelOrClassName' => $model,
+            'frontendTheme' => 'bootstrap-5'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});

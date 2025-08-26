@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
@@ -60,4 +61,30 @@ it('defaults optional values when omitted', function () {
         ->and($component->uploadFieldName)->toBe('medium')
         ->and($component->frontendTheme)->toBe('bootstrap-5')
         ->and($component->multiple)->toBeFalse();
+});
+
+it('renders the correct html single (plain)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-manager-single id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        [
+            'modelOrClassName' => $model,
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
+});
+
+it('renders the correct html single (bootstrap-5, temporary upload)', function () {
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+
+    $html = Blade::render(
+        '<x-mle-media-manager-single id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        [
+            'modelOrClassName' => $model->getMorphClass(),
+            'frontendTheme' => 'plain'
+        ]
+    );
+    expect($html)->toMatchSnapshot();
 });

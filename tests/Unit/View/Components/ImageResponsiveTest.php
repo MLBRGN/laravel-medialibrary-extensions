@@ -35,6 +35,8 @@ it('image responsive component renders', function () {
         ->toContain('srcset="/media/thumb-1x.jpg 1x, /media/thumb-2x.jpg 2x"')
         ->toContain('alt="Sample image"')
         ->toContain('sizes="50vw"');
+
+    expect($html)->toMatchSnapshot();
 });
 
 it('returns empty conversion if no media is provided', function () {
