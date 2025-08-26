@@ -235,53 +235,6 @@ class TestCase extends Orchestra
         return TemporaryUpload::create(array_merge($defaults, $overrides));
     }
 
-//    public function getModelWithMedia(
-//        string $collection = 'images',
-//        int|array $files = 1 // number of files or explicit file names
-//    ) {
-//        $model = $this->getTestBlogModel();
-//
-//        $available = [
-//            'test.jpg',
-//            'test2.jpg',
-//            'test3.jpg',
-//            'test.png',
-//            'test2.png',
-//            'test3.png',
-//        ];
-//
-//        // Normalize input
-//        if (is_int($files)) {
-//            $count = $files;  // keep the integer separately
-//            $files = [];
-//            for ($i = 0; $i < $count; $i++) {
-//                $files[] = $available[$i % count($available)];
-//            }
-//        }
-//
-//        foreach ($files as $fileName) {
-//            $source = __DIR__ . '/Support/files/' . $fileName;
-//
-//            if (! File::exists($source)) {
-//                throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
-//            }
-//
-//            $target = $this->getFixtureUploadedFile($fileName);
-//            File::ensureDirectoryExists(dirname($target));
-//
-//            if (! File::exists($target)) {
-//                File::copy($source, $target);
-//            }
-//
-//            $model
-//                ->addMedia($target)
-//                ->preservingOriginal()
-//                ->toMediaCollection($collection);
-//        }
-//
-//        return $model->fresh();
-//    }
-
     public function getTestImagePath(string $fileName = 'test.jpg'): string
     {
         $source = __DIR__ . '/Support/files/' . $fileName;
@@ -293,75 +246,7 @@ class TestCase extends Orchestra
         return $target;
     }
 
-//    public function getModelWithMedia(
-//        string $collection = 'images',
-//        int|array $files = 1 // number of files or explicit file names
-//    ) {
-//        $model = $this->getTestBlogModel();
-//
-//        $available = [
-//            'test.jpg',
-//            'test2.jpg',
-//            'test3.jpg',
-//            'test.png',
-//            'test2.png',
-//            'test3.png',
-//            'test.mp4',
-//            'test.mp3',
-//        ];
-//
-//        // Normalize input
-//        if (is_int($files)) {
-//            $count = $files;
-//            $files = [];
-//            for ($i = 0; $i < $count; $i++) {
-//                $files[] = $available[$i % count($available)];
-//            }
-//        }
-//
-//        foreach ($files as $fileName) {
-//            $source = __DIR__ . '/Support/files/' . $fileName;
-//
-//            if (! File::exists($source)) {
-//                throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
-//            }
-//
-//            $target = $this->getFixtureUploadedFile($fileName);
-//            File::ensureDirectoryExists(dirname($target));
-//
-//            if (! File::exists($target)) {
-//                File::copy($source, $target);
-//            }
-//
-//            $model
-//                ->addMedia($target)
-//                ->preservingOriginal()
-//                ->toMediaCollection($collection);
-//        }
-//
-//        return $model->fresh();
-//    }
-//
-//    /**
-//     * Generic helper for any test file (jpg, png, mp4, mp3, …).
-//     */
-//    public function getTestFilePath(string $fileName = 'test.jpg'): string
-//    {
-//        $source = __DIR__ . '/Support/files/' . $fileName;
-//
-//        if (! File::exists($source)) {
-//            throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
-//        }
-//
-//        $target = $this->getFixtureUploadedFile($fileName);
-//
-//        File::ensureDirectoryExists(dirname($target));
-//        File::copy($source, $target);
-//
-//        return $target;
-//    }
-
-    public function getModelWithMedia(array $types = ['image' => 1]): Blog
+    public function getModelWithMedia(array $types = ['image' => 1]): Model
     {
         $model = $this->getTestBlogModel();
 
@@ -413,6 +298,54 @@ class TestCase extends Orchestra
         return $model->fresh();
     }
 
+    public function getMediaModelWithMedia(array $types = ['image' => 1]): Media
+    {
+        $model = $this->getTestBlogModel(); // Temporary parent model for attaching media
+
+        $pool = [
+            'image' => ['test.jpg', 'test2.jpg', 'test3.jpg', 'test.png', 'test2.png', 'test3.png'],
+            'video' => ['test.mp4'],
+            'audio' => ['test.mp3'],
+            'document' => ['test.pdf'],
+        ];
+
+        $collectionMap = [
+            'image' => 'image_collection',
+            'video' => 'video_collection',
+            'audio' => 'audio_collection',
+            'document' => 'document_collection',
+        ];
+
+        // Pick the first type from the array
+        $type = array_key_first($types);
+        $count = $types[$type] ?? 1;
+
+        if (!isset($pool[$type])) {
+            throw new \InvalidArgumentException("Unsupported media type '{$type}'");
+        }
+
+        // Pick the first file for that type
+        $fileName = $pool[$type][0];
+        $source = __DIR__ . '/Support/files/' . $fileName;
+
+        if (!File::exists($source)) {
+            throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
+        }
+
+        $target = $this->getFixtureUploadedFile($fileName);
+        File::ensureDirectoryExists(dirname($target));
+
+        if (!File::exists($target)) {
+            File::copy($source, $target);
+        }
+
+        // Attach and return the Media model
+        return $model
+            ->addMedia($target)
+            ->preservingOriginal()
+            ->toMediaCollection($collectionMap[$type]);
+    }
+
     public function getTestFilePath(string $fileName): string
     {
         $source = __DIR__ . '/Support/files/' . $fileName;
@@ -427,5 +360,4 @@ class TestCase extends Orchestra
 
         return $target;
     }
-
 }

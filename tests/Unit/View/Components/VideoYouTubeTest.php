@@ -2,7 +2,9 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Mockery;

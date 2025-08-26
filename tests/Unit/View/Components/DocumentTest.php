@@ -10,16 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 test('document component renders', function () {
     Storage::fake('media');
 
-    $medium = new Media([
-        'id' => 1,
-        'collection_name' => 'blog-documents',
-        'disk' => 'media',
-        'file_name' => 'test.pdf',
-        'mime_type' => 'application/pdf',
-        'custom_properties' => [],
-    ]);
-
-    $medium->exists = true;
+    $medium = $this->getMediaModelWithMedia(['document' => 1]);
 
     $html = Blade::render('<x-mle-document
                     :medium="$medium"
@@ -32,6 +23,9 @@ test('document component renders', function () {
         ->toContain('class="mle-document"')
         ->toContain('class="mle-document-preview"')
         ->toContain('PDF document');
+
+    // update snapshots with --update-snapshots when running pest
+    expect($html)->toMatchSnapshot();
 });
 
 test('document component renders unknown file type', function () {
