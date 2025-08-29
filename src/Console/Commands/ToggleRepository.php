@@ -17,7 +17,7 @@ class ToggleRepository extends Command
     protected array $packages = [
         'mlbrgn/laravel-medialibrary-extensions' => [
             'path' => './packages/mlbrgn/laravel-medialibrary-extensions',
-            'symlink' => 'media-library-extensions',
+            'symlink' => 'mlbrgn/media-library-extensions',
         ],
         // Add more packages here if needed
     ];
@@ -71,6 +71,8 @@ class ToggleRepository extends Command
                     $this->warn("⚠️ No stored original version for $name; leaving as-is.");
                 }
 
+                // Publish assets for Packagist mode
+                $this->publishAssets();
                 $toggled[] = $name;
             } else {
                 if (! $this->option('force') && ! $this->confirm("Use local path for [$name]?")) {
@@ -105,12 +107,13 @@ class ToggleRepository extends Command
                 $composer['require'][$name] = 'dev-main';
                 $this->info("🔖 Set version for $name to dev-main");
 
-                if (! $targetPath || ! is_dir($targetPath)) {
-                    $this->warn("⚠️ dist folder not found for $name, skipping symlink.");
-                } else {
+                if ($targetPath && is_dir($targetPath)) {
                     $this->removePath($linkPath);
+                    File::ensureDirectoryExists(dirname($linkPath));
                     symlink($targetPath, $linkPath);
                     $this->info("🔗 Created symlink: $linkPath → $targetPath");
+                } else {
+                    $this->warn("⚠️ dist folder not found for $name, skipping symlink.");
                 }
 
                 $toggled[] = $name;
@@ -128,8 +131,8 @@ class ToggleRepository extends Command
         file_put_contents($composerPath, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         if (count($toggled)) {
-            $this->info('📦 Running composer update for: '.implode(', ', $toggled));
-            $process = Process::fromShellCommandline('composer update '.implode(' ', $toggled));
+            $this->info('📦 Running composer update for: ' . implode(', ', $toggled));
+            $process = Process::fromShellCommandline('composer update ' . implode(' ', $toggled));
             $process->setTty(Process::isTtySupported());
             $process->run(function ($type, $buffer) {
                 echo $buffer;
@@ -172,5 +175,15 @@ class ToggleRepository extends Command
             File::deleteDirectory($viewsPath);
             $this->info("🧹 Cleaned published views directory: $viewsPath");
         }
+    }
+
+    protected function publishAssets(): void
+    {
+        $this->info("📦 Publishing package assets for mlbrgn/laravel-form-components");
+        $this->call('vendor:publish', [
+            '--provider' => "Mlbrgn\\LaravelFormComponents\\Providers\\FormComponentsServiceProvider",
+            '--tag' => 'public',
+            '--force' => true,
+        ]);
     }
 }
