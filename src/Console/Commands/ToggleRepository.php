@@ -14,6 +14,16 @@ class ToggleRepository extends Command
 
     protected $description = 'Toggle between local and Packagist repositories for development packages. Manages symlinks, composer require versions, and runs composer update.';
 
+    // ------------------ Constants ------------------
+    protected const COMPOSER_JSON = 'composer.json';
+    protected const DIST_FOLDER = 'dist';
+    protected const DEV_VERSION = 'dev-main';
+    protected const VENDOR_PATH = 'vendor';
+    protected const VIEWS_PATH = 'views/vendor/laravel-media-library-extensions';
+    protected const PUBLISH_PROVIDER = 'Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider';
+    protected const PUBLISH_TAG = 'public';
+
+    // ------------------ Packages ------------------
     protected array $packages = [
         'mlbrgn/laravel-medialibrary-extensions' => [
             'path' => './packages/mlbrgn/laravel-medialibrary-extensions',
@@ -24,7 +34,7 @@ class ToggleRepository extends Command
 
     public function handle(): int
     {
-        $composerPath = base_path('composer.json');
+        $composerPath = base_path(self::COMPOSER_JSON);
 
         if (! file_exists($composerPath)) {
             $this->error('composer.json not found!');
@@ -40,8 +50,8 @@ class ToggleRepository extends Command
         foreach ($this->packages as $name => $data) {
             $pathRepo = $data['path'];
             $symlinkName = $data['symlink'];
-            $linkPath = public_path('vendor/'.$symlinkName);
-            $targetPath = realpath(base_path(trim($pathRepo, './').'/dist'));
+            $linkPath = public_path(self::VENDOR_PATH.'/'.$symlinkName);
+            $targetPath = realpath(base_path(trim($pathRepo, './').'/'.self::DIST_FOLDER));
 
             $isLinked = collect($repositories)->contains(fn ($repo) => ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo);
 
@@ -50,19 +60,14 @@ class ToggleRepository extends Command
                     continue;
                 }
 
-                // Clean vendor package folder
                 $this->cleanVendorPackage($name);
-
-                // Clean published views folder
                 $this->cleanPublishedViews();
 
-                // Remove from repositories
                 $repositories = array_values(array_filter($repositories, fn ($repo) => ! ($repo['type'] === 'path' && $repo['url'] === $pathRepo)));
 
                 $this->removePath($linkPath);
                 $this->info("🔗 Removed local path for $name");
 
-                // Restore the original version if saved
                 if (isset($originalRequires[$name])) {
                     $composer['require'][$name] = $originalRequires[$name];
                     unset($composer['extra']['original_require'][$name]);
@@ -71,7 +76,6 @@ class ToggleRepository extends Command
                     $this->warn("⚠️ No stored original version for $name; leaving as-is.");
                 }
 
-                // Publish assets for Packagist mode
                 $this->publishAssets();
                 $toggled[] = $name;
             } else {
@@ -79,22 +83,17 @@ class ToggleRepository extends Command
                     continue;
                 }
 
-                // Clean vendor package folder
                 $this->cleanVendorPackage($name);
-
-                // Clean published views folder
                 $this->cleanPublishedViews();
 
-                // Add to repositories
                 $repositories[] = [
                     'type' => 'path',
                     'url' => $pathRepo,
                     'options' => ['symlink' => true],
                 ];
 
-                // Save the current version before switching
                 $currentVersion = $composer['require'][$name] ?? null;
-                if ($currentVersion && $currentVersion !== 'dev-main') {
+                if ($currentVersion && $currentVersion !== self::DEV_VERSION) {
                     if (! isset($composer['extra']['original_require'][$name])) {
                         $composer['extra']['original_require'][$name] = $currentVersion;
                         $this->info("💾 Saved original version for $name: $currentVersion");
@@ -103,9 +102,8 @@ class ToggleRepository extends Command
                     }
                 }
 
-                // Set version to dev-main
-                $composer['require'][$name] = 'dev-main';
-                $this->info("🔖 Set version for $name to dev-main");
+                $composer['require'][$name] = self::DEV_VERSION;
+                $this->info("🔖 Set version for $name to " . self::DEV_VERSION);
 
                 if ($targetPath && is_dir($targetPath)) {
                     $this->removePath($linkPath);
@@ -122,12 +120,10 @@ class ToggleRepository extends Command
 
         $composer['repositories'] = $repositories;
 
-        // Clean up original_require if empty
         if (empty($composer['extra']['original_require'] ?? [])) {
             unset($composer['extra']['original_require']);
         }
 
-        // Write updated composer.json BEFORE running composer update
         file_put_contents($composerPath, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         if (count($toggled)) {
@@ -160,8 +156,7 @@ class ToggleRepository extends Command
 
     protected function cleanVendorPackage(string $name): void
     {
-        // Convert composer package name to vendor path: mlbrgn/laravel-medialibrary-extensions → vendor/mlbrgn/laravel-medialibrary-extensions
-        $vendorPath = base_path('vendor/' . str_replace('/', DIRECTORY_SEPARATOR, $name));
+        $vendorPath = base_path(self::VENDOR_PATH . '/' . str_replace('/', DIRECTORY_SEPARATOR, $name));
         if (is_link($vendorPath) || is_dir($vendorPath) || file_exists($vendorPath)) {
             $this->removePath($vendorPath);
             $this->info("🧹 Cleaned vendor package directory: $vendorPath");
@@ -170,7 +165,7 @@ class ToggleRepository extends Command
 
     protected function cleanPublishedViews(): void
     {
-        $viewsPath = resource_path('views/vendor/laravel-media-library-extensions');
+        $viewsPath = resource_path(self::VIEWS_PATH);
         if (is_dir($viewsPath)) {
             File::deleteDirectory($viewsPath);
             $this->info("🧹 Cleaned published views directory: $viewsPath");
@@ -179,10 +174,10 @@ class ToggleRepository extends Command
 
     protected function publishAssets(): void
     {
-        $this->info("📦 Publishing package assets for mlbrgn/laravel-form-components");
+        $this->info("📦 Publishing package assets for " . self::PUBLISH_PROVIDER);
         $this->call('vendor:publish', [
-            '--provider' => "Mlbrgn\\LaravelFormComponents\\Providers\\FormComponentsServiceProvider",
-            '--tag' => 'public',
+            '--provider' => self::PUBLISH_PROVIDER,
+            '--tag' => self::PUBLISH_TAG,
             '--force' => true,
         ]);
     }

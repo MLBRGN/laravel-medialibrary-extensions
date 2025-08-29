@@ -59,6 +59,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     private string $packageNameShort = 'mle';
 
+    private string $vendor = 'mlbrgn';
     private string $nameSpace = 'media-library-extensions';
 
     public function boot(): void
@@ -101,7 +102,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], $this->nameSpace.'-views');
 
             $this->publishes([
-                __DIR__.'/../../dist' => public_path('vendor/'.$this->nameSpace),
+                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace),// TODO when is mlbrgn prefix wanted / needed?
             ], $this->nameSpace.'-assets');
 
             $this->publishes([
