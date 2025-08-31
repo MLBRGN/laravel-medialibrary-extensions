@@ -37,6 +37,7 @@
                         :multiple="$multiple"
                         :disabled="$disableForm"
                         :use-xhr="$useXhr"
+                        :frontend-theme="$frontendTheme"
                     />
                 @endif
             @endif
@@ -70,6 +71,7 @@
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
+                :frontend-theme="$frontendTheme"
             />
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview

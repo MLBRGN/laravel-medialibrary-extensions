@@ -7,27 +7,22 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageEditorModal extends BaseComponent
 {
+    use ResolveModelOrClassName;
+
     public array $config = [];
 
     public string $saveUpdatedMediumRoute;
 
-    public HasMedia|null $model = null;
-
-    public ?string $modelType = null;
-
-    public mixed $modelId = null;
-
-    public bool $temporaryUpload = false;
-
     public ?string $mediaManagerId = null;
 
     public function __construct(
-        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
         public string $id,
         public string $initiatorId,
@@ -46,20 +41,9 @@ class ImageEditorModal extends BaseComponent
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-iem-'.$medium->id;
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->model = $modelOrClassName;
-            $this->modelType = $modelOrClassName->getMorphClass();
-            $this->modelId = $modelOrClassName->getKey();
-            $this->saveUpdatedMediumRoute = route(mle_prefix_route('save-updated-medium'), $medium);
-        } elseif (is_string($modelOrClassName)) {
-            $this->model = null;
-            $this->modelType = $modelOrClassName;
-            $this->modelId = null;
-            $this->temporaryUpload = true;
-            $this->saveUpdatedMediumRoute = route(mle_prefix_route('save-updated-temporary-upload'), $medium);
-        } else {
-            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
-        }
+        $this->resolveModelOrClassName($modelOrClassName);
+
+        $this->saveUpdatedMediumRoute = $this->temporaryUpload ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) :route(mle_prefix_route('save-updated-medium'), $medium);
 
         // TODO can't i just read the whole config object from hidden input?
         // Config array passed to view

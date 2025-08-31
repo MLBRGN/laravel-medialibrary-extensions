@@ -11,18 +11,15 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaManager extends BaseComponent
+class MediaManagerTinymce extends BaseComponent
 {
+
     use ResolveModelOrClassName;
 
     public array $config;
-
     public bool $disableForm = false;
-
     public string $mediaUploadRoute; // upload form action route
-
     public string $previewUpdateRoute; // route to update preview media when using XHR
-
     public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
     public function __construct(
@@ -109,7 +106,7 @@ class MediaManager extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-manager', $this->frontendTheme);
+        return $this->getView('media-manager-tinymce-wrapper', $this->frontendTheme);
     }
 
 }

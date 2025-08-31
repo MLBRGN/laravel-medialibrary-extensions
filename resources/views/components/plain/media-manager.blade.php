@@ -10,6 +10,7 @@
     data-media-manager=""
     data-use-xhr="{{ $useXhr ? 'true' : 'false' }}"
     >
+    
     <input type="hidden" class="media-manager-config" value='@json($config)'>
     {{ $component_start ?? '' }}
     <div class="media-manager-row row">
@@ -33,6 +34,7 @@
                         :multiple="$multiple"
                         :disabled="$disableForm"
                         :use-xhr="$useXhr"
+                        :frontend-theme="$frontendTheme"
                     />
                 @endif
             @endif
@@ -56,11 +58,13 @@
             @endif
             {{ $form_end ?? '' }}
         </div>
+        
         <div class="media-manager-previews">
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
+                :frontend-theme="$frontendTheme"
             />
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
@@ -89,5 +93,8 @@
         :model-or-class-name="$modelOrClassName"
         :config="$config"
     />
+    
 </div>
+{{--@dump('just before assets: '.$frontendTheme)--}}
+
 <x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>

@@ -17,16 +17,16 @@ it('initializes with a HasMedia model and finds the first medium', function () {
         ->and($component->medium->collection_name)->toBe('image_collection');
 });
 
-it('throws an exception when given a string (temporary upload)', function () {
+it('throws an exception when given a non existing class string(temporary upload)', function () {
     $this->expectException(Exception::class);
-    $this->expectExceptionMessage('Temporary uploads Not implemented yet');
+//    $this->expectExceptionMessage('Temporary uploads Not implemented yet');
 
     new MediaFirstAvailable('App\\Models\\Something');
 });
 
 it('throws an exception when given an invalid type', function () {
-    $this->expectException(Exception::class);
-    $this->expectExceptionMessage('Temporary uploads Not implemented yet');
+    $this->expectException(InvalidArgumentException::class);
+//    $this->expectExceptionMessage('Temporary uploads Not implemented yet');
 
     new MediaFirstAvailable(1234);
 });

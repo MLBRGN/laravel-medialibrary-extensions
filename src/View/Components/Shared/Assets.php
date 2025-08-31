@@ -17,7 +17,7 @@ class Assets extends Component
         public bool $includeFormSubmitter = false,
         public bool $includeLiteYoutube = false,
     ) {
-        $this->frontendTheme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
     }
 
     public function render(): View

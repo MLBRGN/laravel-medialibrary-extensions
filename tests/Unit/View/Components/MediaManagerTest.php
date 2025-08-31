@@ -136,10 +136,12 @@ it('throws if given class string does not exist', function () {
 });
 
 it('throws if given class string does not implement HasMedia', function () {
+    $modelOrClassName = \stdClass::class;
     expect(fn () => new MediaManager(
-        modelOrClassName: \stdClass::class,
+        modelOrClassName: $modelOrClassName,
         imageCollection: 'blog-main',
-    ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_must_implement', [
-        'class_name' => HasMedia::class
+    ))->toThrow(\UnexpectedValueException::class, __('media-library-extensions::messages.must_implement_has_media', [
+        'class' => $modelOrClassName,
+        'interface' => HasMedia::class
     ]));
 });

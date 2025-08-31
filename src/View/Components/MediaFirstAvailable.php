@@ -7,22 +7,18 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaFirstAvailable extends Component
 {
+    use ResolveModelOrClassName;
+
     public ?Media $medium = null;
-    public HasMedia|null $model = null;
-
-    public ?string $modelType = null;
-
-    public mixed $modelId = null;
-
-    public bool $temporaryUpload = false;
 
     public function __construct(
-        public HasMedia|string $modelOrClassName,
+        public mixed $modelOrClassName,
         public ?array $mediaCollections = [],
         public ?string $frontendTheme = null,
         public string $id = '',
@@ -48,27 +44,19 @@ class MediaFirstAvailable extends Component
 //        $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
 //        $this->youTubeParamsAsString = http_build_query($mergedParams);
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->model = $modelOrClassName;
-            $this->modelType = $modelOrClassName->getMorphClass();
-            $this->modelId = $modelOrClassName->getKey();
+        $this->resolveModelOrClassName($modelOrClassName);
 
+        if (!$this->temporaryUpload) {
             // Find the first medium from the ordered collections
             $this->medium = collect($this->mediaCollections ?? [])
-                ->map(fn (string $collection) => $this->model->getFirstMedia($collection))
+                ->map(fn(string $collection) => $this->model->getFirstMedia($collection))
                 ->filter()// remove falsy values
                 ->first();
-        } elseif (is_string($modelOrClassName)) {
-            throw new Exception('Temporary uploads Not implemented yet');
-//            $this->model = null;
-//            $this->modelType = $modelOrClassName;
-//            $this->modelId = null;
-//            $this->temporaryUpload = true;
         } else {
-            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
+            throw new Exception('Temporary uploads Not implemented yet');
         }
 
-        $this->frontendTheme = $frontendTheme ?? config('media-library-extensions.frontend_theme');
+        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme');
     }
 
     public function render(): View

@@ -9,46 +9,31 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Debug extends Component
 {
+    use ResolveModelOrClassName;
+
     public bool $iconExists = false;
 
     public array $errors = [];
 
     public Collection $collections;
 
-    public HasMedia|null $model = null;
-
-    public ?string $modelType = null;
-
-    public mixed $modelId = null;
-
-    public bool $temporaryUpload = false;
     public string $id;
 
     public function __construct(
-        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public ?string $frontendTheme = null,
         public array $config = [],
     ) {
 
         $this->id = uniqid();
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->model = $modelOrClassName;
-            $this->modelType = $modelOrClassName->getMorphClass();
-            $this->modelId = $modelOrClassName->getKey();
-        } elseif (is_string($modelOrClassName)) {
-            $this->model = null;
-            $this->modelType = $modelOrClassName;
-            $this->modelId = null;
-            $this->temporaryUpload = true;
-        } else {
-            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
-        }
+        $this->resolveModelOrClassName($modelOrClassName);
 
         $this->iconExists = collect(Blade::getClassComponentAliases())
             ->keys()

@@ -1,63 +1,15 @@
-<div id="media-carousel-crs"
-     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100"
-    >
-    
-    <div 
-        class="media-carousel-indicators carousel-indicators mle-display-none"
-    >
-            </div>
-
-    
-    <div class="media-carousel-inner carousel-inner">
-                    <div class="media-carousel-item active">
-                <div class="media-carousel-item-container">
-                    <span class="mle-no-media">No media.</span>
-                </div>
-            </div>
-            </div>
-
-    
-    <button
-        class="media-carousel-control-prev carousel-control-prev disabled"
-        type="button" 
-        data-bs-target="#media-carousel-crs" 
-        data-bs-slide="prev" 
-        title="Previous">
-        <span class="carousel-control-prev-icon" aria-hidden="true">
-              <span 
-        role="img" 
-        aria-label="Previous" 
-        title="Previous">❓</span>
-        </span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button
-        class="media-carousel-control-next carousel-control-next disabled"
-        type="button" 
-        data-bs-target="#media-carousel-crs" 
-        data-bs-slide="next" 
-        title="Next">
-        <span class="carousel-control-next-icon" aria-hidden="true">
-               <span 
-        role="img" 
-        aria-label="Next" 
-        title="Next">❓</span>
-        </span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-    <div
+<div
     class="mlbrgn-mle-component theme-bootstrap-5 media-modal modal fade"
-    id="media-carousel-crs-mod"
+    id="test-media-modal-mod"
     tabindex="-1"
     role="dialog"
-            aria-labelledby="media-carousel-crs-mod-title"
+            aria-labelledby="test-media-modal-mod-title"
         aria-hidden="true"
             data-autoplay=""
     >
     <div class="media-modal-dialog modal-dialog">
         <div class="media-modal-content modal-content justify-content-center">
-                            <h1 class="media-modal-title visually-hidden" id="media-carousel-crs-mod-title">Media carousel</h1>
+                            <h1 class="media-modal-title visually-hidden" id="test-media-modal-mod-title">test</h1>
                         <div class="media-modal-body modal-body p-0">
                 <button
                     type="button"
@@ -73,29 +25,68 @@
                 </button>
                
                 
-                <div id="media-carousel-crs-mod-crs"
-     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+                <div id="test-media-modal-mod-crs"
+     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
     >
     
     <div 
-        class="media-carousel-indicators carousel-indicators mle-display-none"
+        class="media-carousel-indicators carousel-indicators"
     >
+                    <button
+                type="button"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="0"
+                class="active"
+                 
+                    aria-current="true" 
+                                aria-label="Slide to 1">
+            </button>
+                    <button
+                type="button"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="1"
+                class=""
+                                aria-label="Slide to 2">
+            </button>
             </div>
 
     
     <div class="media-carousel-inner carousel-inner">
-                    <div class="media-carousel-item active">
-                <div class="media-carousel-item-container">
-                    <span class="mle-no-media">No media.</span>
-                </div>
+                    <div 
+                class="media-carousel-item carousel-item active">
+                <div class="media-carousel-item-container" 
+                     data-bs-toggle="modal"
+                     data-bs-target="#test-media-modal-mod-crs-mod"
+                >
+                                    <img
+        class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0" draggable="false"
+        src="/media/1/test.jpg"
+                        alt="test"
+         loading="lazy"         data-mle-image
+    >
+                                </div>
+            </div>
+                    <div 
+                class="media-carousel-item carousel-item">
+                <div class="media-carousel-item-container" 
+                     data-bs-toggle="modal"
+                     data-bs-target="#test-media-modal-mod-crs-mod"
+                >
+                                    <img
+        class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1" draggable="false"
+        src="/media/2/test2.jpg"
+                        alt="test2"
+         loading="lazy"         data-mle-image
+    >
+                                </div>
             </div>
             </div>
 
     
     <button
-        class="media-carousel-control-prev carousel-control-prev disabled"
+        class="media-carousel-control-prev carousel-control-prev"
         type="button" 
-        data-bs-target="#media-carousel-crs-mod-crs" 
+        data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="prev" 
         title="Previous">
         <span class="carousel-control-prev-icon" aria-hidden="true">
@@ -107,9 +98,9 @@
         <span class="visually-hidden">Previous</span>
     </button>
     <button
-        class="media-carousel-control-next carousel-control-next disabled"
+        class="media-carousel-control-next carousel-control-next"
         type="button" 
-        data-bs-target="#media-carousel-crs-mod-crs" 
+        data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="next" 
         title="Next">
         <span class="carousel-control-next-icon" aria-hidden="true">
@@ -121,9 +112,10 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-<link rel="stylesheet" href="http://localhost/vendor/media-library-extensions/app-bootstrap-5.css">
+<link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+
     
-            <script type="module" src="http://localhost/vendor/media-library-extensions/app-bootstrap-5.js"></script>
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js"></script>
                 <script>
             window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
         </script>
@@ -145,7 +137,7 @@
                 if (!customElements.get('lite-youtube')) {
                     console.log('no lite-youtube, loading');
                     const script = document.createElement('script');
-                    script.src = "http://localhost/vendor/media-library-extensions/lite-youtube.js";
+                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/lite-youtube.js";
                     document.head.appendChild(script);
                 } else {
                     console.log('lite-youtube already present');

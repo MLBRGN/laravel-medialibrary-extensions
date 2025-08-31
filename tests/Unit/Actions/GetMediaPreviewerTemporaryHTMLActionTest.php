@@ -13,11 +13,12 @@ beforeEach(function () {
 });
 
 it('renders temporary media preview HTML and returns JSON response', function () {
+    $model = $this->getTestBlogModel();
     $initiatorId = 'initiator-123';
 
     $requestData = [
         'initiator_id' => $initiatorId,
-        'model_type' => 'SomeModelClass',
+        'model_type' => $model->getMorphClass(),
         'image_collection' => 'images',
         'document_collection' => 'docs',
         'youtube_collection' => 'youtube',

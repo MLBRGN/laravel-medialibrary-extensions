@@ -5,12 +5,13 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Facades\Blade;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 
 class MediaManagerMultiple extends MediaManager
 {
     public function __construct(
-        HasMedia|string $modelOrClassName,
+        mixed $modelOrClassName,
         string $imageCollection = '',
         string $documentCollection = '',
         string $youtubeCollection = '',

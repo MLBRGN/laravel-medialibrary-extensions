@@ -8,25 +8,20 @@ use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerPreview extends BaseComponent
 {
+    use ResolveModelOrClassName;
+
     public string $allowedMimeTypes = '';
 
     public Collection $media;
 
-    public HasMedia|null $model = null;
-
-    public ?string $modelType = null;
-
-    public mixed $modelId = null;
-
-    public bool $temporaryUpload = false;
-
     public function __construct(
-        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public string $id = '',
         public ?string $imageCollection = '',
         public ?string $documentCollection = '',
@@ -43,18 +38,7 @@ class MediaManagerPreview extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->model = $modelOrClassName;
-            $this->modelType = $modelOrClassName->getMorphClass();
-            $this->modelId = $modelOrClassName->getKey();
-        } elseif (is_string($modelOrClassName)) {
-            $this->model = null;
-            $this->modelType = $modelOrClassName;
-            $this->modelId = null;
-            $this->temporaryUpload = true;
-        } else {
-            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
-        }
+        $this->resolveModelOrClassName($modelOrClassName);
 
         // when non of the menu items visible, set showMenu to false
         if (!$destroyEnabled && !$showOrder && !$setAsFirstEnabled) {

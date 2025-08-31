@@ -11,19 +11,17 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
-//    public ?array $status = [];
+    public ?string $frontendTheme = null;
 
     public function __construct(
         public string $id,
-        public ?string $frontendTheme = null
-
+        ?string $frontendTheme = null,
     ) {
-//        $this->status = session(status_session_prefix());
 
         if (empty($this->id)) {
             $this->id = 'component-'.uniqid();
         }
 
-        $this->frontendTheme= $frontendTheme ?? config('media-library-extensions.frontend_theme');
+        $this->frontendTheme = $frontendTheme ? $frontendTheme : config('media-library-extensions.frontend_theme');
     }
 }

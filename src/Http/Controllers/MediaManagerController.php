@@ -6,8 +6,12 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerTinyMceAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
@@ -15,6 +19,7 @@ use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
@@ -24,6 +29,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -76,8 +82,36 @@ class MediaManagerController extends Controller
         return $saveUpdatedMediumAction->execute($request);
     }
 
-    public function getUpdatedPreviewerHTML(GetMediaPreviewerHTMLRequest $request, GetMediaPreviewerHTMLAction $getMediaPreviewerHTMLAction): JsonResponse
+    public function getUpdatedPreviewerHTML(GetMediaPreviewerHTMLRequest $request, GetMediaPreviewerHTMLAction $getMediaPreviewerHTMLAction): RedirectResponse|JsonResponse
     {
         return $getMediaPreviewerHTMLAction->execute($request);
     }
+
+//    public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
+//    {
+//        return $getMediaManagerTinyMceAction->execute($request);
+//    }
+
+    public function tinyMce(GetMediaManagerTinyMceRequest $request): View
+    {
+//        $frontendTheme = $request->input('frontend_theme') ? $request->input('frontend_theme') : config(['media-library-extensions.frontend_theme' => 'bootstrap-5']);
+
+        $frontendTheme = 'plain';
+        // Get the first existing model or create it if none exists
+        $modelType =  $request->input('model_type');
+        $modelId =  $request->input('model_id');
+        $id = 'something_for_now';
+        $imageCollection = 'blog-main';
+        $documentCollection = 'document-collection';
+        $audioCollection = 'audio-collection';
+        $videoCollection = 'video-collection';
+        $youtubeCollection = 'youtube-collection';
+        $temporaryUpload = false;
+
+        return view('media-library-extensions::media-manager-tinymce', compact(
+            'modelType', 'modelId', 'temporaryUpload',
+            'frontendTheme', 'id', 'imageCollection', 'documentCollection',
+            'audioCollection', 'videoCollection', 'youtubeCollection'));
+    }
+
 }

@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 class MediaManagerSingle extends MediaManager
 {
     public function __construct(
-        HasMedia|string $modelOrClassName,
+        mixed $modelOrClassName,
         string $imageCollection = '',
         string $documentCollection = '',
         string $youtubeCollection = '',

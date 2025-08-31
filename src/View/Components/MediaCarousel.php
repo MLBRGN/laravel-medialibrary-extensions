@@ -8,28 +8,22 @@ use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 class MediaCarousel extends BaseComponent
 {
+    use ResolveModelOrClassName;
+
     public MediaCollection $mediaItems;
     public MediaCollection $media;// TODO duplocate with $mediaItems
 
     public int $mediaCount;
-
     public string $previewerId = '';
 
-    public HasMedia|null $model = null;
-
-    public ?string $modelType = null;
-
-    public mixed $modelId = null;
-
-    public bool $temporaryUpload = false;
-
     public function __construct(
-        public HasMedia|string $modelOrClassName,
+        public mixed $modelOrClassName,
         public ?string $mediaCollection = null,
         public ?array $mediaCollections = [],
         public bool $singleMedium = false,
@@ -41,18 +35,7 @@ class MediaCarousel extends BaseComponent
     ) {
         parent::__construct($id, $frontendTheme);
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->model = $modelOrClassName;
-            $this->modelType = $modelOrClassName->getMorphClass();
-            $this->modelId = $modelOrClassName->getKey();
-        } elseif (is_string($modelOrClassName)) {
-            $this->model = null;
-            $this->modelType = $modelOrClassName;
-            $this->modelId = null;
-            $this->temporaryUpload = true;
-        } else {
-            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
-        }
+        $this->resolveModelOrClassName($modelOrClassName);
 
         // Merge media from multiple or single collection
         $allMedia = collect(
@@ -75,7 +58,7 @@ class MediaCarousel extends BaseComponent
         $this->media = $this->mediaItems;
 
         $this->mediaCount = $this->mediaItems->count();
-        $this->frontendTheme = $frontendTheme ?? config('media-library-extensions.frontend_theme', 'plain');
+        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
 //        $this->id = $this->id.'-carousel';
         $this->id = $this->id.'-crs';
     }

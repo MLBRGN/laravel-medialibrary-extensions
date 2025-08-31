@@ -204,7 +204,7 @@ class TestCase extends Orchestra
         return $this->testModel;
     }
 
-    public function getTestModelNotExtendingHasMedia() {
+    public function getTestModelNotExtendingHasMedia(): Model {
         return $this->testModelNotExtendingHasMedia;
     }
 
