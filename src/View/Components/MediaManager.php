@@ -42,7 +42,8 @@ class MediaManager extends BaseComponent
         public ?string $frontendTheme = null,
         public ?bool $useXhr = true,
         public bool $multiple = false,
-        public string $allowedMimeTypes = ''
+        public string $allowedMimeTypes = '',
+        public bool $selectable = false,
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -104,6 +105,7 @@ class MediaManager extends BaseComponent
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
             'multiple' => $this->multiple,
             'use_xhr' => $this->useXhr,
+            'selectable' => $this->selectable,
         ];
     }
 

@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
             show_order: config.show_order,
             show_menu: config.show_menu,
             temporary_uploads: config.temporary_upload,
+            selectable: config.selectable,
         });
 
         // showSpinner(container);

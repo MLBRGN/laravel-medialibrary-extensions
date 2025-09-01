@@ -101,6 +101,45 @@
         color: var(--mlbrgn-mle-button-alt-fg-color);
     }
 
+    //* start of checkbox to select items
+    .mle-checkbox-wrapper {
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .mle-media-select-checkbox {
+        display: none;
+    }
+
+    .mle-media-select-checkbox + .mle-pseudo-button {
+        background: #eee;
+        border-radius: 4px;
+        //padding: 0.25rem;
+    }
+
+    .mle-media-select-checkbox:checked + .mle-pseudo-button {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+    .mle-media-select-indicator {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+    }
+
+    .mle-media-select-checkbox {
+        display: none;
+    }
+
+    .mle-media-select-checkbox:checked + .mle-media-select-indicator {
+        background: #0d6efd;
+        border-color: #0d6efd;
+    }
+    // emd of select box to select items
+
+    .media-manager-preview-image-menu-start,
     .media-manager-preview-image-menu-end {
         display:flex;
         align-items: center;

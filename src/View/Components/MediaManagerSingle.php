@@ -45,6 +45,7 @@ class MediaManagerSingle extends MediaManager
             useXhr: $useXhr,
             multiple: false,// always false
             allowedMimeTypes: $allowedMimeTypes,
+            selectable: false
         );
 
         $collections = [

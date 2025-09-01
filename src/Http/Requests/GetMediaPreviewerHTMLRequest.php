@@ -46,7 +46,7 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'set_as_first_enabled' => ['required', Rule::in(['true', 'false'])],
             'show_order' => ['required', Rule::in(['true', 'false'])],
             'show_menu' => ['nullable', Rule::in(['true', 'false'])],
-
+            'selectable' => ['nullable', Rule::in(['true', 'false'])],
             ];
     }
 

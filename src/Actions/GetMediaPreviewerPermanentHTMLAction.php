@@ -65,6 +65,7 @@ class GetMediaPreviewerPermanentHTMLAction
             showOrder: $request->input('show_order') === 'true',
             showMenu: $request->input('show_menu') === 'true',
             temporaryUploads: $request->input('temporary_uploads') === 'true',
+            selectable: $request->input('selectable') === 'true',
         );
 
         $html = Blade::renderComponent($component);

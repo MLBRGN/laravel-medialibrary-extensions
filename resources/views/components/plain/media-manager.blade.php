@@ -82,6 +82,7 @@
                     :temporary-uploads="$temporaryUpload"
                     :frontend-theme="$frontendTheme"
                     :use-xhr="$useXhr"
+                    :selectable="$selectable"
                 />
             </div>
         </div>

@@ -105,6 +105,19 @@
                             </span>
                         @endif
                     @endif
+                    @if($selectable)
+                        <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
+                            <input
+                                type="checkbox"
+                                class="mle-media-select-checkbox"
+                                data-url="{{ $medium->getUrl() }}"
+                                data-alt="{{ $medium->name }}"
+                            >
+                            <span class="mle-media-select-indicator"
+                                  title="{{ __('media-library-extensions::messages.select') }}"
+                            />
+                        </label>
+                    @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">
                     @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
