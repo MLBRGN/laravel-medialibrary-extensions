@@ -101,15 +101,20 @@ class MediaManagerController extends Controller
         $modelType =  $request->input('model_type');
         $modelId =  $request->input('model_id');
         $id = 'something_for_now';
-        $imageCollection = 'blog-main';
+        $imageCollection = 'blog-images-extra';
         $documentCollection = 'document-collection';
         $audioCollection = 'audio-collection';
         $videoCollection = 'video-collection';
         $youtubeCollection = 'youtube-collection';
         $temporaryUpload = false;
 
-        return view('media-library-extensions::media-manager-tinymce', compact(
-            'modelType', 'modelId', 'temporaryUpload',
+        $model = null;
+        if ($modelType && $modelId) {
+            $model = $modelType::findOrFail($modelId);
+        }
+        $modelOrClassName = $model ?? $modelType;
+        return view('media-library-extensions::media-manager-tinymce-wrapper', compact(
+            'modelOrClassName', 'temporaryUpload',
             'frontendTheme', 'id', 'imageCollection', 'documentCollection',
             'audioCollection', 'videoCollection', 'youtubeCollection'));
     }

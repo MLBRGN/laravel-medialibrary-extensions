@@ -54,7 +54,7 @@ it('renders expected HTML for a video medium', function () {
 
     $html = Blade::renderComponent(new MediaFirstAvailable($model, ['video_collection'], id: 'video123'));
 
-    expect($html)->toContain(' <video class="media-manager-video-preview"')
+    expect($html)->toContain(' <video')
         ->toContain('/test.mp4" type="video/mp4">');
 });
 

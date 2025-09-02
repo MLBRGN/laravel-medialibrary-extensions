@@ -98,8 +98,9 @@
                     @if($selectable)
                         <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
                             <input
-                                type="checkbox"
+                                type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
                                 class="mle-media-select-checkbox"
+                                name="selected_media"
                                 data-url="{{ $medium->getUrl() }}"
                                 data-alt="{{ $medium->name }}"
                             >

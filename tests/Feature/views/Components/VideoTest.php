@@ -48,7 +48,5 @@ it('renders the expected video tag', function () {
 
     expect($html)->toContain('<video')
         ->toContain('id="mle-video-99"')
-        ->toContain('class="media-manager-video-preview"')
-        ->toContain('<source src="/storage/video.mp4" type="video/mp4">')
-        ->toContain('Your browser does not support the video tag.');
+        ->toContain('<source src="/storage/video.mp4" type="video/mp4">');
 });

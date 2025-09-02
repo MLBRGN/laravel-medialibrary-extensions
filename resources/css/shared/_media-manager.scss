@@ -105,6 +105,17 @@
     .mle-checkbox-wrapper {
         cursor: pointer;
         overflow: hidden;
+        //border-radius:50%;
+
+
+        &.mle-pseudo-button-icon {
+            width: 30px;
+            border-width:0;
+        }
+    }
+
+    label.mle-pseudo-button-icon.mle-checkbox-wrapper {
+        margin-block:0;
     }
 
     .mle-media-select-checkbox {

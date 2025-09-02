@@ -86,6 +86,16 @@
     
 
 
+
+
+
+
+
+
+
+
+
+
             <script type="module">
             // Loading the "lite-youtube" extension caused issues with the host app,
             // now waiting for dom to be loaded and only

@@ -1,6 +1,5 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if ($preview)
-{{--    <div class="mlbrgn-mle-component youtube-container">--}}
         <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
             <x-mle-shared-icon
                 class="mle-icon-container-youtube-play-button"
@@ -22,12 +21,9 @@
                 }}
             @endif
         </div>
-{{--    </div>--}}
 @else
-{{--    <div class="mlbrgn-mle-component">--}}
         <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}" data-mle-youtube-video>
             <lite-youtube
-{{--                id="yt-video-slide"--}}
                 videoid="{{ $youtubeId }}"
                 posterquality="maxresdefault"
                 autopause
@@ -47,8 +43,8 @@
                             name="{{ config('media-library-extensions.icons.play_video') }}"
                             title="{{ __('media-library-extensions::messages.play_video') }}"
                         >
-                            
-                        </x-mle-partial-icon>
+
+                        </x-mle-shared-icon>
                         <div class="mle-youtube-video-fallback-text">
                             <p>
                                 {{ __('media-library-extensions::messages.could_not_load_video') }}
@@ -60,6 +56,5 @@
             </lite-youtube>
             <div class="media-video-touch-overlay"></div>
         </div>
-{{--    </div>--}}
 @endif
 <x-mle-shared-assets include-css="true" include-js="false" include-lite-youtube="true" :frontend-theme="$frontendTheme"/>

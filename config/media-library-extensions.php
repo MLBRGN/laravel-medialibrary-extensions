@@ -343,6 +343,7 @@ return [
         'enablejsapi' => 1,
     ],
 
-    'load-tiny-mce-custom-file-picker' => env('MEDIA_LIBRARY_EXTENSIONS_LOAD_TINY_MCE_CUSTOM_FILE_PICKER', false)
+    'load-tiny-mce-custom-file-picker' => env('MEDIA_LIBRARY_EXTENSIONS_LOAD_TINY_MCE_CUSTOM_FILE_PICKER', false),
 
+    'single_select' => env('MEDIA_LIBRARY_EXTENSIONS_SINGLE_SELECT', true)
 ];

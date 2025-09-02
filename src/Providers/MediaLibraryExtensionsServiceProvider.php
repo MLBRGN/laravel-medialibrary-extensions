@@ -43,6 +43,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 
@@ -70,7 +71,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Log::warning('['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
-        // This tells Laravel where to find Blade view files
+        // This tells Laravel where to find Blade view files (components a registered separately)
         $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->nameSpace);
 
         // This tells Laravel where to find the route files
@@ -116,12 +117,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         }
 
-        // register and expose blade views and classes
+        // register and expose blade component views and classes
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
-//        Blade::component($this->packageNameShort.'-media-manager-tinymce', MediaManagerTinymce::class);
+        Blade::component($this->packageNameShort.'-media-manager-tinymce', MediaManagerTinymce::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
@@ -132,12 +133,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
 
-        // shared partials for internal use
+        // shared partials shared component views and classes for internal use
         Blade::component($this->packageNameShort.'-shared-debug', Debug::class);
         Blade::component($this->packageNameShort.'-shared-icon', Icon::class);
         Blade::component($this->packageNameShort.'-shared-assets', Assets::class);
+        Blade::component($this->packageNameShort.'-shared-media-preview-container', MediaPreviewContainer::class);
 
-        // partials for internal use
+        // partial component views and classes for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
         Blade::component($this->packageNameShort.'-partial-image-editor-form', ImageEditorForm::class);
         Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
@@ -181,7 +183,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             touch($databasePath);
         }
 
-        Config::set("database.connections.{$connectionName}", [
+        Config::set("database.connections.$connectionName", [
             'driver' => 'sqlite',
             'database' => $databasePath,
             'prefix' => '',

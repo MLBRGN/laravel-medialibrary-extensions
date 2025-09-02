@@ -22,6 +22,7 @@ class MediaManagerTinymce extends BaseComponent
     public string $previewUpdateRoute; // route to update preview media when using XHR
     public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
+    // TODO not used?
     public function __construct(
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public string $imageCollection = '',
@@ -106,7 +107,7 @@ class MediaManagerTinymce extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-manager-tinymce-wrapper', $this->frontendTheme);
+        return $this->getView('media-manager-tinymce', $this->frontendTheme);
     }
 
 }
