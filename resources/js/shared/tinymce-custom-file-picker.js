@@ -25,7 +25,6 @@ window.mleFilePicker = (callback, value, meta) => {
             buttons: [{ type: 'cancel', text: 'Close' }]
         });
 
-        // simplified handle message only 1 file.
         function handleMessage(event) {
             if (!event.data || !event.data.mce) return;
 
@@ -37,7 +36,6 @@ window.mleFilePicker = (callback, value, meta) => {
             console.log('just before callback')
             console.log('file', file);
 
-            // --- Your code needs to be here to handle the different file types ---
             if (meta.filetype === 'image') {
                 console.log('image', file);
                 const img = new Image();

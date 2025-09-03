@@ -35,16 +35,6 @@
     @endonce
 @endif
 
-{{--@if(config('media-library-extensions.load-tiny-mce-custom-file-picker'))--}}
-{{--    @dump('load')--}}
-{{--    --}}
-{{--    @once--}}
-{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker.js') }}"></script>--}}
-{{--    @endonce--}}
-{{--@else--}}
-{{--    @dump('do not load')--}}
-{{--@endif--}}
-
 @if($includeFormSubmitter)
     @once
         <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}"></script>

@@ -165,6 +165,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->registerPolicy();
         $this->addToAbout();
 
+        // Merge your overrides
+        $this->overrideFormComponentsConfig();
     }
 
     public function register(): void
@@ -229,5 +231,21 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 'Version' => $composer['version'] ?? 'unknown',
             ];
         });
+    }
+
+    protected function overrideFormComponentsConfig(): void
+    {
+        $extraScripts = config('form-components.html_editor.extra_scripts', []);
+        $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker.js');
+        $overrides = [
+            'html_editor.file_picker_callback' => 'mleFilePicker',
+            'html_editor.file_picker_route'    => '/mlbrgn-mle-media-manager-tinymce',
+            'html_editor.extra_scripts'=> $extraScripts,
+        ];
+
+
+        foreach ($overrides as $key => $value) {
+            config()->set("form-components.$key", $value);
+        }
     }
 }
