@@ -9,9 +9,9 @@ window.mleFilePicker = (callback, value, meta) => {
             model_type: textarea.getAttribute('data-model-type'),
             model_id: textarea.getAttribute('data-model-id'),
             media_manager_id: 'myMediaManager',
-            image_collection: 'image-collection',
-            video_collection: 'video-collection',
-            audio_collection: 'audio-collection',
+            image_collection: textarea.getAttribute('data-image-collection') ?? '',
+            video_collection: textarea.getAttribute('data-video-collection') ?? '',
+            audio_collection: textarea.getAttribute('data-audio-collection') ?? '',
         };
         console.log(params);
 

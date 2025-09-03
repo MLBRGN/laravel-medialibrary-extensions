@@ -1,4 +1,3 @@
-{{--    @dd($modelOrClassName)--}}
 <div class="mlbrgn-mle-component media-manager-tinymce">
     <x-mle-media-manager-multiple
         :model-or-class-name="$modelOrClassName"
