@@ -55,15 +55,14 @@ class ToggleRepository extends Command
             $targetPath = realpath(base_path(trim($pathRepo, './').'/'.self::DIST_FOLDER));
 
             $isLinked = collect($repositories)->contains(fn ($repo) => ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo);
-            $usingLocal = ! $isLinked; // true if you switched to local
             $envKey = $data['local_env_key'] ?? '';
-            $this->setLocalPackageFlag($usingLocal, $envKey);
 
             if ($isLinked) {
-                if (! $this->option('force') && ! $this->confirm("Remove local path for [$name]?")) {
+                if (! $this->option('force') && ! $this->confirm("Remove local repository for [$name]?")) {
                     continue;
                 }
 
+                $this->setLocalPackageFlag(false, $envKey);
                 $this->cleanVendorPackage($name);
                 $this->cleanPublishedViews();
 
@@ -83,10 +82,11 @@ class ToggleRepository extends Command
                 $this->publishAssets();
                 $toggled[] = $name;
             } else {
-                if (! $this->option('force') && ! $this->confirm("Use local path for [$name]?")) {
+                if (! $this->option('force') && ! $this->confirm("Use local repository for [$name]?")) {
                     continue;
                 }
 
+                $this->setLocalPackageFlag(true, $envKey);
                 $this->cleanVendorPackage($name);
                 $this->cleanPublishedViews();
 
