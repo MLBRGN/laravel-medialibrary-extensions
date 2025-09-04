@@ -191,7 +191,7 @@ class ToggleRepository extends Command
         $envKey = trim($envKey);
         if ($envKey === '') return;
 
-        $envLocalPath = base_path('.env.local');
+        $envLocalPath = base_path('.env');
 
         if (! file_exists($envLocalPath)) {
             file_put_contents($envLocalPath, "");

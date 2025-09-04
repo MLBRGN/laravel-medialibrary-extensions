@@ -43,6 +43,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageBadge;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
@@ -138,6 +139,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-shared-icon', Icon::class);
         Blade::component($this->packageNameShort.'-shared-assets', Assets::class);
         Blade::component($this->packageNameShort.'-shared-media-preview-container', MediaPreviewContainer::class);
+        Blade::component($this->packageNameShort.'-shared-local-package-badge', LocalPackageBadge::class);
 
         // partial component views and classes for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);

@@ -1,6 +1,3 @@
-@if(config('mle.use_local_package'))
-    <span class="badge badge-warning">LOCAL PACKAGE</span>
-@endif
 <div {{ $attributes->class('mle-document') }} mle-document>
     <div class="mle-document-preview">
         <x-mle-shared-icon
