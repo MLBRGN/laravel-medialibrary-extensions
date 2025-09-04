@@ -353,5 +353,18 @@ return [
     |
     */
 
-    'single_select' => env('MEDIA_LIBRARY_EXTENSIONS_SINGLE_SELECT', true)
+    'single_select' => env('MEDIA_LIBRARY_EXTENSIONS_SINGLE_SELECT', true),
+
+    /*
+   |--------------------------------------------------------------------------
+   | Use external document viewer
+   |--------------------------------------------------------------------------
+   |
+   | values:
+   | google-docs = Google Docs Viewer (DOC, DOCX, ODT, PPT, XLS, etc.)
+   | microsoft-office = Microsoft Office Online Viewer (supports DOCX, PPTX, XLSX)
+   | pass empty string for no external document viewer
+   |
+   */
+    'use_external_document_viewer' => env('MEDIA_LIBRARY_EXTENSIONS_USE_EXTERNAL_DOCUMENT_VIEWER', '')
 ];

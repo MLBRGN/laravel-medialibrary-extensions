@@ -23,6 +23,16 @@
                     
             @if(!$preview)
                     {{ __('media-library-extensions::messages.download_document') }}
+                    @if(config('media-library-extensions.use_external_document_viewer') === 'google-docs')
+                        <iframe src="https://docs.google.com/gview?url={{ $medium->getUrl() }}&embedded=true"
+                                style="width:100%; height:600px;" frameborder="0"></iframe>
+                    @endif
+                
+                    @if(config('media-library-extensions.use_external_document_viewer') === 'microsoft-office')
+                            <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ $medium->getUrl() }}"
+                                    style="width:100%; height:600px;" frameborder="0"></iframe>
+                    @endif
+
                 </a>
             @endif
             
