@@ -366,5 +366,14 @@ return [
    | pass empty string for no external document viewer
    |
    */
-    'use_external_document_viewer' => env('MEDIA_LIBRARY_EXTENSIONS_USE_EXTERNAL_DOCUMENT_VIEWER', '')
+    'use_external_document_viewer' => env('MEDIA_LIBRARY_EXTENSIONS_USE_EXTERNAL_DOCUMENT_VIEWER', ''),
+
+   /*
+   |--------------------------------------------------------------------------
+   | DEVELOPER ONLY
+   |--------------------------------------------------------------------------
+   |
+   | Only used by developer
+   */
+    'mle_using_local_package' => env('MLE_USING_LOCAL_PACKAGE', false),
 ];

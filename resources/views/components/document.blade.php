@@ -1,3 +1,6 @@
+@if(config('mle.use_local_package'))
+    <span class="badge badge-warning">LOCAL PACKAGE</span>
+@endif
 <div {{ $attributes->class('mle-document') }} mle-document>
     <div class="mle-document-preview">
         <x-mle-shared-icon
@@ -12,65 +15,39 @@
             <p>
                 {{ mle_human_filesize($medium->size, 0) }}
             </p>
+
+            {{-- Download link (only if not preview) --}}
             @if(!$preview)
                 <a href="{{ $medium->getUrl() }}" target="_blank" class="mle-document-link" data-mle-document-link>
-            @endif
+                    <x-mle-shared-icon
+                        class="mle-document-fg-icon"
+                        :name="$icon['name']"
+                        :title="$icon['title']"
+                    />
+                    {{ __('media-library-extensions::messages.download_document') }}
+                </a>
+            @else
                 <x-mle-shared-icon
                     class="mle-document-fg-icon"
                     :name="$icon['name']"
                     :title="$icon['title']"
                 />
-                    
-            @if(!$preview)
-                    {{ __('media-library-extensions::messages.download_document') }}
-                    @if(config('media-library-extensions.use_external_document_viewer') === 'google-docs')
-                        <iframe src="https://docs.google.com/gview?url={{ $medium->getUrl() }}&embedded=true"
-                                style="width:100%; height:600px;" frameborder="0"></iframe>
-                    @endif
-                
-                    @if(config('media-library-extensions.use_external_document_viewer') === 'microsoft-office')
-                            <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ $medium->getUrl() }}"
-                                    style="width:100%; height:600px;" frameborder="0"></iframe>
-                    @endif
-
-                </a>
             @endif
-            
-            @if(config('media-library-extensions.preview_modal_embed_pdf'))
-                @if(!$preview && $medium->mime_type === 'application/pdf')
-                    <embed src="{{ $medium->getUrl() }}" type="application/pdf" width="100%" height="600px" class="mle-document-embed" />
+
+            @if(!$preview)
+                @if($medium->mime_type === 'application/pdf' && config('media-library-extensions.preview_modal_embed_pdf'))
+                    <embed src="{{ $medium->getUrl() }}" type="application/pdf"
+                           width="100%" height="600px" class="mle-document-embed" />
+                @elseif(in_array($medium->mime_type, $officeMimes, true))
+                    @if(config('media-library-extensions.use_external_document_viewer') === 'google-docs')
+                        <iframe src="https://docs.google.com/gview?url={{ urlencode($medium->getUrl()) }}&embedded=true"
+                                style="width:100%; height:600px;" frameborder="0" class="mle-document-embed"></iframe>
+                    @elseif(config('media-library-extensions.use_external_document_viewer') === 'microsoft-office')
+                        <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($medium->getUrl()) }}"
+                                style="width:100%; height:600px;" frameborder="0" class="mle-document-embed"></iframe>
+                    @endif
                 @endif
             @endif
         </div>
     </div>
 </div>
-
-{{--<div--}}
-{{--    class="media-manager-preview-item-container flex flex-col justify-between bg-white border rounded-2xl shadow hover:shadow-md transition p-4 cursor-pointer"--}}
-{{--    data-bs-toggle="modal"--}}
-{{--    data-bs-target="#{{ $id }}-mod"--}}
-{{--    data-slide-index="{{ $loop->index }}"--}}
-{{-->--}}
-{{--    --}}{{-- File Icon --}}
-{{--    <div class="flex flex-col items-center justify-center flex-1">--}}
-{{--        <x-icon name="file" class="w-12 h-12 {{ $iconColor }}" />--}}
-
-{{--        <div class="mt-2 text-sm text-gray-700 truncate w-full text-center">--}}
-{{--            {{ Str::limit($medium->file_name, 20) }}--}}
-{{--        </div>--}}
-
-{{--        <div class="text-xs text-gray-500">--}}
-{{--            {{ human_filesize($medium->size) }}--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--    --}}{{-- Footer with actions --}}
-{{--    <div class="flex justify-between items-center mt-3 text-gray-600">--}}
-{{--        <button class="p-1 hover:text-yellow-500">--}}
-{{--            <x-icon name="star" class="w-5 h-5" />--}}
-{{--        </button>--}}
-{{--        <button class="p-1 hover:text-red-600">--}}
-{{--            <x-icon name="trash" class="w-5 h-5" />--}}
-{{--        </button>--}}
-{{--    </div>--}}
-{{--</div>--}}

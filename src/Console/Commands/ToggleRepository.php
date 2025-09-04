@@ -28,6 +28,7 @@ class ToggleRepository extends Command
         'mlbrgn/laravel-medialibrary-extensions' => [
             'path' => './packages/mlbrgn/laravel-medialibrary-extensions',
             'symlink' => 'mlbrgn/media-library-extensions',
+            'local_env_key' => 'MLE_USING_LOCAL_PACKAGE',
         ],
         // Add more packages here if needed
     ];
@@ -54,6 +55,9 @@ class ToggleRepository extends Command
             $targetPath = realpath(base_path(trim($pathRepo, './').'/'.self::DIST_FOLDER));
 
             $isLinked = collect($repositories)->contains(fn ($repo) => ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo);
+            $usingLocal = ! $isLinked; // true if you switched to local
+            $envKey = $data['local_env_key'] ?? '';
+            $this->setLocalPackageFlag($usingLocal, $envKey);
 
             if ($isLinked) {
                 if (! $this->option('force') && ! $this->confirm("Remove local path for [$name]?")) {
@@ -181,4 +185,37 @@ class ToggleRepository extends Command
             '--force' => true,
         ]);
     }
+
+    protected function setLocalPackageFlag(bool $usingLocal, string $envKey): void
+    {
+        $envKey = trim($envKey);
+        if ($envKey === '') return;
+
+        $envLocalPath = base_path('.env.local');
+
+        if (! file_exists($envLocalPath)) {
+            file_put_contents($envLocalPath, "");
+        }
+
+        $content = file_get_contents($envLocalPath);
+
+        if (str_contains($content, $envKey . '=')) {
+            $content = preg_replace(
+                '/' . preg_quote($envKey, '/') . '=.*/',
+                $envKey . '=' . ($usingLocal ? 'true' : 'false'),
+                $content
+            );
+        } else {
+            // Append key/value with a single newline
+            $content .= PHP_EOL . $envKey . '=' . ($usingLocal ? 'true' : 'false');
+        }
+
+        // Ensure no extra blank lines at the end
+        $content = trim($content) . PHP_EOL;
+
+        file_put_contents($envLocalPath, $content);
+
+        $this->info('🔖 ' . $envKey . ' set to ' . ($usingLocal ? 'true' : 'false'));
+    }
+
 }
