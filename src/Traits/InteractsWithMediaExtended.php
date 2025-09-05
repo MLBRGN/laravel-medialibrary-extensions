@@ -57,17 +57,17 @@ trait InteractsWithMediaExtended
 
                 // replace img urls from temporary to media in html editor fields
                 $tempUrl = $temporaryUpload->getUrl();
-                Log::info($tempUrl);
+//                Log::info($tempUrl);
                 if ($tempUrl && $media && property_exists($model, 'htmlEditorFields')) {
-                    Log::info('replace images');
+//                    Log::info('replace images');
                     foreach ($model->htmlEditorFields as $field) {
-                        Log::info('field: '.$field);
+//                        Log::info('field: '.$field);
 
                         if (! empty($model->{$field})) {
-                            Log::info('model field not empty: '.$field);
+//                            Log::info('model field not empty: '.$field);
                             $newValue = str_replace($tempUrl, $media->getUrl(), $model->{$field});
                             if ($newValue !== $model->{$field}) {
-                                Log::info('update value of model field: '.$field);
+//                                Log::info('update value of model field: '.$field);
                                 $model->{$field} = $newValue;
                                 $dirty = true;
                             }
