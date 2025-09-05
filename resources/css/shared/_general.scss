@@ -457,6 +457,17 @@
         padding:1rem;
     }
 
+    .mle-media-placeholder,
+    &.mle-media-placeholder {
+        background-color:var(--mlbrgn-mle-container-bg-dark);
+        color:var(--mlbrgn-mle-container-fg-color);
+        width:100%;
+        aspect-ratio: 16/9;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     @keyframes spin {
         to {
             transform: rotate(360deg);

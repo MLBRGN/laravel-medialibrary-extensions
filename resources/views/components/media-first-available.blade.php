@@ -49,5 +49,9 @@
             {{ __('media-library-extensions::messages.non_supported_file_format') }}
         @endif
     </div>
+@else
+    <div class="mlbrgn-mle-component mle-media-placeholder">
+        <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
+    </div>
 @endif
 <x-mle-shared-assets include-css="true" include-js="false" include-lite-youtube="true" :frontend-theme="$frontendTheme"/>
