@@ -1,3 +1,4 @@
+<x-mle-shared-local-package-badge/>
 <div
     id="{{ $id }}"
     {{ $attributes->class([
