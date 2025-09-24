@@ -5,12 +5,70 @@
     data-use-xhr="true"
     >
     
-    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","destroy_enabled":false,"set_as_first_enabled":false,"show_order":false,"show_menu":true,"temporary_upload":"false","multiple":true,"use_xhr":true,"selectable":false}'>
+    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","destroy_enabled":false,"set_as_first_enabled":false,"show_order":false,"show_menu":true,"temporary_upload":"false","multiple":true,"use_xhr":true,"selectable":false,"mediaEditable":false,"readonly":false,"disabled":false}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
             
-                                    
+
+                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+        <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
+    <input
+        id="test-media-modal-mmm-media-input"
+        accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif"
+        type="file"
+        class="mle-input form-control"
+                    name="media[]"
+            multiple
+                    >
+    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
+            <input
+            type="hidden"
+            name="image_collection"
+            value="images">
+                        <input 
+        type="hidden" 
+        name="temporary_upload" 
+        value="false">
+    <input
+        type="hidden"
+        name="model_type"
+        value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input
+        type="hidden"
+        name="model_id"
+        value="1">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="test-media-modal-mmm">
+    <button
+        type="button"
+        class="mle-button mle-button-submit mle-upload-button"
+        data-action="upload-media"
+            >
+        Upload media
+    </button>
+    </div>
+    <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
+
+    
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js"></script>
+                <script>
+            window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
+        </script>
+    
+
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js"></script>
+    
+
+
+                
+                        
         </div>
         
         <div class="media-manager-previews">
@@ -112,17 +170,7 @@
     </button>
 </div>
 
-<link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
-
-    
-            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js"></script>
-                <script>
-            window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
-        </script>
-    
-
-
-            <script type="module">
+<script type="module">
             // Loading the "lite-youtube" extension caused issues with the host app,
             // now waiting for dom to be loaded and only
             // loading YT iframe api and "lite-youtube" when not loaded
@@ -182,7 +230,4 @@
             });
         });
     </script>
-    
 </div>
-
-
