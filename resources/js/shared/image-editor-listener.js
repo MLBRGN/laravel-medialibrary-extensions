@@ -82,7 +82,6 @@ const updateMedia = (detail) => {
     formData.append('document_collection', config.document_collection);
     formData.append('youtube_collection', config.youtube_collection);
     formData.append('temporary_upload', config.temporary_upload);
-    // formData.append('set_as_first_enabled', config.set_as_first_enabled);
     formData.append('file', file); // 'media' must match Laravel's expected field
 
     fetch(saveUpdatedMediumRoute, {
