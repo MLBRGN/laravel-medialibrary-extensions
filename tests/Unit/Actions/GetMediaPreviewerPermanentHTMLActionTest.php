@@ -19,8 +19,8 @@ it('renders media preview HTML and returns JSON response', function () {
         'document_collection' => 'docs',
         'youtube_collection' => 'youtube',
         'frontend_theme' => 'bootstrap-5',
-        'destroy_enabled' => true,
-        'set_as_first_enabled' => false,
+        'show_destroy_button' => true,
+        'show_set_as_first_button' => false,
         'show_order' => false,
     ];
 

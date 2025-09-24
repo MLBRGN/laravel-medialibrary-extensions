@@ -23,6 +23,7 @@ class DestroyForm extends BaseComponent
         public ?string $youtubeCollection = '',
         public ?string $videoCollection = '',
         public ?string $audioCollection = '',
+        public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
     }

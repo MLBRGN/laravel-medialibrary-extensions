@@ -1,3 +1,4 @@
+<!-- used as fallback when not using XHR -->
 <x-media-library-extensions::shared.conditional-form
     :use-xhr="$useXhr"
     :form-attributes="
@@ -73,6 +74,7 @@
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-action="set-as-first"
+        @disabled($disabled)
     >
         <x-mle-shared-icon
             name="{{ config('media-library-extensions.icons.setup_as_main') }}"

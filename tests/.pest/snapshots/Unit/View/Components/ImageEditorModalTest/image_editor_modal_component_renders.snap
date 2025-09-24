@@ -56,12 +56,16 @@
     <input type="file"
            name="file"
            hidden>
-                        <button
+                        
+
+
+    
+    <button
         type="button"
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="Setup as main."
         data-action="set-as-first"
-    >
+            >
         <span 
         role="img" 
         aria-label="Setup as main." 

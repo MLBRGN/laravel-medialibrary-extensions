@@ -21,15 +21,15 @@ it('initializes correctly with model instance', function () {
     $component = new MediaManagerMultiple(
         modelOrClassName: $model,
         imageCollection: 'images',
-        uploadEnabled: true,
-        destroyEnabled: true,
+        showUploadForm: true,
+        showDestroyButton: true,
         showOrder: true,
         id: 'blog-1'
     );
 
     expect($component->multiple)->toBeTrue()
-        ->and($component->uploadEnabled)->toBeTrue()
-        ->and($component->destroyEnabled)->toBeTrue()
+        ->and($component->showUploadForm)->toBeTrue()
+        ->and($component->showDestroyButton)->toBeTrue()
         ->and($component->showOrder)->toBeTrue()
         ->and($component->imageCollection)->toBe('images')
         ->and($component->id)->toBe('blog-1-mmm');
@@ -39,23 +39,23 @@ it('initializes correctly with model class name', function () {
     $component = new MediaManagerMultiple(
         modelOrClassName: Blog::class,
         youtubeCollection: 'videos',
-        setAsFirstEnabled: true,
+        showSetAsFirstButton: true,
         useXhr: false,
     );
 
     expect($component->multiple)->toBeTrue()
         ->and($component->modelType)->toBe(Blog::class)
         ->and($component->youtubeCollection)->toBe('videos')
-        ->and($component->setAsFirstEnabled)->toBeTrue()
+        ->and($component->showSetAsFirstButton)->toBeTrue()
         ->and($component->useXhr)->toBeFalse();
 });
 
 it('defaults optional values when omitted', function () {
     $component = new MediaManagerMultiple(modelOrClassName: Blog::class, imageCollection: 'blog-images',);
 
-    expect($component->uploadEnabled)->toBeFalse()
-        ->and($component->destroyEnabled)->toBeFalse()
-        ->and($component->setAsFirstEnabled)->toBeFalse()
+    expect($component->showUploadForm)->toBeTrue()
+        ->and($component->showDestroyButton)->toBeFalse()
+        ->and($component->showSetAsFirstButton)->toBeFalse()
         ->and($component->showOrder)->toBeFalse()
         ->and($component->uploadFieldName)->toBe('media')
         ->and($component->frontendTheme)->toBe('bootstrap-5')

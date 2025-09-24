@@ -23,8 +23,8 @@ it('initializes with a HasMedia model', function () {
         modelOrClassName: $model,
         allowedMimeTypes: 'video/*',
         multiple: true,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: null
     );
 
@@ -50,8 +50,8 @@ it('initializes with a model class string', function () {
         modelOrClassName: $model->getMorphClass(),
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: true,
-        setAsFirstEnabled: true,
+        showDestroyButton: true,
+        showSetAsFirstButton: true,
         useXhr: true
     );
 
@@ -75,8 +75,8 @@ it('throws if modelOrClassName is non existing class name', function () {
         modelOrClassName: 'someDummyClassName',
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: null
     );
 })->throws(Exception::class);
@@ -96,8 +96,8 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
         modelOrClassName: $model, // invalid
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: null
     );
 })->throws(TypeError::class);
@@ -124,8 +124,8 @@ it('renders the correct partial view', function () {
         modelOrClassName: $model->getMorphClass(),
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: false
     );
 

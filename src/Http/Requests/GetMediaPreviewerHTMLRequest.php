@@ -42,8 +42,9 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
 
             'frontend_theme' => ['nullable', 'string'],
 
-            'destroy_enabled' => ['required', Rule::in(['true', 'false'])],
-            'set_as_first_enabled' => ['required', Rule::in(['true', 'false'])],
+            'show_destroy_button' => ['required', Rule::in(['true', 'false'])],
+            'show_set_as_first_button' => ['required', Rule::in(['true', 'false'])],
+            'show_media_edit_button' => ['required', Rule::in(['true', 'false'])],
             'show_order' => ['required', Rule::in(['true', 'false'])],
             'show_menu' => ['nullable', Rule::in(['true', 'false'])],
             'selectable' => ['nullable', Rule::in(['true', 'false'])],

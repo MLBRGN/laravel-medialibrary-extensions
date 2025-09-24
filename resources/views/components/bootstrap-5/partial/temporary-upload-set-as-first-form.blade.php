@@ -59,6 +59,7 @@
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-action="temporary-upload-set-as-first"
+        @disabled($disabled)
     >
         <x-mle-shared-icon
             name="{{ config('media-library-extensions.icons.setup_as_main') }}"

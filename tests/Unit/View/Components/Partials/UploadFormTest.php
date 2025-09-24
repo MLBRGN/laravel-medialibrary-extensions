@@ -126,8 +126,8 @@ it('sets model properties correctly when given a HasMedia model instance', funct
         modelOrClassName: $model,
         allowedMimeTypes: '',
         multiple: true,
-        destroyEnabled: true,
-        setAsFirstEnabled: true,
+        showDestroyButton: true,
+        showSetAsFirstButton: true,
         useXhr: null,
     );
 
@@ -156,8 +156,8 @@ it('sets model properties correctly when given a string model class name', funct
         modelOrClassName: $model->getMorphClass(),
         allowedMimeTypes: 'image/jpeg,image/png',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: true,
     );
 

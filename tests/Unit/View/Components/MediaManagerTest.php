@@ -30,9 +30,9 @@ test('media manager component renders', function () {
         image-collection="blog-images"
         youtube-collection="blog-youtube"
         document-collection="blog-documents"
-        upload-enabled
-        destroy-enabled
-        set-as-first-enabled
+        show-destroy-button
+        show-set-as-first-button
+        show-media-edit-button
         show-order
         id="blog"
         multiple

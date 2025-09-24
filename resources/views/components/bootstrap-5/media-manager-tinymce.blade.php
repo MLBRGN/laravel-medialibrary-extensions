@@ -9,12 +9,12 @@
         :video-collection="$videoCollection"
         :audio-collection="$audioCollection"
         :frontend-theme="$frontendTheme"
-        :destroy-enabled="true"
-        :set-as-first-enabled="true"
+        :show-destroy-button="true"
+        :show-set-as-first-button="true"
+        :show-media-edit-button="true"
         :show-order="true"
         :show-menu="true"
         :multiple="$temporaryUpload"
-        :upload-enabled="true"
         :selectable="true"
     />
 </div>

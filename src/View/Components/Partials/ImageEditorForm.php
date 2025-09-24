@@ -29,6 +29,7 @@ class ImageEditorForm extends BaseComponent
         public ?string $videoCollection = '',
         public ?string $audioCollection = '',
         public ?string $mediaManagerId = '',
+        public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 

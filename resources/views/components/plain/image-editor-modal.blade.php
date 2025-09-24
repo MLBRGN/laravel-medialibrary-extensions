@@ -53,6 +53,7 @@
                     :video-collection="$videoCollection"
                     :frontend-theme="$frontendTheme"
                     :use-xhr="$useXhr"
+                    :disabled="$disabled"
                 />
             </div>
         </div>

@@ -30,17 +30,20 @@ class MediaManagerTinymce extends BaseComponent
         public string $youtubeCollection = '',
         public string $videoCollection = '',
         public string $audioCollection = '',
-        public bool $uploadEnabled = false,
+        public bool $showUploadForm = true,
         public string $uploadFieldName = 'media',
-        public bool $destroyEnabled = false,
-        public bool $setAsFirstEnabled = false,
+        public bool $showDestroyButton = false,
+        public bool $showSetAsFirstButton = false,
         public bool $showOrder = false,
         public bool $showMenu = true,
         public string $id = '',
         public ?string $frontendTheme = null,
         public ?bool $useXhr = true,
         public bool $multiple = false,
-        public string $allowedMimeTypes = ''
+        public string $allowedMimeTypes = '',
+        public bool $showMediaEditButton = false,// (at the moment) only for image editing
+        public bool $readonly = false,
+        public bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -48,14 +51,21 @@ class MediaManagerTinymce extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
+        // override: enforce disabled / readonly
+        if ($this->readonly || $this->disabled) {
+            $this->showUploadForm = false;
+            $this->showDestroyButton = false;
+            $this->showSetAsFirstButton = false;
+        }
+
         // Override: Always disable "set-as-first" when multiple files disabled
         if (!$this->multiple) {
-            $this->setAsFirstEnabled = false;
+            $this->showSetAsFirstButton = false;
         }
 
         // Override: Always set upload enabled to false when no document collections provided
         if (!$this->imageCollection && !$this->documentCollection && !$this->videoCollection && !$this->audioCollection) {
-            $this->uploadEnabled = false;
+            $this->showUploadForm = false;
         }
 
         if (!$this->imageCollection && !$this->documentCollection && !$this->videoCollection && !$this->audioCollection && !$this->youtubeCollection) {
@@ -71,12 +81,10 @@ class MediaManagerTinymce extends BaseComponent
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
-//            $this->id = $this->id.'-media-manager-multiple';
             $this->id = $this->id.'-mmm';
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
-//            $this->id = $this->id.'-media-manager-single';
             $this->id = $this->id.'-mms';
         }
 
@@ -95,13 +103,16 @@ class MediaManagerTinymce extends BaseComponent
             'youtube_upload_route' => $this->youtubeUploadRoute,
             'csrf_token' => csrf_token(),
             'frontend_theme' => $this->frontendTheme,
-            'destroy_enabled' => $this->destroyEnabled,
-            'set_as_first_enabled' => $this->setAsFirstEnabled,
+            'show_destroy_button' => $this->showDestroyButton,
+            'show_set_as_first_button' => $this->showSetAsFirstButton,
             'show_order' => $this->showOrder,
             'show_menu' => $this->showMenu,
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
             'multiple' => $this->multiple,
             'use_xhr' => $this->useXhr,
+            'show_media_edit_button' => $this->showMediaEditButton,
+            'readonly' => $this->readonly,
+            'disabled' => $this->disabled,
         ];
     }
 

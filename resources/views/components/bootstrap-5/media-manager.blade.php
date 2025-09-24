@@ -20,7 +20,7 @@
                 'col-12 col-md-4'
             ])>
             {{ $form_start ?? '' }}
-            @if($uploadEnabled)
+            @if($showUploadForm)
                 @if($imageCollection || $documentCollection || $videoCollection || $audioCollection)
                     <x-mle-partial-upload-form
                         :model-or-class-name="$modelOrClassName"
@@ -33,10 +33,12 @@
                         :youtube-collection="$youtubeCollection"
                         :video-collection="$videoCollection"
                         :audio-collection="$audioCollection"
-                        :destroy-enabled="$destroyEnabled"
-                        :set-as-first-enabled="$setAsFirstEnabled"
+                        :show-destroy-button="$showDestroyButton"
+                        :show-set-as-first-button="$showSetAsFirstButton"
+                        :show-media-edit-button="$showMediaEditButton"
                         :multiple="$multiple"
-                        :disabled="$disableForm"
+                        :disabled="$disabled || $disableForm"
+                        :readonly="$readonly"
                         :use-xhr="$useXhr"
                         :frontend-theme="$frontendTheme"
                     />
@@ -53,9 +55,11 @@
                     :youtube-collection="$youtubeCollection"
                     :video-collection="$videoCollection"
                     :audio-collection="$audioCollection"
-                    :destroy-enabled="$destroyEnabled"
-                    :set-as-first-enabled="$setAsFirstEnabled"
-                    :disabled="$disableForm"
+                    :show-destroy-button="$showDestroyButton"
+                    :show-set-as-first-button="$showSetAsFirstButton"
+                    :show-media-edit-button="$showMediaEditButton"
+                    :disabled="$disabled || $disableForm"
+                    :readonly="$readonly"
                     :multiple="$multiple"
                     :use-xhr="$useXhr"
                 />
@@ -79,8 +83,9 @@
                     :id="$id"
                     :show-order="$showOrder"
                     :show-menu="$showMenu"
-                    :destroy-enabled="$destroyEnabled"
-                    :set-as-first-enabled="$setAsFirstEnabled"
+                    :show-destroy-button="$showDestroyButton"
+                    :show-set-as-first-button="$showSetAsFirstButton"
+                    :show-media-edit-button="$showMediaEditButton"
                     :model-or-class-name="$modelOrClassName"
                     :image-collection="$imageCollection"
                     :youtube-collection="$youtubeCollection"
@@ -91,6 +96,8 @@
                     :frontend-theme="$frontendTheme"
                     :use-xhr="$useXhr"
                     :selectable="$selectable"
+                    :disabled="$disabled"
+                    :readonly="$readonly"
                 />
             </div>
         </div>

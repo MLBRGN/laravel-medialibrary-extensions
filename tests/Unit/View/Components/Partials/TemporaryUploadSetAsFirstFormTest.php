@@ -29,7 +29,7 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
         youtubeCollection: 'youtube',
         videoCollection:  'videos',
         audioCollection: 'audios',
-        setAsFirstEnabled: true,
+        showSetAsFirstButton: true,
     );
 
     $view = $component->render();

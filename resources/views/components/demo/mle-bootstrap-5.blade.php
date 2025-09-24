@@ -26,8 +26,7 @@
             video-collection="alien-single-video"
             audio-collection="alien-single-audio"
             class="mt-5"
-            upload-enabled
-            destroy-enabled
+            show-destroy-button
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
         />
@@ -43,8 +42,7 @@
             video-collection="alien-single-video"
             audio-collection="alien-single-audio"
             class="mt-5"
-            upload-enabled
-            destroy-enabled
+            show-destroy-button
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
         />
@@ -60,10 +58,10 @@
             video-collection="alien-multiple-videos"
             audio-collection="alien-multiple-audio"
             class="mt-5"
-            upload-enabled
-            destroy-enabled
+            show-destroy-button
             :show-order="true"
-            set-as-first-enabled
+            show-set-as-first-button
+            show-media-edit-button
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
             :show-menu="true"
@@ -80,10 +78,10 @@
             video-collection="alien-multiple-videos"
             audio-collection="alien-multiple-audio"
             class="mt-5"
-            upload-enabled
-            destroy-enabled
+            show-destroy-button
             :show-order="true"
-            set-as-first-enabled
+            show-set-as-first-button
+            show-media-edit-button
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
         />
@@ -95,10 +93,9 @@
             :model-or-class-name="$model"
             youtube-collection="alien-multiple-youtube-videos"
             class="mt-5"
-            upload-enabled
-            destroy-enabled
+            show-destroy-button
             :show-order="true"
-            set-as-first-enabled
+            show-set-as-first-button
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
         />
@@ -110,10 +107,10 @@
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
             youtube-collection="alien-multiple-youtube-videos"
             class="mt-5"
-            upload-enabled
-            destroy-enabled
+            show-destroy-button
             :show-order="true"
-            set-as-first-enabled
+            show-set-as-first-button
+            show-media-edit-button
             frontend-theme="bootstrap-5"
             :use-xhr="config('media-library-extensions.use_xhr')"
         />

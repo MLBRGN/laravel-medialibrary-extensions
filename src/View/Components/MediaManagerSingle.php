@@ -17,15 +17,18 @@ class MediaManagerSingle extends MediaManager
         string $youtubeCollection = '',
         string $videoCollection = '',
         string $audioCollection = '',
-        bool $uploadEnabled = false,
+        bool $showUploadForm = true,
         string $uploadFieldName = 'media',
-        bool $destroyEnabled = false,
+        bool $showDestroyButton = false,
         bool $showOrder = false,
         bool $showMenu = true,
         string $id = '',
         ?string $frontendTheme = null,
         ?bool $useXhr = true,
         string $allowedMimeTypes = '',
+        public bool $showMediaEditButton = false,// (at the moment) only for image editing
+        public bool $readonly = false,
+        public bool $disabled = false,
     ) {
         parent::__construct(
             modelOrClassName: $modelOrClassName,
@@ -34,10 +37,10 @@ class MediaManagerSingle extends MediaManager
             youtubeCollection: $youtubeCollection,
             videoCollection: $videoCollection,
             audioCollection: $audioCollection,
-            uploadEnabled: $uploadEnabled,
+            showUploadForm: $showUploadForm,
             uploadFieldName: $uploadFieldName,
-            destroyEnabled: $destroyEnabled,
-            setAsFirstEnabled: false,// always false
+            showDestroyButton: $showDestroyButton,
+            showSetAsFirstButton: false,// always false
             showOrder: $showOrder,
             showMenu: $showMenu,
             id: $id,
@@ -45,7 +48,10 @@ class MediaManagerSingle extends MediaManager
             useXhr: $useXhr,
             multiple: false,// always false
             allowedMimeTypes: $allowedMimeTypes,
-            selectable: false
+            selectable: false,// always false
+            showMediaEditButton: $showMediaEditButton,
+            readonly: $readonly,
+            disabled: $disabled,
         );
 
         $collections = [
@@ -66,6 +72,7 @@ class MediaManagerSingle extends MediaManager
             }
         }
 
+        // TODO implement disabled and readonly, this is not perse the same as disableForm
         // boolean property to disable form(s) in blade view(s)
         $this->disableForm = $totalMediaCount >= 1;
     }

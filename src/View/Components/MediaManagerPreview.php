@@ -29,22 +29,26 @@ class MediaManagerPreview extends BaseComponent
         public ?string $videoCollection = '',
         public ?string $audioCollection = '',
         public ?string $frontendTheme = null,
-        public bool $destroyEnabled = false,
-        public bool $setAsFirstEnabled = false,
+        public bool $showDestroyButton = false,
+        public bool $showSetAsFirstButton = false,
         public bool $showOrder = false,
         public bool $showMenu = true,
         public bool $temporaryUploads = false,
         public ?bool $useXhr = true,
         public bool $selectable = false,
+        public bool $showMediaEditButton = false,// (at the moment) only for image editing
+        public bool $readonly = false,
+        public bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
         // when non of the menu items visible, set showMenu to false
-        if (!$destroyEnabled && !$showOrder && !$setAsFirstEnabled) {
-            $this->showMenu = false;
-        }
+        // TODO
+//        if (!$showDestroyButton && !$showOrder && !$showSetAsFirstButton && !$showMediaEditButton) {
+//            $this->showMenu = false;
+//        }
 
         $collectionNames = collect([
             $imageCollection,

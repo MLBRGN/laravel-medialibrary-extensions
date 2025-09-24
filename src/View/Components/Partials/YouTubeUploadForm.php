@@ -31,9 +31,10 @@ class YouTubeUploadForm extends BaseComponent
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
-        public bool $destroyEnabled = false,
-        public bool $setAsFirstEnabled = false,
+        public bool $showDestroyButton = false,
+        public bool $showSetAsFirstButton = false,
         public ?bool $useXhr = null,
+        public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {
         $this->mediaManagerId = $this->id;

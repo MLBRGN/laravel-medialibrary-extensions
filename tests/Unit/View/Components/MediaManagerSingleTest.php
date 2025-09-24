@@ -21,15 +21,15 @@ it('initializes correctly with model instance', function () {
     $component = new MediaManagerSingle(
         modelOrClassName: $model,
         imageCollection: 'images',
-        uploadEnabled: true,
-        destroyEnabled: true,
+        showUploadForm: true,
+        showDestroyButton: true,
         showOrder: true,
         id: 'blog-1'
     );
 
     expect($component->multiple)->toBeFalse()
-        ->and($component->uploadEnabled)->toBeTrue()
-        ->and($component->destroyEnabled)->toBeTrue()
+        ->and($component->showUploadForm)->toBeTrue()
+        ->and($component->showDestroyButton)->toBeTrue()
         ->and($component->showOrder)->toBeTrue()
         ->and($component->imageCollection)->toBe('images')
         ->and($component->id)->toBe('blog-1-mms');
@@ -46,16 +46,16 @@ it('initializes correctly with model class name', function () {
         ->and($component->modelType)->toBe(Blog::class)
 //        ->and($component->temporaryUpload)->toBeFalse()
         ->and($component->youtubeCollection)->toBe('videos')
-        ->and($component->setAsFirstEnabled)->toBeFalse()
+        ->and($component->showSetAsFirstButton)->toBeFalse()
         ->and($component->useXhr)->toBeFalse();
 });
 
 it('defaults optional values when omitted', function () {
     $component = new MediaManagerSingle(modelOrClassName: Blog::class, imageCollection: 'blog-images',);
 
-    expect($component->uploadEnabled)->toBeFalse()
-        ->and($component->destroyEnabled)->toBeFalse()
-        ->and($component->setAsFirstEnabled)->toBeFalse()
+    expect($component->showUploadForm)->toBeTrue()
+        ->and($component->showDestroyButton)->toBeFalse()
+        ->and($component->showSetAsFirstButton)->toBeFalse()
         ->and($component->showOrder)->toBeFalse()
         ->and($component->temporaryUpload)->toBeTrue()
         ->and($component->uploadFieldName)->toBe('medium')

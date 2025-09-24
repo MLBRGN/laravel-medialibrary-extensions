@@ -128,12 +128,13 @@ document.addEventListener('DOMContentLoaded', function () {
             audio_collection: config.audio_collection,
             initiator_id: config.id,
             frontend_theme: config.frontend_theme,
-            destroy_enabled: config.destroy_enabled,
-            set_as_first_enabled: config.set_as_first_enabled,
+            show_destroy_button: config.show_destroy_button,
+            show_set_as_first_button: config.show_set_as_first_button,
             show_order: config.show_order,
             show_menu: config.show_menu,
             temporary_uploads: config.temporary_upload,
             selectable: config.selectable,
+            show_media_edit_button: config.show_media_edit_button,
         });
 
         // showSpinner(container);

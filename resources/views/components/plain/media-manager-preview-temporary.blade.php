@@ -80,6 +80,7 @@
                 :video-collection="$videoCollection"
                 :frontend-theme="$frontendTheme"
                 :use-xhr="$useXhr"
+                :disabled="$disabled"
             />
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}
@@ -131,6 +132,7 @@
 {{--                                data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
                             class="mle-button mle-button-icon btn btn-primary"
                             title="{{ __('media-library-extensions::messages.edit') }}"
+                            @disabled($disabled)
                         >
                             <x-mle-shared-icon
                                 name="{{ config('media-library-extensions.icons.edit') }}"
@@ -138,7 +140,7 @@
                             />
                         </button>
                     @endif
-                    @if($setAsFirstEnabled)
+                    @if($showSetAsFirstButton)
                         @if($medium->getCustomProperty('priority') === 0)
                             <button
                                 type="button"
@@ -160,13 +162,15 @@
                                 :youtube-collection="$youtubeCollection"
                                 :audio-collection="$audioCollection"
                                 :video-collection="$videoCollection"
-                                :set-as-first-enabled="$setAsFirstEnabled"
+                                :show-set-as-first-button="$showSetAsFirstButton"
+                                :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"
                                 :use-xhr="$useXhr"
+                                :disabled="$disabled"
                             />
                         @endif
                     @endif
-                    @if($destroyEnabled)
+                    @if($showDestroyButton)
                         <x-mle-partial-temporary-upload-destroy-form
                             :medium="$medium"
                             :id="$id"
@@ -177,6 +181,7 @@
                             :video-collection="$videoCollection"
                             :frontend-theme="$frontendTheme"
                             :use-xhr="$useXhr"
+                            :disabled="$disabled"
                         />
                     @endif
                 </div>

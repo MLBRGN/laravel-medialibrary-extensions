@@ -5,13 +5,12 @@
     data-use-xhr="true"
     >
     
-    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":null,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","destroy_enabled":false,"set_as_first_enabled":false,"show_order":false,"show_menu":true,"temporary_upload":"true","multiple":true,"use_xhr":true,"selectable":false,"mediaEditable":false,"readonly":false,"disabled":false}'>
+    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":null,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","show_upload_form":true,"show_destroy_button":false,"show_set_as_first_button":false,"show_order":false,"show_menu":true,"temporary_upload":"true","multiple":true,"use_xhr":true,"selectable":false,"show_media_edit_button":false,"readonly":false,"disabled":false}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
             
-
-                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+                                                <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
@@ -67,8 +66,7 @@
     
 
 
-                
-                        
+                                                    
         </div>
         
         <div class="media-manager-previews">
