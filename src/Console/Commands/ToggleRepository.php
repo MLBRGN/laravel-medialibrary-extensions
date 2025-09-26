@@ -16,6 +16,7 @@ class ToggleRepository extends Command
         'mlbrgn/laravel-medialibrary-extensions' => [
             'path' => './packages/mlbrgn/laravel-medialibrary-extensions',
             'symlink' => 'media-library-extensions',
+            'git' => 'git@github.com:MLBRGN/laravel-medialibrary-extensions.git',
         ],
         // Add more packages here if needed
     ];
@@ -36,10 +37,17 @@ class ToggleRepository extends Command
         $toggled = [];
 
         foreach ($this->packages as $name => $data) {
+
             $pathRepo = $data['path'];
+            $gitUrl = $data['git'];
             $symlinkName = $data['symlink'];
             $linkPath = public_path('vendor/'.$symlinkName);
             $targetPath = realpath(base_path(trim($pathRepo, './').'/dist'));
+
+            // 🔑 Ensure local repo exists
+            if (! $this->ensureLocalRepositoryExists($pathRepo, $gitUrl)) {
+                continue;
+            }
 
             $isLinked = collect($repositories)->contains(fn($repo
             ) => ($repo['type'] ?? '') === 'path' && ($repo['url'] ?? '') === $pathRepo);
@@ -170,6 +178,85 @@ class ToggleRepository extends Command
             $this->info("🧹 Cleaned published views directory: $viewsPath");
         }
     }
+
+    protected function ensureLocalRepositoryExists(string $path, string $gitUrl): bool
+    {
+        $absolutePath = base_path(trim($path, './'));
+
+        if (is_dir($absolutePath)) {
+            $this->info("📂 Local repository already exists at: $absolutePath");
+            return true;
+        }
+
+        $this->warn("⚠️ Local repository not found at $absolutePath");
+
+        if (! $this->option('force') && ! $this->confirm("Clone [$gitUrl] into [$absolutePath]?")) {
+            return false;
+        }
+
+        // Create parent directory
+        $parent = dirname($absolutePath);
+        if (! is_dir($parent)) {
+            File::makeDirectory($parent, 0755, true);
+            $this->info("📂 Created directory: $parent");
+        }
+
+        // Clone repo
+        $this->info("📥 Cloning $gitUrl into $absolutePath ...");
+        $process = Process::fromShellCommandline("git clone $gitUrl $absolutePath");
+        $process->setTty(Process::isTtySupported());
+        $process->run(function ($type, $buffer) {
+            echo $buffer;
+        });
+
+        if ($process->getExitCode() !== 0) {
+            $this->error("❌ Failed to clone repository.");
+            return false;
+        }
+
+        // Run composer install inside the cloned repo
+        $this->info("📦 Running composer install inside $absolutePath");
+        $install = Process::fromShellCommandline("composer install", $absolutePath);
+        $install->setTty(Process::isTtySupported());
+        $install->run(function ($type, $buffer) {
+            echo $buffer;
+        });
+
+        if ($install->getExitCode() !== 0) {
+            $this->error("❌ Failed to run composer install inside $absolutePath");
+            return false;
+        }
+
+        // Run npm install + npm run build
+        $this->info("📦 Installing npm dependencies...");
+        $npmInstall = Process::fromShellCommandline("npm install", $absolutePath);
+        $npmInstall->setTty(Process::isTtySupported());
+        $npmInstall->run(function ($type, $buffer) {
+            echo $buffer;
+        });
+
+        if ($npmInstall->getExitCode() !== 0) {
+            $this->error("❌ npm install failed inside $absolutePath");
+            return false;
+        }
+
+        $this->info("⚙️ Running npm run build to create dist/ folder...");
+        $npmBuild = Process::fromShellCommandline("npm run build", $absolutePath);
+        $npmBuild->setTty(Process::isTtySupported());
+        $npmBuild->run(function ($type, $buffer) {
+            echo $buffer;
+        });
+
+        if ($npmBuild->getExitCode() !== 0) {
+            $this->error("❌ npm run build failed inside $absolutePath");
+            return false;
+        }
+
+        $this->info("✅ Local package prepared at $absolutePath (with dist/)");
+
+        return true;
+    }
+
 }
 
 //
