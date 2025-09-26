@@ -260,4 +260,34 @@ trait InteractsWithMediaExtended
         return $this
             ->addMediaCollection($name);
     }
+
+    // what conversions are defined for this media.
+    // not the same as what conversions were actually generated.
+    public function getConversionsForMedium(Media $medium): array
+    {
+        // Make sure conversions for this media are registered
+        $this->registerMediaConversions($medium);
+
+        $conversionCollection = collect($this->mediaConversions);
+        return $conversionCollection
+            ->map(fn($conversion) => $conversion->getName())
+            ->unique()
+            ->values()
+            ->toArray();
+    }
+
+    public function getMediaConversionsWithAspectRatio(Media $medium): array
+    {
+        $conversions = $this->getConversionsForMedium($medium); // ["16x9","4x3"]
+
+        $result = [];
+        foreach ($conversions as $name) {
+            if (str_contains($name, 'x')) {
+                [$w, $h] = explode('x', $name);
+                $result[$name] = (int)$w / (int)$h;
+            }
+        }
+
+        return $result;
+    }
 }
