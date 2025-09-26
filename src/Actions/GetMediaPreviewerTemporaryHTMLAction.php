@@ -57,11 +57,13 @@ class GetMediaPreviewerTemporaryHTMLAction
             videoCollection: $videoCollection,
             audioCollection: $audioCollection,
             frontendTheme: $request->input('frontend_theme'),
-            destroyEnabled: $request->input('destroy_enabled') === 'true',
-            setAsFirstEnabled: $request->input('set_as_first_enabled') === 'true',
+            showDestroyButton: $request->input('show_destroy_button') === 'true',
+            showSetAsFirstButton: $request->input('show_set_as_first_button') === 'true',
             showOrder: $request->input('show_order') === 'true',
             showMenu: $request->input('show_menu') === 'true',
             temporaryUploads: $request->input('temporary_uploads') === 'true',
+            selectable: $request->input('selectable') === 'true',
+            showMediaEditButton: $request->input('show_media_edit_button') === 'true',
         );
 
         $html = Blade::renderComponent($component);

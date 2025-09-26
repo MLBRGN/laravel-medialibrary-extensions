@@ -50,9 +50,9 @@
             <div class="mle-debug-section">
                 <h3>🎛️ Component config: Enabled features</h3>
                 <ul>
-                    <li><strong>Destroy enabled:</strong> {{ $config['destroy_enabled'] ? 'true' : 'false' }}</li>
-                    <li><strong>"Set-as-first"
-                            Enabled:</strong> {{ $config['set_as_first_enabled'] ? 'true' : 'false' }}</li>
+                    <li><strong>Show destroy button:</strong> {{ $config['show_destroy_button'] ? 'true' : 'false' }}</li>
+                    <li><strong>Show "Set-as-first" button:</strong> {{ $config['show_set_as_first_button'] ? 'true' : 'false' }}</li>
+                    <li><strong>Show "media-edit" button:</strong> {{ $config['show_media_edit_button'] ? 'true' : 'false' }}</li>
                     <li><strong>Show order:</strong> {{ $config['show_order'] ? 'true' : 'false' }}</li>
                     <li><strong>Show menu:</strong> {{ $config['show_menu'] ? 'true' : 'false' }}</li>
                     <li><strong>Temporary upload:</strong> {{ $config['temporary_upload'] === 'true' ? 'Yes' : 'No' }}

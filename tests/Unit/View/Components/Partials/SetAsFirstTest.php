@@ -36,7 +36,7 @@ it('renders the set-as-first-form partial view', function () {
         youtubeCollection: 'youtube',
         videoCollection:  'video',
         audioCollection: 'audio',
-        setAsFirstEnabled: true,
+        showSetAsFirstButton: true,
         model: $model,
     );
 
@@ -64,7 +64,7 @@ it('falls back to config use_xhr when useXhr is null', function () {
         youtubeCollection: '',
         videoCollection:  'video',
         audioCollection: 'audio',
-        setAsFirstEnabled: false,
+        showSetAsFirstButton: false,
         model: $model,
     );
 

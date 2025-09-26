@@ -48,6 +48,27 @@
                 class=""
                                 aria-label="Slide to 2">
             </button>
+                    <button
+                type="button"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="2"
+                class=""
+                                aria-label="Slide to 3">
+            </button>
+                    <button
+                type="button"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="3"
+                class=""
+                                aria-label="Slide to 4">
+            </button>
+                    <button
+                type="button"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="4"
+                class=""
+                                aria-label="Slide to 5">
+            </button>
             </div>
 
     
@@ -78,6 +99,93 @@
                         alt="test2"
          loading="lazy"         data-mle-image
     >
+                                </div>
+            </div>
+                    <div 
+                class="media-carousel-item carousel-item">
+                <div class="media-carousel-item-container" 
+                     data-bs-toggle="modal"
+                     data-bs-target="#test-media-modal-mod-crs-mod"
+                >
+                                    <div class="mle-document mle-document mle-cursor-zoom-in" data-bs-target="test-media-modal-mod-crs-mod" data-bs-slide-to="2" mle-document>
+    <div class="mle-document-preview">
+        <span 
+        role="img" 
+        aria-label="PDF document." 
+        title="PDF document.">❓</span>
+        <div class="mle-document-info">
+            <p>
+                test.pdf
+            </p>
+            <p>
+                1 KB
+            </p>
+
+            
+                            <a href="/media/3/test.pdf" target="_blank" class="mle-document-link" data-mle-document-link>
+                    <span 
+        role="img" 
+        aria-label="PDF document." 
+        title="PDF document.">❓</span>
+                    Download document
+                </a>
+            
+                                                </div>
+    </div>
+</div>
+                                </div>
+            </div>
+                    <div 
+                class="media-carousel-item carousel-item">
+                <div class="media-carousel-item-container" 
+                     data-bs-toggle="modal"
+                     data-bs-target="#test-media-modal-mod-crs-mod"
+                >
+                                    <div
+                        data-bs-toggle="modal"
+                        data-bs-target="#test-media-modal-mod-crs-mod"
+                        class="media-manager-preview-item-container"
+                    >
+                        <div class="mle-video">
+    <div class="mle-video-preview">
+        <div class="mle-video-info">
+            <p>
+                test.mp4
+            </p>
+        </div>
+        <video id="mle-video-5" controls preload="metadata" data-mle-video>
+            <source src="/media/5/test.mp4" type="video/mp4">
+            media-library-extensions::messages.your_browser_does_not_support_the_video_element
+        </video>
+    </div>
+</div>
+                    </div>
+                                </div>
+            </div>
+                    <div 
+                class="media-carousel-item carousel-item">
+                <div class="media-carousel-item-container" 
+                     data-bs-toggle="modal"
+                     data-bs-target="#test-media-modal-mod-crs-mod"
+                >
+                                    <div
+                        data-bs-toggle="modal"
+                        data-bs-target="#test-media-modal-mod-crs-mod"
+                        class="media-manager-preview-item-container"
+                    >
+                        <div class="mle-audio">
+    <div class="mle-audio-preview">
+        <div class="mle-audio-info">
+            <p>
+                test.mp3
+            </p>
+        </div>
+        <audio id="mle-audio-4" controls data-mle-audio>
+            <source src="/media/4/test.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+</div>                    </div>
                                 </div>
             </div>
             </div>
@@ -112,9 +220,10 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-<link rel="stylesheet" href="http://localhost/vendor/media-library-extensions/app-bootstrap-5.css">
+<link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+
     
-            <script type="module" src="http://localhost/vendor/media-library-extensions/app-bootstrap-5.js"></script>
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js"></script>
                 <script>
             window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
         </script>
@@ -136,7 +245,7 @@
                 if (!customElements.get('lite-youtube')) {
                     console.log('no lite-youtube, loading');
                     const script = document.createElement('script');
-                    script.src = "http://localhost/vendor/media-library-extensions/lite-youtube.js";
+                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/lite-youtube.js";
                     document.head.appendChild(script);
                 } else {
                     console.log('lite-youtube already present');

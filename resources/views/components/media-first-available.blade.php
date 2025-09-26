@@ -1,11 +1,7 @@
 @if ($medium)
     <div class="mlbrgn-mle-component">
         @if(isMediaType($medium, 'youtube-video'))
-            <div
-                class="media-manager-preview-item-container"
-                data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-mod"
-            >
+            <x-mle-shared-media-preview-container :id="$id">
                 <x-mle-video-youtube
                     class="mle-video-youtube mle-video-responsive"
                     :medium="$medium"
@@ -13,49 +9,34 @@
                     data-bs-target="#{{$id}}-modal-carousel"
                     data-bs-slide-to="0"
                 />
-            </div>
+            </x-mle-shared-media-preview-container>
         @elseif(isMediaType($medium, 'document'))
-            <div
-                data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
-            >
-                <x-mle-document :medium="$medium"
-                                class="previewed-document"
-                                data-bs-target="#{{ $id }}-modal-carousel"
-                                data-bs-slide-to="0"
+            <x-mle-shared-media-preview-container :id="$id">
+                <x-mle-document 
+                    :medium="$medium"
+                    class="previewed-document"
+                    data-bs-target="#{{ $id }}-modal-carousel"
+                    data-bs-slide-to="0"
                 />
-            </div>
+            </x-mle-shared-media-preview-container>
         @elseif(isMediaType($medium, 'video'))
-            <div
-                data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
-            >
+            <x-mle-shared-media-preview-container :id="$id">
                 <x-mle-video
                     :medium="$medium"
                     data-bs-target="#{{ $id }}-modal-carousel"
                     data-bs-slide-to="0"
                 />
-            </div>
+            </x-mle-shared-media-preview-container>
         @elseif(isMediaType($medium, 'audio'))
-            <div
-                data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
-            >
+            <x-mle-shared-media-preview-container :id="$id">
                 <x-mle-audio
                     :medium="$medium"
                     data-bs-target="#{{ $id }}-modal-carousel"
                     data-bs-slide-to="0"
                 />
-            </div>
+            </x-mle-shared-media-preview-container>
         @elseif(isMediaType($medium, 'image'))
-            <div
-                data-bs-toggle="modal"
-                data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
-            >
+            <x-mle-shared-media-preview-container :id="$id">
                 <x-mle-image-responsive
                     :medium="$medium"
                     class="media-manager-image-preview"
@@ -63,10 +44,14 @@
                     data-bs-slide-to="0"
                     draggable="false"
                 />
-            </div>
+            </x-mle-shared-media-preview-container>
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}
         @endif
+    </div>
+@else
+    <div class="mlbrgn-mle-component mle-media-placeholder">
+        <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
     </div>
 @endif
 <x-mle-shared-assets include-css="true" include-js="false" include-lite-youtube="true" :frontend-theme="$frontendTheme"/>

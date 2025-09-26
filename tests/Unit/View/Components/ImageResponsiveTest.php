@@ -5,8 +5,13 @@ use Illuminate\View\View as ViewInstance;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-it('image responsive component renders', function () {
+it('renders image responsive component', function () {
     $media = Mockery::mock(Media::class);
+
+    $media->shouldReceive('getCustomProperty')
+        ->with('generated_conversions', [])
+        ->andReturn(['thumb' => true, 'web' => false]);
+
     $media->shouldReceive('hasGeneratedConversion')
         ->with('thumb')
         ->andReturn(true);
@@ -48,6 +53,11 @@ it('returns empty conversion if no media is provided', function () {
 
 it('uses explicitly provided valid conversion', function () {
     $media = mock(Media::class);
+
+    $media->shouldReceive('getCustomProperty')
+        ->with('generated_conversions', [])
+        ->andReturn(['thumb' => true, 'web' => false]);
+
     $media->shouldReceive('hasGeneratedConversion')
         ->with('thumb')
         ->andReturn(true);
@@ -60,17 +70,23 @@ it('uses explicitly provided valid conversion', function () {
 
 it('falls back to first valid conversion in list', function () {
     $media = mock(Media::class);
-    $media->shouldReceive('hasGeneratedConversion')->with('thumb')->andReturn(false);
-    $media->shouldReceive('hasGeneratedConversion')->with('web')->andReturn(true);
+    $media->shouldReceive('getCustomProperty')
+        ->with('generated_conversions', [])
+        ->andReturn(['thumb' => true, 'web' => false]);
+    $media->shouldReceive('hasGeneratedConversion')->with('thumb')->andReturn(true);
+    $media->shouldReceive('hasGeneratedConversion')->with('web')->andReturn(false);
 
     $component = new ImageResponsive($media, conversions: ['thumb', 'web']);
 
-    expect($component->getUseConversion())->toBe('web')
+    expect($component->getUseConversion())->toBe('thumb')
         ->and($component->hasGeneratedConversion())->toBeTrue();
 });
 
 it('returns empty conversion if none of the conversions are valid', function () {
     $media = mock(Media::class);
+    $media->shouldReceive('getCustomProperty')
+        ->with('generated_conversions', [])
+        ->andReturn(['thumb' => true, 'web' => false]);
     $media->shouldReceive('hasGeneratedConversion')->andReturn(false);
 
     $component = new ImageResponsive($media, conversion: 'foo', conversions: ['bar', 'baz']);
@@ -81,6 +97,9 @@ it('returns empty conversion if none of the conversions are valid', function () 
 
 it('renders the correct view with expected data when a valid conversion is used', function () {
     $media = mock(Media::class);
+    $media->shouldReceive('getCustomProperty')
+        ->with('generated_conversions', [])
+        ->andReturn(['thumb' => true, 'web' => false]);
     $media->shouldReceive('hasGeneratedConversion')->with('thumb')->andReturn(true);
     $media->shouldReceive('getUrl')->with('thumb')->andReturn('http://example.com/thumb.jpg');
     $media->shouldReceive('getSrcset')->with('thumb')->andReturn('http://example.com/thumb@2x.jpg 2x');
@@ -111,7 +130,9 @@ it('renders the correct view with expected data when a valid conversion is used'
 
 it('falls back to original URL on exception', function () {
     $media = mock(\Spatie\MediaLibrary\MediaCollections\Models\Media::class);
-
+    $media->shouldReceive('getCustomProperty')
+        ->with('generated_conversions', [])
+        ->andReturn(['thumb' => true, 'web' => false]);
     $media->shouldReceive('hasGeneratedConversion')->with('thumb')->andReturn(true);
     $media->shouldReceive('getUrl')->with('thumb')->andThrow(new \Exception('fail'));
     $media->shouldReceive('getUrl')->withNoArgs()->andReturn('http://example.com/original.jpg');

@@ -13,17 +13,18 @@ beforeEach(function () {
 });
 
 it('renders temporary media preview HTML and returns JSON response', function () {
+    $model = $this->getTestBlogModel();
     $initiatorId = 'initiator-123';
 
     $requestData = [
         'initiator_id' => $initiatorId,
-        'model_type' => 'SomeModelClass',
+        'model_type' => $model->getMorphClass(),
         'image_collection' => 'images',
         'document_collection' => 'docs',
         'youtube_collection' => 'youtube',
         'frontend_theme' => 'bootstrap-5',
-        'destroy_enabled' => 'true',
-        'set_as_first_enabled' => 'false',
+        'show_destroy_button' => 'true',
+        'show_set_as_first_button' => 'false',
         'show_order' => 'false',
     ];
 
@@ -38,8 +39,8 @@ it('renders temporary media preview HTML and returns JSON response', function ()
             expect($component->documentCollection)->toBe($requestData['document_collection']);
             expect($component->youtubeCollection)->toBe($requestData['youtube_collection']);
             expect($component->frontendTheme)->toBe($requestData['frontend_theme']);
-            expect($component->destroyEnabled)->toBeTrue();
-            expect($component->setAsFirstEnabled)->toBeFalse();
+            expect($component->showDestroyButton)->toBeTrue();
+            expect($component->showSetAsFirstButton)->toBeFalse();
             expect($component->showOrder)->toBeFalse();
             expect($component->temporaryUpload)->toBeTrue();
 

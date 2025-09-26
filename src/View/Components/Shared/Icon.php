@@ -17,7 +17,6 @@ class Icon extends Component
         public string $title = '',
     ) {
         $this->iconExists = collect(Blade::getClassComponentAliases())->keys()->contains($name);
-        //        dd($this->iconExists);
     }
 
     public function render(): View

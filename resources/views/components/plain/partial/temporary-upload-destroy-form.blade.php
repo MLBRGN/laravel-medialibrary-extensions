@@ -54,6 +54,7 @@
             class="mle-button mle-button-submit mle-button-icon"
             title="{{ __('media-library-extensions::messages.delete_medium') }}"
             data-action="temporary-upload-destroy"
+            @disabled($disabled)
         >
             <x-mle-shared-icon
                 name="{{ config('media-library-extensions.icons.delete') }}"

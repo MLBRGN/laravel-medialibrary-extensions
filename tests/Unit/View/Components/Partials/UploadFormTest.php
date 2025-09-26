@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 
@@ -10,37 +11,54 @@ it('throws translated exception if invalid class name is provided', function () 
         frontendTheme: 'plain',
         imageCollection: 'images',
         documentCollection: 'docs',
+        youtubeCollection: 'youtube',
         videoCollection: 'videos',
         audioCollection: 'audios',
-        youtubeCollection: 'youtube',
         modelOrClassName: 'someDummyClassName',
     );
 
     $component->render();
-})->throws(Exception::class);
-//    ->throws(Exception::class, __('media-library-extensions::messages.class_not_found', [
-//    'class' => 'someDummyClassName',
-//]));
+})->throws(InvalidArgumentException::class);
 
-it('throws exception if given a class string that does not implement HasMedia', function () {
+it('throws exception if given a model that does not implement HasMedia', function () {
     // A valid existing class, but not implementing HasMedia
-    $className = Collection::class;
+    $model = $this->getTestModelNotExtendingHasMedia();
 
     $component = new UploadForm(
         id: 'upload-invalid-class',
         frontendTheme: 'plain',
         imageCollection: 'images',
         documentCollection: 'docs',
+        youtubeCollection: 'youtube',
         videoCollection: 'videos',
         audioCollection: 'audios',
-        youtubeCollection: 'youtube',
-        modelOrClassName: $className,
+        modelOrClassName: $model,
     );
 
     $component->render();
-})->throws(Exception::class);
-//    ->throws(Exception::class, 'model-or-class-name must be either a HasMedia model or a string representing the model class')
-//;
+//});
+})->throws(TypeError::class);
+
+
+it('honors frontend theme', function () {
+    Config::set('media-library-extensions.frontend_theme', 'default-theme');
+
+    // A valid existing class, but not implementing HasMedia
+    $model = $this->getTestBlogModel();
+
+    $component = new UploadForm(
+        id: 'upload-invalid-class',
+        frontendTheme: 'something-else',
+        imageCollection: 'images',
+        documentCollection: 'docs',
+        youtubeCollection: 'youtube',
+        videoCollection: 'videos',
+        audioCollection: 'audios',
+        modelOrClassName: $model,
+    );
+
+       expect($component->frontendTheme)->toBe('something-else');
+});
 
 //it('sets mediaPresent to true if model has media in the given image collection', function () {
 //    $model = $this->getTestBlogModel();
@@ -108,8 +126,8 @@ it('sets model properties correctly when given a HasMedia model instance', funct
         modelOrClassName: $model,
         allowedMimeTypes: '',
         multiple: true,
-        destroyEnabled: true,
-        setAsFirstEnabled: true,
+        showDestroyButton: true,
+        showSetAsFirstButton: true,
         useXhr: null,
     );
 
@@ -138,8 +156,8 @@ it('sets model properties correctly when given a string model class name', funct
         modelOrClassName: $model->getMorphClass(),
         allowedMimeTypes: 'image/jpeg,image/png',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: true,
     );
 

@@ -11,6 +11,8 @@ use Throwable;
 
 class ImageResponsive extends Component
 {
+    protected array $generatedConversions = [];
+
     public function __construct(
         public ?Media $medium,
         public string $conversion = '',
@@ -18,7 +20,13 @@ class ImageResponsive extends Component
         public string $sizes = '100vw',
         public bool $lazy = true,
         public string $alt = ''// set alt to empty for when none provided
-    ) {}
+    ) {
+
+        if ($this->medium) {
+            // read directly from custom_properties instead of lazy-loading
+            $this->generatedConversions = $this->medium->getCustomProperty('generated_conversions', []);
+        }
+    }
 
     public function hasGeneratedConversion(): bool
     {
@@ -31,12 +39,12 @@ class ImageResponsive extends Component
             return '';
         }
 
-        if (! empty($this->conversion) && $this->medium->hasGeneratedConversion($this->conversion)) {
+        if (! empty($this->conversion) && ($this->generatedConversions[$this->conversion] ?? false)) {
             return $this->conversion;
         }
 
         foreach ($this->conversions as $conversionName) {
-            if ($this->medium->hasGeneratedConversion($conversionName)) {
+            if ($this->generatedConversions[$conversionName] ?? false) {
                 return $conversionName;
             }
         }
@@ -55,15 +63,15 @@ class ImageResponsive extends Component
         try {
             if ($this->medium) {
                 $url = $hasConversion
-                    ? $this->medium->getUrl($useConversion)
+                    ? $this->medium->getUrl($useConversion)   // safe now, no reload
                     : $this->medium->getUrl();
 
-                $srcset = $hasConversion ? $this->medium->getSrcset($useConversion) : '';
+                $srcset = $hasConversion
+                    ? $this->medium->getSrcset($useConversion)
+                    : '';
             }
         } catch (Throwable) {
-            // Optional: Log the error
-            // Log::warning('ImageResponsive failed to get media URL', ['exception' => $e]);
-            $url = $this->medium->getUrl();
+            $url = $this->medium?->getUrl() ?? '';
         }
 
         return view('media-library-extensions::components.image-responsive', [

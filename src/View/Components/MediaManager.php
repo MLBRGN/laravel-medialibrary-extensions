@@ -7,27 +7,17 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManager extends BaseComponent
 {
+    use ResolveModelOrClassName;
+
     public array $config;
 
-//    public string $allowedMimeTypes = '';
-
-    public HasMedia|null $model = null;
-
-    public ?string $modelType = null;
-
-    public mixed $modelId = null;
-
-    public bool $temporaryUpload = false;
-
     public bool $disableForm = false;
-
-    /** @var Collection<int, Media> */
-//    public Collection $media;
 
     public string $mediaUploadRoute; // upload form action route
 
@@ -36,57 +26,52 @@ class MediaManager extends BaseComponent
     public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
     public function __construct(
-        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',
         public string $videoCollection = '',
         public string $audioCollection = '',
-        public bool $uploadEnabled = false,
+        public bool $showUploadForm = true,
         public string $uploadFieldName = 'media',
-        public bool $destroyEnabled = false,
-        public bool $setAsFirstEnabled = false,
+        public bool $showDestroyButton = false,
+        public bool $showSetAsFirstButton = false,
         public bool $showOrder = false,
         public bool $showMenu = true,
         public string $id = '',
         public ?string $frontendTheme = null,
         public ?bool $useXhr = true,
         public bool $multiple = false,
-        public string $allowedMimeTypes = ''
+        public string $allowedMimeTypes = '',
+        public bool $selectable = false,
+        public bool $showMediaEditButton = false,// (at the moment) only for image editing
+        public bool $readonly = false,
+        public bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 
         $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->model = $modelOrClassName;
-            $this->modelType = $modelOrClassName->getMorphClass();
-            $this->modelId = $modelOrClassName->getKey();
-        } elseif (is_string($modelOrClassName)) {
-            if (! class_exists($modelOrClassName)) {
-                throw new \InvalidArgumentException(__('media-library-extensions::messages.class_does_not_exist', ['class_name' => $modelOrClassName]));
-            }
+        $this->resolveModelOrClassName($modelOrClassName);
 
-            if (! is_subclass_of($modelOrClassName, HasMedia::class)) {
-                throw new \InvalidArgumentException(__('media-library-extensions::messages.class_must_implement', ['class_name' => HasMedia::class]));
-            }
+        // override: enforce disabled / readonly
+//        if ($this->readonly || $this->disabled) {
+//            $this->showDestroyButton = false;
+//            $this->showSetAsFirstButton = false;
+//            $this->selectable = false;
+//        }
 
-            $this->model = null;
-            $this->modelType = $modelOrClassName;
-            $this->modelId = null;
-            $this->temporaryUpload = true;
-        }
-
-        // Override: Always disable "set-as-first" when multiple files disabled
+        // Override: enforce disabling "set-as-first" when multiple is disabled
         if (!$this->multiple) {
-            $this->setAsFirstEnabled = false;
+            $this->showSetAsFirstButton = false;
         }
 
-        // Override: Always set upload enabled to false when no document collections provided
+        // Override: enforce disabling upload when no uploadable media collections provided, youtube collection not included
         if (!$this->imageCollection && !$this->documentCollection && !$this->videoCollection && !$this->audioCollection) {
-            $this->uploadEnabled = false;
+//            $this->showUploadForm = false;
         }
 
+        // throw exception when no media collection provided at all
         if (!$this->imageCollection && !$this->documentCollection && !$this->videoCollection && !$this->audioCollection && !$this->youtubeCollection) {
            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
         }
@@ -100,12 +85,10 @@ class MediaManager extends BaseComponent
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
-//            $this->id = $this->id.'-media-manager-multiple';
             $this->id = $this->id.'-mmm';
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
-//            $this->id = $this->id.'-media-manager-single';
             $this->id = $this->id.'-mms';
         }
 
@@ -124,13 +107,18 @@ class MediaManager extends BaseComponent
             'youtube_upload_route' => $this->youtubeUploadRoute,
             'csrf_token' => csrf_token(),
             'frontend_theme' => $this->frontendTheme,
-            'destroy_enabled' => $this->destroyEnabled,
-            'set_as_first_enabled' => $this->setAsFirstEnabled,
+            'show_upload_form' => $this->showUploadForm,
+            'show_destroy_button' => $this->showDestroyButton,
+            'show_set_as_first_button' => $this->showSetAsFirstButton,
             'show_order' => $this->showOrder,
             'show_menu' => $this->showMenu,
             'temporary_upload' => $this->temporaryUpload ? 'true' : 'false',
             'multiple' => $this->multiple,
             'use_xhr' => $this->useXhr,
+            'selectable' => $this->selectable,
+            'show_media_edit_button' => $this->showMediaEditButton,
+            'readonly' => $this->readonly,
+            'disabled' => $this->disabled,
         ];
     }
 

@@ -4,26 +4,20 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
-use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageEditorForm extends BaseComponent
 {
-    public HasMedia|null $model = null;
+    use ResolveModelOrClassName;
 
-    public ?string $modelType = null;
-
-    public mixed $modelId = null;
-
-    public bool $temporaryUpload = false;
     public string $saveUpdatedMediumRoute;
 
     public function __construct(
-        public HasMedia|string $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
         public string $id,
         public ?string $frontendTheme,
@@ -35,25 +29,14 @@ class ImageEditorForm extends BaseComponent
         public ?string $videoCollection = '',
         public ?string $audioCollection = '',
         public ?string $mediaManagerId = '',
+        public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 
         $this->id = $this->id . '-ie-update-form';
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->model = $modelOrClassName;
-            $this->modelType = $modelOrClassName->getMorphClass();
-            $this->modelId = $modelOrClassName->getKey();
-            $this->saveUpdatedMediumRoute = route(mle_prefix_route('save-updated-medium'), $medium);
-        } elseif (is_string($modelOrClassName)) {
-            $this->model = null;
-            $this->modelType = $modelOrClassName;
-            $this->modelId = null;
-            $this->temporaryUpload = true;
-            $this->saveUpdatedMediumRoute = route(mle_prefix_route('save-updated-temporary-upload'), $medium);
-        } else {
-            throw new Exception('model-or-class-name must be either a HasMedia model or a string representing the model class');
-        }
+        $this->resolveModelOrClassName($modelOrClassName);
+        $this->saveUpdatedMediumRoute = $this->temporaryUpload ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
     }
 
     public function render(): View

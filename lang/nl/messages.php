@@ -62,4 +62,6 @@ return [
     'medium_not_found' => 'Medium niet gevonden.',
     'class_does_not_exist' =>  'Class ":class_name" bestaat niet.',
     'class_must_implement' =>  'Class moet ":class_name" implementeren.',
+    'insert_selected_medium' => 'Voeg het geselecteerde medium in',
+    'select' => 'Selecteer',
 ];

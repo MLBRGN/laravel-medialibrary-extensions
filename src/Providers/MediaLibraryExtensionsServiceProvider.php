@@ -28,6 +28,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\ImageEditorForm;
@@ -42,6 +43,8 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageBadge;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 
@@ -59,6 +62,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     private string $packageNameShort = 'mle';
 
+    private string $vendor = 'mlbrgn';
     private string $nameSpace = 'media-library-extensions';
 
     public function boot(): void
@@ -68,7 +72,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Log::warning('['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
-        // This tells Laravel where to find Blade view files
+        // This tells Laravel where to find Blade view files (components a registered separately)
         $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->nameSpace);
 
         // This tells Laravel where to find the route files
@@ -101,7 +105,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], $this->nameSpace.'-views');
 
             $this->publishes([
-                __DIR__.'/../../dist' => public_path('vendor/'.$this->nameSpace),
+                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace),// TODO when is mlbrgn prefix wanted / needed?
             ], $this->nameSpace.'-assets');
 
             $this->publishes([
@@ -114,11 +118,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         }
 
-        // register and expose blade views and classes
+        // register and expose blade component views and classes
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
+        Blade::component($this->packageNameShort.'-media-manager-tinymce', MediaManagerTinymce::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
@@ -129,12 +134,14 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
 
-        // shared partials for internal use
+        // shared partials shared component views and classes for internal use
         Blade::component($this->packageNameShort.'-shared-debug', Debug::class);
         Blade::component($this->packageNameShort.'-shared-icon', Icon::class);
         Blade::component($this->packageNameShort.'-shared-assets', Assets::class);
+        Blade::component($this->packageNameShort.'-shared-media-preview-container', MediaPreviewContainer::class);
+        Blade::component($this->packageNameShort.'-shared-local-package-badge', LocalPackageBadge::class);
 
-        // partials for internal use
+        // partial component views and classes for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
         Blade::component($this->packageNameShort.'-partial-image-editor-form', ImageEditorForm::class);
         Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
@@ -160,6 +167,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->registerPolicy();
         $this->addToAbout();
 
+        // Merge your overrides
+        $this->overrideFormComponentsConfig();
     }
 
     public function register(): void
@@ -178,7 +187,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             touch($databasePath);
         }
 
-        Config::set("database.connections.{$connectionName}", [
+        Config::set("database.connections.$connectionName", [
             'driver' => 'sqlite',
             'database' => $databasePath,
             'prefix' => '',
@@ -224,5 +233,20 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 'Version' => $composer['version'] ?? 'unknown',
             ];
         });
+    }
+
+    protected function overrideFormComponentsConfig(): void
+    {
+        $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
+        $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker.js');
+        $overrides = [
+            'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
+            'html_editor_tinymce_global_config.extra_scripts'=> $extraScripts,
+        ];
+
+
+        foreach ($overrides as $key => $value) {
+            config()->set("form-components.$key", $value);
+        }
     }
 }

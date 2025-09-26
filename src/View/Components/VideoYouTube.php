@@ -42,7 +42,7 @@ class VideoYouTube extends Component
         $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
         $this->youTubeParamsAsString = http_build_query($mergedParams);
 
-        $this->frontendTheme = $frontendTheme ?? config('media-library-extensions.frontend_theme');
+        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme');
     }
 
     public function render(): View

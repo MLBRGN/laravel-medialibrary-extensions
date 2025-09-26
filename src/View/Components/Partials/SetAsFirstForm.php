@@ -26,8 +26,9 @@ class SetAsFirstForm extends BaseComponent
         public ?string $youtubeCollection = '',
         public ?string $videoCollection = '',
         public ?string $audioCollection = '',
-        public bool $setAsFirstEnabled,
+        public bool $showSetAsFirstButton,
         public ?HasMedia $model,
+        public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 

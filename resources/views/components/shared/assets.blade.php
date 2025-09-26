@@ -1,12 +1,14 @@
 @if($includeCss)
+{{--    @dump($frontendTheme)--}}
     @once
-        <link rel="stylesheet" href="{{ asset('vendor/media-library-extensions/app-'.$frontendTheme.'.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">
+{{--        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-plain.css') }}">--}}
     @endonce
 @endif
 
 @if($includeJs)
     @once
-        <script type="module" src="{{ asset('vendor/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>
         @php
             $translations = [
                 'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),
@@ -29,13 +31,13 @@
 
 @if($includeImageEditorJs)
     @once
-        <script type="module" src="{{ asset('vendor/media-library-extensions/image-editor.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor.js') }}"></script>
     @endonce
 @endif
 
 @if($includeFormSubmitter)
     @once
-        <script type="module" src="{{ asset('vendor/media-library-extensions/form-submitter.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}"></script>
     @endonce
 @endif
 
@@ -56,7 +58,7 @@
                 if (!customElements.get('lite-youtube')) {
                     console.log('no lite-youtube, loading');
                     const script = document.createElement('script');
-                    script.src = "{{ asset('vendor/media-library-extensions/lite-youtube.js') }}";
+                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/lite-youtube.js') }}";
                     document.head.appendChild(script);
                 } else {
                     console.log('lite-youtube already present');

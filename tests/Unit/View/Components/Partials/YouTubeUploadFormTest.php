@@ -16,16 +16,15 @@ it('initializes with a HasMedia model', function () {
         id: 'component-yt',
         frontendTheme: 'default',
         mediaCollection: null,
-        documentCollection: null,
         imageCollection: null,
+        documentCollection: null,
         videoCollection: 'videos',
         audioCollection: 'audios',
         modelOrClassName: $model,
-        temporaryUpload: true,
         allowedMimeTypes: 'video/*',
         multiple: true,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: null
     );
 
@@ -44,16 +43,15 @@ it('initializes with a model class string', function () {
         id: 'component-yt',
         frontendTheme: 'custom',
         mediaCollection: null,
-        documentCollection: null,
         imageCollection: null,
+        documentCollection: null,
         videoCollection: 'videos',
         audioCollection: 'audios',
         modelOrClassName: $model->getMorphClass(),
-        temporaryUpload: false,
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: true,
-        setAsFirstEnabled: true,
+        showDestroyButton: true,
+        showSetAsFirstButton: true,
         useXhr: true
     );
 
@@ -70,16 +68,15 @@ it('throws if modelOrClassName is non existing class name', function () {
         id: 'comp',
         frontendTheme: null,
         mediaCollection: null,
-        documentCollection: null,
         imageCollection: null,
+        documentCollection: null,
         videoCollection: 'videos',
         audioCollection: 'audios',
         modelOrClassName: 'someDummyClassName',
-        temporaryUpload: false,
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: null
     );
 })->throws(Exception::class);
@@ -92,19 +89,18 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
         id: 'comp',
         frontendTheme: null,
         mediaCollection: null,
-        documentCollection: null,
         imageCollection: null,
+        documentCollection: null,
         videoCollection: 'videos',
         audioCollection: 'audios',
         modelOrClassName: $model, // invalid
-        temporaryUpload: false,
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: null
     );
-})->throws(Exception::class);
+})->throws(TypeError::class);
 
 it('renders the correct partial view', function () {
    $model = $this->getTestBlogModel();
@@ -121,16 +117,15 @@ it('renders the correct partial view', function () {
         id: 'yt-comp',
         frontendTheme: $theme,
         mediaCollection: null,
-        documentCollection: null,
         imageCollection: null,
+        documentCollection: null,
         videoCollection: 'videos',
         audioCollection: 'audios',
         modelOrClassName: $model->getMorphClass(),
-        temporaryUpload: false,
         allowedMimeTypes: '',
         multiple: false,
-        destroyEnabled: false,
-        setAsFirstEnabled: false,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         useXhr: false
     );
 

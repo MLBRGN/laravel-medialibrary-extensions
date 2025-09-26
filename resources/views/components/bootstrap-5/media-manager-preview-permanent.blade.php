@@ -88,6 +88,7 @@
                 :video-collection="$videoCollection"
                 :frontend-theme="$frontendTheme"
                 :use-xhr="$useXhr"
+                :disabled="$disabled"
             />
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}
@@ -105,6 +106,20 @@
                             </span>
                         @endif
                     @endif
+                    @if($selectable)
+                        <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
+                            <input
+                                type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
+                                class="mle-media-select-checkbox"
+                                name="selected_media"
+                                data-url="{{ $medium->getUrl() }}"
+                                data-alt="{{ $medium->name }}"
+                            >
+                            <span class="mle-media-select-indicator"
+                                  title="{{ __('media-library-extensions::messages.select') }}"
+                            />
+                        </label>
+                    @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">
                     @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
@@ -114,6 +129,7 @@
                             data-bs-target="#{{$id}}-iem-{{$medium->id}}"
                             class="mle-button mle-button-icon btn btn-primary"
                             title="{{ __('media-library-extensions::messages.edit') }}"
+                            @disabled($disabled)
                         >
                             <x-mle-shared-icon
                                 name="{{ config('media-library-extensions.icons.edit') }}"
@@ -121,7 +137,7 @@
                             />
                         </button>
                     @endif
-                    @if($setAsFirstEnabled)
+                    @if($showSetAsFirstButton)
                         @if($medium->getCustomProperty('priority') === 0)
                             <button
                                 type="button"
@@ -143,13 +159,15 @@
                                 :youtube-collection="$youtubeCollection"
                                 :audio-collection="$audioCollection"
                                 :video-collection="$videoCollection"
-                                :set-as-first-enabled="$setAsFirstEnabled"
+                                :show-set-as-first-button="$showSetAsFirstButton"
+                                :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"
                                 :use-xhr="$useXhr"
+                                :disabled="$disabled"
                             />
                         @endif
                     @endif
-                    @if($destroyEnabled)
+                    @if($showDestroyButton)
                         <x-mle-partial-destroy-form
                             :medium="$medium"
                             :id="$id"
@@ -160,6 +178,7 @@
                             :video-collection="$videoCollection"
                             :frontend-theme="$frontendTheme"
                             :use-xhr="$useXhr"
+                            :disabled="$disabled"
                         />
                     @endif
                 </div>

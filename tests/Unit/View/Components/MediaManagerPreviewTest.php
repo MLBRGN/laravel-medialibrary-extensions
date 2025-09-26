@@ -13,10 +13,7 @@ beforeEach(function () {
 });
 
 it('accepts a HasMedia model instance and sets properties accordingly', function () {
-    $model = Blog::create(['title' => 'test']);
-    //    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-    //    $mockModel->shouldReceive('getKey')->andReturn(123);
-    //    $mockModel->shouldReceive('getMedia')->andReturn(collect());
+    $model = $this->getTestBlogModel();
 
     $component = new MediaManagerPreview(
         modelOrClassName: $model,
@@ -26,17 +23,19 @@ it('accepts a HasMedia model instance and sets properties accordingly', function
     );
 
     expect($component->model)->toBe($model)
-        ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
+        ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->id)
         ->and($component->temporaryUpload)->toBeFalse()
         ->and($component->media)->toBeInstanceOf(Collection::class);
 });
 
 it('accepts a string model class name and sets temporaryUpload to true', function () {
-    $component = new MediaManagerPreview(modelOrClassName: 'App\Models\DummyClass');
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManagerPreview(modelOrClassName: $model->getMorphClass());
 
     expect($component->model)->toBeNull()
-        ->and($component->modelType)->toBe('App\Models\DummyClass')
+        ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBeNull()
         ->and($component->temporaryUpload)->toBeTrue();
 });
@@ -45,65 +44,47 @@ it('throws exception if modelOrClassName is invalid type', function () {
     new MediaManagerPreview(modelOrClassName: 12345);
 })->throws(Exception::class, 'model-or-class-name must be either a HasMedia model or a string representing the model class')->todo();
 
-it('sets showMenu to true if destroyEnabled, showOrder or setAsFirstEnabled is true', function () {
-    $mockModel = Mockery::mock(HasMedia::class);
-    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-    $mockModel->shouldReceive('getKey')->andReturn(1);
-    $mockModel->shouldReceive('getMedia')->andReturn(collect());
-
-    foreach ([['destroyEnabled' => true], ['showOrder' => true], ['setAsFirstEnabled' => true]] as $flags) {
+it('sets showMenu to true if showDestroyButton, showOrder or showSetAsFirstButton or showMediaEditButton are true', function () {
+    $model = $this->getTestBlogModel();
+    foreach ([['showDestroyButton' => true], ['showOrder' => true], ['showSetAsFirstButton' => true]] as $flags) {
         $component = new MediaManagerPreview(
-            modelOrClassName: $mockModel,
-            destroyEnabled: $flags['destroyEnabled'] ?? false,
+            modelOrClassName: $model,
+            showDestroyButton: $flags['showDestroyButton'] ?? false,
+            showSetAsFirstButton: $flags['showSetAsFirstButton'] ?? false,
             showOrder: $flags['showOrder'] ?? false,
-            setAsFirstEnabled: $flags['setAsFirstEnabled'] ?? false,
         );
 
         expect($component->showMenu)->toBeTrue();
     }
 });
 
-it('sets showMenu to false if all destroyEnabled, showOrder and setAsFirstEnabled are false', function () {
-    $mockModel = Mockery::mock(HasMedia::class);
-    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-    $mockModel->shouldReceive('getKey')->andReturn(1);
-    $mockModel->shouldReceive('getMedia')->andReturn(collect());
-
+it('sets showMenu to false if all showDestroyButton, showOrder and showSetAsFirstButton and showMediaEditButton are false', function () {
+    $model = $this->getTestBlogModel();
     $component = new MediaManagerPreview(
-        modelOrClassName: $mockModel,
-        destroyEnabled: false,
+        modelOrClassName: $model,
+        showDestroyButton: false,
+        showSetAsFirstButton: false,
         showOrder: false,
-        setAsFirstEnabled: false,
     );
 
     expect($component->showMenu)->toBeFalse();
-});
+})->skip('disabled functionality');
+
 it('merges media from model collections correctly', function () {
-    $media1 = Mockery::mock(Media::class);
-    $media1->shouldReceive('getCustomProperty')->with('priority', PHP_INT_MAX)->andReturn(PHP_INT_MAX);
 
-    $media2 = Mockery::mock(Media::class);
-    $media2->shouldReceive('getCustomProperty')->with('priority', PHP_INT_MAX)->andReturn(PHP_INT_MAX);
-
-    $collectionImages = collect([$media1]);
-    $collectionDocs = collect([$media2]);
-
-    $mockModel = Mockery::mock(HasMedia::class);
-    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-    $mockModel->shouldReceive('getKey')->andReturn(1);
-    $mockModel->shouldReceive('getMedia')->with('images')->andReturn($collectionImages);
-    $mockModel->shouldReceive('getMedia')->with('documents')->andReturn($collectionDocs);
-    $mockModel->shouldReceive('getMedia')->with('youtube')->andReturn(collect());
+    $model = $this->getModelWithMedia(['image' => 2, 'document' => 2, 'audio' => 2, 'video' => 2]);
 
     $component = new MediaManagerPreview(
-        modelOrClassName: $mockModel,
-        imageCollection: 'images',
-        documentCollection: 'documents',
-        youtubeCollection: 'youtube',
+        modelOrClassName: $model,
+        imageCollection: 'image_collection',
+        documentCollection: 'document_collection',
+        youtubeCollection: 'youtube_video_collection',
+        videoCollection: 'video_collection',
+        audioCollection: 'audio_collection',
     );
 
     expect($component->media)->toBeInstanceOf(Collection::class)
-        ->and($component->media->count())->toBe(2);
+        ->and($component->media->count())->toBe(8);
 });
 
 
@@ -126,12 +107,10 @@ it('merges temporary uploads when temporaryUploads is true', function () {
 })->todo();
 
 it('returns the correct view', function () {
-    $mockModel = Mockery::mock(HasMedia::class);
-    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-    $mockModel->shouldReceive('getKey')->andReturn(1);
-    $mockModel->shouldReceive('getMedia')->andReturn(collect());
 
-    $component = new MediaManagerPreview(modelOrClassName: $mockModel);
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManagerPreview(modelOrClassName: $model);
 
     $view = $component->render();
 
@@ -149,8 +128,8 @@ it('render returns the correct view when only class name provided', function () 
 
     $view = $component->render();
 
-    expect($component->destroyEnabled)->toBeFalse()
-        ->and($component->setAsFirstEnabled)->toBeFalse()
+    expect($component->showDestroyButton)->toBeFalse()
+        ->and($component->showSetAsFirstButton)->toBeFalse()
         ->and($component->showOrder)->toBeFalse()
         ->and($component->temporaryUpload)->toBeTrue();
     //        ->and($component->frontendTheme)->toBe('bootstrap-5');

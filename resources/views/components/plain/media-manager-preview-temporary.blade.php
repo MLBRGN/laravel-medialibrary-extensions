@@ -80,6 +80,7 @@
                 :video-collection="$videoCollection"
                 :frontend-theme="$frontendTheme"
                 :use-xhr="$useXhr"
+                :disabled="$disabled"
             />
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}
@@ -97,65 +98,94 @@
                             </span>
                         @endif
                     @endif
-                    </div>
-                    <div class="media-manager-preview-image-menu-end">
-                        @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
+                    @if($selectable)
+{{--                        <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">--}}
+{{--                            <input--}}
+{{--                                type="checkbox"--}}
+{{--                                class="mle-media-select-checkbox"--}}
+{{--                                name="selected_media[]"--}}
+{{--                                value="{{ $medium->id }}"--}}
+{{--                            >--}}
+{{--                            <span class="mle-media-select-indicator"--}}
+{{--                                  title="{{ __('media-library-extensions::messages.select') }}"--}}
+{{--                            />--}}
+{{--                        </label>--}}
+                        <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
+                            <input
+                                type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
+                                class="mle-media-select-checkbox"
+                                name="selected_media"
+                                data-url="{{ $medium->getUrl() }}"
+                                data-alt="{{ $medium->name }}"
+                            >
+                            <span class="mle-media-select-indicator"
+                                  title="{{ __('media-library-extensions::messages.select') }}"
+                            />
+                        </label>
+                    @endif
+                </div>
+                <div class="media-manager-preview-image-menu-end">
+                    @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
+                        <button
+                            type="button"
+                            data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
+{{--                                data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
+                            class="mle-button mle-button-icon btn btn-primary"
+                            title="{{ __('media-library-extensions::messages.edit') }}"
+                            @disabled($disabled)
+                        >
+                            <x-mle-shared-icon
+                                name="{{ config('media-library-extensions.icons.edit') }}"
+                                title="{{ __('media-library-extensions::messages.edit') }}"
+                            />
+                        </button>
+                    @endif
+                    @if($showSetAsFirstButton)
+                        @if($medium->getCustomProperty('priority') === 0)
                             <button
                                 type="button"
-                                data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
-{{--                                data-modal-trigger="#{{$id}}-image-editor-modal-{{$medium->id}}"--}}
                                 class="mle-button mle-button-icon btn btn-primary"
-                                title="{{ __('media-library-extensions::messages.edit') }}"
-                            >
+                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                                disabled>
                                 <x-mle-shared-icon
-                                    name="{{ config('media-library-extensions.icons.edit') }}"
-                                    title="{{ __('media-library-extensions::messages.edit') }}"
+                                    name="{{ config('media-library-extensions.icons.set-as-main') }}"
+                                    title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
                                 />
                             </button>
-                        @endif
-                        @if($setAsFirstEnabled)
-                            @if($medium->getCustomProperty('priority') === 0)
-                                <button
-                                    type="button"
-                                    class="mle-button mle-button-icon btn btn-primary"
-                                    title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                                    disabled>
-                                    <x-mle-shared-icon
-                                        name="{{ config('media-library-extensions.icons.set-as-main') }}"
-                                        title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
-                                    />
-                                </button>
-                            @else
-                                <x-mle-partial-temporary-upload-set-as-first-form
-                                    :medium="$medium"
-                                    :id="$id"
-                                    {{-- temporary uploads have no model --}}
-                                    :image-collection="$imageCollection"
-                                    :document-collection="$documentCollection"
-                                    :youtube-collection="$youtubeCollection"
-                                    :audio-collection="$audioCollection"
-                                    :video-collection="$videoCollection"
-                                    :set-as-first-enabled="$setAsFirstEnabled"
-                                    :frontend-theme="$frontendTheme"
-                                    :use-xhr="$useXhr"
-                                />
-                            @endif
-                        @endif
-                        @if($destroyEnabled)
-                            <x-mle-partial-temporary-upload-destroy-form
+                        @else
+                            <x-mle-partial-temporary-upload-set-as-first-form
                                 :medium="$medium"
                                 :id="$id"
+                                {{-- temporary uploads have no model --}}
                                 :image-collection="$imageCollection"
                                 :document-collection="$documentCollection"
                                 :youtube-collection="$youtubeCollection"
                                 :audio-collection="$audioCollection"
                                 :video-collection="$videoCollection"
+                                :show-set-as-first-button="$showSetAsFirstButton"
+                                :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"
                                 :use-xhr="$useXhr"
+                                :disabled="$disabled"
                             />
                         @endif
-                    </div>
+                    @endif
+                    @if($showDestroyButton)
+                        <x-mle-partial-temporary-upload-destroy-form
+                            :medium="$medium"
+                            :id="$id"
+                            :image-collection="$imageCollection"
+                            :document-collection="$documentCollection"
+                            :youtube-collection="$youtubeCollection"
+                            :audio-collection="$audioCollection"
+                            :video-collection="$videoCollection"
+                            :frontend-theme="$frontendTheme"
+                            :use-xhr="$useXhr"
+                            :disabled="$disabled"
+                        />
+                    @endif
                 </div>
+            </div>
         @endif
     </div>
 @empty

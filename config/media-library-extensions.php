@@ -160,17 +160,35 @@ return [
     'allowed_mimetypes' => [
         'image' => explode(',', env(
             'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_IMAGE_MIMETYPES',
-            'image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif'
+            'image/jpeg,' .
+            'image/png,' .
+            'image/gif,' .
+            'image/bmp,' .
+            'image/webp,' .
+            'image/heic,' .
+            'image/avif'
         )),
 
         'video' => explode(',', env(
             'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_VIDEO_MIMETYPES',
-            'video/mp4,video/quicktime,video/webm'
+            'video/mp4,' .
+            'video/quicktime,' .
+            'video/webm'
         )),
 
         'document' => explode(',', env(
             'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES',
-            'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            'application/pdf,' .
+            'application/msword,' .
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document,' .
+            'application/vnd.ms-excel,' .
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' .
+            'application/vnd.ms-powerpoint,' .
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation,' .
+            'application/rtf,text/rtf,' .
+            'application/vnd.oasis.opendocument.text,' .
+            'application/vnd.oasis.opendocument.spreadsheet,' .
+            'application/vnd.oasis.opendocument.presentation'
         )),
 
         'audio' => explode(',', env(
@@ -194,14 +212,29 @@ return [
         'video/quicktime' => 'mimetypes.video_quicktime',
         'video/webm' => 'mimetypes.video_webm',
 
-        // Documents
+        // PDF
         'application/pdf' => 'mimetypes.pdf',
+
+        // Microsoft Word
         'application/msword' => 'mimetypes.doc',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'mimetypes.docx',
+
+        // Microsoft Excel
         'application/vnd.ms-excel' => 'mimetypes.xls',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'mimetypes.xlsx',
+
+        // Microsoft PowerPoint
         'application/vnd.ms-powerpoint' => 'mimetypes.ppt',
         'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'mimetypes.pptx',
+
+        // RTF
+        'application/rtf' => 'mimetypes.rtf',
+        'text/rtf' => 'mimetypes.rtf',
+
+        // OpenDocument formats
+        'application/vnd.oasis.opendocument.text' => 'mimetypes.odt',
+        'application/vnd.oasis.opendocument.spreadsheet' => 'mimetypes.ods',
+        'application/vnd.oasis.opendocument.presentation' => 'mimetypes.odp',
 
         // Audio
         'audio/mpeg' => 'mimetypes.audio_mp3',
@@ -343,4 +376,37 @@ return [
         'enablejsapi' => 1,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Media manager selection
+    |--------------------------------------------------------------------------
+    |
+    | Single select - only allow 1 medium to be selected at a time (radio instead
+    } of checkbox)
+    |
+    */
+
+    'single_select' => env('MEDIA_LIBRARY_EXTENSIONS_SINGLE_SELECT', true),
+
+    /*
+   |--------------------------------------------------------------------------
+   | Use external document viewer
+   |--------------------------------------------------------------------------
+   |
+   | values:
+   | google-docs = Google Docs Viewer (DOC, DOCX, ODT, PPT, XLS, etc.)
+   | microsoft-office = Microsoft Office Online Viewer (supports DOCX, PPTX, XLSX)
+   | pass empty string for no external document viewer
+   |
+   */
+    'use_external_document_viewer' => env('MEDIA_LIBRARY_EXTENSIONS_USE_EXTERNAL_DOCUMENT_VIEWER', ''),
+
+   /*
+   |--------------------------------------------------------------------------
+   | DEVELOPER ONLY
+   |--------------------------------------------------------------------------
+   |
+   | Only used by developer
+   */
+    'mle_using_local_package' => env('MLE_USING_LOCAL_PACKAGE', false),
 ];

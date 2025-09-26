@@ -31,25 +31,6 @@ class Status extends BaseComponent
                 $this->status = $sessionStatus;
             }
         }
-
-        // validation errors
-        // always bound to media manager, don't use initiator_id for checking error bag
-//        /** @var ViewErrorBag $errors */
-//        $errors = session('errors');
-//        if ($errors instanceof ViewErrorBag) {
-//            $bagName = 'media_manager_'.$this->initiatorId;
-//            $bag = $errors->getBag($bagName);
-//
-//            if ($bag->any()) {
-//                $messages = $bag->all();
-//                $this->status = [
-//                    'initiator_id' => $this->initiatorId,
-//                    'type' => 'error',
-//                    'message' => implode("\n", $messages),
-//                    'messages' => $messages,
-//                ];
-//            }
-//        }
     }
 
     public function render(): View

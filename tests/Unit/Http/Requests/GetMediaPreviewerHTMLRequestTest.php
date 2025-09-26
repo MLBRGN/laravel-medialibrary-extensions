@@ -9,8 +9,9 @@ it('passes validation when all required fields are present and at least one coll
         'temporary_uploads' => 'true',
         'model_type' => 'App\\Models\\Post',
         'image_collection' => 'images',
-        'destroy_enabled' => 'true',
-        'set_as_first_enabled' => 'false',
+        'show_destroy_button' => 'true',
+        'show_set_as_first_button' => 'false',
+        'show_media_edit_button' => 'true',
         'show_order' => 'true',
     ];
 
@@ -27,8 +28,9 @@ it('fails validation when no collections are provided', function () {
         'initiator_id' => 'user123',
         'temporary_uploads' => 'true',
         'model_type' => 'App\\Models\\Post',
-        'destroy_enabled' => 'true',
-        'set_as_first_enabled' => 'false',
+        'show_destroy_button' => 'true',
+        'show_set_as_first_button' => 'false',
+        'show_media_edit_button' => 'true',
         'show_order' => 'true',
     ];
 
@@ -51,8 +53,9 @@ it('requires model_id when temporary_uploads is false', function () {
         'temporary_uploads' => 'false',
         'model_type' => 'App\\Models\\Post',
         'image_collection' => 'images',
-        'destroy_enabled' => 'true',
-        'set_as_first_enabled' => 'false',
+        'show_destroy_button' => 'true',
+        'show_set_as_first_button' => 'false',
+        'show_media_edit_button' => 'true',
         'show_order' => 'true',
     ];
 
@@ -72,8 +75,9 @@ it('passes validation when model_id is provided and temporary_uploads is false',
         'model_type' => 'App\\Models\\Post',
         'model_id' => 42,
         'image_collection' => 'images',
-        'destroy_enabled' => 'true',
-        'set_as_first_enabled' => 'false',
+        'show_destroy_button' => 'true',
+        'show_set_as_first_button' => 'false',
+        'show_media_edit_button' => 'true',
         'show_order' => 'true',
     ];
 

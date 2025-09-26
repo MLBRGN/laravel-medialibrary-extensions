@@ -61,4 +61,6 @@ return [
     'medium_not_found' => 'Medium not found.',
     'class_does_not_exist' =>  'Class ":class_name" does not exist.',
     'class_must_implement' =>  'Class must implement ":class_name"',
+    'insert_selected_medium' => 'Insert Selected Medium',
+    'select' => 'Select',
 ];

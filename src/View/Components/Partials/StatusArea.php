@@ -18,7 +18,6 @@ class StatusArea extends BaseComponent
 
     ) {
         parent::__construct($id, $frontendTheme);
-
     }
 
     public function render(): View

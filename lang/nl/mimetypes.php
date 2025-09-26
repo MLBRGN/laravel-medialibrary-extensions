@@ -20,6 +20,10 @@ return [
     'xlsx' => 'Spreadsheet (.xlsx)',
     'ppt' => 'PowerPoint presentatie (.ppt)',
     'pptx' => 'Presentatie (.pptx)',
+    'rtf' => 'RTF (Rich Text File)',
+    'odt' => 'ODT (OpenDocument text)',
+    'ods' => 'ODS (OpenDocument spreadsheet)',
+    'odp' => 'ODP (OpenDocument presentation)',
 
     'audio_mp3' => 'MP3 audio',
     'audio_ogg' => 'OGG audio',
