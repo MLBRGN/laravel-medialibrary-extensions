@@ -16,26 +16,32 @@ class ImageResponsive extends Component
     public function __construct(
         public ?Media $medium,
         public string $conversion = '',
-        public ?array $conversions = [],
+        public array $conversions = [],
         public string $sizes = '100vw',
         public bool $lazy = true,
-        public string $alt = ''// set alt to empty for when none provided
+        public string $alt = '',
+        public bool $originalOnly = false
     ) {
-
         if ($this->medium) {
-            // read directly from custom_properties instead of lazy-loading
-            $this->generatedConversions = $this->medium->getCustomProperty('generated_conversions', []);
+            $this->generatedConversions = $this->medium->generated_conversions ?? [];
         }
     }
 
+
     public function hasGeneratedConversion(): bool
     {
-        return $this->medium && $this->getUseConversion() !== '';
+        if (! $this->medium || $this->originalOnly) {
+            return false;
+        }
+
+        $conversion = $this->getUseConversion();
+
+        return $conversion !== '' && isset($this->generatedConversions[$conversion]);
     }
 
     public function getUseConversion(): string
     {
-        if (! $this->medium) {
+        if (! $this->medium || $this->originalOnly) {
             return '';
         }
 
@@ -71,7 +77,9 @@ class ImageResponsive extends Component
                     : '';
             }
         } catch (Throwable) {
-            $url = $this->medium?->getUrl() ?? '';
+            $url = ($this->medium && method_exists($this->medium, 'getUrl'))
+                ? $this->medium->getUrl()
+                : '';
         }
 
         return view('media-library-extensions::components.image-responsive', [
