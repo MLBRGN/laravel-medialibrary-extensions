@@ -69,9 +69,6 @@
             value="{{ $youtubeCollection }}">
     @endif
     
-{{--    @dd('test ' . $disabled ? 'Yes' : 'no')--}}
-{{--    @dump($disabled ? 'Yes' : 'no')--}}
-    
     <button
         type="{{ $useXhr ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
