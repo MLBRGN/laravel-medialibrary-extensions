@@ -5,10 +5,8 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManager extends BaseComponent
@@ -27,6 +25,7 @@ class MediaManager extends BaseComponent
 
     public function __construct(
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public ?Media $medium = null,// when provided, skip collection lookups and just use this medium
         public string $imageCollection = '',
         public string $documentCollection = '',
         public string $youtubeCollection = '',

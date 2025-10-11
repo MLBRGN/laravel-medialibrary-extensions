@@ -4,14 +4,15 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Exception;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends MediaManager
 {
     public function __construct(
         mixed $modelOrClassName,
+        ?Media $medium = null,// when provided, skip collection lookups and just use this medium
         string $imageCollection = '',
         string $documentCollection = '',
         string $youtubeCollection = '',
@@ -32,6 +33,7 @@ class MediaManagerSingle extends MediaManager
     ) {
         parent::__construct(
             modelOrClassName: $modelOrClassName,
+            medium: $medium,
             imageCollection: $imageCollection,
             documentCollection: $documentCollection,
             youtubeCollection: $youtubeCollection,

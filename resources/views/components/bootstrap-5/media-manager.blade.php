@@ -87,6 +87,7 @@
                     :show-set-as-first-button="$showSetAsFirstButton"
                     :show-media-edit-button="$showMediaEditButton"
                     :model-or-class-name="$modelOrClassName"
+                    :medium="$medium"
                     :image-collection="$imageCollection"
                     :youtube-collection="$youtubeCollection"
                     :document-collection="$documentCollection"

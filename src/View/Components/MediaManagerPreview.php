@@ -4,12 +4,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerPreview extends BaseComponent
@@ -22,6 +20,7 @@ class MediaManagerPreview extends BaseComponent
 
     public function __construct(
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public ?Media $medium = null,// when provided, skip collection lookups and just use this medium
         public string $id = '',
         public ?string $imageCollection = '',
         public ?string $documentCollection = '',
@@ -50,28 +49,87 @@ class MediaManagerPreview extends BaseComponent
 //            $this->showMenu = false;
 //        }
 
+        $this->media = collect();
+
+        parent::__construct($id, $frontendTheme);
+
+        $this->resolveModelOrClassName($modelOrClassName);
+
+        $this->media = collect();
+
+        // 🔹 CASE 1: If a single medium is provided, use only that.
+        if ($this->medium instanceof Media) {
+            $this->media->push($this->medium);
+            return;
+        }
+
+        // 🔹 CASE 2: Otherwise collect from configured collections.
         $collectionNames = collect([
-            $imageCollection,
-            $youtubeCollection,
-            $documentCollection,
-            $videoCollection,
-            $audioCollection,
-        ])->filter(); // remove falsy values
+            $this->imageCollection,
+            $this->youtubeCollection,
+            $this->documentCollection,
+            $this->videoCollection,
+            $this->audioCollection,
+        ])->filter();
 
         $this->media = $collectionNames
-            ->reduce(function ($carry, $collectionName) use ($temporaryUploads) {
-                if ($temporaryUploads) {
-                    return $carry->merge(TemporaryUpload::forCurrentSession($collectionName));
+            ->flatMap(function (string $collectionName) {
+                if ($this->temporaryUploads) {
+                    return TemporaryUpload::forCurrentSession($collectionName);
                 }
 
                 if ($this->model) {
-                    return $carry->merge($this->model->getMedia($collectionName));
+                    return $this->model->getMedia($collectionName);
                 }
 
-                return $carry;
-            }, collect())
+                return [];
+            })
             ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
+//        $collectionNames = collect([
+//            $imageCollection,
+//            $youtubeCollection,
+//            $documentCollection,
+//            $videoCollection,
+//            $audioCollection,
+//        ])->filter(); // remove falsy values
+//
+//        $this->media = $collectionNames
+//            ->reduce(function ($carry, $collectionName) use ($temporaryUploads) {
+//                if ($temporaryUploads) {
+//                    return $carry->merge(TemporaryUpload::forCurrentSession($collectionName));
+//                }
+//
+//                if ($this->model) {
+//                    return $carry->merge($this->model->getMedia($collectionName));
+//                }
+//
+//                return $carry;
+//            }, collect())
+//            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+//            ->values();
+//        $collectionNames = collect([
+//            $imageCollection,
+//            $youtubeCollection,
+//            $documentCollection,
+//            $videoCollection,
+//            $audioCollection,
+//        ])->filter(); // remove falsy values
+//
+//        $this->media = $collectionNames
+//            ->reduce(function ($carry, $collectionName) use ($temporaryUploads) {
+//                if ($temporaryUploads) {
+//                    return $carry->merge(TemporaryUpload::forCurrentSession($collectionName));
+//                }
+//
+//                if ($this->model) {
+//                    return $carry->merge($this->model->getMedia($collectionName));
+//                }
+//
+//                return $carry;
+//            }, collect())
+//            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+//            ->values();
 
     }
 
