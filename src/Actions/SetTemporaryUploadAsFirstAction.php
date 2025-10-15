@@ -24,23 +24,7 @@ class SetTemporaryUploadAsFirstAction
 
         $mediumId = (int) $request->medium_id;
 
-        $collections = collect([
-            $request->input('image_collection'),
-            $request->input('document_collection'),
-            $request->input('youtube_collection'),
-            $request->input('video_collection'),
-            $request->input('audio_collection'),
-        ])->filter()->all();
-
-        // TODO validation should handle this, but doesn't work
-        if (count($collections) === 0) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.no_media_collections'),
-            );
-        }
+        $collections = $request->array('collections');
 
         // Get temporary uploads for this session limited to the given collections
         $mediaItems = TemporaryUpload::where('session_id', $request->session()->getId())
