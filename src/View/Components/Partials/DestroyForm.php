@@ -12,7 +12,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class DestroyForm extends BaseComponent
 {
     public ?string $mediaManagerId = '';
-    //    public ?string $audioCollection;
 
     public function __construct(
         ?string $id,

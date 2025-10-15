@@ -20,9 +20,37 @@ abstract class BaseComponent extends Component
         ?string $id = null,
         ?string $frontendTheme = null
     ) {
-        //        dump('id in bc: ' . $id);
         $this->id = filled($id) ? $id : 'component-'.Str::uuid();
-        //        dump('this->id in bc: ' . $this->id);
         $this->frontendTheme = $frontendTheme ?? config('medialibrary-extensions.frontend_theme');
+    }
+
+    public function showRegularUploadForm(): bool
+    {
+        // Only check image, document, video, and audio types
+        return collect($this->collections)
+            ->only(['image', 'document', 'video', 'audio'])
+            ->filter(fn ($value) => filled($value)) // ignore falsy (null, '', false)
+            ->isNotEmpty();
+    }
+
+    public function hasCollections(): bool
+    {
+        // Check all defined collection types
+        return collect($this->collections)
+            ->only(['image', 'document', 'video', 'audio', 'youtube'])
+            ->filter(fn ($value) => filled($value))
+            ->isNotEmpty();
+    }
+
+    public function getCollectionValue(string $key, mixed $default = null): mixed
+    {
+        $value = $this->collections[$key] ?? null;
+
+        return filled($value) ? $value : $default;
+    }
+
+    public function hasCollection(string $key): bool
+    {
+        return filled($this->collections[$key] ?? null);
     }
 }

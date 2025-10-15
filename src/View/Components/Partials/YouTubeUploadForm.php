@@ -27,22 +27,17 @@ class YouTubeUploadForm extends BaseComponent
 
     public bool $disabled = false;
 
+    public ?string $youtubeCollection = null;
+
+
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload|null $medium = null,
-        public ?string $youtubeCollection,
-        ?string $frontendTheme,
+        ?string $frontendTheme,// todo in options?
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
-        //        public ?string $mediaCollection,// TODO remove?
-        //        public string $allowedMimeTypes = '',
-        //        public bool $multiple = false,
-        //        public bool $showDestroyButton = false,
-        //        public bool $showSetAsFirstButton = false,
         public ?bool $useXhr = null,
-        //        public ?bool $readonly = false,
-        //        public ?bool $disabled = false,
     ) {
         $this->mediaManagerId = $id;
 
@@ -50,6 +45,7 @@ class YouTubeUploadForm extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
+        $this->youtubeCollection = $collections['youtube'];
         $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
         $this->previewUpdateRoute = route(mle_prefix_route('preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');

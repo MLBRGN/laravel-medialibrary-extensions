@@ -5,34 +5,24 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-it('renders the set-as-first-form partial view', function () {
-    // Create dummy media collection
-    $mediaCollection = Collection::make([
-        new Media(['id' => 1, 'collection_name' => 'images']),
-        new Media(['id' => 2, 'collection_name' => 'images']),
-    ]);
+it('renders the set-as-first-form', function () {
+    $model = $this->getModelWithMedia(['image' => 2]);
 
-    $medium = new Media([
-        'id' => 1,
-        'collection_name' => 'images',
-        'disk' => 'media',
-        'file_name' => 'test.jpg',
-        'mime_type' => 'image/jpeg',
-        'custom_properties' => [],
-    ]);
+    $mediaCollection = $model->getMedia('image_collection');
+    expect($mediaCollection)->toHaveCount(2);
 
-    // Dummy model implementing HasMedia (can be mocked)
-    $model = $this->createMock(HasMedia::class);
+    $medium = $mediaCollection->first();
+    expect($medium)->toBeInstanceOf(Media::class);
 
     $component = new SetAsFirstForm(
+        id: 'set-first-btn',
         media: $mediaCollection,
         medium: $medium,
-        id: 'set-first-btn',
+        modelOrClassName: $model,
         frontendTheme: 'plain',
         useXhr: false,
         collections: ['image' => 'images', 'audio' => 'audio', 'video' => 'video', 'document' => 'docs', 'youtube' => 'youtube'],
         showSetAsFirstButton: true,
-        model: $model,
     );
 
     $view = $component->render();
@@ -42,21 +32,26 @@ it('renders the set-as-first-form partial view', function () {
 });
 
 it('falls back to config use_xhr when useXhr is null', function () {
+    $model = $this->getModelWithMedia(['image' => 3]);
+
+
     config()->set('media-library-extensions.use_xhr', true);
 
-    $mediaCollection = Collection::make([]);
-    $medium = new Media(['id' => 1, 'collection_name' => 'images']);
-    $model = $this->createMock(HasMedia::class);
+    $mediaCollection = $model->getMedia('image_collection');
+    expect($mediaCollection)->toHaveCount(3);
+
+    $medium = $mediaCollection->first();
+    expect($medium)->toBeInstanceOf(Media::class);
 
     $component = new SetAsFirstForm(
+        id: 'set-first-btn',
         media: $mediaCollection,
         medium: $medium,
-        id: 'set-first-btn',
+        modelOrClassName: $model,
         frontendTheme: 'plain',
         useXhr: null,
         collections: ['video' => 'video', 'audio' => 'audio'],
         showSetAsFirstButton: false,
-        model: $model,
     );
 
     $component->render();

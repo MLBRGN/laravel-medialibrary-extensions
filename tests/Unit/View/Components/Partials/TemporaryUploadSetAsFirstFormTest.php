@@ -1,6 +1,7 @@
 <?php
 
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 
 it('renders the temporary-upload-set-as-first-form partial view', function () {
@@ -19,11 +20,15 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
     ]);
 
     $component = new TemporaryUploadSetAsFirstForm(
+        id: 'set-as-first-btn',
         media: $media,
         medium: $temporaryUpload,
-        id: 'set-as-first-btn',
+        modelOrClassName: Blog::class,
         frontendTheme: 'plain',
         useXhr: null,
+        //        options: [
+        //            'showSetAsFirstButton' => true,
+        //        ]
         collections: [
             'image' => 'images',
             'document' => 'documents',
@@ -31,9 +36,6 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
             'video' => 'video',
             'audio' => 'audio',
         ],
-        //        options: [
-        //            'showSetAsFirstButton' => true,
-        //        ]
         showSetAsFirstButton: true,
     );
 

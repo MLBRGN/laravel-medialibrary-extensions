@@ -17,17 +17,12 @@ class UploadForm extends BaseComponent
     public ?string $mediaManagerId = '';
 
     public string $allowedMimeTypesHuman = '';
-    //    public ?string $imageCollection;
-    //    public ?string $documentCollection;
-    //    public ?string $youtubeCollection;
-    //    public ?string $videoCollection;
-    //    public ?string $audioCollection;
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload|null $medium = null,
-        ?string $frontendTheme,// TODO scope?
+        ?string $frontendTheme,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
         public string $allowedMimeTypes = '',
@@ -39,21 +34,6 @@ class UploadForm extends BaseComponent
         public ?bool $disabled = false,
     ) {
         $this->mediaManagerId = $id;
-
-        // define default collection names
-        $collections = array_merge([
-            'image' => '',
-            'document' => '',
-            'youtube' => '',
-            'video' => '',
-            'audio' => '',
-        ], $collections);
-
-        $this->imageCollection = $collections['image'];
-        $this->audioCollection = $collections['audio'];
-        $this->videoCollection = $collections['video'];
-        $this->documentCollection = $collections['document'];
-        $this->youtubeCollection = $collections['youtube'];
 
         parent::__construct($id, $frontendTheme);
 
@@ -82,19 +62,19 @@ class UploadForm extends BaseComponent
         // Allowed mimetypes based on provided collections
         $allowedMimeTypes = collect();
 
-        if ($this->imageCollection) {
+        if ($this->hasCollection('image')) {
             $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image', []));
         }
 
-        if ($this->documentCollection) {
+        if ($this->hasCollection('document')) {
             $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document', []));
         }
 
-        if ($this->videoCollection) {
+        if ($this->hasCollection('video')) {
             $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video', []));
         }
 
-        if ($this->audioCollection) {
+        if ($this->hasCollection('audio')) {
             $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio', []));
         }
 

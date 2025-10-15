@@ -156,7 +156,7 @@
                 <input
         type="hidden"
         name="youtube_collection"
-        value="">
+        value="blog-youtube">
     <input
         type="hidden"
         name="model_type"

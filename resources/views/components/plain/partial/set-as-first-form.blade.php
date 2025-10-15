@@ -19,10 +19,10 @@
            value="{{ $targetMediaCollection }}">
     <input type="hidden"
            name="model_type"
-           value="{{ $model->getMorphClass() }}">
+           value="{{ $modelType }}">
     <input type="hidden"
            name="model_id"
-           value="{{ $model->getKey() }}">
+           value="{{ $modelId }}">
     <input type="hidden"
            name="initiator_id"
            value="{{ $id }}">

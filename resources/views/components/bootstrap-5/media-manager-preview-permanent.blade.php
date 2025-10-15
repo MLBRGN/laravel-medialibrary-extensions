@@ -149,7 +149,7 @@
                             <x-mle-partial-set-as-first-form
                                 :medium="$medium"
                                 :id="$id"
-                                :model="$model"
+                                :model-or-class-name="$modelOrClassName"
                                 :collections="$collections"
                                 :show-set-as-first-button="$showSetAsFirstButton"
                                 :show-media-edit-button="$showMediaEditButton"

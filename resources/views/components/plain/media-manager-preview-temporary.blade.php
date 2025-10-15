@@ -142,7 +142,7 @@
                                 :medium="$medium"
                                 :id="$id"
                                 :collections="$collections"
-                                {{-- temporary uploads have no model --}}
+                                :model-or-class-name="$modelOrClassName"
                                 :show-set-as-first-button="$showSetAsFirstButton"
                                 :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"

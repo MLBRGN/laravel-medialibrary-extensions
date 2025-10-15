@@ -13,7 +13,6 @@ it('initializes with a HasMedia model', function () {
         id: 'component-yt',
         modelOrClassName: $model,
         medium: null,
-        youtubeCollection: 'youtube',
         frontendTheme: 'default',
         //        mediaCollection: null,
         collections: [
@@ -47,7 +46,6 @@ it('initializes with a model class string', function () {
         id: 'component-yt',
         modelOrClassName: $model->getMorphClass(),
         medium: null,
-        youtubeCollection: 'youtube',
         frontendTheme: 'custom',
         //        mediaCollection: null,
         collections: [
@@ -78,7 +76,6 @@ it('throws if modelOrClassName is non existing class name', function () {
         id: 'comp',
         modelOrClassName: 'someDummyClassName',
         medium: null,
-        youtubeCollection: null,
         frontendTheme: null,
         //        mediaCollection: null,
         collections: [
@@ -105,7 +102,6 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
         id: 'comp',
         modelOrClassName: $model,
         medium: null,
-        youtubeCollection: null,
         frontendTheme: null,
         //        mediaCollection: null,
         collections: [
@@ -139,7 +135,6 @@ it('renders the correct partial view', function () {
         id: 'yt-comp',
         modelOrClassName: $model->getMorphClass(),
         medium: null,
-        youtubeCollection: 'youtube',
         frontendTheme: $theme,
         //        mediaCollection: null,
         collections: [

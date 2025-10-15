@@ -11,11 +11,6 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 class TemporaryUploadDestroyForm extends BaseComponent
 {
     public ?string $mediaManagerId = '';
-    //    public ?string $imageCollection;
-    //    public ?string $documentCollection;
-    //    public ?string $youtubeCollection;
-    //    public ?string $videoCollection;
-    //    public ?string $audioCollection;
 
     public function __construct(
 
@@ -28,21 +23,6 @@ class TemporaryUploadDestroyForm extends BaseComponent
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
-
-        // define default collection names
-        $collections = array_merge([
-            'image' => '',
-            'document' => '',
-            'youtube' => '',
-            'video' => '',
-            'audio' => '',
-        ], $collections);
-
-        $this->imageCollection = $collections['image'];
-        $this->audioCollection = $collections['audio'];
-        $this->videoCollection = $collections['video'];
-        $this->documentCollection = $collections['document'];
-        $this->youtubeCollection = $collections['youtube'];
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;

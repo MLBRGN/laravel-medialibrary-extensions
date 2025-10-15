@@ -151,6 +151,7 @@
                                 :medium="$medium"
                                 :id="$id"
                                 :collections="$collections"
+                                :model-or-class-name="$modelOrClassName"
                                 :show-set-as-first-button="$showSetAsFirstButton"
                                 :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"
