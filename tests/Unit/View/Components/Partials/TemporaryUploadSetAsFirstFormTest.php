@@ -24,6 +24,7 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
         media: $media,
         medium: $temporaryUpload,
         modelOrClassName: Blog::class,
+        options: [],
         frontendTheme: 'plain',
         useXhr: null,
         //        options: [

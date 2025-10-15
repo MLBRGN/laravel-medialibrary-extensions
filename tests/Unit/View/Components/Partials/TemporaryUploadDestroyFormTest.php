@@ -17,6 +17,7 @@ it('renders the temporary-upload-destroy-form partial view', function () {
     $component = new TemporaryUploadDestroyForm(
         medium: $temporaryUpload,
         id: 'delete-temp-upload-btn',
+        options: [],
         frontendTheme: 'plain',
         useXhr: true,
     );

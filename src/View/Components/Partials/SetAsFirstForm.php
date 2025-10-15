@@ -25,10 +25,11 @@ class SetAsFirstForm extends BaseComponent
         public Collection $media,
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public ?string $frontendTheme,
-        public ?bool $useXhr,
+        public array $options = [],
+        public ?string $frontendTheme,// TODO in options?
+        public ?bool $useXhr,// TODO in options?
         public array $collections, // in image, document, youtube, video, audio
-        public bool $showSetAsFirstButton,
+        public bool $showSetAsFirstButton,// TODO in options?
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);

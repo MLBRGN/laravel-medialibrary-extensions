@@ -6,10 +6,9 @@
             aria-labelledby="blog-images-iem-1-title"
         aria-hidden="true"
     data-theme=""
-    data-modal
     data-image-editor-modal
-    data-medium-display-name=".jpg"
-    data-medium-path="/storage/1/test.jpg"
+    data-medium-display-name="test.jpg"
+    data-medium-path="/media/1/test.jpg"
 >
     <div class="image-editor-modal-dialog modal-dialog">
         <div class="image-editor-modal-content modal-content justify-content-center">
@@ -27,9 +26,9 @@
         aria-label="Close" 
         title="Close">❓</span>
                 </button>
-                <input type="hidden" class="image-editor-modal-config" value='{"id":"blog-images-iem-1","initiatorId":"blog-images","mediaManagerId":"blog-images","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"mediumId":1,"collection":"blog-images","csrfToken":null,"saveUpdatedMediumRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager\/1\/save-updated-temporary-upload","temporaryUploadMode":true,"collections":[],"useXhr":true}'>
-                
-                <div data-image-editor-placeholder class="image-editor"></div>
+                <input type="hidden" class="image-editor-modal-config" data-image-editor-modal-config value='{"id":"blog-images-iem-1","initiatorId":"blog-images","mediaManagerId":"blog-images","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"mediumId":1,"collection":"image_collection","csrfToken":null,"saveUpdatedMediumRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager\/1\/save-updated-medium","temporaryUploadMode":false,"collections":[],"useXhr":true}' >
+                 
+                <div class="image-editor" data-image-editor-placeholder></div>
 
                 <!-- used as fallback when not using XHR -->
 <div class="conditional-form mle-image-editor-form" data-xhr-form="data-xhr-form" id="blog-images-iem-1-ie-update-form" data-xhr-method="post">
@@ -41,7 +40,7 @@
            value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
     <input type="hidden"
            name="model_id"
-           value="">
+           value="1">
     <input type="hidden"
            name="initiator_id"
            value="blog-images-iem-1-ie-update-form">
@@ -50,10 +49,10 @@
            value="blog-images">
     <input type="hidden"
            name="temporary_upload_mode"
-           value="true">
+           value="false">
     <input type="hidden"
            name="collection"
-           value="blog-images">
+           value="image_collection">
     <input type="file"
            name="file"
            hidden>
@@ -82,6 +81,7 @@
     
 
 
+                
             </div>
         </div>
     </div>

@@ -39,14 +39,35 @@
 
             <div class="mle-debug-section">
                 <h3>🎞️ Component config: Collections</h3>
+{{--                <ul>--}}
+{{--                    <li><strong>Image:</strong> {{ $config['collections']['image'] ?? 'n/a' }}</li>--}}
+{{--                    <li><strong>Document:</strong> {{ $config['collections']['document'] ?? 'n/a' }}</li>--}}
+{{--                    <li><strong>Video:</strong> {{ $config['collections']['video'] ?? 'n/a' }}</li>--}}
+{{--                    <li><strong>Audio:</strong> {{ $config['collections']['audio'] ?? 'n/a' }}</li>--}}
+{{--                    <li><strong>YouTube:</strong> {{ $config['collections']['youtube'] ?? 'n/a' }}</li>--}}
+{{--                    @if ($model)--}}
+{{--                        @foreach($config['collections'] as $collectionType => $collectionName)--}}
+{{--                            <li><strong>{{ $collectionType }}</strong>: {{ $model->getMedia($collectionName)->count() }} items</li>--}}
+{{--                        @endforeach--}}
+{{--                    @endif--}}
+{{--                </ul>--}}
                 <ul>
-                    <li><strong>Image Collection:</strong> {{ $config['imageCollection'] ?? 'n/a' }}</li>
-                    <li><strong>Document Collection:</strong> {{ $config['documentCollection'] ?? 'n/a' }}</li>
-                    <li><strong>Video Collection:</strong> {{ $config['videoCollection'] ?? 'n/a' }}</li>
-                    <li><strong>Audio Collection:</strong> {{ $config['audioCollection'] ?? 'n/a' }}</li>
-                    <li><strong>YouTube Collection:</strong> {{ $config['youtubeCollection'] ?? 'n/a' }}</li>
-                    @foreach($collections as $collection)
-                        <li><strong>{{ $collection }}</strong>: {{ $model->getMedia($collection)->count() }} items</li>
+                    @foreach (['image', 'document', 'video', 'audio', 'youtube'] as $type)
+                        @php
+                            $collectionName = $config['collections'][$type] ?? null;
+                            $count = ($model && $collectionName)
+                            ? $model->getMedia($collectionName)->count()
+                            : 0;
+//                            $count = $model && $collectionName ? $model->getMedia($collectionName)->count() : 'n/a';
+                        @endphp
+
+                        <li>
+                            <strong>{{ ucfirst($type) }}:</strong>
+                            {{ $collectionName ?? 'n/a' }}
+                            @if ($collectionName)
+                                ({{ $count }} {{ Str::plural('item', $count) }})
+                            @endif
+                        </li>
                     @endforeach
                 </ul>
             </div>

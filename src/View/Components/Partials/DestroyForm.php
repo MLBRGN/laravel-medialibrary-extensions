@@ -16,10 +16,11 @@ class DestroyForm extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload $medium,
-        public ?string $frontendTheme,
-        public ?bool $useXhr = null,
+        public ?string $frontendTheme,// TODO in options?
+        public ?bool $useXhr = null,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
         public ?bool $disabled = false,
+        public array $options = [],
     ) {
         parent::__construct($id, $frontendTheme);
         $this->mediaManagerId = $id;

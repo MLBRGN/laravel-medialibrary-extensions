@@ -6,12 +6,14 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptions;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerTinymce extends BaseComponent
 {
+    use InteractsWithOptions;
     use ResolveModelOrClassName;
 
     public array $config;
@@ -24,35 +26,46 @@ class MediaManagerTinymce extends BaseComponent
 
     public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
+    protected array $optionKeys = [
+        'allowedMimeTypes',
+        'disabled',
+        'readonly',
+        'selectable',
+        'frontendTheme',
+        'showDestroyButton',
+        'showMediaEditButton',
+        'showMenu',
+        'showOrder',
+        'showSetAsFirstButton',
+        'showUploadForm',
+        'temporaryUploadMode',
+        'uploadFieldName',
+        'useXhr',
+        //        'frontendTheme',
+    ];
+
     // TODO not used?
+    /**
+     * @var \Illuminate\Config\Repository|\Illuminate\Foundation\Application|mixed|object|null
+     */
+    public string $uploadFieldName;
+
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         array $collections = [], // in image, document, youtube, video, audio
-        //        public string $imageCollection = '',
-        //        public string $documentCollection = '',
-        //        public string $youtubeCollection = '',
-        //        public string $videoCollection = '',
-        //        public string $audioCollection = '',
-
-        // deprecated use options
-        public bool $showUploadForm = true,
-        public string $uploadFieldName = 'media',
-        public bool $showDestroyButton = false,
-        public bool $showSetAsFirstButton = false,
-        public bool $showOrder = false,
-        public bool $showMenu = true,
-        public ?string $frontendTheme = null,
-        public ?bool $useXhr = true,
+        public array $options = [],
         public bool $multiple = false,
-        public string $allowedMimeTypes = '',
-        public bool $showMediaEditButton = false,// (at the moment) only for image editing
         public bool $readonly = false,
-        public bool $disabled = false,
+        public bool $disabled = false
     ) {
+
+        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
+        $this->frontendTheme = $frontendTheme;
+
         parent::__construct($id, $frontendTheme);
 
-        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
+        $this->mapOptionsToProperties($options);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -99,53 +112,23 @@ class MediaManagerTinymce extends BaseComponent
             'modelType' => $this->modelType,
             'modelId' => $this->modelId,
             'collections' => $collections,
-            //            'imageCollection' => $this->imageCollection,
-            //            'documentCollection' => $this->documentCollection,
-            //            'videoCollection' => $this->videoCollection,
-            //            'audioCollection' => $this->audioCollection,
-            //            'youtubeCollection' => $this->youtubeCollection,
             'mediaUploadRoute' => $this->mediaUploadRoute,
             'previewUpdateRoute' => $this->previewUpdateRoute,
             'youtubeUploadRoute' => $this->youtubeUploadRoute,
             'csrfToken' => csrf_token(),
-            'frontendTheme' => $this->frontendTheme,
-            'showDestroyButton' => $this->showDestroyButton,
-            'showSetAsFirstButton' => $this->showSetAsFirstButton,
-            'showOrder' => $this->showOrder,
-            'showMenu' => $this->showMenu,
-            'temporaryUpload' => $this->temporaryUpload ? 'true' : 'false',
+            'options' => $this->options,
             'multiple' => $this->multiple,
-            'useXhr' => $this->useXhr,
-            'showMediaEditButton' => $this->showMediaEditButton,
             'readonly' => $this->readonly,
             'disabled' => $this->disabled,
+//            'frontendTheme' => $this->frontendTheme,
+//            'showDestroyButton' => $this->showDestroyButton,
+//            'showSetAsFirstButton' => $this->showSetAsFirstButton,
+//            'showOrder' => $this->showOrder,
+//            'showMenu' => $this->showMenu,
+//            'temporaryUpload' => $this->temporaryUpload ? 'true' : 'false',
+//            'useXhr' => $this->useXhr,
+//            'showMediaEditButton' => $this->showMediaEditButton,
         ];
-
-        //        $this->config = [
-        //            'id' => $this->id,
-        //            'model_type' => $this->modelType,
-        //            'model_id' => $this->modelId,
-        //            'image_collection' => $this->imageCollection,
-        //            'document_collection' => $this->documentCollection,
-        //            'video_collection' => $this->videoCollection,
-        //            'audio_collection' => $this->audioCollection,
-        //            'youtube_collection' => $this->youtubeCollection,
-        //            'media_upload_route' => $this->mediaUploadRoute,
-        //            'preview_update_route' => $this->previewUpdateRoute,
-        //            'youtube_upload_route' => $this->youtubeUploadRoute,
-        //            'csrf_token' => csrf_token(),
-        //            'frontend_theme' => $this->frontendTheme,
-        //            'show_destroy_button' => $this->showDestroyButton,
-        //            'show_set_as_first_button' => $this->showSetAsFirstButton,
-        //            'show_order' => $this->showOrder,
-        //            'show_menu' => $this->showMenu,
-        //            'temporary_upload_mode' => $this->temporaryUploadMode ? 'true' : 'false',
-        //            'multiple' => $this->multiple,
-        //            'use_xhr' => $this->useXhr,
-        //            'show_media_edit_button' => $this->showMediaEditButton,
-        //            'readonly' => $this->readonly,
-        //            'disabled' => $this->disabled,
-        //        ];
     }
 
     public function render(): View

@@ -20,10 +20,11 @@ class ImageEditorForm extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public ?string $frontendTheme,
+        public ?string $frontendTheme,// TODO in options?
         public array $collections, // in image, document, youtube, video, audio
+        public array $options = [],
         public string $initiatorId,
-        public ?bool $useXhr = null,
+        public ?bool $useXhr = null,// TODO in options?
         public ?string $mediaManagerId = '',
         public ?bool $disabled = false,
     ) {

@@ -18,22 +18,12 @@ beforeEach(function () {
     Route::get('mle.save-updated-temporary-upload/{media}', fn () => 'updated temporary')->name('mle.save-updated-temporary-upload');
 });
 
-it('renders image editor modal component', function () {
-    Storage::fake('media');
+it('renders image editor modal component (permanent media)', function () {
+    $options = [
 
-    $medium = new Media([
-        'id' => 1,
-        'collection_name' => 'blog-images',
-        'disk' => 'media',
-        'file_name' => 'test.jpg',
-        'mime_type' => 'image/jpeg',
-        'custom_properties' => [],
-    ]);
-
-    // Make sure to set model-related properties that Blade/view logic may expect
-    $medium->exists = true;
-
-    $model = $this->getTestBlogModel(); // your HasMedia model instance
+    ];
+    $model = $this->getModelWithMedia(['image' => 3 ]);
+    $medium = $model->getFirstMedia('image_collection');
 
     $html = Blade::render('<x-mle-image-editor-modal
                     id="blog-images"
@@ -41,9 +31,11 @@ it('renders image editor modal component', function () {
                     initiator-id="blog-images"
                     :medium="$medium"
                     :model-or-class-name="$modelClass"
+                    :options="$options"
                 />', [
-        'modelClass' => $model->getMorphClass(),
+        'modelClass' => $model,
         'medium' => $medium,
+        'options' => $options,
     ]);
 
     expect($html)
@@ -54,17 +46,46 @@ it('renders image editor modal component', function () {
 
 });
 
+it('renders image editor modal component (temporary media)', function () {
+    $options = [
+
+    ];
+    $model = $this->getModelWithMedia(['image' => 3 ]);
+    $medium = $model->getFirstMedia('image_collection');
+
+    $html = Blade::render('<x-mle-image-editor-modal
+                    id="blog-images"
+                    title="My title"
+                    initiator-id="blog-images"
+                    :medium="$medium"
+                    :model-or-class-name="$modelClass"
+                    :options="$options"
+                />', [
+        'modelClass' => $model->getMorphClass(),
+        'medium' => $medium,
+        'options' => $options,
+    ]);
+
+    expect($html)
+        ->toContain('id="blog-images-iem-'.$medium->id.'"')
+        ->toContain((string) $medium->id)
+        ->toContain('My title')
+        ->and($html)->toMatchSnapshot();
+
+})->todo();
+
 it('constructs with model and sets properties', function () {
     $model = $this->getModelWithMedia();
 
     $medium = $model->getFirstMedia('image_collection');
 
     $component = new ImageEditorModal(
+        id: 'uploader-0',
         modelOrClassName: $model,
         medium: $medium,
-        id: 'uploader-0',
         initiatorId: 'uploader-1',
-        title: 'blaat'
+        title: 'blaat',
+        options: []
     );
 
     expect($component->model)->toBe($model)
@@ -82,10 +103,11 @@ it('constructs with model class name string for temporary upload', function () {
     $medium = $model->getFirstMedia('image_collection');
 
     $component = new ImageEditorModal(
+        id: 'uploader-1',
         modelOrClassName: $model->getMorphClass(),
         medium: $medium,
-        id: 'uploader-1',
-        initiatorId: 'uploader-2'
+        initiatorId: 'uploader-2',
+        options: []
     );
 
     expect($component->model)->toBeNull()
@@ -107,7 +129,8 @@ it('throws when modelOrClassName is null', function () {
         id: 'uploader-2',
         modelOrClassName: null,
         medium: $medium,
-        initiatorId: 'fail-test'
+        initiatorId: 'fail-test',
+        options: []
     );
 });
 
@@ -123,9 +146,10 @@ it('throws when modelOrClassName is an invalid type', function () {
 
     new ImageEditorModal(
         id: 'uploader-3',
-        modelOrClassName: $model, // Invalid type
-        medium: $medium,
-        initiatorId: 'fail-test'
+        modelOrClassName: $model,
+        medium: $medium, // Invalid type
+        initiatorId: 'fail-test',
+        options: []
     );
 });
 
@@ -143,6 +167,7 @@ it('throws when modelOrClassName is an class name', function () {
         id: 'uploader-3',
         modelOrClassName: $model->getMorphClass(), // Invalid type
         medium: $medium,
-        initiatorId: 'fail-test'
+        initiatorId: 'fail-test',
+        options: []
     );
 });

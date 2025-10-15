@@ -23,10 +23,11 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         public Collection $media,
         public TemporaryUpload $medium,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public ?string $frontendTheme,
-        public ?bool $useXhr = null,
+        public array $options = [],
+        public ?string $frontendTheme,// TODO in options?
+        public ?bool $useXhr = null,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
-        public bool $showSetAsFirstButton = false,
+        public bool $showSetAsFirstButton = false,// TODO in options?
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {

@@ -16,8 +16,9 @@ class TemporaryUploadDestroyForm extends BaseComponent
 
         public TemporaryUpload $medium,
         ?string $id,
-        public ?string $frontendTheme,
-        public ?bool $useXhr = null,
+        public array $options = [],
+        public ?string $frontendTheme,// TODO in options?
+        public ?bool $useXhr = null,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
         public ?bool $readonly = false,
         public ?bool $disabled = false,

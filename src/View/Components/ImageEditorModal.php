@@ -20,15 +20,16 @@ class ImageEditorModal extends BaseComponent
     public ?string $mediaManagerId = null;
 
     public function __construct(
+        string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        string $id,
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
-        public ?string $frontendTheme = null,
+        public ?string $frontendTheme = null,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
-        public ?bool $useXhr = true,
+        public ?bool $useXhr = true,// TODO in options?
         public bool $disabled = false,
+        public array $options = [],
     ) {
         parent::__construct($id, $frontendTheme);
 
@@ -55,21 +56,6 @@ class ImageEditorModal extends BaseComponent
             'collections' => $this->collections,
             'useXhr' => $this->useXhr,
         ];
-
-        //        $this->config = [
-        //            'id' => $this->id,
-        //            'initiator_id' => $this->initiatorId,
-        //            'media_manager_id' => $this->mediaManagerId,
-        //            'model_type' => $this->modelType,
-        //            'model_id' => $this->modelId,
-        //            'medium_id' => $this->medium->id,
-        //            'collection' => $this->medium->collection_name,
-        //            'csrf_token' => csrf_token(),
-        //            'save_updated_medium_route' => $this->saveUpdatedMediumRoute,
-        //            'temporary_upload' => $this->temporaryUpload,
-        //            'collections' => $this->collections,
-        //            'use_xhr' => $this->useXhr,
-        //        ];
     }
 
     public function render(): View

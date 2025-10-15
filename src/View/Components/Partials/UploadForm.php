@@ -25,11 +25,11 @@ class UploadForm extends BaseComponent
         ?string $frontendTheme,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
-        public string $allowedMimeTypes = '',
+        public string $allowedMimeTypes = '',// TODO in options?
         public bool $multiple = false,
-        public bool $showDestroyButton = false,
-        public bool $showSetAsFirstButton = false,
-        public ?bool $useXhr = null,
+        public bool $showDestroyButton = false,// TODO in options?
+        public bool $showSetAsFirstButton = false,// TODO in options?
+        public ?bool $useXhr = null,// TODO in options?
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {

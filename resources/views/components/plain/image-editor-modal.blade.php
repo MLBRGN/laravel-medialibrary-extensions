@@ -46,6 +46,7 @@
                     :initiator-id="$id"
                     :media-manager-id="$mediaManagerId"
                     :medium="$medium"
+                    :options="$options"
                     :collections="$collections"
                     :frontend-theme="$frontendTheme"
                     :use-xhr="$useXhr"
