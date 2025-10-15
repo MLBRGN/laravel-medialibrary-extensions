@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\MediaLibraryExtensions\Http\Requests\Traits;
+namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 
 use Illuminate\Validation\Validator;

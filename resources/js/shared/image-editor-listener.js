@@ -58,16 +58,7 @@ const updateMedia = (detail) => {
     const initiator = document.querySelector('#' + config.initiatorId);
     const container = initiator.querySelector('.media-manager-row')
 
-    // const {
-    //     model_type: modelType,
-    //     model_id: modelId,
-    //     medium_id: mediumId,
-    //     collection: collection,
-    //     csrf_token: csrfToken,
-    //     save_updated_medium_route: saveUpdatedMediumRoute,
-    //     temporary_upload: temporaryUpload,
-    // } = config;
-
+    console.log('collections', config.collections);
     const file = detail.file;
     const formData = new FormData();
     formData.append('initiator_id', config.initiatorId);
@@ -75,12 +66,14 @@ const updateMedia = (detail) => {
     formData.append('model_type', config.modelType);
     formData.append('model_id', config.modelId ?? '');
     formData.append('medium_id', config.mediumId);
+    // formData.append('collections', JSON.stringify(config.collections));
+    formData.append('options', JSON.stringify(config.options));
     formData.append('collection', config.collection);
-    formData.append('image_collection', config.imageCollection);
-    formData.append('document_collection', config.documentCollection);
-    formData.append('youtube_collection', config.youtubeCollection);
     formData.append('temporary_upload_mode', config.temporaryUploadMode);
     formData.append('file', file); // 'media' must match Laravel's expected field
+    Object.entries(config.collections).forEach(([key, value]) => {
+        formData.append(`collections[${key}]`, value);
+    });
 
     fetch(config.saveUpdatedMediumRoute, {
         method: 'POST',

@@ -5,7 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\Traits\ValidatesCollections;
+use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
 /**
  * Handles authorization and validation rules for media manager temporary upload destroy requests.

@@ -18,6 +18,7 @@ it('fails when no collections provided JSON', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
+        // collections intentionally missing
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -53,6 +54,7 @@ it('fails when no collections provided', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
+        // collections intentionally missing
     ]);
 
     // Attach session manually
@@ -89,7 +91,7 @@ it('returns error when no media in collection JSON', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
-        'image_collection' => 'blog-non-existing-collection',
+        'collections' => ['image' => 'blog-non-existing-collection']
     ]);
 
     $request->headers->set('Accept', 'application/json');
@@ -110,7 +112,7 @@ it('returns error when no media in collection JSON', function () {
     expect($data)->toMatchArray([
         'initiatorId' => $initiatorId,
         'type' => 'error',
-        'message' => __('media-library-extensions::messages.no_media'),
+        'message' => __('media-library-extensions::messages.no_media_collections'),
     ]);
 });
 
@@ -125,7 +127,7 @@ it('returns error when no media in collection', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
-        'image_collection' => 'blog-non-existing-collection',
+        'collections' => ['image' => 'blog-non-existing-collection']
     ]);
 
     // Attach session manually
@@ -146,7 +148,7 @@ it('returns error when no media in collection', function () {
         ->and($flashData)->toMatchArray([
             'initiator_id' => $initiatorId,
             'type' => 'error',
-            'message' => __('media-library-extensions::messages.no_media'),
+            'message' => __('media-library-extensions::messages.no_media_collections'),
         ]);
 
 });
@@ -175,7 +177,7 @@ it('can set as first in collection JSON', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
-        'image_collection' => 'blog-images',
+        'collections' => ['image' => 'blog-images']
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -226,7 +228,7 @@ it('can set as first in collection', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
-        'image_collection' => 'blog-images',
+        'collections' => ['image' => 'blog-images']
     ]);
 
     //    dd(TemporaryUpload::all());

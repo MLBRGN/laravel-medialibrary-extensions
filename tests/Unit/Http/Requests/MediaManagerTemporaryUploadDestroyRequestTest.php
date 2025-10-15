@@ -7,7 +7,7 @@ it('passes validation when required fields and one collection are provided', fun
     $data = [
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
     ];
 
     $request = new DestroyTemporaryMediumRequest;
@@ -28,11 +28,7 @@ it('fails validation when no collections are provided', function () {
     $validator = Validator::make($data, $request->rules());
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->has('image_collection'))->toBeTrue();
-    expect($validator->errors()->has('video_collection'))->toBeTrue();
-    expect($validator->errors()->has('audio_collection'))->toBeTrue();
-    expect($validator->errors()->has('document_collection'))->toBeTrue();
-    expect($validator->errors()->has('youtube_collection'))->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeTrue();
 });
 
 it('passes validation when a non-image collection is provided', function () {
@@ -43,6 +39,7 @@ it('passes validation when a non-image collection is provided', function () {
             'initiator_id' => 'user123',
             'media_manager_id' => 'manager456',
             $collection => 'some_collection',
+            'collections' => ['image' => 'images'],
         ];
 
         $request = new DestroyTemporaryMediumRequest;

@@ -5,6 +5,8 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
+use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
 /**
  * Handles the validation rules and authorization for the SetAsFirstRequest.
@@ -12,6 +14,8 @@ use Illuminate\Validation\Rule;
  */
 class UpdateMediumRequest extends MediaManagerRequest
 {
+    use ValidatesCollections;
+
     public function rules(): array
     {
         return [
@@ -25,11 +29,11 @@ class UpdateMediumRequest extends MediaManagerRequest
             'file' => 'required|file',
             'collections' => ['required', 'array'],
             'collections.*' => ['nullable', 'string'],
-//            'image_collection' => 'required|string',
-//            'document_collection' => 'nullable|string',
-//            'youtube_collection' => 'nullable|string',
-//            'audio_collection' => 'nullable|string',
-//            'video_collection' => 'nullable|string',
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $this->addCollectionsValidation($validator);
     }
 }

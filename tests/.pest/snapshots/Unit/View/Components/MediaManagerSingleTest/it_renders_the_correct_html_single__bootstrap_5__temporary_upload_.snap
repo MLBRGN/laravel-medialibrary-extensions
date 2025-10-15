@@ -20,6 +20,10 @@
     <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
                         <input
                 type="hidden"
+                name="collections[image]"
+                value="images">
+                                                                                    <input
+                type="hidden"
                 name="image_collection"
                 value="images">
                                                                 <input

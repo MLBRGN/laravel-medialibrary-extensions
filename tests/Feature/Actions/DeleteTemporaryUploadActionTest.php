@@ -4,7 +4,7 @@ use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
 
 covers(DeleteTemporaryUploadAction::class);
 
-it('returns error response when no collections provided JSON', function () {
+it('returns error response when no collections provided (JSON)', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
@@ -25,7 +25,7 @@ it('returns error response when no collections provided JSON', function () {
         ->assertJson([
             'initiatorId' => $initiatorId,
             'type' => 'error',
-            'message' => 'The image collection field is required when none of video collection / audio collection / document collection / youtube collection are present.',
+            'message' => 'The collections field is required.',// TODO no static strings
         ]);
 });
 
@@ -55,7 +55,7 @@ it('returns error response when no collections provided Redirect', function () {
         ->and($flashData)->toMatchArray([
             'initiator_id' => $initiatorId,
             'type' => 'error',
-            'message' => 'The image collection field is required when none of video collection / audio collection / document collection / youtube collection are present.',
+            'message' => 'The collections field is required.',// TODO no static strings
         ]);
 });
 
@@ -85,7 +85,7 @@ it('deletes the temporary upload and returns JSON', function () {
         [
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
-            'image_collection' => $imageCollectionName,
+            'collections' => ['image' => 'images'],
         ]
     );
 
@@ -104,16 +104,11 @@ it('deletes the temporary upload and returns redirect', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
-    $imageCollectionName = 'images';
-
-    //    // Dump all queries executed during the request
-    //    DB::listen(function ($query) {
-    //        dump($query->sql, $query->bindings);
-    //    });
+    $collections = ['image' => 'images'];
 
     // Create a temporary upload
     $temporaryUpload = $this->createTemporaryUpload([
-        'collection_name' => $imageCollectionName,
+        'collection_name' => $collections['image'],
         'custom_properties' => ['priority' => 0],
     ]);
 
@@ -126,7 +121,7 @@ it('deletes the temporary upload and returns redirect', function () {
         [
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
-            'image_collection' => $imageCollectionName,
+            'collections' => $collections,
         ]
     );
 
@@ -149,24 +144,23 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
     $user = $this->getUser();
 
     $sessionId = 'test-session-id';
-
-    $imageCollectionName = 'images';
+    $collections = ['image' => 'images'];
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
 
     // Create temporary uploads with the dummy session ID
     $temporaryUpload1 = $this->createTemporaryUpload([
-        'collection_name' => $imageCollectionName,
+        'collection_name' => $collections['image'],
         'custom_properties' => ['priority' => 0],
         'session_id' => $sessionId,
     ]);
     $temporaryUpload2 = $this->createTemporaryUpload([
-        'collection_name' => $imageCollectionName,
+        'collection_name' => $collections['image'],
         'custom_properties' => ['priority' => 1],
         'session_id' => $sessionId,
     ]);
     $temporaryUpload3 = $this->createTemporaryUpload([
-        'collection_name' => $imageCollectionName,
+        'collection_name' => $collections['image'],
         'custom_properties' => ['priority' => 2],
         'session_id' => $sessionId,
     ]);
@@ -178,7 +172,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
         ->delete($route, [
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
-            'image_collection' => $imageCollectionName,
+            'collections' => $collections,
         ],
             [
                 'X-Test-Session-Id' => $sessionId,

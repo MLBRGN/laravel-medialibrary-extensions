@@ -238,7 +238,7 @@ it('it returns error if max media count is exceeded (JSON)', function () {
             'model_id' => $model->getKey(),
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
-            'image_collection' => 'images',
+            'collections' => ['image' => 'images'],
             'temporary_upload_mode' => 'false',
             $uploadFieldNameMultiple => [$file1, $file2, $file3, $file4],
         ]
@@ -281,7 +281,7 @@ it('it returns error if max media count is exceeded (redirect)', function () {
             'model_id' => $model->getKey(),
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
-            'image_collection' => 'images',
+            'collections' => ['image' => 'images'],
             'temporary_upload_mode' => 'false',
             $uploadFieldNameMultiple => [$file1, $file2, $file3, $file4],
         ]

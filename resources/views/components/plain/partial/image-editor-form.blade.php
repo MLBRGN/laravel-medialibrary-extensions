@@ -5,7 +5,7 @@
     [
         'action' => $saveUpdatedMediumRoute,
         'method' => 'POST',
-        'data-image-editor-update-form' => ''
+        'data-image-editor-update-form' => '',
     ]"
     :div-attributes="[
         'data-xhr-form' => $useXhr, 
@@ -36,22 +36,14 @@
     <input type="hidden"
            name="collection"
            value="{{ $medium->collection_name }}">
-    <input type="file" 
-           name="file" 
+    <input type="file"
+           name="file"
            hidden>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
                 type="hidden"
                 name="collections[{{ $collectionType }}]"
-                value="{{ $collectionName }}">
-        @endif
-    @endforeach
-    @foreach($collections as $collectionType => $collectionName)
-        @if (!empty($collectionName))
-            <input
-                type="hidden"
-                name="{{ $collectionType }}_collection"
                 value="{{ $collectionName }}">
         @endif
     @endforeach

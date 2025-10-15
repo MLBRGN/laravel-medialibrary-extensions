@@ -22,6 +22,26 @@
     <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF, PDF, Word document (.doc), Wordprocessing (.docx), Excel spreadsheet(.xls), Spreadsheet (.xlsx), PowerPoint presentation (.ppt), Presentation (.pptx), RTF (Rich Text File), RTF (Rich Text File), ODT (OpenDocument text), ODS (OpenDocument spreadsheet), ODP (OpenDocument presentation), MP4 video, QuickTime video, WebM video, MP3 audio, OGG audio, WAV audio, WebM audio.</span>
                         <input
                 type="hidden"
+                name="collections[image]"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="collections[youtube]"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="collections[document]"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="collections[video]"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="collections[audio]"
+                value="blog-audio">
+                                    <input
+                type="hidden"
                 name="image_collection"
                 value="blog-images">
                                 <input
@@ -91,6 +111,26 @@
         name="medium_id"
         value="">
                         <input
+                type="hidden"
+                name="collections[image]"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="collections[youtube]"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="collections[document]"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="collections[video]"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="collections[audio]"
+                value="blog-audio">
+                                    <input
                 type="hidden"
                 name="image_collection"
                 value="blog-images">

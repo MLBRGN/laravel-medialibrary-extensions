@@ -22,11 +22,13 @@ it('passes validation with all required fields', function () {
         'medium_id' => '123',
         'collection' => 'images',
         'file' => $this->getUploadedFile(), // create a temporary file resource
-        'image_collection' => 'images',
-        'document_collection' => 'docs',
-        'youtube_collection' => 'youtube',
-        'audio_collection' => 'audio',
-        'video_collection' => 'video',
+        'collections' => [
+            'image' => 'images',
+            'document' => 'docs',
+            'youtube' => 'youtube',
+            'audio' => 'audio',
+            'video' => 'video',
+        ],
     ];
 
     $validator = Validator::make($data, $this->request->rules());
@@ -47,7 +49,7 @@ it('fails validation when required fields are missing', function () {
     expect($validator->errors()->has('medium_id'))->toBeTrue();
     expect($validator->errors()->has('collection'))->toBeTrue();
     expect($validator->errors()->has('file'))->toBeTrue();
-    expect($validator->errors()->has('image_collection'))->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeTrue();
 });
 
 it('fails validation if model_id is missing when temporary_upload is false', function () {

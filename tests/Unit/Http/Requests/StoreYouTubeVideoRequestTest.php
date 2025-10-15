@@ -10,11 +10,18 @@ it('passes validation with valid YouTube URL and required fields', function () {
         'temporary_upload_mode' => 'false',
         'model_type' => 'App\\Models\\Post',
         'model_id' => 1,
-        'youtube_collection' => 'youtube_videos',
-        'image_collection' => null,
-        'document_collection' => null,
-        'video_collection' => null,
-        'audio_collection' => null,
+        'collections' => [
+            'image' => null,
+            'document' => null,
+            'youtube' => 'youtube_videos',
+            'audio' => null,
+            'video' => null,
+        ],
+//        'youtube_collection' => 'youtube_videos',
+//        'image_collection' => null,
+//        'document_collection' => null,
+//        'video_collection' => null,
+//        'audio_collection' => null,
         $uploadFieldName => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager123',
@@ -35,7 +42,13 @@ it('fails validation with invalid YouTube URL', function () {
         'temporary_upload_mode' => 'false',
         'model_type' => 'App\\Models\\Post',
         'model_id' => 1,
-        'youtube_collection' => 'youtube_videos',
+        'collections' => [
+            'image' => null,
+            'document' => null,
+            'youtube' => 'youtube_videos',
+            'audio' => null,
+            'video' => null,
+        ],
         $uploadFieldName => 'https://invalid.com/watch?v=abc123',
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager123',
@@ -60,7 +73,7 @@ it('fails when required fields are missing', function () {
     expect($validator->fails())->toBeTrue();
     expect($validator->errors()->has('temporary_upload_mode'))->toBeTrue();
     expect($validator->errors()->has('model_type'))->toBeTrue();
-    expect($validator->errors()->has('youtube_collection'))->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeTrue();
     expect($validator->errors()->has('initiator_id'))->toBeTrue();
     expect($validator->errors()->has('media_manager_id'))->toBeTrue();
     expect($validator->errors()->has('multiple'))->toBeTrue();

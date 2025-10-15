@@ -22,7 +22,7 @@ it('passes validation with required fields and at least one collection', functio
         'temporary_upload_mode' => 'false',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
         'uploads' => [],
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
@@ -50,11 +50,7 @@ it('fails validation when no collections are provided', function () {
     $validator = Validator::make($data, $request->rules());
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->has('image_collection'))->toBeTrue();
-    expect($validator->errors()->has('video_collection'))->toBeTrue();
-    expect($validator->errors()->has('audio_collection'))->toBeTrue();
-    expect($validator->errors()->has('document_collection'))->toBeTrue();
-    expect($validator->errors()->has('youtube_collection'))->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeTrue();
 });
 
 it('applies MaxMediaCount rule for non-temporary uploads', function () {
@@ -63,7 +59,7 @@ it('applies MaxMediaCount rule for non-temporary uploads', function () {
         'temporary_upload_mode' => 'false',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
         'uploads' => [],
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
@@ -87,7 +83,7 @@ it('applies MaxTemporaryUploadCount rule for temporary uploads', function () {
     $data = [
         'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
         'uploads' => [],
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',

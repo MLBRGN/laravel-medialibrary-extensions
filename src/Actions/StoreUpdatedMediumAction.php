@@ -33,6 +33,7 @@ class StoreUpdatedMediumAction
         $collection = $request->input('collection');
         $temporaryUploadMode = $request->boolean('temporary_upload_mode');
         $file = $request->file('file');
+        $collections = $request->array('collections');
 
         if (! $temporaryUploadMode) {
 
@@ -89,11 +90,7 @@ class StoreUpdatedMediumAction
                 'user_id' => $userId,
                 'session_id' => $sessionId,
                 'order_column' => 1,
-                'custom_properties' => [
-                    'image_collection' => $request->input('image_collection'),
-                    'document_collection' => $request->input('document_collection'),
-                    'youtube_collection' => $request->input('youtube_collection'),
-                ],
+                'custom_properties' => $collections
             ]);
             $upload->save();
 

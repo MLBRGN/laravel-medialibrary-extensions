@@ -36,7 +36,7 @@ class SetTemporaryUploadAsFirstAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.no_media'),
+                __('media-library-extensions::messages.no_media_collections'),
             );
         }
 

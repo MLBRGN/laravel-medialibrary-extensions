@@ -27,7 +27,7 @@ it('deletes the medium and returns JSON', function () {
     $response = $this->actingAs($user)->deleteJson($route, [
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'image_collection' => $imageCollectionName,
+        'collections' => ['image' => 'images'],
     ]);
 
     $response->assertStatus(200)
@@ -44,7 +44,7 @@ it('deletes the medium and returns Redirect', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
-    $imageCollectionName = 'images';
+    $collections = ['image' => 'images'];
 
     // Create a model with media
     $model = $this->getModelWithMedia([
@@ -54,7 +54,7 @@ it('deletes the medium and returns Redirect', function () {
     // Attach a medium
     $media = $model->addMedia($this->getTestImagePath())
         ->preservingOriginal()
-        ->toMediaCollection($imageCollectionName);
+        ->toMediaCollection($collections['image']);
 
     $this->assertDatabaseHas('media', ['id' => $media->id]);
 
@@ -63,7 +63,7 @@ it('deletes the medium and returns Redirect', function () {
     $response = $this->actingAs($user)->delete($route, [
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'image_collection' => $imageCollectionName,
+        'collections' => $collections,
     ]);
 
     $response->assertRedirect();
@@ -85,7 +85,8 @@ it('reorders all media on delete', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
-    $imageCollectionName = 'images';
+    $collections = ['image' => 'images'];
+
 
     // Create model with multiple media items
     $model = $this->getModelWithMedia([
@@ -94,15 +95,15 @@ it('reorders all media on delete', function () {
 
     $media1 = $model->addMedia($this->getTestImagePath())
         ->withCustomProperties(['priority' => 0])
-        ->toMediaCollection($imageCollectionName);
+        ->toMediaCollection($collections['image']);
 
     $media2 = $model->addMedia($this->getTestImagePath())
         ->withCustomProperties(['priority' => 1])
-        ->toMediaCollection($imageCollectionName);
+        ->toMediaCollection($collections['image']);
 
     $media3 = $model->addMedia($this->getTestImagePath())
         ->withCustomProperties(['priority' => 2])
-        ->toMediaCollection($imageCollectionName);
+        ->toMediaCollection($collections['image']);
 
     $route = route(mle_prefix_route('medium-destroy'), $media2);
 
@@ -112,7 +113,7 @@ it('reorders all media on delete', function () {
         ->delete($route, [
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
-            'image_collection' => $imageCollectionName,
+            'collections' => $collections,
         ]);
 
     $response->assertRedirect();
