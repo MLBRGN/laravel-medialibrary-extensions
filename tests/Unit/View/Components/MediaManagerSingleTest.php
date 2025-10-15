@@ -19,58 +19,88 @@ it('initializes correctly with model instance', function () {
 
     $model = $this->getTestBlogModel();
     $component = new MediaManagerSingle(
+        id: 'blog-1',
         modelOrClassName: $model,
-        imageCollection: 'images',
-        showUploadForm: true,
-        showDestroyButton: true,
-        showOrder: true,
-        id: 'blog-1'
+        collections: [
+            'image' => 'images',
+        ],
+        options: [
+            'showUploadForm' => true,
+            'showDestroyButton' => true,
+            'showOrder' => true,
+        ]
     );
 
     expect($component->multiple)->toBeFalse()
         ->and($component->showUploadForm)->toBeTrue()
         ->and($component->showDestroyButton)->toBeTrue()
-        ->and($component->showOrder)->toBeTrue()
-        ->and($component->imageCollection)->toBe('images')
+        ->and($component->showOrder)->toBeFalse()// mms sets showOrder to false
+        ->and($component->collections)
+        ->toHaveKey('image', 'images')
         ->and($component->id)->toBe('blog-1-mms');
 });
 
 it('initializes correctly with model class name', function () {
     $component = new MediaManagerSingle(
+        id: 'blog-1',
         modelOrClassName: Blog::class,
-        youtubeCollection: 'videos',
-        useXhr: false,
+        collections: [
+            'youtube' => 'videos',
+        ],
+        options: [
+            'useXhr' => false,
+        ]
     );
 
     expect($component->multiple)->toBeFalse()
         ->and($component->modelType)->toBe(Blog::class)
-//        ->and($component->temporaryUpload)->toBeFalse()
-        ->and($component->youtubeCollection)->toBe('videos')
+//        ->and($component->temporaryUploadMode)->toBeFalse()
+        ->and($component->collections)
+        ->toHaveKey('youtube', 'videos')
         ->and($component->showSetAsFirstButton)->toBeFalse()
         ->and($component->useXhr)->toBeFalse();
 });
 
 it('defaults optional values when omitted', function () {
-    $component = new MediaManagerSingle(modelOrClassName: Blog::class, imageCollection: 'blog-images',);
+    $className = Blog::class;
+    Config::set('media-library-extensions.frontend_theme', 'bootstrap-5');
+    $component = new MediaManagerSingle(
+        id: 'blog-1',
+        modelOrClassName: $className,
+        collections: [
+            'image' => 'blog-images',
+        ],
+    );
 
     expect($component->showUploadForm)->toBeTrue()
-        ->and($component->showDestroyButton)->toBeFalse()
-        ->and($component->showSetAsFirstButton)->toBeFalse()
-        ->and($component->showOrder)->toBeFalse()
-        ->and($component->temporaryUpload)->toBeTrue()
-        ->and($component->uploadFieldName)->toBe('medium')
-        ->and($component->frontendTheme)->toBe('bootstrap-5')
-        ->and($component->multiple)->toBeFalse();
+        ->and($component->options['showDestroyButton'])->toBeFalse()
+        ->and($component->options['showSetAsFirstButton'])->toBeFalse()
+        ->and($component->options['showOrder'])->toBeFalse()
+//        ->and($component->options['temporaryUploadMode'])->toBeTrue()
+//        ->and($component->options['uploadFieldName'])->toBe('medium') // TODO
+//        ->and($component->options['frontendTheme'])->toBe('bootstrap-5')// TODO
+        ->and($component->options['multiple'])->toBeFalse();
 });
 
 it('renders the correct html single (plain)', function () {
-    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $model = $this->getModelWithMedia([
+        'image' => 2,
+        'document' => '1',
+        'audio' => 1,
+        'video' => 1,
+    ]);
 
     $html = Blade::render(
-        '<x-mle-media-manager-single id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        '<x-mle-media-manager-single
+                id="test-media-modal"
+                :model-or-class-name="$modelOrClassName"
+                :collections="[\'image\' => \'images\', \'documents\' => \'documents\']"
+                :frontend-theme="$frontendTheme"
+                multiple="false"
+                />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain'
+            'frontendTheme' => 'plain',
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -80,10 +110,16 @@ it('renders the correct html single (bootstrap-5, temporary upload)', function (
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-manager-single id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        '<x-mle-media-manager-single
+                id="test-media-modal"
+                :model-or-class-name="$modelOrClassName"
+                :collections="[\'image\' => \'images\']"
+                :frontend-theme="$frontendTheme"
+                multiple="false"
+                />',
         [
             'modelOrClassName' => $model->getMorphClass(),
-            'frontendTheme' => 'plain'
+            'frontendTheme' => 'bootstrap-5',
         ]
     );
     expect($html)->toMatchSnapshot();

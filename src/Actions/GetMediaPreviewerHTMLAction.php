@@ -17,7 +17,7 @@ class GetMediaPreviewerHTMLAction
 
     public function execute(GetMediaPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        if ($request->temporary_uploads === 'true') {
+        if ($request->temporary_upload_mode === 'true') {
             return $this->getMediaPreviewerTemporaryHTMLAction->execute($request);
         }
 

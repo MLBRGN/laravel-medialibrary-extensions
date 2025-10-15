@@ -1,34 +1,122 @@
-<div
+<div 
     id="test-media-modal-mmm"
-    class="mlbrgn-mle-component theme-plain media-manager media-manager-multiple"
+    class="mlbrgn-mle-component theme-bootstrap-5 media-manager media-manager-multiple container-fluid px-0"
     data-media-manager=""
     data-use-xhr="true"
     >
-    
-    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","show_upload_form":true,"show_destroy_button":false,"show_set_as_first_button":false,"show_order":false,"show_menu":true,"temporary_upload":"false","multiple":true,"use_xhr":true,"selectable":false,"show_media_edit_button":false,"readonly":false,"disabled":false}'>
+    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"medium":null,"collections":{"image":"blog-images","document":"blog-documents","youtube":"blog-youtube","video":"blog-videos","audio":"blog-audio"},"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrfToken":null,"disabled":false,"frontendTheme":"bootstrap-5","multiple":true,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true},"readonly":false,"selectable":false,"showDestroyButton":true,"showMediaEditButton":false,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"temporaryUploadMode":"false","useXhr":true}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
-            
-                                                <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
-        <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
+                                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+        <label for="test-media-modal-mmm-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
-        accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif"
+        accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/rtf,text/rtf,application/vnd.oasis.opendocument.text,application/vnd.oasis.opendocument.spreadsheet,application/vnd.oasis.opendocument.presentation,video/mp4,video/quicktime,video/webm,audio/mpeg,audio/ogg,audio/wav,audio/webm"
         type="file"
         class="mle-input form-control"
                     name="media_multiple[]"
-            multiple
-                    >
-    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
-            <input
-            type="hidden"
-            name="image_collection"
-            value="images">
-                        <input 
+            multiple 
+                        >
+    <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF, PDF, Word document (.doc), Wordprocessing (.docx), Excel spreadsheet(.xls), Spreadsheet (.xlsx), PowerPoint presentation (.ppt), Presentation (.pptx), RTF (Rich Text File), RTF (Rich Text File), ODT (OpenDocument text), ODS (OpenDocument spreadsheet), ODP (OpenDocument presentation), MP4 video, QuickTime video, WebM video, MP3 audio, OGG audio, WAV audio, WebM audio.</span>
+                        <input
+                type="hidden"
+                name="image_collection"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="youtube_collection"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="document_collection"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="video_collection"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="audio_collection"
+                value="blog-audio">
+                <input
+        type="hidden"
+        name="medium_id"
+        value="">
+    <input 
         type="hidden" 
-        name="temporary_upload" 
+        name="temporary_upload_mode" 
         value="false">
+    <input
+        type="hidden"
+        name="model_type"
+        value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input
+        type="hidden"
+        name="model_id"
+        value="1">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="test-media-modal-mmm">
+    <input 
+        type="hidden"
+        name="media_manager_id"
+        value="test-media-modal-mmm">
+    <button
+        type="button"
+        class="mle-button mle-button-submit btn btn-primary d-block"
+        data-action="upload-media"
+            >
+        Upload media
+    </button>
+    </div>
+    <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+
+    
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js"></script>
+                <script>
+            window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
+        </script>
+    
+
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js"></script>
+    
+
+
+                                                        <div class="conditional-form media-manager-youtube-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-youtube-upload-form" data-xhr-method="post">
+        <input 
+        type="hidden" 
+        name="temporary_upload_mode" 
+        value="false">
+    <input
+        type="hidden"
+        name="medium_id"
+        value="">
+                        <input
+                type="hidden"
+                name="image_collection"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="youtube_collection"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="document_collection"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="video_collection"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="audio_collection"
+                value="blog-audio">
+                <input
+        type="hidden"
+        name="youtube_collection"
+        value="">
     <input
         type="hidden"
         name="model_type"
@@ -45,46 +133,51 @@
         type="hidden"
         name="media_manager_id"
         value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="multiple"
+        value="false">
+    <label 
+        for="test-media-modal-mmm-youtube-url" 
+        class="mle-label">
+        YouTube Video URL
+    </label>
+    <input
+        id="test-media-modal-mmm-youtube-url"
+        type="url" 
+        name="youtube_url" 
+        class="form-control" 
+        placeholder="https://www.youtube.com/watch?v=..."
+            >
     <button
         type="button"
-        class="mle-button mle-button-submit mle-upload-button"
-        data-action="upload-media"
+        class="mle-button mle-button-submit btn btn-primary d-block"
+        data-action="upload-youtube-medium"
             >
-        Upload media
+        Add YouTube-video
     </button>
     </div>
-    <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
-
-    
-            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js"></script>
-                <script>
-            window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
-        </script>
-    
-
-            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js"></script>
-    
-
-
-                                                    
+                            
         </div>
-        
-        <div class="media-manager-previews">
+        <div
+            class="media-manager-previews col-12 col-md-8"
+            >
             <div class="status-area">
-    <div class="mle-spinner-container" media-manager-id="test-media-modal-mmm" data-spinner-container>
-
+    <div class="mle-spinner-container alert alert-info" media-manager-id="test-media-modal-mmm" data-spinner-container>
+    <div class="mle-spinner"></div>
     <span class="mle-spinner-text">Please wait.</span>
 </div>
     <div 
     class="status-container mle-flex-grow visible" 
-    data-status-container
+    data-status-container 
     data-status-timeout="4000"
 >
-    <div class="mle-status-message"
-        data-status-message 
-        data-base-classes="mle-status-message"
-        data-success-classes="mle-status-message-success"
-        data-error-classes="mle-status-message-error"
+    
+    <div class="mle-status-message alert alert-dismissible"
+        data-status-message
+        data-base-classes="mle-status-message alert alert-dismissible visible"
+        data-success-classes="alert-success"
+        data-error-classes="alert-danger"
     >
             </div>
     </div>
@@ -93,24 +186,23 @@
         <span class="mle-no-media">No media.</span>
     </div>
 <div
-    class="mlbrgn-mle-component theme-plain media-modal modal fade"
+    class="mlbrgn-mle-component theme-bootstrap-5 media-modal modal fade"
     id="test-media-modal-mmm-mod"
     tabindex="-1"
     role="dialog"
             aria-labelledby="test-media-modal-mmm-mod-title"
         aria-hidden="true"
             data-autoplay=""
-        data-modal
-    data-media-modal
->
+    >
     <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content">
-                            <h1 class="media-modal-title mle-visually-hidden" id="test-media-modal-mmm-mod-title">Media carousel</h1>
-                        <div class="media-modal-body modal-body">
+        <div class="media-modal-content modal-content justify-content-center">
+                            <h1 class="media-modal-title visually-hidden" id="test-media-modal-mmm-mod-title">Media carousel</h1>
+                        <div class="media-modal-body modal-body p-0">
                 <button
                     type="button"
-                    class="media-modal-close-button modal-close-button"
                     data-modal-close
+                    class="media-modal-close-button modal-close-button"
+                    data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="Close">
                     <span 
@@ -118,22 +210,19 @@
         aria-label="Close" 
         title="Close">❓</span>
                 </button>
+               
+                
                 <div id="test-media-modal-mmm-mod-crs"
-     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-empty media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
-     data-carousel
-     data-carousel-id="test-media-modal-mmm-mod-crs"
-     tabindex="-1"
-          data-carousel-effect="slide"
+     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
     >
-
     
-    <div
+    <div 
         class="media-carousel-indicators carousel-indicators mle-display-none"
     >
             </div>
 
     
-    <div class="media-carousel-inner">
+    <div class="media-carousel-inner carousel-inner">
                     <div class="media-carousel-item active">
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>
@@ -142,32 +231,35 @@
             </div>
 
     
-    <button 
-        class="media-carousel-control-prev disabled"
-        type="button"
-        data-slide="prev">
-        <span class="media-carousel-control-prev-icon" aria-hidden="true">
-             <span 
+    <button
+        class="media-carousel-control-prev carousel-control-prev disabled"
+        type="button" 
+        data-bs-target="#test-media-modal-mmm-mod-crs" 
+        data-bs-slide="prev" 
+        title="Previous">
+        <span class="carousel-control-prev-icon" aria-hidden="true">
+              <span 
         role="img" 
         aria-label="Previous" 
         title="Previous">❓</span>
         </span>
-        <span class="mle-visually-hidden">Previous</span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button 
-        class="media-carousel-control-next disabled"
-        type="button"
-        data-slide="next">
-        <span class="media-carousel-control-next-icon" aria-hidden="true">
-              <span 
+    <button
+        class="media-carousel-control-next carousel-control-next disabled"
+        type="button" 
+        data-bs-target="#test-media-modal-mmm-mod-crs" 
+        data-bs-slide="next" 
+        title="Next">
+        <span class="carousel-control-next-icon" aria-hidden="true">
+               <span 
         role="img" 
         aria-label="Next" 
         title="Next">❓</span>
         </span>
-        <span class="mle-visually-hidden">Next</span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
-
 <script type="module">
             // Loading the "lite-youtube" extension caused issues with the host app,
             // now waiting for dom to be loaded and only
@@ -192,12 +284,6 @@
         </script>
     
 
-
-
-
-
-
-
             </div>
         </div>
     </div>
@@ -217,7 +303,6 @@
                 if (toggleBtn && debugSection) {
                     toggleBtn.addEventListener('click', function () {
                         const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-
                         toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
                         debugSection.classList.toggle('hidden');
                         toggleBtn.textContent = isExpanded

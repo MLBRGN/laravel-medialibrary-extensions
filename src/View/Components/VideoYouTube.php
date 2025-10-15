@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class VideoYouTube extends Component
 {
     public string $youTubeParamsAsString;
+
     public string $youtubeId = '';
 
     public function __construct(
@@ -22,6 +23,7 @@ class VideoYouTube extends Component
         public ?bool $multiple = true,
     ) {
 
+        // TODO id?
         $defaultYouTubeParams = config('media-library-extensions.default_youtube_params', [
             'autoplay' => 1, // Starts playing the video automatically when loaded.
             'mute' => 1, // Starts the video muted. Required for autoplay to work in most browsers.

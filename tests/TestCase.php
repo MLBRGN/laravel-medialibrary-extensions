@@ -16,14 +16,16 @@ use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactor
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-//class TestCase extends BaseTestCase
+// class TestCase extends BaseTestCase
 class TestCase extends Orchestra
 {
     protected $baseUrl = 'http://medialibrary-extensions.test';
+
     protected Blog $testModel;
+
     protected Ufo $testModelNotExtendingHasMedia;
 
     // runs before every test
@@ -35,7 +37,7 @@ class TestCase extends Orchestra
         $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
         $this->app['translator']->addNamespace(
             'medialibrary-extensions',
-            __DIR__ . '/../lang'
+            __DIR__.'/../lang'
         );
 
         Route::get('/login', fn () => 'Login (dummy)')->name('login');
@@ -48,7 +50,7 @@ class TestCase extends Orchestra
         }
 
         // Use a persistent session driver
-//        Config::set('session.driver', 'file');
+        //        Config::set('session.driver', 'file');
     }
 
     protected function getPackageProviders($app): array
@@ -91,7 +93,7 @@ class TestCase extends Orchestra
         View::addLocation(__DIR__.'/Feature/views');
 
         // Load media library config (needed for tests that interact with media library to work)
-        $app['config']->set('media-library', require __DIR__ . '/config/media-library.php');
+        $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
         // configure database
         config()->set('database.default', 'sqlite');
@@ -119,19 +121,20 @@ class TestCase extends Orchestra
         ]);
     }
 
-    protected function defineDatabaseMigrations(): void {
+    protected function defineDatabaseMigrations(): void
+    {
         // also loads migrations from service provider!!!
-        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
     }
 
-//    protected function createDirectory($directory): void
-//    {
-//        if (File::isDirectory($directory)) {
-//            File::deleteDirectory($directory);
-//        }
-//        File::makeDirectory($directory);
-//    }
+    //    protected function createDirectory($directory): void
+    //    {
+    //        if (File::isDirectory($directory)) {
+    //            File::deleteDirectory($directory);
+    //        }
+    //        File::makeDirectory($directory);
+    //    }
     protected function createDirectory(string $directory): void
     {
         if (File::isDirectory($directory)) {
@@ -169,7 +172,7 @@ class TestCase extends Orchestra
         Storage::fake('local');
 
         // Create a temporary file
-        $path = sys_get_temp_dir() . '/' . $name;
+        $path = sys_get_temp_dir().'/'.$name;
         file_put_contents($path, str_repeat('a', $sizeInKb * 1024));
 
         return new UploadedFile(
@@ -195,20 +198,23 @@ class TestCase extends Orchestra
         return TemporaryUploadFactory::new()->create($attributes);
     }
 
-    public function getUser(): User {
+    public function getUser(): User
+    {
         return new User(['id' => 123, 'name' => 'Test User']);
     }
 
-
-    public function getTestBlogModel(): Model {
+    public function getTestBlogModel(): Model
+    {
         return $this->testModel;
     }
 
-    public function getTestModelNotExtendingHasMedia(): Model {
+    public function getTestModelNotExtendingHasMedia(): Model
+    {
         return $this->testModelNotExtendingHasMedia;
     }
 
-    public function getMediaModel($id = 1): Model {
+    public function getMediaModel($id = 1): Model
+    {
         return new Media([
             'id' => $id,
             'collection_name' => 'blog-images',
@@ -223,7 +229,7 @@ class TestCase extends Orchestra
     {
         $defaults = [
             'disk' => 'media',
-            'path' => 'uploads/' . $fileName,
+            'path' => 'uploads/'.$fileName,
             'name' => pathinfo($fileName, PATHINFO_FILENAME),
             'size' => 1024024,
             'file_name' => $fileName,
@@ -237,7 +243,7 @@ class TestCase extends Orchestra
 
     public function getTestImagePath(string $fileName = 'test.jpg'): string
     {
-        $source = __DIR__ . '/Support/files/' . $fileName;
+        $source = __DIR__.'/Support/files/'.$fileName;
         $target = $this->getFixtureUploadedFile($fileName);
 
         File::ensureDirectoryExists(dirname($target));
@@ -275,7 +281,7 @@ class TestCase extends Orchestra
             }
 
             foreach ($files as $fileName) {
-                $source = __DIR__ . '/Support/files/' . $fileName;
+                $source = __DIR__.'/Support/files/'.$fileName;
 
                 if (! File::exists($source)) {
                     throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
@@ -320,22 +326,22 @@ class TestCase extends Orchestra
         $type = array_key_first($types);
         $count = $types[$type] ?? 1;
 
-        if (!isset($pool[$type])) {
+        if (! isset($pool[$type])) {
             throw new \InvalidArgumentException("Unsupported media type '{$type}'");
         }
 
         // Pick the first file for that type
         $fileName = $pool[$type][0];
-        $source = __DIR__ . '/Support/files/' . $fileName;
+        $source = __DIR__.'/Support/files/'.$fileName;
 
-        if (!File::exists($source)) {
+        if (! File::exists($source)) {
             throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
         }
 
         $target = $this->getFixtureUploadedFile($fileName);
         File::ensureDirectoryExists(dirname($target));
 
-        if (!File::exists($target)) {
+        if (! File::exists($target)) {
             File::copy($source, $target);
         }
 
@@ -348,7 +354,7 @@ class TestCase extends Orchestra
 
     public function getTestFilePath(string $fileName): string
     {
-        $source = __DIR__ . '/Support/files/' . $fileName;
+        $source = __DIR__.'/Support/files/'.$fileName;
 
         if (! File::exists($source)) {
             throw new \RuntimeException("Test file '{$fileName}' does not exist in Support/files.");
@@ -359,5 +365,86 @@ class TestCase extends Orchestra
         File::copy($source, $target);
 
         return $target;
+    }
+
+    /**
+     * Create and return a Media model ready for testing.
+     *
+     * @param  string|null  $fileName  The filename (must exist in Support/files)
+     * @param  string  $collection  Media collection name
+     * @param  array  $customProperties  Extra custom_properties
+     * @param  array  $generatedConversions  Conversion map (e.g. ['thumb' => true])
+     * @param  bool  $mock  Return a Mockery mock instead of a real model
+     */
+    public function getMedium(
+        ?string $fileName = 'test.jpg',
+        string $collection = 'image_collection',
+        array $customProperties = [],
+        array $generatedConversions = ['thumb' => true],
+        bool $mock = false
+    ): Media {
+        // ✅ if mock requested, return a simple mock (useful for view/unit tests)
+        if ($mock) {
+            $media = \Mockery::mock(Media::class)->shouldIgnoreMissing();
+
+            $media->generated_conversions = $generatedConversions;
+
+            $media->shouldReceive('getCustomProperty')
+                ->with('generated_conversions', [])
+                ->andReturn($generatedConversions);
+
+            // define common stubs
+            foreach (array_keys($generatedConversions) as $conversion) {
+                $media->shouldReceive('hasGeneratedConversion')
+                    ->with($conversion)
+                    ->andReturn($generatedConversions[$conversion]);
+
+                $media->shouldReceive('getUrl')
+                    ->with($conversion)
+                    ->andReturn("/media/{$conversion}-{$fileName}");
+
+                $media->shouldReceive('getSrcset')
+                    ->with($conversion)
+                    ->andReturn("/media/{$conversion}-{$fileName} 1x, /media/{$conversion}-2x-{$fileName} 2x");
+            }
+
+            // fallback getUrl without conversion
+            $media->shouldReceive('getUrl')->withNoArgs()->andReturn("/media/{$fileName}");
+
+            return $media;
+        }
+
+        // create a real attached Media model (for integration tests)
+        $model = $this->getTestBlogModel();
+        $source = __DIR__.'/Support/files/'.$fileName;
+
+        if (! File::exists($source)) {
+            throw new \RuntimeException("File {$fileName} does not exist in Support/files.");
+        }
+
+        $target = $this->getFixtureUploadedFile($fileName);
+        File::ensureDirectoryExists(dirname($target));
+        File::copy($source, $target);
+
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        $media = $model
+            ->addMedia($target)
+            ->preservingOriginal()
+            ->withCustomProperties($customProperties)
+            ->toMediaCollection($collection);
+
+        // manually override generated_conversions if needed
+        $media->generated_conversions = $generatedConversions;
+        $media->save();
+
+        return $media;
+    }
+
+    /**
+     * Alias for getMedium() to match naming convention preference.
+     */
+    public function getMedia(...$args): Media
+    {
+        return $this->getMedium(...$args);
     }
 }

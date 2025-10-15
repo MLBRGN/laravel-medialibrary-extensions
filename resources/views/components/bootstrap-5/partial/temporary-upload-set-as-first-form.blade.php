@@ -17,36 +17,14 @@
     <input type="hidden"
            name="target_media_collection"
            value="{{ $targetMediaCollection }}">
-    @if($imageCollection)
-        <input
-            type="hidden"
-            name="image_collection"
-            value="{{ $imageCollection }}">
-    @endif
-    @if($documentCollection)
-        <input
-            type="hidden"
-            name="document_collection"
-            value="{{ $documentCollection }}">
-    @endif
-    @if($videoCollection)
-        <input
-            type="hidden"
-            name="video_collection"
-            value="{{ $videoCollection }}">
-    @endif
-    @if($audioCollection)
-        <input
-            type="hidden"
-            name="audio_collection"
-            value="{{ $audioCollection }}">
-    @endif
-    @if($youtubeCollection)
-        <input
-            type="hidden"
-            name="youtube_collection"
-            value="{{ $youtubeCollection }}">
-    @endif
+    @foreach($collections as $collectionType => $collectionName)
+        @if (!empty($collectionName))
+            <input
+                type="hidden"
+                name="{{ $collectionType }}_collection"
+                value="{{ $collectionName }}">
+        @endif
+    @endforeach
     <input type="hidden"
            name="initiator_id"
            value="{{ $id }}">

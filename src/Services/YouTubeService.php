@@ -18,8 +18,7 @@ class YouTubeService
         string $youtubeUrl,
         string $collection,
         ?string $customId = null
-    ): ?Media
-    {
+    ): ?Media {
         $videoId = extractYouTubeId($youtubeUrl);
 
         // TODO: validate $videoId if needed

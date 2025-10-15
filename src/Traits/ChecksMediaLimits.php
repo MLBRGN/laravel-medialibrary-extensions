@@ -7,22 +7,23 @@ use Spatie\MediaLibrary\HasMedia;
 
 trait ChecksMediaLimits
 {
-
     /**
      * Count total media for a model in given collections.
      */
     protected function countModelMediaInCollections(HasMedia $model, array $collections): int
     {
-//        $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
+        //        $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
 
         $count = collect($collections)
             ->filter()// remove falsy values
             ->reduce(function (int $total, string $collection) use ($model) {
                 $mediaItems = $model->getMedia($collection);
-//                Log::info("Media for collection '{$collection}' count: " . $mediaItems->count());
+
+                //                Log::info("Media for collection '{$collection}' count: " . $mediaItems->count());
                 return $total + $mediaItems->count();
             }, 0);
-//        Log::info("Total count for collections '{$count}'");
+
+        //        Log::info("Total count for collections '{$count}'");
         return $count;
     }
 
@@ -35,10 +36,11 @@ trait ChecksMediaLimits
             ->filter()// remove falsy values
             ->reduce(function (int $total, string $collection) {
                 $temporaryItems = TemporaryUpload::forCurrentSession($collection);
-//                Log::info("Temporary items for collection '{$collection}' count: " . $temporaryItems->count());
+
+                //                Log::info("Temporary items for collection '{$collection}' count: " . $temporaryItems->count());
                 return $total + $temporaryItems->count();
             }, 0);
-//        Log::info("Total count for collections '{$count}'");
+        //        Log::info("Total count for collections '{$count}'");
 
         return $count;
     }
@@ -58,5 +60,4 @@ trait ChecksMediaLimits
     {
         return $this->countTemporaryUploadsInCollections($collections) > 0;
     }
-
 }

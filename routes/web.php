@@ -34,7 +34,7 @@ Route::group([
 
         // TinyMCE media manager route
         Route::get('media-manager-tinymce', 'tinyMce')
-            ->name(config('media-library-extensions.route_prefix') . '-media-manager-tinymce');
+            ->name(config('media-library-extensions.route_prefix').'-media-manager-tinymce');
     });
 });
 
@@ -55,7 +55,7 @@ if (config('media-library-extensions.demo_pages_enabled')) {
         });
 
         Route::get('favicon.ico', function () {
-            $path = __DIR__ . '/../resources/assets/favicon.ico';
+            $path = __DIR__.'/../resources/assets/favicon.ico';
 
             if (! file_exists($path)) {
                 abort(404);

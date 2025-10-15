@@ -7,13 +7,13 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 class DeleteTemporaryUploadAction
 {
     public function execute(
-        MediaManagerTemporaryUploadDestroyRequest $request,
+        DestroyTemporaryMediumRequest $request,
         TemporaryUpload $temporaryUpload
     ): JsonResponse|RedirectResponse {
         $initiatorId = $request->initiator_id;
@@ -56,12 +56,12 @@ class DeleteTemporaryUploadAction
     {
 
         // For testing purposes use session id from header, otherwise real session
-        $sessionId = request()->header('X-Test-Session-Id') ?? session()->getId();;
+        $sessionId = request()->header('X-Test-Session-Id') ?? session()->getId();
 
         $temporaryUploads = TemporaryUpload::where('session_id', $sessionId)
             ->whereIn('collection_name', $collections)
             ->get()
-            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
+            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
         $priority = 0;
         foreach ($temporaryUploads as $temporaryUpload) {
@@ -70,5 +70,3 @@ class DeleteTemporaryUploadAction
         }
     }
 }
-
-

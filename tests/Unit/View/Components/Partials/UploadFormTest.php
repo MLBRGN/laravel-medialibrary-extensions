@@ -8,13 +8,16 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 it('throws translated exception if invalid class name is provided', function () {
     $component = new UploadForm(
         id: 'upload1',
-        frontendTheme: 'plain',
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        youtubeCollection: 'youtube',
-        videoCollection: 'videos',
-        audioCollection: 'audios',
         modelOrClassName: 'someDummyClassName',
+        medium: null,
+        frontendTheme: 'plain',
+        collections: [
+            'image' => 'images',
+            'youtube' => 'youtube',
+            'document' => 'docs',
+            'video' => 'videos',
+            'audio' => 'audio',
+        ],
     );
 
     $component->render();
@@ -26,19 +29,21 @@ it('throws exception if given a model that does not implement HasMedia', functio
 
     $component = new UploadForm(
         id: 'upload-invalid-class',
-        frontendTheme: 'plain',
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        youtubeCollection: 'youtube',
-        videoCollection: 'videos',
-        audioCollection: 'audios',
         modelOrClassName: $model,
+        medium: null,
+        frontendTheme: 'plain',
+        collections: [
+            'image' => 'images',
+            'youtube' => 'youtube',
+            'document' => 'docs',
+            'video' => 'videos',
+            'audio' => 'audio',
+        ],
     );
 
     $component->render();
-//});
+    // });
 })->throws(TypeError::class);
-
 
 it('honors frontend theme', function () {
     Config::set('media-library-extensions.frontend_theme', 'default-theme');
@@ -48,19 +53,22 @@ it('honors frontend theme', function () {
 
     $component = new UploadForm(
         id: 'upload-invalid-class',
-        frontendTheme: 'something-else',
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        youtubeCollection: 'youtube',
-        videoCollection: 'videos',
-        audioCollection: 'audios',
         modelOrClassName: $model,
+        medium: null,
+        frontendTheme: 'something-else',
+        collections: [
+            'image' => 'images',
+            'youtube' => 'youtube',
+            'document' => 'docs',
+            'video' => 'videos',
+            'audio' => 'audio',
+        ],
     );
 
-       expect($component->frontendTheme)->toBe('something-else');
+    expect($component->frontendTheme)->toBe('something-else');
 });
 
-//it('sets mediaPresent to true if model has media in the given image collection', function () {
+// it('sets mediaPresent to true if model has media in the given image collection', function () {
 //    $model = $this->getTestBlogModel();
 //
 //    // Mock hasMedia() to return true for the test image collection
@@ -83,7 +91,7 @@ it('honors frontend theme', function () {
 //    $component->render();
 //
 //    expect($component->mediaPresent)->toBeTrue();
-//});
+// });
 
 it('uses allowedMimeTypes from config if allowedMimeTypes is empty', function () {
     $model = $this->getTestBlogModel();
@@ -96,13 +104,16 @@ it('uses allowedMimeTypes from config if allowedMimeTypes is empty', function ()
 
     $component = new UploadForm(
         id: 'upload-empty-mime',
-        frontendTheme: 'plain',
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        videoCollection: 'videos',
-        audioCollection: 'audios',
-        youtubeCollection: 'youtube',
         modelOrClassName: $model,
+        medium: null,
+        frontendTheme: 'plain',
+        collections: [
+            'image' => 'images',
+            'youtube' => 'youtube',
+            'document' => 'docs',
+            'video' => 'videos',
+            'audio' => 'audio',
+        ],
         allowedMimeTypes: '', // empty here
     );
 
@@ -117,13 +128,16 @@ it('sets model properties correctly when given a HasMedia model instance', funct
 
     $component = new UploadForm(
         id: 'upload3',
-        frontendTheme: 'plain',
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        videoCollection: 'videos',
-        audioCollection: 'audios',
-        youtubeCollection: 'youtube',
         modelOrClassName: $model,
+        medium: null,
+        frontendTheme: 'plain',
+        collections: [
+            'image' => 'images',
+            'youtube' => 'youtube',
+            'document' => 'docs',
+            'video' => 'videos',
+            'audio' => 'audio',
+        ],
         allowedMimeTypes: '',
         multiple: true,
         showDestroyButton: true,
@@ -147,13 +161,16 @@ it('sets model properties correctly when given a string model class name', funct
     $model = $this->getTestBlogModel();
     $component = new UploadForm(
         id: 'upload4',
-        frontendTheme: 'plain',
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        videoCollection: 'videos',
-        audioCollection: 'audios',
-        youtubeCollection: 'youtube',
         modelOrClassName: $model->getMorphClass(),
+        medium: null,
+        frontendTheme: 'plain',
+        collections: [
+            'image' => 'images',
+            'youtube' => 'youtube',
+            'document' => 'docs',
+            'video' => 'videos',
+            'audio' => 'audio',
+        ],
         allowedMimeTypes: 'image/jpeg,image/png',
         multiple: false,
         showDestroyButton: false,

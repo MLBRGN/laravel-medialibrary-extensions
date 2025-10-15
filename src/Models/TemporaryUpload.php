@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class TemporaryUpload extends Model
 {
-
-//    public static function booted()
-//    {
-//        static::retrieved(function ($model) {
-//            dump('retrieved model', $model->id, $model->getConnectionName());
-//        });
-//    }
+    //    public static function booted()
+    //    {
+    //        static::retrieved(function ($model) {
+    //            dump('retrieved model', $model->id, $model->getConnectionName());
+    //        });
+    //    }
 
     protected $table = 'mle_temporary_uploads';
 
@@ -100,19 +99,19 @@ class TemporaryUpload extends Model
         return $this;
     }
 
-//    public function forgetCustomProperty(string $key): static
-//    {
-//        $customProperties = $this->custom_properties ?? [];
-//
-//        unset($customProperties[$key]);
-//
-//        $this->custom_properties = $customProperties;
-//
-//        return $this;
-//    }
+    //    public function forgetCustomProperty(string $key): static
+    //    {
+    //        $customProperties = $this->custom_properties ?? [];
+    //
+    //        unset($customProperties[$key]);
+    //
+    //        $this->custom_properties = $customProperties;
+    //
+    //        return $this;
+    //    }
 
     public function getNameWithExtension(): string
     {
-        return $this->name . '.' . pathinfo($this->file_name, PATHINFO_EXTENSION);
+        return $this->name.'.'.pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 }

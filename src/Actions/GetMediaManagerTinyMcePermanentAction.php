@@ -4,11 +4,9 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
-use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 use Spatie\MediaLibrary\HasMedia;
 
 class GetMediaManagerTinyMcePermanentAction
@@ -16,7 +14,6 @@ class GetMediaManagerTinyMcePermanentAction
     public function __construct(
         protected MediaService $mediaService
     ) {}
-
 
     public function execute(GetMediaManagerTinyMceRequest $request): View
     {
@@ -26,12 +23,12 @@ class GetMediaManagerTinyMcePermanentAction
             $request->input('model_id'),
         );
 
-        $frontendTheme = $request->input('frontend_theme') ? $request->input('frontend_theme')  : config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
+        $frontendTheme = $request->input('frontend_theme') ? $request->input('frontend_theme') : config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
         $modelOrClassName = $request->input('model_or_class_name');
         $model = null;
         $modelType = null;
         $modelId = null;
-        $temporaryUpload = null;
+        $temporaryUploadMode = null;
         $multiple = false;
         $showSetAsFirstButton = true;
 
@@ -51,13 +48,10 @@ class GetMediaManagerTinyMcePermanentAction
             $model = null;
             $modelType = $modelOrClassName;
             $modelId = null;
-            $temporaryUpload = true;
+            $temporaryUploadMode = true;
         }
-
-
 
         return view('media-library-extensions::media-manager-tinymce', compact('initiatorId', 'model', 'temporaryUpload', 'id'));
 
     }
-
 }

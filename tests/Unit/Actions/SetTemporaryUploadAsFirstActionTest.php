@@ -3,7 +3,7 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('fails when no collections provided JSON', function () {
@@ -13,7 +13,7 @@ it('fails when no collections provided JSON', function () {
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryUploadAsFirstRequest([
+    $request = new SetTemporaryMediumAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -24,7 +24,7 @@ it('fails when no collections provided JSON', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = new MediaService();
+    $mediaService = new MediaService;
     $action = new SetTemporaryUploadAsFirstAction($mediaService);
 
     // Call the action's execute method
@@ -48,7 +48,7 @@ it('fails when no collections provided', function () {
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryUploadAsFirstRequest([
+    $request = new SetTemporaryMediumAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -58,7 +58,7 @@ it('fails when no collections provided', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = new MediaService();
+    $mediaService = new MediaService;
     $action = new SetTemporaryUploadAsFirstAction($mediaService);
 
     // Call the action's execute method
@@ -84,7 +84,7 @@ it('returns error when no media in collection JSON', function () {
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryUploadAsFirstRequest([
+    $request = new SetTemporaryMediumAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -97,7 +97,7 @@ it('returns error when no media in collection JSON', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = new MediaService();
+    $mediaService = new MediaService;
     $action = new SetTemporaryUploadAsFirstAction($mediaService);
 
     // Call the action's execute method
@@ -114,14 +114,13 @@ it('returns error when no media in collection JSON', function () {
     ]);
 });
 
-
 it('returns error when no media in collection', function () {
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryUploadAsFirstRequest([
+    $request = new SetTemporaryMediumAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -132,7 +131,7 @@ it('returns error when no media in collection', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = new MediaService();
+    $mediaService = new MediaService;
     $action = new SetTemporaryUploadAsFirstAction($mediaService);
 
     // Call the action's execute method
@@ -171,7 +170,7 @@ it('can set as first in collection JSON', function () {
     ]);
 
     // Create request object
-    $request = new SetTemporaryUploadAsFirstRequest([
+    $request = new SetTemporaryMediumAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -180,12 +179,12 @@ it('can set as first in collection JSON', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-//    dd(TemporaryUpload::all());
+    //    dd(TemporaryUpload::all());
 
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = new MediaService();
+    $mediaService = new MediaService;
     $action = new SetTemporaryUploadAsFirstAction($mediaService);
 
     // Call the action's execute method
@@ -222,7 +221,7 @@ it('can set as first in collection', function () {
     ]);
 
     // Create request object
-    $request = new SetTemporaryUploadAsFirstRequest([
+    $request = new SetTemporaryMediumAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -230,18 +229,18 @@ it('can set as first in collection', function () {
         'image_collection' => 'blog-images',
     ]);
 
-//    dd(TemporaryUpload::all());
+    //    dd(TemporaryUpload::all());
 
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = new MediaService();
+    $mediaService = new MediaService;
     $action = new SetTemporaryUploadAsFirstAction($mediaService);
 
     // Call the action's execute method
     $response = $action->execute($request);
 
-//    dd($response);
+    //    dd($response);
     expect($response)->toBeInstanceOf(RedirectResponse::class);
 
     $flashKey = config('media-library-extensions.status_session_prefix');

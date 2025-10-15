@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 
 beforeEach(function () {
-    $this->request = new SetAsFirstRequest();
+    $this->request = new SetMediumAsFirstRequest;
 });
 
 it('authorizes all requests', function () {

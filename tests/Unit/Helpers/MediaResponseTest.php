@@ -23,7 +23,7 @@ it('returns JSON success response when request expects JSON', function () {
 it('returns JSON error response when request expects JSON', function () {
     $request = Request::create('/test', 'GET', [], [], [], ['HTTP_ACCEPT' => 'application/json']);
 
-    $response = MediaResponse::error($request, 'initiator-456', 'media-manager-150','Operation failed', ['errorCode' => 123]);
+    $response = MediaResponse::error($request, 'initiator-456', 'media-manager-150', 'Operation failed', ['errorCode' => 123]);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))->toMatchArray([
@@ -37,7 +37,7 @@ it('returns JSON error response when request expects JSON', function () {
 it('returns redirect success response when request does NOT expect JSON', function () {
     $request = Request::create('/test', 'GET');
 
-    $response = MediaResponse::success($request, 'initiator-789', 'media-manager-132','Redirect success');
+    $response = MediaResponse::success($request, 'initiator-789', 'media-manager-132', 'Redirect success');
 
     expect($response)->toBeInstanceOf(RedirectResponse::class)
         ->and(session('status'))->toMatchArray([
@@ -50,7 +50,7 @@ it('returns redirect success response when request does NOT expect JSON', functi
 it('returns redirect error response when request does NOT expect JSON', function () {
     $request = Request::create('/test', 'GET');
 
-    $response = MediaResponse::error($request, 'initiator-000', 'media-manager-132','Redirect error');
+    $response = MediaResponse::error($request, 'initiator-000', 'media-manager-132', 'Redirect error');
 
     expect($response)->toBeInstanceOf(RedirectResponse::class)
         ->and(session('status'))->toMatchArray([

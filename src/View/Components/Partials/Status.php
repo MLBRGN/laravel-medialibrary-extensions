@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
-use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
@@ -13,7 +12,7 @@ class Status extends BaseComponent
     public ?array $status = null;
 
     public function __construct(
-        public string $id,
+        ?string $id,
         public ?string $frontendTheme,
         public string $initiatorId,
         public string $mediaManagerId

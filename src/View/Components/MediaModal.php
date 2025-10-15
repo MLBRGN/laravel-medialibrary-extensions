@@ -4,22 +4,19 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
 
 class MediaModal extends BaseComponent
 {
-
     use ResolveModelOrClassName;
 
     public function __construct(
+        ?string $id,
         public mixed $modelOrClassName,
         public ?string $mediaCollection,
         public ?array $mediaCollections,
         public ?string $title,// TODO do i want this?
-        public string $id = '',
         public ?string $frontendTheme = null,
         public bool $videoAutoPlay = true,
     ) {
@@ -27,7 +24,7 @@ class MediaModal extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->id = $this->id . '-mod';
+        $this->id = $this->id.'-mod';
 
     }
 

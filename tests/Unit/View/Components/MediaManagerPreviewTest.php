@@ -2,42 +2,70 @@
 
 use Illuminate\Support\Collection;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
     // Mock TemporaryUpload::forCurrentSession static method for tests using temporary uploads
     //    TemporaryUpload::shouldReceive('forCurrentSession')->andReturn(collect());
 });
 
+it('initializes correctly with model instance', function () {
+
+    $model = $this->getTestBlogModel();
+    $component = new MediaManagerPreview(
+        id: 'blog-1',
+        modelOrClassName: $model,
+        collections: [
+            'image' => 'images',
+        ],
+        options: [
+            'showUploadForm' => true,
+            'showDestroyButton' => true,
+            'showOrder' => true,
+        ]
+    );
+
+    expect($component->options['showUploadForm'])->toBeTrue()
+        ->and($component->options['showDestroyButton'])->toBeTrue()
+        ->and($component->options['showOrder'])->toBeTrue()
+        ->and($component->collections)
+        ->toHaveKey('image', 'images')
+        ->and($component->id)->toBe('blog-1');
+});
+
 it('accepts a HasMedia model instance and sets properties accordingly', function () {
     $model = $this->getTestBlogModel();
 
     $component = new MediaManagerPreview(
+        id: 'test',
         modelOrClassName: $model,
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        youtubeCollection: 'videos'
+        collections: [
+            'image' => 'images',
+            'document' => 'docs',
+            'youtube' => 'videos',
+        ]
     );
 
     expect($component->model)->toBe($model)
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->id)
-        ->and($component->temporaryUpload)->toBeFalse()
+        ->and($component->temporaryUploadMode)->toBeFalse()
         ->and($component->media)->toBeInstanceOf(Collection::class);
 });
 
 it('accepts a string model class name and sets temporaryUpload to true', function () {
     $model = $this->getTestBlogModel();
 
-    $component = new MediaManagerPreview(modelOrClassName: $model->getMorphClass());
+    $component = new MediaManagerPreview(
+        id: 'mediaManagerPreviewTest',
+        modelOrClassName: $model->getMorphClass()
+    );
 
     expect($component->model)->toBeNull()
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBeNull()
-        ->and($component->temporaryUpload)->toBeTrue();
+        ->and($component->temporaryUploadMode)->toBeTrue();
 });
 
 it('throws exception if modelOrClassName is invalid type', function () {
@@ -48,23 +76,33 @@ it('sets showMenu to true if showDestroyButton, showOrder or showSetAsFirstButto
     $model = $this->getTestBlogModel();
     foreach ([['showDestroyButton' => true], ['showOrder' => true], ['showSetAsFirstButton' => true]] as $flags) {
         $component = new MediaManagerPreview(
+            id: 'mediaManagerPreviewTest',
             modelOrClassName: $model,
-            showDestroyButton: $flags['showDestroyButton'] ?? false,
-            showSetAsFirstButton: $flags['showSetAsFirstButton'] ?? false,
-            showOrder: $flags['showOrder'] ?? false,
+            options: [
+                'showDestroyButton' => $flags['showDestroyButton'] ?? false,
+                'showSetAsFirstButton' => $flags['showSetAsFirstButton'] ?? false,
+                'showOrder' => $flags['showOrder'] ?? false,
+            ]
         );
 
-        expect($component->showMenu)->toBeTrue();
+        expect($component->model)->toBe($model)
+            ->and($component->modelType)->toBe($model->getMorphClass())
+            ->and($component->modelId)->toBe($model->id)
+            ->and($component->id)->toBe('mediaManagerPreviewTest')
+            ->and($component->showMenu)->toBeTrue();
     }
 });
 
 it('sets showMenu to false if all showDestroyButton, showOrder and showSetAsFirstButton and showMediaEditButton are false', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerPreview(
+        id: 'mediaManagerPreviewTest',
         modelOrClassName: $model,
-        showDestroyButton: false,
-        showSetAsFirstButton: false,
-        showOrder: false,
+        options: [
+            'showDestroyButton' => false,
+            'showSetAsFirstButton' => false,
+            'showOrder' => false,
+        ]
     );
 
     expect($component->showMenu)->toBeFalse();
@@ -72,34 +110,52 @@ it('sets showMenu to false if all showDestroyButton, showOrder and showSetAsFirs
 
 it('merges media from model collections correctly', function () {
 
-    $model = $this->getModelWithMedia(['image' => 2, 'document' => 2, 'audio' => 2, 'video' => 2]);
+    $model = $this->getModelWithMedia([
+        'image' => 2,
+        'document' => 2,
+        'audio' => 2,
+        'video' => 2,
+    ]);
 
     $component = new MediaManagerPreview(
+        id: 'mediaManagerPreviewTest',
         modelOrClassName: $model,
-        imageCollection: 'image_collection',
-        documentCollection: 'document_collection',
-        youtubeCollection: 'youtube_video_collection',
-        videoCollection: 'video_collection',
-        audioCollection: 'audio_collection',
+        collections: [
+            'image' => 'image_collection',
+            'document' => 'document_collection',
+            'audio' => 'audio_collection',
+            'video' => 'video_collection',
+            //            'youtube' => 'youtube_video_collection',
+        ]
     );
 
     expect($component->media)->toBeInstanceOf(Collection::class)
         ->and($component->media->count())->toBe(8);
 });
 
-
 it('merges temporary uploads when temporaryUploads is true', function () {
     // Mock TemporaryUpload::forCurrentSession to return collections with different counts
-    TemporaryUpload::shouldReceive('forCurrentSession')->with('images')->andReturn(collect(['img1', 'img2']));
-    TemporaryUpload::shouldReceive('forCurrentSession')->with('youtube')->andReturn(collect(['vid1']));
-    TemporaryUpload::shouldReceive('forCurrentSession')->with('documents')->andReturn(collect(['doc1', 'doc2', 'doc3']));
+    TemporaryUpload::shouldReceive('forCurrentSession')
+        ->with('images')
+        ->andReturn(collect(['img1', 'img2']));
+    TemporaryUpload::shouldReceive('forCurrentSession')
+        ->with('youtube')
+        ->andReturn(collect(['vid1']));
+    TemporaryUpload::shouldReceive('forCurrentSession')
+        ->with('documents')
+        ->andReturn(collect(['doc1', 'doc2', 'doc3']));
 
     $component = new MediaManagerPreview(
+        id: 'mediaManagerPreviewTest',
         modelOrClassName: 'App\Models\DummyClass',
-        imageCollection: 'images',
-        documentCollection: 'documents',
-        youtubeCollection: 'youtube',
-        temporaryUploads: true,
+        collections: [
+            'image' => 'images',
+            'document' => 'documents',
+            'youtube' => 'youtube',
+        ],
+        options: [
+            'temporaryUploadMode' => true,
+        ]
     );
 
     expect($component->media)->toBeInstanceOf(Collection::class)
@@ -110,7 +166,10 @@ it('returns the correct view', function () {
 
     $model = $this->getTestBlogModel();
 
-    $component = new MediaManagerPreview(modelOrClassName: $model);
+    $component = new MediaManagerPreview(
+        id: 'mediaManagerPreviewTest',
+        modelOrClassName: $model
+    );
 
     $view = $component->render();
 
@@ -118,20 +177,23 @@ it('returns the correct view', function () {
     expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-manager-preview');
 });
 
-it('render returns the correct view when only class name provided', function () {
+it('returns the correct view when only class name provided', function () {
     //    $mockModel = Mockery::mock(HasMedia::class);
     //    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
     //    $mockModel->shouldReceive('getKey')->andReturn(1);
     //    $mockModel->shouldReceive('getMedia')->andReturn(collect());
 
-    $component = new MediaManagerPreview(modelOrClassName: 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog');
+    $component = new MediaManagerPreview(
+        id: 'mediaManagerPreviewTest',
+        modelOrClassName: 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog'
+    );
 
     $view = $component->render();
 
     expect($component->showDestroyButton)->toBeFalse()
         ->and($component->showSetAsFirstButton)->toBeFalse()
         ->and($component->showOrder)->toBeFalse()
-        ->and($component->temporaryUpload)->toBeTrue();
+        ->and($component->temporaryUploadMode)->toBeTrue();
     //        ->and($component->frontendTheme)->toBe('bootstrap-5');
     expect($view)->toBeInstanceOf(Illuminate\View\View::class);
     expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-manager-preview');
@@ -143,7 +205,7 @@ it('renders view and matches snapshot (plain)', function () {
         '<x-mle-media-manager-preview id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme"/>',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain'
+            'frontendTheme' => 'plain',
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -155,7 +217,7 @@ it('renders view and matches snapshot (bootstrap-5)', function () {
         '<x-mle-media-manager-preview id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme"/>',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'bootstrap-5'
+            'frontendTheme' => 'bootstrap-5',
         ]
     );
     expect($html)->toMatchSnapshot();

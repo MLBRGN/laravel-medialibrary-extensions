@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
 
@@ -19,7 +19,7 @@ it('passes validation with required fields and at least one collection', functio
 
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'true',
+        'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
         'image_collection' => 'images',
         'upload' => null,
@@ -27,7 +27,7 @@ it('passes validation with required fields and at least one collection', functio
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadSingleRequest();
+    $request = new StoreSingleRequest;
     $request->merge($data);
     $validator = Validator::make($data, $request->rules());
 
@@ -37,14 +37,14 @@ it('passes validation with required fields and at least one collection', functio
 it('fails validation when no collections are provided', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'true',
+        'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
         'upload' => null,
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadSingleRequest();
+    $request = new StoreSingleRequest;
     $request->merge($data);
     $validator = Validator::make($data, $request->rules());
 
@@ -59,7 +59,7 @@ it('fails validation when no collections are provided', function () {
 it('applies MaxMediaCount rule for non-temporary upload', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'false',
+        'temporary_upload_mode' => 'false',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
         'image_collection' => 'images',
@@ -68,7 +68,7 @@ it('applies MaxMediaCount rule for non-temporary upload', function () {
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadSingleRequest();
+    $request = new StoreSingleRequest;
     $request->merge($data);
     $rules = $request->rules();
     $uploadRules = $rules['upload'];
@@ -83,7 +83,7 @@ it('applies MaxMediaCount rule for non-temporary upload', function () {
 it('applies MaxTemporaryUploadCount rule for temporary upload', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'true',
+        'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
         'image_collection' => 'images',
         'upload' => null,
@@ -91,7 +91,7 @@ it('applies MaxTemporaryUploadCount rule for temporary upload', function () {
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadSingleRequest();
+    $request = new StoreSingleRequest;
     $request->merge($data);
     $rules = $request->rules();
     $uploadRules = $rules['upload'];

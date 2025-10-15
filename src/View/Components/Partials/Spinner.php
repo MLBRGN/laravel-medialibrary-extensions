@@ -12,7 +12,7 @@ class Spinner extends BaseComponent
     public string $initiatorId;
 
     public function __construct(
-        public string $id,
+        ?string $id,
         public ?string $frontendTheme,
         string $initiatorId
     ) {

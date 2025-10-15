@@ -11,25 +11,23 @@
     data-media-manager=""
     data-use-xhr="{{ $useXhr ? 'true' : 'false' }}"
     >
-    
     <input type="hidden" class="media-manager-config" value='@json($config)'>
     {{ $component_start ?? '' }}
     <div class="media-manager-row row">
-        <div class="media-manager-form col-12 col-md-4">
+        <div @class([
+                'media-manager-form',
+            ])>
             {{ $form_start ?? '' }}
             @if($showUploadForm)
-                @if($imageCollection || $documentCollection || $videoCollection || $audioCollection)
+                @if($showRegularUploadForm())
                     <x-mle-partial-upload-form
                         :model-or-class-name="$modelOrClassName"
-                        :temporary-upload="$temporaryUpload"
+                        :medium="$medium"
+                        :temporary-upload-mode="$temporaryUploadMode"
                         :id="$id"
                         :allowed-mime-types="$allowedMimeTypes"
-                        :upload-to-collection="$imageCollection"
-                        :image-collection="$imageCollection"
-                        :document-collection="$documentCollection"
-                        :youtube-collection="$youtubeCollection"
-                        :video-collection="$videoCollection"
-                        :audio-collection="$audioCollection"
+                        :upload-to-collection="$getCollectionValue('image' , null)"
+                        :collections="$collections"
                         :show-destroy-button="$showDestroyButton"
                         :show-set-as-first-button="$showSetAsFirstButton"
                         :show-media-edit-button="$showMediaEditButton"
@@ -41,17 +39,15 @@
                     />
                 @endif
             @endif
-            @if($youtubeCollection)
-                <x-mle-partial-youtube-upload-form
+            @if($hasCollection('youtube'))
+            <x-mle-partial-youtube-upload-form
                     class="mt-3"
                     :model-or-class-name="$modelOrClassName"
-                    :temporary-upload="$temporaryUpload"
+                    :medium="$medium"
+                    :options="$options"
+                    :temporary-upload-mode="$temporaryUploadMode"
                     :id="$id"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :video-collection="$videoCollection"
-                    :audio-collection="$audioCollection"
+                    :collections="$collections"
                     :show-destroy-button="$showDestroyButton"
                     :show-set-as-first-button="$showSetAsFirstButton"
                     :show-media-edit-button="$showMediaEditButton"
@@ -63,8 +59,11 @@
             @endif
             {{ $form_end ?? '' }}
         </div>
-        
-        <div class="media-manager-previews">
+        <div
+            @class([
+                'media-manager-previews',
+            ])
+            >
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"
@@ -74,23 +73,10 @@
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
                     :id="$id"
-                    :show-order="$showOrder"
-                    :show-menu="$showMenu"
-                    :show-destroy-button="$showDestroyButton"
-                    :show-set-as-first-button="$showSetAsFirstButton"
-                    :show-media-edit-button="$showMediaEditButton"
                     :model-or-class-name="$modelOrClassName"
-                    :image-collection="$imageCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :document-collection="$documentCollection"
-                    :video-collection="$videoCollection"
-                    :audio-collection="$audioCollection"
-                    :temporary-uploads="$temporaryUpload"
-                    :frontend-theme="$frontendTheme"
-                    :use-xhr="$useXhr"
-                    :selectable="$selectable"
-                    :disabled="$disabled"
-                    :readonly="$readonly"
+                    :options="$options"
+                    :medium="$medium"
+                    :collections="$collections"
                 />
             </div>
         </div>

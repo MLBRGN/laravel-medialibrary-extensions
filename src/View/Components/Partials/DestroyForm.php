@@ -5,36 +5,31 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DestroyForm extends BaseComponent
 {
     public ?string $mediaManagerId = '';
+    //    public ?string $audioCollection;
 
     public function __construct(
-
-        public Media $medium,
-        public string $id,
+        ?string $id,
+        public Media|TemporaryUpload $medium,
         public ?string $frontendTheme,
         public ?bool $useXhr = null,
-        public ?string $imageCollection = '',
-        public ?string $documentCollection = '',
-        public ?string $youtubeCollection = '',
-        public ?string $videoCollection = '',
-        public ?string $audioCollection = '',
+        public array $collections = [], // in image, document, youtube, video, audio
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
+        $this->mediaManagerId = $id;
+        $this->id = $this->id.'-destroy-form-'.$this->medium->id;
+        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
     }
 
     public function render(): View
     {
-
-        $this->mediaManagerId = $this->id;
-        $this->id = $this->id . '-destroy-form-'.$this->medium->id;
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
-
         return $this->getPartialView('destroy-form', $this->frontendTheme);
     }
 }

@@ -6,6 +6,6 @@ it('test only', function () {
         ->addMedia($testImage)
         ->toMediaCollection('blog-images');
 
-//    dd(Media::find($media->id));
+    //    dd(Media::find($media->id));
     $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 });

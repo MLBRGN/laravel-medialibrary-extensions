@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
 
 beforeEach(function () {
-    $this->request = new SetTemporaryUploadAsFirstRequest();
+    $this->request = new SetTemporaryMediumAsFirstRequest;
 });
 
 it('authorizes all requests', function () {

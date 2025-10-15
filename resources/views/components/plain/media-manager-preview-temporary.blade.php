@@ -73,11 +73,7 @@
                 id="{{ $id }}" 
                 :medium="$medium" 
                 :model-or-class-name="$modelOrClassName"
-                :image-collection="$imageCollection"
-                :document-collection="$documentCollection"
-                :youtube-collection="$youtubeCollection"
-                :audio-collection="$audioCollection"
-                :video-collection="$videoCollection"
+                :collections="$collections"
                 :frontend-theme="$frontendTheme"
                 :use-xhr="$useXhr"
                 :disabled="$disabled"
@@ -99,17 +95,6 @@
                         @endif
                     @endif
                     @if($selectable)
-{{--                        <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">--}}
-{{--                            <input--}}
-{{--                                type="checkbox"--}}
-{{--                                class="mle-media-select-checkbox"--}}
-{{--                                name="selected_media[]"--}}
-{{--                                value="{{ $medium->id }}"--}}
-{{--                            >--}}
-{{--                            <span class="mle-media-select-indicator"--}}
-{{--                                  title="{{ __('media-library-extensions::messages.select') }}"--}}
-{{--                            />--}}
-{{--                        </label>--}}
                         <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
                             <input
                                 type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
@@ -156,12 +141,8 @@
                             <x-mle-partial-temporary-upload-set-as-first-form
                                 :medium="$medium"
                                 :id="$id"
+                                :collections="$collections"
                                 {{-- temporary uploads have no model --}}
-                                :image-collection="$imageCollection"
-                                :document-collection="$documentCollection"
-                                :youtube-collection="$youtubeCollection"
-                                :audio-collection="$audioCollection"
-                                :video-collection="$videoCollection"
                                 :show-set-as-first-button="$showSetAsFirstButton"
                                 :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"
@@ -174,11 +155,7 @@
                         <x-mle-partial-temporary-upload-destroy-form
                             :medium="$medium"
                             :id="$id"
-                            :image-collection="$imageCollection"
-                            :document-collection="$documentCollection"
-                            :youtube-collection="$youtubeCollection"
-                            :audio-collection="$audioCollection"
-                            :video-collection="$videoCollection"
+                            :collections="$collections"
                             :frontend-theme="$frontendTheme"
                             :use-xhr="$useXhr"
                             :disabled="$disabled"
@@ -197,8 +174,8 @@
     title=""
     :id="$id"
     :model-or-class-name="$modelOrClassName"
-    :media-collection="$imageCollection"
-    :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"
+{{--    :media-collection="$imageCollection"--}}
+    :media-collections="$collections"
     :video-auto-play="true"
     :frontend-theme="$frontendTheme"
     title="Media carousel"/>

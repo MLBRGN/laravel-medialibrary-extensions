@@ -3,12 +3,10 @@
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoTemporaryAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
-use function Pest\Laravel\mock;
 
 beforeEach(function () {
     Storage::fake('public');
@@ -28,7 +26,7 @@ it('aborts if youtube support is disabled', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST');
     try {
         $this->action->execute($request);
-        $this->fail('Expected HttpException was not thrown.');// fail the test if we get here
+        $this->fail('Expected HttpException was not thrown.'); // fail the test if we get here
     } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
         expect($e->getStatusCode())->toBe(403);
     }
@@ -38,7 +36,7 @@ it('stores temporary thumbnail successfully (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => true,
+        'temporary_upload_mode' => true,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
@@ -66,7 +64,7 @@ it('stores temporary thumbnail successfully (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => true,
+        'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
@@ -101,7 +99,7 @@ it('returns error when temporary thumbnail fails to download (JSON)', function (
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => true,
+        'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
@@ -127,7 +125,7 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => true,
+        'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
@@ -160,7 +158,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => false,
+        'temporary_upload_mode' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'videos',
@@ -185,7 +183,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => false,
+        'temporary_upload_mode' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'youtube_collection' => 'videos',
@@ -208,4 +206,3 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     expect($status['type'])->toBe('error');
     expect($status['message'])->toBe(__('media-library-extensions::messages.upload_no_youtube_url'));
 });
-

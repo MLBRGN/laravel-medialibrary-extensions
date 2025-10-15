@@ -4,56 +4,44 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Support\Facades\Blade;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
-
 class MediaManagerMultiple extends MediaManager
 {
+    protected array $optionKeys = [
+        'allowedMimeTypes',
+        'disabled',
+        'frontendTheme',
+        //        'multiple', always true
+        'readonly',
+        'selectable',
+        'showDestroyButton',
+        'showMediaEditButton',
+        'showMenu',
+        'showOrder',
+        'showSetAsFirstButton',
+        'showUploadForm',
+        'temporaryUploads',
+        'uploadFieldName',
+        'useXhr',
+    ];
+
     public function __construct(
+        ?string $id,
         mixed $modelOrClassName,
-        string $imageCollection = '',
-        string $documentCollection = '',
-        string $youtubeCollection = '',
-        string $videoCollection = '',
-        string $audioCollection = '',
-        bool $showUploadForm = true,
-        string $uploadFieldName = 'media',
-        bool $showDestroyButton = false,
-        bool $showSetAsFirstButton = false,
-        bool $showOrder = false,
-        bool $showMenu = true,
-        string $id = '',
-        ?string $frontendTheme = null,
-        ?bool $useXhr = true,
-        string $allowedMimeTypes = '',
-        public bool $selectable = false,
-        public bool $showMediaEditButton = false,// (at the moment) only for image editing
-        public bool $readonly = false,
-        public bool $disabled = false,
+        array $collections = [], // in image, document, youtube, video, audio
+        array $options = [],
     ) {
+        $collections = $this->mergeCollections($collections);
+        $options = $this->mergeOptions($options);
+        $options['multiple'] = true;
+
         parent::__construct(
-            modelOrClassName: $modelOrClassName,
-            imageCollection: $imageCollection,
-            documentCollection: $documentCollection,
-            youtubeCollection: $youtubeCollection,
-            videoCollection: $videoCollection,
-            audioCollection: $audioCollection,
-            showUploadForm: $showUploadForm,
-            uploadFieldName: $uploadFieldName,
-            showDestroyButton: $showDestroyButton,
-            showSetAsFirstButton: $showSetAsFirstButton,
-            showOrder: $showOrder,
-            showMenu: $showMenu,
             id: $id,
-            frontendTheme: $frontendTheme,
-            useXhr: $useXhr,
+            modelOrClassName: $modelOrClassName,
+            medium: null,// always null
+            collections: $collections,
+            options: $options,
             multiple: true,
-            allowedMimeTypes: $allowedMimeTypes,
-            selectable: $selectable,
-            showMediaEditButton: $showMediaEditButton,
-            readonly: $readonly,
-            disabled: $disabled,
         );
+
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
@@ -22,13 +22,13 @@ class StoreMultipleTemporaryAction
         protected MediaService $mediaService,
     ) {}
 
-    public function execute(MediaManagerUploadMultipleRequest $request): RedirectResponse|JsonResponse
+    public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
         $field = config('media-library-extensions.upload_field_name_multiple');
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $files = $request->file($field);
 
@@ -47,7 +47,7 @@ class StoreMultipleTemporaryAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();// remove falsy values
+        ])->filter()->all(); // remove falsy values
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
         $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
@@ -58,7 +58,7 @@ class StoreMultipleTemporaryAction
                 $initiatorId,
                 $mediaManagerId,
                 __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                    'items' => $maxItemsInCollection
+                    'items' => $maxItemsInCollection,
                 ])
             );
         }

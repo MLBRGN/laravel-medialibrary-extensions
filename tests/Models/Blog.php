@@ -2,7 +2,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Mlbrgn\MediaLibraryExtensions\Tests\database\Factories\BlogFactory;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;

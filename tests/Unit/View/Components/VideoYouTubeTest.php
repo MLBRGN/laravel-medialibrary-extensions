@@ -2,9 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use Mockery;
@@ -34,12 +32,14 @@ function createMockMedia($youtubeId = 'testid'): Media
     $media->shouldReceive('getCustomProperty')
         ->with('youtube-id')
         ->andReturn($youtubeId);
+
     return $media;
 }
 
 function parseYouTubeParams(VideoYouTube $component): array
 {
     parse_str($component->youTubeParamsAsString, $params);
+
     return $params;
 }
 
@@ -101,10 +101,10 @@ it('returns correct view on render', function () {
 });
 
 it('renders view and matches snapshot', function () {
-//    $component = new VideoYouTube(createMockMedia());
-//
-//    $view = $component->render();
-//
-//    expect($view)->toBeInstanceOf(View::class)
-//        ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
+    //    $component = new VideoYouTube(createMockMedia());
+    //
+    //    $view = $component->render();
+    //
+    //    expect($view)->toBeInstanceOf(View::class)
+    //        ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
 })->todo();

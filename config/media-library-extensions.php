@@ -160,34 +160,34 @@ return [
     'allowed_mimetypes' => [
         'image' => explode(',', env(
             'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_IMAGE_MIMETYPES',
-            'image/jpeg,' .
-            'image/png,' .
-            'image/gif,' .
-            'image/bmp,' .
-            'image/webp,' .
-            'image/heic,' .
+            'image/jpeg,'.
+            'image/png,'.
+            'image/gif,'.
+            'image/bmp,'.
+            'image/webp,'.
+            'image/heic,'.
             'image/avif'
         )),
 
         'video' => explode(',', env(
             'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_VIDEO_MIMETYPES',
-            'video/mp4,' .
-            'video/quicktime,' .
+            'video/mp4,'.
+            'video/quicktime,'.
             'video/webm'
         )),
 
         'document' => explode(',', env(
             'MEDIA_LIBRARY_EXTENSIONS_ALLOWED_DOCUMENT_MIMETYPES',
-            'application/pdf,' .
-            'application/msword,' .
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document,' .
-            'application/vnd.ms-excel,' .
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' .
-            'application/vnd.ms-powerpoint,' .
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation,' .
-            'application/rtf,text/rtf,' .
-            'application/vnd.oasis.opendocument.text,' .
-            'application/vnd.oasis.opendocument.spreadsheet,' .
+            'application/pdf,'.
+            'application/msword,'.
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document,'.
+            'application/vnd.ms-excel,'.
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,'.
+            'application/vnd.ms-powerpoint,'.
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation,'.
+            'application/rtf,text/rtf,'.
+            'application/vnd.oasis.opendocument.text,'.
+            'application/vnd.oasis.opendocument.spreadsheet,'.
             'application/vnd.oasis.opendocument.presentation'
         )),
 
@@ -296,7 +296,6 @@ return [
     'carousel_ride_only_after_interaction' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_RIDE_ONLY_AFTER_INTERACTION', false), // Only slide after first interaction with carousel
     'carousel_fade' => env('MEDIA_LIBRARY_EXTENSIONS_CAROUSEL_FADE', false), // slide effect true for "fade" false for "slide" (bootstrap only)
 
-
     /*
     |--------------------------------------------------------------------------
     |--------------------------------------------------------------------------
@@ -317,7 +316,7 @@ return [
     */
 
     'show_status' => env('MEDIA_LIBRARY_EXTENSIONS_SHOW_STATUS', true),
-    'status_message_timeout' => env('MEDIA_LIBRARY_EXTENSIONS_STATUS_MESSAGE_TIMEOUT', 4000),// in milliseconds
+    'status_message_timeout' => env('MEDIA_LIBRARY_EXTENSIONS_STATUS_MESSAGE_TIMEOUT', 4000), // in milliseconds
 
     /*
     |--------------------------------------------------------------------------
@@ -401,7 +400,7 @@ return [
    */
     'use_external_document_viewer' => env('MEDIA_LIBRARY_EXTENSIONS_USE_EXTERNAL_DOCUMENT_VIEWER', ''),
 
-   /*
+    /*
    |--------------------------------------------------------------------------
    | DEVELOPER ONLY
    |--------------------------------------------------------------------------

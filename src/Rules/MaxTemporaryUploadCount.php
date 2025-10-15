@@ -13,6 +13,7 @@ class MaxTemporaryUploadCount implements ValidationRule
     use ChecksMediaLimits;
 
     protected array $collections;
+
     protected int $max;
 
     public function __construct(array|string $collections, int $max)

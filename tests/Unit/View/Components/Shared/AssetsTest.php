@@ -5,7 +5,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 it('sets default values from config', function () {
     config(['media-library-extensions.frontend_theme' => 'default-theme']);
 
-    $component = new Assets();
+    $component = new Assets;
 
     expect($component->frontendTheme)->toBe('default-theme')
         ->and($component->includeCss)->toBeFalse()
@@ -34,7 +34,7 @@ it('accepts custom constructor values', function () {
 });
 
 it('renders the correct view', function () {
-    $component = new Assets();
+    $component = new Assets;
     $view = $component->render();
 
     expect($view->name())->toBe('media-library-extensions::components.shared.assets');

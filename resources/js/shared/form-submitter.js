@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!config) return;
 
             // if not using XHR skip let form handle normal submission
-            const useXhr = config.use_xhr;
+            const useXhr = config.useXhr;
             if (!useXhr) return
 
             const target = e.target.closest('[data-action]');
@@ -51,11 +51,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const response = await fetch(route, {
                     method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': config.csrf_token,
+                        'X-CSRF-TOKEN': config.csrfToken,
                         'Accept': 'application/json',
                     },
                     body: formData,
                 });
+
+                console.log('response', response);
 
                 const data = await response.json();
 
@@ -100,8 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function getRouteFromAction(action, target, config) {
         const mediaContainer = target.closest('.media-manager-preview-media-container');
         const routes = {
-            'upload-media': config.media_upload_route,
-            'upload-youtube-medium': config.youtube_upload_route,
+            'upload-media': config.mediaUploadRoute,
+            'upload-youtube-medium': config.youtubeUploadRoute,
             'temporary-upload-destroy': mediaContainer?.dataset?.temporaryUploadDestroyRoute,
             'destroy-medium': mediaContainer?.dataset?.destroyRoute,
             'set-as-first': mediaContainer?.dataset?.setAsFirstRoute,
@@ -117,28 +119,30 @@ document.addEventListener('DOMContentLoaded', function () {
         const forms = mediaManager.querySelectorAll('form, [data-xhr-form]');
         if (!previewGrid) return;
 
+        // console.log('collections json', JSON.stringify(config.collections))
+        // console.log('options', config.options)
+        // console.log('medium.id', config.medium.id);
         // console.log('config', config);
         const params = new URLSearchParams({
-            model_type: config.model_type,
-            model_id: config.model_id,
-            image_collection: config.image_collection,
-            youtube_collection: config.youtube_collection,
-            document_collection: config.document_collection,
-            video_collection: config.video_collection,
-            audio_collection: config.audio_collection,
+            model_type: config.modelType,
+            model_id: config.modelId,
+            // medium_id: config.medium.id,
+            temporary_upload_mode: config.temporaryUploadMode,
             initiator_id: config.id,
-            frontend_theme: config.frontend_theme,
-            show_destroy_button: config.show_destroy_button,
-            show_set_as_first_button: config.show_set_as_first_button,
-            show_order: config.show_order,
-            show_menu: config.show_menu,
-            temporary_uploads: config.temporary_upload,
-            selectable: config.selectable,
-            show_media_edit_button: config.show_media_edit_button,
+            collections: JSON.stringify(config.collections),
+            options: JSON.stringify(config.options),
+            // frontend_theme: config.frontendTheme,
+            // show_destroy_button: config.showDestroyButton,
+            // show_set_as_first_button: config.showSetAsFirstButton,
+            // show_order: config.showOrder,
+            // show_menu: config.showMenu,
+            // selectable: config.selectable,
+            // show_media_edit_button: config.showMediaEditButton,
         });
+        // console.log('params2', Object.fromEntries(params));
 
         // showSpinner(container);
-        fetch(`${config.preview_update_route}?${params}`, {
+        fetch(`${config.previewUpdateRoute}?${params}`, {
             headers: { 'Accept': 'application/json' }
         })
             // .then(response => response.json())

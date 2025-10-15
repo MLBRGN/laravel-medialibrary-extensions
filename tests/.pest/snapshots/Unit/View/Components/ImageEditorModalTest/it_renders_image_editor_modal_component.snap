@@ -1,11 +1,11 @@
 <div
-    class="mlbrgn-mle-component theme-bootstrap-5 image-editor-modal modal fade"
+    class="mlbrgn-mle-component theme- image-editor-modal modal fade"
     id="blog-images-iem-1"
     tabindex="-1"
     role="dialog"
             aria-labelledby="blog-images-iem-1-title"
         aria-hidden="true"
-    data-theme="bootstrap-5"
+    data-theme=""
     data-modal
     data-image-editor-modal
     data-medium-display-name=".jpg"
@@ -27,11 +27,12 @@
         aria-label="Close" 
         title="Close">❓</span>
                 </button>
-                <input type="hidden" class="image-editor-modal-config" value='{"id":"blog-images-iem-1","initiator_id":"blog-images","media_manager_id":"blog-images","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":null,"medium_id":1,"collection":"blog-images","csrf_token":null,"save_updated_medium_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager\/1\/save-updated-temporary-upload","temporary_upload":true,"image_collection":"","document_collection":"","youtube_collection":"","video_collection":"","audio_collection":"","use_xhr":true}'>
+                <input type="hidden" class="image-editor-modal-config" value='{"id":"blog-images-iem-1","initiatorId":"blog-images","mediaManagerId":"blog-images","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"mediumId":1,"collection":"blog-images","csrfToken":null,"saveUpdatedMediumRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager\/1\/save-updated-temporary-upload","temporaryUploadMode":true,"collections":[],"useXhr":true}'>
                 
                 <div data-image-editor-placeholder class="image-editor"></div>
 
-                <div class="conditional-form mle-image-editor-form" data-xhr-form="data-xhr-form" id="blog-images-iem-1-ie-update-form" data-xhr-method="post">
+                <!-- used as fallback when not using XHR -->
+<div class="conditional-form mle-image-editor-form" data-xhr-form="data-xhr-form" id="blog-images-iem-1-ie-update-form" data-xhr-method="post">
         <input type="hidden"
            name="medium_id"
            value="1">
@@ -48,7 +49,7 @@
            name="media_manager_id"
            value="blog-images">
     <input type="hidden"
-           name="temporary_upload"
+           name="temporary_upload_mode"
            value="true">
     <input type="hidden"
            name="collection"
@@ -56,11 +57,7 @@
     <input type="file"
            name="file"
            hidden>
-                        
-
-
-    
-    <button
+        <button
         type="button"
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="Setup as main."

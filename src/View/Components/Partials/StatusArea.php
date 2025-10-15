@@ -9,9 +9,8 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 class StatusArea extends BaseComponent
 {
-
     public function __construct(
-        public string $id,
+        ?string $id,
         public ?string $frontendTheme,
         public string $initiatorId,
         public string $mediaManagerId

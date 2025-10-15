@@ -4,40 +4,47 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
-use Exception;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class YouTubeUploadForm extends BaseComponent
 {
     use ResolveModelOrClassName;
+
     public string $mediaUploadRoute; // upload form action route
 
     public string $previewUpdateRoute; // route to update preview media when using ajax
+
     public ?string $modelType = null;
+
     public ?string $mediaManagerId = '';
 
+    public bool $multiple = false;
+
+    public bool $disabled = false;
+
     public function __construct(
-        public ?string $youtubeCollection,
-        public string $id,
-        public ?string $frontendTheme,
-        public ?string $mediaCollection,// TODO remove?
-        public ?string $imageCollection,
-        public ?string $documentCollection,
-        public ?string $videoCollection,
-        public ?string $audioCollection,
+        ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public string $allowedMimeTypes = '',
-        public bool $multiple = false,
-        public bool $showDestroyButton = false,
-        public bool $showSetAsFirstButton = false,
+        public Media|TemporaryUpload|null $medium = null,
+        public ?string $youtubeCollection,
+        ?string $frontendTheme,
+        public array $collections = [], // in image, document, youtube, video, audio
+        public array $options = [],
+        //        public ?string $mediaCollection,// TODO remove?
+        //        public string $allowedMimeTypes = '',
+        //        public bool $multiple = false,
+        //        public bool $showDestroyButton = false,
+        //        public bool $showSetAsFirstButton = false,
         public ?bool $useXhr = null,
-        public ?bool $readonly = false,
-        public ?bool $disabled = false,
+        //        public ?bool $readonly = false,
+        //        public ?bool $disabled = false,
     ) {
-        $this->mediaManagerId = $this->id;
+        $this->mediaManagerId = $id;
 
         parent::__construct($id, $frontendTheme);
 

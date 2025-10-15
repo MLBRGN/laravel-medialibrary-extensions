@@ -1,33 +1,35 @@
-<div
+<div 
     id="test-media-modal-mmm"
-    class="mlbrgn-mle-component theme-plain media-manager media-manager-multiple" multiple="true"
+    class="mlbrgn-mle-component theme- media-manager media-manager-multiple container-fluid px-0" frontend-theme="plain" multiple="true"
     data-media-manager=""
     data-use-xhr="true"
     >
-    
-    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","show_upload_form":true,"show_destroy_button":false,"show_set_as_first_button":false,"show_order":false,"show_menu":true,"temporary_upload":"false","multiple":true,"use_xhr":true,"selectable":false,"show_media_edit_button":false,"readonly":false,"disabled":false}'>
+    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"medium":null,"collections":{"image":"images","document":"","youtube":"","video":"","audio":""},"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrfToken":null,"disabled":false,"frontendTheme":null,"multiple":true,"options":{"allowedMimeTypes":"","disabled":false,"frontendTheme":null,"readonly":false,"selectable":false,"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"temporaryUploads":false,"uploadFieldName":"media","useXhr":true,"multiple":true},"readonly":false,"selectable":false,"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"temporaryUploadMode":"false","useXhr":true}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
-            
-                                                <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
-        <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
+                                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+        <label for="test-media-modal-mmm-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
         accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif"
         type="file"
         class="mle-input form-control"
                     name="media[]"
-            multiple
-                    >
-    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
-            <input
-            type="hidden"
-            name="image_collection"
-            value="images">
-                        <input 
+            multiple 
+                        >
+    <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
+                        <input
+                type="hidden"
+                name="image_collection"
+                value="images">
+                                                                <input
+        type="hidden"
+        name="medium_id"
+        value="">
+    <input 
         type="hidden" 
-        name="temporary_upload" 
+        name="temporary_upload_mode" 
         value="false">
     <input
         type="hidden"
@@ -41,13 +43,13 @@
         type="hidden"
         name="initiator_id"
         value="test-media-modal-mmm">
-    <input
+    <input 
         type="hidden"
         name="media_manager_id"
         value="test-media-modal-mmm">
     <button
         type="button"
-        class="mle-button mle-button-submit mle-upload-button"
+        class="mle-button mle-button-submit btn btn-primary d-block"
         data-action="upload-media"
             >
         Upload media
@@ -68,23 +70,25 @@
 
                                                     
         </div>
-        
-        <div class="media-manager-previews">
+        <div
+            class="media-manager-previews col-12 col-md-8"
+            >
             <div class="status-area">
-    <div class="mle-spinner-container" media-manager-id="test-media-modal-mmm" data-spinner-container>
-
+    <div class="mle-spinner-container alert alert-info" media-manager-id="test-media-modal-mmm" data-spinner-container>
+    <div class="mle-spinner"></div>
     <span class="mle-spinner-text">Please wait.</span>
 </div>
     <div 
     class="status-container mle-flex-grow visible" 
-    data-status-container
+    data-status-container 
     data-status-timeout="4000"
 >
-    <div class="mle-status-message"
-        data-status-message 
-        data-base-classes="mle-status-message"
-        data-success-classes="mle-status-message-success"
-        data-error-classes="mle-status-message-error"
+    
+    <div class="mle-status-message alert alert-dismissible"
+        data-status-message
+        data-base-classes="mle-status-message alert alert-dismissible visible"
+        data-success-classes="alert-success"
+        data-error-classes="alert-danger"
     >
             </div>
     </div>
@@ -93,24 +97,23 @@
         <span class="mle-no-media">No media.</span>
     </div>
 <div
-    class="mlbrgn-mle-component theme-plain media-modal modal fade"
+    class="mlbrgn-mle-component theme- media-modal modal fade"
     id="test-media-modal-mmm-mod"
     tabindex="-1"
     role="dialog"
             aria-labelledby="test-media-modal-mmm-mod-title"
         aria-hidden="true"
             data-autoplay=""
-        data-modal
-    data-media-modal
->
+    >
     <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content">
-                            <h1 class="media-modal-title mle-visually-hidden" id="test-media-modal-mmm-mod-title">Media carousel</h1>
-                        <div class="media-modal-body modal-body">
+        <div class="media-modal-content modal-content justify-content-center">
+                            <h1 class="media-modal-title visually-hidden" id="test-media-modal-mmm-mod-title">Media carousel</h1>
+                        <div class="media-modal-body modal-body p-0">
                 <button
                     type="button"
-                    class="media-modal-close-button modal-close-button"
                     data-modal-close
+                    class="media-modal-close-button modal-close-button"
+                    data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="Close">
                     <span 
@@ -118,6 +121,8 @@
         aria-label="Close" 
         title="Close">❓</span>
                 </button>
+               
+                
                 <div id="test-media-modal-mmm-mod-crs"
      class="mlbrgn-mle-component theme-plain media-carousel media-carousel-empty media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
      data-carousel
@@ -217,7 +222,6 @@
                 if (toggleBtn && debugSection) {
                     toggleBtn.addEventListener('click', function () {
                         const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-
                         toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
                         debugSection.classList.toggle('hidden');
                         toggleBtn.textContent = isExpanded

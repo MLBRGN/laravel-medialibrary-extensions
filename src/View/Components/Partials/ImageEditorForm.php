@@ -15,28 +15,44 @@ class ImageEditorForm extends BaseComponent
     use ResolveModelOrClassName;
 
     public string $saveUpdatedMediumRoute;
+    //    public ?string $imageCollection;
+    //    public ?string $documentCollection;
+    //    public ?string $youtubeCollection;
+    //    public ?string $videoCollection;
+    //    public ?string $audioCollection;
 
     public function __construct(
+        ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public string $id,
         public ?string $frontendTheme,
+        public array $collections, // in image, document, youtube, video, audio
         public string $initiatorId,
         public ?bool $useXhr = null,
-        public ?string $imageCollection = '',
-        public ?string $documentCollection = '',
-        public ?string $youtubeCollection = '',
-        public ?string $videoCollection = '',
-        public ?string $audioCollection = '',
         public ?string $mediaManagerId = '',
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $frontendTheme);
 
-        $this->id = $this->id . '-ie-update-form';
+        // define default collection names
+        $collections = array_merge([
+            'image' => '',
+            'document' => '',
+            'youtube' => '',
+            'video' => '',
+            'audio' => '',
+        ], $collections);
+
+        $this->imageCollection = $collections['image'];
+        $this->audioCollection = $collections['audio'];
+        $this->videoCollection = $collections['video'];
+        $this->documentCollection = $collections['document'];
+        $this->youtubeCollection = $collections['youtube'];
+
+        $this->id = $this->id.'-ie-update-form';
 
         $this->resolveModelOrClassName($modelOrClassName);
-        $this->saveUpdatedMediumRoute = $this->temporaryUpload ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
+        $this->saveUpdatedMediumRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
     }
 
     public function render(): View

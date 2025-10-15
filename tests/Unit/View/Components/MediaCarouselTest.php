@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 beforeEach(function () {
@@ -11,46 +10,35 @@ beforeEach(function () {
 });
 
 it('initializes correctly with a single media collection', function () {
-    $model = $this->getTestBlogModel();
-    $mediaItems = MediaCollection::make();
-
-    $model->shouldReceive('getMedia')
-        ->once()
-        ->with('images')
-        ->andReturn($mediaItems);
+    $model = $this->getModelWithMedia(['image' => 1]);
 
     $component = new MediaCarousel(
+        id: 'carousel-id',
         modelOrClassName: $model,
-        mediaCollection: 'images',
-        id: 'carousel-id'
+        mediaCollections: ['image_collection']
     );
-
-    expect($component->mediaItems)->toBe($mediaItems)
-        ->and($component->mediaCount)->toBe(0)
-        ->and($component->id)->toBe('carousel-id-carousel')
-        ->and($component->frontend)->toBe('bootstrap-5');
-})->todo();
+    expect($component->mediaCount)->toBe(1)
+        ->and($component->id)->toBe('carousel-id-crs')
+        ->and($component->frontendTheme)->toBe('bootstrap-5');
+});
 
 it('initializes correctly with multiple media collections', function () {
-    $model = $this->getTestBlogModel();
-    $media1 = MediaCollection::make([]);
-    $media2 = MediaCollection::make([]);
-
-    $model->shouldReceive('getMedia')
-        ->once()->with('images')->andReturn($media1);
-    $model->shouldReceive('getMedia')
-        ->once()->with('documents')->andReturn($media2);
+    $model = $this->getModelWithMedia(['image' => 1, 'audio' => '2']);
 
     $component = new MediaCarousel(
+        id: 'carousel-id',
         modelOrClassName: $model,
-        mediaCollections: ['images', 'documents'],
-        id: 'carousel-multi'
+        mediaCollections: ['image_collection', 'audio_collection'],
+        frontendTheme: 'plain'
+        // TODO
+        //        options: [
+        //            'frontendTheme' => 'plain',
+        //        ]
     );
-
-    expect($component->mediaItems)->toBeInstanceOf(MediaCollection::class)
-        ->and($component->mediaCount)->toBe(0)
-        ->and($component->id)->toBe('carousel-multi-carousel');
-})->todo();
+    expect($component->mediaCount)->toBe(3)
+        ->and($component->id)->toBe('carousel-id-crs')
+        ->and($component->frontendTheme)->toBe('plain');
+});
 
 it('falls back to empty media collection when no model is provided', function () {
     $model = $this->getTestBlogModel();
@@ -68,9 +56,9 @@ it('falls back to empty media collection when no model is provided', function ()
 it('uses provided frontend theme if given', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaCarousel(
+        id: 'custom-theme',
         modelOrClassName: $model,
-        frontendTheme: 'tailwind',
-        id: 'custom-theme'
+        frontendTheme: 'tailwind'
     );
 
     expect($component->frontendTheme)->toBe('tailwind');
@@ -91,4 +79,3 @@ it('renders view and matches snapshot', function () {
 
     expect($html)->toMatchSnapshot();
 });
-

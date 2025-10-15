@@ -1,5 +1,4 @@
 @if($includeCss)
-{{--    @dump($frontendTheme)--}}
     @once
         <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">
 {{--        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-plain.css') }}">--}}

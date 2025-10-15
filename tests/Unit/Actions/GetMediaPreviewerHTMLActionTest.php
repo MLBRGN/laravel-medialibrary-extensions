@@ -17,9 +17,9 @@ beforeEach(function () {
     );
 });
 
-it('calls the temporary previewer action when temporary_uploads is true', function () {
+it('calls the temporary previewer action when temporary_upload_mode is true', function () {
     $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET', [
-        'temporary_uploads' => 'true',
+        'temporary_upload_mode' => 'true',
     ]);
 
     $expectedResponse = new JsonResponse(['html' => '<div>temp preview</div>']);
@@ -38,9 +38,9 @@ it('calls the temporary previewer action when temporary_uploads is true', functi
     expect($response)->toBe($expectedResponse);
 });
 
-it('calls the permanent previewer action when temporary_uploads is not true', function () {
+it('calls the permanent previewer action when temporary_upload_mode is not true', function () {
     $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET', [
-        'temporary_uploads' => 'false',
+        'temporary_upload_mode' => 'false',
     ]);
 
     $expectedResponse = new Response('<div>permanent preview</div>');
@@ -59,7 +59,7 @@ it('calls the permanent previewer action when temporary_uploads is not true', fu
     expect($response)->toBe($expectedResponse);
 });
 
-it('calls the permanent previewer action when temporary_uploads is absent', function () {
+it('calls the permanent previewer action when temporary_upload_mode is absent', function () {
     $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET');
 
     $expectedResponse = new JsonResponse(['html' => '<div>permanent default</div>']);

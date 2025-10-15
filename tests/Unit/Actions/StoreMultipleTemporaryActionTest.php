@@ -2,11 +2,10 @@
 
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\UploadedFile;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultiplePermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleTemporaryAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
 
 beforeEach(function () {
     $this->mediaService = \Mockery::mock(MediaService::class);
@@ -14,9 +13,10 @@ beforeEach(function () {
     $this->action = new StoreMultipleTemporaryAction($this->mediaService, $this->youTubeService);
 });
 
-test('it stores multiple valid files and returns JSON success', function () {
+it('it stores multiple valid files and returns JSON success', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$file1 = UploadedFile::fake()->image('photo1.jpg');
+    $mediaManagerId = 'media-manager-123';
+    $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
     $model = $this->getTestBlogModel();
 
@@ -24,14 +24,14 @@ test('it stores multiple valid files and returns JSON success', function () {
         ->shouldReceive('determineCollection')->twice()->andReturn('images');
 
     $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
-        'temporary_upload' => true,
+    $request = StoreMultipleRequest::create('/upload', 'POST', [
+        'temporary_upload_mode' => true,
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
     ], [], [
-        $uploadFieldNameMultiple => [$file1, $file2]
+        $uploadFieldNameMultiple => [$file1, $file2],
     ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
@@ -47,21 +47,22 @@ test('it stores multiple valid files and returns JSON success', function () {
         ]);
 });
 
-test('it stores multiple valid files and returns redirect success', function () {
+it('it stores multiple valid files and returns redirect success', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$file = UploadedFile::fake()->image('photo.jpg');
+    $mediaManagerId = 'media-manager-123';
+    $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getTestBlogModel();
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn('images');
 
     $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $request = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
     ], [], [
-        $uploadFieldNameMultiple => [$file]
+        $uploadFieldNameMultiple => [$file],
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -79,11 +80,12 @@ test('it stores multiple valid files and returns redirect success', function () 
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_success'));
 });
 
-test('it returns error if no files are given (JSON)', function () {
+it('it returns error if no files are given (JSON)', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$model = $this->getTestBlogModel();
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
 
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $request = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
@@ -95,19 +97,20 @@ test('it returns error if no files are given (JSON)', function () {
     $response = $this->action->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
-      ->and($response->getData(true))
-              ->toMatchArray([
-                  'initiatorId' => $initiatorId,
-                  'type' => 'error',
-                  'message' => __('media-library-extensions::messages.upload_no_files'),
-              ]);
+        ->and($response->getData(true))
+        ->toMatchArray([
+            'initiatorId' => $initiatorId,
+            'type' => 'error',
+            'message' => __('media-library-extensions::messages.upload_no_files'),
+        ]);
 });
 
-test('it returns error if no files are given (redirect)', function () {
+it('it returns error if no files are given (redirect)', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$model = $this->getTestBlogModel();
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
 
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $request = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
@@ -131,22 +134,23 @@ test('it returns error if no files are given (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_no_files'));
 });
 
-test('it returns error if file has invalid mimetype (JSON)', function () {
+it('it returns error if file has invalid mimetype (JSON)', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
+    $mediaManagerId = 'media-manager-123';
+    $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
 
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn(null);
 
     $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $request = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
     ], [], [
-        $uploadFieldNameMultiple => [$file]
+        $uploadFieldNameMultiple => [$file],
     ]);
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session.store'));
@@ -160,22 +164,23 @@ test('it returns error if file has invalid mimetype (JSON)', function () {
         );
 });
 
-test('it returns error if file has invalid mimetype (redirect)', function () {
+it('it returns error if file has invalid mimetype (redirect)', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
+    $mediaManagerId = 'media-manager-123';
+    $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
 
     $this->mediaService
         ->shouldReceive('determineCollection')->once()->andReturn(null);
 
     $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
-    $request = MediaManagerUploadMultipleRequest::create('/upload', 'POST', [
+    $request = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
     ], [], [
-        $uploadFieldNameMultiple => [$file]
+        $uploadFieldNameMultiple => [$file],
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -194,7 +199,7 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
 
-test('it returns error if max media count is exceeded (JSON)', function () {
+it('it returns error if max media count is exceeded (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
@@ -205,7 +210,7 @@ test('it returns error if max media count is exceeded (JSON)', function () {
         ->toMediaCollection('images');
 
     // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
-    Config::set('media-library-extensions.route_middleware',[]);
+    Config::set('media-library-extensions.route_middleware', []);
     Config::set('media-library-extensions.max_items_in_shared_media_collections', 2);
 
     $file1 = UploadedFile::fake()->image('photo1.jpg');
@@ -218,12 +223,12 @@ test('it returns error if max media count is exceeded (JSON)', function () {
     $response = $this->withoutMiddleware(Authenticate::class)->postJson(
         route(config('media-library-extensions.route_prefix').'-media-upload-multiple'),
         [
-            'model_type'   => $model->getMorphClass(),
-            'model_id'     => null,
+            'model_type' => $model->getMorphClass(),
+            'model_id' => null,
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
             'image_collection' => 'images',
-            'temporary_upload' => 'true',
+            'temporary_upload_mode' => 'true',
             $uploadFieldNameMultiple => [$file1, $file2, $file3, $file4],
         ]
     );
@@ -237,9 +242,10 @@ test('it returns error if max media count is exceeded (JSON)', function () {
     expect($responseData['errors']['media'][0])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_shared_media_collections')]));
 });
 
-test('it returns error if max media count is exceeded (redirect)', function () {
+it('it returns error if max media count is exceeded (redirect)', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$model = $this->getTestBlogModel();
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
     // Attach 1 existing media item
@@ -247,7 +253,7 @@ test('it returns error if max media count is exceeded (redirect)', function () {
         ->toMediaCollection('images');
 
     // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
-    Config::set('media-library-extensions.route_middleware',[]);
+    Config::set('media-library-extensions.route_middleware', []);
     Config::set('media-library-extensions.max_items_in_shared_media_collections', 2);
 
     $file1 = UploadedFile::fake()->image('photo1.jpg');
@@ -260,19 +266,19 @@ test('it returns error if max media count is exceeded (redirect)', function () {
     $response = $this->withoutMiddleware(Authenticate::class)->post(
         route(config('media-library-extensions.route_prefix').'-media-upload-multiple'),
         [
-            'model_type'   => $model->getMorphClass(),
-            'model_id'     => null,
+            'model_type' => $model->getMorphClass(),
+            'model_id' => null,
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
             'image_collection' => 'images',
-            'temporary_upload' => 'true',
+            'temporary_upload_mode' => 'true',
             $uploadFieldNameMultiple => [$file1, $file2, $file3, $file4],
         ]
     );
 
     $response->assertStatus(302);
 
-// Assert validation error is flashed to session
+    // Assert validation error is flashed to session
     $response->assertSessionHasErrors([
         'media' => __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_shared_media_collections')]),
     ]);

@@ -66,16 +66,12 @@
                 />
             </div>
             <x-mle-image-editor-modal
+                id="{{ $id }}"
                 title=""
                 :initiator-id="$id"
-                id="{{ $id }}" 
                 :medium="$medium" 
                 :model-or-class-name="$modelOrClassName"
-                :image-collection="$imageCollection"
-                :document-collection="$documentCollection"
-                :youtube-collection="$youtubeCollection"
-                :audio-collection="$audioCollection"
-                :video-collection="$videoCollection"
+                :collections="$collections"
                 :frontend-theme="$frontendTheme"
                 :use-xhr="$useXhr"
                 :disabled="$disabled"
@@ -143,11 +139,7 @@
                                 :medium="$medium"
                                 :id="$id"
                                 :model="$model"
-                                :image-collection="$imageCollection"
-                                :document-collection="$documentCollection"
-                                :youtube-collection="$youtubeCollection"
-                                :audio-collection="$audioCollection"
-                                :video-collection="$videoCollection"
+                                :collections="$collections"
                                 :show-set-as-first-button="$showSetAsFirstButton"
                                 :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"
@@ -160,11 +152,7 @@
                         <x-mle-partial-destroy-form
                             :medium="$medium"
                             :id="$id"
-                            :image-collection="$imageCollection"
-                            :document-collection="$documentCollection"
-                            :youtube-collection="$youtubeCollection"
-                            :audio-collection="$audioCollection"
-                            :video-collection="$videoCollection"
+                            :collections="$collections"
                             :frontend-theme="$frontendTheme"
                             :use-xhr="$useXhr"
                             :disabled="$disabled"
@@ -182,8 +170,8 @@
 <x-mle-media-modal
     :id="$id"
     :model-or-class-name="$modelOrClassName"
-    :media-collection="$imageCollection"
-    :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"
+{{--    :media-collection="$imageCollection"--}}
+    :media-collections="$collections"
     :video-auto-play="true"
     :frontend-theme="$frontendTheme"
     title="Media carousel"/>

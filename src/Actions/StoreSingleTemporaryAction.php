@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
@@ -22,13 +22,13 @@ class StoreSingleTemporaryAction
         protected MediaService $mediaService
     ) {}
 
-    public function execute(MediaManagerUploadSingleRequest $request): RedirectResponse|JsonResponse
+    public function execute(StoreSingleRequest $request): RedirectResponse|JsonResponse
     {
         $field = config('media-library-extensions.upload_field_name_single');
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $file = $request->file($field);
 
@@ -47,7 +47,7 @@ class StoreSingleTemporaryAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();// remove falsy values
+        ])->filter()->all(); // remove falsy values
 
         if ($this->temporaryUploadsHaveAnyMedia($collections)) {
             return MediaResponse::error(
@@ -116,7 +116,7 @@ class StoreSingleTemporaryAction
                 'youtube_collection' => $request->input('youtube_collection'),
                 'video_collection' => $request->input('video_collection'),
                 'audio_collection' => $request->input('audio_collection'),
-                'priority' => 0
+                'priority' => 0,
             ],
         ]);
         $upload->save();

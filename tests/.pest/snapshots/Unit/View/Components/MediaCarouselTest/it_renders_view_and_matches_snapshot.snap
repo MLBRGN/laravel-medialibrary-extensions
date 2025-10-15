@@ -47,7 +47,7 @@
     </button>
 </div>
     <div
-    class="mlbrgn-mle-component theme-bootstrap-5 media-modal modal fade"
+    class="mlbrgn-mle-component theme- media-modal modal fade"
     id="media-carousel-crs-mod"
     tabindex="-1"
     role="dialog"

@@ -63,6 +63,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     private string $packageNameShort = 'mle';
 
     private string $vendor = 'mlbrgn';
+
     private string $nameSpace = 'media-library-extensions';
 
     public function boot(): void
@@ -105,7 +106,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], $this->nameSpace.'-views');
 
             $this->publishes([
-                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace),// TODO when is mlbrgn prefix wanted / needed?
+                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace), // TODO when is mlbrgn prefix wanted / needed?
             ], $this->nameSpace.'-assets');
 
             $this->publishes([
@@ -153,7 +154,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-status', Status::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
-//                dd(Blade::getClassComponentAliases());
+        //                dd(Blade::getClassComponentAliases());
         // register policies
         if (config('media-library-extensions.demo_pages_enabled')) {
             // Always register the demo database connection, but the models will only use it
@@ -241,9 +242,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker.js');
         $overrides = [
             'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
-            'html_editor_tinymce_global_config.extra_scripts'=> $extraScripts,
+            'html_editor_tinymce_global_config.extra_scripts' => $extraScripts,
         ];
-
 
         foreach ($overrides as $key => $value) {
             config()->set("form-components.$key", $value);

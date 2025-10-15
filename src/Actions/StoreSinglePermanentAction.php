@@ -9,24 +9,23 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreSinglePermanentAction
 {
-
     use ChecksMediaLimits;
 
     public function __construct(
         protected MediaService $mediaService
     ) {}
 
-    public function execute(MediaManagerUploadSingleRequest $request): RedirectResponse|JsonResponse
+    public function execute(StoreSingleRequest $request): RedirectResponse|JsonResponse
     {
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $field = config('media-library-extensions.upload_field_name_single');
         $file = $request->file($field);
@@ -45,7 +44,7 @@ class StoreSinglePermanentAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();// remove falsy values
+        ])->filter()->all(); // remove falsy values
 
         if ($this->modelHasAnyMedia($model, $collections)) {
             return MediaResponse::error(
@@ -72,6 +71,7 @@ class StoreSinglePermanentAction
                 ->toMediaCollection($collection);
         } catch (Exception $e) {
             Log::error($e);
+
             return MediaResponse::error(
                 $request,
                 $initiatorId,

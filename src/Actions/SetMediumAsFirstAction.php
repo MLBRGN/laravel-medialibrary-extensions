@@ -7,7 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 class SetMediumAsFirstAction
@@ -16,11 +16,11 @@ class SetMediumAsFirstAction
         protected MediaService $mediaService
     ) {}
 
-    public function execute(SetAsFirstRequest $request): JsonResponse|RedirectResponse
+    public function execute(SetMediumAsFirstRequest $request): JsonResponse|RedirectResponse
     {
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $mediumId = (int) $request->medium_id;
 
@@ -57,7 +57,7 @@ class SetMediumAsFirstAction
 
         // Find target media
         $targetMedia = $mediaItems->firstWhere('id', $mediumId);
-        if (!$targetMedia) {
+        if (! $targetMedia) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
@@ -67,10 +67,10 @@ class SetMediumAsFirstAction
         }
 
         // Sort by current priority
-        $sorted = $mediaItems->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
+        $sorted = $mediaItems->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
         // Remove the target medium and reinsert at front
-        $reordered = $sorted->reject(fn($m) => $m->id === $mediumId)->prepend($targetMedia);
+        $reordered = $sorted->reject(fn ($m) => $m->id === $mediumId)->prepend($targetMedia);
 
         // Assign new priorities sequentially
         $priority = 0;

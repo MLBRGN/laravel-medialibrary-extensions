@@ -8,15 +8,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DeleteMediumAction
 {
-    public function execute(MediaManagerDestroyRequest $request, Media $media): JsonResponse|RedirectResponse
+    public function execute(DestroyRequest $request, Media $media): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         // Delete the medium
         $model = $media->model; // Get the associated model

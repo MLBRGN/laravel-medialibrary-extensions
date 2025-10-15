@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const config = JSON.parse(mediaManagerConfigJson);
-                config.temporary_upload = enabled;
+                config.temporaryUpload = enabled;
 
                 mediaManagerConfigInput.value = JSON.stringify(config);
                 // console.info('changed temporary upload configuration to', enabled)

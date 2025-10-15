@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Mlbrgn\MediaLibraryExtensions\Traits\ViewHelpers;
 
@@ -11,17 +12,17 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
-    public ?string $frontendTheme = null;
+    public string $id;
+
+    public ?string $frontendTheme = 'bootstrap-5';
 
     public function __construct(
-        public string $id,
-        ?string $frontendTheme = null,
+        ?string $id = null,
+        ?string $frontendTheme = null
     ) {
-
-        if (empty($this->id)) {
-            $this->id = 'component-'.uniqid();
-        }
-
-        $this->frontendTheme = $frontendTheme ? $frontendTheme : config('media-library-extensions.frontend_theme');
+        //        dump('id in bc: ' . $id);
+        $this->id = filled($id) ? $id : 'component-'.Str::uuid();
+        //        dump('this->id in bc: ' . $this->id);
+        $this->frontendTheme = $frontendTheme ?? config('medialibrary-extensions.frontend_theme');
     }
 }

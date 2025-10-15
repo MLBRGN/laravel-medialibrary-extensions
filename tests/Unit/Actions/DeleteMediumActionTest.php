@@ -3,7 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('deletes a medium and reorders priorities', function () {
@@ -22,13 +22,13 @@ it('deletes a medium and reorders priorities', function () {
         ->withCustomProperties(['priority' => 1])
         ->toMediaCollection('images');
 
-    $request = MediaManagerDestroyRequest::create('/', 'DELETE', [
+    $request = DestroyRequest::create('/', 'DELETE', [
         'initiator_id' => 'foo',
         'media_manager_id' => 'bar',
         'image_collection' => 'images',
     ]);
 
-    $action = new DeleteMediumAction();
+    $action = new DeleteMediumAction;
 
     // Act
     $response = $action->execute($request, $first);
@@ -56,27 +56,27 @@ it('skips reorder if no collections are passed', function () {
         ->withCustomProperties(['priority' => 99])
         ->toMediaCollection('images');
 
-    $request = MediaManagerDestroyRequest::create('/', 'DELETE', [
+    $request = DestroyRequest::create('/', 'DELETE', [
         'initiator_id' => 'foo',
         'media_manager_id' => 'bar',
         // no collections
     ]);
 
-    $action = new DeleteMediumAction();
+    $action = new DeleteMediumAction;
     $action->execute($request, $media);
 
     // Nothing should break, medium should be deleted
     expect(Media::find($media->id))->toBeNull();
 })->todo();
 
-//beforeEach(function () {
+// beforeEach(function () {
 //    // Mock the translation string used in your action
-////    Lang::shouldReceive('__')
-////        ->with('media-library-extensions::messages.medium_removed')
-////        ->andReturn('Medium has been removed');
-//});
+// //    Lang::shouldReceive('__')
+// //        ->with('media-library-extensions::messages.medium_removed')
+// //        ->andReturn('Medium has been removed');
+// });
 //
-//it('deletes the media and returns a success JSON response when request expects JSON', function () {
+// it('deletes the media and returns a success JSON response when request expects JSON', function () {
 //    // Create a fake Media model mock
 //    $media = Mockery::mock(Media::class);
 //    $media->shouldReceive('delete')->once();
@@ -95,9 +95,9 @@ it('skips reorder if no collections are passed', function () {
 //        'type' => 'success',
 //        'message' => __('media-library-extensions::messages.medium_removed'),
 //    ]);
-//});
+// });
 //
-//it('deletes the media and returns a redirect response when request does NOT expect JSON', function () {
+// it('deletes the media and returns a redirect response when request does NOT expect JSON', function () {
 //    $media = Mockery::mock(Media::class);
 //    $media->shouldReceive('delete')->once();
 //
@@ -121,4 +121,4 @@ it('skips reorder if no collections are passed', function () {
 //
 //    ]);
 //
-//});
+// });

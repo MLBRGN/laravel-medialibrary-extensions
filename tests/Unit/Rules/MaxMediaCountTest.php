@@ -2,7 +2,6 @@
 
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Support\Collection;
 
 beforeEach(function () {
     $this->model = mock(HasMedia::class);
@@ -48,7 +47,7 @@ it('does not fail when non-array value makes total equal to max', function () {
     $this->model
         ->shouldReceive('getMedia')
         ->with('images')
-        ->andReturn(collect(['existing1','existing2']));
+        ->andReturn(collect(['existing1', 'existing2']));
 
     // max = 3, newCount (non-array) = 1 -> total = 3 -> should NOT fail
     $rule = new MaxMediaCount($this->model, 'images', 3);
@@ -67,7 +66,7 @@ it('fails when non-array value causes total to exceed max and returns message', 
     $this->model
         ->shouldReceive('getMedia')
         ->with('images')
-        ->andReturn(collect(['existing1','existing2']));
+        ->andReturn(collect(['existing1', 'existing2']));
 
     // Set max = 2 so existing(2) + new(1) = 3 > 2 -> should fail
     $rule = new MaxMediaCount($this->model, 'images', 2);

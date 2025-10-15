@@ -8,7 +8,8 @@ beforeEach(function () {
 });
 
 it('renders media preview HTML and returns JSON response', function () {
-    $model = Blog::create(['title' => 'Test title']);
+    //    $model = Blog::create(['title' => 'Test title']);
+    $model = $this->getTestBlogModel();
     $initiatorId = 'initiator-789';
 
     $requestData = [
@@ -26,7 +27,7 @@ it('renders media preview HTML and returns JSON response', function () {
 
     $request = Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
 
-    // Return the dummy model instance
+    // Return the Dummy model instance
     $this->mediaService
         ->shouldReceive('resolveModel')
         ->once()
@@ -48,4 +49,3 @@ it('renders media preview HTML and returns JSON response', function () {
         'target' => $initiatorId,
     ]);
 });
-

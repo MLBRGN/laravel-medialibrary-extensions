@@ -25,21 +25,16 @@ class GetMediaPreviewerTemporaryHTMLAction
     public function execute(GetMediaPreviewerHTMLRequest $request): JsonResponse|Response
     {
         $initiatorId = $request->input('initiator_id');
+        $modelType = $request->input('model_type');
+        // no modelId
 
-        $imageCollection = $request->input('image_collection', '');
-        $documentCollection = $request->input('document_collection', '');
-        $youtubeCollection = $request->input('youtube_collection', '');
-        $videoCollection = $request->input('video_collection', '');
-        $audioCollection = $request->input('audio_collection', '');
+        // Decode JSON strings to arrays
+        $options = json_decode($request->input('options'), true) ?? [];
+        $options['temporaryUploads'] = true; // TODO should be in options already
+        $collections = json_decode($request->input('collections'), true) ?? [];
 
-        $collections = collect([
-            $imageCollection,
-            $documentCollection,
-            $youtubeCollection,
-            $videoCollection,
-            $audioCollection,
-        ])
-            ->filter(fn ($collection) => !empty($collection)) // removes null, '', false
+        $collections = collect($collections)
+            ->filter(fn ($collection) => ! empty($collection))
             ->all();
 
         $totalMediaCount = 0;
@@ -49,21 +44,10 @@ class GetMediaPreviewerTemporaryHTMLAction
         }
 
         $component = new MediaManagerPreview(
-            modelOrClassName: $request->input('model_type'),
             id: $initiatorId,
-            imageCollection: $imageCollection,
-            documentCollection: $documentCollection,
-            youtubeCollection: $youtubeCollection,
-            videoCollection: $videoCollection,
-            audioCollection: $audioCollection,
-            frontendTheme: $request->input('frontend_theme'),
-            showDestroyButton: $request->input('show_destroy_button') === 'true',
-            showSetAsFirstButton: $request->input('show_set_as_first_button') === 'true',
-            showOrder: $request->input('show_order') === 'true',
-            showMenu: $request->input('show_menu') === 'true',
-            temporaryUploads: $request->input('temporary_uploads') === 'true',
-            selectable: $request->input('selectable') === 'true',
-            showMediaEditButton: $request->input('show_media_edit_button') === 'true',
+            modelOrClassName: $modelType,
+            collections: $collections,
+            options: $options,
         );
 
         $html = Blade::renderComponent($component);
@@ -74,6 +58,5 @@ class GetMediaPreviewerTemporaryHTMLAction
             'success' => true,
             'target' => $initiatorId,
         ]);
-
     }
 }

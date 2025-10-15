@@ -7,7 +7,7 @@ it('passes validation with valid YouTube URL and required fields', function () {
     $uploadFieldName = config('media-library-extensions.upload_field_name_youtube');
 
     $data = [
-        'temporary_upload' => 'false',
+        'temporary_upload_mode' => 'false',
         'model_type' => 'App\\Models\\Post',
         'model_id' => 1,
         'youtube_collection' => 'youtube_videos',
@@ -21,7 +21,7 @@ it('passes validation with valid YouTube URL and required fields', function () {
         'multiple' => 'true',
     ];
 
-    $request = new StoreYouTubeVideoRequest();
+    $request = new StoreYouTubeVideoRequest;
 
     $validator = Validator::make($data, $request->rules());
 
@@ -32,7 +32,7 @@ it('fails validation with invalid YouTube URL', function () {
     $uploadFieldName = config('media-library-extensions.upload_field_name_youtube');
 
     $data = [
-        'temporary_upload' => 'false',
+        'temporary_upload_mode' => 'false',
         'model_type' => 'App\\Models\\Post',
         'model_id' => 1,
         'youtube_collection' => 'youtube_videos',
@@ -42,7 +42,7 @@ it('fails validation with invalid YouTube URL', function () {
         'multiple' => 'true',
     ];
 
-    $request = new StoreYouTubeVideoRequest();
+    $request = new StoreYouTubeVideoRequest;
 
     $validator = Validator::make($data, $request->rules());
 
@@ -51,14 +51,14 @@ it('fails validation with invalid YouTube URL', function () {
 });
 
 it('fails when required fields are missing', function () {
-    $request = new StoreYouTubeVideoRequest();
+    $request = new StoreYouTubeVideoRequest;
 
     $data = []; // empty input
 
     $validator = Validator::make($data, $request->rules());
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->has('temporary_upload'))->toBeTrue();
+    expect($validator->errors()->has('temporary_upload_mode'))->toBeTrue();
     expect($validator->errors()->has('model_type'))->toBeTrue();
     expect($validator->errors()->has('youtube_collection'))->toBeTrue();
     expect($validator->errors()->has('initiator_id'))->toBeTrue();

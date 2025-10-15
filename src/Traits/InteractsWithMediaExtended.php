@@ -28,6 +28,7 @@ trait InteractsWithMediaExtended
         static::created(function ($model) {
             if (! $model->exists || ! $model->getKey()) {
                 Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+
                 return;
             }
 
@@ -57,17 +58,17 @@ trait InteractsWithMediaExtended
 
                 // replace img urls from temporary to media in html editor fields
                 $tempUrl = $temporaryUpload->getUrl();
-//                Log::info($tempUrl);
+                //                Log::info($tempUrl);
                 if ($tempUrl && $media && property_exists($model, 'htmlEditorFields')) {
-//                    Log::info('replace images');
+                    //                    Log::info('replace images');
                     foreach ($model->htmlEditorFields as $field) {
-//                        Log::info('field: '.$field);
+                        //                        Log::info('field: '.$field);
 
                         if (! empty($model->{$field})) {
-//                            Log::info('model field not empty: '.$field);
+                            //                            Log::info('model field not empty: '.$field);
                             $newValue = str_replace($tempUrl, $media->getUrl(), $model->{$field});
                             if ($newValue !== $model->{$field}) {
-//                                Log::info('update value of model field: '.$field);
+                                //                                Log::info('update value of model field: '.$field);
                                 $model->{$field} = $newValue;
                                 $dirty = true;
                             }
@@ -86,70 +87,70 @@ trait InteractsWithMediaExtended
             }
         });
     }
-//    public static function bootInteractsWithMediaExtended(): void
-//    {
-//        static::created(function ($model) {
-////            Log::info('checking for temporary media for model with model type: '.$model->getMorphClass().' and id: '.$model->getKey());
-//
-//            if (! $model->exists || ! $model->getKey()) {
-//                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
-//
-//                return;
-//            }
-//
-//            $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
-//
-//            foreach ($temporaryUploads as $temporaryUpload) {
-//
-//                // filter out unwanted custom properties
-//                $customProperties = collect($temporaryUpload->custom_properties)
-//                    ->except([
-//                        'image_collection',
-//                        'document_collection',
-//                        'youtube_collection',
-//                    ])
-//                    ->toArray();
-//
-//                $media = self::safeAddMedia(
-//                    $model,
-//                    $temporaryUpload->path,
-//                    $temporaryUpload->disk,
-//                    $temporaryUpload->getNameWithExtension(),
-//                    $temporaryUpload->collection_name,
-//                    $temporaryUpload->order_column,
-//                    $customProperties
-//                );
-//
-//                $tempUrl = $temporaryUpload->getUrl();
-//                // replace img urls from temporary to media in html editor content
-//                if ($tempUrl && $media && property_exists($model, 'htmlEditorFields')) {
-//                    $dirty = false;
-//
-//                    foreach ($model->htmlEditorFields as $field) {
-//                        if (! empty($model->{$field})) {
-//                            $model->{$field} = str_replace(
-//                                $tempUrl,
-//                                $media->getUrl(),
-//                                $model->{$field}
-//                            );
-//                            $dirty = true;
-//                        }
-//                    }
-//
-//                    if ($dirty) {
-//                        $model->saveQuietly();
-//                    }
-//                }
-//
-//                // remove the file
-//                Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
-//
-//                // remove record from the database
-//                $temporaryUpload->delete();
-//            }
-//
-//        });
-//    }
+    //    public static function bootInteractsWithMediaExtended(): void
+    //    {
+    //        static::created(function ($model) {
+    // //            Log::info('checking for temporary media for model with model type: '.$model->getMorphClass().' and id: '.$model->getKey());
+    //
+    //            if (! $model->exists || ! $model->getKey()) {
+    //                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+    //
+    //                return;
+    //            }
+    //
+    //            $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
+    //
+    //            foreach ($temporaryUploads as $temporaryUpload) {
+    //
+    //                // filter out unwanted custom properties
+    //                $customProperties = collect($temporaryUpload->custom_properties)
+    //                    ->except([
+    //                        'image_collection',
+    //                        'document_collection',
+    //                        'youtube_collection',
+    //                    ])
+    //                    ->toArray();
+    //
+    //                $media = self::safeAddMedia(
+    //                    $model,
+    //                    $temporaryUpload->path,
+    //                    $temporaryUpload->disk,
+    //                    $temporaryUpload->getNameWithExtension(),
+    //                    $temporaryUpload->collection_name,
+    //                    $temporaryUpload->order_column,
+    //                    $customProperties
+    //                );
+    //
+    //                $tempUrl = $temporaryUpload->getUrl();
+    //                // replace img urls from temporary to media in html editor content
+    //                if ($tempUrl && $media && property_exists($model, 'htmlEditorFields')) {
+    //                    $dirty = false;
+    //
+    //                    foreach ($model->htmlEditorFields as $field) {
+    //                        if (! empty($model->{$field})) {
+    //                            $model->{$field} = str_replace(
+    //                                $tempUrl,
+    //                                $media->getUrl(),
+    //                                $model->{$field}
+    //                            );
+    //                            $dirty = true;
+    //                        }
+    //                    }
+    //
+    //                    if ($dirty) {
+    //                        $model->saveQuietly();
+    //                    }
+    //                }
+    //
+    //                // remove the file
+    //                Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
+    //
+    //                // remove record from the database
+    //                $temporaryUpload->delete();
+    //            }
+    //
+    //        });
+    //    }
 
     protected static function safeAddMedia($model, $path, $disk, $filename, $collection, ?int $order = null, $customProperties = []): ?Media
     {
@@ -176,6 +177,7 @@ trait InteractsWithMediaExtended
                 'trace' => $e->getTraceAsString(),
             ]);
         }
+
         return null;
     }
 
@@ -269,8 +271,9 @@ trait InteractsWithMediaExtended
         $this->registerMediaConversions($medium);
 
         $conversionCollection = collect($this->mediaConversions);
+
         return $conversionCollection
-            ->map(fn($conversion) => $conversion->getName())
+            ->map(fn ($conversion) => $conversion->getName())
             ->unique()
             ->values()
             ->toArray();
@@ -284,7 +287,7 @@ trait InteractsWithMediaExtended
         foreach ($conversions as $name) {
             if (str_contains($name, 'x')) {
                 [$w, $h] = explode('x', $name);
-                $result[$name] = (int)$w / (int)$h;
+                $result[$name] = (int) $w / (int) $h;
             }
         }
 

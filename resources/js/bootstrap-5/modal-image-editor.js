@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const config = JSON.parse(modal.querySelector('.image-editor-modal-config').value);
             const mediumPath = modal.getAttribute('data-medium-path');
             const displayName = modal.getAttribute('data-medium-display-name');
-            const initiatorId = config.initiator_id;
+            const initiatorId = config.initiatorId;
 
             const editor = document.createElement('image-editor');
             editor.setAttribute('id', 'my-image-editor');

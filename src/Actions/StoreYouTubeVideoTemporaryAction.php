@@ -28,13 +28,13 @@ class StoreYouTubeVideoTemporaryAction
         }
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $field = config('media-library-extensions.upload_field_name_youtube');
         $multiple = $request->boolean('multiple');
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
-        if(!$multiple) {
+        if (! $multiple) {
             $maxItemsInCollection = 1;
         }
 
@@ -44,7 +44,7 @@ class StoreYouTubeVideoTemporaryAction
             $request->input('youtube_collection'),
             $request->input('video_collection'),
             $request->input('audio_collection'),
-        ])->filter()->all();// remove falsy values
+        ])->filter()->all(); // remove falsy values
 
         $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
         $nextPriority = $temporaryUploadsInCollections;
@@ -67,7 +67,7 @@ class StoreYouTubeVideoTemporaryAction
 
             $tempUpload = $this->youTubeService->storeTemporaryThumbnailFromRequest($request);
 
-            if (!$tempUpload) {
+            if (! $tempUpload) {
                 return MediaResponse::error(
                     $request,
                     $initiatorId,
@@ -85,6 +85,7 @@ class StoreYouTubeVideoTemporaryAction
                 __('media-library-extensions::messages.youtube_video_uploaded')
             );
         }
+
         return MediaResponse::error($request,
             $initiatorId,
             $mediaManagerId,

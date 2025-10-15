@@ -27,7 +27,6 @@ class ImageResponsive extends Component
         }
     }
 
-
     public function hasGeneratedConversion(): bool
     {
         if (! $this->medium || $this->originalOnly) {

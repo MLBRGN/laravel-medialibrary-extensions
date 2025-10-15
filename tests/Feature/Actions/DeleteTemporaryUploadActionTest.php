@@ -17,7 +17,7 @@ it('returns error response when no collections provided JSON', function () {
 
     // Call your route with empty payload to trigger 422
     $response = $this->actingAs($user)->deleteJson(
-        route(config('media-library-extensions.route_prefix') . '-temporary-upload-destroy', $upload),
+        route(config('media-library-extensions.route_prefix').'-temporary-upload-destroy', $upload),
         ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerId]
     );
 
@@ -28,7 +28,6 @@ it('returns error response when no collections provided JSON', function () {
             'message' => 'The image collection field is required when none of video collection / audio collection / document collection / youtube collection are present.',
         ]);
 });
-
 
 it('returns error response when no collections provided Redirect', function () {
     $user = $this->getUser();
@@ -42,7 +41,7 @@ it('returns error response when no collections provided Redirect', function () {
     ]);
 
     $response = $this->actingAs($user)->delete(
-        route(config('media-library-extensions.route_prefix') . '-temporary-upload-destroy', $upload),
+        route(config('media-library-extensions.route_prefix').'-temporary-upload-destroy', $upload),
         ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerId]
     );
 
@@ -66,10 +65,10 @@ it('deletes the temporary upload and returns JSON', function () {
     $mediaManagerId = 'media-manager-123';
     $imageCollectionName = 'images';
 
-//    // Dump all queries executed during the request
-//    DB::listen(function ($query) {
-//        dump($query->sql, $query->bindings);
-//    });
+    //    // Dump all queries executed during the request
+    //    DB::listen(function ($query) {
+    //        dump($query->sql, $query->bindings);
+    //    });
 
     // Create a temporary upload
     $temporaryUpload = $this->createTemporaryUpload([
@@ -80,7 +79,7 @@ it('deletes the temporary upload and returns JSON', function () {
     $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
 
     // Call your route with empty payload to trigger 422
-    $route =  route(mle_prefix_route('temporary-upload-destroy'), $temporaryUpload);
+    $route = route(mle_prefix_route('temporary-upload-destroy'), $temporaryUpload);
     $response = $this->actingAs($user)->deleteJson(
         $route,
         [
@@ -107,10 +106,10 @@ it('deletes the temporary upload and returns redirect', function () {
     $mediaManagerId = 'media-manager-123';
     $imageCollectionName = 'images';
 
-//    // Dump all queries executed during the request
-//    DB::listen(function ($query) {
-//        dump($query->sql, $query->bindings);
-//    });
+    //    // Dump all queries executed during the request
+    //    DB::listen(function ($query) {
+    //        dump($query->sql, $query->bindings);
+    //    });
 
     // Create a temporary upload
     $temporaryUpload = $this->createTemporaryUpload([
@@ -120,9 +119,8 @@ it('deletes the temporary upload and returns redirect', function () {
 
     $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
 
-
     // Call your route with empty payload to trigger 422
-    $route =  route(mle_prefix_route('temporary-upload-destroy'), $temporaryUpload);
+    $route = route(mle_prefix_route('temporary-upload-destroy'), $temporaryUpload);
     $response = $this->actingAs($user)->delete(
         $route,
         [
@@ -182,9 +180,9 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
             'media_manager_id' => $mediaManagerId,
             'image_collection' => $imageCollectionName,
         ],
-        [
-            'X-Test-Session-Id' => $sessionId,
-        ]);
+            [
+                'X-Test-Session-Id' => $sessionId,
+            ]);
 
     $flashKey = config('media-library-extensions.status_session_prefix');
     $flashData = $response->getSession()->get($flashKey);

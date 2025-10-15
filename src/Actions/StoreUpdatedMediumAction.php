@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\UpdateMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
@@ -22,19 +22,19 @@ class StoreUpdatedMediumAction
         protected MediaService $mediaService
     ) {}
 
-    public function execute(StoreUpdatedMediumRequest $request): JsonResponse|RedirectResponse
+    public function execute(UpdateMediumRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $mediumId = $request->input('medium_id');
         $collection = $request->input('collection');
-        $temporaryUpload = $request->boolean('temporary_upload');
+        $temporaryUploadMode = $request->boolean('temporary_upload_mode');
         $file = $request->file('file');
 
-        if (!$temporaryUpload) {
+        if (! $temporaryUploadMode) {
 
             abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
@@ -58,7 +58,7 @@ class StoreUpdatedMediumAction
                     __('media-library-extensions::messages.something_went_wrong'));
 
             }
-            Log::info('trying to find medium with id'. $mediumId);
+            Log::info('trying to find medium with id'.$mediumId);
         } else {
             $existingMedium = TemporaryUpload::find($mediumId);
 

@@ -1,4 +1,4 @@
-@if ($temporaryUpload)
+@if ($temporaryUploadMode)
     @include('media-library-extensions::components.plain.media-carousel-temporary')
 {{--    @include('media-library-extensions::components.plain.media-carousel-temporary', [--}}
 {{--        'media' => $media,--}}

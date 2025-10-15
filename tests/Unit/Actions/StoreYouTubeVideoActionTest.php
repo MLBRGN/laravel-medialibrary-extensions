@@ -19,7 +19,7 @@ beforeEach(function () {
 it('delegates to temporary action when temporary_upload is true', function () {
     $request = Mockery::mock(StoreYouTubeVideoRequest::class);
     $request->shouldReceive('boolean')
-        ->with('temporary_upload')
+        ->with('temporary_upload_mode')
         ->andReturn(true);
 
     $expectedResponse = Mockery::mock(JsonResponse::class);
@@ -38,7 +38,7 @@ it('delegates to temporary action when temporary_upload is true', function () {
 it('delegates to permanent action when temporary_upload is false', function () {
     $request = Mockery::mock(StoreYouTubeVideoRequest::class);
     $request->shouldReceive('boolean')
-        ->with('temporary_upload')
+        ->with('temporary_upload_mode')
         ->andReturn(false);
 
     $expectedResponse = Mockery::mock(JsonResponse::class);

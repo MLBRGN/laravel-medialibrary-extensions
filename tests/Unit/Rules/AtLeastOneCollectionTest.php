@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Request;
 use Mlbrgn\MediaLibraryExtensions\Rules\AtLeastOneCollection;
 
 beforeEach(function () {
-    $this->rule = new AtLeastOneCollection();
+    $this->rule = new AtLeastOneCollection;
 });
 
 it('fails when no collections are provided', function () {

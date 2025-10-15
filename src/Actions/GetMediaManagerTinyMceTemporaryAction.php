@@ -14,7 +14,6 @@ class GetMediaManagerTinyMceTemporaryAction
         protected MediaService $mediaService
     ) {}
 
-
     public function execute(GetMediaManagerTinyMceRequest $request): View
     {
         $initiatorId = $request->input('initiator_id');
@@ -26,5 +25,4 @@ class GetMediaManagerTinyMceTemporaryAction
         return view('media-library-extensions::media-manager-tinymce', compact('initiatorId', 'model'));
 
     }
-
 }

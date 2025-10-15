@@ -12,16 +12,8 @@ use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
 /**
  * Handle the validation and authorization for uploading multiple media files.
  */
-class MediaManagerUploadMultipleRequest extends MediaManagerRequest
+class StoreMultipleRequest extends MediaManagerRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      */
@@ -30,11 +22,11 @@ class MediaManagerUploadMultipleRequest extends MediaManagerRequest
         $uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
         $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
 
-        $temporaryUpload = $this->input('temporary_upload', 'false');
+        $temporaryUploadMode = $this->input('temporary_upload_mode', 'false');
 
-        // Resolve model only if temporary_upload = 'false'
+        // Resolve model only if temporary_upload_mode = 'false'
         $model = null;
-        if ($temporaryUpload === 'false' && $this->filled('model_type') && $this->filled('model_id')) {
+        if ($temporaryUploadMode === 'false' && $this->filled('model_type') && $this->filled('model_id')) {
             $modelClass = $this->input('model_type');
             if (class_exists($modelClass)) {
                 $model = $modelClass::find($this->input('model_id'));
@@ -51,9 +43,9 @@ class MediaManagerUploadMultipleRequest extends MediaManagerRequest
 
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
-            'temporary_upload' => ['required', 'string', Rule::in(['true', 'false'])],
+            'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
-            'model_id' => ['required_if:temporary_upload,false'],
+            'model_id' => ['required_if:temporary_upload_mode,false'],
             'image_collection' => 'required_without_all:video_collection,audio_collection,document_collection,youtube_collection',
             'video_collection' => 'required_without_all:image_collection,audio_collection,document_collection,youtube_collection',
             'audio_collection' => 'required_without_all:image_collection,video_collection,document_collection,youtube_collection',
@@ -62,7 +54,7 @@ class MediaManagerUploadMultipleRequest extends MediaManagerRequest
             $uploadFieldName => [
                 'nullable',
                 'array',
-                $temporaryUpload === 'false'
+                $temporaryUploadMode === 'false'
                     ? new MaxMediaCount($model, $collectionFields, $maxItemsInCollection)
                     : new MaxTemporaryUploadCount($collectionFields, $maxItemsInCollection),
             ],

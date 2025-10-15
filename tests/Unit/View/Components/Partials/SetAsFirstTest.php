@@ -1,10 +1,9 @@
 <?php
 
-
 use Illuminate\Support\Collection;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('renders the set-as-first-form partial view', function () {
     // Create dummy media collection
@@ -31,11 +30,7 @@ it('renders the set-as-first-form partial view', function () {
         id: 'set-first-btn',
         frontendTheme: 'plain',
         useXhr: false,
-        imageCollection: 'images',
-        documentCollection: 'docs',
-        youtubeCollection: 'youtube',
-        videoCollection:  'video',
-        audioCollection: 'audio',
+        collections: ['image' => 'images', 'audio' => 'audio', 'video' => 'video', 'document' => 'docs', 'youtube' => 'youtube'],
         showSetAsFirstButton: true,
         model: $model,
     );
@@ -59,11 +54,7 @@ it('falls back to config use_xhr when useXhr is null', function () {
         id: 'set-first-btn',
         frontendTheme: 'plain',
         useXhr: null,
-        imageCollection: '',
-        documentCollection: '',
-        youtubeCollection: '',
-        videoCollection:  'video',
-        audioCollection: 'audio',
+        collections: ['video' => 'video', 'audio' => 'audio'],
         showSetAsFirstButton: false,
         model: $model,
     );

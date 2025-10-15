@@ -24,11 +24,16 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
         id: 'set-as-first-btn',
         frontendTheme: 'plain',
         useXhr: null,
-        imageCollection: 'images',
-        documentCollection: 'documents',
-        youtubeCollection: 'youtube',
-        videoCollection:  'videos',
-        audioCollection: 'audios',
+        collections: [
+            'image' => 'images',
+            'document' => 'documents',
+            'youtube' => 'youtube',
+            'video' => 'video',
+            'audio' => 'audio',
+        ],
+        //        options: [
+        //            'showSetAsFirstButton' => true,
+        //        ]
         showSetAsFirstButton: true,
     );
 

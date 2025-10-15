@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\View\ComponentAttributeBag;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
+use Illuminate\View\ComponentAttributeBag;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 
 it('sets status from session when initiatorId matches', function () {
     $initiatorId = 'media-manager-123';
@@ -51,7 +51,8 @@ it('does not set status if initiatorId does not match', function () {
 
 it('renders the status partial view', function () {
     $initiatorId = 'media-manager-123';
-    $mediaManagerId = 'media-manager-123';$component = new Status(
+    $mediaManagerId = 'media-manager-123';
+    $component = new Status(
         id: 'status-1',
         frontendTheme: 'plain',
         initiatorId: $initiatorId,
@@ -85,7 +86,7 @@ it('renders the status message in the view when initiatorId matches (plain)', fu
     // Render the component with attributes injected
     $html = $component->render()->with([
         'status' => $component->status,               // pass the status property
-        'attributes' => new ComponentAttributeBag(), // pass attributes
+        'attributes' => new ComponentAttributeBag, // pass attributes
     ])->render();
 
     expect($html)->toContain('Test status message');
@@ -114,7 +115,7 @@ it('renders the status message in the view when initiatorId matches (bootstrap-5
     // Render the component with attributes injected
     $html = $component->render()->with([
         'status' => $component->status,               // pass the status property
-        'attributes' => new ComponentAttributeBag(), // pass attributes
+        'attributes' => new ComponentAttributeBag, // pass attributes
     ])->render();
 
     expect($html)->toContain('Test status message');
@@ -145,7 +146,7 @@ it('does not render the status message when initiatorId does not match', functio
     // Render the component with attributes injected
     $html = $component->render()->with([
         'status' => $component->status,               // pass the status property
-        'attributes' => new ComponentAttributeBag(), // pass attributes
+        'attributes' => new ComponentAttributeBag, // pass attributes
     ])->render();
 
     expect($html)->not()->toContain('Test status message');
@@ -158,7 +159,7 @@ it('sets status from validation error bag when present', function () {
     $mediaManagerId = 'media-manager-123';
 
     // Prepare an error bag with one message
-    $errors = new ViewErrorBag();
+    $errors = new ViewErrorBag;
     $errors->put('media_manager_'.$initiatorId, new MessageBag([
         'collection' => ['Collection is verplicht.'],
     ]));
@@ -179,7 +180,7 @@ it('sets status from validation error bag when present', function () {
     // Render the component with attributes injected
     $html = $component->render()->with([
         'status' => $component->status,
-        'attributes' => new ComponentAttributeBag(),
+        'attributes' => new ComponentAttributeBag,
     ])->render();
 
     expect($html)->toContain('Collection is verplicht.');

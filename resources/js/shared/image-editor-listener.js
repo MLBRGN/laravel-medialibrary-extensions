@@ -26,8 +26,6 @@ const updateMedia = (detail) => {
 
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
     const configInput = modal.querySelector('.image-editor-modal-config');
-    // console.log('1', document.querySelector('[data-image-editor-modal-config]'));
-    // console.log('2', modal.querySelector('[data-image-editor-modal-config]'));
     if (!configInput) return;
 
     let config = {};
@@ -38,7 +36,7 @@ const updateMedia = (detail) => {
         console.error('Invalid JSON config');
     }
 
-    const useXhr = config.use_xhr;
+    const useXhr = config.useXhr;
     console.log('useXhr', useXhr);
 
     if (!useXhr) {
@@ -57,37 +55,37 @@ const updateMedia = (detail) => {
         return
     }
 
-    const initiator = document.querySelector('#' + config.initiator_id);
+    const initiator = document.querySelector('#' + config.initiatorId);
     const container = initiator.querySelector('.media-manager-row')
 
-    const {
-        model_type: modelType,
-        model_id: modelId,
-        medium_id: mediumId,
-        collection: collection,
-        csrf_token: csrfToken,
-        save_updated_medium_route: saveUpdatedMediumRoute,
-        temporary_upload: temporaryUpload,
-    } = config;
+    // const {
+    //     model_type: modelType,
+    //     model_id: modelId,
+    //     medium_id: mediumId,
+    //     collection: collection,
+    //     csrf_token: csrfToken,
+    //     save_updated_medium_route: saveUpdatedMediumRoute,
+    //     temporary_upload: temporaryUpload,
+    // } = config;
 
     const file = detail.file;
     const formData = new FormData();
-    formData.append('initiator_id', config.initiator_id);
-    formData.append('media_manager_id', config.media_manager_id ?? '');
-    formData.append('model_type', config.model_type);
-    formData.append('model_id', config.model_id ?? '');
-    formData.append('medium_id', config.medium_id);
+    formData.append('initiator_id', config.initiatorId);
+    formData.append('media_manager_id', config.mediaManagerId ?? '');
+    formData.append('model_type', config.modelType);
+    formData.append('model_id', config.modelId ?? '');
+    formData.append('medium_id', config.mediumId);
     formData.append('collection', config.collection);
-    formData.append('image_collection', config.image_collection);
-    formData.append('document_collection', config.document_collection);
-    formData.append('youtube_collection', config.youtube_collection);
-    formData.append('temporary_upload', config.temporary_upload);
+    formData.append('image_collection', config.imageCollection);
+    formData.append('document_collection', config.documentCollection);
+    formData.append('youtube_collection', config.youtubeCollection);
+    formData.append('temporary_upload_mode', config.temporaryUploadMode);
     formData.append('file', file); // 'media' must match Laravel's expected field
 
-    fetch(saveUpdatedMediumRoute, {
+    fetch(config.saveUpdatedMediumRoute, {
         method: 'POST',
         headers: {
-            'X-CSRF-TOKEN': csrfToken,
+            'X-CSRF-TOKEN': config.csrfToken,
             'Accept': 'application/json'
         },
         body: formData

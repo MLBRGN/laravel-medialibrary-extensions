@@ -6,7 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 
 class StoreSingleMediumAction
 {
@@ -15,9 +15,9 @@ class StoreSingleMediumAction
         protected StoreSingleTemporaryAction $storeSingleTemporaryAction
     ) {}
 
-    public function execute(MediaManagerUploadSingleRequest $request): RedirectResponse|JsonResponse
+    public function execute(StoreSingleRequest $request): RedirectResponse|JsonResponse
     {
-        if ($request->temporary_upload === 'true') {
+        if ($request->temporary_upload_mode === 'true') {
             return $this->storeSingleTemporaryAction->execute($request);
         }
 

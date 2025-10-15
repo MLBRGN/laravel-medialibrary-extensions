@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const mediumPath = modal.dataset.mediumPath;
             const displayName = modal.dataset.mediumDisplayName;
-            const initiatorId = config.initiator_id;
+            const initiatorId = config.initiatorId;
 
             const editor = document.createElement('image-editor');
             editor.id = 'my-image-editor';

@@ -21,18 +21,19 @@
             <x-mle-media-manager-tinymce
                 :model-or-class-name="$modelOrClassName"
                 id="{{ $id }}"
-                :image-collection="$imageCollection"
-                :document-collection="$documentCollection"
-                :youtube-collection="$youtubeCollection"
-                :video-collection="$videoCollection"
-                :audio-collection="$audioCollection"
+                :collections="$collections"
+{{--                :image-collection="$imageCollection"--}}
+{{--                :document-collection="$documentCollection"--}}
+{{--                :youtube-collection="$youtubeCollection"--}}
+{{--                :video-collection="$videoCollection"--}}
+{{--                :audio-collection="$audioCollection"--}}
                 :frontend-theme="$frontendTheme"
                 :show-destroy-button="true"
                 :show-set-as-first-button="true"
                 :show-media-edit-button="true"
                 :show-order="true"
                 :show-menu="true"
-                :multiple="$temporaryUpload"
+                :multiple="$multiple"
                 :selectable="true"
             />
 {{--            <x-mle-media-manager-multiple--}}
@@ -49,7 +50,7 @@
 {{--            :show-media-edit-button="true"--}}
 {{--                :show-order="true"--}}
 {{--                :show-menu="true"--}}
-{{--                :multiple="$temporaryUpload"--}}
+{{--                :multiple="$multiple"--}}
 {{--                :selectable="true"--}}
 {{--            />--}}
 {{--        </div>--}}

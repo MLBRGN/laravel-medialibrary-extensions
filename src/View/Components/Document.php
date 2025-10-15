@@ -13,6 +13,8 @@ class Document extends Component
 {
     public array $icon;
 
+    public string $id;
+
     /** @var string[] */
     public array $officeMimes = [
         'application/msword',
@@ -33,6 +35,8 @@ class Document extends Component
         public bool $preview = true,
         public string $alt = ''// set alt to empty for when none provided
     ) {
+
+        $this->id = 'mle-document-'.$medium->id;
 
         $mimetype = $medium->mime_type;
 

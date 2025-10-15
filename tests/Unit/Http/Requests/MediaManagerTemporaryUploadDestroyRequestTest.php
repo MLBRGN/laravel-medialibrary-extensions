@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
 
 it('passes validation when required fields and one collection are provided', function () {
     $data = [
@@ -10,7 +10,7 @@ it('passes validation when required fields and one collection are provided', fun
         'image_collection' => 'images',
     ];
 
-    $request = new MediaManagerTemporaryUploadDestroyRequest();
+    $request = new DestroyTemporaryMediumRequest;
 
     $validator = Validator::make($data, $request->rules());
 
@@ -23,7 +23,7 @@ it('fails validation when no collections are provided', function () {
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerTemporaryUploadDestroyRequest();
+    $request = new DestroyTemporaryMediumRequest;
 
     $validator = Validator::make($data, $request->rules());
 
@@ -45,7 +45,7 @@ it('passes validation when a non-image collection is provided', function () {
             $collection => 'some_collection',
         ];
 
-        $request = new MediaManagerTemporaryUploadDestroyRequest();
+        $request = new DestroyTemporaryMediumRequest;
 
         $validator = Validator::make($data, $request->rules());
 

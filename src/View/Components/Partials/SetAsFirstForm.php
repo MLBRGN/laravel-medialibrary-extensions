@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -13,19 +14,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class SetAsFirstForm extends BaseComponent
 {
     public ?string $targetMediaCollection = null;
+
     public ?string $mediaManagerId = '';
 
     public function __construct(
+        ?string $id,
         public Collection $media,
-        public Media $medium,
-        public string $id,
+        public Media|TemporaryUpload $medium,
         public ?string $frontendTheme,
         public ?bool $useXhr,
-        public ?string $imageCollection = '',
-        public ?string $documentCollection = '',
-        public ?string $youtubeCollection = '',
-        public ?string $videoCollection = '',
-        public ?string $audioCollection = '',
+        public array $collections, // in image, document, youtube, video, audio
         public bool $showSetAsFirstButton,
         public ?HasMedia $model,
         public ?bool $disabled = false,
@@ -33,7 +31,7 @@ class SetAsFirstForm extends BaseComponent
         parent::__construct($id, $frontendTheme);
 
         $this->mediaManagerId = $this->id;
-        $this->id = $this->id . '-set-as-first-form-' . $this->medium->id;
+        $this->id = $this->id.'-set-as-first-form-'.$this->medium->id;
 
         $this->targetMediaCollection = $medium->collection_name;
     }

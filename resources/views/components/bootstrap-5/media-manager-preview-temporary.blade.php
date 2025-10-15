@@ -82,11 +82,7 @@
                 :initiator-id="$id"
                 :medium="$medium" 
                 :model-or-class-name="$modelOrClassName"
-                :image-collection="$imageCollection"
-                :document-collection="$documentCollection"
-                :youtube-collection="$youtubeCollection"
-                :audio-collection="$audioCollection"
-                :video-collection="$videoCollection"
+                :collections="$collections"
                 :frontend-theme="$frontendTheme"
                 :use-xhr="$useXhr"
                 :disabled="$disabled"
@@ -123,7 +119,7 @@
                     @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">
-                    @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
+                    @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
                         <button
                             type="button"
                             data-bs-toggle="modal"
@@ -138,7 +134,6 @@
                             />
                         </button>
                     @endif
-                    
                     @if($showSetAsFirstButton)
                         @if($medium->getCustomProperty('priority') === 0)
                             <button
@@ -155,11 +150,7 @@
                             <x-mle-partial-temporary-upload-set-as-first-form
                                 :medium="$medium"
                                 :id="$id"
-                                :image-collection="$imageCollection"
-                                :document-collection="$documentCollection"
-                                :youtube-collection="$youtubeCollection"
-                                :audio-collection="$audioCollection"
-                                :video-collection="$videoCollection"
+                                :collections="$collections"
                                 :show-set-as-first-button="$showSetAsFirstButton"
                                 :show-media-edit-button="$showMediaEditButton"
                                 :frontend-theme="$frontendTheme"
@@ -172,11 +163,7 @@
                         <x-mle-partial-temporary-upload-destroy-form
                             :medium="$medium"
                             :id="$id"
-                            :image-collection="$imageCollection"
-                            :document-collection="$documentCollection"
-                            :youtube-collection="$youtubeCollection"
-                            :audio-collection="$audioCollection"
-                            :video-collection="$videoCollection"
+                            :collections="$collections"
                             :frontend-theme="$frontendTheme"
                             :use-xhr="$useXhr"
                             :disabled="$disabled"
@@ -194,8 +181,8 @@
 <x-mle-media-modal
     :id="$id"
     :model-or-class-name="$modelOrClassName"
-    :media-collection="$imageCollection"
-    :media-collections="[$imageCollection, $youtubeCollection, $documentCollection, $videoCollection, $audioCollection]"
+{{--    :media-collection="$imageCollection"--}}
+    :media-collections="$collections"
     :video-auto-play="true"
     :frontend-theme="$frontendTheme"
     title="Media carousel"/>

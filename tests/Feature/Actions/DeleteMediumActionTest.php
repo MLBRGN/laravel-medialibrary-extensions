@@ -110,10 +110,10 @@ it('reorders all media on delete', function () {
     $response = $this
         ->actingAs($user)
         ->delete($route, [
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
-        'image_collection' => $imageCollectionName,
-    ]);
+            'initiator_id' => $initiatorId,
+            'media_manager_id' => $mediaManagerId,
+            'image_collection' => $imageCollectionName,
+        ]);
 
     $response->assertRedirect();
 

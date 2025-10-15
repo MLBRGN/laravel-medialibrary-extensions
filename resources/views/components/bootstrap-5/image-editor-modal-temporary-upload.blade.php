@@ -47,11 +47,7 @@
                     :initiator-id="$id"
                     :media-manager-id="$mediaManagerId"
                     :medium="$medium"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :audio-collection="$audioCollection"
-                    :video-collection="$videoCollection"
+                    :collections="$collections"
                     :frontend-theme="$frontendTheme"
                     :use-xhr="$useXhr"
                 />

@@ -19,36 +19,14 @@
             type="hidden"
             name="media_manager_id"
             value="{{ $mediaManagerId }}">
-        @if($imageCollection)
+    @foreach($collections as $collectionType => $collectionName)
+        @if (!empty($collectionName))
             <input
                 type="hidden"
-                name="image_collection"
-                value="{{ $imageCollection }}">
+                name="{{ $collectionType }}_collection"
+                value="{{ $collectionName }}">
         @endif
-        @if($documentCollection)
-            <input
-                type="hidden"
-                name="document_collection"
-                value="{{ $documentCollection }}">
-        @endif
-        @if($videoCollection)
-            <input
-                type="hidden"
-                name="video_collection"
-                value="{{ $videoCollection }}">
-        @endif
-        @if($audioCollection)
-            <input
-                type="hidden"
-                name="audio_collection"
-                value="{{ $audioCollection }}">
-        @endif
-        @if($youtubeCollection)
-            <input
-                type="hidden"
-                name="youtube_collection"
-                value="{{ $youtubeCollection }}">
-        @endif
+    @endforeach
         <button
             type="{{ $useXhr ? 'button' : 'submit' }}"
             class="mle-button mle-button-submit mle-button-icon"

@@ -6,7 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 
 class StoreMultipleMediaAction
 {
@@ -15,9 +15,9 @@ class StoreMultipleMediaAction
         protected StoreMultipleTemporaryAction $storeMultipleTemporaryAction
     ) {}
 
-    public function execute(MediaManagerUploadMultipleRequest $request): RedirectResponse|JsonResponse
+    public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
-        if ($request->temporary_upload === 'true') {
+        if ($request->temporary_upload_mode === 'true') {
             return $this->storeMultipleTemporaryAction->execute($request);
         }
 

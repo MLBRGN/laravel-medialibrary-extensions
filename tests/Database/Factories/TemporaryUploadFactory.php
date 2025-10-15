@@ -12,7 +12,7 @@ class TemporaryUploadFactory extends Factory
 
     public function definition()
     {
-        $fileName = $this->faker->word() . '.jpg';
+        $fileName = $this->faker->word().'.jpg';
         $directory = 'tmp/uploads';
         $userId = $this->faker->numberBetween(1, 10);
         $sessionId = Str::uuid();

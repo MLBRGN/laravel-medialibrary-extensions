@@ -46,12 +46,18 @@
     <x-mle-media-manager-single
         id="alien-sinlge"
         :model-or-class-name="$model"
-        image-collection="alien-single-image"
-        document-collection="alien-single-document"
-        youtube-collection="alien-single-youtube-video"
-        show-destroy-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                'image' => 'alien-single-image',
+                'document' =>'alien-single-document',
+                'youtube' =>'alien-single-youtube-video',
+                'video' =>'alien-single-video',
+                'audio' =>'alien-single-audio',
+            ]"
+        :options="[
+                'showDestroyButton' => true,
+                'frontendTheme' => 'plain',
+                'useXhr' => config('media-library-extensions.use_xhr'),
+            ]"
     />
 
     <h2>Media Manager Single (Temporary uploads)</h2>
@@ -59,14 +65,19 @@
     <x-mle-media-manager-single
         id="aliens-single-temporary-uploads"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-        image-collection="alien-single-image"
-        document-collection="alien-single-document"
-        youtube-collection="alien-single-youtube-video"
-        video-collection="alien-single-video"
-        audio-collection="alien-single-audio"
-        show-destroy-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                'image' => 'alien-single-image',
+                'document' =>'alien-single-document',
+                'youtube' =>'alien-single-youtube-video',
+                'video' =>'alien-single-video',
+                'audio' =>'alien-single-audio',
+            ]"
+        class="mt-5"
+        :options="[
+                'showDestroyButton' => true,
+                'frontendTheme' => 'plain',
+                'useXhr' => config('media-library-extensions.use_xhr'),
+            ]"
     />
 
     <h2>Media Manager Multiple</h2>
@@ -74,18 +85,22 @@
     <x-mle-media-manager-multiple
         id="alien-multiple"
         :model-or-class-name="$model"
-        image-collection="alien-multiple-images"
-        document-collection="alien-multiple-documents"
-        youtube-collection="alien-multiple-youtube-videos"
-        video-collection="alien-multiple-videos"
-        audio-collection="alien-multiple-audio"
-        class="mt-5"
-        show-destroy-button
-        show-order
-        show-set-as-first-button
-        show-media-edit-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                'image' => 'alien-multiple-image',
+                'document' =>'alien-multiple-document',
+                'youtube' =>'alien-multiple-youtube-video',
+                'video' =>'alien-multiple-video',
+                'audio' =>'alien-multiple-audio',
+            ]"
+        :options="[
+                'showDestroyButton' => true,
+                'showSetAsFirstButton' => true,
+                'showMediaEditButton' => true,
+                'showOrder' => true,
+                'frontendTheme' => 'plain',
+                'useXhr' => config('media-library-extensions.use_xhr'),
+                'showMenu' => true,
+            ]"
     />
 
     <h2>Media Manager Multiple (Temporary uploads)</h2>
@@ -93,18 +108,23 @@
     <x-mle-media-manager-multiple
         id="alien-multiple-temporary-uploads"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-        image-collection="alien-multiple-images"
-        document-collection="alien-multiple-documents"
-        youtube-collection="alien-multiple-youtube-videos"
-        video-collection="alien-multiple-videos"
-        audio-collection="alien-multiple-audio"
+        :collections="[
+                'image' => 'alien-multiple-image',
+                'document' =>'alien-multiple-document',
+                'youtube' =>'alien-multiple-youtube-video',
+                'video' =>'alien-multiple-video',
+                'audio' =>'alien-multiple-audio',
+            ]"
         class="mt-5"
-        show-destroy-button
-        show-order
-        show-set-as-first-button
-        show-media-edit-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :options="[
+                'showDestroyButton' => true,
+                'showSetAsFirstButton' => true,
+                'showMediaEditButton' => true,
+                'showOrder' => true,
+                'frontendTheme' => 'plain',
+                'useXhr' => config('media-library-extensions.use_xhr'),
+                'showMenu' => true,
+            ]"
     />
 
     <h2 class="my-5">Media Manager YouTube</h2>
@@ -112,14 +132,22 @@
     <x-mle-media-manager-multiple
         id="alien-media-manager-youtube"
         :model-or-class-name="$model"
-        youtube-collection="alien-multiple-youtube-videos"
-        class="mt-5"
-        show-destroy-button
-        :show-order="true"
-        show-set-as-first-button
-        show-media-edit-button=""
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                'image' => '',
+                'document' => '',
+                'youtube' =>'alien-multiple-youtube-videos',
+                'video' =>'',
+                'audio' =>'',
+            ]"
+        :options="[
+                'showDestroyButton' => true,
+                'showSetAsFirstButton' => true,
+                'showMediaEditButton' => true,
+                'showOrder' => true,
+                'frontendTheme' => 'plain',
+                'useXhr' => config('media-library-extensions.use_xhr'),
+                'showMenu' => true,
+            ]"
     />
 
     <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
@@ -127,14 +155,23 @@
     <x-mle-media-manager-multiple
         id="alien-media-manager-youtube-temporary"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-        youtube-collection="alien-multiple-youtube-videos"
+        :collections="[
+                'image' => '',
+                'document' => '',
+                'youtube' =>'alien-multiple-youtube-videos',
+                'video' =>'',
+                'audio' =>'',
+            ]"
         class="mt-5"
-        show-destroy-button
-        :show-order="true"
-        show-set-as-first-button
-        show-media-edit-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :options="[
+                'showDestroyButton' => true,
+                'showSetAsFirstButton' => true,
+                'showMediaEditButton' => true,
+                'showOrder' => true,
+                'frontendTheme' => 'plain',
+                'useXhr' => config('media-library-extensions.use_xhr'),
+                'showMenu' => true,
+            ]"
     />
     
     <h2>Media Carousel</h2>

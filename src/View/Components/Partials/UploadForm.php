@@ -5,26 +5,31 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UploadForm extends BaseComponent
 {
-
     use ResolveModelOrClassName;
 
     public ?string $mediaManagerId = '';
+
     public string $allowedMimeTypesHuman = '';
+    //    public ?string $imageCollection;
+    //    public ?string $documentCollection;
+    //    public ?string $youtubeCollection;
+    //    public ?string $videoCollection;
+    //    public ?string $audioCollection;
 
     public function __construct(
-        public string $id,
-        ?string $frontendTheme,
-        public ?string $imageCollection,
-        public ?string $documentCollection,
-        public ?string $youtubeCollection,
-        public ?string $videoCollection,
-        public ?string $audioCollection,
+        ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public Media|TemporaryUpload|null $medium = null,
+        ?string $frontendTheme,// TODO scope?
+        public array $collections = [], // in image, document, youtube, video, audio
+        public array $options = [],
         public string $allowedMimeTypes = '',
         public bool $multiple = false,
         public bool $showDestroyButton = false,
@@ -33,7 +38,22 @@ class UploadForm extends BaseComponent
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {
-        $this->mediaManagerId = $this->id;
+        $this->mediaManagerId = $id;
+
+        // define default collection names
+        $collections = array_merge([
+            'image' => '',
+            'document' => '',
+            'youtube' => '',
+            'video' => '',
+            'audio' => '',
+        ], $collections);
+
+        $this->imageCollection = $collections['image'];
+        $this->audioCollection = $collections['audio'];
+        $this->videoCollection = $collections['video'];
+        $this->documentCollection = $collections['document'];
+        $this->youtubeCollection = $collections['youtube'];
 
         parent::__construct($id, $frontendTheme);
 
@@ -51,9 +71,9 @@ class UploadForm extends BaseComponent
     private function setAllowedMimeTypes(): void
     {
         // Use override if provided
-        if (!empty($this->allowedMimeTypes)) {
+        if (! empty($this->allowedMimeTypes)) {
             $this->allowedMimeTypesHuman = collect(explode(',', $this->allowedMimeTypes))
-                ->map(fn($mime) => mle_human_mimetype_label($mime))
+                ->map(fn ($mime) => mle_human_mimetype_label($mime))
                 ->join(', ');
 
             return;
@@ -81,7 +101,7 @@ class UploadForm extends BaseComponent
         $allowedMimeTypes = $allowedMimeTypes->flatten()->unique();
 
         $this->allowedMimeTypesHuman = $allowedMimeTypes
-            ->map(fn($mime) => mle_human_mimetype_label($mime))
+            ->map(fn ($mime) => mle_human_mimetype_label($mime))
             ->join(', ');
 
         $this->allowedMimeTypes = $allowedMimeTypes
@@ -90,5 +110,4 @@ class UploadForm extends BaseComponent
             ->implode(',');
 
     }
-
 }

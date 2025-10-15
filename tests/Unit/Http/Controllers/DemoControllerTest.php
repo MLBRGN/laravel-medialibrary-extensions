@@ -51,7 +51,7 @@ it('uses existing Alien if present for demoBootstrap5', function () {
 it('creates model if none exists', function () {
     expect(Alien::count())->toBe(0);
 
-    (new DemoController())->demoPlain();
+    (new DemoController)->demoPlain();
 
     expect(Alien::count())->toBe(1);
 });

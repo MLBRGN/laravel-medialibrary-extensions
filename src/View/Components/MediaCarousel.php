@@ -4,12 +4,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 class MediaCarousel extends BaseComponent
@@ -17,18 +15,20 @@ class MediaCarousel extends BaseComponent
     use ResolveModelOrClassName;
 
     public MediaCollection $mediaItems;
-    public MediaCollection $media;// TODO duplocate with $mediaItems
+
+    public MediaCollection $media; // TODO duplocate with $mediaItems
 
     public int $mediaCount;
+
     public string $previewerId = '';
 
     public function __construct(
+        ?string $id,
         public mixed $modelOrClassName,
-        public ?string $mediaCollection = null,
+        public ?string $mediaCollection = null,// TODO why do i have 2
         public ?array $mediaCollections = [],
         public bool $singleMedium = false,
         public bool $expandableInModal = true,
-        public string $id = '',
         public ?string $frontendTheme = null,
         public bool $inModal = false,
 
@@ -43,15 +43,16 @@ class MediaCarousel extends BaseComponent
         )
             ->filter()// remove false values
             ->reduce(function (Collection $carry, string $collectionName) {
-                if ($this->temporaryUpload) {
+                if ($this->temporaryUploadMode) {
                     return $carry->merge(TemporaryUpload::forCurrentSession($collectionName));
                 }
+
                 return $carry->merge($this->model->getMedia($collectionName));
             }, collect());
 
         // Sort by 'priority' custom property (both TemporaryUpload and Media support getCustomProperty)
         $allMedia = $allMedia
-            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
 
         $this->mediaItems = MediaCollection::make($allMedia);
@@ -59,7 +60,7 @@ class MediaCarousel extends BaseComponent
 
         $this->mediaCount = $this->mediaItems->count();
         $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
-//        $this->id = $this->id.'-carousel';
+        //        $this->id = $this->id.'-carousel';
         $this->id = $this->id.'-crs';
     }
 

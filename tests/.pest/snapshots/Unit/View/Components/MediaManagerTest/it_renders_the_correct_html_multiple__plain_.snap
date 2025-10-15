@@ -4,30 +4,45 @@
     data-media-manager=""
     data-use-xhr="true"
     >
-    
-    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"image_collection":"images","document_collection":"","video_collection":"","audio_collection":"","youtube_collection":"","media_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","preview_update_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtube_upload_route":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrf_token":null,"frontend_theme":"plain","show_upload_form":true,"show_destroy_button":false,"show_set_as_first_button":false,"show_order":false,"show_menu":true,"temporary_upload":"false","multiple":true,"use_xhr":true,"selectable":false,"show_media_edit_button":false,"readonly":false,"disabled":false}'>
+    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"medium":null,"collections":{"image":"blog-images","document":"blog-documents","youtube":"blog-youtube","video":"blog-videos","audio":"blog-audio"},"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrfToken":null,"disabled":false,"frontendTheme":"plain","multiple":true,"options":{"frontendTheme":"plain","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true},"readonly":false,"selectable":false,"showDestroyButton":true,"showMediaEditButton":false,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"temporaryUploadMode":"false","useXhr":true}'>
     
     <div class="media-manager-row row">
-        <div class="media-manager-form col-12 col-md-4">
+        <div class="media-manager-form">
             
                                                 <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
-        accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif"
+        accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/rtf,text/rtf,application/vnd.oasis.opendocument.text,application/vnd.oasis.opendocument.spreadsheet,application/vnd.oasis.opendocument.presentation,video/mp4,video/quicktime,video/webm,audio/mpeg,audio/ogg,audio/wav,audio/webm"
         type="file"
         class="mle-input form-control"
                     name="media_multiple[]"
-            multiple
-                    >
-    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
-            <input
-            type="hidden"
-            name="image_collection"
-            value="images">
-                        <input 
+            multiple 
+                        >
+    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF, PDF, Word document (.doc), Wordprocessing (.docx), Excel spreadsheet(.xls), Spreadsheet (.xlsx), PowerPoint presentation (.ppt), Presentation (.pptx), RTF (Rich Text File), RTF (Rich Text File), ODT (OpenDocument text), ODS (OpenDocument spreadsheet), ODP (OpenDocument presentation), MP4 video, QuickTime video, WebM video, MP3 audio, OGG audio, WAV audio, WebM audio.</span>
+                        <input
+                type="hidden"
+                name="image_collection"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="youtube_collection"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="document_collection"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="video_collection"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="audio_collection"
+                value="blog-audio">
+                <input 
         type="hidden" 
-        name="temporary_upload" 
+        name="temporary_upload_mode" 
         value="false">
     <input
         type="hidden"
@@ -41,7 +56,7 @@
         type="hidden"
         name="initiator_id"
         value="test-media-modal-mmm">
-    <input
+    <input 
         type="hidden"
         name="media_manager_id"
         value="test-media-modal-mmm">
@@ -66,10 +81,84 @@
     
 
 
-                                                    
+                                                    <div class="conditional-form media-manager-youtube-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-youtube-upload-form" data-xhr-method="post">
+        <input 
+        type="hidden" 
+        name="temporary_upload_mode" 
+        value="false">
+    <input
+        type="hidden"
+        name="medium_id"
+        value="">
+                        <input
+                type="hidden"
+                name="image_collection"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="youtube_collection"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="document_collection"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="video_collection"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="audio_collection"
+                value="blog-audio">
+                <input
+        type="hidden"
+        name="youtube_collection"
+        value="">
+    <input
+        type="hidden"
+        name="model_type"
+        value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input
+        type="hidden"
+        name="model_id"
+        value="1">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="multiple"
+        value="false">
+    <label 
+        for="test-media-modal-mmm-youtube-url" 
+        class="mle-label">
+        YouTube Video URL
+    </label>
+    <input
+        id="test-media-modal-mmm-youtube-url"
+        type="url" 
+        name="youtube_url" 
+        class="form-control" 
+        placeholder="https://www.youtube.com/watch?v=..."
+            >
+    <button
+        type="button"
+        class="mle-button mle-button-submit btn btn-primary d-block"
+        data-action="upload-youtube-medium"
+            >
+        Add YouTube-video
+    </button>
+    </div>
+                            
         </div>
-        
-        <div class="media-manager-previews">
+        <div
+            class="media-manager-previews"
+            >
             <div class="status-area">
     <div class="mle-spinner-container" media-manager-id="test-media-modal-mmm" data-spinner-container>
 
@@ -217,7 +306,6 @@
                 if (toggleBtn && debugSection) {
                     toggleBtn.addEventListener('click', function () {
                         const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-
                         toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
                         debugSection.classList.toggle('hidden');
                         toggleBtn.textContent = isExpanded

@@ -21,7 +21,7 @@ class StoreYouTubeVideoAction
             abort(403);
         }
 
-        if ($request->boolean('temporary_upload')) {
+        if ($request->boolean('temporary_upload_mode')) {
             return $this->storeYouTubeVideoTemporaryAction->execute($request);
         }
 

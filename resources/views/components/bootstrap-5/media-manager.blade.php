@@ -19,42 +19,37 @@
                 'media-manager-form',
                 'col-12 col-md-4'
             ])>
-            {{ $form_start ?? '' }}
             @if($showUploadForm)
-                @if($imageCollection || $documentCollection || $videoCollection || $audioCollection)
-                    <x-mle-partial-upload-form
-                        :model-or-class-name="$modelOrClassName"
-                        :temporary-upload="$temporaryUpload"
-                        :id="$id"
-                        :allowed-mime-types="$allowedMimeTypes"
-                        :upload-to-collection="$imageCollection"
-                        :image-collection="$imageCollection"
-                        :document-collection="$documentCollection"
-                        :youtube-collection="$youtubeCollection"
-                        :video-collection="$videoCollection"
-                        :audio-collection="$audioCollection"
-                        :show-destroy-button="$showDestroyButton"
-                        :show-set-as-first-button="$showSetAsFirstButton"
-                        :show-media-edit-button="$showMediaEditButton"
-                        :multiple="$multiple"
-                        :disabled="$disabled || $disableForm"
-                        :readonly="$readonly"
-                        :use-xhr="$useXhr"
-                        :frontend-theme="$frontendTheme"
-                    />
+                @if($showRegularUploadForm())
+                        <x-mle-partial-upload-form
+                            :model-or-class-name="$modelOrClassName"
+                            :medium="$medium"
+                            :temporary-upload-mode="$temporaryUploadMode"
+                            :id="$id"
+                            :options="$options"
+                            :allowed-mime-types="$allowedMimeTypes"
+                            :upload-to-collection="$getCollectionValue('image' , null)"
+                            :collections="$collections"
+                            :show-destroy-button="$showDestroyButton"
+                            :show-set-as-first-button="$showSetAsFirstButton"
+                            :show-media-edit-button="$showMediaEditButton"
+                            :multiple="$multiple"
+                            :disabled="$disabled || $disableForm"
+                            :readonly="$readonly"
+                            :use-xhr="$useXhr"
+                            :frontend-theme="$frontendTheme"
+                        />
                 @endif
             @endif
-            @if($youtubeCollection)
+            @if($hasCollection('youtube'))
                 <x-mle-partial-youtube-upload-form
                     class="mt-3"
                     :model-or-class-name="$modelOrClassName"
-                    :temporary-upload="$temporaryUpload"
+                    :medium="$medium"
+                    :options="$options"
+                    :temporary-upload-mode="$temporaryUploadMode"
                     :id="$id"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :video-collection="$videoCollection"
-                    :audio-collection="$audioCollection"
+                    :collections="$collections"
                     :show-destroy-button="$showDestroyButton"
                     :show-set-as-first-button="$showSetAsFirstButton"
                     :show-media-edit-button="$showMediaEditButton"
@@ -81,24 +76,10 @@
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
                     :id="$id"
-                    :show-order="$showOrder"
-                    :show-menu="$showMenu"
-                    :show-destroy-button="$showDestroyButton"
-                    :show-set-as-first-button="$showSetAsFirstButton"
-                    :show-media-edit-button="$showMediaEditButton"
                     :model-or-class-name="$modelOrClassName"
+                    :options="$options"
                     :medium="$medium"
-                    :image-collection="$imageCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :document-collection="$documentCollection"
-                    :video-collection="$videoCollection"
-                    :audio-collection="$audioCollection"
-                    :temporary-uploads="$temporaryUpload"
-                    :frontend-theme="$frontendTheme"
-                    :use-xhr="$useXhr"
-                    :selectable="$selectable"
-                    :disabled="$disabled"
-                    :readonly="$readonly"
+                    :collections="$collections"
                 />
             </div>
         </div>
