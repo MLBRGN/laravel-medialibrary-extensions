@@ -64,18 +64,13 @@ class MediaManagerPreview extends BaseComponent
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
     ) {
-        //        dd($options);
-        //        dd('temporaryUploads: ' . $this->temporaryUploads ? 'Yes' : 'No');
         $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
         parent::__construct($id, $frontendTheme);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        // apply matching options to class properties
         $this->mapOptionsToProperties($this->options);
-        //        dd($this->temporaryUploads);
 
-        // when non of the menu items visible, set showMenu to false
         // TODO
         //        if (!$showDestroyButton && !$showOrder && !$showSetAsFirstButton && !$showMediaEditButton) {
         //            $this->showMenu = false;
@@ -93,7 +88,7 @@ class MediaManagerPreview extends BaseComponent
         // CASE 2: Otherwise collect from configured collections.
         $this->media = collect($collections)
             ->flatMap(function (string $collectionName) {
-                if ($this->temporaryUploads) {
+                if ($this->temporaryUploadMode) {
                     return TemporaryUpload::forCurrentSession($collectionName);
                 }
 
@@ -105,7 +100,6 @@ class MediaManagerPreview extends BaseComponent
             })
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
-        //        dd($this->media);
     }
 
     public function render(): View

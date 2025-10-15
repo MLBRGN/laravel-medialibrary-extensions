@@ -11,7 +11,6 @@
     method="delete"
     class="media-manager-destroy-form"
 >
-    @dump($mediaManagerId)
         <input
             type="hidden"
             name="initiator_id"
@@ -20,14 +19,14 @@
            type="hidden"
            name="media_manager_id"
            value="{{ $mediaManagerId }}">
-    @foreach($collections as $collectionType => $collectionName)
-        @if (!empty($collectionName))
-            <input
-                type="hidden"
-                name="{{ $collectionType }}_collection"
-                value="{{ $collectionName }}">
-        @endif
-    @endforeach
+        @foreach($collections as $collectionType => $collectionName)
+            @if (!empty($collectionName))
+                <input
+                    type="hidden"
+                    name="collections[{{ $collectionType }}]"
+                    value="{{ $collectionName }}">
+            @endif
+        @endforeach
         <button
             type="{{ $useXhr ? 'button' : 'submit' }}"
             class="mle-button mle-button-submit mle-button-icon btn btn-primary"

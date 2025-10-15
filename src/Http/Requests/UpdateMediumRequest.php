@@ -23,11 +23,13 @@ class UpdateMediumRequest extends MediaManagerRequest
             'medium_id' => 'required|string',
             'collection' => 'required|string',
             'file' => 'required|file',
-            'image_collection' => 'required|string',
-            'document_collection' => 'nullable|string',
-            'youtube_collection' => 'nullable|string',
-            'audio_collection' => 'nullable|string',
-            'video_collection' => 'nullable|string',
+            'collections' => ['required', 'array'],
+            'collections.*' => ['nullable', 'string'],
+//            'image_collection' => 'required|string',
+//            'document_collection' => 'nullable|string',
+//            'youtube_collection' => 'nullable|string',
+//            'audio_collection' => 'nullable|string',
+//            'video_collection' => 'nullable|string',
         ];
     }
 }

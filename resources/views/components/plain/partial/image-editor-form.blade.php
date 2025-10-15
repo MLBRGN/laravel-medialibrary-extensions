@@ -43,6 +43,14 @@
         @if (!empty($collectionName))
             <input
                 type="hidden"
+                name="collections[{{ $collectionType }}]"
+                value="{{ $collectionName }}">
+        @endif
+    @endforeach
+    @foreach($collections as $collectionType => $collectionName)
+        @if (!empty($collectionName))
+            <input
+                type="hidden"
                 name="{{ $collectionType }}_collection"
                 value="{{ $collectionName }}">
         @endif
