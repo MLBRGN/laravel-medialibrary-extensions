@@ -36,6 +36,7 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;
         $this->targetMediaCollection = $medium->collection_name;
         $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+
         $this->resolveModelOrClassName($modelOrClassName);
 
     }

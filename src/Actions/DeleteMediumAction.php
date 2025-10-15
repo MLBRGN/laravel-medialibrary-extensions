@@ -19,7 +19,7 @@ class DeleteMediumAction
         Media $media
     ): JsonResponse|RedirectResponse {
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         // Delete the medium
         $model = $media->model;
@@ -48,12 +48,13 @@ class DeleteMediumAction
                 'model' => get_class($model),
                 'model_id' => $model->id ?? null,
             ]);
+
             return;
         }
 
         $mediaItems = collect($collections)
-            ->flatMap(fn(string $collection) => $model->getMedia($collection))
-            ->sortBy(fn($media) => $media->getCustomProperty('priority', PHP_INT_MAX))
+            ->flatMap(fn (string $collection) => $model->getMedia($collection))
+            ->sortBy(fn ($media) => $media->getCustomProperty('priority', PHP_INT_MAX))
             ->values(); // reindex after sort for safety
 
         $priority = 0;

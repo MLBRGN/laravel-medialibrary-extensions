@@ -23,7 +23,7 @@ class SetAsFirstForm extends BaseComponent
     public function __construct(
         ?string $id,
         public Collection $media,
-        public Media|TemporaryUpload $medium,// TODO should never be temporary upload
+        public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public ?string $frontendTheme,
         public ?bool $useXhr,
@@ -37,6 +37,7 @@ class SetAsFirstForm extends BaseComponent
         $this->id = $this->id.'-set-as-first-form-'.$this->medium->id;
 
         $this->targetMediaCollection = $medium->collection_name;
+
         $this->resolveModelOrClassName($modelOrClassName);
     }
 

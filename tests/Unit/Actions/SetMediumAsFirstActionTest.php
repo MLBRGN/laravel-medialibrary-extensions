@@ -114,7 +114,7 @@ it('returns error when no media in collection JSON', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
-        'collections' => ['image' => 'blog-non-existing-collection']
+        'collections' => ['image' => 'blog-non-existing-collection'],
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -157,7 +157,7 @@ it('returns error when no media in collection', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
-        'collections' => ['image' => 'blog-non-existing-collection']
+        'collections' => ['image' => 'blog-non-existing-collection'],
     ]);
 
     $mediaService = new MediaService;
@@ -202,7 +202,7 @@ it('can set as first in collection JSON', function () {
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
-        'collections' => ['image' => 'blog-images']
+        'collections' => ['image' => 'blog-images'],
     ]);
     $request->headers->set('Accept', 'application/json');
 

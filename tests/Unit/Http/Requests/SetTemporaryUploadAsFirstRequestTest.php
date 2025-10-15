@@ -17,7 +17,7 @@ it('passes validation with required fields and at least one collection', functio
         'medium_id' => '123',
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
-        'collections' => ['image1' =>'images'],
+        'collections' => ['image1' => 'images'],
     ];
 
     $validator = Validator::make($data, $this->request->rules());

@@ -2,7 +2,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
-
 use Illuminate\Validation\Validator;
 
 trait ValidatesCollections
@@ -20,17 +19,17 @@ trait ValidatesCollections
 
         // 1️⃣ Reject unexpected keys
         $invalidKeys = array_diff(array_keys($collections), $allowedKeys);
-        if (!empty($invalidKeys)) {
+        if (! empty($invalidKeys)) {
             $validator->errors()->add(
                 'collections',
-                'Invalid collection keys: ' . implode(', ', $invalidKeys)
+                'Invalid collection keys: '.implode(', ', $invalidKeys)
             );
         }
 
         // 2️⃣ Require at least one allowed, non-empty key
         $nonEmpty = collect($collections)
             ->only($allowedKeys)
-            ->filter(fn($v) => filled($v));
+            ->filter(fn ($v) => filled($v));
 
         if ($nonEmpty->isEmpty()) {
             $validator->errors()->add(

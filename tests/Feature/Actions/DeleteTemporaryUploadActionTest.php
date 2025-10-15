@@ -25,7 +25,7 @@ it('returns error response when no collections provided (JSON)', function () {
         ->assertJson([
             'initiatorId' => $initiatorId,
             'type' => 'error',
-            'message' => 'The collections field is required.',// TODO no static strings
+            'message' => 'The collections field is required.', // TODO no static strings
         ]);
 });
 
@@ -55,7 +55,7 @@ it('returns error response when no collections provided Redirect', function () {
         ->and($flashData)->toMatchArray([
             'initiator_id' => $initiatorId,
             'type' => 'error',
-            'message' => 'The collections field is required.',// TODO no static strings
+            'message' => 'The collections field is required.', // TODO no static strings
         ]);
 });
 

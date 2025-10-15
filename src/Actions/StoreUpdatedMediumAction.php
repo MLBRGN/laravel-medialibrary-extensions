@@ -90,7 +90,7 @@ class StoreUpdatedMediumAction
                 'user_id' => $userId,
                 'session_id' => $sessionId,
                 'order_column' => 1,
-                'custom_properties' => $collections
+                'custom_properties' => $collections,
             ]);
             $upload->save();
 

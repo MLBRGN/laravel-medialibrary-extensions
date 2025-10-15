@@ -8,13 +8,13 @@ arch('Traits must be traits')
     ->expect('Mlbrgn\MediaLibraryExtensions\Traits')
     ->toBeTraits();
 
-//arch()
+// arch()
 //    ->expect('Mlbrgn\MediaLibraryExtensions')
 //    ->files()
 //    ->thatContain('trait')        // select files that declare traits
 //    ->toBeInside('src/Traits');   // enforce location
 
-//it('ensures all traits live in src/Traits', function () {
+// it('ensures all traits live in src/Traits', function () {
 //    $files = glob(base_path('src/**/*.php'));
 //    dd($files);
 //    dd($files);
@@ -24,9 +24,9 @@ arch('Traits must be traits')
 //            expect(str_contains($file, 'src/Traits'))->toBeTrue();
 //        }
 //    }
-//});
+// });
 
-//it('ensures all traits live in src/Traits', function () {
+// it('ensures all traits live in src/Traits', function () {
 //    $dir = base_path('src');
 //    $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 //
@@ -40,8 +40,7 @@ arch('Traits must be traits')
 //            expect(str_contains($file->getPathname(), 'src/Traits'))->toBeTrue();
 //        }
 //    }
-//});
-
+// });
 
 arch('Requests are classes, extend Command, have handle method and have suffix Request')
     ->expect('Mlbrgn\MediaLibraryExtensions\Http\Requests')
@@ -49,7 +48,6 @@ arch('Requests are classes, extend Command, have handle method and have suffix R
     ->toHaveSuffix('Request')
     ->toExtend('Illuminate\Foundation\Http\FormRequest')
     ->toHaveMethod('rules');
-
 
 arch('Commands are classes, extend Command, and have handle method')
     ->expect('Mlbrgn\MediaLibraryExtensions\Console\Commands')

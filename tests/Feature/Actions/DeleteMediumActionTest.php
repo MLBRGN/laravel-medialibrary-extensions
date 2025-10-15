@@ -87,7 +87,6 @@ it('reorders all media on delete', function () {
     $mediaManagerId = 'media-manager-123';
     $collections = ['image' => 'images'];
 
-
     // Create model with multiple media items
     $model = $this->getModelWithMedia([
         'image' => 2,

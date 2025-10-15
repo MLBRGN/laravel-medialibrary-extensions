@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Support\Collection;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('renders the set-as-first-form', function () {
@@ -33,7 +31,6 @@ it('renders the set-as-first-form', function () {
 
 it('falls back to config use_xhr when useXhr is null', function () {
     $model = $this->getModelWithMedia(['image' => 3]);
-
 
     config()->set('media-library-extensions.use_xhr', true);
 

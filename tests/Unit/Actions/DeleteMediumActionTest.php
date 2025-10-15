@@ -25,10 +25,10 @@ it('deletes a medium and reorders priorities (JSON)', function () {
     $request = DestroyRequest::create('/', 'DELETE', [
         'initiator_id' => 'foo',
         'media_manager_id' => 'bar',
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ]);
 
-// Simulate an AJAX/JSON request
+    // Simulate an AJAX/JSON request
     $request->headers->set('Accept', 'application/json');
     $request->setJson(new \Symfony\Component\HttpFoundation\ParameterBag($request->all()));
 
@@ -36,14 +36,14 @@ it('deletes a medium and reorders priorities (JSON)', function () {
 
     // Act
     $response = $action->execute($request, $first);
-//    dd($response->getData());
+    //    dd($response->getData());
 
     // Assert response
     expect($response->getStatusCode())->toBe(200);
     expect($response->getData(true))
         ->toHaveKey('message')
         ->toMatchArray(['initiatorId' => 'foo']);
-//        ->toMatchArray(['initiatorId' => 'foo', 'mediaManagerId' => 'bar']);
+    //        ->toMatchArray(['initiatorId' => 'foo', 'mediaManagerId' => 'bar']);
 
     // The deleted medium should be gone
     expect(Media::find($first->id))->toBeNull();
@@ -89,7 +89,6 @@ it('skips reorder if no collections are passed', function () {
     expect($data['initiatorId'])->toBe('foo');
     expect($data['mediaManagerId'])->toBe('bar');
 })->todo();
-
 
 // beforeEach(function () {
 //    // Mock the translation string used in your action

@@ -18,7 +18,7 @@ class DeleteTemporaryUploadAction
         TemporaryUpload $temporaryUpload
     ): JsonResponse|RedirectResponse {
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         // Delete the medium
         $temporaryUpload->delete();
@@ -43,6 +43,7 @@ class DeleteTemporaryUploadAction
 
         if (empty($collections)) {
             Log::warning('No valid collections provided for reorderAllMedia.');
+
             return;
         }
 
@@ -52,7 +53,7 @@ class DeleteTemporaryUploadAction
         $temporaryUploads = TemporaryUpload::where('session_id', $sessionId)
             ->whereIn('collection_name', $collections)
             ->get()
-            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
+            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
         $priority = 0;
         foreach ($temporaryUploads as $temporaryUpload) {

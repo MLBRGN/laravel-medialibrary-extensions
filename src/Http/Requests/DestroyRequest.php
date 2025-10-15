@@ -12,7 +12,6 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
  */
 class DestroyRequest extends MediaManagerRequest
 {
-
     use ValidatesCollections;
 
     /**
