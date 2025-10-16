@@ -28,6 +28,7 @@ class Debug extends Component
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public ?string $frontendTheme = null,
         public array $config = [],
+        public array $options = [],
     ) {
 
         $this->id = uniqid();

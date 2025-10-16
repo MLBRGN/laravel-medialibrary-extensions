@@ -22,9 +22,9 @@ class UploadForm extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload|null $medium = null,
-        ?string $frontendTheme,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
+        ?string $frontendTheme,// TODO in options?
         public string $allowedMimeTypes = '',// TODO in options?
         public bool $multiple = false,
         public bool $showDestroyButton = false,// TODO in options?

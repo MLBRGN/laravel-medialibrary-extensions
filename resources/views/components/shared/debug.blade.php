@@ -15,8 +15,8 @@
             <div class="mle-debug-section">
                 <h3>🗄️ Component config: Model</h3>
                 <ul>
-                    <li><strong>Model Type:</strong> {{ $config['modelType'] ?? 'n/a' }}</li>
-                    <li><strong>Model ID:</strong> {{ $config['modelId'] ?? 'n/a' }}</li>
+                    <li><strong>Model type:</strong> {{ $config['modelType'] ?? 'n/a' }}</li>
+                    <li><strong>Model id:</strong> {{ $config['modelId'] ?? 'n/a' }}</li>
                 </ul>
             </div>
 
@@ -24,7 +24,7 @@
                 <h3>⚙️ Component config: General</h3>
                 <ul>
                     <li><strong>Id:</strong> {{ $config['id'] }}</li>
-                    <li><strong>Frontend Theme:</strong> {{ $config['frontendTheme'] }}</li>
+                    <li><strong>Frontend theme:</strong> {{ $config['frontendTheme'] }}</li>
                 </ul>
             </div>
 
@@ -39,18 +39,6 @@
 
             <div class="mle-debug-section">
                 <h3>🎞️ Component config: Collections</h3>
-{{--                <ul>--}}
-{{--                    <li><strong>Image:</strong> {{ $config['collections']['image'] ?? 'n/a' }}</li>--}}
-{{--                    <li><strong>Document:</strong> {{ $config['collections']['document'] ?? 'n/a' }}</li>--}}
-{{--                    <li><strong>Video:</strong> {{ $config['collections']['video'] ?? 'n/a' }}</li>--}}
-{{--                    <li><strong>Audio:</strong> {{ $config['collections']['audio'] ?? 'n/a' }}</li>--}}
-{{--                    <li><strong>YouTube:</strong> {{ $config['collections']['youtube'] ?? 'n/a' }}</li>--}}
-{{--                    @if ($model)--}}
-{{--                        @foreach($config['collections'] as $collectionType => $collectionName)--}}
-{{--                            <li><strong>{{ $collectionType }}</strong>: {{ $model->getMedia($collectionName)->count() }} items</li>--}}
-{{--                        @endforeach--}}
-{{--                    @endif--}}
-{{--                </ul>--}}
                 <ul>
                     @foreach (['image', 'document', 'video', 'audio', 'youtube'] as $type)
                         @php
@@ -58,7 +46,6 @@
                             $count = ($model && $collectionName)
                             ? $model->getMedia($collectionName)->count()
                             : 0;
-//                            $count = $model && $collectionName ? $model->getMedia($collectionName)->count() : 'n/a';
                         @endphp
 
                         <li>
@@ -98,10 +85,10 @@
             <div class="mle-debug-section">
                 <h3>🎛️ Config file values</h3>
                 <ul>
-                    <li><strong>XHR Enabled:</strong> {{ config('media-library-extensions.use_xhr') ? 'Yes' : 'No' }}</li>
+                    <li><strong>XHR enabled:</strong> {{ config('media-library-extensions.use_xhr') ? 'Yes' : 'No' }}</li>
                     <li><strong>Show Status:</strong> {{ config('media-library-extensions.show_status') ? 'Yes' : 'No' }}</li>
-                    <li><strong>YouTube Support Enabled:</strong> {{ config('media-library-extensions.youtube_support_enabled') ? 'Yes' : 'No' }}</li>
-                    <li><strong>Allowed Mime Types:</strong> {{ collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ') }}</li>
+                    <li><strong>YouTube support enabled:</strong> {{ config('media-library-extensions.youtube_support_enabled') ? 'Yes' : 'No' }}</li>
+                    <li><strong>Allowed Mime types:</strong> {{ collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ') }}</li>
                 </ul>
             </div>
 

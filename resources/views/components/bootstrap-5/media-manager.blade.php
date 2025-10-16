@@ -10,7 +10,7 @@
         'container-fluid px-0',
     ])->merge() }}
     data-media-manager=""
-    data-use-xhr="{{ $useXhr ? 'true' : 'false' }}"
+    data-use-xhr="{{ $getOption('useXhr') ? 'true' : 'false' }}"
     >
     <input type="hidden" class="media-manager-config" value='@json($config)'>
     {{ $component_start ?? '' }}
@@ -19,44 +19,46 @@
                 'media-manager-form',
                 'col-12 col-md-4'
             ])>
-            @if($showUploadForm)
+            @if($getOption('showUploadForm'))
                 @if($showRegularUploadForm())
                         <x-mle-partial-upload-form
+                            :id="$id"
                             :model-or-class-name="$modelOrClassName"
                             :medium="$medium"
-                            :temporary-upload-mode="$temporaryUploadMode"
-                            :id="$id"
-                            :options="$options"
-                            :allowed-mime-types="$allowedMimeTypes"
-                            :upload-to-collection="$getCollectionValue('image' , null)"
                             :collections="$collections"
-                            :show-destroy-button="$showDestroyButton"
-                            :show-set-as-first-button="$showSetAsFirstButton"
-                            :show-media-edit-button="$showMediaEditButton"
+                            :options="$options"
+{{--                            :temporary-upload-mode="$getOption('temporaryUploadMode')"--}}
+                            :temporary-upload-mode="$temporaryUploadMode"
+                            :allowed-mime-types="$getOption('allowedMimeTypes')"
+                            :upload-to-collection="$getCollectionValue('image' , null)"
+                            :show-destroy-button="$getOption('showDestroyButton')"
+                            :show-set-as-first-button="$getOption('showSetAsFirstButton')"
+                            :show-media-edit-button="$getOption('showMediaEditButton')"
                             :multiple="$multiple"
                             :disabled="$disabled || $disableForm"
                             :readonly="$readonly"
-                            :use-xhr="$useXhr"
-                            :frontend-theme="$frontendTheme"
+                            :use-xhr="$getOption('useXhr')"
+                            :frontend-theme="$getOption('frontendTheme')"
                         />
                 @endif
             @endif
             @if($hasCollection('youtube'))
                 <x-mle-partial-youtube-upload-form
                     class="mt-3"
+                    :id="$id"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
-                    :options="$options"
-                    :temporary-upload-mode="$temporaryUploadMode"
-                    :id="$id"
                     :collections="$collections"
-                    :show-destroy-button="$showDestroyButton"
-                    :show-set-as-first-button="$showSetAsFirstButton"
-                    :show-media-edit-button="$showMediaEditButton"
+                    :options="$options"
                     :disabled="$disabled || $disableForm"
                     :readonly="$readonly"
                     :multiple="$multiple"
-                    :use-xhr="$useXhr"
+                    :temporary-upload-mode="$temporaryUploadMode"
+{{--                    :temporary-upload-mode="$getOption('temporaryUploadMode')"--}}
+                    :use-xhr="$getOption('useXhr')"
+                    :show-destroy-button="$getOption('showDestroyButton')"
+                    :show-set-as-first-button="$getOption('showSetAsFirstButton')"
+                    :show-media-edit-button="$getOption('showMediaEditButton')"
                 />
             @endif
             {{ $form_end ?? '' }}
@@ -77,9 +79,9 @@
                 <x-mle-media-manager-preview
                     :id="$id"
                     :model-or-class-name="$modelOrClassName"
-                    :options="$options"
                     :medium="$medium"
                     :collections="$collections"
+                    :options="$options"
                 />
             </div>
         </div>
@@ -90,6 +92,11 @@
         :frontend-theme="$frontendTheme"
         :model-or-class-name="$modelOrClassName"
         :config="$config"
+        :options="$options"
     />
 </div>
-<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets 
+    include-css="true" 
+    include-js="true" 
+    :frontend-theme="$frontendTheme"
+/>
