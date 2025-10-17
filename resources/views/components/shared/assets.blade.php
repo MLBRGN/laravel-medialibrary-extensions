@@ -43,9 +43,9 @@
 @if($includeLiteYoutube)
     @once
         <script type="module">
-            // Loading the "lite-youtube" extension caused issues with the host app,
+            // Loading the "lite-YouTube" extension caused issues with the host app,
             // now waiting for dom to be loaded and only
-            // loading YT iframe api and "lite-youtube" when not loaded
+            // loading YT iframe api and "lite-YouTube" when not loaded
             // already (by host app)
             document.addEventListener('DOMContentLoaded', function() {
                 if (!window.YT) {

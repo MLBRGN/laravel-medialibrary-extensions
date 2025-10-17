@@ -39,6 +39,7 @@ trait InteractsWithOptionsAndConfig
         'model',
         'modelType',
         'modelId',
+        'options',
 //        'temporaryUploadMode'
         // any other properties you want in config
     ];
@@ -61,7 +62,7 @@ trait InteractsWithOptionsAndConfig
             return $options[$key];
         }
 
-        Log::debug(sprintf('[%s] Option "%s" not set, using default.', static::class, $key));
+//        Log::debug(sprintf('[%s] Option "%s" not set, using default.', static::class, $key));
         return $default;
     }
 

@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
@@ -28,6 +29,7 @@ class MediaManagerPreview extends BaseComponent
         public bool $readonly = false,
         public bool $selectable = false,
     ) {
+        Log::info('options: ' . print_r($options, true));
         $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
         parent::__construct($id, $frontendTheme);
 
