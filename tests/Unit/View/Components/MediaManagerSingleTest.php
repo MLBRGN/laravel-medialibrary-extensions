@@ -32,9 +32,9 @@ it('initializes correctly with model instance', function () {
     );
 
     expect($component->multiple)->toBeFalse()
-        ->and($component->showUploadForm)->toBeTrue()
-        ->and($component->showDestroyButton)->toBeTrue()
-        ->and($component->showOrder)->toBeFalse()// mms sets showOrder to false
+        ->and($component->getConfig('showUploadForm'))->toBeTrue()
+        ->and($component->getConfig('showDestroyButton'))->toBeTrue()
+        ->and($component->getConfig('showOrder'))->toBeTrue()// mms sets showOrder to false
         ->and($component->collections)
         ->toHaveKey('image', 'images')
         ->and($component->id)->toBe('blog-1-mms');
@@ -57,8 +57,8 @@ it('initializes correctly with model class name', function () {
 //        ->and($component->temporaryUploadMode)->toBeFalse()
         ->and($component->collections)
         ->toHaveKey('youtube', 'videos')
-        ->and($component->showSetAsFirstButton)->toBeFalse()
-        ->and($component->useXhr)->toBeFalse();
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()
+        ->and($component->getConfig('useXhr'))->toBeFalse();
 });
 
 it('defaults optional values when omitted', function () {
@@ -70,16 +70,19 @@ it('defaults optional values when omitted', function () {
         collections: [
             'image' => 'blog-images',
         ],
+        options: [
+            'showUploadForm' => true,
+        ]
     );
 
-    expect($component->showUploadForm)->toBeTrue()
-        ->and($component->options['showDestroyButton'])->toBeFalse()
-        ->and($component->options['showSetAsFirstButton'])->toBeFalse()
-        ->and($component->options['showOrder'])->toBeFalse()
-//        ->and($component->options['temporaryUploadMode'])->toBeTrue()
-//        ->and($component->options['uploadFieldName'])->toBe('medium') // TODO
-//        ->and($component->options['frontendTheme'])->toBe('bootstrap-5')// TODO
-        ->and($component->options['multiple'])->toBeFalse();
+    expect($component->getConfig('showUploadForm'))->toBeTrue()
+        ->and($component->getConfig('showDestroyButton'))->toBeFalse()
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()
+        ->and($component->getConfig('showOrder'))->toBeFalse()
+        ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
+        ->and($component->getConfig('uploadFieldName'))->toBe('medium')
+        ->and($component->getConfig('frontendTheme'))->toBe('bootstrap-5')
+        ->and($component->multiple)->toBeFalse();
 });
 
 it('renders the correct html single (plain)', function () {
@@ -95,12 +98,14 @@ it('renders the correct html single (plain)', function () {
                 id="test-media-modal"
                 :model-or-class-name="$modelOrClassName"
                 :collections="[\'image\' => \'images\', \'documents\' => \'documents\']"
-                :frontend-theme="$frontendTheme"
+                :options="$options"
                 multiple="false"
                 />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain',
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -114,12 +119,14 @@ it('renders the correct html single (bootstrap-5, temporary upload)', function (
                 id="test-media-modal"
                 :model-or-class-name="$modelOrClassName"
                 :collections="[\'image\' => \'images\']"
-                :frontend-theme="$frontendTheme"
+                :options="$options"
                 multiple="false"
                 />',
         [
             'modelOrClassName' => $model->getMorphClass(),
-            'frontendTheme' => 'bootstrap-5',
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();

@@ -10,7 +10,7 @@ beforeEach(function () {
     $this->action = new StoreSinglePermanentAction($this->mediaService);
 });
 
-it('it stores file and returns JSON success', function () {
+it('it stores file (json)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
@@ -19,7 +19,7 @@ it('it stores file and returns JSON success', function () {
     $this->mediaService
         ->shouldReceive('resolveModel')->once()->andReturn($model);
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn('images');
+        ->shouldReceive('determineCollectionType')->once()->andReturn('image');
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
     $request = StoreSingleRequest::create('/upload', 'POST', [
@@ -27,6 +27,7 @@ it('it stores file and returns JSON success', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images']
     ], [], [
         $uploadFieldNameSingle => $file1,
     ]);
@@ -34,6 +35,7 @@ it('it stores file and returns JSON success', function () {
     $request->headers->set('Accept', 'application/json');
 
     $response = $this->action->execute($request);
+
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
@@ -51,7 +53,7 @@ it('it stores file and returns redirect success', function () {
     $this->mediaService
         ->shouldReceive('resolveModel')->once()->andReturn($model);
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn('images');
+        ->shouldReceive('determineCollectionType')->once()->andReturn('image');
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
     $request = StoreSingleRequest::create('/upload', 'POST', [
@@ -59,6 +61,7 @@ it('it stores file and returns redirect success', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images']
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -91,6 +94,7 @@ it('it returns error if no file is given (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images']
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -118,6 +122,7 @@ it('it returns error if no file is given (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images']
     ]);
 
     $request->setLaravelSession(app('session.store'));
@@ -146,7 +151,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
     $this->mediaService
         ->shouldReceive('resolveModel')->once()->andReturn($model);
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn(null);
+        ->shouldReceive('determineCollectionType')->once()->andReturn(null);
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
@@ -155,6 +160,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images']
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -178,7 +184,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
     $this->mediaService
         ->shouldReceive('resolveModel')->once()->andReturn($model);
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn(null);
+        ->shouldReceive('determineCollectionType')->once()->andReturn(null);
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
@@ -187,6 +193,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images']
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -208,19 +215,10 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
 });
 
 it('it returns error if model already has media in given collections (JSON)', function () {
+    $file = UploadedFile::fake()->image('photo.jpg');
+    $model = $this->getModelWithMedia(['video' => 1]);
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
-    $file = UploadedFile::fake()->image('photo.jpg');
-    $model = $this->getTestBlogModel();
-
-    $model
-        ->addMedia($file)
-        ->toMediaCollection('videos');
-
-    $this->mediaService
-        ->shouldReceive('resolveModel')
-        ->once()
-        ->andReturn($model);
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
@@ -229,17 +227,12 @@ it('it returns error if model already has media in given collections (JSON)', fu
         'model_id' => $model->getKey(),
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'image_collection' => 'images',
-        'document_collection' => 'documents',
-        'youtube_collection' => 'youtube',
-        'video_collection' => 'videos',
-        'audio_collection' => 'audios',
+        'collections' => ['video' => 'video_collection'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
     $request->headers->set('Accept', 'application/json');
-
-    $response = $this->action->execute($request);
+    $response = (new StoreSinglePermanentAction(new MediaService()))->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true))
@@ -251,19 +244,12 @@ it('it returns error if model already has media in given collections (JSON)', fu
 });
 
 it('it returns error if model already has media in given collections (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('photo.jpg');
-    $model = $this->getTestBlogModel();
-
-    $model
-        ->addMedia($file)
-        ->toMediaCollection('documents');
-
-    $this->mediaService
-        ->shouldReceive('resolveModel')
-        ->once()
-        ->andReturn($model);
+    $model = $this->getModelWithMedia([
+        'audio' => 1,
+    ]);
+    $initiatorId = 'initiator-457';
+    $mediaManagerId = 'media-manager-124';
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
@@ -272,18 +258,14 @@ it('it returns error if model already has media in given collections (redirect)'
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'image_collection' => 'images',
-        'document_collection' => 'documents',
-        'youtube_collection' => 'youtube',
-        'video_collection' => 'videos',
-        'audio_collection' => 'audios',
+        'collections' => ['video' => 'audio_collection'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
 
     $request->setLaravelSession(app('session.store'));
 
-    $response = $this->action->execute($request);
+    $response = (new StoreSinglePermanentAction(new MediaService()))->execute($request);
     expect($response)->toBeInstanceOf(Illuminate\Http\RedirectResponse::class);
 
     $session = $request->session();
@@ -291,7 +273,9 @@ it('it returns error if model already has media in given collections (redirect)'
 
     $sessionData = $session->get('laravel-medialibrary-extensions.status');
 
-    expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiator_id'])->toBe($initiatorId);
-    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.only_one_medium_allowed'));
+    expect($sessionData)->toMatchArray([
+        'type' => 'error',
+        'initiator_id' => $initiatorId,
+        'message' => __('media-library-extensions::messages.only_one_medium_allowed'),
+    ]);
 });

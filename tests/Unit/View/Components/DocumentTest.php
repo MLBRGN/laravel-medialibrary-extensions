@@ -73,7 +73,7 @@ it('renders the correct view with given properties', function () {
     ]);
     $media->exists = true;
 
-    $component = new Document($media, false, 'Alternative Text');
+    $component = new Document($media, false, [], 'Alternative Text');
 
     expect($component->medium)->toBe($media);
     expect($component->alt)->toBe('Alternative Text');

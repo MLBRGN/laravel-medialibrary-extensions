@@ -24,12 +24,11 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
         media: $media,
         medium: $temporaryUpload,
         modelOrClassName: Blog::class,
-        options: [],
-        frontendTheme: 'plain',
-        useXhr: null,
-        //        options: [
-        //            'showSetAsFirstButton' => true,
-        //        ]
+        options: [
+            'frontendTheme' => 'plain',
+            'useXhr' => false,
+            'showSetAsFirstButton' => true,
+        ],
         collections: [
             'image' => 'images',
             'document' => 'documents',
@@ -37,7 +36,6 @@ it('renders the temporary-upload-set-as-first-form partial view', function () {
             'video' => 'video',
             'audio' => 'audio',
         ],
-        showSetAsFirstButton: true,
     );
 
     $view = $component->render();

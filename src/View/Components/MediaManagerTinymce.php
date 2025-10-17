@@ -6,14 +6,12 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptions;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerTinymce extends BaseComponent
 {
-    use InteractsWithOptions;
+    use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
     public array $config;
@@ -26,23 +24,23 @@ class MediaManagerTinymce extends BaseComponent
 
     public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
-    protected array $optionKeys = [
-        'allowedMimeTypes',
-        'disabled',
-        'readonly',
-        'selectable',
-        'frontendTheme',
-        'showDestroyButton',
-        'showMediaEditButton',
-        'showMenu',
-        'showOrder',
-        'showSetAsFirstButton',
-        'showUploadForm',
-        'temporaryUploadMode',
-        'uploadFieldName',
-        'useXhr',
-        //        'frontendTheme',
-    ];
+//    protected array $optionKeys = [
+//        'allowedMimeTypes',
+//        'disabled',
+//        'readonly',
+//        'selectable',
+//        'frontendTheme',
+//        'showDestroyButton',
+//        'showMediaEditButton',
+//        'showMenu',
+//        'showOrder',
+//        'showSetAsFirstButton',
+//        'showUploadForm',
+//        'temporaryUploadMode',
+//        'uploadFieldName',
+//        'useXhr',
+//        //        'frontendTheme',
+//    ];
 
     // TODO not used?
     /**
@@ -65,20 +63,18 @@ class MediaManagerTinymce extends BaseComponent
 
         parent::__construct($id, $frontendTheme);
 
-        $this->mapOptionsToProperties($options);
-
         $this->resolveModelOrClassName($modelOrClassName);
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {
-            $this->showUploadForm = false;
-            $this->showDestroyButton = false;
-            $this->showSetAsFirstButton = false;
+            $this->setOption('showUploadForm',false);
+            $this->setOption('showDestroyButton', false);
+            $this->setOption('showSetAsFirstButton', false);
         }
 
         // Override: Always disable "set-as-first" when multiple files disabled
         if (! $this->multiple) {
-            $this->showSetAsFirstButton = false;
+            $this->setOption('showSetAsFirstButton', false);
         }
 
         // Override: Always set upload enabled to false when no document collections provided
@@ -89,8 +85,6 @@ class MediaManagerTinymce extends BaseComponent
         if (! $this->imageCollection && ! $this->documentCollection && ! $this->videoCollection && ! $this->audioCollection && ! $this->youtubeCollection) {
             throw new Exception(__('media-library-extensions::messages.no_media_collections'));
         }
-
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
         $this->previewUpdateRoute = route(mle_prefix_route('preview-update'));
@@ -107,28 +101,33 @@ class MediaManagerTinymce extends BaseComponent
         }
 
         // Config array passed to view
-        $this->config = [
-            'id' => $this->id,
-            'modelType' => $this->modelType,
-            'modelId' => $this->modelId,
-            'collections' => $collections,
-            'mediaUploadRoute' => $this->mediaUploadRoute,
-            'previewUpdateRoute' => $this->previewUpdateRoute,
-            'youtubeUploadRoute' => $this->youtubeUploadRoute,
-            'csrfToken' => csrf_token(),
-            'options' => $this->options,
-            'multiple' => $this->multiple,
-            'readonly' => $this->readonly,
-            'disabled' => $this->disabled,
-//            'frontendTheme' => $this->frontendTheme,
-//            'showDestroyButton' => $this->showDestroyButton,
-//            'showSetAsFirstButton' => $this->showSetAsFirstButton,
-//            'showOrder' => $this->showOrder,
-//            'showMenu' => $this->showMenu,
-//            'temporaryUpload' => $this->temporaryUpload ? 'true' : 'false',
-//            'useXhr' => $this->useXhr,
-//            'showMediaEditButton' => $this->showMediaEditButton,
-        ];
+//        $this->config = [
+//            'id' => $this->id,
+//            'modelType' => $this->modelType,
+//            'modelId' => $this->modelId,
+//            'collections' => $collections,
+//            'mediaUploadRoute' => $this->mediaUploadRoute,
+//            'previewUpdateRoute' => $this->previewUpdateRoute,
+//            'youtubeUploadRoute' => $this->youtubeUploadRoute,
+//            'csrfToken' => csrf_token(),
+//            'options' => $this->options,
+//            'multiple' => $this->multiple,
+//            'readonly' => $this->readonly,
+//            'disabled' => $this->disabled,
+////            'frontendTheme' => $this->frontendTheme,
+////            'showDestroyButton' => $this->showDestroyButton,
+////            'showSetAsFirstButton' => $this->showSetAsFirstButton,
+////            'showOrder' => $this->showOrder,
+////            'showMenu' => $this->showMenu,
+////            'temporaryUpload' => $this->temporaryUpload ? 'true' : 'false',
+////            'useXhr' => $this->useXhr,
+////            'showMediaEditButton' => $this->showMediaEditButton,
+//        ];
+
+        $this->initializeConfig([
+            'frontendTheme' => $this->frontendTheme,
+            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+        ]);
     }
 
     public function render(): View

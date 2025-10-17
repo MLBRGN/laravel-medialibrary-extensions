@@ -17,10 +17,10 @@ class MediaFirstAvailable extends Component
     public ?Media $medium = null;
 
     public function __construct(
+        public string $id = '',
         public mixed $modelOrClassName,
         public ?array $mediaCollections = [],
-        public ?string $frontendTheme = null,
-        public string $id = '',
+        public ?string $frontendTheme = null,// TODO move to options
         public array $options = [],
     ) {
 

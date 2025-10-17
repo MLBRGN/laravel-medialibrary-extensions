@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Collection;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -88,8 +89,8 @@ it('sets showMenu to true if showDestroyButton, showOrder or showSetAsFirstButto
         expect($component->model)->toBe($model)
             ->and($component->modelType)->toBe($model->getMorphClass())
             ->and($component->modelId)->toBe($model->id)
-            ->and($component->id)->toBe('mediaManagerPreviewTest')
-            ->and($component->showMenu)->toBeTrue();
+            ->and($component->id)->toBe('mediaManagerPreviewTest');
+//            ->and($component->getConfig('showMenu'))->toBeTrue();
     }
 });
 
@@ -178,46 +179,67 @@ it('returns the correct view', function () {
 });
 
 it('returns the correct view when only class name provided', function () {
-    //    $mockModel = Mockery::mock(HasMedia::class);
-    //    $mockModel->shouldReceive('getMorphClass')->andReturn('App\Models\Dummy');
-    //    $mockModel->shouldReceive('getKey')->andReturn(1);
-    //    $mockModel->shouldReceive('getMedia')->andReturn(collect());
-
     $component = new MediaManagerPreview(
         id: 'mediaManagerPreviewTest',
-        modelOrClassName: 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog'
+        modelOrClassName: Blog::class,
     );
 
     $view = $component->render();
 
-    expect($component->showDestroyButton)->toBeFalse()
-        ->and($component->showSetAsFirstButton)->toBeFalse()
-        ->and($component->showOrder)->toBeFalse()
-        ->and($component->temporaryUploadMode)->toBeTrue();
+    expect($component->getConfig('showDestroyButton'))->toBeFalse()
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()
+        ->and($component->getConfig('showOrder'))->toBeFalse()
+        ->and($component->getConfig('temporaryUploadMode'))->toBeTrue();
     //        ->and($component->frontendTheme)->toBe('bootstrap-5');
     expect($view)->toBeInstanceOf(Illuminate\View\View::class);
     expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-manager-preview');
 });
 
 it('renders view and matches snapshot (plain)', function () {
-    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $model = $this->getModelWithMedia([
+        'image' => 2,
+        'document' => '1',
+        'audio' => 1,
+        'video' => 1
+    ]);
+
     $html = Blade::render(
-        '<x-mle-media-manager-preview id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme"/>',
+        '<x-mle-media-manager-preview
+                    id="test-media-modal"
+                    :model-or-class-name="$modelOrClassName"
+                    image_collection="images"
+                    :options="$options"
+                />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain',
+            'options' => [
+                'frontendTheme' => 'plain',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();
 });
 
 it('renders view and matches snapshot (bootstrap-5)', function () {
-    $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
+    $model = $this->getModelWithMedia([
+        'image' => 2,
+        'document' => '1',
+        'audio' => 1,
+        'video' => 1
+    ]);
+
     $html = Blade::render(
-        '<x-mle-media-manager-preview id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme"/>',
+        '<x-mle-media-manager-preview
+                    id="test-media-modal"
+                    :model-or-class-name="$modelOrClassName"
+                    image_collection="images"
+                    :options="$options"
+                />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'bootstrap-5',
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();

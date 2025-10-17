@@ -10,23 +10,23 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends MediaManager
 {
-    protected array $optionKeys = [
-        'allowedMimeTypes',
-        'disabled',
-        'frontendTheme',
-        //        'multiple', always false
-        'readonly',
-        'selectable',
-        'showDestroyButton',
-        'showMediaEditButton',
-        'showMenu',
-        //        'showOrder', always false
-        'showSetAsFirstButton',
-        'showUploadForm',
-        'temporaryUploads',
-        'uploadFieldName',
-        'useXhr',
-    ];
+//    protected array $optionKeys = [
+//        'allowedMimeTypes',
+//        'disabled',
+//        'frontendTheme',
+//        //        'multiple', always false
+//        'readonly',
+//        'selectable',
+//        'showDestroyButton',
+//        'showMediaEditButton',
+//        'showMenu',
+//        //        'showOrder', always false
+//        'showSetAsFirstButton',
+//        'showUploadForm',
+//        'temporaryUploads',
+//        'uploadFieldName',
+//        'useXhr',
+//    ];
 
     public function __construct(
         ?string $id,
@@ -36,9 +36,9 @@ class MediaManagerSingle extends MediaManager
         array $options = [],
     ) {
         $collections = $this->mergeCollections($collections);
-        $options = $this->mergeOptions($options);
-        $options['multiple'] = false;
-        $options['showOrder'] = false;
+//        $options = $this->mergeOptions($options);
+//        $options['multiple'] = false;
+//        $options['showOrder'] = false;
 
         parent::__construct(
             id: $id,
@@ -66,6 +66,11 @@ class MediaManagerSingle extends MediaManager
 
         // TODO implement disabled and readonly, this is not per se the same as disableForm
         // boolean property to disable form(s) in blade view(s)
-        $this->disableForm = $totalMediaCount >= 1;
+        $this->setOption('disableForm', $totalMediaCount >= 1);
+
+        $this->initializeConfig([
+            'frontendTheme' => $this->frontendTheme,
+            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+        ]);
     }
 }

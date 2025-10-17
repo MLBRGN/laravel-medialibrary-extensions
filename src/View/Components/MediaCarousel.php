@@ -29,8 +29,9 @@ class MediaCarousel extends BaseComponent
         public ?array $mediaCollections = [],
         public bool $singleMedium = false,
         public bool $expandableInModal = true,
-        public ?string $frontendTheme = null,
+        public array $options = [],
         public bool $inModal = false,
+        public ?string $frontendTheme = null,// TODO move to options
 
     ) {
         parent::__construct($id, $frontendTheme);

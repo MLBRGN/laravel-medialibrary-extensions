@@ -33,7 +33,8 @@ class Document extends Component
     public function __construct(
         public Media|TemporaryUpload $medium,
         public bool $preview = true,
-        public string $alt = ''// set alt to empty for when none provided
+        public array $options = [],
+        public string $alt = ''
     ) {
 
         $this->id = 'mle-document-'.$medium->id;

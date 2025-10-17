@@ -7,55 +7,16 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptions;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerPreview extends BaseComponent
 {
-    use InteractsWithOptions;
+    use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
-    public ?bool $useXhr = true;
-
-    public ?string $frontendTheme = null;
-
-    public bool $disabled = false;
-
-    public bool $readonly = false;
-
-    public bool $selectable = false;
-
-    public bool $showDestroyButton = false;
-
-    public bool $showMediaEditButton = false; // (at the moment) only for image editing
-
-    public bool $showMenu = true;
-
-    public bool $showOrder = false;
-
-    public bool $showSetAsFirstButton = false;
-
-    public bool $temporaryUploads = false;
-
-    public string $allowedMimeTypes = '';
-
     public Collection $media;
-
-    protected array $optionKeys = [
-        'allowedMimeTypes',
-        'disabled',
-        'readonly',
-        'selectable',
-        'showDestroyButton',
-        'showMediaEditButton',
-        'showMenu',
-        'showOrder',
-        'showSetAsFirstButton',
-        'temporaryUploads',
-        'useXhr',
-        //        'frontendTheme',
-    ];
 
     public function __construct(
         ?string $id,
@@ -63,13 +24,14 @@ class MediaManagerPreview extends BaseComponent
         public Media|TemporaryUpload|null $medium = null, // when provided, skip collection lookups and just use this medium
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
+        public bool $disabled = false,
+        public bool $readonly = false,
+        public bool $selectable = false,
     ) {
         $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
         parent::__construct($id, $frontendTheme);
 
         $this->resolveModelOrClassName($modelOrClassName);
-
-        $this->mapOptionsToProperties($this->options);
 
         // TODO
         //        if (!$showDestroyButton && !$showOrder && !$showSetAsFirstButton && !$showMediaEditButton) {
@@ -100,6 +62,12 @@ class MediaManagerPreview extends BaseComponent
             })
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
+
+        // merge into config
+        $this->initializeConfig([
+            'frontendTheme' => $this->frontendTheme,
+            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+        ]);
     }
 
     public function render(): View

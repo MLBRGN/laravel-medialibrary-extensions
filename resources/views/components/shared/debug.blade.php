@@ -15,25 +15,25 @@
             <div class="mle-debug-section">
                 <h3>🗄️ Component config: Model</h3>
                 <ul>
-                    <li><strong>Model type:</strong> {{ $config['modelType'] ?? 'n/a' }}</li>
-                    <li><strong>Model id:</strong> {{ $config['modelId'] ?? 'n/a' }}</li>
+                    <li><strong>Model type:</strong> {{ $modelType ?? 'n/a' }}</li>
+                    <li><strong>Model id:</strong> {{ $modelId ?? 'n/a' }}</li>
                 </ul>
             </div>
 
             <div class="mle-debug-section">
                 <h3>⚙️ Component config: General</h3>
                 <ul>
-                    <li><strong>Id:</strong> {{ $config['id'] }}</li>
-                    <li><strong>Frontend theme:</strong> {{ $config['frontendTheme'] }}</li>
+                    <li><strong>Id:</strong> {{ $id }}</li>
+                    <li><strong>Frontend theme:</strong> {{ $getConfig('frontendTheme') }}</li>
                 </ul>
             </div>
 
             <div class="mle-debug-section">
                 <h3>🌐 Component config: Routes</h3>
                 <ul>
-                    <li><strong>Media upload route:</strong> <code>{{ $config['mediaUploadRoute'] }}</code></li>
-                    <li><strong>YouTube upload route:</strong> <code>{{ $config['youtubeUploadRoute'] }}</code></li>
-                    <li><strong>Preview update route:</strong> <code>{{ $config['previewUpdateRoute'] }}</code></li>
+                    <li><strong>Media upload route:</strong> <code>{{ $getConfig('mediaUploadRoute') }}</code></li>
+                    <li><strong>YouTube upload route:</strong> <code>{{ $getConfig('youtubeUploadRoute') }}</code></li>
+                    <li><strong>Preview update route:</strong> <code>{{ $getConfig('previewUpdateRoute') }}</code></li>
                 </ul>
             </div>
 
@@ -42,7 +42,7 @@
                 <ul>
                     @foreach (['image', 'document', 'video', 'audio', 'youtube'] as $type)
                         @php
-                            $collectionName = $config['collections'][$type] ?? null;
+                            $collectionName = $getConfig('collections')[$type] ?? null;
                             $count = ($model && $collectionName)
                             ? $model->getMedia($collectionName)->count()
                             : 0;
@@ -62,23 +62,12 @@
             <div class="mle-debug-section">
                 <h3>🎛️ Component config: Enabled features</h3>
                 <ul>
-                    <li><strong>Show destroy button:</strong> {{ $config['showDestroyButton'] ? 'true' : 'false' }}</li>
-                    <li><strong>Show "Set-as-first" button:</strong> {{ $config['showSetAsFirstButton'] ? 'true' : 'false' }}</li>
-                    <li><strong>Show "media-edit" button:</strong> {{ $config['showMediaEditButton'] ? 'true' : 'false' }}</li>
-                    <li><strong>Show order:</strong> {{ $config['showOrder'] ? 'true' : 'false' }}</li>
-                    <li><strong>Show menu:</strong> {{ $config['showMenu'] ? 'true' : 'false' }}</li>
-                    <li><strong>Temporary upload:</strong> {{ $config['temporaryUploadMode'] === 'true' ? 'Yes' : 'No' }}</li>
-                </ul>
-            </div>
-
-            <div class="mle-debug-section">
-                <h3>🧊️ Database</h3>
-                <ul>
-                    {{-- Example debug info for database models --}}
-                    {{-- Uncomment or customize as needed --}}
-                    {{-- <li><strong>Media model:</strong> {{ get_class(app(\Spatie\MediaLibrary\MediaCollections\Models\Media::class)) ?? 'unknown' }}</li> --}}
-                    {{-- <li><strong>TemporaryUpload model connection:</strong> {{ app(TemporaryUpload::class)->getConnectionName() ?? 'unknown' }}</li> --}}
-                    {{-- <li><strong>Connection:</strong> {{ app(Media::class)->getConnectionName() ?? config('database.default') }}</li> --}}
+                    <li><strong>Show destroy button:</strong> {{ $getConfig('showDestroyButton') ? 'true' : 'false' }}</li>
+                    <li><strong>Show "Set-as-first" button:</strong> {{ $getConfig('showSetAsFirstButton') ? 'true' : 'false' }}</li>
+                    <li><strong>Show "media-edit" button:</strong> {{ $getConfig('showMediaEditButton') ? 'true' : 'false' }}</li>
+                    <li><strong>Show order:</strong> {{ $getConfig('showOrder') ? 'true' : 'false' }}</li>
+                    <li><strong>Show menu:</strong> {{ $getConfig('showMenu') ? 'true' : 'false' }}</li>
+                    <li><strong>Temporary upload:</strong> {{ $getConfig('temporaryUploadMode') === 'true' ? 'Yes' : 'No' }}</li>
                 </ul>
             </div>
 
@@ -90,6 +79,20 @@
                     <li><strong>YouTube support enabled:</strong> {{ config('media-library-extensions.youtube_support_enabled') ? 'Yes' : 'No' }}</li>
                     <li><strong>Allowed Mime types:</strong> {{ collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ') }}</li>
                 </ul>
+            </div>
+
+            <div class="mle-debug-section">
+                <h3>🎛️ Raw config dump</h3>
+                <pre>{{ json_encode($getSanitizedConfig(), JSON_PRETTY_PRINT) }}</pre>
+            </div>
+{{--            <div class="mle-debug-section">--}}
+{{--                <h3>🎛️ Raw config dump</h3>--}}
+{{--                <pre>{{ json_encode($config, JSON_PRETTY_PRINT) }}</pre>--}}
+{{--            </div>--}}
+
+            <div class="mle-debug-section">
+                <h3>🎛️ Raw options dump</h3>
+                <pre>{{ json_encode($options, JSON_PRETTY_PRINT) }}</pre>
             </div>
 
             @if(collect($errors)->isNotEmpty())

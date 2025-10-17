@@ -1,11 +1,11 @@
 <x-media-library-extensions::shared.conditional-form
-    :use-xhr="$useXhr"
+    :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => route(mle_prefix_route('media-upload-youtube')),
         'method' => 'POST'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $useXhr, 
+        'data-xhr-form' => $getConfig('useXhr'), 
         'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
@@ -14,7 +14,7 @@
     <input 
         type="hidden" 
         name="temporary_upload_mode" 
-        value="{{ $temporaryUploadMode ? 'true' : 'false' }}">
+        value="{{ $getConfig('temporaryUploadMode') ? 'true' : 'false' }}">
     <input
         type="hidden"
         name="medium_id"
@@ -27,14 +27,14 @@
                 value="{{ $collectionName }}">
         @endif
     @endforeach
-    @foreach($collections as $collectionType => $collectionName)
-        @if (!empty($collectionName))
-            <input
-                type="hidden"
-                name="{{ $collectionType }}_collection"
-                value="{{ $collectionName }}">
-        @endif
-    @endforeach
+{{--    @foreach($collections as $collectionType => $collectionName)--}}
+{{--        @if (!empty($collectionName))--}}
+{{--            <input--}}
+{{--                type="hidden"--}}
+{{--                name="{{ $collectionType }}_collection"--}}
+{{--                value="{{ $collectionName }}">--}}
+{{--        @endif--}}
+{{--    @endforeach--}}
     <input
         type="hidden"
         name="youtube_collection"
@@ -73,7 +73,7 @@
         @disabled($disabled)
     >
     <button
-        type="{{ $useXhr ? 'button' : 'submit' }}"
+        type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-action="upload-youtube-medium"
         @disabled($disabled)
@@ -81,6 +81,11 @@
         {{ __('media-library-extensions::messages.add_youtube_video') }}
     </button>
 </x-media-library-extensions::partial.conditional-form>
-@if($useXhr)
-    <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
+@if($getConfig('useXhr'))
+    <x-mle-shared-assets 
+        include-css="true" 
+        include-js="true" 
+        include-form-submitter="true" 
+        :frontend-theme="$getConfig('frontendTheme')"
+    />
 @endif

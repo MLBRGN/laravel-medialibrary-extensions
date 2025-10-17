@@ -119,10 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const forms = mediaManager.querySelectorAll('form, [data-xhr-form]');
         if (!previewGrid) return;
 
-        // console.log('collections json', JSON.stringify(config.collections))
-        // console.log('options', config.options)
-        // console.log('medium.id', config.medium.id);
-        // console.log('config', config);
         const params = new URLSearchParams({
             model_type: config.modelType,
             model_id: config.modelId,
@@ -131,13 +127,6 @@ document.addEventListener('DOMContentLoaded', function () {
             initiator_id: config.id,
             collections: JSON.stringify(config.collections),
             options: JSON.stringify(config.options),
-            // frontend_theme: config.frontendTheme,
-            // show_destroy_button: config.showDestroyButton,
-            // show_set_as_first_button: config.showSetAsFirstButton,
-            // show_order: config.showOrder,
-            // show_menu: config.showMenu,
-            // selectable: config.selectable,
-            // show_media_edit_button: config.showMediaEditButton,
         });
         // console.log('params2', Object.fromEntries(params));
 

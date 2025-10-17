@@ -30,9 +30,9 @@ it('initializes correctly with model instance', function () {
     );
 
     expect($component->multiple)->toBeTrue()
-        ->and($component->showUploadForm)->toBeTrue()
-        ->and($component->showDestroyButton)->toBeTrue()
-        ->and($component->showOrder)->toBeTrue()
+        ->and($component->getConfig('showUploadForm'))->toBeTrue()
+        ->and($component->getConfig('showDestroyButton'))->toBeTrue()
+        ->and($component->getConfig('showOrder'))->toBeTrue()
         ->and($component->collections)
         ->toHaveKey('image', 'images')
         ->and($component->id)->toBe('blog-1-mmm');
@@ -46,7 +46,7 @@ it('initializes correctly with model class name', function () {
         collections: ['youtube' => 'videos'],
         options: [
             'showUploadForm' => true,
-            'showDestroyButton' => true,
+//            'showDestroyButton' => true,
             'showOrder' => true,
             'showSetAsFirstButton' => true,
             'useXhr' => false,
@@ -57,8 +57,8 @@ it('initializes correctly with model class name', function () {
         ->and($component->modelType)->toBe($className)
         ->and($component->collections)
         ->toHaveKey('youtube', 'videos')
-        ->and($component->showSetAsFirstButton)->toBeTrue()
-        ->and($component->useXhr)->toBeFalse();
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeTrue()
+        ->and($component->getConfig('useXhr'))->toBeFalse();
 });
 
 it('defaults optional values when omitted', function () {
@@ -77,23 +77,31 @@ it('defaults optional values when omitted', function () {
         ],
     );
 
-    expect($component->showUploadForm)->toBeTrue()
-        ->and($component->showDestroyButton)->toBeTrue()
-        ->and($component->showSetAsFirstButton)->toBeFalse()
-        ->and($component->showOrder)->toBeFalse()
-        ->and($component->uploadFieldName)->toBe('media')
-        ->and($component->frontendTheme)->toBe('plain')
-        ->and($component->multiple)->toBeTrue();
+    expect($component->getConfig('showUploadForm'))->toBeTrue()
+        ->and($component->getConfig('showDestroyButton'))->toBeTrue()
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()
+        ->and($component->getConfig('showOrder'))->toBeFalse()
+        ->and($component->getConfig('uploadFieldName'))->toBe('media')
+        ->and($component->getConfig('frontendTheme'))->toBe('plain')
+        ->and($component->getConfig('multiple'))->toBeTrue();
 });
 
 it('renders the correct html multiple (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-manager-multiple id="test-media-modal" :model-or-class-name="$modelOrClassName" :collections="[\'image\' => \'images\']" :frontend-theme="$frontendTheme" multiple="true"/>',
+        '<x-mle-media-manager-multiple
+                    id="test-media-modal"
+                    :model-or-class-name="$modelOrClassName"
+                    :collections="[\'image\' => \'images\']"
+                    :options="$options"
+                    multiple="true"
+                />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain',
+            'options' => [
+                'frontendTheme' => 'plain',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -103,10 +111,18 @@ it('renders the correct html multiple (bootstrap-5, temporary upload)', function
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-manager-multiple id="test-media-modal" :model-or-class-name="$modelOrClassName" :collections="[\'image\' => \'images\']"  :frontend-theme="$frontendTheme" multiple="true" />',
+        '<x-mle-media-manager-multiple
+                    id="test-media-modal"
+                    :model-or-class-name="$modelOrClassName"
+                    :collections="[\'image\' => \'images\']"
+                    :options="$options"
+                    multiple="true"
+                />',
         [
             'modelOrClassName' => $model->getMorphClass(),
-            'frontendTheme' => 'plain',
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();

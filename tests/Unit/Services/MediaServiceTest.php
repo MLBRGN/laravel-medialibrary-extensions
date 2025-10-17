@@ -34,29 +34,33 @@ beforeEach(function () {
 
 it('returns image collection if mime type is in image list', function () {
     $file = UploadedFile::fake()->image('photo.jpg');
-    request()->merge(['image_collection' => 'images']);
+//    request()->merge(['image_collection' => 'images']);
+    request()->merge(['collections' => ['image' => 'images']]);
 
     $service = new MediaService;
-    $collection = $service->determineCollection($file);
+    $collectionType = $service->determineCollectionType($file);
+//    $collectionName =
 
-    expect($collection)->toBe('images');
+    expect($collectionType)->toBe('image');
+//    expect($collectionName)->toBe('images');
 });
 
 it('returns document collection if mime type is in document list', function () {
     $file = UploadedFile::fake()->create('file.pdf', 100, 'application/pdf');
-    request()->merge(['document_collection' => 'docs']);
+//    request()->merge(['document_collection' => 'docs']);
+    request()->merge(['collections' => ['document' => 'document_collections']]);
 
     $service = new MediaService;
-    $collection = $service->determineCollection($file);
+    $collectionType = $service->determineCollectionType($file);
 
-    expect($collection)->toBe('docs');
+    expect($collectionType)->toBe('document');
 });
 
 it('returns null if mime type is not supported', function () {
     $file = UploadedFile::fake()->create('file.txt', 10, 'text/plain');
 
     $service = new MediaService;
-    $collection = $service->determineCollection($file);
+    $collection = $service->determineCollectionType($file);
 
     expect($collection)->toBeNull();
 });

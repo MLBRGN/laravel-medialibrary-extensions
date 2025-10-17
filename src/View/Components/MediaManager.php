@@ -7,65 +7,22 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptions;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithCollections;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManager extends BaseComponent
 {
-    use InteractsWithOptions;
     use ResolveModelOrClassName;
+    use InteractsWithOptionsAndConfig;
+    use InteractsWithCollections;
 
-    public array $config;
+    protected string $mediaUploadRoute; // upload form action route
 
-    public bool $disableForm = false;
+    protected string $previewUpdateRoute; // route to update preview media when using XHR
 
-    public string $mediaUploadRoute; // upload form action route
-
-    public string $previewUpdateRoute; // route to update preview media when using XHR
-
-    public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
-
-    public string $allowedMimeTypes = '';
-
-    public bool $disabled = false;
-
-    public bool $readonly = false;
-
-    public bool $selectable = false;
-
-    public bool $showDestroyButton = false;
-
-    public bool $showMediaEditButton = false; // (at the moment) only for image editing
-
-    public bool $showMenu = true;
-
-    public bool $showOrder = false;
-
-    public bool $showSetAsFirstButton = false;
-
-    public bool $showUploadForm = true;
-
-    public string $uploadFieldName = 'media';
-
-    public ?bool $useXhr = true;
-
-    public bool $temporaryUploads = false;
-
-    protected array $optionKeys = [
-        'allowedMimeTypes',
-        'disabled',
-        'readonly',
-        'selectable',
-        'showDestroyButton',
-        'showMediaEditButton',
-        'showMenu',
-        'showOrder',
-        'showSetAsFirstButton',
-        'temporaryUploads',
-        'useXhr',
-        //        'frontendTheme',
-    ];
+    protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
     public function __construct(
         ?string $id,
@@ -74,23 +31,24 @@ class MediaManager extends BaseComponent
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
         public bool $multiple = false,
+        public bool $disabled = false,
+        public bool $readonly = false,
+        public bool $selectable = false,
     ) {
+
         $id = filled($id) ? $id : null;
         $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
         $this->frontendTheme = $frontendTheme;
 
         parent::__construct($id, $frontendTheme);
 
-        // apply matching options to class properties
-        $this->mapOptionsToProperties($this->options);
-        //        dump('this->id in mm after mapping'. $this->id);
         $collections = $this->mergeCollections($collections);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
         if (! $this->multiple) {
-            $this->showSetAsFirstButton = false;
+            $this->setOption('showSetAsFirstButton', false);
         }
 
         // throw exception when no media collection provided at all
@@ -98,49 +56,26 @@ class MediaManager extends BaseComponent
             throw new Exception(__('media-library-extensions::messages.no_media_collections'));
         }
 
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
-
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
         $this->previewUpdateRoute = route(mle_prefix_route('preview-update'));
         $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
+            $this->setOption('uploadFieldName', config('media-library-extensions.upload_field_name_multiple'));
             $this->id .= '-mmm';
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
+            $this->setOption('uploadFieldName', config('media-library-extensions.upload_field_name_single'));
             $this->id .= '-mms';
         }
 
-        //        dump('this->id after multiple: ' . $this->id);
-        // Config array passed to view
-        $this->config = [
-            'id' => $this->id,
-            'modelType' => $this->modelType,
-            'modelId' => $this->modelId,
-            'medium' => $this->medium,
-            'collections' => $collections,
-            'mediaUploadRoute' => $this->mediaUploadRoute,
-            'previewUpdateRoute' => $this->previewUpdateRoute,
-            'youtubeUploadRoute' => $this->youtubeUploadRoute,
-            'csrfToken' => csrf_token(),
-            'disabled' => $this->disabled,
+        // merge into config
+        $this->initializeConfig([
             'frontendTheme' => $this->frontendTheme,
-            'multiple' => $this->multiple,
-            'options' => $this->options,
-            'readonly' => $this->readonly,
-            'selectable' => $this->selectable,
-            'showDestroyButton' => $this->showDestroyButton,
-            'showMediaEditButton' => $this->showMediaEditButton,
-            'showMenu' => $this->showMenu,
-            'showOrder' => $this->showOrder,
-            'showSetAsFirstButton' => $this->showSetAsFirstButton,
-            'showUploadForm' => $this->showUploadForm,
-            'temporaryUploadMode' => $this->temporaryUploadMode ? 'true' : 'false',
-            'useXhr' => $this->useXhr,
-        ];
+            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+//            'csrfToken' => csrf_token(),
+        ]);
     }
 
     public function render(): View
@@ -148,38 +83,4 @@ class MediaManager extends BaseComponent
         return $this->getView('media-manager', $this->frontendTheme);
     }
 
-    public function mergeCollections($collections): array
-    {
-
-        // define default collection names
-        return array_merge([
-            'image' => '',
-            'document' => '',
-            'youtube' => '',
-            'video' => '',
-            'audio' => '',
-        ], $collections);
-    }
-
-    public function mergeOptions($options): array
-    {
-        $defaults = [
-            'allowedMimeTypes' => '',
-            'disabled' => false,
-            'frontendTheme' => null,
-            'readonly' => false,
-            'selectable' => false,
-            'showDestroyButton' => false,
-            'showMediaEditButton' => false,
-            'showMenu' => true,
-            'showOrder' => false,
-            'showSetAsFirstButton' => false,
-            'showUploadForm' => true,
-            'temporaryUploads' => false,
-            'uploadFieldName' => 'media',
-            'useXhr' => true,
-        ];
-
-        return array_merge($defaults, $options);
-    }
 }

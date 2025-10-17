@@ -7,16 +7,19 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 class TemporaryUploadSetAsFirstForm extends BaseComponent
 {
     use ResolveModelOrClassName;
+    use InteractsWithOptionsAndConfig;
 
     public ?string $targetMediaCollection = null;
 
     public ?string $mediaManagerId = '';
+    public array $config;
 
     public function __construct(
         ?string $id,
@@ -24,27 +27,26 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         public TemporaryUpload $medium,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $options = [],
-        public ?string $frontendTheme,// TODO in options?
-        public ?bool $useXhr = null,// TODO in options?
         public array $collections = [], // in image, document, youtube, video, audio
-        public bool $showSetAsFirstButton = false,// TODO in options?
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;
         $this->targetMediaCollection = $medium->collection_name;
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         $this->resolveModelOrClassName($modelOrClassName);
 
+        $this->initializeConfig([
+            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
+            'useXhr' => config('media-library-extensions.use_xhr'),
+        ]);
     }
 
     public function render(): View
     {
-
         return $this->getPartialView('temporary-upload-set-as-first-form', $this->frontendTheme);
     }
 }

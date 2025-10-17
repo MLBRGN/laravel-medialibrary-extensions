@@ -33,32 +33,21 @@ class StoreMultipleRequest extends MediaManagerRequest
             }
         }
 
-        $collectionFields = array_filter([
-            $this->input('image_collection'),
-            $this->input('document_collection'),
-            $this->input('video_collection'),
-            $this->input('audio_collection'),
-            $this->input('youtube_collection'),
-        ]);
+        $collections = $this->array('collections');
 
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
             'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
-            'collections' => ['required', 'array'],
+            'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
-            //            'image_collection' => 'required_without_all:video_collection,audio_collection,document_collection,youtube_collection',
-            //            'video_collection' => 'required_without_all:image_collection,audio_collection,document_collection,youtube_collection',
-            //            'audio_collection' => 'required_without_all:image_collection,video_collection,document_collection,youtube_collection',
-            //            'document_collection' => 'required_without_all:image_collection,video_collection,audio_collection,youtube_collection',
-            //            'youtube_collection' => 'required_without_all:image_collection,video_collection,audio_collection,document_collection',
             $uploadFieldName => [
                 'nullable',
                 'array',
                 $temporaryUploadMode === 'false'
-                    ? new MaxMediaCount($model, $collectionFields, $maxItemsInCollection)
-                    : new MaxTemporaryUploadCount($collectionFields, $maxItemsInCollection),
+                    ? new MaxMediaCount($model, $collections, $maxItemsInCollection)
+                    : new MaxTemporaryUploadCount($collections, $maxItemsInCollection),
             ],
             $uploadFieldName.'.media.*' => [
                 'nullable',

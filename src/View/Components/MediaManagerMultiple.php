@@ -6,23 +6,23 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 class MediaManagerMultiple extends MediaManager
 {
-    protected array $optionKeys = [
-        'allowedMimeTypes',
-        'disabled',
-        'frontendTheme',
-        //        'multiple', always true
-        'readonly',
-        'selectable',
-        'showDestroyButton',
-        'showMediaEditButton',
-        'showMenu',
-        'showOrder',
-        'showSetAsFirstButton',
-        'showUploadForm',
-        'temporaryUploads',
-        'uploadFieldName',
-        'useXhr',
-    ];
+//    protected array $optionKeys = [
+//        'allowedMimeTypes',
+//        'disabled',
+//        'frontendTheme',
+//        //        'multiple', always true
+//        'readonly',
+//        'selectable',
+//        'showDestroyButton',
+//        'showMediaEditButton',
+//        'showMenu',
+//        'showOrder',
+//        'showSetAsFirstButton',
+//        'showUploadForm',
+//        'temporaryUploads',
+//        'uploadFieldName',
+//        'useXhr',
+//    ];
 
     public function __construct(
         ?string $id,
@@ -31,8 +31,8 @@ class MediaManagerMultiple extends MediaManager
         array $options = [],
     ) {
         $collections = $this->mergeCollections($collections);
-        $options = $this->mergeOptions($options);
-        $options['multiple'] = true;
+//        $options = $this->mergeOptions($options);
+//        $options['multiple'] = true;
 
         parent::__construct(
             id: $id,

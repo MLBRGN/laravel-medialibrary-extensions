@@ -27,15 +27,18 @@ it('renders image editor modal component (permanent media)', function () {
 
     $html = Blade::render('<x-mle-image-editor-modal
                     id="blog-images"
-                    title="My title"
-                    initiator-id="blog-images"
-                    :medium="$medium"
                     :model-or-class-name="$modelClass"
+                    :medium="$medium"
+                    :collections="$collections"
                     :options="$options"
+                    initiator-id="blog-images"
+                    title="My title"
+
                 />', [
         'modelClass' => $model,
         'medium' => $medium,
         'options' => $options,
+        'collections' => ['image' => 'images'],
     ]);
 
     expect($html)
@@ -59,6 +62,7 @@ it('renders image editor modal component (temporary media)', function () {
                     initiator-id="blog-images"
                     :medium="$medium"
                     :model-or-class-name="$modelClass"
+                    :collections: [\'image\' => \'images\'],
                     :options="$options"
                 />', [
         'modelClass' => $model->getMorphClass(),
@@ -83,9 +87,10 @@ it('constructs with model and sets properties', function () {
         id: 'uploader-0',
         modelOrClassName: $model,
         medium: $medium,
+        collections: ['image' => 'images'],
+        options: [],
         initiatorId: 'uploader-1',
-        title: 'blaat',
-        options: []
+        title: 'blaat'
     );
 
     expect($component->model)->toBe($model)
@@ -106,8 +111,9 @@ it('constructs with model class name string for temporary upload', function () {
         id: 'uploader-1',
         modelOrClassName: $model->getMorphClass(),
         medium: $medium,
-        initiatorId: 'uploader-2',
-        options: []
+        collections: ['image' => 'images'],
+        options: [],
+        initiatorId: 'uploader-2'
     );
 
     expect($component->model)->toBeNull()
@@ -129,8 +135,9 @@ it('throws when modelOrClassName is null', function () {
         id: 'uploader-2',
         modelOrClassName: null,
         medium: $medium,
-        initiatorId: 'fail-test',
-        options: []
+        collections: ['image' => 'images'],
+        options: [],
+        initiatorId: 'fail-test'
     );
 });
 
@@ -148,8 +155,9 @@ it('throws when modelOrClassName is an invalid type', function () {
         id: 'uploader-3',
         modelOrClassName: $model,
         medium: $medium, // Invalid type
-        initiatorId: 'fail-test',
-        options: []
+        collections: ['image' => 'images'],
+        options: [],
+        initiatorId: 'fail-test'
     );
 });
 
@@ -167,7 +175,8 @@ it('throws when modelOrClassName is an class name', function () {
         id: 'uploader-3',
         modelOrClassName: $model->getMorphClass(), // Invalid type
         medium: $medium,
-        initiatorId: 'fail-test',
-        options: []
+        collections: ['image' => 'images'],
+        options: [],
+        initiatorId: 'fail-test'
     );
 });

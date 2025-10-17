@@ -15,19 +15,21 @@ it('renders the set-as-first-form', function () {
     $component = new SetAsFirstForm(
         id: 'set-first-btn',
         media: $mediaCollection,
-        medium: $medium,
         modelOrClassName: $model,
-        options: [],
-        frontendTheme: 'plain',
-        useXhr: false,
+        medium: $medium,
         collections: ['image' => 'images', 'audio' => 'audio', 'video' => 'video', 'document' => 'docs', 'youtube' => 'youtube'],
-        showSetAsFirstButton: true,
+        options: [
+            'frontendTheme' => 'plain',
+            'useXhr' => false,
+            'showSetAsFirstButton' => true,
+        ],
     );
 
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
-    expect($component->useXhr)->toBeFalse();
+    expect($component->getConfig('useXhr'))->toBeFalse();
+
 });
 
 it('falls back to config use_xhr when useXhr is null', function () {
@@ -44,16 +46,17 @@ it('falls back to config use_xhr when useXhr is null', function () {
     $component = new SetAsFirstForm(
         id: 'set-first-btn',
         media: $mediaCollection,
-        medium: $medium,
         modelOrClassName: $model,
-        options: [],
-        frontendTheme: 'plain',
-        useXhr: null,
+        medium: $medium,
         collections: ['video' => 'video', 'audio' => 'audio'],
-        showSetAsFirstButton: false,
+        options: [
+            'frontendTheme' => 'plain',
+            'useXhr' => true,
+            'showSetAsFirstButton' => true,
+        ],
     );
 
     $component->render();
 
-    expect($component->useXhr)->toBeTrue();
+    expect($component->getConfig('useXhr'))->toBeTrue();
 });

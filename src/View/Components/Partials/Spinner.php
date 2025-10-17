@@ -13,7 +13,7 @@ class Spinner extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public ?string $frontendTheme,
+        public ?string $frontendTheme,// TODO move to options
         string $initiatorId
     ) {
         parent::__construct($id, $frontendTheme);

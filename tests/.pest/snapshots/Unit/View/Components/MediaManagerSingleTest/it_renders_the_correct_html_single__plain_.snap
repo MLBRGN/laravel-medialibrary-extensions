@@ -1,21 +1,23 @@
-<div 
+<div
     id="test-media-modal-mms"
-    class="mlbrgn-mle-component theme- media-manager media-manager-single container-fluid px-0" frontend-theme="plain" multiple="false"
+    class="mlbrgn-mle-component theme-bootstrap-5 media-manager media-manager-single container-fluid px-0" multiple="false"
     data-media-manager=""
     data-use-xhr="true"
     >
-    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mms","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"medium":null,"collections":{"image":"images","document":"","youtube":"","video":"","audio":"","documents":"documents"},"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrfToken":null,"disabled":false,"frontendTheme":null,"multiple":false,"options":{"allowedMimeTypes":"","disabled":false,"frontendTheme":null,"readonly":false,"selectable":false,"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"temporaryUploads":false,"uploadFieldName":"media","useXhr":true,"multiple":false},"readonly":false,"selectable":false,"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"temporaryUploadMode":"false","useXhr":true}'>
+    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"temporaryUploadMode":false,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","media":[{"id":1,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"f0c024fa-ed6a-471b-8c31-27dcb3907b9a","collection_name":"image_collection","name":"test","file_name":"test.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":144,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/1\/test.jpg","preview_url":""},{"id":2,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"113557b0-b35d-490e-ba5b-c350d92c0513","collection_name":"image_collection","name":"test2","file_name":"test2.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/2\/test2.jpg","preview_url":""},{"id":3,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"fe34441c-f52f-47f4-95d3-dd42162cbcbd","collection_name":"document_collection","name":"test","file_name":"test.pdf","mime_type":"application\/pdf","disk":"public","conversions_disk":"public","size":1404,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/3\/test.pdf","preview_url":""},{"id":4,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"1b1344b6-78f8-4a8a-8640-8fe76b378881","collection_name":"audio_collection","name":"test","file_name":"test.mp3","mime_type":"audio\/mpeg","disk":"public","conversions_disk":"public","size":26799,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/4\/test.mp3","preview_url":""},{"id":5,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"55cebcc7-4cda-4801-af86-5d063f094678","collection_name":"video_collection","name":"test","file_name":"test.mp4","mime_type":"video\/mp4","disk":"public","conversions_disk":"public","size":991017,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/5\/test.mp4","preview_url":""}]},"medium":null,"collections":{"image":"images","document":"","youtube":"","video":"","audio":"","documents":"documents"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","media":[{"id":1,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"f0c024fa-ed6a-471b-8c31-27dcb3907b9a","collection_name":"image_collection","name":"test","file_name":"test.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":144,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/1\/test.jpg","preview_url":""},{"id":2,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"113557b0-b35d-490e-ba5b-c350d92c0513","collection_name":"image_collection","name":"test2","file_name":"test2.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/2\/test2.jpg","preview_url":""},{"id":3,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"fe34441c-f52f-47f4-95d3-dd42162cbcbd","collection_name":"document_collection","name":"test","file_name":"test.pdf","mime_type":"application\/pdf","disk":"public","conversions_disk":"public","size":1404,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/3\/test.pdf","preview_url":""},{"id":4,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"1b1344b6-78f8-4a8a-8640-8fe76b378881","collection_name":"audio_collection","name":"test","file_name":"test.mp3","mime_type":"audio\/mpeg","disk":"public","conversions_disk":"public","size":26799,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/4\/test.mp3","preview_url":""},{"id":5,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"55cebcc7-4cda-4801-af86-5d063f094678","collection_name":"video_collection","name":"test","file_name":"test.mp4","mime_type":"video\/mp4","disk":"public","conversions_disk":"public","size":991017,"manipulations":[],"custom_properties":[],"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-10-17T21:04:49.000000Z","updated_at":"2025-10-17T21:04:49.000000Z","original_url":"\/media\/5\/test.mp4","preview_url":""}]},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"disableForm":false}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
-                                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
+            
+                        <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mms-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mms-media-input"
         accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif"
         type="file"
         class="mle-input form-control"
-                    name="medium"
+                    name="medium[]"
+        multiple
                         >
     <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
                         <input
@@ -26,15 +28,15 @@
                 type="hidden"
                 name="collections[documents]"
                 value="documents">
-                                    <input
-                type="hidden"
-                name="image_collection"
-                value="images">
-                                                                                <input
-                type="hidden"
-                name="documents_collection"
-                value="documents">
-                <input
+            
+
+
+
+
+
+
+
+    <input
         type="hidden"
         name="medium_id"
         value="">
@@ -63,13 +65,13 @@
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-action="upload-media"
             >
-        Upload medium
+        Upload media
     </button>
     </div>
-    <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
+    <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
 
     
-            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js"></script>
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js"></script>
                 <script>
             window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
         </script>
@@ -79,7 +81,8 @@
     
 
 
-                                                    
+
+                                    
         </div>
         <div
             class="media-manager-previews col-12 col-md-8"
@@ -108,7 +111,7 @@
         <span class="mle-no-media">No media.</span>
     </div>
 <div
-    class="mlbrgn-mle-component theme- media-modal modal fade"
+    class="mlbrgn-mle-component theme-bootstrap-5 media-modal modal fade"
     id="test-media-modal-mms-mod"
     tabindex="-1"
     role="dialog"
@@ -135,21 +138,16 @@
                
                 
                 <div id="test-media-modal-mms-mod-crs"
-     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-empty media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
-     data-carousel
-     data-carousel-id="test-media-modal-mms-mod-crs"
-     tabindex="-1"
-          data-carousel-effect="slide"
+     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
     >
-
     
-    <div
+    <div 
         class="media-carousel-indicators carousel-indicators mle-display-none"
     >
             </div>
 
     
-    <div class="media-carousel-inner">
+    <div class="media-carousel-inner carousel-inner">
                     <div class="media-carousel-item active">
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>
@@ -158,32 +156,35 @@
             </div>
 
     
-    <button 
-        class="media-carousel-control-prev disabled"
-        type="button"
-        data-slide="prev">
-        <span class="media-carousel-control-prev-icon" aria-hidden="true">
-             <span 
+    <button
+        class="media-carousel-control-prev carousel-control-prev disabled"
+        type="button" 
+        data-bs-target="#test-media-modal-mms-mod-crs" 
+        data-bs-slide="prev" 
+        title="Previous">
+        <span class="carousel-control-prev-icon" aria-hidden="true">
+              <span 
         role="img" 
         aria-label="Previous" 
         title="Previous">❓</span>
         </span>
-        <span class="mle-visually-hidden">Previous</span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button 
-        class="media-carousel-control-next disabled"
-        type="button"
-        data-slide="next">
-        <span class="media-carousel-control-next-icon" aria-hidden="true">
-              <span 
+    <button
+        class="media-carousel-control-next carousel-control-next disabled"
+        type="button" 
+        data-bs-target="#test-media-modal-mms-mod-crs" 
+        data-bs-slide="next" 
+        title="Next">
+        <span class="carousel-control-next-icon" aria-hidden="true">
+               <span 
         role="img" 
         aria-label="Next" 
         title="Next">❓</span>
         </span>
-        <span class="mle-visually-hidden">Next</span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
-
 <script type="module">
             // Loading the "lite-youtube" extension caused issues with the host app,
             // now waiting for dom to be loaded and only
@@ -207,12 +208,6 @@
             })
         </script>
     
-
-
-
-
-
-
 
             </div>
         </div>

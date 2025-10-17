@@ -28,6 +28,7 @@ class StoreMultiplePermanentAction
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $field = config('media-library-extensions.upload_field_name_multiple');
+
         $files = $request->file($field);
 
         if (empty($files)) {
@@ -39,13 +40,16 @@ class StoreMultiplePermanentAction
             );
         }
 
-        $collections = collect([
-            $request->input('image_collection'),
-            $request->input('document_collection'),
-            $request->input('youtube_collection'),
-            $request->input('video_collection'),
-            $request->input('audio_collection'),
-        ])->filter()->all(); // remove falsy values
+        $collections = $request->array('collections');
+
+        if (empty($collections)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.no_media_collections')
+            );
+        }
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
         $mediaInCollections = $this->countModelMediaInCollections($model, $collections);
@@ -62,13 +66,14 @@ class StoreMultiplePermanentAction
             );
         }
         $successCount = 0;
-        $errors = [];
+        $failedUploadFIleNames = [];
 
         foreach ($files as $file) {
-            $collection = $this->mediaService->determineCollection($file);
+            $collectionType = $this->mediaService->determineCollectionType($file);
+            $collectionName = $collections[$collectionType] ?? null;
 
-            if (! $collection) {
-                $errors[] = $file->getClientOriginalName();
+            if (is_null($collectionType) || is_null($collectionName)) {
+                $failedUploadFIleNames[] = $file->getClientOriginalName();
 
                 continue; // skip invalid mimetype but continue with others
             }
@@ -78,12 +83,12 @@ class StoreMultiplePermanentAction
                     ->withCustomProperties([
                         'priority' => $nextPriority,
                     ])
-                    ->toMediaCollection($collection);
+                    ->toMediaCollection($collectionName);
                 $nextPriority++;
                 $successCount++;
             } catch (Exception $e) {
                 Log::error($e);
-                $errors[] = $file->getClientOriginalName();
+                $failedUploadFIleNames[] = $file->getClientOriginalName();
             }
         }
 
@@ -98,9 +103,9 @@ class StoreMultiplePermanentAction
         }
 
         $message = __('media-library-extensions::messages.upload_success');
-        if (! empty($errors)) {
+        if (! empty($failedUploadFIleNames)) {
             $message .= ' '.__('media-library-extensions::messages.some_uploads_failed', [
-                'files' => implode(', ', $errors),
+                'files' => implode(', ', $failedUploadFIleNames),
             ]);
         }
 

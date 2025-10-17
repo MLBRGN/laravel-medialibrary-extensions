@@ -34,6 +34,11 @@ it('renders media manager component', function () {
                 'showDestroyButton' => true,
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'frontendTheme' => 'bootstrap-5',
+                'showMediaEditButton' => true,
             ]"
             multiple
         />
@@ -55,15 +60,25 @@ it('initializes without temporary upload when a eloquent model is provided', fun
         id: 'test-media-manager',
         modelOrClassName: $model,
         collections: ['image' => 'blog-main'],
+        options: [
+                'showDestroyButton' => true,
+                'showSetAsFirstButton' => true,
+                'showOrder' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'frontendTheme' => 'bootstrap-5',
+                'showMediaEditButton' => true,
+            ],
         multiple: true,
     );
 
     expect($component->model)->not()->toBeNull()
         ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
         ->and($component->modelId)->not()->toBeNull()
-        ->and($component->temporaryUploadMode)->toBeFalse()
-        ->and($component->mediaUploadRoute)->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
-        ->and($component->uploadFieldName)->toBe('media_multiple');
+        ->and($component->getConfig('temporaryUploadMode'))->toBeFalse()
+        ->and($component->getConfig('mediaUploadRoute'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
+        ->and($component->getConfig('uploadFieldName'))->toBe('media_multiple');
 });
 
 it('initializes with temporary upload when only model class name provided', function () {
@@ -72,6 +87,16 @@ it('initializes with temporary upload when only model class name provided', func
         id: 'test-media-manager',
         modelOrClassName: $model->getMorphClass(),
         collections: ['image' => 'blog-main'],
+        options: [
+            'showDestroyButton' => true,
+            'showSetAsFirstButton' => true,
+            'showOrder' => true,
+            'useXhr' => true,
+//            'showUploadForm' => true,
+//            'allowedMimeTypes' => 'image/jpeg, image/png',
+            'frontendTheme' => 'bootstrap-5',
+            'showMediaEditButton' => true,
+        ],
         multiple: true,
 
     );
@@ -79,9 +104,9 @@ it('initializes with temporary upload when only model class name provided', func
     expect($component->model)->toBeNull()
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBeNull()
-        ->and($component->temporaryUploadMode)->toBeTrue()
-        ->and($component->mediaUploadRoute)->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
-        ->and($component->uploadFieldName)->toBe('media_multiple');
+        ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
+        ->and($component->getConfig('mediaUploadRoute'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
+        ->and($component->getConfig('uploadFieldName'))->toBe('media_multiple');
 });
 
 it('renders the correct html multiple (plain)', function () {
@@ -109,6 +134,10 @@ it('renders the correct html multiple (plain)', function () {
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
             ],
         ]
     );
@@ -141,6 +170,10 @@ it('renders the correct html multiple (bootstrap-5)', function () {
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
             ],
         ]
     );
@@ -172,6 +205,10 @@ it('renders the correct html single (plain)', function () {
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
             ],
         ]
     );
@@ -203,6 +240,10 @@ it('renders the correct html single (bootstrap-5)', function () {
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
             ],
         ]
     );

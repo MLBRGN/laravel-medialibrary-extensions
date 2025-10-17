@@ -1,11 +1,11 @@
 <x-media-library-extensions::shared.conditional-form
-    :use-xhr="$useXhr"
+    :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => route(mle_prefix_route('temporary-upload-set-as-first'), $medium),
         'method' => 'POST'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $useXhr, 
+        'data-xhr-form' => $getConfig('useXhr'), 
         'id' => $id.'-media-set-as-first-form'
     ]"
     method="put"
@@ -28,12 +28,12 @@
     <input type="hidden"
            name="initiator_id"
            value="{{ $id }}">
-    <input 
+    <input
         type="hidden"
         name="media_manager_id"
         value="{{ $mediaManagerId }}">
     <button
-        type="{{ $useXhr ? 'button' : 'submit' }}"
+        type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-action="temporary-upload-set-as-first"
@@ -46,7 +46,12 @@
     </button>
 </x-media-library-extensions::partial.conditional-form>
 @if($useXhr)
-    <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
+    <x-mle-shared-assets 
+        include-css="true" 
+        include-js="true" 
+        include-form-submitter="true" 
+        :frontend-theme="$getConfig('frontendTheme')"
+    />
 @endif
 
     

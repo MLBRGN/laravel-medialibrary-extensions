@@ -1,16 +1,16 @@
 <x-mle-shared-local-package-badge/>
-<div 
+<div
     id="{{ $id }}"
     {{ $attributes->class([
         'mlbrgn-mle-component',
-        'theme-'.$frontendTheme,
+        'theme-'.$getConfig('frontendTheme'),
         'media-manager',
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,
         'container-fluid px-0',
     ])->merge() }}
     data-media-manager=""
-    data-use-xhr="{{ $getOption('useXhr') ? 'true' : 'false' }}"
+    data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"
     >
     <input type="hidden" class="media-manager-config" value='@json($config)'>
     {{ $component_start ?? '' }}
@@ -19,28 +19,28 @@
                 'media-manager-form',
                 'col-12 col-md-4'
             ])>
-            @if($getOption('showUploadForm'))
-                @if($showRegularUploadForm())
+            @if($getConfig('showUploadForm'))
+{{--                @if($showRegularUploadForm())--}}
                         <x-mle-partial-upload-form
                             :id="$id"
                             :model-or-class-name="$modelOrClassName"
                             :medium="$medium"
                             :collections="$collections"
                             :options="$options"
-{{--                            :temporary-upload-mode="$getOption('temporaryUploadMode')"--}}
-                            :temporary-upload-mode="$temporaryUploadMode"
-                            :allowed-mime-types="$getOption('allowedMimeTypes')"
-                            :upload-to-collection="$getCollectionValue('image' , null)"
-                            :show-destroy-button="$getOption('showDestroyButton')"
-                            :show-set-as-first-button="$getOption('showSetAsFirstButton')"
-                            :show-media-edit-button="$getOption('showMediaEditButton')"
-                            :multiple="$multiple"
-                            :disabled="$disabled || $disableForm"
-                            :readonly="$readonly"
-                            :use-xhr="$getOption('useXhr')"
-                            :frontend-theme="$getOption('frontendTheme')"
+{{--                            :temporary-upload-mode="$getConfig('temporaryUploadMode')"--}}
+{{--                            :temporary-upload-mode="$temporaryUploadMode"--}}
+{{--                            :allowed-mime-types="$getConfig('allowedMimeTypes')"--}}
+{{--                            :upload-to-collection="$getCollectionValue('image' , null)"--}}
+{{--                            :show-destroy-button="$getConfig('showDestroyButton')"--}}
+{{--                            :show-set-as-first-button="$getConfig('showSetAsFirstButton')"--}}
+{{--                            :show-media-edit-button="$getConfig('showMediaEditButton')"--}}
+{{--                            :multiple="$multiple"--}}
+{{--                            :disabled="$disabled || $disableForm"--}}
+{{--                            :readonly="$readonly"--}}
+{{--                            :use-xhr="$getConfig('useXhr')"--}}
+{{--                            :frontend-theme="$getConfig('frontendTheme')"--}}
                         />
-                @endif
+{{--                @endif--}}
             @endif
             @if($hasCollection('youtube'))
                 <x-mle-partial-youtube-upload-form
@@ -50,15 +50,15 @@
                     :medium="$medium"
                     :collections="$collections"
                     :options="$options"
-                    :disabled="$disabled || $disableForm"
+                    :disabled="$disabled || $getConfig('disableForm')"
                     :readonly="$readonly"
                     :multiple="$multiple"
-                    :temporary-upload-mode="$temporaryUploadMode"
-{{--                    :temporary-upload-mode="$getOption('temporaryUploadMode')"--}}
-                    :use-xhr="$getOption('useXhr')"
-                    :show-destroy-button="$getOption('showDestroyButton')"
-                    :show-set-as-first-button="$getOption('showSetAsFirstButton')"
-                    :show-media-edit-button="$getOption('showMediaEditButton')"
+{{--                    :temporary-upload-mode="$temporaryUploadMode"--}}
+{{--                    :temporary-upload-mode="$getConfig('temporaryUploadMode')"--}}
+{{--                    :use-xhr="$getConfig('useXhr')"--}}
+{{--                    :show-destroy-button="$getConfig('showDestroyButton')"--}}
+{{--                    :show-set-as-first-button="$getConfig('showSetAsFirstButton')"--}}
+{{--                    :show-media-edit-button="$getConfig('showMediaEditButton')"--}}
                 />
             @endif
             {{ $form_end ?? '' }}
@@ -73,7 +73,7 @@
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
-                :frontend-theme="$frontendTheme"
+                :frontend-theme="$getConfig('frontendTheme')"
             />
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
@@ -89,7 +89,6 @@
     {{ $component_end ?? '' }}
 
     <x-mle-shared-debug
-        :frontend-theme="$frontendTheme"
         :model-or-class-name="$modelOrClassName"
         :config="$config"
         :options="$options"
@@ -98,5 +97,5 @@
 <x-mle-shared-assets 
     include-css="true" 
     include-js="true" 
-    :frontend-theme="$frontendTheme"
+    :frontend-theme="$getConfig('frontendTheme')"
 />

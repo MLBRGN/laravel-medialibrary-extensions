@@ -18,6 +18,9 @@ it('renders the temporary-upload-destroy-form partial view', function () {
         medium: $temporaryUpload,
         id: 'delete-temp-upload-btn',
         options: [],
+        collections: [],
+        readonly: false,
+        disabled: false,
         frontendTheme: 'plain',
         useXhr: true,
     );

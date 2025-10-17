@@ -6,12 +6,14 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageEditorModal extends BaseComponent
 {
     use ResolveModelOrClassName;
+    use InteractsWithOptionsAndConfig;
 
     public array $config = [];
 
@@ -23,15 +25,13 @@ class ImageEditorModal extends BaseComponent
         string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
+        public array $collections = [], // in image, document, youtube, video, audio
+        public array $options = [],
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
-        public ?string $frontendTheme = null,// TODO in options?
-        public array $collections = [], // in image, document, youtube, video, audio
-        public ?bool $useXhr = true,// TODO in options?
         public bool $disabled = false,
-        public array $options = [],
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-iem-'.$medium->id;
@@ -54,7 +54,8 @@ class ImageEditorModal extends BaseComponent
             'saveUpdatedMediumRoute' => $this->saveUpdatedMediumRoute,
             'temporaryUploadMode' => $this->temporaryUploadMode,
             'collections' => $this->collections,
-            'useXhr' => $this->useXhr,
+            'useXhr' => $this->getOption('useXhr'),
+            'frontendTheme' => $this->getOption('frontendTheme'),
         ];
     }
 

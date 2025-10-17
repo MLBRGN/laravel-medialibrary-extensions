@@ -6,6 +6,8 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMimeTypes;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -13,81 +15,40 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class UploadForm extends BaseComponent
 {
     use ResolveModelOrClassName;
+    use InteractsWithOptionsAndConfig;
+    use InteractsWithMimeTypes;
 
     public ?string $mediaManagerId = '';
-
-    public string $allowedMimeTypesHuman = '';
-
-    public function __construct(
-        ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public Media|TemporaryUpload|null $medium = null,
-        public array $collections = [], // in image, document, youtube, video, audio
-        public array $options = [],
-        ?string $frontendTheme,// TODO in options?
-        public string $allowedMimeTypes = '',// TODO in options?
-        public bool $multiple = false,
-        public bool $showDestroyButton = false,// TODO in options?
-        public bool $showSetAsFirstButton = false,// TODO in options?
-        public ?bool $useXhr = null,// TODO in options?
-        public ?bool $readonly = false,
-        public ?bool $disabled = false,
-    ) {
-        $this->mediaManagerId = $id;
-
-        parent::__construct($id, $frontendTheme);
-
-        $this->resolveModelOrClassName($modelOrClassName);
-        $this->setAllowedMimeTypes();
-
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
-    }
+    public array $config = [];
 
     public function render(): View
     {
         return $this->getPartialView('upload-form', $this->frontendTheme);
     }
 
-    private function setAllowedMimeTypes(): void
-    {
-        // Use override if provided
-        if (! empty($this->allowedMimeTypes)) {
-            $this->allowedMimeTypesHuman = collect(explode(',', $this->allowedMimeTypes))
-                ->map(fn ($mime) => mle_human_mimetype_label($mime))
-                ->join(', ');
+    public function __construct(
+        ?string $id,
+        public mixed $modelOrClassName, // either a model implementing HasMedia or its class name
+        public Media|TemporaryUpload|null $medium = null,
+        public array $collections = [], // image, document, video, audio, etc.
+        public array $options = [],
+        public bool $multiple = false,
+        public ?bool $readonly = false,
+        public ?bool $disabled = false,
+    ) {
+        $this->mediaManagerId = $id;
 
-            return;
-        }
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
-        // Allowed mimetypes based on provided collections
-        $allowedMimeTypes = collect();
+        $this->resolveModelOrClassName($modelOrClassName);
 
-        if ($this->hasCollection('image')) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image', []));
-        }
+        $mimeData = $this->resolveAllowedMimeTypes();
 
-        if ($this->hasCollection('document')) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document', []));
-        }
-
-        if ($this->hasCollection('video')) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video', []));
-        }
-
-        if ($this->hasCollection('audio')) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio', []));
-        }
-
-        $allowedMimeTypes = $allowedMimeTypes->flatten()->unique();
-
-        $this->allowedMimeTypesHuman = $allowedMimeTypes
-            ->map(fn ($mime) => mle_human_mimetype_label($mime))
-            ->join(', ');
-
-        $this->allowedMimeTypes = $allowedMimeTypes
-            ->flatten()
-            ->unique()
-            ->implode(',');
+        $this->initializeConfig([
+            'frontendTheme' => config('media-library-extensions.frontend_theme'),
+            'useXhr' => config('media-library-extensions.use_xhr'),
+            ...$mimeData,
+        ]);
 
     }
 }

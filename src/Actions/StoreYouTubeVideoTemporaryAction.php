@@ -38,13 +38,16 @@ class StoreYouTubeVideoTemporaryAction
             $maxItemsInCollection = 1;
         }
 
-        $collections = collect([
-            $request->input('image_collection'),
-            $request->input('document_collection'),
-            $request->input('youtube_collection'),
-            $request->input('video_collection'),
-            $request->input('audio_collection'),
-        ])->filter()->all(); // remove falsy values
+        $collections = $request->array('collections');
+
+        if (empty($collections)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.no_media_collections')
+            );
+        }
 
         $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
         $nextPriority = $temporaryUploadsInCollections;

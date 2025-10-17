@@ -19,10 +19,10 @@ class MaxMediaCount implements ValidationRule
 
     protected int $max;
 
-    public function __construct(HasMedia $model, array|string $collections, int $max)
+    public function __construct(HasMedia $model, array $collections, int $max)
     {
         $this->model = $model;
-        $this->collections = (array) $collections;
+        $this->collections = $collections;
         $this->max = $max;
     }
 

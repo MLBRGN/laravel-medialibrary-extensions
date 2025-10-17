@@ -19,8 +19,9 @@ class VideoYouTube extends Component
         public Media|TemporaryUpload $medium,
         public bool $preview = true,
         public ?array $youtubeParams = [],
+        public array $options = [],
         public ?string $frontendTheme = null,
-        public ?bool $multiple = true,
+        public ?bool $multiple = true,// TODO what is this used for?
     ) {
 
         // TODO id?

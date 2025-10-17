@@ -41,17 +41,21 @@ class StoreMultipleTemporaryAction
             );
         }
 
-        $collections = collect([
-            $request->input('image_collection'),
-            $request->input('document_collection'),
-            $request->input('youtube_collection'),
-            $request->input('video_collection'),
-            $request->input('audio_collection'),
-        ])->filter()->all(); // remove falsy values
+        $collections = $request->array('collections');
+
+        if (empty($collections)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.no_media_collections')
+            );
+        }
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
         $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
         $nextPriority = $temporaryUploadsInCollections;
+
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
@@ -71,9 +75,10 @@ class StoreMultipleTemporaryAction
 
         foreach ($files as $file) {
             $originalName = $file->getClientOriginalName();
-            $collection = $this->mediaService->determineCollection($file);
+            $collectionType = $this->mediaService->determineCollectionType($file);
+            $collectionName = $collections[$collectionType] ?? null;
 
-            if (is_null($collection)) {
+            if (is_null($collectionType || $collectionName)) {
                 $skippedFiles[] = [
                     'filename' => $originalName,
                     'reason' => __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', [
@@ -97,18 +102,14 @@ class StoreMultipleTemporaryAction
                 'path' => "{$directory}/{$filename}",
                 'name' => $safeFilename,
                 'file_name' => $originalName,
-                'collection_name' => $collection,
+                'collection_name' => $collectionName,
                 'mime_type' => $file->getMimeType(),
                 'size' => $file->getSize(),
                 'user_id' => Auth::check() ? Auth::id() : null,
                 'session_id' => $sessionId,
                 'order_column' => $nextPriority,
                 'custom_properties' => [
-                    'image_collection' => $request->input('image_collection'),
-                    'document_collection' => $request->input('document_collection'),
-                    'youtube_collection' => $request->input('youtube_collection'),
-                    'video_collection' => $request->input('video_collection'),
-                    'audio_collection' => $request->input('audio_collection'),
+                    'collections' => $collections,
                     'priority' => $nextPriority,
                 ],
             ]);

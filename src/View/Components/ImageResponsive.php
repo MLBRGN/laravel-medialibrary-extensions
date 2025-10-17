@@ -21,7 +21,8 @@ class ImageResponsive extends Component
         public string $sizes = '100vw',
         public bool $lazy = true,
         public string $alt = '',
-        public bool $originalOnly = false
+        public bool $originalOnly = false,
+        public array $options = [],
     ) {
         if ($this->medium) {
             $this->generatedConversions = $this->medium->generated_conversions ?? [];

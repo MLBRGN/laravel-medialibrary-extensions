@@ -40,6 +40,7 @@ it('stores temporary thumbnail successfully (JSON)', function () {
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
     ]);
     $request->headers->set('Accept', 'application/json');
@@ -68,6 +69,7 @@ it('stores temporary thumbnail successfully (redirect)', function () {
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
     ]);
 
@@ -103,6 +105,7 @@ it('returns error when temporary thumbnail fails to download (JSON)', function (
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
     ]);
     $request->headers->set('Accept', 'application/json');
@@ -129,6 +132,7 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
     ]);
     $request->headers->remove('Accept');
@@ -161,6 +165,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
         'temporary_upload_mode' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -186,6 +191,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
         'temporary_upload_mode' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),

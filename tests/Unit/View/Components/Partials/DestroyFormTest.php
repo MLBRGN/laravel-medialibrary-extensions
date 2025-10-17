@@ -9,41 +9,69 @@ it('initializes with given properties', function () {
     $component = new DestroyForm(
         id: $id,
         medium: $medium,
-        frontendTheme: 'bootstrap-5',
-        useXhr: true
+        options: [
+            'frontendTheme' => 'bootstrap-5',
+            'useXhr' => true
+        ]
     );
 
     expect($component->medium)->toBe($medium)
         ->and($component->id)->toBe('some-id-destroy-form-123')
-        ->and($component->frontendTheme)->toBe('bootstrap-5')
-        ->and($component->useXhr)->toBeTrue();
+        ->and($component->options)->toMatchArray([
+            'frontendTheme' => 'bootstrap-5',
+            'useXhr' => true
+        ]);
 });
 
-it('defaults to config value for useXhr when not set', function () {
-    config(['media-library-extensions.use_xhr' => true]);
+it('initializes with given properties without useXhr', function () {
+    config(['media-library-extensions.use_xhr' => false]);
 
     $medium = $this->getMediaModel();
 
     $component = new DestroyForm(
         id: 'delete-456',
         medium: $medium,
-        frontendTheme: 'plain',
-        useXhr: null
+        options: [
+            'frontendTheme' => 'plain',
+        ]
     );
 
     $component->render();
 
-    expect($component->useXhr)->toBeTrue();
+//    dd($component->options);
+    expect($component->medium)->toBe($medium)
+        ->and($component->id)->toBe('delete-456-destroy-form-1')
+        ->and($component->getConfig('frontendTheme'))->toBe('plain')
+        ->and($component->getConfig('useXhr'))->toBeFalse();
 });
 
-it('renders the destroy-form partial view', function () {
+it('renders the destroy-form partial view (plain)', function () {
     $medium = $this->getMediaModel();
 
     $component = new DestroyForm(
         id: 'delete-btn',
         medium: $medium,
-        frontendTheme: 'plain',
-        useXhr: false
+        options: [
+            'frontendTheme' => 'plain',
+            'useXhr' => true
+        ]
+    );
+
+    $view = $component->render();
+
+    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
+});
+
+it('renders the destroy-form partial view (bootstrap-5)', function () {
+    $medium = $this->getMediaModel();
+
+    $component = new DestroyForm(
+        id: 'delete-btn',
+        medium: $medium,
+        options: [
+            'frontendTheme' => 'bootstrap-5',
+            'useXhr' => true
+        ]
     );
 
     $view = $component->render();

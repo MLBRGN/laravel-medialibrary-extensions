@@ -25,19 +25,6 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'initiator_id' => ['required', 'string'],
             'collections' => ['required', 'string'], // json
             'options' => ['required', 'string'], // json
-
-            //            'frontend_theme' => ['nullable', 'string'],
-            //            'show_destroy_button' => ['required', Rule::in(['true', 'false'])],
-            //            'show_set_as_first_button' => ['required', Rule::in(['true', 'false'])],
-            //            'show_media_edit_button' => ['required', Rule::in(['true', 'false'])],
-            //            'show_order' => ['required', Rule::in(['true', 'false'])],
-            //            'show_menu' => ['nullable', Rule::in(['true', 'false'])],
-            //            'selectable' => ['nullable', Rule::in(['true', 'false'])],
-            //            'image_collection' => 'required_without_all:video_collection,audio_collection,document_collection,youtube_collection',
-            //            'video_collection' => 'required_without_all:image_collection,audio_collection,document_collection,youtube_collection',
-            //            'audio_collection' => 'required_without_all:image_collection,video_collection,document_collection,youtube_collection',
-            //            'document_collection' => 'required_without_all:image_collection,video_collection,audio_collection,youtube_collection',
-            //            'youtube_collection' => 'required_without_all:image_collection,video_collection,audio_collection,document_collection',
         ];
     }
 

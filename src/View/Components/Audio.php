@@ -15,6 +15,7 @@ class Audio extends Component
 
     public function __construct(
         public Media|TemporaryUpload $medium,
+        public array $options = [],
     ) {
         $this->id = 'mle-audio-'.$medium->id;
     }

@@ -35,6 +35,15 @@ class StoreUpdatedMediumAction
         $file = $request->file('file');
         $collections = $request->array('collections');
 
+        if (empty($collections)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.no_media_collections')
+            );
+        }
+
         if (! $temporaryUploadMode) {
 
             abort_unless(class_exists($modelType), 400, 'Invalid model type');

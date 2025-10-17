@@ -1,24 +1,24 @@
-<div 
+<div
     id="test-media-modal-mmm"
     class="mlbrgn-mle-component theme-bootstrap-5 media-manager media-manager-multiple container-fluid px-0"
     data-media-manager=""
     data-use-xhr="true"
     >
-    <input type="hidden" class="media-manager-config" value='{"id":"test-media-modal-mmm","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"medium":null,"collections":{"image":"blog-images","document":"blog-documents","youtube":"blog-youtube","video":"blog-videos","audio":"blog-audio"},"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","csrfToken":null,"disabled":false,"frontendTheme":"bootstrap-5","multiple":true,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true},"readonly":false,"selectable":false,"showDestroyButton":true,"showMediaEditButton":false,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"temporaryUploadMode":"false","useXhr":true}'>
+    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"temporaryUploadMode":false,"uploadFieldName":"media_multiple","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":"2025-10-17T21:04:50.000000Z","updated_at":"2025-10-17T21:04:50.000000Z"},"medium":null,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":"2025-10-17T21:04:50.000000Z","updated_at":"2025-10-17T21:04:50.000000Z"},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"allowedMimeTypes":"image\/jpeg, image\/png"}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
-                                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+            
+                        <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
-        accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/rtf,text/rtf,application/vnd.oasis.opendocument.text,application/vnd.oasis.opendocument.spreadsheet,application/vnd.oasis.opendocument.presentation,video/mp4,video/quicktime,video/webm,audio/mpeg,audio/ogg,audio/wav,audio/webm"
+        accept="image/jpeg, image/png"
         type="file"
         class="mle-input form-control"
-                    name="media_multiple[]"
-            multiple 
+                    name="media_multiple"
                         >
-    <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF, PDF, Word document (.doc), Wordprocessing (.docx), Excel spreadsheet(.xls), Spreadsheet (.xlsx), PowerPoint presentation (.ppt), Presentation (.pptx), RTF (Rich Text File), RTF (Rich Text File), ODT (OpenDocument text), ODS (OpenDocument spreadsheet), ODP (OpenDocument presentation), MP4 video, QuickTime video, WebM video, MP3 audio, OGG audio, WAV audio, WebM audio.</span>
+    <span class="mle-form-text form-text">Supported file formats: JPEG, PNG.</span>
                         <input
                 type="hidden"
                 name="collections[image]"
@@ -39,27 +39,15 @@
                 type="hidden"
                 name="collections[audio]"
                 value="blog-audio">
-                                    <input
-                type="hidden"
-                name="image_collection"
-                value="blog-images">
-                                <input
-                type="hidden"
-                name="youtube_collection"
-                value="blog-youtube">
-                                <input
-                type="hidden"
-                name="document_collection"
-                value="blog-documents">
-                                <input
-                type="hidden"
-                name="video_collection"
-                value="blog-videos">
-                                <input
-                type="hidden"
-                name="audio_collection"
-                value="blog-audio">
-                <input
+            
+
+
+
+
+
+
+
+    <input
         type="hidden"
         name="medium_id"
         value="">
@@ -88,7 +76,7 @@
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-action="upload-media"
             >
-        Upload media
+        Upload medium
     </button>
     </div>
     <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
@@ -104,7 +92,8 @@
     
 
 
-                                                        <div class="conditional-form media-manager-youtube-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-youtube-upload-form" data-xhr-method="post">
+
+                                        <div class="conditional-form media-manager-youtube-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-youtube-upload-form" data-xhr-method="post">
         <input 
         type="hidden" 
         name="temporary_upload_mode" 
@@ -133,27 +122,15 @@
                 type="hidden"
                 name="collections[audio]"
                 value="blog-audio">
-                                    <input
-                type="hidden"
-                name="image_collection"
-                value="blog-images">
-                                <input
-                type="hidden"
-                name="youtube_collection"
-                value="blog-youtube">
-                                <input
-                type="hidden"
-                name="document_collection"
-                value="blog-documents">
-                                <input
-                type="hidden"
-                name="video_collection"
-                value="blog-videos">
-                                <input
-                type="hidden"
-                name="audio_collection"
-                value="blog-audio">
-                <input
+            
+
+
+
+
+
+
+
+    <input
         type="hidden"
         name="youtube_collection"
         value="blog-youtube">

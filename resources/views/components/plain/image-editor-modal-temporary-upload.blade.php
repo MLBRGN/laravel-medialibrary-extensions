@@ -13,7 +13,7 @@
         aria-labelledby="{{ $id }}-title"
     @endif
     aria-hidden="true"
-    data-theme="{{$frontendTheme}}"
+    data-theme="{{$getConfig('frontendTheme')}}"
     data-modal
     data-image-editor-modal
     data-medium-display-name="{{ media_display_name($medium) }}"
@@ -41,17 +41,24 @@
                 <div data-image-editor-placeholder class="image-editor"></div>
 
                 <x-mle-partial-image-editor-form
-                    :model-or-class-name="$modelOrClassName"
                     id="{{ $id }}"
-                    :initiator-id="$id"
-                    :media-manager-id="$mediaManagerId"
+                    :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
                     :collections="$collections"
+                    :options="$options"
+                    :initiator-id="$id"
+                    :media-manager-id="$mediaManagerId"
                     :frontend-theme="$frontendTheme"
-                    :use-xhr="$useXhr"
+                    :use-xhr="$getConfig('useXhr')"
+                    :disabled="$disabled"
                 />
             </div>
         </div>
     </div>
 </div>
-<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets 
+    include-css="true" 
+    include-js="true"
+    include-image-editor-js="true"
+    :frontend-theme="$getConfig('frontendTheme')"
+/>

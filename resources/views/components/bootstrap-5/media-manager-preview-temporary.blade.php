@@ -2,7 +2,7 @@
     <div
         {{ $attributes->class([
             'mlbrgn-mle-component',
-             'theme-'.$frontendTheme,
+             'theme-'.$getConfig('frontendTheme'),
              'media-manager-preview-media-container'
         ]) }}
         data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"
@@ -16,85 +16,92 @@
             >
                 <x-mle-video-youtube
                     class="mle-video-youtube mle-video-responsive mle-cursor-zoom-in"
-                    :medium="$medium"
-                    :preview="true"
                     data-bs-target="#{{$id}}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
+                    :medium="$medium"
+                    :preview="true"
+                    :options="$options"
                     :frontend-theme="$frontendTheme"
                 />
             </div>
         @elseif(isMediaType($medium, 'document'))
             <div
+                class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
             >
-                <x-mle-document :medium="$medium"
-                                class="previewed-document mle-cursor-zoom-in"
-                                data-bs-target="#{{ $id }}-mod-crs"
-                                data-bs-slide-to="{{ $loop->index }}"
+                <x-mle-document
+                    class="previewed-document mle-cursor-zoom-in"
+                    data-bs-target="#{{ $id }}-mod-crs"
+                    data-bs-slide-to="{{ $loop->index }}"
+                    :medium="$medium"
+                    :options="$options"
                 />
             </div>
         @elseif(isMediaType($medium, 'video'))
             <div
+                class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
             >
-                <x-mle-video 
-                    :medium="$medium" 
+                <x-mle-video
                     class="mle-cursor-zoom-in"
                     data-bs-target="#{{ $id }}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
+                    :medium="$medium" 
+                    :options="$options"
                 />
             </div>
         @elseif(isMediaType($medium, 'audio'))
             <div
+                class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
             >
-                <x-mle-audio 
-                    :medium="$medium" 
+                <x-mle-audio
                     class="mle-cursor-zoom-in"
                     data-bs-target="#{{ $id }}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
+                    :medium="$medium" 
+                    :options="$options"
                 />
             </div>
         @elseif(isMediaType($medium, 'image'))
             <div
+                class="media-manager-preview-item-container"
                 data-bs-toggle="modal"
                 data-bs-target="#{{$id}}-mod"
-                class="media-manager-preview-item-container"
             >
-                <img 
-                    src="{{ $medium->getUrl() }}" 
-                    class="media-manager-image-preview mle-cursor-zoom-in" 
-                    alt="{{ $medium->name }}"
+{{--                TODO look at this. Needs options?--}}
+                <x-mle-image-responsive
+                    class="media-manager-image-preview mle-cursor-zoom-in"
                     data-bs-target="#{{$id}}-mod-crs"
                     data-bs-slide-to="{{ $loop->index }}"
+                    :medium="$medium"
+                    :options="$options"
                     draggable="false"
-                >
+                />
             </div>
-            <x-mle-image-editor-modal 
+            <x-mle-image-editor-modal
                 id="{{ $id }}"
-                title="TODO"
-                :initiator-id="$id"
-                :medium="$medium" 
                 :model-or-class-name="$modelOrClassName"
-                :options="$options"
+                :medium="$medium"
                 :collections="$collections"
-                :frontend-theme="$frontendTheme"
-                :use-xhr="$useXhr"
+                :options="$options"
+                :initiator-id="$id"
                 :disabled="$disabled"
+                :options="$options"
+                title="TODO"
+                :frontend-theme="$getConfig('frontendTheme')"
+                :use-xhr="$getConfig('useXhr')"
             />
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}
         @endif
-        @if($showMenu)
+        @if($getConfig('showMenu'))
             <div class="media-manager-preview-menu">
                 <div class="media-manager-preview-image-menu-start">
-                    @if($showOrder)
+                    @if($getConfig('showOrder'))
                         @if($medium->hasCustomProperty('priority'))
                             <span
                                 class="mle-pseudo-button mle-pseudo-button-icon"
@@ -108,8 +115,8 @@
                         <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
                             <input
                                 type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
-                                class="mle-media-select-checkbox"
                                 name="selected_media"
+                                class="mle-media-select-checkbox"
                                 data-url="{{ $medium->getUrl() }}"
                                 data-alt="{{ $medium->name }}"
                             >
@@ -120,12 +127,12 @@
                     @endif
                 </div>
                 <div class="media-manager-preview-image-menu-end">
-                    @if(isMediaType($medium, 'image') && !$medium->hasCustomProperty('youtube-id'))
+                    @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                         <button
                             type="button"
+                            class="mle-button mle-button-icon btn btn-primary"
                             data-bs-toggle="modal"
                             data-bs-target="#{{$id}}-iem-{{$medium->id}}"
-                            class="mle-button mle-button-icon btn btn-primary"
                             title="{{ __('media-library-extensions::messages.edit') }}"
                             @disabled($disabled)
                         >
@@ -135,13 +142,14 @@
                             />
                         </button>
                     @endif
-                    @if($showSetAsFirstButton)
+                    @if($getConfig('showSetAsFirstButton'))
                         @if($medium->getCustomProperty('priority') === 0)
                             <button
                                 type="button"
                                 class="mle-button mle-button-icon btn btn-primary"
                                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                                disabled>
+                                disabled
+                            >
                                 <x-mle-shared-icon
                                     name="{{ config('media-library-extensions.icons.set-as-main') }}"
                                     title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
@@ -149,28 +157,28 @@
                             </button>
                         @else
                             <x-mle-partial-temporary-upload-set-as-first-form
-                                :medium="$medium"
                                 :id="$id"
-                                :collections="$collections"
                                 :model-or-class-name="$modelOrClassName"
+                                :medium="$medium"
+                                :collections="$collections"
                                 :options="$options"
-                                :show-set-as-first-button="$showSetAsFirstButton"
-                                :show-media-edit-button="$showMediaEditButton"
-                                :frontend-theme="$frontendTheme"
-                                :use-xhr="$useXhr"
                                 :disabled="$disabled"
+                                :show-set-as-first-button="$getConfig('showSetAsFirstButton')"
+                                :show-media-edit-button="$getConfig('showMediaEditButton')"
+                                :frontend-theme="$getConfig('frontendTheme')"
+                                :use-xhr="$getConfig('useXhr')"
                             />
                         @endif
                     @endif
-                    @if($showDestroyButton)
+                    @if($getConfig('showDestroyButton'))
                         <x-mle-partial-temporary-upload-destroy-form
-                            :medium="$medium"
                             :id="$id"
+                            :medium="$medium"
                             :collections="$collections"
                             :options="$options"
-                            :frontend-theme="$frontendTheme"
-                            :use-xhr="$useXhr"
                             :disabled="$disabled"
+                            :frontend-theme="$getConfig('frontendTheme')"
+                            :use-xhr="$getConfig('useXhr')"
                         />
                     @endif
                 </div>
@@ -188,5 +196,6 @@
 {{--    :media-collection="$imageCollection"--}}
     :media-collections="$collections"
     :video-auto-play="true"
-    :frontend-theme="$frontendTheme"
-    title="Media carousel"/>
+    :frontend-theme="$getConfig('frontendTheme')"
+    title="Media carousel"
+/>

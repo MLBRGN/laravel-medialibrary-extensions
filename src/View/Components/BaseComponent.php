@@ -12,6 +12,8 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
+    public array $config = [];
+
     public string $id;
 
     public ?string $frontendTheme = 'bootstrap-5';
@@ -24,14 +26,14 @@ abstract class BaseComponent extends Component
         $this->frontendTheme = $frontendTheme ?? config('medialibrary-extensions.frontend_theme');
     }
 
-    public function showRegularUploadForm(): bool
-    {
-        // Only check image, document, video, and audio types
-        return collect($this->collections)
-            ->only(['image', 'document', 'video', 'audio'])
-            ->filter(fn ($value) => filled($value)) // ignore falsy (null, '', false)
-            ->isNotEmpty();
-    }
+//    public function showRegularUploadForm(): bool
+//    {
+//        // Only check image, document, video, and audio types
+//        return collect($this->collections)
+//            ->only(['image', 'document', 'video', 'audio'])
+//            ->filter(fn ($value) => filled($value)) // ignore falsy (null, '', false)
+//            ->isNotEmpty();
+//    }
 
     public function hasCollections(): bool
     {
