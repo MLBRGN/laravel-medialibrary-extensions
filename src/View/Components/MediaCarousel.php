@@ -7,12 +7,14 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 class MediaCarousel extends BaseComponent
 {
     use ResolveModelOrClassName;
+    use InteractsWithOptionsAndConfig;
 
     public MediaCollection $mediaItems;
 
@@ -63,6 +65,13 @@ class MediaCarousel extends BaseComponent
         $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
         //        $this->id = $this->id.'-carousel';
         $this->id = $this->id.'-crs';
+
+        // merge into config
+        $this->initializeConfig([
+            'frontendTheme' => $this->frontendTheme,
+            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+//            'csrfToken' => csrf_token(),
+        ]);
     }
 
     public function render(): View

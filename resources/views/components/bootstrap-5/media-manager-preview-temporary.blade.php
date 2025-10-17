@@ -21,7 +21,7 @@
                     :medium="$medium"
                     :preview="true"
                     :options="$options"
-                    :frontend-theme="$frontendTheme"
+                    :frontend-theme="$getConfig('frontendTheme')"
                 />
             </div>
         @elseif(isMediaType($medium, 'document'))
