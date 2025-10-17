@@ -20,7 +20,7 @@
         class="mle-input form-control"
         @if($multiple)
             name="{{ $getConfig('uploadFieldName') }}[]"
-        multiple
+            multiple
         @else
             name="{{$getConfig('uploadFieldName') }}"
         @endif

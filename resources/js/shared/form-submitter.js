@@ -192,6 +192,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 formData.append(input.name, input.value);
             }
         });
+        console.log('formData', formData);
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
         return formData;
     }
 

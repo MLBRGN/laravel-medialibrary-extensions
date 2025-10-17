@@ -27,18 +27,10 @@
                             :medium="$medium"
                             :collections="$collections"
                             :options="$options"
-{{--                            :temporary-upload-mode="$getConfig('temporaryUploadMode')"--}}
-{{--                            :temporary-upload-mode="$temporaryUploadMode"--}}
-{{--                            :allowed-mime-types="$getConfig('allowedMimeTypes')"--}}
+                            :multiple="$multiple"
 {{--                            :upload-to-collection="$getCollectionValue('image' , null)"--}}
-{{--                            :show-destroy-button="$getConfig('showDestroyButton')"--}}
-{{--                            :show-set-as-first-button="$getConfig('showSetAsFirstButton')"--}}
-{{--                            :show-media-edit-button="$getConfig('showMediaEditButton')"--}}
-{{--                            :multiple="$multiple"--}}
 {{--                            :disabled="$disabled || $disableForm"--}}
 {{--                            :readonly="$readonly"--}}
-{{--                            :use-xhr="$getConfig('useXhr')"--}}
-{{--                            :frontend-theme="$getConfig('frontendTheme')"--}}
                         />
 {{--                @endif--}}
             @endif
