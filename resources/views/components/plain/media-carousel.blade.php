@@ -3,7 +3,7 @@
 {{--    @include('media-library-extensions::components.plain.media-carousel-temporary', [--}}
 {{--        'media' => $media,--}}
 {{--        'id' => $id,--}}
-{{--        'frontendTheme' => $frontendTheme,--}}
+{{--        'frontendTheme' => $getConfig('frontendTheme'),--}}
 {{--    ])--}}
 @else
     @include('media-library-extensions::components.plain.media-carousel-permanent')
@@ -11,6 +11,6 @@
 {{--        'media' => $media,--}}
 {{--        'model' => $model,--}}
 {{--        'id' => $id,--}}
-{{--        'frontendTheme' => $frontendTheme,--}}
+{{--        'frontendTheme' => $getConfig('frontendTheme'),--}}
 {{--    ])--}}
 @endif

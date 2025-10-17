@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
         'mlbrgn-mle-component',
-        'theme-'. $frontendTheme,
+        'theme-'. $getConfig('frontendTheme'),
         'media-modal',
         'modal',
         'fade',
@@ -43,7 +43,7 @@
                     :expandable-in-modal="false"
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"
-                    :frontend-theme="$frontendTheme"
+                    :frontend-theme="$getConfig('frontendTheme')"
                     :in-modal="true"
 {{--                    data-carousel--}}
                 />
@@ -51,5 +51,5 @@
         </div>
     </div>
 </div>
-<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$getConfig('frontendTheme')"/>
 

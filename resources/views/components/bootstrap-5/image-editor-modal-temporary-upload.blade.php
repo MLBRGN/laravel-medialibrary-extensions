@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
     'mlbrgn-mle-component',
-    'theme-'. $frontendTheme,
+    'theme-'. $getConfig('frontendTheme'),
     'image-editor-modal',
     'modal',
     'fade',
@@ -49,7 +49,7 @@
                     :options="$options"
                     :initiator-id="$id"
                     :media-manager-id="$mediaManagerId"
-                    :frontend-theme="$frontendTheme"
+                    :frontend-theme="$getConfig('frontendTheme')"
                     :use-xhr="$getConfig('useXhr')"
                     :disabled="$disabled"
                 />

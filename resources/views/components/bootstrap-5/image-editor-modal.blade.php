@@ -48,7 +48,7 @@
                     :options="$options"
                     :initiator-id="$id"
                     :media-manager-id="$mediaManagerId"
-                    :frontend-theme="$frontendTheme"
+                    :frontend-theme="$getConfig('frontendTheme')"
                     :use-xhr="$getConfig('useXhr')"
                     :disabled="$disabled"
                 />

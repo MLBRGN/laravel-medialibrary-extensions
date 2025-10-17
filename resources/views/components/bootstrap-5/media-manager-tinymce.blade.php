@@ -3,7 +3,7 @@
         :model-or-class-name="$modelOrClassName"
         id="{{ $id }}"
         :collections="$collections"
-        :frontend-theme="$frontendTheme"
+        :frontend-theme="$getConfig('frontendTheme')"
         :show-destroy-button="true"
         :show-set-as-first-button="true"
         :show-media-edit-button="true"
@@ -16,6 +16,6 @@
 <x-mle-shared-assets
     include-css="true"
     include-js="true"
-    :frontend-theme="$frontendTheme"
+    :frontend-theme="$getConfig('frontendTheme')"
 />
 <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker-iframe.js') }}"></script>
