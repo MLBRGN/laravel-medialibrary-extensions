@@ -75,7 +75,13 @@ it('renders the correct html multiple media-collections (plain)', function () {
         '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collections="$collections" title="test" :frontend-theme="$frontendTheme" />',
         [
             'model' => $model,
-            'collections' => ['image_collection', 'document_collection', 'video_collection', 'audio_collection', 'youtube_collection'],
+            'collections' => [
+                'image_collection',
+                'document_collection',
+                'video_collection',
+                'audio_collection',
+                'youtube_collection'
+            ],
             'frontendTheme' => 'plain',
         ]
     );
@@ -89,7 +95,13 @@ it('renders the correct html multiple media-collections (bootstrap-5)', function
         '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collections="$collections" title="test" :frontend-theme="$frontendTheme" />',
         [
             'model' => $model,
-            'collections' => ['image_collection', 'document_collection', 'video_collection', 'audio_collection', 'youtube_collection'],
+            'collections' => [
+                'image_collection',
+                'document_collection',
+                'video_collection',
+                'audio_collection',
+                'youtube_collection'
+            ],
             'frontendTheme' => 'bootstrap-5',
         ]
     );

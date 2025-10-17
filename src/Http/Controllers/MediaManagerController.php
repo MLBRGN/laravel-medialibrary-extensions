@@ -121,11 +121,6 @@ class MediaManagerController extends Controller
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $id = 'something_for_now'; // TODO
-        //        $imageCollection = $request->input('image_collection') ?? '';
-        //        $audioCollection = $request->input('audio_collection') ?? '';
-        //        $videoCollection = $request->input('video_collection') ?? '';
-        //        $youtubeCollection = ''; // TODO tinymce does not support youtube this way
-        //        $documentCollection = ''; // TODO tinymce does not support documents this way
 
         $temporaryUpload = false;
 

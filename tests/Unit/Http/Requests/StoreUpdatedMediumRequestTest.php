@@ -61,7 +61,7 @@ it('fails validation if model_id is missing when temporary_upload is false', fun
         'medium_id' => '123',
         'collection' => 'images',
         'file' => tmpfile(),
-        'image_collection' => 'images',
+//        'image_collection' => 'images',
     ];
 
     $validator = Validator::make($data, $this->request->rules());

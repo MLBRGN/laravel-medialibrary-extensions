@@ -8,7 +8,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'initiator_id' => 'abc123',
 //        'temporary_upload_mode' => 'true',
 //        'model_type' => 'App\Models\Post',
-//        'image_collection' => 'images',
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -27,11 +26,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'initiator_id' => 'abc123',
 //        'temporary_upload_mode' => 'true',
 //        'model_type' => 'App\Models\Post',
-//        'image_collection' => 'images',
-//        'video_collection' => null,
-//        'audio_collection' => null,
-//        'document_collection' => null,
-//        'youtube_collection' => null,
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -50,11 +44,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'initiator_id' => 'abc123',
 //        'temporary_upload_mode' => 'true',
 //        'model_type' => 'App\Models\Post',
-//        'image_collection' => 'images',
-//        'video_collection' => null,
-//        'audio_collection' => null,
-//        'document_collection' => null,
-//        'youtube_collection' => null,
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -74,11 +63,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'initiator_id' => 'abc123',
 //        'temporary_upload_mode' => 'true',
 //        'model_type' => 'App\Models\Post',
-//        'image_collection' => 'images',
-//        'video_collection' => null,
-//        'audio_collection' => null,
-//        'document_collection' => null,
-//        'youtube_collection' => null,
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -103,7 +87,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //    $data = [
 //        'temporary_upload_mode' => 'true',
 //        'model_type' => 'App\Models\Post',
-//        'image_collection' => 'images',
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -125,7 +108,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
-//        'image_collection' => 'images',
 //    ];
 //
 //    $request = new GetMediaPreviewerHTMLRequest();
@@ -145,7 +127,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
-//        'image_collection' => 'images',
 //    ];
 //
 //    $request = new GetMediaPreviewerHTMLRequest();
@@ -170,13 +151,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //    $request->withValidator($validator);
 //
 //    expect($validator->fails())->toBeTrue();
-//    expect($validator->errors()->hasAny([
-//        'image_collection',
-//        'video_collection',
-//        'audio_collection',
-//        'document_collection',
-//        'youtube_collection',
-//    ]))->toBeTrue();
 // });
 //
 // it('validates boolean fields are either true or false', function () {
@@ -184,7 +158,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'initiator_id' => 'abc123',
 //        'temporary_upload_mode' => 'true',
 //        'model_type' => 'App\Models\Post',
-//        'image_collection' => 'images',
 //        'show_destroy_button' => 'maybe', // invalid
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -203,7 +176,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'initiator_id' => 'user123',
 //        'temporary_upload_mode' => 'true',
 //        'model_type' => 'App\\Models\\Post',
-//        'image_collection' => 'images',
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -235,11 +207,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //    $request->withValidator($validator);
 //
 //    expect($validator->fails())->toBeTrue();
-//    expect($validator->errors()->has('image_collection'))->toBeTrue();
-//    expect($validator->errors()->has('video_collection'))->toBeTrue();
-//    expect($validator->errors()->has('audio_collection'))->toBeTrue();
-//    expect($validator->errors()->has('document_collection'))->toBeTrue();
-//    expect($validator->errors()->has('youtube_collection'))->toBeTrue();
 // });
 //
 // it('requires model_id when temporary_uploads_mode is false', function () {
@@ -247,7 +214,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'initiator_id' => 'user123',
 //        'temporary_upload_mode' => 'false',
 //        'model_type' => 'App\\Models\\Post',
-//        'image_collection' => 'images',
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',
@@ -269,7 +235,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 //        'temporary_upload_mode' => 'false',
 //        'model_type' => 'App\\Models\\Post',
 //        'model_id' => 42,
-//        'image_collection' => 'images',
 //        'show_destroy_button' => 'true',
 //        'show_set_as_first_button' => 'false',
 //        'show_media_edit_button' => 'true',

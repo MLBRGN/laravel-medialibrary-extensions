@@ -5,7 +5,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaFirstAvailable;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('initializes with a HasMedia model and finds the first medium', function () {
-    // Will create a model with 4 images in the "image_collection"
+    // Will create a model with 4 images
     $model = $this->getModelWithMedia(['image' => 4]);
 
     $component = new MediaFirstAvailable(

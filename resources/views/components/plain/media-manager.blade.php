@@ -27,7 +27,6 @@
                         :collections="$collections"
                         :options="$options"
                         :multiple="$multiple"
-{{--                        :upload-to-collection="$getCollectionValue('image' , null)"--}}
 {{--                        :disabled="$disabled || $disableForm"--}}
 {{--                        :readonly="$readonly"--}}
                     />
@@ -44,12 +43,6 @@
                     :disabled="$disabled || $getConfig('disableForm')"
                     :readonly="$readonly"
                     :multiple="$multiple"
-{{--                    :temporary-upload-mode="$temporaryUploadMode"--}}
-{{--                    :temporary-upload-mode="$getConfig('temporaryUploadMode')"--}}
-{{--                    :use-xhr="$useXhr"--}}
-{{--                    :show-destroy-button="$showDestroyButton"--}}
-{{--                    :show-set-as-first-button="$showSetAsFirstButton"--}}
-{{--                    :show-media-edit-button="$showMediaEditButton"--}}
                 />
             @endif
             {{ $form_end ?? '' }}

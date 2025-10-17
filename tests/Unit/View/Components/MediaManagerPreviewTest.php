@@ -207,7 +207,7 @@ it('renders view and matches snapshot (plain)', function () {
         '<x-mle-media-manager-preview
                     id="test-media-modal"
                     :model-or-class-name="$modelOrClassName"
-                    image_collection="images"
+//                    image_collection="images"
                     :options="$options"
                 />',
         [
@@ -232,7 +232,7 @@ it('renders view and matches snapshot (bootstrap-5)', function () {
         '<x-mle-media-manager-preview
                     id="test-media-modal"
                     :model-or-class-name="$modelOrClassName"
-                    image_collection="images"
+//                    image_collection="images"
                     :options="$options"
                 />',
         [

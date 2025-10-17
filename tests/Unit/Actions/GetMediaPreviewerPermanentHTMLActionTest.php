@@ -16,9 +16,9 @@ it('renders media preview HTML and returns JSON response', function () {
         'initiator_id' => $initiatorId,
         'model_type' => get_class($model),
         'model_id' => $model->id,
-        'image_collection' => 'images',
-        'document_collection' => 'docs',
-        'youtube_collection' => 'youtube',
+//        'image_collection' => 'images',// TODO
+//        'document_collection' => 'docs',
+//        'youtube_collection' => 'youtube',
         'frontend_theme' => 'bootstrap-5',
         'show_destroy_button' => true,
         'show_set_as_first_button' => false,

@@ -38,11 +38,12 @@ trait InteractsWithMediaExtended
 
             foreach ($temporaryUploads as $temporaryUpload) {
                 // filter out unwanted custom properties
+                // TODO collections
                 $customProperties = collect($temporaryUpload->custom_properties)
                     ->except([
-                        'image_collection',
-                        'document_collection',
-                        'youtube_collection',
+                        'image_collection',// TODO
+                        'document_collection',// TODO
+                        'youtube_collection',// TODO
                     ])
                     ->toArray();
 
