@@ -23,15 +23,7 @@
                 type="hidden"
                 name="collections[image]"
                 value="images">
-                                                            
-
-
-
-
-
-
-
-    <input
+                                                                <input
         type="hidden"
         name="medium_id"
         value="">
