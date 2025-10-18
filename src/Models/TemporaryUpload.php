@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 
 class TemporaryUpload extends Model
 {
@@ -17,6 +18,11 @@ class TemporaryUpload extends Model
     //            dump('retrieved model', $model->id, $model->getConnectionName());
     //        });
     //    }
+
+    public static function newFactory()
+    {
+        return TemporaryUploadFactory::new();
+    }
 
     protected $table = 'mle_temporary_uploads';
 
@@ -62,8 +68,9 @@ class TemporaryUpload extends Model
     public static function forCurrentSession($collectionName = null): Collection
     {
         return self::where('session_id', session()->getId())
-            ->when($collectionName, fn ($query) => $query->where('collection_name', $collectionName)
-            )
+            ->when(!is_null($collectionName), function ($query) use ($collectionName) {
+                return $query->where('collection_name', $collectionName);
+            })
             ->orderBy('order_column', 'asc')
             ->get();
     }

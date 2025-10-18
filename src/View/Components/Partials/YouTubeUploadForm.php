@@ -18,26 +18,25 @@ class YouTubeUploadForm extends BaseComponent
     use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
 
-    public string $mediaUploadRoute; // upload form action route
+//    public string $mediaUploadRoute; // upload form action route
 
-    public string $previewUpdateRoute; // route to update preview media when using ajax
+//    public string $previewUpdateRoute; // route to update preview media when using ajax
 
     public ?string $modelType = null;
 
     public ?string $mediaManagerId = '';
 
-    public bool $multiple = false;
-
-    public bool $disabled = false;
-
-    public ?string $youtubeCollection = null;
+//    public ?string $youtubeCollection = null;
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or its class name
         public Media|TemporaryUpload|null $medium = null,
         public array $collections = [], // in image, document, youtube, video, audio
         public array $options = [],
+        public bool $multiple = false,
+        public ?bool $readonly = false,
+        public ?bool $disabled = false,
     ) {
         $this->mediaManagerId = $id;
 
@@ -45,14 +44,22 @@ class YouTubeUploadForm extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->youtubeCollection = $collections['youtube'];
-        $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
-        $this->previewUpdateRoute = route(mle_prefix_route('preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
+        $youtubeCollection = $collections['youtube'];
+        $mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
+        $previewUpdateRoute = route(mle_prefix_route('preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
+
+//
+//        $this->youtubeCollection = $collections['youtube'];
+//        $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
+//        $this->previewUpdateRoute = route(mle_prefix_route('preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
 
 //        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
         $this->initializeConfig([
             'frontendTheme' => config('media-library-extensions.frontend_theme'),
             'useXhr' => config('media-library-extensions.use_xhr'),
+            'youtubeCollection' => $youtubeCollection,
+            'mediaUploadRoute' => $mediaUploadRoute,
+            'previewUpdateRoute' => $previewUpdateRoute,
         ]);
     }
 

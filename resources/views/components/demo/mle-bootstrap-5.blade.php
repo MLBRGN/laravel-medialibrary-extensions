@@ -103,7 +103,7 @@
             ]"
         />
 
-        <h2 class="my-5">Media Manager YouTube</h2>
+        <h2 class="my-5">Media Manager YouTube only</h2>
 
         <x-mle-media-manager-multiple
             id="alien-media-manager-youtube"
@@ -127,7 +127,7 @@
             ]"
         />
 
-        <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
+        <h2 class="my-5">Media Manager YouTube only (Temporary uploads)</h2>
 
         <x-mle-media-manager-multiple
             id="alien-media-manager-youtube-temporary"

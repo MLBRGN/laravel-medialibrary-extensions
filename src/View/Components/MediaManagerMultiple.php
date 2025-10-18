@@ -6,23 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 class MediaManagerMultiple extends MediaManager
 {
-//    protected array $optionKeys = [
-//        'allowedMimeTypes',
-//        'disabled',
-//        'frontendTheme',
-//        //        'multiple', always true
-//        'readonly',
-//        'selectable',
-//        'showDestroyButton',
-//        'showMediaEditButton',
-//        'showMenu',
-//        'showOrder',
-//        'showSetAsFirstButton',
-//        'showUploadForm',
-//        'temporaryUploads',
-//        'uploadFieldName',
-//        'useXhr',
-//    ];
 
     public function __construct(
         ?string $id,

@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setFormElementsDisabled(forms, disabled) {
         forms.forEach(form => {
+            console.log('forms', forms, 'form', form)
             form.querySelectorAll('input:not([type="hidden"]), button')
                 .forEach(el => el.disabled = disabled);
         });

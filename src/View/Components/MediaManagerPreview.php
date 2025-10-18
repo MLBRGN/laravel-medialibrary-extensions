@@ -49,11 +49,12 @@ class MediaManagerPreview extends BaseComponent
             return;
         }
 
-        // CASE 2: Otherwise collect from configured collections.
         $this->media = collect($collections)
-            ->flatMap(function (string $collectionName) {
+            ->flatMap(function (string $collectionName, string $collectionType) {
                 if ($this->temporaryUploadMode) {
-                    return TemporaryUpload::forCurrentSession($collectionName);
+                    if (!empty($collectionName)) {
+                        return TemporaryUpload::forCurrentSession($collectionName);
+                    }
                 }
 
                 if ($this->model) {
@@ -64,6 +65,21 @@ class MediaManagerPreview extends BaseComponent
             })
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
+        // CASE 2: Otherwise collect from configured collections.
+//        $this->media = collect($collections)
+//            ->flatMap(function (string $collectionName) {
+//                if ($this->temporaryUploadMode) {
+//                    return TemporaryUpload::forCurrentSession($collectionName);
+//                }
+//
+//                if ($this->model) {
+//                    return $this->model->getMedia($collectionName);
+//                }
+//
+//                return [];
+//            })
+//            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+//            ->values();
 
         // merge into config
         $this->initializeConfig([

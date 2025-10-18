@@ -27,18 +27,11 @@
                 value="{{ $collectionName }}">
         @endif
     @endforeach
-{{--    @foreach($collections as $collectionType => $collectionName)--}}
-{{--        @if (!empty($collectionName))--}}
-{{--            <input--}}
-{{--                type="hidden"--}}
-{{--                name="{{ $collectionType }}_collection"--}}
-{{--                value="{{ $collectionName }}">--}}
-{{--        @endif--}}
-{{--    @endforeach--}}
     <input
         type="hidden"
         name="youtube_collection"
-        value="{{ $youtubeCollection }}">
+{{--        value="{{ $youtubeCollection }}">--}}
+        value="{{ $getConfig('youtubeCollection')}}">
     <input
         type="hidden"
         name="model_type"
