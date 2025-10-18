@@ -13,7 +13,7 @@
         <label for="test-media-modal-mmm-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
-        accept="image/jpeg,image/png,image/gif,image/bmp,image/webp,image/heic,image/avif"
+        accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
         type="file"
         class="mle-input form-control"
                     name="media[]"

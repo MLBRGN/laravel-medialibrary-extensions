@@ -166,8 +166,8 @@ trait InteractsWithOptionsAndConfig
      */
     protected function initializeConfig(array $defaults = []): void
     {
-        // Define default values for all optional config keys
-        $defaultOptionValues = array_merge([
+        // Hardcoded default values
+        $defaultOptionValues = [
             'showDestroyButton' => false,
             'showMediaEditButton' => false,
             'showMenu' => true,
@@ -179,11 +179,12 @@ trait InteractsWithOptionsAndConfig
             'frontendTheme' => config('media-library-extensions.frontend_theme', 'default'),
             'useXhr' => config('media-library-extensions.use_xhr', true),
             'csrfToken' => csrf_token(),
-//            'csrfToken' => config('media-library-extensions.csrf_token', ''),
-//            'csrf_token' => csrf_token(),
-        ], $defaults);
+//            'allowedMimeTypes' => config('media-library-extensions.allowed_mimetypes', []),
+            // allowedMimeTypesHuman is produced
+        ];
 
-        $config = $defaultOptionValues;
+        // Merge provided defaults **over** hardcoded defaults
+        $config = array_replace_recursive($defaultOptionValues, $defaults);
 
         if (!isset($this->configKeys)) {
             throw new RuntimeException(sprintf('The config keys must be set in %s', static::class));
@@ -199,6 +200,11 @@ trait InteractsWithOptionsAndConfig
         if (property_exists($this, 'options') && is_array($this->options)) {
             $filteredOptions = array_filter($this->options, fn($v) => !is_null($v));
             $config = array_replace_recursive($config, $filteredOptions);
+        }
+
+        // Automatically sync MIME type fields
+        if (in_array(InteractsWithMimeTypes::class, class_uses_recursive(static::class))) {
+            $this->syncAllowedMimeTypes($config);
         }
 
         $this->config = $config;

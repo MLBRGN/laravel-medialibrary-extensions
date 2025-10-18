@@ -74,61 +74,59 @@ it('honors frontend theme', function () {
     expect($component->getConfig('frontendTheme'))->toBe('something-else');
 });
 
-// it('sets mediaPresent to true if model has media in the given image collection', function () {
-//    $model = $this->getTestBlogModel();
-//
-//    // Mock hasMedia() to return true for the test image collection
-//    $model = Mockery::mock($model)->makePartial();
-//    $model->shouldReceive('hasMedia')
-//        ->with('images')
-//        ->andReturn(true);
-//
-//    $component = new UploadForm(
-//        id: 'upload-media-present',
-//        frontendTheme: 'plain',
-//        imageCollection: 'images',
-//        documentCollection: 'docs',
-//        videoCollection: 'videos',
-//        audioCollection: 'audios',
-//        youtubeCollection: 'youtube',
-//        modelOrClassName: $model,
-//    );
-//
-//    $component->render();
-//
-//    expect($component->mediaPresent)->toBeTrue();
-// });
+it('uses allowedMimeTypes from config if allowedMimeTypes not provided', function () {
+        $model = $this->getTestBlogModel();
 
-it('uses allowedMimeTypes from config if allowedMimeTypes is empty', function () {
+        $mimeTypesString = '';
+        $component = new UploadForm(
+            id: 'upload-empty-mime',
+            modelOrClassName: $model,
+            medium: null,
+            collections: [
+                'image' => 'images',
+                'youtube' => '',
+                'document' => 'documents',
+                'video' => '',
+                'audio' => '',
+            ],
+            options: [
+                'allowedMimeTypes' => $mimeTypesString,//
+            ],
+        );
+
+        $component->render();
+
+        expect($component->getConfig('allowedMimeTypes'))->toBe('');
+        expect($component->getConfig('allowedMimeTypesHuman'))->toBe('');
+
+    });
+
+it('sets allowedMimeTypes and allowedMimeTypesHuman from options', function () {
     $model = $this->getTestBlogModel();
 
-    config()->set('media-library-extensions.allowed_mimetypes', ['image/jpeg', 'image/png']);
-    config()->set('media-library-extensions.mimetype_labels', [
-        'image/jpeg' => 'JPEG Image',
-        'image/png' => 'PNG Image',
-    ]);
-
+    $mimeTypesString = 'image/png, image/jpeg';
     $component = new UploadForm(
         id: 'upload-empty-mime',
         modelOrClassName: $model,
         medium: null,
         collections: [
             'image' => 'images',
-            'youtube' => 'youtube',
-            'document' => 'docs',
-            'video' => 'videos',
-            'audio' => 'audio',
+            'youtube' => '',
+            'document' => 'documents',
+            'video' => '',
+            'audio' => '',
         ],
         options: [
-            'allowedMimeTypes' => '', // empty here
+            'allowedMimeTypes' => $mimeTypesString,//
         ],
     );
 
     $component->render();
 
-    expect($component->getConfig('allowedMimeTypes'))->toBe('image/jpeg, image/png');
-    expect($component->getConfig('allowedMimeTypesHuman'))->toBe('JPEG Image, PNG Image');
-})->todo();
+    expect($component->getConfig('allowedMimeTypes'))->toBe($mimeTypesString);
+    expect($component->getConfig('allowedMimeTypesHuman'))->toBe('PNG, JPEG');
+
+});
 
 it('initializes correctly when given a HasMedia model instance', function () {
     // Arrange
