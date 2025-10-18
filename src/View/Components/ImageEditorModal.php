@@ -40,11 +40,11 @@ class ImageEditorModal extends BaseComponent
 
         $this->saveUpdatedMediumRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
 
-        // TODO can't i just read the whole config object from hidden input?
-        // Config array passed to view
-        $this->config = [
-            'id' => $this->id,
+        $this->initializeConfig([
             'initiatorId' => $this->initiatorId,
+            'frontendTheme' => $this->frontendTheme,
+            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+            'id' => $this->id,
             'mediaManagerId' => $this->mediaManagerId,
             'modelType' => $this->modelType,
             'modelId' => $this->modelId,
@@ -54,9 +54,7 @@ class ImageEditorModal extends BaseComponent
             'saveUpdatedMediumRoute' => $this->saveUpdatedMediumRoute,
             'temporaryUploadMode' => $this->temporaryUploadMode,
             'collections' => $this->collections,
-            'useXhr' => $this->getOption('useXhr'),
-            'frontendTheme' => $this->getOption('frontendTheme'),
-        ];
+        ]);
     }
 
     public function render(): View

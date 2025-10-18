@@ -37,8 +37,8 @@ const updateMedia = (detail) => {
     }
 
     const useXhr = config.useXhr;
-    console.log('useXhr', useXhr);
 
+    console.log('config', config);
     if (!useXhr) {
         const file = detail.file;
         const form = modal.querySelector('[data-image-editor-update-form]');
@@ -54,9 +54,13 @@ const updateMedia = (detail) => {
         form.submit();
         return
     }
+    console.log('a')
 
-    const initiator = document.querySelector('#' + config.initiatorId);
+    const initiator = document.querySelector('#' + config.initiatorId);// TODO initiator not found after preview refresh!
+    console.log('initiator', initiator);
     const container = initiator.querySelector('.media-manager-row')
+    console.log('container', container);
+    console.log('b')
 
     console.log('collections', config.collections);
     const file = detail.file;
@@ -74,7 +78,8 @@ const updateMedia = (detail) => {
     Object.entries(config.collections).forEach(([key, value]) => {
         formData.append(`collections[${key}]`, value);
     });
-
+    console.log('c')
+    console.log('d')
     fetch(config.saveUpdatedMediumRoute, {
         method: 'POST',
         headers: {

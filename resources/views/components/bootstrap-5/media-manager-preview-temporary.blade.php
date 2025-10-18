@@ -21,7 +21,7 @@
                     :medium="$medium"
                     :preview="true"
                     :options="$options"
-                    :frontend-theme="$getConfig('frontendTheme')"
+{{--                    :frontend-theme="$getConfig('frontendTheme')"--}}
                 />
             </div>
         @elseif(isMediaType($medium, 'document'))
@@ -92,8 +92,6 @@
                 :disabled="$disabled"
                 :options="$options"
                 title="TODO"
-                :frontend-theme="$getConfig('frontendTheme')"
-                :use-xhr="$getConfig('useXhr')"
             />
         @else
             {{ __('media-library-extensions::messages.non_supported_file_format') }}
@@ -165,8 +163,6 @@
                                 :disabled="$disabled"
                                 :show-set-as-first-button="$getConfig('showSetAsFirstButton')"
                                 :show-media-edit-button="$getConfig('showMediaEditButton')"
-                                :frontend-theme="$getConfig('frontendTheme')"
-                                :use-xhr="$getConfig('useXhr')"
                             />
                         @endif
                     @endif
@@ -177,8 +173,6 @@
                             :collections="$collections"
                             :options="$options"
                             :disabled="$disabled"
-                            :frontend-theme="$getConfig('frontendTheme')"
-                            :use-xhr="$getConfig('useXhr')"
                         />
                     @endif
                 </div>

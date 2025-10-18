@@ -40,7 +40,7 @@ trait InteractsWithOptionsAndConfig
         'modelType',
         'modelId',
         'options',
-//        'temporaryUploadMode'
+        'id',
         // any other properties you want in config
     ];
 

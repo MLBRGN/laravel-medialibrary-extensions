@@ -28,8 +28,8 @@
                             :collections="$collections"
                             :options="$options"
                             :multiple="$multiple"
-{{--                            :disabled="$disabled || $disableForm"--}}
-{{--                            :readonly="$readonly"--}}
+                            :disabled="$disabled || $getConfig('disableForm')"
+                            :readonly="$readonly"
                         />
 {{--                @endif--}}
             @endif
