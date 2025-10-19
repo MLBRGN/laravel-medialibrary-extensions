@@ -25,16 +25,20 @@
         title="Close">❓</span>
                 </button>
                 <div id="test-media-modal-mod-crs"
-     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="plain"
+     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     data-carousel
+     data-carousel-id="test-media-modal-mod-crs"
+     tabindex="-1"
+          data-carousel-effect="slide"
     >
+
     
-    <div 
+    <div
         class="media-carousel-indicators carousel-indicators"
     >
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod-crs"
-                data-bs-slide-to="0"
+                data-slide-to="0"
                 class="active"
                  
                     aria-current="true" 
@@ -42,71 +46,64 @@
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod-crs"
-                data-bs-slide-to="1"
+                data-slide-to="1"
                 class=""
                                 aria-label="Slide to 2">
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod-crs"
-                data-bs-slide-to="2"
+                data-slide-to="2"
                 class=""
                                 aria-label="Slide to 3">
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod-crs"
-                data-bs-slide-to="3"
+                data-slide-to="3"
                 class=""
                                 aria-label="Slide to 4">
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod-crs"
-                data-bs-slide-to="4"
+                data-slide-to="4"
                 class=""
                                 aria-label="Slide to 5">
             </button>
             </div>
 
     
-    <div class="media-carousel-inner carousel-inner">
-                    <div 
-                class="media-carousel-item carousel-item active">
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#test-media-modal-mod-crs-mod"
-                >
-                                    <img
-        class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0" draggable="false"
+    <div class="media-carousel-inner">
+                    <div
+
+                class="media-carousel-item active">
+                <div class="media-carousel-item-container"
+                                     >
+                                            <img
+        class="mle-image-responsive" draggable="false"
         src="/media/1/test.jpg"
                         alt="test"
          loading="lazy"         data-mle-image
     >
-                                </div>
+                                    </div>
             </div>
-                    <div 
-                class="media-carousel-item carousel-item">
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#test-media-modal-mod-crs-mod"
-                >
-                                    <img
-        class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1" draggable="false"
+                    <div
+
+                class="media-carousel-item">
+                <div class="media-carousel-item-container"
+                                     >
+                                            <img
+        class="mle-image-responsive" draggable="false"
         src="/media/2/test2.jpg"
                         alt="test2"
          loading="lazy"         data-mle-image
     >
-                                </div>
+                                    </div>
             </div>
-                    <div 
-                class="media-carousel-item carousel-item">
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#test-media-modal-mod-crs-mod"
-                >
-                                    <div class="mle-document mle-document mle-cursor-zoom-in" data-bs-target="test-media-modal-mod-crs-mod" data-bs-slide-to="2" mle-document>
+                    <div
+
+                class="media-carousel-item">
+                <div class="media-carousel-item-container"
+                                     >
+                                            <div class="mle-document mle-document mle-cursor-zoom-in" mle-document>
     <div class="mle-document-preview">
         <span 
         role="img" 
@@ -132,20 +129,19 @@
                                                 </div>
     </div>
 </div>
-                                </div>
+                                    </div>
             </div>
-                    <div 
-                class="media-carousel-item carousel-item">
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#test-media-modal-mod-crs-mod"
-                >
-                                    <div
-                        data-bs-toggle="modal"
-                        data-bs-target="#test-media-modal-mod-crs-mod"
-                        class="media-manager-preview-item-container"
-                    >
-                        <div class="mle-video">
+                    <div
+
+                class="media-carousel-item">
+                <div class="media-carousel-item-container"
+                                     >
+                                            <div
+
+                            data-modal-trigger="#test-media-modal-mod-crs-mod"
+                            class="media-manager-preview-item-container"
+                        >
+                            <div class="mle-video">
     <div class="mle-video-preview">
         <div class="mle-video-info">
             <p>
@@ -158,21 +154,20 @@
         </video>
     </div>
 </div>
-                    </div>
-                                </div>
+                        </div>
+                                    </div>
             </div>
-                    <div 
-                class="media-carousel-item carousel-item">
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#test-media-modal-mod-crs-mod"
-                >
-                                    <div
-                        data-bs-toggle="modal"
-                        data-bs-target="#test-media-modal-mod-crs-mod"
-                        class="media-manager-preview-item-container"
-                    >
-                        <div class="mle-audio">
+                    <div
+
+                class="media-carousel-item">
+                <div class="media-carousel-item-container"
+                                     >
+                                            <div
+
+                            data-modal-trigger="#test-media-modal-mod-crs-mod"
+                            class="media-manager-preview-item-container"
+                        >
+                            <div class="mle-audio">
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
             <p>
@@ -184,45 +179,42 @@
             Your browser does not support the audio element.
         </audio>
     </div>
-</div>                    </div>
-                                </div>
+</div>                        </div>
+                                    </div>
             </div>
             </div>
 
     
-    <button
-        class="media-carousel-control-prev carousel-control-prev"
-        type="button" 
-        data-bs-target="#test-media-modal-mod-crs" 
-        data-bs-slide="prev" 
-        title="Previous">
-        <span class="carousel-control-prev-icon" aria-hidden="true">
-              <span 
+    <button 
+        class="media-carousel-control-prev"
+        type="button"
+        data-slide="prev">
+        <span class="media-carousel-control-prev-icon" aria-hidden="true">
+             <span 
         role="img" 
         aria-label="Previous" 
         title="Previous">❓</span>
         </span>
-        <span class="visually-hidden">Previous</span>
+        <span class="mle-visually-hidden">Previous</span>
     </button>
-    <button
-        class="media-carousel-control-next carousel-control-next"
-        type="button" 
-        data-bs-target="#test-media-modal-mod-crs" 
-        data-bs-slide="next" 
-        title="Next">
-        <span class="carousel-control-next-icon" aria-hidden="true">
-               <span 
+    <button 
+        class="media-carousel-control-next"
+        type="button"
+        data-slide="next">
+        <span class="media-carousel-control-next-icon" aria-hidden="true">
+              <span 
         role="img" 
         aria-label="Next" 
         title="Next">❓</span>
         </span>
-        <span class="visually-hidden">Next</span>
+        <span class="mle-visually-hidden">Next</span>
     </button>
 </div>
-<link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+
+<link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
 
     
-            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js"></script>
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js"></script>
                 <script>
             window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
         </script>

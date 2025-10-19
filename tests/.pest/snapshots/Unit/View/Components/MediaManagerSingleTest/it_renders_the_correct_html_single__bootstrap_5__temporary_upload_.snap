@@ -73,20 +73,21 @@
             class="media-manager-previews col-12 col-md-8"
             >
             <div class="status-area">
-    <div class="mle-spinner-container" media-manager-id="test-media-modal-mms" frontend-theme="plain" data-spinner-container>
-
+    <div class="mle-spinner-container alert alert-info" media-manager-id="test-media-modal-mms" data-spinner-container>
+    <div class="mle-spinner"></div>
     <span class="mle-spinner-text">Please wait.</span>
 </div>
     <div 
     class="status-container mle-flex-grow visible" 
-    data-status-container
+    data-status-container 
     data-status-timeout="4000"
 >
-    <div class="mle-status-message" frontend-theme="plain"
-        data-status-message 
-        data-base-classes="mle-status-message"
-        data-success-classes="mle-status-message-success"
-        data-error-classes="mle-status-message-error"
+    
+    <div class="mle-status-message alert alert-dismissible"
+        data-status-message
+        data-base-classes="mle-status-message alert alert-dismissible visible"
+        data-success-classes="alert-success"
+        data-error-classes="alert-danger"
     >
             </div>
     </div>
@@ -95,24 +96,23 @@
         <span class="mle-no-media">No media.</span>
     </div>
 <div
-    class="mlbrgn-mle-component theme-plain media-modal modal fade"
+    class="mlbrgn-mle-component theme-bootstrap-5 media-modal modal fade"
     id="test-media-modal-mms-mod"
     tabindex="-1"
     role="dialog"
             aria-labelledby="test-media-modal-mms-mod-title"
         aria-hidden="true"
             data-autoplay=""
-        data-modal
-    data-media-modal
->
+    >
     <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content">
-                            <h1 class="media-modal-title mle-visually-hidden" id="test-media-modal-mms-mod-title">Media carousel</h1>
-                        <div class="media-modal-body modal-body">
+        <div class="media-modal-content modal-content justify-content-center">
+                            <h1 class="media-modal-title visually-hidden" id="test-media-modal-mms-mod-title">Media carousel</h1>
+                        <div class="media-modal-body modal-body p-0">
                 <button
                     type="button"
-                    class="media-modal-close-button modal-close-button"
                     data-modal-close
+                    class="media-modal-close-button modal-close-button"
+                    data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="Close">
                     <span 
@@ -120,22 +120,19 @@
         aria-label="Close" 
         title="Close">❓</span>
                 </button>
+               
+                
                 <div id="test-media-modal-mms-mod-crs"
-     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-empty media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="plain"
-     data-carousel
-     data-carousel-id="test-media-modal-mms-mod-crs"
-     tabindex="-1"
-          data-carousel-effect="slide"
+     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
     >
-
     
-    <div
+    <div 
         class="media-carousel-indicators carousel-indicators mle-display-none"
     >
             </div>
 
     
-    <div class="media-carousel-inner">
+    <div class="media-carousel-inner carousel-inner">
                     <div class="media-carousel-item active">
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>
@@ -144,32 +141,35 @@
             </div>
 
     
-    <button 
-        class="media-carousel-control-prev disabled"
-        type="button"
-        data-slide="prev">
-        <span class="media-carousel-control-prev-icon" aria-hidden="true">
-             <span 
+    <button
+        class="media-carousel-control-prev carousel-control-prev disabled"
+        type="button" 
+        data-bs-target="#test-media-modal-mms-mod-crs" 
+        data-bs-slide="prev" 
+        title="Previous">
+        <span class="carousel-control-prev-icon" aria-hidden="true">
+              <span 
         role="img" 
         aria-label="Previous" 
         title="Previous">❓</span>
         </span>
-        <span class="mle-visually-hidden">Previous</span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button 
-        class="media-carousel-control-next disabled"
-        type="button"
-        data-slide="next">
-        <span class="media-carousel-control-next-icon" aria-hidden="true">
-              <span 
+    <button
+        class="media-carousel-control-next carousel-control-next disabled"
+        type="button" 
+        data-bs-target="#test-media-modal-mms-mod-crs" 
+        data-bs-slide="next" 
+        title="Next">
+        <span class="carousel-control-next-icon" aria-hidden="true">
+               <span 
         role="img" 
         aria-label="Next" 
         title="Next">❓</span>
         </span>
-        <span class="mle-visually-hidden">Next</span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
-
 <script type="module">
             // Loading the "lite-YouTube" extension caused issues with the host app,
             // now waiting for dom to be loaded and only
