@@ -30,8 +30,8 @@ class TemporaryUploadDestroyForm extends BaseComponent
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;
 
         $this->initializeConfig([
-            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
-            'useXhr' => config('media-library-extensions.use_xhr'),
+//            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
+//            'useXhr' => config('media-library-extensions.use_xhr'),
         ]);
     }
 

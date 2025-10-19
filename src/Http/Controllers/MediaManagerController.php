@@ -117,6 +117,7 @@ class MediaManagerController extends Controller
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $id = 'something_for_now'; // TODO
+        $multiple = false;
 
         $temporaryUpload = false;
 
@@ -127,8 +128,9 @@ class MediaManagerController extends Controller
         $modelOrClassName = $model ?? $modelType;
 
         return view('media-library-extensions::media-manager-tinymce-wrapper', [
+            'id' => $id,
             'modelOrClassName' => $modelOrClassName,
-            'id',
+            'multiple' => $multiple,
             'collections' => [
                 'image' => 'imageCollection',
                 'video' => 'videoCollection',

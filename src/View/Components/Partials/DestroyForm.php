@@ -32,8 +32,8 @@ class DestroyForm extends BaseComponent
         $mediumDestroyRoute = route(mle_prefix_route('medium-destroy'), $medium);
 
         $this->initializeConfig([
-            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
-            'useXhr' => config('media-library-extensions.use_xhr'),
+//            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
+//            'useXhr' => config('media-library-extensions.use_xhr'),
             'mediumDestroyRoute' => $mediumDestroyRoute,
         ]);
     }

@@ -41,8 +41,8 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         $this->resolveModelOrClassName($modelOrClassName);
 
         $this->initializeConfig([
-            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
-            'useXhr' => config('media-library-extensions.use_xhr'),
+//            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
+//            'useXhr' => config('media-library-extensions.use_xhr'),
         ]);
     }
 

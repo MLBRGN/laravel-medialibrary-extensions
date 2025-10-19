@@ -9,9 +9,15 @@ window.mleFilePicker = (callback, value, meta) => {
             model_type: textarea.getAttribute('data-model-type'),
             model_id: textarea.getAttribute('data-model-id'),
             media_manager_id: 'myMediaManager',
-            image_collection: textarea.getAttribute('data-image-collection') ?? '',// TODO
-            video_collection: textarea.getAttribute('data-video-collection') ?? '',// TODO
-            audio_collection: textarea.getAttribute('data-audio-collection') ?? '',// TODO
+            collections: {
+                'image': textarea.getAttribute('data-image-collection'),
+                'video': textarea.getAttribute('data-video-collection'),
+                'audio': textarea.getAttribute('data-audio-collection'),
+            },
+            temporary_upload_mode: false, //textarea.getAttribute('temporaryUploadMode'),
+            options: {
+
+            }
         };
         console.log(params);
 

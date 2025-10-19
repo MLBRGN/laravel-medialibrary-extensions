@@ -1,36 +1,83 @@
 @if($includeCss)
     @once
-        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">
-{{--        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-plain.css') }}">--}}
+        <script>
+            if (!document.getElementById('mlbrgn-css-{{ $frontendTheme }}')) {
+                const link = document.createElement('link');
+                link.id = 'mlbrgn-css-{{ $frontendTheme }}';
+                link.rel = 'stylesheet';
+                link.href = "{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}";
+                document.head.appendChild(link);
+                console.log('css dynamically loaded');
+            }
+        </script>
     @endonce
 @endif
 
 @if($includeJs)
     @once
-        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>
-        @php
-            $translations = [
-                'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),
-                'unauthenticated' => __('media-library-extensions::http.unauthenticated'),
-                'forbidden' => __('media-library-extensions::http.forbidden'),
-                'not_found' => __('media-library-extensions::http.not_found'),
-                'validation_failed' => __('media-library-extensions::http.validation_failed'),
-                'too_many_requests' => __('media-library-extensions::http.too_many_requests'),
-                'server_error' => __('media-library-extensions::http.server_error'),
-                'unknown_error' => __('media-library-extensions::http.unknown_error'),
-                'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),
-                'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),
-            ];
-        @endphp
-        <script>
-            window.mediaLibraryTranslations = {!! json_encode($translations) !!};
+        <script type="module">
+            if (!window.mlbrgnJsLoaded) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}";
+                document.head.appendChild(script);
+                window.mlbrgnJsLoaded = true;
+
+                window.mediaLibraryTranslations = {!! json_encode([
+                    'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),
+                    'unauthenticated' => __('media-library-extensions::http.unauthenticated'),
+                    'forbidden' => __('media-library-extensions::http.forbidden'),
+                    'not_found' => __('media-library-extensions::http.not_found'),
+                    'validation_failed' => __('media-library-extensions::http.validation_failed'),
+                    'too_many_requests' => __('media-library-extensions::http.too_many_requests'),
+                    'server_error' => __('media-library-extensions::http.server_error'),
+                    'unknown_error' => __('media-library-extensions::http.unknown_error'),
+                    'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),
+                    'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),
+                ]) !!};
+                console.log('css dynamically loaded');
+            }
         </script>
     @endonce
 @endif
 
+
+{{--@if($includeCss)--}}
+{{--    @dump('YES YES to css')--}}
+{{--    --}}
+{{--    @once--}}
+{{--        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">--}}
+{{--        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-plain.css') }}">--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@if($includeJs)--}}
+{{--    @once--}}
+{{--        @dump('YES YES to js')--}}
+{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>--}}
+{{--        @php--}}
+{{--            $translations = [--}}
+{{--                'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),--}}
+{{--                'unauthenticated' => __('media-library-extensions::http.unauthenticated'),--}}
+{{--                'forbidden' => __('media-library-extensions::http.forbidden'),--}}
+{{--                'not_found' => __('media-library-extensions::http.not_found'),--}}
+{{--                'validation_failed' => __('media-library-extensions::http.validation_failed'),--}}
+{{--                'too_many_requests' => __('media-library-extensions::http.too_many_requests'),--}}
+{{--                'server_error' => __('media-library-extensions::http.server_error'),--}}
+{{--                'unknown_error' => __('media-library-extensions::http.unknown_error'),--}}
+{{--                'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),--}}
+{{--                'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),--}}
+{{--            ];--}}
+{{--        @endphp--}}
+{{--        <script>--}}
+{{--            window.mediaLibraryTranslations = {!! json_encode($translations) !!};--}}
+{{--        </script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
 @if($includeImageEditorJs)
     @once
-        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor.js') }}"></script>
+        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>
     @endonce
 @endif
 

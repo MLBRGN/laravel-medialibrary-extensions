@@ -14,3 +14,5 @@
     :frontend-theme="$getConfig('frontendTheme')"
 />
 <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker-iframe.js') }}"></script>
+{{--<script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js') }}"></script>--}}
+{{--<link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css') }}">--}}
