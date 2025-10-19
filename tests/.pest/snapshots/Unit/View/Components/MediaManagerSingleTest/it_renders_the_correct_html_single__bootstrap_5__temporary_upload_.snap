@@ -75,21 +75,20 @@
             class="media-manager-previews col-12 col-md-8"
             >
             <div class="status-area">
-    <div class="mle-spinner-container" media-manager-id="test-media-modal-mms" frontend-theme="bootstrap-5" data-spinner-container>
+    <div class="mle-spinner-container" media-manager-id="test-media-modal-mms" frontend-theme="plain" data-spinner-container>
 
     <span class="mle-spinner-text">Please wait.</span>
 </div>
     <div 
     class="status-container mle-flex-grow visible" 
-    data-status-container 
+    data-status-container
     data-status-timeout="4000"
 >
-    
-    <div class="mle-status-message alert alert-dismissible"
-        data-status-message
-        data-base-classes="mle-status-message alert alert-dismissible visible"
-        data-success-classes="alert-success"
-        data-error-classes="alert-danger"
+    <div class="mle-status-message" frontend-theme="plain"
+        data-status-message 
+        data-base-classes="mle-status-message"
+        data-success-classes="mle-status-message-success"
+        data-error-classes="mle-status-message-error"
     >
             </div>
     </div>

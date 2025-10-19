@@ -4,7 +4,7 @@
     data-media-manager=""
     data-use-xhr="true"
     >
-    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"temporaryUploadMode":false,"uploadFieldName":"media_multiple","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":"2025-10-19T12:20:17.000000Z","updated_at":"2025-10-19T12:20:17.000000Z"},"medium":null,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":"2025-10-19T12:20:17.000000Z","updated_at":"2025-10-19T12:20:17.000000Z"},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true,"useXhr":true,"showUploadForm":true,"allowedMimeTypes":"image\/jpeg, image\/png","showMediaEditButton":true,"uploadFieldName":"media_multiple"},"id":"test-media-modal-mmm","allowedMimeTypes":"image\/jpeg, image\/png"}'>
+    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"temporaryUploadMode":false,"uploadFieldName":"media_multiple","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":"2025-10-19T12:31:50.000000Z","updated_at":"2025-10-19T12:31:50.000000Z"},"medium":null,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":"2025-10-19T12:31:50.000000Z","updated_at":"2025-10-19T12:31:50.000000Z"},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true,"useXhr":true,"showUploadForm":true,"allowedMimeTypes":"image\/jpeg, image\/png","showMediaEditButton":true,"uploadFieldName":"media_multiple"},"id":"test-media-modal-mmm","allowedMimeTypes":"image\/jpeg, image\/png"}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
@@ -176,7 +176,7 @@
     data-status-timeout="4000"
 >
     
-    <div class="mle-status-message alert alert-dismissible"
+    <div class="mle-status-message alert alert-dismissible" frontend-theme="bootstrap-5"
         data-status-message
         data-base-classes="mle-status-message alert alert-dismissible visible"
         data-success-classes="alert-success"

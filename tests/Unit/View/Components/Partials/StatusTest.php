@@ -18,9 +18,11 @@ it('sets status from session when initiatorId matches', function () {
 
     $component = new Status(
         id: 'status-1',
-        frontendTheme: 'plain',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'plain',
+        ],
     );
 
     expect($component->status)->toBeArray()
@@ -41,9 +43,11 @@ it('does not set status if initiatorId does not match', function () {
 
     $component = new Status(
         id: 'status-1',
-        frontendTheme: 'plain',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'plain',
+        ],
     );
 
     expect($component->status)->toBeNull();
@@ -54,9 +58,11 @@ it('renders the status partial view', function () {
     $mediaManagerId = 'media-manager-123';
     $component = new Status(
         id: 'status-1',
-        frontendTheme: 'plain',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'plain',
+        ],
     );
 
     $view = $component->render();
@@ -78,9 +84,11 @@ it('renders the status message in the view when initiatorId matches (plain)', fu
 
     $component = new Status(
         id: 'status-1',
-        frontendTheme: 'plain',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'plain',
+        ],
     );
 
     // Render the component with attributes injected
@@ -107,9 +115,11 @@ it('renders the status message in the view when initiatorId matches (bootstrap-5
 
     $component = new Status(
         id: 'status-1',
-        frontendTheme: 'bootstrap-5',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'bootstrap-5',
+        ],
     );
 
     // Render the component with attributes injected
@@ -138,9 +148,11 @@ it('does not render the status message when initiatorId does not match', functio
 
     $component = new Status(
         id: 'status-1',
-        frontendTheme: 'plain',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'plain',
+        ],
     );
 
     // Render the component with attributes injected
@@ -168,9 +180,11 @@ it('sets status from validation error bag when present', function () {
 
     $component = new Status(
         id: 'status-2',
-        frontendTheme: 'plain',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'plain',
+        ],
     );
 
     expect($component->status)->toBeArray()

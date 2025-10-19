@@ -5,19 +5,22 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 class Status extends BaseComponent
 {
+    use InteractsWithOptionsAndConfig;
+
     public ?array $status = null;
 
     public function __construct(
         ?string $id,
-        public ?string $frontendTheme,// TODO move to options
         public string $initiatorId,
-        public string $mediaManagerId
+        public string $mediaManagerId,
+        public array $options = [],
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id);
 
         $statusKey = status_session_prefix(); // always one global key
 
@@ -30,10 +33,11 @@ class Status extends BaseComponent
                 $this->status = $sessionStatus;
             }
         }
+        $this->initializeConfig();
     }
 
     public function render(): View
     {
-        return $this->getPartialView('status', $this->frontendTheme);
+        return $this->getPartialView('status', $this->getConfig('frontendTheme'));
     }
 }
