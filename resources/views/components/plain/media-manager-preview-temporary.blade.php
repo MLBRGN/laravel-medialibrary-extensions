@@ -149,8 +149,6 @@
                                 :collections="$collections"
                                 :options="$options"
                                 :disabled="$disabled"
-                                :show-set-as-first-button="$getConfig('showSetAsFirstButton')"
-                                :show-media-edit-button="$getConfig('showMediaEditButton')"
                             />
                         @endif
                     @endif

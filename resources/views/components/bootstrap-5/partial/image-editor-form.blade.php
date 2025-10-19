@@ -3,7 +3,7 @@
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="
     [
-        'action' => $config['saveUpdatedMediumRoute'],
+        'action' => $getConfig('saveUpdatedMediumRoute'),
         'method' => 'POST',
         'data-image-editor-update-form' => '',
     ]"

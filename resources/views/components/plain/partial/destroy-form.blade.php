@@ -1,11 +1,11 @@
 <x-media-library-extensions::shared.conditional-form
-    :use-xhr="$config['useXhr']"
+    :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $config['mediumDestroyRoute'],
+        'action' => $getConfig('mediumDestroyRoute'),
         'method' => 'POST'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $config['useXhr'], 
+        'data-xhr-form' => $getConfig('useXhr'), 
         'id' => $id
     ]"
     method="delete"
@@ -28,7 +28,7 @@
         @endif
     @endforeach
     <button
-        type="{{ $config['useXhr'] ? 'button' : 'submit' }}"
+        type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.delete_medium') }}"
         data-action="destroy-medium"
@@ -40,11 +40,11 @@
         />
     </button>
 </x-media-library-extensions::partial.conditional-form>
-@if($config['useXhr'])
+@if($getConfig('useXhr'))
     <x-mle-shared-assets 
         include-css="true" 
         include-js="true" 
         include-form-submitter="true" 
-        :frontend-theme="$config['frontendTheme']"
+        :frontend-theme="$getConfig('frontendTheme')"
     />
 @endif

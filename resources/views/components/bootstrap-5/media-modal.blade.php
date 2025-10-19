@@ -45,7 +45,6 @@
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"
                     :options="$options"
-{{--                    :frontend-theme="$getConfig('frontendTheme')"--}}
                     :in-modal="true"
                 />
             </div>

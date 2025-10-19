@@ -22,17 +22,6 @@
                 :model-or-class-name="$modelOrClassName"
                 id="{{ $id }}"
                 :collections="$collections"
-{{--                :image-collection="$imageCollection"--}}
-{{--                :document-collection="$documentCollection"--}}
-{{--                :youtube-collection="$youtubeCollection"--}}
-{{--                :video-collection="$videoCollection"--}}
-{{--                :audio-collection="$audioCollection"--}}
-                :frontend-theme="$frontendTheme"
-                :show-destroy-button="true"
-                :show-set-as-first-button="true"
-                :show-media-edit-button="true"
-                :show-order="true"
-                :show-menu="true"
                 :multiple="$multiple"
                 :selectable="true"
             />

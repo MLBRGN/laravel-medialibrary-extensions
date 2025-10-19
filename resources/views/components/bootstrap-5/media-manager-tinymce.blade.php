@@ -3,12 +3,7 @@
         :model-or-class-name="$modelOrClassName"
         id="{{ $id }}"
         :collections="$collections"
-{{--        :frontend-theme="$getConfig('frontendTheme')"--}}
-        :show-destroy-button="true"
-        :show-set-as-first-button="true"
-        :show-media-edit-button="true"
-        :show-order="true"
-        :show-menu="true"
+        :options="$options"
         :multiple="$multiple"
         :selectable="true"
     />
