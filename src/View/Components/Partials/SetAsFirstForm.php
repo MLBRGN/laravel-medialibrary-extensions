@@ -41,15 +41,12 @@ class SetAsFirstForm extends BaseComponent
         $this->resolveModelOrClassName($modelOrClassName);
 
         $this->initializeConfig([
-            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
-            'useXhr' => config('media-library-extensions.use_xhr'),
 //            'showSetAsFirstButton' => $this->getOption('showSetAsFirstButton'),
         ]);
     }
 
     public function render(): View
     {
-
-        return $this->getPartialView('set-as-first-form', $this->frontendTheme);
+        return $this->getPartialView('set-as-first-form', $this->getConfig('frontendTheme'));
     }
 }

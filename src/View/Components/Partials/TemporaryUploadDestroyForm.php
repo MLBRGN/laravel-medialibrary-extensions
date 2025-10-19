@@ -15,11 +15,6 @@ class TemporaryUploadDestroyForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-    public function render(): View
-    {
-        return $this->getPartialView('temporary-upload-destroy-form', $this->frontendTheme);
-    }
-
     public function __construct(
 
         public TemporaryUpload $medium,
@@ -28,18 +23,21 @@ class TemporaryUploadDestroyForm extends BaseComponent
         public array $collections = [], // in image, document, youtube, video, audio
         public ?bool $readonly = false,
         public ?bool $disabled = false,
-        public ?string $frontendTheme,// TODO in options?
-        public ?bool $useXhr = null,// TODO in options?
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+//        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         $this->initializeConfig([
             'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
             'useXhr' => config('media-library-extensions.use_xhr'),
         ]);
+    }
+
+    public function render(): View
+    {
+        return $this->getPartialView('temporary-upload-destroy-form', $this->getConfig('frontendTheme'));
     }
 }

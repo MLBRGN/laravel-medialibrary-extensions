@@ -49,6 +49,6 @@ class UploadForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('upload-form', $this->frontendTheme);
+        return $this->getPartialView('upload-form', $this->getConfig('frontendTheme'));
     }
 }

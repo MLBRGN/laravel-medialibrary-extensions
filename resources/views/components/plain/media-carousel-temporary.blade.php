@@ -149,6 +149,7 @@
         :model-or-class-name="$modelOrClassName"
         :media-collection="$mediaCollection"
         :media-collections="$mediaCollections"
+        :options="$options"
         title="Media carousel"/>
 @endif
 <x-mle-shared-assets

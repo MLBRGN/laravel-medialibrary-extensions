@@ -58,10 +58,10 @@ class MediaManagerTinymce extends BaseComponent
         public bool $disabled = false
     ) {
 
-        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
-        $this->frontendTheme = $frontendTheme;
+//        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
+//        $this->frontendTheme = $frontendTheme;
 
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -125,13 +125,13 @@ class MediaManagerTinymce extends BaseComponent
 //        ];
 
         $this->initializeConfig([
-            'frontendTheme' => $this->frontendTheme,
-            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+//            'frontendTheme' => $this->frontendTheme,
+//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
         ]);
     }
 
     public function render(): View
     {
-        return $this->getView('media-manager-tinymce', $this->frontendTheme);
+        return $this->getView('media-manager-tinymce', $this->getConfig('frontendTheme'));
     }
 }

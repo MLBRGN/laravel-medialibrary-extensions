@@ -130,9 +130,19 @@ class MediaManagerController extends Controller
         }
         $modelOrClassName = $model ?? $modelType;
 
-        return view('media-library-extensions::media-manager-tinymce-wrapper', compact(
-            'modelOrClassName', 'temporaryUpload',
-            'frontendTheme', 'id', 'imageCollection', 'documentCollection',
-            'audioCollection', 'videoCollection', 'youtubeCollection'));
+        return view('media-library-extensions::media-manager-tinymce-wrapper', [
+            'modelOrClassName' => $modelOrClassName,
+            'id',
+            'collections' => [
+                'image' => 'imageCollection',
+                'video' => 'videoCollection',
+                'audio' => 'audioCollection',
+                'document' => 'documentCollection',
+                'youtube' => 'youtubeCollection',
+            ],
+            'options' => [
+
+             ]
+        ]);
     }
 }

@@ -37,10 +37,10 @@ class MediaManager extends BaseComponent
     ) {
 
         $id = filled($id) ? $id : null;
-        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
-        $this->frontendTheme = $frontendTheme;
+//        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
+//        $this->frontendTheme = $frontendTheme;
 
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $collections = $this->mergeCollections($collections);
 
@@ -72,15 +72,15 @@ class MediaManager extends BaseComponent
 
         // merge into config
         $this->initializeConfig([
-            'frontendTheme' => $this->frontendTheme,
-            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+//            'frontendTheme' => $this->frontendTheme,
+//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
 //            'csrfToken' => csrf_token(),
         ]);
     }
 
     public function render(): View
     {
-        return $this->getView('media-manager', $this->frontendTheme);
+        return $this->getView('media-manager', $this->getConfig('frontendTheme'));
     }
 
 }

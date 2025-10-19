@@ -176,7 +176,7 @@ trait InteractsWithOptionsAndConfig
             'showUploadForm' => true,
             'temporaryUploadMode' => false,
             'uploadFieldName' => 'medium',
-            'frontendTheme' => config('media-library-extensions.frontend_theme', 'default'),
+            'frontendTheme' => config('media-library-extensions.frontend_theme', 'bootstrap-5'),
             'useXhr' => config('media-library-extensions.use_xhr', true),
             'csrfToken' => csrf_token(),
 //            'allowedMimeTypes' => config('media-library-extensions.allowed_mimetypes', []),

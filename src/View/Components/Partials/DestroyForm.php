@@ -16,11 +16,6 @@ class DestroyForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-//    protected array $optionKeys = [
-//        'frontendTheme',
-//        'useXhr',
-//    ];
-
     public array $config;
 
     public function __construct(
@@ -45,6 +40,6 @@ class DestroyForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('destroy-form', $this->frontendTheme);
+        return $this->getPartialView('destroy-form', $this->getConfig('frontendTheme'));
     }
 }

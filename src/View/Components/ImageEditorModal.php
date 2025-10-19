@@ -40,19 +40,20 @@ class ImageEditorModal extends BaseComponent
 
         $this->saveUpdatedMediumRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
 
+        // TODO look at this
         $this->initializeConfig([
             'initiatorId' => $this->initiatorId,
-            'frontendTheme' => $this->frontendTheme,
-            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+//            'frontendTheme' => $this->frontendTheme,
+//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
             'id' => $this->id,
             'mediaManagerId' => $this->mediaManagerId,
             'modelType' => $this->modelType,
             'modelId' => $this->modelId,
             'mediumId' => $this->medium->id,
             'collection' => $this->medium->collection_name,
-            'csrfToken' => csrf_token(),
+//            'csrfToken' => csrf_token(),
             'saveUpdatedMediumRoute' => $this->saveUpdatedMediumRoute,
-            'temporaryUploadMode' => $this->temporaryUploadMode,
+//            'temporaryUploadMode' => $this->temporaryUploadMode,
             'collections' => $this->collections,
         ]);
     }
@@ -60,9 +61,9 @@ class ImageEditorModal extends BaseComponent
     public function render(): View
     {
         if ($this->temporaryUploadMode) {
-            return $this->getView('image-editor-modal-temporary-upload', $this->frontendTheme);
+            return $this->getView('image-editor-modal-temporary-upload', $this->getConfig('frontendTheme'));
         }
 
-        return $this->getView('image-editor-modal', $this->frontendTheme);
+        return $this->getView('image-editor-modal', $this->getConfig('frontendTheme'));
     }
 }

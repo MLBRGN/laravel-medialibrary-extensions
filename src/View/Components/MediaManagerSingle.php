@@ -69,8 +69,8 @@ class MediaManagerSingle extends MediaManager
         $this->setOption('disableForm', $totalMediaCount >= 1);
 
         $this->initializeConfig([
-            'frontendTheme' => $this->frontendTheme,
-            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+//            'frontendTheme' => $this->frontendTheme,
+//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
         ]);
     }
 }

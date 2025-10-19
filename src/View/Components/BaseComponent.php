@@ -16,14 +16,14 @@ abstract class BaseComponent extends Component
 
     public string $id;
 
-    public ?string $frontendTheme = 'bootstrap-5';
+//    public ?string $frontendTheme = 'bootstrap-5';
 
     public function __construct(
         ?string $id = null,
         ?string $frontendTheme = null
     ) {
         $this->id = filled($id) ? $id : 'component-'.Str::uuid();
-        $this->frontendTheme = $frontendTheme ?? config('medialibrary-extensions.frontend_theme');
+//        $this->frontendTheme = $frontendTheme ?? config('medialibrary-extensions.frontend_theme');
     }
 
 //    public function showRegularUploadForm(): bool

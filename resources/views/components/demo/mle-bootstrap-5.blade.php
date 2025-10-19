@@ -174,31 +174,29 @@
                         'alien-multiple-audio',
                     ]"
             class="my-5"
-            frontend-theme="bootstrap-5"
         />
 
         <h2 class="my-5">Media Carousel (Temporary)</h2>
 
         <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
 
-        <x-mle-media-carousel
-            id="alien-media-carousel-temporary-uploads"
-            model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-            :media-collections="[
-                        'alien-single-image', 
-                        'alien-single-document', 
-                        'alien-single-youtube-video',
-                        'alien-single-video',
-                        'alien-single-audio',
-                        'alien-multiple-images', 
-                        'alien-multiple-documents', 
-                        'alien-multiple-youtube-videos',
-                        'alien-multiple-videos',
-                        'alien-multiple-audio',
-                    ]"
-            class="my-5"
-            frontend-theme="bootstrap-5"
-        />
+{{--        <x-mle-media-carousel--}}
+{{--            id="alien-media-carousel-temporary-uploads"--}}
+{{--            model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"--}}
+{{--            :media-collections="[--}}
+{{--                        'alien-single-image', --}}
+{{--                        'alien-single-document', --}}
+{{--                        'alien-single-youtube-video',--}}
+{{--                        'alien-single-video',--}}
+{{--                        'alien-single-audio',--}}
+{{--                        'alien-multiple-images', --}}
+{{--                        'alien-multiple-documents', --}}
+{{--                        'alien-multiple-youtube-videos',--}}
+{{--                        'alien-multiple-videos',--}}
+{{--                        'alien-multiple-audio',--}}
+{{--                    ]"--}}
+{{--            class="my-5"--}}
+{{--        />--}}
 
         <h2 class="my-5">Media first available</h2>
 

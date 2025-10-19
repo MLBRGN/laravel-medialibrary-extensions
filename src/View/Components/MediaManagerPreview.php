@@ -30,8 +30,8 @@ class MediaManagerPreview extends BaseComponent
         public bool $selectable = false,
     ) {
 //        Log::info('options: ' . print_r($options, true));
-        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
-        parent::__construct($id, $frontendTheme);
+//        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -83,13 +83,13 @@ class MediaManagerPreview extends BaseComponent
 
         // merge into config
         $this->initializeConfig([
-            'frontendTheme' => $this->frontendTheme,
-            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
+//            'frontendTheme' => $this->frontendTheme,
+//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
         ]);
     }
 
     public function render(): View
     {
-        return $this->getView('media-manager-preview', $this->frontendTheme);
+        return $this->getView('media-manager-preview', $this->getConfig('frontendTheme'));
     }
 }

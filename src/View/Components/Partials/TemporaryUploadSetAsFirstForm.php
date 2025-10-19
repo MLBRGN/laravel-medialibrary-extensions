@@ -47,6 +47,6 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('temporary-upload-set-as-first-form', $this->frontendTheme);
+        return $this->getPartialView('temporary-upload-set-as-first-form', $this->getConfig('frontendTheme'));
     }
 }

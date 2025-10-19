@@ -194,7 +194,6 @@
                     'alien-multiple-audio',
                 ]"
         class="demo-media-carousel"
-        frontend-theme="plain"
     />
 
     <h2 class="my-5">Media Carousel (Temporary)</h2>
@@ -217,7 +216,6 @@
                         'alien-multiple-audio',
                     ]"
         class="my-5"
-        frontend-theme="plain"
     />
 
     <h2 class="my-5">Media first available</h2>

@@ -18,7 +18,7 @@ class MediaCarousel extends BaseComponent
 
     public MediaCollection $mediaItems;
 
-    public MediaCollection $media; // TODO duplocate with $mediaItems
+    public MediaCollection $media; // TODO duplicate with $mediaItems
 
     public int $mediaCount;
 
@@ -33,11 +33,10 @@ class MediaCarousel extends BaseComponent
         public bool $expandableInModal = true,
         public array $options = [],
         public bool $inModal = false,
-        public ?string $frontendTheme = null,// TODO move to options
-
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
+//        dd($options);
         $this->resolveModelOrClassName($modelOrClassName);
 
         // Merge media from multiple or single collection
@@ -62,20 +61,16 @@ class MediaCarousel extends BaseComponent
         $this->media = $this->mediaItems;
 
         $this->mediaCount = $this->mediaItems->count();
-        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
+//        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
         //        $this->id = $this->id.'-carousel';
         $this->id = $this->id.'-crs';
 
         // merge into config
-        $this->initializeConfig([
-            'frontendTheme' => $this->frontendTheme,
-            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
-//            'csrfToken' => csrf_token(),
-        ]);
+        $this->initializeConfig();
     }
 
     public function render(): View
     {
-        return $this->getView('media-carousel', $this->frontendTheme);
+        return $this->getView('media-carousel', $this->getConfig('frontendTheme'));
     }
 }

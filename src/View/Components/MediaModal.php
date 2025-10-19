@@ -19,24 +19,22 @@ class MediaModal extends BaseComponent
         public ?string $mediaCollection,
         public ?array $mediaCollections,
         public ?string $title,// TODO do i want this?
-        public ?string $frontendTheme = null,
+        public array $options = [],
         public bool $videoAutoPlay = true,
+
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $this->resolveModelOrClassName($modelOrClassName);
 
         $this->id = $this->id.'-mod';
 
         // merge into config
-        $this->initializeConfig([
-            'frontendTheme' => $this->frontendTheme,
-            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
-        ]);
+        $this->initializeConfig();
     }
 
     public function render(): View
     {
-        return $this->getView('media-modal', $this->frontendTheme);
+        return $this->getView('media-modal', $this->getConfig('frontendTheme'));
     }
 }

@@ -48,6 +48,6 @@ class ImageEditorForm extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('image-editor-form', $this->frontendTheme);
+        return $this->getPartialView('image-editor-form', $this->getConfig('frontendTheme'));
     }
 }
