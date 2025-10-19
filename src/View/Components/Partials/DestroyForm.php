@@ -25,7 +25,7 @@ class DestroyForm extends BaseComponent
         public array $options = [],
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
         $this->mediaManagerId = $id;
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;
 

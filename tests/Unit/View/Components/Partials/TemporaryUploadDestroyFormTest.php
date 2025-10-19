@@ -21,8 +21,6 @@ it('renders the temporary-upload-destroy-form partial view', function () {
         collections: [],
         readonly: false,
         disabled: false,
-        frontendTheme: 'plain',
-        useXhr: true,
     );
 
     $view = $component->render();

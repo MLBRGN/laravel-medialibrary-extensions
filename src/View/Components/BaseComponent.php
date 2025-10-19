@@ -20,10 +20,9 @@ abstract class BaseComponent extends Component
 
     public function __construct(
         ?string $id = null,
-        ?string $frontendTheme = null
+//        ?string $frontendTheme = null
     ) {
         $this->id = filled($id) ? $id : 'component-'.Str::uuid();
-//        $this->frontendTheme = $frontendTheme ?? config('medialibrary-extensions.frontend_theme');
     }
 
 //    public function showRegularUploadForm(): bool

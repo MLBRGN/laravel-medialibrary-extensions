@@ -23,7 +23,7 @@ class MediaModal extends BaseComponent
         public bool $videoAutoPlay = true,
 
     ) {
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
 

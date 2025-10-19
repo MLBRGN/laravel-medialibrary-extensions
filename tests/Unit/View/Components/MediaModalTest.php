@@ -45,7 +45,9 @@ it('renders the correct Blade view (bootstrap-5)', function () {
         mediaCollection: 'image_collection',
         mediaCollections: null,
         title: 'Render Test',
-        frontendTheme: $frontendTheme
+        options: [
+            'frontendTheme' => $frontendTheme
+        ]
     );
     $view = $component->render();
     //    dd($view);
@@ -61,7 +63,9 @@ it('renders the correct Blade view (plain)', function () {
         mediaCollection: 'image_collection',
         mediaCollections: null,
         title: 'Render Test',
-        frontendTheme: $frontendTheme
+        options: [
+            'frontendTheme' => $frontendTheme
+        ]
     );
     $view = $component->render();
     expect($view->name())->toBe('media-library-extensions::components.plain.media-modal');
@@ -72,7 +76,13 @@ it('renders the correct html multiple media-collections (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collections="$collections" title="test" :frontend-theme="$frontendTheme" />',
+        '<x-mle-media-modal
+                    id="test-media-modal"
+                    :model-or-class-name="$model"
+                    :media-collections="$collections"
+                    title="test"
+                    :options="$options"
+                />',
         [
             'model' => $model,
             'collections' => [
@@ -82,7 +92,9 @@ it('renders the correct html multiple media-collections (plain)', function () {
                 'audio_collection',
                 'youtube_collection'
             ],
-            'frontendTheme' => 'plain',
+            'options' => [
+                'frontendTheme' => 'plain',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -92,7 +104,13 @@ it('renders the correct html multiple media-collections (bootstrap-5)', function
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collections="$collections" title="test" :frontend-theme="$frontendTheme" />',
+        '<x-mle-media-modal
+                    id="test-media-modal"
+                    :model-or-class-name="$model"
+                    :media-collections="$collections"
+                    title="test"
+                    :options="$options"
+                />',
         [
             'model' => $model,
             'collections' => [
@@ -102,7 +120,9 @@ it('renders the correct html multiple media-collections (bootstrap-5)', function
                 'audio_collection',
                 'youtube_collection'
             ],
-            'frontendTheme' => 'bootstrap-5',
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -112,11 +132,19 @@ it('renders the correct html single media-collection (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collection="$collection" title="test" :frontend-theme="$frontendTheme" />',
+        '<x-mle-media-modal
+                id="test-media-modal"
+                :model-or-class-name="$model"
+                :media-collection="$collection"
+                title="test"
+                :options="$options"
+            />',
         [
             'model' => $model,
             'collection' => 'image_collection',
-            'frontendTheme' => 'plain',
+            'options' => [
+                'frontendTheme' => 'plain',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -126,11 +154,19 @@ it('renders the correct html single media-collection (bootstrap-5)', function ()
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-modal id="test-media-modal" :model-or-class-name="$model" :media-collection="$collection" title="test" :frontend-theme="$frontendTheme" />',
+        '<x-mle-media-modal
+                    id="test-media-modal"
+                    :model-or-class-name="$model"
+                    :media-collection="$collection"
+                    title="test"
+                    :options="$options"
+                 />',
         [
             'model' => $model,
             'collection' => 'image_collection',
-            'frontendTheme' => 'bootstrap-5',
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+            ]
         ]
     );
     expect($html)->toMatchSnapshot();

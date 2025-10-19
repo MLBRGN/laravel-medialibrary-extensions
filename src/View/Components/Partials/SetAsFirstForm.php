@@ -31,7 +31,7 @@ class SetAsFirstForm extends BaseComponent
         public array $options = [],
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-set-as-first-form-'.$this->medium->id;

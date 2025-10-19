@@ -1,0 +1,6 @@
+<x-mle-media-manager-preview
+                    id="test-media-modal"
+                    :model-or-class-name="$modelOrClassName"
+//                    image_collection="images"
+                    :options="$options"
+                />

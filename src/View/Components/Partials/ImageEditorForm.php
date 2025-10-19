@@ -29,7 +29,7 @@ class ImageEditorForm extends BaseComponent
         public ?string $mediaManagerId = '',
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
         $this->id = $this->id.'-ie-update-form';
 

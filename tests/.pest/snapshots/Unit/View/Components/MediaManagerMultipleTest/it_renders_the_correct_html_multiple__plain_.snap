@@ -1,0 +1,226 @@
+<div
+    id="test-media-modal-mmm"
+    class="mlbrgn-mle-component theme-plain media-manager media-manager-multiple" multiple="true"
+    data-media-manager=""
+    data-use-xhr="true"
+    >
+    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"temporaryUploadMode":false,"uploadFieldName":"media","frontendTheme":"plain","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":"2025-10-19T12:20:15.000000Z","updated_at":"2025-10-19T12:20:15.000000Z"},"medium":null,"collections":{"image":"images","document":"","youtube":"","video":"","audio":""},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":"2025-10-19T12:20:15.000000Z","updated_at":"2025-10-19T12:20:15.000000Z"},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"plain","uploadFieldName":"media"},"id":"test-media-modal-mmm"}'>
+    
+    <div class="media-manager-row row">
+        <div class="media-manager-form">
+            
+            
+                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+        <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
+    <input
+        id="test-media-modal-mmm-media-input"
+        accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
+        type="file"
+        class="mle-input form-control"
+                    name="media[]"
+            multiple 
+                        >
+    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
+                        <input
+                type="hidden"
+                name="collections[image]"
+                value="images">
+                                                                <input 
+        type="hidden" 
+        name="temporary_upload_mode" 
+        value="false">
+    <input
+        type="hidden"
+        name="model_type"
+        value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input
+        type="hidden"
+        name="model_id"
+        value="1">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="test-media-modal-mmm">
+    <button
+        type="button"
+        class="mle-button mle-button-submit mle-upload-button"
+        data-action="upload-media"
+            >
+        Upload media
+    </button>
+    </div>
+    <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
+
+    
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js"></script>
+                <script>
+            window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
+        </script>
+    
+
+            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js"></script>
+    
+
+
+
+                                    
+        </div>
+        <div
+            class="media-manager-previews"
+            >
+            <div class="status-area">
+    <div class="mle-spinner-container" media-manager-id="test-media-modal-mmm" frontend-theme="plain" data-spinner-container>
+
+    <span class="mle-spinner-text">Please wait.</span>
+</div>
+    <div 
+    class="status-container mle-flex-grow visible" 
+    data-status-container
+    data-status-timeout="4000"
+>
+    <div class="mle-status-message"
+        data-status-message 
+        data-base-classes="mle-status-message"
+        data-success-classes="mle-status-message-success"
+        data-error-classes="mle-status-message-error"
+    >
+            </div>
+    </div>
+</div>            <div class="media-manager-preview-grid">
+                <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">
+        <span class="mle-no-media">No media.</span>
+    </div>
+<div
+    class="mlbrgn-mle-component theme-plain media-modal modal fade"
+    id="test-media-modal-mmm-mod"
+    tabindex="-1"
+    role="dialog"
+            aria-labelledby="test-media-modal-mmm-mod-title"
+        aria-hidden="true"
+            data-autoplay=""
+        data-modal
+    data-media-modal
+>
+    <div class="media-modal-dialog modal-dialog">
+        <div class="media-modal-content modal-content">
+                            <h1 class="media-modal-title mle-visually-hidden" id="test-media-modal-mmm-mod-title">Media carousel</h1>
+                        <div class="media-modal-body modal-body">
+                <button
+                    type="button"
+                    class="media-modal-close-button modal-close-button"
+                    data-modal-close
+                    aria-label="Sluit"
+                    title="Close">
+                    <span 
+        role="img" 
+        aria-label="Close" 
+        title="Close">❓</span>
+                </button>
+                <div id="test-media-modal-mmm-mod-crs"
+     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-empty media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="plain"
+     data-carousel
+     data-carousel-id="test-media-modal-mmm-mod-crs"
+     tabindex="-1"
+          data-carousel-effect="slide"
+    >
+
+    
+    <div
+        class="media-carousel-indicators carousel-indicators mle-display-none"
+    >
+            </div>
+
+    
+    <div class="media-carousel-inner">
+                    <div class="media-carousel-item active">
+                <div class="media-carousel-item-container">
+                    <span class="mle-no-media">No media.</span>
+                </div>
+            </div>
+            </div>
+
+    
+    <button 
+        class="media-carousel-control-prev disabled"
+        type="button"
+        data-slide="prev">
+        <span class="media-carousel-control-prev-icon" aria-hidden="true">
+             <span 
+        role="img" 
+        aria-label="Previous" 
+        title="Previous">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Previous</span>
+    </button>
+    <button 
+        class="media-carousel-control-next disabled"
+        type="button"
+        data-slide="next">
+        <span class="media-carousel-control-next-icon" aria-hidden="true">
+              <span 
+        role="img" 
+        aria-label="Next" 
+        title="Next">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Next</span>
+    </button>
+</div>
+
+<script type="module">
+            // Loading the "lite-YouTube" extension caused issues with the host app,
+            // now waiting for dom to be loaded and only
+            // loading YT iframe api and "lite-YouTube" when not loaded
+            // already (by host app)
+            document.addEventListener('DOMContentLoaded', function() {
+                if (!window.YT) {
+                    const tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    document.head.appendChild(tag);
+                }
+
+                if (!customElements.get('lite-youtube')) {
+                    console.log('no lite-youtube, loading');
+                    const script = document.createElement('script');
+                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/lite-youtube.js";
+                    document.head.appendChild(script);
+                } else {
+                    console.log('lite-youtube already present');
+                }
+            })
+        </script>
+    
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.mle-debug-wrapper').forEach(function (wrapper) {
+                const toggleBtn = wrapper.querySelector('.mle-debug-toggle');
+                const debugSection = wrapper.querySelector('.mle-debug');
+
+                if (toggleBtn && debugSection) {
+                    toggleBtn.addEventListener('click', function () {
+                        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                        toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+                        debugSection.classList.toggle('hidden');
+                        toggleBtn.textContent = isExpanded
+                            ? '🐞 Show Debug Info'
+                            : '🐞 Hide Debug Info';
+                    });
+                }
+            });
+        });
+    </script>
+</div>

@@ -58,10 +58,7 @@ class MediaManagerTinymce extends BaseComponent
         public bool $disabled = false
     ) {
 
-//        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
-//        $this->frontendTheme = $frontendTheme;
-
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
 

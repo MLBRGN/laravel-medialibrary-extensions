@@ -29,9 +29,7 @@ class MediaManagerPreview extends BaseComponent
         public bool $readonly = false,
         public bool $selectable = false,
     ) {
-//        Log::info('options: ' . print_r($options, true));
-//        $frontendTheme = $this->options['frontendTheme'] ?? config('media-library-extensions.frontend_theme', 'bootstrap-5');
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
 

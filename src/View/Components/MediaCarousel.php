@@ -34,7 +34,7 @@ class MediaCarousel extends BaseComponent
         public array $options = [],
         public bool $inModal = false,
     ) {
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
 //        dd($options);
         $this->resolveModelOrClassName($modelOrClassName);

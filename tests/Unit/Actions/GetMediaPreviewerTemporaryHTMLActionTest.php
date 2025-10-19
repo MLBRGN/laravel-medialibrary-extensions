@@ -15,34 +15,37 @@ beforeEach(function () {
 it('renders temporary media preview HTML and returns JSON response', function () {
     $model = $this->getTestBlogModel();
     $initiatorId = 'initiator-123';
+    $frontendTheme = 'bootstrap-5';
 
+    // TODO
     $requestData = [
         'initiator_id' => $initiatorId,
         'model_type' => $model->getMorphClass(),
-//        'image_collection' => 'images',// TODO
-//        'document_collection' => 'docs',
-//        'youtube_collection' => 'youtube',
-        'frontend_theme' => 'bootstrap-5',
-        'show_destroy_button' => 'true',
-        'show_set_as_first_button' => 'false',
-        'show_order' => 'false',
+        'collections' => json_encode([
+            'image' => 'images',
+            'document' => 'documents',
+            'youtube' => 'youtube',
+        ]),
+        'options' => json_encode([
+            'frontendTheme' => 'bootstrap-5',
+            'showDestroyButton' => true,
+            'showSetAsFirstButton' => false,
+            'showOrder' => false,
+        ])
     ];
 
     $request = GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
 
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaManagerPreview $component) use ($initiatorId, $requestData) {
+        ->withArgs(function (MediaManagerPreview $component) use ($initiatorId, $requestData, $frontendTheme) {
             expect($component->id)->toBe($initiatorId);
             expect($component->modelOrClassName)->toBe($requestData['model_type']);
-            //            expect($component->imageCollection)->toBe($requestData['image_collection']);// TODO
-            //            expect($component->documentCollection)->toBe($requestData['document_collection']);// TODO
-            //            expect($component->youtubeCollection)->toBe($requestData['youtube_collection']);// TODO
-            expect($component->frontendTheme)->toBe($requestData['frontend_theme']);
-            //            expect($component->showDestroyButton)->toBeTrue();// TODO
-            //            expect($component->showSetAsFirstButton)->toBeFalse();// TODO
-            //            expect($component->showOrder)->toBeFalse();// TODO
-            //            expect($component->temporaryUploadMode)->toBeTrue();// TODO
+            expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);
+            expect($component->getConfig('showDestroyButton'))->toBeTrue();// TODO
+            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();// TODO
+            expect($component->getConfig('showOrder'))->toBeFalse();// TODO
+            expect($component->getConfig('temporaryUploadMode'))->toBeTrue();// TODO
 
             return true;
         })
