@@ -56,7 +56,6 @@
                 :options="[
                         'showDestroyButton' => true,
                         'frontendTheme' => 'plain',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                     ]"
             />
         
@@ -76,7 +75,6 @@
                 :options="[
                         'showDestroyButton' => true,
                         'frontendTheme' => 'plain',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                     ]"
             />
         
@@ -98,7 +96,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
             />
@@ -122,7 +119,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
             />
@@ -145,7 +141,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
             />
@@ -169,7 +164,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
             />

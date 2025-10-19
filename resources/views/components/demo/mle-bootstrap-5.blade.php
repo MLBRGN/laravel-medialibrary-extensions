@@ -30,9 +30,6 @@
                     :options="[
                         'showDestroyButton' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
-                        'allowedMimeTypes' => 'image/jpeg, image/gif'
-                        
                     ]"
                     class="mt-5"
                 />
@@ -53,7 +50,6 @@
                     :options="[
                         'showDestroyButton' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                     ]"
                 />
                 
@@ -76,7 +72,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
                 />
@@ -100,7 +95,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
                 />
@@ -124,7 +118,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
                 />
@@ -148,7 +141,6 @@
                         'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'useXhr' => config('media-library-extensions.use_xhr'),
                         'showMenu' => true,
                     ]"
                     class="mt-5"
