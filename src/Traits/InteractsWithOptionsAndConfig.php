@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 use Illuminate\Support\Arr;
@@ -62,25 +61,23 @@ trait InteractsWithOptionsAndConfig
             return $options[$key];
         }
 
-//        Log::debug(sprintf('[%s] Option "%s" not set, using default.', static::class, $key));
+        //        Log::debug(sprintf('[%s] Option "%s" not set, using default.', static::class, $key));
         return $default;
     }
 
     protected function hasOption(string $key): bool
     {
         $options = $this->getOptions();
+
         return array_key_exists($key, $options) && $options[$key] !== null;
     }
 
     /**
      * Set or update a single option.
-     *
-     * @param string $key
-     * @param mixed $value
      */
     protected function setOption(string $key, mixed $value): void
     {
-        if (!property_exists($this, 'options') || !is_array($this->options)) {
+        if (! property_exists($this, 'options') || ! is_array($this->options)) {
             $this->options = [];
         }
 
@@ -89,13 +86,13 @@ trait InteractsWithOptionsAndConfig
 
     protected function validateRequiredOptions(): void
     {
-        if (!property_exists($this, 'requiredOptions')) {
+        if (! property_exists($this, 'requiredOptions')) {
             return;
         }
 
         $options = $this->getOptions();
         foreach ($this->requiredOptions as $key) {
-            if (!array_key_exists($key, $options) || $options[$key] === null) {
+            if (! array_key_exists($key, $options) || $options[$key] === null) {
                 $message = sprintf('[%s] Missing required option "%s".', static::class, $key);
                 Log::error($message);
                 throw new RuntimeException($message);
@@ -110,7 +107,7 @@ trait InteractsWithOptionsAndConfig
 
     public function getConfig(string $key, mixed $default = null): mixed
     {
-        if (!property_exists($this, 'config') || !is_array($this->config)) {
+        if (! property_exists($this, 'config') || ! is_array($this->config)) {
             return $default;
         }
 
@@ -119,16 +116,16 @@ trait InteractsWithOptionsAndConfig
 
     public function hasConfig(string $key): bool
     {
-        if (!property_exists($this, 'config') || !is_array($this->config)) {
+        if (! property_exists($this, 'config') || ! is_array($this->config)) {
             return false;
         }
 
-        return Arr::has($this->config, $key) && !is_null(Arr::get($this->config, $key));
+        return Arr::has($this->config, $key) && ! is_null(Arr::get($this->config, $key));
     }
 
     public function setConfig(string $key, mixed $value): void
     {
-        if (!property_exists($this, 'config') || !is_array($this->config)) {
+        if (! property_exists($this, 'config') || ! is_array($this->config)) {
             $this->config = [];
         }
 
@@ -137,7 +134,7 @@ trait InteractsWithOptionsAndConfig
 
     public function mergeConfig(array $values): void
     {
-        if (!property_exists($this, 'config') || !is_array($this->config)) {
+        if (! property_exists($this, 'config') || ! is_array($this->config)) {
             $this->config = [];
         }
 
@@ -146,12 +143,12 @@ trait InteractsWithOptionsAndConfig
 
     public function addConfigDefaults(array $defaults): void
     {
-        if (!property_exists($this, 'config') || !is_array($this->config)) {
+        if (! property_exists($this, 'config') || ! is_array($this->config)) {
             $this->config = [];
         }
 
         foreach ($defaults as $key => $value) {
-            if (!Arr::has($this->config, $key)) {
+            if (! Arr::has($this->config, $key)) {
                 Arr::set($this->config, $key, $value);
             }
         }
@@ -179,14 +176,14 @@ trait InteractsWithOptionsAndConfig
             'frontendTheme' => config('media-library-extensions.frontend_theme', 'bootstrap-5'),
             'useXhr' => config('media-library-extensions.use_xhr', true),
             'csrfToken' => csrf_token(),
-//            'allowedMimeTypes' => config('media-library-extensions.allowed_mimetypes', []),
+            //            'allowedMimeTypes' => config('media-library-extensions.allowed_mimetypes', []),
             // allowedMimeTypesHuman is produced
         ];
 
         // Merge provided defaults **over** hardcoded defaults
         $config = array_replace_recursive($defaultOptionValues, $defaults);
 
-        if (!isset($this->configKeys)) {
+        if (! isset($this->configKeys)) {
             throw new RuntimeException(sprintf('The config keys must be set in %s', static::class));
         }
         // Include explicitly listed properties
@@ -198,7 +195,7 @@ trait InteractsWithOptionsAndConfig
 
         // Merge non-null options
         if (property_exists($this, 'options') && is_array($this->options)) {
-            $filteredOptions = array_filter($this->options, fn($v) => !is_null($v));
+            $filteredOptions = array_filter($this->options, fn ($v) => ! is_null($v));
             $config = array_replace_recursive($config, $filteredOptions);
         }
 
@@ -209,6 +206,4 @@ trait InteractsWithOptionsAndConfig
 
         $this->config = $config;
     }
-
 }
-

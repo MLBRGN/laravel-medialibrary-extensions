@@ -11,7 +11,7 @@ it('initializes with given properties', function () {
         medium: $medium,
         options: [
             'frontendTheme' => 'bootstrap-5',
-            'useXhr' => true
+            'useXhr' => true,
         ]
     );
 
@@ -19,7 +19,7 @@ it('initializes with given properties', function () {
         ->and($component->id)->toBe('some-id-destroy-form-123')
         ->and($component->options)->toMatchArray([
             'frontendTheme' => 'bootstrap-5',
-            'useXhr' => true
+            'useXhr' => true,
         ]);
 });
 
@@ -38,7 +38,7 @@ it('initializes with given properties without useXhr', function () {
 
     $component->render();
 
-//    dd($component->options);
+    //    dd($component->options);
     expect($component->medium)->toBe($medium)
         ->and($component->id)->toBe('delete-456-destroy-form-1')
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
@@ -53,7 +53,7 @@ it('renders the destroy-form partial view (plain)', function () {
         medium: $medium,
         options: [
             'frontendTheme' => 'plain',
-            'useXhr' => true
+            'useXhr' => true,
         ]
     );
 
@@ -70,7 +70,7 @@ it('renders the destroy-form partial view (bootstrap-5)', function () {
         medium: $medium,
         options: [
             'frontendTheme' => 'bootstrap-5',
-            'useXhr' => true
+            'useXhr' => true,
         ]
     );
 

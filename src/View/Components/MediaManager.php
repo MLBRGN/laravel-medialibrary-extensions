@@ -14,9 +14,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManager extends BaseComponent
 {
-    use ResolveModelOrClassName;
-    use InteractsWithOptionsAndConfig;
     use InteractsWithCollections;
+    use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     protected string $mediaUploadRoute; // upload form action route
 
@@ -28,7 +28,7 @@ class MediaManager extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload|null $medium = null, // when provided, skip collection lookups and just use this medium
-        public array $collections = [], // in image, document, youtube, video, audio
+        public array $collections = [],
         public array $options = [],
         public bool $multiple = false,
         public bool $disabled = false,
@@ -39,7 +39,7 @@ class MediaManager extends BaseComponent
         $id = filled($id) ? $id : null;
         parent::__construct($id);
 
-        $collections = $this->mergeCollections($collections);
+//        $collections = $this->mergeCollections($collections);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -74,5 +74,4 @@ class MediaManager extends BaseComponent
     {
         return $this->getView('media-manager', $this->getConfig('frontendTheme'));
     }
-
 }

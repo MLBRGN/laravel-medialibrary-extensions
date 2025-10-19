@@ -22,7 +22,6 @@ class Spinner extends BaseComponent
         parent::__construct($id);
         $this->initiatorId = $initiatorId;
         $this->initializeConfig();
-
     }
 
     public function render(): View

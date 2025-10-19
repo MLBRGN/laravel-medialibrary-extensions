@@ -2,8 +2,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
-use Illuminate\Support\Collection;
-
 trait InteractsWithMimeTypes
 {
     /**
@@ -63,7 +61,7 @@ trait InteractsWithMimeTypes
     protected function getAllowedMimeTypes(): array
     {
         // Option override
-        if (!empty($this->getOption('allowedMimeTypes'))) {
+        if (! empty($this->getOption('allowedMimeTypes'))) {
             return $this->stringToMimeArray($this->getOption('allowedMimeTypes'));
         }
 
@@ -110,20 +108,20 @@ trait InteractsWithMimeTypes
      */
     protected function syncAllowedMimeTypes(array &$config): void
     {
-//        dd($config);
-        if (!isset($config['allowedMimeTypes'])) {
-//            $config['allowedMimeTypesHuman'] = '';
+        //        dd($config);
+        if (! isset($config['allowedMimeTypes'])) {
+            //            $config['allowedMimeTypesHuman'] = '';
             return;
         }
 
-//        dd($config);
+        //        dd($config);
         // Convert to array first (handles strings or arrays)
         $mimes = $this->stringToMimeArray($config['allowedMimeTypes']);
-//dd($mimes);
+        // dd($mimes);
         // Normalize both formats
         $config['allowedMimeTypes'] = $this->mimeArrayToString($mimes);
         $config['allowedMimeTypesHuman'] = $this->getAllowedMimeTypesHuman($mimes);
 
-//        dd($config);
+        //        dd($config);
     }
 }

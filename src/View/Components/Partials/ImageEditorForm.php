@@ -13,18 +13,18 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageEditorForm extends BaseComponent
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
-//    public string $saveUpdatedMediumRoute;
+    //    public string $saveUpdatedMediumRoute;
     public array $config;
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public array $collections, // in image, document, youtube, video, audio
-        public array $options = [],
+        public array $collections,
+        public array $options,
         public string $initiatorId,
         public ?string $mediaManagerId = '',
         public ?bool $disabled = false,

@@ -142,7 +142,7 @@ class MediaManagerController extends Controller
             ],
             'options' => [
 
-             ]
+            ],
         ]);
     }
 }

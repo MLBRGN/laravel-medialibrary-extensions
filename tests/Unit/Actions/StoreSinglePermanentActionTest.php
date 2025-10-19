@@ -27,7 +27,7 @@ it('it stores file (json)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file1,
     ]);
@@ -61,7 +61,7 @@ it('it stores file and returns redirect success', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -94,7 +94,7 @@ it('it returns error if no file is given (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -122,7 +122,7 @@ it('it returns error if no file is given (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ]);
 
     $request->setLaravelSession(app('session.store'));
@@ -160,7 +160,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -193,7 +193,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -232,7 +232,7 @@ it('it returns error if model already has media in given collections (JSON)', fu
         $uploadFieldNameSingle => $file,
     ]);
     $request->headers->set('Accept', 'application/json');
-    $response = (new StoreSinglePermanentAction(new MediaService()))->execute($request);
+    $response = (new StoreSinglePermanentAction(new MediaService))->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true))
@@ -265,7 +265,7 @@ it('it returns error if model already has media in given collections (redirect)'
 
     $request->setLaravelSession(app('session.store'));
 
-    $response = (new StoreSinglePermanentAction(new MediaService()))->execute($request);
+    $response = (new StoreSinglePermanentAction(new MediaService))->execute($request);
     expect($response)->toBeInstanceOf(Illuminate\Http\RedirectResponse::class);
 
     $session = $request->session();

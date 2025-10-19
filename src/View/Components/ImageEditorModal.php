@@ -12,8 +12,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageEditorModal extends BaseComponent
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     public array $config = [];
 
@@ -25,8 +25,8 @@ class ImageEditorModal extends BaseComponent
         string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public array $collections = [], // in image, document, youtube, video, audio
-        public array $options = [],
+        public array $collections,
+        public array $options,
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
@@ -43,17 +43,13 @@ class ImageEditorModal extends BaseComponent
         // TODO look at this
         $this->initializeConfig([
             'initiatorId' => $this->initiatorId,
-//            'frontendTheme' => $this->frontendTheme,
-//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
             'id' => $this->id,
             'mediaManagerId' => $this->mediaManagerId,
             'modelType' => $this->modelType,
             'modelId' => $this->modelId,
             'mediumId' => $this->medium->id,
             'collection' => $this->medium->collection_name,
-//            'csrfToken' => csrf_token(),
             'saveUpdatedMediumRoute' => $this->saveUpdatedMediumRoute,
-//            'temporaryUploadMode' => $this->temporaryUploadMode,
             'collections' => $this->collections,
         ]);
     }

@@ -30,7 +30,7 @@ it('it stores multiple valid files and returns JSON success', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file1, $file2],
     ]);
@@ -62,7 +62,7 @@ it('it stores multiple valid files and returns redirect success', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file],
     ]);
@@ -92,7 +92,7 @@ it('it returns error if no files are given (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ]);
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session.store'));
@@ -118,7 +118,7 @@ it('it returns error if no files are given (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ]);
 
     $request->setLaravelSession(app('session.store'));
@@ -153,7 +153,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file],
     ]);
@@ -184,7 +184,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file],
     ]);

@@ -14,12 +14,13 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SetAsFirstForm extends BaseComponent
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     public ?string $targetMediaCollection = null;
 
     public ?string $mediaManagerId = '';
+
     public array $config;
 
     public function __construct(
@@ -27,7 +28,7 @@ class SetAsFirstForm extends BaseComponent
         public Collection $media,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
-        public array $collections, // in image, document, youtube, video, audio
+        public array $collections,
         public array $options = [],
         public ?bool $disabled = false,
     ) {
@@ -40,9 +41,7 @@ class SetAsFirstForm extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->initializeConfig([
-//            'showSetAsFirstButton' => $this->getOption('showSetAsFirstButton'),
-        ]);
+        $this->initializeConfig();
     }
 
     public function render(): View

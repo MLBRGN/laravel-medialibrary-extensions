@@ -26,7 +26,7 @@ it('it stores file and returns JSON success', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file1,
     ]);
@@ -58,7 +58,7 @@ it('it stores file and returns redirect success', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -88,7 +88,7 @@ it('it returns error if no file is given (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -113,7 +113,7 @@ it('it returns error if no file is given (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ]);
 
     $request->setLaravelSession(app('session.store'));
@@ -149,7 +149,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);
@@ -180,7 +180,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameSingle => $file,
     ]);

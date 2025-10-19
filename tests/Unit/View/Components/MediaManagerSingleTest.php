@@ -105,7 +105,7 @@ it('renders the correct html single (plain)', function () {
             'modelOrClassName' => $model,
             'options' => [
                 'frontendTheme' => 'bootstrap-5',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -126,7 +126,7 @@ it('renders the correct html single (bootstrap-5, temporary upload)', function (
             'modelOrClassName' => $model->getMorphClass(),
             'options' => [
                 'frontendTheme' => 'bootstrap-5',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();

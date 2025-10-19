@@ -13,11 +13,11 @@ class AtLeastOneCollection implements ValidationRule
     {
         // TODO replace with other way
         $collections = request()->only([
-            'image_collection',// TODO
-            'document_collection',// TODO
-            'video_collection',// TODO
-            'audio_collection',// TODO
-            'youtube_collection',// TODO
+            'image_collection', // TODO
+            'document_collection', // TODO
+            'video_collection', // TODO
+            'audio_collection', // TODO
+            'youtube_collection', // TODO
         ]);
 
         if (collect($collections)->filter()->isEmpty()) {

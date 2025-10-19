@@ -17,7 +17,7 @@ it('deletes the temporary upload and returns a JSON response when request expect
     $request->merge([
         'initiator_id' => 'initiator-123',
         'media_manager_id' => 'media-manager-123',
-        'image_collection' => 'images',// TODO
+        'image_collection' => 'images', // TODO
     ]);
 
     // Force expectsJson = true
@@ -48,7 +48,7 @@ it('deletes the temporary upload and returns a redirect response with flash data
     $request->merge([
         'initiator_id' => 'initiator-456',
         'media_manager_id' => 'media-manager-123',
-        'image_collection' => 'images',// TODO
+        'image_collection' => 'images', // TODO
 
     ]);
 

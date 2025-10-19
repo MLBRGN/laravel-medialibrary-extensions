@@ -54,4 +54,9 @@
         <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
     </div>
 @endif
-<x-mle-shared-assets include-css="true" include-js="false" include-lite-youtube="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets 
+    include-css="true" 
+    include-js="false" 
+    include-lite-youtube="true" 
+    :frontend-theme="$getConfig('frontendTheme')"
+/>

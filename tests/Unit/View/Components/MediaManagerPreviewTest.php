@@ -4,7 +4,6 @@ use Illuminate\Support\Collection;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
-use Spatie\MediaLibrary\HasMedia;
 
 beforeEach(function () {
     // Mock TemporaryUpload::forCurrentSession static method for tests using temporary uploads
@@ -90,7 +89,7 @@ it('sets showMenu to true if showDestroyButton, showOrder or showSetAsFirstButto
             ->and($component->modelType)->toBe($model->getMorphClass())
             ->and($component->modelId)->toBe($model->id)
             ->and($component->id)->toBe('mediaManagerPreviewTest');
-//            ->and($component->getConfig('showMenu'))->toBeTrue();
+        //            ->and($component->getConfig('showMenu'))->toBeTrue();
     }
 });
 
@@ -200,7 +199,7 @@ it('renders view and matches snapshot (plain)', function () {
         'image' => 2,
         'document' => '1',
         'audio' => 1,
-        'video' => 1
+        'video' => 1,
     ]);
 
     $html = Blade::render(
@@ -214,7 +213,7 @@ it('renders view and matches snapshot (plain)', function () {
             'modelOrClassName' => $model,
             'options' => [
                 'frontendTheme' => 'plain',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -225,7 +224,7 @@ it('renders view and matches snapshot (bootstrap-5)', function () {
         'image' => 2,
         'document' => '1',
         'audio' => 1,
-        'video' => 1
+        'video' => 1,
     ]);
 
     $html = Blade::render(
@@ -239,7 +238,7 @@ it('renders view and matches snapshot (bootstrap-5)', function () {
             'modelOrClassName' => $model,
             'options' => [
                 'frontendTheme' => 'bootstrap-5',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();

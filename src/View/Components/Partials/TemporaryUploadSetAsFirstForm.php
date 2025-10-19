@@ -13,12 +13,13 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
 class TemporaryUploadSetAsFirstForm extends BaseComponent
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     public ?string $targetMediaCollection = null;
 
     public ?string $mediaManagerId = '';
+
     public array $config;
 
     public function __construct(
@@ -27,11 +28,11 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
         public TemporaryUpload $medium,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $options = [],
-        public array $collections = [], // in image, document, youtube, video, audio
+        public array $collections = [],
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;

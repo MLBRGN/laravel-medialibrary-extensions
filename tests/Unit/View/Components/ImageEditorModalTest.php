@@ -5,7 +5,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use UnexpectedValueException;
@@ -22,7 +21,7 @@ it('renders image editor modal component (permanent media)', function () {
     $options = [
 
     ];
-    $model = $this->getModelWithMedia(['image' => 3 ]);
+    $model = $this->getModelWithMedia(['image' => 3]);
     $medium = $model->getFirstMedia('image_collection');
 
     $html = Blade::render('<x-mle-image-editor-modal
@@ -53,7 +52,7 @@ it('renders image editor modal component (temporary media)', function () {
     $options = [
 
     ];
-    $model = $this->getModelWithMedia(['image' => 3 ]);
+    $model = $this->getModelWithMedia(['image' => 3]);
     $medium = $model->getFirstMedia('image_collection');
 
     $html = Blade::render('<x-mle-image-editor-modal

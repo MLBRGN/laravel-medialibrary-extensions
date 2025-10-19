@@ -13,8 +13,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 class MediaCarousel extends BaseComponent
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     public MediaCollection $mediaItems;
 
@@ -36,7 +36,6 @@ class MediaCarousel extends BaseComponent
     ) {
         parent::__construct($id);
 
-//        dd($options);
         $this->resolveModelOrClassName($modelOrClassName);
 
         // Merge media from multiple or single collection
@@ -61,8 +60,6 @@ class MediaCarousel extends BaseComponent
         $this->media = $this->mediaItems;
 
         $this->mediaCount = $this->mediaItems->count();
-//        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
-        //        $this->id = $this->id.'-carousel';
         $this->id = $this->id.'-crs';
 
         // merge into config

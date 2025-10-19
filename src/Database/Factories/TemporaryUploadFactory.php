@@ -15,7 +15,7 @@ class TemporaryUploadFactory extends Factory
     public function definition(): array
     {
         // Ensure there's a valid session before creating uploads
-        if (!session()->isStarted()) {
+        if (! session()->isStarted()) {
             session()->start();
         }
 
@@ -27,7 +27,7 @@ class TemporaryUploadFactory extends Factory
             default => 'jpg',
         };
 
-        $fileName = $this->faker->uuid . '.' . $extension;
+        $fileName = $this->faker->uuid.'.'.$extension;
 
         return [
             'disk' => 'public',

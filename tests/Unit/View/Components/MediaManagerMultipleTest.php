@@ -46,7 +46,7 @@ it('initializes correctly with model class name', function () {
         collections: ['youtube' => 'videos'],
         options: [
             'showUploadForm' => true,
-//            'showDestroyButton' => true,
+            //            'showDestroyButton' => true,
             'showOrder' => true,
             'showSetAsFirstButton' => true,
             'useXhr' => false,
@@ -101,7 +101,7 @@ it('renders the correct html multiple (plain)', function () {
             'modelOrClassName' => $model,
             'options' => [
                 'frontendTheme' => 'plain',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -122,7 +122,7 @@ it('renders the correct html multiple (bootstrap-5, temporary upload)', function
             'modelOrClassName' => $model->getMorphClass(),
             'options' => [
                 'frontendTheme' => 'bootstrap-5',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();

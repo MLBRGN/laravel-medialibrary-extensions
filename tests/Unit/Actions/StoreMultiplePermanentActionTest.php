@@ -31,7 +31,7 @@ it('it stores multiple valid files (json)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file1, $file2],
     ]);
@@ -100,7 +100,7 @@ it('it stores multiple valid files (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file],
     ]);
@@ -229,7 +229,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file],
     ]);
@@ -261,7 +261,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images']
+        'collections' => ['image' => 'images'],
     ], [], [
         $uploadFieldNameMultiple => [$file],
     ]);

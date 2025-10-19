@@ -10,8 +10,8 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 
 class MediaModal extends BaseComponent
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     public function __construct(
         ?string $id,

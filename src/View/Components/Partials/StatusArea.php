@@ -18,7 +18,6 @@ class StatusArea extends BaseComponent
         public string $mediaManagerId,
         public array $options = [],
 
-
     ) {
         parent::__construct($id);
         $this->initializeConfig();

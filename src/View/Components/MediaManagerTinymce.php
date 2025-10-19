@@ -24,23 +24,23 @@ class MediaManagerTinymce extends BaseComponent
 
     public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
-//    protected array $optionKeys = [
-//        'allowedMimeTypes',
-//        'disabled',
-//        'readonly',
-//        'selectable',
-//        'frontendTheme',
-//        'showDestroyButton',
-//        'showMediaEditButton',
-//        'showMenu',
-//        'showOrder',
-//        'showSetAsFirstButton',
-//        'showUploadForm',
-//        'temporaryUploadMode',
-//        'uploadFieldName',
-//        'useXhr',
-//        //        'frontendTheme',
-//    ];
+    //    protected array $optionKeys = [
+    //        'allowedMimeTypes',
+    //        'disabled',
+    //        'readonly',
+    //        'selectable',
+    //        'frontendTheme',
+    //        'showDestroyButton',
+    //        'showMediaEditButton',
+    //        'showMenu',
+    //        'showOrder',
+    //        'showSetAsFirstButton',
+    //        'showUploadForm',
+    //        'temporaryUploadMode',
+    //        'uploadFieldName',
+    //        'useXhr',
+    //        //        'frontendTheme',
+    //    ];
 
     // TODO not used?
     /**
@@ -51,7 +51,7 @@ class MediaManagerTinymce extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        array $collections = [], // in image, document, youtube, video, audio
+        array $collections = [],
         public array $options = [],
         public bool $multiple = false,
         public bool $readonly = false,
@@ -64,7 +64,7 @@ class MediaManagerTinymce extends BaseComponent
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {
-            $this->setOption('showUploadForm',false);
+            $this->setOption('showUploadForm', false);
             $this->setOption('showDestroyButton', false);
             $this->setOption('showSetAsFirstButton', false);
         }
@@ -98,33 +98,30 @@ class MediaManagerTinymce extends BaseComponent
         }
 
         // Config array passed to view
-//        $this->config = [
-//            'id' => $this->id,
-//            'modelType' => $this->modelType,
-//            'modelId' => $this->modelId,
-//            'collections' => $collections,
-//            'mediaUploadRoute' => $this->mediaUploadRoute,
-//            'previewUpdateRoute' => $this->previewUpdateRoute,
-//            'youtubeUploadRoute' => $this->youtubeUploadRoute,
-//            'csrfToken' => csrf_token(),
-//            'options' => $this->options,
-//            'multiple' => $this->multiple,
-//            'readonly' => $this->readonly,
-//            'disabled' => $this->disabled,
-////            'frontendTheme' => $this->frontendTheme,
-////            'showDestroyButton' => $this->showDestroyButton,
-////            'showSetAsFirstButton' => $this->showSetAsFirstButton,
-////            'showOrder' => $this->showOrder,
-////            'showMenu' => $this->showMenu,
-////            'temporaryUpload' => $this->temporaryUpload ? 'true' : 'false',
-////            'useXhr' => $this->useXhr,
-////            'showMediaEditButton' => $this->showMediaEditButton,
-//        ];
+        //        $this->config = [
+        //            'id' => $this->id,
+        //            'modelType' => $this->modelType,
+        //            'modelId' => $this->modelId,
+        //            'collections' => $collections,
+        //            'mediaUploadRoute' => $this->mediaUploadRoute,
+        //            'previewUpdateRoute' => $this->previewUpdateRoute,
+        //            'youtubeUploadRoute' => $this->youtubeUploadRoute,
+        //            'csrfToken' => csrf_token(),
+        //            'options' => $this->options,
+        //            'multiple' => $this->multiple,
+        //            'readonly' => $this->readonly,
+        //            'disabled' => $this->disabled,
+        // //            'frontendTheme' => $this->frontendTheme,
+        // //            'showDestroyButton' => $this->showDestroyButton,
+        // //            'showSetAsFirstButton' => $this->showSetAsFirstButton,
+        // //            'showOrder' => $this->showOrder,
+        // //            'showMenu' => $this->showMenu,
+        // //            'temporaryUpload' => $this->temporaryUpload ? 'true' : 'false',
+        // //            'useXhr' => $this->useXhr,
+        // //            'showMediaEditButton' => $this->showMediaEditButton,
+        //        ];
 
-        $this->initializeConfig([
-//            'frontendTheme' => $this->frontendTheme,
-//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
-        ]);
+        $this->initializeConfig();
     }
 
     public function render(): View

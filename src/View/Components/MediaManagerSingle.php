@@ -10,35 +10,35 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends MediaManager
 {
-//    protected array $optionKeys = [
-//        'allowedMimeTypes',
-//        'disabled',
-//        'frontendTheme',
-//        //        'multiple', always false
-//        'readonly',
-//        'selectable',
-//        'showDestroyButton',
-//        'showMediaEditButton',
-//        'showMenu',
-//        //        'showOrder', always false
-//        'showSetAsFirstButton',
-//        'showUploadForm',
-//        'temporaryUploads',
-//        'uploadFieldName',
-//        'useXhr',
-//    ];
+    //    protected array $optionKeys = [
+    //        'allowedMimeTypes',
+    //        'disabled',
+    //        'frontendTheme',
+    //        //        'multiple', always false
+    //        'readonly',
+    //        'selectable',
+    //        'showDestroyButton',
+    //        'showMediaEditButton',
+    //        'showMenu',
+    //        //        'showOrder', always false
+    //        'showSetAsFirstButton',
+    //        'showUploadForm',
+    //        'temporaryUploads',
+    //        'uploadFieldName',
+    //        'useXhr',
+    //    ];
 
     public function __construct(
         ?string $id,
         mixed $modelOrClassName,
         public Media|TemporaryUpload|null $medium = null, // when provided, skip collection lookups and just use this medium
-        array $collections = [], // in image, document, youtube, video, audio
+        array $collections = [],
         array $options = [],
     ) {
         $collections = $this->mergeCollections($collections);
-//        $options = $this->mergeOptions($options);
-//        $options['multiple'] = false;
-//        $options['showOrder'] = false;
+        //        $options = $this->mergeOptions($options);
+        //        $options['multiple'] = false;
+        //        $options['showOrder'] = false;
 
         parent::__construct(
             id: $id,
@@ -68,9 +68,6 @@ class MediaManagerSingle extends MediaManager
         // boolean property to disable form(s) in blade view(s)
         $this->setOption('disableForm', $totalMediaCount >= 1);
 
-        $this->initializeConfig([
-//            'frontendTheme' => $this->frontendTheme,
-//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
-        ]);
+        $this->initializeConfig();
     }
 }

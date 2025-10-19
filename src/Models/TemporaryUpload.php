@@ -68,7 +68,7 @@ class TemporaryUpload extends Model
     public static function forCurrentSession($collectionName = null): Collection
     {
         return self::where('session_id', session()->getId())
-            ->when(!is_null($collectionName), function ($query) use ($collectionName) {
+            ->when(! is_null($collectionName), function ($query) use ($collectionName) {
                 return $query->where('collection_name', $collectionName);
             })
             ->orderBy('order_column', 'asc')

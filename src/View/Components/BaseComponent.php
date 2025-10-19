@@ -16,23 +16,20 @@ abstract class BaseComponent extends Component
 
     public string $id;
 
-//    public ?string $frontendTheme = 'bootstrap-5';
-
     public function __construct(
         ?string $id = null,
-//        ?string $frontendTheme = null
     ) {
         $this->id = filled($id) ? $id : 'component-'.Str::uuid();
     }
 
-//    public function showRegularUploadForm(): bool
-//    {
-//        // Only check image, document, video, and audio types
-//        return collect($this->collections)
-//            ->only(['image', 'document', 'video', 'audio'])
-//            ->filter(fn ($value) => filled($value)) // ignore falsy (null, '', false)
-//            ->isNotEmpty();
-//    }
+    //    public function showRegularUploadForm(): bool
+    //    {
+    //        // Only check image, document, video, and audio types
+    //        return collect($this->collections)
+    //            ->only(['image', 'document', 'video', 'audio'])
+    //            ->filter(fn ($value) => filled($value)) // ignore falsy (null, '', false)
+    //            ->isNotEmpty();
+    //    }
 
     public function hasCollections(): bool
     {

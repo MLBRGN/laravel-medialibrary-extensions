@@ -20,7 +20,7 @@ class VideoYouTube extends Component
         public bool $preview = true,
         public ?array $youtubeParams = [],
         public array $options = [],
-        public ?string $frontendTheme = null,
+        public ?string $frontendTheme = null,// TODO move to options
         public ?bool $multiple = true,// TODO what is this used for?
     ) {
 

@@ -13,9 +13,10 @@ trait ChecksMediaLimits
     protected function countModelMediaInCollections(HasMedia $model, array $collections): int
     {
         $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => !empty($collectionName))
+            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
             ->reduce(function (int $total, string $collectionName) use ($model) {
                 $count = $model->getMedia($collectionName)->count();
+
                 return $total + $count;
             }, 0);
 
@@ -28,9 +29,10 @@ trait ChecksMediaLimits
     protected function countTemporaryUploadsInCollections(array $collections): int
     {
         $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => !empty($collectionName))
+            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
             ->reduce(function (int $total, string $collectionName) {
                 $temporaryItems = TemporaryUpload::forCurrentSession($collectionName);
+
                 return $total + $temporaryItems->count();
             }, 0);
 

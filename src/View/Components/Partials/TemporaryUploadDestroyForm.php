@@ -20,15 +20,14 @@ class TemporaryUploadDestroyForm extends BaseComponent
         public TemporaryUpload $medium,
         ?string $id,
         public array $options = [],
-        public array $collections = [], // in image, document, youtube, video, audio
+        public array $collections = [],
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $this->getOption('frontendTheme'));
+        parent::__construct($id);
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;
-//        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
 
         $this->initializeConfig([
             'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),

@@ -46,7 +46,7 @@ it('renders the correct Blade view (bootstrap-5)', function () {
         mediaCollections: null,
         title: 'Render Test',
         options: [
-            'frontendTheme' => $frontendTheme
+            'frontendTheme' => $frontendTheme,
         ]
     );
     $view = $component->render();
@@ -64,7 +64,7 @@ it('renders the correct Blade view (plain)', function () {
         mediaCollections: null,
         title: 'Render Test',
         options: [
-            'frontendTheme' => $frontendTheme
+            'frontendTheme' => $frontendTheme,
         ]
     );
     $view = $component->render();
@@ -90,11 +90,11 @@ it('renders the correct html multiple media-collections (plain)', function () {
                 'document_collection',
                 'video_collection',
                 'audio_collection',
-                'youtube_collection'
+                'youtube_collection',
             ],
             'options' => [
                 'frontendTheme' => 'plain',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -118,11 +118,11 @@ it('renders the correct html multiple media-collections (bootstrap-5)', function
                 'document_collection',
                 'video_collection',
                 'audio_collection',
-                'youtube_collection'
+                'youtube_collection',
             ],
             'options' => [
                 'frontendTheme' => 'bootstrap-5',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -144,7 +144,7 @@ it('renders the correct html single media-collection (plain)', function () {
             'collection' => 'image_collection',
             'options' => [
                 'frontendTheme' => 'plain',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -166,7 +166,7 @@ it('renders the correct html single media-collection (bootstrap-5)', function ()
             'collection' => 'image_collection',
             'options' => [
                 'frontendTheme' => 'bootstrap-5',
-            ]
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();

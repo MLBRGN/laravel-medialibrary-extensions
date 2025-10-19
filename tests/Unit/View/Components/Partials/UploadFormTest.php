@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
@@ -18,12 +17,12 @@ it('throws translated exception if invalid class name is provided', closure: fun
             'audio' => 'audio',
         ],
         options: [
-            'frontendTheme'=> 'bootstrap-5',
+            'frontendTheme' => 'bootstrap-5',
         ],
         multiple: true,
         readonly: true,
         disabled: true,
-//        frontendTheme: 'plain',
+        //        frontendTheme: 'plain',
     );
 
     $component->render();
@@ -75,31 +74,31 @@ it('honors frontend theme', function () {
 });
 
 it('uses allowedMimeTypes from config if allowedMimeTypes not provided', function () {
-        $model = $this->getTestBlogModel();
+    $model = $this->getTestBlogModel();
 
-        $mimeTypesString = '';
-        $component = new UploadForm(
-            id: 'upload-empty-mime',
-            modelOrClassName: $model,
-            medium: null,
-            collections: [
-                'image' => 'images',
-                'youtube' => '',
-                'document' => 'documents',
-                'video' => '',
-                'audio' => '',
-            ],
-            options: [
-                'allowedMimeTypes' => $mimeTypesString,//
-            ],
-        );
+    $mimeTypesString = '';
+    $component = new UploadForm(
+        id: 'upload-empty-mime',
+        modelOrClassName: $model,
+        medium: null,
+        collections: [
+            'image' => 'images',
+            'youtube' => '',
+            'document' => 'documents',
+            'video' => '',
+            'audio' => '',
+        ],
+        options: [
+            'allowedMimeTypes' => $mimeTypesString, //
+        ],
+    );
 
-        $component->render();
+    $component->render();
 
-        expect($component->getConfig('allowedMimeTypes'))->toBe('');
-        expect($component->getConfig('allowedMimeTypesHuman'))->toBe('');
+    expect($component->getConfig('allowedMimeTypes'))->toBe('');
+    expect($component->getConfig('allowedMimeTypesHuman'))->toBe('');
 
-    });
+});
 
 it('sets allowedMimeTypes and allowedMimeTypesHuman from options', function () {
     $model = $this->getTestBlogModel();
@@ -117,7 +116,7 @@ it('sets allowedMimeTypes and allowedMimeTypesHuman from options', function () {
             'audio' => '',
         ],
         options: [
-            'allowedMimeTypes' => $mimeTypesString,//
+            'allowedMimeTypes' => $mimeTypesString, //
         ],
     );
 
@@ -166,8 +165,8 @@ it('initializes correctly when given a HasMedia model instance', function () {
     $allowedMimeTypes = $component->getConfig('allowedMimeTypes');
     $allowedMimeTypesHuman = $component->getConfig('allowedMimeTypesHuman');
 
-//    dd($component->config);
-//    dd($component->getConfig('useXhr'));
+    //    dd($component->config);
+    //    dd($component->getConfig('useXhr'));
     expect($allowedMimeTypes)->toBeString()->not->toBeEmpty()
         ->and($allowedMimeTypesHuman)->toBeString()->not->toBeEmpty()
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
@@ -177,7 +176,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
 
 })->todo();
 
-//it('sets model properties correctly when given a HasMedia model instance', function () {
+// it('sets model properties correctly when given a HasMedia model instance', function () {
 //    $model = $this->getTestBlogModel();
 //
 //    $component = new UploadForm(
@@ -206,12 +205,12 @@ it('initializes correctly when given a HasMedia model instance', function () {
 //    expect($component->model)->toBe($model)
 //        ->and($component->modelType)->toBe($model->getMorphClass())
 //        ->and($component->modelId)->toBe($model->getKey())
-////        ->and($component->mediaPresent)->toBeFalse()
+// //        ->and($component->mediaPresent)->toBeFalse()
 //        ->and($component->getConfig('allowedMimeTypesHuman'))->not()->toBeEmpty()
 //        ->and($component->getConfig('allowedMimeTypes'))->not()->toBeEmpty()
 //        ->and($component->getConfig('useXhr'))->toBe(config('media-library-extensions.use_xhr'))
 //        ->and($view)->toBeInstanceOf(View::class);
-//});
+// });
 
 it('sets model properties correctly when given a string model class name', function () {
     $model = $this->getTestBlogModel();
@@ -231,13 +230,12 @@ it('sets model properties correctly when given a string model class name', funct
             'allowedMimeTypes' => 'image/jpeg,image/png',
             'showDestroyButton' => false,
             'showSetAsFirstButton' => false,
-            'useXhr' => true
+            'useXhr' => true,
         ],
         multiple: false,
     );
     // Act
     $view = $component->render();
-
 
     // Assert: config resolution (mime types, theme, xhr usage)
     $allowedMimeTypes = $component->getConfig('allowedMimeTypes');

@@ -74,7 +74,7 @@ it('throws if modelOrClassName is non existing class name', function () {
         id: 'comp',
         modelOrClassName: 'someDummyClassName',
         medium: null,
-//        frontendTheme: null,
+        //        frontendTheme: null,
         //        mediaCollection: null,
         collections: [
             'image' => null,
@@ -100,7 +100,7 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
         id: 'comp',
         modelOrClassName: $model,
         medium: null,
-//        frontendTheme: null,
+        //        frontendTheme: null,
         //        mediaCollection: null,
         collections: [
             'image' => null,

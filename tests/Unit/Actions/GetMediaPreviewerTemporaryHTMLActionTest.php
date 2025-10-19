@@ -31,7 +31,7 @@ it('renders temporary media preview HTML and returns JSON response', function ()
             'showDestroyButton' => true,
             'showSetAsFirstButton' => false,
             'showOrder' => false,
-        ])
+        ]),
     ];
 
     $request = GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
@@ -42,10 +42,10 @@ it('renders temporary media preview HTML and returns JSON response', function ()
             expect($component->id)->toBe($initiatorId);
             expect($component->modelOrClassName)->toBe($requestData['model_type']);
             expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);
-            expect($component->getConfig('showDestroyButton'))->toBeTrue();// TODO
-            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();// TODO
-            expect($component->getConfig('showOrder'))->toBeFalse();// TODO
-            expect($component->getConfig('temporaryUploadMode'))->toBeTrue();// TODO
+            expect($component->getConfig('showDestroyButton'))->toBeTrue(); // TODO
+            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse(); // TODO
+            expect($component->getConfig('showOrder'))->toBeFalse(); // TODO
+            expect($component->getConfig('temporaryUploadMode'))->toBeTrue(); // TODO
 
             return true;
         })

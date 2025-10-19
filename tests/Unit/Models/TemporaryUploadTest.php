@@ -102,37 +102,37 @@ it('returns all session uploads when collectionName is null', function () {
 // use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 //
 // // Create a test double for the TemporaryUpload class
-//// class TemporaryUploadTest extends TemporaryUpload
-//// {
-////    protected $parentConnection = 'default_connection';
-////
-////    public function getParentConnectionName()
-////    {
-////        return $this->parentConnection;
-////    }
-////
-////    public function setParentConnection($connection)
-////    {
-////        $this->parentConnection = $connection;
-////        return $this;
-////    }
-////
-////    // Override parent method to call our test method instead
-////    public function getConnectionName()
-////    {
-////        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
-////            return config('media-library-extensions.temp_database_name');
-////        }
-////
-////        return $this->getParentConnectionName();
-////    }
-//// }
-////
-//// beforeEach(function () {
-////    // Set default configuration for tests
-////    Config::set('media-library-extensions.demo_pages_enabled', true);
-////    Config::set('media-library-extensions.temp_database_name', 'media_demo');
-//// })->skip();
+// // class TemporaryUploadTest extends TemporaryUpload
+// // {
+// //    protected $parentConnection = 'default_connection';
+// //
+// //    public function getParentConnectionName()
+// //    {
+// //        return $this->parentConnection;
+// //    }
+// //
+// //    public function setParentConnection($connection)
+// //    {
+// //        $this->parentConnection = $connection;
+// //        return $this;
+// //    }
+// //
+// //    // Override parent method to call our test method instead
+// //    public function getConnectionName()
+// //    {
+// //        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
+// //            return config('media-library-extensions.temp_database_name');
+// //        }
+// //
+// //        return $this->getParentConnectionName();
+// //    }
+// // }
+// //
+// // beforeEach(function () {
+// //    // Set default configuration for tests
+// //    Config::set('media-library-extensions.demo_pages_enabled', true);
+// //    Config::set('media-library-extensions.temp_database_name', 'media_demo');
+// // })->skip();
 //
 // it('uses default connection when demo pages are disabled', function () {
 //    // Arrange
@@ -141,7 +141,7 @@ it('returns all session uploads when collectionName is null', function () {
 //
 //
 //    // Act & Assert
-////    expect($temporaryUpload->getConnectionName())->toBe('default_connection');
+// //    expect($temporaryUpload->getConnectionName())->toBe('default_connection');
 // });
 //
 // it('uses default connection when not on a demo page', function () {

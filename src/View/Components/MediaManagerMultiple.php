@@ -6,16 +6,13 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 class MediaManagerMultiple extends MediaManager
 {
-
     public function __construct(
         ?string $id,
         mixed $modelOrClassName,
-        array $collections = [], // in image, document, youtube, video, audio
+        array $collections = [],
         array $options = [],
     ) {
         $collections = $this->mergeCollections($collections);
-//        $options = $this->mergeOptions($options);
-//        $options['multiple'] = true;
 
         parent::__construct(
             id: $id,

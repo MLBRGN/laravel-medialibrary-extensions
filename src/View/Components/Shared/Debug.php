@@ -15,8 +15,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Debug extends Component
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     public bool $iconExists = false;
 
@@ -59,20 +59,20 @@ class Debug extends Component
     /**
      * Recursively sanitize a config array so nested objects are replaced by class name placeholders.
      */
-    public function getSanitizedConfig(array $array = null): array
+    public function getSanitizedConfig(?array $array = null): array
     {
         $array ??= $this->config;
 
         return array_map(function ($value) {
             if (is_object($value)) {
-                return '[' . get_class($value) . ']';
+                return '['.get_class($value).']';
             } elseif (is_array($value)) {
                 return $this->getSanitizedConfig($value); // recursive call
             }
+
             return $value;
         }, $array);
     }
-
 
     public function render(): View
     {

@@ -21,7 +21,7 @@ class DestroyForm extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload $medium,
-        public array $collections = [], // in image, document, youtube, video, audio
+        public array $collections = [],
         public array $options = [],
         public ?bool $disabled = false,
     ) {

@@ -31,5 +31,5 @@ it('generates a unique id if none provided', function () {
 
     $component = new ExtendedBaseComponent('my-id', 'another-theme');
 
-//    expect($component->frontendTheme)->toBe('another-theme');
+    //    expect($component->frontendTheme)->toBe('another-theme');
 })->todo();

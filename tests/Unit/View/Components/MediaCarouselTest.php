@@ -30,7 +30,7 @@ it('initializes correctly with multiple media collections', function () {
         modelOrClassName: $model,
         mediaCollections: ['image_collection', 'audio_collection'],
         options: [
-            'frontendTheme' => 'plain'
+            'frontendTheme' => 'plain',
         ]
     );
     expect($component->mediaCount)->toBe(3)
@@ -57,7 +57,7 @@ it('uses provided frontend theme if given', function () {
         id: 'custom-theme',
         modelOrClassName: $model,
         options: [
-            'frontendTheme' => 'tailwind'
+            'frontendTheme' => 'tailwind',
         ]
     );
 

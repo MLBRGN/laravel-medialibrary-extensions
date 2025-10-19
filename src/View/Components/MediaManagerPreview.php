@@ -5,7 +5,6 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
@@ -23,7 +22,7 @@ class MediaManagerPreview extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload|null $medium = null, // when provided, skip collection lookups and just use this medium
-        public array $collections = [], // in image, document, youtube, video, audio
+        public array $collections = [],
         public array $options = [],
         public bool $disabled = false,
         public bool $readonly = false,
@@ -50,7 +49,7 @@ class MediaManagerPreview extends BaseComponent
         $this->media = collect($collections)
             ->flatMap(function (string $collectionName, string $collectionType) {
                 if ($this->temporaryUploadMode) {
-                    if (!empty($collectionName)) {
+                    if (! empty($collectionName)) {
                         return TemporaryUpload::forCurrentSession($collectionName);
                     }
                 }
@@ -64,26 +63,23 @@ class MediaManagerPreview extends BaseComponent
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
         // CASE 2: Otherwise collect from configured collections.
-//        $this->media = collect($collections)
-//            ->flatMap(function (string $collectionName) {
-//                if ($this->temporaryUploadMode) {
-//                    return TemporaryUpload::forCurrentSession($collectionName);
-//                }
-//
-//                if ($this->model) {
-//                    return $this->model->getMedia($collectionName);
-//                }
-//
-//                return [];
-//            })
-//            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
-//            ->values();
+        //        $this->media = collect($collections)
+        //            ->flatMap(function (string $collectionName) {
+        //                if ($this->temporaryUploadMode) {
+        //                    return TemporaryUpload::forCurrentSession($collectionName);
+        //                }
+        //
+        //                if ($this->model) {
+        //                    return $this->model->getMedia($collectionName);
+        //                }
+        //
+        //                return [];
+        //            })
+        //            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+        //            ->values();
 
         // merge into config
-        $this->initializeConfig([
-//            'frontendTheme' => $this->frontendTheme,
-//            'useXhr' => $this->options['useXhr'] ?? config('media-library-extensions.use_xhr', true),
-        ]);
+        $this->initializeConfig();
     }
 
     public function render(): View

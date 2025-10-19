@@ -7,20 +7,21 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaFirstAvailable extends Component
 {
     use ResolveModelOrClassName;
+    use InteractsWithOptionsAndConfig;
 
     public ?Media $medium = null;
 
     public function __construct(
-        public string $id = '',
+        public string $id,
         public mixed $modelOrClassName,
         public ?array $mediaCollections = [],
-        public ?string $frontendTheme = null,// TODO move to options
         public array $options = [],
     ) {
 
@@ -35,8 +36,8 @@ class MediaFirstAvailable extends Component
         } else {
             throw new Exception('Temporary uploads Not implemented yet');
         }
+        $this->initializeConfig();
 
-        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme');
     }
 
     public function render(): View
