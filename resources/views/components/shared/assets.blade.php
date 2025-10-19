@@ -2,6 +2,7 @@
     @once
         <script>
             if (!document.getElementById('mlbrgn-css-{{ $frontendTheme }}')) {
+                alert('test');
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-{{ $frontendTheme }}';
                 link.rel = 'stylesheet';
@@ -10,6 +11,14 @@
                 console.log('css dynamically loaded');
             }
         </script>
+
+        {{-- Fallback for no-JS users, TODO not working even when disabling js, js is enabled in FF, Chrome and Brave --}}
+        <noscript>
+            <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">
+            <div style="color:red;">
+                JavaScript is disabled. Some features may not work.
+            </div>
+        </noscript>
     @endonce
 @endif
 
@@ -38,42 +47,9 @@
                 console.log('css dynamically loaded');
             }
         </script>
+        {{-- no fallback needed, if js disabled, this wont work anyway--}}
     @endonce
 @endif
-
-
-{{--@if($includeCss)--}}
-{{--    @dump('YES YES to css')--}}
-{{--    --}}
-{{--    @once--}}
-{{--        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">--}}
-{{--        <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-plain.css') }}">--}}
-{{--    @endonce--}}
-{{--@endif--}}
-
-{{--@if($includeJs)--}}
-{{--    @once--}}
-{{--        @dump('YES YES to js')--}}
-{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>--}}
-{{--        @php--}}
-{{--            $translations = [--}}
-{{--                'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),--}}
-{{--                'unauthenticated' => __('media-library-extensions::http.unauthenticated'),--}}
-{{--                'forbidden' => __('media-library-extensions::http.forbidden'),--}}
-{{--                'not_found' => __('media-library-extensions::http.not_found'),--}}
-{{--                'validation_failed' => __('media-library-extensions::http.validation_failed'),--}}
-{{--                'too_many_requests' => __('media-library-extensions::http.too_many_requests'),--}}
-{{--                'server_error' => __('media-library-extensions::http.server_error'),--}}
-{{--                'unknown_error' => __('media-library-extensions::http.unknown_error'),--}}
-{{--                'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),--}}
-{{--                'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),--}}
-{{--            ];--}}
-{{--        @endphp--}}
-{{--        <script>--}}
-{{--            window.mediaLibraryTranslations = {!! json_encode($translations) !!};--}}
-{{--        </script>--}}
-{{--    @endonce--}}
-{{--@endif--}}
 
 @if($includeImageEditorJs)
     @once
