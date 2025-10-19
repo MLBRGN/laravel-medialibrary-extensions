@@ -2,6 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
@@ -83,12 +84,18 @@ it('overrides default params with custom ones', function () {
 it('sets component properties correctly', function () {
     $media = createMockMedia('my-youtube-id');
 
-    $component = new VideoYouTube(medium: $media, preview: false);
+    $component = new VideoYouTube(
+        medium: $media,
+        preview: false,
+        options: [
+            'frontendTheme' => 'custom',
+    ]);
 
     expect($component->medium)->toBe($media)
         ->and($component->preview)->toBeFalse()
         ->and($component->youtubeId)->toBe('my-youtube-id')
-        ->and($component->youTubeParamsAsString)->toBeString();
+        ->and($component->youTubeParamsAsString)->toBeString()
+        ->and($component->getConfig('frontendTheme'))->toBe('custom');
 });
 
 it('returns correct view on render', function () {
@@ -101,10 +108,30 @@ it('returns correct view on render', function () {
 });
 
 it('renders view and matches snapshot', function () {
-    //    $component = new VideoYouTube(createMockMedia());
-    //
-    //    $view = $component->render();
-    //
-    //    expect($view)->toBeInstanceOf(View::class)
-    //        ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
-})->todo();
+        $component = new VideoYouTube(createMockMedia());
+
+        $view = $component->render();
+
+        expect($view)->toBeInstanceOf(View::class)
+            ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
+});
+
+it('renders view', function() {
+    $medium = $this->getMediaModelWithMedia(['audio' => 1]);
+    $html = Blade::render('<x-mle-video-youtube
+                                    id="test-video"
+                                    :medium="$medium"
+                                    :options="$options"
+                                    preview="true"
+                                />
+', [
+        'medium' => $medium,
+        'options' => [
+            'frontendTheme' => 'custom',
+        ],
+    ]);
+
+    expect($html)->toContain($medium->id);
+    // todo test theme
+    expect($html)->toMatchSnapshot();
+})->todo('how to create dummy youtube medium?');

@@ -7,10 +7,14 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class VideoYouTube extends Component
 {
+
+    use InteractsWithOptionsAndConfig;
+
     public string $youTubeParamsAsString;
 
     public string $youtubeId = '';
@@ -20,7 +24,6 @@ class VideoYouTube extends Component
         public bool $preview = true,
         public ?array $youtubeParams = [],
         public array $options = [],
-        public ?string $frontendTheme = null,// TODO move to options
         public ?bool $multiple = true,// TODO what is this used for?
     ) {
 
@@ -45,7 +48,7 @@ class VideoYouTube extends Component
         $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
         $this->youTubeParamsAsString = http_build_query($mergedParams);
 
-        $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme');
+        $this->initializeConfig();
     }
 
     public function render(): View

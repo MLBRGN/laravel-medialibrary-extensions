@@ -113,10 +113,6 @@ class MediaManagerController extends Controller
 
     public function tinyMce(GetMediaManagerTinyMceRequest $request): View
     {
-        //        dd($request);
-        //        $frontendTheme = $request->input('frontend_theme') ? $request->input('frontend_theme') : config(['media-library-extensions.frontend_theme' => 'bootstrap-5']);
-
-        $frontendTheme = 'plain';
         // Get the first existing model or create it if none exists
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');

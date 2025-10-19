@@ -61,5 +61,5 @@
     include-css="true" 
     include-js="false" 
     include-lite-youtube="true" 
-    :frontend-theme="$frontendTheme"
+    :frontend-theme="$getConfig('frontendTheme')"
 />
