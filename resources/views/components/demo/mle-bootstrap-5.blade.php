@@ -28,7 +28,6 @@
                         'audio' =>'alien-single-audio',
                     ]"
                     :options="[
-                        'showDestroyButton' => true,
                         'frontendTheme' => 'bootstrap-5',
                     ]"
                     class="mt-5"
@@ -48,7 +47,6 @@
                     ]"
                     class="mt-5"
                     :options="[
-                        'showDestroyButton' => true,
                         'frontendTheme' => 'bootstrap-5',
                     ]"
                 />
@@ -67,12 +65,8 @@
                     ]"
                     class="mt-5"
                     :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'showMenu' => true,
                     ]"
                 />
         
@@ -90,12 +84,8 @@
                     ]"
                     class="mt-5"
                     :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'showMenu' => true,
                     ]"
                 />
         
@@ -113,12 +103,8 @@
                     ]"
                     class="mt-5"
                     :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'showMenu' => true,
                     ]"
                 />
         
@@ -136,12 +122,8 @@
                     ]"
                     class="mt-5"
                     :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'bootstrap-5',
-                        'showMenu' => true,
                     ]"
                     class="mt-5"
                 />

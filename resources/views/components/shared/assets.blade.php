@@ -2,7 +2,6 @@
     @once
         <script>
             if (!document.getElementById('mlbrgn-css-{{ $frontendTheme }}')) {
-                alert('test');
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-{{ $frontendTheme }}';
                 link.rel = 'stylesheet';

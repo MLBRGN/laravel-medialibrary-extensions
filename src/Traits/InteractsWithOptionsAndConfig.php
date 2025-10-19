@@ -165,11 +165,11 @@ trait InteractsWithOptionsAndConfig
     {
         // Hardcoded default values
         $defaultOptionValues = [
-            'showDestroyButton' => false,
-            'showMediaEditButton' => false,
+            'showDestroyButton' => true,
+            'showMediaEditButton' => true,
             'showMenu' => true,
             'showOrder' => false,
-            'showSetAsFirstButton' => false,
+            'showSetAsFirstButton' => true,
             'showUploadForm' => true,
             'showYouTubeUploadForm' => true,
             'temporaryUploadMode' => false,
