@@ -24,7 +24,7 @@ class StoreYouTubeVideoRequest extends MediaManagerRequest
             'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
-            'collections' => ['required', 'array'],
+            'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
             $uploadFieldName => ['nullable', 'url', new YouTubeUrl],
             'initiator_id' => ['required', 'string'],

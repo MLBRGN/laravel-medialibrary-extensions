@@ -23,7 +23,7 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],
             'initiator_id' => ['required', 'string'],
-            'collections' => ['required', 'string'], // json
+            'collections' => ['required', 'string', 'min:1'], // json
             'options' => ['required', 'string'], // json
         ];
     }

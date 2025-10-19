@@ -5,6 +5,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,10 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
+        date_default_timezone_set('UTC');
+        config(['app.timezone' => 'UTC']);
+        Carbon::setTestNow('2025-01-01 00:00:00');
+
         $this->testModel = Blog::create(['title' => 'Test Model']);
         $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
         $this->app['translator']->addNamespace(
@@ -51,6 +56,14 @@ class TestCase extends Orchestra
 
         // Use a persistent session driver
         //        Config::set('session.driver', 'file');
+    }
+
+    protected function tearDown(): void
+    {
+        // Reset Carbon's test clock
+        Carbon::setTestNow();
+
+        parent::tearDown();
     }
 
     protected function getPackageProviders($app): array
@@ -269,6 +282,8 @@ class TestCase extends Orchestra
             'document' => 'document_collection',
         ];
 
+        $counter = 1; // used for deterministic UUIDs
+
         foreach ($types as $type => $count) {
             if (! isset($pool[$type])) {
                 throw new \InvalidArgumentException("Unsupported media type '{$type}'");
@@ -293,10 +308,15 @@ class TestCase extends Orchestra
                     File::copy($source, $target);
                 }
 
-                $model
+                $media = $model
                     ->addMedia($target)
                     ->preservingOriginal()
                     ->toMediaCollection($collectionMap[$type]);
+
+                //  overwrite UUID for stable snapshots
+                $media->uuid = sprintf('00000000-0000-4000-8000-%012d', $counter++);
+                $media->save();
+
             }
         }
 

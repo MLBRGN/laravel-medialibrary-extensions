@@ -19,7 +19,7 @@ class SetTemporaryMediumAsFirstRequest extends MediaManagerRequest
             'medium_id' => 'required|string',
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],
-            'collections' => ['required', 'array'],
+            'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
         ];
     }

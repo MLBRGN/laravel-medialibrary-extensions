@@ -19,7 +19,7 @@ class GetMediaManagerTinyMceRequest extends FormRequest
             'media_manager_id' => ['required', 'string'],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
-            'collections' => ['required', 'array'],
+            'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],
         ];
