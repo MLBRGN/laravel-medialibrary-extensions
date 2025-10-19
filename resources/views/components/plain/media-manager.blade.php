@@ -54,7 +54,8 @@
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
-                :frontend-theme="$getConfig('frontendTheme')"
+                :options="$options"
+{{--                :frontend-theme="$getConfig('frontendTheme')"--}}
             />
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview

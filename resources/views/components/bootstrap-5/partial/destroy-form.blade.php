@@ -45,6 +45,7 @@
         include-css="true" 
         include-js="true" 
         include-form-submitter="true" 
-        :frontend-theme="$config['frontendTheme']"
+        :options="$options"
+{{--        :frontend-theme="$config['frontendTheme']"--}}
     />
 @endif

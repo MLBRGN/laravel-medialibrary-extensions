@@ -3,12 +3,14 @@
         id="{{ $id.'-alert' }}" 
         :initiator-id="$id"
         :media-manager-id="$id"
-        :frontend-theme="$getConfig('frontendTheme')"
+        :options="$options"
+{{--        :frontend-theme="$getConfig('frontendTheme')"--}}
     />
     <x-mle-partial-status 
         id="{{ $id.'-alert' }}" 
         :initiator-id="$id"
         :media-manager-id="$id"
-        :frontend-theme="$getConfig('frontendTheme')"
+        :options="$options"
+{{--        :frontend-theme="$getConfig('frontendTheme')"--}}
     />
 </div>

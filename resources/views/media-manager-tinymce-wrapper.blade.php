@@ -44,7 +44,6 @@
 {{--                :youtube-collection="$youtubeCollection"--}}
 {{--                :video-collection="$videoCollection"--}}
 {{--                :audio-collection="$audioCollection"--}}
-{{--                :frontend-theme="$frontendTheme"--}}
 {{--                :show-destroy-button="true"--}}
 {{--                :show-set-as-first-button="true"--}}
 {{--            :show-media-edit-button="true"--}}
@@ -57,7 +56,6 @@
 {{--        <x-mle-shared-assets --}}
 {{--            include-css="true" --}}
 {{--            include-js="true" --}}
-{{--            :frontend-theme="$frontendTheme"--}}
 {{--        />--}}
 {{--        <script>--}}
 {{--            document.addEventListener('DOMContentLoaded', () => {--}}

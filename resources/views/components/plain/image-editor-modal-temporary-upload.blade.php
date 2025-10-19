@@ -48,8 +48,8 @@
                     :options="$options"
                     :initiator-id="$id"
                     :media-manager-id="$mediaManagerId"
-                    :frontend-theme="$getConfig('frontendTheme')"
-                    :use-xhr="$getConfig('useXhr')"
+{{--                    :frontend-theme="$getConfig('frontendTheme')"--}}
+{{--                    :use-xhr="$getConfig('useXhr')"--}}
                     :disabled="$disabled"
                 />
             </div>

@@ -21,7 +21,6 @@
                     :medium="$medium"
                     :preview="true"
                     :options="$options"
-{{--                    :frontend-theme="$getConfig('frontendTheme')"--}}
                 />
             </div>
         @elseif(isMediaType($medium, 'document'))
@@ -191,6 +190,5 @@
     :media-collections="$collections"
     :video-auto-play="true"
     :options="$options"
-{{--    :frontend-theme="$getConfig('frontendTheme')"--}}
     title="Media carousel"
 />

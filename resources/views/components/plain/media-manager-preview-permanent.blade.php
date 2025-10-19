@@ -178,6 +178,5 @@
     :media-collections="$collections"
     :video-auto-play="true"
     :options="$options"
-{{--    :frontend-theme="$getConfig('frontendTheme')"--}}
     title="Media carousel"
 />

@@ -44,12 +44,17 @@
                     :expandable-in-modal="false"
                     :media-collection="$mediaCollection"
                     :media-collections="$mediaCollections"
-                    :frontend-theme="$getConfig('frontendTheme')"
+                    :options="$options"
+{{--                    :frontend-theme="$getConfig('frontendTheme')"--}}
                     :in-modal="true"
                 />
             </div>
         </div>
     </div>
 </div>
-<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$getConfig('frontendTheme')"/>
+<x-mle-shared-assets 
+    include-css="true" 
+    include-js="true" 
+    :frontend-theme="$getConfig('frontendTheme')"
+/>
 
