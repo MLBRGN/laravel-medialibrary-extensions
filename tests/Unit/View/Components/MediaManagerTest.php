@@ -2,6 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
+use Exception;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
@@ -52,6 +53,30 @@ it('renders media manager component', function () {
         ->toContain('media_multiple')
         ->toContain('csrf_token');
 });
+
+it('appends correct id suffix based on multiple flag', function () {
+    $model = $this->getTestBlogModel();
+
+    // multiple = true → should append "-mmm"
+    $componentMultiple = new MediaManager(
+        id: 'my-media',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        multiple: true,
+    );
+
+    // multiple = false → should append "-mms"
+    $componentSingle = new MediaManager(
+        id: 'my-media',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        multiple: false,
+    );
+
+    expect($componentMultiple->id)->toBe('my-media-mmm')
+        ->and($componentSingle->id)->toBe('my-media-mms');
+});
+
 
 it('initializes without temporary upload when a eloquent model is provided', function () {
     config()->set('media-library-extensions.demo_pages_enabled', false);
@@ -272,3 +297,74 @@ it('throws if given class string does not implement HasMedia', function () {
         'interface' => HasMedia::class,
     ]));
 });
+
+it('disables showSetAsFirstButton when multiple is false', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-single',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        options: ['showSetAsFirstButton' => true],
+        multiple: false,
+    );
+
+    expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();
+});
+
+it('throws exception when no collections provided', function () {
+    $model = $this->getTestBlogModel();
+
+    expect(fn () => new MediaManager(
+        id: 'test-empty-collections',
+        modelOrClassName: $model,
+        collections: [],
+    ))->toThrow(Exception::class, __('media-library-extensions::messages.no_media_collections'));
+});
+
+it('disables upload form when no uploadable collections exist', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-no-uploadables',
+        modelOrClassName: $model,
+        collections: ['youtube' => 'blog-youtube'], // only youtube
+        options: ['showUploadForm' => true],
+        multiple: true,
+    );
+
+    expect($component->getConfig('showUploadForm'))->toBeFalse();
+});
+
+it('disables YouTube upload form when youtube collection missing', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-no-youtube',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        options: ['showYouTubeUploadForm' => true],
+        multiple: true,
+    );
+
+    expect($component->getConfig('showYouTubeUploadForm'))->toBeFalse();
+});
+
+it('hides media menu when all menu buttons disabled', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-hide-menu',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        options: [
+            'showDestroyButton' => false,
+            'showSetAsFirstButton' => false,
+            'showMediaEditButton' => false,
+        ],
+        multiple: true,
+    );
+
+    expect($component->getConfig('showMenu'))->toBeFalse();
+});
+

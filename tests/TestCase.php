@@ -255,7 +255,6 @@ class TestCase extends Orchestra
     public function getModelWithMedia(array $types = ['image' => 1]): Model
     {
         $model = $this->getTestBlogModel();
-
         $pool = [
             'image' => ['test.jpg', 'test2.jpg', 'test3.jpg', 'test.png', 'test2.png', 'test3.png'],
             'video' => ['test.mp4'],
@@ -301,7 +300,12 @@ class TestCase extends Orchestra
             }
         }
 
-        return $model->fresh();
+        $model = $model->fresh();
+
+        // nullify timestamp otherwise snapshot testing might fail
+        $model->timestamps = false;
+        $model->update(['created_at' => null, 'updated_at' => null]);
+        return $model;
     }
 
     public function getMediaModelWithMedia(array $types = ['image' => 1]): Media
@@ -383,7 +387,7 @@ class TestCase extends Orchestra
         array $generatedConversions = ['thumb' => true],
         bool $mock = false
     ): Media {
-        // ✅ if mock requested, return a simple mock (useful for view/unit tests)
+        // if mock requested, return a simple mock (useful for view/unit tests)
         if ($mock) {
             $media = \Mockery::mock(Media::class)->shouldIgnoreMissing();
 

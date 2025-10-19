@@ -32,11 +32,6 @@ class MediaManagerPreview extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        // TODO
-        //        if (!$showDestroyButton && !$showOrder && !$showSetAsFirstButton && !$showMediaEditButton) {
-        //            $this->showMenu = false;
-        //        }
-
         $this->media = collect();
 
         // CASE 1: If a single medium is provided, use only that.
@@ -62,21 +57,6 @@ class MediaManagerPreview extends BaseComponent
             })
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
-        // CASE 2: Otherwise collect from configured collections.
-        //        $this->media = collect($collections)
-        //            ->flatMap(function (string $collectionName) {
-        //                if ($this->temporaryUploadMode) {
-        //                    return TemporaryUpload::forCurrentSession($collectionName);
-        //                }
-        //
-        //                if ($this->model) {
-        //                    return $this->model->getMedia($collectionName);
-        //                }
-        //
-        //                return [];
-        //            })
-        //            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
-        //            ->values();
 
         // merge into config
         $this->initializeConfig();
