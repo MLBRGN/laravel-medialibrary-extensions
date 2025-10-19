@@ -24,12 +24,13 @@ class StoreMultipleTemporaryAction
 
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
-        $field = config('media-library-extensions.upload_field_name_multiple');
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
+
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
+        $field = config('media-library-extensions.upload_field_name_multiple');
         $files = $request->file($field);
 
         if (empty($files)) {
@@ -67,28 +68,26 @@ class StoreMultipleTemporaryAction
             );
         }
 
-        $directory = "{$basePath}";
-        $sessionId = $request->session()->getId();
-
-        $savedFiles = [];
-        $skippedFiles = [];
+        $successCount = 0;
+        $failedUploadFIleNames = [];
+        $errorMessages = [];
 
         foreach ($files as $file) {
-            $originalName = $file->getClientOriginalName();
             $collectionType = $this->mediaService->determineCollectionType($file);
             $collectionName = $collections[$collectionType] ?? null;
 
-            if (is_null($collectionType || $collectionName)) {
-                $skippedFiles[] = [
-                    'filename' => $originalName,
-                    'reason' => __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', [
-                        'mimetype' => $file->getMimeType(),
-                    ]),
-                ];
-
+            if (is_null($collectionType) || is_null($collectionName)) {
+                $failedUploadFIleNames[] = $file->getClientOriginalName();
+                $errorMessages[] = __(
+                    'media-library-extensions::messages.invalid_or_missing_collection',
+                    ['file' => $file->getClientOriginalName()]
+                );
                 continue;
             }
 
+            $originalName = $file->getClientOriginalName();
+            $directory = "{$basePath}";
+            $sessionId = $request->session()->getId();
             $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
             $extension = $file->getClientOriginalExtension();
             $filename = "{$safeFilename}.{$extension}";
@@ -96,6 +95,22 @@ class StoreMultipleTemporaryAction
             // Store file
             Storage::disk($disk)->putFileAs($directory, $file, $filename);
 
+//            dd([
+//                'disk' => $disk,
+//                'path' => "{$directory}/{$filename}",
+//                'name' => $safeFilename,
+//                'file_name' => $originalName,
+//                'collection_name' => $collectionName,
+//                'mime_type' => $file->getMimeType(),
+//                'size' => $file->getSize(),
+//                'user_id' => Auth::check() ? Auth::id() : null,
+//                'session_id' => $sessionId,
+//                'order_column' => $nextPriority,
+//                'custom_properties' => [
+//                    'collections' => $collections,
+//                    'priority' => $nextPriority,
+//                ],
+//            ]);
             // Create DB record
             $upload = new TemporaryUpload([
                 'disk' => $disk,
@@ -109,7 +124,7 @@ class StoreMultipleTemporaryAction
                 'session_id' => $sessionId,
                 'order_column' => $nextPriority,
                 'custom_properties' => [
-                    'collections' => $collections,
+                    'collections' => json_encode($collections),
                     'priority' => $nextPriority,
                 ],
             ]);
@@ -117,33 +132,36 @@ class StoreMultipleTemporaryAction
             $nextPriority++;
 
             $upload->save();
-            $savedFiles[] = $filename;
+            $successCount++;
         }
 
-        if (empty($savedFiles)) {
+        if ($successCount === 0) {
+            $message = __('media-library-extensions::messages.upload_failed');
+
+            if (!empty($errorMessages)) {
+                $message .= ' ' . implode(' ', $errorMessages);
+            }
+
             return MediaResponse::error(
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'),
+                $message
             );
         }
 
-        $messageExtra = '';
-        foreach ($skippedFiles as $skippedFile) {
-            $messageExtra .= '"'.$skippedFile['filename'].'":  '.$skippedFile['reason'].',';
+        $message = __('media-library-extensions::messages.upload_success');
+        if (! empty($failedUploadFIleNames)) {
+            $message .= ' '.__('media-library-extensions::messages.some_uploads_failed', [
+                    'files' => implode(', ', $failedUploadFIleNames),
+                ]);
         }
 
         return MediaResponse::success(
             $request,
             $initiatorId,
             $mediaManagerId,
-            __('media-library-extensions::messages.upload_success'),
-            [
-                'message_extra' => $messageExtra,
-                'saved_files' => $savedFiles,
-                'skipped_files' => $skippedFiles,
-            ]
+            $message,
         );
     }
 }

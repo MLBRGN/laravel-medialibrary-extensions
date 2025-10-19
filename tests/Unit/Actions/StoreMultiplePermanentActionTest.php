@@ -212,7 +212,7 @@ it('it returns error if no files are given (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_no_files'));
 });
 
-it('it returns error if file has invalid mimetype (JSON)', function () {
+it('it returns error if upload fails (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
@@ -239,12 +239,12 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true)['type'])->toBe('error')
-        ->and($response->getData(true)['message'])->toBe(
+        ->and($response->getData(true)['message'])->toContain(
             __('media-library-extensions::messages.upload_failed')
         );
 });
 
-it('it returns error if file has invalid mimetype (redirect)', function () {
+it('it returns error if upload fails (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
@@ -279,7 +279,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
 
     expect($sessionData['type'])->toBe('error');
     expect($sessionData['initiator_id'])->toBe($initiatorId);
-    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed'));
+    expect($sessionData['message'])->toContain(__('media-library-extensions::messages.upload_failed'));
 });
 
 it('it returns error if max media count is exceeded (JSON)', function () {

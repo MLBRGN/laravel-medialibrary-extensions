@@ -19,20 +19,18 @@
             ])>
             {{ $form_start ?? '' }}
             @if($getConfig('showUploadForm'))
-{{--                @if($showRegularUploadForm())--}}
-                    <x-mle-partial-upload-form
-                        :id="$id"
-                        :model-or-class-name="$modelOrClassName"
-                        :medium="$medium"
-                        :collections="$collections"
-                        :options="$options"
-                        :multiple="$multiple"
-                        :disabled="$disabled || $getConfig('disableForm')"
-                        :readonly="$readonly"
-                    />
-{{--                @endif--}}
+                <x-mle-partial-upload-form
+                    :id="$id"
+                    :model-or-class-name="$modelOrClassName"
+                    :medium="$medium"
+                    :collections="$collections"
+                    :options="$options"
+                    :multiple="$multiple"
+                    :disabled="$disabled || $getConfig('disableForm')"
+                    :readonly="$readonly"
+                />
             @endif
-            @if($hasCollection('youtube'))
+            @if($getConfig('showYouTubeUploadForm'))
             <x-mle-partial-youtube-upload-form
                     class="mt-3"
                     :id="$id"

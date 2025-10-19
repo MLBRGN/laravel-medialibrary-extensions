@@ -69,18 +69,24 @@ class MediaManagerTinymce extends BaseComponent
             $this->setOption('showSetAsFirstButton', false);
         }
 
+        // throw exception when no media collection provided at all
+        if (! $this->hasCollections()) {
+            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+        }
+
         // Override: Always disable "set-as-first" when multiple files disabled
         if (! $this->multiple) {
             $this->setOption('showSetAsFirstButton', false);
         }
 
-        // Override: Always set upload enabled to false when no document collections provided
-        if (! $this->imageCollection && ! $this->documentCollection && ! $this->videoCollection && ! $this->audioCollection) {
-            $this->showUploadForm = false;
+        // override
+        if (! $this->hasCollection('image') && ! $this->hasCollection('document') && ! $this->hasCollection('video') && ! $this->hasCollection('audio')) {
+            $this->setOption('showUploadForm', false);
         }
 
-        if (! $this->imageCollection && ! $this->documentCollection && ! $this->videoCollection && ! $this->audioCollection && ! $this->youtubeCollection) {
-            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+        // override
+        if (! $this->hasCollection('youtube')) {
+            $this->setOption('showYouTubeUploadForm', false);
         }
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here

@@ -4,12 +4,11 @@
     data-media-manager=""
     data-use-xhr="true"
     >
-    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"temporaryUploadMode":false,"uploadFieldName":"media_multiple","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":"2025-10-19T13:03:10.000000Z","updated_at":"2025-10-19T13:03:10.000000Z"},"medium":null,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":"2025-10-19T13:03:10.000000Z","updated_at":"2025-10-19T13:03:10.000000Z"},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true,"useXhr":true,"showUploadForm":true,"allowedMimeTypes":"image\/jpeg, image\/png","showMediaEditButton":true,"uploadFieldName":"media_multiple"},"id":"test-media-modal-mmm","allowedMimeTypes":"image\/jpeg, image\/png"}'>
+    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"temporaryUploadMode":false,"uploadFieldName":"media_multiple","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":"2025-10-19T14:39:57.000000Z","updated_at":"2025-10-19T14:39:57.000000Z"},"medium":null,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":"2025-10-19T14:39:57.000000Z","updated_at":"2025-10-19T14:39:57.000000Z"},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true,"useXhr":true,"showUploadForm":true,"allowedMimeTypes":"image\/jpeg, image\/png","showMediaEditButton":true,"uploadFieldName":"media_multiple"},"id":"test-media-modal-mmm","allowedMimeTypes":"image\/jpeg, image\/png"}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
-            
-                        <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+                            <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
@@ -83,7 +82,6 @@
 
             <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js"></script>
     
-
 
 
                                         <div class="conditional-form media-manager-youtube-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-youtube-upload-form" data-xhr-method="post">

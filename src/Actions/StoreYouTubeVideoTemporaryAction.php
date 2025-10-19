@@ -30,6 +30,7 @@ class StoreYouTubeVideoTemporaryAction
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
+        $collection = $request->youtube_collection;
         $field = config('media-library-extensions.upload_field_name_youtube');
         $multiple = $request->boolean('multiple');
 

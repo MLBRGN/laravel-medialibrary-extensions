@@ -45,6 +45,8 @@ class YouTubeService
         $collection = $request->input('youtube_collection');
         $sessionId = $request->session()->getId();
 
+//        dd($youtubeUrl, $youtubeId, $collection, $sessionId);
+        // Todo look at this
         return $this->storeTemporaryThumbnailFromUrl(
             youtubeUrl: $youtubeUrl,
             sessionId: $sessionId,

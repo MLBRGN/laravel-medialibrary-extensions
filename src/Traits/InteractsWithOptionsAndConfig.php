@@ -171,12 +171,13 @@ trait InteractsWithOptionsAndConfig
             'showOrder' => false,
             'showSetAsFirstButton' => false,
             'showUploadForm' => true,
+            'showYouTubeUploadForm' => true,
             'temporaryUploadMode' => false,
             'uploadFieldName' => 'medium',
             'frontendTheme' => config('media-library-extensions.frontend_theme', 'bootstrap-5'),
             'useXhr' => config('media-library-extensions.use_xhr', true),
             'csrfToken' => csrf_token(),
-            //            'allowedMimeTypes' => config('media-library-extensions.allowed_mimetypes', []),
+            // allowedMimeTypes handled by separate trait
             // allowedMimeTypesHuman is produced
         ];
 

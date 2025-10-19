@@ -5,6 +5,8 @@ return [
     'upload_failed_due_to_invalid_mimetype' => 'Upload mislukt door ongeldig bestandstype.',
     'upload_failed_due_to_invalid_collection' => 'Upload mislukt omdat collectie ongeldig is.',
     'upload_failed_due_to_invalid_mimetype_:mimetype' => 'Upload mislukt door ongeldig bestandstype :mimetype.',
+    'invalid_or_missing_collection' => 'Ongeldige / missende collectie.',
+    'an_exception_occurred' => 'Er heeft zich een exceptie voorgedaan.',
     'upload_failed' => 'Upload mislukt.',
     'some_uploads_failed' => 'Sommige uploads mislukt.',
     'upload_no_files' => 'Geen bestanden geüpload.',

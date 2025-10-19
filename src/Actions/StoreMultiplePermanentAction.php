@@ -24,11 +24,11 @@ class StoreMultiplePermanentAction
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
+
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $field = config('media-library-extensions.upload_field_name_multiple');
-
         $files = $request->file($field);
 
         if (empty($files)) {
@@ -65,8 +65,10 @@ class StoreMultiplePermanentAction
                 ])
             );
         }
+
         $successCount = 0;
         $failedUploadFIleNames = [];
+        $errorMessages = [];
 
         foreach ($files as $file) {
             $collectionType = $this->mediaService->determineCollectionType($file);
@@ -74,8 +76,11 @@ class StoreMultiplePermanentAction
 
             if (is_null($collectionType) || is_null($collectionName)) {
                 $failedUploadFIleNames[] = $file->getClientOriginalName();
-
-                continue; // skip invalid mimetype but continue with others
+                $errorMessages[] = __(
+                    'media-library-extensions::messages.invalid_or_missing_collection',
+                    ['file' => $file->getClientOriginalName()]
+                );
+                continue;
             }
 
             try {
@@ -89,16 +94,26 @@ class StoreMultiplePermanentAction
             } catch (Exception $e) {
                 Log::error($e);
                 $failedUploadFIleNames[] = $file->getClientOriginalName();
+                $errorMessages[] = __(
+                    'media-library-extensions::messages.an_exception_occurred',
+                    ['file' => $file->getClientOriginalName()]
+                );
             }
         }
 
         // Return appropriate response
         if ($successCount === 0) {
+            $message = __('media-library-extensions::messages.upload_failed');
+
+            if (!empty($errorMessages)) {
+                $message .= ' ' . implode(' ', $errorMessages);
+            }
+
             return MediaResponse::error(
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.upload_failed')
+                $message
             );
         }
 

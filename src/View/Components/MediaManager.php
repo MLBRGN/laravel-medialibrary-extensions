@@ -39,8 +39,6 @@ class MediaManager extends BaseComponent
         $id = filled($id) ? $id : null;
         parent::__construct($id);
 
-//        $collections = $this->mergeCollections($collections);
-
         $this->resolveModelOrClassName($modelOrClassName);
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
@@ -51,6 +49,16 @@ class MediaManager extends BaseComponent
         // throw exception when no media collection provided at all
         if (! $this->hasCollections()) {
             throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+        }
+
+        // override
+        if (! $this->hasCollection('image') && ! $this->hasCollection('document') && ! $this->hasCollection('video') && ! $this->hasCollection('audio')) {
+            $this->setOption('showUploadForm', false);
+        }
+
+        // override
+        if (! $this->hasCollection('youtube')) {
+            $this->setOption('showYouTubeUploadForm', false);
         }
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
