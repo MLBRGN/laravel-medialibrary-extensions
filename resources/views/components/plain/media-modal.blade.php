@@ -45,7 +45,6 @@
                     :media-collections="$mediaCollections"
                     :frontend-theme="$getConfig('frontendTheme')"
                     :in-modal="true"
-{{--                    data-carousel--}}
                 />
             </div>
         </div>

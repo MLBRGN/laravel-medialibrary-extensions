@@ -4,12 +4,11 @@
     data-media-manager=""
     data-use-xhr="true"
     >
-    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","medium":null,"collections":{"image":"images","document":"","youtube":"","video":"","audio":""},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","disableForm":false}'>
+    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":false,"showMediaEditButton":false,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"showYouTubeUploadForm":false,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","medium":null,"collections":{"image":"images","document":"","youtube":"","video":"","audio":""},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":false,"showYouTubeUploadForm":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","disableForm":false}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form col-12 col-md-4">
-            
-                        <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
+                            <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mms-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mms-media-input"
@@ -66,7 +65,6 @@
 
             <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js"></script>
     
-
 
 
                                     

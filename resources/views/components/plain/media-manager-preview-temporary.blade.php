@@ -176,6 +176,7 @@
     {{--    :media-collection="$imageCollection"--}}
     :media-collections="$collections"
     :video-auto-play="true"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :options="$options"
+{{--    :frontend-theme="$getConfig('frontendTheme')"--}}
     title="Media carousel"
 />
