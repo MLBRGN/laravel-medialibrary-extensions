@@ -54,7 +54,6 @@
                         'audio' =>'alien-single-audio',
                     ]"
                 :options="[
-                        'showDestroyButton' => true,
                         'frontendTheme' => 'plain',
                     ]"
             />
@@ -73,7 +72,6 @@
                     ]"
                 class="mt-5"
                 :options="[
-                        'showDestroyButton' => true,
                         'frontendTheme' => 'plain',
                     ]"
             />
@@ -91,12 +89,8 @@
                         'audio' =>'alien-multiple-audio',
                     ]"
                 :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'showMenu' => true,
                     ]"
             />
         
@@ -114,12 +108,8 @@
                     ]"
                 class="mt-5"
                 :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'showMenu' => true,
                     ]"
             />
         
@@ -136,12 +126,8 @@
                         'audio' =>'',
                     ]"
                 :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'showMenu' => true,
                     ]"
             />
         
@@ -159,12 +145,8 @@
                     ]"
                 class="mt-5"
                 :options="[
-                        'showDestroyButton' => true,
-                        'showSetAsFirstButton' => true,
-                        'showMediaEditButton' => true,
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
-                        'showMenu' => true,
                     ]"
             />
             
