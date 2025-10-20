@@ -118,8 +118,8 @@ class MediaManagerController extends Controller
         $modelId = $request->input('model_id');
         $id = 'something_for_now'; // TODO
         $multiple = false;
-
-        $temporaryUpload = false;
+        $collections = json_decode(request()->string('collections'), true);
+        $options = json_decode(request()->string('options'), true);
 
         $model = null;
         if ($modelType && $modelId) {
@@ -127,20 +127,19 @@ class MediaManagerController extends Controller
         }
         $modelOrClassName = $model ?? $modelType;
 
+//        dd([
+//            'id' => $id,
+//            'modelOrClassName' => $modelOrClassName,
+//            'multiple' => $multiple,
+//            'collections' => $collections,
+//            'options' => $options,
+//        ]);
         return view('media-library-extensions::media-manager-tinymce-wrapper', [
             'id' => $id,
             'modelOrClassName' => $modelOrClassName,
             'multiple' => $multiple,
-            'collections' => [
-                'image' => 'imageCollection',
-                'video' => 'videoCollection',
-                'audio' => 'audioCollection',
-                'document' => 'documentCollection',
-                'youtube' => 'youtubeCollection',
-            ],
-            'options' => [
-
-            ],
+            'collections' => $collections,
+            'options' => $options,
         ]);
     }
 }

@@ -185,8 +185,9 @@ it('returns the correct view when only class name provided', function () {
 
     $view = $component->render();
 
-    expect($component->getConfig('showDestroyButton'))->toBeFalse()
-        ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()
+    expect($component->getConfig('showDestroyButton'))->toBeTrue()
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeTrue()
+        ->and($component->getConfig('showMediaEditButton'))->toBeTrue()
         ->and($component->getConfig('showOrder'))->toBeFalse()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue();
     //        ->and($component->frontendTheme)->toBe('bootstrap-5');

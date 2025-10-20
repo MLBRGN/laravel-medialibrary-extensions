@@ -76,8 +76,9 @@ it('defaults optional values when omitted', function () {
     );
 
     expect($component->getConfig('showUploadForm'))->toBeTrue()
-        ->and($component->getConfig('showDestroyButton'))->toBeFalse()
+        ->and($component->getConfig('showDestroyButton'))->toBeTrue()
         ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()
+        ->and($component->getConfig('showMediaEditButton'))->toBeTrue()
         ->and($component->getConfig('showOrder'))->toBeFalse()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
         ->and($component->getConfig('uploadFieldName'))->toBe('medium')

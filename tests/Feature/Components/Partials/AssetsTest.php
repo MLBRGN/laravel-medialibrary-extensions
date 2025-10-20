@@ -8,7 +8,8 @@ it('renders assets view with expected content, theme plain', function () {
 
     expect($html)
         ->toContain('<link rel="stylesheet" href="')
-        ->and($html)->toContain('<script type="module" src="')
+        ->and($html)->toContain('mlbrgn-css-')
+        ->and($html)->toContain('vendor/mlbrgn/media-library-extensions/app')
         ->and($html)->toContain('window.mediaLibraryTranslations = {')
         ->and($html)->toContain('media-library-extensions');
 });
@@ -19,7 +20,8 @@ it('renders assets view with expected content, theme bootstrap-5', function () {
 
     expect($html)
         ->toContain('<link rel="stylesheet" href="')
-        ->and($html)->toContain('<script type="module" src="')
+        ->and($html)->toContain('mlbrgn-css-')
+        ->and($html)->toContain('vendor/mlbrgn/media-library-extensions/app')
         ->and($html)->toContain('window.mediaLibraryTranslations = {')
         ->and($html)->toContain('media-library-extensions');
 });

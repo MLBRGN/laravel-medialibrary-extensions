@@ -42,7 +42,8 @@ class MediaManagerPreview extends BaseComponent
         }
 
         $this->media = collect($collections)
-            ->flatMap(function (string $collectionName, string $collectionType) {
+            ->filter(fn ($collectionName) => !is_null($collectionName) && $collectionName !== '') // remove null or empty
+            ->flatMap(function (?string $collectionName, string $collectionType) {
                 if ($this->temporaryUploadMode) {
                     if (! empty($collectionName)) {
                         return TemporaryUpload::forCurrentSession($collectionName);

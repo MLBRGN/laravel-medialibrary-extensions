@@ -72,14 +72,15 @@ it('defaults optional values when omitted', function () {
             'showUploadForm' => true,
             'showDestroyButton' => true,
             'showOrder' => false,
-            'showSetAsFirstButton' => false,
+            'showSetAsFirstButton' => true,
+            'showMediaEditButton' => true,
             'useXhr' => false,
         ],
     );
 
     expect($component->getConfig('showUploadForm'))->toBeTrue()
         ->and($component->getConfig('showDestroyButton'))->toBeTrue()
-        ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeTrue()
         ->and($component->getConfig('showOrder'))->toBeFalse()
         ->and($component->getConfig('uploadFieldName'))->toBe('media')
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
