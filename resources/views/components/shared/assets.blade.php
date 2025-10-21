@@ -1,3 +1,4 @@
+{{-- Global CSS include --}}
 @if($includeCss)
     @once
         <script>
@@ -7,11 +8,11 @@
                 link.rel = 'stylesheet';
                 link.href = "{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}";
                 document.head.appendChild(link);
-                console.log('css dynamically loaded');
+                console.log('CSS dynamically loaded');
             }
         </script>
 
-        {{-- Fallback for no-JS users, TODO not working even when disabling js, js is enabled in FF, Chrome and Brave --}}
+        {{-- Fallback for users with JS disabled --}}
         <noscript>
             <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">
             <div style="color:red;">
@@ -21,6 +22,8 @@
     @endonce
 @endif
 
+
+{{-- Global JS include --}}
 @if($includeJs)
     @once
         <script type="module">
@@ -43,128 +46,114 @@
                     'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),
                     'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),
                 ]) !!};
-                console.log('css dynamically loaded');
+
+                console.log('Main JS dynamically loaded');
             }
         </script>
-        {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>--}}
-        {{-- no fallback needed, if js disabled, this wont work anyway--}}
     @endonce
 @endif
 
-@if($includeCarouselJs)
-    @if($frontendTheme === 'plain')
-        @once
-            <script type="module">
-                if (!window.mleCarouselJsLoaded) {
-                    const script = document.createElement('script');
-                    script.type = 'module';
-                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-media-carousel.js') }}";
-                    document.head.appendChild(script);
-                    window.mleCarouselJsLoaded = true;
-    
-                    console.log('mleCarouselJsLoaded');
-                }
-            </script>
-            {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
-        @endonce
-    @endif
+
+{{-- Carousel JS --}}
+@if($includeCarouselJs && $frontendTheme === 'plain')
+    <script type="module">
+        if (!window.mleCarouselJsLoaded) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-media-carousel.js') }}";
+            document.head.appendChild(script);
+            window.mleCarouselJsLoaded = true;
+
+            console.log('mleCarouselJsLoaded');
+        }
+    </script>
 @endif
 
+
+{{-- TinyMCE file picker --}}
+@if($includeTinymceCustomFilePickerIframeJs)
+    <script type="module">
+        if (!window.tinymceCustomFilePickerIframeJsLoaded) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker-iframe.js') }}";
+            document.head.appendChild(script);
+            window.tinymceCustomFilePickerIframeJsLoaded = true;
+
+            console.log('tinymceCustomFilePickerIframeJsLoaded');
+        }
+    </script>
+@endif
+
+
+{{-- Image Editor Modal --}}
 @if($includeImageEditorModalJs)
-    @once
-        <script type="module">
-            if (!window.mleImageEditorModalJs) {
-                const script = document.createElement('script');
-                script.type = 'module';
-                @if($frontendTheme === 'plain')
-                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-modal-image-editor.js') }}";
-                @else
-                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/bs5-modal-image-editor.js') }}";
-                @endif
-                document.head.appendChild(script);
-                window.mleImageEditorModalJs = true;
+    <script type="module">
+        if (!window.mleImageEditorModalJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/' . ($frontendTheme === 'plain' ? 'plain-modal-image-editor.js' : 'bs5-modal-image-editor.js')) }}";
+            document.head.appendChild(script);
+            window.mleImageEditorModalJs = true;
 
-                console.log('mleImageEditorModalJs');
-            }
-        </script>
-        {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
-    @endonce
+            console.log('mleImageEditorModalJs');
+        }
+    </script>
 @endif
 
 
+{{-- Media Modal --}}
 @if($includeMediaModalJs)
-    @once
-        <script type="module">
-            if (!window.mleMediaModalJs) {
-                const script = document.createElement('script');
-                script.type = 'module';
-                @if($frontendTheme === 'plain')
-                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-modal-media.js') }}";
-                @else
-                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/bs5-modal-media.js') }}";
-                @endif
-                document.head.appendChild(script);
-                window.mleMediaModalJs = true;
+    <script type="module">
+        if (!window.mleMediaModalJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/' . ($frontendTheme === 'plain' ? 'plain-modal-media.js' : 'bs5-modal-media.js')) }}";
+            document.head.appendChild(script);
+            window.mleMediaModalJs = true;
 
-                console.log('mleMediaModalJs');
-            }
-        </script>
-        {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
-    @endonce
+            console.log('mleMediaModalJs');
+        }
+    </script>
 @endif
 
+
+{{-- Image Editor Listener --}}
 @if($includeImageEditorJs)
-    @once
-{{--        <script type="module">--}}
-{{--            if (!window.mleImageEditorListenerJs) {--}}
-{{--                const script = document.createElement('script');--}}
-{{--                script.type = 'module';--}}
-{{--                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-modal.js') }}";--}}
-{{--                document.head.appendChild(script);--}}
-{{--                window.mleImageEditorListenerJs = true;--}}
+    <script type="module">
+        if (!window.mleImageEditorListenerJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}";
+            document.head.appendChild(script);
+            window.mleImageEditorListenerJs = true;
 
-{{--                console.log('mleImageEditorListenerJs');--}}
-{{--            }--}}
-{{--        </script>--}}
-        <script type="module">
-            if (!window.mleImageEditorListenerJs) {
-                const script = document.createElement('script');
-                script.type = 'module';
-                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}";
-                document.head.appendChild(script);
-                window.mleImageEditorListenerJs = true;
-
-                console.log('mleImageEditorListenerJs');
-            }
-        </script>
-{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
-    @endonce
+            console.log('mleImageEditorListenerJs');
+        }
+    </script>
 @endif
 
+
+{{-- Form Submitter --}}
 @if($includeFormSubmitter)
-    @once
-        <script type="module">
-            if (!window.mleFormSubmitterJs) {
-                const script = document.createElement('script');
-                script.type = 'module';
-                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}";
-                document.head.appendChild(script);
-                window.mleFormSubmitterJs = true;
+    <script type="module">
+        if (!window.mleFormSubmitterJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}";
+            document.head.appendChild(script);
+            window.mleFormSubmitterJs = true;
 
-                console.log('mleFormSubmitterJs');
-            }
-        </script>
-{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}"></script>--}}
-    @endonce
+            console.log('mleFormSubmitterJs');
+        }
+    </script>
 @endif
 
+
+{{-- Lite YouTube --}}
 @if($includeLiteYoutube)
     @once
         <script type="module">
-            // Loading the "lite-YouTube" extension caused issues with the host app,
-            // now waiting for dom to be loaded and only
-            // loading YT iframe api and "lite-YouTube" when not loaded
-            // already (by host app)
             document.addEventListener('DOMContentLoaded', function() {
                 if (!window.YT) {
                     const tag = document.createElement('script');
@@ -180,9 +169,220 @@
                 } else {
                     console.log('lite-youtube already present');
                 }
-            })
+            });
         </script>
     @endonce
 @endif
 
+
+{{-- Component slot --}}
 {{ $slot }}
+
+{{--@if($includeCss)--}}
+{{--    @once--}}
+{{--        <script>--}}
+{{--            if (!document.getElementById('mlbrgn-css-{{ $frontendTheme }}')) {--}}
+{{--                const link = document.createElement('link');--}}
+{{--                link.id = 'mlbrgn-css-{{ $frontendTheme }}';--}}
+{{--                link.rel = 'stylesheet';--}}
+{{--                link.href = "{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}";--}}
+{{--                document.head.appendChild(link);--}}
+{{--                console.log('css dynamically loaded');--}}
+{{--            }--}}
+{{--        </script>--}}
+
+{{--        --}}{{-- Fallback for no-JS users, TODO not working even when disabling js, js is enabled in FF, Chrome and Brave --}}
+{{--        <noscript>--}}
+{{--            <link rel="stylesheet" href="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.css') }}">--}}
+{{--            <div style="color:red;">--}}
+{{--                JavaScript is disabled. Some features may not work.--}}
+{{--            </div>--}}
+{{--        </noscript>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@if($includeJs)--}}
+{{--    @once--}}
+{{--        <script type="module">--}}
+{{--            if (!window.mlbrgnJsLoaded) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}";--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.mlbrgnJsLoaded = true;--}}
+
+{{--                window.mediaLibraryTranslations = {!! json_encode([--}}
+{{--                    'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),--}}
+{{--                    'unauthenticated' => __('media-library-extensions::http.unauthenticated'),--}}
+{{--                    'forbidden' => __('media-library-extensions::http.forbidden'),--}}
+{{--                    'not_found' => __('media-library-extensions::http.not_found'),--}}
+{{--                    'validation_failed' => __('media-library-extensions::http.validation_failed'),--}}
+{{--                    'too_many_requests' => __('media-library-extensions::http.too_many_requests'),--}}
+{{--                    'server_error' => __('media-library-extensions::http.server_error'),--}}
+{{--                    'unknown_error' => __('media-library-extensions::http.unknown_error'),--}}
+{{--                    'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),--}}
+{{--                    'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),--}}
+{{--                ]) !!};--}}
+{{--                console.log('css dynamically loaded');--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--        --}}{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>--}}
+{{--        --}}{{-- no fallback needed, if js disabled, this wont work anyway--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@if($includeCarouselJs)--}}
+{{--    @if($frontendTheme === 'plain')--}}
+{{--        @once--}}
+{{--            <script type="module">--}}
+{{--                if (!window.mleCarouselJsLoaded) {--}}
+{{--                    const script = document.createElement('script');--}}
+{{--                    script.type = 'module';--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-media-carousel.js') }}";--}}
+{{--                    document.head.appendChild(script);--}}
+{{--                    window.mleCarouselJsLoaded = true;--}}
+{{--    --}}
+{{--                    console.log('mleCarouselJsLoaded');--}}
+{{--                }--}}
+{{--            </script>--}}
+{{--            --}}{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
+{{--        @endonce--}}
+{{--    @endif--}}
+{{--@endif--}}
+
+{{--@if($includeTinymceCustomFilePickerIframeJs)--}}
+{{--    @once--}}
+{{--        <script type="module">--}}
+{{--            if (!window.tinymceCustomFilePickerIframeJsLoaded) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                @if($frontendTheme === 'plain')--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker-iframe.js') }}";--}}
+{{--                @else--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker-iframe.js') }}";--}}
+{{--                @endif--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.tinymceCustomFilePickerIframeJsLoaded = true;--}}
+
+{{--                console.log('tinymceCustomFilePickerIframeJsLoaded');--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@if($includeImageEditorModalJs)--}}
+{{--    @once--}}
+{{--        <script type="module">--}}
+{{--            if (!window.mleImageEditorModalJs) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                @if($frontendTheme === 'plain')--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-modal-image-editor.js') }}";--}}
+{{--                @else--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/bs5-modal-image-editor.js') }}";--}}
+{{--                @endif--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.mleImageEditorModalJs = true;--}}
+
+{{--                console.log('mleImageEditorModalJs');--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--        --}}{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+
+{{--@if($includeMediaModalJs)--}}
+{{--    @once--}}
+{{--        <script type="module">--}}
+{{--            if (!window.mleMediaModalJs) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                @if($frontendTheme === 'plain')--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-modal-media.js') }}";--}}
+{{--                @else--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/bs5-modal-media.js') }}";--}}
+{{--                @endif--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.mleMediaModalJs = true;--}}
+
+{{--                console.log('mleMediaModalJs');--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--        --}}{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@if($includeImageEditorJs)--}}
+{{--    @once--}}
+{{--        <script type="module">--}}
+{{--            if (!window.mleImageEditorListenerJs) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-modal.js') }}";--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.mleImageEditorListenerJs = true;--}}
+
+{{--                console.log('mleImageEditorListenerJs');--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--        <script type="module">--}}
+{{--            if (!window.mleImageEditorListenerJs) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}";--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.mleImageEditorListenerJs = true;--}}
+
+{{--                console.log('mleImageEditorListenerJs');--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@if($includeFormSubmitter)--}}
+{{--    @once--}}
+{{--        <script type="module">--}}
+{{--            if (!window.mleFormSubmitterJs) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}";--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.mleFormSubmitterJs = true;--}}
+
+{{--                console.log('mleFormSubmitterJs');--}}
+{{--            }--}}
+{{--        </script>--}}
+{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}"></script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--@if($includeLiteYoutube)--}}
+{{--    @once--}}
+{{--        <script type="module">--}}
+{{--            // Loading the "lite-YouTube" extension caused issues with the host app,--}}
+{{--            // now waiting for dom to be loaded and only--}}
+{{--            // loading YT iframe api and "lite-YouTube" when not loaded--}}
+{{--            // already (by host app)--}}
+{{--            document.addEventListener('DOMContentLoaded', function() {--}}
+{{--                if (!window.YT) {--}}
+{{--                    const tag = document.createElement('script');--}}
+{{--                    tag.src = "https://www.youtube.com/iframe_api";--}}
+{{--                    document.head.appendChild(tag);--}}
+{{--                }--}}
+
+{{--                if (!customElements.get('lite-youtube')) {--}}
+{{--                    console.log('no lite-youtube, loading');--}}
+{{--                    const script = document.createElement('script');--}}
+{{--                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/lite-youtube.js') }}";--}}
+{{--                    document.head.appendChild(script);--}}
+{{--                } else {--}}
+{{--                    console.log('lite-youtube already present');--}}
+{{--                }--}}
+{{--            })--}}
+{{--        </script>--}}
+{{--    @endonce--}}
+{{--@endif--}}
+
+{{--{{ $slot }}--}}

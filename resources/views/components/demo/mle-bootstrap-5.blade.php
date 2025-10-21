@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Component tests: theme bootstrap-5</title>
+    <title>Bootstrap-5 Component tests</title>
     <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}">
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="container-lg mt-5">
-    <h1 class="text-primary">Component tests: theme bootstrap-5</h1>
+    <h1 class="text-primary">Bootstrap-5 Component tests</h1>
     <div>
         <h2 class="my-5">Media Manager Single</h2>
 
@@ -187,8 +187,12 @@
             @php
                 $blog = Blog::all()->first();
             @endphp
-            <x-form.form action="{{ route('admin.blogs.update', $blog) }}" method="put" enctype="multipart/form-data"
-                         class="row g-3">
+            <x-form.form 
+                action="{{ route('admin.blogs.update', $blog) }}" 
+                method="put" 
+                enctype="multipart/form-data"
+                class="my-5"
+            >
                 <x-form.html-editor
                     name="content"
                     label="Content *"

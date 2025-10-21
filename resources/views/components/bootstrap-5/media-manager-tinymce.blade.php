@@ -13,6 +13,7 @@
     include-css="true"
     include-js="true"
     include-tinymce-custom-file-picker-js="true"
+    include-tinymce-custom-file-picker-iframe-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
 />
 {{--@if($getConfig('frontendTheme') === 'bootstrap-5')--}}

@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Component tests: theme plain</title>
+    <title>Plain Component tests</title>
     <style>
         body {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -29,6 +29,14 @@
             font-size: 2rem;
         }
 
+        .margin-block-5 {
+            margin-block: 2rem;
+        }
+        
+        .margin-top-5 {
+            margin-top: 2rem;
+        }
+        
         .demo-media-carousel {
             margin-block: 3rem;
         }
@@ -45,7 +53,7 @@
 </head>
 <body>
 <div class="mle-container-lg">
-    <h1 class="text-primary">Component tests: theme plain</h1>
+    <h1 class="text-primary">Plain Component tests</h1>
 
     <h2>Media Manager Single</h2>
 
@@ -76,7 +84,7 @@
                         'video' =>'alien-single-video',
                         'audio' =>'alien-single-audio',
                     ]"
-        class="mt-5"
+        class="margin-top-5"
         :options="[
                         'frontendTheme' => 'plain',
                     ]"
@@ -112,14 +120,14 @@
                         'video' =>'alien-multiple-video',
                         'audio' =>'alien-multiple-audio',
                     ]"
-        class="mt-5"
+        class="margin-top-5"
         :options="[
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
                     ]"
     />
 
-    <h2 class="my-5">Media Manager YouTube</h2>
+    <h2 class="margin-block-5">Media Manager YouTube</h2>
 
     <x-mle-media-manager-multiple
         id="alien-media-manager-youtube"
@@ -137,7 +145,7 @@
                     ]"
     />
 
-    <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
+    <h2 class="margin-block-5">Media Manager YouTube (Temporary uploads)</h2>
 
     <x-mle-media-manager-multiple
         id="alien-media-manager-youtube-temporary"
@@ -149,7 +157,7 @@
                         'video' =>'',
                         'audio' =>'',
                     ]"
-        class="mt-5"
+        class="margin-top-5"
         :options="[
                         'showOrder' => true,
                         'frontendTheme' => 'plain',
@@ -178,7 +186,7 @@
         class="demo-media-carousel"
     />
 
-    <h2 class="my-5">Media Carousel (Temporary)</h2>
+    <h2 class="margin-block-5">Media Carousel (Temporary)</h2>
 
     <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
 
@@ -197,10 +205,10 @@
                                 'alien-multiple-videos',
                                 'alien-multiple-audio',
                             ]"
-        class="my-5"
+        class="margin-block-5"
     />
 
-    <h2 class="my-5">Media first available</h2>
+    <h2 class="margin-block-5">Media first available</h2>
 
     <x-mle-first-available
         id="media-first-available"
@@ -212,8 +220,12 @@
         @php
             $blog = Blog::all()->first();
         @endphp
-        <x-form.form action="{{ route('admin.blogs.update', $blog) }}" method="put" enctype="multipart/form-data"
-                     class="row g-3">
+        <x-form.form 
+            action="{{ route('admin.blogs.update', $blog) }}" 
+            method="put" 
+            enctype="multipart/form-data"
+            class="margin-block-5"
+        >
             <x-form.html-editor
                 name="content"
                 label="Content *"

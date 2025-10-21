@@ -19,7 +19,7 @@ class Assets extends Component
         public bool $includeMediaModalJs = false,
         public bool $includeFormSubmitter = false,
         public bool $includeLiteYoutube = false,
-        public bool $includeTinymceCustomFilePickerJs = false
+        public bool $includeTinymceCustomFilePickerIframeJs = false
     ) {
         $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
     }
