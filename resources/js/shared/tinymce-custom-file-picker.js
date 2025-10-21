@@ -20,7 +20,7 @@ window.mleFilePicker = (callback, value, meta) => {
                 frontendTheme: 'plain',
             })
         };
-        console.log(params);
+        // console.log(params);
 
         const url = new URL('/mlbrgn-mle/media-manager-tinymce', window.location.origin);
         url.search = new URLSearchParams(params).toString();
@@ -40,11 +40,11 @@ window.mleFilePicker = (callback, value, meta) => {
                 console.warn('No file');
                 return;
             }
-            console.log('just before callback')
-            console.log('file', file);
+            // console.log('just before callback')
+            // console.log('file', file);
 
             if (meta.filetype === 'image') {
-                console.log('image', file);
+                // console.log('image', file);
                 const img = new Image();
                 img.src = file.url;
                 img.onload = () => {
@@ -60,7 +60,7 @@ window.mleFilePicker = (callback, value, meta) => {
                         border: file.border || '0px',
                         borderstyle: file.borderstyle || 'none',
                     };
-                    console.log('data', data);
+                    // console.log('data', data);
                     callback(file.url, data);
                 };
                 img.onerror = () => {

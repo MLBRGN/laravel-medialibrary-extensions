@@ -162,5 +162,6 @@
     include-css="true" 
     include-js="true" 
     include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}" 
+    include-carousel-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
 />

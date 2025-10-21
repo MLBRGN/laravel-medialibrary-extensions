@@ -19,12 +19,16 @@
         </div>
         <div class="mlbrgn-mle-component media-manager-tinymce">
             <x-mle-media-manager-tinymce
-                :model-or-class-name="$modelOrClassName"
                 id="{{ $id }}"
+                :model-or-class-name="$modelOrClassName"
                 :collections="$collections"
+                :options="$options"
                 :multiple="$multiple"
                 :selectable="true"
             />
+        </div>
+    </body>
+</html>
 {{--            <x-mle-media-manager-multiple--}}
 {{--                :model-or-class-name="$modelOrClassName"--}}
 {{--                id="{{ $id }}"--}}
@@ -84,5 +88,3 @@
 {{--                });--}}
 {{--            });--}}
 {{--        </script>--}}
-    </body>
-</html>

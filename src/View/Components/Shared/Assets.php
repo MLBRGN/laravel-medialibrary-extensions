@@ -13,7 +13,10 @@ class Assets extends Component
         public ?string $frontendTheme = null,
         public bool $includeCss = false,
         public bool $includeJs = false,
+        public bool $includeCarouselJs = false,
         public bool $includeImageEditorJs = false,
+        public bool $includeImageEditorModalJs = false,
+        public bool $includeMediaModalJs = false,
         public bool $includeFormSubmitter = false,
         public bool $includeLiteYoutube = false,
         public bool $includeTinymceCustomFilePickerJs = false

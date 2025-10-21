@@ -46,19 +46,115 @@
                 console.log('css dynamically loaded');
             }
         </script>
+        {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/app-'.$frontendTheme.'.js') }}"></script>--}}
         {{-- no fallback needed, if js disabled, this wont work anyway--}}
+    @endonce
+@endif
+
+@if($includeCarouselJs)
+    @if($frontendTheme === 'plain')
+        @once
+            <script type="module">
+                if (!window.mleCarouselJsLoaded) {
+                    const script = document.createElement('script');
+                    script.type = 'module';
+                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-media-carousel.js') }}";
+                    document.head.appendChild(script);
+                    window.mleCarouselJsLoaded = true;
+    
+                    console.log('mleCarouselJsLoaded');
+                }
+            </script>
+            {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
+        @endonce
+    @endif
+@endif
+
+@if($includeImageEditorModalJs)
+    @once
+        <script type="module">
+            if (!window.mleImageEditorModalJs) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                @if($frontendTheme === 'plain')
+                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-modal-image-editor.js') }}";
+                @else
+                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/bs5-modal-image-editor.js') }}";
+                @endif
+                document.head.appendChild(script);
+                window.mleImageEditorModalJs = true;
+
+                console.log('mleImageEditorModalJs');
+            }
+        </script>
+        {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
+    @endonce
+@endif
+
+
+@if($includeMediaModalJs)
+    @once
+        <script type="module">
+            if (!window.mleMediaModalJs) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                @if($frontendTheme === 'plain')
+                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/plain-modal-media.js') }}";
+                @else
+                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/bs5-modal-media.js') }}";
+                @endif
+                document.head.appendChild(script);
+                window.mleMediaModalJs = true;
+
+                console.log('mleMediaModalJs');
+            }
+        </script>
+        {{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
     @endonce
 @endif
 
 @if($includeImageEditorJs)
     @once
-        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>
+{{--        <script type="module">--}}
+{{--            if (!window.mleImageEditorListenerJs) {--}}
+{{--                const script = document.createElement('script');--}}
+{{--                script.type = 'module';--}}
+{{--                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-modal.js') }}";--}}
+{{--                document.head.appendChild(script);--}}
+{{--                window.mleImageEditorListenerJs = true;--}}
+
+{{--                console.log('mleImageEditorListenerJs');--}}
+{{--            }--}}
+{{--        </script>--}}
+        <script type="module">
+            if (!window.mleImageEditorListenerJs) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}";
+                document.head.appendChild(script);
+                window.mleImageEditorListenerJs = true;
+
+                console.log('mleImageEditorListenerJs');
+            }
+        </script>
+{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/image-editor-listener.js') }}"></script>--}}
     @endonce
 @endif
 
 @if($includeFormSubmitter)
     @once
-        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}"></script>
+        <script type="module">
+            if (!window.mleFormSubmitterJs) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}";
+                document.head.appendChild(script);
+                window.mleFormSubmitterJs = true;
+
+                console.log('mleFormSubmitterJs');
+            }
+        </script>
+{{--        <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/form-submitter.js') }}"></script>--}}
     @endonce
 @endif
 

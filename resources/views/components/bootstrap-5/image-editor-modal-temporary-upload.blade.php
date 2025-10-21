@@ -59,5 +59,6 @@
     include-css="true" 
     include-js="true"
     include-image-editor-js="true"
+    include-image-editor-modal-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
 />

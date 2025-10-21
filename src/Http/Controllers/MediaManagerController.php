@@ -111,35 +111,37 @@ class MediaManagerController extends Controller
     //        return $getMediaManagerTinyMceAction->execute($request);
     //    }
 
-    public function tinyMce(GetMediaManagerTinyMceRequest $request): View
+    public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
     {
-        // Get the first existing model or create it if none exists
-        $modelType = $request->input('model_type');
-        $modelId = $request->input('model_id');
-        $id = 'something_for_now'; // TODO
-        $multiple = false;
-        $collections = json_decode(request()->string('collections'), true);
-        $options = json_decode(request()->string('options'), true);
-
-        $model = null;
-        if ($modelType && $modelId) {
-            $model = $modelType::findOrFail($modelId);
-        }
-        $modelOrClassName = $model ?? $modelType;
-
-//        dd([
+        return $getMediaManagerTinyMceAction->execute($request);
+//        dd($request);
+//        // Get the first existing model or create it if none exists
+//        $modelType = $request->input('model_type');
+//        $modelId = $request->input('model_id');
+//        $id = 'something_for_now'; // TODO
+//        $multiple = false;
+//        $collections = json_decode(request()->string('collections'), true);
+//        $options = json_decode(request()->string('options'), true);
+//
+//        $model = null;
+//        if ($modelType && $modelId) {
+//            $model = $modelType::findOrFail($modelId);
+//        }
+//        $modelOrClassName = $model ?? $modelType;
+//
+////        dd([
+////            'id' => $id,
+////            'modelOrClassName' => $modelOrClassName,
+////            'multiple' => $multiple,
+////            'collections' => $collections,
+////            'options' => $options,
+////        ]);
+//        return view('media-library-extensions::media-manager-tinymce-wrapper', [
 //            'id' => $id,
 //            'modelOrClassName' => $modelOrClassName,
 //            'multiple' => $multiple,
 //            'collections' => $collections,
 //            'options' => $options,
 //        ]);
-        return view('media-library-extensions::media-manager-tinymce-wrapper', [
-            'id' => $id,
-            'modelOrClassName' => $modelOrClassName,
-            'multiple' => $multiple,
-            'collections' => $collections,
-            'options' => $options,
-        ]);
     }
 }

@@ -52,7 +52,8 @@
 </div>
 <x-mle-shared-assets 
     include-css="true" 
-    include-js="true" 
+    include-js="true"
+    include-media-modal-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
 />
 
