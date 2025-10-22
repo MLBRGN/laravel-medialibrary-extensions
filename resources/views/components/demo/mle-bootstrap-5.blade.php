@@ -184,6 +184,8 @@
         />
 
         @if (app()->environment('local') && class_exists(Form::class))
+            <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
+
             @php
                 $blog = Blog::all()->first();
             @endphp
