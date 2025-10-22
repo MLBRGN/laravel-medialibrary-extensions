@@ -5,6 +5,7 @@
              'theme-'.$getConfig('frontendTheme'),
              'media-manager-preview-media-container'
         ]) }}
+        data-media-manager-preview-media-container
         data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"
         data-temporary-upload-destroy-route="{{ route(mle_prefix_route('temporary-upload-destroy'), $medium) }}"
     >
@@ -179,7 +180,7 @@
         @endif
     </div>
 @empty
-    <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">
+    <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media" data-media-manager-preview-media-container>
         <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
     </div>
 @endforelse

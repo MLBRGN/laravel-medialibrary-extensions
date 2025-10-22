@@ -3,7 +3,8 @@
     :form-attributes="[
         'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
         'method' => 'POST',
-        'enctype' => 'multipart/form-data'
+        'enctype' => 'multipart/form-data',
+        'data-form'
     ]"
     :div-attributes="[
         'data-xhr-form' => $getConfig('useXhr'), 

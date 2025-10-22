@@ -11,7 +11,8 @@ const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
 mediaManagers.forEach(mediaManager => {
 
-    const container = mediaManager.querySelector('.media-manager-row');
+    const container = mediaManager.querySelector('[data-media-manager-layout]')
+
 
     mediaManager.addEventListener('click', async function (e) {
         const config = getMediaManagerConfig(mediaManager);
@@ -87,7 +88,7 @@ mediaManagers.forEach(mediaManager => {
 });
 
 function getMediaManagerConfig(mediaManager) {
-    const configInput = mediaManager.querySelector('.media-manager-config');
+    const configInput = mediaManager.querySelector('[data-media-manager-config]');
     if (!configInput) return null;
 
     try {
@@ -99,7 +100,7 @@ function getMediaManagerConfig(mediaManager) {
 }
 
 function getRouteFromAction(action, target, config) {
-    const mediaContainer = target.closest('.media-manager-preview-media-container');
+    const mediaContainer = target.closest('[data-media-manager-preview-media-container]');
     const routes = {
         'upload-media': config.mediaUploadRoute,
         'upload-youtube-medium': config.youtubeUploadRoute,
@@ -114,8 +115,8 @@ function getRouteFromAction(action, target, config) {
 
 function updatePreview(mediaManager, config) {
     // console.log('update preview:', mediaManager);
-    const previewGrid = mediaManager.querySelector('.media-manager-preview-grid');
-    const forms = mediaManager.querySelectorAll('form, [data-xhr-form]');
+    const previewGrid = mediaManager.querySelector('[data-media-manager-preview-grid]');
+    const forms = mediaManager.querySelectorAll('[data-form], [data-xhr-form]');
     if (!previewGrid) return;
 
     const params = new URLSearchParams({

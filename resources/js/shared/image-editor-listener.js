@@ -25,7 +25,7 @@ document.addEventListener('onCloseImageEditor', (e) => {
 const updateMedia = (detail) => {
 
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
-    const configInput = modal.querySelector('.image-editor-modal-config');
+    const configInput = modal.querySelector('[data-image-editor-modal-config]');
     if (!configInput) return;
 
     let config = {};
@@ -44,7 +44,7 @@ const updateMedia = (detail) => {
         const form = modal.querySelector('[data-image-editor-update-form]');
 
         // get or create the file input
-        let fileInput = form.querySelector('input[type="file"][name="file"]');
+        let fileInput = form.querySelector('[ data-image-editor-update-form-file]');
         if (!fileInput) return
 
         // assign the File object using DataTransfer
@@ -57,7 +57,7 @@ const updateMedia = (detail) => {
 
     const initiator = document.querySelector('#' + config.initiatorId);// TODO initiator not found after preview refresh!
     // console.log('initiator', initiator);
-    const container = initiator.querySelector('.media-manager-row')
+    const container = initiator.querySelector('[data-media-manager-layout]')
     // console.log('container', container);
 
     // console.log('collections', config.collections);

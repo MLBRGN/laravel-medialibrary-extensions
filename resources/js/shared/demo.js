@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const enabled = temporaryUploadToggle.checked;
             const mediaManagerId = temporaryUploadToggle.getAttribute('data-for-media-manager');
             const mediaManager = document.querySelector('#'+mediaManagerId);
-            const mediaManagerConfigInput = mediaManager.querySelector('.media-manager-config');
+            const mediaManagerConfigInput = mediaManager.querySelector('[data-media-manager-config]');
             const mediaManagerConfigJson = mediaManagerConfigInput.value;
 
             try {

@@ -1,14 +1,18 @@
 <div
     id="test-media-modal-mmm"
-    class="mlbrgn-mle-component theme-bootstrap-5 media-manager media-manager-multiple container-fluid px-0" multiple="true"
+    class="mlbrgn-mle-component theme-bootstrap-5 media-manager media-manager-multiple" multiple="true"
     data-media-manager=""
     data-use-xhr="true"
-    >
-    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"temporaryUploadMode":true,"uploadFieldName":"media","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","medium":null,"collections":{"image":"images"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showYouTubeUploadForm":false,"uploadFieldName":"media"},"id":"test-media-modal-mmm"}'>
+>
+    <input type="hidden" class="media-manager-config" data-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"media","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","medium":null,"collections":{"image":"images"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showYouTubeUploadForm":false,"uploadFieldName":"media"},"id":"test-media-modal-mmm"}'>
+
     
-    <div class="media-manager-row row">
-        <div class="media-manager-form col-12 col-md-4">
-                            <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+
+    <div class="media-manager-layout" data-media-manager-layout>
+        
+        <div class="media-manager-form ">
+                            
+                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
@@ -334,11 +338,12 @@
 
 
 
-                                    
+                
+                                        
         </div>
-        <div
-            class="media-manager-previews col-12 col-md-8"
-            >
+
+        
+        <div class="media-manager-previews">
             <div class="status-area">
     <div class="mle-spinner-container alert alert-info" media-manager-id="test-media-modal-mmm" data-spinner-container>
     <div class="mle-spinner"></div>
@@ -358,8 +363,9 @@
     >
             </div>
     </div>
-</div>            <div class="media-manager-preview-grid">
-                <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media">
+</div>
+            <div class="media-manager-preview-grid" data-media-manager-preview-grid>
+                <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media" data-media-manager-preview-media-container>
         <span class="mle-no-media">No media.</span>
     </div>
 <div
@@ -909,6 +915,7 @@
             </div>
         </div>
     </div>
+
     
 
     <script>
@@ -931,3 +938,4 @@
         });
     </script>
 </div>
+

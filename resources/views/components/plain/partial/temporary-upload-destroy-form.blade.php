@@ -2,7 +2,8 @@
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => route(mle_prefix_route('temporary-upload-destroy'), $medium),
-        'method' => 'POST'
+        'method' => 'POST',
+        'data-form'
     ]"
     :div-attributes="[
         'data-xhr-form' => $getConfig('useXhr'), 

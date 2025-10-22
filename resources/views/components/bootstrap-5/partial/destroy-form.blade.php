@@ -2,7 +2,8 @@
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => $getConfig('mediumDestroyRoute'),
-        'method' => 'POST'
+        'method' => 'POST',
+        'data-form'
     ]"
     :div-attributes="[
         'data-xhr-form' => $getConfig('useXhr'), 

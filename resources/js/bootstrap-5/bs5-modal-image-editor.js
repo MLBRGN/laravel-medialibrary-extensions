@@ -35,7 +35,7 @@ function initializeImageEditorModal(modal) {
     const placeholder = modal.querySelector('[data-image-editor-placeholder]');
 
     modal.addEventListener('show.bs.modal', function () {
-        const config = JSON.parse(modal.querySelector('.image-editor-modal-config').value);
+        const config = JSON.parse(modal.querySelector('[data-image-editor-modal-config]').value);
         const mediumPath = modal.getAttribute('data-medium-path');
         const displayName = modal.getAttribute('data-medium-display-name');
         const initiatorId = config.initiatorId;

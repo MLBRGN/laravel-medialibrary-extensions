@@ -11,11 +11,11 @@
     data-media-manager=""
     data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"
 >
-    <input type="hidden" class="media-manager-config" value='@json($config)'>
+    <input type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
 
     {{ $component_start ?? '' }}
 
-    <div class="media-manager-layout">
+    <div class="media-manager-layout" data-media-manager-layout>
         {{-- Upload form section --}}
         <div class="media-manager-form {{ $getConfig('showUploadForms') ? '' : 'media-manager-forms-hidden' }}">
             @if($getConfig('showUploadForms'))
@@ -59,7 +59,7 @@
                 :options="$options"
             />
 
-            <div class="media-manager-preview-grid">
+            <div class="media-manager-preview-grid" data-media-manager-preview-grid>
                 <x-mle-media-manager-preview
                     :id="$id"
                     :model-or-class-name="$modelOrClassName"

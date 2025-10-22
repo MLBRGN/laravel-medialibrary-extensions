@@ -5,6 +5,7 @@
     [
         'action' => $getConfig('saveUpdatedMediumRoute'),
         'method' => 'POST',
+        'data-form',
         'data-image-editor-update-form' => '',
     ]"
     :div-attributes="[
@@ -38,6 +39,7 @@
            value="{{ $medium->collection_name }}">
     <input type="file"
            name="file"
+           data-image-editor-update-form-file
            hidden>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))

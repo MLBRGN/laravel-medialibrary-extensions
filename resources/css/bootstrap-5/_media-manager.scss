@@ -104,15 +104,15 @@
         margin-block:0.7rem;
     }
 
-    @media (max-width: 768px) {
-        .media-manager-layout {
-            flex-direction: column;
-            background-color:yellowgreen;
-        }
-        .media-manager-form,
-        .media-manager-previews {
-            max-width: 100%;
-        }
-    }
+    //@media (max-width: 768px) {
+    //    .media-manager-layout {
+    //        flex-direction: column;
+    //        background-color:yellowgreen;
+    //    }
+    //    .media-manager-form,
+    //    .media-manager-previews {
+    //        max-width: 100%;
+    //    }
+    //}
 
 }

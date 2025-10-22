@@ -21,12 +21,12 @@ function setupImageEditorModal(modal) {
 
         let config = {};
         try {
-            const configInput = modal.querySelector('.image-editor-modal-config');
+            const configInput = modal.querySelector('[data-image-editor-modal-config]');
             if (configInput) {
                 config = JSON.parse(configInput.value);
             }
         } catch (e) {
-            console.error('Invalid or missing image-editor-modal-config:', e);
+            console.error('Invalid or missing data-image-editor-modal-config:', e);
         }
 
         const mediumPath = modal.dataset.mediumPath;
