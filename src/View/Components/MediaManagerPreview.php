@@ -61,6 +61,20 @@ class MediaManagerPreview extends BaseComponent
 
         // merge into config
         $this->initializeConfig();
+
+        // TODO is there a neater way to do this?
+        // options are passed to components, config is reinitialized for each component.
+        // override hide media menu when nothing to see inside menu
+        // since i use config have to do this after config has been initialized
+        if (
+            $this->getConfig('showDestroyButton') === false &&
+            $this->getConfig('showSetAsFirstButton') === false &&
+            $this->getConfig('showMediaEditButton') === false
+
+        ) {
+            $this->options['showMenu']  = false;
+            $this->config['showMenu']  = false;
+        }
     }
 
     public function render(): View

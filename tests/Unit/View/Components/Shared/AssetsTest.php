@@ -12,7 +12,7 @@ it('sets default values from config', function () {
         ->and($component->includeJs)->toBeFalse()
         ->and($component->includeImageEditorJs)->toBeFalse()
         ->and($component->includeFormSubmitter)->toBeFalse()
-        ->and($component->includeTinymceCustomFilePickerJs)->toBeFalse()
+        ->and($component->includeTinymceCustomFilePickerIframeJs)->toBeFalse()
         ->and($component->includeLiteYoutube)->toBeFalse();
 });
 

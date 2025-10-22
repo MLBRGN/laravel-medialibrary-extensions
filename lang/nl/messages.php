@@ -67,4 +67,5 @@ return [
     'class_must_implement' => 'Class moet ":class_name" implementeren.',
     'insert_selected_medium' => 'Voeg het geselecteerde medium in',
     'select' => 'Selecteer',
+    'failed_to_attach_media' => 'Toevoegen van media mislukt: :message',
 ];

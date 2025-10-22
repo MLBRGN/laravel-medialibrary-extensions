@@ -51,15 +51,30 @@ class StoreUpdatedMediumAction
             $model = $this->mediaService->resolveModel($modelType, $modelId);
 
             $existingMedium = Media::find($mediumId);
+            $priority = null;
+
             if ($existingMedium) {
+                // Preserve the custom property 'priority'
+                $priority = $existingMedium->getCustomProperty('priority');
+                $order = $existingMedium->order_column;
                 $existingMedium->delete();
             } else {
+                $order = null;
                 Log::warning("Media with ID {$mediumId} not found when trying to replace it.");
             }
 
             try {
-                $model->addMedia($file)
+                $newMedium = $model->addMedia($file)
                     ->toMediaCollection($collection);
+
+                // Restore priority and order
+                if ($priority !== null) {
+                    $newMedium->setCustomProperty('priority', $priority);
+                }
+                if ($order !== null) {
+                    $newMedium->order_column = $order;
+                }
+                $newMedium->save();
             } catch (Exception $e) {
                 return MediaResponse::error(
                     $request,
@@ -68,9 +83,10 @@ class StoreUpdatedMediumAction
                     __('media-library-extensions::messages.something_went_wrong'));
 
             }
-            Log::info('trying to find medium with id'.$mediumId);
+//            Log::info('trying to find medium with id'.$mediumId);
         } else {
             $existingMedium = TemporaryUpload::find($mediumId);
+            $priority = $existingMedium?->custom_properties['priority'] ?? null;
 
             $disk = config('media-library-extensions.temporary_upload_disk');
             $basePath = config('media-library-extensions.temporary_upload_path');
@@ -84,9 +100,13 @@ class StoreUpdatedMediumAction
 
             $originalName = $file->getClientOriginalName();
             $mimetype = $file->getMimeType();
-
             $sessionId = $request->session()->getId();
             $userId = Auth::check() ? Auth::id() : null;
+
+            $customProperties = $collections;
+            if ($priority !== null) {
+                $customProperties['priority'] = $priority;
+            }
 
             $upload = new TemporaryUpload([
                 'disk' => $disk,
@@ -98,8 +118,8 @@ class StoreUpdatedMediumAction
                 'size' => $file->getSize(),
                 'user_id' => $userId,
                 'session_id' => $sessionId,
-                'order_column' => 1,
-                'custom_properties' => $collections,
+                'order_column' => $existingMedium?->order_column ?? 1,
+                'custom_properties' => $customProperties,
             ]);
             $upload->save();
 

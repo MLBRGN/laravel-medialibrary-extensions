@@ -4,7 +4,7 @@
     data-media-manager=""
     data-use-xhr="true"
     >
-    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"temporaryUploadMode":false,"uploadFieldName":"media","frontendTheme":"plain","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"medium":null,"collections":{"image":"images","document":"","youtube":"","video":"","audio":""},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"plain","showYouTubeUploadForm":false,"uploadFieldName":"media"},"id":"test-media-modal-mmm"}'>
+    <input type="hidden" class="media-manager-config" value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"temporaryUploadMode":false,"uploadFieldName":"media","frontendTheme":"plain","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"medium":null,"collections":{"image":"images"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"plain","showYouTubeUploadForm":false,"uploadFieldName":"media"},"id":"test-media-modal-mmm"}'>
     
     <div class="media-manager-row row">
         <div class="media-manager-form">
@@ -24,7 +24,7 @@
                 type="hidden"
                 name="collections[image]"
                 value="images">
-                                                                <input 
+                <input 
         type="hidden" 
         name="temporary_upload_mode" 
         value="false">
@@ -59,7 +59,7 @@
                 link.rel = 'stylesheet';
                 link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css";
                 document.head.appendChild(link);
-                console.log('css dynamically loaded');
+                console.log('CSS dynamically loaded');
             }
         </script>
 
@@ -71,6 +71,8 @@
             </div>
         </noscript>
     
+
+
             <script type="module">
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
@@ -80,14 +82,253 @@
                 window.mlbrgnJsLoaded = true;
 
                 window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
-                console.log('css dynamically loaded');
+
+                console.log('Main JS dynamically loaded');
             }
         </script>
-        
     
 
-            <script type="module" src="http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js"></script>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script type="module">
+        if (!window.mleFormSubmitterJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/form-submitter.js";
+            document.head.appendChild(script);
+            window.mleFormSubmitterJs = true;
+
+            console.log('mleFormSubmitterJs');
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                     
@@ -194,10 +435,35 @@
 </div>
 
 <script type="module">
-            // Loading the "lite-YouTube" extension caused issues with the host app,
-            // now waiting for dom to be loaded and only
-            // loading YT iframe api and "lite-YouTube" when not loaded
-            // already (by host app)
+        if (!window.mleCarouselJsLoaded) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/plain-media-carousel.js";
+            document.head.appendChild(script);
+            window.mleCarouselJsLoaded = true;
+
+            console.log('mleCarouselJsLoaded');
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <script type="module">
             document.addEventListener('DOMContentLoaded', function() {
                 if (!window.YT) {
                     const tag = document.createElement('script');
@@ -213,14 +479,458 @@
                 } else {
                     console.log('lite-youtube already present');
                 }
-            })
+            });
         </script>
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             </div>
         </div>
     </div>
 </div>
+<script type="module">
+        if (!window.mleMediaModalJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/plain-modal-media.js";
+            document.head.appendChild(script);
+            window.mleMediaModalJs = true;
+
+            console.log('mleMediaModalJs');
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             </div>
         </div>

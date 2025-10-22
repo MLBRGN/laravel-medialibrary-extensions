@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
@@ -171,10 +171,50 @@ class TestCase extends Orchestra
         return __DIR__.'/Support/tmp/uploads';
     }
 
-    public function getFixtureUploadedFile($fileName): string
+//    public function getFixtureUploadedFile($fileName): string
+//    {
+//        return $this->getTempDirectory('uploads/'.$fileName);
+//    }
+
+    public function getFixtureUploadedFile(string $fileName): UploadedFile
     {
-        return $this->getTempDirectory('uploads/'.$fileName);
+        $path = $this->getTempDirectory('uploads/'.$fileName);
+
+        if (! file_exists($path)) {
+            throw new \RuntimeException("Fixture file not found: {$path}");
+        }
+
+        return new UploadedFile(
+            $path,
+            basename($fileName),
+            mime_content_type($path) ?: null,
+            null,
+            true // mark as test file
+        );
     }
+
+
+//    public function getFixtureUploadedFile($fileName): UploadedFile
+//    {
+//        dump('getFixtureUploadedFile '. $fileName);
+//        $path = $this->getTempDirectory('uploads/'.$fileName);
+//
+//        dump($path);
+//        try {
+//            $mimeType = mime_content_type($path);
+//        } catch (\Exception $e) {
+//            dump('failed to get mime type');
+//            dump($fileName);
+//            $mimeType = 'not found';
+//        }
+//        return new UploadedFile(
+//            path: $path,
+//            originalName: basename($fileName),
+//            mimeType: $mimeType,
+//            error: null,
+//            test: true, // mark as test upload (so no real upload validation)
+//        );
+//    }
 
     protected function getUploadedFile(
         string $name = 'test.jpg',
@@ -257,13 +297,29 @@ class TestCase extends Orchestra
     public function getTestImagePath(string $fileName = 'test.jpg'): string
     {
         $source = __DIR__.'/Support/files/'.$fileName;
-        $target = $this->getFixtureUploadedFile($fileName);
+        $target = $this->getTempDirectory('uploads/'.$fileName);
 
-        File::ensureDirectoryExists(dirname($target));
-        File::copy($source, $target);
+        if (! file_exists($target)) {
+            File::ensureDirectoryExists(dirname($target));
+            File::copy($source, $target);
+        }
 
         return $target;
     }
+
+//    public function getTestImagePath(string $fileName = 'test.jpg'): string
+//    {
+//
+//        $source = __DIR__.'/Support/files/'.$fileName;
+////        dump($source);
+////        dump($fileName);
+//        $target = $this->getFixtureUploadedFile($fileName);
+//
+//        File::ensureDirectoryExists(dirname($target));
+//        File::copy($source, $target);
+//
+//        return $target;
+//    }
 
     public function getModelWithMedia(array $types = ['image' => 1]): Model
     {

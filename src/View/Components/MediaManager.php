@@ -7,14 +7,14 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithCollections;
+//use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithCollections;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManager extends BaseComponent
 {
-    use InteractsWithCollections;
+//    use InteractsWithCollections;
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 

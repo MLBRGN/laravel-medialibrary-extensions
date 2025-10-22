@@ -95,22 +95,6 @@ class StoreMultipleTemporaryAction
             // Store file
             Storage::disk($disk)->putFileAs($directory, $file, $filename);
 
-//            dd([
-//                'disk' => $disk,
-//                'path' => "{$directory}/{$filename}",
-//                'name' => $safeFilename,
-//                'file_name' => $originalName,
-//                'collection_name' => $collectionName,
-//                'mime_type' => $file->getMimeType(),
-//                'size' => $file->getSize(),
-//                'user_id' => Auth::check() ? Auth::id() : null,
-//                'session_id' => $sessionId,
-//                'order_column' => $nextPriority,
-//                'custom_properties' => [
-//                    'collections' => $collections,
-//                    'priority' => $nextPriority,
-//                ],
-//            ]);
             // Create DB record
             $upload = new TemporaryUpload([
                 'disk' => $disk,

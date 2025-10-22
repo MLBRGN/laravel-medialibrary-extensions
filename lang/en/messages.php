@@ -66,4 +66,5 @@ return [
     'class_must_implement' => 'Class must implement ":class_name"',
     'insert_selected_medium' => 'Insert Selected Medium',
     'select' => 'Select',
+    'failed_to_attach_media' => 'Failed to attach media: :message',
 ];

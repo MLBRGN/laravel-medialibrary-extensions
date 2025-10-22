@@ -5,6 +5,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 it('deletes a medium and reorders priorities (JSON)', function () {
     // Arrange: attach some media
@@ -30,7 +31,7 @@ it('deletes a medium and reorders priorities (JSON)', function () {
 
     // Simulate an AJAX/JSON request
     $request->headers->set('Accept', 'application/json');
-    $request->setJson(new \Symfony\Component\HttpFoundation\ParameterBag($request->all()));
+    $request->setJson(new ParameterBag($request->all()));
 
     $action = new DeleteMediumAction;
 
@@ -72,7 +73,7 @@ it('skips reorder if no collections are passed', function () {
 
     // Make sure Laravel treats this as a JSON request
     $request->headers->set('Accept', 'application/json');
-    $request->setJson(new \Symfony\Component\HttpFoundation\ParameterBag($request->all()));
+    $request->setJson(new ParameterBag($request->all()));
 
     $action = new DeleteMediumAction;
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\Collection;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 
 beforeEach(function () {
@@ -93,20 +94,22 @@ it('sets showMenu to true if showDestroyButton, showOrder or showSetAsFirstButto
     }
 });
 
-it('sets showMenu to false if all showDestroyButton, showOrder and showSetAsFirstButton and showMediaEditButton are false', function () {
+it('hides media menu when all menu buttons disabled', function () {
     $model = $this->getTestBlogModel();
+
     $component = new MediaManagerPreview(
-        id: 'mediaManagerPreviewTest',
+        id: 'test-hide-menu',
         modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
         options: [
             'showDestroyButton' => false,
             'showSetAsFirstButton' => false,
-            'showOrder' => false,
-        ]
+            'showMediaEditButton' => false,
+        ],
     );
 
-    expect($component->showMenu)->toBeFalse();
-})->skip('disabled functionality');
+    expect($component->getConfig('showMenu'))->toBeFalse();
+});
 
 it('merges media from model collections correctly', function () {
 

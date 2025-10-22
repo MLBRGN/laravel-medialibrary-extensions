@@ -35,10 +35,8 @@ class MediaManagerSingle extends MediaManager
         array $collections = [],
         array $options = [],
     ) {
-        $collections = $this->mergeCollections($collections);
-        //        $options = $this->mergeOptions($options);
-        //        $options['multiple'] = false;
-        //        $options['showOrder'] = false;
+        // override options
+        $options['showOrder'] = false;// should always be false
 
         parent::__construct(
             id: $id,
@@ -65,6 +63,7 @@ class MediaManagerSingle extends MediaManager
         }
 
         // TODO implement disabled and readonly, this is not per se the same as disableForm
+
         // boolean property to disable form(s) in blade view(s)
         $this->setOption('disableForm', $totalMediaCount >= 1);
 

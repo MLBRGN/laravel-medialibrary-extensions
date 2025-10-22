@@ -12,8 +12,6 @@ class MediaManagerMultiple extends MediaManager
         array $collections = [],
         array $options = [],
     ) {
-        $collections = $this->mergeCollections($collections);
-
         parent::__construct(
             id: $id,
             modelOrClassName: $modelOrClassName,

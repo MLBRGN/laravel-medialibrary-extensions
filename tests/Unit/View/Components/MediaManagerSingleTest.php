@@ -34,7 +34,7 @@ it('initializes correctly with model instance', function () {
     expect($component->multiple)->toBeFalse()
         ->and($component->getConfig('showUploadForm'))->toBeTrue()
         ->and($component->getConfig('showDestroyButton'))->toBeTrue()
-        ->and($component->getConfig('showOrder'))->toBeTrue()// mms sets showOrder to false
+        ->and($component->getConfig('showOrder'))->toBeFalse()// mms sets showOrder to false
         ->and($component->collections)
         ->toHaveKey('image', 'images')
         ->and($component->id)->toBe('blog-1-mms');
@@ -54,7 +54,7 @@ it('initializes correctly with model class name', function () {
 
     expect($component->multiple)->toBeFalse()
         ->and($component->modelType)->toBe(Blog::class)
-//        ->and($component->temporaryUploadMode)->toBeFalse()
+        ->and($component->temporaryUploadMode)->toBeTrue()
         ->and($component->collections)
         ->toHaveKey('youtube', 'videos')
         ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()

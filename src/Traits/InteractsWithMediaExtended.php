@@ -41,9 +41,7 @@ trait InteractsWithMediaExtended
                 // TODO collections
                 $customProperties = collect($temporaryUpload->custom_properties)
                     ->except([
-                        'image_collection', // TODO
-                        'document_collection', // TODO
-                        'youtube_collection', // TODO
+                        'collections'
                     ])
                     ->toArray();
 
@@ -106,7 +104,9 @@ trait InteractsWithMediaExtended
 
             return $media;
         } catch (Exception $e) {
-            Log::error('Failed to attach media: '.$e->getMessage(), [
+            Log::error(__('media-library-extensions::messages.failed_to_attach_media', [
+                'message' => $e->getMessage(),
+            ]), [
                 'path' => $path,
                 'disk' => $disk,
                 'filename' => $filename,
