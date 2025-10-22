@@ -7,20 +7,19 @@
         'media-manager',
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,
-        'container-fluid px-0',
     ])->merge() }}
     data-media-manager=""
     data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"
-    >
+>
     <input type="hidden" class="media-manager-config" value='@json($config)'>
+
     {{ $component_start ?? '' }}
-    <div class="media-manager-row row">
-        <div @class([
-                'media-manager-form',
-                'col-12 col-md-4' => $getConfig('showUploadForms') === true,
-                'col-0' => $getConfig('showUploadForms') === false,
-            ])>
+
+    <div class="media-manager-layout">
+        {{-- Upload form section --}}
+        <div class="media-manager-form {{ $getConfig('showUploadForms') ? '' : 'media-manager-forms-hidden' }}">
             @if($getConfig('showUploadForms'))
+                {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
                         :id="$id"
@@ -33,6 +32,7 @@
                         :readonly="$readonly"
                     />
                 @endif
+
                 @if($getConfig('showYouTubeUploadForm'))
                     <x-mle-partial-youtube-upload-form
                         class="mt-3"
@@ -49,19 +49,16 @@
             @endif
             {{ $form_end ?? '' }}
         </div>
-        <div
-            @class([
-                'media-manager-previews',
-                'col-12 col-md-8' => $getConfig('showUploadForms') === true,
-                'col-12' => $getConfig('showUploadForms') === false,
-            ])
-            >
+
+        {{-- Preview section --}}
+        <div class="media-manager-previews">
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
                 :options="$options"
             />
+
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
                     :id="$id"
@@ -73,6 +70,7 @@
             </div>
         </div>
     </div>
+
     {{ $component_end ?? '' }}
 
     <x-mle-shared-debug
@@ -81,8 +79,9 @@
         :options="$options"
     />
 </div>
-<x-mle-shared-assets 
-    include-css="true" 
-    include-js="true" 
+
+<x-mle-shared-assets
+    include-css="true"
+    include-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
 />

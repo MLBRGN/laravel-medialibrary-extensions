@@ -10,14 +10,18 @@
     ])->merge() }}
     data-media-manager=""
     data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"
-    >
+>
     <input type="hidden" class="media-manager-config" value='@json($config)'>
+    
     {{ $component_start ?? '' }}
-    <div class="media-manager-row row">
-        <div @class([
-                'media-manager-form',
-                'media-manager-forms-hidden' => !$getConfig('showUploadForms')
-            ])>
+
+    <div class="media-manager-layout">
+        {{-- Upload form section --}}
+        <div class="media-manager-form {{ $getConfig('showUploadForms') ? '' : 'media-manager-forms-hidden' }}">
+{{--        <div @class([--}}
+{{--                'media-manager-form',--}}
+{{--                'media-manager-forms-hidden' => !$getConfig('showUploadForms')--}}
+{{--            ])>--}}
             @if($getConfig('showUploadForms'))
                 {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
@@ -32,6 +36,7 @@
                         :readonly="$readonly"
                     />
                 @endif
+            
                 @if($getConfig('showYouTubeUploadForm'))
                 <x-mle-partial-youtube-upload-form
                         class="mt-3"
@@ -48,18 +53,16 @@
             @endif
             {{ $form_end ?? '' }}
         </div>
-        <div
-            @class([
-                'media-manager-previews',
-                'media-manager-previews-forms-hidden' => !$getConfig('showUploadForms')
-            ])
-            >
+
+        {{-- Preview section --}}
+        <div class="media-manager-previews">
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
                 :options="$options"
             />
+            
             <div class="media-manager-preview-grid">
                 <x-mle-media-manager-preview
                     :id="$id"
@@ -71,6 +74,7 @@
             </div>
         </div>
     </div>
+    
     {{ $component_end ?? '' }}
 
     <x-mle-shared-debug
@@ -79,6 +83,7 @@
         :options="$options"
     />
 </div>
+
 <x-mle-shared-assets 
     include-css="true" 
     include-js="true" 

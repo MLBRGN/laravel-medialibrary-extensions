@@ -6,6 +6,11 @@
 
     &.media-manager {
         position:relative;
+        max-width: 100%;
+        width: auto; /* or fit-content if you want natural size */
+        min-width: fit-content;
+        margin-top: 1rem;
+        display: block;
     }
 
     // multiple only css
@@ -24,8 +29,27 @@
         }
     }
 
-    .media-manager-row {
-        position: relative;
+    .media-manager-layout {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .media-manager-form {
+        flex: 1 1 250px; /* base width, grows if space allows */
+        max-width: 33.33%;
+        min-width: 200px;
+    }
+
+    .media-manager-form.media-manager-forms-hidden {
+        display: none; /* simpler than width: 0 */
+    }
+
+    .media-manager-previews {
+        flex: 2 1 400px;
+        min-width: 0; /* crucial for preventing flex overflow */
+        overflow: hidden;
     }
 
     .media-manager-preview-media-container {
@@ -39,7 +63,6 @@
         flex-direction: column;
         justify-content: center;
         align-items:center;
-        //background-color:$neutral;
         border-radius: .3em;
     }
 
@@ -73,8 +96,6 @@
         overflow:hidden;
     }
 
-
-
     .upload-container {
         padding: 2rem;
     }
@@ -83,5 +104,15 @@
         margin-block:0.7rem;
     }
 
+    @media (max-width: 768px) {
+        .media-manager-layout {
+            flex-direction: column;
+            background-color:yellowgreen;
+        }
+        .media-manager-form,
+        .media-manager-previews {
+            max-width: 100%;
+        }
+    }
 
 }
