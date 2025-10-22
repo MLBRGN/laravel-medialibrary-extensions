@@ -178,3 +178,101 @@ it('stores validation errors in initiator-specific error bag when not using XHR'
     expect($bag->any())->toBeTrue();
     expect($bag->first())->toBe('The collection field is required.');
 });
+
+it('preserves the priority custom property when replacing a permanent medium', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $file = UploadedFile::fake()->image('new.jpg');
+
+    $model = $this->getTestBlogModel();
+
+    // Create a medium with custom priority
+    $testImage = $this->getFixtureUploadedFile('test.jpg');
+    $existingMedium = $model->addMedia($testImage)
+        ->withCustomProperties(['priority' => 42])
+        ->toMediaCollection('blog-images');
+
+    // Double-check initial priority
+    expect($existingMedium->getCustomProperty('priority'))->toBe(42);
+
+    // Prepare request
+    $request = UpdateMediumRequest::create('/', 'POST', [
+        'model_type' => get_class($model),
+        'model_id' => $model->id,
+        'medium_id' => $existingMedium->id,
+        'collection' => 'blog-images',
+        'collections' => ['image' => 'blog-images'],
+        'temporary_upload_mode' => false,
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
+    ], [], ['file' => $file]);
+    $request->headers->set('Accept', 'application/json');
+
+    // Mock media service to resolve model correctly
+    $mediaService = Mockery::mock(MediaService::class);
+    $mediaService->shouldReceive('resolveModel')
+        ->once()
+        ->andReturn($model);
+
+    // Run action
+    $action = new StoreUpdatedMediumAction($mediaService);
+    $response = $action->execute($request);
+
+    // Response assertions
+    expect($response->getStatusCode())->toBe(200);
+
+    // Find the newly created medium
+    $newMedium = $model->getMedia('blog-images')->last();
+
+    // Assert that the old one was deleted
+    $this->assertDatabaseMissing('media', ['id' => $existingMedium->id]);
+
+    expect($newMedium->getCustomProperty('priority'))->toBe(42);
+});
+
+it('returns error response if collections array is missing', function () {
+    $request = UpdateMediumRequest::create('/', 'POST', [
+        'temporary_upload_mode' => false,
+        'initiator_id' => 'x',
+        'media_manager_id' => 'y',
+    ], [], ['file' => UploadedFile::fake()->image('test.jpg')]);
+    $request->headers->set('Accept', 'application/json');
+
+    $mediaService = Mockery::mock(MediaService::class);
+    $action = new StoreUpdatedMediumAction($mediaService);
+
+    $response = $action->execute($request);
+
+    expect($response->getStatusCode())->toBe(422)
+        ->and($response->getData(true)['type'])->toBe('error');
+});
+
+it('logs a warning when existing medium is not found', function () {
+    Log::spy();
+
+    $model = $this->getTestBlogModel();
+    $file = UploadedFile::fake()->image('new.jpg');
+
+    $request = UpdateMediumRequest::create('/', 'POST', [
+        'model_type' => get_class($model),
+        'model_id' => $model->id,
+        'medium_id' => 99999, // nonexistent
+        'collection' => 'images',
+        'collections' => ['image' => 'images'],
+        'temporary_upload_mode' => false,
+        'initiator_id' => 'test',
+        'media_manager_id' => 'mgr',
+    ], [], ['file' => $file]);
+    $request->headers->set('Accept', 'application/json');
+
+    $mediaService = Mockery::mock(MediaService::class);
+    $mediaService->shouldReceive('resolveModel')->andReturn($model);
+
+    $action = new StoreUpdatedMediumAction($mediaService);
+    $action->execute($request);
+
+    Log::shouldHaveReceived('warning')
+        ->once()
+        ->with(Mockery::on(fn($msg) => str_contains($msg, 'not found')));
+});
+

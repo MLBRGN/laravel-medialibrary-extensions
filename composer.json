@@ -71,10 +71,14 @@
         },
         "sort-packages": true,
         "preferred-install": "dist",
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.3"
+        }
     },
     "scripts": {
       "analyse": "vendor/bin/phpstan analyse",
-      "test": "vendor/bin/pest"
+      "test": "vendor/bin/pest",
+      "coverage": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage"
     }
 }

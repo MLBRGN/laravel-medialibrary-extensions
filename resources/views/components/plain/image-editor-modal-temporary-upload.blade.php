@@ -22,7 +22,7 @@
     <div class="image-editor-modal-dialog modal-dialog">
         <div class="image-editor-modal-content modal-content justify-content-center">
             @if($title)
-                <h1 class="image-editor-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <h1 class="image-editor-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <div class="image-editor-modal-body modal-body p-0">
                 <button
