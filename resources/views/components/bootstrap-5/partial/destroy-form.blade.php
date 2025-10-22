@@ -20,6 +20,10 @@
            type="hidden"
            name="media_manager_id"
            value="{{ $mediaManagerId }}">
+        <input
+            type="hidden"
+            name="single_medium_id"
+            value="{{ $singleMedium?->id || null }}">
         @foreach($collections as $collectionType => $collectionName)
             @if (!empty($collectionName))
                 <input

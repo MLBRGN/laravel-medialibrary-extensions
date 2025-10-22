@@ -25,6 +25,7 @@ class ImageEditorModal extends BaseComponent
         string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
+        public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections,
         public array $options,
         public string $initiatorId,

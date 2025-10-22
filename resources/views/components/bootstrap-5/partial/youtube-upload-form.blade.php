@@ -16,10 +16,11 @@
         type="hidden" 
         name="temporary_upload_mode" 
         value="{{ $getConfig('temporaryUploadMode') ? 'true' : 'false' }}">
+{{--    @dump($singleMedium?->id)--}}
     <input
         type="hidden"
-        name="medium_id"
-        value="{{ $medium ? $medium->id : null }}">
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null}}">
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input

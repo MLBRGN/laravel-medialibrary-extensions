@@ -25,7 +25,8 @@ class MediaManager extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public Media|TemporaryUpload|null $medium = null, // when provided, skip collection lookups and just use this medium
+        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        // TODO should single medium be honored when null? -> $medium->getMorphClass() test in demo for example
         public array $collections = [],
         public array $options = [],
         public bool $multiple = false,
@@ -93,6 +94,14 @@ class MediaManager extends BaseComponent
         if (! $this->getConfig('showUploadForm') && ! $this->getConfig('showYouTubeUploadForm')) {
             $this->options['showUploadForms']  = false;
             $this->config['showUploadForms']  = false;
+        }
+
+        // override, don't show upload forms or "set as first" for single medium media managers
+        if (!is_null($this->getConfig('singleMedium'))) {
+            $this->options['showUploadForms']  = false;
+            $this->config['showUploadForms']  = false;
+            $this->options['showSetAsFirst']  = false;
+            $this->config['showSetAsFirst']  = false;
         }
     }
 

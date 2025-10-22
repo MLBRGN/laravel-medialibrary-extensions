@@ -15,6 +15,10 @@
     <input type="hidden"
            name="medium_id"
            value="{{ $medium->id }}">
+    <input
+        type="hidden"
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null }}">
     <input type="hidden"
            name="target_media_collection"
            value="{{ $targetMediaCollection }}">

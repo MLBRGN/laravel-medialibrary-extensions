@@ -32,6 +32,7 @@ const updateMedia = (detail) => {
 
     try {
         config = JSON.parse(configInput.value);
+        console.log(config);
     } catch (e) {
         console.error('Invalid JSON config');
     }
@@ -67,7 +68,8 @@ const updateMedia = (detail) => {
     formData.append('media_manager_id', config.mediaManagerId ?? '');
     formData.append('model_type', config.modelType);
     formData.append('model_id', config.modelId ?? '');
-    formData.append('medium_id', config.mediumId);
+    formData.append('single_medium_id', config.singleMedium?.id ?? null);// TODO keep both?
+    formData.append('medium_id', config.mediumId ?? null);// TODO keep both?
     // formData.append('collections', JSON.stringify(config.collections));
     formData.append('options', JSON.stringify(config.options));
     formData.append('collection', config.collection);

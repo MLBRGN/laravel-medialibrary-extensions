@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerPermanentHTMLAction
 {
@@ -26,34 +27,41 @@ class GetMediaPreviewerPermanentHTMLAction
         $initiatorId = $request->input('initiator_id');
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
-        $mediumId = $request->input('medium_id');
+        $singleMediumId = $request->input('single_medium_id');
 
-        // Decode JSON strings to arrays
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
-
-        if (isset($mediumId)) {
-            // dd($mediumId);
-        } else {
-            $model = $this->mediaService->resolveModel(
-                $modelType,
-                $modelId,
-            );
-        }
+        $model = $this->mediaService->resolveModel($modelType, $modelId);
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))
+            ->values()
             ->all();
 
+        $singleMedium = null;
         $totalMediaCount = 0;
 
-        foreach ($collections as $collectionName) {
-            $totalMediaCount += $model->getMedia($collectionName)->count();
+        // counting media
+        if (!empty($singleMediumId)) {
+            // count single medium
+            $singleMedium = Media::query()->find($singleMediumId);
+
+            if ($singleMedium) {
+                $totalMediaCount = 1;
+            } else {
+                $totalMediaCount = 0;
+            }
+        } else {
+            // Count all media in collections
+            foreach ($collections as $collectionName) {
+                $totalMediaCount += $model->getMedia($collectionName)->count();
+            }
         }
 
         $component = new MediaManagerPreview(
             id: $initiatorId,
             modelOrClassName: $model,
+            singleMedium: $singleMedium,
             collections: $collections,
             options: $options,
         );

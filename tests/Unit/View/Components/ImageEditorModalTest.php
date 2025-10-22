@@ -87,6 +87,7 @@ it('constructs with model and sets properties', function () {
         id: 'uploader-0',
         modelOrClassName: $model,
         medium: $medium,
+        singleMedium: null,
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'uploader-1',
@@ -111,6 +112,7 @@ it('constructs with model class name string for temporary upload', function () {
         id: 'uploader-1',
         modelOrClassName: $model->getMorphClass(),
         medium: $medium,
+        singleMedium: null,// TODO if i don't pass this test fails
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'uploader-2'
@@ -155,6 +157,7 @@ it('throws when modelOrClassName is an invalid type', function () {
         id: 'uploader-3',
         modelOrClassName: $model,
         medium: $medium, // Invalid type
+        singleMedium: null,
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'fail-test'
@@ -175,6 +178,7 @@ it('throws when modelOrClassName is an class name', function () {
         id: 'uploader-3',
         modelOrClassName: $model->getMorphClass(), // Invalid type
         medium: $medium,
+        singleMedium: null,
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'fail-test'

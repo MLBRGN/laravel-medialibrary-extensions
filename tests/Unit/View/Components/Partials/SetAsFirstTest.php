@@ -17,6 +17,7 @@ it('renders the set-as-first-form', function () {
         media: $mediaCollection,
         modelOrClassName: $model,
         medium: $medium,
+        singleMedium: null,
         collections: ['image' => 'images', 'audio' => 'audio', 'video' => 'video', 'document' => 'docs', 'youtube' => 'youtube'],
         options: [
             'frontendTheme' => 'plain',
@@ -48,6 +49,7 @@ it('falls back to config use_xhr when useXhr is null', function () {
         media: $mediaCollection,
         modelOrClassName: $model,
         medium: $medium,
+        singleMedium: null,
         collections: ['video' => 'video', 'audio' => 'audio'],
         options: [
             'frontendTheme' => 'plain',

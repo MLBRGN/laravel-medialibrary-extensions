@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerTemporaryHTMLAction
 {
@@ -27,25 +28,41 @@ class GetMediaPreviewerTemporaryHTMLAction
         $initiatorId = $request->input('initiator_id');
         $modelType = $request->input('model_type');
         // no modelId
+        $singleMediumId = $request->input('single_medium_id');
 
-        // Decode JSON strings to arrays
         $options = json_decode($request->input('options'), true) ?? [];
-        $options['temporaryUploads'] = true; // TODO should be in options already
         $collections = json_decode($request->input('collections'), true) ?? [];
+//        $model = $this->mediaService->resolveModel($modelType, $modelId);
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))
+            ->values()
             ->all();
 
+        $singleMedium = null;
         $totalMediaCount = 0;
 
-        foreach ($collections as $collectionName) {
-            $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName)->count();
+        // counting media
+        if (!empty($singleMediumId)) {
+            // count single medium
+            $singleMedium = Media::query()->find($singleMediumId);
+
+            if ($singleMedium) {
+                $totalMediaCount = 1;
+            } else {
+                $totalMediaCount = 0;
+            }
+        } else {
+            // Count all media in collections
+            foreach ($collections as $collectionName) {
+                $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName)->count();
+            }
         }
 
         $component = new MediaManagerPreview(
             id: $initiatorId,
             modelOrClassName: $modelType,
+            singleMedium: $singleMedium,
             collections: $collections,
             options: $options,
         );

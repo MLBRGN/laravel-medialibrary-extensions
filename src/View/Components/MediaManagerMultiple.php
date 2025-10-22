@@ -15,7 +15,7 @@ class MediaManagerMultiple extends MediaManager
         parent::__construct(
             id: $id,
             modelOrClassName: $modelOrClassName,
-            medium: null,// always null
+            singleMedium: null,// always null
             collections: $collections,
             options: $options,
             multiple: true,

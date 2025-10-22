@@ -28,7 +28,7 @@
                     <x-mle-partial-upload-form
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"
-                        :medium="$medium"
+                        :single-medium="$singleMedium"
                         :collections="$collections"
                         :options="$options"
                         :multiple="$multiple"
@@ -42,7 +42,7 @@
                         class="mt-3"
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"
-                        :medium="$medium"
+                        :single-medium="$singleMedium"
                         :collections="$collections"
                         :options="$options"
                         :disabled="$disabled || $getConfig('disableForm')"
@@ -67,7 +67,7 @@
                 <x-mle-media-manager-preview
                     :id="$id"
                     :model-or-class-name="$modelOrClassName"
-                    :medium="$medium"
+                    :single-medium="$singleMedium"
                     :collections="$collections"
                     :options="$options"
                 />

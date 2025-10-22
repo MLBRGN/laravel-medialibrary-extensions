@@ -4,7 +4,7 @@
     data-media-manager=""
     data-use-xhr="true"
 >
-    <input type="hidden" class="media-manager-config" data-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","medium":null,"collections":{"image":"images"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showOrder":false,"showSetAsFirstButton":false,"showYouTubeUploadForm":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","disableForm":false}'>
+    <input type="hidden" class="media-manager-config" data-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","singleMedium":null,"collections":{"image":"images"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showOrder":false,"showSetAsFirstButton":false,"showYouTubeUploadForm":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","disableForm":false}'>
 
     
 
@@ -26,9 +26,10 @@
                 type="hidden"
                 name="collections[image]"
                 value="images">
-                <input
+            
+    <input
         type="hidden"
-        name="medium_id"
+        name="single_medium_id"
         value="">
     <input 
         type="hidden" 
@@ -364,7 +365,7 @@
     </div>
 </div>
             <div class="media-manager-preview-grid" data-media-manager-preview-grid>
-                <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media" data-media-manager-preview-media-container>
+                                <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media" data-media-manager-preview-media-container>
         <span class="mle-no-media">No media.</span>
     </div>
 <div

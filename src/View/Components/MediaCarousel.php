@@ -29,7 +29,6 @@ class MediaCarousel extends BaseComponent
         public mixed $modelOrClassName,
         public ?string $mediaCollection = null,// TODO why do i have 2
         public ?array $mediaCollections = [],
-        public bool $singleMedium = false,
         public bool $expandableInModal = true,
         public array $options = [],
         public bool $inModal = false,

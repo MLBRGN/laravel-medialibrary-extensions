@@ -21,17 +21,11 @@ class GetMediaPreviewerHTMLRequest extends FormRequest
         return [
             'model_type' => ['required', 'string'], // model_id handled by withValidator, for conditional validation
             'model_id' => ['required_if:temporary_upload_mode,false'],
+            'single_medium_id' => ['nullable'],
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],
             'initiator_id' => ['required', 'string'],
             'collections' => ['required', 'string'], // json
             'options' => ['required', 'string'], // json
         ];
     }
-
-    //    public function withValidator(Validator $validator): void
-    //    {
-    //        $validator->sometimes('model_id', ['required', 'integer'], function () {
-    //            return $this->input('temporary_upload_mode') === 'false';
-    //        });
-    //    }
 }

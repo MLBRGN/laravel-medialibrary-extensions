@@ -75,6 +75,7 @@
                 id="{{ $id }}"
                 :model-or-class-name="$modelOrClassName"
                 :medium="$medium"
+                :single-medium="$singleMedium"
                 :collections="$collections"
                 :options="$options"
                 :initiator-id="$id"
@@ -147,6 +148,7 @@
                                 :id="$id"
                                 :model-or-class-name="$modelOrClassName"
                                 :medium="$medium"
+                                :single-medium="$singleMedium"
                                 :collections="$collections"
                                 :options="$options"
                                 :disabled="$disabled"
@@ -157,6 +159,7 @@
                         <x-mle-partial-temporary-upload-destroy-form
                             :id="$id"
                             :medium="$medium"
+                            :single-medium="$singleMedium"
                             :collections="$collections"
                             :options="$options"
                             :disabled="$disabled"

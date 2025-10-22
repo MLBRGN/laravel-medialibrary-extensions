@@ -25,7 +25,7 @@ class UploadForm extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
-        public Media|TemporaryUpload|null $medium = null,
+        public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections = [],
         public array $options = [],
         public bool $multiple = false,

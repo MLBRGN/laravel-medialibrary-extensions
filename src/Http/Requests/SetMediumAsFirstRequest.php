@@ -19,6 +19,7 @@ class SetMediumAsFirstRequest extends MediaManagerRequest
             'model_id' => 'required|string',
             'target_media_collection' => ['required', 'string'],
             'medium_id' => 'required|string',
+            'single_medium_id' => ['nullable'],
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],
             'collections' => ['required', 'array', 'min:1'],

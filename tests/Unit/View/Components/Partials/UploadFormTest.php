@@ -8,7 +8,7 @@ it('throws translated exception if invalid class name is provided', closure: fun
     $component = new UploadForm(
         id: 'upload1',
         modelOrClassName: 'someDummyClassName',
-        medium: null,
+        singleMedium: null,
         collections: [
             'image' => 'images',
             'youtube' => 'youtube',
@@ -35,7 +35,7 @@ it('throws exception if given a model that does not implement HasMedia', functio
     $component = new UploadForm(
         id: 'upload-invalid-class',
         modelOrClassName: $model,
-        medium: null,
+        singleMedium: null,
         collections: [
             'image' => 'images',
             'youtube' => 'youtube',
@@ -59,7 +59,7 @@ it('honors frontend theme', function () {
     $component = new UploadForm(
         id: 'upload-invalid-class',
         modelOrClassName: $model,
-        medium: null,
+        singleMedium: null,
         collections: [
             'image' => 'images',
             'youtube' => 'youtube',
@@ -80,7 +80,7 @@ it('uses allowedMimeTypes from config if allowedMimeTypes not provided', functio
     $component = new UploadForm(
         id: 'upload-empty-mime',
         modelOrClassName: $model,
-        medium: null,
+        singleMedium: null,
         collections: [
             'image' => 'images',
             'youtube' => '',
@@ -107,7 +107,7 @@ it('sets allowedMimeTypes and allowedMimeTypesHuman from options', function () {
     $component = new UploadForm(
         id: 'upload-empty-mime',
         modelOrClassName: $model,
-        medium: null,
+        singleMedium: null,
         collections: [
             'image' => 'images',
             'youtube' => '',
@@ -134,7 +134,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
     $component = new UploadForm(
         id: 'upload3',
         modelOrClassName: $model,
-        medium: null,
+        singleMedium: null,
         collections: [
             'image' => 'images',
             'youtube' => 'youtube',
@@ -165,8 +165,6 @@ it('initializes correctly when given a HasMedia model instance', function () {
     $allowedMimeTypes = $component->getConfig('allowedMimeTypes');
     $allowedMimeTypesHuman = $component->getConfig('allowedMimeTypesHuman');
 
-    //    dd($component->config);
-    //    dd($component->getConfig('useXhr'));
     expect($allowedMimeTypes)->toBeString()->not->toBeEmpty()
         ->and($allowedMimeTypesHuman)->toBeString()->not->toBeEmpty()
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
@@ -217,7 +215,7 @@ it('sets model properties correctly when given a string model class name', funct
     $component = new UploadForm(
         id: 'upload4',
         modelOrClassName: $model->getMorphClass(),
-        medium: null,
+        singleMedium: null,
         collections: [
             'image' => 'images',
             'youtube' => 'youtube',

@@ -44,6 +44,7 @@
                     id="{{ $id }}"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
+                    :single-medium="$singleMedium"
                     :collections="$collections"
                     :options="$options"
                     :initiator-id="$id"

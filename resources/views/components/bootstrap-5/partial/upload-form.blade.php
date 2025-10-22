@@ -36,10 +36,11 @@
                 value="{{ $collectionName }}">
         @endif
     @endforeach
+{{--    @dump($singleMedium?->id)--}}
     <input
         type="hidden"
-        name="medium_id"
-        value="{{ $medium ? $medium->id : null }}">
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null }}">
     <input 
         type="hidden" 
         name="temporary_upload_mode" 

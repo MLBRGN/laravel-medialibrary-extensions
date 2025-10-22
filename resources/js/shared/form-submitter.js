@@ -122,7 +122,7 @@ function updatePreview(mediaManager, config) {
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
-        // medium_id: config.medium.id,
+        single_medium_id: config.singleMedium?.id ?? null,
         temporary_upload_mode: config.temporaryUploadMode,
         initiator_id: config.id,
         collections: JSON.stringify(config.collections),

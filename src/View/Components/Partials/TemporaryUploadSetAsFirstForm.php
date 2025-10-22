@@ -10,6 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TemporaryUploadSetAsFirstForm extends BaseComponent
 {
@@ -24,11 +25,12 @@ class TemporaryUploadSetAsFirstForm extends BaseComponent
 
     public function __construct(
         ?string $id,
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public array $collections = [],
+        public array $options = [],
         public Collection $media,
         public TemporaryUpload $medium,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public array $options = [],
-        public array $collections = [],
+        public Media|TemporaryUpload|null $singleMedium = null,
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {

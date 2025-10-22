@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TemporaryUploadDestroyForm extends BaseComponent
 {
@@ -17,10 +18,11 @@ class TemporaryUploadDestroyForm extends BaseComponent
 
     public function __construct(
 
-        public TemporaryUpload $medium,
         ?string $id,
-        public array $options = [],
+        public TemporaryUpload $medium,
+        public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections = [],
+        public array $options = [],
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {

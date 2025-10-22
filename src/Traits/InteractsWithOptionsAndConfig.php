@@ -22,7 +22,8 @@ trait InteractsWithOptionsAndConfig
 {
     protected array $configKeys = [
         'modelOrClassName',
-        'medium',
+//        'medium',
+        'singleMedium',
         'collections',
         'multiple',
         'disabled',

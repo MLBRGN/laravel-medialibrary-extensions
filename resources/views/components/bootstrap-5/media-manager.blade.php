@@ -24,7 +24,7 @@
                     <x-mle-partial-upload-form
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"
-                        :medium="$medium"
+                        :single-medium="$singleMedium"
                         :collections="$collections"
                         :options="$options"
                         :multiple="$multiple"
@@ -38,7 +38,7 @@
                         class="mt-3"
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"
-                        :medium="$medium"
+                        :single-medium="$singleMedium"
                         :collections="$collections"
                         :options="$options"
                         :disabled="$disabled || $getConfig('disableForm')"
@@ -60,10 +60,11 @@
             />
 
             <div class="media-manager-preview-grid" data-media-manager-preview-grid>
+                @dump($singleMedium?->id)
                 <x-mle-media-manager-preview
                     :id="$id"
                     :model-or-class-name="$modelOrClassName"
-                    :medium="$medium"
+                    :single-medium="$singleMedium"
                     :collections="$collections"
                     :options="$options"
                 />

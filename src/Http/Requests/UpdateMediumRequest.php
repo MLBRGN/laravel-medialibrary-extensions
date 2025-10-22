@@ -25,6 +25,7 @@ class UpdateMediumRequest extends MediaManagerRequest
             'model_type' => 'required|string',
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'medium_id' => 'required|string',
+            'single_medium_id' => ['nullable'],
             'collection' => 'required|string',
             'file' => 'required|file',
             'collections' => ['required', 'array', 'min:1'],

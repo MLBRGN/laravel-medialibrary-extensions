@@ -24,6 +24,7 @@
         <x-mle-media-manager-single
             id="alien-single"
             :model-or-class-name="$model"
+            :single-medium="$model->getMedia('alien-single-image')->first()"
             :collections="[
                         'image' => 'alien-single-image',
                         'document' =>'alien-single-document',

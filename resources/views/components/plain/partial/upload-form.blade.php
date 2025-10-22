@@ -36,6 +36,10 @@
                 value="{{ $collectionName }}">
         @endif
     @endforeach
+    <input
+        type="hidden"
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null }}">
     <input 
         type="hidden" 
         name="temporary_upload_mode" 

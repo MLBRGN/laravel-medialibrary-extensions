@@ -86,11 +86,11 @@
                 id="{{ $id }}"
                 :model-or-class-name="$modelOrClassName"
                 :medium="$medium"
+                :single-medium="$singleMedium"
                 :collections="$collections"
                 :options="$options"
                 :initiator-id="$id"
                 :disabled="$disabled"
-                :options="$options"
                 title="TODO"
             />
         @else
@@ -160,6 +160,7 @@
                                 :id="$id"
                                 :model-or-class-name="$modelOrClassName"
                                 :medium="$medium"
+                                :single-medium="$singleMedium"
                                 :collections="$collections"
                                 :options="$options"
                                 :disabled="$disabled"
@@ -170,6 +171,7 @@
                         <x-mle-partial-destroy-form
                             :id="$id"
                             :medium="$medium"
+                            :single-medium="$singleMedium"
                             :collections="$collections"
                             :options="$options"
                             :disabled="$disabled"

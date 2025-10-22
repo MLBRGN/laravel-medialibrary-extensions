@@ -18,6 +18,10 @@
     <input type="hidden"
            name="target_media_collection"
            value="{{ $targetMediaCollection }}">
+    <input
+        type="hidden"
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null }}">
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input

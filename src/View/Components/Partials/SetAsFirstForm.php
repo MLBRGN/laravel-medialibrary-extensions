@@ -28,6 +28,7 @@ class SetAsFirstForm extends BaseComponent
         public Collection $media,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
+        public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections,
         public array $options = [],
         public ?bool $disabled = false,

@@ -38,7 +38,6 @@ it('initializes with given properties without useXhr', function () {
 
     $component->render();
 
-    //    dd($component->options);
     expect($component->medium)->toBe($medium)
         ->and($component->id)->toBe('delete-456-destroy-form-1')
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
