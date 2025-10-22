@@ -68,5 +68,6 @@ class MediaManagerSingle extends MediaManager
         $this->setOption('disableForm', $totalMediaCount >= 1);
 
         $this->initializeConfig();
+
     }
 }
