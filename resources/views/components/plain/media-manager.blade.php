@@ -16,38 +16,42 @@
     <div class="media-manager-row row">
         <div @class([
                 'media-manager-form',
+                'media-manager-forms-hidden' => !$getConfig('showUploadForms')
             ])>
-            {{ $form_start ?? '' }}
-            @if($getConfig('showUploadForm'))
-                <x-mle-partial-upload-form
-                    :id="$id"
-                    :model-or-class-name="$modelOrClassName"
-                    :medium="$medium"
-                    :collections="$collections"
-                    :options="$options"
-                    :multiple="$multiple"
-                    :disabled="$disabled || $getConfig('disableForm')"
-                    :readonly="$readonly"
-                />
-            @endif
-            @if($getConfig('showYouTubeUploadForm'))
-            <x-mle-partial-youtube-upload-form
-                    class="mt-3"
-                    :id="$id"
-                    :model-or-class-name="$modelOrClassName"
-                    :medium="$medium"
-                    :collections="$collections"
-                    :options="$options"
-                    :disabled="$disabled || $getConfig('disableForm')"
-                    :readonly="$readonly"
-                    :multiple="$multiple"
-                />
+            @if($getConfig('showUploadForms'))
+                {{ $form_start ?? '' }}
+                @if($getConfig('showUploadForm'))
+                    <x-mle-partial-upload-form
+                        :id="$id"
+                        :model-or-class-name="$modelOrClassName"
+                        :medium="$medium"
+                        :collections="$collections"
+                        :options="$options"
+                        :multiple="$multiple"
+                        :disabled="$disabled || $getConfig('disableForm')"
+                        :readonly="$readonly"
+                    />
+                @endif
+                @if($getConfig('showYouTubeUploadForm'))
+                <x-mle-partial-youtube-upload-form
+                        class="mt-3"
+                        :id="$id"
+                        :model-or-class-name="$modelOrClassName"
+                        :medium="$medium"
+                        :collections="$collections"
+                        :options="$options"
+                        :disabled="$disabled || $getConfig('disableForm')"
+                        :readonly="$readonly"
+                        :multiple="$multiple"
+                    />
+                @endif
             @endif
             {{ $form_end ?? '' }}
         </div>
         <div
             @class([
                 'media-manager-previews',
+                'media-manager-previews-forms-hidden' => !$getConfig('showUploadForms')
             ])
             >
             <x-mle-partial-status-area

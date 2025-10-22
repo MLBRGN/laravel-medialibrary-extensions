@@ -172,6 +172,7 @@ trait InteractsWithOptionsAndConfig
             'showSetAsFirstButton' => true,
             'showUploadForm' => true,
             'showYouTubeUploadForm' => true,
+            'showUploadForms' => true,
             'temporaryUploadMode' => false,
             'uploadFieldName' => 'medium',
             'frontendTheme' => config('media-library-extensions.frontend_theme', 'bootstrap-5'),

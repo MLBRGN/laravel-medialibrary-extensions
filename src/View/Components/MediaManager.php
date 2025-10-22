@@ -59,6 +59,11 @@ class MediaManager extends BaseComponent
             $this->setOption('showYouTubeUploadForm', false);
         }
 
+        // override
+        if (! $this->getOption('showUploadForm') && ! $this->getOption('showYouTubeUploadForm')) {
+            $this->setOption('showUploadForms', false);
+        }
+
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
         $this->previewUpdateRoute = route(mle_prefix_route('preview-update'));
         $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));

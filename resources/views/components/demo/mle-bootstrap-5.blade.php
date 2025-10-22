@@ -33,6 +33,7 @@
                     ]"
             :options="[
                         'frontendTheme' => 'bootstrap-5',
+                        'showUploadForms' => false,
                     ]"
             class="mt-5"
         />

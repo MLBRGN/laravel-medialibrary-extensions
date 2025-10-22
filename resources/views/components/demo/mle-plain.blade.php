@@ -69,6 +69,7 @@
                     ]"
         :options="[
                         'frontendTheme' => 'plain',
+                        'showUploadForms' => false,
                     ]"
     />
 

@@ -7,7 +7,6 @@
         :multiple="$multiple"
         :selectable="true"
     />
-    <a href="#" class="btn btn-primary">test</a>
 </div>
 <x-mle-shared-assets
     include-css="true"
