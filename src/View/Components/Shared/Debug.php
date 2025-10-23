@@ -59,15 +59,34 @@ class Debug extends Component
     /**
      * Recursively sanitize a config array so nested objects are replaced by class name placeholders.
      */
+//    public function getSanitizedConfig(?array $array = null): array
+//    {
+//        $array ??= $this->config;
+//
+//        return array_map(function ($value) {
+//            if (is_object($value)) {
+//                return '['.get_class($value).']';
+//            } elseif (is_array($value)) {
+//                return $this->getSanitizedConfig($value); // recursive call
+//            }
+//
+//            return $value;
+//        }, $array);
+//    }
     public function getSanitizedConfig(?array $array = null): array
     {
         $array ??= $this->config;
 
+        // Sort keys alphabetically
+        ksort($array);
+
         return array_map(function ($value) {
             if (is_object($value)) {
-                return '['.get_class($value).']';
+                // Replace objects with their class names for safe debugging
+                return '[' . get_class($value) . ']';
             } elseif (is_array($value)) {
-                return $this->getSanitizedConfig($value); // recursive call
+                // Recurse into nested arrays
+                return $this->getSanitizedConfig($value);
             }
 
             return $value;

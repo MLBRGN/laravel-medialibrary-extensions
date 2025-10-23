@@ -92,7 +92,7 @@
 
             <div class="mle-debug-section">
                 <h3>🎛️ Raw options dump</h3>
-                <pre>{{ json_encode($options, JSON_PRETTY_PRINT) }}</pre>
+                <pre>{{ json_encode(collect($options)->sortKeys()->all(), JSON_PRETTY_PRINT) }}</pre>
             </div>
 
             @if(collect($errors)->isNotEmpty())

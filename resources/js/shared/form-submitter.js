@@ -67,7 +67,7 @@ mediaManagers.forEach(mediaManager => {
             }
 
             showStatusMessage(container, data);
-            updatePreview(mediaManager, config);
+            updatePreview(mediaManager, config, {});
             resetFields(formElement);
         } catch (error) {
             console.error('Error during upload:', error);
@@ -81,9 +81,10 @@ mediaManagers.forEach(mediaManager => {
     });
 
     mediaManager.addEventListener('refreshRequest', function (e) {
+        const detail = e.detail;
         const config = getMediaManagerConfig(mediaManager);
         // console.log('Refresh requested:', e);
-        updatePreview(mediaManager, config);
+        updatePreview(mediaManager, config, detail);
     })
 });
 
@@ -113,7 +114,7 @@ function getRouteFromAction(action, target, config) {
     return routes[action] || null;
 }
 
-function updatePreview(mediaManager, config) {
+function updatePreview(mediaManager, config, detail = {}) {
     // console.log('update preview:', mediaManager);
     const previewGrid = mediaManager.querySelector('[data-media-manager-preview-grid]');
     const forms = mediaManager.querySelectorAll('[data-form], [data-xhr-form]');
@@ -122,7 +123,7 @@ function updatePreview(mediaManager, config) {
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
-        single_medium_id: config.singleMedium?.id ?? null,
+        single_medium_id: detail.singleMediumId ?? null,
         temporary_upload_mode: config.temporaryUploadMode,
         initiator_id: config.id,
         collections: JSON.stringify(config.collections),

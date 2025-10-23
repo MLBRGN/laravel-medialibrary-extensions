@@ -29,6 +29,7 @@ class GetMediaPreviewerTemporaryHTMLAction
         $modelType = $request->input('model_type');
         // no modelId
         $singleMediumId = $request->input('single_medium_id');
+        $singleMediumId = ($singleMediumId !== 'null' && $singleMediumId !== null && $singleMediumId !== '') ? (int) $singleMediumId : null;
 
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
@@ -43,14 +44,14 @@ class GetMediaPreviewerTemporaryHTMLAction
         $totalMediaCount = 0;
 
         // counting media
-        if (!empty($singleMediumId)) {
+        if ($singleMediumId !== null) {
             // count single medium
             $singleMedium = Media::query()->find($singleMediumId);
 
             if ($singleMedium) {
                 $totalMediaCount = 1;
             } else {
-                $totalMediaCount = 0;
+                throw new Exception(__('media-library-extensions::messages.medium_not_found'));
             }
         } else {
             // Count all media in collections

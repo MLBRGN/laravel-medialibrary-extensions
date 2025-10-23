@@ -1,4 +1,4 @@
-import {handleAjaxError, showStatusMessage} from "@/js/shared/xhrStatus";
+import {handleAjaxError, hideSpinner, showSpinner, showStatusMessage} from "@/js/shared/xhrStatus";
 
 document.addEventListener('onImageSave', (e) => {
     // console.log('onImageSave:', e.detail, e);
@@ -56,10 +56,13 @@ const updateMedia = (detail) => {
         return
     }
 
+
     const initiator = document.querySelector('#' + config.initiatorId);// TODO initiator not found after preview refresh!
     // console.log('initiator', initiator);
     const container = initiator.querySelector('[data-media-manager-layout]')
     // console.log('container', container);
+
+    showSpinner(container);
 
     // console.log('collections', config.collections);
     const file = detail.file;
@@ -91,7 +94,7 @@ const updateMedia = (detail) => {
         const json = await response.json();
         if (!response.ok) {
             handleAjaxError(response, json, container);
-            throw new Error('Upload failed');// stops the chain, goes to .catch
+            throw new Error('Update of medium failed');// stops the chain, goes to .catch
         }
 
         return json;
@@ -110,9 +113,13 @@ const updateMedia = (detail) => {
         initiator.dispatchEvent(new CustomEvent('refreshRequest', {
             bubbles: true,
             composed: true,
-            detail: []
+            detail: {
+                'singleMediumId': json.singleMediumId ?? null,
+            }
         }));
-    })
+    }).finally(() => {
+        hideSpinner(container);
+    });
 }
 
 function trans (key) {

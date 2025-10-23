@@ -38,11 +38,22 @@ class MediaManagerPreview extends BaseComponent
         Log::info($this->singleMedium?->id . ' <-- this->singleMedium id in mmp');
 //        Log::info($this->modelOrClassName . ' <-- this modelOrClassName in mmp');
 
+//        Log::info([
+//            'singleMedium' => $this->singleMedium?->id,
+//            'isMedia' => $this->singleMedium instanceof Media,
+//            'isTemporaryUpload' => $this->singleMedium instanceof TemporaryUpload,
+//        ]);
+
+//        if (isset($singleMedium)) {
+//            Log::info('singleMedium set '. $singleMedium);
+//        }
         // CASE 1: If a single medium is provided, use only that.
         if ($this->singleMedium instanceof Media || $this->singleMedium instanceof TemporaryUpload) {
-            Log::info($this->singleMedium?->id . ' id of $this->singleMedium id in mmp of if branch');
+//            Log::info('singleMedium detected');
+//            Log::info($this->singleMedium?->id . ' id of $this->singleMedium id in mmp of if branch');
             $this->media->push($this->singleMedium);
         } else {
+//            Log::info('no singleMedium detected');
             $this->media = collect($collections)
                 ->filter(fn($collectionName
                 ) => !is_null($collectionName) && $collectionName !== '') // remove null or empty
@@ -62,6 +73,8 @@ class MediaManagerPreview extends BaseComponent
                 ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
                 ->values();
         }
+
+        Log::info('Media IDs: ' . implode(', ', $this->media->pluck('id')->all()));
 
         // merge into config
         $this->initializeConfig();

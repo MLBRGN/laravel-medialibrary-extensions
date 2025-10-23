@@ -158,73 +158,99 @@
     }
 
     .status-area {
-        position:absolute;
-        top:1rem;
-        left:1rem;
-        z-index:1;
-        width:100%;
+        --transition-time: .3s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
         pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        //gap: 0.5rem;
+        padding: 0.5rem;
+        opacity: 0.92;
+        transition: opacity var(--transition-time) ease;
     }
 
+    /* Spinner container */
     [data-spinner-container] {
-        position:absolute;
-        top:0;
-        left:0;
-        width: fit-content;
-        height:100%;
-        display:flex;
-        justify-content: start;
+        display: flex;
         align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+        width: fit-content;
+        max-width: 100%;
+        overflow: hidden;
+
+
+        //color: #055160;
+        //background-color: #cff4fc;
+        //border: 1px solid #9eeaf9;
+        //border-radius: 0.375rem;
+
+        /* animation state */
         opacity: 0;
-        gap:1rem;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        margin:0;
-        padding: 1rem;
-        //margin-bottom: 1rem;
-        color: #055160;
-        background-color: #cff4fc;
-        border: 1px solid #9eeaf9;
-        border-radius: 0.375rem;
+        max-height: 0;
+        margin: 0;
+        padding: 0;
+
+        transition:
+            max-height var(--transition-time) ease,
+            padding var(--transition-time) ease,
+            opacity var(--transition-time) ease,
+            margin var(--transition-time) ease;
+
+        .alert {
+            position: initial !important;
+            top: initial !important;
+            padding: 0.6rem;
+        }
     }
 
     [data-spinner-container].active {
-        visibility: visible;
         opacity: 1;
+        max-height: 4rem; /* spinner height + padding */
+        padding: 1rem;
+        margin-bottom: 0.25rem;
     }
 
-    .mle-status-message {
-        margin-bottom:0;
-        width:fit-content;
-    }
-
+    /* Spinner graphic */
     .mle-spinner {
-        flex: 0 0 auto;          /* don't let flexbox resize it */
-        display: inline-block;   /* prevent inline distortions */
+        flex: 0 0 auto;
         width: 1.5rem;
         height: 1.5rem;
         border: 0.2em solid #ccc;
         border-top-color: #007bff;
         border-radius: 50%;
         animation: spin 1s linear infinite;
-        vertical-align: middle;
     }
 
-    .mle-spinner-text {
-        white-space: nowrap;
-    }
-
+    /* Status container and message */
     [data-status-container] {
-        min-height: 3rem;
-        position: relative;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        //transition: opacity var(--transition-time) ease;
+        width: 100%;
+        max-width: 100%;
+
+        .alert {
+            position: initial !important;
+            top: initial !important;
+            padding: 0.6rem;
+        }
     }
 
     [data-status-container].visible {
         opacity: 1;
         visibility: visible;
+    }
+
+    .mle-status-message {
+        margin: 0;
+        width: fit-content;
+        max-width: 100%;
     }
 
     .mle-flex-grow {

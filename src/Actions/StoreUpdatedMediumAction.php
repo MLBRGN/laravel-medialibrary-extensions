@@ -30,10 +30,14 @@ class StoreUpdatedMediumAction
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $mediumId = $request->input('medium_id');
+        $singleMediumId = $request->input('single_medium_id');
         $collection = $request->input('collection');
         $temporaryUploadMode = $request->boolean('temporary_upload_mode');
         $file = $request->file('file');
         $collections = $request->array('collections');
+//        dd($singleMediumId);
+
+        $newMedium = null;
 
         if (empty($collections)) {
             return MediaResponse::error(
@@ -80,7 +84,9 @@ class StoreUpdatedMediumAction
                     $request,
                     $initiatorId,
                     $mediaManagerId,
-                    __('media-library-extensions::messages.something_went_wrong'));
+                    __('media-library-extensions::messages.something_went_wrong'),
+                    [ 'mediumId' => $mediumId ]
+                );
 
             }
 //            Log::info('trying to find medium with id'.$mediumId);
@@ -108,7 +114,7 @@ class StoreUpdatedMediumAction
                 $customProperties['priority'] = $priority;
             }
 
-            $upload = new TemporaryUpload([
+            $newMedium = new TemporaryUpload([
                 'disk' => $disk,
                 'path' => "{$directory}/{$filename}",
                 'name' => $safeFilename,
@@ -121,7 +127,7 @@ class StoreUpdatedMediumAction
                 'order_column' => $existingMedium?->order_column ?? 1,
                 'custom_properties' => $customProperties,
             ]);
-            $upload->save();
+            $newMedium->save();
 
             if ($existingMedium) {
                 $existingMedium->delete();
@@ -134,6 +140,12 @@ class StoreUpdatedMediumAction
             $request,
             $initiatorId,
             $mediaManagerId,
-            __('media-library-extensions::messages.medium_replaced'));
+            __('media-library-extensions::messages.medium_replaced'),
+            [
+                'mediumId' => $mediumId,
+                'newMediumId' => $newMedium?->id,
+                'singleMediumId' => $newMedium?->id,
+            ]
+        );
     }
 }

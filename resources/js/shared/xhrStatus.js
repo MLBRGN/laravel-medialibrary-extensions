@@ -32,7 +32,8 @@ export function hideStatusMessage(container) {
 }
 
 export function showSpinner(container, customMessage = null) {
-    hideStatusMessage(container); // Optional: hides message before showing spinner
+    console.log('showSpinner', container, customMessage);
+    hideStatusMessage(container); // Hides the message before showing spinner
     const spinnerContainer = container.querySelector('[data-spinner-container]');
     if (!spinnerContainer) return;
 
@@ -45,6 +46,7 @@ export function showSpinner(container, customMessage = null) {
 }
 
 export function hideSpinner(container) {
+    console.log('hideSpinner', container);
     container.querySelector('[data-spinner-container]')?.classList.remove('active');
 }
 

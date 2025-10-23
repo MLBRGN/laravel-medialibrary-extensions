@@ -60,7 +60,6 @@
             />
 
             <div class="media-manager-preview-grid" data-media-manager-preview-grid>
-                @dump($singleMedium?->id)
                 <x-mle-media-manager-preview
                     :id="$id"
                     :model-or-class-name="$modelOrClassName"
