@@ -42,6 +42,11 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadDestro
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaEmptyState;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreview;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItem;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewMenu;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
@@ -138,6 +143,14 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-video', Video::class);
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
+
+        // preview subdirectory
+        Blade::component($this->packageNameShort.'-media-grid', MediaGrid::class);
+        Blade::component($this->packageNameShort.'-media-preview', MediaPreview::class);
+        Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
+        Blade::component($this->packageNameShort.'-media-preview-menu', MediaPreviewMenu::class);
+        Blade::component($this->packageNameShort.'-media-preview-empty-state', MediaEmptyState::class);
+        Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
 
         // shared partials shared component views and classes for internal use
         Blade::component($this->packageNameShort.'-shared-debug', Debug::class);

@@ -11,7 +11,6 @@ trait ViewHelpers
     public function getView($viewName, $frontendTheme): View
     {
         if (! $frontendTheme) {
-            //            Log::error('No frontend theme, falling back');
             $frontendTheme = config('media-library-extensions.frontend_theme', 'bootstrap-5');
         }
         $viewPath = "media-library-extensions::components.$frontendTheme.$viewName";
@@ -22,7 +21,6 @@ trait ViewHelpers
     public function getPartialView($viewName, $frontendTheme): View
     {
         if (! $frontendTheme) {
-            //            Log::error('No frontend theme, falling back');
             $frontendTheme = config('media-library-extensions.frontend_theme', 'bootstrap-5');
         }
         $viewPath = "media-library-extensions::components.$frontendTheme.partial.$viewName";

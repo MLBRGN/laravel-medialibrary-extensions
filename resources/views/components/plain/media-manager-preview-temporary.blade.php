@@ -1,199 +1,218 @@
-@forelse ($media as $medium)
-    <div
-        {{ $attributes->class([
-            'mlbrgn-mle-component',
-             'theme-'.$getConfig('frontendTheme'),
-             'media-manager-preview-container'
-        ]) }}
-        data-media-manager-preview-container
-        data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"
-        data-temporary-upload-destroy-route="{{ route(mle_prefix_route('temporary-upload-destroy'), $medium) }}"
-    >
-        @if(isMediaType($medium, 'youtube-video'))
-            <div
-                class="media-manager-preview-item-container"
-                data-modal-trigger="#{{$id}}-mod"
-                data-slide-to="{{ $loop->index }}"
-            >
-                <x-mle-video-youtube
-                    class="mle-video-responsive mle-cursor-zoom-in"
-                    :medium="$medium"
-                    :preview="true"
-                    :options="$options"
-                />
-            </div>
-        @elseif(isMediaType($medium, 'document'))
-            <div
-                class="media-manager-preview-item-container"
-                data-modal-trigger="#{{$id}}-mod"
-                data-slide-to="{{ $loop->index }}"
-            >
-                <x-mle-document
-                    class="previewed-document mle-cursor-zoom-in"
-                    :medium="$medium"
-                    :options="$options"
-                />
-            </div>
-        @elseif(isMediaType($medium, 'video'))
-            <div
-                class="media-manager-preview-item-container"
-                data-modal-trigger="#{{$id}}-mod"
-                data-slide-to="{{ $loop->index }}"
-            >
-                <x-mle-video
-                    class="mle-cursor-zoom-in"
-                    :medium="$medium" 
-                    :options="$options"
-                />
-            </div>
-        @elseif(isMediaType($medium, 'audio'))
-            <div
-                class="media-manager-preview-item-container"
-                data-modal-trigger="#{{$id}}-mod"
-                data-slide-to="{{ $loop->index }}"
-            >
-                <x-mle-audio
-                    class="mle-cursor-zoom-in"
-                    :medium="$medium" 
-                    :options="$options"
-                />
-            </div>
-        @elseif(isMediaType($medium, 'image'))
-            <div
-                class="media-manager-preview-item-container"
-                data-modal-trigger="#{{$id}}-mod"
-                data-slide-to="{{ $loop->index }}"
-            >
-                <img 
-                    src="{{ $medium->getUrl() }}" 
-                    class="media-manager-image-preview mle-cursor-zoom-in" 
-                    alt="{{ $medium->name }}"
-                    draggable="false"
-                >
-            </div>
-            <x-mle-image-editor-modal
-                id="{{ $id }}"
-                :model-or-class-name="$modelOrClassName"
-                :medium="$medium"
-                :single-medium="$singleMedium"
-                :collections="$collections"
-                :options="$options"
-                :initiator-id="$id"
-                :disabled="$disabled"
-                title="TODO"
-            />
-        @else
-            {{ __('media-library-extensions::messages.non_supported_file_format') }}
-        @endif
-        @if($getConfig('showMenu'))
-            <div class="media-manager-preview-menu">
-                <div class="media-manager-preview-image-menu-start">
-                    @if($getConfig('showOrder'))
-                        @if($medium->hasCustomProperty('priority'))
-                            <span
-                                class="mle-pseudo-button mle-pseudo-button-icon"
-                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                            >
-                                {{ $medium->getCustomProperty('priority') + 1 }}
-                            </span>
-                        @endif
-                    @endif
-                    @if($selectable)
-                        <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
-                            <input
-                                type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
-                                name="selected_media"
-                                class="mle-media-select-checkbox"
-                                data-url="{{ $medium->getUrl() }}"
-                                data-alt="{{ $medium->name }}"
-                            >
-                            <span class="mle-media-select-indicator"
-                                  title="{{ __('media-library-extensions::messages.select') }}"
-                            />
-                        </label>
-                    @endif
-                </div>
-                <div class="media-manager-preview-image-menu-end">
-                    @if($getConfig('showMediaEditButton'))
-                        @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
-                            <button
-                                type="button"
-                                class="mle-button mle-button-icon btn btn-primary"
-                                data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
-                                title="{{ __('media-library-extensions::messages.edit') }}"
-                                @disabled($disabled)
-                            >
-                                <x-mle-shared-icon
-                                    name="{{ config('media-library-extensions.icons.edit') }}"
-                                    title="{{ __('media-library-extensions::messages.edit') }}"
-                                />
-                            </button>
-                        @endif
-                    @endif
-                    @if($getConfig('showSetAsFirstButton'))
-                        @if($medium->getCustomProperty('priority') === 0)
-                            <button
-                                type="button"
-                                class="mle-button mle-button-icon btn btn-primary"
-                                title="{{ __('media-library-extensions::messages.set-as-main') }}"
-                                disabled
-                            >
-                                <x-mle-shared-icon
-                                    name="{{ config('media-library-extensions.icons.set-as-main') }}"
-                                    title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
-                                />
-                            </button>
-                        @else
-                            <x-mle-partial-temporary-upload-set-as-first-form
-                                :id="$id"
-                                :model-or-class-name="$modelOrClassName"
-                                :medium="$medium"
-                                :single-medium="$singleMedium"
-                                :collections="$collections"
-                                :options="$options"
-                                :disabled="$disabled"
-                            />
-                        @endif
-                    @endif
-                    @if($getConfig('showDestroyButton'))
-                        <x-mle-partial-temporary-upload-destroy-form
-                            :id="$id"
-                            :medium="$medium"
-                            :single-medium="$singleMedium"
-                            :collections="$collections"
-                            :options="$options"
-                            :disabled="$disabled"
-                        />
-                    @endif
-                    @if(config('media-library-extensions.debug'))
-                        <button
-                            type="button"
-                            class="mle-button mle-button-icon btn btn-primary"
-                            title="{{ __('media-library-extensions::messages.debug') }}"
-                            data-action="debugger-toggle"
-                        >
-                            <x-mle-shared-icon
-                                name="{{ config('media-library-extensions.icons.bug') }}"
-                                title="{{ __('media-library-extensions::messages.debug') }}"
-                            />
-                        </button>
-                    @endif
-                        <x-mle-shared-local-package-icon/>
-                </div>
-            </div>
-        @endif
-    </div>
-@empty
-    <div class="mlbrgn-mle-component media-manager-preview-container media-manager-no-media" data-media-manager-preview-container>
-        <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
-    </div>
-@endforelse
+<x-mle-media-grid
+    :id="$id"
+    :media="$media"
+    :model-or-class-name="$modelOrClassName"
+    :collections="$collections"
+    :single-medium="$singleMedium"
+    :options="$options"
+    :disabled="$disabled"
+    :selectable="$selectable"
+/>
+
 <x-mle-media-modal
     :id="$id"
     :model-or-class-name="$modelOrClassName"
-    {{--    :media-collection="$imageCollection"--}}
     :media-collections="$collections"
     :video-auto-play="true"
     :options="$options"
     title="Media carousel"
 />
+{{--@forelse ($media as $medium)--}}
+{{--    <div--}}
+{{--        {{ $attributes->class([--}}
+{{--            'mlbrgn-mle-component',--}}
+{{--             'theme-'.$getConfig('frontendTheme'),--}}
+{{--             'media-manager-preview-container'--}}
+{{--        ]) }}--}}
+{{--        data-media-manager-preview-container--}}
+{{--        data-temporary-upload-set-as-first-route="{{ route(mle_prefix_route('temporary-upload-set-as-first'), $medium) }}"--}}
+{{--        data-temporary-upload-destroy-route="{{ route(mle_prefix_route('temporary-upload-destroy'), $medium) }}"--}}
+{{--    >--}}
+{{--        @if(isMediaType($medium, 'youtube-video'))--}}
+{{--            <div--}}
+{{--                class="media-manager-preview-item-container"--}}
+{{--                data-modal-trigger="#{{$id}}-mod"--}}
+{{--                data-slide-to="{{ $loop->index }}"--}}
+{{--            >--}}
+{{--                <x-mle-video-youtube--}}
+{{--                    class="mle-video-responsive mle-cursor-zoom-in"--}}
+{{--                    :medium="$medium"--}}
+{{--                    :preview="true"--}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--        @elseif(isMediaType($medium, 'document'))--}}
+{{--            <div--}}
+{{--                class="media-manager-preview-item-container"--}}
+{{--                data-modal-trigger="#{{$id}}-mod"--}}
+{{--                data-slide-to="{{ $loop->index }}"--}}
+{{--            >--}}
+{{--                <x-mle-document--}}
+{{--                    class="previewed-document mle-cursor-zoom-in"--}}
+{{--                    :medium="$medium"--}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--        @elseif(isMediaType($medium, 'video'))--}}
+{{--            <div--}}
+{{--                class="media-manager-preview-item-container"--}}
+{{--                data-modal-trigger="#{{$id}}-mod"--}}
+{{--                data-slide-to="{{ $loop->index }}"--}}
+{{--            >--}}
+{{--                <x-mle-video--}}
+{{--                    class="mle-cursor-zoom-in"--}}
+{{--                    :medium="$medium" --}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--        @elseif(isMediaType($medium, 'audio'))--}}
+{{--            <div--}}
+{{--                class="media-manager-preview-item-container"--}}
+{{--                data-modal-trigger="#{{$id}}-mod"--}}
+{{--                data-slide-to="{{ $loop->index }}"--}}
+{{--            >--}}
+{{--                <x-mle-audio--}}
+{{--                    class="mle-cursor-zoom-in"--}}
+{{--                    :medium="$medium" --}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--        @elseif(isMediaType($medium, 'image'))--}}
+{{--            <div--}}
+{{--                class="media-manager-preview-item-container"--}}
+{{--                data-modal-trigger="#{{$id}}-mod"--}}
+{{--                data-slide-to="{{ $loop->index }}"--}}
+{{--            >--}}
+{{--                <img --}}
+{{--                    src="{{ $medium->getUrl() }}" --}}
+{{--                    class="media-manager-image-preview mle-cursor-zoom-in" --}}
+{{--                    alt="{{ $medium->name }}"--}}
+{{--                    draggable="false"--}}
+{{--                >--}}
+{{--            </div>--}}
+{{--            <x-mle-image-editor-modal--}}
+{{--                id="{{ $id }}"--}}
+{{--                :model-or-class-name="$modelOrClassName"--}}
+{{--                :medium="$medium"--}}
+{{--                :single-medium="$singleMedium"--}}
+{{--                :collections="$collections"--}}
+{{--                :options="$options"--}}
+{{--                :initiator-id="$id"--}}
+{{--                :disabled="$disabled"--}}
+{{--                title="TODO"--}}
+{{--            />--}}
+{{--        @else--}}
+{{--            {{ __('media-library-extensions::messages.non_supported_file_format') }}--}}
+{{--        @endif--}}
+{{--        @if($getConfig('showMenu'))--}}
+{{--            <div class="media-manager-preview-menu">--}}
+{{--                <div class="media-manager-preview-image-menu-start">--}}
+{{--                    @if($getConfig('showOrder'))--}}
+{{--                        @if($medium->hasCustomProperty('priority'))--}}
+{{--                            <span--}}
+{{--                                class="mle-pseudo-button mle-pseudo-button-icon"--}}
+{{--                                title="{{ __('media-library-extensions::messages.set-as-main') }}"--}}
+{{--                            >--}}
+{{--                                {{ $medium->getCustomProperty('priority') + 1 }}--}}
+{{--                            </span>--}}
+{{--                        @endif--}}
+{{--                    @endif--}}
+{{--                    @if($selectable)--}}
+{{--                        <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">--}}
+{{--                            <input--}}
+{{--                                type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"--}}
+{{--                                name="selected_media"--}}
+{{--                                class="mle-media-select-checkbox"--}}
+{{--                                data-url="{{ $medium->getUrl() }}"--}}
+{{--                                data-alt="{{ $medium->name }}"--}}
+{{--                            >--}}
+{{--                            <span class="mle-media-select-indicator"--}}
+{{--                                  title="{{ __('media-library-extensions::messages.select') }}"--}}
+{{--                            />--}}
+{{--                        </label>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
+{{--                <div class="media-manager-preview-image-menu-end">--}}
+{{--                    @if($getConfig('showMediaEditButton'))--}}
+{{--                        @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))--}}
+{{--                            <button--}}
+{{--                                type="button"--}}
+{{--                                class="mle-button mle-button-icon btn btn-primary"--}}
+{{--                                data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"--}}
+{{--                                title="{{ __('media-library-extensions::messages.edit') }}"--}}
+{{--                                @disabled($disabled)--}}
+{{--                            >--}}
+{{--                                <x-mle-shared-icon--}}
+{{--                                    name="{{ config('media-library-extensions.icons.edit') }}"--}}
+{{--                                    title="{{ __('media-library-extensions::messages.edit') }}"--}}
+{{--                                />--}}
+{{--                            </button>--}}
+{{--                        @endif--}}
+{{--                    @endif--}}
+{{--                    @if($getConfig('showSetAsFirstButton'))--}}
+{{--                        @if($medium->getCustomProperty('priority') === 0)--}}
+{{--                            <button--}}
+{{--                                type="button"--}}
+{{--                                class="mle-button mle-button-icon btn btn-primary"--}}
+{{--                                title="{{ __('media-library-extensions::messages.set-as-main') }}"--}}
+{{--                                disabled--}}
+{{--                            >--}}
+{{--                                <x-mle-shared-icon--}}
+{{--                                    name="{{ config('media-library-extensions.icons.set-as-main') }}"--}}
+{{--                                    title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"--}}
+{{--                                />--}}
+{{--                            </button>--}}
+{{--                        @else--}}
+{{--                            <x-mle-partial-temporary-upload-set-as-first-form--}}
+{{--                                :id="$id"--}}
+{{--                                :model-or-class-name="$modelOrClassName"--}}
+{{--                                :medium="$medium"--}}
+{{--                                :single-medium="$singleMedium"--}}
+{{--                                :collections="$collections"--}}
+{{--                                :options="$options"--}}
+{{--                                :disabled="$disabled"--}}
+{{--                            />--}}
+{{--                        @endif--}}
+{{--                    @endif--}}
+{{--                    @if($getConfig('showDestroyButton'))--}}
+{{--                        <x-mle-partial-temporary-upload-destroy-form--}}
+{{--                            :id="$id"--}}
+{{--                            :medium="$medium"--}}
+{{--                            :single-medium="$singleMedium"--}}
+{{--                            :collections="$collections"--}}
+{{--                            :options="$options"--}}
+{{--                            :disabled="$disabled"--}}
+{{--                        />--}}
+{{--                    @endif--}}
+{{--                    @if(config('media-library-extensions.debug'))--}}
+{{--                        <button--}}
+{{--                            type="button"--}}
+{{--                            class="mle-button mle-button-icon btn btn-primary"--}}
+{{--                            title="{{ __('media-library-extensions::messages.debug') }}"--}}
+{{--                            data-action="debugger-toggle"--}}
+{{--                        >--}}
+{{--                            <x-mle-shared-icon--}}
+{{--                                name="{{ config('media-library-extensions.icons.bug') }}"--}}
+{{--                                title="{{ __('media-library-extensions::messages.debug') }}"--}}
+{{--                            />--}}
+{{--                        </button>--}}
+{{--                    @endif--}}
+{{--                        <x-mle-shared-local-package-icon/>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        @endif--}}
+{{--    </div>--}}
+{{--@empty--}}
+{{--    <div class="mlbrgn-mle-component media-manager-preview-container media-manager-no-media" data-media-manager-preview-container>--}}
+{{--        <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>--}}
+{{--    </div>--}}
+{{--@endforelse--}}
+{{--<x-mle-media-modal--}}
+{{--    :id="$id"--}}
+{{--    :model-or-class-name="$modelOrClassName"--}}
+{{--    --}}{{--    :media-collection="$imageCollection"--}}
+{{--    :media-collections="$collections"--}}
+{{--    :video-auto-play="true"--}}
+{{--    :options="$options"--}}
+{{--    title="Media carousel"--}}
+{{--/>--}}
