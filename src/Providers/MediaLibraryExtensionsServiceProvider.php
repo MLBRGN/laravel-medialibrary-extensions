@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
+use Mlbrgn\MediaLibraryExtensions\Listeners\CopyOriginalMediaListener;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
@@ -47,6 +48,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageBadge;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -177,6 +179,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         parent::register();
 
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
+
+        // Register package-specific event provider
+        $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
     }
 
     public function registerDemoDatabase(): void
