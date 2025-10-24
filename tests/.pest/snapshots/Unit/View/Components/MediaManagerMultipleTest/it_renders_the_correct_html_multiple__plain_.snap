@@ -6,7 +6,7 @@
 >
     <input type="hidden" class="media-manager-config" data-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","frontendTheme":"plain","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"singleMedium":null,"collections":{"image":"images"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","previewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"plain","showYouTubeUploadForm":false,"uploadFieldName":"media"},"id":"test-media-modal-mmm"}'>
 
-
+    
 
     <div class="media-manager-layout" data-media-manager-layout>
 
@@ -15,7 +15,7 @@
 
 
 
-
+                            
                                     <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
     <input
@@ -24,7 +24,7 @@
         type="file"
         class="mle-input form-control"
                     name="media[]"
-            multiple
+            multiple 
                         >
     <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
                         <input
@@ -35,9 +35,9 @@
         type="hidden"
         name="single_medium_id"
         value="">
-    <input
-        type="hidden"
-        name="temporary_upload_mode"
+    <input 
+        type="hidden" 
+        name="temporary_upload_mode" 
         value="false">
     <input
         type="hidden"
@@ -74,14 +74,14 @@
             }
         </script>
 
-
+        
         <noscript>
             <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
             <div style="color:red;">
                 JavaScript is disabled. Some features may not work.
             </div>
         </noscript>
-
+    
 
 
             <script type="module">
@@ -97,7 +97,7 @@
                 console.log('Main JS dynamically loaded');
             }
         </script>
-
+    
 
 
 
@@ -342,8 +342,8 @@
 
 
 
-
-
+                
+                                        
         </div>
 
 
@@ -353,13 +353,13 @@
     <div class="mle-spinner"></div>
     <span class="mle-spinner-text">Please wait.</span>
 </div>
-    <div
-    class="status-container mle-flex-grow visible"
+    <div 
+    class="status-container mle-flex-grow visible" 
     data-status-container
     data-status-timeout="4000"
 >
     <div class="mle-status-message"
-        data-status-message
+        data-status-message 
         data-base-classes="mle-status-message"
         data-success-classes="mle-status-message-success"
         data-error-classes="mle-status-message-error"
@@ -392,9 +392,9 @@
                     data-modal-close
                     aria-label="Sluit"
                     title="Close">
-                    <span
-        role="img"
-        aria-label="Close"
+                    <span 
+        role="img" 
+        aria-label="Close" 
         title="Close">❓</span>
                 </button>
                 <div id="test-media-modal-mmm-mod-crs"
@@ -405,13 +405,13 @@
           data-carousel-effect="slide"
     >
 
-
+    
     <div
         class="media-carousel-indicators carousel-indicators mle-display-none"
     >
             </div>
 
-
+    
     <div class="media-carousel-inner">
                     <div class="media-carousel-item active">
                 <div class="media-carousel-item-container">
@@ -420,27 +420,27 @@
             </div>
             </div>
 
-
-    <button
+    
+    <button 
         class="media-carousel-control-prev disabled"
         type="button"
         data-slide="prev">
         <span class="media-carousel-control-prev-icon" aria-hidden="true">
-             <span
-        role="img"
-        aria-label="Previous"
+             <span 
+        role="img" 
+        aria-label="Previous" 
         title="Previous">❓</span>
         </span>
         <span class="mle-visually-hidden">Previous</span>
     </button>
-    <button
+    <button 
         class="media-carousel-control-next disabled"
         type="button"
         data-slide="next">
         <span class="media-carousel-control-next-icon" aria-hidden="true">
-              <span
-        role="img"
-        aria-label="Next"
+              <span 
+        role="img" 
+        aria-label="Next" 
         title="Next">❓</span>
         </span>
         <span class="mle-visually-hidden">Next</span>
@@ -494,7 +494,7 @@
                 }
             });
         </script>
-
+    
 
 
 
@@ -949,7 +949,7 @@
         </div>
     </div>
 
-
+    
 
     </div>
 
