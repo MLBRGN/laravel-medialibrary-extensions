@@ -5,9 +5,9 @@
 
 @if(config('media-library-extensions.debug') && !app()->environment('production'))
     <div class="mle-debug-wrapper">
-        <button type="button" class="mle-debug-toggle" aria-expanded="false" aria-controls="{{ $id }}-debug-content">
-            🐞 Show Debug Info
-        </button>
+{{--        <button type="button" class="mle-debug-toggle" aria-expanded="false" aria-controls="{{ $id }}-debug-content">--}}
+{{--            🐞 Show Debug Info--}}
+{{--        </button>--}}
 
         <div class="mle-debug hidden" id="{{ $id }}-debug-content">
             <h2>📦 Media Library Extensions Debug Info</h2>
@@ -108,25 +108,3 @@
         </div>
     </div>
 @endif
-
-@once
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.mle-debug-wrapper').forEach(function (wrapper) {
-                const toggleBtn = wrapper.querySelector('.mle-debug-toggle');
-                const debugSection = wrapper.querySelector('.mle-debug');
-
-                if (toggleBtn && debugSection) {
-                    toggleBtn.addEventListener('click', function () {
-                        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-                        toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
-                        debugSection.classList.toggle('hidden');
-                        toggleBtn.textContent = isExpanded
-                            ? '🐞 Show Debug Info'
-                            : '🐞 Hide Debug Info';
-                    });
-                }
-            });
-        });
-    </script>
-@endonce

@@ -68,4 +68,5 @@ return [
     'insert_selected_medium' => 'Voeg het geselecteerde medium in',
     'select' => 'Selecteer',
     'failed_to_attach_media' => 'Toevoegen van media mislukt: :message',
+    'debug' => 'Debug',
 ];

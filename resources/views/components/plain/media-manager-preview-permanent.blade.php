@@ -64,7 +64,6 @@
                 data-modal-trigger="#{{$id}}-mod"
                 data-slide-to="{{ $loop->index }}"
             >
-{{--                TODO look at this. Needs options?--}}
                 <x-mle-image-responsive
                     class="media-manager-image-preview mle-cursor-zoom-in"
                     :medium="$medium"
@@ -166,6 +165,20 @@
                             :disabled="$disabled"
                         />
                     @endif
+                    @if(config('media-library-extensions.debug'))
+                        <button
+                            type="button"
+                            class="mle-button mle-button-icon btn btn-primary"
+                            title="{{ __('media-library-extensions::messages.debug') }}"
+                            data-action="debugger-toggle"
+                        >
+                            <x-mle-shared-icon
+                                name="{{ config('media-library-extensions.icons.bug') }}"
+                                title="{{ __('media-library-extensions::messages.debug') }}"
+                            />
+                        </button>
+                    @endif
+                        <x-mle-shared-local-package-icon/>
                 </div>
             </div>
         @endif

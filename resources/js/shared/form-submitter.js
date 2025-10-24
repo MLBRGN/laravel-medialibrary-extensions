@@ -27,7 +27,22 @@ mediaManagers.forEach(mediaManager => {
 
         e.preventDefault();
         const action = target.getAttribute('data-action');
-        // console.log('action', action);
+
+        if (action === 'debugger-toggle') {
+
+            // container.querySelector('[data-debugger]')
+            const componentId = config.id;
+            console.log('componentId', componentId);
+            const component = document.querySelector('#'+componentId);
+            const debugSection = component.querySelector('.mle-debug');
+
+            console.log('debugSection', debugSection);
+            debugSection.classList.toggle('hidden');
+
+            console.log('toggle debugger TODO')
+            return
+        }
+
         const formElement = target.closest('[data-xhr-form]');
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
         const route = getRouteFromAction(action, target, config);

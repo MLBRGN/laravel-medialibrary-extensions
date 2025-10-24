@@ -68,6 +68,31 @@ return [
     'temporary_upload_disk' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_DISK', 'public'),
     'temporary_upload_path' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_PATH', 'temp/media-library-extensions'),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Originals (for lab functionality)
+    |--------------------------------------------------------------------------
+    |
+    | Store originals whenever a medium is uploaded, so that it's possible
+    | to restore the base image used by the media library to the original one
+    */
+
+    'store_originals' => env('MEDIA_LIBRARY_EXTENSIONS_STORE_ORIGINALS',  true),
+
+    // Disk used to store original media
+    'originals_disk' => 'originals',
+
+    // Default configuration for the disk (used if not defined in app)
+    'disks' => [
+        'originals' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media_originals'), // store originals here
+            'url' => env('APP_URL').'/storage/media_originals',   // URL to access them
+            'visibility' => 'public',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Route prefix
@@ -275,12 +300,13 @@ return [
         'prev' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PREV', 'bi-chevron-left'),
         'pdf-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PDF', 'bi-file-earmark-pdf'),
         'wordprocessing-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_WORD', 'bi-file-earmark-richtext'),
-        'spreadsheet-document' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-spreadsheet'),
-        'presentation-document' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-slides'),
+        'spreadsheet-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_SPREADSHEET', 'bi-file-earmark-spreadsheet'),
+        'presentation-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PRESENTATION', 'bi-file-earmark-slides'),
         'unknown_file_mimetype' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_UNKNOWN', 'bi-file-earmark'),
-        'edit' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-pencil'),
-        'video-file' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-play'),
-        'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_EDIT', 'bi-file-earmark-music'),
+        'edit' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_EDIT', 'bi-pencil'),
+        'video-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_VIDEO', 'bi-file-earmark-play'),
+        'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_AUDIO', 'bi-file-earmark-music'),
+        'bug' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_DEBUG', 'bi-bug')
     ],
 
     /*

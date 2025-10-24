@@ -25,6 +25,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaFirstAvailable;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLab;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
@@ -44,7 +45,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageBadge;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageIcon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
@@ -123,6 +124,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // register and expose blade component views and classes
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
+        Blade::component($this->packageNameShort.'-media-lab', MediaLab::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
@@ -142,7 +144,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-shared-icon', Icon::class);
         Blade::component($this->packageNameShort.'-shared-assets', Assets::class);
         Blade::component($this->packageNameShort.'-shared-media-preview-container', MediaPreviewContainer::class);
-        Blade::component($this->packageNameShort.'-shared-local-package-badge', LocalPackageBadge::class);
+        Blade::component($this->packageNameShort.'-shared-local-package-icon', LocalPackageIcon::class);
 
         // partial component views and classes for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
@@ -182,6 +184,18 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // Register package-specific event provider
         $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
+
+        // Conditionally register the originals disk
+        if (config('media-library-extensions.store_originals', true)) {
+            $disks = config('media-library-extensions.disks', []);
+
+            foreach ($disks as $disk => $diskConfig) {
+                // Only set the disk if the host app hasn't defined it
+                if (! config()->has("filesystems.disks.$disk")) {
+                    config()->set("filesystems.disks.$disk", $diskConfig);
+                }
+            }
+        }
     }
 
     public function registerDemoDatabase(): void

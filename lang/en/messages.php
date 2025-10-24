@@ -67,4 +67,5 @@ return [
     'insert_selected_medium' => 'Insert Selected Medium',
     'select' => 'Select',
     'failed_to_attach_media' => 'Failed to attach media: :message',
+    'debug' => 'Debug',
 ];

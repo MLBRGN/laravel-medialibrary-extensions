@@ -1,4 +1,3 @@
-<x-mle-shared-local-package-badge/>
 <div
     id="{{ $id }}"
     {{ $attributes->class([
@@ -34,7 +33,7 @@
                 @endif
 
                 @if($getConfig('showYouTubeUploadForm'))
-                    <x-mle-partial-youtube-upload-form
+                <x-mle-partial-youtube-upload-form
                         class="mt-3"
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"

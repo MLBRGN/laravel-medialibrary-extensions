@@ -501,22 +501,23 @@
     }
 }
 
-.mlbrgn-badge-local-package {
+.mlbrgn-icon-local-package {
     font-weight: bold;
     color:red;
-    border:1px solid #ccc;
-    padding: 0.25em;
-    width:fit-content;
-    background-color: #eee;
-    border-radius: .25rem;
-    padding-inline: 1rem;
-    margin-bottom: 0.5rem;
-    font-size: .8rem;
+    //border:1px solid #ccc;
+    //padding: 0.25em;
+    //width:fit-content;
+    //background-color: #eee;
+    //border-radius: .25rem;
+    //padding-inline: 1rem;
+    //margin-bottom: 0.5rem;
+    //font-size: .8rem;
 }
 
-.mlbrgn-badge-remote-package {
+.mlbrgn-icon-remote-package {
     font-weight: bold;
     color:blue;
-    border:1px solid #ccc;
-    padding: 0.25em;
+    //font-weight: bold;
+    //border:1px solid #ccc;
+    //padding: 0.25em;
 }

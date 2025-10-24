@@ -9,7 +9,7 @@
     
 
     <div class="media-manager-layout" data-media-manager-layout>
-        
+
         <div class="media-manager-form ">
                             
                                     <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
@@ -661,7 +661,7 @@
                                         
         </div>
 
-        
+
         <div class="media-manager-previews">
             <div class="status-area">
     <div class="mle-spinner-container alert alert-info" media-manager-id="test-media-modal-mmm" data-spinner-container>
@@ -673,7 +673,6 @@
     data-status-container 
     data-status-timeout="4000"
 >
-    
     <div class="mle-status-message alert alert-dismissible"
         data-status-message
         data-base-classes="mle-status-message alert alert-dismissible visible"
@@ -1237,24 +1236,5 @@
 
     
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.mle-debug-wrapper').forEach(function (wrapper) {
-                const toggleBtn = wrapper.querySelector('.mle-debug-toggle');
-                const debugSection = wrapper.querySelector('.mle-debug');
-
-                if (toggleBtn && debugSection) {
-                    toggleBtn.addEventListener('click', function () {
-                        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-                        toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
-                        debugSection.classList.toggle('hidden');
-                        toggleBtn.textContent = isExpanded
-                            ? '🐞 Show Debug Info'
-                            : '🐞 Hide Debug Info';
-                    });
-                }
-            });
-        });
-    </script>
-</div>
+    </div>
 

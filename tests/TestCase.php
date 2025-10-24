@@ -48,6 +48,7 @@ class TestCase extends Orchestra
         Route::get('/login', fn () => 'Login (dummy)')->name('login');
 
         Config::set('media-library-extensions.demo_pages_enabled', false);
+        Config::set('media-library-extensions.store_originals', true);
 
         if (empty(config('app.key'))) {
             $key = 'base64:'.base64_encode(random_bytes(32));

@@ -1,4 +1,3 @@
-<x-mle-shared-local-package-badge/>
 <div
     id="{{ $id }}"
     {{ $attributes->class([
@@ -12,16 +11,12 @@
     data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"
 >
     <input type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
-    
+
     {{ $component_start ?? '' }}
 
     <div class="media-manager-layout" data-media-manager-layout>
         {{-- Upload form section --}}
         <div class="media-manager-form {{ $getConfig('showUploadForms') ? '' : 'media-manager-forms-hidden' }}">
-{{--        <div @class([--}}
-{{--                'media-manager-form',--}}
-{{--                'media-manager-forms-hidden' => !$getConfig('showUploadForms')--}}
-{{--            ])>--}}
             @if($getConfig('showUploadForms'))
                 {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
@@ -36,7 +31,7 @@
                         :readonly="$readonly"
                     />
                 @endif
-            
+
                 @if($getConfig('showYouTubeUploadForm'))
                 <x-mle-partial-youtube-upload-form
                         class="mt-3"
@@ -62,7 +57,7 @@
                 :media-manager-id="$id"
                 :options="$options"
             />
-            
+
             <div class="media-manager-preview-grid" data-media-manager-preview-grid>
                 <x-mle-media-manager-preview
                     :id="$id"
@@ -74,7 +69,7 @@
             </div>
         </div>
     </div>
-    
+
     {{ $component_end ?? '' }}
 
     <x-mle-shared-debug
@@ -84,8 +79,8 @@
     />
 </div>
 
-<x-mle-shared-assets 
-    include-css="true" 
-    include-js="true" 
+<x-mle-shared-assets
+    include-css="true"
+    include-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
 />
