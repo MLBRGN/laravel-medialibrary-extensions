@@ -3,9 +3,9 @@
         {{ $attributes->class([
             'mlbrgn-mle-component',
              'theme-'.$getConfig('frontendTheme'),
-             'media-manager-preview-media-container'
+             'media-manager-preview-container'
         ]) }}
-        data-media-manager-preview-media-container
+        data-media-manager-preview-container
         data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
         data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
     >
@@ -196,7 +196,7 @@
         @endif
     </div>
 @empty
-    <div class="mlbrgn-mle-component media-manager-preview-media-container media-manager-no-media" data-media-manager-preview-media-container>
+    <div class="mlbrgn-mle-component media-manager-preview-container media-manager-no-media" data-media-manager-preview-container>
         <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
     </div>
 @endforelse

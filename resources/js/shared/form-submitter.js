@@ -116,7 +116,7 @@ function getMediaManagerConfig(mediaManager) {
 }
 
 function getRouteFromAction(action, target, config) {
-    const mediaContainer = target.closest('[data-media-manager-preview-media-container]');
+    const mediaContainer = target.closest('[data-media-manager-preview-container]');
     const routes = {
         'upload-media': config.mediaUploadRoute,
         'upload-youtube-medium': config.youtubeUploadRoute,
