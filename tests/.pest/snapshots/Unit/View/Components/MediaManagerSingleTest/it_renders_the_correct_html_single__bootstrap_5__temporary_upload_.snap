@@ -9,7 +9,7 @@
     
 
     <div class="media-manager-layout" data-media-manager-layout>
-
+        
         <div class="media-manager-form ">
                             
                                     <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
@@ -342,7 +342,7 @@
                                         
         </div>
 
-
+        
         <div class="media-manager-previews">
             <div class="status-area">
     <div class="mle-spinner-container alert alert-info" media-manager-id="test-media-modal-mms" data-spinner-container>
@@ -362,16 +362,15 @@
     >
             </div>
     </div>
-</div>
-            <div class="media-manager-preview-grid" data-media-manager-preview-grid>
-                                <div class="mlbrgn-mle-component media-manager-preview-container media-manager-no-media"
+</div>            <div class="media-manager-preview-grid" data-media-manager-preview-grid>
+            <div class="mlbrgn-mle-component media-manager-preview-container media-manager-no-media"
      data-media-manager-preview-container>
     <span class="mle-no-media">
         No media.
     </span>
 </div>
-
-<div
+    
+    <div
     class="mlbrgn-mle-component theme-bootstrap-5 media-modal modal fade"
     id="test-media-modal-mms-mod"
     tabindex="-1"
@@ -927,206 +926,11 @@
 
 
 
+      
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </div>
+</div>
         </div>
     </div>
 

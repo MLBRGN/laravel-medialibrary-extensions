@@ -1,15 +1,32 @@
-@forelse($media as $medium)
-    <x-mle-media-preview
+@if (! $noWrapper)
+    <div class="media-manager-preview-grid" data-media-manager-preview-grid>
+@endif
+
+    @forelse($media as $medium)
+        <x-mle-media-preview
+            :id="$id"
+            :medium="$medium"
+            :model-or-class-name="$modelOrClassName"
+            :collections="$collections"
+            :single-medium="$singleMedium"
+            :options="$options"
+            :disabled="$disabled"
+            :selectable="$selectable"
+            :loop-index="$loop->index"
+        />
+
+    @empty
+        <x-mle-media-preview-empty-state />
+    @endforelse
+
+    <x-mle-media-modal
         :id="$id"
-        :medium="$medium"
         :model-or-class-name="$modelOrClassName"
-        :collections="$collections"
-        :single-medium="$singleMedium"
+        :media-collections="$collections"
+        :video-auto-play="true"
         :options="$options"
-        :disabled="$disabled"
-        :selectable="$selectable"
-        :loop-index="$loop->index"
+        title="Media carousel"
     />
-@empty
-    <x-mle-media-preview-empty-state />
-@endforelse
+@if (! $noWrapper)
+    </div>
+@endif

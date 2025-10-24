@@ -58,15 +58,13 @@
                 :options="$options"
             />
 
-            <div class="media-manager-preview-grid" data-media-manager-preview-grid>
-                <x-mle-media-manager-preview
-                    :id="$id"
-                    :model-or-class-name="$modelOrClassName"
-                    :single-medium="$singleMedium"
-                    :collections="$collections"
-                    :options="$options"
-                />
-            </div>
+            <x-mle-media-grid
+                :id="$id"
+                :model-or-class-name="$modelOrClassName"
+                :single-medium="$singleMedium"
+                :collections="$collections"
+                :options="$options"
+            />
         </div>
     </div>
 

@@ -35,7 +35,6 @@ class StoreUpdatedMediumAction
         $temporaryUploadMode = $request->boolean('temporary_upload_mode');
         $file = $request->file('file');
         $collections = $request->array('collections');
-//        dd($singleMediumId);
 
         $newMedium = null;
 
