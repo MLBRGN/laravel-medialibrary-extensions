@@ -38,7 +38,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\StatusArea;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaEmptyState;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItemEmpty;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaGrid;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItem;
@@ -146,7 +146,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-preview', MediaPreview::class);
         Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
         Blade::component($this->packageNameShort.'-media-preview-menu', MediaPreviewMenu::class);
-        Blade::component($this->packageNameShort.'-media-preview-empty-state', MediaEmptyState::class);
+        Blade::component($this->packageNameShort.'-media-preview-item-empty', MediaPreviewItemEmpty::class);
         Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
 
         // shared partials shared component views and classes for internal use

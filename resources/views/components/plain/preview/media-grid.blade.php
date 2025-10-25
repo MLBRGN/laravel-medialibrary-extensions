@@ -14,9 +14,8 @@
             :selectable="$selectable"
             :loop-index="$loop->index"
         />
-
     @empty
-        <x-mle-media-preview-empty-state />
+            <x-mle-media-preview-item-empty />
     @endforelse
 
     <x-mle-media-modal

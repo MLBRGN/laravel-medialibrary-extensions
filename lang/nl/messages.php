@@ -69,4 +69,8 @@ return [
     'select' => 'Selecteer',
     'failed_to_attach_media' => 'Toevoegen van media mislukt: :message',
     'debug' => 'Debug',
+    'restore_original' => 'Herstel origineel',
+    'original' => 'Origineel',
+    'base' => 'Basis',
+    'conversion' => 'Conversie',
 ];

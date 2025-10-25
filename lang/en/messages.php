@@ -68,4 +68,8 @@ return [
     'select' => 'Select',
     'failed_to_attach_media' => 'Failed to attach media: :message',
     'debug' => 'Debug',
+    'restore_original' => 'Herstel origineel',
+    'original' => 'Original',
+    'base' => 'Base',
+    'conversion' => 'Conversion',
 ];

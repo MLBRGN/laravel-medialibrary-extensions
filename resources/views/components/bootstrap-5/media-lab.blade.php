@@ -1,30 +1,48 @@
-<div class="mle-media-lab">
-    <div class="mle-media-lab-original">
-{{--        <x-media-library-extensions::bootstrap-5.partial.media-item></x-media-library-extensions::bootstrap-5.partial.media-item>--}}
-{{--           TODO create way to display item in the same way as a media manager--}}
-            <figure class="inline-block m-2 text-center">
-                @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
-                <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}" alt="" class="dummy-mm-item"/>
-                <form action="{{ route('admin.media.restore-original', $medium) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-sm btn-warning">
-                        Herstel origineel
-                    </button>
-                </form>
-                @else
-                Geen origineel opgeslagen
-                @endif
-                <figcaption class="text-sm text-gray-600 mt-1">
-                    @if($medium->extra_meta['original_width'] && $medium->extra_meta['original_height'])
-                    <div>
-                        {{ $medium->extra_meta['original_width'] }} x {{ $medium->extra_meta['original_height'] }} px.
-                        ({{ number_format($medium->extra_meta['original_aspect'], 2) }})
+<div class="mlbrgn-mle-component theme-bootstrap-5 mle-media-lab">
+    <div class="media-lab-preview-grid" data-media-manager-preview-grid>
+        <div class="mle-media-lab-original">
+            <div class="media-lab-title">
+                {{ __('media-library-extensions::messages.original') }}
+            </div>
+            @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
+                <div class="mlbrgn-mle-component theme-bootstrap-5 media-manager-preview-container" data-media-manager-preview-container="">
+                    <div class="media-manager-preview-item-container" data-bs-toggle="modal" data-bs-target="#alien-multiple-mmm-mod">
+                        <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}" alt="" class="media-manager-image-preview">
                     </div>
-                    @endif
-                </figcaption>
-            </figure>
-    </div>
-    <div class="mle-media-lab-base">
+                    <div class="media-manager-preview-menu">
+                        <div class="media-manager-preview-image-menu-start">
+                            test
+                        </div>
+                        <div class="media-manager-preview-image-menu-end">
+                            <form action="{{ route('admin.media.restore-original', $medium) }}" method="POST">
+                                @csrf
+                                <button
+    {{--                                type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"--}}
+                                    type="submit"
+                                    class="mle-button mle-button-submit mle-button-icon btn btn-primary"
+                                    title="{{ __('media-library-extensions::messages.restore_original') }}"
+    {{--                                data-action="restore-original-medium"--}}
+    {{--                                data-route="{{ $getConfig('mediumDestroyRoute') }}"--}}
+    {{--                                @disabled($disabled)--}}
+                                >
+                                    <x-mle-shared-icon
+                                        name="{{ config('media-library-extensions.icons.restore') }}"
+                                        :title="__('media-library-extensions::messages.restore_original')"
+                                    />
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @else
+{{--                TODO use media-empty-state--}}
+                Geen origineel opgeslagen
+            @endif
+        </div>
+        <div class="mle-media-lab-base">
+            <div class="media-lab-title">
+                {{ __('media-library-extensions::messages.base') }}
+            </div>
             <x-mle-media-manager-single
                 class=""
                 id="medium-{{$medium->id}}"
@@ -40,20 +58,81 @@
                                 ]"
                 :single-medium="$medium"
             />
-    </div>
-    <div class="mle-media-lab-conversions">
-            @foreach(array_keys($medium->extra_meta['conversions']) as $conversionName)
-            <figure class="inline-block m-2 text-center">
-                <x-mle-image-responsive
-                    :medium="$medium"
-                    :conversions="[$conversionName]"
-                    class="mx-auto dummy-mm-item"
-                />
-                <figcaption class="text-sm text-gray-600 mt-1">
-                    {{ $conversionName }}
-                    ({{ number_format($medium->extra_meta['conversions'][$conversionName], 2) }})
-                </figcaption>
-            </figure>
-            @endforeach
+        </div>
+        <div class="mle-media-lab-conversions">
+            <div class="media-lab-title">
+                {{ __('media-library-extensions::messages.conversion') }}
+            </div>
+{{--            TODO this is not working the way it should--}}
+            <x-mle-media-preview
+                :id="'conversion-'.$medium->id"
+                :medium="$medium"
+                :model-or-class-name="$medium->model"
+                :options="[
+                    'showMenu' => true,
+                    'showDestroyButton' => false,
+                    'showSetAsFirstButton' => false,
+                    'showMediaEditButton' => false,
+                ]"
+            >
+                @php
+                    $firstConversion = array_key_first($medium->extra_meta['conversions'] ?? []);
+                @endphp
+
+                @if($firstConversion)
+                    <x-mle-image-responsive
+                        :medium="$medium"
+                        :conversions="[$firstConversion]"
+                        class="mx-auto dummy-mm-item"
+                    />
+                @endif
+{{--                @foreach(array_keys($medium->extra_meta['conversions']) as $conversionName)--}}
+{{--                    <x-mle-image-responsive--}}
+{{--                        :medium="$medium"--}}
+{{--                        :conversions="[$conversionName]"--}}
+{{--                        class="mx-auto dummy-mm-item"--}}
+{{--                    />--}}
+{{--                @endforeach--}}
+            </x-mle-media-preview>
+    
+        </div>
     </div>
 </div>
+
+{{--        <div class="mlbrgn-mle-component theme-bootstrap-5 media-manager-preview-container" data-media-manager-preview-container="">--}}
+{{--            <div class="media-manager-preview-item-container" data-bs-toggle="modal" data-bs-target="#alien-multiple-mmm-mod">--}}
+{{--                @foreach(array_keys($medium->extra_meta['conversions']) as $conversionName)--}}
+{{--                <x-mle-image-responsive--}}
+{{--                    :medium="$medium"--}}
+{{--                    :conversions="[$conversionName]"--}}
+{{--                    class="mx-auto dummy-mm-item"--}}
+{{--                />--}}
+{{--                @endforeach--}}
+{{--                <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}" alt="" class="media-manager-image-preview">--}}
+{{--            </div>--}}
+{{--            <div class="media-manager-preview-menu">--}}
+{{--                <div class="media-manager-preview-image-menu-start">--}}
+{{--                    test--}}
+{{--                </div>--}}
+{{--                <div class="media-manager-preview-image-menu-end">--}}
+{{--                    <form action="{{ route('admin.media.restore-original', $medium) }}" method="POST">--}}
+{{--                        @csrf--}}
+{{--                        <button--}}
+{{--                            --}}{{--                                type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"--}}
+{{--                            type="submit"--}}
+{{--                            class="mle-button mle-button-submit mle-button-icon btn btn-primary"--}}
+{{--                            title="{{ __('media-library-extensions::messages.restore_original') }}"--}}
+{{--                            --}}{{--                                data-action="restore-original-medium"--}}
+{{--                            --}}{{--                                data-route="{{ $getConfig('mediumDestroyRoute') }}"--}}
+{{--                            --}}{{--                                @disabled($disabled)--}}
+{{--                        >--}}
+{{--                            <x-mle-shared-icon--}}
+{{--                                name="{{ config('media-library-extensions.icons.restore') }}"--}}
+{{--                                :title="__('media-library-extensions::messages.restore_original')"--}}
+{{--                            />--}}
+{{--                        </button>--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
