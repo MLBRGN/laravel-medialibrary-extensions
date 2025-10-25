@@ -1,7 +1,6 @@
 // this script is loaded within the tinymce iframe
 const insertSelectedButton = document.getElementById('insert-selected');
 insertSelectedButton.addEventListener('click', () => {
-    alert('test');
     // TinyMCE injects a global `tinymce` object in the iframe window
     // so you can do:
     const tinymce = window.parent?.tinymce;
