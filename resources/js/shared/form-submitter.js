@@ -139,7 +139,7 @@ function getRouteFromAction(action, target, config) {
 
 function updatePreview(mediaManager, config, detail = {}) {
     // console.log('update preview:', mediaManager);
-    const previewGrid = mediaManager.querySelector('[data-media-manager-preview-grid]');
+    const previewGrid = mediaManager.querySelector('[data-media-preview-grid]');
     const forms = mediaManager.querySelectorAll('[data-form], [data-xhr-form]');
     if (!previewGrid) return;
 

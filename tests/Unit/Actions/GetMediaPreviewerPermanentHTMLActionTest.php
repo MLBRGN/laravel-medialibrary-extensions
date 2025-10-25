@@ -3,7 +3,8 @@
 use Illuminate\Http\JsonResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 
 beforeEach(function () {
     $this->mediaService = Mockery::mock(Mlbrgn\MediaLibraryExtensions\Services\MediaService::class);
@@ -77,19 +78,27 @@ it('renders permanent media preview HTML and returns JSON response', function ()
 
     $request = GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
 
+    // mock the MediaService behavior
+    $this->mediaService
+        ->shouldReceive('resolveModel')
+        ->once()
+        ->with($model->getMorphClass(), $model->getKey())
+        ->andReturn($model);
+
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaGrid $component) use ($initiatorId, $requestData, $frontendTheme, $model) {
+        ->withArgs(function (MediaPreviews $component) use ($initiatorId, $requestData, $frontendTheme, $model) {
             expect($component->id)->toBe($initiatorId);
             expect($component->modelOrClassName)->toBe($model);
             expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);
-            expect($component->getConfig('showDestroyButton'))->toBeTrue(); // TODO
-            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse(); // TODO
-            expect($component->getConfig('showOrder'))->toBeFalse(); // TODO
-            expect($component->getConfig('temporaryUploadMode'))->toBeTrue(); // TODO
+            expect($component->getConfig('showDestroyButton'))->toBeTrue();
+            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();
+            expect($component->getConfig('showOrder'))->toBeFalse();
+            expect($component->getConfig('temporaryUploadMode'))->toBeFalse();
 
             return true;
         })
+
         ->andReturn('<div>Rendered Temporary Media Preview</div>');
 
     $response = $this->action->execute($request);
@@ -103,4 +112,4 @@ it('renders permanent media preview HTML and returns JSON response', function ()
         'success' => true,
         'target' => $initiatorId,
     ]);
-})->todo();
+});

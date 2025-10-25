@@ -1,5 +1,5 @@
 <div class="mlbrgn-mle-component theme-bootstrap-5 mle-media-lab">
-    <div class="media-lab-preview-grid" data-media-manager-preview-grid>
+    <div class="media-lab-preview-grid" data-media-preview-grid>
         <div class="mle-media-lab-original">
             <div class="media-lab-title">
                 {{ __('media-library-extensions::messages.original') }}
@@ -64,7 +64,7 @@
                 {{ __('media-library-extensions::messages.conversion') }}
             </div>
 {{--            TODO this is not working the way it should--}}
-            <x-mle-media-preview
+            <x-mle-media-previews
                 :id="'conversion-'.$medium->id"
                 :medium="$medium"
                 :model-or-class-name="$medium->model"
@@ -93,7 +93,7 @@
 {{--                        class="mx-auto dummy-mm-item"--}}
 {{--                    />--}}
 {{--                @endforeach--}}
-            </x-mle-media-preview>
+            </x-mle-media-previews>
     
         </div>
     </div>

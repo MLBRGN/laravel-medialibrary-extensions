@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 
 beforeEach(function () {
     $this->mediaService = Mockery::mock(MediaService::class);
@@ -37,14 +38,14 @@ it('renders temporary media preview HTML and returns JSON response', function ()
 
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaGrid $component) use ($initiatorId, $requestData, $frontendTheme) {
+        ->withArgs(function (MediaPreviews $component) use ($initiatorId, $requestData, $frontendTheme) {
             expect($component->id)->toBe($initiatorId);
             expect($component->modelOrClassName)->toBe($requestData['model_type']);
             expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);
-            expect($component->getConfig('showDestroyButton'))->toBeTrue(); // TODO
-            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse(); // TODO
-            expect($component->getConfig('showOrder'))->toBeFalse(); // TODO
-            expect($component->getConfig('temporaryUploadMode'))->toBeTrue(); // TODO
+            expect($component->getConfig('showDestroyButton'))->toBeTrue();
+            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();
+            expect($component->getConfig('showOrder'))->toBeFalse();
+            expect($component->getConfig('temporaryUploadMode'))->toBeTrue();
 
             return true;
         })

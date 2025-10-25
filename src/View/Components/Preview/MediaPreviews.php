@@ -11,9 +11,8 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaGrid extends BaseComponent
+class MediaPreviews extends BaseComponent
 {
-
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
@@ -26,14 +25,12 @@ class MediaGrid extends BaseComponent
         public array $options = [],
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public bool $disabled = false,
-        public bool $selectable = false,
-        public bool $readonly = false,
-        public bool $noWrapper = false
+        public bool $selectable = false
     ) {
         parent::__construct($id);
-//
-//        $this->initializeConfig();
+
         $this->resolveModelOrClassName($modelOrClassName);
+//        $this->initializeConfig();
 
         $this->media = collect();
         Log::info($this->singleMedium?->id . ' <-- this->singleMedium id in mmp');
@@ -93,12 +90,11 @@ class MediaGrid extends BaseComponent
             $this->options['showMenu']  = false;
             $this->config['showMenu']  = false;
         }
-//        dd($this->media);
+
     }
 
     public function render(): View
     {
-        return $this->getView('preview.media-grid', $this->getConfig('frontendTheme'));
+        return $this->getView('preview.media-previews', $this->getConfig('frontendTheme'));
     }
-
 }

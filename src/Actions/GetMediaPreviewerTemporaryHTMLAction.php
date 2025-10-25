@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerTemporaryHTMLAction
@@ -60,21 +61,14 @@ class GetMediaPreviewerTemporaryHTMLAction
             }
         }
 
-        $component = new MediaGrid(
+        $component = new MediaPreviews(
             id: $initiatorId,
             modelOrClassName: $modelType,
             collections: $collections,
             options: $options,
             singleMedium: $singleMedium,
-            noWrapper: true
         );
-//        $component = new MediaManagerPreview(
-//            id: $initiatorId,
-//            modelOrClassName: $modelType,
-//            singleMedium: $singleMedium,
-//            collections: $collections,
-//            options: $options,
-//        );
+
 
         $html = Blade::renderComponent($component);
 

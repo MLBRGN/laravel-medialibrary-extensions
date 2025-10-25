@@ -64,7 +64,8 @@
                 :media-manager-id="$id"
                 :options="$options"
             />
-            <x-mle-media-grid
+            
+            <x-mle-media-preview-grid
                 :id="$id"
                 :model-or-class-name="$modelOrClassName"
                 :single-medium="$singleMedium"

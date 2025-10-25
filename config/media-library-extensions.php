@@ -306,7 +306,8 @@ return [
         'edit' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_EDIT', 'bi-pencil'),
         'video-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_VIDEO', 'bi-file-earmark-play'),
         'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_AUDIO', 'bi-file-earmark-music'),
-        'bug' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_DEBUG', 'bi-bug')
+        'bug' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_DEBUG', 'bi-bug'),
+        'restore' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-arrow-counterclockwise'),
     ],
 
     /*
