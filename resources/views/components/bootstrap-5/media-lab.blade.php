@@ -1,27 +1,28 @@
 <div class="mle-media-lab">
     <div class="mle-media-lab-original">
-        <x-media-library-extensions::bootstrap-5.partial.media-item></x-media-library-extensions::bootstrap-5.partial.media-item>
-{{--            <figure class="inline-block m-2 text-center">--}}
-{{--                @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))--}}
-{{--                <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}" alt="" class="dummy-mm-item"/>--}}
-{{--                <form action="{{ route('admin.media.restore-original', $medium) }}" method="POST">--}}
-{{--                    @csrf--}}
-{{--                    <button type="submit" class="btn btn-sm btn-warning">--}}
-{{--                        Herstel origineel--}}
-{{--                    </button>--}}
-{{--                </form>--}}
-{{--                @else--}}
-{{--                Geen origineel opgeslagen--}}
-{{--                @endif--}}
-{{--                <figcaption class="text-sm text-gray-600 mt-1">--}}
-{{--                    @if($medium->extra_meta['original_width'] && $medium->extra_meta['original_height'])--}}
-{{--                    <div>--}}
-{{--                        {{ $medium->extra_meta['original_width'] }} x {{ $medium->extra_meta['original_height'] }} px.--}}
-{{--                        ({{ number_format($medium->extra_meta['original_aspect'], 2) }})--}}
-{{--                    </div>--}}
-{{--                    @endif--}}
-{{--                </figcaption>--}}
-{{--            </figure>--}}
+{{--        <x-media-library-extensions::bootstrap-5.partial.media-item></x-media-library-extensions::bootstrap-5.partial.media-item>--}}
+{{--           TODO create way to display item in the same way as a media manager--}}
+            <figure class="inline-block m-2 text-center">
+                @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
+                <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}" alt="" class="dummy-mm-item"/>
+                <form action="{{ route('admin.media.restore-original', $medium) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-warning">
+                        Herstel origineel
+                    </button>
+                </form>
+                @else
+                Geen origineel opgeslagen
+                @endif
+                <figcaption class="text-sm text-gray-600 mt-1">
+                    @if($medium->extra_meta['original_width'] && $medium->extra_meta['original_height'])
+                    <div>
+                        {{ $medium->extra_meta['original_width'] }} x {{ $medium->extra_meta['original_height'] }} px.
+                        ({{ number_format($medium->extra_meta['original_aspect'], 2) }})
+                    </div>
+                    @endif
+                </figcaption>
+            </figure>
     </div>
     <div class="mle-media-lab-base">
             <x-mle-media-manager-single
