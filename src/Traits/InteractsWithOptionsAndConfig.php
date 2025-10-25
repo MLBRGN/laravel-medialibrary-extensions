@@ -20,6 +20,8 @@ use RuntimeException;
  */
 trait InteractsWithOptionsAndConfig
 {
+    // used to map properties to config array, only keys in this array
+    // are added to the config array
     protected array $configKeys = [
         'modelOrClassName',
 //        'medium',
@@ -30,9 +32,6 @@ trait InteractsWithOptionsAndConfig
         'readonly',
         'selectable',
         'frontendTheme',
-        'mediaUploadRoute',
-        'previewUpdateRoute',
-        'youtubeUploadRoute',
         'uploadFieldName',
         'temporaryUploadMode',
         'csrfToken',
@@ -41,6 +40,13 @@ trait InteractsWithOptionsAndConfig
         'modelId',
         'options',
         'id',
+
+        'mediaUploadRoute',
+        'previewUpdateRoute',
+        'youtubeUploadRoute',
+        'mediumSetAsFirstRoute',
+        'mediumDestroyRoute'
+
         // any other properties you want in config
     ];
 

@@ -13,7 +13,6 @@ mediaManagers.forEach(mediaManager => {
 
     const container = mediaManager.querySelector('[data-media-manager-layout]')
 
-
     mediaManager.addEventListener('click', async function (e) {
         const config = getMediaManagerConfig(mediaManager);
         if (!config) return;
@@ -116,15 +115,24 @@ function getMediaManagerConfig(mediaManager) {
 }
 
 function getRouteFromAction(action, target, config) {
-    const mediaContainer = target.closest('[data-media-manager-preview-container]');
+    // const mediaContainer = target.closest('[data-media-manager-preview-container]');
+
+    console.log('target', target);
+    console.log('config', config);
     const routes = {
         'upload-media': config.mediaUploadRoute,
         'upload-youtube-medium': config.youtubeUploadRoute,
-        'temporary-upload-destroy': mediaContainer?.dataset?.temporaryUploadDestroyRoute,
-        'destroy-medium': mediaContainer?.dataset?.destroyRoute,
-        'set-as-first': mediaContainer?.dataset?.setAsFirstRoute,
-        'temporary-upload-set-as-first': mediaContainer?.dataset?.temporaryUploadSetAsFirstRoute,
+        'destroy-medium': target?.dataset?.route,
+        'set-as-first': target?.dataset?.route,
+        // 'temporary-upload-destroy-medium': config.mediumDestroyRoute,
+        // 'temporary-upload-set-as-first': config.mediumDestroyRoute,
+        // 'temporary-upload-destroy-medium': mediaContainer?.dataset?.temporaryUploadDestroyRoute,
+        // 'destroy-medium': mediaContainer?.dataset?.destroyRoute,
+        // 'set-as-first': mediaContainer?.dataset?.setAsFirstRoute,
+        // 'temporary-upload-set-as-first': mediaContainer?.dataset?.temporaryUploadSetAsFirstRoute,
     };
+
+    console.log('routes', routes)
 
     return routes[action] || null;
 }

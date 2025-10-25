@@ -8,6 +8,7 @@
     data-set-as-first-route="{{ route(mle_prefix_route('set-as-first'), $medium) }}"
     data-destroy-route="{{ route(mle_prefix_route('medium-destroy'), $medium) }}"
 >
+    {{--    TODO don't want routes here--}}
     <x-mle-media-preview-item
         :id="$id"
         :medium="$medium"

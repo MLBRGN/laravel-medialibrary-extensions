@@ -70,6 +70,7 @@
         @if($getConfig('showDestroyButton'))
             <x-mle-partial-destroy-form
                 :id="$id"
+                :model-or-class-name="$modelOrClassName"
                 :medium="$medium"
                 :single-medium="$singleMedium"
                 :collections="$collections"

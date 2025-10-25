@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaGrid;
 
 beforeEach(function () {
     $this->mediaService = Mockery::mock(MediaService::class);
@@ -17,7 +17,6 @@ it('renders temporary media preview HTML and returns JSON response', function ()
     $initiatorId = 'initiator-123';
     $frontendTheme = 'bootstrap-5';
 
-    // TODO
     $requestData = [
         'initiator_id' => $initiatorId,
         'model_type' => $model->getMorphClass(),
@@ -38,7 +37,7 @@ it('renders temporary media preview HTML and returns JSON response', function ()
 
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaManagerPreview $component) use ($initiatorId, $requestData, $frontendTheme) {
+        ->withArgs(function (MediaGrid $component) use ($initiatorId, $requestData, $frontendTheme) {
             expect($component->id)->toBe($initiatorId);
             expect($component->modelOrClassName)->toBe($requestData['model_type']);
             expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);

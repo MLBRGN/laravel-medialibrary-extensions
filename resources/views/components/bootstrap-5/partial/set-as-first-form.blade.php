@@ -1,7 +1,7 @@
 <x-media-library-extensions::shared.conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => route(mle_prefix_route('set-as-first'), $medium),
+        'action' => $getConfig('mediumSetAsFirstRoute'),
         'method' => 'POST',
         'data-form'
     ]"
@@ -13,28 +13,27 @@
     class="set-as-first-form"
 >
     <input type="hidden"
-           name="medium_id"
-           value="{{ $medium->id }}">
-    <input
-        type="hidden"
+        name="initiator_id"
+        value="{{ $id }}">
+    <input type="hidden"
+        name="media_manager_id"
+        value="{{ $mediaManagerId }}">
+    <input type="hidden"
+        name="medium_id"
+        value="{{ $medium->id }}">
+    <input type="hidden"
         name="single_medium_id"
         value="{{ $singleMedium?->id || null }}">
     <input type="hidden"
-           name="target_media_collection"
-           value="{{ $targetMediaCollection }}">
+        name="target_media_collection"
+        value="{{ $targetMediaCollection }}">
     <input type="hidden"
-           name="model_type"
-           value="{{ $modelType }}">
+        name="model_type"
+        value="{{ $modelType }}">
     <input type="hidden"
-           name="model_id"
-           value="{{ $modelId }}">
-    <input type="hidden"
-           name="initiator_id"
-           value="{{ $id }}">
-    <input
-        type="hidden"
-        name="media_manager_id"
-        value="{{ $mediaManagerId }}">
+        name="model_id"
+        value="{{ $modelId }}">
+   
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
@@ -48,6 +47,7 @@
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-action="set-as-first"
+        data-route="{{ $getConfig('mediumSetAsFirstRoute') }}"
         @disabled($disabled)
     >
         <x-mle-shared-icon

@@ -1,5 +1,7 @@
 <?php
 
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -14,8 +16,8 @@ it('renders the set-as-first-form', function () {
 
     $component = new SetAsFirstForm(
         id: 'set-first-btn',
-        media: $mediaCollection,
         modelOrClassName: $model,
+        media: $mediaCollection,
         medium: $medium,
         singleMedium: null,
         collections: ['image' => 'images', 'audio' => 'audio', 'video' => 'video', 'document' => 'docs', 'youtube' => 'youtube'],
@@ -46,8 +48,8 @@ it('falls back to config use_xhr when useXhr is null', function () {
 
     $component = new SetAsFirstForm(
         id: 'set-first-btn',
-        media: $mediaCollection,
         modelOrClassName: $model,
+        media: $mediaCollection,
         medium: $medium,
         singleMedium: null,
         collections: ['video' => 'video', 'audio' => 'audio'],
@@ -61,4 +63,42 @@ it('falls back to config use_xhr when useXhr is null', function () {
     $component->render();
 
     expect($component->getConfig('useXhr'))->toBeTrue();
+});
+
+it('renders the set as first form with temporary upload', function () {
+    $media = collect([]);
+
+    $temporaryUpload = new TemporaryUpload([
+        'id' => 1,
+        'uuid' => 'test-uuid',
+        'file_name' => 'test.jpg',
+        'collection_name' => 'temp-uploads',
+        'disk' => 'media',
+        'mime_type' => 'image/jpeg',
+        'custom_properties' => [],
+    ]);
+
+    $component = new SetAsFirstForm(
+        id: 'set-as-first-btn',
+        modelOrClassName: Blog::class,
+        media: $media,
+        medium: $temporaryUpload,
+        singleMedium: null,
+        collections: [
+            'image' => 'images',
+            'document' => 'documents',
+            'youtube' => 'youtube',
+            'video' => 'video',
+            'audio' => 'audio',
+        ],
+        options: [
+            'frontendTheme' => 'plain',
+            'useXhr' => false,
+            'showSetAsFirstButton' => true,
+        ],
+    );
+
+    $view = $component->render();
+
+    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
 });

@@ -23,10 +23,12 @@ class SetAsFirstForm extends BaseComponent
 
     public array $config;
 
+    public string $mediumSetAsFirstRoute;
+
     public function __construct(
         ?string $id,
-        public Collection $media,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public Collection $media,
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
         public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections,
@@ -35,6 +37,8 @@ class SetAsFirstForm extends BaseComponent
     ) {
         parent::__construct($id);
 
+        $this->resolveModelOrClassName($modelOrClassName);
+
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-set-as-first-form-'.$this->medium->id;
 
@@ -42,7 +46,17 @@ class SetAsFirstForm extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->initializeConfig();
+        if ($this->temporaryUploadMode) {
+            $mediumSetAsFirstRoute = route(mle_prefix_route('temporary-upload-set-as-first'), $medium);
+        } else {
+            $mediumSetAsFirstRoute = route(mle_prefix_route('set-as-first'), $medium);
+        }
+
+        $this->mediumSetAsFirstRoute = $mediumSetAsFirstRoute;
+
+        $this->initializeConfig([
+            'mediumSetAsFirstRoute' => $this->mediumSetAsFirstRoute,
+        ]);
     }
 
     public function render(): View
