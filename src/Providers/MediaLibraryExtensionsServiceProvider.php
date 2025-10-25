@@ -47,6 +47,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItem;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewMenu;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\DebugButton;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageIcon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
@@ -156,6 +157,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-shared-assets', Assets::class);
         Blade::component($this->packageNameShort.'-shared-media-preview-container', MediaPreviewContainer::class);
         Blade::component($this->packageNameShort.'-shared-local-package-icon', LocalPackageIcon::class);
+        Blade::component($this->packageNameShort.'-shared-debug-button', DebugButton::class);
 
         // partial component views and classes for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);

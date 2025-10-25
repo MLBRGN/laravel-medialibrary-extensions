@@ -12,6 +12,13 @@
 >
     <input type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
 
+    @if(config('media-library-extensions.debug'))
+        <div class="mle-debug-menu">
+            <x-mle-shared-debug-button/>
+            <x-mle-shared-local-package-icon />
+        </div>
+    @endif
+    
     {{ $component_start ?? '' }}
 
     <div class="media-manager-layout" data-media-manager-layout>

@@ -494,6 +494,20 @@
         align-items: center;
     }
 
+    .mle-debug-menu {
+        position:absolute;// TODO relative?
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        inset-inline-start:0;
+        inset-block-start: -2.5rem;
+        background: var(--mlbrgn-mle-preview-menu-bg-color);
+        z-index:1;
+        padding:0.25rem 0.5rem 0.25rem 0;
+        border-radius: var(--mlbrgn-mle-control-border-radius);
+    }
+
     @keyframes spin {
         to {
             transform: rotate(360deg);

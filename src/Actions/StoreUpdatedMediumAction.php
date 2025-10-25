@@ -36,6 +36,7 @@ class StoreUpdatedMediumAction
         $file = $request->file('file');
         $collections = $request->array('collections');
 
+        $isSingleMedium = $singleMediumId !== null && $singleMediumId !== 'null';
         $newMedium = null;
 
         if (empty($collections)) {
@@ -143,7 +144,7 @@ class StoreUpdatedMediumAction
             [
                 'mediumId' => $mediumId,
                 'newMediumId' => $newMedium?->id,
-                'singleMediumId' => $newMedium?->id,
+                'singleMediumId' => $isSingleMedium ? $newMedium?->id : null,
             ]
         );
     }
