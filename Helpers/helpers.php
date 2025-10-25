@@ -117,6 +117,21 @@ if (! function_exists('isMediaType')) {
     }
 }
 
+if (! function_exists('getMediaType')) {
+    function getMediaType($medium): ?string
+    {
+        $types = ['youtube-video', 'document', 'video', 'audio', 'image'];
+
+        foreach ($types as $type) {
+            if (isMediaType($medium, $type)) {
+                return $type;
+            }
+        }
+
+        return null; // no matching type found
+    }
+}
+
 if (! function_exists('sanitize_filename')) {
     function sanitizeFilename(string $name): string
     {

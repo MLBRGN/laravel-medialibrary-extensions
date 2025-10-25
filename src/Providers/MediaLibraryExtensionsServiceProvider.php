@@ -88,6 +88,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
         //        $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
+//        Blade::componentNamespace('Mlbrgn\\MediaLibraryExtensions\\View\\Components', $this->packageNameShort);
+
         // Migrate database tables necessary for this package to do it's work
         // only migrations in the top folder are loaded, so no need to exclude the demo folder
         // note these will also run when testing

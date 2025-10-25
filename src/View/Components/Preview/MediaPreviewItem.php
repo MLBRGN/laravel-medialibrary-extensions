@@ -12,6 +12,9 @@ class MediaPreviewItem extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
+    public ?string $componentToRender;
+    public ?string $mediumType;
+
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -23,6 +26,18 @@ class MediaPreviewItem extends BaseComponent
     ) {
 
         parent::__construct($id);
+
+        $componentMap = [
+            'youtube-video' => 'mle-video-youtube',
+            'document' => 'mle-document',
+            'video' => 'mle-video',
+            'audio' => 'mle-audio',
+            'image' => 'mle-image-responsive',
+        ];
+
+        $this->mediumType = getMediaType($medium);
+        $this->componentToRender = $componentMap[$this->mediumType] ?? null;
+
         $this->initializeConfig();
 
     }
