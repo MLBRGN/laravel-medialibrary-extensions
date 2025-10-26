@@ -6,6 +6,8 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
@@ -110,6 +112,51 @@ class MediaManagerController extends Controller
     //    {
     //        return $getMediaManagerTinyMceAction->execute($request);
     //    }
+
+    public function restoreOriginal(Media $medium)
+    {
+        $originalPath = "{$medium->id}/{$medium->file_name}";
+
+        if (!Storage::disk('originals')->exists($originalPath)) {
+            return back()->with('error', 'Original file not found.');
+        }
+
+        try {
+            // Overwrite current media file with original
+            $content = Storage::disk('originals')->get($originalPath);
+            file_put_contents($medium->getPath(), $content);
+
+            // Optionally regenerate conversions if needed
+            // $medium->generateConversions();
+
+            Log::info("Restored original for media [{$medium->id}].");
+            return back()->with('success', 'Original restored successfully.');
+        } catch (\Throwable $e) {
+            Log::error("Failed to restore original for media [{$medium->id}]: {$e->getMessage()}");
+            return back()->with('error', 'Failed to restore original.');
+        }
+    }
+
+//    public function restoreOriginal(Media $medium)
+//    {
+//        $originalPath = $medium->id . '/' . $medium->file_name;
+//
+//        if (!Storage::disk('originals')->exists($originalPath)) {
+//            return back()->with('error', 'Original file not found.');
+//        }
+//
+//        // Get the original content
+//        $content = Storage::disk('originals')->get($originalPath);
+//
+//        // Overwrite the media's file
+//        $mediaPath = $medium->getPath(); // path to current media file
+//        Storage::put($mediaPath, $content);
+//
+//        // Regenerate conversions
+////        $medium->generateConversions();
+//
+//        return back()->with('success', 'Original restored successfully.');
+//    }
 
     public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
     {

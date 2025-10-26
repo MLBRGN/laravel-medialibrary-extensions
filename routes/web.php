@@ -35,6 +35,9 @@ Route::group([
         // TinyMCE media manager route
         Route::get('media-manager-tinymce', 'tinyMce')
             ->name(config('media-library-extensions.route_prefix').'-media-manager-tinymce');
+
+        Route::post('/media/{media}/restore-original','restoreOriginal')
+            ->name('media.restore-original');
     });
 });
 

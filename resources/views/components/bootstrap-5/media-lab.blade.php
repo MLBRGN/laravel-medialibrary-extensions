@@ -19,7 +19,7 @@
             </x-slot>
 
             <x-slot name="menuEnd">
-                <form action="{{ route('admin.media.restore-original', $medium) }}" method="POST">
+                <form action="{{ route('media.restore-original', $medium) }}" method="POST">
                     @csrf
                     <button
                         type="submit"

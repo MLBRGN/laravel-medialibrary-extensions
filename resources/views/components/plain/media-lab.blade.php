@@ -3,7 +3,7 @@
         <figure class="inline-block m-2 text-center">
             @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
                 <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}" alt="" class="dummy-mm-item"/>
-                <form action="{{ route('admin.media.restore-original', $medium) }}" method="POST">
+                <form action="{{ route('media.restore-original', $medium) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-warning">
                         Herstel origineel
