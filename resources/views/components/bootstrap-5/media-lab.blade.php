@@ -15,7 +15,7 @@
             @endif
             
             <x-slot name="menuStart">
-                <span>global order: {{  $medium->getCustomProperty('global_order') }}</span>
+               
             </x-slot>
 
             <x-slot name="menuEnd">
