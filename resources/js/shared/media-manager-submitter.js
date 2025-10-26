@@ -11,7 +11,9 @@ const mediaManagers = document.querySelectorAll('[data-media-manager]');
 
 mediaManagers.forEach(mediaManager => {
 
-    const container = mediaManager.querySelector('[data-media-manager-layout]')
+    // const statusContainer = mediaManager.querySelector('[data-media-manager-layout]')
+    const statusAreaContainer = mediaManager.querySelector('[data-status-area-container]')
+    console.log('statusAreaContainer', statusAreaContainer);
 
     mediaManager.addEventListener('click', async function (e) {
         const config = getMediaManagerConfig(mediaManager);
@@ -29,7 +31,6 @@ mediaManagers.forEach(mediaManager => {
 
         if (action === 'debugger-toggle') {
 
-            // container.querySelector('[data-debugger]')
             const componentId = config.id;
             console.log('componentId', componentId);
             const component = document.querySelector('#'+componentId);
@@ -47,14 +48,14 @@ mediaManagers.forEach(mediaManager => {
         const route = getRouteFromAction(action, target, config);
 
         if (!route) {
-            showStatusMessage(container, {
+            showStatusMessage(statusAreaContainer, {
                 type: 'error',
                 message: trans('invalid_action'),
             });
             return;
         }
 
-        showSpinner(container);
+        showSpinner(statusAreaContainer);
 
         try {
             const formData = getFormData(formElement);
@@ -76,11 +77,11 @@ mediaManagers.forEach(mediaManager => {
             const data = await response.json();
 
             if (!response.ok) {
-                handleAjaxError(response, data, container);
+                handleAjaxError(response, data, statusAreaContainer);
                 return;
             }
 
-            showStatusMessage(container, data);
+            showStatusMessage(statusAreaContainer, data);
 
             // TODO use data- attribute for refresh?
             if (action !== 'medium-restore') {
@@ -90,12 +91,12 @@ mediaManagers.forEach(mediaManager => {
             resetFields(formElement);
         } catch (error) {
             console.error('Error during upload:', error);
-            showStatusMessage(container, {
+            showStatusMessage(statusAreaContainer, {
                 type: 'error',
                 message: trans('upload_failed'),
             });
         } finally {
-            hideSpinner(container);
+            hideSpinner(statusAreaContainer);
         }
     });
 
@@ -120,7 +121,6 @@ function getMediaManagerConfig(mediaManager) {
 }
 
 function getRouteFromAction(action, target, config) {
-    // const mediaContainer = target.closest('[data-media-preview-container]');
 
     console.log('target', target);
     console.log('config', config);
@@ -152,9 +152,7 @@ function updatePreview(mediaManager, config, detail = {}) {
         collections: JSON.stringify(config.collections),
         options: JSON.stringify(config.options),
     });
-    // console.log('params2', Object.fromEntries(params));
 
-    // showSpinner(container);
     fetch(`${config.previewUpdateRoute}?${params}`, {
         headers: { 'Accept': 'application/json' }
     })

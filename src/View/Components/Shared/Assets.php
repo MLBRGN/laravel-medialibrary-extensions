@@ -17,7 +17,7 @@ class Assets extends Component
         public bool $includeImageEditorJs = false,
         public bool $includeImageEditorModalJs = false,
         public bool $includeMediaModalJs = false,
-        public bool $includeFormSubmitter = false,
+        public bool $includeMediaManagerSubmitter = false,
         public bool $includeLiteYoutube = false,
         public bool $includeTinymceCustomFilePickerIframeJs = false
     ) {

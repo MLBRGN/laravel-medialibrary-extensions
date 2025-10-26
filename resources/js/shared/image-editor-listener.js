@@ -56,13 +56,12 @@ const updateMedia = (detail) => {
         return
     }
 
-
     const initiator = document.querySelector('#' + config.initiatorId);// TODO initiator not found after preview refresh!
-    // console.log('initiator', initiator);
-    const container = initiator.querySelector('[data-media-manager-layout]')
-    // console.log('container', container);
 
-    showSpinner(container);
+    const statusAreaContainer = initiator.querySelector('[data-status-area-container]')
+    console.log('statusAreaContainer', statusAreaContainer);
+
+    showSpinner(statusAreaContainer);
 
     // console.log('collections', config.collections);
     const file = detail.file;
@@ -93,14 +92,14 @@ const updateMedia = (detail) => {
     .then(async response => {
         const json = await response.json();
         if (!response.ok) {
-            handleAjaxError(response, json, container);
+            handleAjaxError(response, json, statusAreaContainer);
             throw new Error('Update of medium failed');// stops the chain, goes to .catch
         }
 
         return json;
     })
     .then(json => {
-        showStatusMessage(container, {
+        showStatusMessage(statusAreaContainer, {
             type: 'success',
             message: trans('medium_replaced'),
         });
@@ -118,7 +117,7 @@ const updateMedia = (detail) => {
             }
         }));
     }).finally(() => {
-        hideSpinner(container);
+        hideSpinner(statusAreaContainer);
     });
 }
 

@@ -11,7 +11,7 @@ it('sets default values from config', function () {
         ->and($component->includeCss)->toBeFalse()
         ->and($component->includeJs)->toBeFalse()
         ->and($component->includeImageEditorJs)->toBeFalse()
-        ->and($component->includeFormSubmitter)->toBeFalse()
+        ->and($component->includeMediaManagerSubmitter)->toBeFalse()
         ->and($component->includeTinymceCustomFilePickerIframeJs)->toBeFalse()
         ->and($component->includeLiteYoutube)->toBeFalse();
 });
@@ -22,7 +22,7 @@ it('accepts custom constructor values', function () {
         includeCss: true,
         includeJs: true,
         includeImageEditorJs: true,
-        includeFormSubmitter: true,
+        includeMediaManagerSubmitter: true,
         includeLiteYoutube: true,
     );
 
@@ -30,7 +30,7 @@ it('accepts custom constructor values', function () {
         ->and($component->includeCss)->toBeTrue()
         ->and($component->includeJs)->toBeTrue()
         ->and($component->includeImageEditorJs)->toBeTrue()
-        ->and($component->includeFormSubmitter)->toBeTrue()
+        ->and($component->includeMediaManagerSubmitter)->toBeTrue()
         ->and($component->includeLiteYoutube)->toBeTrue();
 });
 

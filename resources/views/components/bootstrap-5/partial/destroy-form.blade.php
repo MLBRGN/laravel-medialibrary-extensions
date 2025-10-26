@@ -53,7 +53,7 @@
     <x-mle-shared-assets 
         include-css="true" 
         include-js="true" 
-        include-form-submitter="true" 
+        include-media-manager-submitter="true" 
         :frontend-theme="$getConfig('frontendTheme')"
     />
 @endif

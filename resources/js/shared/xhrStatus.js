@@ -1,11 +1,11 @@
 
 let statusMessageTimeoutMap = new WeakMap();
 
-export function showStatusMessage(container, data) {
+export function showStatusMessage(statusAreaContainer, data) {
 
     const { type, message, message_extra: messageExtra = null } = data;
-    const statusContainer = container.querySelector('[data-status-container]');
-    const messageDiv = statusContainer?.querySelector('[data-status-message]');
+    const statusContainer = statusAreaContainer.querySelector('[data-status-container]');
+    const messageDiv = statusAreaContainer?.querySelector('[data-status-message]');
     if (!statusContainer || !messageDiv) return;
 
     const base = messageDiv.getAttribute('data-base-classes') || '';
@@ -22,20 +22,25 @@ export function showStatusMessage(container, data) {
 
     const timeoutDuration = parseInt(statusContainer.dataset.statusTimeout, 10) || 5000;
     // Track timeout per container
-    clearTimeout(statusMessageTimeoutMap.get(container));
-    const timeout = setTimeout(() => hideStatusMessage(container), timeoutDuration);
-    statusMessageTimeoutMap.set(container, timeout);
+    clearTimeout(statusMessageTimeoutMap.get(statusAreaContainer));
+    const timeout = setTimeout(() => hideStatusMessage(statusAreaContainer), timeoutDuration);
+    statusMessageTimeoutMap.set(statusAreaContainer, timeout);
 }
 
-export function hideStatusMessage(container) {
-    container.querySelector('[data-status-container]')?.classList.remove('visible');
+export function hideStatusMessage(statusAreaContainer) {
+    const statusContainer = statusAreaContainer.querySelector('[data-status-container]');
+    statusContainer?.classList.remove('visible');
 }
 
-export function showSpinner(container, customMessage = null) {
-    console.log('showSpinner', container, customMessage);
-    hideStatusMessage(container); // Hides the message before showing spinner
-    const spinnerContainer = container.querySelector('[data-spinner-container]');
-    if (!spinnerContainer) return;
+export function showSpinner(statusAreaContainer, customMessage = null) {
+    console.log('showSpinner', statusAreaContainer, customMessage);
+    hideStatusMessage(statusAreaContainer); // Hides the message before showing spinner
+    const spinnerContainer = statusAreaContainer.querySelector('[data-spinner-container]');
+    console.log('spinnerContainer', spinnerContainer);
+    if (!spinnerContainer) {
+        console.error('could not find spinner container')
+        return;
+    }
 
     if (customMessage) {
         // Find the spinner text span or create it if missing
@@ -45,12 +50,17 @@ export function showSpinner(container, customMessage = null) {
     spinnerContainer.classList.add('active');
 }
 
-export function hideSpinner(container) {
-    console.log('hideSpinner', container);
-    container.querySelector('[data-spinner-container]')?.classList.remove('active');
+export function hideSpinner(statusAreaContainer) {
+    console.log('hideSpinner', statusAreaContainer);
+    const spinnerContainer = statusAreaContainer.querySelector('[data-spinner-container]');
+    if (!spinnerContainer) {
+        console.error('could not find spinner container')
+        return;
+    }
+    spinnerContainer?.classList.remove('active');
 }
 
-export function handleAjaxError(response, data, container) {
+export function handleAjaxError(response, data, statusAreaContainer) {
     let message = trans('upload_failed');
 
     const status = response?.status || 500;
@@ -62,7 +72,7 @@ export function handleAjaxError(response, data, container) {
         case 422:
             if (data.errors) {
                 const allErrors = Object.values(data.errors).flat();
-                showStatusMessage(container, {
+                showStatusMessage(statusAreaContainer, {
                     type: 'error',
                     message: allErrors[0],
                     message_extra: allErrors.slice(1).join('\n')
@@ -78,7 +88,7 @@ export function handleAjaxError(response, data, container) {
             message = data.message || message;
     }
 
-    showStatusMessage(container, { type: 'error', message });
+    showStatusMessage(statusAreaContainer, { type: 'error', message });
 }
 
 export function trans(key) {
