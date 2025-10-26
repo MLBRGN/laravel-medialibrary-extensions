@@ -1,22 +1,23 @@
 @if ($componentToRender)
-    <div class="media-manager-preview-item-container"
+    <div class="media-preview-item-container"
          data-modal-trigger="#{{$id}}-mod"
          data-slide-to="{{ $loopIndex }}"
     >
-        @if($slot->isNotEmpty())
-            {{ $slot }}
-        @else
+{{--        @if($slot->isNotEmpty())--}}
+{{--            {{ $slot }}--}}
+{{--        @else--}}
             <x-dynamic-component
                 :component="$componentToRender"
                 class="{{ $mediumType === 'image' 
-                    ? 'media-manager-image-preview mle-cursor-zoom-in' 
+                    ? 'media-preview-image mle-cursor-zoom-in' 
                     : 'mle-cursor-zoom-in' }}"
                 :medium="$medium"
                 :options="$options"
                 :draggable="$mediumType === 'image' ? 'false' : null"
-                :preview="in_array($mediumType, ['youtube-video'])"
+                :preview="true"
+{{--                :preview="in_array($mediumType, ['youtube-video'])"--}}
             />
-        @endisset
+{{--        @endisset--}}
     </div>
 
     @if ($mediumType === 'image')
@@ -39,7 +40,7 @@
 
 {{--@switch(true)--}}
 {{--    @case(isMediaType($medium, 'youtube-video'))--}}
-{{--        <div class="media-manager-preview-item-container"--}}
+{{--        <div class="media-preview-item-container"--}}
 {{--             data-modal-trigger="#{{$id}}-mod"--}}
 {{--             data-slide-to="{{ $loopIndex }}"--}}
 {{--        >--}}
@@ -53,7 +54,7 @@
 {{--        @break--}}
 
 {{--    @case(isMediaType($medium, 'document'))--}}
-{{--        <div class="media-manager-preview-item-container"--}}
+{{--        <div class="media-preview-item-container"--}}
 {{--             data-modal-trigger="#{{$id}}-mod"--}}
 {{--             data-slide-to="{{ $loopIndex }}"--}}
 {{--        >--}}
@@ -66,7 +67,7 @@
 {{--        @break--}}
 
 {{--    @case(isMediaType($medium, 'video'))--}}
-{{--        <div class="media-manager-preview-item-container"--}}
+{{--        <div class="media-preview-item-container"--}}
 {{--             data-modal-trigger="#{{$id}}-mod"--}}
 {{--             data-slide-to="{{ $loopIndex }}"--}}
 {{--        >--}}
@@ -79,7 +80,7 @@
 {{--        @break--}}
 
 {{--    @case(isMediaType($medium, 'audio'))--}}
-{{--        <div class="media-manager-preview-item-container"--}}
+{{--        <div class="media-preview-item-container"--}}
 {{--             data-modal-trigger="#{{$id}}-mod"--}}
 {{--             data-slide-to="{{ $loopIndex }}"--}}
 {{--        >--}}
@@ -92,12 +93,12 @@
 {{--        @break--}}
 
 {{--    @case(isMediaType($medium, 'image'))--}}
-{{--        <div class="media-manager-preview-item-container"--}}
+{{--        <div class="media-preview-item-container"--}}
 {{--             data-modal-trigger="#{{$id}}-mod"--}}
 {{--             data-slide-to="{{ $loopIndex }}"--}}
 {{--        >--}}
 {{--            <x-mle-image-responsive--}}
-{{--                class="media-manager-image-preview mle-cursor-zoom-in"--}}
+{{--                class="media-preview-image mle-cursor-zoom-in"--}}
 {{--                :medium="$medium"--}}
 {{--                :options="$options"--}}
 {{--                draggable="false"--}}

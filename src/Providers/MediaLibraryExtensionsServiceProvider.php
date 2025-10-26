@@ -49,9 +49,9 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\DebugButton;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageIcon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
-use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -150,6 +150,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-preview-menu', MediaPreviewMenu::class);
         Blade::component($this->packageNameShort.'-media-preview-item-empty', MediaPreviewItemEmpty::class);
         Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
+
+        // temporary subdirectory
+        Blade::component($this->packageNameShort.'-lab-preview', LabPreview::class);
 
         // shared partials shared component views and classes for internal use
         Blade::component($this->packageNameShort.'-shared-debug', Debug::class);

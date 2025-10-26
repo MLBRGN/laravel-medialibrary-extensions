@@ -33,7 +33,7 @@ class MediaPreviews extends BaseComponent
 //        $this->initializeConfig();
 
         $this->media = collect();
-        Log::info($this->singleMedium?->id . ' <-- this->singleMedium id in mmp');
+//        Log::info($this->singleMedium?->id . ' <-- this->singleMedium id in mmp');
 //        Log::info($this->modelOrClassName . ' <-- this modelOrClassName in mmp');
 
 //        Log::info([
@@ -72,7 +72,7 @@ class MediaPreviews extends BaseComponent
                 ->values();
         }
 
-        Log::info('Media IDs: ' . implode(', ', $this->media->pluck('id')->all()));
+//        Log::info('Media IDs: ' . implode(', ', $this->media->pluck('id')->all()));
 
         // merge into config
         $this->initializeConfig();

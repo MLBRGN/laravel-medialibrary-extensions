@@ -39,7 +39,7 @@
             <x-mle-shared-media-preview-container :id="$id">
                 <x-mle-image-responsive
                     :medium="$medium"
-                    class="media-manager-image-preview"
+                    class="media-preview-image"
                     data-bs-target="#{{$id}}-modal-carousel"
                     data-bs-slide-to="0"
                     draggable="false"

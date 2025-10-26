@@ -78,7 +78,7 @@
                     <div
                         data-bs-toggle="modal"
                         data-bs-target="#{{$id}}-mod"
-                        class="media-manager-preview-item-container"
+                        class="media-preview-item-container"
                     >
                         <x-mle-video :medium="$medium" />
                     </div>
@@ -86,7 +86,7 @@
                     <div
                         data-bs-toggle="modal"
                         data-bs-target="#{{$id}}-mod"
-                        class="media-manager-preview-item-container"
+                        class="media-preview-item-container"
                     >
                         <x-mle-audio :medium="$medium" />
                     </div>

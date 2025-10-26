@@ -139,7 +139,7 @@
                                             <div
 
                             data-modal-trigger="#test-media-modal-mod-crs-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <div class="mle-video">
     <div class="mle-video-preview">
@@ -165,7 +165,7 @@
                                             <div
 
                             data-modal-trigger="#test-media-modal-mod-crs-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <div class="mle-audio">
     <div class="mle-audio-preview">

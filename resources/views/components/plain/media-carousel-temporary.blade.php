@@ -77,21 +77,21 @@
                     @elseif(isMediaType($medium, 'video'))
                         <div
                             data-modal-trigger="{{ $id }}-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <x-mle-video :medium="$medium" />
                         </div>
                     @elseif(isMediaType($medium, 'audio'))
                         <div
                             data-modal-trigger="{{ $id }}-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <x-mle-audio :medium="$medium" />
                         </div>
                     @elseif(isMediaType($medium, 'image'))
                         <img
                             src="{{ $medium->getUrl() }}"
-                            class="media-manager-image-preview mle-cursor-zoom-in"
+                            class="media-preview-image mle-cursor-zoom-in"
                             alt="{{ $medium->name }}"
                             draggable="false"
                         >

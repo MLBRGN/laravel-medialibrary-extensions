@@ -1,7 +1,7 @@
 <div
     data-bs-toggle="modal"
     data-bs-target="#{{$id}}-mod"
-    class="media-manager-preview-item-container"
+    class="media-preview-item-container"
 >
     {{ $slot }}
 </div>

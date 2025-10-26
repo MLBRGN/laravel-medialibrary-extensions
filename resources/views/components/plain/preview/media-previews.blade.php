@@ -3,9 +3,9 @@
         {{ $attributes->class([
             'mlbrgn-mle-component',
             'theme-' . $getConfig('frontendTheme'),
-            'media-manager-preview-container',
+            'media-preview-container',
         ]) }}
-        data-media-manager-preview-container
+        data-media-preview-container
     >
         <x-mle-media-preview-item
             :id="$id"

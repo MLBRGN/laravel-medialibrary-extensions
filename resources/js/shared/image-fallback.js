@@ -1,7 +1,7 @@
 document.querySelectorAll(".mlbrgn-mle-component img").forEach(img => {
     const replaceImageWithFallback = (img) => {
         const div = document.createElement('div');
-        div.className = 'mle-non-displayable-img';
+        div.className = 'mle-img-load-failed';
         div.innerHTML = 'Image loading / decoding failed'
         img.parentNode.replaceChild(div, img);
     }

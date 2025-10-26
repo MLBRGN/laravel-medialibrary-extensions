@@ -80,7 +80,7 @@
                         <div
 {{--                            data-modal-trigger="#{{ $id }}-modal"--}}
                             data-modal-trigger="#{{ $id }}-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <x-mle-video :medium="$medium" />
                         </div>
@@ -88,7 +88,7 @@
                         <div
 {{--                            data-modal-trigger="#{{ $id }}-modal"--}}
                             data-modal-trigger="#{{ $id }}-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <x-mle-audio :medium="$medium" />
                         </div>

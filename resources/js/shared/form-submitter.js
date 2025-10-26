@@ -115,7 +115,7 @@ function getMediaManagerConfig(mediaManager) {
 }
 
 function getRouteFromAction(action, target, config) {
-    // const mediaContainer = target.closest('[data-media-manager-preview-container]');
+    // const mediaContainer = target.closest('[data-media-preview-container]');
 
     console.log('target', target);
     console.log('config', config);

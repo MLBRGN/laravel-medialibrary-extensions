@@ -15,15 +15,6 @@
         //min-width:200px;
     }
 
-    .media-lab-preview-grid {
-        display: grid;
-        align-items: center;
-        justify-items: start;
-        //grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-    }
-
     .media-lab-title {
         background-color: var(--mlbrgn-mle-preview-menu-bg-color);
         font-weight: 900;
