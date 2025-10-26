@@ -69,7 +69,10 @@ return [
     'failed_to_attach_media' => 'Failed to attach media: :message',
     'debug' => 'Debug',
     'restore_original' => 'Herstel origineel',
+    'restored_original' => 'Restored original.',
+    'could_not_restore_original' => 'Could not restore original.',
     'original' => 'Original',
     'base' => 'Base',
     'conversion' => 'Conversion',
+    'temporary_upload_original_cannot_be_restored' => 'Temporary upload original cannot be restored.',
 ];

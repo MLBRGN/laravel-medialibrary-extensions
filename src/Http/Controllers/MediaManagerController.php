@@ -9,10 +9,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerTinyMceAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
@@ -23,6 +24,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
@@ -60,7 +62,7 @@ class MediaManagerController extends Controller
     public function destroy(
         DestroyRequest $request,
         Media $media,
-        DeleteMediumAction $deleteMediumAction
+        DestroyMediumAction $deleteMediumAction
     ): RedirectResponse|JsonResponse {
         return $deleteMediumAction->execute($request, $media);
     }
@@ -68,7 +70,7 @@ class MediaManagerController extends Controller
     public function temporaryUploadDestroy(
         DestroyTemporaryMediumRequest $request,
         TemporaryUpload $temporaryUpload,
-        DeleteTemporaryUploadAction $deleteTemporaryUploadAction
+        DestroyTemporaryUploadAction $deleteTemporaryUploadAction
     ): RedirectResponse|JsonResponse {
         return $deleteTemporaryUploadAction->execute($request, $temporaryUpload);
     }
@@ -113,50 +115,13 @@ class MediaManagerController extends Controller
     //        return $getMediaManagerTinyMceAction->execute($request);
     //    }
 
-    public function restoreOriginal(Media $medium)
-    {
-        $originalPath = "{$medium->id}/{$medium->file_name}";
-
-        if (!Storage::disk('originals')->exists($originalPath)) {
-            return back()->with('error', 'Original file not found.');
-        }
-
-        try {
-            // Overwrite current media file with original
-            $content = Storage::disk('originals')->get($originalPath);
-            file_put_contents($medium->getPath(), $content);
-
-            // Optionally regenerate conversions if needed
-            // $medium->generateConversions();
-
-            Log::info("Restored original for media [{$medium->id}].");
-            return back()->with('success', 'Original restored successfully.');
-        } catch (\Throwable $e) {
-            Log::error("Failed to restore original for media [{$medium->id}]: {$e->getMessage()}");
-            return back()->with('error', 'Failed to restore original.');
-        }
+    public function restoreOriginalMedium(
+        RestoreOriginalMediumRequest $request,
+        Media $media,
+        RestoreOriginalMediumAction $restoreMediumAction
+    ): RedirectResponse|JsonResponse {
+        return $restoreMediumAction->execute($request, $media);
     }
-
-//    public function restoreOriginal(Media $medium)
-//    {
-//        $originalPath = $medium->id . '/' . $medium->file_name;
-//
-//        if (!Storage::disk('originals')->exists($originalPath)) {
-//            return back()->with('error', 'Original file not found.');
-//        }
-//
-//        // Get the original content
-//        $content = Storage::disk('originals')->get($originalPath);
-//
-//        // Overwrite the media's file
-//        $mediaPath = $medium->getPath(); // path to current media file
-//        Storage::put($mediaPath, $content);
-//
-//        // Regenerate conversions
-////        $medium->generateConversions();
-//
-//        return back()->with('success', 'Original restored successfully.');
-//    }
 
     public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
     {

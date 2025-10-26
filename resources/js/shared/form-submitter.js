@@ -81,7 +81,12 @@ mediaManagers.forEach(mediaManager => {
             }
 
             showStatusMessage(container, data);
-            updatePreview(mediaManager, config, {});
+
+            // TODO use data- attribute for refresh?
+            if (action !== 'medium-restore') {
+                updatePreview(mediaManager, config, {});
+            }
+
             resetFields(formElement);
         } catch (error) {
             console.error('Error during upload:', error);
@@ -94,12 +99,12 @@ mediaManagers.forEach(mediaManager => {
         }
     });
 
-    mediaManager.addEventListener('refreshRequest', function (e) {
-        const detail = e.detail;
-        const config = getMediaManagerConfig(mediaManager);
-        // console.log('Refresh requested:', e);
-        updatePreview(mediaManager, config, detail);
-    })
+        mediaManager.addEventListener('refreshRequest', function (e) {
+            const detail = e.detail;
+            const config = getMediaManagerConfig(mediaManager);
+            // console.log('Refresh requested:', e);
+            updatePreview(mediaManager, config, detail);
+        })
 });
 
 function getMediaManagerConfig(mediaManager) {
@@ -124,12 +129,7 @@ function getRouteFromAction(action, target, config) {
         'upload-youtube-medium': config.youtubeUploadRoute,
         'destroy-medium': target?.dataset?.route,
         'set-as-first': target?.dataset?.route,
-        // 'temporary-upload-destroy-medium': config.mediumDestroyRoute,
-        // 'temporary-upload-set-as-first': config.mediumDestroyRoute,
-        // 'temporary-upload-destroy-medium': mediaContainer?.dataset?.temporaryUploadDestroyRoute,
-        // 'destroy-medium': mediaContainer?.dataset?.destroyRoute,
-        // 'set-as-first': mediaContainer?.dataset?.setAsFirstRoute,
-        // 'temporary-upload-set-as-first': mediaContainer?.dataset?.temporaryUploadSetAsFirstRoute,
+        'medium-restore': target?.dataset?.route,
     };
 
     console.log('routes', routes)

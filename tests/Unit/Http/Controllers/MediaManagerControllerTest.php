@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Http\JsonResponse;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
@@ -65,7 +65,7 @@ it('delegates store YouTube', function () {
 it('delegates destroy media', function () {
     $request = mock(DestroyRequest::class);
     $media = mock(Media::class);
-    $action = mock(DeleteMediumAction::class);
+    $action = mock(DestroyMediumAction::class);
     $response = new JsonResponse(['deleted' => true]);
 
     $action->shouldReceive('execute')->once()->with($request, $media)->andReturn($response);
@@ -79,7 +79,7 @@ it('delegates destroy media', function () {
 it('delegates temporary upload destroy', function () {
     $request = mock(DestroyTemporaryMediumRequest::class);
     $tempUpload = mock(TemporaryUpload::class);
-    $action = mock(DeleteTemporaryUploadAction::class);
+    $action = mock(DestroyTemporaryUploadAction::class);
     $response = new JsonResponse(['deleted' => true]);
 
     $action->shouldReceive('execute')->once()->with($request, $tempUpload)->andReturn($response);

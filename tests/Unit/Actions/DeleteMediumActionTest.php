@@ -2,7 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -33,7 +33,7 @@ it('deletes a medium and reorders priorities (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
     $request->setJson(new ParameterBag($request->all()));
 
-    $action = new DeleteMediumAction;
+    $action = new DestroyMediumAction;
 
     // Act
     $response = $action->execute($request, $first);
@@ -75,7 +75,7 @@ it('skips reorder if no collections are passed', function () {
     $request->headers->set('Accept', 'application/json');
     $request->setJson(new ParameterBag($request->all()));
 
-    $action = new DeleteMediumAction;
+    $action = new DestroyMediumAction;
 
     // Execute delete action
     $response = $action->execute($request, $media);

@@ -2,7 +2,7 @@
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
@@ -23,7 +23,7 @@ it('deletes the temporary upload and returns a JSON response when request expect
     // Force expectsJson = true
     $request->headers->set('Accept', 'application/json');
 
-    $action = new DeleteTemporaryUploadAction;
+    $action = new DestroyTemporaryUploadAction;
 
     $response = $action->execute($request, $temporaryUpload);
 
@@ -54,7 +54,7 @@ it('deletes the temporary upload and returns a redirect response with flash data
 
     // No 'Accept: application/json' header => expectsJson is false
 
-    $action = new DeleteTemporaryUploadAction;
+    $action = new DestroyTemporaryUploadAction;
 
     $response = $action->execute($request, $temporaryUpload);
 

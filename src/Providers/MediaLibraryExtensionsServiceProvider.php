@@ -32,6 +32,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\ImageEditorForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\MediumRestoreForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
@@ -44,6 +45,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItem;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewMenu;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\ConditionalForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\DebugButton;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
@@ -161,11 +163,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-shared-media-preview-container', MediaPreviewContainer::class);
         Blade::component($this->packageNameShort.'-shared-local-package-icon', LocalPackageIcon::class);
         Blade::component($this->packageNameShort.'-shared-debug-button', DebugButton::class);
+        Blade::component($this->packageNameShort.'-shared-conditional-form', ConditionalForm::class);
 
         // partial component views and classes for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
         Blade::component($this->packageNameShort.'-partial-image-editor-form', ImageEditorForm::class);
         Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
+        Blade::component($this->packageNameShort.'-partial-medium-restore-form', MediumRestoreForm::class);
         Blade::component($this->packageNameShort.'-partial-destroy-form', DestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-set-as-first-form', SetAsFirstForm::class);
         Blade::component($this->packageNameShort.'-partial-status-area', StatusArea::class);

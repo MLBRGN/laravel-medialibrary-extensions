@@ -12,7 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class DeleteMediumAction
+class DestroyMediumAction
 {
     public function execute(
         DestroyRequest $request,

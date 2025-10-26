@@ -70,7 +70,11 @@ return [
     'failed_to_attach_media' => 'Toevoegen van media mislukt: :message',
     'debug' => 'Debug',
     'restore_original' => 'Herstel origineel',
+    'restored_original' => 'Origineel hersteld.',
+    'could_not_restore_original' => 'Kon origineel niet herstellen.',
     'original' => 'Origineel',
     'base' => 'Basis',
     'conversion' => 'Conversie',
+    'temporary_upload_original_cannot_be_restored' => 'Origineel van Tijdelijke upload kan niet worden hersteld.',
+
 ];

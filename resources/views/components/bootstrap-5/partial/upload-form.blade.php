@@ -1,4 +1,4 @@
-<x-media-library-extensions::shared.conditional-form
+<x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
@@ -36,7 +36,6 @@
                 value="{{ $collectionName }}">
         @endif
     @endforeach
-{{--    @dump($singleMedium?->id)--}}
     <input
         type="hidden"
         name="single_medium_id"
@@ -57,7 +56,7 @@
         type="hidden"
         name="initiator_id"
         value="{{ $id }}">
-    <input 
+    <input
         type="hidden"
         name="media_manager_id"
         value="{{ $mediaManagerId }}">
@@ -71,7 +70,7 @@
          ? __('media-library-extensions::messages.upload_media')
          : __('media-library-extensions::messages.upload_medium') }}
     </button>
-</x-media-library-extensions::partial.conditional-form>
+</x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
     <x-mle-shared-assets 
         include-css="true" 

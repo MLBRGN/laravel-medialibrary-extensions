@@ -1,8 +1,8 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
 
-covers(DeleteTemporaryUploadAction::class);
+covers(DestroyTemporaryUploadAction::class);
 
 it('returns error response when no collections provided (JSON)', function () {
     $user = $this->getUser();

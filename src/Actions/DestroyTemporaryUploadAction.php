@@ -11,7 +11,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
-class DeleteTemporaryUploadAction
+class DestroyTemporaryUploadAction
 {
     public function execute(
         DestroyTemporaryMediumRequest $request,

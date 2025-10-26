@@ -1,4 +1,4 @@
-<x-media-library-extensions::shared.conditional-form
+<x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => $getConfig('mediumSetAsFirstRoute'),
@@ -55,7 +55,7 @@
             title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         />
     </button>
-</x-media-library-extensions::partial.conditional-form>
+</x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
     <x-mle-shared-assets 
         include-css="true" 

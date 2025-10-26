@@ -1,4 +1,4 @@
-<x-media-library-extensions::shared.conditional-form
+<x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => route(mle_prefix_route('media-upload-youtube')),
@@ -31,8 +31,7 @@
     <input
         type="hidden"
         name="youtube_collection"
-{{--        value="{{ $youtubeCollection }}">--}}
-        value="{{ $getConfig('youtubeCollection')}}">
+        value="{{ $getConfig('youtubeCollection') }}">
     <input
         type="hidden"
         name="model_type"
@@ -74,7 +73,7 @@
     >
         {{ __('media-library-extensions::messages.add_youtube_video') }}
     </button>
-</x-media-library-extensions::partial.conditional-form>
+</x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
     <x-mle-shared-assets 
         include-css="true" 

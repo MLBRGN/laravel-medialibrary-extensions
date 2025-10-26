@@ -1,4 +1,4 @@
-<div class="mlbrgn-mle-component theme-bootstrap-5 mle-media-lab">
+<div class="mlbrgn-mle-component theme-bootstrap-5 mle-media-lab" data-media-manager>
     <div class="media-preview-grid" data-media-preview-grid>
         <x-mle-lab-preview
             class="mle-media-lab-original"
@@ -19,19 +19,10 @@
             </x-slot>
 
             <x-slot name="menuEnd">
-                <form action="{{ route('media.restore-original', $medium) }}" method="POST">
-                    @csrf
-                    <button
-                        type="submit"
-                        class="mle-button mle-button-submit mle-button-icon btn btn-primary"
-                        title="{{ __('media-library-extensions::messages.restore_original') }}"
-                    >
-                        <x-mle-shared-icon
-                            name="{{ config('media-library-extensions.icons.restore') }}"
-                            :title="__('media-library-extensions::messages.restore_original')"
-                        />
-                    </button>
-                </form>
+               <x-mle-partial-medium-restore-form
+                   :model-or-class-name="$medium->model"
+                   :medium="$medium"
+               />
             </x-slot>
         </x-mle-lab-preview>
         
@@ -70,3 +61,9 @@
         </x-mle-lab-preview>
     </div>
 </div>
+
+<x-mle-shared-assets
+    include-css="true"
+    include-js="true"
+    :frontend-theme="$getConfig('frontendTheme')"
+/>

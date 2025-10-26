@@ -45,7 +45,8 @@ trait InteractsWithOptionsAndConfig
         'previewUpdateRoute',
         'youtubeUploadRoute',
         'mediumSetAsFirstRoute',
-        'mediumDestroyRoute'
+        'mediumDestroyRoute',
+        'mediumRestoreRoute'
 
         // any other properties you want in config
     ];

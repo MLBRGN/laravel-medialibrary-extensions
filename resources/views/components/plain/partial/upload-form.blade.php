@@ -1,4 +1,4 @@
-<x-media-library-extensions::shared.conditional-form
+<x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
@@ -21,7 +21,7 @@
         class="mle-input form-control"
         @if($multiple)
             name="{{ $getConfig('uploadFieldName') }}[]"
-            multiple 
+            multiple
         @else
             name="{{$getConfig('uploadFieldName') }}"
         @endif
@@ -70,7 +70,7 @@
          ? __('media-library-extensions::messages.upload_media')
          : __('media-library-extensions::messages.upload_medium') }}
     </button>
-</x-media-library-extensions::partial.conditional-form>
+</x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
     <x-mle-shared-assets 
         include-css="true" 

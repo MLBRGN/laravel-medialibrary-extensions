@@ -15,32 +15,6 @@ trait InteractsWithOriginalMedia
      * Replace an existing permanent medium with a new file.
      * Preserves order, priority, and custom properties (including global_order).
      */
-//    public function replaceMedium(Media $oldMedia, UploadedFile $newFile): Media
-//    {
-//        // Backup metadata before delete
-//        $backup = $oldMedia->replicate(['id']);
-//        $custom = $backup->custom_properties ?? [];
-//        $oldMedia->delete();
-//
-//        $model = $backup->model;
-//        $collection = $backup->collection_name;
-//
-//        // Create new medium
-//        $newMedia = $model
-//            ->addMedia($newFile)
-//            ->toMediaCollection($collection);
-//
-//        // Restore metadata, including global_order
-//        $newMedia->custom_properties = $custom;
-//        $newMedia->order_column = $backup->order_column;
-//        $newMedia->save();
-//
-//        // Try to reuse original file
-//        $this->reuseOriginal($backup, $newMedia);
-//
-//        Log::info("Replaced media [{$backup->id}] with [{$newMedia->id}] while preserving global_order.");
-//        return $newMedia;
-//    }
 
     public function replaceMedium(Media $oldMedia, ?UploadedFile $newFile = null): Media
     {
@@ -87,6 +61,7 @@ trait InteractsWithOriginalMedia
 
     /**
      * Replace an existing TemporaryUpload with a new file.
+     * TODO do i need this?
      */
     public function replaceTemporaryUpload(TemporaryUpload $oldUpload, UploadedFile $newFile): TemporaryUpload
     {
@@ -121,7 +96,7 @@ trait InteractsWithOriginalMedia
 
         $newUpload->save();
 
-        $this->reuseOriginal($backup, $newUpload);
+//        $this->reuseOriginal($backup, $newUpload);
 
         Log::info("Replaced temporary upload [{$backup->id}] with [{$newUpload->id}].");
         return $newUpload;

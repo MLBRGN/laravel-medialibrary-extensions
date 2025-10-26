@@ -1,8 +1,8 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
 
-covers(DeleteMediumAction::class);
+covers(DestroyMediumAction::class);
 
 it('deletes the medium and returns JSON', function () {
     $user = $this->getUser();
