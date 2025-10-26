@@ -59,19 +59,23 @@ const updateMedia = (detail) => {
     const initiator = document.querySelector('#' + config.initiatorId);// TODO initiator not found after preview refresh!
 
     const statusAreaContainer = initiator.querySelector('[data-status-area-container]')
-    console.log('statusAreaContainer', statusAreaContainer);
 
     showSpinner(statusAreaContainer);
 
     // console.log('collections', config.collections);
     const file = detail.file;
     const formData = new FormData();
-    formData.append('initiator_id', config.initiatorId);
+    const mediumId = config.mediumId ?? null;
+    const modelType = config.modelType;
+    const modelId = config.modelId ?? '';
+    const initiatorId = config.initiatorId;
+
+    formData.append('initiator_id', initiatorId);
     formData.append('media_manager_id', config.mediaManagerId ?? '');
-    formData.append('model_type', config.modelType);
-    formData.append('model_id', config.modelId ?? '');
+    formData.append('model_type', modelType);
+    formData.append('model_id', modelId );
     formData.append('single_medium_id', config.singleMedium?.id ?? null);// TODO keep both?
-    formData.append('medium_id', config.mediumId ?? null);// TODO keep both?
+    formData.append('medium_id', mediumId);// TODO keep both?
     // formData.append('collections', JSON.stringify(config.collections));
     formData.append('options', JSON.stringify(config.options));
     formData.append('collection', config.collection);
@@ -109,11 +113,25 @@ const updateMedia = (detail) => {
             composed: true,
             detail: {'modal': modal}
         }));
+
         initiator.dispatchEvent(new CustomEvent('refreshRequest', {
             bubbles: true,
             composed: true,
             detail: {
                 'singleMediumId': json.singleMediumId ?? null,
+            }
+        }));
+
+        const newMediumId = json.newMediumId;
+        console.log('newMediumId', newMediumId);
+        // Notify listeners that the previews were updated
+        document.dispatchEvent(new CustomEvent('imageUpdated', {
+            bubbles: false,
+            detail: {
+                mediumId: newMediumId,
+                modelType: modelType,
+                modelId: modelId,
+                initiatorId: initiatorId,
             }
         }));
     }).finally(() => {

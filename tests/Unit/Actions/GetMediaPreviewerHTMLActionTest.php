@@ -2,23 +2,23 @@
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerPermanentHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 
 beforeEach(function () {
     $this->permanentAction = Mockery::mock(GetMediaPreviewerPermanentHTMLAction::class);
     $this->temporaryAction = Mockery::mock(GetMediaPreviewerTemporaryHTMLAction::class);
 
-    $this->action = new GetMediaPreviewerHTMLAction(
+    $this->action = new GetMediaManagerPreviewerHTMLAction(
         $this->permanentAction,
         $this->temporaryAction
     );
 });
 
 it('calls the temporary previewer action when temporary_upload_mode is true', function () {
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET', [
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy-url', 'GET', [
         'temporary_upload_mode' => 'true',
     ]);
 
@@ -39,7 +39,7 @@ it('calls the temporary previewer action when temporary_upload_mode is true', fu
 });
 
 it('calls the permanent previewer action when temporary_upload_mode is not true', function () {
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET', [
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy-url', 'GET', [
         'temporary_upload_mode' => 'false',
     ]);
 
@@ -60,7 +60,7 @@ it('calls the permanent previewer action when temporary_upload_mode is not true'
 });
 
 it('calls the permanent previewer action when temporary_upload_mode is absent', function () {
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET');
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy-url', 'GET');
 
     $expectedResponse = new JsonResponse(['html' => '<div>permanent default</div>']);
 

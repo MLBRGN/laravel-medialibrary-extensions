@@ -149,6 +149,19 @@
     </script>
 @endif
 
+@if($includeMediaManagerLabSubmitter)
+    <script type="module">
+        if (!window.mleMediaLabSubmitterJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/media-manager-lab-submitter.js') }}";
+            document.head.appendChild(script);
+            window.mleMediaLabSubmitterJs = true;
+
+            console.log('mleMediaLabSubmitterJs');
+        }
+    </script>
+@endif
 
 {{-- Lite YouTube --}}
 @if($includeLiteYoutube)

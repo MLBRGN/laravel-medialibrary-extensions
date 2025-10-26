@@ -28,7 +28,8 @@ Route::group([
         Route::delete('media-manager/{temporaryUpload}/temporary-upload-destroy', 'temporaryUploadDestroy')->name(config('media-library-extensions.route_prefix').'-temporary-upload-destroy');
         Route::put('media-manager-set-medium-as-first-in-collection', 'setAsFirst')->name(config('media-library-extensions.route_prefix').'-set-as-first');
         Route::put('media-manager-set-temporary-upload-as-first-in-collection', 'setTemporaryUploadAsFirst')->name(config('media-library-extensions.route_prefix').'-temporary-upload-set-as-first');
-        Route::get('media-manager-preview-update', 'getUpdatedPreviewerHTML')->name(config('media-library-extensions.route_prefix').'-preview-update');
+        Route::get('media-manager-preview-update', 'getUpdatedMediaManagerPreviewerHTML')->name(config('media-library-extensions.route_prefix').'-media-manager-preview-update');
+        Route::get('media-manager-lab-preview-update', 'getUpdatedMediaManagerLabPreviewerHTML')->name(config('media-library-extensions.route_prefix').'-media-manager-lab-preview-update');
         Route::post('media-manager/{media}/save-updated-medium', 'saveUpdatedMedium')->name(config('media-library-extensions.route_prefix').'-save-updated-medium');
         Route::post('media-manager/{temporaryUpload}/save-updated-temporary-upload', 'saveUpdatedTemporaryUpload')->name(config('media-library-extensions.route_prefix').'-save-updated-temporary-upload');
         Route::post('media-lab/{media}/restore-original-medium','restoreOriginalMedium')->name(config('media-library-extensions.route_prefix').'-restore-original-medium');

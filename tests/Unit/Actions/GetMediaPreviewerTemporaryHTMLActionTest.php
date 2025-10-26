@@ -3,7 +3,7 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
@@ -34,7 +34,7 @@ it('renders temporary media preview HTML and returns JSON response', function ()
         ]),
     ];
 
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
 
     Blade::shouldReceive('renderComponent')
         ->once()

@@ -1,0 +1,1 @@
+function t(e,o){e.forEach(a=>{a.querySelectorAll('input:not([type="hidden"]), button').forEach(r=>r.disabled=o)})}function n(e){t(e,!0)}function l(e){t(e,!1)}function f(e){const o=new FormData;return e.querySelectorAll("input").forEach(a=>{a.type==="file"?Array.from(a.files).forEach(r=>{o.append(a.name,r)}):o.append(a.name,a.value)}),o}export{n as d,l as e,f as g};

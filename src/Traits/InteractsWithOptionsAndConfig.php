@@ -42,11 +42,12 @@ trait InteractsWithOptionsAndConfig
         'id',
 
         'mediaUploadRoute',
-        'previewUpdateRoute',
+        'mediaManagerPreviewUpdateRoute',
         'youtubeUploadRoute',
         'mediumSetAsFirstRoute',
         'mediumDestroyRoute',
-        'mediumRestoreRoute'
+        'mediumRestoreRoute',
+        'mediaManagerLabPreviewUpdateRoute'
 
         // any other properties you want in config
     ];

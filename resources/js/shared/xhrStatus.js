@@ -33,10 +33,8 @@ export function hideStatusMessage(statusAreaContainer) {
 }
 
 export function showSpinner(statusAreaContainer, customMessage = null) {
-    console.log('showSpinner', statusAreaContainer, customMessage);
     hideStatusMessage(statusAreaContainer); // Hides the message before showing spinner
     const spinnerContainer = statusAreaContainer.querySelector('[data-spinner-container]');
-    console.log('spinnerContainer', spinnerContainer);
     if (!spinnerContainer) {
         console.error('could not find spinner container')
         return;
@@ -51,7 +49,6 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
 }
 
 export function hideSpinner(statusAreaContainer) {
-    console.log('hideSpinner', statusAreaContainer);
     const spinnerContainer = statusAreaContainer.querySelector('[data-spinner-container]');
     if (!spinnerContainer) {
         console.error('could not find spinner container')

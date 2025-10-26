@@ -3,7 +3,7 @@
 use Illuminate\Http\JsonResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
@@ -13,7 +13,7 @@ use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
@@ -143,14 +143,14 @@ it('delegates save updated temporary upload', function () {
 });
 
 it('delegates get updated previewer html', function () {
-    $request = mock(GetMediaPreviewerHTMLRequest::class);
-    $action = mock(GetMediaPreviewerHTMLAction::class);
+    $request = mock(GetMediaManagerPreviewerHTMLRequest::class);
+    $action = mock(GetMediaManagerPreviewerHTMLAction::class);
     $response = new JsonResponse(['html' => '<div>preview</div>']);
 
     $action->shouldReceive('execute')->once()->with($request)->andReturn($response);
 
     $controller = new MediaManagerController;
-    $result = $controller->getUpdatedPreviewerHTML($request, $action);
+    $result = $controller->getUpdatedMediaManagerPreviewerHTML($request, $action);
 
     expect($result)->toBe($response);
 });

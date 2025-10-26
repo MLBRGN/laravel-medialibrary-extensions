@@ -35,7 +35,7 @@ it('initializes with a HasMedia model', function () {
         ->and($component->modelId)->toBe($model->getKey());
     //        ->and($component->mediaPresent)->toBeFalse();
     //        ->and($component->mediaUploadRoute)->toBe('/fake-upload-route')
-    //        ->and($component->previewUpdateRoute)->toBe('/fake-preview-update');
+    //        ->and($component->mediaManagerPreviewUpdateRoute)->toBe('/fake-preview-update');
 });
 
 it('initializes with a model class string', function () {

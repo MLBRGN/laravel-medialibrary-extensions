@@ -8,9 +8,8 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -23,7 +22,7 @@ class GetMediaPreviewerPermanentHTMLAction
     /**
      * @throws Exception
      */
-    public function execute(GetMediaPreviewerHTMLRequest $request): JsonResponse|Response
+    public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
         $initiatorId = $request->input('initiator_id');
         $modelType = $request->input('model_type');

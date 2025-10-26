@@ -33,7 +33,8 @@
                 <ul>
                     <li><strong>Media upload route:</strong> <code>{{ $getConfig('mediaUploadRoute') }}</code></li>
                     <li><strong>YouTube upload route:</strong> <code>{{ $getConfig('youtubeUploadRoute') }}</code></li>
-                    <li><strong>Preview update route:</strong> <code>{{ $getConfig('previewUpdateRoute') }}</code></li>
+                    <li><strong>MM Preview update route:</strong> <code>{{ $getConfig('mediaManagerPreviewUpdateRoute') }}</code></li>
+                    <li><strong>MML Preview update route:</strong> <code>{{ $getConfig('mediaManagerLabPreviewUpdateRoute') }}</code></li>
                 </ul>
             </div>
 

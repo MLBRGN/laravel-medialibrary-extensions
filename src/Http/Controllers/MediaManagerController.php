@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerLabPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerTinyMceAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
@@ -22,8 +23,9 @@ use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerLabPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
@@ -103,17 +105,19 @@ class MediaManagerController extends Controller
         return $saveUpdatedMediumAction->execute($request);
     }
 
-    public function getUpdatedPreviewerHTML(
-        GetMediaPreviewerHTMLRequest $request,
-        GetMediaPreviewerHTMLAction $getMediaPreviewerHTMLAction
+    public function getUpdatedMediaManagerPreviewerHTML(
+        GetMediaManagerPreviewerHTMLRequest $request,
+        GetMediaManagerPreviewerHTMLAction $getMediaManagerPreviewerHTMLAction
     ): RedirectResponse|JsonResponse {
-        return $getMediaPreviewerHTMLAction->execute($request);
+        return $getMediaManagerPreviewerHTMLAction->execute($request);
     }
 
-    //    public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
-    //    {
-    //        return $getMediaManagerTinyMceAction->execute($request);
-    //    }
+    public function getUpdatedMediaManagerLabPreviewerHTML(
+        GetMediaManagerLabPreviewerHTMLRequest $request,
+        GetMediaManagerLabPreviewerHTMLAction $getMediaManagerLabPreviewerHTMLAction
+    ): RedirectResponse|JsonResponse {
+        return $getMediaManagerLabPreviewerHTMLAction->execute($request);
+    }
 
     public function restoreOriginalMedium(
         RestoreOriginalMediumRequest $request,
@@ -126,34 +130,5 @@ class MediaManagerController extends Controller
     public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
     {
         return $getMediaManagerTinyMceAction->execute($request);
-//        dd($request);
-//        // Get the first existing model or create it if none exists
-//        $modelType = $request->input('model_type');
-//        $modelId = $request->input('model_id');
-//        $id = 'something_for_now'; // TODO
-//        $multiple = false;
-//        $collections = json_decode(request()->string('collections'), true);
-//        $options = json_decode(request()->string('options'), true);
-//
-//        $model = null;
-//        if ($modelType && $modelId) {
-//            $model = $modelType::findOrFail($modelId);
-//        }
-//        $modelOrClassName = $model ?? $modelType;
-//
-////        dd([
-////            'id' => $id,
-////            'modelOrClassName' => $modelOrClassName,
-////            'multiple' => $multiple,
-////            'collections' => $collections,
-////            'options' => $options,
-////        ]);
-//        return view('media-library-extensions::media-manager-tinymce-wrapper', [
-//            'id' => $id,
-//            'modelOrClassName' => $modelOrClassName,
-//            'multiple' => $multiple,
-//            'collections' => $collections,
-//            'options' => $options,
-//        ]);
     }
 }

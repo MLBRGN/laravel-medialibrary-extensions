@@ -19,7 +19,7 @@ dataset('authenticated_put_routes', [
 ]);
 
 dataset('authenticated_get_routes', [
-    'preview update' => fn () => config('media-library-extensions.route_prefix').'-preview-update',
+    'preview update' => fn () => config('media-library-extensions.route_prefix').'-media-manager-preview-update',
 ]);
 
 it('cannot sen post requests to routes when not authenticated', function ($routeName) {

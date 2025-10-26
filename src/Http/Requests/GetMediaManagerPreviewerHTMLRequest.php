@@ -13,7 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 /**
  * Handles authorization and validation rules for media manager preview update request
  */
-class GetMediaPreviewerHTMLRequest extends FormRequest
+class GetMediaManagerPreviewerHTMLRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

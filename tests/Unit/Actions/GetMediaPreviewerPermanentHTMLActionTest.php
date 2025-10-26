@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\JsonResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
@@ -29,7 +29,7 @@ it('renders media preview HTML and returns JSON response', function () {
         'show_order' => false,
     ];
 
-    $request = Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
+    $request = Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
 
     // Return the Dummy model instance
     $this->mediaService
@@ -76,7 +76,7 @@ it('renders permanent media preview HTML and returns JSON response', function ()
         ]),
     ];
 
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
 
     // mock the MediaService behavior
     $this->mediaService

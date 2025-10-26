@@ -20,7 +20,7 @@ class MediaManagerTinymce extends BaseComponent
 
 //    public string $mediaUploadRoute; // upload form action route
 
-//    public string $previewUpdateRoute; // route to update preview media when using XHR
+//    public string $mediaManagerPreviewUpdateRoute; // route to update preview media when using XHR
 
 //    public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
@@ -72,7 +72,7 @@ class MediaManagerTinymce extends BaseComponent
         }
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
-        $previewUpdateRoute = route(mle_prefix_route('preview-update'));
+        $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update'));
         $youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 
         if ($this->multiple) {
@@ -86,7 +86,7 @@ class MediaManagerTinymce extends BaseComponent
         }
 
         $this->initializeConfig([
-            'previewUpdateRoute' => $previewUpdateRoute,
+            'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
             'youtubeUploadRoute' => $youtubeUploadRoute,
             'mediaUploadRoute' => $mediaUploadRoute,
             'uploadFieldName' => $this->uploadFieldName,

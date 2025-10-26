@@ -18,6 +18,7 @@
         title="{{ __('media-library-extensions::messages.restore_original') }}"
         data-action="medium-restore"
         data-route="{{ $getConfig('mediumRestoreRoute') }}"
+        data-medium-id="{{ $medium->id }}"
     >
         <x-mle-shared-icon
             name="{{ config('media-library-extensions.icons.restore') }}"

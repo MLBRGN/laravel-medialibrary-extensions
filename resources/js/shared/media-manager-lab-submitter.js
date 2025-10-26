@@ -7,13 +7,13 @@ import {
     hideSpinner,
 } from './xhrStatus';
 
-import { updatePreviews } from './media-manager-previews-refresher'
+import { updatePreviews } from './media-manager-lab-previews-refresher'
 import { getFormData } from './form';
 import { getMediaManagerConfig } from './media-manager-config';
 
-const mediaManagers = document.querySelectorAll('[data-media-manager]');
+const mediaManagerLabs = document.querySelectorAll('[data-media-manager-lab]');
 
-mediaManagers.forEach(mediaManager => {
+mediaManagerLabs.forEach(mediaManager => {
 
     // const statusContainer = mediaManager.querySelector('[data-media-manager-layout]')
     const statusAreaContainer = mediaManager.querySelector('[data-status-area-container]')
@@ -27,21 +27,14 @@ mediaManagers.forEach(mediaManager => {
         if (!useXhr) return
 
         const target = e.target.closest('[data-action]');
-        if (!target) return;
+
+        const action = target?.getAttribute('data-action');
+        if (!action) return;
 
         e.preventDefault();
-        const action = target.getAttribute('data-action');
 
-        if (action === 'debugger-toggle') {
-
-            const componentId = config.id;
-            const component = document.querySelector('#'+componentId);
-            const debugSection = component.querySelector('.mle-debug');
-
-            debugSection.classList.toggle('hidden');
-
-            return
-        }
+        const mediumId = target.dataset.mediumId;
+        if (!target) return;
 
         const formElement = target.closest('[data-xhr-form]');
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
@@ -80,8 +73,7 @@ mediaManagers.forEach(mediaManager => {
             }
 
             showStatusMessage(statusAreaContainer, data);
-            updatePreviews(mediaManager, config, {});
-            resetFields(formElement);
+            updatePreviews(mediaManager, config, mediumId, {});
         } catch (error) {
             console.error('Error during upload:', error);
             showStatusMessage(statusAreaContainer, {
@@ -93,29 +85,17 @@ mediaManagers.forEach(mediaManager => {
         }
     });
 
-        mediaManager.addEventListener('refreshRequest', function (e) {
-            const detail = e.detail;
-            const config = getMediaManagerConfig(mediaManager);
-            updatePreviews(mediaManager, config, detail);
-        })
+    // mediaManager.addEventListener('refreshRequest', function (e) {
+    //     const detail = e.detail;
+    //     const config = getMediaManagerConfig(mediaManager);
+    //     updatePreviews(mediaManager, config, detail);
+    // })
 });
 
 function getRouteFromAction(action, target, config) {
-
     const routes = {
-        'upload-media': config.mediaUploadRoute,
-        'upload-youtube-medium': config.youtubeUploadRoute,
-        'destroy-medium': target?.dataset?.route,
-        'set-as-first': target?.dataset?.route,
+        'medium-restore': target?.dataset?.route,
     };
 
     return routes[action] || null;
-}
-
-function resetFields(formElement) {
-    formElement.querySelectorAll('input').forEach(input => {
-        if (input.type !== 'hidden') {
-            input.value = '';
-        }
-    });
 }

@@ -25,6 +25,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaFirstAvailable;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLab;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLabPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
@@ -131,6 +132,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // register and expose blade component views and classes
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
         Blade::component($this->packageNameShort.'-media-lab', MediaLab::class);
+        Blade::component($this->packageNameShort.'-media-lab-previews', MediaLabPreviews::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
 //        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
