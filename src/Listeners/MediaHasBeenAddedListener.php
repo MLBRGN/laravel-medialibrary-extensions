@@ -19,7 +19,7 @@ class MediaHasBeenAddedListener
         $media = $event->media;
         $model = $media->model;
 
-        Log::info('MediaHasBeenAddedListener invoked');
+        Log::info('MediaHasBeenAddedListener invoked for medium: ' . $media->getKey());
 
         // Skip originals if disabled globally or per-model
         if (

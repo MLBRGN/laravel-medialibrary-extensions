@@ -44,17 +44,30 @@ trait InteractsWithOriginalMedia
 
     public function replaceMedium(Media $oldMedia, ?UploadedFile $newFile = null): Media
     {
-        $backup = $oldMedia->replicate(['id']);
+        Log::info('replaceMedium oldMedia id: ' . $oldMedia->getKey() . ' invoked');
+
+        $oldId = $oldMedia->id;
+        $backup = $oldMedia->replicate();
+        $backup->id = $oldId; // only for reference
         $oldMedia->delete();
+//        $backup = $oldMedia->replicate(['id']);
+//        $oldMedia->delete();
+
+//        Log::info('backup: ' . print_r($backup, true));
+        Log::info('backup id: ' . $backup->id);
 
         $model = $backup->model;
         $collection = $backup->collection_name;
 
         if ($newFile) {
+            Log::info('newFile: ' . $newFile->getClientOriginalName());
+
+//            Log::info('newFile: ' . print_r($newFile, true));
             // Use uploaded file
             $newMedia = $model->addMedia($newFile)
                 ->toMediaCollection($collection);
         } else {
+            Log::info('no newFile');
             // Use the old media file
             $oldPath = $backup->getPath();
             $newMedia = $model->addMedia($oldPath)
@@ -77,6 +90,8 @@ trait InteractsWithOriginalMedia
      */
     public function replaceTemporaryUpload(TemporaryUpload $oldUpload, UploadedFile $newFile): TemporaryUpload
     {
+        Log::info('replaceTemporaryUpload');
+
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
 
@@ -117,6 +132,8 @@ trait InteractsWithOriginalMedia
      */
     protected function copyOriginalMedia(Media $media): void
     {
+        Log::info('copyOriginalMedia');
+
         $path = $media->getPath();
         $destination = "{$media->id}/{$media->file_name}";
 
@@ -138,6 +155,11 @@ trait InteractsWithOriginalMedia
      */
     protected function reuseOriginal(Media $oldMedia, Media $newMedia): void
     {
+        Log::info('reuseOriginal oldMedia id: ' . $oldMedia->getKey() . ' newMedia id: ' . $newMedia->getKey() . ' invoked');
+
+//        Log::info('oldMedia id: ' . $oldMedia->id);
+//        Log::info('newMedia id: ' . $newMedia->id);
+
         $oldPath = "{$oldMedia->id}/{$oldMedia->file_name}";
         $newPath = "{$newMedia->id}/{$newMedia->file_name}";
 
@@ -146,10 +168,11 @@ trait InteractsWithOriginalMedia
             return;
         }
 
-        if (Storage::disk('originals')->exists($newPath)) {
-            Log::info("Original already exists for new media [{$newMedia->id}], skipping reuse.");
-            return;
-        }
+        // TODO disabled this code, prevented old original to overwrite new original added by MediaHasBeenAddedListener
+//        if (Storage::disk('originals')->exists($newPath)) {
+//            Log::info("Original already exists for new media [{$newMedia->id}], skipping reuse.");
+//            return;
+//        }
 
         try {
             Storage::disk('originals')->copy($oldPath, $newPath);
@@ -164,6 +187,8 @@ trait InteractsWithOriginalMedia
      */
     protected function ensureGlobalOrder(Media $media): void
     {
+        Log::info('ensureGlobalOrder');
+
         // Preserve if already set (for replaced or restored media)
         if ($media->hasCustomProperty('global_order')) {
             return;
