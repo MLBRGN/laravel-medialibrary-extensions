@@ -24,8 +24,10 @@ class MediaPreviews extends BaseComponent
         public array $collections = [],
         public array $options = [],
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public bool $multiple = false,
         public bool $disabled = false,
-        public bool $selectable = false
+        public bool $readonly = false,
+        public bool $selectable = false,
     ) {
         parent::__construct($id);
 

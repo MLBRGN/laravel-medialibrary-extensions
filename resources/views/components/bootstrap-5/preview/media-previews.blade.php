@@ -15,6 +15,10 @@
             :single-medium="$singleMedium"
             :model-or-class-name="$modelOrClassName"
             :loop-index="$loop->index"
+            :selectable="$selectable"
+            :disabled="$disabled"
+            :readonly="$readonly"
+            :multiple="$multiple"
         />
 
         <x-mle-media-modal

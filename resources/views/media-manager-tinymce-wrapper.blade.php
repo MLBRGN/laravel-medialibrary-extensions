@@ -24,6 +24,8 @@
                 :collections="$collections"
                 :options="$options"
                 :multiple="$multiple"
+                :disabled="true"
+                :readonly="true"
                 :selectable="true"
             />
         </div>

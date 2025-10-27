@@ -11,6 +11,10 @@ class MediaManagerMultiple extends MediaManager
         mixed $modelOrClassName,
         array $collections = [],
         array $options = [],
+        bool $multiple = false,
+        bool $disabled = false,
+        bool $readonly = false,
+        bool $selectable = false,
     ) {
         parent::__construct(
             id: $id,
@@ -18,7 +22,10 @@ class MediaManagerMultiple extends MediaManager
             singleMedium: null,// always null
             collections: $collections,
             options: $options,
-            multiple: true,
+            multiple: $multiple,
+            disabled: $disabled,
+            readonly: $readonly,
+            selectable: $selectable,
         );
 
     }

@@ -70,7 +70,11 @@
                 :model-or-class-name="$modelOrClassName"
                 :single-medium="$singleMedium"
                 :collections="$collections"
-                :options="$options"     
+                :options="$options"
+                :selectable="$selectable"
+                :disabled="$disabled"
+                :readonly="$readonly"
+                :multiple="$multiple"
             />
         </div>
     </div>

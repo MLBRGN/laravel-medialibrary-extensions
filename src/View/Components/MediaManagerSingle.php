@@ -34,6 +34,9 @@ class MediaManagerSingle extends MediaManager
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         array $collections = [],
         array $options = [],
+        bool $disabled = false,
+        bool $readonly = false,
+        bool $selectable = false,
     ) {
         // override options
         $options['showOrder'] = false;// should always be false
@@ -45,6 +48,9 @@ class MediaManagerSingle extends MediaManager
             collections: $collections,
             options: $options,
             multiple: false,
+            disabled: $disabled,
+            readonly: $readonly,
+            selectable: $selectable,
         );
 
         // when singleMedium provided, dont count collections

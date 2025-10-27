@@ -7,5 +7,7 @@
         :options="$options"
         :disabled="$disabled"
         :selectable="$selectable"
+        :readonly="$readonly"
+        :multiple="$multiple"
     />
 </div>

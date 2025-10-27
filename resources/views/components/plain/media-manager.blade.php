@@ -56,6 +56,7 @@
                 :initiator-id="$id"
                 :media-manager-id="$id"
                 :options="$options"
+            
             />
 
             <x-mle-media-preview-grid
@@ -64,6 +65,10 @@
                 :single-medium="$singleMedium"
                 :collections="$collections"
                 :options="$options"
+                :selectable="$selectable"
+                :disabled="$disabled"
+                :readonly="$readonly"
+                :multiple="$multiple"
             />
         </div>
     </div>

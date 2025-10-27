@@ -20,7 +20,9 @@ class MediaPreviewMenu extends BaseComponent
         public array $options = [],
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public bool $disabled = false,
-        public bool $selectable = false
+        public bool $selectable = false,
+        public bool $readonly = false,
+        public bool $multiple = false,
     ) {
         parent::__construct($id);
         $this->initializeConfig();

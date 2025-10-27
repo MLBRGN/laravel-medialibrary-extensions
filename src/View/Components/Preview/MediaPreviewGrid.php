@@ -28,6 +28,7 @@ class MediaPreviewGrid extends BaseComponent
         public bool $disabled = false,
         public bool $selectable = false,
         public bool $readonly = false,
+        public bool $multiple = false,
     ) {
         parent::__construct($id);
     }

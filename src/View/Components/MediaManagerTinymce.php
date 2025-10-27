@@ -18,12 +18,6 @@ class MediaManagerTinymce extends BaseComponent
 
     public bool $disableForm = false;
 
-//    public string $mediaUploadRoute; // upload form action route
-
-//    public string $mediaManagerPreviewUpdateRoute; // route to update preview media when using XHR
-
-//    public string $youtubeUploadRoute; // route to upload a YouTube video using XHR
-
     // TODO not used?
     /**
      * @var \Illuminate\Config\Repository|\Illuminate\Foundation\Application|mixed|object|null
@@ -36,9 +30,17 @@ class MediaManagerTinymce extends BaseComponent
         public array $collections = [],
         public array $options = [],
         public bool $multiple = false,
+        public bool $disabled = false,
         public bool $readonly = false,
-        public bool $disabled = false
+        public bool $selectable = false,
     ) {
+
+//        dd([
+//            'disabled' => $disabled,
+//            'readonly' => $readonly,
+//            'selectable' => $selectable,
+//        ]);
+
         $id = filled($id) ? $id : null;
         parent::__construct($id);
 
@@ -90,7 +92,12 @@ class MediaManagerTinymce extends BaseComponent
             'youtubeUploadRoute' => $youtubeUploadRoute,
             'mediaUploadRoute' => $mediaUploadRoute,
             'uploadFieldName' => $this->uploadFieldName,
+            'selectable' => $selectable,
         ]);
+
+//        dd($disabled ? 'Yes' : 'No');
+//        dd($selectable ? 'Yes' : 'No');
+
     }
 
     public function render(): View
