@@ -22,7 +22,7 @@ class MediaLab extends BaseComponent
         ?string $id,
         public Media|TemporaryUpload|null $medium,
     ) {
-        $id = filled($id) ? $id : null;
+        $id = filled($id) ? $id : 'mle-media-lab';
 
         parent::__construct($id);
 

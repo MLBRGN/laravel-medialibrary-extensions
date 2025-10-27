@@ -10,7 +10,12 @@
              data-bs-target="#alien-multiple-mmm-mod"
         >
             {{ $slot }}
-
+            <x-mle-partial-status-area
+                id="{{ $id }}"
+                :initiator-id="$id"
+                :media-manager-id="$id"
+                :options="[]"
+            />
         </div>
     
         <div class="media-preview-menu">
