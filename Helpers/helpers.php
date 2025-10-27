@@ -22,7 +22,7 @@ if (! function_exists('mle_human_mimetype_label')) {
     {
         $map = config('media-library-extensions.mimetype_labels', []);
 
-        if (!isset($map[$mimeType])) {
+        if (! isset($map[$mimeType])) {
             return $mimeType; // fallback
         }
 
@@ -31,18 +31,20 @@ if (! function_exists('mle_human_mimetype_label')) {
 }
 
 if (! function_exists('mle_human_filesize')) {
-    function mle_human_filesize(int|null $bytes, int $decimals = 2): string
+    function mle_human_filesize(?int $bytes, int $decimals = 2): string
     {
-        if ($bytes === null) return  __('media-library-extensions::messages.unknown_file_size');
+        if ($bytes === null) {
+            return __('media-library-extensions::messages.unknown_file_size');
+        }
         $size = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
         $factor = floor((strlen((string) $bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)) . ' ' . $size[$factor];
+        return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)).' '.$size[$factor];
     }
 }
 
 // TODO still needed?
-//if (! function_exists('media_manager_theme')) {
+// if (! function_exists('media_manager_theme')) {
 //    function media_manager_theme(): string
 //    {
 //        $supported = config('media-library-extensions.supported_frontend_themes', ['plain']);
@@ -50,7 +52,7 @@ if (! function_exists('mle_human_filesize')) {
 //
 //        return in_array($configured, $supported) ? $configured : 'plain';
 //    }
-//}
+// }
 
 if (! function_exists('mle_prefix_route')) {
 
@@ -88,7 +90,7 @@ if (! function_exists('extractYouTubeId')) {
     }
 }
 
-//if (! function_exists('getHumanMimeTypeLabel')) {
+// if (! function_exists('getHumanMimeTypeLabel')) {
 //    function getHumanMimeTypeLabel(string $mimeType): string
 //    {
 //
@@ -99,7 +101,7 @@ if (! function_exists('extractYouTubeId')) {
 //
 //        return $mimeType;
 //    }
-//}
+// }
 
 if (! function_exists('isMediaType')) {
     function isMediaType($medium, string $type): bool
@@ -112,6 +114,21 @@ if (! function_exists('isMediaType')) {
         $allowed = config("media-library-extensions.allowed_mimetypes.{$type}", []);
 
         return in_array($mimeType, $allowed, true);
+    }
+}
+
+if (! function_exists('getMediaType')) {
+    function getMediaType($medium): ?string
+    {
+        $types = ['youtube-video', 'document', 'video', 'audio', 'image'];
+
+        foreach ($types as $type) {
+            if (isMediaType($medium, $type)) {
+                return $type;
+            }
+        }
+
+        return null; // no matching type found
     }
 }
 

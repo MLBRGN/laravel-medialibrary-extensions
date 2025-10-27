@@ -2,24 +2,24 @@
     <x-mle-media-manager-multiple
         :model-or-class-name="$modelOrClassName"
         id="{{ $id }}"
-        :image-collection="$imageCollection"
-        :document-collection="$documentCollection"
-        :youtube-collection="$youtubeCollection"
-        :video-collection="$videoCollection"
-        :audio-collection="$audioCollection"
-        :frontend-theme="$frontendTheme"
-        :show-destroy-button="true"
-        :show-set-as-first-button="true"
-        :show-media-edit-button="true"
-        :show-order="true"
-        :show-menu="true"
-        :multiple="$temporaryUpload"
+        :collections="$collections"
+        :options="$options"
+        :multiple="$multiple"
         :selectable="true"
     />
 </div>
 <x-mle-shared-assets
     include-css="true"
     include-js="true"
-    :frontend-theme="$frontendTheme"
+    include-tinymce-custom-file-picker-js="true"
+    include-tinymce-custom-file-picker-iframe-js="true"
+    :frontend-theme="$getConfig('frontendTheme')"
 />
-<script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker-iframe.js') }}"></script>
+{{--@if($getConfig('frontendTheme') === 'bootstrap-5')--}}
+{{--    <link--}}
+{{--        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"--}}
+{{--        rel="stylesheet"--}}
+{{--        --}}{{--            integrity="sha384-QWTKZyjpPEjISv5WaRU5M6QdFVb2l9gCk0GZg6CJWjvvoE5yOAy+n9C80+XW9HdT"--}}
+{{--        crossorigin="anonymous"--}}
+{{--    > --}}
+{{--@endif--}}

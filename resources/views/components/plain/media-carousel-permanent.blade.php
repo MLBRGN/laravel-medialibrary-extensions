@@ -1,7 +1,7 @@
 <div id="{{ $id }}"
      {{ $attributes->class([
         'mlbrgn-mle-component',
-        'theme-'.$frontendTheme,
+        'theme-'.$getConfig('frontendTheme'),
         'media-carousel', 
         'media-carousel-empty' => $mediaCount === 0,
         'media-carousel-plain',
@@ -80,7 +80,7 @@
                         <div
 {{--                            data-modal-trigger="#{{ $id }}-modal"--}}
                             data-modal-trigger="#{{ $id }}-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <x-mle-video :medium="$medium" />
                         </div>
@@ -88,7 +88,7 @@
                         <div
 {{--                            data-modal-trigger="#{{ $id }}-modal"--}}
                             data-modal-trigger="#{{ $id }}-mod"
-                            class="media-manager-preview-item-container"
+                            class="media-preview-item-container"
                         >
                             <x-mle-audio :medium="$medium" />
                         </div>
@@ -155,6 +155,13 @@
         :model-or-class-name="$modelOrClassName"
         :media-collection="$mediaCollection"
         :media-collections="$mediaCollections"
+        :options="$options"
         title="Media carousel"/>
 @endif
-<x-mle-shared-assets include-css="true" include-js="true" include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets 
+    include-css="true" 
+    include-js="true" 
+    include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}" 
+    include-carousel-js="true"
+    :frontend-theme="$getConfig('frontendTheme')"
+/>

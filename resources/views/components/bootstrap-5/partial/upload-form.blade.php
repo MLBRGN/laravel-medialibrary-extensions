@@ -1,12 +1,13 @@
-<x-media-library-extensions::shared.conditional-form
-    :use-xhr="$useXhr"
+<x-mle-shared-conditional-form
+    :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
         'method' => 'POST',
-        'enctype' => 'multipart/form-data'
+        'enctype' => 'multipart/form-data',
+        'data-form'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $useXhr, 
+        'data-xhr-form' => $getConfig('useXhr'), 
         'id' => $id.'-media-upload-form'
     ]"
     method="post"
@@ -15,53 +16,34 @@
     <label for="{{ $id }}-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="{{ $id }}-media-input"
-        accept="{{ $allowedMimeTypes }}"
+        accept="{{ $getConfig('allowedMimeTypes') }}"
         type="file"
         class="mle-input form-control"
         @if($multiple)
-            name="{{ config('media-library-extensions.upload_field_name_multiple') }}[]"
-            multiple 
+            name="{{ $getConfig('uploadFieldName') }}[]"
+            multiple
         @else
-            name="{{ config('media-library-extensions.upload_field_name_single') }}"
+            name="{{$getConfig('uploadFieldName') }}"
         @endif
         @disabled($disabled)
         >
-    
-    <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $allowedMimeTypesHuman]) }}</span>
-    @if($imageCollection)
-        <input
-            type="hidden"
-            name="image_collection"
-            value="{{ $imageCollection }}">
-    @endif
-    @if($documentCollection)
-        <input
-            type="hidden"
-            name="document_collection"
-            value="{{ $documentCollection }}">
-    @endif
-    @if($videoCollection)
-        <input
-            type="hidden"
-            name="video_collection"
-            value="{{ $videoCollection }}">
-    @endif
-    @if($audioCollection)
-        <input
-            type="hidden"
-            name="audio_collection"
-            value="{{ $audioCollection }}">
-    @endif
-    @if($youtubeCollection)
-        <input
-            type="hidden"
-            name="youtube_collection"
-            value="{{ $youtubeCollection }}">
-    @endif
+    <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
+    @foreach($collections as $collectionType => $collectionName)
+        @if (!empty($collectionName))
+            <input
+                type="hidden"
+                name="collections[{{ $collectionType }}]"
+                value="{{ $collectionName }}">
+        @endif
+    @endforeach
+    <input
+        type="hidden"
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null }}">
     <input 
         type="hidden" 
-        name="temporary_upload" 
-        value="{{ $temporaryUpload ? 'true' : 'false' }}">
+        name="temporary_upload_mode" 
+        value="{{ $temporaryUploadMode ? 'true' : 'false' }}">
     <input
         type="hidden"
         name="model_type"
@@ -74,12 +56,12 @@
         type="hidden"
         name="initiator_id"
         value="{{ $id }}">
-    <input 
+    <input
         type="hidden"
         name="media_manager_id"
         value="{{ $mediaManagerId }}">
     <button
-        type="{{ $useXhr ? 'button' : 'submit' }}"
+        type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-action="upload-media"
         @disabled($disabled)
@@ -88,7 +70,12 @@
          ? __('media-library-extensions::messages.upload_media')
          : __('media-library-extensions::messages.upload_medium') }}
     </button>
-</x-media-library-extensions::partial.conditional-form>
-@if($useXhr)
-    <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
+</x-mle-shared-conditional-form>
+@if($getConfig('useXhr'))
+    <x-mle-shared-assets 
+        include-css="true" 
+        include-js="true" 
+        include-media-manager-submitter="true" 
+        :frontend-theme="$getConfig('frontendTheme')"
+    />
 @endif

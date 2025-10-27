@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
     'mlbrgn-mle-component',
-    'theme-'. $frontendTheme,
+    'theme-'. $getConfig('frontendTheme'),
     'image-editor-modal',
     'modal',
     'fade',
@@ -13,7 +13,7 @@
         aria-labelledby="{{ $id }}-title"
     @endif
     aria-hidden="true"
-    data-theme="{{$frontendTheme}}"
+    data-theme="{{$getConfig('frontendTheme')}}"
     data-modal
     data-image-editor-modal
     data-medium-display-name="{{ media_display_name($medium) }}"
@@ -22,7 +22,7 @@
     <div class="image-editor-modal-dialog modal-dialog">
         <div class="image-editor-modal-content modal-content justify-content-center">
             @if($title)
-                <h1 class="image-editor-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <h1 class="image-editor-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <div class="image-editor-modal-body modal-body p-0">
                 <button
@@ -36,26 +36,28 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-                <input type="hidden" class="image-editor-modal-config" value='@json($config)'>
+                <input type="hidden" class="image-editor-modal-config" data-image-editor-modal-config value='@json($config)'>
                 {{-- instantiated when model opens, just in time --}}
                 <div data-image-editor-placeholder class="image-editor"></div>
 
                 <x-mle-partial-image-editor-form
-                    :model-or-class-name="$modelOrClassName"
                     id="{{ $id }}"
+                    :model-or-class-name="$modelOrClassName"
+                    :medium="$medium"
+                    :collections="$collections"
+                    :options="$options"
                     :initiator-id="$id"
                     :media-manager-id="$mediaManagerId"
-                    :medium="$medium"
-                    :image-collection="$imageCollection"
-                    :document-collection="$documentCollection"
-                    :youtube-collection="$youtubeCollection"
-                    :audio-collection="$audioCollection"
-                    :video-collection="$videoCollection"
-                    :frontend-theme="$frontendTheme"
-                    :use-xhr="$useXhr"
+                    :disabled="$disabled"
                 />
             </div>
         </div>
     </div>
 </div>
-<x-mle-shared-assets include-css="true" include-js="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets 
+    include-css="true" 
+    include-js="true"
+    include-image-editor-js="true"
+    include-image-editor-modal-js="true"
+    :frontend-theme="$getConfig('frontendTheme')"
+/>

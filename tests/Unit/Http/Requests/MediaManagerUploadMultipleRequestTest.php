@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
 
@@ -19,16 +19,16 @@ beforeEach(function () {
 it('passes validation with required fields and at least one collection', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'false',
+        'temporary_upload_mode' => 'false',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
         'uploads' => [],
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadMultipleRequest();
+    $request = new StoreMultipleRequest;
     $request->merge($data);
     $validator = Validator::make($data, $request->rules());
 
@@ -38,38 +38,34 @@ it('passes validation with required fields and at least one collection', functio
 it('fails validation when no collections are provided', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'true',
+        'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
         'uploads' => [],
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadMultipleRequest();
+    $request = new StoreMultipleRequest;
     $request->merge($data);
     $validator = Validator::make($data, $request->rules());
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->has('image_collection'))->toBeTrue();
-    expect($validator->errors()->has('video_collection'))->toBeTrue();
-    expect($validator->errors()->has('audio_collection'))->toBeTrue();
-    expect($validator->errors()->has('document_collection'))->toBeTrue();
-    expect($validator->errors()->has('youtube_collection'))->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeTrue();
 });
 
 it('applies MaxMediaCount rule for non-temporary uploads', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'false',
+        'temporary_upload_mode' => 'false',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
         'uploads' => [],
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadMultipleRequest();
+    $request = new StoreMultipleRequest;
     $request->merge($data);
     $rules = $request->rules();
 
@@ -85,15 +81,15 @@ it('applies MaxMediaCount rule for non-temporary uploads', function () {
 it('applies MaxTemporaryUploadCount rule for temporary uploads', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'temporary_upload' => 'true',
+        'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
         'uploads' => [],
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
     ];
 
-    $request = new MediaManagerUploadMultipleRequest();
+    $request = new StoreMultipleRequest;
     $request->merge($data);
     $rules = $request->rules();
 

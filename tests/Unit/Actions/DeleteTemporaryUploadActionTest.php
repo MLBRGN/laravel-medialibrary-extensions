@@ -2,8 +2,8 @@
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 it('deletes the temporary upload and returns a JSON response when request expects JSON', function () {
@@ -13,17 +13,17 @@ it('deletes the temporary upload and returns a JSON response when request expect
 
     expect(TemporaryUpload::find($temporaryUpload->id))->not()->toBeNull();
 
-    $request = MediaManagerTemporaryUploadDestroyRequest::create('/dummy-url', 'DELETE', [], [], [], [], null);
+    $request = DestroyTemporaryMediumRequest::create('/dummy-url', 'DELETE', [], [], [], [], null);
     $request->merge([
         'initiator_id' => 'initiator-123',
         'media_manager_id' => 'media-manager-123',
-        'image_collection' => 'images',
+        'image_collection' => 'images', // TODO
     ]);
 
     // Force expectsJson = true
     $request->headers->set('Accept', 'application/json');
 
-    $action = new DeleteTemporaryUploadAction();
+    $action = new DestroyTemporaryUploadAction;
 
     $response = $action->execute($request, $temporaryUpload);
 
@@ -44,17 +44,17 @@ it('deletes the temporary upload and returns a redirect response with flash data
 
     expect(TemporaryUpload::find($temporaryUpload->id))->not()->toBeNull();
 
-    $request = MediaManagerTemporaryUploadDestroyRequest::create('/dummy-url', 'DELETE');
+    $request = DestroyTemporaryMediumRequest::create('/dummy-url', 'DELETE');
     $request->merge([
         'initiator_id' => 'initiator-456',
         'media_manager_id' => 'media-manager-123',
-        'image_collection' => 'images',
+        'image_collection' => 'images', // TODO
 
     ]);
 
     // No 'Accept: application/json' header => expectsJson is false
 
-    $action = new DeleteTemporaryUploadAction();
+    $action = new DestroyTemporaryUploadAction;
 
     $response = $action->execute($request, $temporaryUpload);
 

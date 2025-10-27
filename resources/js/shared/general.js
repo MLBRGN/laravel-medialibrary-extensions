@@ -1,4 +1,3 @@
-// document.addEventListener("DOMContentLoaded", () => {
 //     document.querySelectorAll('[data-mle-document-link]').forEach(link => {
 //         console.log('add listener to click on link', link);
 //         link.addEventListener('click', (e) => {
@@ -10,4 +9,3 @@
 //             // e.preventDefault(); // only if you don't want navigation
 //         });
 //     });
-// });

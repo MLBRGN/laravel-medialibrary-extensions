@@ -4,35 +4,37 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Exception;
 use Illuminate\Contracts\View\View;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
 
 class MediaModal extends BaseComponent
 {
-
+    use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
     public function __construct(
+        ?string $id,
         public mixed $modelOrClassName,
         public ?string $mediaCollection,
         public ?array $mediaCollections,
         public ?string $title,// TODO do i want this?
-        public string $id = '',
-        public ?string $frontendTheme = null,
+        public array $options = [],
         public bool $videoAutoPlay = true,
+
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->id = $this->id . '-mod';
+        $this->id = $this->id.'-mod';
 
+        // merge into config
+        $this->initializeConfig();
     }
 
     public function render(): View
     {
-        return $this->getView('media-modal', $this->frontendTheme);
+        return $this->getView('media-modal', $this->getConfig('frontendTheme'));
     }
 }

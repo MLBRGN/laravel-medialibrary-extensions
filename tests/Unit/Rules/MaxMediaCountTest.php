@@ -2,7 +2,6 @@
 
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Support\Collection;
 
 beforeEach(function () {
     $this->model = mock(HasMedia::class);
@@ -14,7 +13,7 @@ it('passes when adding fewer than or equal to the allowed max', function () {
         ->with('images')
         ->andReturn(collect([])); // no existing media
 
-    $rule = new MaxMediaCount($this->model, 'images', 3);
+    $rule = new MaxMediaCount($this->model, ['image' => 'images'], 3);
 
     $failed = false;
 
@@ -28,10 +27,10 @@ it('passes when adding fewer than or equal to the allowed max', function () {
 it('fails when adding more than the allowed max', function () {
     $this->model
         ->shouldReceive('getMedia')
-        ->with('images')
+        ->with('videos')
         ->andReturn(collect(['existing1'])); // 1 existing media
 
-    $rule = new MaxMediaCount($this->model, 'images', 3);
+    $rule = new MaxMediaCount($this->model, ['video' => 'videos'], 3);
 
     $failed = false;
 
@@ -47,11 +46,11 @@ it('does not fail when non-array value makes total equal to max', function () {
     // 2 existing items
     $this->model
         ->shouldReceive('getMedia')
-        ->with('images')
-        ->andReturn(collect(['existing1','existing2']));
+        ->with('audio')
+        ->andReturn(collect(['existing1', 'existing2']));
 
     // max = 3, newCount (non-array) = 1 -> total = 3 -> should NOT fail
-    $rule = new MaxMediaCount($this->model, 'images', 3);
+    $rule = new MaxMediaCount($this->model, ['audio' => 'audio'], 3);
 
     $failed = false;
 
@@ -66,11 +65,11 @@ it('fails when non-array value causes total to exceed max and returns message', 
     // 2 existing items
     $this->model
         ->shouldReceive('getMedia')
-        ->with('images')
-        ->andReturn(collect(['existing1','existing2']));
+        ->with('documents')
+        ->andReturn(collect(['existing1', 'existing2']));
 
     // Set max = 2 so existing(2) + new(1) = 3 > 2 -> should fail
-    $rule = new MaxMediaCount($this->model, 'images', 2);
+    $rule = new MaxMediaCount($this->model, ['document' => 'documents'], 2);
 
     $receivedMessage = null;
 
@@ -82,7 +81,7 @@ it('fails when non-array value causes total to exceed max and returns message', 
 });
 
 it('returns the correct message', function () {
-    $rule = new MaxMediaCount($this->model, 'images', 5);
+    $rule = new MaxMediaCount($this->model, ['image' => 'images'], 5);
 
     expect($rule->message())
         ->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => 5]));

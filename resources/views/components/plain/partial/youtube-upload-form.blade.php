@@ -1,11 +1,12 @@
-<x-media-library-extensions::shared.conditional-form
-    :use-xhr="$useXhr"
+<x-mle-shared-conditional-form
+    :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => route(mle_prefix_route('media-upload-youtube')),
-        'method' => 'POST'
+        'method' => 'POST',
+        'data-form'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $useXhr, 
+        'data-xhr-form' => $getConfig('useXhr'), 
         'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
@@ -13,36 +14,24 @@
 >
     <input 
         type="hidden" 
-        name="temporary_upload" 
-        value="{{ $temporaryUpload ? 'true' : 'false' }}">
+        name="temporary_upload_mode" 
+        value="{{ $getConfig('temporaryUploadMode') ? 'true' : 'false' }}">
+    <input
+        type="hidden"
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null}}">
+    @foreach($collections as $collectionType => $collectionName)
+        @if (!empty($collectionName))
+            <input
+                type="hidden"
+                name="collections[{{ $collectionType }}]"
+                value="{{ $collectionName }}">
+        @endif
+    @endforeach
     <input
         type="hidden"
         name="youtube_collection"
-        value="{{ $youtubeCollection }}">
-    @if($imageCollection)
-        <input
-            type="hidden"
-            name="image_collection"
-            value="{{ $imageCollection }}">
-    @endif
-    @if($documentCollection)
-        <input
-            type="hidden"
-            name="document_collection"
-            value="{{ $documentCollection }}">
-    @endif
-    @if($videoCollection)
-        <input
-            type="hidden"
-            name="video_collection"
-            value="{{ $videoCollection }}">
-    @endif
-    @if($audioCollection)
-        <input
-            type="hidden"
-            name="audio_collection"
-            value="{{ $audioCollection }}">
-    @endif
+        value="{{ $getConfig('youtubeCollection') }}">
     <input
         type="hidden"
         name="model_type"
@@ -77,14 +66,19 @@
         @disabled($disabled)
     >
     <button
-        type="{{ $useXhr ? 'button' : 'submit' }}"
+        type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-upload-button"
         data-action="upload-youtube-medium"
         @disabled($disabled)
     >
         {{ __('media-library-extensions::messages.add_youtube_video') }}
     </button>
-</x-media-library-extensions::partial.conditional-form>
-@if($useXhr)
-    <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
+</x-mle-shared-conditional-form>
+@if($getConfig('useXhr'))
+    <x-mle-shared-assets 
+        include-css="true" 
+        include-js="true" 
+        include-media-manager-submitter="true" 
+        :frontend-theme="$getConfig('frontendTheme')"
+    />
 @endif

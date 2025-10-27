@@ -1,8 +1,19 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Support\Facades\Blade;
+
+it('initializes correctly and sets id', function () {
+
+    $medium = $this->getMediaModelWithMedia(['audio' => 1]);
+
+    $component = new Video(
+        $medium
+    );
+
+    expect($component->id)->toBe('mle-video-'.$medium->id);
+});
 
 it('can be instantiated with a medium and match snapshot', function () {
     $medium = $this->getMediaModelWithMedia(['audio' => 1]);
@@ -23,7 +34,7 @@ it('can be instantiated with a TemporaryUpload and match snapshot', function () 
     ]);
 
     expect($html)->toContain($temporaryUpload->id);
-//    expect($html)->toMatchSnapshot();
+    //    expect($html)->toMatchSnapshot();
 });
 
 it('renders the correct Blade view', function () {

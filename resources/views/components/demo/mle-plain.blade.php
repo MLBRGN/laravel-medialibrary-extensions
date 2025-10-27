@@ -1,8 +1,12 @@
+@php
+    use Mlbrgn\LaravelFormComponents\View\Components\Form;
+    use App\Models\Blog; 
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Component tests: theme plain</title>
+    <title>Plain Component tests</title>
     <style>
         body {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -14,13 +18,23 @@
             font-weight: 500;
             line-height: 1.2;
         }
+
         h1 {
-            color:#0d6efd;
+            color: #0d6efd;
             font-size: 2.5rem;
         }
+
         h2 {
             margin-block: 1.5em;
             font-size: 2rem;
+        }
+
+        .margin-block-5 {
+            margin-block: 2rem;
+        }
+        
+        .margin-top-5 {
+            margin-top: 2rem;
         }
         
         .demo-media-carousel {
@@ -39,19 +53,23 @@
 </head>
 <body>
 <div class="mle-container-lg">
-    <h1 class="text-primary">Component tests: theme plain</h1>
+    <h1 class="text-primary">Plain Component tests</h1>
 
     <h2>Media Manager Single</h2>
-    
+
     <x-mle-media-manager-single
         id="alien-sinlge"
         :model-or-class-name="$model"
-        image-collection="alien-single-image"
-        document-collection="alien-single-document"
-        youtube-collection="alien-single-youtube-video"
-        show-destroy-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                        'image' => 'alien-single-image',
+                        'document' =>'alien-single-document',
+                        'youtube' =>'alien-single-youtube-video',
+                        'video' =>'alien-single-video',
+                        'audio' =>'alien-single-audio',
+                    ]"
+        :options="[
+                        'frontendTheme' => 'plain',
+                    ]"
     />
 
     <h2>Media Manager Single (Temporary uploads)</h2>
@@ -59,33 +77,35 @@
     <x-mle-media-manager-single
         id="aliens-single-temporary-uploads"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-        image-collection="alien-single-image"
-        document-collection="alien-single-document"
-        youtube-collection="alien-single-youtube-video"
-        video-collection="alien-single-video"
-        audio-collection="alien-single-audio"
-        show-destroy-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                        'image' => 'alien-single-image',
+                        'document' =>'alien-single-document',
+                        'youtube' =>'alien-single-youtube-video',
+                        'video' =>'alien-single-video',
+                        'audio' =>'alien-single-audio',
+                    ]"
+        class="margin-top-5"
+        :options="[
+                        'frontendTheme' => 'plain',
+                    ]"
     />
 
     <h2>Media Manager Multiple</h2>
-    
+
     <x-mle-media-manager-multiple
         id="alien-multiple"
         :model-or-class-name="$model"
-        image-collection="alien-multiple-images"
-        document-collection="alien-multiple-documents"
-        youtube-collection="alien-multiple-youtube-videos"
-        video-collection="alien-multiple-videos"
-        audio-collection="alien-multiple-audio"
-        class="mt-5"
-        show-destroy-button
-        show-order
-        show-set-as-first-button
-        show-media-edit-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                        'image' => 'alien-multiple-image',
+                        'document' =>'alien-multiple-document',
+                        'youtube' =>'alien-multiple-youtube-video',
+                        'video' =>'alien-multiple-video',
+                        'audio' =>'alien-multiple-audio',
+                    ]"
+        :options="[
+                        'showOrder' => true,
+                        'frontendTheme' => 'plain',
+                    ]"
     />
 
     <h2>Media Manager Multiple (Temporary uploads)</h2>
@@ -93,50 +113,57 @@
     <x-mle-media-manager-multiple
         id="alien-multiple-temporary-uploads"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-        image-collection="alien-multiple-images"
-        document-collection="alien-multiple-documents"
-        youtube-collection="alien-multiple-youtube-videos"
-        video-collection="alien-multiple-videos"
-        audio-collection="alien-multiple-audio"
-        class="mt-5"
-        show-destroy-button
-        show-order
-        show-set-as-first-button
-        show-media-edit-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                        'image' => 'alien-multiple-image',
+                        'document' =>'alien-multiple-document',
+                        'youtube' =>'alien-multiple-youtube-video',
+                        'video' =>'alien-multiple-video',
+                        'audio' =>'alien-multiple-audio',
+                    ]"
+        class="margin-top-5"
+        :options="[
+                        'showOrder' => true,
+                        'frontendTheme' => 'plain',
+                    ]"
     />
 
-    <h2 class="my-5">Media Manager YouTube</h2>
+    <h2 class="margin-block-5">Media Manager YouTube</h2>
 
     <x-mle-media-manager-multiple
         id="alien-media-manager-youtube"
         :model-or-class-name="$model"
-        youtube-collection="alien-multiple-youtube-videos"
-        class="mt-5"
-        show-destroy-button
-        :show-order="true"
-        show-set-as-first-button
-        show-media-edit-button=""
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                        'image' => '',
+                        'document' => '',
+                        'youtube' =>'alien-multiple-youtube-videos',
+                        'video' =>'',
+                        'audio' =>'',
+                    ]"
+        :options="[
+                        'showOrder' => true,
+                        'frontendTheme' => 'plain',
+                    ]"
     />
 
-    <h2 class="my-5">Media Manager YouTube (Temporary uploads)</h2>
+    <h2 class="margin-block-5">Media Manager YouTube (Temporary uploads)</h2>
 
     <x-mle-media-manager-multiple
         id="alien-media-manager-youtube-temporary"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-        youtube-collection="alien-multiple-youtube-videos"
-        class="mt-5"
-        show-destroy-button
-        :show-order="true"
-        show-set-as-first-button
-        show-media-edit-button
-        frontend-theme="plain"
-        :use-xhr="config('media-library-extensions.use_xhr')"
+        :collections="[
+                        'image' => '',
+                        'document' => '',
+                        'youtube' =>'alien-multiple-youtube-videos',
+                        'video' =>'',
+                        'audio' =>'',
+                    ]"
+        class="margin-top-5"
+        :options="[
+                        'showOrder' => true,
+                        'frontendTheme' => 'plain',
+                    ]"
     />
-    
+
     <h2>Media Carousel</h2>
 
     <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
@@ -145,22 +172,21 @@
         id="alien-media-carousel"
         :model-or-class-name="$model"
         :media-collections="[
-                    'alien-single-image', 
-                    'alien-single-document', 
-                    'alien-single-youtube-video',
-                    'alien-single-video',
-                    'alien-single-audio',
-                    'alien-multiple-images', 
-                    'alien-multiple-documents', 
-                    'alien-multiple-youtube-videos',
-                    'alien-multiple-videos',
-                    'alien-multiple-audio',
-                ]"
+                            'alien-single-image', 
+                            'alien-single-document', 
+                            'alien-single-youtube-video',
+                            'alien-single-video',
+                            'alien-single-audio',
+                            'alien-multiple-images', 
+                            'alien-multiple-documents', 
+                            'alien-multiple-youtube-videos',
+                            'alien-multiple-videos',
+                            'alien-multiple-audio',
+                        ]"
         class="demo-media-carousel"
-        frontend-theme="plain"
     />
 
-    <h2 class="my-5">Media Carousel (Temporary)</h2>
+    <h2 class="margin-block-5">Media Carousel (Temporary)</h2>
 
     <p>{{ __('media-library-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
 
@@ -168,22 +194,21 @@
         id="alien-media-carousel-temporary-uploads"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
         :media-collections="[
-                        'alien-single-image', 
-                        'alien-single-document', 
-                        'alien-single-youtube-video',
-                        'alien-single-video',
-                        'alien-single-audio',
-                        'alien-multiple-images', 
-                        'alien-multiple-documents', 
-                        'alien-multiple-youtube-videos',
-                        'alien-multiple-videos',
-                        'alien-multiple-audio',
-                    ]"
-        class="my-5"
-        frontend-theme="plain"
+                                'alien-single-image', 
+                                'alien-single-document', 
+                                'alien-single-youtube-video',
+                                'alien-single-video',
+                                'alien-single-audio',
+                                'alien-multiple-images', 
+                                'alien-multiple-documents', 
+                                'alien-multiple-youtube-videos',
+                                'alien-multiple-videos',
+                                'alien-multiple-audio',
+                            ]"
+        class="margin-block-5"
     />
 
-    <h2 class="my-5">Media first available</h2>
+    <h2 class="margin-block-5">Media first available</h2>
 
     <x-mle-first-available
         id="media-first-available"
@@ -191,9 +216,35 @@
         :media-collections="['alien-single-audio', 'alien-single-video', 'alien-single-document', 'alien-single-image', 'alien-single-youtube-video']"
     />
 
+    @if (app()->environment('local') && class_exists(Form::class))
+        <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
+        @php
+            $blog = Blog::all()->first();
+        @endphp
+        <x-form.form 
+            action="{{ route('admin.blogs.update', $blog) }}" 
+            method="put" 
+            enctype="multipart/form-data"
+            class="margin-block-5"
+        >
+            <x-form.html-editor
+                name="content"
+                label="Content *"
+                :tinymce-config="[]"
+                :extra-form-data="[
+                        'model_type' => $blog->getMorphClass(),
+                        'model_id' => $blog->getKey(),
+                        'collection_name' => 'blog-images-extra',
+                        'collections' => ['image' => 'blog-images-extra']
+                    ]"
+                data-model-type="{{ $blog->getMorphClass() }}"
+                data-model-id="{{ $blog->getKey() }}"
+                data-image-collection="blog-images-extra"
+            />
+        </x-form.form>
+    @else
+        form components not available, skipping demo
+    @endif
 </div>
-@once
-    <script type="module" src="{{ asset('vendor/media-library-extensions/demo.js') }}"></script>
-@endonce
 </body>
 </html>

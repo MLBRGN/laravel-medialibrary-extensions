@@ -5,90 +5,51 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMimeTypes;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UploadForm extends BaseComponent
 {
-
+    use InteractsWithMimeTypes;
+    use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
     public ?string $mediaManagerId = '';
-    public string $allowedMimeTypesHuman = '';
+
+    public array $config = [];
 
     public function __construct(
-        public string $id,
-        ?string $frontendTheme,
-        public ?string $imageCollection,
-        public ?string $documentCollection,
-        public ?string $youtubeCollection,
-        public ?string $videoCollection,
-        public ?string $audioCollection,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public string $allowedMimeTypes = '',
+        ?string $id,
+        public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
+        public Media|TemporaryUpload|null $singleMedium = null,
+        public array $collections = [],
+        public array $options = [],
         public bool $multiple = false,
-        public bool $showDestroyButton = false,
-        public bool $showSetAsFirstButton = false,
-        public ?bool $useXhr = null,
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {
-        $this->mediaManagerId = $this->id;
+        $this->mediaManagerId = $id;
 
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
-        $this->setAllowedMimeTypes();
 
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $mimeData = $this->resolveAllowedMimeTypes();
+
+        $this->initializeConfig([
+//            'frontendTheme' => config('media-library-extensions.frontend_theme'),
+//            'useXhr' => config('media-library-extensions.use_xhr'),
+            ...$mimeData,
+        ]);
+
     }
 
     public function render(): View
     {
-        return $this->getPartialView('upload-form', $this->frontendTheme);
+        return $this->getPartialView('upload-form', $this->getConfig('frontendTheme'));
     }
-
-    private function setAllowedMimeTypes(): void
-    {
-        // Use override if provided
-        if (!empty($this->allowedMimeTypes)) {
-            $this->allowedMimeTypesHuman = collect(explode(',', $this->allowedMimeTypes))
-                ->map(fn($mime) => mle_human_mimetype_label($mime))
-                ->join(', ');
-
-            return;
-        }
-
-        // Allowed mimetypes based on provided collections
-        $allowedMimeTypes = collect();
-
-        if ($this->imageCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.image', []));
-        }
-
-        if ($this->documentCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.document', []));
-        }
-
-        if ($this->videoCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.video', []));
-        }
-
-        if ($this->audioCollection) {
-            $allowedMimeTypes = $allowedMimeTypes->merge(config('media-library-extensions.allowed_mimetypes.audio', []));
-        }
-
-        $allowedMimeTypes = $allowedMimeTypes->flatten()->unique();
-
-        $this->allowedMimeTypesHuman = $allowedMimeTypes
-            ->map(fn($mime) => mle_human_mimetype_label($mime))
-            ->join(', ');
-
-        $this->allowedMimeTypes = $allowedMimeTypes
-            ->flatten()
-            ->unique()
-            ->implode(',');
-
-    }
-
 }

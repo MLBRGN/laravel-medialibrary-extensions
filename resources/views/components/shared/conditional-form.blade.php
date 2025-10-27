@@ -1,8 +1,8 @@
 @props([
-    'useXhr' => false,
+//    'useXhr' => false,
     'formAttributes' => [],
     'divAttributes' => [],
-    'method' => 'post'
+//    'method' => 'post'
 ])
 @if($useXhr)
     <div {{ $attributes->merge($divAttributes)->class(['conditional-form']) }} data-xhr-method="{{ $method }}">

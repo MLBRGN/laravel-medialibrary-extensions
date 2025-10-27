@@ -3,7 +3,6 @@
     data-status-container 
     data-status-timeout="{{ config('media-library-extensions.status_message_timeout', 5000) }}"
 >
-    
     <div {{ $attributes->class([
             'mle-status-message', 
             'alert',

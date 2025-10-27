@@ -5,7 +5,7 @@ use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSinglePermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleTemporaryAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 
 beforeEach(function () {
     $this->temporaryAction = Mockery::mock(StoreSingleTemporaryAction::class);
@@ -17,10 +17,10 @@ beforeEach(function () {
 });
 
 it('delegates to temporary action when temporary_upload is true', function () {
-    $request = Mockery::mock(MediaManagerUploadSingleRequest::class);
+    $request = Mockery::mock(StoreSingleRequest::class);
 
     // Simulate Laravel's __get() handling for "temporary_upload"
-    $request->shouldReceive('all')->andReturn(['temporary_upload' => 'true']);
+    $request->shouldReceive('all')->andReturn(['temporary_upload_mode' => 'true']);
 
     $expectedResponse = Mockery::mock(JsonResponse::class);
     $this->temporaryAction
@@ -35,8 +35,8 @@ it('delegates to temporary action when temporary_upload is true', function () {
 });
 
 it('delegates to permanent action when temporary_upload is not true', function () {
-    $request = Mockery::mock(MediaManagerUploadSingleRequest::class);
-    $request->shouldReceive('all')->andReturn(['temporary_upload' => 'false']);
+    $request = Mockery::mock(StoreSingleRequest::class);
+    $request->shouldReceive('all')->andReturn(['temporary_upload_mode' => 'false']);
 
     $expectedResponse = Mockery::mock(RedirectResponse::class);
     $this->permanentAction

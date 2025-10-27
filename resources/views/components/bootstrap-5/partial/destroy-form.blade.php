@@ -1,67 +1,59 @@
-<x-media-library-extensions::shared.conditional-form
-    :use-xhr="$useXhr"
+<x-mle-shared-conditional-form
+    :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => route(mle_prefix_route('medium-destroy'), $medium),
-        'method' => 'POST'
+        'action' => $getConfig('mediumDestroyRoute'),
+        'method' => 'POST',
+        'data-form'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $useXhr, 
-        'id' => $id
+        'data-xhr-form' => $getConfig('useXhr'), 
+        'id' => $id.'-media-destroy-form'
     ]"
     method="delete"
     class="media-manager-destroy-form"
 >
-        <input
-            type="hidden"
-            name="initiator_id"
-            value="{{ $id }}">
-        <input
-           type="hidden"
-           name="media_manager_id"
-           value="{{ $mediaManagerId }}">
-        @if($imageCollection)
+    <input type="hidden"
+        name="initiator_id"
+        value="{{ $id }}">
+    <input type="hidden"
+        name="media_manager_id"
+        value="{{ $mediaManagerId }}">
+    <input type="hidden"
+        name="single_medium_id"
+        value="{{ $singleMedium?->id || null }}">
+    <input type="hidden"
+       name="model_type"
+       value="{{ $modelType }}">
+    <input type="hidden"
+       name="model_id"
+       value="{{ $modelId }}">
+    @foreach($collections as $collectionType => $collectionName)
+        @if (!empty($collectionName))
             <input
                 type="hidden"
-                name="image_collection"
-                value="{{ $imageCollection }}">
+                name="collections[{{ $collectionType }}]"
+                value="{{ $collectionName }}">
         @endif
-        @if($documentCollection)
-            <input
-                type="hidden"
-                name="document_collection"
-                value="{{ $documentCollection }}">
-        @endif
-        @if($videoCollection)
-            <input
-                type="hidden"
-                name="video_collection"
-                value="{{ $videoCollection }}">
-        @endif
-        @if($audioCollection)
-            <input
-                type="hidden"
-                name="audio_collection"
-                value="{{ $audioCollection }}">
-        @endif
-        @if($youtubeCollection)
-            <input
-                type="hidden"
-                name="youtube_collection"
-                value="{{ $youtubeCollection }}">
-        @endif
-        <button
-            type="{{ $useXhr ? 'button' : 'submit' }}"
-            class="mle-button mle-button-submit mle-button-icon btn btn-primary"
-            title="{{ __('media-library-extensions::messages.delete_medium') }}"
-            data-action="destroy-medium"
-            @disabled($disabled)
-        >
-            <x-mle-shared-icon
-                name="{{ config('media-library-extensions.icons.delete') }}"
-                :title="__('media-library-extensions::messages.delete_medium')"
-            />
-        </button>
-</x-media-library-extensions::partial.conditional-form>
-@if($useXhr)
-    <x-mle-shared-assets include-css="true" include-js="true" include-form-submitter="true" :frontend-theme="$frontendTheme"/>
+    @endforeach
+    <button
+        type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
+        class="mle-button mle-button-submit mle-button-icon btn btn-primary"
+        title="{{ __('media-library-extensions::messages.delete_medium') }}"
+        data-action="destroy-medium"
+        data-route="{{ $getConfig('mediumDestroyRoute') }}"
+        @disabled($disabled)
+    >
+        <x-mle-shared-icon
+            name="{{ config('media-library-extensions.icons.delete') }}"
+            :title="__('media-library-extensions::messages.delete_medium')"
+        />
+    </button>
+</x-mle-shared-conditional-form>
+@if($getConfig('useXhr'))
+    <x-mle-shared-assets 
+        include-css="true" 
+        include-js="true" 
+        include-media-manager-submitter="true" 
+        :frontend-theme="$getConfig('frontendTheme')"
+    />
 @endif

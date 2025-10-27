@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
@@ -14,19 +15,19 @@ class ImageResponsive extends Component
     protected array $generatedConversions = [];
 
     public function __construct(
-        public ?Media $medium,
+        public Media|TemporaryUpload|null $medium = null,
         public string $conversion = '',
         public array $conversions = [],
         public string $sizes = '100vw',
         public bool $lazy = true,
         public string $alt = '',
-        public bool $originalOnly = false
+        public bool $originalOnly = false,
+        public array $options = [],
     ) {
         if ($this->medium) {
             $this->generatedConversions = $this->medium->generated_conversions ?? [];
         }
     }
-
 
     public function hasGeneratedConversion(): bool
     {

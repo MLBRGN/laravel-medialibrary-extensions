@@ -24,27 +24,35 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaFirstAvailable;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLab;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLabPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\ImageEditorForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\MediumRestoreForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\StatusArea;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadDestroyForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\TemporaryUploadSetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItemEmpty;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItem;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewMenu;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\ConditionalForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\DebugButton;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageBadge;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageIcon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 
@@ -63,6 +71,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     private string $packageNameShort = 'mle';
 
     private string $vendor = 'mlbrgn';
+
     private string $nameSpace = 'media-library-extensions';
 
     public function boot(): void
@@ -81,6 +90,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // This tells Laravel where to find the translation files
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
         //        $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
+
+//        Blade::componentNamespace('Mlbrgn\\MediaLibraryExtensions\\View\\Components', $this->packageNameShort);
 
         // Migrate database tables necessary for this package to do it's work
         // only migrations in the top folder are loaded, so no need to exclude the demo folder
@@ -105,7 +116,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], $this->nameSpace.'-views');
 
             $this->publishes([
-                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace),// TODO when is mlbrgn prefix wanted / needed?
+                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace), // TODO when is mlbrgn prefix wanted / needed?
             ], $this->nameSpace.'-assets');
 
             $this->publishes([
@@ -120,9 +131,11 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // register and expose blade component views and classes
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
+        Blade::component($this->packageNameShort.'-media-lab', MediaLab::class);
+        Blade::component($this->packageNameShort.'-media-lab-previews', MediaLabPreviews::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
-        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
+//        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
         Blade::component($this->packageNameShort.'-media-manager-tinymce', MediaManagerTinymce::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
@@ -134,26 +147,38 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-carousel', MediaCarousel::class);
         Blade::component($this->packageNameShort.'-image-editor-modal', ImageEditorModal::class);
 
+        // preview subdirectory
+        Blade::component($this->packageNameShort.'-media-preview-grid', MediaPreviewGrid::class);
+        Blade::component($this->packageNameShort.'-media-previews', MediaPreviews::class);
+        Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
+        Blade::component($this->packageNameShort.'-media-preview-menu', MediaPreviewMenu::class);
+        Blade::component($this->packageNameShort.'-media-preview-item-empty', MediaPreviewItemEmpty::class);
+        Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
+
+        // temporary subdirectory
+        Blade::component($this->packageNameShort.'-lab-preview', LabPreview::class);
+
         // shared partials shared component views and classes for internal use
         Blade::component($this->packageNameShort.'-shared-debug', Debug::class);
         Blade::component($this->packageNameShort.'-shared-icon', Icon::class);
         Blade::component($this->packageNameShort.'-shared-assets', Assets::class);
         Blade::component($this->packageNameShort.'-shared-media-preview-container', MediaPreviewContainer::class);
-        Blade::component($this->packageNameShort.'-shared-local-package-badge', LocalPackageBadge::class);
+        Blade::component($this->packageNameShort.'-shared-local-package-icon', LocalPackageIcon::class);
+        Blade::component($this->packageNameShort.'-shared-debug-button', DebugButton::class);
+        Blade::component($this->packageNameShort.'-shared-conditional-form', ConditionalForm::class);
 
         // partial component views and classes for internal use
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
         Blade::component($this->packageNameShort.'-partial-image-editor-form', ImageEditorForm::class);
         Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
+        Blade::component($this->packageNameShort.'-partial-medium-restore-form', MediumRestoreForm::class);
         Blade::component($this->packageNameShort.'-partial-destroy-form', DestroyForm::class);
-        Blade::component($this->packageNameShort.'-partial-temporary-upload-destroy-form', TemporaryUploadDestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-set-as-first-form', SetAsFirstForm::class);
-        Blade::component($this->packageNameShort.'-partial-temporary-upload-set-as-first-form', TemporaryUploadSetAsFirstForm::class);
         Blade::component($this->packageNameShort.'-partial-status-area', StatusArea::class);
         Blade::component($this->packageNameShort.'-partial-status', Status::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
-//                dd(Blade::getClassComponentAliases());
+        //                dd(Blade::getClassComponentAliases());
         // register policies
         if (config('media-library-extensions.demo_pages_enabled')) {
             // Always register the demo database connection, but the models will only use it
@@ -176,6 +201,21 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         parent::register();
 
         $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
+
+        // Register package-specific event provider
+        $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
+
+        // Conditionally register the originals disk
+        if (config('media-library-extensions.store_originals', true)) {
+            $disks = config('media-library-extensions.disks', []);
+
+            foreach ($disks as $disk => $diskConfig) {
+                // Only set the disk if the host app hasn't defined it
+                if (! config()->has("filesystems.disks.$disk")) {
+                    config()->set("filesystems.disks.$disk", $diskConfig);
+                }
+            }
+        }
     }
 
     public function registerDemoDatabase(): void
@@ -241,9 +281,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker.js');
         $overrides = [
             'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
-            'html_editor_tinymce_global_config.extra_scripts'=> $extraScripts,
+            'html_editor_tinymce_global_config.extra_scripts' => $extraScripts,
         ];
-
 
         foreach ($overrides as $key => $value) {
             config()->set("form-components.$key", $value);

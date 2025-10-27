@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Spatie\MediaLibrary\HasMedia;
-use function Livewire\on;
 
 beforeEach(function () {
     // Stub necessary config
@@ -21,26 +19,34 @@ beforeEach(function () {
     Config::set('media-library-extensions.upload_field_name_multiple', 'media_multiple');
 });
 
-test('media manager component renders', function () {
-
+it('renders media manager component', function () {
     $model = $this->getTestBlogModel();
 
-    $html = Blade::render('<x-mle-media-manager
-        :model-or-class-name="$model"
-        image-collection="blog-images"
-        youtube-collection="blog-youtube"
-        document-collection="blog-documents"
-        show-destroy-button
-        show-set-as-first-button
-        show-media-edit-button
-        show-order
-        id="blog"
-        multiple
-    />', [
+    $html = Blade::render(<<<'BLADE'
+        <x-mle-media-manager
+            id="blog"
+            :model-or-class-name="$model"
+            :collections="[
+                'image' => 'blog-images',
+                'youtube-collection' => 'blog-youtube',
+                'document' => 'blog-documents',
+            ]"
+            :options="[
+                'showDestroyButton' => true,
+                'showSetAsFirstButton' => true,
+                'showOrder' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'frontendTheme' => 'bootstrap-5',
+                'showMediaEditButton' => true,
+            ]"
+            multiple
+        />
+    BLADE, [
         'model' => $model,
     ]);
 
-//    dd($html);
     expect($html)
         ->toContain('blog-mmm')
         ->toContain('Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog')
@@ -48,41 +54,119 @@ test('media manager component renders', function () {
         ->toContain('csrf_token');
 });
 
+it('appends correct id suffix based on multiple flag', function () {
+    $model = $this->getTestBlogModel();
+
+    // multiple = true → should append "-mmm"
+    $componentMultiple = new MediaManager(
+        id: 'my-media',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        multiple: true,
+    );
+
+    // multiple = false → should append "-mms"
+    $componentSingle = new MediaManager(
+        id: 'my-media',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        multiple: false,
+    );
+
+    expect($componentMultiple->id)->toBe('my-media-mmm')
+        ->and($componentSingle->id)->toBe('my-media-mms');
+});
+
+
 it('initializes without temporary upload when a eloquent model is provided', function () {
     config()->set('media-library-extensions.demo_pages_enabled', false);
     $model = Blog::create(['title' => 'test']);
-    $component = new MediaManager(modelOrClassName: $model, multiple: true, imageCollection: 'blog-main');
+    $component = new MediaManager(
+        id: 'test-media-manager',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-main'],
+        options: [
+            'showDestroyButton' => true,
+            'showSetAsFirstButton' => true,
+            'showOrder' => true,
+            'useXhr' => true,
+            'showUploadForm' => true,
+            'allowedMimeTypes' => 'image/jpeg, image/png',
+            'frontendTheme' => 'bootstrap-5',
+            'showMediaEditButton' => true,
+        ],
+        multiple: true,
+    );
 
     expect($component->model)->not()->toBeNull()
         ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
         ->and($component->modelId)->not()->toBeNull()
-        ->and($component->temporaryUpload)->toBeFalse()
-        ->and($component->mediaUploadRoute)->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
-        ->and($component->uploadFieldName)->toBe('media_multiple');
+        ->and($component->getConfig('temporaryUploadMode'))->toBeFalse()
+        ->and($component->getConfig('mediaUploadRoute'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
+        ->and($component->getConfig('uploadFieldName'))->toBe('media_multiple');
 });
 
 it('initializes with temporary upload when only model class name provided', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
-    $component = new MediaManager(modelOrClassName: $model->getMorphClass(), multiple: true, imageCollection: 'blog-main');
+    $component = new MediaManager(
+        id: 'test-media-manager',
+        modelOrClassName: $model->getMorphClass(),
+        collections: ['image' => 'blog-main'],
+        options: [
+            'showDestroyButton' => true,
+            'showSetAsFirstButton' => true,
+            'showOrder' => true,
+            'useXhr' => true,
+            //            'showUploadForm' => true,
+            //            'allowedMimeTypes' => 'image/jpeg, image/png',
+            'frontendTheme' => 'bootstrap-5',
+            'showMediaEditButton' => true,
+        ],
+        multiple: true,
+
+    );
 
     expect($component->model)->toBeNull()
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBeNull()
-        ->and($component->temporaryUpload)->toBeTrue()
-        ->and($component->mediaUploadRoute)->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
-        ->and($component->uploadFieldName)->toBe('media_multiple');
+        ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
+        ->and($component->getConfig('mediaUploadRoute'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
+        ->and($component->getConfig('uploadFieldName'))->toBe('media_multiple');
 });
 
 it('renders the correct html multiple (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="true"/>',
+        '<x-mle-media-manager
+        id="test-media-modal"
+        :model-or-class-name="$modelOrClassName"
+        :collections="$collections"
+        :options="$options"
+        multiple="true"
+    />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain'
+            'collections' => [
+                'image' => 'blog-images',
+                'youtube' => 'blog-youtube',
+                'document' => 'blog-documents',
+                'video' => 'blog-videos',
+                'audio' => 'blog-audio',
+            ],
+            'options' => [
+                'frontendTheme' => 'plain',
+                'showSetAsFirstButton' => true,
+                'showOrder' => true,
+                'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
+            ],
         ]
     );
+
     expect($html)->toMatchSnapshot();
 });
 
@@ -90,10 +174,32 @@ it('renders the correct html multiple (bootstrap-5)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="true" />',
+        '<x-mle-media-manager
+        id="test-media-modal"
+        :model-or-class-name="$modelOrClassName"
+        :collections="$collections"
+        :options="$options"
+        multiple="true"
+    />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain'
+            'collections' => [
+                'image' => 'blog-images',
+                'youtube' => 'blog-youtube',
+                'document' => 'blog-documents',
+                'video' => 'blog-videos',
+                'audio' => 'blog-audio',
+            ],
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+                'showSetAsFirstButton' => true,
+                'showOrder' => true,
+                'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -103,10 +209,32 @@ it('renders the correct html single (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        '<x-mle-media-manager
+        id="test-media-modal"
+        :model-or-class-name="$modelOrClassName"
+        :collections="$collections"
+        :options="$options"
+        multiple="false"
+    />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain'
+            'collections' => [
+                'image' => 'blog-images',
+                'youtube' => 'blog-youtube',
+                'document' => 'blog-documents',
+                'video' => 'blog-videos',
+                'audio' => 'blog-audio',
+            ],
+            'options' => [
+                'frontendTheme' => 'plain',
+                'showSetAsFirstButton' => true,
+                'showOrder' => true,
+                'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -116,10 +244,32 @@ it('renders the correct html single (bootstrap-5)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
-        '<x-mle-media-manager id="test-media-modal" :model-or-class-name="$modelOrClassName" image_collection="images" :frontend-theme="$frontendTheme" multiple="false"/>',
+        '<x-mle-media-manager
+        id="test-media-modal"
+        :model-or-class-name="$modelOrClassName"
+        :collections="$collections"
+        :options="$options"
+        multiple="false"
+    />',
         [
             'modelOrClassName' => $model,
-            'frontendTheme' => 'plain'
+            'collections' => [
+                'image' => 'blog-images',
+                'youtube' => 'blog-youtube',
+                'document' => 'blog-documents',
+                'video' => 'blog-videos',
+                'audio' => 'blog-audio',
+            ],
+            'options' => [
+                'frontendTheme' => 'bootstrap-5',
+                'showSetAsFirstButton' => true,
+                'showOrder' => true,
+                'showDestroyButton' => true,
+                'useXhr' => true,
+                'showUploadForm' => true,
+                'allowedMimeTypes' => 'image/jpeg, image/png',
+                'showMediaEditButton' => true,
+            ],
         ]
     );
     expect($html)->toMatchSnapshot();
@@ -128,20 +278,93 @@ it('renders the correct html single (bootstrap-5)', function () {
 it('throws if given class string does not exist', function () {
     $modelOrClassName = 'NonExistent\Model';
     expect(fn () => new MediaManager(
+        id: 'test-media-manager',
         modelOrClassName: $modelOrClassName,
-        imageCollection: 'blog-main',
+        collections: ['image' => 'blog-main'],
     ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_does_not_exist', [
-        'class_name' => $modelOrClassName
+        'class_name' => $modelOrClassName,
     ]));
 });
 
 it('throws if given class string does not implement HasMedia', function () {
     $modelOrClassName = \stdClass::class;
     expect(fn () => new MediaManager(
+        id: 'test-media-manager',
         modelOrClassName: $modelOrClassName,
-        imageCollection: 'blog-main',
+        collections: ['image' => 'blog-main'],
     ))->toThrow(\UnexpectedValueException::class, __('media-library-extensions::messages.must_implement_has_media', [
         'class' => $modelOrClassName,
-        'interface' => HasMedia::class
+        'interface' => HasMedia::class,
     ]));
 });
+
+it('disables showSetAsFirstButton when multiple is false', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-single',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        options: ['showSetAsFirstButton' => true],
+        multiple: false,
+    );
+
+    expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();
+});
+
+it('throws exception when no collections provided', function () {
+    $model = $this->getTestBlogModel();
+
+    expect(fn () => new MediaManager(
+        id: 'test-empty-collections',
+        modelOrClassName: $model,
+        collections: [],
+    ))->toThrow(Exception::class, __('media-library-extensions::messages.no_media_collections'));
+});
+
+it('disables upload form when no uploadable collections exist', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-no-uploadables',
+        modelOrClassName: $model,
+        collections: ['youtube' => 'blog-youtube'], // only youtube
+        options: ['showUploadForm' => true],
+        multiple: true,
+    );
+
+    expect($component->getConfig('showUploadForm'))->toBeFalse();
+});
+
+it('disables YouTube upload form when youtube collection missing', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-no-youtube',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        options: ['showYouTubeUploadForm' => true],
+        multiple: true,
+    );
+
+    expect($component->getConfig('showYouTubeUploadForm'))->toBeFalse();
+});
+
+it('hides media menu when all menu buttons disabled', function () {
+    $model = $this->getTestBlogModel();
+
+    $component = new MediaManager(
+        id: 'test-hide-menu',
+        modelOrClassName: $model,
+        collections: ['image' => 'blog-images'],
+        options: [
+            'showDestroyButton' => false,
+            'showSetAsFirstButton' => false,
+            'showMediaEditButton' => false,
+        ],
+        multiple: true,
+    );
+
+    expect($component->getConfig('showMenu'))->toBeFalse();
+});
+

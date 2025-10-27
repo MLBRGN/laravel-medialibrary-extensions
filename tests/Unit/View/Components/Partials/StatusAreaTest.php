@@ -15,13 +15,15 @@ it('initializes component with provided data', function () {
     $mediaManagerId = 'media-manager-125';
     $component = new StatusArea(
         id: 'component-123',
-        frontendTheme: 'custom-theme',
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => 'custom-theme',
+        ],
     );
 
     expect($component->id)->toBe('component-123')
-        ->and($component->frontendTheme)->toBe('custom-theme')
+        ->and($component->getConfig('frontendTheme'))->toBe('custom-theme')
         ->and($component->initiatorId)->toBe($initiatorId)
         ->and($component->mediaManagerId)->toBe($mediaManagerId);
 });
@@ -29,7 +31,7 @@ it('initializes component with provided data', function () {
 it('renders the correct partial view', function () {
     $initiatorId = 'media-manager-125';
     $mediaManagerId = 'media-manager-125';
-    $theme = 'custom-theme';
+    $theme = 'bootstrap-5';
     $expectedView = "media-library-extensions::components.$theme.partial.status-area";
 
     ViewFacade::shouldReceive('make')
@@ -39,12 +41,15 @@ it('renders the correct partial view', function () {
 
     $component = new StatusArea(
         id: 'component-123',
-        frontendTheme: $theme,
         initiatorId: $initiatorId,
         mediaManagerId: $mediaManagerId,
+        options: [
+            'frontendTheme' => $theme,
+        ],
     );
 
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(ViewInstance::class);
+    expect($view)->toBeInstanceOf(ViewInstance::class)
+        ->and($component->getConfig('frontendTheme'))->toBe('bootstrap-5');
 });

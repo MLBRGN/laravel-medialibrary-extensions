@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
@@ -22,13 +22,13 @@ class StoreSingleTemporaryAction
         protected MediaService $mediaService
     ) {}
 
-    public function execute(MediaManagerUploadSingleRequest $request): RedirectResponse|JsonResponse
+    public function execute(StoreSingleRequest $request): RedirectResponse|JsonResponse
     {
         $field = config('media-library-extensions.upload_field_name_single');
         $disk = config('media-library-extensions.temporary_upload_disk');
         $basePath = config('media-library-extensions.temporary_upload_path');
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $file = $request->file($field);
 
@@ -41,13 +41,16 @@ class StoreSingleTemporaryAction
             );
         }
 
-        $collections = collect([
-            $request->input('image_collection'),
-            $request->input('document_collection'),
-            $request->input('youtube_collection'),
-            $request->input('video_collection'),
-            $request->input('audio_collection'),
-        ])->filter()->all();// remove falsy values
+        $collections = $request->array('collections');
+
+        if (empty($collections)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.no_media_collections')
+            );
+        }
 
         if ($this->temporaryUploadsHaveAnyMedia($collections)) {
             return MediaResponse::error(
@@ -60,21 +63,24 @@ class StoreSingleTemporaryAction
 
         $originalName = $file->getClientOriginalName();
         $mimetype = $file->getMimeType();
-        $collection = $this->mediaService->determineCollection($file);
+        $collectionType = $this->mediaService->determineCollectionType($file);
+        $collectionName = $collections[$collectionType] ?? null;
 
-        if (is_null($collection)) {
+        if (is_null($collectionType)) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
                 $mediaManagerId,
                 __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $mimetype]),
-                [
-                    'skipped_file' => [
-                        'filename' => $originalName,
-                        'reason' => __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $mimetype]),
-                    ],
-                ]
             );
+        }
+
+        if (is_null($collectionName)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.upload_failed_due_to_invalid_collection'));
         }
 
         $sessionId = $request->session()->getId();
@@ -104,19 +110,15 @@ class StoreSingleTemporaryAction
             'path' => "{$directory}/{$filename}",
             'name' => $safeFilename,
             'file_name' => $originalName,
-            'collection_name' => $collection,
+            'collection_name' => $collectionName,
             'mime_type' => $mimetype,
             'size' => $file->getSize(),
             'user_id' => $userId,
             'session_id' => $sessionId,
             'order_column' => 0,
             'custom_properties' => [
-                'image_collection' => $request->input('image_collection'),
-                'document_collection' => $request->input('document_collection'),
-                'youtube_collection' => $request->input('youtube_collection'),
-                'video_collection' => $request->input('video_collection'),
-                'audio_collection' => $request->input('audio_collection'),
-                'priority' => 0
+                'collections' => $collections,
+                'priority' => 0,
             ],
         ]);
         $upload->save();

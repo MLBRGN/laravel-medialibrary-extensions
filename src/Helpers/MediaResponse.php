@@ -29,6 +29,7 @@ class MediaResponse
         if ($request->expectsJson()) {
             // camelCase for JSON (JS-friendly)
             $base = compact('initiatorId', 'type', 'message');
+
             return response()->json(array_merge($base, $extraData), $status);
         }
 
@@ -41,20 +42,20 @@ class MediaResponse
         ];
 
         // Add errors to Laravel's default error bag if provided
-        if (!empty($extraData['errors'])) {
+        if (! empty($extraData['errors'])) {
             $errors = $extraData['errors'];
 
             // Convert array of errors into a MessageBag
             $messageBag = new MessageBag($errors);
 
             // Put it into Laravel's default error bag
-            $errorBag = session()->get('errors', new ViewErrorBag());
+            $errorBag = session()->get('errors', new ViewErrorBag);
             $errorBag->put('default', $messageBag);
             session()->flash('errors', $errorBag);
         }
 
         // Take the previous URL and append "#initiatorId"
-        $targetUrl = url()->previous() . '#' . $mediaManagerId;
+        $targetUrl = url()->previous().'#'.$mediaManagerId;
 
         return redirect()
             ->to($targetUrl)

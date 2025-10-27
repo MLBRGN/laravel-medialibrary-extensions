@@ -1,0 +1,139 @@
+@if ($componentToRender)
+    <div class="media-preview-item-container"
+         data-bs-toggle="modal"
+         data-bs-target="#{{ $id }}-mod"
+    >
+{{--        @if($slot->isNotEmpty())--}}
+{{--            {{ $slot }}--}}
+{{--        @else--}}
+            <x-dynamic-component
+                :component="$componentToRender"
+                class="{{ $mediumType === 'image' 
+                    ? 'media-preview-image mle-cursor-zoom-in' 
+                    : 'mle-cursor-zoom-in' }}"
+                data-bs-target="#{{ $id }}-mod-crs"
+                data-bs-slide-to="{{ $loopIndex }}"
+                :medium="$medium"
+                :options="$options"
+                :draggable="$mediumType === 'image' ? 'false' : null"
+                :preview="true"
+{{--                :preview="in_array($mediumType, ['youtube-video'])"--}}
+            />
+{{--        @endisset--}}
+    </div>
+
+    @if ($mediumType === 'image')
+        <x-mle-image-editor-modal
+            id="{{ $id }}"
+            :model-or-class-name="$modelOrClassName"
+            :medium="$medium"
+            :single-medium="$singleMedium"
+            :collections="$collections"
+            :options="$options"
+            :initiator-id="$id"
+            title="Edit Image"
+        />
+    @endif
+@else
+    <span class="mle-unsupported">
+        {{ __('media-library-extensions::messages.non_supported_file_format') }}
+    </span>
+@endif
+
+
+{{--@isset($slot)--}}
+{{--    {{ $slot }}--}}
+{{--@else--}}
+{{--    @switch(true)--}}
+{{--        @case(isMediaType($medium, 'youtube-video'))--}}
+{{--            <div class="media-preview-item-container" --}}
+{{--                 data-bs-toggle="modal" --}}
+{{--                 data-bs-target="#{{ $id }}-mod"--}}
+{{--            >--}}
+{{--                <x-mle-video-youtube--}}
+{{--                    class="mle-video-youtube mle-video-responsive mle-cursor-zoom-in"--}}
+{{--                    data-bs-target="#{{ $id }}-mod-crs"--}}
+{{--                    data-bs-slide-to="{{ $loopIndex }}"--}}
+{{--                    :medium="$medium"--}}
+{{--                    :preview="true"--}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--            @break--}}
+{{--    --}}
+{{--        @case(isMediaType($medium, 'document'))--}}
+{{--            <div class="media-preview-item-container" --}}
+{{--                 data-bs-toggle="modal" --}}
+{{--                 data-bs-target="#{{ $id }}-mod"--}}
+{{--            >--}}
+{{--                <x-mle-document--}}
+{{--                    class="previewed-document mle-cursor-zoom-in"--}}
+{{--                    data-bs-target="#{{ $id }}-mod-crs"--}}
+{{--                    data-bs-slide-to="{{ $loopIndex }}"--}}
+{{--                    :medium="$medium"--}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--            @break--}}
+{{--    --}}
+{{--        @case(isMediaType($medium, 'video'))--}}
+{{--            <div class="media-preview-item-container" --}}
+{{--                 data-bs-toggle="modal" --}}
+{{--                 data-bs-target="#{{ $id }}-mod"--}}
+{{--            >--}}
+{{--                <x-mle-video--}}
+{{--                    class="mle-cursor-zoom-in"--}}
+{{--                    data-bs-target="#{{ $id }}-mod-crs"--}}
+{{--                    data-bs-slide-to="{{ $loopIndex }}"--}}
+{{--                    :medium="$medium"--}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--            @break--}}
+{{--    --}}
+{{--        @case(isMediaType($medium, 'audio'))--}}
+{{--            <div class="media-preview-item-container" --}}
+{{--                 data-bs-toggle="modal" --}}
+{{--                 data-bs-target="#{{ $id }}-mod"--}}
+{{--            >--}}
+{{--                <x-mle-audio--}}
+{{--                    class="mle-cursor-zoom-in"--}}
+{{--                    data-bs-target="#{{ $id }}-mod-crs"--}}
+{{--                    data-bs-slide-to="{{ $loopIndex }}"--}}
+{{--                    :medium="$medium"--}}
+{{--                    :options="$options"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--            @break--}}
+{{--    --}}
+{{--        @case(isMediaType($medium, 'image'))--}}
+{{--            <div class="media-preview-item-container" --}}
+{{--                 data-bs-toggle="modal" --}}
+{{--                 data-bs-target="#{{ $id }}-mod"--}}
+{{--            >--}}
+{{--                <x-mle-image-responsive--}}
+{{--                    class="media-preview-image mle-cursor-zoom-in"--}}
+{{--                    data-bs-target="#{{ $id }}-mod-crs"--}}
+{{--                    data-bs-slide-to="{{ $loopIndex }}"--}}
+{{--                    :medium="$medium"--}}
+{{--                    :options="$options"--}}
+{{--                    draggable="false"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--    --}}
+{{--            <x-mle-image-editor-modal--}}
+{{--                id="{{ $id }}"--}}
+{{--                :model-or-class-name="$modelOrClassName"--}}
+{{--                :medium="$medium"--}}
+{{--                :single-medium="$singleMedium"--}}
+{{--                :collections="$collections"--}}
+{{--                :options="$options"--}}
+{{--                :initiator-id="$id"--}}
+{{--                title="Edit Image"--}}
+{{--            />--}}
+{{--            @break--}}
+{{--    --}}
+{{--        @default--}}
+{{--            <span class="mle-unsupported">{{ __('media-library-extensions::messages.non_supported_file_format') }}</span>--}}
+{{--    @endswitch--}}
+{{--@endif--}}

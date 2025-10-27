@@ -1,14 +1,14 @@
-<div class="status-area">
+<div class="status-area" data-status-area-container>
     <x-mle-partial-spinner 
         id="{{ $id.'-alert' }}" 
         :initiator-id="$id"
         :media-manager-id="$id"
-        :frontend-theme="$frontendTheme"
+        :options="$options"
     />
     <x-mle-partial-status 
         id="{{ $id.'-alert' }}" 
         :initiator-id="$id"
         :media-manager-id="$id"
-        :frontend-theme="$frontendTheme"
+        :options="$options"
     />
 </div>

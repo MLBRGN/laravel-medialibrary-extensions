@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 
 beforeEach(function () {
-    $this->request = new SetAsFirstRequest();
+    $this->request = new SetMediumAsFirstRequest;
 });
 
 it('authorizes all requests', function () {
@@ -19,7 +19,7 @@ it('passes validation with required fields and at least one collection', functio
         'medium_id' => '123',
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
-        'image_collection' => 'images',
+        'collections' => ['image' => 'images'],
     ];
 
     $validator = Validator::make($data, $this->request->rules());
@@ -35,16 +35,13 @@ it('fails validation when no collections are provided', function () {
         'medium_id' => '123',
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
+        // collections intentionally missing
     ];
 
     $validator = Validator::make($data, $this->request->rules());
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->has('image_collection'))->toBeTrue();
-    expect($validator->errors()->has('video_collection'))->toBeTrue();
-    expect($validator->errors()->has('audio_collection'))->toBeTrue();
-    expect($validator->errors()->has('document_collection'))->toBeTrue();
-    expect($validator->errors()->has('youtube_collection'))->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeTrue();
 });
 
 it('fails validation when required fields are missing', function () {

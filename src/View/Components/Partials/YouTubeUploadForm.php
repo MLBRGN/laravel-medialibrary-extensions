@@ -4,53 +4,54 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
-use Exception;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class YouTubeUploadForm extends BaseComponent
 {
+    use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
-    public string $mediaUploadRoute; // upload form action route
 
-    public string $previewUpdateRoute; // route to update preview media when using ajax
     public ?string $modelType = null;
+
     public ?string $mediaManagerId = '';
 
     public function __construct(
-        public ?string $youtubeCollection,
-        public string $id,
-        public ?string $frontendTheme,
-        public ?string $mediaCollection,// TODO remove?
-        public ?string $imageCollection,
-        public ?string $documentCollection,
-        public ?string $videoCollection,
-        public ?string $audioCollection,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public string $allowedMimeTypes = '',
+        ?string $id,
+        public mixed $modelOrClassName,// either a modal that implements HasMedia or its class name
+        public Media|TemporaryUpload|null $singleMedium = null,
+        public array $collections = [],
+        public array $options = [],
         public bool $multiple = false,
-        public bool $showDestroyButton = false,
-        public bool $showSetAsFirstButton = false,
-        public ?bool $useXhr = null,
         public ?bool $readonly = false,
         public ?bool $disabled = false,
     ) {
-        $this->mediaManagerId = $this->id;
+        $this->mediaManagerId = $id;
 
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id, $this->getOption('frontendTheme'));
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
-        $this->previewUpdateRoute = route(mle_prefix_route('preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
-        $this->useXhr = ! is_null($this->useXhr) ? $this->useXhr : config('media-library-extensions.use_xhr');
+        $youtubeCollection = $collections['youtube'];
+        $mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
+        $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
 
+        $this->initializeConfig([
+//            'frontendTheme' => config('media-library-extensions.frontend_theme'),
+//            'useXhr' => config('media-library-extensions.use_xhr'),
+            'youtubeCollection' => $youtubeCollection,
+            'mediaUploadRoute' => $mediaUploadRoute,
+            'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
+        ]);
     }
 
     public function render(): View
     {
-        return $this->getPartialView('youtube-upload-form', $this->frontendTheme);
+        return $this->getPartialView('youtube-upload-form', $this->getConfig('frontendTheme'));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
@@ -9,10 +11,21 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 
 abstract class MediaManagerRequest extends FormRequest
 {
-
     public function rules(): array
     {
         return [];
+    }
+
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        // TODO
+        //        if (! $this->expectsJson()) {
+        //            abort(400, 'JSON request required.');
+        //        }
+        return true;
     }
 
     /**
@@ -23,7 +36,7 @@ abstract class MediaManagerRequest extends FormRequest
         $url = parent::getRedirectUrl();
 
         if ($this->has('media_manager_id')) {
-            $url .= '#' . $this->input('media_manager_id');
+            $url .= '#'.$this->input('media_manager_id');
         }
 
         return $url;

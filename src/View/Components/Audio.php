@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -16,6 +15,7 @@ class Audio extends Component
 
     public function __construct(
         public Media|TemporaryUpload $medium,
+        public array $options = [],
     ) {
         $this->id = 'mle-audio-'.$medium->id;
     }

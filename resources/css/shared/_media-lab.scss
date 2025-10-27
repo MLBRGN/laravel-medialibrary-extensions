@@ -1,0 +1,25 @@
+.mlbrgn-mle-component {
+    &.mle-media-lab {
+        min-width:680px;
+    }
+
+    .mle-media-lab-original {
+        //min-width:200px;
+    }
+
+    .mle-media-lab-base {
+        //min-width:200px;
+    }
+
+    .mle-media-lab-original {
+        //min-width:200px;
+    }
+
+    .media-lab-title {
+        background-color: var(--mlbrgn-mle-preview-menu-bg-color);
+        font-weight: 900;
+        padding: 0.5rem;
+        text-align: center;
+    }
+
+}

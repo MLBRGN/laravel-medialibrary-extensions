@@ -7,22 +7,19 @@ use Spatie\MediaLibrary\HasMedia;
 
 trait ChecksMediaLimits
 {
-
     /**
      * Count total media for a model in given collections.
      */
     protected function countModelMediaInCollections(HasMedia $model, array $collections): int
     {
-//        $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
-
         $count = collect($collections)
-            ->filter()// remove falsy values
-            ->reduce(function (int $total, string $collection) use ($model) {
-                $mediaItems = $model->getMedia($collection);
-//                Log::info("Media for collection '{$collection}' count: " . $mediaItems->count());
-                return $total + $mediaItems->count();
+            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
+            ->reduce(function (int $total, string $collectionName) use ($model) {
+                $count = $model->getMedia($collectionName)->count();
+
+                return $total + $count;
             }, 0);
-//        Log::info("Total count for collections '{$count}'");
+
         return $count;
     }
 
@@ -32,13 +29,12 @@ trait ChecksMediaLimits
     protected function countTemporaryUploadsInCollections(array $collections): int
     {
         $count = collect($collections)
-            ->filter()// remove falsy values
-            ->reduce(function (int $total, string $collection) {
-                $temporaryItems = TemporaryUpload::forCurrentSession($collection);
-//                Log::info("Temporary items for collection '{$collection}' count: " . $temporaryItems->count());
+            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
+            ->reduce(function (int $total, string $collectionName) {
+                $temporaryItems = TemporaryUpload::forCurrentSession($collectionName);
+
                 return $total + $temporaryItems->count();
             }, 0);
-//        Log::info("Total count for collections '{$count}'");
 
         return $count;
     }
@@ -58,5 +54,4 @@ trait ChecksMediaLimits
     {
         return $this->countTemporaryUploadsInCollections($collections) > 0;
     }
-
 }

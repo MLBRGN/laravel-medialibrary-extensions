@@ -2,7 +2,7 @@
 
 use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleTemporaryAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 beforeEach(function () {
@@ -10,23 +10,25 @@ beforeEach(function () {
     $this->action = new StoreSingleTemporaryAction($this->mediaService);
 });
 
-test('it stores file and returns JSON success', function () {
+it('it stores file and returns JSON success', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$file1 = UploadedFile::fake()->image('photo1.jpg');
+    $mediaManagerId = 'media-manager-123';
+    $file1 = UploadedFile::fake()->image('photo1.jpg');
     $model = $this->getTestBlogModel();
 
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn('images');
+        ->shouldReceive('determineCollectionType')->once()->andReturn('image');
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
-    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+    $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
     ], [], [
-        $uploadFieldNameSingle => $file1
+        $uploadFieldNameSingle => $file1,
     ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
@@ -41,22 +43,24 @@ test('it stores file and returns JSON success', function () {
         ]);
 });
 
-test('it stores file and returns redirect success', function () {
+it('it stores file and returns redirect success', function () {
     $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';$file = UploadedFile::fake()->image('photo.jpg');
+    $mediaManagerId = 'media-manager-123';
+    $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getTestBlogModel();
 
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn('images');
+        ->shouldReceive('determineCollectionType')->once()->andReturn('image');
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
-    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+    $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
     ], [], [
-        $uploadFieldNameSingle => $file
+        $uploadFieldNameSingle => $file,
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -74,16 +78,17 @@ test('it stores file and returns redirect success', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_success'));
 });
 
-test('it returns error if no file is given (JSON)', function () {
+it('it returns error if no file is given (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
-    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+    $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -98,16 +103,17 @@ test('it returns error if no file is given (JSON)', function () {
         ]);
 });
 
-test('it returns error if no file is given (redirect)', function () {
+it('it returns error if no file is given (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
-    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+    $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
     ]);
 
     $request->setLaravelSession(app('session.store'));
@@ -127,24 +133,25 @@ test('it returns error if no file is given (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_no_files'));
 });
 
-test('it returns error if file has invalid mimetype (JSON)', function () {
+it('it returns error if file has invalid mimetype (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
 
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn(null);
+        ->shouldReceive('determineCollectionType')->once()->andReturn(null);
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
-    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+    $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
     ], [], [
-        $uploadFieldNameSingle => $file
+        $uploadFieldNameSingle => $file,
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -153,28 +160,29 @@ test('it returns error if file has invalid mimetype (JSON)', function () {
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
         ->and($response->getData(true)['type'])->toBe('error')
         ->and($response->getData(true)['message'])->toBe(
-            __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' =>  $file->getMimetype()])
+            __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $file->getMimetype()])
         );
 });
 
-test('it returns error if file has invalid mimetype (redirect)', function () {
+it('it returns error if file has invalid mimetype (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
 
     $this->mediaService
-        ->shouldReceive('determineCollection')->once()->andReturn(null);
+        ->shouldReceive('determineCollectionType')->once()->andReturn(null);
 
     $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
 
-    $request = MediaManagerUploadSingleRequest::create('/upload', 'POST', [
+    $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
     ], [], [
-        $uploadFieldNameSingle => $file
+        $uploadFieldNameSingle => $file,
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -190,5 +198,5 @@ test('it returns error if file has invalid mimetype (redirect)', function () {
 
     expect($sessionData['type'])->toBe('error');
     expect($sessionData['initiator_id'])->toBe($initiatorId);
-    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' =>  $file->getMimetype()]));
+    expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $file->getMimetype()]));
 });

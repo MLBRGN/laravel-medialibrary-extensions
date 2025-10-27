@@ -6,21 +6,23 @@ namespace Mlbrgn\MediaLibraryExtensions\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Spatie\MediaLibrary\HasMedia;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+use Spatie\MediaLibrary\HasMedia;
 
 class MaxMediaCount implements ValidationRule
 {
     use ChecksMediaLimits;
 
     protected HasMedia $model;
+
     protected array $collections;
+
     protected int $max;
 
-    public function __construct(HasMedia $model, array|string $collections, int $max)
+    public function __construct(HasMedia $model, array $collections, int $max)
     {
         $this->model = $model;
-        $this->collections = (array) $collections;
+        $this->collections = $collections;
         $this->max = $max;
     }
 
@@ -47,8 +49,8 @@ class MaxMediaCount implements ValidationRule
     }
 }
 
-//class MaxMediaCount implements ValidationRule
-//{
+// class MaxMediaCount implements ValidationRule
+// {
 //    protected HasMedia $model;
 //
 //    protected string $collectionName;
@@ -79,4 +81,4 @@ class MaxMediaCount implements ValidationRule
 //    {
 //        return __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => $this->max]);
 //    }
-//}
+// }

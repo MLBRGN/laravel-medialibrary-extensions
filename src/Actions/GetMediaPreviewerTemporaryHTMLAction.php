@@ -8,10 +8,12 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerTemporaryHTMLAction
 {
@@ -22,49 +24,51 @@ class GetMediaPreviewerTemporaryHTMLAction
     /**
      * @throws Exception
      */
-    public function execute(GetMediaPreviewerHTMLRequest $request): JsonResponse|Response
+    public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
         $initiatorId = $request->input('initiator_id');
+        $modelType = $request->input('model_type');
+        // no modelId
+        $singleMediumId = $request->input('single_medium_id');
+        $singleMediumId = ($singleMediumId !== 'null' && $singleMediumId !== null && $singleMediumId !== '') ? (int) $singleMediumId : null;
 
-        $imageCollection = $request->input('image_collection', '');
-        $documentCollection = $request->input('document_collection', '');
-        $youtubeCollection = $request->input('youtube_collection', '');
-        $videoCollection = $request->input('video_collection', '');
-        $audioCollection = $request->input('audio_collection', '');
+        $options = json_decode($request->input('options'), true) ?? [];
+        $collections = json_decode($request->input('collections'), true) ?? [];
+//        $model = $this->mediaService->resolveModel($modelType, $modelId);
 
-        $collections = collect([
-            $imageCollection,
-            $documentCollection,
-            $youtubeCollection,
-            $videoCollection,
-            $audioCollection,
-        ])
-            ->filter(fn ($collection) => !empty($collection)) // removes null, '', false
+        $collections = collect($collections)
+            ->filter(fn ($collection) => ! empty($collection))
+            ->values()
             ->all();
 
+        $singleMedium = null;
         $totalMediaCount = 0;
 
-        foreach ($collections as $collectionName) {
-            $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName)->count();
+        // counting media
+        if ($singleMediumId !== null) {
+            // count single medium
+            $singleMedium = Media::query()->find($singleMediumId);
+
+            if ($singleMedium) {
+                $totalMediaCount = 1;
+            } else {
+                throw new Exception(__('media-library-extensions::messages.medium_not_found'));
+            }
+        } else {
+            // Count all media in collections
+            foreach ($collections as $collectionName) {
+                $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName)->count();
+            }
         }
 
-        $component = new MediaManagerPreview(
-            modelOrClassName: $request->input('model_type'),
+        $component = new MediaPreviews(
             id: $initiatorId,
-            imageCollection: $imageCollection,
-            documentCollection: $documentCollection,
-            youtubeCollection: $youtubeCollection,
-            videoCollection: $videoCollection,
-            audioCollection: $audioCollection,
-            frontendTheme: $request->input('frontend_theme'),
-            showDestroyButton: $request->input('show_destroy_button') === 'true',
-            showSetAsFirstButton: $request->input('show_set_as_first_button') === 'true',
-            showOrder: $request->input('show_order') === 'true',
-            showMenu: $request->input('show_menu') === 'true',
-            temporaryUploads: $request->input('temporary_uploads') === 'true',
-            selectable: $request->input('selectable') === 'true',
-            showMediaEditButton: $request->input('show_media_edit_button') === 'true',
+            modelOrClassName: $modelType,
+            collections: $collections,
+            options: $options,
+            singleMedium: $singleMedium,
         );
+
 
         $html = Blade::renderComponent($component);
 
@@ -74,6 +78,5 @@ class GetMediaPreviewerTemporaryHTMLAction
             'success' => true,
             'target' => $initiatorId,
         ]);
-
     }
 }

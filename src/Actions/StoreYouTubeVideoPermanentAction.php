@@ -28,25 +28,28 @@ class StoreYouTubeVideoPermanentAction
         }
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;// non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
 
-        $collections = collect([
-            $request->input('image_collection'),
-            $request->input('document_collection'),
-            $request->input('youtube_collection'),
-            $request->input('video_collection'),
-            $request->input('audio_collection'),
-        ])->filter()->all();// remove falsy values
+        $collections = $request->array('collections');
+
+        if (empty($collections)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.no_media_collections')
+            );
+        }
 
         $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
-        $model->load(['media' => fn($q) => $q->whereIn('collection_name', $collections)]);
+        $model->load(['media' => fn ($q) => $q->whereIn('collection_name', $collections)]);
         $field = config('media-library-extensions.upload_field_name_youtube');
 
         $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
-        if(!$multiple) {
+        if (! $multiple) {
             $maxItemsInCollection = 1;
         }
         $currentMediaCount = $this->countModelMediaInCollections($model, $collections);

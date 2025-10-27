@@ -19,22 +19,16 @@
         </div>
         <div class="mlbrgn-mle-component media-manager-tinymce">
             <x-mle-media-manager-tinymce
-                :model-or-class-name="$modelOrClassName"
                 id="{{ $id }}"
-                :image-collection="$imageCollection"
-                :document-collection="$documentCollection"
-                :youtube-collection="$youtubeCollection"
-                :video-collection="$videoCollection"
-                :audio-collection="$audioCollection"
-                :frontend-theme="$frontendTheme"
-                :show-destroy-button="true"
-                :show-set-as-first-button="true"
-                :show-media-edit-button="true"
-                :show-order="true"
-                :show-menu="true"
-                :multiple="$temporaryUpload"
+                :model-or-class-name="$modelOrClassName"
+                :collections="$collections"
+                :options="$options"
+                :multiple="$multiple"
                 :selectable="true"
             />
+        </div>
+    </body>
+</html>
 {{--            <x-mle-media-manager-multiple--}}
 {{--                :model-or-class-name="$modelOrClassName"--}}
 {{--                id="{{ $id }}"--}}
@@ -43,20 +37,18 @@
 {{--                :youtube-collection="$youtubeCollection"--}}
 {{--                :video-collection="$videoCollection"--}}
 {{--                :audio-collection="$audioCollection"--}}
-{{--                :frontend-theme="$frontendTheme"--}}
 {{--                :show-destroy-button="true"--}}
 {{--                :show-set-as-first-button="true"--}}
 {{--            :show-media-edit-button="true"--}}
 {{--                :show-order="true"--}}
 {{--                :show-menu="true"--}}
-{{--                :multiple="$temporaryUpload"--}}
+{{--                :multiple="$multiple"--}}
 {{--                :selectable="true"--}}
 {{--            />--}}
 {{--        </div>--}}
 {{--        <x-mle-shared-assets --}}
 {{--            include-css="true" --}}
 {{--            include-js="true" --}}
-{{--            :frontend-theme="$frontendTheme"--}}
 {{--        />--}}
 {{--        <script>--}}
 {{--            document.addEventListener('DOMContentLoaded', () => {--}}
@@ -96,5 +88,3 @@
 {{--                });--}}
 {{--            });--}}
 {{--        </script>--}}
-    </body>
-</html>

@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 it('sets the id correctly for media', function () {
-    $media = new Media();
+    $media = new Media;
     $media->id = 123;
     $media->mime_type = 'video/mp4';
     $media->setRelation('model', null); // Media needs this sometimes
@@ -17,7 +17,7 @@ it('sets the id correctly for media', function () {
 });
 
 it('sets the id correctly for temporary upload', function () {
-    $upload = new TemporaryUpload();
+    $upload = new TemporaryUpload;
     $upload->id = 456;
     $upload->mime_type = 'video/webm';
 
@@ -27,7 +27,7 @@ it('sets the id correctly for temporary upload', function () {
 });
 
 it('renders the correct view', function () {
-    $media = new Media();
+    $media = new Media;
     $media->id = 1;
     $media->mime_type = 'video/mp4';
 

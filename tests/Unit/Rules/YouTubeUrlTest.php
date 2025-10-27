@@ -3,7 +3,7 @@
 use Mlbrgn\MediaLibraryExtensions\Rules\YouTubeUrl;
 
 it('passes for valid YouTube URLs', function () {
-    $rule = new YouTubeUrl();
+    $rule = new YouTubeUrl;
 
     $validUrls = [
         'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
@@ -23,7 +23,7 @@ it('passes for valid YouTube URLs', function () {
 });
 
 it('fails for invalid YouTube URLs', function () {
-    $rule = new YouTubeUrl();
+    $rule = new YouTubeUrl;
 
     $invalidUrls = [
         'https://vimeo.com/123456',

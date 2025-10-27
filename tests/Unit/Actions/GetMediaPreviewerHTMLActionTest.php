@@ -2,24 +2,24 @@
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerPermanentHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 
 beforeEach(function () {
     $this->permanentAction = Mockery::mock(GetMediaPreviewerPermanentHTMLAction::class);
     $this->temporaryAction = Mockery::mock(GetMediaPreviewerTemporaryHTMLAction::class);
 
-    $this->action = new GetMediaPreviewerHTMLAction(
+    $this->action = new GetMediaManagerPreviewerHTMLAction(
         $this->permanentAction,
         $this->temporaryAction
     );
 });
 
-it('calls the temporary previewer action when temporary_uploads is true', function () {
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET', [
-        'temporary_uploads' => 'true',
+it('calls the temporary previewer action when temporary_upload_mode is true', function () {
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy-url', 'GET', [
+        'temporary_upload_mode' => 'true',
     ]);
 
     $expectedResponse = new JsonResponse(['html' => '<div>temp preview</div>']);
@@ -38,9 +38,9 @@ it('calls the temporary previewer action when temporary_uploads is true', functi
     expect($response)->toBe($expectedResponse);
 });
 
-it('calls the permanent previewer action when temporary_uploads is not true', function () {
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET', [
-        'temporary_uploads' => 'false',
+it('calls the permanent previewer action when temporary_upload_mode is not true', function () {
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy-url', 'GET', [
+        'temporary_upload_mode' => 'false',
     ]);
 
     $expectedResponse = new Response('<div>permanent preview</div>');
@@ -59,8 +59,8 @@ it('calls the permanent previewer action when temporary_uploads is not true', fu
     expect($response)->toBe($expectedResponse);
 });
 
-it('calls the permanent previewer action when temporary_uploads is absent', function () {
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy-url', 'GET');
+it('calls the permanent previewer action when temporary_upload_mode is absent', function () {
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy-url', 'GET');
 
     $expectedResponse = new JsonResponse(['html' => '<div>permanent default</div>']);
 

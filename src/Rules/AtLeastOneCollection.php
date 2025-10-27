@@ -11,12 +11,13 @@ class AtLeastOneCollection implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        // TODO replace with other way
         $collections = request()->only([
-            'image_collection',
-            'document_collection',
-            'video_collection',
-            'audio_collection',
-            'youtube_collection',
+            'image_collection', // TODO
+            'document_collection', // TODO
+            'video_collection', // TODO
+            'audio_collection', // TODO
+            'youtube_collection', // TODO
         ]);
 
         if (collect($collections)->filter()->isEmpty()) {

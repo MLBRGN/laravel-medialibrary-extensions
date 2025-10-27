@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Request;
 use Mlbrgn\MediaLibraryExtensions\Rules\AtLeastOneCollection;
 
 beforeEach(function () {
-    $this->rule = new AtLeastOneCollection();
+    $this->rule = new AtLeastOneCollection;
 });
 
 it('fails when no collections are provided', function () {
+    // TODO
     Request::swap(new \Illuminate\Http\Request([
         'image_collection' => null,
         'document_collection' => null,
@@ -26,6 +27,7 @@ it('fails when no collections are provided', function () {
 });
 
 it('passes when at least one collection is present', function () {
+    // TODO
     $testCases = [
         ['image_collection' => ['file1']],
         ['document_collection' => ['file1']],

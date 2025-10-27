@@ -13,10 +13,14 @@ class Assets extends Component
         public ?string $frontendTheme = null,
         public bool $includeCss = false,
         public bool $includeJs = false,
+        public bool $includeCarouselJs = false,
         public bool $includeImageEditorJs = false,
-        public bool $includeFormSubmitter = false,
+        public bool $includeImageEditorModalJs = false,
+        public bool $includeMediaModalJs = false,
+        public bool $includeMediaManagerSubmitter = false,
+        public bool $includeMediaManagerLabSubmitter = false,
         public bool $includeLiteYoutube = false,
-        public bool $includeTinymceCustomFilePickerJs = false
+        public bool $includeTinymceCustomFilePickerIframeJs = false
     ) {
         $this->frontendTheme = $frontendTheme ? $this->frontendTheme : config('media-library-extensions.frontend_theme', 'plain');
     }

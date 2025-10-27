@@ -1,8 +1,19 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Support\Facades\Blade;
+
+it('initializes correctly and sets id', function () {
+
+    $medium = $this->getMediaModelWithMedia(['audio' => 1]);
+
+    $component = new Audio(
+        $medium
+    );
+
+    expect($component->id)->toBe('mle-audio-'.$medium->id);
+});
 
 it('can be instantiated with a medium', function () {
     $medium = $this->getMediaModelWithMedia(['audio' => 1]);

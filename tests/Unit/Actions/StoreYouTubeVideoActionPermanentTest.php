@@ -3,13 +3,11 @@
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoPermanentAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use function Pest\Laravel\mock;
 
 beforeEach(function () {
     Storage::fake('public');
@@ -29,7 +27,7 @@ it('aborts if youtube support is disabled', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST');
     try {
         $this->action->execute($request);
-        $this->fail('Expected HttpException was not thrown.');// fail the test if we get here
+        $this->fail('Expected HttpException was not thrown.'); // fail the test if we get here
     } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
         expect($e->getStatusCode())->toBe(403);
     }
@@ -40,11 +38,12 @@ it('stores permanent thumbnail successfully (JSON)', function () {
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => false,
+        'temporary_upload_mode' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'multiple' => 'false',
@@ -81,9 +80,10 @@ it('stores permanent thumbnail successfully (redirect)', function () {
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => false,
+        'temporary_upload_mode' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'model_type' => $model->getMorphClass(),
@@ -125,9 +125,10 @@ it('returns error when permanent thumbnail fails to download (JSON)', function (
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
-        'temporary_upload' => false,
+        'temporary_upload_mode' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
@@ -163,6 +164,7 @@ it('returns error when permanent thumbnail fails to download (redirect)', functi
         'temporary_upload' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
@@ -203,6 +205,7 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
         'temporary_upload' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -224,7 +227,7 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
         ->shouldReceive('uploadThumbnailFromUrl')
         ->once()
         ->with($model, 'https://youtu.be/test123', 'videos')
-    ->andReturn($fakeMedia);
+        ->andReturn($fakeMedia);
 
     $response = $this->action->execute($request);
     expect($response->getData(true))
@@ -244,6 +247,7 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
         'temporary_upload' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -290,6 +294,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
         'temporary_upload' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -320,6 +325,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
         'temporary_upload' => false,
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
@@ -345,4 +351,3 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     expect($status['type'])->toBe('error');
     expect($status['message'])->toBe(__('media-library-extensions::messages.upload_no_youtube_url'));
 });
-

@@ -18,8 +18,7 @@ class YouTubeService
         string $youtubeUrl,
         string $collection,
         ?string $customId = null
-    ): ?Media
-    {
+    ): ?Media {
         $videoId = extractYouTubeId($youtubeUrl);
 
         // TODO: validate $videoId if needed
@@ -46,6 +45,8 @@ class YouTubeService
         $collection = $request->input('youtube_collection');
         $sessionId = $request->session()->getId();
 
+//        dd($youtubeUrl, $youtubeId, $collection, $sessionId);
+        // Todo look at this
         return $this->storeTemporaryThumbnailFromUrl(
             youtubeUrl: $youtubeUrl,
             sessionId: $sessionId,

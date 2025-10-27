@@ -6,30 +6,33 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteMediumAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\DeleteTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerLabPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerTinyMceAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerHTMLAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerPreviewerHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerLabPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerDestroyRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerTemporaryUploadDestroyRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadMultipleRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\MediaManagerUploadSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediumRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetAsFirstRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\UpdateMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -38,14 +41,14 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class MediaManagerController extends Controller
 {
     public function store(
-        MediaManagerUploadSingleRequest $request,
+        StoreSingleRequest $request,
         StoreSingleMediumAction $storeSingleMediumAction
     ): RedirectResponse|JsonResponse {
         return $storeSingleMediumAction->execute($request);
     }
 
     public function storeMany(
-        MediaManagerUploadMultipleRequest $request,
+        StoreMultipleRequest $request,
         StoreMultipleMediaAction $storeMultipleMediaAction
     ): RedirectResponse|JsonResponse {
         return $storeMultipleMediaAction->execute($request);
@@ -59,88 +62,73 @@ class MediaManagerController extends Controller
     }
 
     public function destroy(
-        MediaManagerDestroyRequest $request,
+        DestroyRequest $request,
         Media $media,
-        DeleteMediumAction $deleteMediumAction
+        DestroyMediumAction $deleteMediumAction
     ): RedirectResponse|JsonResponse {
         return $deleteMediumAction->execute($request, $media);
     }
 
     public function temporaryUploadDestroy(
-        MediaManagerTemporaryUploadDestroyRequest $request,
+        DestroyTemporaryMediumRequest $request,
         TemporaryUpload $temporaryUpload,
-        DeleteTemporaryUploadAction $deleteTemporaryUploadAction
+        DestroyTemporaryUploadAction $deleteTemporaryUploadAction
     ): RedirectResponse|JsonResponse {
         return $deleteTemporaryUploadAction->execute($request, $temporaryUpload);
     }
 
     public function setAsFirst(
-        SetAsFirstRequest $request,
+        SetMediumAsFirstRequest $request,
         SetMediumAsFirstAction $setMediumAsFirstAction
     ): RedirectResponse|JsonResponse {
         return $setMediumAsFirstAction->execute($request);
     }
 
     public function setTemporaryUploadAsFirst(
-        SetTemporaryUploadAsFirstRequest $request,
+        SetTemporaryMediumAsFirstRequest $request,
         SetTemporaryUploadAsFirstAction $setTemporaryUploadAsFirstAction
     ): RedirectResponse|JsonResponse {
         return $setTemporaryUploadAsFirstAction->execute($request);
     }
 
     public function saveUpdatedMedium(
-        StoreUpdatedMediumRequest $request,
+        UpdateMediumRequest $request,
         StoreUpdatedMediumAction $saveUpdatedMediumAction
     ): RedirectResponse|JsonResponse {
         return $saveUpdatedMediumAction->execute($request);
     }
 
     public function saveUpdatedTemporaryUpload(
-        StoreUpdatedMediumRequest $request,
+        UpdateMediumRequest $request,
         StoreUpdatedMediumAction $saveUpdatedMediumAction
     ): RedirectResponse|JsonResponse {
         return $saveUpdatedMediumAction->execute($request);
     }
 
-    public function getUpdatedPreviewerHTML(
-        GetMediaPreviewerHTMLRequest $request,
-        GetMediaPreviewerHTMLAction $getMediaPreviewerHTMLAction
+    public function getUpdatedMediaManagerPreviewerHTML(
+        GetMediaManagerPreviewerHTMLRequest $request,
+        GetMediaManagerPreviewerHTMLAction $getMediaManagerPreviewerHTMLAction
     ): RedirectResponse|JsonResponse {
-        return $getMediaPreviewerHTMLAction->execute($request);
+        return $getMediaManagerPreviewerHTMLAction->execute($request);
     }
 
-//    public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
-//    {
-//        return $getMediaManagerTinyMceAction->execute($request);
-//    }
+    public function getUpdatedMediaManagerLabPreviewerHTML(
+        GetMediaManagerLabPreviewerHTMLRequest $request,
+        GetMediaManagerLabPreviewerHTMLAction $getMediaManagerLabPreviewerHTMLAction
+    ): RedirectResponse|JsonResponse {
+        return $getMediaManagerLabPreviewerHTMLAction->execute($request);
+    }
 
-    public function tinyMce(GetMediaManagerTinyMceRequest $request): View
+    public function restoreOriginalMedium(
+        RestoreOriginalMediumRequest $request,
+        Media $media,
+        RestoreOriginalMediumAction $restoreMediumAction
+    ): RedirectResponse|JsonResponse {
+        return $restoreMediumAction->execute($request, $media);
+    }
+
+    public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View
     {
-//        dd($request);
-//        $frontendTheme = $request->input('frontend_theme') ? $request->input('frontend_theme') : config(['media-library-extensions.frontend_theme' => 'bootstrap-5']);
-
-        $frontendTheme = 'plain';
-        // Get the first existing model or create it if none exists
-        $modelType = $request->input('model_type');
-        $modelId = $request->input('model_id');
-        $id = 'something_for_now';// TODO
-        $imageCollection = $request->input('image_collection') ?? '';
-        $audioCollection = $request->input('audio_collection') ?? '';
-        $videoCollection = $request->input('video_collection') ?? '';
-        $youtubeCollection = '';// TODO tinymce does not support youtube this way
-        $documentCollection = '';// TODO tinymce does not support documents this way
-
-        $temporaryUpload = false;
-
-        $model = null;
-        if ($modelType && $modelId) {
-            $model = $modelType::findOrFail($modelId);
-        }
-        $modelOrClassName = $model ?? $modelType;
-        return view('media-library-extensions::media-manager-tinymce-wrapper', compact(
-            'modelOrClassName', 'temporaryUpload',
-            'frontendTheme', 'id', 'imageCollection', 'documentCollection',
-            'audioCollection', 'videoCollection', 'youtubeCollection'));
+        return $getMediaManagerTinyMceAction->execute($request);
     }
-
 }

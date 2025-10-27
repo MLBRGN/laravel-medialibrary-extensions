@@ -26,7 +26,7 @@ it('returns themed view path for getView', function () {
         ->once()
         ->andReturn(Mockery::mock(ViewInstance::class));
 
-    $dummy = new ViewHelpersTest();
+    $dummy = new ViewHelpersTest;
     $view = $dummy->getView($viewName, $frontendTheme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
@@ -42,7 +42,7 @@ it('returns themed partial view path for getPartialView', function () {
         ->once()
         ->andReturn(Mockery::mock(ViewInstance::class));
 
-    $dummy = new ViewHelpersTest();
+    $dummy = new ViewHelpersTest;
     $view = $dummy->getPartialView($viewName, $frontendTheme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);

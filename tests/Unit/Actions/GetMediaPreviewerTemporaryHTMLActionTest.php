@@ -3,9 +3,10 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 
 beforeEach(function () {
     $this->mediaService = Mockery::mock(MediaService::class);
@@ -15,34 +16,36 @@ beforeEach(function () {
 it('renders temporary media preview HTML and returns JSON response', function () {
     $model = $this->getTestBlogModel();
     $initiatorId = 'initiator-123';
+    $frontendTheme = 'bootstrap-5';
 
     $requestData = [
         'initiator_id' => $initiatorId,
         'model_type' => $model->getMorphClass(),
-        'image_collection' => 'images',
-        'document_collection' => 'docs',
-        'youtube_collection' => 'youtube',
-        'frontend_theme' => 'bootstrap-5',
-        'show_destroy_button' => 'true',
-        'show_set_as_first_button' => 'false',
-        'show_order' => 'false',
+        'collections' => json_encode([
+            'image' => 'images',
+            'document' => 'documents',
+            'youtube' => 'youtube',
+        ]),
+        'options' => json_encode([
+            'frontendTheme' => 'bootstrap-5',
+            'showDestroyButton' => true,
+            'showSetAsFirstButton' => false,
+            'showOrder' => false,
+        ]),
     ];
 
-    $request = GetMediaPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
+    $request = GetMediaManagerPreviewerHTMLRequest::create('/dummy', 'GET', $requestData);
 
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaManagerPreview $component) use ($initiatorId, $requestData) {
+        ->withArgs(function (MediaPreviews $component) use ($initiatorId, $requestData, $frontendTheme) {
             expect($component->id)->toBe($initiatorId);
             expect($component->modelOrClassName)->toBe($requestData['model_type']);
-            expect($component->imageCollection)->toBe($requestData['image_collection']);
-            expect($component->documentCollection)->toBe($requestData['document_collection']);
-            expect($component->youtubeCollection)->toBe($requestData['youtube_collection']);
-            expect($component->frontendTheme)->toBe($requestData['frontend_theme']);
-            expect($component->showDestroyButton)->toBeTrue();
-            expect($component->showSetAsFirstButton)->toBeFalse();
-            expect($component->showOrder)->toBeFalse();
-            expect($component->temporaryUpload)->toBeTrue();
+            expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);
+            expect($component->getConfig('showDestroyButton'))->toBeTrue();
+            expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();
+            expect($component->getConfig('showOrder'))->toBeFalse();
+            expect($component->getConfig('temporaryUploadMode'))->toBeTrue();
 
             return true;
         })

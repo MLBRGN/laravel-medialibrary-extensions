@@ -3,9 +3,9 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use UnexpectedValueException;
@@ -18,32 +18,27 @@ beforeEach(function () {
     Route::get('mle.save-updated-temporary-upload/{media}', fn () => 'updated temporary')->name('mle.save-updated-temporary-upload');
 });
 
-test('image editor modal component renders', function () {
-    Storage::fake('media');
+it('renders image editor modal component (permanent media)', function () {
+    $options = [
 
-    $medium = new Media([
-        'id' => 1,
-        'collection_name' => 'blog-images',
-        'disk' => 'media',
-        'file_name' => 'test.jpg',
-        'mime_type' => 'image/jpeg',
-        'custom_properties' => [],
-    ]);
-
-    // Make sure to set model-related properties that Blade/view logic may expect
-    $medium->exists = true;
-
-    $model = $this->getTestBlogModel(); // your HasMedia model instance
+    ];
+    $model = $this->getModelWithMedia(['image' => 3]);
+    $medium = $model->getFirstMedia('image_collection');
 
     $html = Blade::render('<x-mle-image-editor-modal
                     id="blog-images"
-                    title="My title"
-                    initiator-id="blog-images"
-                    :medium="$medium"
                     :model-or-class-name="$modelClass"
+                    :medium="$medium"
+                    :collections="$collections"
+                    :options="$options"
+                    initiator-id="blog-images"
+                    title="My title"
+
                 />', [
-        'modelClass' => $model->getMorphClass(),
+        'modelClass' => $model,
         'medium' => $medium,
+        'options' => $options,
+        'collections' => ['image' => 'images'],
     ]);
 
     expect($html)
@@ -54,15 +49,47 @@ test('image editor modal component renders', function () {
 
 });
 
-test('constructs with model', function () {
+it('renders image editor modal component (temporary media)', function () {
+    $options = [
+
+    ];
+    $model = $this->getModelWithMedia(['image' => 3]);
+    $medium = $model->getFirstMedia('image_collection');
+
+    $html = Blade::render('<x-mle-image-editor-modal
+                    id="blog-images"
+                    title="My title"
+                    initiator-id="blog-images"
+                    :medium="$medium"
+                    :model-or-class-name="$modelClass"
+                    :collections: [\'image\' => \'images\'],
+                    :options="$options"
+                />', [
+        'modelClass' => $model->getMorphClass(),
+        'medium' => $medium,
+        'options' => $options,
+    ]);
+
+    expect($html)
+        ->toContain('id="blog-images-iem-'.$medium->id.'"')
+        ->toContain((string) $medium->id)
+        ->toContain('My title')
+        ->and($html)->toMatchSnapshot();
+
+})->todo();
+
+it('constructs with model and sets properties', function () {
     $model = $this->getModelWithMedia();
 
     $medium = $model->getFirstMedia('image_collection');
 
     $component = new ImageEditorModal(
+        id: 'uploader-0',
         modelOrClassName: $model,
         medium: $medium,
-        id: 'uploader-0',
+        singleMedium: null,
+        collections: ['image' => 'images'],
+        options: [],
         initiatorId: 'uploader-1',
         title: 'blaat'
     );
@@ -70,34 +97,38 @@ test('constructs with model', function () {
     expect($component->model)->toBe($model)
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->getKey())
-        ->and($component->temporaryUpload)->toBeFalse()
-        ->and($component->config['model_type'])->toBe($model->getMorphClass())
+        ->and($component->temporaryUploadMode)->toBeFalse()
+        ->and($component->config['modelType'])->toBe($model->getMorphClass())
+        ->and($component->id)->toBe('uploader-0'.'-iem-'.$medium->id)
 //        ->and($component->config['collection'])->toBe('avatars')
         ->and($component->render())->toBeInstanceOf(View::class);
 });
 
-test('constructs with model class name string for temporary upload', function () {
+it('constructs with model class name string for temporary upload', function () {
     $model = $this->getModelWithMedia();
     $medium = $model->getFirstMedia('image_collection');
 
     $component = new ImageEditorModal(
+        id: 'uploader-1',
         modelOrClassName: $model->getMorphClass(),
         medium: $medium,
-        id: 'uploader-1',
+        singleMedium: null,// TODO if i don't pass this test fails
+        collections: ['image' => 'images'],
+        options: [],
         initiatorId: 'uploader-2'
     );
 
     expect($component->model)->toBeNull()
         ->and($component->modelType)->toBe($model->getMorphClass())
-        ->and($component->temporaryUpload)->toBeTrue()
-        ->and($component->config['temporary_upload'])->toBeTrue()
-        ->and($component->config['medium_id'])->toBe($medium->id)
+        ->and($component->temporaryUploadMode)->toBeTrue()
+        ->and($component->config['temporaryUploadMode'])->toBeTrue()
+        ->and($component->config['mediumId'])->toBe($medium->id)
         ->and($component->render())->toBeInstanceOf(View::class);
 });
 
-test('throws when modelOrClassName is null', function () {
+it('throws when modelOrClassName is null', function () {
     $this->expectException(\TypeError::class);
-//    $this->expectExceptionMessage('model-or-class-name attribute must be set');
+    //    $this->expectExceptionMessage('model-or-class-name attribute must be set');
 
     $model = $this->getModelWithMedia();
     $medium = $model->getFirstMedia('image_collection');
@@ -106,11 +137,13 @@ test('throws when modelOrClassName is null', function () {
         id: 'uploader-2',
         modelOrClassName: null,
         medium: $medium,
+        collections: ['image' => 'images'],
+        options: [],
         initiatorId: 'fail-test'
     );
 });
 
-test('throws when modelOrClassName is an invalid type', function () {
+it('throws when modelOrClassName is an invalid type', function () {
     $this->expectException(\TypeError::class);
     $this->expectExceptionMessage('model-or-class-name must be either a HasMedia model or a string representing the model class');
 
@@ -122,15 +155,18 @@ test('throws when modelOrClassName is an invalid type', function () {
 
     new ImageEditorModal(
         id: 'uploader-3',
-        modelOrClassName: $model, // Invalid type
-        medium: $medium,
+        modelOrClassName: $model,
+        medium: $medium, // Invalid type
+        singleMedium: null,
+        collections: ['image' => 'images'],
+        options: [],
         initiatorId: 'fail-test'
     );
 });
 
-test('throws when modelOrClassName is an class name', function () {
+it('throws when modelOrClassName is an class name', function () {
     $this->expectException(UnexpectedValueException::class);
-//    $this->expectExceptionMessage('model-or-class-name must be either a HasMedia model or a string representing the model class');
+    //    $this->expectExceptionMessage('model-or-class-name must be either a HasMedia model or a string representing the model class');
 
     $model = $this->getTestModelNotExtendingHasMedia();
     $medium = new Media([
@@ -142,6 +178,9 @@ test('throws when modelOrClassName is an class name', function () {
         id: 'uploader-3',
         modelOrClassName: $model->getMorphClass(), // Invalid type
         medium: $medium,
+        singleMedium: null,
+        collections: ['image' => 'images'],
+        options: [],
         initiatorId: 'fail-test'
     );
 });

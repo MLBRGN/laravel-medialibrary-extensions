@@ -2,9 +2,9 @@
 
 import '@/js/shared/general';
 import '@/js/shared/image-fallback';
-import '@/js/shared/image-editor-listener'
-import '@/js/bootstrap-5/modal-media';
-import '@/js/bootstrap-5/modal-image-editor';
+// import '@/js/shared/image-editor-listener'
+// import '@/js/bootstrap-5/modal-media';
+// import '@/js/bootstrap-5/modal-image-editor';
 import '@/css/app-bootstrap-5.scss';
 
 // ImageEditor custom element

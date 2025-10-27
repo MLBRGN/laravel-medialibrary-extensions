@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const enabled = temporaryUploadToggle.checked;
             const mediaManagerId = temporaryUploadToggle.getAttribute('data-for-media-manager');
             const mediaManager = document.querySelector('#'+mediaManagerId);
-            const mediaManagerConfigInput = mediaManager.querySelector('.media-manager-config');
+            const mediaManagerConfigInput = mediaManager.querySelector('[data-media-manager-config]');
             const mediaManagerConfigJson = mediaManagerConfigInput.value;
 
             try {
                 const config = JSON.parse(mediaManagerConfigJson);
-                config.temporary_upload = enabled;
+                config.temporaryUpload = enabled;
 
                 mediaManagerConfigInput.value = JSON.stringify(config);
                 // console.info('changed temporary upload configuration to', enabled)

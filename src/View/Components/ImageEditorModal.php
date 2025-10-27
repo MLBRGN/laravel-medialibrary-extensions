@@ -4,15 +4,15 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Exception;
 use Illuminate\Contracts\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageEditorModal extends BaseComponent
 {
+    use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
     public array $config = [];
@@ -22,58 +22,45 @@ class ImageEditorModal extends BaseComponent
     public ?string $mediaManagerId = null;
 
     public function __construct(
+        string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public string $id,
+        public Media|TemporaryUpload|null $singleMedium = null,
+        public array $collections,
+        public array $options,
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
-        public ?string $frontendTheme = null,
-        public ?string $imageCollection = '',
-        public ?string $documentCollection = '',
-        public ?string $youtubeCollection = '',
-        public ?string $videoCollection = '',
-        public ?string $audioCollection = '',
-        public ?bool $useXhr = true,
         public bool $disabled = false,
     ) {
-        parent::__construct($id, $frontendTheme);
+        parent::__construct($id);
 
-//        $this->id = $this->id.'-image-editor-modal-'.$medium->id;
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-iem-'.$medium->id;
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->saveUpdatedMediumRoute = $this->temporaryUpload ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) :route(mle_prefix_route('save-updated-medium'), $medium);
+        $this->saveUpdatedMediumRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
 
-        // TODO can't i just read the whole config object from hidden input?
-        // Config array passed to view
-        $this->config = [
+        // TODO look at this
+        $this->initializeConfig([
+            'initiatorId' => $this->initiatorId,
             'id' => $this->id,
-            'initiator_id' => $this->initiatorId,
-            'media_manager_id' => $this->mediaManagerId,
-            'model_type' => $this->modelType,
-            'model_id' => $this->modelId,
-            'medium_id' => $this->medium->id,
+            'mediaManagerId' => $this->mediaManagerId,
+            'modelType' => $this->modelType,
+            'modelId' => $this->modelId,
+            'mediumId' => $this->medium->id,
             'collection' => $this->medium->collection_name,
-            'csrf_token' => csrf_token(),
-            'save_updated_medium_route' => $this->saveUpdatedMediumRoute,
-            'temporary_upload' => $this->temporaryUpload,
-            'image_collection' => $this->imageCollection,
-            'document_collection' => $this->documentCollection,
-            'youtube_collection' => $this->youtubeCollection,
-            'video_collection' => $this->videoCollection,
-            'audio_collection' => $this->audioCollection,
-            'use_xhr' => $this->useXhr,
-        ];
+            'saveUpdatedMediumRoute' => $this->saveUpdatedMediumRoute,
+            'collections' => $this->collections,
+        ]);
     }
 
     public function render(): View
     {
-        if ($this->temporaryUpload) {
-            return $this->getView('image-editor-modal-temporary-upload', $this->frontendTheme);
+        if ($this->temporaryUploadMode) {
+            return $this->getView('image-editor-modal-temporary-upload', $this->getConfig('frontendTheme'));
         }
 
-        return $this->getView('image-editor-modal', $this->frontendTheme);
+        return $this->getView('image-editor-modal', $this->getConfig('frontendTheme'));
     }
 }

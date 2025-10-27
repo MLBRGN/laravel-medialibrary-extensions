@@ -39,7 +39,7 @@
             <x-mle-shared-media-preview-container :id="$id">
                 <x-mle-image-responsive
                     :medium="$medium"
-                    class="media-manager-image-preview"
+                    class="media-preview-image"
                     data-bs-target="#{{$id}}-modal-carousel"
                     data-bs-slide-to="0"
                     draggable="false"
@@ -54,4 +54,9 @@
         <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
     </div>
 @endif
-<x-mle-shared-assets include-css="true" include-js="false" include-lite-youtube="true" :frontend-theme="$frontendTheme"/>
+<x-mle-shared-assets 
+    include-css="true" 
+    include-js="false" 
+    include-lite-youtube="true" 
+    :frontend-theme="$getConfig('frontendTheme')"
+/>

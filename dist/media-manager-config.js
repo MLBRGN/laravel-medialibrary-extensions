@@ -1,0 +1,1 @@
+function o(n){const r=n.querySelector("[data-media-manager-config]");if(!r)return null;try{return JSON.parse(r.value)}catch(e){return console.error(`Invalid JSON config for ${n.id}:`,e),null}}export{o as g};

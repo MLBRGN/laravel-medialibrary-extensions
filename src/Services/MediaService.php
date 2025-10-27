@@ -15,24 +15,24 @@ class MediaService
         return $modelType::findOrFail($modelId);
     }
 
-    public function determineCollection($file): ?string
+    public function determineCollectionType($file): ?string
     {
         $mimeType = $file->getMimeType();
 
         if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.image'))) {
-            return request()->input('image_collection');
+            return 'image';
         }
 
         if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.document'))) {
-            return request()->input('document_collection');
+            return 'document';
         }
 
         if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.audio'))) {
-            return request()->input('audio_collection');
+            return 'audio';
         }
 
         if (in_array($mimeType, config('media-library-extensions.allowed_mimetypes.video'))) {
-            return request()->input('video_collection');
+            return 'video';
         }
 
         return null; // means not supported

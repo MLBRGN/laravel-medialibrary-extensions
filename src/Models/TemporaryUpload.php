@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
+use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 
 class TemporaryUpload extends Model
 {
 
-//    public static function booted()
-//    {
-//        static::retrieved(function ($model) {
-//            dump('retrieved model', $model->id, $model->getConnectionName());
-//        });
-//    }
+    public static function newFactory()
+    {
+        return TemporaryUploadFactory::new();
+    }
 
     protected $table = 'mle_temporary_uploads';
 
@@ -42,18 +42,19 @@ class TemporaryUpload extends Model
     // used when serializing
     protected $appends = ['url'];
 
-    public static function isAvailable(): bool
-    {
-        $instance = new static;
-        $connection = $instance->getConnectionName(); // null = default connection
-        $table = $instance->getTable();
+//    public static function isAvailable(): bool
+//    {
+//        $instance = new static;
+//        $connection = $instance->getConnectionName();
+//        $table = $instance->getTable();
+//
+//        return Schema::connection($connection)->hasTable($table);
+//    }
 
-        return Schema::connection($connection)->hasTable($table);
-    }
-
+    // null = default connection
     public function getConnectionName()
     {
-        if (config('media-library-extensions.demo_pages_enabled') && \Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper::isRequestFromDemoPage()) {
+        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
             return config('media-library-extensions.temp_database_name');
         }
 
@@ -63,8 +64,9 @@ class TemporaryUpload extends Model
     public static function forCurrentSession($collectionName = null): Collection
     {
         return self::where('session_id', session()->getId())
-            ->when($collectionName, fn ($query) => $query->where('collection_name', $collectionName)
-            )
+            ->when(! is_null($collectionName), function ($query) use ($collectionName) {
+                return $query->where('collection_name', $collectionName);
+            })
             ->orderBy('order_column', 'asc')
             ->get();
     }
@@ -100,19 +102,8 @@ class TemporaryUpload extends Model
         return $this;
     }
 
-//    public function forgetCustomProperty(string $key): static
-//    {
-//        $customProperties = $this->custom_properties ?? [];
-//
-//        unset($customProperties[$key]);
-//
-//        $this->custom_properties = $customProperties;
-//
-//        return $this;
-//    }
-
     public function getNameWithExtension(): string
     {
-        return $this->name . '.' . pathinfo($this->file_name, PATHINFO_EXTENSION);
+        return $this->name.'.'.pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 }

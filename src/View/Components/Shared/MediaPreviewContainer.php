@@ -4,17 +4,14 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Shared;
 
-use Exception;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
 class MediaPreviewContainer extends Component
 {
-
     public function __construct(
         public string $id
-    ) {
-    }
+    ) {}
 
     public function render(): View
     {

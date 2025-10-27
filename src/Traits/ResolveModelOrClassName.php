@@ -6,15 +6,18 @@ namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
-use UnexpectedValueException;
 use Spatie\MediaLibrary\HasMedia;
+use UnexpectedValueException;
 
 trait ResolveModelOrClassName
 {
     public ?Model $model = null;
+
     public ?string $modelType = null;
+
     public ?int $modelId = null;
-    public bool $temporaryUpload = false;
+
+    public bool $temporaryUploadMode = false;
 
     protected function resolveModelOrClassName(Model|string $modelOrClassName): void
     {
@@ -22,7 +25,7 @@ trait ResolveModelOrClassName
             $this->model = $modelOrClassName;
             $this->modelType = $modelOrClassName->getMorphClass();
             $this->modelId = $modelOrClassName->getKey();
-            $this->temporaryUpload = false;
+            $this->temporaryUploadMode = false;
 
         } elseif (is_string($modelOrClassName)) {
             if (! class_exists($modelOrClassName)) {
@@ -41,7 +44,7 @@ trait ResolveModelOrClassName
             $this->model = null;
             $this->modelType = $modelOrClassName;
             $this->modelId = null;
-            $this->temporaryUpload = true;
+            $this->temporaryUploadMode = true;
         } else {
             throw new \TypeError('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }

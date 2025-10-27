@@ -4,11 +4,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaPreviewerHTMLRequest;
 
 class GetMediaManagerTinyMceAction
 {
@@ -20,8 +17,8 @@ class GetMediaManagerTinyMceAction
     public function execute(GetMediaManagerTinyMceRequest $request): View
     {
 
-        if ($request->temporary_uploads === 'true') {
-
+        $options = json_decode($request->string('options'), true);
+        if ($options['temporaryUploadMode'] === true) {
             return $this->getMediaManagerTinyMceTemporaryAction->execute($request);
         }
 

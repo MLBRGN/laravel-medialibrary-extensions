@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
-    $this->service = new YouTubeService();
+    $this->service = new YouTubeService;
 
     Storage::fake('media');
     Auth::shouldReceive('id')->andReturn(1);
@@ -58,9 +58,9 @@ it('stores a temporary thumbnail from URL', function () {
     $collection = 'temp-collection';
 
     // Mock file_get_contents to return fake content
-//    function file_get_contents($url) {
-//        return 'fake-image-content';
-//    }
+    //    function file_get_contents($url) {
+    //        return 'fake-image-content';
+    //    }
 
     $tempUpload = $this->service->storeTemporaryThumbnailFromUrl(
         youtubeUrl: $youtubeUrl,
