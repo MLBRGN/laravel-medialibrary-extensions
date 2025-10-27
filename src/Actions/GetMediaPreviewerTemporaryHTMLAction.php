@@ -31,11 +31,15 @@ class GetMediaPreviewerTemporaryHTMLAction
         // no modelId
         $singleMediumId = $request->input('single_medium_id');
         $singleMediumId = ($singleMediumId !== 'null' && $singleMediumId !== null && $singleMediumId !== '') ? (int) $singleMediumId : null;
+        $multiple = $request->boolean('multiple');
+        $disabled = $request->boolean('disabled');
+        $readonly = $request->boolean('readonly');
+        $selectable = $request->boolean('selectable');
 
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
-//        $model = $this->mediaService->resolveModel($modelType, $modelId);
-
+        // no model
+        
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))
             ->values()
@@ -67,8 +71,11 @@ class GetMediaPreviewerTemporaryHTMLAction
             collections: $collections,
             options: $options,
             singleMedium: $singleMedium,
+            multiple: $multiple,
+            disabled: $disabled,
+            readonly: $readonly,
+            selectable: $selectable,
         );
-
 
         $html = Blade::renderComponent($component);
 

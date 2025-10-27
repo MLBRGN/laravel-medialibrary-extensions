@@ -28,6 +28,10 @@ class GetMediaManagerPreviewerHTMLRequest extends FormRequest
             'initiator_id' => ['required', 'string'],
             'collections' => ['required', 'string'], // json
             'options' => ['required', 'string'], // json
+            'selectable' => ['required', 'string', Rule::in(['true', 'false'])],
+            'multiple' => ['required', 'string', Rule::in(['true', 'false'])],
+            'disabled' => ['required', 'string', Rule::in(['true', 'false'])],
+            'readonly' => ['required', 'string', Rule::in(['true', 'false'])],
         ];
     }
 

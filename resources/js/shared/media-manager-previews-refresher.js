@@ -21,6 +21,10 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         initiator_id: config.id,
         collections: JSON.stringify(config.collections),
         options: JSON.stringify(config.options),
+        disabled: config.disabled,
+        readonly: config.readonly,
+        selectable: config.selectable,
+        multiple: config.multiple,
     });
 
     try {

@@ -29,6 +29,10 @@ class GetMediaPreviewerPermanentHTMLAction
         $modelId = $request->input('model_id');
         $singleMediumId = $request->input('single_medium_id');
         $singleMediumId = ($singleMediumId !== 'null' && $singleMediumId !== null && $singleMediumId !== '') ? (int) $singleMediumId : null;
+        $multiple = $request->boolean('multiple');
+        $disabled = $request->boolean('disabled');
+        $readonly = $request->boolean('readonly');
+        $selectable = $request->boolean('selectable');
 
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
@@ -66,6 +70,10 @@ class GetMediaPreviewerPermanentHTMLAction
             collections: $collections,
             options: $options,
             singleMedium: $singleMedium,
+            multiple: $multiple,
+            disabled: $disabled,
+            readonly: $readonly,
+            selectable: $selectable,
         );
 
         $html = Blade::renderComponent($component);
