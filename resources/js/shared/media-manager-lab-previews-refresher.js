@@ -7,14 +7,9 @@ import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
  */
 
 export async function updatePreviews(mediaManager, config, mediumId,  detail = {}) {
-   // console.log('config', config);
     const previewsContainer = mediaManager.querySelector('[data-media-manager-lab-previews]');
-    // console.log('previewsContainer', previewsContainer);
     if (!previewsContainer) return;
 
-    // console.log('config', config);
-
-    // console.log('medium_id', config.medium_id);
     const params = new URLSearchParams({
         initiator_id: config.id,
         medium_id: mediumId,
@@ -32,7 +27,9 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
             return;
         }
 
-        if (!data.html) return;
+        if (!data.html) {
+            return;
+        }
 
         previewsContainer.innerHTML = data.html;
 
@@ -52,7 +49,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
 
 // TODO refresh media manager lab previews after nested media manager refreshed
 document.addEventListener('imageUpdated', (e) => {
-    console.log('image updated', e);
+    // console.log('image updated', e);
     const initiator =  document.getElementById(e.detail.initiatorId);
     const mediaManagerLab = initiator.closest('[data-media-manager-lab]')
     const mediumId = e.detail.mediumId;
@@ -62,10 +59,6 @@ document.addEventListener('imageUpdated', (e) => {
         console.warn('Could not get config')
         return;
     }
-
-    console.log('mediaManagerLab', mediaManagerLab);
-    console.log('mediumId', mediumId);
-    console.log('config', config);
 
     // console.log('config', config, mediumId, {});
 

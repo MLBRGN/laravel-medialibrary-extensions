@@ -75,4 +75,28 @@ document.addEventListener('imageEditorModalCloseRequest', (e) => {
     closeBootstrapModal(modal);
 });
 
+// observe dynamic models, e.g. added later on by javascript, for example in media lab when refreshing previews
+const observeDynamicModals = () => {
+    const observer = new MutationObserver(mutations => {
+        for (const mutation of mutations) {
+            for (const node of mutation.addedNodes) {
+                if (!(node instanceof HTMLElement)) continue;
+
+                // Direct modal element
+                if (node.matches('[data-image-editor-modal]')) {
+                    initializeImageEditorModal(node);
+                }
+
+                // Nested modals inside appended fragments
+                node.querySelectorAll?.('[data-image-editor-modal]').forEach(initializeImageEditorModal);
+            }
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+};
+
+// Start watching
+observeDynamicModals();
+
 document.querySelectorAll('[data-image-editor-modal]').forEach(initializeImageEditorModal);

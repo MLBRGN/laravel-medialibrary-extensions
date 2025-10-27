@@ -13,13 +13,13 @@ import { getMediaManagerConfig } from './media-manager-config';
 
 const mediaManagerLabs = document.querySelectorAll('[data-media-manager-lab]');
 
-mediaManagerLabs.forEach(mediaManager => {
+mediaManagerLabs.forEach(mediaManagerLab => {
 
-    // const statusContainer = mediaManager.querySelector('[data-media-manager-layout]')
-    const statusAreaContainer = mediaManager.querySelector('[data-status-area-container]')
+    // const statusContainer = mediaManagerLab.querySelector('[data-media-manager-layout]')
+    const statusAreaContainer = mediaManagerLab.querySelector('[data-status-area-container]')
 
-    mediaManager.addEventListener('click', async function (e) {
-        const config = getMediaManagerConfig(mediaManager);
+    mediaManagerLab.addEventListener('click', async function (e) {
+        const config = getMediaManagerConfig(mediaManagerLab);
         if (!config) return;
 
         // if not using XHR skip let form handle normal submission
@@ -73,7 +73,12 @@ mediaManagerLabs.forEach(mediaManager => {
             }
 
             showStatusMessage(statusAreaContainer, data);
-            updatePreviews(mediaManager, config, mediumId, {});
+            mediaManagerLab.style.border = '10px solid hotpink';
+            const div = document.createElement('div');
+            console.log(mediaManagerLab);
+            div.innerHTML = 'mediaManagerLab id:' + mediaManagerLab.id + ' mediumId: ' + mediumId + 'config.initiatorId:  ' + config.initatorId;
+            mediaManagerLab.appendChild(div);
+            updatePreviews(mediaManagerLab, config, mediumId, {});
         } catch (error) {
             console.error('Error during upload:', error);
             showStatusMessage(statusAreaContainer, {
@@ -85,10 +90,10 @@ mediaManagerLabs.forEach(mediaManager => {
         }
     });
 
-    // mediaManager.addEventListener('refreshRequest', function (e) {
+    // mediaManagerLab.addEventListener('refreshRequest', function (e) {
     //     const detail = e.detail;
-    //     const config = getMediaManagerConfig(mediaManager);
-    //     updatePreviews(mediaManager, config, detail);
+    //     const config = getMediaManagerConfig(mediaManagerLab);
+    //     updatePreviews(mediaManagerLab, config, detail);
     // })
 });
 
