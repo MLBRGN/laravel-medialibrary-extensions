@@ -59,7 +59,8 @@ class StoreUpdatedMediumAction
                 abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
                 $model = $this->mediaService->resolveModel($modelType, $modelId);
-                $existingMedium = Media::find($mediumId);
+//                $existingMedium = Media::find($mediumId);
+                $existingMedium = Media::findOrFail($mediumId);
 
                 if ($existingMedium) {
                     // Replace medium using old original

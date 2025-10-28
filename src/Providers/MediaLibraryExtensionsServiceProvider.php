@@ -22,10 +22,13 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreview;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewBase;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewOriginal;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaFirstAvailable;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLab;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLabPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
@@ -40,11 +43,11 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\StatusArea;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItemEmpty;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItem;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewItemEmpty;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewMenu;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\ConditionalForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
@@ -52,7 +55,6 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\DebugButton;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Icon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\LocalPackageIcon;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 
@@ -132,7 +134,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // register and expose blade component views and classes
         Blade::component($this->packageNameShort.'-media-manager', MediaManager::class);
         Blade::component($this->packageNameShort.'-media-lab', MediaLab::class);
-        Blade::component($this->packageNameShort.'-media-lab-previews', MediaLabPreviews::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
 //        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
@@ -155,8 +156,11 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-preview-item-empty', MediaPreviewItemEmpty::class);
         Blade::component($this->packageNameShort.'-media-preview-item', MediaPreviewItem::class);
 
-        // temporary subdirectory
+        // lab
+        Blade::component($this->packageNameShort.'-lab-previews', LabPreviews::class);
         Blade::component($this->packageNameShort.'-lab-preview', LabPreview::class);
+        Blade::component($this->packageNameShort.'-lab-preview-base', LabPreviewBase::class);
+        Blade::component($this->packageNameShort.'-lab-preview-original', LabPreviewOriginal::class);
 
         // shared partials shared component views and classes for internal use
         Blade::component($this->packageNameShort.'-shared-debug', Debug::class);

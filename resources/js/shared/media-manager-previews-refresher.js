@@ -27,9 +27,13 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         multiple: config.multiple,
     });
 
+    // Cache-busting param
+    params.append('_', Date.now());
+
     try {
         const response = await fetch(`${config.mediaManagerPreviewUpdateRoute}?${params}`, {
-            headers: { 'Accept': 'application/json' }
+            headers: { 'Accept': 'application/json' },
+            cache: 'no-store', // prevents using or storing cache
         });
 
         const data = await response.json();

@@ -7,6 +7,7 @@ it('renders the spinner partial view and sets properties correctly', function ()
     $component = new Spinner(
         id: $id,
         initiatorId: 'initiator-123',
+        mediaManagerId: 'test-media-manager-id',
         options: [
             'frontendTheme' => 'plain',
         ]
@@ -16,6 +17,7 @@ it('renders the spinner partial view and sets properties correctly', function ()
 
     expect($view)->toBeInstanceOf(\Illuminate\View\View::class)
         ->and($component->id)->toBe($id)
+        ->and($component->mediaManagerId)->toBe('test-media-manager-id')
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
         ->and($component->initiatorId)->toBe('initiator-123');
 });

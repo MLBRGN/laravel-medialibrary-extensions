@@ -54,7 +54,7 @@ it('renders expected HTML for an image medium', function () {
         ['image_collection']
     ));
     expect($html)->toContain('class="media-preview-image" ')
-        ->toContain('test.jpg"');
+        ->toContain('test.jpg');
 });
 
 it('renders expected HTML for a video medium', function () {

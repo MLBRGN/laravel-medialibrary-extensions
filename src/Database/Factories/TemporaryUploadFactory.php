@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\MediaLibraryExtensions\tests\Unit\Models\Factories;
+namespace Mlbrgn\MediaLibraryExtensions\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;

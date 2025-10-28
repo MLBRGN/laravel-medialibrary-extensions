@@ -27,6 +27,7 @@ return [
     'upload_medium' => 'Upload medium',
     'add_youtube_video' => 'Add YouTube-video',
     'missing_model' => ':component requires a model, but none was provided.',
+    'model_not_found' => 'Model not found.',
     'missing_collection' => ':component requires a media collection name, but none was provided.',
     'delete_medium' => 'Delete',
     'warning' => 'Warning',

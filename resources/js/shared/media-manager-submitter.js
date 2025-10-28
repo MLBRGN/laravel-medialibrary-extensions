@@ -70,6 +70,7 @@ mediaManagers.forEach(mediaManager => {
                     'Accept': 'application/json',
                 },
                 body: formData,
+                cache: 'no-store', // prevents using or storing cache
             });
 
             const data = await response.json();

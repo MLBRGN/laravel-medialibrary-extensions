@@ -3,17 +3,8 @@
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\View\Component;
+use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\FakeBladeIconComponent;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
-
-// Minimal fake component for testing Blade UI Kit icons
-class FakeBladeIconComponent extends Component
-{
-    public function render()
-    {
-        return '';
-    }
-}
 
 // Helper to fake Blade UI Kit icon being registered
 function fakeBladeIconAlias(string $alias): void

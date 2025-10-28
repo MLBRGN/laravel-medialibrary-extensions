@@ -63,6 +63,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
                     'Accept': 'application/json',
                 },
                 body: formData,
+                cache: 'no-store', // prevents using or storing cache
             });
 
             const data = await response.json();
@@ -72,13 +73,14 @@ mediaManagerLabs.forEach(mediaManagerLab => {
                 return;
             }
 
+            updatePreviews(mediaManagerLab, config, mediumId, { part : 'base' });
+
             showStatusMessage(statusAreaContainer, data);
-            mediaManagerLab.style.border = '10px solid hotpink';
-            const div = document.createElement('div');
-            console.log(mediaManagerLab);
-            div.innerHTML = 'mediaManagerLab id:' + mediaManagerLab.id + ' mediumId: ' + mediumId + 'config.initiatorId:  ' + config.initatorId;
-            mediaManagerLab.appendChild(div);
-            updatePreviews(mediaManagerLab, config, mediumId, {});
+
+            // const div = document.createElement('div');
+            // console.log(mediaManagerLab);
+            // div.innerHTML = 'mediaManagerLab id:' + mediaManagerLab.id + ' mediumId: ' + mediumId + 'config.initiatorId:  ' + config.initatorId;
+            // mediaManagerLab.appendChild(div);
         } catch (error) {
             console.error('Error during upload:', error);
             showStatusMessage(statusAreaContainer, {

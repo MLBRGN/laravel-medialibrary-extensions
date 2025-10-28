@@ -10,6 +10,7 @@
         width: auto; /* or fit-content if you want natural size */
         min-width: fit-content;
         display: block;
+        overflow: hidden;
     }
 
     // multiple only css

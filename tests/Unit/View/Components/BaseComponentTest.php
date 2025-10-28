@@ -5,16 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\Support\Facades\Config;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
-
-// Concrete subclass for testing the abstract BaseComponent
-class ExtendedBaseComponent extends BaseComponent
-{
-    public function render()
-    {
-        return ''; // Dummy render method
-    }
-}
+use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\ExtendedBaseComponent;
 
 // TODO
 it('initializes with provided id and theme', function () {

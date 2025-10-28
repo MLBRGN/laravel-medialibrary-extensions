@@ -1,18 +1,18 @@
 .mlbrgn-mle-component {
     &.mle-media-lab {
         min-width:680px;
+        position:relative;
     }
 
-    .mle-media-lab-original {
-        //min-width:200px;
+    .mle-media-lab-preview {
+        display:flex;
+        flex-direction: column;
     }
 
-    .mle-media-lab-base {
-        //min-width:200px;
-    }
-
-    .mle-media-lab-original {
-        //min-width:200px;
+    .mle-media-lab-preview-original,
+    .mle-media-lab-preview-base {
+        height:100%;
+        width:100%;
     }
 
     .media-lab-title {

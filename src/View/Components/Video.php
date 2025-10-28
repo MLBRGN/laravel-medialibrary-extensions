@@ -15,6 +15,7 @@ class Video extends Component
 
     public function __construct(
         public Media|TemporaryUpload $medium,
+        public bool $preview = true,
         public array $options = [],
     ) {
         $this->id = 'mle-video-'.$medium->id;

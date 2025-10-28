@@ -23,7 +23,7 @@
     //}
 
     .media-preview-container {
-        max-width: 300px;
+        max-width: 400px;
         //min-width: 200px;
         user-select:none;
     }
@@ -34,7 +34,8 @@
 
     .media-preview-grid {
         display:grid;
-        align-items: center;
+        //align-items: center;
+        align-items: start;
         justify-items:start;
         //grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

@@ -11,7 +11,7 @@ class MediaManagerMultiple extends MediaManager
         mixed $modelOrClassName,
         array $collections = [],
         array $options = [],
-        bool $multiple = false,
+        bool $multiple = true,
         bool $disabled = false,
         bool $readonly = false,
         bool $selectable = false,

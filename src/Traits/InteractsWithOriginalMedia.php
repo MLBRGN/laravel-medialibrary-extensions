@@ -4,6 +4,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -170,14 +171,34 @@ trait InteractsWithOriginalMedia
         }
 
         // Compute next global order number
-        $maxOrder = Media::query()
-            ->selectRaw("MAX(CAST(JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.global_order')) AS UNSIGNED)) as max_order")
-            ->value('max_order');
+//        $maxOrder = Media::query()
+//            ->selectRaw("MAX(CAST(JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.global_order')) AS UNSIGNED)) as max_order")
+//            ->value('max_order');
 
+        $maxOrder = $this->getMaxGlobalOrder();
         $nextOrder = ((int) $maxOrder) + 1;
         $media->setCustomProperty('global_order', $nextOrder);
         $media->save();
 
         Log::info("Assigned global_order={$nextOrder} to media [{$media->id}]");
+    }
+
+    /**
+     * Helper: safely get max global_order for both MySQL and SQLite.
+     */
+    private function getMaxGlobalOrder(): int
+    {
+        $driver = DB::getDriverName();
+
+        if ($driver === 'sqlite') {
+            // SQLite lacks JSON_UNQUOTE / JSON_EXTRACT
+            return (int) Media::all()
+                ->map(fn ($m) => (int) $m->getCustomProperty('global_order', 0))
+                ->max();
+        }
+
+        return (int) Media::query()
+            ->selectRaw("MAX(CAST(JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.global_order')) AS UNSIGNED)) as max_order")
+            ->value('max_order');
     }
 }

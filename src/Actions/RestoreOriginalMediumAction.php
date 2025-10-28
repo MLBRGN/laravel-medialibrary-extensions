@@ -27,6 +27,7 @@ class RestoreOriginalMediumAction
 
         $originalPath = "{$media->id}/{$media->file_name}";
 
+        Log::info('RestoreOriginalMediumAction originalPath: ' . $originalPath);
         if (!Storage::disk('originals')->exists($originalPath)) {
             return back()->with('error', 'Original file not found.');
         }
@@ -36,10 +37,16 @@ class RestoreOriginalMediumAction
             $content = Storage::disk('originals')->get($originalPath);
             file_put_contents($media->getPath(), $content);
 
-            // Optionally regenerate conversions if needed
-            // $medium->generateConversions();
+            Log::info('RestoreOriginalMediumAction stored original in media path: ' . $originalPath);
 
-            Log::info("Restored original for media [$media->id].");
+            // request regenerating conversions
+            $mediaConversionNames = $media->getMediaConversionNames();
+            foreach($mediaConversionNames as $mediaConversionName) {
+                $media->markAsConversionNotGenerated($mediaConversionName);
+            }
+
+            Log::info('RestoreOriginalMediumAction media->path(): ' . $media->getPath());
+
             return MediaResponse::success(
                 $request,
                 $initiatorId,

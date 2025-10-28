@@ -1,7 +1,7 @@
 <?php
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace Mlbrgn\MediaLibraryExtensions\View\Components;
+namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
 
 /*
  * Edit media and restore original if needed
@@ -9,9 +9,10 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaLabPreviews extends BaseComponent
+class LabPreviewOriginal extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
@@ -27,7 +28,7 @@ class MediaLabPreviews extends BaseComponent
 
     public function render()
     {
-        return $this->getView('lab.lab-previews', $this->getConfig('frontendTheme'));
+        return $this->getView('lab.lab-preview-original', $this->getConfig('frontendTheme'));
 
     }
 }

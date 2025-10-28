@@ -91,7 +91,8 @@ const updateMedia = (detail) => {
             'X-CSRF-TOKEN': config.csrfToken,
             'Accept': 'application/json'
         },
-        body: formData
+        body: formData,
+        cache: 'no-store', // prevents using or storing cache
     })
     .then(async response => {
         const json = await response.json();

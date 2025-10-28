@@ -28,6 +28,7 @@ return [
     'upload_medium' => 'Upload medium',
     'add_youtube_video' => 'YouTube-video toevoegen',
     'missing_model' => ':component vereist een model, maar er is er geen meegegeven.',
+    'model_not_found' => 'Model niet gevonden.',
     'missing_collection' => ':component vereist een media collectie naam, maar er is er geen meegegeven.',
     'delete_medium' => 'Verwijder',
     'warning' => 'Waarschuwing',

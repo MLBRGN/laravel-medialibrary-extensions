@@ -6,7 +6,10 @@ export function showStatusMessage(statusAreaContainer, data) {
     const { type, message, message_extra: messageExtra = null } = data;
     const statusContainer = statusAreaContainer.querySelector('[data-status-container]');
     const messageDiv = statusAreaContainer?.querySelector('[data-status-message]');
-    if (!statusContainer || !messageDiv) return;
+    if (!statusContainer || !messageDiv) {
+        console.error('could not find status container')
+        return;
+    }
 
     const base = messageDiv.getAttribute('data-base-classes') || '';
     const typeClasses = type === 'success'
@@ -29,6 +32,10 @@ export function showStatusMessage(statusAreaContainer, data) {
 
 export function hideStatusMessage(statusAreaContainer) {
     const statusContainer = statusAreaContainer.querySelector('[data-status-container]');
+    if (!statusAreaContainer) {
+        console.error('could not find status container')
+        return;
+    }
     statusContainer?.classList.remove('visible');
 }
 

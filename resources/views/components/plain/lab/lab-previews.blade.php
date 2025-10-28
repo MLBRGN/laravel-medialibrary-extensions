@@ -1,6 +1,6 @@
 <div class="media-preview-grid" data-media-preview-grid>
     <x-mle-lab-preview
-        class="mle-media-lab-original"
+        class="mle-media-lab-preview-original"
         title="{{ __('media-library-extensions::messages.original') }}"
         :model-or-class-name="$medium->model"
     >
@@ -25,7 +25,7 @@
         </x-slot>
     </x-mle-lab-preview>
 
-    <div class="mle-media-lab-base">
+    <div class="mle-media-lab-preview-base">
         <div class="media-lab-title">
             {{ __('media-library-extensions::messages.base') }}
         </div>

@@ -10,7 +10,7 @@
     data-media-manager=""
     data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"
 >
-    <input type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
+    <input id="config-{{ $id }}" type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
 
     {{ $component_start ?? '' }}
 

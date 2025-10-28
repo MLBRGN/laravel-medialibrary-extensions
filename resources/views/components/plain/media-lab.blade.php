@@ -1,6 +1,11 @@
 <div id="{{ $id }}" class="mlbrgn-mle-component theme-bootstrap-5 mle-media-lab" data-media-manager-lab>
-    <input type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
-   
+    <input id="config-{{ $id }}" type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
+
+    <x-mle-partial-status-area
+        id="{{ $id }}"
+        :initiator-id="$id"
+        :media-manager-id="$id"
+    />
     <div class="media-manager-lab-previews" data-media-manager-lab-previews>
         <x-mle-media-lab-previews
             :medium="$medium"
