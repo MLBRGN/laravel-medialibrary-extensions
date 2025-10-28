@@ -121,7 +121,7 @@ class StoreMultiplePermanentAction
                 Log::error($e);
                 $failedUploadFIleNames[] = $file->getClientOriginalName();
                 $errorMessages[] = __(
-                    'media-library-extensions::messages.an_exception_occurred',
+                    'media-library-extensions::messages.something_went_wrong',
                     ['file' => $file->getClientOriginalName()]
                 );
                 $errorMessages[] = $e->getMessage();

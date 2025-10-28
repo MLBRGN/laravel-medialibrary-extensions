@@ -104,7 +104,7 @@ class StoreSinglePermanentAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.something_went_wrong')
+                __('media-library-extensions::messages.something_went_wrong') . ': ' . $e->getMessage()
             );
         }
 
