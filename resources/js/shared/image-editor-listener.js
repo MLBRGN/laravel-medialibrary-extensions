@@ -59,8 +59,9 @@ const updateMedia = (detail) => {
     const initiator = document.querySelector('#' + config.initiatorId);// TODO initiator not found after preview refresh!
 
     const statusAreaContainer = initiator.querySelector('[data-status-area-container]')
+    const { statusContainer, spinnerContainer } = resolveStatusContext(initiator);
 
-    showSpinner(statusAreaContainer);
+    showSpinner(spinnerContainer);
 
     // console.log('collections', config.collections);
     const file = detail.file;
@@ -104,11 +105,15 @@ const updateMedia = (detail) => {
         return json;
     })
     .then(json => {
-        showStatusMessage(statusAreaContainer, {
-            type: 'success',
-            message: trans('medium_replaced'),
+
+        showStatusMessage(statusContainer, {
+           type: 'success',
+           message: trans('medium_replaced'),
         });
 
+
+
+        console.log('fire events imageEditorModalCloseRequest and refreshRequest and onImageUpdated');
         initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
             bubbles: true,
             composed: true,
@@ -136,8 +141,28 @@ const updateMedia = (detail) => {
             }
         }));
     }).finally(() => {
-        hideSpinner(statusAreaContainer);
+        hideSpinner(spinnerContainer);
     });
+}
+
+// TODO would like neater solution, not hacky
+function resolveStatusContext(initiator) {
+    // The default containers live relative to the initiator
+    let statusContainer = initiator.querySelector('[data-status-area-container]');
+    let spinnerContainer = statusContainer;
+
+    // Walk up the DOM to find a higher-level media manager context if needed
+    const parentLab = initiator.closest('[data-media-manager-lab]');
+    if (parentLab && parentLab !== initiator.closest('[data-media-manager-lab]:scope')) {
+        // If we're nested inside another lab, prefer the outermost one
+        const parentStatusContainer = parentLab.querySelector('[data-status-area-container]');
+        if (parentStatusContainer) {
+            statusContainer = parentStatusContainer;
+            spinnerContainer = parentStatusContainer;
+        }
+    }
+
+    return { statusContainer, spinnerContainer };
 }
 
 function trans (key) {

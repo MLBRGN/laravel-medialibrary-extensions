@@ -13,7 +13,7 @@ beforeEach(function () {
     $this->action = new StoreMultipleTemporaryAction($this->mediaService, $this->youTubeService);
 });
 
-it('it stores multiple valid files and returns JSON success', function () {
+it('stores multiple valid files and returns JSON success', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
@@ -48,7 +48,7 @@ it('it stores multiple valid files and returns JSON success', function () {
         ]);
 });
 
-it('it stores multiple valid files and returns redirect success', function () {
+it('stores multiple valid files and returns redirect success', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('photo.jpg');
@@ -82,7 +82,7 @@ it('it stores multiple valid files and returns redirect success', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_success'));
 });
 
-it('it returns error if no files are given (JSON)', function () {
+it('returns error if no files are given (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
@@ -108,7 +108,7 @@ it('it returns error if no files are given (JSON)', function () {
         ]);
 });
 
-it('it returns error if no files are given (redirect)', function () {
+it('returns error if no files are given (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
@@ -138,7 +138,7 @@ it('it returns error if no files are given (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_no_files'));
 });
 
-it('it returns error if file has invalid mimetype (JSON)', function () {
+it('returns error if file has invalid mimetype (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
@@ -169,7 +169,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
         );
 })->todo();
 
-it('it returns error if file has invalid mimetype (redirect)', function () {
+it('returns error if file has invalid mimetype (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
@@ -205,7 +205,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 })->todo();
 
-it('it returns error if max media count is exceeded (JSON)', function () {
+it('returns error if max media count is exceeded (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
@@ -248,7 +248,7 @@ it('it returns error if max media count is exceeded (JSON)', function () {
     expect($responseData['errors']['media'][0])->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_shared_media_collections')]));
 });
 
-it('it returns error if max media count is exceeded (redirect)', function () {
+it('returns error if max media count is exceeded (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
@@ -288,4 +288,80 @@ it('it returns error if max media count is exceeded (redirect)', function () {
     $response->assertSessionHasErrors([
         'media' => __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('media-library-extensions.max_items_in_shared_media_collections')]),
     ]);
+});
+
+it('returns error if file exceeds max upload size (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
+    $model->save(); // must be persisted for media attachment
+
+    // Configure: allow normal collection limit but small max file size
+    Config::set('media-library-extensions.route_middleware', []);
+    Config::set('media-library-extensions.max_upload_size', 1024 * 100); // 100 KB
+
+    // Create a fake image that exceeds that size (Laravel adds ~1KB per "KB" argument)
+    $tooLargeFile = UploadedFile::fake()->create('too_large.jpg', 500); // ~500 KB
+
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
+
+    $response = $this
+        ->withoutMiddleware(Authenticate::class)
+        ->postJson(
+            route(config('media-library-extensions.route_prefix').'-media-upload-multiple'),
+            [
+                'model_type' => $model->getMorphClass(),
+                'model_id' => null,
+                'initiator_id' => $initiatorId,
+                'media_manager_id' => $mediaManagerId,
+                'collections' => ['image' => 'images'],
+                'temporary_upload_mode' => 'true',
+                $uploadFieldNameMultiple => [$tooLargeFile],
+            ]
+        );
+
+    $response->assertStatus(422); // Validation failed
+
+    $responseData = $response->json();
+
+    expect($responseData['message'])->toContain('exceeds the maximum allowed size');
+
+});
+
+it('returns error if file exceeds max upload size (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
+    $model->save(); // must be persisted for media attachment
+
+    // Configure: allow normal collection limit but small max file size
+    Config::set('media-library-extensions.route_middleware', []);
+    Config::set('media-library-extensions.max_upload_size', 1024 * 100); // 100 KB
+
+    // Create a fake image that exceeds that size (Laravel adds ~1KB per "KB" argument)
+    $tooLargeFile = UploadedFile::fake()->create('too_large.jpg', 500); // ~500 KB
+
+    $uploadFieldNameMultiple = config('media-library-extensions.upload_field_name_multiple');
+
+    $response = $this
+        ->withoutMiddleware(Authenticate::class)
+        ->post(
+            route(config('media-library-extensions.route_prefix').'-media-upload-multiple'),
+            [
+                'model_type' => $model->getMorphClass(),
+                'model_id' => null,
+                'initiator_id' => $initiatorId,
+                'media_manager_id' => $mediaManagerId,
+                'collections' => ['image' => 'images'],
+                'temporary_upload_mode' => 'true',
+                $uploadFieldNameMultiple => [$tooLargeFile],
+            ]
+        );
+
+    $response->assertStatus(302);
+
+    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
+        return str_contains($message, 'exceeds the maximum allowed size');
+    });
+
 });

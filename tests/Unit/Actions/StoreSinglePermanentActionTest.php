@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSinglePermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
@@ -10,7 +11,7 @@ beforeEach(function () {
     $this->action = new StoreSinglePermanentAction($this->mediaService);
 });
 
-it('it stores file (json)', function () {
+it('stores file (json)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
@@ -45,7 +46,7 @@ it('it stores file (json)', function () {
         ]);
 });
 
-it('it stores file and returns redirect success', function () {
+it('stores file and returns redirect success', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->image('photo.jpg');
@@ -81,7 +82,7 @@ it('it stores file and returns redirect success', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_success'));
 });
 
-it('it returns error if no file is given (JSON)', function () {
+it('returns error if no file is given (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
@@ -109,7 +110,7 @@ it('it returns error if no file is given (JSON)', function () {
         ]);
 });
 
-it('it returns error if no file is given (redirect)', function () {
+it('returns error if no file is given (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $model = $this->getTestBlogModel();
@@ -142,7 +143,7 @@ it('it returns error if no file is given (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_no_files'));
 });
 
-it('it returns error if file has invalid mimetype (JSON)', function () {
+it('returns error if file has invalid mimetype (JSON)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
@@ -175,7 +176,7 @@ it('it returns error if file has invalid mimetype (JSON)', function () {
         );
 });
 
-it('it returns error if file has invalid mimetype (redirect)', function () {
+it('returns error if file has invalid mimetype (redirect)', function () {
     $initiatorId = 'initiator-456';
     $mediaManagerId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
@@ -214,7 +215,7 @@ it('it returns error if file has invalid mimetype (redirect)', function () {
     expect($sessionData['message'])->toBe(__('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
 
-it('it returns error if model already has media in given collections (JSON)', function () {
+it('returns error if model already has media in given collections (JSON)', function () {
     $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getModelWithMedia(['video' => 1]);
     $initiatorId = 'initiator-456';
@@ -243,7 +244,7 @@ it('it returns error if model already has media in given collections (JSON)', fu
         ]);
 });
 
-it('it returns error if model already has media in given collections (redirect)', function () {
+it('returns error if model already has media in given collections (redirect)', function () {
     $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getModelWithMedia([
         'audio' => 1,
@@ -278,4 +279,80 @@ it('it returns error if model already has media in given collections (redirect)'
         'initiator_id' => $initiatorId,
         'message' => __('media-library-extensions::messages.only_one_medium_allowed'),
     ]);
+});
+
+it('returns error if file exceeds max upload size (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
+    $model->save(); // must be persisted for media attachment
+
+    // Configure: allow normal collection limit but small max file size
+    Config::set('media-library-extensions.route_middleware', []);
+    Config::set('media-library-extensions.max_upload_size', 1024 * 100); // 100 KB
+
+    // Create a fake image that exceeds that size (Laravel adds ~1KB per "KB" argument)
+    $tooLargeFile = UploadedFile::fake()->create('too_large.jpg', 500); // ~500 KB
+
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+
+    $response = $this
+        ->withoutMiddleware(Authenticate::class)
+        ->postJson(
+            route(config('media-library-extensions.route_prefix').'-media-upload-single'),
+            [
+                'model_type' => $model->getMorphClass(),
+                'model_id' => $model->getKey(),
+                'initiator_id' => $initiatorId,
+                'media_manager_id' => $mediaManagerId,
+                'collections' => ['image' => 'images'],
+                'temporary_upload_mode' => 'false',
+                $uploadFieldNameSingle => $tooLargeFile,
+            ]
+        );
+
+    $response->assertStatus(422); // Validation failed
+
+    $responseData = $response->json();
+
+    expect($responseData['message'])->toContain('exceeds the maximum allowed size');
+
+});
+
+it('returns error if file exceeds max upload size (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
+    $model->save(); // must be persisted for media attachment
+
+    // Configure: allow normal collection limit but small max file size
+    Config::set('media-library-extensions.route_middleware', []);
+    Config::set('media-library-extensions.max_upload_size', 1024 * 100); // 100 KB
+
+    // Create a fake image that exceeds that size (Laravel adds ~1KB per "KB" argument)
+    $tooLargeFile = UploadedFile::fake()->create('too_large.jpg', 500); // ~500 KB
+
+    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+
+    $response = $this
+        ->withoutMiddleware(Authenticate::class)
+        ->post(
+            route(config('media-library-extensions.route_prefix').'-media-upload-single'),
+            [
+                'model_type' => $model->getMorphClass(),
+                'model_id' => $model->getKey(),
+                'initiator_id' => $initiatorId,
+                'media_manager_id' => $mediaManagerId,
+                'collections' => ['image' => 'images'],
+                'temporary_upload_mode' => 'false',
+                $uploadFieldNameSingle => $tooLargeFile,
+            ]
+        );
+
+    $response->assertStatus(302);
+
+    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
+        return str_contains($message, 'exceeds the maximum allowed size');
+    });
+
 });

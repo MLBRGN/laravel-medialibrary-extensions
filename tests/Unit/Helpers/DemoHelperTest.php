@@ -70,7 +70,7 @@ it('uses the configured demo database name', function () {
 //
 //    // no need to mock path/referer because demo_pages_enabled is false
 //    expect(DemoHelper::isRequestFromDemoPage())->toBeFalse();
-//})->only();
+//});
 //
 //it('returns true if current URL is a demo page', function () {
 //    Config::set('media-library-extensions.demo_pages_enabled', true);
@@ -113,7 +113,7 @@ it('uses the configured demo database name', function () {
 //        ->andReturn(null);
 //
 //    expect(DemoHelper::isRequestFromDemoPage())->toBeTrue();
-//})->only();
+//});
 
 
 //it('returns false if demo pages are disabled', function () {
@@ -124,7 +124,7 @@ it('uses the configured demo database name', function () {
 //    $request->headers->set('referer', null);
 //
 //    expect(DemoHelper::isRequestFromDemoPage())->toBeFalse();
-//})->only();
+//});
 
 //it('returns false if demo pages are disabled', function () {
 //    Config::set('media-library-extensions.demo_pages_enabled', false);
@@ -135,7 +135,7 @@ it('uses the configured demo database name', function () {
 //    app()->instance('request', $fakeRequest);
 //
 //    expect(DemoHelper::isRequestFromDemoPage())->toBeFalse();
-//})->only();
+//});
 
 it('returns false if demo pages are disabled', function () {
     // ARRANGE 1: Set the required configuration values
@@ -168,7 +168,7 @@ it('returns false if demo pages are disabled', function () {
 //
 //    // Act & Assert
 //    expect(DemoHelper::isRequestFromDemoPage())->toBeTrue();
-//})->only();;
+//});
 
 it('returns true when current URL is a demo page (bootstrap-5)', function () {
     // Arrange

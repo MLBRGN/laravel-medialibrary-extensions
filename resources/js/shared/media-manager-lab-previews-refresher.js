@@ -78,5 +78,5 @@ document.addEventListener('imageUpdated', (e) => {
         return;
     }
 
-    updatePreviews(mediaManagerLab, config, mediumId, { part : 'original'})
+    updatePreviews(mediaManagerLab, config, mediumId, { part : 'all'})
 });

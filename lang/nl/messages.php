@@ -77,5 +77,6 @@ return [
     'base' => 'Basis',
     'conversion' => 'Conversie',
     'temporary_upload_original_cannot_be_restored' => 'Origineel van Tijdelijke upload kan niet worden hersteld.',
-
+    'file_too_large' => 'Het bestand ":file" overschrijdt de toegestane maximale grootte van :max.',
+    'no_valid_files_provided' => 'Er zijn geen geldige bestanden geüpload.',
 ];

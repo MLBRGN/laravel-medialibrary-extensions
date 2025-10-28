@@ -69,8 +69,34 @@ class StoreMultipleTemporaryAction
         }
 
         $successCount = 0;
+        $maxUploadSize = (int) config('media-library-extensions.max_upload_size');
         $failedUploadFIleNames = [];
         $errorMessages = [];
+
+        // Check file sizes before proceeding
+        foreach ($files as $key => $file) {
+            if ($file->getSize() > $maxUploadSize) {
+                $failedUploadFIleNames[] = $file->getClientOriginalName();
+                $errorMessages[] = __(
+                    'media-library-extensions::messages.file_too_large',
+                    [
+                        'file' => $file->getClientOriginalName(),
+                        'max' => number_format($maxUploadSize / 1024 / 1024, 2) . ' MB',
+                    ]
+                );
+                // Remove it from list so it’s not processed further
+                unset($files[$key]);
+            }
+        }
+
+        if (empty($files)) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __('media-library-extensions::messages.no_valid_files_provided') . ' ' . implode(' ', $errorMessages)
+            );
+        }
 
         foreach ($files as $file) {
             $collectionType = $this->mediaService->determineCollectionType($file);
@@ -145,7 +171,7 @@ class StoreMultipleTemporaryAction
             $request,
             $initiatorId,
             $mediaManagerId,
-            $message,
+            $message
         );
     }
 }

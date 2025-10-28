@@ -103,7 +103,7 @@ it('returns all session uploads when collectionName is null', function () {
 //    $exists = TemporaryUpload::isAvailable();
 //
 //    expect($exists)->toBeTrue();
-//})->only();
+//});
 
 
 // it('retrieves uploads for the current session', function () {

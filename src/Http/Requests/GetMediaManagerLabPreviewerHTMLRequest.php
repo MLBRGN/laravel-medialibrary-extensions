@@ -23,7 +23,7 @@ class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
         return [
             'medium_id' => ['required', 'string'],
             'initiator_id' => ['required', 'string'],
-            'part' => ['nullable', Rule::in(['original', 'base'])],
+            'part' => ['nullable', Rule::in(['original', 'base', 'all'])],
         ];
     }
 

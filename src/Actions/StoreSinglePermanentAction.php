@@ -38,6 +38,22 @@ class StoreSinglePermanentAction
                 __('media-library-extensions::messages.upload_no_files'));
         }
 
+        $maxUploadSize = (int) config('media-library-extensions.max_upload_size');
+        if ($file->getSize() > $maxUploadSize) {
+            return MediaResponse::error(
+                $request,
+                $initiatorId,
+                $mediaManagerId,
+                __(
+                    'media-library-extensions::messages.file_too_large',
+                    [
+                        'file' => $file->getClientOriginalName(),
+                        'max' => number_format($maxUploadSize / 1024 / 1024, 2) . ' MB',
+                    ]
+                )
+            );
+        }
+
         $collections = $request->array('collections');
 
         if (empty($collections)) {
