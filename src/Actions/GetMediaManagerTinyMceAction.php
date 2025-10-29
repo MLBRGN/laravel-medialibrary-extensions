@@ -18,7 +18,9 @@ class GetMediaManagerTinyMceAction
     {
 
         $options = json_decode($request->string('options'), true);
-        if ($options['temporaryUploadMode'] === true) {
+        $temporaryUploadMode = $options['temporaryUploadMode'] === true;
+
+        if ($temporaryUploadMode) {
             return $this->getMediaManagerTinyMceTemporaryAction->execute($request);
         }
 

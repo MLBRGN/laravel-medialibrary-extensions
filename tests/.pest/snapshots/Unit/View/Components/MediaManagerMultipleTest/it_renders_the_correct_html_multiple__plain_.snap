@@ -6,6 +6,7 @@
 >
     <input id="config-test-media-modal-mmm" type="hidden" class="media-manager-config" data-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","frontendTheme":"plain","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"singleMedium":null,"collections":{"image":"images"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"plain","showYouTubeUploadForm":false,"uploadFieldName":"media"},"id":"test-media-modal-mmm","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"}'>
 
+        
     
 
     <div class="media-manager-layout" data-media-manager-layout>

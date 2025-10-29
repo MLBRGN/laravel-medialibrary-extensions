@@ -4,9 +4,12 @@ window.mleFilePicker = (callback, value, meta) => {
         const editor = tinymce.activeEditor;
         const textarea = editor.getElement();
 
+        const temporaryUploadMode = textarea.getAttribute('data-model-id') === '';
+        console.log('temporaryUploadMode', temporaryUploadMode);
+
         const params = {
             initiator_id: textarea.getAttribute('data-initiator-id'),
-            model_type: textarea.getAttribute('data-model-type'),
+            model_type: textarea.getAttribute('data-model-type') ?? '',
             model_id: textarea.getAttribute('data-model-id'),
             media_manager_id: 'myMediaManager',
             collections: JSON.stringify({
@@ -14,9 +17,9 @@ window.mleFilePicker = (callback, value, meta) => {
                 'video': textarea.getAttribute('data-video-collection'),
                 'audio': textarea.getAttribute('data-audio-collection'),
             }),
-            temporary_upload_mode: false, //textarea.getAttribute('temporaryUploadMode'),
+            temporary_upload_mode: temporaryUploadMode, //textarea.getAttribute('temporaryUploadMode'),
             options: JSON.stringify({
-                temporaryUploadMode: false,
+                temporaryUploadMode: temporaryUploadMode,
                 frontendTheme: 'plain',
             })
         };

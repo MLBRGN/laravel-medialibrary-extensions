@@ -14,6 +14,7 @@ function initializeImageEditor(detail) {
     const initiatorId = imageEditor.getAttribute('data-initiator-id');
     const name = imageEditor.getAttribute('data-medium-display-name');
     const path = imageEditor.getAttribute('data-medium-path');
+    const aspectRatio = imageEditor.getAttribute('data-medium-required-aspect-ratio') ?? '16:9';
 
     imageEditor.setImage(name, path, initiatorId);
 
@@ -24,8 +25,8 @@ function initializeImageEditor(detail) {
         freeRotateDisabled: true,
         freeResizeDisabled: true,
         filtersDisabled: true,
-        selectionAspectRatios: ['16:9', '4:3'],
-        selectionAspectRatio: '16:9',
+        selectionAspectRatios: [aspectRatio],
+        // selectionAspectRatio: aspectRatio,
     });
 }
 
@@ -35,16 +36,21 @@ function initializeImageEditorModal(modal) {
     const placeholder = modal.querySelector('[data-image-editor-placeholder]');
 
     modal.addEventListener('show.bs.modal', function () {
-        const config = JSON.parse(modal.querySelector('[data-image-editor-modal-config]').value);
+        const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-image-editor-modal-config]').value);
+        console.log('image editor modal config', imageEditorModalConfig);
         const mediumPath = modal.getAttribute('data-medium-path');
         const displayName = modal.getAttribute('data-medium-display-name');
-        const initiatorId = config.initiatorId;
+        const requiredAspectRatio = modal.getAttribute('data-medium-required-aspect-ratio');
+        const initiatorId = imageEditorModalConfig.initiatorId;
+
+        console.log('requiredAspectRatio', requiredAspectRatio);
 
         const editor = document.createElement('image-editor');
         editor.setAttribute('id', 'my-image-editor');
         editor.setAttribute('data-medium-display-name', displayName);
         editor.setAttribute('data-medium-path', mediumPath);
         editor.setAttribute('data-initiator-id', initiatorId)
+        editor.setAttribute('data-aspect-ratio', requiredAspectRatio)
 
         editor.addEventListener('imageEditorReady', (e) => {
             initializeImageEditor(e.detail);

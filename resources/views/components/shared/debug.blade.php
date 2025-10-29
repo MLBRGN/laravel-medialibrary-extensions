@@ -5,10 +5,6 @@
 
 @if(config('media-library-extensions.debug') && !app()->environment('production'))
     <div class="mle-debug-wrapper">
-{{--        <button type="button" class="mle-debug-toggle" aria-expanded="false" aria-controls="{{ $id }}-debug-content">--}}
-{{--            🐞 Show Debug Info--}}
-{{--        </button>--}}
-
         <div class="mle-debug hidden" id="{{ $id }}-debug-content">
             <h2>📦 Media Library Extensions Debug Info</h2>
 

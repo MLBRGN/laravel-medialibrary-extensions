@@ -6,6 +6,7 @@
 >
     <input id="config-test-media-modal-mmm" type="hidden" class="media-manager-config" data-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media_multiple","frontendTheme":"plain","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"singleMedium":null,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"plain","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true,"useXhr":true,"showUploadForm":true,"allowedMimeTypes":"image\/jpeg, image\/png","showMediaEditButton":true,"uploadFieldName":"media_multiple"},"id":"test-media-modal-mmm","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","allowedMimeTypes":"image\/jpeg, image\/png"}'>
 
+        
     
 
     <div class="media-manager-layout" data-media-manager-layout>

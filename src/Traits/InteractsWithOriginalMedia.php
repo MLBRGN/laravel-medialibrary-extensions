@@ -25,10 +25,6 @@ trait InteractsWithOriginalMedia
         $backup = $oldMedia->replicate();
         $backup->id = $oldId; // only for reference
         $oldMedia->delete();
-//        $backup = $oldMedia->replicate(['id']);
-//        $oldMedia->delete();
-
-//        Log::info('backup: ' . print_r($backup, true));
         Log::info('backup id: ' . $backup->id);
 
         $model = $backup->model;
@@ -37,7 +33,6 @@ trait InteractsWithOriginalMedia
         if ($newFile) {
             Log::info('newFile: ' . $newFile->getClientOriginalName());
 
-//            Log::info('newFile: ' . print_r($newFile, true));
             // Use uploaded file
             $newMedia = $model->addMedia($newFile)
                 ->toMediaCollection($collection);
@@ -124,6 +119,9 @@ trait InteractsWithOriginalMedia
         } catch (\Throwable $e) {
             Log::error("Failed to copy original media [{$media->id}]: {$e->getMessage()}");
         }
+
+        $media->setCustomProperty('is_original', true);
+        $media->save();
     }
 
     /**
@@ -132,9 +130,6 @@ trait InteractsWithOriginalMedia
     protected function reuseOriginal(Media $oldMedia, Media $newMedia): void
     {
         Log::info('reuseOriginal oldMedia id: ' . $oldMedia->getKey() . ' newMedia id: ' . $newMedia->getKey() . ' invoked');
-
-//        Log::info('oldMedia id: ' . $oldMedia->id);
-//        Log::info('newMedia id: ' . $newMedia->id);
 
         $oldPath = "{$oldMedia->id}/{$oldMedia->file_name}";
         $newPath = "{$newMedia->id}/{$newMedia->file_name}";
@@ -171,10 +166,6 @@ trait InteractsWithOriginalMedia
         }
 
         // Compute next global order number
-//        $maxOrder = Media::query()
-//            ->selectRaw("MAX(CAST(JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.global_order')) AS UNSIGNED)) as max_order")
-//            ->value('max_order');
-
         $maxOrder = $this->getMaxGlobalOrder();
         $nextOrder = ((int) $maxOrder) + 1;
         $media->setCustomProperty('global_order', $nextOrder);

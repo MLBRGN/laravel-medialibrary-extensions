@@ -48,6 +48,7 @@ class MediaManagerTinymce extends BaseComponent
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {
+            dump('disable readonly or disabled');
             $this->setOption('showUploadForm', false);
             $this->setOption('showDestroyButton', false);
             $this->setOption('showSetAsFirstButton', false);
@@ -58,19 +59,20 @@ class MediaManagerTinymce extends BaseComponent
             throw new Exception(__('media-library-extensions::messages.no_media_collections'));
         }
 
-        // Override: Always disable "set-as-first" when multiple files disabled
-        if (! $this->multiple) {
-            $this->setOption('showSetAsFirstButton', false);
-        }
-
         // override
         if (! $this->hasCollection('image') && ! $this->hasCollection('document') && ! $this->hasCollection('video') && ! $this->hasCollection('audio')) {
+            dump('disable');
             $this->setOption('showUploadForm', false);
         }
 
         // override
         if (! $this->hasCollection('youtube')) {
             $this->setOption('showYouTubeUploadForm', false);
+        }
+
+        // Override: Always disable "set-as-first" when multiple files disabled
+        if (! $this->multiple) {
+            $this->setOption('showSetAsFirstButton', false);
         }
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
@@ -94,10 +96,6 @@ class MediaManagerTinymce extends BaseComponent
             'uploadFieldName' => $this->uploadFieldName,
             'selectable' => $selectable,
         ]);
-
-//        dd($disabled ? 'Yes' : 'No');
-//        dd($selectable ? 'Yes' : 'No');
-
     }
 
     public function render(): View

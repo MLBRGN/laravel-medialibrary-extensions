@@ -13,7 +13,7 @@
     <input id="config-{{ $id }}" type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
 
     @if(config('media-library-extensions.debug'))
-        <div class="mle-debug-menu">
+        <div class="mlbrgn-mle-component mle-debug-menu">
             <x-mle-shared-debug-button/>
             <x-mle-shared-local-package-icon />
         </div>

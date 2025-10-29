@@ -79,4 +79,11 @@ return [
     'temporary_upload_original_cannot_be_restored' => 'Origineel van Tijdelijke upload kan niet worden hersteld.',
     'file_too_large' => 'Het bestand ":file" overschrijdt de toegestane maximale grootte van :max.',
     'no_valid_files_provided' => 'Er zijn geen geldige bestanden geüpload.',
+    'dimensions' => 'Dimensies',
+    'ratio' => 'Verhouding',
+    'actual' => 'Huidig',
+    'required' => 'Vereist',
+    'meets_requirements' => 'Voldoet aan vereisten',
+    'does_not_meet_requirements' => 'Voldoet niet aan vereisten',
+    'unknown' => 'Onbekend',
 ];

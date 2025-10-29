@@ -26,7 +26,7 @@
     </x-mle-lab-preview>
 
     <div class="mle-media-lab-preview-base">
-        <div class="media-lab-title">
+        <div class="mle-media-lab-title">
             {{ __('media-library-extensions::messages.base') }}
         </div>
         <x-mle-media-manager-single

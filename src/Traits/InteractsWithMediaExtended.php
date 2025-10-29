@@ -7,7 +7,9 @@ namespace Mlbrgn\MediaLibraryExtensions\Traits;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
@@ -26,6 +28,23 @@ trait InteractsWithMediaExtended
     // ============================================================
     // Archived Original URL Helpers
     // ============================================================
+
+    protected array $conversionAspectRatios = [
+
+        '16x10' => 16 / 10,
+        '16x9' => 16 / 9,
+        '5x3' => 5/3,
+        '4x3'  => 4 / 3,
+        '3x2' => 3 / 2,
+
+        '10x16' => 10 / 16,
+        '9x16' => 9 / 16,
+        '3x5' => 3/5,
+        '3x4'  => 3 / 4,
+        '2x3' => 2 / 3,
+
+        '1x1'  => 1,
+    ];
 
     public function getArchivedOriginalUrlAttribute(): ?string
     {
@@ -51,59 +70,14 @@ trait InteractsWithMediaExtended
 
     public static function bootInteractsWithMediaExtended(): void
     {
+
         static::created(function ($model) {
             if (!$model->exists || !$model->getKey()) {
-                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+                Log::info('model with model type: ' . $model->getMorphClass() . ' and id: ' . $model->getKey() . ' does not exist');
                 return;
             }
 
-            $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
-            $dirty = false;
-
-            foreach ($temporaryUploads as $temporaryUpload) {
-                $customProperties = collect($temporaryUpload->custom_properties)
-                    ->except(['collections'])
-                    ->toArray();
-
-                $media = self::safeAddMedia(
-                    $model,
-                    $temporaryUpload->path,
-                    $temporaryUpload->disk,
-                    $temporaryUpload->getNameWithExtension(),
-                    $temporaryUpload->collection_name,
-                    $temporaryUpload->order_column,
-                    $customProperties
-                );
-
-                // replace img urls from temporary to media in html editor fields
-                if ($media && $tempUrl = $temporaryUpload->getUrl()) {
-                    if (property_exists($model, 'htmlEditorFields')) {
-                        foreach ($model->htmlEditorFields as $field) {
-                            if (!empty($model->{$field})) {
-                                $newValue = str_replace($tempUrl, $media->getUrl(), $model->{$field});
-                                if ($newValue !== $model->{$field}) {
-                                    $model->{$field} = $newValue;
-                                    $dirty = true;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // remove the temporary file and record
-                Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
-                $temporaryUpload->delete();
-
-                // copy original if enabled
-//                if ($model->shouldStoreOriginals()) {
-//                    $model->archiveOriginal($media);
-//                }
-            }
-
-            // save once if anything was updated
-            if ($dirty) {
-                $model->saveQuietly();
-            }
+            app(TemporaryUploadPromoter::class)->promoteAllForModel($model);
         });
     }
 
@@ -149,20 +123,6 @@ trait InteractsWithMediaExtended
         return null;
     }
 
-//    protected function archiveOriginal(Media $media): void
-//    {
-//        try {
-//            $sourcePath = $media->getPath();
-//            $destination = $media->id.'/'.$media->file_name;
-//
-//            if (!Storage::disk('originals')->exists($destination)) {
-//                Storage::disk('originals')->put($destination, file_get_contents($sourcePath));
-//            }
-//        } catch (Exception $e) {
-//            Log::error('Failed to archive original: '.$e->getMessage(), ['media_id' => $media->id]);
-//        }
-//    }
-
     public function shouldStoreOriginals(): bool
     {
         // priority: model property → config value → default true
@@ -171,11 +131,16 @@ trait InteractsWithMediaExtended
             : config('media-library-extensions.store_originals', true);
     }
 
-    protected function addResponsiveAspectRatioConversion(Media $media, array $collections, float $aspectRatio, string $aspectRatioName, Fit $fit): void
-    {
+    protected function addResponsiveAspectRatioConversion(
+        Media $media,
+        array $collections,
+        float $aspectRatio,
+        string $aspectRatioName,
+        Fit $fit
+    ): void {
         $originalPath = $media->getPath();
 
-        if (! file_exists($originalPath)) {
+        if (!file_exists($originalPath)) {
             return;
         }
 
@@ -186,7 +151,7 @@ trait InteractsWithMediaExtended
             return; // Invalid input
         }
 
-        if (! $originalWidth || ! $originalHeight) {
+        if (!$originalWidth || !$originalHeight) {
             return; // getImageSize failed or empty image
         }
 
@@ -262,12 +227,29 @@ trait InteractsWithMediaExtended
 
         $conversionCollection = collect($this->mediaConversions);
 
-        return $conversionCollection
-            ->map(fn ($conversion) => $conversion->getName())
+        $return = $conversionCollection
+            ->map(fn($conversion) => $conversion->getName())
             ->unique()
             ->values()
             ->toArray();
+
+        return $return;
     }
+
+//    public function getMediaConversionsWithAspectRatio(Media $medium): array
+//    {
+//        $conversions = $this->getConversionsForMedium($medium); // ["16x9","4x3"]
+//
+//        $result = [];
+//        foreach ($conversions as $name) {
+//            if (str_contains($name, 'x')) {
+//                [$w, $h] = explode('x', $name);
+//                $result[$name] = (int) $w / (int) $h;
+//            }
+//        }
+//
+//        return $result;
+//    }
 
     public function getMediaConversionsWithAspectRatio(Media $medium): array
     {
@@ -275,12 +257,77 @@ trait InteractsWithMediaExtended
 
         $result = [];
         foreach ($conversions as $name) {
-            if (str_contains($name, 'x')) {
-                [$w, $h] = explode('x', $name);
-                $result[$name] = (int) $w / (int) $h;
+            if (isset($this->conversionAspectRatios[$name])) {
+                $result[$name] = $this->conversionAspectRatios[$name];
+            } else {
+                // fallback: try parsing the name if it looks like WxH
+                if (str_contains($name, 'x')) {
+                    [$w, $h] = explode('x', $name);
+                    $w = (int) $w;
+                    $h = (int) $h;
+                    if ($w > 0 && $h > 0) {
+                        $result[$name] = round($w / $h, 3);
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function getImageInfo(Media $medium, float $tolerance = 0.05): ?array
+    {
+        $path = $medium->getPath();
+
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        $image = Image::make($path);
+        $info  = [
+            'width' => $image->width(),
+            'height' => $image->height(),
+            'aspect_ratio' => round($image->width() / $image->height(), 3),
+        ];
+
+        if (!$info || empty($info['width']) || empty($info['height']) || $info['height'] == 0) {
+            return null;
+        }
+
+        $width  = (int) $info['width'];
+        $height = (int) $info['height'];
+        $ratio  = $width / $height;
+
+        // Format variants
+        $dimensions        = "{$width} × {$height}";
+        $fractionFormat    = number_format($ratio, 2) . ':1';
+        $xFormat           = "{$width}x{$height}";
+        $colonFormat       = "{$width}:{$height}";
+        $approxLabel       = null;
+
+        // Try to find a known aspect ratio match
+        foreach (config('media-library-extensions.available_aspect_ratios', []) as $availableAspectRatio) {
+            $value = $availableAspectRatio['value'] ?? null;
+            if (!is_null($value) && $value !== -1) {
+                if ($ratio > $value - $tolerance && $ratio < $value + $tolerance) {
+                    $approxLabel = $availableAspectRatio['label'];
+                    break;
+                }
             }
         }
 
-        return $result;
+        return [
+            'width'           => $width,
+            'height'          => $height,
+            'ratio'           => round($ratio, 3),
+            'dimensions'      => $dimensions,      // e.g. "240 × 320"
+            'fraction'        => $fractionFormat,  // e.g. "0.75:1"
+            'x_format'        => $xFormat,         // e.g. "240x320"
+            'colon_format'    => $colonFormat,     // e.g. "240:320"
+            'approx_label'    => $approxLabel,     // e.g. "3:4" or "16:9"
+            'display'         => $approxLabel
+                ? "{$fractionFormat} ({$approxLabel})"
+                : $fractionFormat, // e.g. "0.75:1 (3:4)"
+        ];
     }
+
 }

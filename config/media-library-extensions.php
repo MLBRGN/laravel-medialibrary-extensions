@@ -308,6 +308,8 @@ return [
         'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_AUDIO', 'bi-file-earmark-music'),
         'bug' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_DEBUG', 'bi-bug'),
         'restore' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-arrow-counterclockwise'),
+        'check' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-check-lg'),
+        'x' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-x'),
     ],
 
     /*
@@ -428,11 +430,42 @@ return [
     'use_external_document_viewer' => env('MEDIA_LIBRARY_EXTENSIONS_USE_EXTERNAL_DOCUMENT_VIEWER', ''),
 
     /*
-   |--------------------------------------------------------------------------
-   | DEVELOPER ONLY
-   |--------------------------------------------------------------------------
-   |
-   | Only used by developer
-   */
+    |--------------------------------------------------------------------------
+    | DEVELOPER ONLY
+    |--------------------------------------------------------------------------
+    |
+    | Only used by developer
+    */
     'mle_using_local_package' => env('MLE_USING_LOCAL_PACKAGE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Aspect ratio settings (used by media lab)
+    |--------------------------------------------------------------------------
+    |
+    | Used by media lab to display friendly aspect ratio labels
+    */
+    'available_aspect_ratios' => env('MLE_AVAILABLE_ASPECT_RATIOS', [
+        ['name' => 'free',   'label' => 'Free',   'value' => -1,      'active' => true],
+
+        // Landscape
+        ['name' => '16:10',  'label' => '16:10',  'value' => 16 / 10, 'active' => true],
+        ['name' => '16:9',   'label' => '16:9',   'value' => 16 / 9,  'active' => true],
+        ['name' => '5:3',    'label' => '5:3',    'value' => 5 / 3,   'active' => true],
+        ['name' => '4:3',    'label' => '4:3',    'value' => 4 / 3,   'active' => true],
+        ['name' => '3:2',    'label' => '3:2',    'value' => 3 / 2,   'active' => true],
+        ['name' => '2:1',    'label' => '2:1',    'value' => 2,       'active' => true],
+
+        // Portrait (rotated +/-90°)
+        ['name' => '10:16',  'label' => '10:16',  'value' => 10 / 16, 'active' => true],
+        ['name' => '9:16',   'label' => '9:16',   'value' => 9 / 16,  'active' => true],
+        ['name' => '3:5',    'label' => '3:5',    'value' => 3 / 5,   'active' => true],
+        ['name' => '3:4',    'label' => '3:4',    'value' => 3 / 4,   'active' => true],
+        ['name' => '2:3',    'label' => '2:3',    'value' => 2 / 3,   'active' => true],
+        ['name' => '1:2',    'label' => '1:2',    'value' => 1 / 2,   'active' => true],
+
+        // square
+        ['name' => '1:1',    'label' => '1:1',    'value' => 1,       'active' => true],
+    ])
+
 ];

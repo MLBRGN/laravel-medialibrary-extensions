@@ -9,6 +9,11 @@
     --mlbrgn-mle-color-secondary-hover: #e9ecef;
     --mlbrgn-mle-color-secondary-contrast: #000;
     --mlbrgn-mle-color-accent: #ff5722;
+
+    --mlbrgn-mle-white: white;
+    --mlbrgn-mle-color-valid: green;
+    --mlbrgn-mle-color-invalid: darkred;
+
     --mlbrgn-mle-container-bg-light: #e8e7e8;
     --mlbrgn-mle-container-bg: #cecdcf;
     --mlbrgn-mle-container-fg-color: #333;
@@ -39,6 +44,11 @@
     --mlbrgn-mle-button-alt-fg-color: var(--mlbrgn-mle-color-secondary-contrast);
     --mlbrgn-mle-button-alt-hover-bg-color: var(--mlbrgn-mle-color-secondary-hover);
     --mlbrgn-mle-button-alt-hover-fg-color: var(--mlbrgn-mle-color-secondary-contrast);
+
+    --mlbrgn-mle-button-valid-bg-color: var(--mlbrgn-mle-color-valid);
+    --mlbrgn-mle-button-valid-fg-color: var(--mlbrgn-mle-white);
+    --mlbrgn-mle-button-invalid-bg-color: var(--mlbrgn-mle-color-invalid);
+    --mlbrgn-mle-button-invalid-fg-color: var(--mlbrgn-mle-white);
 
     --mlbrgn-mle-menu-bg: var(--mlbrgn-mle-container-bg-dark);
     --carousel-focus-outline-color:  var(--mlbrgn-mle-color-primary);

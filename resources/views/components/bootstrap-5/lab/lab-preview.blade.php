@@ -1,5 +1,5 @@
 <div {{ $attributes->merge([ 'class' => 'mle-media-lab-preview' ]) }}>
-    <div class="media-lab-title">
+    <div class="mle-media-lab-title">
         {{ $title }}
     </div>
     <div class="mlbrgn-mle-component theme-bootstrap-5 media-preview-container"
@@ -20,5 +20,8 @@
                 {{ $menuEnd ?? '' }}
             </div>
         </div>
+    </div>
+    <div class="mle-media-lab-info">
+        {{ $imageInfo ?? '' }}
     </div>
 </div>

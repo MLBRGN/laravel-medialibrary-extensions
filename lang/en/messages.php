@@ -78,4 +78,11 @@ return [
     'temporary_upload_original_cannot_be_restored' => 'Temporary upload original cannot be restored.',
     'file_too_large' => 'The file ":file" exceeds the maximum allowed size of :max.',
     'no_valid_files_provided' => 'No valid files were provided for upload.',
+    'dimensions' => 'Dimensions',
+    'ratio' => 'Ratio',
+    'actual' => 'Actual',
+    'required' => 'Required',
+    'meets_requirements' => 'Meets requirements',
+    'does_not_meet_requirements' => 'Does not meet requirements',
+    'unknown' => 'Unknown',
 ];

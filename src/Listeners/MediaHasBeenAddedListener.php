@@ -36,6 +36,10 @@ class MediaHasBeenAddedListener
         // Copy original to the originals disk if not already stored
         $this->copyOriginalMedia($media);
 
+        $media->setCustomProperty('original_path', "$media->id/$media->file_name");
+        $media->setCustomProperty('has_original_copy', true);
+        $media->save();
+
     }
 
 }

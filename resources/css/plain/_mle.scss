@@ -1,36 +1,7 @@
 
 .mlbrgn-mle-component {
 
-    .mle-button {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        font-weight: 400;
-        border: none;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        margin-block: 1rem;
-    }
-
-    .mle-button-submit {
-        background-color: var(--mlbrgn-mle-button-bg-color);
-        color: var(--mlbrgn-mle-button-fg-color);
-    }
-
-    .mle-button-submit:hover {
-        background-color: var(--mlbrgn-mle-button-hover-bg-color);
-        color: var(--mlbrgn-mle-button-hover-fg-color);
-    }
-
-    .mle-button:disabled {
-        background-color: var(--mlbrgn-mle-button-disabled-bg-color);
-        color: var(--mlbrgn-mle-button-disabled-fg-color);
-        cursor:default;
-    }
-
     [data-spinner-container] {
-        padding: 1rem;
-        margin-bottom: 1rem;
         color: #055160;
         background-color: #cff4fc;
         border: 1px solid #9eeaf9;
