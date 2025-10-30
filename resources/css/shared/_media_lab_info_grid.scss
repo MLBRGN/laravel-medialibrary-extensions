@@ -1,0 +1,33 @@
+.mle-info-panel {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    grid-auto-rows: 1fr; /* all rows equal height */
+    align-items: start;
+    justify-items: stretch;
+    width: 100%;
+    //min-height: 400px; /* ensures consistent overall height */
+    //border-top: 1px solid rgba(0,0,0,0.1);
+    //border-bottom: 1px solid rgba(0,0,0,0.1);
+    text-wrap: nowrap;
+}
+
+.mle-info-row {
+    display: contents; /* allows each cell to share the grid track */
+}
+
+.mle-info-row > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    //border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.mle-info-header > div {
+    font-weight: 600;
+    background: rgba(0,0,0,0.04);
+}
+
+.mle-info-panel .mle-info-row:last-child > div {
+    //border-bottom: 1px solid rgba(0,0,0,0.05);
+}

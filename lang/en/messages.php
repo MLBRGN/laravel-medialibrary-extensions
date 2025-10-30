@@ -85,4 +85,6 @@ return [
     'meets_requirements' => 'Meets requirements',
     'does_not_meet_requirements' => 'Does not meet requirements',
     'unknown' => 'Unknown',
+    'no_original_saved' => 'No original saved.',
+
 ];

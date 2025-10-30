@@ -124,6 +124,7 @@ trait InteractsWithMediaExtended
         return null;
     }
 
+    // TODO look if needed
     public function shouldStoreOriginals(): bool
     {
         // priority: model property → config value → default true
@@ -139,14 +140,14 @@ trait InteractsWithMediaExtended
         string $aspectRatioName,
         Fit $fit
     ): void {
-        $originalPath = $media->getPath();
+        $basePath = $media->getPath();
 
-        if (!file_exists($originalPath)) {
+        if (!file_exists($basePath)) {
             return;
         }
 
         // Get the original image dimensions
-        [$originalWidth, $originalHeight] = getimagesize($originalPath);
+        [$originalWidth, $originalHeight] = getimagesize($basePath);
 
         if ($aspectRatio <= 0) {
             return; // Invalid input
@@ -275,60 +276,160 @@ trait InteractsWithMediaExtended
         return $result;
     }
 
-    public function getImageInfo(Media $medium, float $tolerance = 0.05): ?array
+    public function getOriginalImageInfo(Media $media): array
     {
-        $path = $medium->getPath();
+        $originalPath = $media->getCustomProperty('original_path');
 
-        if (!file_exists($path)) {
-            return null;
+        if (!$originalPath) {
+            return $this->emptyImageInfo();
         }
 
-        $image = Image::make($path);
-        $info  = [
-            'width' => $image->width(),
-            'height' => $image->height(),
-            'aspect_ratio' => round($image->width() / $image->height(), 3),
-        ];
+        $originalExists = Storage::disk('originals')->exists($originalPath);
 
-        if (!$info || empty($info['width']) || empty($info['height']) || $info['height'] == 0) {
-            return null;
+        if (!$originalExists) {
+            return $this->emptyImageInfo();
         }
 
-        $width  = (int) $info['width'];
-        $height = (int) $info['height'];
-        $ratio  = $width / $height;
+        return $this->getImageInfo($originalPath, 'originals');
+    }
+
+    public function getBaseImageInfo(Media $media, ?array $requiredAspectRatio = null): array
+    {
+        $path = $media->getPath();
+
+        if (!$path || !file_exists($path)) {
+            return $this->emptyImageInfo();
+        }
+
+        return $this->getImageInfo($path, null, 0.05, $requiredAspectRatio);
+    }
+
+    public function getImageInfo(string $path, ?string $disk = null, float $tolerance = 0.05, $requiredAspectRatio = null): array
+    {
+        try {
+            if ($disk) {
+                $absolutePath = Storage::disk($disk)->path($path);
+            } else {
+                $absolutePath = $path;
+            }
+
+            $image = Image::make($absolutePath);
+        } catch (\Throwable $e) {
+            return $this->emptyImageInfo();
+        }
+
+        $width = $image?->width() ?? null;
+        $height = $image?->height() ?? null;
+
+        if (!$width || !$height) {
+            return $this->emptyImageInfo();
+        }
+
+        $ratio = round($width / $height, 3);
 
         // Format variants
-        $dimensions        = "{$width} × {$height}";
-        $fractionFormat    = number_format($ratio, 2) . ':1';
-        $xFormat           = "{$width}x{$height}";
-        $colonFormat       = "{$width}:{$height}";
-        $approxLabel       = null;
+        $dimensions     = "{$width} × {$height}";
+        $fractionFormat = number_format($ratio, 2) . ':1';
+        $xFormat        = "{$width}x{$height}";
+        $colonFormat    = "{$width}:{$height}";
+        $approxLabel    = null;
 
-        // Try to find a known aspect ratio match
+        // Match approximate known aspect ratios
         foreach (config('media-library-extensions.available_aspect_ratios', []) as $availableAspectRatio) {
             $value = $availableAspectRatio['value'] ?? null;
-            if (!is_null($value) && $value !== -1) {
+            if ($value !== null && $value !== -1) {
                 if ($ratio > $value - $tolerance && $ratio < $value + $tolerance) {
-                    $approxLabel = $availableAspectRatio['label'];
+                    $approxLabel = $availableAspectRatio['label'] ?? null;
                     break;
                 }
             }
         }
 
-        return [
-            'width'           => $width,
-            'height'          => $height,
-            'ratio'           => round($ratio, 3),
-            'dimensions'      => $dimensions,      // e.g. "240 × 320"
-            'fraction'        => $fractionFormat,  // e.g. "0.75:1"
-            'x_format'        => $xFormat,         // e.g. "240x320"
-            'colon_format'    => $colonFormat,     // e.g. "240:320"
-            'approx_label'    => $approxLabel,     // e.g. "3:4" or "16:9"
-            'display'         => $approxLabel
+        $imageInfo = [
+            'width'        => $width,
+            'height'       => $height,
+            'ratio'        => $ratio,
+            'dimensions'   => $dimensions,
+            'fraction'     => $fractionFormat,
+            'x_format'     => $xFormat,
+            'colon_format' => $colonFormat,
+            'approx_label' => $approxLabel,
+            'display'      => $approxLabel
                 ? "{$fractionFormat} ({$approxLabel})"
-                : $fractionFormat, // e.g. "0.75:1 (3:4)"
+                : $fractionFormat,
+            'filled'       => true,
+            'maxWidth'     => config('media-library-extensions.max_image_width'),
+            'maxHeight'     => config('media-library-extensions.max_image_height'),
+            'minWidth'     => config('media-library-extensions.min_image_width'),
+            'minHeight'     => config('media-library-extensions.min_image_height'),
         ];
+
+        $flags = $this->getImageValidationFlags($imageInfo, $requiredAspectRatio);
+
+        return array_merge($imageInfo, $flags);
+    }
+
+    public function getImageValidationFlags(array $imageInfo, ?array $requiredAspectRatio = null): array
+    {
+        // Dimension checks
+        $tooWide   = $imageInfo['width']  > ($imageInfo['maxWidth'] ?? PHP_INT_MAX);
+        $tooTall   = $imageInfo['height'] > ($imageInfo['maxHeight'] ?? PHP_INT_MAX);
+        $tooNarrow = $imageInfo['width']  < ($imageInfo['minWidth'] ?? 0);
+        $tooShort  = $imageInfo['height'] < ($imageInfo['minHeight'] ?? 0);
+
+        // Aspect ratio
+        $requiredValue = null;
+        $requiredLabel = __('media-library-extensions::messages.unknown');
+
+        if (!empty($requiredAspectRatio)) {
+            $requiredLabel = array_key_first($requiredAspectRatio);
+            $requiredValue = $requiredAspectRatio[$requiredLabel];
+        }
+
+        $ratioOk = false;
+        if (!empty($imageInfo['ratio']) && $requiredValue !== null) {
+            $tolerance = 0.02; // ~2% tolerance
+            $ratioOk = abs($imageInfo['ratio'] - $requiredValue) < $tolerance;
+        }
+
+        return [
+            'tooWide'      => $tooWide,
+            'tooTall'      => $tooTall,
+            'tooNarrow'    => $tooNarrow,
+            'tooShort'     => $tooShort,
+            'ratioOk'      => $ratioOk,
+            'requiredLabel'=> $requiredLabel,
+            'requiredValue'=> $requiredValue,
+        ];
+    }
+
+    // Default placeholder structure for missing or invalid images.
+    protected function emptyImageInfo(): array
+    {
+        return [
+            'width'        => null,
+            'height'       => null,
+            'ratio'        => null,
+            'dimensions'   => null,
+            'fraction'     => null,
+            'x_format'     => null,
+            'colon_format' => null,
+            'approx_label' => null,
+            'display'      => null,
+            'filled'       => false,
+            'maxWidth'     => config('media-library-extensions.max_image_width'),
+            'maxHeight'    => config('media-library-extensions.max_image_height'),
+            'minWidth'     => config('media-library-extensions.min_image_width'),
+            'minHeight'    => config('media-library-extensions.min_image_height'),
+            'tooWide'      => null,
+            'tooTall'      => null,
+            'tooNarrow'    => null,
+            'tooShort'     => null,
+            'ratioOk'      => null,
+            'requiredLabel'=> __('media-library-extensions::messages.unknown'),
+            'requiredValue'=> null,
+        ];
+
     }
 
     public function getHtmlEditorFields(): array

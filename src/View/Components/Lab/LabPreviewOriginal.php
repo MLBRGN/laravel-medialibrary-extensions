@@ -16,7 +16,7 @@ class LabPreviewOriginal extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public array $imageInfo;
+    public array|null $imageInfo = null;
 
     public function __construct(
         ?string $id,
@@ -26,7 +26,7 @@ class LabPreviewOriginal extends BaseComponent
 
         $this->initializeConfig();
 
-        $this->imageInfo = $medium->model->getImageInfo($medium);
+        $this->imageInfo = $medium->model?->getOriginalImageInfo($medium);
     }
 
     public function render()

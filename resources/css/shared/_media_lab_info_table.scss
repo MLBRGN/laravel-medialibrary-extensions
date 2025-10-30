@@ -1,0 +1,61 @@
+.mlbrgn-mle-component {
+    .mle-media-lab-info-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        height: 140px; /* fixed height so both align */
+    }
+
+    .mle-media-lab-info-table thead th {
+        text-align: left;
+        padding: 4px 6px;
+        font-weight: 600;
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .mle-media-lab-info-table tbody td {
+        padding: 6px;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .mle-media-lab-info-table tbody tr {
+        height: 1fr;
+    }
+
+    /* Make sure each table row takes equal vertical space */
+    .mle-media-lab-info-table tbody {
+        display: table-row-group;
+    }
+
+    .mle-media-lab-info-table tbody tr {
+        height: calc(100% / 3); /* you have 3 rows */
+    }
+
+    /* Optional: better alignment between tables */
+    .mle-media-lab-info-table-wrapper {
+        display: flex;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .mle-media-lab-info-table-wrapper > * {
+        flex: 1;
+    }
+
+    .mle-media-lab-info-table th:nth-child(1),
+    .mle-media-lab-info-table td:nth-child(1) {
+        width: 30%;
+    }
+
+    .mle-media-lab-info-table th:nth-child(2),
+    .mle-media-lab-info-table td:nth-child(2) {
+        width: 35%;
+    }
+
+    .mle-media-lab-info-table th:nth-child(3),
+    .mle-media-lab-info-table td:nth-child(3) {
+        width: 35%;
+    }
+}

@@ -115,7 +115,7 @@
         border:none;
         &.mle-button-icon-pseudo {
             border:none;
-
+            width:1rem;
             &.mle-button-icon-pseudo-valid {
                 background-color: var(--mlbrgn-mle-button-valid-bg-color);
                 color: var(--mlbrgn-mle-button-valid-fg-color);

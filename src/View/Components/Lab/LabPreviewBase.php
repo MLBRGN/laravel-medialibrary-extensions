@@ -18,7 +18,7 @@ class LabPreviewBase extends BaseComponent
 
 
     public $requiredAspectRatio;
-    public $imageInfo;
+    public ?array $imageInfo = null;
 
     public function __construct(
         ?string $id,
@@ -36,7 +36,7 @@ class LabPreviewBase extends BaseComponent
             }
 
             if (method_exists($parentModel, 'getImageInfo')) {
-                $this->imageInfo = $medium->model->getImageInfo($medium);
+                $this->imageInfo = $medium->model->getBaseImageInfo($medium, $this->requiredAspectRatio);
             }
         }
     }

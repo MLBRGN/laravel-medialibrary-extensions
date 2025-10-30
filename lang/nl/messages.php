@@ -86,4 +86,5 @@ return [
     'meets_requirements' => 'Voldoet aan vereisten',
     'does_not_meet_requirements' => 'Voldoet niet aan vereisten',
     'unknown' => 'Onbekend',
+    'no_original_saved' => 'Geen origineel opgeslagen.',
 ];
