@@ -81,6 +81,7 @@ return [
     'dimensions' => 'Dimensions',
     'ratio' => 'Ratio',
     'actual' => 'Actual',
+    'required' => 'Required',
     'max_dimensions' => 'Max dimensions',
     'min_dimensions' => 'Min dimensions',
     'meets_requirements' => 'Meets requirements',

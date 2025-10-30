@@ -43,12 +43,7 @@
             </div>
             <div class="mle-info-row">
                 <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-            </div>
-            <div class="mle-info-row">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
+                <div>&nbsp;<br>&nbsp;</div>
                 <div>&nbsp;</div>
             </div>
             <div class="mle-info-row">

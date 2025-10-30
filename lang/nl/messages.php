@@ -82,6 +82,7 @@ return [
     'dimensions' => 'Dimensies',
     'ratio' => 'Verhouding',
     'actual' => 'Huidig',
+    'required' => 'Vereist',
     'max_dimensions' => 'Max. grootte',
     'min_dimensions' => 'Min. grootte',
     'meets_requirements' => 'Voldoet aan vereisten',
