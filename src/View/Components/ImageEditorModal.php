@@ -20,6 +20,9 @@ class ImageEditorModal extends BaseComponent
     public string $saveUpdatedMediumRoute;
 
     public ?string $mediaManagerId = null;
+    public string $minimalDimensions;
+    public string $maximalDimensions;
+    public string $forcedAspectRatio;
 
     public function __construct(
         string $id,
@@ -31,7 +34,8 @@ class ImageEditorModal extends BaseComponent
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
-    ) {
+    )
+    {
         parent::__construct($id);
 
         $this->mediaManagerId = $this->id;
@@ -39,7 +43,8 @@ class ImageEditorModal extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->saveUpdatedMediumRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'), $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
+        $this->saveUpdatedMediumRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
+            $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
 
         // TODO look at this
         $this->initializeConfig([
@@ -53,6 +58,19 @@ class ImageEditorModal extends BaseComponent
             'saveUpdatedMediumRoute' => $this->saveUpdatedMediumRoute,
             'collections' => $this->collections,
         ]);
+
+        $this->minimalDimensions = config('media-library-extensions.min_image_width').'x'.config('media-library-extensions.min_image_height');
+        $this->maximalDimensions = config('media-library-extensions.max_image_width').'x'.config('media-library-extensions.max_image_height');
+        $this->forcedAspectRatio = $medium->model?->getRequiredMediaAspectRatioString($medium);
+
+
+//        dump($this->forcedAspectRatio);
+        //        dump(config('media-library-extensions.default_forced_aspect_ratio'));
+//        if (config('media-library-extensions.default_forced_aspect_ratio')) {
+//        } else {
+//            dump('does not have forced aspect ratio');
+//        }
+//        $this->forcedAspectRatio = $medium?->model?->getRequiredMediaAspectRatio($medium) || config('media-library-extensions.default_forced_aspect_ratio');
     }
 
     public function render(): View

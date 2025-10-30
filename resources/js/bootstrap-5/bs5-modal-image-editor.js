@@ -8,16 +8,21 @@ const closeBootstrapModal = (modal) => {
     modalInstance.hide();
 }
 
-function initializeImageEditor(detail) {
-    const imageEditor = detail.imageEditorInstance;
+function initializeImageEditor(config) {
+    console.log('initializeImageEditor config', config)
+    const imageEditor = config.imageEditorInstance;
 
-    const initiatorId = imageEditor.getAttribute('data-initiator-id');
-    const name = imageEditor.getAttribute('data-medium-display-name');
-    const path = imageEditor.getAttribute('data-medium-path');
-    const aspectRatio = imageEditor.getAttribute('data-medium-required-aspect-ratio') ?? '16:9';
+    // No need to read from attributes anymore!
+    const {
+        name,
+        path,
+        initiatorId,
+        requiredAspectRatio,
+        minDimensions,
+        maxDimensions,
+    } = config;
 
     imageEditor.setImage(name, path, initiatorId);
-
     imageEditor.setConfiguration({
         debug: false,
         rotateDegreesStep: 90,
@@ -25,8 +30,11 @@ function initializeImageEditor(detail) {
         freeRotateDisabled: true,
         freeResizeDisabled: true,
         filtersDisabled: true,
-        selectionAspectRatios: [aspectRatio],
-        // selectionAspectRatio: aspectRatio,
+        selectionAspectRatios: [requiredAspectRatio],
+        minWidth: minDimensions.width,
+        minHeight: minDimensions.height,
+        maxWidth: maxDimensions.width,
+        maxHeight: maxDimensions.height,
     });
 }
 
@@ -37,23 +45,27 @@ function initializeImageEditorModal(modal) {
 
     modal.addEventListener('show.bs.modal', function () {
         const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-image-editor-modal-config]').value);
-        console.log('image editor modal config', imageEditorModalConfig);
         const mediumPath = modal.getAttribute('data-medium-path');
         const displayName = modal.getAttribute('data-medium-display-name');
-        const requiredAspectRatio = modal.getAttribute('data-medium-required-aspect-ratio');
+        const forcedAspectRatio = modal.getAttribute('data-medium-forced-aspect-ratio') ?? '16:9';
+        const minDimensions = parseDimensions(modal.getAttribute('data-medium-minimal-dimensions'), { width: 800, height: 600 });
+        const maxDimensions = parseDimensions(modal.getAttribute('data-medium-maximal-dimensions'), { width: 7040, height: 3960 });
         const initiatorId = imageEditorModalConfig.initiatorId;
 
-        console.log('requiredAspectRatio', requiredAspectRatio);
-
         const editor = document.createElement('image-editor');
-        editor.setAttribute('id', 'my-image-editor');
-        editor.setAttribute('data-medium-display-name', displayName);
-        editor.setAttribute('data-medium-path', mediumPath);
-        editor.setAttribute('data-initiator-id', initiatorId)
-        editor.setAttribute('data-aspect-ratio', requiredAspectRatio)
+        editor.id = 'my-image-editor';
 
+        // Directly pass config as event data
         editor.addEventListener('imageEditorReady', (e) => {
-            initializeImageEditor(e.detail);
+            initializeImageEditor({
+                imageEditorInstance: e.detail.imageEditorInstance,
+                name: displayName,
+                path: mediumPath,
+                initiatorId,
+                requiredAspectRatio: forcedAspectRatio,
+                minDimensions,
+                maxDimensions,
+            });
         });
 
         placeholder.appendChild(editor);
@@ -63,8 +75,13 @@ function initializeImageEditorModal(modal) {
         placeholder.innerHTML = '';
     });
 
-    // Mark as initialized
     modal.dataset.imageEditorInitialized = 'true';
+}
+
+function parseDimensions(dimensionString, fallback) {
+    if (!dimensionString) return fallback;
+    const [w, h] = dimensionString.split(/[x:]/).map(Number);
+    return { width: w || fallback.width, height: h || fallback.height };
 }
 
 // listen to preview updated to reinitialize functionality

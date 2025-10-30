@@ -31,8 +31,8 @@ class LabPreviewBase extends BaseComponent
         if ($this->medium instanceof Media) {
             $parentModel = $this->medium->model;
 
-            if (method_exists($parentModel, 'getMediaConversionsWithAspectRatio')) {
-                $this->requiredAspectRatio = $parentModel->getMediaConversionsWithAspectRatio($this->medium);
+            if (method_exists($parentModel, 'getRequiredMediaAspectRatio')) {
+                $this->requiredAspectRatio = $parentModel->getRequiredMediaAspectRatio($this->medium);
             }
 
             if (method_exists($parentModel, 'getImageInfo')) {

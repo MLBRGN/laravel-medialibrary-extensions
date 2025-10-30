@@ -17,7 +17,9 @@
     data-image-editor-modal
     data-medium-display-name="{{ media_display_name($medium) }}"
     data-medium-path="{{ $medium->getUrl() }}"
-    data-medium-required-aspect-ratio="16x9"
+    data-medium-forced-aspect-ratio="{{ $forcedAspectRatio }}"
+    data-medium-minimal-dimensions="{{ $minimalDimensions }}"
+    data-medium-maximal-dimensions="{{ $maximalDimensions }}"
 >
     <div class="image-editor-modal-dialog modal-dialog">
         <div class="image-editor-modal-content modal-content justify-content-center">

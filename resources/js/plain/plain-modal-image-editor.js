@@ -59,6 +59,16 @@ function initializeImageEditor(detail) {
     const initiatorId = editor.dataset.initiatorId;
     const name = editor.dataset.mediumDisplayName;
     const path = editor.dataset.mediumPath;
+    const requiredAspectRatio = imageEditor.getAttribute('data-medium-forced-aspect-ratio') ?? '16:9';
+
+    const parseDimensions = (dimensionString, fallback) => {
+        if (!dimensionString) return fallback;
+        const [w, h] = dimensionString.split(/[x:]/).map(Number);
+        return { width: w || fallback.width, height: h || fallback.height };
+    };
+
+    const minDimensions = parseDimensions(imageEditor.getAttribute('data-medium-min'), { width: 800, height: 600 });
+    const maxDimensions = parseDimensions(imageEditor.getAttribute('data-medium-max'), { width: 7040, height: 3960 });
 
     editor.setImage(name, path, initiatorId);
     editor.setConfiguration({
@@ -68,8 +78,12 @@ function initializeImageEditor(detail) {
         freeRotateDisabled: true,
         freeResizeDisabled: true,
         filtersDisabled: true,
-        selectionAspectRatios: ['16:9', '4:3'],
-        selectionAspectRatio: '16:9',
+        selectionAspectRatios: [requiredAspectRatio],
+        minWidth: minDimensions.width,
+        minHeight: minDimensions.height,
+        maxWidth: maxDimensions.width,
+        maxHeight: maxDimensions.height,
+        // selectionAspectRatio: aspectRatio,
     });
 }
 

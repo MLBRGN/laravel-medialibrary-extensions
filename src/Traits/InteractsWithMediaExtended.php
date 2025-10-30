@@ -238,42 +238,40 @@ trait InteractsWithMediaExtended
         return $return;
     }
 
-//    public function getMediaConversionsWithAspectRatio(Media $medium): array
-//    {
-//        $conversions = $this->getConversionsForMedium($medium); // ["16x9","4x3"]
-//
-//        $result = [];
-//        foreach ($conversions as $name) {
-//            if (str_contains($name, 'x')) {
-//                [$w, $h] = explode('x', $name);
-//                $result[$name] = (int) $w / (int) $h;
-//            }
-//        }
-//
-//        return $result;
-//    }
-
-    public function getMediaConversionsWithAspectRatio(Media $medium): array
+    public function getRequiredMediaAspectRatio(Media $medium): array
     {
-        $conversions = $this->getConversionsForMedium($medium); // ["16x9","4x3"]
+        $conversions = $this->getConversionsForMedium($medium); // e.g. ["16x9","4x3"]
+        $fallback = ['16:9' => round(16 / 9, 3)]; // default fallback ratio
 
-        $result = [];
         foreach ($conversions as $name) {
+            // If known in predefined conversionAspectRatios map
             if (isset($this->conversionAspectRatios[$name])) {
-                $result[$name] = $this->conversionAspectRatios[$name];
-            } else {
-                // fallback: try parsing the name if it looks like WxH
-                if (str_contains($name, 'x')) {
-                    [$w, $h] = explode('x', $name);
-                    $w = (int) $w;
-                    $h = (int) $h;
-                    if ($w > 0 && $h > 0) {
-                        $result[$name] = round($w / $h, 3);
-                    }
+                return [$name => $this->conversionAspectRatios[$name]];
+            }
+
+            // 2Try parsing "WxH" or "W:H" format dynamically
+            if (preg_match('/^(\d+)[x:](\d+)$/', $name, $matches)) {
+                $w = (int) $matches[1];
+                $h = (int) $matches[2];
+                if ($w > 0 && $h > 0) {
+                    return [$name => round($w / $h, 3)];
                 }
             }
         }
-        return $result;
+
+        // Fallback if nothing matched
+        return $fallback;
+    }
+
+    public function getRequiredMediaAspectRatioString(Media $medium): string
+    {
+        $aspectRatio = $this->getRequiredMediaAspectRatio($medium);
+
+        // Get the first key if any, or fallback to '4:3'
+        $key = array_key_first($aspectRatio) ?? '4:3';
+
+        // Replace "x" with ":" for consistency (e.g., 16x9 → 16:9)
+        return str_replace('x', ':', $key);
     }
 
     public function getOriginalImageInfo(Media $media): array

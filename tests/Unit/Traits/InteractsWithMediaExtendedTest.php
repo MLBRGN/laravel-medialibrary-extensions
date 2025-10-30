@@ -201,7 +201,7 @@ it('logs info when model does not yet exist', function () {
 //        (object)['getName' => fn() => '4x3'],
 //    ]);
 //
-//    $result = $model->getMediaConversionsWithAspectRatio(Mockery::mock(Media::class));
+//    $result = $model->getRequiredMediaAspectRatio(Mockery::mock(Media::class));
 //
 //    expect($result)->toMatchArray([
 //        '16x9' => 1.7777,

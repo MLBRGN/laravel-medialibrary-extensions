@@ -276,9 +276,10 @@ return [
     | Define max image dimensions
     |
     */
-
-    'max_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_WIDTH', 1920),
-    'max_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_HEIGHT', 1080),
+    'max_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_WIDTH', 7040),// high end smartphone
+    'max_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_HEIGHT', 3960),// high end smartphone
+    'min_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_WIDTH', 800),
+    'min_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_HEIGHT', 600),
 
     /*
     |--------------------------------------------------------------------------
