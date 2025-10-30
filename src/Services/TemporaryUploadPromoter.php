@@ -29,26 +29,23 @@ class TemporaryUploadPromoter
 
         foreach ($temporaryUploads as $temporaryUpload) {
             $media = $this->promote($model, $temporaryUpload);
+            $temporaryUploadUrl = $temporaryUpload->getUrl();
 
-            // replace URLs inside HTML editor fields
-            if ($media && $tempUrl = $temporaryUpload->getUrl()) {
-                if (
-                    property_exists($model, 'htmlEditorFields') &&
-                    is_iterable($model->htmlEditorFields)
-                    ) {
-                    foreach ($model->htmlEditorFields as $field) {
-                        if (!empty($model->{$field})) {
-                            $newValue = str_replace($tempUrl, $media->getUrl(), $model->{$field});
-                            if ($newValue !== $model->{$field}) {
-                                $model->{$field} = $newValue;
-                                $dirty = true;
-                            }
+            // Replace URLs inside HTML editor fields
+            if ($media && $temporaryUploadUrl) {
+                foreach ($model->getHtmlEditorFields() as $field) {
+                    if (!empty($model->{$field})) {
+                        Log::info("replace {$temporaryUploadUrl} with {$media->getUrl()}");
+                        $newValue = str_replace($temporaryUploadUrl, $media->getUrl(), $model->{$field});
+                        if ($newValue !== $model->{$field}) {
+                            $model->{$field} = $newValue;
+                            $dirty = true;
                         }
                     }
                 }
             }
 
-            // remove the temporary file and record
+            // Remove the temporary file and record
             if (Storage::disk($temporaryUpload->disk)->exists($temporaryUpload->path)) {
                 Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
             }

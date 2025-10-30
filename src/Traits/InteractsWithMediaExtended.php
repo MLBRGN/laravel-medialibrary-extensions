@@ -21,6 +21,7 @@ trait InteractsWithMediaExtended
 
     /** Whether this model should store archived originals */
     protected bool $storeOriginals = true;
+//    public array $htmlEditorFields = [];
 
     /** Used by Spatie when registering conversions on the instance */
     public bool $registerMediaConversionsUsingModelInstance = true;
@@ -46,6 +47,23 @@ trait InteractsWithMediaExtended
         '1x1'  => 1,
     ];
 
+    // ============================================================
+    // Boot logic for temporary uploads (unchanged)
+    // ============================================================
+
+    public static function bootInteractsWithMediaExtended(): void
+    {
+
+        static::created(function ($model) {
+            if (!$model->exists || !$model->getKey()) {
+                Log::info('model with model type: ' . $model->getMorphClass() . ' and id: ' . $model->getKey() . ' does not exist');
+                return;
+            }
+
+            app(TemporaryUploadPromoter::class)->promoteAllForModel($model);
+        });
+    }
+
     public function getArchivedOriginalUrlAttribute(): ?string
     {
         $path = $this->id.'/'.$this->file_name;
@@ -62,23 +80,6 @@ trait InteractsWithMediaExtended
         return Storage::disk('originals')->exists($path)
             ? Storage::disk('originals')->url($path)
             : null;
-    }
-
-    // ============================================================
-    // Boot logic for temporary uploads (unchanged)
-    // ============================================================
-
-    public static function bootInteractsWithMediaExtended(): void
-    {
-
-        static::created(function ($model) {
-            if (!$model->exists || !$model->getKey()) {
-                Log::info('model with model type: ' . $model->getMorphClass() . ' and id: ' . $model->getKey() . ' does not exist');
-                return;
-            }
-
-            app(TemporaryUploadPromoter::class)->promoteAllForModel($model);
-        });
     }
 
     // ============================================================
@@ -328,6 +329,11 @@ trait InteractsWithMediaExtended
                 ? "{$fractionFormat} ({$approxLabel})"
                 : $fractionFormat, // e.g. "0.75:1 (3:4)"
         ];
+    }
+
+    public function getHtmlEditorFields(): array
+    {
+        return $this->htmlEditorFields ?? [];
     }
 
 }
