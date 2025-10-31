@@ -81,7 +81,7 @@
                 >
                                     <img
         class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0" draggable="false"
-        src="/media/1/test.jpg?v=1761905632"
+        src="/media/1/test.jpg?v=1761906127"
                         alt="test"
          loading="lazy"         data-mle-image
     >
@@ -95,7 +95,7 @@
                 >
                                     <img
         class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1" draggable="false"
-        src="/media/2/test2.jpg?v=1761905632"
+        src="/media/2/test2.jpg?v=1761906127"
                         alt="test2"
          loading="lazy"         data-mle-image
     >
