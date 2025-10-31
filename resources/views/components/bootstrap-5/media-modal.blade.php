@@ -41,9 +41,10 @@
                     class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
                     :model-or-class-name="$modelOrClassName"
+                    :single-medium="$singleMedium"
                     :expandable-in-modal="false"
-                    :media-collection="$mediaCollection"
-                    :media-collections="$mediaCollections"
+{{--                    :media-collection="$mediaCollection"--}}
+                    :collections="$mediaCollections"
                     :options="$options"
                     :in-modal="true"
                 />

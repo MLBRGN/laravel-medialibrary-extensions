@@ -26,65 +26,26 @@
                
                 
                 <div id="test-media-modal-mod-crs"
-     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
     >
     
     <div 
-        class="media-carousel-indicators carousel-indicators"
+        class="media-carousel-indicators carousel-indicators mle-display-none"
     >
-                    <button
-                type="button"
-                data-bs-target="#test-media-modal-mod-crs"
-                data-bs-slide-to="0"
-                class="active"
-                 
-                    aria-current="true" 
-                                aria-label="Slide to 1">
-            </button>
-                    <button
-                type="button"
-                data-bs-target="#test-media-modal-mod-crs"
-                data-bs-slide-to="1"
-                class=""
-                                aria-label="Slide to 2">
-            </button>
             </div>
 
     
     <div class="media-carousel-inner carousel-inner">
-                    <div 
-                class="media-carousel-item carousel-item active">
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#test-media-modal-mod-crs-mod"
-                >
-                                    <img
-        class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0" draggable="false"
-        src="/media/1/test.jpg?v=1761916477"
-                        alt="test"
-         loading="lazy"         data-mle-image
-    >
-                                </div>
-            </div>
-                    <div 
-                class="media-carousel-item carousel-item">
-                <div class="media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#test-media-modal-mod-crs-mod"
-                >
-                                    <img
-        class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1" draggable="false"
-        src="/media/2/test2.jpg?v=1761916477"
-                        alt="test2"
-         loading="lazy"         data-mle-image
-    >
-                                </div>
+                    <div class="media-carousel-item active">
+                <div class="media-carousel-item-container">
+                    <span class="mle-no-media">No media.</span>
+                </div>
             </div>
             </div>
 
     
     <button
-        class="media-carousel-control-prev carousel-control-prev"
+        class="media-carousel-control-prev carousel-control-prev disabled"
         type="button" 
         data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="prev" 
@@ -98,7 +59,7 @@
         <span class="visually-hidden">Previous</span>
     </button>
     <button
-        class="media-carousel-control-next carousel-control-next"
+        class="media-carousel-control-next carousel-control-next disabled"
         type="button" 
         data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="next" 

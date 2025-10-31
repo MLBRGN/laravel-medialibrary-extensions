@@ -20,10 +20,11 @@
             :readonly="$readonly"
             :multiple="$multiple"
         />
-
+        
         <x-mle-media-modal
             :id="$id"
             :model-or-class-name="$modelOrClassName"
+            :single-medium="$singleMedium"
             :media-collections="$collections"
             :video-auto-play="true"
             :options="$options"

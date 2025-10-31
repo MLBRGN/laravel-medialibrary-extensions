@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
@@ -15,7 +16,7 @@ it('initializes correctly with a single media collection', function () {
     $component = new MediaCarousel(
         id: 'carousel-id',
         modelOrClassName: $model,
-        mediaCollections: ['image_collection']
+        collections: ['image_collection']
     );
     expect($component->mediaCount)->toBe(1)
         ->and($component->id)->toBe('carousel-id-crs')
@@ -28,7 +29,7 @@ it('initializes correctly with multiple media collections', function () {
     $component = new MediaCarousel(
         id: 'carousel-id',
         modelOrClassName: $model,
-        mediaCollections: ['image_collection', 'audio_collection'],
+        collections: ['image_collection', 'audio_collection'],
         options: [
             'frontendTheme' => 'plain',
         ]
@@ -46,7 +47,7 @@ it('falls back to empty media collection when no model is provided', function ()
         id: 'carousel-empty'
     );
 
-    expect($component->mediaItems)->toBeInstanceOf(MediaCollection::class)
+    expect($component->media)->toBeInstanceOf(Collection::class)
         ->and($component->mediaCount)->toBe(0)
         ->and($component->id)->toBe('carousel-empty-crs');
 });
@@ -71,7 +72,7 @@ it('renders view and matches snapshot', function () {
     $html = Blade::render('<x-mle-media-carousel
                     :model-or-class-name="$modelOrClassName"
                     id="media-carousel"
-                    :media-collections="$mediaCollections"
+                    :collections="$mediaCollections"
                 />', [
         'modelOrClassName' => $model,
         'mediaCollections' => $mediaCollections,

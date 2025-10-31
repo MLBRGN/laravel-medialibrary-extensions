@@ -171,7 +171,7 @@
     <x-mle-media-carousel
         id="alien-media-carousel"
         :model-or-class-name="$model"
-        :media-collections="[
+        :collections="[
                             'alien-single-image', 
                             'alien-single-document', 
                             'alien-single-youtube-video',
@@ -193,7 +193,7 @@
     <x-mle-media-carousel
         id="alien-media-carousel-temporary-uploads"
         model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-        :media-collections="[
+        :collections="[
                                 'alien-single-image', 
                                 'alien-single-document', 
                                 'alien-single-youtube-video',

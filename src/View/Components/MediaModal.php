@@ -5,8 +5,10 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Contracts\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaModal extends BaseComponent
 {
@@ -19,6 +21,7 @@ class MediaModal extends BaseComponent
         public ?string $mediaCollection,
         public ?array $mediaCollections,
         public ?string $title,// TODO do i want this?
+        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public array $options = [],
         public bool $videoAutoPlay = true,
 

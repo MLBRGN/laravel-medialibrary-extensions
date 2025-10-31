@@ -23,7 +23,7 @@
             'mle-display-none' => $mediaCount < 2
         ])
     >
-        @foreach($mediaItems as $index => $medium)
+        @foreach($media as $index => $medium)
             <button
                 type="button"
                 data-bs-target="#{{ $id }}"
@@ -39,7 +39,7 @@
 
     {{-- Slides --}}
     <div class="media-carousel-inner carousel-inner">
-        @forelse($mediaItems as $index => $medium)
+        @forelse($media as $index => $medium)
             <div 
                 @class([
                 'media-carousel-item',
@@ -158,6 +158,7 @@
     <x-mle-media-modal
         :id="$id"
         :model-or-class-name="$modelOrClassName"
+        :single-medium="$singleMedium"
         :media-collection="$mediaCollection"
         :media-collections="$mediaCollections"
         :options="$options"
