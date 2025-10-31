@@ -35,6 +35,21 @@ function initializeImageEditor(config) {
         minHeight: minDimensions.height,
         maxWidth: maxDimensions.width,
         maxHeight: maxDimensions.height,
+        imagePropertiesEnabled: false,
+        fileFormatEnabled: false,
+        rotationEnabled: true,
+        mirroringEnabled: true,
+        selectingEnabled: true,
+        croppingEnabled: true,
+        gridEnabled: false,
+        downloadingEnabled: false,
+        freeSelectEnabled: false,
+        freeRotationEnabled: false,
+        resizingEnabled: false,
+        filtersEnabled: false,
+        selectionInfoEnabled: false,
+        selectionAspectRatioEnabled: false,
+        helpEnabled: false,
     });
 }
 
