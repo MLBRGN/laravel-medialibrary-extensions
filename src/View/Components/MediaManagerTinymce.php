@@ -48,7 +48,6 @@ class MediaManagerTinymce extends BaseComponent
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {
-            dump('disable readonly or disabled');
             $this->setOption('showUploadForm', false);
             $this->setOption('showDestroyButton', false);
             $this->setOption('showSetAsFirstButton', false);
@@ -61,7 +60,6 @@ class MediaManagerTinymce extends BaseComponent
 
         // override
         if (! $this->hasCollection('image') && ! $this->hasCollection('document') && ! $this->hasCollection('video') && ! $this->hasCollection('audio')) {
-            dump('disable');
             $this->setOption('showUploadForm', false);
         }
 
