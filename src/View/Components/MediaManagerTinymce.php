@@ -29,7 +29,7 @@ class MediaManagerTinymce extends BaseComponent
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         public array $options = [],
-        public bool $multiple = false,
+        public bool $multiple = true,
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
@@ -94,6 +94,8 @@ class MediaManagerTinymce extends BaseComponent
             'uploadFieldName' => $this->uploadFieldName,
             'selectable' => $selectable,
         ]);
+//        dd($this->multiple);
+//        dd($this->config);
     }
 
     public function render(): View

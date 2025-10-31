@@ -85,6 +85,7 @@ it('calls correct view with configured frontend theme plain', function () {
         options: [
             'uploadFieldName' => 'file_multiple',
             'frontendTheme' => 'plain',
+            'showSetAsFirstButton' => false,
         ],
     );
 
@@ -121,7 +122,7 @@ it('calls correct view with configured frontend theme bootstrap-5', function () 
     $view = $component->render();
 
     expect($component->getConfig('showDestroyButton'))->toBeFalse()
-        ->and($component->getConfig('showSetAsFirstButton'))->toBeFalse()// TODO why not true?
+        ->and($component->getConfig('showSetAsFirstButton'))->toBeTrue()
         ->and($component->getConfig('showMediaEditButton'))->toBeFalse()
         ->and($component->getConfig('showOrder'))->toBeTrue()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
