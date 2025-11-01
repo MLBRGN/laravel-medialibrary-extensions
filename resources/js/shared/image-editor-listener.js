@@ -75,9 +75,13 @@ const updateMedia = (detail) => {
         parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
     }
 
-    // console.log('localStatusAreaContainer', localStatusAreaContainer);
-    // console.log('parentStatusAreaContainer', parentStatusAreaContainer);
+    console.log('localStatusAreaContainer', localStatusAreaContainer);
+    console.log('parentStatusAreaContainer', parentStatusAreaContainer);
 
+    if (!localStatusAreaContainer) {
+        console.log('statusAreaContainer not found', localStatusAreaContainer);
+        return;
+    }
     xhrRequestStart(localStatusAreaContainer);
 
     // console.log('collections', config.collections);

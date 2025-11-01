@@ -27,7 +27,13 @@
             @if($title)
                 <h1 class="image-editor-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
-            <div class="image-editor-modal-body modal-body p-0">
+            <x-mle-partial-status-area
+                id="{{ $id }}"
+                :initiator-id="$id"
+                :media-manager-id="$id"
+                :options="$options"
+            />
+            <div class="image-editor-modal-body modal-body">
                 <button
                     type="button"
                     data-modal-close
