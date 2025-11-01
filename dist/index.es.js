@@ -6124,7 +6124,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             ${Fr}
         </div>
     </fieldset>
-`,Dr="1.0.108",Ir=`
+`,Dr="1.0.109",Ir=`
     <style>
         ${sl}
     </style>
@@ -6194,8 +6194,9 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
         </div>
         <div id="editor-menu" class="editor-menu">
             ${Nr}
+            <p class="version-text">v ${Dr}</p>
+            
         </div>
-        <p class="version-text">v ${Dr}</p>
     </main>
     <dialog id="dialog-help" class="dialog dialog-help">
          <div class="dialog-inner">
