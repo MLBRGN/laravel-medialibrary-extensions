@@ -61,7 +61,8 @@ class ImageEditorModal extends BaseComponent
 
         $this->minimalDimensions = config('media-library-extensions.min_image_width').'x'.config('media-library-extensions.min_image_height');
         $this->maximalDimensions = config('media-library-extensions.max_image_width').'x'.config('media-library-extensions.max_image_height');
-        $this->forcedAspectRatio = $medium->model?->getRequiredMediaAspectRatioString($medium) || config('media-library-extensions.default_forced_aspect_ratio');
+//        $this->forcedAspectRatio = $medium->model?->getRequiredMediaAspectRatioString($medium) || config('media-library-extensions.default_forced_aspect_ratio');
+        $this->forcedAspectRatio = $this->model?->getRequiredMediaAspectRatioString($medium) || config('media-library-extensions.default_forced_aspect_ratio');
 
 
 //        dump($this->forcedAspectRatio);

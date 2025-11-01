@@ -3,9 +3,6 @@
          data-bs-toggle="modal"
          data-bs-target="#{{ $id }}-mod"
     >
-{{--        @if($slot->isNotEmpty())--}}
-{{--            {{ $slot }}--}}
-{{--        @else--}}
             <x-dynamic-component
                 :component="$componentToRender"
                 class="{{ $mediumType === 'image' 
@@ -17,9 +14,7 @@
                 :options="$options"
                 :draggable="$mediumType === 'image' ? 'false' : null"
                 :preview="true"
-{{--                :preview="in_array($mediumType, ['youtube-video'])"--}}
             />
-{{--        @endisset--}}
     </div>
 
     @if ($mediumType === 'image')
