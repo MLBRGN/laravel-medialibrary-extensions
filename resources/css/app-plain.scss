@@ -5,13 +5,13 @@
 @use "shared/media-carousel" as sharedCarousel;
 @use "shared/media-manager" as sharedManager;
 @use "shared/media-lab" as sharedMediaLab;
+@use "shared/lite-youtube";
 
 @use "plain/mle";
 @use "plain/modal_core";
 @use "plain/media-modal";
 @use "plain/image-editor-modal";
 @use "plain/media-manager";
-@use "shared/lite-youtube";
 
 // dummy content to force build as separate file
 .mlbrgn-mle-component {

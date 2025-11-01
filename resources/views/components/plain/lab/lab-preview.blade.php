@@ -2,7 +2,11 @@
     <div class="mle-media-lab-title">
         {{ $title }}
     </div>
-    <div class="mlbrgn-mle-component theme-bootstrap-5 media-preview-container"
+    <div @class(['
+        mlbrgn-mle-component', 
+        'theme-'.$getConfig('frontendTheme'), 
+        'media-preview-container'
+    ])
          data-media-preview-container=""
     >
         <div class="media-preview-item-container"
@@ -20,5 +24,8 @@
                 {{ $menuEnd ?? '' }}
             </div>
         </div>
+    </div>
+    <div class="mle-media-lab-info">
+        {{ $imageInfo ?? '' }}
     </div>
 </div>

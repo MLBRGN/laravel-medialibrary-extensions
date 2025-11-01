@@ -1,4 +1,11 @@
-<div id="{{ $id }}" class="mlbrgn-mle-component theme-bootstrap-5 mle-media-lab" data-media-manager-lab>
+<div id="{{ $id }}" 
+     @class([
+        'mlbrgn-mle-component',
+        'theme-'.$getConfig('frontendTheme'), 
+        'mle-media-lab'
+    ]) 
+    data-media-manager-lab
+>
     <input id="config-{{ $id }}" type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
 
     <x-mle-partial-status-area
@@ -9,10 +16,10 @@
     <div class="media-manager-lab-previews" data-media-manager-lab-previews>
         <x-mle-lab-previews
             :medium="$medium"
+            :options="$options"
         />
     </div>
 </div>
-
 <x-mle-shared-assets
     include-css="true"
     include-js="true"

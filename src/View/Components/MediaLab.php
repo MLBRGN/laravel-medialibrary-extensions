@@ -21,14 +21,24 @@ class MediaLab extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $medium,
+        public array $options = [],
     ) {
         $id = filled($id) ? $id : 'mle-media-lab-' . uniqid();
 
         parent::__construct($id);
 
+        // overrides
+        $this->options['showDestroyButton'] = false;
+        $this->options['showSetAsFirstButton'] = false;
+        $this->options['showMediaEditButton'] = true;
+        $this->options['showMenu'] = true;
+        $this->options['showUploadForms'] = false;
+        $this->options['frontendTheme'] = 'plain';
+
         $this->mediaManagerLabPreviewUpdateRoute = route(mle_prefix_route('media-manager-lab-preview-update'));
 
         $this->initializeConfig();
+
     }
 
     public function render(): View

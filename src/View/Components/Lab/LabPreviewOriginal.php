@@ -21,6 +21,7 @@ class LabPreviewOriginal extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $medium,
+        public array $options = []
     ) {
         parent::__construct($id);
 

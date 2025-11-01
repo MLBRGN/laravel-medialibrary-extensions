@@ -19,7 +19,8 @@ class LabPreview extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media $medium,
-        public string $title
+        public string $title,
+        public array $options = []
     )
     {
         $id = filled($id) ? $id : null;
@@ -27,7 +28,6 @@ class LabPreview extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
         $this->initializeConfig();
-
     }
 
     public function render(): View
