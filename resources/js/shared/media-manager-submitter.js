@@ -3,8 +3,8 @@ import {
     showStatusMessage,
     handleAjaxError,
     trans,
-    showSpinner,
-    hideSpinner,
+    xhrRequestStart,
+    xhrRequestEnd,
 } from './xhrStatus';
 
 import { updatePreviews } from './media-manager-previews-refresher'
@@ -55,7 +55,7 @@ mediaManagers.forEach(mediaManager => {
             return;
         }
 
-        showSpinner(statusAreaContainer);
+        xhrRequestStart(statusAreaContainer);
 
         try {
             const formData = getFormData(formElement);
@@ -90,7 +90,7 @@ mediaManagers.forEach(mediaManager => {
                 message: trans('upload_failed'),
             });
         } finally {
-            hideSpinner(statusAreaContainer);
+            xhrRequestEnd(statusAreaContainer);
         }
     });
 

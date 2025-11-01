@@ -1,4 +1,4 @@
-<div class="status-area" data-status-area-container>
+<div {{ $attributes->merge(['class' => 'status-area']) }} data-status-area-container>
     <x-mle-partial-spinner 
         id="{{ $id.'-alert' }}" 
         :initiator-id="$id"

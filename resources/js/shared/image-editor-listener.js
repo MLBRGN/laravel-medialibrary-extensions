@@ -1,4 +1,9 @@
-import {handleAjaxError, hideSpinner, showSpinner, showStatusMessage} from "@/js/shared/xhrStatus";
+import {
+    handleAjaxError,
+    xhrRequestStart,
+    xhrRequestEnd,
+    showStatusMessage
+} from "@/js/shared/xhrStatus";
 
 document.addEventListener('onImageSave', (e) => {
     // console.log('onImageSave:', e.detail, e);
@@ -25,6 +30,9 @@ document.addEventListener('onCloseImageEditor', (e) => {
 const updateMedia = (detail) => {
 
     const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
+    // console.log('modal', modal);
+    // const statusAreaContainer = modal.querySelector('[data-status-area-container]');
+    // console.log('statusAreaContainer', statusAreaContainer);
     const configInput = modal.querySelector('[data-image-editor-modal-config]');
     if (!configInput) return;
 
@@ -56,12 +64,21 @@ const updateMedia = (detail) => {
         return
     }
 
-    const initiator = document.querySelector('#' + config.initiatorId);// TODO initiator not found after preview refresh!
+    const initiator = document.querySelector('#' + config.initiatorId);
 
-    const statusAreaContainer = initiator.querySelector('[data-status-area-container]')
-    const { statusContainer, spinnerContainer } = resolveStatusContext(initiator);
+    console.log('initiator', initiator);
+    const localStatusAreaContainer = resolveStatusAreaContainer(modal);
+    let parentStatusAreaContainer = resolveStatusAreaContainer(initiator);// initiator = media manager
+    const mediaLab = initiator.closest('[data-media-manager-lab]');
 
-    showSpinner(spinnerContainer);
+    if (mediaLab) {
+        parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
+    }
+
+    // console.log('localStatusAreaContainer', localStatusAreaContainer);
+    // console.log('parentStatusAreaContainer', parentStatusAreaContainer);
+
+    xhrRequestStart(localStatusAreaContainer);
 
     // console.log('collections', config.collections);
     const file = detail.file;
@@ -98,7 +115,7 @@ const updateMedia = (detail) => {
     .then(async response => {
         const json = await response.json();
         if (!response.ok) {
-            handleAjaxError(response, json, statusAreaContainer);
+            handleAjaxError(response, json, localStatusAreaContainer);
             throw new Error('Update of medium failed');// stops the chain, goes to .catch
         }
 
@@ -106,19 +123,17 @@ const updateMedia = (detail) => {
     })
     .then(json => {
 
-        showStatusMessage(statusContainer, {
-           type: 'success',
-           message: trans('medium_replaced'),
-        });
-
-
-
-        console.log('fire events imageEditorModalCloseRequest and refreshRequest and onImageUpdated');
+        // console.log('fire events imageEditorModalCloseRequest and refreshRequest and onImageUpdated');
         initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
             bubbles: true,
             composed: true,
             detail: {'modal': modal}
         }));
+
+        showStatusMessage(parentStatusAreaContainer, {
+           type: 'success',
+           message: trans('medium_replaced'),
+        });
 
         initiator.dispatchEvent(new CustomEvent('refreshRequest', {
             bubbles: true,
@@ -141,28 +156,14 @@ const updateMedia = (detail) => {
             }
         }));
     }).finally(() => {
-        hideSpinner(spinnerContainer);
+        xhrRequestEnd(localStatusAreaContainer);
     });
 }
 
-// TODO would like neater solution, not hacky
-function resolveStatusContext(initiator) {
-    // The default containers live relative to the initiator
-    let statusContainer = initiator.querySelector('[data-status-area-container]');
-    let spinnerContainer = statusContainer;
+function resolveStatusAreaContainer(startNode) {
+    if (!startNode) return null;
 
-    // Walk up the DOM to find a higher-level media manager context if needed
-    const parentLab = initiator.closest('[data-media-manager-lab]');
-    if (parentLab && parentLab !== initiator.closest('[data-media-manager-lab]:scope')) {
-        // If we're nested inside another lab, prefer the outermost one
-        const parentStatusContainer = parentLab.querySelector('[data-status-area-container]');
-        if (parentStatusContainer) {
-            statusContainer = parentStatusContainer;
-            spinnerContainer = parentStatusContainer;
-        }
-    }
-
-    return { statusContainer, spinnerContainer };
+    return startNode.querySelector('[data-status-area-container]');
 }
 
 function trans (key) {

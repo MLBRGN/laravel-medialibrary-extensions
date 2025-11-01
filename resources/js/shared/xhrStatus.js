@@ -1,5 +1,27 @@
 
 let statusMessageTimeoutMap = new WeakMap();
+const spinnerDelayTimeoutMap = new WeakMap();
+
+// Called when an XHR or fetch request starts.
+// Will only show spinner if request takes longer than delay
+export function xhrRequestStart(statusAreaContainer, customMessage = null) {
+    const delay = 300; // 1 second delay before showing spinner
+
+    clearTimeout(spinnerDelayTimeoutMap.get(statusAreaContainer));
+
+    const timeout = setTimeout(() => {
+        showSpinner(statusAreaContainer, customMessage);
+    }, delay);
+
+    spinnerDelayTimeoutMap.set(statusAreaContainer, timeout);
+}
+
+ // Called when an XHR or fetch request finishes (success or error).
+// Hides spinner and clears any delayed show timeout.
+export function xhrRequestEnd(statusAreaContainer) {
+    clearTimeout(spinnerDelayTimeoutMap.get(statusAreaContainer));
+    hideSpinner(statusAreaContainer);
+}
 
 export function showStatusMessage(statusAreaContainer, data) {
 

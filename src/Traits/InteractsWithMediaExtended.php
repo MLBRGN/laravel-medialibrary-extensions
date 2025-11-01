@@ -302,7 +302,7 @@ trait InteractsWithMediaExtended
         return $this->getImageInfo($path, null, 0.05, $requiredAspectRatio);
     }
 
-    public function getImageInfo(string $path, ?string $disk = null, float $tolerance = 0.05, $requiredAspectRatio = null): array
+    public function getImageInfo(string $path, ?string $disk = null, float $tolerance = 0.01, $requiredAspectRatio = null): array
     {
         try {
             if ($disk) {

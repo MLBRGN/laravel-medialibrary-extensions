@@ -27,6 +27,12 @@
             @if($title)
                 <h1 class="image-editor-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
+            <x-mle-partial-status-area
+                id="{{ $id }}"
+                :initiator-id="$id"
+                :media-manager-id="$id"
+                :options="$options"
+            />
             <div class="image-editor-modal-body modal-body">
                 <button
                     type="button"
@@ -42,7 +48,7 @@
                 <input id="config-{{ $id }}" type="hidden" class="image-editor-modal-config" data-image-editor-modal-config value='@json($config)' >
                 {{-- instantiated when model opens, just in time --}}
                 <div class="image-editor" data-image-editor-placeholder></div>
-
+    
                 <x-mle-partial-image-editor-form
                     id="{{ $id }}"
                     :model-or-class-name="$modelOrClassName"

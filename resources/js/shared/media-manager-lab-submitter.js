@@ -3,8 +3,8 @@ import {
     showStatusMessage,
     handleAjaxError,
     trans,
-    showSpinner,
-    hideSpinner,
+    xhrRequestStart,
+    xhrRequestEnd
 } from './xhrStatus';
 
 import { updatePreviews } from './media-manager-lab-previews-refresher'
@@ -48,7 +48,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
             return;
         }
 
-        showSpinner(statusAreaContainer);
+        xhrRequestStart(statusAreaContainer);
 
         try {
             const formData = getFormData(formElement);
@@ -88,7 +88,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
                 message: trans('upload_failed'),
             });
         } finally {
-            hideSpinner(statusAreaContainer);
+            xhrRequestEnd(statusAreaContainer);
         }
     });
 
