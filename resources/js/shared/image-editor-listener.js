@@ -115,7 +115,7 @@ const updateMedia = (detail) => {
     .then(async response => {
         const json = await response.json();
         if (!response.ok) {
-            handleAjaxError(response, json, localStatusAreaContainer);
+            handleAjaxError(response, json, localStatusAreaContainer);// note localStatusArea when errors occur!
             throw new Error('Update of medium failed');// stops the chain, goes to .catch
         }
 

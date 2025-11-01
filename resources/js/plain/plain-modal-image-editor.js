@@ -48,7 +48,7 @@ function initializeImageEditor(config) {
         croppingEnabled: true,
         gridEnabled: false,
         downloadingEnabled: false,
-        freeSelectEnabled: false,
+        // freeSelectEnabled: false,// TODO causes error when set to false
         freeRotationEnabled: false,
         resizingEnabled: false,
         filtersEnabled: false,
