@@ -1,5 +1,5 @@
 <div id="media-carousel-crs"
-     class="mle-component theme-bootstrap-5 media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100"
+     class="mle-component mle-theme-bootstrap-5 media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100"
          data-mle-carousel
 >
     
@@ -51,7 +51,7 @@
     </button>
 </div>
     <div
-    class="mle-component theme-bootstrap-5 mle-media-modal mle-modal modal fade"
+    class="mle-component mle-theme-bootstrap-5 mle-media-modal mle-modal modal fade"
     id="media-carousel-crs-mod"
     tabindex="-1"
     role="dialog"
@@ -79,7 +79,7 @@
                
                 
                 <div id="media-carousel-crs-mod-crs"
-     class="mle-component theme-bootstrap-5 media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component mle-theme-bootstrap-5 media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
          data-mle-carousel
 >
     

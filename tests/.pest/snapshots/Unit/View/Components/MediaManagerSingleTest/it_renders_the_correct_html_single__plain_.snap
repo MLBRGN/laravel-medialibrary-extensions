@@ -1,6 +1,6 @@
 <div
     id="test-media-modal-mms"
-    class="mle-component theme-bootstrap-5 mle-media-manager media-manager-single" multiple="false"
+    class="mle-component mle-theme-bootstrap-5 mle-media-manager media-manager-single" multiple="false"
     data-mle-media-manager
 
 >

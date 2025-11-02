@@ -1,5 +1,5 @@
 <div
-    class="mle-component theme-bootstrap-5 mle-image-editor-modal mle-modal modal fade"
+    class="mle-component mle-theme-bootstrap-5 mle-image-editor-modal mle-modal modal fade"
     id="blog-images-iem-1"
     tabindex="-1"
     role="dialog"

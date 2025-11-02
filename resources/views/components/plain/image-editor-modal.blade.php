@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
         'mle-component',
-        'theme-'. $getConfig('frontendTheme'),
+        'mle-theme-'. $getConfig('frontendTheme'),
         'mle-image-editor-modal',
         'mle-modal',
         'mle-fade',

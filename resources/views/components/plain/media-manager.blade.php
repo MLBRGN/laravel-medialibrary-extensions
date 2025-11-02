@@ -2,7 +2,7 @@
     id="{{ $id }}"
     {{ $attributes->class([
         'mle-component',
-        'theme-'.$getConfig('frontendTheme'),
+        'mle-theme-'.$getConfig('frontendTheme'),
         'mle-media-manager',
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,

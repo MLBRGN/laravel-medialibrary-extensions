@@ -1,7 +1,7 @@
 <div id="{{ $id }}"
     @class([
         'mle-component',
-        'theme-'.$getConfig('frontendTheme'), 
+        'mle-theme-'.$getConfig('frontendTheme'), 
         'mle-media-lab'
     ])
     data-mle-media-manager-lab

@@ -1,7 +1,7 @@
 <div id="{{ $id }}"
      {{ $attributes->class([
         'mle-component',
-        'theme-'.$getConfig('frontendTheme'),
+        'mle-theme-'.$getConfig('frontendTheme'),
         'mle-media-carousel', 
         'mle-media-carousel-empty' => $mediaCount === 0,
         'mle-media-carousel-plain',

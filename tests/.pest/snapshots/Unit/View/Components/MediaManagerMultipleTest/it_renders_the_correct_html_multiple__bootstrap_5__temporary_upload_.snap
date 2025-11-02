@@ -1,6 +1,6 @@
 <div
     id="test-media-modal-mmm"
-    class="mle-component theme-bootstrap-5 mle-media-manager media-manager-multiple"
+    class="mle-component mle-theme-bootstrap-5 mle-media-manager media-manager-multiple"
     data-mle-media-manager
 
 >

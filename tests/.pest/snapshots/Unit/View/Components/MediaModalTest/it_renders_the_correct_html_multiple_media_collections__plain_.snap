@@ -1,5 +1,5 @@
 <div
-    class="mle-component theme-plain mle-media-modal mle-modal mle-fade"
+    class="mle-component mle-theme-plain mle-media-modal mle-modal mle-fade"
     id="test-media-modal-mod"
     tabindex="-1"
     role="dialog"
@@ -25,7 +25,7 @@
         title="Close">❓</span>
                 </button>
                 <div id="test-media-modal-mod-crs"
-     class="mle-component theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
      data-mle-carousel
      data-mle-carousel-id="test-media-modal-mod-crs"
      tabindex="-1"
@@ -82,7 +82,7 @@
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1762104854"
+        src="/media/1/test.jpg?v=1762105089"
                         alt="test"
          loading="lazy"         data-mle-image
     >
@@ -97,7 +97,7 @@
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1762104854"
+        src="/media/2/test2.jpg?v=1762105089"
                         alt="test2"
          loading="lazy"         data-mle-image
     >
