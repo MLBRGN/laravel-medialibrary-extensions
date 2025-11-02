@@ -85,31 +85,6 @@ window.mleFilePicker = (callback, value, meta) => {
                     title: file.title || ''
                 });
             }
-            // get dimensions
-            // const img = new Image();
-            // img.src = file.url;
-            // img.onload = () => {
-            //     const width = img.naturalWidth;
-            //     const height = img.naturalHeight;
-            //
-            //     console.log('width', width, 'height', height);
-            //     callback(file.url, {
-            //         alt: file.alt || '',
-            //         classes: 'mle-media-tinymce-image',
-            //         // width: file.width || '',
-            //         // height: file.height || '',
-            //         // vspace: file.vspace || '',
-            //         // hspace: file.hspace || '',
-            //         // border: file.border || '',
-            //         // borderstyle: file.borderstyle || ''
-            //     });
-            // };
-            // img.onerror = () => {
-            //     console.warn('Could not load image for dimensions');
-            //     callback(file.url, {
-            //         alt: file.alt || '',
-            //     });
-            // };
 
             window.removeEventListener('message', handleMessage);
             win.close();

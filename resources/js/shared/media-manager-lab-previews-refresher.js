@@ -1,5 +1,4 @@
 import { handleAjaxError } from './xhrStatus';
-import { disableFormElements, enableFormElements } from './form';
 import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
 
 /**
@@ -65,7 +64,6 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     }
 }
 
-// TODO refresh media manager lab previews after nested media manager refreshed
 document.addEventListener('imageUpdated', (e) => {
     // console.log('image updated', e);
     const initiator =  document.getElementById(e.detail.initiatorId);

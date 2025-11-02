@@ -16,6 +16,7 @@
                     class="mle-media-select-checkbox"
                     data-url="{{ $medium->getUrl() }}"
                     data-alt="{{ $medium->name }}"
+                    data-mle-media-select-checkbox
                 >
                 <span class="mle-media-select-indicator"
                   title="{{ __('media-library-extensions::messages.select') }}"
