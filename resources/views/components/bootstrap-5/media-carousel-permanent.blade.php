@@ -2,6 +2,7 @@
      {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),
+        'mle-media-carousel',
         'media-carousel', 
         'mle-media-carousel-empty' => $mediaCount === 0,
         'carousel', 
