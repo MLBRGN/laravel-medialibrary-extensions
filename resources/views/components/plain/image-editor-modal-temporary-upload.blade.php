@@ -36,7 +36,7 @@
             <div class="mle-modal-body mle-image-editor-modal-body">
                 <button
                     type="button"
-                    class="mle-image-editor-modal-close-button"
+                    class="mle-modal-close-button mle-image-editor-modal-close-button"
                     data-modal-close
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">

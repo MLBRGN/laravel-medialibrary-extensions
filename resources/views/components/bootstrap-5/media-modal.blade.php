@@ -17,11 +17,12 @@
     @if($videoAutoPlay)
         data-autoplay=""
     @endif
+    data-media-modal
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
             @if($title)
-                <h1 class="media-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <div class="mle-media-modal-body mle-modal-body modal-body p-0">
                 <button

@@ -26,6 +26,7 @@
             'carousel-indicators', 
             'mle-display-none' => $mediaCount < 2
         ])
+        data-carousel-indicators
     >
         @foreach($media as $index => $medium)
             <button
@@ -46,10 +47,12 @@
             <div
 {{--                id="{{ $id }}-slide-{{ $loop->index }}"--}}
                 @class([
-                'media-carousel-item',
-                'active' => $loop->first,
-                'mle-cursor-zoom-in' => $expandableInModal
-            ])>
+                    'media-carousel-item',
+                    'active' => $loop->first,
+                    'mle-cursor-zoom-in' => $expandableInModal
+                ])
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container"
                      @if($expandableInModal)
 {{--                         data-modal-trigger="#{{ $id }}-modal"--}}
@@ -106,9 +109,11 @@
             </div>
         @empty
             <div @class([
-                'media-carousel-item',
-                'active',
-            ])>
+                    'media-carousel-item',
+                    'active',
+                ])
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
                 </div>

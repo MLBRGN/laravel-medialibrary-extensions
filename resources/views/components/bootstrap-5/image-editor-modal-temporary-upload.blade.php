@@ -37,7 +37,7 @@
             <div class="mle-modal-body mle-image-editor-modal-body modal-body p-0">
                 <button
                     type="button"
-                    class="mle-image-editor-modal-close-button modal-close-button"
+                    class="mle-modal-close-button mle-image-editor-modal-close-button"
                     data-modal-close
                     data-bs-dismiss="modal"
                     aria-label="Sluit"

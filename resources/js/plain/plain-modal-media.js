@@ -29,7 +29,7 @@ function initializeMediaModal(modal) {
         const carousel = modal.querySelector('[data-carousel]');
         if (!carousel) return;
 
-        const firstSlide = carousel.querySelector('.media-carousel-item:first-child');
+        const firstSlide = carousel.querySelector('[data-carousel-item]:first-child');
         if (!firstSlide) return;
 
         // TODO need the slideTo index to know if i should start playing

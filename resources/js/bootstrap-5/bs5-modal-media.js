@@ -6,7 +6,7 @@ let nativeMediaPlayers = {};// store native media players (audio / video)
 const initializeMediaModal = function (modal) {
     if (modal.dataset.imageEditorInitialized) return;
 
-    const carousel = modal.querySelector('.media-carousel');
+    const carousel = modal.querySelector('[data-carousel]');
     const modalId = modal.id;
 
     function setupYT (videoSlide) {
@@ -76,7 +76,8 @@ const initializeMediaModal = function (modal) {
         const slideTo = slideToElement.getAttribute('data-bs-slide-to');
         if (slideTo !== '0') return;
 
-        const firstSlide = carousel.querySelector('.carousel-item:first-child');
+        const firstSlide = carousel.querySelector('[data-carousel-item]:first-child');
+        console.log('firstSlide', firstSlide);
         if (!firstSlide) return;
 
         const nativeMediaPlayerId = setupNativeMedia(firstSlide);
@@ -95,7 +96,7 @@ const initializeMediaModal = function (modal) {
     // Stop the video when the modal is hidden
     modal.addEventListener('hidden.bs.modal', () => {
 
-        const carouselElement = modal.querySelector('.media-carousel');
+        const carouselElement = modal.querySelector('[data-carousel]');
         if (!carouselElement) return;
 
         const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
@@ -135,7 +136,7 @@ const initializeMediaModal = function (modal) {
     modal.addEventListener('keydown', (e) => {
         if (!modal.classList.contains('show')) return;
 
-        const carouselElement = modal.querySelector('.media-carousel');
+        const carouselElement = modal.querySelector('[data-carousel]');
         if (!carouselElement) return;
 
         const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
@@ -205,7 +206,7 @@ document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
     ytlPlayers = {};
     nativeMediaPlayers = {};
     const mediaManager = e.detail.mediaManager;
-    mediaManager.querySelectorAll('.media-modal').forEach(initializeMediaModal);
+    mediaManager.querySelectorAll('[data-media-modal]').forEach(initializeMediaModal);
 });
 
-document.querySelectorAll('.media-modal').forEach(initializeMediaModal);
+document.querySelectorAll('[data-media-modal]').forEach(initializeMediaModal);

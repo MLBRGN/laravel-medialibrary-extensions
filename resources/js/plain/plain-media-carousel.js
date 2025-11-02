@@ -15,10 +15,10 @@ export function initCarousel(carousel) {
         carousels.delete(carousel);
     }
 
-    const slides = carousel.querySelectorAll('.media-carousel-item');
+    const slides = carousel.querySelectorAll('[data-carousel-item]');
     if (!slides.length) return;
 
-    const indicators = carousel.querySelectorAll('.media-carousel-indicators button');
+    const indicators = carousel.querySelectorAll('[data-carousel-indicators] button');
     const prev = carousel.querySelector('[data-slide="prev"]');
     const next = carousel.querySelector('[data-slide="next"]');
 
