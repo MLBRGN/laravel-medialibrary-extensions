@@ -1,6 +1,5 @@
 import {
     initModalEvents,
-    openModal as baseOpenModal,
     registerModalEventHandler,
     reinitModalEvents,
     setupModalBase
