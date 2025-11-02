@@ -41,7 +41,6 @@
 
                 @if($getConfig('showYouTubeUploadForm'))
                 <x-mle-partial-youtube-upload-form
-                        class="mt-3"
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"
                         :single-medium="$singleMedium"
