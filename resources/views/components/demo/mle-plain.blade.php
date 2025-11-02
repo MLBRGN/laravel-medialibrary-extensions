@@ -53,7 +53,7 @@
 </head>
 <body>
 <div class="mle-container-lg">
-    <h1 class="text-primary">Plain Component tests</h1>
+    <h1>Plain Component tests</h1>
 
     <h2>Media Manager Single</h2>
 
@@ -217,7 +217,7 @@
     />
 
     @if (app()->environment('local') && class_exists(Form::class))
-        <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
+        <h2>Mlbrgn Form components custom file picker integration</h2>
         @php
             $blog = Blog::all()->first();
         @endphp
