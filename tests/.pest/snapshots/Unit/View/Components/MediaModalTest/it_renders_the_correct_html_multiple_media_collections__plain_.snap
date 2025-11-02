@@ -34,7 +34,7 @@
 
     
     <div
-        class="mle-media-carousel-indicators carousel-indicators"
+        class="mle-media-carousel-indicators"
         data-mle-carousel-indicators
     >
                     <button
@@ -82,7 +82,7 @@
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1762102782"
+        src="/media/1/test.jpg?v=1762104854"
                         alt="test"
          loading="lazy"         data-mle-image
     >
@@ -97,7 +97,7 @@
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1762102782"
+        src="/media/2/test2.jpg?v=1762104854"
                         alt="test2"
          loading="lazy"         data-mle-image
     >

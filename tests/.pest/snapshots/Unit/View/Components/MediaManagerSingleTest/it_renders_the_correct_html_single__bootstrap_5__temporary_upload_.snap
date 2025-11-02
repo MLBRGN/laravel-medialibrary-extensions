@@ -1,6 +1,6 @@
 <div
     id="test-media-modal-mms"
-    class="mle-component theme-bootstrap-5 media-manager media-manager-single" multiple="false"
+    class="mle-component theme-bootstrap-5 mle-media-manager media-manager-single" multiple="false"
     data-mle-media-manager
 
 >
@@ -13,7 +13,7 @@
         
         <div class="mle-media-manager-form ">
                             
-                                    <div class="conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
+                                    <div class="mle-demo-media-carousel mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mms-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mms-media-input"

@@ -34,7 +34,7 @@
 
     
     <div
-        class="mle-media-carousel-indicators carousel-indicators mle-display-none"
+        class="mle-media-carousel-indicators mle-display-none"
         data-mle-carousel-indicators
     >
             </div>

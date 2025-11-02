@@ -11,7 +11,7 @@
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
                             <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="test-media-modal-mod-title">test</h1>
-                        <div class="mle-media-modal-body mle-modal-body modal-body p-0">
+                        <div class="mle-modal-body mle-media-modal-body modal-body p-0">
                 <button
                     type="button"
                     data-mle-modal-close

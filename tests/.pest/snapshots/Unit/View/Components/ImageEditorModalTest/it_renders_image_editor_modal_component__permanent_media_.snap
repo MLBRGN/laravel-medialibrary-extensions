@@ -55,7 +55,7 @@
                 <div class="mle-image-editor" data-mle-image-editor-placeholder></div>
 
                 <!-- used as fallback when not using XHR -->
-<div class="conditional-form mle-image-editor-form" data-mle-xhr-form="data-mle-xhr-form" id="blog-images-iem-1-ie-update-form" data-xhr-method="post">
+<div class="mle-demo-media-carousel mle-image-editor-form" data-mle-xhr-form="data-mle-xhr-form" id="blog-images-iem-1-ie-update-form" data-xhr-method="post">
         <input type="hidden"
            name="medium_id"
            value="1">

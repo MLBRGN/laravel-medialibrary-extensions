@@ -1,6 +1,6 @@
 <div
     id="test-media-modal-mmm"
-    class="mle-component theme-plain media-manager media-manager-multiple"
+    class="mle-component theme-plain mle-media-manager media-manager-multiple"
     data-mle-media-manager
 
 >
@@ -13,13 +13,13 @@
         
         <div class="mle-media-manager-form ">
                             
-                                    <div class="conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+                                    <div class="mle-demo-media-carousel mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
         accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
         type="file"
-        class="mle-input mle-form-control"
+        class="mle-input mle-form-control mle-custom-file-input"
                     name="media[]"
             multiple
                         >
