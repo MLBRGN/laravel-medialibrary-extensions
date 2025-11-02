@@ -23,7 +23,7 @@
     <div
         @class([
             'mle-media-carousel-indicators', 
-            'carousel-indicators', 
+//            'carousel-indicators', 
             'mle-display-none' => $mediaCount < 2
         ])
         data-mle-carousel-indicators

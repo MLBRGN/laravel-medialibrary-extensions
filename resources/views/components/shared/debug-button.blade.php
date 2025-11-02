@@ -1,5 +1,5 @@
 <button type="button"
-        {{ $attributes->class(['mle-button mle-button-icon btn btn-primary']) }}
+        {{ $attributes->class(['mle-button mle-button-icon']) }}
         title="{{ __('media-library-extensions::messages.debug') }}"
         data-mle-action="debugger-toggle"
 >

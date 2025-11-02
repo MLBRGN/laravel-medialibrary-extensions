@@ -79,20 +79,6 @@
                 :disabled="$disabled"
             />
         @endif
-
-{{--        @if(config('media-library-extensions.debug'))--}}
-{{--            <button type="button"--}}
-{{--                    class="mle-button mle-button-icon btn btn-primary"--}}
-{{--                    title="{{ __('media-library-extensions::messages.debug') }}"--}}
-{{--                    data-mle-action="debugger-toggle"--}}
-{{--            >--}}
-{{--                <x-mle-shared-icon--}}
-{{--                    name="{{ config('media-library-extensions.icons.bug') }}"--}}
-{{--                    title="{{ __('media-library-extensions::messages.debug') }}"--}}
-{{--                />--}}
-{{--            </button>--}}
-{{--        @endif--}}
-
-{{--        <x-mle-shared-local-package-icon />--}}
+        
     </div>
 </div>

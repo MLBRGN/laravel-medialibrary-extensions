@@ -24,7 +24,7 @@
             @if($title)
                 <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
-            <div class="mle-media-modal-body mle-modal-body modal-body p-0">
+            <div class="mle-modal-body mle-media-modal-body modal-body p-0">
                 <button
                     type="button"
                     data-mle-modal-close

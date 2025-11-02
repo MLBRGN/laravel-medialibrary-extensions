@@ -34,12 +34,6 @@
                 <div>{{ $imageInfo['requiredLabel'] ?? '' }}</div>
             </div>
 
-{{--            <div class="mle-info-row">--}}
-{{--                <div>{{ __('media-library-extensions::messages.min_dimensions') }}</div>--}}
-{{--                <div>≥ {{ $imageInfo['minWidth'] ?? '?' }} × {{ $imageInfo['minHeight'] ?? '?'  }}</div>--}}
-{{--                <div>{{ $requiredLabel ?? '' }}</div>--}}
-{{--            </div>--}}
-
             <div class="mle-info-row">
                 <div></div>
                 <div>
