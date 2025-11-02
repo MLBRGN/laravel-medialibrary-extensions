@@ -1,5 +1,5 @@
 <div
-    class="mlbrgn-mle-component theme-plain media-modal modal fade"
+    class="mlbrgn-mle-component theme-plain mle-media-modal mle-modal mle-fade"
     id="test-media-modal-mod"
     tabindex="-1"
     role="dialog"
@@ -9,13 +9,13 @@
         data-modal
     data-media-modal
 >
-    <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content">
-                            <h1 class="media-modal-title mle-visually-hidden" id="test-media-modal-mod-title">test</h1>
-                        <div class="media-modal-body modal-body">
+    <div class="mle-modal-dialog mle-media-modal-dialog">
+        <div class="mle-modal-content mle-media-modal-content">
+                            <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="test-media-modal-mod-title">test</h1>
+                        <div class="mle-modal-body mle-media-modal-body">
                 <button
                     type="button"
-                    class="media-modal-close-button modal-close-button"
+                    class="mle-modal-close-button mle-media-modal-close-button"
                     data-modal-close
                     aria-label="Sluit"
                     title="Close">
@@ -35,6 +35,7 @@
     
     <div
         class="media-carousel-indicators carousel-indicators"
+        data-carousel-indicators
     >
                     <button
                 type="button"
@@ -74,12 +75,14 @@
     <div class="media-carousel-inner">
                     <div
 
-                class="media-carousel-item active">
+                class="media-carousel-item active"
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container"
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1762018897"
+        src="/media/1/test.jpg?v=1762073877"
                         alt="test"
          loading="lazy"         data-mle-image
     >
@@ -87,12 +90,14 @@
             </div>
                     <div
 
-                class="media-carousel-item">
+                class="media-carousel-item"
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container"
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1762018897"
+        src="/media/2/test2.jpg?v=1762073877"
                         alt="test2"
          loading="lazy"         data-mle-image
     >
@@ -100,7 +105,9 @@
             </div>
                     <div
 
-                class="media-carousel-item">
+                class="media-carousel-item"
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container"
                                      >
                                             <div class="mle-document mle-document mle-cursor-zoom-in" mle-document>
@@ -133,7 +140,9 @@
             </div>
                     <div
 
-                class="media-carousel-item">
+                class="media-carousel-item"
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container"
                                      >
                                             <div
@@ -159,7 +168,9 @@
             </div>
                     <div
 
-                class="media-carousel-item">
+                class="media-carousel-item"
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container"
                                      >
                                             <div

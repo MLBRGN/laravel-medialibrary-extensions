@@ -1,15 +1,19 @@
 <div id="media-carousel-crs"
      class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100"
-    >
+         data-carousel
+>
     
     <div 
         class="media-carousel-indicators carousel-indicators mle-display-none"
+        data-carousel-indicators
     >
             </div>
 
     
     <div class="media-carousel-inner carousel-inner">
-                    <div class="media-carousel-item active">
+                    <div class="media-carousel-item active"
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>
                 </div>
@@ -47,22 +51,23 @@
     </button>
 </div>
     <div
-    class="mlbrgn-mle-component theme-bootstrap-5 media-modal modal fade"
+    class="mlbrgn-mle-component theme-bootstrap-5 mle-media-modal mle-modal modal fade"
     id="media-carousel-crs-mod"
     tabindex="-1"
     role="dialog"
             aria-labelledby="media-carousel-crs-mod-title"
         aria-hidden="true"
             data-autoplay=""
-    >
-    <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content justify-content-center">
-                            <h1 class="media-modal-title visually-hidden" id="media-carousel-crs-mod-title">Media carousel</h1>
-                        <div class="media-modal-body modal-body p-0">
+        data-media-modal
+>
+    <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
+        <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
+                            <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="media-carousel-crs-mod-title">Media carousel</h1>
+                        <div class="mle-media-modal-body mle-modal-body modal-body p-0">
                 <button
                     type="button"
                     data-modal-close
-                    class="media-modal-close-button modal-close-button"
+                    class="mle-modal-close-button mle-media-modal-close-button"
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="Close">
@@ -75,16 +80,20 @@
                 
                 <div id="media-carousel-crs-mod-crs"
      class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
-    >
+         data-carousel
+>
     
     <div 
         class="media-carousel-indicators carousel-indicators mle-display-none"
+        data-carousel-indicators
     >
             </div>
 
     
     <div class="media-carousel-inner carousel-inner">
-                    <div class="media-carousel-item active">
+                    <div class="media-carousel-item active"
+                data-carousel-item
+            >
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>
                 </div>
