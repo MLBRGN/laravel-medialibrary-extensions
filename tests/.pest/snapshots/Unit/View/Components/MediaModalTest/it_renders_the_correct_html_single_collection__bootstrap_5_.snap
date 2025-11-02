@@ -27,7 +27,7 @@
                
                 
                 <div id="test-media-modal-mod-crs"
-     class="mle-component mle-theme-bootstrap-5 media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
          data-mle-carousel
 >
     
@@ -65,7 +65,7 @@
                 >
                                     <img
         class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0" draggable="false"
-        src="/media/1/test.jpg?v=1762106860"
+        src="/media/1/test.jpg?v=1762111472"
                         alt="test"
          loading="lazy"         data-mle-image
     >
@@ -81,7 +81,7 @@
                 >
                                     <img
         class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1" draggable="false"
-        src="/media/2/test2.jpg?v=1762106860"
+        src="/media/2/test2.jpg?v=1762111472"
                         alt="test2"
          loading="lazy"         data-mle-image
     >

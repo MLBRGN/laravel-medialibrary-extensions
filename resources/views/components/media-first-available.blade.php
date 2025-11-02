@@ -1,5 +1,5 @@
 @if ($medium)
-    <div class="mle-component">
+    <div class="mle-component mle-media-first-available">
         @if(isMediaType($medium, 'youtube-video'))
             <x-mle-shared-media-preview-container :id="$id">
                 <x-mle-video-youtube
