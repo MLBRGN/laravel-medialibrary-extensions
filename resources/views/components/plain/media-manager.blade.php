@@ -7,10 +7,10 @@
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,
     ])->merge() }}
-    data-media-manager=""
-    data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"
+    data-mle-media-manager
+{{--    data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"--}}
 >
-    <input id="config-{{ $id }}" type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
+    <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($config)'>
 
     @if(config('media-library-extensions.debug'))
         <div class="mlbrgn-mle-component mle-debug-menu">
@@ -21,7 +21,7 @@
     
     {{ $component_start ?? '' }}
 
-    <div class="media-manager-layout" data-media-manager-layout>
+    <div class="media-manager-layout" data-mle-media-manager-layout>
         {{-- Upload form section --}}
         <div class="media-manager-form {{ $getConfig('showUploadForms') ? '' : 'media-manager-forms-hidden' }}">
             @if($getConfig('showUploadForms'))

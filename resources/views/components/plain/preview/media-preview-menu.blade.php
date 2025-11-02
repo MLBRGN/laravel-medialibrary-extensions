@@ -31,7 +31,7 @@
                 <button
                     type="button"
                     class="mle-button mle-button-icon"
-                    data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
+                    data-mle-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
                     title="{{ __('media-library-extensions::messages.edit') }}"
                     @disabled($disabled)
                 >
@@ -84,7 +84,7 @@
 {{--            <button type="button"--}}
 {{--                    class="mle-button mle-button-icon btn btn-primary"--}}
 {{--                    title="{{ __('media-library-extensions::messages.debug') }}"--}}
-{{--                    data-action="debugger-toggle"--}}
+{{--                    data-mle-action="debugger-toggle"--}}
 {{--            >--}}
 {{--                <x-mle-shared-icon--}}
 {{--                    name="{{ config('media-library-extensions.icons.bug') }}"--}}

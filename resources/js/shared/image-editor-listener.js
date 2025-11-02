@@ -16,8 +16,8 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 
 document.addEventListener('onCloseImageEditor', (e) => {
     const imageEditor = e.detail.imageEditorInstance;
-    const modal = imageEditor.closest('[data-image-editor-modal]');
-    const initiatorId = imageEditor.getAttribute('data-initiator-id');
+    const modal = imageEditor.closest('[data-mle-image-editor-modal]');
+    const initiatorId = imageEditor.getAttribute('data-mle-initiator-id');
     const initiator = document.querySelector('#' + initiatorId);
 
     initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
@@ -29,11 +29,11 @@ document.addEventListener('onCloseImageEditor', (e) => {
 
 const updateMedia = (detail) => {
 
-    const modal = detail.imageEditorInstance.closest('[data-image-editor-modal]');
+    const modal = detail.imageEditorInstance.closest('[data-mle-image-editor-modal]');
     // console.log('modal', modal);
-    // const statusAreaContainer = modal.querySelector('[data-status-area-container]');
+    // const statusAreaContainer = modal.querySelector('[data-mle-status-area-container]');
     // console.log('statusAreaContainer', statusAreaContainer);
-    const configInput = modal.querySelector('[data-image-editor-modal-config]');
+    const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
     if (!configInput) return;
 
     let config = {};
@@ -50,10 +50,10 @@ const updateMedia = (detail) => {
     // console.log('config', config);
     if (!useXhr) {
         const file = detail.file;
-        const form = modal.querySelector('[data-image-editor-update-form]');
+        const form = modal.querySelector('[data-mle-image-editor-update-form]');
 
         // get or create the file input
-        let fileInput = form.querySelector('[ data-image-editor-update-form-file]');
+        let fileInput = form.querySelector('[ data-mle-image-editor-update-form-file]');
         if (!fileInput) return
 
         // assign the File object using DataTransfer
@@ -69,7 +69,7 @@ const updateMedia = (detail) => {
     console.log('initiator', initiator);
     const localStatusAreaContainer = resolveStatusAreaContainer(modal);
     let parentStatusAreaContainer = resolveStatusAreaContainer(initiator);// initiator = media manager
-    const mediaLab = initiator.closest('[data-media-manager-lab]');
+    const mediaLab = initiator.closest('[data-mle-media-manager-lab]');
 
     if (mediaLab) {
         parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
@@ -167,7 +167,7 @@ const updateMedia = (detail) => {
 function resolveStatusAreaContainer(startNode) {
     if (!startNode) return null;
 
-    return startNode.querySelector('[data-status-area-container]');
+    return startNode.querySelector('[data-mle-status-area-container]');
 }
 
 function trans (key) {

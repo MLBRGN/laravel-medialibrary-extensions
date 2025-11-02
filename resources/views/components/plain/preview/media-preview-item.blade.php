@@ -1,7 +1,7 @@
 @if ($componentToRender)
     <div class="media-preview-item-container"
-         data-modal-trigger="#{{$id}}-mod"
-         data-slide-to="{{ $loopIndex }}"
+         data-mle-modal-trigger="#{{$id}}-mod"
+         data-mle-slide-to="{{ $loopIndex }}"
     >
 {{--        @if($slot->isNotEmpty())--}}
 {{--            {{ $slot }}--}}

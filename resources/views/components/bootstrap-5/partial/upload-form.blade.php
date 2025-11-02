@@ -4,10 +4,10 @@
         'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
         'method' => 'POST',
         'enctype' => 'multipart/form-data',
-        'data-form'
+        'data-mle-form'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $getConfig('useXhr'), 
+        'data-mle-xhr-form' => $getConfig('useXhr'), 
         'id' => $id.'-media-upload-form'
     ]"
     method="post"
@@ -63,7 +63,7 @@
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit btn btn-primary d-block"
-        data-action="upload-media"
+        data-mle-action="upload-media"
         @disabled($disabled)
     >
         {{ $multiple

@@ -5,11 +5,11 @@
     [
         'action' => $getConfig('saveUpdatedMediumRoute'),
         'method' => 'POST',
-        'data-form',
-        'data-image-editor-update-form' => '',
+        'data-mle-form',
+        'data-mle-image-editor-update-form' => '',
     ]"
     :div-attributes="[
-        'data-xhr-form' => $getConfig('useXhr'),
+        'data-mle-xhr-form' => $getConfig('useXhr'),
         'id' => $id,
     ]"
     id="{{ $id }}"
@@ -43,7 +43,7 @@
            value="{{ $medium->collection_name }}">
     <input type="file"
            name="file"
-           data-image-editor-update-form-file
+           data-mle-image-editor-update-form-file
            hidden>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
@@ -57,7 +57,7 @@
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
-        data-action="set-as-first"
+        data-mle-action="set-as-first"
         @disabled($disabled)
     >
         <x-mle-shared-icon

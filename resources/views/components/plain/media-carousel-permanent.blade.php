@@ -8,15 +8,15 @@
         'mle-width-100',
         'mle-height-100'   
     ])->merge() }}
-     data-carousel
-     data-carousel-id="{{ $id }}"
+     data-mle-carousel
+     data-mle-carousel-id="{{ $id }}"
      tabindex="-1"
      @if(config('media-library-extensions.carousel_ride'))
-        data-carousel-ride="{{ config('media-library-extensions.carousel_ride') ? 'true' : 'false' }}"
-        data-carousel-ride-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
-        data-carousel-ride-only-after-interaction="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'false' }}"
+        data-mle-carousel-ride="{{ config('media-library-extensions.carousel_ride') ? 'true' : 'false' }}"
+        data-mle-carousel-ride-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
+        data-mle-carousel-ride-only-after-interaction="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'false' }}"
      @endif
-     data-carousel-effect="{{ config('media-library-extensions.carousel_fade') ? 'fade' : 'slide' }}"
+     data-mle-carousel-effect="{{ config('media-library-extensions.carousel_fade') ? 'fade' : 'slide' }}"
     >
 
     {{-- Indicators --}}
@@ -26,12 +26,12 @@
             'carousel-indicators', 
             'mle-display-none' => $mediaCount < 2
         ])
-        data-carousel-indicators
+        data-mle-carousel-indicators
     >
         @foreach($media as $index => $medium)
             <button
                 type="button"
-                data-slide-to="{{ $index }}"
+                data-mle-slide-to="{{ $index }}"
                 @class(['active' => $loop->first])
                 @if($loop->first) 
                     aria-current="true" 
@@ -51,13 +51,13 @@
                     'active' => $loop->first,
                     'mle-cursor-zoom-in' => $expandableInModal
                 ])
-                data-carousel-item
+                data-mle-carousel-item
             >
                 <div class="media-carousel-item-container"
                      @if($expandableInModal)
-{{--                         data-modal-trigger="#{{ $id }}-modal"--}}
-                         data-modal-trigger="#{{ $id }}-mod"
-                         data-slide-to="{{ $loop->index }}"
+{{--                         data-mle-modal-trigger="#{{ $id }}-modal"--}}
+                         data-mle-modal-trigger="#{{ $id }}-mod"
+                         data-mle-slide-to="{{ $loop->index }}"
                     @endif
                 >
                     @if(isMediaType($medium, 'youtube-video'))
@@ -81,16 +81,16 @@
                         />
                     @elseif(isMediaType($medium, 'video'))
                         <div
-{{--                            data-modal-trigger="#{{ $id }}-modal"--}}
-                            data-modal-trigger="#{{ $id }}-mod"
+{{--                            data-mle-modal-trigger="#{{ $id }}-modal"--}}
+                            data-mle-modal-trigger="#{{ $id }}-mod"
                             class="media-preview-item-container"
                         >
                             <x-mle-video :medium="$medium" />
                         </div>
                     @elseif(isMediaType($medium, 'audio'))
                         <div
-{{--                            data-modal-trigger="#{{ $id }}-modal"--}}
-                            data-modal-trigger="#{{ $id }}-mod"
+{{--                            data-mle-modal-trigger="#{{ $id }}-modal"--}}
+                            data-mle-modal-trigger="#{{ $id }}-mod"
                             class="media-preview-item-container"
                         >
                             <x-mle-audio :medium="$medium" />
@@ -112,7 +112,7 @@
                     'media-carousel-item',
                     'active',
                 ])
-                data-carousel-item
+                data-mle-carousel-item
             >
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>

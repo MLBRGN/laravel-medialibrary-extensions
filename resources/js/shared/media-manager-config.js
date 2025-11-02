@@ -1,5 +1,5 @@
 export function getMediaManagerConfig(mediaManager) {
-    const configInput = mediaManager.querySelector('[data-media-manager-config]');
+    const configInput = mediaManager.querySelector('[data-mle-media-manager-config]');
     if (!configInput) return null;
 
     try {

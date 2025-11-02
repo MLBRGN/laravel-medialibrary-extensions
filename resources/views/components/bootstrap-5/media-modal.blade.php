@@ -15,9 +15,9 @@
     @endif
     aria-hidden="true"
     @if($videoAutoPlay)
-        data-autoplay=""
+        data-mle-autoplay=""
     @endif
-    data-media-modal
+    data-mle-media-modal
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
@@ -27,7 +27,7 @@
             <div class="mle-media-modal-body mle-modal-body modal-body p-0">
                 <button
                     type="button"
-                    data-modal-close
+                    data-mle-modal-close
                     class="mle-modal-close-button mle-media-modal-close-button"
                     data-bs-dismiss="modal"
                     aria-label="Sluit"

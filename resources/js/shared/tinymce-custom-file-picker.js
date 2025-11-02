@@ -4,18 +4,18 @@ window.mleFilePicker = (callback, value, meta) => {
         const editor = tinymce.activeEditor;
         const textarea = editor.getElement();
 
-        const temporaryUploadMode = textarea.getAttribute('data-model-id') === '';
+        const temporaryUploadMode = textarea.getAttribute('data-mle-model-id') === '';
         console.log('temporaryUploadMode', temporaryUploadMode);
 
         const params = {
-            initiator_id: textarea.getAttribute('data-initiator-id'),
-            model_type: textarea.getAttribute('data-model-type') ?? '',
-            model_id: textarea.getAttribute('data-model-id'),
+            initiator_id: textarea.getAttribute('data-mle-initiator-id'),
+            model_type: textarea.getAttribute('data-mle-model-type') ?? '',
+            model_id: textarea.getAttribute('data-mle-model-id'),
             media_manager_id: 'myMediaManager',
-            collections: JSON.stringify({
-                'image': textarea.getAttribute('data-image-collection'),
-                'video': textarea.getAttribute('data-video-collection'),
-                'audio': textarea.getAttribute('data-audio-collection'),
+            collections: JSON.stringify({// TODO refactor
+                'image': textarea.getAttribute('data-mle-image-collection'),
+                'video': textarea.getAttribute('data-mle-video-collection'),
+                'audio': textarea.getAttribute('data-mle-audio-collection'),
             }),
             temporary_upload_mode: temporaryUploadMode, //textarea.getAttribute('temporaryUploadMode'),
             options: JSON.stringify({

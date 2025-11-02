@@ -39,17 +39,17 @@ export function showStatusMessage(statusAreaContainer, data) {
         return;
     }
     const { type, message, message_extra: messageExtra = null } = data;
-    const statusContainer = statusAreaContainer.querySelector('[data-status-container]');
-    const messageDiv = statusAreaContainer?.querySelector('[data-status-message]');
+    const statusContainer = statusAreaContainer.querySelector('[data-mle-status-container]');
+    const messageDiv = statusAreaContainer?.querySelector('[data-mle-status-message]');
     if (!statusContainer || !messageDiv) {
         console.error('could not find status container')
         return;
     }
 
-    const base = messageDiv.getAttribute('data-base-classes') || '';
+    const base = messageDiv.getAttribute('data-mle-base-classes') || '';
     const typeClasses = type === 'success'
-        ? messageDiv.getAttribute('data-success-classes') || ''
-        : messageDiv.getAttribute('data-error-classes') || '';
+        ? messageDiv.getAttribute('data-mle-success-classes') || ''
+        : messageDiv.getAttribute('data-mle-error-classes') || '';
 
     messageDiv.className = [base, typeClasses].filter(Boolean).join(' ');
     messageDiv.textContent = [message, messageExtra].filter(Boolean).join('\n\n')
@@ -58,7 +58,7 @@ export function showStatusMessage(statusAreaContainer, data) {
     void statusContainer.offsetWidth; // force reflow
     statusContainer.classList.add('visible');
 
-    const timeoutDuration = parseInt(statusContainer.dataset.statusTimeout, 10) || 5000;
+    const timeoutDuration = parseInt(statusContainer.dataset.mleStatusTimeout, 10) || 5000;
     // Track timeout per container
     clearTimeout(statusMessageTimeoutMap.get(statusAreaContainer));
     const timeout = setTimeout(() => hideStatusMessage(statusAreaContainer), timeoutDuration);
@@ -70,7 +70,7 @@ export function hideStatusMessage(statusAreaContainer) {
         console.error('no statusAreaContainer provided');
         return;
     }
-    const statusContainer = statusAreaContainer.querySelector('[data-status-container]');
+    const statusContainer = statusAreaContainer.querySelector('[data-mle-status-container]');
     if (!statusAreaContainer) {
         console.error('could not find status container')
         return;
@@ -84,7 +84,7 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
         return;
     }
     hideStatusMessage(statusAreaContainer); // Hides the message before showing spinner
-    const spinnerContainer = statusAreaContainer.querySelector('[data-spinner-container]');
+    const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');
     if (!spinnerContainer) {
         console.error('could not find spinner container')
         return;
@@ -92,7 +92,7 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
 
     if (customMessage) {
         // Find the spinner text span or create it if missing
-        let textEl = spinnerContainer.querySelector('.mle-spinner-text');
+        let textEl = spinnerContainer.querySelector('[data-mle-spinner-text]');
         textEl.textContent = message;
     }
     spinnerContainer.classList.add('active');
@@ -103,7 +103,7 @@ export function hideSpinner(statusAreaContainer) {
         console.error('no statusAreaContainer provided');
         return;
     }
-    const spinnerContainer = statusAreaContainer.querySelector('[data-spinner-container]');
+    const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');
     if (!spinnerContainer) {
         console.error('could not find spinner container')
         return;

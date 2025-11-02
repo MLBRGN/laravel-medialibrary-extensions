@@ -226,10 +226,10 @@
     }
 
     /* Spinner container */
-    //[data-spinner-container] {
+    //[data-mle-spinner-container] {
 
     //}
-    [data-spinner-container] {
+    [data-mle-spinner-container] {
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -264,7 +264,7 @@
         }
     }
 
-    [data-spinner-container].active {
+    [data-mle-spinner-container].active {
         opacity: 1;
         max-height: 4rem; /* spinner height + padding */
         padding: 1rem;
@@ -283,7 +283,7 @@
     }
 
     /* Status container and message */
-    [data-status-container] {
+    [data-mle-status-container] {
         opacity: 0;
         visibility: hidden;
         //transition: opacity var(--transition-time) ease;
@@ -297,7 +297,7 @@
         }
     }
 
-    [data-status-container].visible {
+    [data-mle-status-container].visible {
         opacity: 1;
         visibility: visible;
     }

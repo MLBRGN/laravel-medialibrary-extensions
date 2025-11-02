@@ -7,7 +7,7 @@
         'theme-'.$getConfig('frontendTheme'), 
         'media-preview-container'
     ])
-         data-media-preview-container=""
+         data-mle-media-preview-container=""
     >
         <div class="media-preview-item-container"
              data-bs-toggle="modal"

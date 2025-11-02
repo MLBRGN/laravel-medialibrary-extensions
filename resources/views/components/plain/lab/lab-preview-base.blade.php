@@ -1,6 +1,6 @@
 <div 
     class="mle-media-lab-preview-base" 
-    data-media-lab-preview-base
+    data-mle-media-lab-preview-base
 >
     <div class="mle-media-lab-title">
         {{ __('media-library-extensions::messages.base') }}

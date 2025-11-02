@@ -14,7 +14,7 @@
         data-bs-ride="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'carousel' }}"
         data-bs-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
     @endif
-     data-carousel
+     data-mle-carousel
 >
     {{-- Indicators --}}
     <div 
@@ -23,7 +23,7 @@
             'carousel-indicators', 
             'mle-display-none' => $mediaCount < 2
         ])
-        data-carousel-indicators
+        data-mle-carousel-indicators
     >
         @foreach($media as $index => $medium)
             <button
@@ -49,7 +49,7 @@
                 'active' => $loop->first,
                 'mle-cursor-zoom-in' => $expandableInModal,
             ])
-            data-carousel-item
+            data-mle-carousel-item
             >
                 <div class="media-carousel-item-container" 
                      data-bs-toggle="modal"
@@ -113,7 +113,7 @@
                     'media-carousel-item',
                     'active',
                 ])
-                data-carousel-item
+                data-mle-carousel-item
             >
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>

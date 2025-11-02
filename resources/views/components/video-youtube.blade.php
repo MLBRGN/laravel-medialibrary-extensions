@@ -22,7 +22,7 @@
         />
     </div>
 @else
-    <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}" data-mle-youtube-video>
+    <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component media-video-container']) }} data-mle-youtube-video-id="{{ $youtubeId }}" data-mle-youtube-video>
         <lite-youtube
             videoid="{{ $youtubeId }}"
             posterquality="maxresdefault"

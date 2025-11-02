@@ -237,9 +237,9 @@
                         'collection_name' => 'blog-images-extra',
                         'collections' => ['image' => 'blog-images-extra']
                     ]"
-                data-model-type="{{ $blog->getMorphClass() }}"
-                data-model-id="{{ $blog->getKey() }}"
-                data-image-collection="blog-images-extra"
+                data-mle-model-type="{{ $blog->getMorphClass() }}"
+                data-mle-model-id="{{ $blog->getKey() }}"
+                data-mle-image-collection="blog-images-extra"
             />
         </x-form.form>
     @else

@@ -9,8 +9,8 @@ import { disableFormElements, enableFormElements } from './form';
  * @param {Object} detail
  */
 export async function updatePreviews(mediaManager, config, detail = {}) {
-    const previewGrid = mediaManager.querySelector('[data-media-preview-grid]');
-    const forms = mediaManager.querySelectorAll('[data-form], [data-xhr-form]');
+    const previewGrid = mediaManager.querySelector('[data-mle-media-preview-grid]');
+    const forms = mediaManager.querySelectorAll('[data-mle-form], [data-mle-xhr-form]');
     if (!previewGrid) return;
 
     const params = new URLSearchParams({

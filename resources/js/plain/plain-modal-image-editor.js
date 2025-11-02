@@ -59,28 +59,28 @@ function initializeImageEditor(config) {
 }
 
 function setupImageEditorModal(modal) {
-    if (modal.dataset.imageEditorInitialized) return;
+    if (modal.dataset.mleImageEditorInitialized) return;
 
-    const placeholder = modal.querySelector('[data-image-editor-placeholder]');
+    const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
 
     const onOpen = () => {
         if (editors.has(modal)) return;
 
         let config = {};
         try {
-            const configInput = modal.querySelector('[data-image-editor-modal-config]');
+            const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
             if (configInput) {
                 config = JSON.parse(configInput.value);
             }
         } catch (e) {
-            console.error('Invalid or missing data-image-editor-modal-config:', e);
+            console.error('Invalid or missing data-mle-image-editor-modal-config:', e);
         }
 
-        const mediumPath = modal.dataset.mediumPath;
-        const displayName = modal.dataset.mediumDisplayName;
-        const forcedAspectRatio = modal.dataset.mediumForcedAspectRatio ?? '16:9';
-        const minDimensions = parseDimensions(modal.dataset.mediumMinimalDimensions, { width: 800, height: 600 });
-        const maxDimensions = parseDimensions(modal.dataset.mediumMaximalDimensions, { width: 7040, height: 3960 });
+        const mediumPath = modal.getAttribute('data-mle-medium-path');
+        const displayName = modal.getAttribute('data-mle-medium-display-name');
+        const forcedAspectRatio = modal.getAttribute('data-mle-medium-forced-aspect-ratio') ?? '16:9';
+        const minDimensions = parseDimensions(modal.getAttribute('data-mle-medium-minimal-dimensions'), { width: 800, height: 600 });
+        const maxDimensions = parseDimensions(modal.getAttribute('data-mle-medium-maximal-dimensions'), { width: 7040, height: 3960 });
         const initiatorId = config.initiatorId;
 
         const editor = document.createElement('image-editor');
@@ -112,14 +112,14 @@ function setupImageEditorModal(modal) {
     };
 
     setupModalBase(modal, onClose, onOpen);
-    modal.dataset.imageEditorInitialized = 'true';
+    modal.dataset.mleImageEditorInitialized = 'true';
 }
 
 /**
  * Global handler for image updates inside any editor modal.
  */
 function globalImageUpdatedHandler(e) {
-    const modal = e.target.closest('[data-image-editor-modal]');
+    const modal = e.target.closest('[data-mle-image-editor-modal]');
     if (!modal) return;
     closeModal(modal);
 }
@@ -129,12 +129,12 @@ registerModalEventHandler('onImageUpdated', globalImageUpdatedHandler);
 
 // Initialize any pre-rendered modals
 initModalEvents();
-document.querySelectorAll('[data-image-editor-modal]').forEach(setupImageEditorModal);
+document.querySelectorAll('[data-mle-image-editor-modal]').forEach(setupImageEditorModal);
 
 // Reinitialize after media previews are refreshed
 document.addEventListener('mediaManagerPreviewsUpdated', e => {
     const mediaManager = e.detail.mediaManager;
-    mediaManager.querySelectorAll('[data-image-editor-modal]').forEach(setupImageEditorModal);
+    mediaManager.querySelectorAll('[data-mle-image-editor-modal]').forEach(setupImageEditorModal);
 });
 
 // Handle external close requests
@@ -150,11 +150,11 @@ const observeDynamicModals = () => {
             for (const node of mutation.addedNodes) {
                 if (!(node instanceof HTMLElement)) continue;
 
-                if (node.matches('[data-image-editor-modal]')) {
+                if (node.matches('[data-mle-image-editor-modal]')) {
                     setupImageEditorModal(node);
                 }
 
-                node.querySelectorAll?.('[data-image-editor-modal]').forEach(setupImageEditorModal);
+                node.querySelectorAll?.('[data-mle-image-editor-modal]').forEach(setupImageEditorModal);
             }
         }
     });

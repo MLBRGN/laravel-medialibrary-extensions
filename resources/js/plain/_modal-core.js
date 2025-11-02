@@ -67,28 +67,28 @@ function defaultClickHandler(e) {
     e.stopPropagation();
 
     const target = e.target;
-    const trigger = target.closest('[data-modal-trigger]');
+    const trigger = target.closest('[data-mle-modal-trigger]');
     if (trigger) {
         e.preventDefault();
-        const modalId = trigger.getAttribute('data-modal-trigger');
+        const modalId = trigger.getAttribute('data-mle-modal-trigger');
         openModal(modalId, trigger, e);
         return;
     }
 
-    const closeBtn = target.closest('[data-modal-close]');
+    const closeBtn = target.closest('[data-mle-modal-close]');
     if (closeBtn) {
-        const modal = closeBtn.closest('[data-modal]');
+        const modal = closeBtn.closest('[data-mle-modal]');
         if (modal) closeModal(modal, e);
         return;
     }
 
-    const modal = target.closest('[data-modal]');
+    const modal = target.closest('[data-mle-modal]');
     if (modal && target === modal) closeModal(modal, e);
 }
 
 function defaultKeydownHandler(e) {
     if (e.key === 'Escape') {
-        document.querySelectorAll('[data-modal].active').forEach(closeModal);
+        document.querySelectorAll('[data-mle-modal].active').forEach(closeModal);
     }
 }
 

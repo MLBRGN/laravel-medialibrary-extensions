@@ -3,10 +3,10 @@
     :form-attributes="[
         'action' => $getConfig('mediumDestroyRoute'),
         'method' => 'POST',
-        'data-form'
+        'data-mle-form'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $getConfig('useXhr'), 
+        'data-mle-xhr-form' => $getConfig('useXhr'), 
         'id' => $id.'-media-destroy-form'
     ]"
     method="delete"
@@ -39,8 +39,8 @@
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.delete_medium') }}"
-        data-action="destroy-medium"
-        data-route="{{ $getConfig('mediumDestroyRoute') }}"
+        data-mle-action="destroy-medium"
+        data-mle-route="{{ $getConfig('mediumDestroyRoute') }}"
         @disabled($disabled)
     >
         <x-mle-shared-icon

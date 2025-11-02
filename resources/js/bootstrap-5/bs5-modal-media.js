@@ -4,13 +4,13 @@ let ytlPlayers = {}; // Store YouTube-lite players
 let nativeMediaPlayers = {};// store native media players (audio / video)
 
 const initializeMediaModal = function (modal) {
-    if (modal.dataset.imageEditorInitialized) return;
+    if (modal.dataset.mleImageEditorInitialized) return;
 
-    const carousel = modal.querySelector('[data-carousel]');
+    const carousel = modal.querySelector('[data-mle-carousel]');
     const modalId = modal.id;
 
     function setupYT (videoSlide) {
-        const youTubeId = videoSlide.getAttribute('data-youtube-video-id');
+        const youTubeId = videoSlide.getAttribute('data-mle-youtube-video-id');
         const playerId = modalId + '-' + youTubeId;
         const iframe = videoSlide.querySelector('lite-youtube').shadowRoot.querySelector('iframe');
         // instantiate the new player instance for slide
@@ -57,7 +57,7 @@ const initializeMediaModal = function (modal) {
 
     // Event listener for when the YouTube iframe loads
     modal.addEventListener('liteYoutubeIframeLoaded', (event) => {
-        const targetSlide = event.target.closest('[data-youtube-video-id]');
+        const targetSlide = event.target.closest('[data-mle-youtube-video-id]');
         if (targetSlide) setupYT(targetSlide);
     });
 
@@ -65,7 +65,7 @@ const initializeMediaModal = function (modal) {
     // we need to start autoplaying on modal open.
     modal.addEventListener('shown.bs.modal', (e) => {
         // nothing to do, return
-        if (!modal.hasAttribute('data-autoplay')) return;
+        if (!modal.hasAttribute('data-mle-autoplay')) return;
 
         const modalTrigger = e.relatedTarget;
         if (!modalTrigger) return;
@@ -76,7 +76,7 @@ const initializeMediaModal = function (modal) {
         const slideTo = slideToElement.getAttribute('data-bs-slide-to');
         if (slideTo !== '0') return;
 
-        const firstSlide = carousel.querySelector('[data-carousel-item]:first-child');
+        const firstSlide = carousel.querySelector('[data-mle-carousel-item]:first-child');
         console.log('firstSlide', firstSlide);
         if (!firstSlide) return;
 
@@ -85,7 +85,7 @@ const initializeMediaModal = function (modal) {
 
         const youtubeVideoContainer = firstSlide.querySelector('[data-mle-youtube-video]');
         if (youtubeVideoContainer) {
-            const youTubeId = youtubeVideoContainer.getAttribute('data-youtube-video-id');
+            const youTubeId = youtubeVideoContainer.getAttribute('data-mle-youtube-video-id');
             if (!youTubeId) return;
 
             const playerId = `${modalId}-${youTubeId}`;
@@ -96,7 +96,7 @@ const initializeMediaModal = function (modal) {
     // Stop the video when the modal is hidden
     modal.addEventListener('hidden.bs.modal', () => {
 
-        const carouselElement = modal.querySelector('[data-carousel]');
+        const carouselElement = modal.querySelector('[data-mle-carousel]');
         if (!carouselElement) return;
 
         const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
@@ -111,7 +111,7 @@ const initializeMediaModal = function (modal) {
 
     const slideEventListener = (event) => {
 
-        if (!modal.hasAttribute('data-autoplay')) return;
+        if (!modal.hasAttribute('data-mle-autoplay')) return;
 
         pauseAllMediaPlayBack()
 
@@ -122,8 +122,8 @@ const initializeMediaModal = function (modal) {
         controlNativeMedia(nativeMediaPlayerId, 'play');
 
         const ytContainer = slide.querySelector('[data-mle-youtube-video]');
-        if (ytContainer && ytContainer.hasAttribute('data-youtube-video-id')) {
-            let youTubeId = ytContainer.getAttribute('data-youtube-video-id');
+        if (ytContainer && ytContainer.hasAttribute('data-mle-youtube-video-id')) {
+            let youTubeId = ytContainer.getAttribute('data-mle-youtube-video-id');
             const playerId = modalId + '-' + youTubeId;
 
             controlYouTubePlayback(playerId, 'playVideo');
@@ -136,7 +136,7 @@ const initializeMediaModal = function (modal) {
     modal.addEventListener('keydown', (e) => {
         if (!modal.classList.contains('show')) return;
 
-        const carouselElement = modal.querySelector('[data-carousel]');
+        const carouselElement = modal.querySelector('[data-mle-carousel]');
         if (!carouselElement) return;
 
         const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
@@ -161,7 +161,7 @@ const initializeMediaModal = function (modal) {
     });
 
     // Mark as initialized
-    modal.dataset.imageEditorInitialized = 'true';
+    modal.dataset.mleImageEditorInitialized = 'true';
 
     function controlYouTubePlayback(playerId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
         const actionsMap = {
@@ -206,7 +206,7 @@ document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
     ytlPlayers = {};
     nativeMediaPlayers = {};
     const mediaManager = e.detail.mediaManager;
-    mediaManager.querySelectorAll('[data-media-modal]').forEach(initializeMediaModal);
+    mediaManager.querySelectorAll('[data-mle-media-modal]').forEach(initializeMediaModal);
 });
 
-document.querySelectorAll('[data-media-modal]').forEach(initializeMediaModal);
+document.querySelectorAll('[data-mle-media-modal]').forEach(initializeMediaModal);

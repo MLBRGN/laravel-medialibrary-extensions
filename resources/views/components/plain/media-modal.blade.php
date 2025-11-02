@@ -14,10 +14,10 @@
     @endif
     aria-hidden="true"
     @if($videoAutoPlay)
-        data-autoplay=""
+        data-mle-autoplay=""
     @endif
-    data-modal
-    data-media-modal
+    data-mle-modal
+    data-mle-media-modal
 >
     <div class="mle-modal-dialog mle-media-modal-dialog">
         <div class="mle-modal-content mle-media-modal-content">
@@ -28,7 +28,7 @@
                 <button
                     type="button"
                     class="mle-modal-close-button mle-media-modal-close-button"
-                    data-modal-close
+                    data-mle-modal-close
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
                     <x-mle-shared-icon

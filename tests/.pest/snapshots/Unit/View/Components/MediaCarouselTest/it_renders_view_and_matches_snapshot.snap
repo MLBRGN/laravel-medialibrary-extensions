@@ -1,18 +1,18 @@
 <div id="media-carousel-crs"
      class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100"
-         data-carousel
+         data-mle-carousel
 >
     
     <div 
         class="media-carousel-indicators carousel-indicators mle-display-none"
-        data-carousel-indicators
+        data-mle-carousel-indicators
     >
             </div>
 
     
     <div class="media-carousel-inner carousel-inner">
                     <div class="media-carousel-item active"
-                data-carousel-item
+                data-mle-carousel-item
             >
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>
@@ -57,8 +57,8 @@
     role="dialog"
             aria-labelledby="media-carousel-crs-mod-title"
         aria-hidden="true"
-            data-autoplay=""
-        data-media-modal
+            data-mle-autoplay=""
+        data-mle-media-modal
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
@@ -66,7 +66,7 @@
                         <div class="mle-media-modal-body mle-modal-body modal-body p-0">
                 <button
                     type="button"
-                    data-modal-close
+                    data-mle-modal-close
                     class="mle-modal-close-button mle-media-modal-close-button"
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
@@ -80,19 +80,19 @@
                 
                 <div id="media-carousel-crs-mod-crs"
      class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
-         data-carousel
+         data-mle-carousel
 >
     
     <div 
         class="media-carousel-indicators carousel-indicators mle-display-none"
-        data-carousel-indicators
+        data-mle-carousel-indicators
     >
             </div>
 
     
     <div class="media-carousel-inner carousel-inner">
                     <div class="media-carousel-item active"
-                data-carousel-item
+                data-mle-carousel-item
             >
                 <div class="media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>

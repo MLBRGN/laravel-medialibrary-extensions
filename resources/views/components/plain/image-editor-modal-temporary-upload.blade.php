@@ -13,19 +13,19 @@
         aria-labelledby="{{ $id }}-title"
     @endif
     aria-hidden="true"
-    data-theme="{{$getConfig('frontendTheme')}}"
-    data-modal
-    data-image-editor-modal
-    data-medium-display-name="{{ media_display_name($medium) }}"
-    data-medium-path="{{ $medium->getUrl() }}"
-    data-medium-forced-aspect-ratio="{{ $forcedAspectRatio }}"
-    data-medium-minimal-dimensions="{{ $minimalDimensions }}"
-    data-medium-maximal-dimensions="{{ $maximalDimensions }}"
+    data-mle-theme="{{$getConfig('frontendTheme')}}"
+    data-mle-modal
+    data-mle-image-editor-modal
+    data-mle-medium-display-name="{{ media_display_name($medium) }}"
+    data-mle-medium-path="{{ $medium->getUrl() }}"
+    data-mle-medium-forced-aspect-ratio="{{ $forcedAspectRatio }}"
+    data-mle-medium-minimal-dimensions="{{ $minimalDimensions }}"
+    data-mle-medium-maximal-dimensions="{{ $maximalDimensions }}"
 >
     <div class="mle-modal-dialog mle-image-editor-modal-dialog">
         <div class="mle-modal-content mle-image-editor-modal-content">
             @if($title)
-                <h1 class="mle-modal-title mle-image-editor-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <x-mle-partial-status-area
                 id="{{ $id }}"
@@ -33,11 +33,11 @@
                 :media-manager-id="$id"
                 :options="$options"
             />
-            <div class="mle-modal-body mle-image-editor-modal-body">
+            <div class="mle-modal-body">
                 <button
                     type="button"
-                    class="mle-modal-close-button mle-image-editor-modal-close-button"
-                    data-modal-close
+                    class="mle-modal-close-button"
+                    data-mle-modal-close
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
                     <x-mle-shared-icon
@@ -45,9 +45,9 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-                <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-image-editor-modal-config value='@json($config)'>
+                <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='@json($config)'>
                 {{-- instantiated when model opens, just in time --}}
-                <div class="mle-image-editor" data-image-editor-placeholder></div>
+                <div class="mle-image-editor" data-mle-image-editor-placeholder></div>
 
                 <x-mle-partial-image-editor-form
                     id="{{ $id }}"
