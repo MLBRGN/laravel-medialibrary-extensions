@@ -4,7 +4,7 @@
 
 .mlbrgn-mle-component.theme-bootstrap-5 {
 
-    &.modal {
+    &.mle-modal {
         --modal-padding:20px;
 
         background:white;
@@ -19,13 +19,13 @@
         //overflow:hidden;
     }
 
-    .modal-body {
+    .mle-modal-body {
         width:100%;
         height:100%;
         //overflow:hidden;
     }
 
-    .modal-dialog {
+    .mle-modal-dialog {
         width:100%;
         height:100%;
         max-width:100%;
@@ -34,7 +34,7 @@
         //overflow:hidden;
     }
 
-    .modal-content {
+    .mle-modal-content {
         width:100%;
         height:100%;
         padding:0;
@@ -43,7 +43,7 @@
         overflow:hidden;
     }
 
-    .modal-close-button {
+    .mle-modal-close-button {
         position: absolute;
         top: 1rem;
         right: 1rem;
@@ -63,12 +63,12 @@
         justify-content: center;
     }
 
-    .modal-close-button:hover {
+    .mle-modal-close-button:hover {
         background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
         color: var(--mlbrgn-mle-control-hover-fg-color);
     }
 
-    .modal-close-button:focus-visible {
+    .mle-modal-close-button:focus-visible {
         outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
         outline-offset: 0;
         border-radius:0.5em;

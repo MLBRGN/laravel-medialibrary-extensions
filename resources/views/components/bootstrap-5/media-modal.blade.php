@@ -2,7 +2,8 @@
     {{ $attributes->class([
         'mlbrgn-mle-component',
         'theme-'. $getConfig('frontendTheme'),
-        'media-modal',
+        'mle-media-modal',
+        'mle-modal',
         'modal',
         'fade',
         ])->merge() }}
@@ -17,16 +18,16 @@
         data-autoplay=""
     @endif
 >
-    <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content justify-content-center">
+    <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
+        <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
             @if($title)
                 <h1 class="media-modal-title visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
-            <div class="media-modal-body modal-body p-0">
+            <div class="mle-media-modal-body mle-modal-body modal-body p-0">
                 <button
                     type="button"
                     data-modal-close
-                    class="media-modal-close-button modal-close-button"
+                    class="mle-modal-close-button mle-media-modal-close-button"
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">

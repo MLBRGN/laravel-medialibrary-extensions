@@ -4,9 +4,10 @@
 
 .mlbrgn-mle-component.theme-plain {
 
-    &.modal {
+    &.mle-modal {
         --modal-padding:20px;
 
+        background:white;
         position:fixed;
         top:50%;
         left:50%;
@@ -28,29 +29,29 @@
             //}
         }
 
-        &.fade {
+        &.mle-fade {
             opacity: 0;
             pointer-events: none;
             transition: opacity .3s ease;
         }
 
-        &.fade.active {
+        &.mle-fade.active {
             opacity: 1;
             pointer-events: auto;
         }
 
         // NEW: slide effect on dialog
-        .modal-dialog {
+        .mle-modal-dialog {
             transform: translateY(-40px);
             transition: transform 0.3s ease;
         }
 
-        &.fade.active .modal-dialog {
+        &.mle-fade.active .mle-modal-dialog {
             transform: translateY(0);
         }
     }
 
-    .modal-dialog {
+    .mle-modal-dialog {
         max-width:calc(100% - (2 * var(--modal-padding)));
         max-height:calc(100% - (2 * var(--modal-padding)));
         //border:10px solid yellow;
@@ -66,7 +67,7 @@
         // end slide down effect
     }
 
-    .modal-body {
+    .mle-modal-body {
         width:100%;
         height:100%;
         flex-grow: 1;
@@ -74,7 +75,7 @@
         position: relative;
     }
 
-    .modal-content {
+    .mle-modal-content {
         width:100%;
         height: 100%;
         padding:0;
@@ -84,7 +85,7 @@
         overflow:hidden;
     }
 
-    .modal-close-button {
+    .mle-modal-close-button {
         position: absolute;
         top: 1rem;
         right: 1rem;
@@ -104,18 +105,18 @@
         justify-content: center;
     }
 
-    .modal-close-button:hover {
+    .mle-modal-close-button:hover {
         background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
         color: var(--mlbrgn-mle-control-hover-fg-color);
     }
 
-    .modal-close-button svg {
+    .mle-modal-close-button svg {
         width: 100%;
         height: 100%;
         vertical-align: baseline;
     }
 
-    .modal-close-button:focus-visible {
+    .mle-modal-close-button:focus-visible {
         outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
         outline-offset: 0;
         border-radius:0.5em;
