@@ -10,11 +10,11 @@
         'id' => $id.'-media-restore-form'
     ]"
     method="post"
-    class="media-lab-restore-form"
+    class="mle-media-lab-restore-form"
 >
     <button
         type="submit"
-        class="mle-button mle-button-submit mle-button-icon btn btn-primary"
+        class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.restore_original') }}"
         data-mle-action="medium-restore"
         data-mle-route="{{ $getConfig('mediumRestoreRoute') }}"

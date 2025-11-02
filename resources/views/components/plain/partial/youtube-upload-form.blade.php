@@ -10,7 +10,7 @@
         'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
-    class="media-manager-youtube-upload-form"
+    class="mle-media-manager-youtube-upload-form"
 >
     <input 
         type="hidden" 

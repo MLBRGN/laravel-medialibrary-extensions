@@ -1,11 +1,11 @@
 @import "media_lab_info_grid";
 
-.mlbrgn-mle-component {
+.mle-component {
     &.mle-media-lab {
         min-width:680px;
         position:relative;
 
-        .media-preview-container {
+        .mle-media-preview-container {
             border-radius:0 !important;
         }
     }

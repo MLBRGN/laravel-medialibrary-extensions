@@ -1,5 +1,5 @@
 <div 
-    class="status-container mle-flex-grow visible" 
+    class="mle-status-container mle-flex-grow visible" 
     data-mle-status-container
     data-mle-status-timeout="{{ config('media-library-extensions.status_message_timeout', 5000) }}"
 >

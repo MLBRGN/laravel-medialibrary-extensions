@@ -10,7 +10,7 @@
         'id' => $id.'-media-restore-form'
     ]"
     method="post"
-    class="media-lab-restore-form"
+    class="mle-media-lab-restore-form"
 >
     <button
         type="submit"

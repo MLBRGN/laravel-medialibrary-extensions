@@ -3,7 +3,7 @@
  */
 
 // scope css
-.mlbrgn-mle-component {
+.mle-component {
 
     * {
         box-sizing: border-box;
@@ -208,7 +208,7 @@
         pointer-events: auto;
     }
 
-    .status-area {
+    .mle-status-area {
         --transition-time: .3s;
         position: absolute;
         top: 0;
@@ -416,7 +416,7 @@
 
     }
 
-    .media-modal-close-button svg path {
+    .mle-media-modal-close-button svg path {
         stroke: currentColor;
         stroke-width: 1px;
     }
@@ -527,6 +527,7 @@
         color: var(--mlbrgn-mle-color-primary);
     }
 
+    // TODO make mle-hidden
     .hidden {
         display: none;
     }
@@ -570,7 +571,7 @@
     }
 }
 
-.mlbrgn-icon-local-package {
+.mle-icon-local-package {
     font-weight: bold;
     color:red;
     //border:1px solid #ccc;
@@ -583,10 +584,14 @@
     //font-size: .8rem;
 }
 
-.mlbrgn-icon-remote-package {
+.mle-icon-remote-package {
     font-weight: bold;
     color:blue;
     //font-weight: bold;
     //border:1px solid #ccc;
     //padding: 0.25em;
+}
+
+.mle-opacity-50{
+    opacity:.5!important
 }

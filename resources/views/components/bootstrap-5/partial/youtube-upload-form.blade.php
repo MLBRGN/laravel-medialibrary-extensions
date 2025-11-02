@@ -10,7 +10,7 @@
         'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
-    class="media-manager-youtube-upload-form"
+    class="mle-media-manager-youtube-upload-form"
 >
     <input 
         type="hidden" 
@@ -61,7 +61,7 @@
         id="{{ $id }}-youtube-url"
         type="url" 
         name="youtube_url" 
-        class="form-control" 
+        class="mle-input mle-form-control form-control" 
         placeholder="https://www.youtube.com/watch?v=..."
         @disabled($disabled)
     >

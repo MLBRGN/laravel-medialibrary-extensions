@@ -36,10 +36,10 @@ export function initCarousel(carousel) {
         slides.forEach((slide) => {
             slide.classList.remove(
                 'active',
-                'slide-in-from-left',
-                'slide-in-from-right',
-                'slide-out-to-left',
-                'slide-out-to-right'
+                'mle-slide-in-from-left',
+                'mle-slide-in-from-right',
+                'mle-slide-out-to-left',
+                'mle-slide-out-to-right'
             );
         });
 
@@ -51,11 +51,11 @@ export function initCarousel(carousel) {
 
             if (!skipAnimation) {
                 if (direction === 'right') {
-                    nextSlide.classList.add('slide-in-from-right');
-                    currentSlide.classList.add('slide-out-to-left');
+                    nextSlide.classList.add('mle-slide-in-from-right');
+                    currentSlide.classList.add('mle-slide-out-to-left');
                 } else {
-                    nextSlide.classList.add('slide-in-from-left');
-                    currentSlide.classList.add('slide-out-to-right');
+                    nextSlide.classList.add('mle-slide-in-from-left');
+                    currentSlide.classList.add('mle-slide-out-to-right');
                 }
                 void nextSlide.offsetWidth; // force reflow
             }

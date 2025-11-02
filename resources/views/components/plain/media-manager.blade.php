@@ -1,9 +1,9 @@
 <div
     id="{{ $id }}"
     {{ $attributes->class([
-        'mlbrgn-mle-component',
+        'mle-component',
         'theme-'.$getConfig('frontendTheme'),
-        'media-manager',
+        'mle-media-manager',
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,
     ])->merge() }}
@@ -13,7 +13,7 @@
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($config)'>
 
     @if(config('media-library-extensions.debug'))
-        <div class="mlbrgn-mle-component mle-debug-menu">
+        <div class="mle-component mle-debug-menu">
             <x-mle-shared-debug-button/>
             <x-mle-shared-local-package-icon />
         </div>
@@ -21,9 +21,9 @@
     
     {{ $component_start ?? '' }}
 
-    <div class="media-manager-layout" data-mle-media-manager-layout>
+    <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
         {{-- Upload form section --}}
-        <div class="media-manager-form {{ $getConfig('showUploadForms') ? '' : 'media-manager-forms-hidden' }}">
+        <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
             @if($getConfig('showUploadForms'))
                 {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
@@ -57,7 +57,7 @@
         </div>
 
         {{-- Preview section --}}
-        <div class="media-manager-previews">
+        <div class="mle-media-manager-previews">
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"

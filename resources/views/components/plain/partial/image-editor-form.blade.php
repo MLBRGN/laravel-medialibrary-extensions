@@ -56,7 +56,7 @@
     @endforeach
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
-        class="mle-button mle-button-submit mle-button-icon btn btn-primary"
+        class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-mle-action="set-as-first"
         @disabled($disabled)

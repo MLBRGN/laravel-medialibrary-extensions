@@ -1,5 +1,5 @@
-<div class="media-preview-menu">
-    <div class="media-preview-menu-start">
+<div class="mle-media-preview-menu">
+    <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
             <span class="mle-pseudo-button mle-pseudo-button-icon"
                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
@@ -25,7 +25,7 @@
         @endif
     </div>
 
-    <div class="media-preview-menu-end">
+    <div class="mle-media-preview-menu-end">
         @if($getConfig('showMediaEditButton'))
             @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                 <button

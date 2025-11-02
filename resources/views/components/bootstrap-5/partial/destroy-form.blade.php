@@ -10,7 +10,7 @@
         'id' => $id.'-media-destroy-form'
     ]"
     method="delete"
-    class="media-manager-destroy-form"
+    class="mle-media-manager-destroy-form"
 >
     <input type="hidden"
         name="initiator_id"

@@ -1,4 +1,4 @@
-<div class="mlbrgn-mle-component media-manager-tinymce">
+<div class="mle-component mle-media-manager-tinymce">
     <x-mle-media-manager-multiple
         id="{{ $id }}"
         :model-or-class-name="$modelOrClassName"

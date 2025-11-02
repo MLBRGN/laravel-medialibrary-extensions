@@ -53,7 +53,7 @@ it('renders expected HTML for an image medium', function () {
         $model,
         ['image_collection']
     ));
-    expect($html)->toContain('class="media-preview-image" ')
+    expect($html)->toContain('class="mle-media-preview-image" ')
         ->toContain('test.jpg');
 });
 

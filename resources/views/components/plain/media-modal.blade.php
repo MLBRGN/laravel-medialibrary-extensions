@@ -1,6 +1,6 @@
 <div
     {{ $attributes->class([
-        'mlbrgn-mle-component',
+        'mle-component',
         'theme-'. $getConfig('frontendTheme'),
         'mle-media-modal',
         'mle-modal',

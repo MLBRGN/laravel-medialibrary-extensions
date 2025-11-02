@@ -1,5 +1,5 @@
 <div
-    class="mlbrgn-mle-component theme-bootstrap-5 mle-media-modal mle-modal modal fade"
+    class="mle-component theme-bootstrap-5 mle-media-modal mle-modal modal fade"
     id="test-media-modal-mod"
     tabindex="-1"
     role="dialog"
@@ -27,22 +27,22 @@
                
                 
                 <div id="test-media-modal-mod-crs"
-     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component theme-bootstrap-5 media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
          data-mle-carousel
 >
     
     <div 
-        class="media-carousel-indicators carousel-indicators mle-display-none"
+        class="mle-media-carousel-indicators carousel-indicators mle-display-none"
         data-mle-carousel-indicators
     >
             </div>
 
     
-    <div class="media-carousel-inner carousel-inner">
-                    <div class="media-carousel-item active"
+    <div class="mle-media-carousel-inner carousel-inner">
+                    <div class="mle-media-carousel-item active"
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container">
+                <div class="mle-media-carousel-item-container">
                     <span class="mle-no-media">No media.</span>
                 </div>
             </div>
@@ -50,32 +50,32 @@
 
     
     <button
-        class="media-carousel-control-prev carousel-control-prev disabled"
+        class="mle-media-carousel-control-prev carousel-control-prev disabled"
         type="button" 
         data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="prev" 
         title="Previous">
-        <span class="carousel-control-prev-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
               <span 
         role="img" 
         aria-label="Previous" 
         title="Previous">❓</span>
         </span>
-        <span class="visually-hidden">Previous</span>
+        <span class="mle-visually-hidden">Previous</span>
     </button>
     <button
-        class="media-carousel-control-next carousel-control-next disabled"
+        class="mle-media-carousel-control-next carousel-control-next disabled"
         type="button" 
         data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="next" 
         title="Next">
-        <span class="carousel-control-next-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
                <span 
         role="img" 
         aria-label="Next" 
         title="Next">❓</span>
         </span>
-        <span class="visually-hidden">Next</span>
+        <span class="mle-visually-hidden">Next</span>
     </button>
 </div>
 <script>

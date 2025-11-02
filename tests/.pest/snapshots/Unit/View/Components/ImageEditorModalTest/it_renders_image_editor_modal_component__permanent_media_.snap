@@ -1,5 +1,5 @@
 <div
-    class="mlbrgn-mle-component theme-bootstrap-5 mle-image-editor-modal mle-modal modal fade"
+    class="mle-component theme-bootstrap-5 mle-image-editor-modal mle-modal modal fade"
     id="blog-images-iem-1"
     tabindex="-1"
     role="dialog"
@@ -17,7 +17,7 @@
     <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">
         <div class="mle-modal-content mle-image-editor-modal-content modal-content justify-content-center">
                             <h1 class="mle-modal-title mle-visually-hidden" id="blog-images-iem-1-title">My title</h1>
-                        <div class="status-area" data-mle-status-area-container>
+                        <div class="mle-status-area" data-mle-status-area-container>
     <div class="mle-spinner-container alert alert-info" data-mle-spinner-container>
     <div class="mle-spinner"></div>
     <span class="mle-spinner-text"
@@ -25,7 +25,7 @@
     >Please wait.</span>
 </div>
     <div 
-    class="status-container mle-flex-grow visible" 
+    class="mle-status-container mle-flex-grow visible" 
     data-mle-status-container 
     data-mle-status-timeout="4000"
 >

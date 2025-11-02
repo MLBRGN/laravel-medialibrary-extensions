@@ -13,7 +13,7 @@
         {{ $attributes->merge(['class' => '']) }}
         src="{{ asset('vendor/media-library-extensions/images/fallback.png') }}"
         alt="Missing image"
-        class="opacity-50"
+        class="mle-opacity-50"
         data-mle-image
     >
 @endif

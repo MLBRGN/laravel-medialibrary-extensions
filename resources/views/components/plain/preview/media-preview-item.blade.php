@@ -1,5 +1,5 @@
 @if ($componentToRender)
-    <div class="media-preview-item-container"
+    <div class="mle-media-preview-item-container"
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
     >
@@ -9,7 +9,7 @@
             <x-dynamic-component
                 :component="$componentToRender"
                 class="{{ $mediumType === 'image' 
-                    ? 'media-preview-image mle-cursor-zoom-in' 
+                    ? 'mle-media-preview-image mle-cursor-zoom-in' 
                     : 'mle-cursor-zoom-in' }}"
                 :medium="$medium"
                 :options="$options"

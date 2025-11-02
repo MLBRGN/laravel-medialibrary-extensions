@@ -1,10 +1,10 @@
 <div id="{{ $id }}"
      {{ $attributes->class([
-        'mlbrgn-mle-component',
+        'mle-component',
         'theme-'.$getConfig('frontendTheme'),
-        'media-carousel', 
-        'media-carousel-empty' => $mediaCount === 0,
-        'media-carousel-plain',
+        'mle-media-carousel', 
+        'mle-media-carousel-empty' => $mediaCount === 0,
+        'mle-media-carousel-plain',
         'mle-width-100',
         'mle-height-100'   
     ])->merge() }}
@@ -22,7 +22,7 @@
     {{-- Indicators --}}
     <div
         @class([
-            'media-carousel-indicators', 
+            'mle-media-carousel-indicators', 
             'carousel-indicators', 
             'mle-display-none' => $mediaCount < 2
         ])
@@ -42,18 +42,18 @@
     </div>
 
     {{-- Slides --}}
-    <div class="media-carousel-inner">
+    <div class="mle-media-carousel-inner">
         @forelse($media as $index => $medium)
             <div
 {{--                id="{{ $id }}-slide-{{ $loop->index }}"--}}
                 @class([
-                    'media-carousel-item',
+                    'mle-media-carousel-item',
                     'active' => $loop->first,
                     'mle-cursor-zoom-in' => $expandableInModal
                 ])
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container"
+                <div class="mle-media-carousel-item-container"
                      @if($expandableInModal)
 {{--                         data-mle-modal-trigger="#{{ $id }}-modal"--}}
                          data-mle-modal-trigger="#{{ $id }}-mod"
@@ -83,7 +83,7 @@
                         <div
 {{--                            data-mle-modal-trigger="#{{ $id }}-modal"--}}
                             data-mle-modal-trigger="#{{ $id }}-mod"
-                            class="media-preview-item-container"
+                            class="mle-media-preview-item-container"
                         >
                             <x-mle-video :medium="$medium" />
                         </div>
@@ -91,7 +91,7 @@
                         <div
 {{--                            data-mle-modal-trigger="#{{ $id }}-modal"--}}
                             data-mle-modal-trigger="#{{ $id }}-mod"
-                            class="media-preview-item-container"
+                            class="mle-media-preview-item-container"
                         >
                             <x-mle-audio :medium="$medium" />
                         </div>
@@ -109,12 +109,12 @@
             </div>
         @empty
             <div @class([
-                    'media-carousel-item',
+                    'mle-media-carousel-item',
                     'active',
                 ])
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container">
+                <div class="mle-media-carousel-item-container">
                     <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
                 </div>
             </div>
@@ -124,12 +124,12 @@
     {{-- Prev/Next controls --}}
     <button 
         @class([
-          'media-carousel-control-prev',
+          'mle-media-carousel-control-prev',
           'disabled' => $mediaCount <= 1
          ])
         type="button"
         data-slide="prev">
-        <span class="media-carousel-control-prev-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
              <x-mle-shared-icon
                  name="{{ config('media-library-extensions.icons.prev') }}"
                  title="{{ __('media-library-extensions::messages.previous') }}"
@@ -139,12 +139,12 @@
     </button>
     <button 
         @class([
-         'media-carousel-control-next',
+         'mle-media-carousel-control-next',
          'disabled' => $mediaCount <= 1
         ])
         type="button"
         data-slide="next">
-        <span class="media-carousel-control-next-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
               <x-mle-shared-icon
                   name="{{ config('media-library-extensions.icons.next') }}"
                   title="{{ __('media-library-extensions::messages.next') }}"

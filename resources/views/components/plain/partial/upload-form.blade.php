@@ -11,14 +11,14 @@
         'id' => $id.'-media-upload-form'
     ]"
     method="post"
-    class="media-manager-upload-form"
+    class="mle-media-manager-upload-form"
 >
     <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
     <input
         id="{{ $id }}-media-input"
         accept="{{ $getConfig('allowedMimeTypes') }}"
         type="file"
-        class="mle-input form-control"
+        class="mle-input mle-form-control mle-custom-file-input"
         @if($multiple)
             name="{{ $getConfig('uploadFieldName') }}[]"
             multiple

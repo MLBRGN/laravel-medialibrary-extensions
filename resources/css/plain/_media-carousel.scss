@@ -5,15 +5,15 @@
 
 // Prevents hover background on touch devices that falsely trigger :hover
 @media (hover: none) {
-    .media-carousel-control-prev:hover,
-    .media-carousel-control-next:hover {
+    .mle-media-carousel-control-prev:hover,
+    .mle-media-carousel-control-next:hover {
         background-color: transparent;
     }
 }
 
-.mlbrgn-mle-component.theme-plain {
+.mle-component.theme-plain {
 
-    &.media-carousel {
+    &.mle-media-carousel {
         --carousel-indicator-width: 12px;
         --carousel-indicator-height: 12px;
         --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary
@@ -36,18 +36,18 @@
         overflow:hidden;
     }
 
-    &.media-carousel-empty {
+    &.mle-media-carousel-empty {
         aspect-ratio: 16/1;
     }
 
-    .media-carousel-inner {
+    .mle-media-carousel-inner {
         border-image-width:0;
         display: flex;
         width: 100%;
         height: 100%;
     }
 
-    .media-carousel-item-container {
+    .mle-media-carousel-item-container {
         height:100%;
         width:100%;
         //display:flex;
@@ -55,7 +55,7 @@
         //align-items: center;
     }
 
-    .media-carousel-item {
+    .mle-media-carousel-item {
         opacity: 0;
         position: absolute;
         inset: 0;
@@ -66,14 +66,14 @@
         //    flex: 0 0 100%;
     }
 
-    .media-carousel-item.active {
+    .mle-media-carousel-item.active {
         opacity: 1;
         z-index: 1;
         pointer-events: auto;
     }
 
-    .media-carousel-control-prev,
-    .media-carousel-control-next {
+    .mle-media-carousel-control-prev,
+    .mle-media-carousel-control-next {
         position: absolute;
         top: 50%;
         background: none;
@@ -84,16 +84,16 @@
         color: black;
     }
 
-    .media-carousel-control-prev {
+    .mle-media-carousel-control-prev {
         left: 1rem;
     }
 
-    .media-carousel-control-next {
+    .mle-media-carousel-control-next {
         right: 1rem;
     }
 
-    .media-carousel-control-prev-icon,
-    .media-carousel-control-next-icon {
+    .mle-media-carousel-control-prev-icon,
+    .mle-media-carousel-control-next-icon {
         display: inline-block;
         width: 2rem;
         height: 2rem;
@@ -102,13 +102,13 @@
         background-size: 100% 100%;
     }
 
-    .media-carousel-control-prev-icon svg,
-    .media-carousel-control-next-icon svg {
+    .mle-media-carousel-control-prev-icon svg,
+    .mle-media-carousel-control-next-icon svg {
         width:100%;
         height:100%;
     }
 
-    .media-carousel-indicators {
+    .mle-media-carousel-indicators {
         position: absolute;
         bottom: 1rem;
         left: 50%;
@@ -118,14 +118,14 @@
         z-index: 2;
     }
 
-    .media-carousel-item {
+    .mle-media-carousel-item {
         width:100%;
         height:100%;
     }
 
-    .media-carousel[data-mle-carousel-effect="slide"]:not(.temp-no-animation):not(.no-animation) {
+    .mle-media-carousel[data-mle-carousel-effect="slide"]:not(.temp-no-animation):not(.no-animation) {
 
-        .media-carousel-item {
+        .mle-media-carousel-item {
             transition: transform 0.6s ease, opacity 0.6s ease;
             position: absolute;
             top: 0;
@@ -136,7 +136,7 @@
             z-index: 0;
         }
 
-        .media-carousel-item.active {
+        .mle-media-carousel-item.active {
             opacity: 1;
             position: relative;
             transform: translateX(0);
@@ -144,36 +144,28 @@
         }
 
         /* Animations */
-        .slide-in-from-right {
+        .mle-slide-in-from-right {
             transform: translateX(100%);
             animation: slideInRight 0.6s forwards;
         }
 
-        .slide-out-to-left {
+        .mle-slide-out-to-left {
             animation: slideOutLeft 0.6s forwards;
         }
 
-        .slide-in-from-left {
+        .mle-slide-in-from-left {
             transform: translateX(-100%);
             animation: slideInLeft 0.6s forwards;
         }
 
-        .slide-out-to-right {
+        .mle-slide-out-to-right {
             animation: slideOutRight 0.6s forwards;
         }
 
-        .media-carousel-inner {
+        .mle-media-carousel-inner {
             transition: transform 0.5s ease-in-out;
             will-change: transform;
         }
-
-        //.media-carousel-item.slide-left {
-        //    animation: slideLeft 0.5s ease;
-        //}
-        //
-        //.media-carousel-item.slide-right {
-        //    animation: slideRight 0.5s ease;
-        //}
 
         @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
@@ -198,38 +190,26 @@
 
     .media-carousel[data-mle-carousel-effect="fade"]:not(.temp-no-animation):not(.no-animation) {
 
-        .media-carousel-inner {
+        .mle-media-carousel-inner {
             display:block;
             transition: none;
             will-change: unset;
         }
 
-        .media-carousel-item {
+        .mle-media-carousel-item {
             transition: transform 0.5s ease, opacity 0.5s ease;
             pointer-events: none;
         }
 
-        .media-carousel-item.active {
+        .mle-media-carousel-item.active {
             opacity: 1;
             z-index: 1;
             pointer-events: auto;
         }
 
-        //.media-carousel-item {
-        //    position: absolute;
-        //    opacity: 0;
-        //    z-index: 0;
-        //}
-        //
-        //.media-carousel-item.active {
-        //    opacity: 1;
-        //    z-index: 1;
-        //    animation: fadeIn .5s ease forwards;
-        //}
-
         // Optional: disable custom slide animations if defined
-        .media-carousel-item.slide-left,
-        .media-carousel-item.slide-right {
+        .mle-media-carousel-item.slide-left,
+        .mle-media-carousel-item.slide-right {
             animation: none;
         }
 
@@ -244,18 +224,11 @@
     }
 
     @media (hover: none) and (pointer: coarse) and (max-width: 768px) {
-        .media-carousel-control-prev,
-        .media-carousel-control-next {
+        .mle-media-carousel-control-prev,
+        .mle-media-carousel-control-next {
             //display: none !important;
             display: none;
         }
-    }
-
-
-    .media-carousel-image {
-        height:100%;
-        width:100%;
-        object-fit:contain;
     }
 
     .image {
@@ -274,16 +247,10 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .media-carousel-item {
+        .mle-media-carousel-item {
             transition: none !important;
             animation: none !important;
         }
     }
-
-    //.no-animation *,
-    //.temp-no-animation * {
-    //    animation: none !important;
-    //    transition: none !important;
-    //}
 
 }

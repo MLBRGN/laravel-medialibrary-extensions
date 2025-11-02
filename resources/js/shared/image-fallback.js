@@ -1,4 +1,4 @@
-document.querySelectorAll(".mlbrgn-mle-component img").forEach(img => {
+document.querySelectorAll(".mle-component img").forEach(img => {
     const replaceImageWithFallback = (img) => {
         const div = document.createElement('div');
         div.className = 'mle-img-load-failed';

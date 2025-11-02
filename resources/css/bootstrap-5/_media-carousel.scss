@@ -5,16 +5,15 @@
 
 // TODO why is this needed / wherefore is it used
 @media (hover: none) {
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
+    .mle-media-carousel-control-prev:hover,
+    .mle-media-carousel-control-next:hover {
         background-color: transparent;
     }
 }
 
-// TODO these are all classes in media-carousel
-.mlbrgn-mle-component.theme-bootstrap-5 {
+.mle-component.theme-bootstrap-5 {
 
-    &.media-carousel {
+    &.mle-media-carousel {
         --carousel-indicator-width: 12px;
         --carousel-indicator-height: 12px;
         --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary
@@ -38,24 +37,24 @@
         border:0;
     }
 
-    &.media-carousel-empty {
+    &.mle-media-carousel-empty {
         aspect-ratio: 16/1;
     }
 
-    .media-carousel-inner {
+    .mle-media-carousel-inner {
         border-image-width:0;
         width: 100%;
         height: 100%;
     }
 
-    .media-carousel-item {
+    .mle-media-carousel-item {
         width:100%;
         height:100%;
     }
 
     /* override bs icons in previous and next */
-    .carousel-control-prev,
-    .carousel-control-next {
+    .mle-media-carousel-control-prev,
+    .mle-media-carousel-control-next {
         position: absolute;
         top: 50%;
         background: none;
@@ -66,29 +65,23 @@
         color: black;
     }
 
-    .carousel-control-prev-icon svg,
-    .carousel-control-next-icon svg {
+    .mle-media-carousel-control-prev-icon svg,
+    .mle-media-carousel-control-next-icon svg {
         width: 100%;
         height: 100%;
     }
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
+    .mle-media-carousel-control-prev-icon,
+    .mle-media-carousel-control-next-icon {
         background-image:none;
     }
 
-    .media-carousel-item-container {
+    .mle-media-carousel-item-container {
         width:100%;
         height:100%;
         //display:flex;
         //justify-content: center;
         //align-items: center;
-    }
-
-    .media-carousel-image {
-        height:100%;
-        width:100%;
-        object-fit:contain;
     }
 
     .image {

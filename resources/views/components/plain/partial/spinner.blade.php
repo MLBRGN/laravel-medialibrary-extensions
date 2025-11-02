@@ -1,4 +1,3 @@
-{{--<div {{ $attributes->class(['mle-spinner-container']) }} data-mle-spinner-container style="opacity:0; max-height:0; overflow:hidden;">--}}
 <div {{ $attributes->class(['mle-spinner-container']) }} data-mle-spinner-container>
     <div class="mle-spinner"></div>
     <span class="mle-spinner-text"

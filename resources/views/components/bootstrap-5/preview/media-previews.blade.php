@@ -1,9 +1,9 @@
 @forelse($media as $medium)
     <div
         {{ $attributes->class([
-            'mlbrgn-mle-component',
+            'mle-component',
             'theme-' . $getConfig('frontendTheme'),
-            'media-preview-container',
+            'mle-media-preview-container',
         ]) }}
         data-mle-media-preview-container
     >

@@ -1,6 +1,6 @@
 <div
     id="test-media-modal-mmm"
-    class="mlbrgn-mle-component theme-plain media-manager media-manager-multiple"
+    class="mle-component theme-plain media-manager media-manager-multiple"
     data-mle-media-manager
 
 >
@@ -9,17 +9,17 @@
         
     
 
-    <div class="media-manager-layout" data-mle-media-manager-layout>
+    <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
         
-        <div class="media-manager-form ">
+        <div class="mle-media-manager-form ">
                             
-                                    <div class="conditional-form media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+                                    <div class="conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
     <input
         id="test-media-modal-mmm-media-input"
         accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
         type="file"
-        class="mle-input form-control"
+        class="mle-input mle-form-control"
                     name="media[]"
             multiple
                         >
@@ -133,8 +133,8 @@
         </div>
 
         
-        <div class="media-manager-previews">
-            <div class="status-area" data-mle-status-area-container>
+        <div class="mle-media-manager-previews">
+            <div class="mle-status-area" data-mle-status-area-container>
     <div class="mle-spinner-container" data-mle-spinner-container>
     <div class="mle-spinner"></div>
     <span class="mle-spinner-text"
@@ -142,7 +142,7 @@
     >Please wait.</span>
 </div>
     <div 
-    class="status-container mle-flex-grow visible" 
+    class="mle-status-container mle-flex-grow visible" 
     data-mle-status-container
     data-mle-status-timeout="4000"
 >
@@ -155,8 +155,8 @@
             </div>
     </div>
 </div>
-            <div class="media-preview-grid" data-mle-media-preview-grid>
-    <div class="mlbrgn-mle-component media-preview-container media-manager-no-media"
+            <div class="mle-media-preview-grid" data-mle-media-preview-grid>
+    <div class="mle-component mle-media-preview-container mle-media-manager-no-media"
      data-mle-media-preview-container>
     <span class="mle-no-media">
         No media.

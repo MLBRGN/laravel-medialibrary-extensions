@@ -1,6 +1,6 @@
 <div
     id="test-media-modal-mms"
-    class="mlbrgn-mle-component theme-bootstrap-5 media-manager media-manager-single" multiple="false"
+    class="mle-component theme-bootstrap-5 media-manager media-manager-single" multiple="false"
     data-mle-media-manager
 
 >
@@ -9,17 +9,17 @@
         
     
 
-    <div class="media-manager-layout" data-mle-media-manager-layout>
+    <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
         
-        <div class="media-manager-form ">
+        <div class="mle-media-manager-form ">
                             
-                                    <div class="conditional-form media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
+                                    <div class="conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mms-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mms-media-input"
         accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
         type="file"
-        class="mle-input form-control"
+        class="mle-input mle-form-control form-control"
                     name="medium"
                         >
     <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
@@ -132,8 +132,8 @@
         </div>
 
         
-        <div class="media-manager-previews">
-            <div class="status-area" data-mle-status-area-container>
+        <div class="mle-media-manager-previews">
+            <div class="mle-status-area" data-mle-status-area-container>
     <div class="mle-spinner-container alert alert-info" data-mle-spinner-container>
     <div class="mle-spinner"></div>
     <span class="mle-spinner-text"
@@ -141,7 +141,7 @@
     >Please wait.</span>
 </div>
     <div 
-    class="status-container mle-flex-grow visible" 
+    class="mle-status-container mle-flex-grow visible" 
     data-mle-status-container 
     data-mle-status-timeout="4000"
 >
@@ -154,8 +154,8 @@
             </div>
     </div>
 </div>            
-            <div class="media-preview-grid" data-mle-media-preview-grid>
-    <div class="mlbrgn-mle-component media-preview-container media-manager-no-media"
+            <div class="mle-media-preview-grid" data-mle-media-preview-grid>
+    <div class="mle-component mle-media-preview-container mle-media-manager-no-media"
      data-mle-media-preview-container>
     <span class="mle-no-media">
         No media.

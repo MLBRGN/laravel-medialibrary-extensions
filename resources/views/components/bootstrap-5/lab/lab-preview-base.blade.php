@@ -6,7 +6,6 @@
         {{ __('media-library-extensions::messages.base') }}
     </div>
     <x-mle-media-manager-single
-        class=""
         id="medium-{{$medium->id}}"
         :model-or-class-name="$medium->model"
         :collections="['image' => $medium->collection_name]"

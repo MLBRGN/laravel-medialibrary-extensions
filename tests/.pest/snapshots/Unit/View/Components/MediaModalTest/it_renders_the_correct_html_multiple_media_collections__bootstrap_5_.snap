@@ -1,5 +1,5 @@
 <div
-    class="mlbrgn-mle-component theme-bootstrap-5 mle-media-modal mle-modal modal fade"
+    class="mle-component theme-bootstrap-5 mle-media-modal mle-modal modal fade"
     id="test-media-modal-mod"
     tabindex="-1"
     role="dialog"
@@ -27,12 +27,12 @@
                
                 
                 <div id="test-media-modal-mod-crs"
-     class="mlbrgn-mle-component theme-bootstrap-5 media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component theme-bootstrap-5 media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
          data-mle-carousel
 >
     
     <div 
-        class="media-carousel-indicators carousel-indicators"
+        class="mle-media-carousel-indicators carousel-indicators"
         data-mle-carousel-indicators
     >
                     <button
@@ -75,44 +75,44 @@
             </div>
 
     
-    <div class="media-carousel-inner carousel-inner">
+    <div class="mle-media-carousel-inner carousel-inner">
                     <div 
-                class="media-carousel-item carousel-item active"
+                class="mle-media-carousel-item carousel-item active"
             data-mle-carousel-item
             >
-                <div class="media-carousel-item-container" 
+                <div class="mle-media-carousel-item-container" 
                      data-bs-toggle="modal"
                      data-bs-target="#test-media-modal-mod-crs-mod"
                 >
                                     <img
         class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0" draggable="false"
-        src="/media/1/test.jpg?v=1762095848"
+        src="/media/1/test.jpg?v=1762102782"
                         alt="test"
          loading="lazy"         data-mle-image
     >
                                 </div>
             </div>
                     <div 
-                class="media-carousel-item carousel-item"
+                class="mle-media-carousel-item carousel-item"
             data-mle-carousel-item
             >
-                <div class="media-carousel-item-container" 
+                <div class="mle-media-carousel-item-container" 
                      data-bs-toggle="modal"
                      data-bs-target="#test-media-modal-mod-crs-mod"
                 >
                                     <img
         class="mle-image-responsive" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1" draggable="false"
-        src="/media/2/test2.jpg?v=1762095848"
+        src="/media/2/test2.jpg?v=1762102782"
                         alt="test2"
          loading="lazy"         data-mle-image
     >
                                 </div>
             </div>
                     <div 
-                class="media-carousel-item carousel-item"
+                class="mle-media-carousel-item carousel-item"
             data-mle-carousel-item
             >
-                <div class="media-carousel-item-container" 
+                <div class="mle-media-carousel-item-container" 
                      data-bs-toggle="modal"
                      data-bs-target="#test-media-modal-mod-crs-mod"
                 >
@@ -145,17 +145,17 @@
                                 </div>
             </div>
                     <div 
-                class="media-carousel-item carousel-item"
+                class="mle-media-carousel-item carousel-item"
             data-mle-carousel-item
             >
-                <div class="media-carousel-item-container" 
+                <div class="mle-media-carousel-item-container" 
                      data-bs-toggle="modal"
                      data-bs-target="#test-media-modal-mod-crs-mod"
                 >
                                     <div
                         data-bs-toggle="modal"
                         data-bs-target="#test-media-modal-mod-crs-mod"
-                        class="media-preview-item-container"
+                        class="mle-media-preview-item-container"
                     >
                         <div class="mle-video">
     <div class="mle-video-preview">
@@ -174,17 +174,17 @@
                                 </div>
             </div>
                     <div 
-                class="media-carousel-item carousel-item"
+                class="mle-media-carousel-item carousel-item"
             data-mle-carousel-item
             >
-                <div class="media-carousel-item-container" 
+                <div class="mle-media-carousel-item-container" 
                      data-bs-toggle="modal"
                      data-bs-target="#test-media-modal-mod-crs-mod"
                 >
                                     <div
                         data-bs-toggle="modal"
                         data-bs-target="#test-media-modal-mod-crs-mod"
-                        class="media-preview-item-container"
+                        class="mle-media-preview-item-container"
                     >
                         <div class="mle-audio">
     <div class="mle-audio-preview">
@@ -205,32 +205,32 @@
 
     
     <button
-        class="media-carousel-control-prev carousel-control-prev"
+        class="mle-media-carousel-control-prev carousel-control-prev"
         type="button" 
         data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="prev" 
         title="Previous">
-        <span class="carousel-control-prev-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
               <span 
         role="img" 
         aria-label="Previous" 
         title="Previous">❓</span>
         </span>
-        <span class="visually-hidden">Previous</span>
+        <span class="mle-visually-hidden">Previous</span>
     </button>
     <button
-        class="media-carousel-control-next carousel-control-next"
+        class="mle-media-carousel-control-next carousel-control-next"
         type="button" 
         data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="next" 
         title="Next">
-        <span class="carousel-control-next-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
                <span 
         role="img" 
         aria-label="Next" 
         title="Next">❓</span>
         </span>
-        <span class="visually-hidden">Next</span>
+        <span class="mle-visually-hidden">Next</span>
     </button>
 </div>
 <script>

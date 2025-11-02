@@ -3,24 +3,24 @@
         {{ $title }}
     </div>
     <div @class(['
-        mlbrgn-mle-component', 
+        mle-component', 
         'theme-'.$getConfig('frontendTheme'), 
-        'media-preview-container'
+        'mle-media-preview-container'
     ])
          data-mle-media-preview-container=""
     >
-        <div class="media-preview-item-container"
+        <div class="mle-media-preview-item-container"
              data-bs-toggle="modal"
              data-bs-target="#alien-multiple-mmm-mod"
         >
             {{ $slot }}
         </div>
     
-        <div class="media-preview-menu">
-            <div class="media-preview-menu-start">
+        <div class="mle-media-preview-menu">
+            <div class="mle-media-preview-menu-start">
                 {{ $menuStart ?? '' }}
             </div>
-            <div class="media-preview-menu-end">
+            <div class="mle-media-preview-menu-end">
                 {{ $menuEnd ?? '' }}
             </div>
         </div>

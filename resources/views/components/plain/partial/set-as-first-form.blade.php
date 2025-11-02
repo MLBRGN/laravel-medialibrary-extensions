@@ -10,7 +10,7 @@
         'id' => $id.'-media-set-as-first-form'
     ]"
     method="put"
-    class="set-as-first-form"
+    class="mle-set-as-first-form"
 >
     <input type="hidden"
         name="initiator_id"
@@ -44,7 +44,7 @@
     @endforeach
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
-        class="mle-button mle-button-submit mle-button-icon btn btn-primary"
+        class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-mle-action="set-as-first"
         data-mle-route="{{ $getConfig('mediumSetAsFirstRoute') }}"

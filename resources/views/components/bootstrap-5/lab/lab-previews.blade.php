@@ -1,4 +1,4 @@
-<div class="media-preview-grid" 
+<div class="mle-media-preview-grid" 
      data-mle-media-preview-grid
 >
     <x-mle-lab-preview-original 

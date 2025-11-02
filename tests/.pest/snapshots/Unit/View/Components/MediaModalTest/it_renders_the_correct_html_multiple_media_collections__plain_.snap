@@ -1,5 +1,5 @@
 <div
-    class="mlbrgn-mle-component theme-plain mle-media-modal mle-modal mle-fade"
+    class="mle-component theme-plain mle-media-modal mle-modal mle-fade"
     id="test-media-modal-mod"
     tabindex="-1"
     role="dialog"
@@ -25,7 +25,7 @@
         title="Close">❓</span>
                 </button>
                 <div id="test-media-modal-mod-crs"
-     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
      data-mle-carousel
      data-mle-carousel-id="test-media-modal-mod-crs"
      tabindex="-1"
@@ -34,7 +34,7 @@
 
     
     <div
-        class="media-carousel-indicators carousel-indicators"
+        class="mle-media-carousel-indicators carousel-indicators"
         data-mle-carousel-indicators
     >
                     <button
@@ -72,17 +72,17 @@
             </div>
 
     
-    <div class="media-carousel-inner">
+    <div class="mle-media-carousel-inner">
                     <div
 
-                class="media-carousel-item active"
+                class="mle-media-carousel-item active"
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container"
+                <div class="mle-media-carousel-item-container"
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1762095848"
+        src="/media/1/test.jpg?v=1762102782"
                         alt="test"
          loading="lazy"         data-mle-image
     >
@@ -90,14 +90,14 @@
             </div>
                     <div
 
-                class="media-carousel-item"
+                class="mle-media-carousel-item"
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container"
+                <div class="mle-media-carousel-item-container"
                                      >
                                             <img
         class="mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1762095848"
+        src="/media/2/test2.jpg?v=1762102782"
                         alt="test2"
          loading="lazy"         data-mle-image
     >
@@ -105,10 +105,10 @@
             </div>
                     <div
 
-                class="media-carousel-item"
+                class="mle-media-carousel-item"
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container"
+                <div class="mle-media-carousel-item-container"
                                      >
                                             <div class="mle-document mle-document mle-cursor-zoom-in" mle-document>
     <div class="mle-document-preview">
@@ -140,15 +140,15 @@
             </div>
                     <div
 
-                class="media-carousel-item"
+                class="mle-media-carousel-item"
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container"
+                <div class="mle-media-carousel-item-container"
                                      >
                                             <div
 
                             data-mle-modal-trigger="#test-media-modal-mod-crs-mod"
-                            class="media-preview-item-container"
+                            class="mle-media-preview-item-container"
                         >
                             <div class="mle-video">
     <div class="mle-video-preview">
@@ -168,15 +168,15 @@
             </div>
                     <div
 
-                class="media-carousel-item"
+                class="mle-media-carousel-item"
                 data-mle-carousel-item
             >
-                <div class="media-carousel-item-container"
+                <div class="mle-media-carousel-item-container"
                                      >
                                             <div
 
                             data-mle-modal-trigger="#test-media-modal-mod-crs-mod"
-                            class="media-preview-item-container"
+                            class="mle-media-preview-item-container"
                         >
                             <div class="mle-audio">
     <div class="mle-audio-preview">
@@ -197,10 +197,10 @@
 
     
     <button 
-        class="media-carousel-control-prev"
+        class="mle-media-carousel-control-prev"
         type="button"
         data-slide="prev">
-        <span class="media-carousel-control-prev-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
              <span 
         role="img" 
         aria-label="Previous" 
@@ -209,10 +209,10 @@
         <span class="mle-visually-hidden">Previous</span>
     </button>
     <button 
-        class="media-carousel-control-next"
+        class="mle-media-carousel-control-next"
         type="button"
         data-slide="next">
-        <span class="media-carousel-control-next-icon" aria-hidden="true">
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
               <span 
         role="img" 
         aria-label="Next" 

@@ -30,9 +30,6 @@ document.addEventListener('onCloseImageEditor', (e) => {
 const updateMedia = (detail) => {
 
     const modal = detail.imageEditorInstance.closest('[data-mle-image-editor-modal]');
-    // console.log('modal', modal);
-    // const statusAreaContainer = modal.querySelector('[data-mle-status-area-container]');
-    // console.log('statusAreaContainer', statusAreaContainer);
     const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
     if (!configInput) return;
 

@@ -1,9 +1,9 @@
-<div id="{{ $id }}" 
-     @class([
-        'mlbrgn-mle-component',
+<div id="{{ $id }}"
+    @class([
+        'mle-component',
         'theme-'.$getConfig('frontendTheme'), 
         'mle-media-lab'
-    ]) 
+    ])
     data-mle-media-manager-lab
 >
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($config)'>
@@ -13,7 +13,7 @@
         :initiator-id="$id"
         :media-manager-id="$id"
     />
-    <div class="media-manager-lab-previews" data-mle-media-manager-lab-previews>
+    <div class="mle-media-manager-lab-previews" data-mle-media-manager-lab-previews>
         <x-mle-lab-previews
             :medium="$medium"
             :options="$options"

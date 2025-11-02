@@ -10,7 +10,7 @@
         'id' => $id.'-media-set-as-first-form'
     ]"
     method="put"
-    class="set-as-first-form"
+    class="mle-set-as-first-form"
 >
     <input type="hidden"
         name="initiator_id"

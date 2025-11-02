@@ -1,12 +1,12 @@
 // Shared carousel control styles
 @mixin carousel-controls {
 
-    .media-carousel-item {
+    .mle-media-carousel-item {
         height:100%;
     }
 
-    .media-carousel-control-prev,
-    .media-carousel-control-next {
+    .mle-media-carousel-control-prev,
+    .mle-media-carousel-control-next {
         top: 15%;
         bottom: 15%;
         width: 5%;
@@ -17,58 +17,58 @@
         //color: var(--mlbrgn-mle-carousel-control-fg-color);
     }
 
-    .media-carousel-control-prev svg,
-    .media-carousel-control-next svg {
+    .mle-media-carousel-control-prev svg,
+    .mle-media-carousel-control-next svg {
         fill: var(--mlbrgn-mle-carousel-control-fg-color);
         transition: fill 0.3s ease-in-out;
     }
 
-    .media-carousel-control-prev {
+    .mle-media-carousel-control-prev {
         border-top-right-radius: 3em;
         border-bottom-right-radius: 3em;
         left: 0;
     }
 
-    .media-carousel-control-next {
+    .mle-media-carousel-control-next {
         border-top-left-radius: 3em;
         border-bottom-left-radius: 3em;
         right: 0;
     }
 
-    .media-carousel-control-prev.disabled,
-    .media-carousel-control-next.disabled {
+    .mle-media-carousel-control-prev.disabled,
+    .mle-media-carousel-control-next.disabled {
         opacity: 0.2;
         pointer-events: none; /* Prevents click events */
     }
 
-    .media-carousel-control-prev:hover,
-    .media-carousel-control-prev:focus-visible,
-    .media-carousel-control-next:hover,
-    .media-carousel-control-next:focus-visible {
+    .mle-media-carousel-control-prev:hover,
+    .mle-media-carousel-control-prev:focus-visible,
+    .mle-media-carousel-control-next:hover,
+    .mle-media-carousel-control-next:focus-visible {
         background-color: rgb(from var(--mlbrgn-mle-carousel-control-hover-bg-color) r g b / var(--mlbrgn-mle-carousel-control-hover-bg-opacity));
         //color: var(--mlbrgn-mle-carousel-control-hover-fg-color);
     }
 
-    .media-carousel-control-prev:hover svg,
-    .media-carousel-control-prev:focus-visible svg,
-    .media-carousel-control-next:hover svg,
-    .media-carousel-control-next:focus-visible svg {
+    .mle-media-carousel-control-prev:hover svg,
+    .mle-media-carousel-control-prev:focus-visible svg,
+    .mle-media-carousel-control-next:hover svg,
+    .mle-media-carousel-control-next:focus-visible svg {
         fill: var(--mlbrgn-mle-carousel-control-hover-fg-color);
     }
 
-    .media-carousel-indicators button:focus-visible {
+    .mle-media-carousel-indicators button:focus-visible {
         outline: 4px solid rgb(from var(--mlbrgn-mle-color-primary) r g b / 70%);
         outline-offset: 0; /* Optional: adds spacing between button and outline */
         border-radius:0.5em;
     }
 
-    .media-carousel-indicators {
+    .mle-media-carousel-indicators {
         position:absolute;
         top:1em;
         height:fit-content;
     }
 
-    .media-carousel-indicators button {
+    .mle-media-carousel-indicators button {
         width: 12px;
         height: 12px;
         border-radius: 50%;
@@ -77,11 +77,11 @@
         cursor: pointer;
     }
 
-    .media-carousel-indicators button:hover {
+    .mle-media-carousel-indicators button:hover {
         background-color: rgb(from var(--mlbrgn-mle-control-active-color) r g b / var(--mlbrgn-mle-control-hover-bg-opacity));
     }
 
-    .media-carousel-indicators button.active {
+    .mle-media-carousel-indicators button.active {
         background-color: rgb(from var(--mlbrgn-mle-control-active-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
     }
 
