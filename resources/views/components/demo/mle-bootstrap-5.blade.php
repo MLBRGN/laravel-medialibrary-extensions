@@ -14,6 +14,12 @@
         {{--            integrity="sha384-QWTKZyjpPEjISv5WaRU5M6QdFVb2l9gCk0GZg6CJWjvvoE5yOAy+n9C80+XW9HdT"--}}
         crossorigin="anonymous"
     >
+    <style>
+        .mle-demo-media-first-available-container {
+            height:200px;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 <div class="container-lg mt-5">
@@ -178,17 +184,20 @@
 
         <h2 class="my-5">Media first available</h2>
 
-        <x-mle-first-available
-            id="media-first-available"
-            :model-or-class-name="$model"
-            :collections="[
-                'alien-single-audio', 
-                'alien-single-video', 
-                'alien-single-document', 
-                'alien-single-image', 
-                'alien-single-youtube-video'
-            ]"
-        />
+        <div class="mle-demo-media-first-available-container">
+            <x-mle-first-available
+                id="media-first-available"
+                :model-or-class-name="$model"
+                :collections="[
+                    'audio' => 'alien-single-audio', 
+                    'video' => 'alien-single-video', 
+                    'document' => 'alien-single-document', 
+                    'image' => 'alien-single-image', 
+                    'youtube' => 'alien-single-youtube-video'
+                ]"
+                class="mle-width-100 mle-height-100"
+            />
+        </div>
 
         @if (app()->environment('local') && class_exists(Form::class))
             <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>

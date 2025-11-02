@@ -106,6 +106,9 @@ if (! function_exists('extractYouTubeId')) {
 if (! function_exists('isMediaType')) {
     function isMediaType($medium, string $type): bool
     {
+        if (!$medium) {
+            return false;
+        }
         if ($type === 'youtube-video') {
             return $medium->hasCustomProperty('youtube-id');
         }

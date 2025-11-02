@@ -41,6 +41,11 @@
             margin-block: 3rem;
         }
 
+        .mle-demo-media-first-available-container {
+            height:200px;
+            overflow: hidden;
+        }
+
         @media (min-width: 1400px) {
             .mle-container-lg {
                 max-width: 1320px;
@@ -210,17 +215,20 @@
 
     <h2 class="mle-margin-block-5">Media first available</h2>
 
-    <x-mle-first-available
-        id="media-first-available"
-        :model-or-class-name="$model"
-        :collections="[
-            'alien-single-audio', 
-            'alien-single-video', 
-            'alien-single-document', 
-            'alien-single-image', 
-            'alien-single-youtube-video'
-        ]"
-    />
+    <div class="mle-demo-media-first-available-container">
+        <x-mle-first-available
+            id="media-first-available"
+            :model-or-class-name="$model"
+            :collections="[
+                    'audio' => 'alien-single-audio', 
+                    'video' => 'alien-single-video', 
+                    'document' => 'alien-single-document', 
+                    'image' => 'alien-single-image', 
+                    'youtube' => 'alien-single-youtube-video'
+                ]"
+            class="mle-width-100 mle-height-100"
+        />
+    </div>
 
     @if (app()->environment('local') && class_exists(Form::class))
         <h2>Mlbrgn Form components custom file picker integration</h2>

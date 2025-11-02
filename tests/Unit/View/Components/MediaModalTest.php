@@ -68,7 +68,7 @@ it('renders the correct Blade view (plain)', function () {
 
 });
 
-it('renders the correct html multiple media-collections (plain)', function () {
+it('renders the correct html multiple collections (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(

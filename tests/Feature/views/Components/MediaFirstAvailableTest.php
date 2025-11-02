@@ -11,7 +11,7 @@ it('initializes with a HasMedia model and finds the first medium', function () {
     $component = new MediaFirstAvailable(
         id: 'media-first-available',
         modelOrClassName: $model,
-        collections: ['image_collection', 'video_collection'],
+        collections: ['image' => 'image_collection', 'video' => 'video_collection'],
         options: []
     );
 
@@ -39,7 +39,7 @@ it('throws an exception when given an invalid type', function () {
 it('renders the correct view', function () {
     $model = $this->getModelWithMedia(['image' => 1]);
 
-    $component = new MediaFirstAvailable('test-id', $model, ['image_collection']);
+    $component = new MediaFirstAvailable('test-id', $model, ['image' => 'image_collection']);
 
     $view = $component->render();
 
@@ -52,7 +52,7 @@ it('renders expected HTML for an image medium', function () {
     $html = Blade::renderComponent(new MediaFirstAvailable(
         'test123',
         $model,
-        ['image_collection']
+        ['image' => 'image_collection']
     ));
     expect($html)->toContain('class="mle-media-preview-image" ')
         ->toContain('test.jpg');
@@ -64,7 +64,7 @@ it('renders expected HTML for a video medium', function () {
     $html = Blade::renderComponent(new MediaFirstAvailable(
         'video123',
         $model,
-        ['video_collection']
+        ['video' => 'video_collection']
     ));
 
     expect($html)->toContain(' <video')
@@ -76,7 +76,7 @@ it('renders expected HTML for an audio medium', function () {
 
     $html = Blade::renderComponent(new MediaFirstAvailable(
         'audio123',
-        $model, ['audio_collection']
+        $model, ['audio' => 'audio_collection']
     ));
     expect($html)->toContain('<div class="mle-audio"')
         ->toContain('test.mp3" type="audio/mpeg"');
@@ -88,7 +88,7 @@ it('renders expected HTML for a document medium', function () {
     $html = Blade::renderComponent(new MediaFirstAvailable(
         'doc123',
         $model,
-        ['document_collection']
+        ['document' => 'document_collection']
     ));
     expect($html)->toContain('<div class="mle-document-preview">')
         ->toContain(' test.pdf');

@@ -1,53 +1,15 @@
 @if ($medium)
     <div class="mle-component mle-media-first-available">
-        @if(isMediaType($medium, 'youtube-video'))
-            <x-mle-shared-media-preview-container :id="$id">
-                <x-mle-video-youtube
-                    class="mle-video-youtube mle-video-responsive"
-                    :medium="$medium"
-                    :preview="false"
-                    data-bs-target="#{{$id}}-modal-carousel"
-                    data-bs-slide-to="0"
-                />
-            </x-mle-shared-media-preview-container>
-        @elseif(isMediaType($medium, 'document'))
-            <x-mle-shared-media-preview-container :id="$id">
-                <x-mle-document 
-                    :medium="$medium"
-                    class="mle-previewed-document"
-                    data-bs-target="#{{ $id }}-modal-carousel"
-                    data-bs-slide-to="0"
-                />
-            </x-mle-shared-media-preview-container>
-        @elseif(isMediaType($medium, 'video'))
-            <x-mle-shared-media-preview-container :id="$id">
-                <x-mle-video
-                    :medium="$medium"
-                    data-bs-target="#{{ $id }}-modal-carousel"
-                    data-bs-slide-to="0"
-                />
-            </x-mle-shared-media-preview-container>
-        @elseif(isMediaType($medium, 'audio'))
-            <x-mle-shared-media-preview-container :id="$id">
-                <x-mle-audio
-                    :medium="$medium"
-                    data-bs-target="#{{ $id }}-modal-carousel"
-                    data-bs-slide-to="0"
-                />
-            </x-mle-shared-media-preview-container>
-        @elseif(isMediaType($medium, 'image'))
-            <x-mle-shared-media-preview-container :id="$id">
-                <x-mle-image-responsive
-                    :medium="$medium"
-                    class="mle-media-preview-image"
-                    data-bs-target="#{{$id}}-modal-carousel"
-                    data-bs-slide-to="0"
-                    draggable="false"
-                />
-            </x-mle-shared-media-preview-container>
-        @else
-            {{ __('media-library-extensions::messages.non_supported_file_format') }}
-        @endif
+        <x-dynamic-component
+            :component="$componentToRender"
+            class="{{ $mediumType === 'image' 
+                    ? 'mle-media-preview-image' 
+                    : '' }}"
+            :medium="$medium"
+            :options="$options"
+            :draggable="$mediumType === 'image' ? 'false' : null"
+            :preview="true"
+        />
     </div>
 @else
     <div class="mle-component mle-media-placeholder">

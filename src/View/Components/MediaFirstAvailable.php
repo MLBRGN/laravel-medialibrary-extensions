@@ -11,12 +11,16 @@ use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaFirstAvailable extends Component
+class MediaFirstAvailable extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
     public ?Media $medium = null;
+
+    public ?string $componentToRender;
+
+    public ?string $mediumType;
 
     public function __construct(
         public string $id,
@@ -24,8 +28,15 @@ class MediaFirstAvailable extends Component
         public ?array $collections = [],
         public array $options = [],
     ) {
+        $id = filled($id) ? $id : null;
+        parent::__construct($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
+
+        // throw exception when no media collection provided at all
+        if (! $this->hasCollections()) {
+            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+        }
 
         if (! $this->temporaryUploadMode) {
             // Find the first medium from the ordered collections
@@ -33,6 +44,18 @@ class MediaFirstAvailable extends Component
                 ->map(fn (string $collection) => $this->model->getFirstMedia($collection))
                 ->filter()// remove falsy values
                 ->first();
+
+//            dump($this->medium);
+            $componentMap = [
+                'youtube-video' => 'mle-video-youtube',
+                'document' => 'mle-document',
+                'video' => 'mle-video',
+                'audio' => 'mle-audio',
+                'image' => 'mle-image-responsive',
+            ];
+
+            $this->mediumType = getMediaType($this->medium);
+            $this->componentToRender = $componentMap[$this->mediumType] ?? null;
         } else {
             throw new Exception('Temporary uploads not implemented');
         }
