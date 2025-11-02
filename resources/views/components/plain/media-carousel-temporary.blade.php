@@ -153,8 +153,7 @@
         :id="$id"
         :model-or-class-name="$modelOrClassName"
         :single-medium="$singleMedium"
-        :media-collection="$mediaCollection"
-        :media-collections="$mediaCollections"
+        :collections="$collections"
         :options="$options"
         title="Media carousel"/>
 @endif

@@ -68,7 +68,6 @@ return [
     'temporary_upload_disk' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_DISK', 'public'),
     'temporary_upload_path' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_PATH', 'temp/media-library-extensions'),
 
-
     /*
     |--------------------------------------------------------------------------
     | Originals (for lab functionality)
@@ -78,7 +77,7 @@ return [
     | to restore the base image used by the media library to the original one
     */
 
-    'store_originals' => env('MEDIA_LIBRARY_EXTENSIONS_STORE_ORIGINALS',  true),
+    'store_originals' => env('MEDIA_LIBRARY_EXTENSIONS_STORE_ORIGINALS', true),
 
     // Disk used to store original media
     'originals_disk' => 'originals',
@@ -276,8 +275,8 @@ return [
     | Define max image dimensions
     |
     */
-    'max_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_WIDTH', 7040),// high end smartphone
-    'max_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_HEIGHT', 3960),// high end smartphone
+    'max_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_WIDTH', 7040), // high end smartphone
+    'max_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_HEIGHT', 3960), // high end smartphone
     'min_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_WIDTH', 800),
     'min_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_HEIGHT', 600),
 
@@ -484,7 +483,6 @@ return [
         ['name' => '2.50:1', 'label' => '2.50:1', 'value' => 2.50,  'active' => true], // Ultra-wide
         ['name' => '2.39:1', 'label' => '2.39:1', 'value' => 2.39,  'active' => true], // Modern cinema widescreen (Cinemascope / anamorphic)
 
-
         // Portrait (rotated +/-90°)
         ['name' => '10:19',  'label' => '10:19',  'value' => 10 / 19,  'active' => true], // Modern smartphones, some ultra-wide monitors (~1.9:1)
         ['name' => '10:16',  'label' => '10:16',  'value' => 10 / 16,  'active' => true], // Common laptop/monitor ratio (WUXGA, 1920×1200)
@@ -509,7 +507,7 @@ return [
 
         // Paper / ISO
         ['name' => '√2:1',   'label' => '√2:1',   'value' => 1.414,    'active' => true],
-    ])
+    ]),
 
     /*
             // 2.22:1 widescreen cinematic ratio 3 images found

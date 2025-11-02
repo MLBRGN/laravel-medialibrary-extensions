@@ -3,7 +3,8 @@
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMimeTypes;
 
 beforeEach(function () {
-    $this->class = new class {
+    $this->class = new class
+    {
         use InteractsWithMimeTypes;
 
         public array $options = [];
@@ -55,7 +56,6 @@ beforeEach(function () {
         }
     };
 });
-
 
 it('converts comma-separated string to array', function () {
     expect($this->class->callStringToMimeArray('jpg, png , pdf'))

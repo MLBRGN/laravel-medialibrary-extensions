@@ -13,15 +13,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaFirstAvailable extends Component
 {
-    use ResolveModelOrClassName;
     use InteractsWithOptionsAndConfig;
+    use ResolveModelOrClassName;
 
     public ?Media $medium = null;
 
     public function __construct(
         public string $id,
         public mixed $modelOrClassName,
-        public ?array $mediaCollections = [],
+        public ?array $collections = [],
         public array $options = [],
     ) {
 
@@ -29,12 +29,12 @@ class MediaFirstAvailable extends Component
 
         if (! $this->temporaryUploadMode) {
             // Find the first medium from the ordered collections
-            $this->medium = collect($this->mediaCollections ?? [])
+            $this->medium = collect($this->collections ?? [])
                 ->map(fn (string $collection) => $this->model->getFirstMedia($collection))
                 ->filter()// remove falsy values
                 ->first();
         } else {
-            throw new Exception('Temporary uploads Not implemented yet');
+            throw new Exception('Temporary uploads not implemented');
         }
         $this->initializeConfig();
 

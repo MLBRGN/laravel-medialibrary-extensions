@@ -19,6 +19,7 @@ class DestroyForm extends BaseComponent
     public ?string $mediaManagerId = '';
 
     public array $config;
+
     public string $mediumDestroyRoute;
 
     public function __construct(
@@ -53,7 +54,7 @@ class DestroyForm extends BaseComponent
 
         $this->initializeConfig();
 
-//        dump($this->config);
+        //        dump($this->config);
         $this->setConfig('mediumDestroyRoute', $this->mediumDestroyRoute);
     }
 

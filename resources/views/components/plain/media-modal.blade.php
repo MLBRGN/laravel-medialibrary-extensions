@@ -42,8 +42,7 @@
                     :model-or-class-name="$modelOrClassName"
                     :single-medium="$singleMedium"
                     :expandable-in-modal="false"
-{{--                    :media-collection="$mediaCollection"--}}
-                    :collections="$mediaCollections"
+                    :collections="$collections"
                     :options="$options"
                     :in-modal="true"
                 />

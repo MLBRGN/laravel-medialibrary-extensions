@@ -39,7 +39,7 @@ class MediaManagerSingle extends MediaManager
         bool $selectable = false,
     ) {
         // override options
-        $options['showOrder'] = false;// should always be false
+        $options['showOrder'] = false; // should always be false
 
         parent::__construct(
             id: $id,

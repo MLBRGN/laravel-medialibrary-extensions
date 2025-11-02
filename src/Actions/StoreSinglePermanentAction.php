@@ -48,7 +48,7 @@ class StoreSinglePermanentAction
                     'media-library-extensions::messages.file_too_large',
                     [
                         'file' => $file->getClientOriginalName(),
-                        'max' => number_format($maxUploadSize / 1024 / 1024, 2) . ' MB',
+                        'max' => number_format($maxUploadSize / 1024 / 1024, 2).' MB',
                     ]
                 )
             );
@@ -104,7 +104,7 @@ class StoreSinglePermanentAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.something_went_wrong') . ': ' . $e->getMessage()
+                __('media-library-extensions::messages.something_went_wrong').': '.$e->getMessage()
             );
         }
 

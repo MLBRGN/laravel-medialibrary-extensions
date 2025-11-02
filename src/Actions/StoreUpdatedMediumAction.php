@@ -2,7 +2,6 @@
 
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
@@ -24,9 +23,7 @@ class StoreUpdatedMediumAction
 {
     use InteractsWithOriginalMedia;
 
-    public function __construct(protected MediaService $mediaService)
-    {
-    }
+    public function __construct(protected MediaService $mediaService) {}
 
     public function execute(UpdateMediumRequest $request): JsonResponse|RedirectResponse
     {
@@ -55,11 +52,11 @@ class StoreUpdatedMediumAction
 
         try {
             // Handle Permanent Media
-            if (!$temporaryUploadMode) {
+            if (! $temporaryUploadMode) {
                 abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
                 $model = $this->mediaService->resolveModel($modelType, $modelId);
-//                $existingMedium = Media::find($mediumId);
+                //                $existingMedium = Media::find($mediumId);
                 $existingMedium = Media::findOrFail($mediumId);
 
                 if ($existingMedium) {
@@ -119,7 +116,7 @@ class StoreUpdatedMediumAction
                 __('media-library-extensions::messages.something_went_wrong'),
                 [
                     'mediumId' => $mediumId,
-                    'exception' => $e->getMessage()
+                    'exception' => $e->getMessage(),
                 ]
             );
         }

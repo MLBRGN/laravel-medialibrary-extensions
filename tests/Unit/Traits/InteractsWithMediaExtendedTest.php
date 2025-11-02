@@ -26,18 +26,18 @@ it('attaches temporary media on non created model, and stores medium on model cr
 
     $request = StoreSingleRequest::create('/upload', 'POST',
         [
-        'model_type' => $model->getMorphClass(),
-        'model_id' => $model->id,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
-        'collections' => ['image' => 'images'],
-    ], [], [
-        $uploadFieldNameSingle => $uploadedFile,
-    ]);
+            'model_type' => $model->getMorphClass(),
+            'model_id' => $model->id,
+            'initiator_id' => $initiatorId,
+            'media_manager_id' => $mediaManagerId,
+            'collections' => ['image' => 'images'],
+        ], [], [
+            $uploadFieldNameSingle => $uploadedFile,
+        ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
 
-    $action = new StoreSingleTemporaryAction(new MediaService());
+    $action = new StoreSingleTemporaryAction(new MediaService);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
@@ -58,7 +58,7 @@ it('attaches temporary media on non created model, and stores medium on model cr
     $permanentMedium = $model->getMedia('images')->first();
 
     expect($permanentMedium)->not->toBeNull()
-        ->and(Storage::disk('media')->exists('uploads/'. $fileName))->toBeFalse()
+        ->and(Storage::disk('media')->exists('uploads/'.$fileName))->toBeFalse()
         ->and(TemporaryUpload::count())->toBe(0);
 });
 
@@ -77,14 +77,14 @@ it('returns error when no collection provided', function () {
             'model_id' => $model->id,
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
-//            'collections' => ['image' => 'images'],
+            //            'collections' => ['image' => 'images'],
         ], [], [
             $uploadFieldNameSingle => $uploadedFile,
         ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
 
-    $action = new StoreSingleTemporaryAction(new MediaService());
+    $action = new StoreSingleTemporaryAction(new MediaService);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
@@ -141,7 +141,7 @@ it('replaces temporary urls in html editor fields', function () {
     $model->htmlEditorFields = ['content'];
 
     // The "content" field contains an image referencing the temporary upload URL
-    $model->content = '<p><img src="' . $upload->getUrl() . '"></p>';
+    $model->content = '<p><img src="'.$upload->getUrl().'"></p>';
 
     // Act: save the model — this should trigger conversion from temporary → permanent
     $model->save();
@@ -171,20 +171,20 @@ it('logs info when model does not yet exist', function () {
     }
 
     // Get the "created" event listeners for the Blog model
-    $listeners = Blog::getEventDispatcher()->getListeners('eloquent.created: ' . Blog::class);
+    $listeners = Blog::getEventDispatcher()->getListeners('eloquent.created: '.Blog::class);
 
     // Call each listener manually with correct payload structure
     foreach ($listeners as $listener) {
         // Pass array payload: [$model]
-        $listener('eloquent.created: ' . Blog::class, [$model]);
+        $listener('eloquent.created: '.Blog::class, [$model]);
     }
 
     Log::shouldHaveReceived('info')
-        ->withArgs(fn($msg) => str_contains($msg, 'does not exist'))
+        ->withArgs(fn ($msg) => str_contains($msg, 'does not exist'))
         ->atLeast()->once();
 });
 
-//it('calculates proper aspect ratio conversions', function () {
+// it('calculates proper aspect ratio conversions', function () {
 //    $media = Mockery::mock(Spatie\MediaLibrary\MediaCollections\Models\Media::class);
 //    $media->shouldReceive('getPath')->andReturn(__DIR__.'/fixtures/test-image.jpg');
 //
@@ -192,9 +192,9 @@ it('logs info when model does not yet exist', function () {
 //    $model->shouldReceive('addMediaConversion')->with('16x9')->once()->andReturnSelf();
 //
 //    $model->addResponsive16x9Conversion($media, ['images']);
-//});
+// });
 //
-//it('parses conversion names into aspect ratios', function () {
+// it('parses conversion names into aspect ratios', function () {
 //    $model = new Blog();
 //    $model->mediaConversions = collect([
 //        (object)['getName' => fn() => '16x9'],
@@ -207,4 +207,4 @@ it('logs info when model does not yet exist', function () {
 //        '16x9' => 1.7777,
 //        '4x3' => 1.3333,
 //    ]);
-//});
+// });

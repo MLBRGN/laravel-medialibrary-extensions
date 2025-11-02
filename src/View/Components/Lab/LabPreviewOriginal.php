@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
@@ -16,7 +17,7 @@ class LabPreviewOriginal extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public array|null $imageInfo = null;
+    public ?array $imageInfo = null;
 
     public function __construct(
         ?string $id,

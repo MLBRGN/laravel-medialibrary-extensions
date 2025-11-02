@@ -1,13 +1,14 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
+use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
 uses()->group('traits');
 
 beforeEach(function () {
     // Anonymous class using the trait
-    $this->class = new class {
+    $this->class = new class
+    {
         use ValidatesCollections;
 
         protected array $inputData = [];

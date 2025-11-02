@@ -6,9 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Handles authorization and validation rules for media manager preview update request
@@ -26,5 +23,4 @@ class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
             'part' => ['nullable', Rule::in(['original', 'base', 'all'])],
         ];
     }
-
 }

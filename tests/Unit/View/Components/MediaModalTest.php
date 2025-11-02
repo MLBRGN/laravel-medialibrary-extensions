@@ -12,8 +12,7 @@ it('appends -mod to the id', function () {
     $component = new MediaModal(
         id: 'media1',
         modelOrClassName: $model,
-        mediaCollection: 'images',
-        mediaCollections: null,
+        collections: ['images'],
         title: 'ID Test'
     );
 
@@ -25,8 +24,7 @@ it('returns the correct view on render', function () {
     $component = new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $model,
-        mediaCollection: 'images',
-        mediaCollections: null,
+        collections: ['images'],
         title: 'Render Test'
     );
 
@@ -42,8 +40,7 @@ it('renders the correct Blade view (bootstrap-5)', function () {
     $component = new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $model,
-        mediaCollection: 'image_collection',
-        mediaCollections: null,
+        collections: ['image_collection'],
         title: 'Render Test',
         options: [
             'frontendTheme' => $frontendTheme,
@@ -60,8 +57,7 @@ it('renders the correct Blade view (plain)', function () {
     $component = new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $model,
-        mediaCollection: 'image_collection',
-        mediaCollections: null,
+        collections: ['image_collection'],
         title: 'Render Test',
         options: [
             'frontendTheme' => $frontendTheme,
@@ -79,7 +75,7 @@ it('renders the correct html multiple media-collections (plain)', function () {
         '<x-mle-media-modal
                     id="test-media-modal"
                     :model-or-class-name="$model"
-                    :media-collections="$collections"
+                    :collections="$collections"
                     title="test"
                     :options="$options"
                 />',
@@ -100,14 +96,14 @@ it('renders the correct html multiple media-collections (plain)', function () {
     expect($html)->toMatchSnapshot();
 });
 
-it('renders the correct html multiple media-collections (bootstrap-5)', function () {
+it('renders the correct html multiple collections (bootstrap-5)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
         '<x-mle-media-modal
                     id="test-media-modal"
                     :model-or-class-name="$model"
-                    :media-collections="$collections"
+                    :collections="$collections"
                     title="test"
                     :options="$options"
                 />',
@@ -128,20 +124,20 @@ it('renders the correct html multiple media-collections (bootstrap-5)', function
     expect($html)->toMatchSnapshot();
 });
 
-it('renders the correct html single media-collection (plain)', function () {
+it('renders the correct html single collection (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
         '<x-mle-media-modal
                 id="test-media-modal"
                 :model-or-class-name="$model"
-                :media-collection="$collection"
+                :collections="$collections"
                 title="test"
                 :options="$options"
             />',
         [
             'model' => $model,
-            'collection' => 'image_collection',
+            'collections' => ['image_collection'],
             'options' => [
                 'frontendTheme' => 'plain',
             ],
@@ -150,20 +146,20 @@ it('renders the correct html single media-collection (plain)', function () {
     expect($html)->toMatchSnapshot();
 });
 
-it('renders the correct html single media-collection (bootstrap-5)', function () {
+it('renders the correct html single collection (bootstrap-5)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
 
     $html = Blade::render(
         '<x-mle-media-modal
                     id="test-media-modal"
                     :model-or-class-name="$model"
-                    :media-collection="$collection"
+                    :collections="$collections"
                     title="test"
                     :options="$options"
                  />',
         [
             'model' => $model,
-            'collection' => 'image_collection',
+            'collections' => ['image_collection'],
             'options' => [
                 'frontendTheme' => 'bootstrap-5',
             ],
@@ -178,8 +174,7 @@ it('sets temporary upload mode when given a class string', function () {
     $component = new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $model->getMorphClass(),
-        mediaCollection: 'images',
-        mediaCollections: null,
+        collections: ['images'],
         title: 'Temp Upload'
     );
 
@@ -193,8 +188,7 @@ it('throws if given class string does not exist', function () {
     expect(fn () => new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $modelOrClassName,
-        mediaCollection: null,
-        mediaCollections: null,
+        collections: null,
         title: 'Invalid'
     ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_does_not_exist', [
         'class_name' => $modelOrClassName,
@@ -206,8 +200,7 @@ it('throws if given class string does not implement HasMedia', function () {
     expect(fn () => new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $modelOrClassName,
-        mediaCollection: null,
-        mediaCollections: null,
+        collections: null,
         title: 'Invalid'
     ))->toThrow(\UnexpectedValueException::class, __('media-library-extensions::messages.must_implement_has_media', [
         'class' => $modelOrClassName,

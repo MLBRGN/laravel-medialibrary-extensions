@@ -28,6 +28,6 @@ class ConditionalForm extends Component
 
     public function requiresMethodSpoofing(): bool
     {
-        return !in_array($this->method, ['get', 'post']);
+        return ! in_array($this->method, ['get', 'post']);
     }
 }

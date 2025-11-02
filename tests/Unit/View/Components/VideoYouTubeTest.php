@@ -89,7 +89,7 @@ it('sets component properties correctly', function () {
         preview: false,
         options: [
             'frontendTheme' => 'custom',
-    ]);
+        ]);
 
     expect($component->medium)->toBe($media)
         ->and($component->preview)->toBeFalse()
@@ -108,15 +108,15 @@ it('returns correct view on render', function () {
 });
 
 it('renders view and matches snapshot', function () {
-        $component = new VideoYouTube(createMockMedia());
+    $component = new VideoYouTube(createMockMedia());
 
-        $view = $component->render();
+    $view = $component->render();
 
-        expect($view)->toBeInstanceOf(View::class)
-            ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
+    expect($view)->toBeInstanceOf(View::class)
+        ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
 });
 
-it('renders view', function() {
+it('renders view', function () {
     $medium = $this->getMediaModelWithMedia(['audio' => 1]);
     $html = Blade::render('<x-mle-video-youtube
                                     id="test-video"

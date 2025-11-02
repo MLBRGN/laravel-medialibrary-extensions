@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -21,7 +20,7 @@ trait InteractsWithMediaExtended
 
     /** Whether this model should store archived originals */
     protected bool $storeOriginals = true;
-//    public array $htmlEditorFields = [];
+    //    public array $htmlEditorFields = [];
 
     /** Used by Spatie when registering conversions on the instance */
     public bool $registerMediaConversionsUsingModelInstance = true;
@@ -34,17 +33,17 @@ trait InteractsWithMediaExtended
 
         '16x10' => 16 / 10,
         '16x9' => 16 / 9,
-        '5x3' => 5/3,
-        '4x3'  => 4 / 3,
+        '5x3' => 5 / 3,
+        '4x3' => 4 / 3,
         '3x2' => 3 / 2,
 
         '10x16' => 10 / 16,
         '9x16' => 9 / 16,
-        '3x5' => 3/5,
-        '3x4'  => 3 / 4,
+        '3x5' => 3 / 5,
+        '3x4' => 3 / 4,
         '2x3' => 2 / 3,
 
-        '1x1'  => 1,
+        '1x1' => 1,
     ];
 
     // ============================================================
@@ -55,8 +54,9 @@ trait InteractsWithMediaExtended
     {
 
         static::created(function ($model) {
-            if (!$model->exists || !$model->getKey()) {
-                Log::info('model with model type: ' . $model->getMorphClass() . ' and id: ' . $model->getKey() . ' does not exist');
+            if (! $model->exists || ! $model->getKey()) {
+                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+
                 return;
             }
 
@@ -142,7 +142,7 @@ trait InteractsWithMediaExtended
     ): void {
         $basePath = $media->getPath();
 
-        if (!file_exists($basePath)) {
+        if (! file_exists($basePath)) {
             return;
         }
 
@@ -153,7 +153,7 @@ trait InteractsWithMediaExtended
             return; // Invalid input
         }
 
-        if (!$originalWidth || !$originalHeight) {
+        if (! $originalWidth || ! $originalHeight) {
             return; // getImageSize failed or empty image
         }
 
@@ -230,7 +230,7 @@ trait InteractsWithMediaExtended
         $conversionCollection = collect($this->mediaConversions);
 
         $return = $conversionCollection
-            ->map(fn($conversion) => $conversion->getName())
+            ->map(fn ($conversion) => $conversion->getName())
             ->unique()
             ->values()
             ->toArray();
@@ -278,13 +278,13 @@ trait InteractsWithMediaExtended
     {
         $originalPath = $media->getCustomProperty('original_path');
 
-        if (!$originalPath) {
+        if (! $originalPath) {
             return $this->emptyImageInfo();
         }
 
         $originalExists = Storage::disk('originals')->exists($originalPath);
 
-        if (!$originalExists) {
+        if (! $originalExists) {
             return $this->emptyImageInfo();
         }
 
@@ -295,7 +295,7 @@ trait InteractsWithMediaExtended
     {
         $path = $media->getPath();
 
-        if (!$path || !file_exists($path)) {
+        if (! $path || ! file_exists($path)) {
             return $this->emptyImageInfo();
         }
 
@@ -319,18 +319,18 @@ trait InteractsWithMediaExtended
         $width = $image?->width() ?? null;
         $height = $image?->height() ?? null;
 
-        if (!$width || !$height) {
+        if (! $width || ! $height) {
             return $this->emptyImageInfo();
         }
 
         $ratio = round($width / $height, 3);
 
         // Format variants
-        $dimensions     = "{$width} × {$height}";
-        $fractionFormat = number_format($ratio, 2) . ':1';
-        $xFormat        = "{$width}x{$height}";
-        $colonFormat    = "{$width}:{$height}";
-        $approxLabel    = null;
+        $dimensions = "{$width} × {$height}";
+        $fractionFormat = number_format($ratio, 2).':1';
+        $xFormat = "{$width}x{$height}";
+        $colonFormat = "{$width}:{$height}";
+        $approxLabel = null;
 
         // Match approximate known aspect ratios
         foreach (config('media-library-extensions.available_aspect_ratios', []) as $availableAspectRatio) {
@@ -344,22 +344,22 @@ trait InteractsWithMediaExtended
         }
 
         $imageInfo = [
-            'width'        => $width,
-            'height'       => $height,
-            'ratio'        => $ratio,
-            'dimensions'   => $dimensions,
-            'fraction'     => $fractionFormat,
-            'x_format'     => $xFormat,
+            'width' => $width,
+            'height' => $height,
+            'ratio' => $ratio,
+            'dimensions' => $dimensions,
+            'fraction' => $fractionFormat,
+            'x_format' => $xFormat,
             'colon_format' => $colonFormat,
             'approx_label' => $approxLabel,
-            'display'      => $approxLabel
+            'display' => $approxLabel
                 ? "{$fractionFormat} ({$approxLabel})"
                 : $fractionFormat,
-            'filled'       => true,
-            'maxWidth'     => config('media-library-extensions.max_image_width'),
-            'maxHeight'     => config('media-library-extensions.max_image_height'),
-            'minWidth'     => config('media-library-extensions.min_image_width'),
-            'minHeight'     => config('media-library-extensions.min_image_height'),
+            'filled' => true,
+            'maxWidth' => config('media-library-extensions.max_image_width'),
+            'maxHeight' => config('media-library-extensions.max_image_height'),
+            'minWidth' => config('media-library-extensions.min_image_width'),
+            'minHeight' => config('media-library-extensions.min_image_height'),
         ];
 
         $flags = $this->getImageValidationFlags($imageInfo, $requiredAspectRatio);
@@ -370,34 +370,34 @@ trait InteractsWithMediaExtended
     public function getImageValidationFlags(array $imageInfo, ?array $requiredAspectRatio = null): array
     {
         // Dimension checks
-        $tooWide   = $imageInfo['width']  > ($imageInfo['maxWidth'] ?? PHP_INT_MAX);
-        $tooTall   = $imageInfo['height'] > ($imageInfo['maxHeight'] ?? PHP_INT_MAX);
-        $tooNarrow = $imageInfo['width']  < ($imageInfo['minWidth'] ?? 0);
-        $tooShort  = $imageInfo['height'] < ($imageInfo['minHeight'] ?? 0);
+        $tooWide = $imageInfo['width'] > ($imageInfo['maxWidth'] ?? PHP_INT_MAX);
+        $tooTall = $imageInfo['height'] > ($imageInfo['maxHeight'] ?? PHP_INT_MAX);
+        $tooNarrow = $imageInfo['width'] < ($imageInfo['minWidth'] ?? 0);
+        $tooShort = $imageInfo['height'] < ($imageInfo['minHeight'] ?? 0);
 
         // Aspect ratio
         $requiredValue = null;
         $requiredLabel = __('media-library-extensions::messages.unknown');
 
-        if (!empty($requiredAspectRatio)) {
+        if (! empty($requiredAspectRatio)) {
             $requiredLabel = array_key_first($requiredAspectRatio);
             $requiredValue = $requiredAspectRatio[$requiredLabel];
         }
 
         $ratioOk = false;
-        if (!empty($imageInfo['ratio']) && $requiredValue !== null) {
+        if (! empty($imageInfo['ratio']) && $requiredValue !== null) {
             $tolerance = 0.02; // ~2% tolerance
             $ratioOk = abs($imageInfo['ratio'] - $requiredValue) < $tolerance;
         }
 
         return [
-            'tooWide'      => $tooWide,
-            'tooTall'      => $tooTall,
-            'tooNarrow'    => $tooNarrow,
-            'tooShort'     => $tooShort,
-            'ratioOk'      => $ratioOk,
-            'requiredLabel'=> $requiredLabel,
-            'requiredValue'=> $requiredValue,
+            'tooWide' => $tooWide,
+            'tooTall' => $tooTall,
+            'tooNarrow' => $tooNarrow,
+            'tooShort' => $tooShort,
+            'ratioOk' => $ratioOk,
+            'requiredLabel' => $requiredLabel,
+            'requiredValue' => $requiredValue,
         ];
     }
 
@@ -405,27 +405,27 @@ trait InteractsWithMediaExtended
     protected function emptyImageInfo(): array
     {
         return [
-            'width'        => null,
-            'height'       => null,
-            'ratio'        => null,
-            'dimensions'   => null,
-            'fraction'     => null,
-            'x_format'     => null,
+            'width' => null,
+            'height' => null,
+            'ratio' => null,
+            'dimensions' => null,
+            'fraction' => null,
+            'x_format' => null,
             'colon_format' => null,
             'approx_label' => null,
-            'display'      => null,
-            'filled'       => false,
-            'maxWidth'     => config('media-library-extensions.max_image_width'),
-            'maxHeight'    => config('media-library-extensions.max_image_height'),
-            'minWidth'     => config('media-library-extensions.min_image_width'),
-            'minHeight'    => config('media-library-extensions.min_image_height'),
-            'tooWide'      => null,
-            'tooTall'      => null,
-            'tooNarrow'    => null,
-            'tooShort'     => null,
-            'ratioOk'      => null,
-            'requiredLabel'=> __('media-library-extensions::messages.unknown'),
-            'requiredValue'=> null,
+            'display' => null,
+            'filled' => false,
+            'maxWidth' => config('media-library-extensions.max_image_width'),
+            'maxHeight' => config('media-library-extensions.max_image_height'),
+            'minWidth' => config('media-library-extensions.min_image_width'),
+            'minHeight' => config('media-library-extensions.min_image_height'),
+            'tooWide' => null,
+            'tooTall' => null,
+            'tooNarrow' => null,
+            'tooShort' => null,
+            'ratioOk' => null,
+            'requiredLabel' => __('media-library-extensions::messages.unknown'),
+            'requiredValue' => null,
         ];
 
     }
@@ -434,5 +434,4 @@ trait InteractsWithMediaExtended
     {
         return $this->htmlEditorFields ?? [];
     }
-
 }

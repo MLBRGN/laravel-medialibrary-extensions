@@ -4,7 +4,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -40,11 +39,11 @@ class MediaPreviews extends BaseComponent
             $this->media->push($this->singleMedium);
         } else {
             $this->media = collect($collections)
-                ->filter(fn($collectionName
-                ) => !is_null($collectionName) && $collectionName !== '') // remove null or empty
+                ->filter(fn ($collectionName
+                ) => ! is_null($collectionName) && $collectionName !== '') // remove null or empty
                 ->flatMap(function (?string $collectionName, string $collectionType) {
                     if ($this->temporaryUploadMode) {
-                        if (!empty($collectionName)) {
+                        if (! empty($collectionName)) {
                             return TemporaryUpload::forCurrentSession($collectionName);
                         }
                     }
@@ -55,7 +54,7 @@ class MediaPreviews extends BaseComponent
 
                     return [];
                 })
-                ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+                ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
                 ->values();
         }
 
@@ -77,8 +76,8 @@ class MediaPreviews extends BaseComponent
             $this->getConfig('showMediaEditButton') === false
 
         ) {
-            $this->options['showMenu']  = false;
-            $this->config['showMenu']  = false;
+            $this->options['showMenu'] = false;
+            $this->config['showMenu'] = false;
         }
 
     }

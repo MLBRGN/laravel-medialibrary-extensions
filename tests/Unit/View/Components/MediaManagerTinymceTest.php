@@ -3,7 +3,7 @@
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 
 it('throws exception when no media collections provided', function () {
-    expect(fn() => new MediaManagerTinymce(
+    expect(fn () => new MediaManagerTinymce(
         id: 'test1',
         modelOrClassName: stdClass::class,
         collections: []
@@ -130,4 +130,3 @@ it('calls correct view with configured frontend theme bootstrap-5', function () 
     expect($view)->toBeInstanceOf(Illuminate\View\View::class);
     expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-manager-tinymce');
 });
-

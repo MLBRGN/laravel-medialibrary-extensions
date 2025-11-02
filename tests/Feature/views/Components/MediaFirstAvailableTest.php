@@ -9,9 +9,10 @@ it('initializes with a HasMedia model and finds the first medium', function () {
     $model = $this->getModelWithMedia(['image' => 4]);
 
     $component = new MediaFirstAvailable(
-        'media-first-available',
-        $model,
-        ['image_collection', 'video_collection']
+        id: 'media-first-available',
+        modelOrClassName: $model,
+        collections: ['image_collection', 'video_collection'],
+        options: []
     );
 
     expect($component->model)->toBe($model)

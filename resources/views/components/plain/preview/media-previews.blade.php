@@ -25,7 +25,7 @@
             :id="$id"
             :model-or-class-name="$modelOrClassName"
             :single-medium="$singleMedium"
-            :media-collections="$collections"
+            :collections="$collections"
             :single-medium="$singleMedium"
             :video-auto-play="true"
             :options="$options"

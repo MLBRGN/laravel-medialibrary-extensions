@@ -20,6 +20,7 @@ class MediaPreviewItemEmpty extends BaseComponent
         $this->initializeConfig();
 
     }
+
     public function render(): View
     {
         return $this->getView('preview.media-preview-item-empty', $this->getConfig('frontendTheme'));

@@ -181,7 +181,7 @@
         <x-mle-first-available
             id="media-first-available"
             :model-or-class-name="$model"
-            :media-collections="['alien-single-audio', 'alien-single-video', 'alien-single-document', 'alien-single-image', 'alien-single-youtube-video']"
+            :collections="['alien-single-audio', 'alien-single-video', 'alien-single-document', 'alien-single-image', 'alien-single-youtube-video']"
         />
 
         @if (app()->environment('local') && class_exists(Form::class))

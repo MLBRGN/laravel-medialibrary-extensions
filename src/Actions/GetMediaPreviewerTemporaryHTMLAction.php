@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -39,7 +38,7 @@ class GetMediaPreviewerTemporaryHTMLAction
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
         // no model
-        
+
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))
             ->values()

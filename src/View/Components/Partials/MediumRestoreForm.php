@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
-use Exception;
 use Illuminate\View\View;
 use InvalidArgumentException;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -21,6 +20,7 @@ class MediumRestoreForm extends BaseComponent
     public ?string $mediaManagerId = '';
 
     public array $config;
+
     public string $mediumRestoreRoute;
 
     public function __construct(

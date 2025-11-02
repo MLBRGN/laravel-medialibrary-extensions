@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
@@ -15,7 +16,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class LabPreviews extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
-
 
     public function __construct(
         ?string $id,

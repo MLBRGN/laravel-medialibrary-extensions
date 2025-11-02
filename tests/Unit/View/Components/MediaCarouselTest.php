@@ -4,7 +4,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
 beforeEach(function () {
     Config::set('media-library-extensions.frontend_theme', 'bootstrap-5');
@@ -67,15 +66,15 @@ it('uses provided frontend theme if given', function () {
 
 it('renders view and matches snapshot', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
-    $mediaCollections = ['images', 'documents'];
+    $collections = ['images', 'documents'];
 
     $html = Blade::render('<x-mle-media-carousel
                     :model-or-class-name="$modelOrClassName"
                     id="media-carousel"
-                    :collections="$mediaCollections"
+                    :collections="$collections"
                 />', [
         'modelOrClassName' => $model,
-        'mediaCollections' => $mediaCollections,
+        'collections' => $collections,
     ]);
 
     expect($html)->toMatchSnapshot();

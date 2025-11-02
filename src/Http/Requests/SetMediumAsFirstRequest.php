@@ -4,8 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
-use function PHPUnit\Framework\assertFalse;
-
 /**
  * Handles the validation rules and authorization for the SetAsFirstRequest.
  * This class ensures that the necessary input parameters are present and valid.

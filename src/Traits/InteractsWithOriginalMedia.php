@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
@@ -7,8 +8,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 trait InteractsWithOriginalMedia
 {
@@ -16,22 +17,21 @@ trait InteractsWithOriginalMedia
      * Replace an existing permanent medium with a new file.
      * Preserves order, priority, and custom properties (including global_order).
      */
-
     public function replaceMedium(Media $oldMedia, ?UploadedFile $newFile = null): Media
     {
-        Log::info('replaceMedium oldMedia id: ' . $oldMedia->getKey() . ' invoked');
+        Log::info('replaceMedium oldMedia id: '.$oldMedia->getKey().' invoked');
 
         $oldId = $oldMedia->id;
         $backup = $oldMedia->replicate();
         $backup->id = $oldId; // only for reference
         $oldMedia->delete();
-        Log::info('backup id: ' . $backup->id);
+        Log::info('backup id: '.$backup->id);
 
         $model = $backup->model;
         $collection = $backup->collection_name;
 
         if ($newFile) {
-            Log::info('newFile: ' . $newFile->getClientOriginalName());
+            Log::info('newFile: '.$newFile->getClientOriginalName());
 
             // Use uploaded file
             $newMedia = $model->addMedia($newFile)
@@ -92,9 +92,10 @@ trait InteractsWithOriginalMedia
 
         $newUpload->save();
 
-//        $this->reuseOriginal($backup, $newUpload);
+        //        $this->reuseOriginal($backup, $newUpload);
 
         Log::info("Replaced temporary upload [{$backup->id}] with [{$newUpload->id}].");
+
         return $newUpload;
     }
 
@@ -110,6 +111,7 @@ trait InteractsWithOriginalMedia
 
         if (Storage::disk('originals')->exists($destination)) {
             Log::info("Original already exists for media [{$media->id}], skipping copy.");
+
             return;
         }
 
@@ -129,21 +131,22 @@ trait InteractsWithOriginalMedia
      */
     protected function reuseOriginal(Media $oldMedia, Media $newMedia): void
     {
-        Log::info('reuseOriginal oldMedia id: ' . $oldMedia->getKey() . ' newMedia id: ' . $newMedia->getKey() . ' invoked');
+        Log::info('reuseOriginal oldMedia id: '.$oldMedia->getKey().' newMedia id: '.$newMedia->getKey().' invoked');
 
         $oldPath = "{$oldMedia->id}/{$oldMedia->file_name}";
         $newPath = "{$newMedia->id}/{$newMedia->file_name}";
 
-        if (!Storage::disk('originals')->exists($oldPath)) {
+        if (! Storage::disk('originals')->exists($oldPath)) {
             Log::warning("Old original not found for media [{$oldMedia->id}].");
+
             return;
         }
 
         // TODO disabled this code, prevented old original to overwrite new original added by MediaHasBeenAddedListener
-//        if (Storage::disk('originals')->exists($newPath)) {
-//            Log::info("Original already exists for new media [{$newMedia->id}], skipping reuse.");
-//            return;
-//        }
+        //        if (Storage::disk('originals')->exists($newPath)) {
+        //            Log::info("Original already exists for new media [{$newMedia->id}], skipping reuse.");
+        //            return;
+        //        }
 
         try {
             Storage::disk('originals')->copy($oldPath, $newPath);

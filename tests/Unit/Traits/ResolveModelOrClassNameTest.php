@@ -1,15 +1,17 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Illuminate\Database\Eloquent\Model;
+use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 
 uses()->group('traits');
 
 beforeEach(function () {
-    $this->class = new class {
+    $this->class = new class
+    {
         use ResolveModelOrClassName;
 
-        public function callResolveModelOrClassName(Model|string $modelOrClassName) {
+        public function callResolveModelOrClassName(Model|string $modelOrClassName)
+        {
             return $this->resolveModelOrClassName($modelOrClassName);
         }
     };

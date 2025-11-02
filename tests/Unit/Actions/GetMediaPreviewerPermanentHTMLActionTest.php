@@ -3,7 +3,6 @@
 use Illuminate\Http\JsonResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviewGrid;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 
 beforeEach(function () {
@@ -87,7 +86,7 @@ it('renders permanent media preview HTML and returns JSON response', function ()
 
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaPreviews $component) use ($initiatorId, $requestData, $frontendTheme, $model) {
+        ->withArgs(function (MediaPreviews $component) use ($initiatorId, $frontendTheme, $model) {
             expect($component->id)->toBe($initiatorId);
             expect($component->modelOrClassName)->toBe($model);
             expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);

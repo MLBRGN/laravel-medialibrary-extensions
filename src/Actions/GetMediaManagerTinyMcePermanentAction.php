@@ -20,7 +20,7 @@ class GetMediaManagerTinyMcePermanentAction
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $id = 'something_for_now'; // TODO
-        $multiple = true;// TODO
+        $multiple = true; // TODO
         $collections = json_decode(request()->string('collections'), true);
         $options = json_decode(request()->string('options'), true);
 

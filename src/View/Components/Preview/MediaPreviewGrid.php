@@ -4,7 +4,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -13,11 +12,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaPreviewGrid extends BaseComponent
 {
-
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
-//    public Collection $media;
+    //    public Collection $media;
 
     public function __construct(
         ?string $id,
@@ -37,5 +35,4 @@ class MediaPreviewGrid extends BaseComponent
     {
         return $this->getView('preview.media-preview-grid', $this->getConfig('frontendTheme'));
     }
-
 }

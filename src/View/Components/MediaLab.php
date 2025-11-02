@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
@@ -23,7 +24,7 @@ class MediaLab extends BaseComponent
         public Media|TemporaryUpload|null $medium,
         public array $options = [],
     ) {
-        $id = filled($id) ? $id : 'mle-media-lab-' . uniqid();
+        $id = filled($id) ? $id : 'mle-media-lab-'.uniqid();
 
         parent::__construct($id);
 

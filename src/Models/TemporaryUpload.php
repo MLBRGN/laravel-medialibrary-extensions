@@ -13,7 +13,6 @@ use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactor
 
 class TemporaryUpload extends Model
 {
-
     public static function newFactory()
     {
         return TemporaryUploadFactory::new();
@@ -42,14 +41,14 @@ class TemporaryUpload extends Model
     // used when serializing
     protected $appends = ['url'];
 
-//    public static function isAvailable(): bool
-//    {
-//        $instance = new static;
-//        $connection = $instance->getConnectionName();
-//        $table = $instance->getTable();
-//
-//        return Schema::connection($connection)->hasTable($table);
-//    }
+    //    public static function isAvailable(): bool
+    //    {
+    //        $instance = new static;
+    //        $connection = $instance->getConnectionName();
+    //        $table = $instance->getTable();
+    //
+    //        return Schema::connection($connection)->hasTable($table);
+    //    }
 
     // null = default connection
     public function getConnectionName()

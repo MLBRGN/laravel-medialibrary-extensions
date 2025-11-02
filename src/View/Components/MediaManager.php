@@ -86,22 +86,22 @@ class MediaManager extends BaseComponent
             $this->getConfig('showMediaEditButton') === false
 
         ) {
-            $this->options['showMenu']  = false;
-            $this->config['showMenu']  = false;
+            $this->options['showMenu'] = false;
+            $this->config['showMenu'] = false;
         }
 
         // override
         if (! $this->getConfig('showUploadForm') && ! $this->getConfig('showYouTubeUploadForm')) {
-            $this->options['showUploadForms']  = false;
-            $this->config['showUploadForms']  = false;
+            $this->options['showUploadForms'] = false;
+            $this->config['showUploadForms'] = false;
         }
 
         // override, don't show upload forms or "set as first" for single medium media managers
-        if (!is_null($this->getConfig('singleMedium'))) {
-            $this->options['showUploadForms']  = false;
-            $this->config['showUploadForms']  = false;
-            $this->options['showSetAsFirst']  = false;
-            $this->config['showSetAsFirst']  = false;
+        if (! is_null($this->getConfig('singleMedium'))) {
+            $this->options['showUploadForms'] = false;
+            $this->config['showUploadForms'] = false;
+            $this->options['showSetAsFirst'] = false;
+            $this->config['showSetAsFirst'] = false;
         }
     }
 

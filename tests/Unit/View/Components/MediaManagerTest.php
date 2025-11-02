@@ -77,7 +77,6 @@ it('appends correct id suffix based on multiple flag', function () {
         ->and($componentSingle->id)->toBe('my-media-mms');
 });
 
-
 it('initializes without temporary upload when a eloquent model is provided', function () {
     config()->set('media-library-extensions.demo_pages_enabled', false);
     $model = Blog::create(['title' => 'test']);
@@ -367,4 +366,3 @@ it('hides media menu when all menu buttons disabled', function () {
 
     expect($component->getConfig('showMenu'))->toBeFalse();
 });
-

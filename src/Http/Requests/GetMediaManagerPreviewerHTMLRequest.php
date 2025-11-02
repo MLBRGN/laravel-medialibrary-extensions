@@ -35,12 +35,12 @@ class GetMediaManagerPreviewerHTMLRequest extends FormRequest
         ];
     }
 
-//    protected function prepareForValidation(): void
-//    {
-//        $this->merge([
-//            'single_medium_id' => $this->filled('single_medium_id') ? $this->input('single_medium_id') : null,
-//        ]);
-//    }
+    //    protected function prepareForValidation(): void
+    //    {
+    //        $this->merge([
+    //            'single_medium_id' => $this->filled('single_medium_id') ? $this->input('single_medium_id') : null,
+    //        ]);
+    //    }
 
     protected function withValidator(Validator $validator): void
     {

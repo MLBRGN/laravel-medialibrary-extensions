@@ -25,7 +25,7 @@
         title="Close">❓</span>
                 </button>
                 <div id="test-media-modal-mod-crs"
-     class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-empty mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
      data-mle-carousel
      data-mle-carousel-id="test-media-modal-mod-crs"
      tabindex="-1"
@@ -34,25 +34,62 @@
 
     
     <div
-        class="mle-media-carousel-indicators mle-display-none"
+        class="mle-media-carousel-indicators"
         data-mle-carousel-indicators
     >
+                    <button
+                type="button"
+                data-mle-slide-to="0"
+                class="active"
+                 
+                    aria-current="true" 
+                                aria-label="Slide to 1">
+            </button>
+                    <button
+                type="button"
+                data-mle-slide-to="1"
+                class=""
+                                aria-label="Slide to 2">
+            </button>
             </div>
 
     
     <div class="mle-media-carousel-inner">
-                    <div class="mle-media-carousel-item active"
+                    <div
+
+                class="mle-media-carousel-item active"
                 data-mle-carousel-item
             >
-                <div class="mle-media-carousel-item-container">
-                    <span class="mle-no-media">No media.</span>
-                </div>
+                <div class="mle-media-carousel-item-container"
+                                     >
+                                            <img
+        class="mle-image-responsive" draggable="false"
+        src="/media/1/test.jpg?v=1762106860"
+                        alt="test"
+         loading="lazy"         data-mle-image
+    >
+                                    </div>
+            </div>
+                    <div
+
+                class="mle-media-carousel-item"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
+                                     >
+                                            <img
+        class="mle-image-responsive" draggable="false"
+        src="/media/2/test2.jpg?v=1762106860"
+                        alt="test2"
+         loading="lazy"         data-mle-image
+    >
+                                    </div>
             </div>
             </div>
 
     
     <button 
-        class="mle-media-carousel-control-prev disabled"
+        class="mle-media-carousel-control-prev"
         type="button"
         data-slide="prev">
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
@@ -64,7 +101,7 @@
         <span class="mle-visually-hidden">Previous</span>
     </button>
     <button 
-        class="mle-media-carousel-control-next disabled"
+        class="mle-media-carousel-control-next"
         type="button"
         data-slide="next">
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">

@@ -32,12 +32,11 @@ Route::group([
         Route::get('media-manager-lab-preview-update', 'getUpdatedMediaManagerLabPreviewerHTML')->name(config('media-library-extensions.route_prefix').'-media-manager-lab-preview-update');
         Route::post('media-manager/{media}/save-updated-medium', 'saveUpdatedMedium')->name(config('media-library-extensions.route_prefix').'-save-updated-medium');
         Route::post('media-manager/{temporaryUpload}/save-updated-temporary-upload', 'saveUpdatedTemporaryUpload')->name(config('media-library-extensions.route_prefix').'-save-updated-temporary-upload');
-        Route::post('media-lab/{media}/restore-original-medium','restoreOriginalMedium')->name(config('media-library-extensions.route_prefix').'-restore-original-medium');
+        Route::post('media-lab/{media}/restore-original-medium', 'restoreOriginalMedium')->name(config('media-library-extensions.route_prefix').'-restore-original-medium');
 
         // TinyMCE media manager route
         Route::get('media-manager-tinymce', 'tinyMce')
             ->name(config('media-library-extensions.route_prefix').'-media-manager-tinymce');
-
 
     });
 });

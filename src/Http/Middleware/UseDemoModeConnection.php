@@ -5,8 +5,6 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Route;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UseDemoModeConnection
 {

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
-use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 it('renders the single media manager component', function () {
     $blog = $this->getTestBlogModel();

@@ -34,7 +34,7 @@ class TemporaryUploadPromoter
             // Replace URLs inside HTML editor fields
             if ($media && $temporaryUploadUrl) {
                 foreach ($model->getHtmlEditorFields() as $field) {
-                    if (!empty($model->{$field})) {
+                    if (! empty($model->{$field})) {
                         Log::info("replace {$temporaryUploadUrl} with {$media->getUrl()}");
                         $newValue = str_replace($temporaryUploadUrl, $media->getUrl(), $model->{$field});
                         if ($newValue !== $model->{$field}) {
