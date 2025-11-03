@@ -21,8 +21,7 @@ class LabPreview extends BaseComponent
         public Media $medium,
         public string $title,
         public array $options = []
-    )
-    {
+    ) {
         $id = filled($id) ? $id : null;
         parent::__construct($id);
 

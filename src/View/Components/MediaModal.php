@@ -18,8 +18,8 @@ class MediaModal extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,
-        public ?string $mediaCollection,
-        public ?array $mediaCollections,
+        //        public ?string $mediaCollection,
+        public ?array $collections,
         public ?string $title,// TODO do i want this?
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public array $options = [],

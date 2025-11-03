@@ -1,6 +1,5 @@
 // noinspection ES6UnusedImports
 
-import '@/js/shared/general';
 import '@/js/shared/image-fallback';
 // import '@/js/plain/media-carousel';
 // import '@/js/shared/image-editor-listener'

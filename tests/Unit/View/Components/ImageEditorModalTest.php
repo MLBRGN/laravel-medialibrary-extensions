@@ -3,7 +3,6 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;

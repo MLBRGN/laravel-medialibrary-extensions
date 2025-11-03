@@ -1,20 +1,16 @@
 @if ($componentToRender)
-    <div class="media-preview-item-container"
+    <div class="mle-media-preview-item-container"
          data-bs-toggle="modal"
          data-bs-target="#{{ $id }}-mod"
     >
-            <x-dynamic-component
-                :component="$componentToRender"
-                class="{{ $mediumType === 'image' 
-                    ? 'media-preview-image mle-cursor-zoom-in' 
-                    : 'mle-cursor-zoom-in' }}"
-                data-bs-target="#{{ $id }}-mod-crs"
-                data-bs-slide-to="{{ $loopIndex }}"
-                :medium="$medium"
-                :options="$options"
-                :draggable="$mediumType === 'image' ? 'false' : null"
-                :preview="true"
-            />
+        <x-mle-media-viewer
+            :medium="$medium"
+            :options="$options"
+            :preview-mode="true"
+            :expandable-in-modal="true"
+            data-bs-target="#{{ $id }}-mod-crs"
+            data-bs-slide-to="{{ $loopIndex }}"
+        />
     </div>
 
     @if ($mediumType === 'image')

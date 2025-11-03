@@ -3,14 +3,14 @@
     :form-attributes="[
         'action' => route(mle_prefix_route('media-upload-youtube')),
         'method' => 'POST',
-        'data-form'
+        'data-mle-form'
     ]"
     :div-attributes="[
-        'data-xhr-form' => $getConfig('useXhr'), 
+        'data-mle-xhr-form' => $getConfig('useXhr'), 
         'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
-    class="media-manager-youtube-upload-form"
+    class="mle-media-manager-youtube-upload-form"
 >
     <input 
         type="hidden" 
@@ -68,7 +68,7 @@
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-upload-button"
-        data-action="upload-youtube-medium"
+        data-mle-action="upload-youtube-medium"
         @disabled($disabled)
     >
         {{ __('media-library-extensions::messages.add_youtube_video') }}

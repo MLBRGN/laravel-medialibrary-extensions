@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
@@ -172,10 +174,10 @@ class TestCase extends Orchestra
         return __DIR__.'/Support/tmp/uploads';
     }
 
-//    public function getFixtureUploadedFile($fileName): string
-//    {
-//        return $this->getTempDirectory('uploads/'.$fileName);
-//    }
+    //    public function getFixtureUploadedFile($fileName): string
+    //    {
+    //        return $this->getTempDirectory('uploads/'.$fileName);
+    //    }
 
     public function getFixtureUploadedFile(string $fileName): UploadedFile
     {
@@ -194,28 +196,27 @@ class TestCase extends Orchestra
         );
     }
 
-
-//    public function getFixtureUploadedFile($fileName): UploadedFile
-//    {
-//        dump('getFixtureUploadedFile '. $fileName);
-//        $path = $this->getTempDirectory('uploads/'.$fileName);
-//
-//        dump($path);
-//        try {
-//            $mimeType = mime_content_type($path);
-//        } catch (\Exception $e) {
-//            dump('failed to get mime type');
-//            dump($fileName);
-//            $mimeType = 'not found';
-//        }
-//        return new UploadedFile(
-//            path: $path,
-//            originalName: basename($fileName),
-//            mimeType: $mimeType,
-//            error: null,
-//            test: true, // mark as test upload (so no real upload validation)
-//        );
-//    }
+    //    public function getFixtureUploadedFile($fileName): UploadedFile
+    //    {
+    //        dump('getFixtureUploadedFile '. $fileName);
+    //        $path = $this->getTempDirectory('uploads/'.$fileName);
+    //
+    //        dump($path);
+    //        try {
+    //            $mimeType = mime_content_type($path);
+    //        } catch (\Exception $e) {
+    //            dump('failed to get mime type');
+    //            dump($fileName);
+    //            $mimeType = 'not found';
+    //        }
+    //        return new UploadedFile(
+    //            path: $path,
+    //            originalName: basename($fileName),
+    //            mimeType: $mimeType,
+    //            error: null,
+    //            test: true, // mark as test upload (so no real upload validation)
+    //        );
+    //    }
 
     protected function getUploadedFile(
         string $name = 'test.jpg',
@@ -308,19 +309,19 @@ class TestCase extends Orchestra
         return $target;
     }
 
-//    public function getTestImagePath(string $fileName = 'test.jpg'): string
-//    {
-//
-//        $source = __DIR__.'/Support/files/'.$fileName;
-////        dump($source);
-////        dump($fileName);
-//        $target = $this->getFixtureUploadedFile($fileName);
-//
-//        File::ensureDirectoryExists(dirname($target));
-//        File::copy($source, $target);
-//
-//        return $target;
-//    }
+    //    public function getTestImagePath(string $fileName = 'test.jpg'): string
+    //    {
+    //
+    //        $source = __DIR__.'/Support/files/'.$fileName;
+    // //        dump($source);
+    // //        dump($fileName);
+    //        $target = $this->getFixtureUploadedFile($fileName);
+    //
+    //        File::ensureDirectoryExists(dirname($target));
+    //        File::copy($source, $target);
+    //
+    //        return $target;
+    //    }
 
     public function getModelWithMedia(array $types = ['image' => 1]): Model
     {
@@ -382,6 +383,7 @@ class TestCase extends Orchestra
         // nullify timestamp otherwise snapshot testing might fail
         $model->timestamps = false;
         $model->update(['created_at' => null, 'updated_at' => null]);
+
         return $model;
     }
 

@@ -20,11 +20,11 @@ class RestoreOriginalMediumRequest extends MediaManagerRequest
     public function rules(): array
     {
         return [
-//            'initiator_id' => ['required', 'string'],
-//            'media_manager_id' => ['required', 'string'],
-//            'single_medium_id' => ['nullable'],
-//            'collections' => ['required', 'array', 'min:1'],
-//            'collections.*' => ['nullable', 'string'],
+            //            'initiator_id' => ['required', 'string'],
+            //            'media_manager_id' => ['required', 'string'],
+            //            'single_medium_id' => ['nullable'],
+            //            'collections' => ['required', 'array', 'min:1'],
+            //            'collections.*' => ['nullable', 'string'],
         ];
     }
 

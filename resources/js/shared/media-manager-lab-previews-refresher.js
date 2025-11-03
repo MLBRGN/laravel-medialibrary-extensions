@@ -1,5 +1,4 @@
 import { handleAjaxError } from './xhrStatus';
-import { disableFormElements, enableFormElements } from './form';
 import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
 
 /**
@@ -8,12 +7,13 @@ import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
 
 // updatePreviews(mediaManager, config, mediumId, { part: 'base' | 'original' })
 export async function updatePreviews(mediaManager, config, mediumId,  detail = {}) {
-    const previewsContainer = mediaManager.querySelector('[data-media-manager-lab-previews]');
+    const previewsContainer = mediaManager.querySelector('[data-mle-media-manager-lab-previews]');
     if (!previewsContainer) return;
 
     const params = new URLSearchParams({
         initiator_id: config.id,
         medium_id: mediumId,
+        options: JSON.stringify(config.options),
     });
 
     // Cache-busting param
@@ -42,10 +42,10 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
 
         // If partial update, replace only that part
         if (detail.part === 'original') {
-            const replaced = previewsContainer.querySelector('[data-media-lab-preview-original]');
+            const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-original]');
             if (replaced) replaced.outerHTML = data.html;
         } else if (detail.part === 'base') {
-            const replaced = previewsContainer.querySelector('[data-media-lab-preview-base]');
+            const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-base]');
             if (replaced) replaced.outerHTML = data.html;
         } else {
             previewsContainer.innerHTML = data.html;
@@ -65,11 +65,10 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     }
 }
 
-// TODO refresh media manager lab previews after nested media manager refreshed
 document.addEventListener('imageUpdated', (e) => {
     // console.log('image updated', e);
     const initiator =  document.getElementById(e.detail.initiatorId);
-    const mediaManagerLab = initiator.closest('[data-media-manager-lab]')
+    const mediaManagerLab = initiator.closest('[data-mle-media-manager-lab]')
     const mediumId = e.detail.mediumId;
 
     const config = getMediaManagerConfig(mediaManagerLab);

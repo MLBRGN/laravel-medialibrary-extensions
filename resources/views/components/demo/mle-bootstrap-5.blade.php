@@ -14,6 +14,12 @@
         {{--            integrity="sha384-QWTKZyjpPEjISv5WaRU5M6QdFVb2l9gCk0GZg6CJWjvvoE5yOAy+n9C80+XW9HdT"--}}
         crossorigin="anonymous"
     >
+    <style>
+        .mle-demo-media-first-available-container {
+            height:200px;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 <div class="container-lg mt-5">
@@ -161,28 +167,51 @@
         <x-mle-media-carousel
             id="alien-media-carousel-temporary-uploads"
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+{{--            :collections="[--}}
+{{--                'image' => 'alien-single-image', //, 'alien-multiple-images'],--}}
+{{--                'document' => 'alien-single-document', //'alien-multiple-documents'], --}}
+{{--                'youtube' => 'alien-single-youtube-video', //'alien-multiple-youtube-videos'],--}}
+{{--                'video' => 'alien-single-video', //'alien-multiple-videos'],--}}
+{{--                'audio' => 'alien-single-audio', //'alien-multiple-audio'],--}}
+{{--            ]"--}}
             :collections="[
-                                'alien-single-image', 
-                                'alien-single-document', 
-                                'alien-single-youtube-video',
-                                'alien-single-video',
-                                'alien-single-audio',
-                                'alien-multiple-images', 
-                                'alien-multiple-documents', 
-                                'alien-multiple-youtube-videos',
-                                'alien-multiple-videos',
-                                'alien-multiple-audio',
-                            ]"
+                'image' => ['alien-single-image', 'alien-multiple-images'],
+                'document' => ['alien-single-document', 'alien-multiple-documents'], 
+                'youtube' => ['alien-single-youtube-video', 'alien-multiple-youtube-videos'],
+                'video' => ['alien-single-video', 'alien-multiple-videos'],
+                'audio' => ['alien-single-audio', 'alien-multiple-audio'],
+            ]"
+{{--            :collections="[--}}
+{{--                                'alien-single-image', --}}
+{{--                                'alien-single-document', --}}
+{{--                                'alien-single-youtube-video',--}}
+{{--                                'alien-single-video',--}}
+{{--                                'alien-single-audio',--}}
+{{--                                'alien-multiple-images', --}}
+{{--                                'alien-multiple-documents', --}}
+{{--                                'alien-multiple-youtube-videos',--}}
+{{--                                'alien-multiple-videos',--}}
+{{--                                'alien-multiple-audio',--}}
+{{--                            ]"--}}
             class="my-5"
         />
 
         <h2 class="my-5">Media first available</h2>
 
-        <x-mle-first-available
-            id="media-first-available"
-            :model-or-class-name="$model"
-            :media-collections="['alien-single-audio', 'alien-single-video', 'alien-single-document', 'alien-single-image', 'alien-single-youtube-video']"
-        />
+        <div class="mle-demo-media-first-available-container">
+            <x-mle-first-available
+                id="media-first-available"
+                :model-or-class-name="$model"
+                :collections="[
+                    'audio' => 'alien-single-audio', 
+                    'video' => 'alien-single-video', 
+                    'document' => 'alien-single-document', 
+                    'image' => 'alien-single-image', 
+                    'youtube' => 'alien-single-youtube-video'
+                ]"
+                class="mle-width-100 mle-height-100"
+            />
+        </div>
 
         @if (app()->environment('local') && class_exists(Form::class))
             <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
@@ -206,9 +235,9 @@
                         'collection_name' => 'blog-images-extra',
                         'collections' => ['image' => 'blog-images-extra']
                     ]"
-                    data-model-type="{{ $blog->getMorphClass() }}"
-                    data-model-id="{{ $blog->getKey() }}"
-                    data-image-collection="blog-images-extra"
+                    data-mle-model-type="{{ $blog->getMorphClass() }}"
+                    data-mle-model-id="{{ $blog->getKey() }}"
+                    data-mle-image-collection="blog-images-extra"
                 />
             </x-form.form>
         @else

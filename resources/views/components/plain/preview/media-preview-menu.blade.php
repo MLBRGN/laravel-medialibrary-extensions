@@ -1,5 +1,5 @@
-<div class="media-preview-menu">
-    <div class="media-preview-menu-start">
+<div class="mle-media-preview-menu">
+    <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
             <span class="mle-pseudo-button mle-pseudo-button-icon"
                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
@@ -16,6 +16,7 @@
                     class="mle-media-select-checkbox"
                     data-url="{{ $medium->getUrl() }}"
                     data-alt="{{ $medium->name }}"
+                    data-mle-media-select-checkbox
                 >
                 <span class="mle-media-select-indicator"
                   title="{{ __('media-library-extensions::messages.select') }}"
@@ -24,13 +25,13 @@
         @endif
     </div>
 
-    <div class="media-preview-menu-end">
+    <div class="mle-media-preview-menu-end">
         @if($getConfig('showMediaEditButton'))
             @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                 <button
                     type="button"
                     class="mle-button mle-button-icon"
-                    data-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
+                    data-mle-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
                     title="{{ __('media-library-extensions::messages.edit') }}"
                     @disabled($disabled)
                 >
@@ -78,20 +79,6 @@
                 :disabled="$disabled"
             />
         @endif
-
-{{--        @if(config('media-library-extensions.debug'))--}}
-{{--            <button type="button"--}}
-{{--                    class="mle-button mle-button-icon btn btn-primary"--}}
-{{--                    title="{{ __('media-library-extensions::messages.debug') }}"--}}
-{{--                    data-action="debugger-toggle"--}}
-{{--            >--}}
-{{--                <x-mle-shared-icon--}}
-{{--                    name="{{ config('media-library-extensions.icons.bug') }}"--}}
-{{--                    title="{{ __('media-library-extensions::messages.debug') }}"--}}
-{{--                />--}}
-{{--            </button>--}}
-{{--        @endif--}}
-
-{{--        <x-mle-shared-local-package-icon />--}}
+        
     </div>
 </div>

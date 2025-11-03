@@ -12,7 +12,11 @@ function initializeImageEditor(config) {
     console.log('initializeImageEditor config', config)
     const imageEditor = config.imageEditorInstance;
 
-    // No need to read from attributes anymore!
+    if (!imageEditor) {
+        console.warn('No imageEditorInstance provided.');
+        return;
+    }
+
     const {
         name,
         path,
@@ -23,7 +27,7 @@ function initializeImageEditor(config) {
     } = config;
 
     imageEditor.setImage(name, path, initiatorId);
-    imageEditor.setConfiguration({
+    const imageEditorConfig = {
         debug: false,
         rotateDegreesStep: 90,
         freeSelectDisabled: true,
@@ -31,6 +35,7 @@ function initializeImageEditor(config) {
         freeResizeDisabled: true,
         filtersDisabled: true,
         selectionAspectRatios: [requiredAspectRatio],
+        selectionAspectRatio: requiredAspectRatio,
         minWidth: minDimensions.width,
         minHeight: minDimensions.height,
         maxWidth: maxDimensions.width,
@@ -43,34 +48,34 @@ function initializeImageEditor(config) {
         croppingEnabled: true,
         gridEnabled: false,
         downloadingEnabled: false,
-        // freeSelectEnabled: false,// TODO causes error when set to false
+        freeSelectEnabled: false,
         freeRotationEnabled: false,
         resizingEnabled: false,
         filtersEnabled: false,
         selectionInfoEnabled: false,
         selectionAspectRatioEnabled: false,
         helpEnabled: false,
-    });
+    }
+    imageEditor.setConfiguration(imageEditorConfig);
 }
 
 function initializeImageEditorModal(modal) {
-    if (modal.dataset.imageEditorInitialized) return;
+    if (modal.dataset.mleImageEditorInitialized) return;
 
-    const placeholder = modal.querySelector('[data-image-editor-placeholder]');
+    const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
 
     modal.addEventListener('show.bs.modal', function () {
-        const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-image-editor-modal-config]').value);
-        const mediumPath = modal.getAttribute('data-medium-path');
-        const displayName = modal.getAttribute('data-medium-display-name');
-        const forcedAspectRatio = modal.getAttribute('data-medium-forced-aspect-ratio') ?? '16:9';
-        const minDimensions = parseDimensions(modal.getAttribute('data-medium-minimal-dimensions'), { width: 800, height: 600 });
-        const maxDimensions = parseDimensions(modal.getAttribute('data-medium-maximal-dimensions'), { width: 7040, height: 3960 });
+        const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-mle-image-editor-modal-config]').value);
+        const mediumPath = modal.getAttribute('data-mle-medium-path');
+        const displayName = modal.getAttribute('data-mle-medium-display-name');
+        const forcedAspectRatio = modal.getAttribute('data-mle-medium-forced-aspect-ratio') ?? '4:3';
+        const minDimensions = parseDimensions(modal.getAttribute('data-mle-medium-minimal-dimensions'), { width: 800, height: 600 });
+        const maxDimensions = parseDimensions(modal.getAttribute('data-mle-medium-maximal-dimensions'), { width: 7040, height: 3960 });
         const initiatorId = imageEditorModalConfig.initiatorId;
 
         const editor = document.createElement('image-editor');
         editor.id = 'my-image-editor';
 
-        // Directly pass config as event data
         editor.addEventListener('imageEditorReady', (e) => {
             initializeImageEditor({
                 imageEditorInstance: e.detail.imageEditorInstance,
@@ -81,7 +86,7 @@ function initializeImageEditorModal(modal) {
                 minDimensions,
                 maxDimensions,
             });
-        });
+        }, { once: true });
 
         placeholder.appendChild(editor);
     });
@@ -90,7 +95,7 @@ function initializeImageEditorModal(modal) {
         placeholder.innerHTML = '';
     });
 
-    modal.dataset.imageEditorInitialized = 'true';
+    modal.dataset.mleImageEditorInitialized = 'true';
 }
 
 function parseDimensions(dimensionString, fallback) {
@@ -102,14 +107,14 @@ function parseDimensions(dimensionString, fallback) {
 // listen to preview updated to reinitialize functionality
 document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
     const mediaManager = e.detail.mediaManager;
-    mediaManager.querySelectorAll('[data-image-editor-modal]')
+    mediaManager.querySelectorAll('[data-mle-image-editor-modal]')
         .forEach(initializeImageEditorModal);
     // console.log('reinitialize image editor modals for media manager', mediaManager);
 });
 
-document.addEventListener('imageEditorModalCloseRequest', (e) => {
+// Handle external close requests
+document.addEventListener('imageEditorModalCloseRequest', e => {
     const modal = e.detail.modal;
-    // console.log('imageEditorModalCloseRequest', modal);
     closeBootstrapModal(modal);
 });
 
@@ -121,12 +126,12 @@ const observeDynamicModals = () => {
                 if (!(node instanceof HTMLElement)) continue;
 
                 // Direct modal element
-                if (node.matches('[data-image-editor-modal]')) {
+                if (node.matches('[data-mle-image-editor-modal]')) {
                     initializeImageEditorModal(node);
                 }
 
                 // Nested modals inside appended fragments
-                node.querySelectorAll?.('[data-image-editor-modal]').forEach(initializeImageEditorModal);
+                node.querySelectorAll?.('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);
             }
         }
     });
@@ -137,4 +142,4 @@ const observeDynamicModals = () => {
 // Start watching
 observeDynamicModals();
 
-document.querySelectorAll('[data-image-editor-modal]').forEach(initializeImageEditorModal);
+document.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);

@@ -11,12 +11,11 @@ import { updatePreviews } from './media-manager-lab-previews-refresher'
 import { getFormData } from './form';
 import { getMediaManagerConfig } from './media-manager-config';
 
-const mediaManagerLabs = document.querySelectorAll('[data-media-manager-lab]');
+const mediaManagerLabs = document.querySelectorAll('[data-mle-media-manager-lab]');
 
 mediaManagerLabs.forEach(mediaManagerLab => {
 
-    // const statusContainer = mediaManagerLab.querySelector('[data-media-manager-layout]')
-    const statusAreaContainer = mediaManagerLab.querySelector('[data-status-area-container]')
+    const statusAreaContainer = mediaManagerLab.querySelector('[data-mle-status-area-container]')
 
     mediaManagerLab.addEventListener('click', async function (e) {
         const config = getMediaManagerConfig(mediaManagerLab);
@@ -26,17 +25,19 @@ mediaManagerLabs.forEach(mediaManagerLab => {
         const useXhr = config.useXhr;
         if (!useXhr) return
 
-        const target = e.target.closest('[data-action]');
+        const target = e.target.closest('[data-mle-action]');
 
-        const action = target?.getAttribute('data-action');
+        const action = target?.getAttribute('data-mle-action');
         if (!action) return;
+
+        console.log('action', action);
 
         e.preventDefault();
 
-        const mediumId = target.dataset.mediumId;
+        const mediumId = target.dataset.mleMediumId;
         if (!target) return;
 
-        const formElement = target.closest('[data-xhr-form]');
+        const formElement = target.closest('[data-mle-xhr-form]');
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
         const route = getRouteFromAction(action, target, config);
 
@@ -101,7 +102,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
 
 function getRouteFromAction(action, target, config) {
     const routes = {
-        'medium-restore': target?.dataset?.route,
+        'medium-restore': target?.dataset?.mleRoute,
     };
 
     return routes[action] || null;

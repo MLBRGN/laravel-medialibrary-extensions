@@ -1,44 +1,47 @@
 <div
-    class="mlbrgn-mle-component theme-bootstrap-5 image-editor-modal modal fade"
+    class="mle-component mle-theme-bootstrap-5 mle-image-editor-modal mle-modal modal fade"
     id="blog-images-iem-1"
     tabindex="-1"
     role="dialog"
             aria-labelledby="blog-images-iem-1-title"
         aria-hidden="true"
-    data-theme="bootstrap-5"
-    data-image-editor-modal
-    data-medium-display-name="test.jpg"
-    data-medium-path="/media/1/test.jpg"
-    data-medium-forced-aspect-ratio="1"
-    data-medium-minimal-dimensions="800x600"
-    data-medium-maximal-dimensions="7040x3960"
+    data-mle-theme="bootstrap-5"
+    data-mle-modal
+    data-mle-image-editor-modal
+    data-mle-medium-display-name="test.jpg"
+    data-mle-medium-path="/media/1/test.jpg"
+    data-mle-medium-forced-aspect-ratio="16:9"
+    data-mle-medium-minimal-dimensions="800x600"
+    data-mle-medium-maximal-dimensions="7040x3960"
 >
-    <div class="image-editor-modal-dialog modal-dialog">
-        <div class="image-editor-modal-content modal-content justify-content-center">
-                            <h1 class="image-editor-modal-title visually-hidden" id="blog-images-iem-1-title">My title</h1>
-                        <div class="status-area" data-status-area-container>
-    <div class="mle-spinner-container alert alert-info" data-spinner-container>
+    <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">
+        <div class="mle-modal-content mle-image-editor-modal-content modal-content justify-content-center">
+                            <h1 class="mle-modal-title mle-visually-hidden" id="blog-images-iem-1-title">My title</h1>
+                        <div class="mle-status-area" data-mle-status-area-container>
+    <div class="mle-spinner-container alert alert-info" data-mle-spinner-container>
     <div class="mle-spinner"></div>
-    <span class="mle-spinner-text">Please wait.</span>
+    <span class="mle-spinner-text"
+        data-mle-spinner-text
+    >Please wait.</span>
 </div>
     <div 
-    class="status-container mle-flex-grow visible" 
-    data-status-container 
-    data-status-timeout="4000"
+    class="mle-status-container mle-flex-grow visible" 
+    data-mle-status-container 
+    data-mle-status-timeout="4000"
 >
     <div class="mle-status-message alert alert-dismissible"
-        data-status-message
-        data-base-classes="mle-status-message alert alert-dismissible visible"
-        data-success-classes="alert-success"
-        data-error-classes="alert-danger"
+        data-mle-status-message
+        data-mle-base-classes="mle-status-message alert alert-dismissible visible"
+        data-mle-success-classes="alert-success"
+        data-mle-error-classes="alert-danger"
     >
             </div>
     </div>
-</div>            <div class="image-editor-modal-body modal-body p-0">
+</div>            <div class="mle-modal-body modal-body p-0">
                 <button
                     type="button"
-                    data-modal-close
-                    class="image-editor-modal-close-button modal-close-button"
+                    class="mle-modal-close-button"
+                    data-mle-modal-close
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="Close">
@@ -47,12 +50,12 @@
         aria-label="Close" 
         title="Close">❓</span>
                 </button>
-                <input id="config-blog-images-iem-1" type="hidden" class="image-editor-modal-config" data-image-editor-modal-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"initiatorId":"blog-images","id":"blog-images-iem-1","mediaManagerId":"blog-images","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"mediumId":1,"collection":"image_collection","saveUpdatedMediumRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager\/1\/save-updated-medium","collections":{"image":"images"},"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null,"media":[{"id":1,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000001","collection_name":"image_collection","name":"test","file_name":"test.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":144,"manipulations":[],"custom_properties":{"global_order":1,"original_path":"1\/test.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/1\/test.jpg","preview_url":""},{"id":2,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000002","collection_name":"image_collection","name":"test2","file_name":"test2.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":2,"original_path":"2\/test2.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/2\/test2.jpg","preview_url":""},{"id":3,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000003","collection_name":"image_collection","name":"test3","file_name":"test3.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":3,"original_path":"3\/test3.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/3\/test3.jpg","preview_url":""}]},"singleMedium":null,"disabled":false,"model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null,"media":[{"id":1,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000001","collection_name":"image_collection","name":"test","file_name":"test.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":144,"manipulations":[],"custom_properties":{"global_order":1,"original_path":"1\/test.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/1\/test.jpg","preview_url":""},{"id":2,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000002","collection_name":"image_collection","name":"test2","file_name":"test2.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":2,"original_path":"2\/test2.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/2\/test2.jpg","preview_url":""},{"id":3,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000003","collection_name":"image_collection","name":"test3","file_name":"test3.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":3,"original_path":"3\/test3.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/3\/test3.jpg","preview_url":""}]},"options":[]}' >
-                 
-                <div class="image-editor" data-image-editor-placeholder></div>
+                <input id="config-blog-images-iem-1" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"initiatorId":"blog-images","id":"blog-images-iem-1","mediaManagerId":"blog-images","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"mediumId":1,"collection":"image_collection","saveUpdatedMediumRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager\/1\/save-updated-medium","collections":{"image":"images"},"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null,"media":[{"id":1,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000001","collection_name":"image_collection","name":"test","file_name":"test.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":144,"manipulations":[],"custom_properties":{"global_order":1,"original_path":"1\/test.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/1\/test.jpg","preview_url":""},{"id":2,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000002","collection_name":"image_collection","name":"test2","file_name":"test2.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":2,"original_path":"2\/test2.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/2\/test2.jpg","preview_url":""},{"id":3,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000003","collection_name":"image_collection","name":"test3","file_name":"test3.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":3,"original_path":"3\/test3.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/3\/test3.jpg","preview_url":""}]},"singleMedium":null,"disabled":false,"model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null,"media":[{"id":1,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000001","collection_name":"image_collection","name":"test","file_name":"test.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":144,"manipulations":[],"custom_properties":{"global_order":1,"original_path":"1\/test.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/1\/test.jpg","preview_url":""},{"id":2,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000002","collection_name":"image_collection","name":"test2","file_name":"test2.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":2,"original_path":"2\/test2.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/2\/test2.jpg","preview_url":""},{"id":3,"model_type":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","model_id":1,"uuid":"00000000-0000-4000-8000-000000000003","collection_name":"image_collection","name":"test3","file_name":"test3.jpg","mime_type":"image\/jpeg","disk":"public","conversions_disk":"public","size":163490,"manipulations":[],"custom_properties":{"global_order":3,"original_path":"3\/test3.jpg","has_original_copy":true},"generated_conversions":[],"responsive_images":[],"order_column":null,"created_at":"2025-01-01T00:00:00.000000Z","updated_at":"2025-01-01T00:00:00.000000Z","original_url":"\/media\/3\/test3.jpg","preview_url":""}]},"options":[]}'>
+                
+                <div class="mle-image-editor" data-mle-image-editor-placeholder></div>
 
                 <!-- used as fallback when not using XHR -->
-<div class="conditional-form mle-image-editor-form" data-xhr-form="data-xhr-form" id="blog-images-iem-1-ie-update-form" data-xhr-method="post">
+<div class="mle-demo-media-carousel mle-image-editor-form" data-mle-xhr-form="data-mle-xhr-form" id="blog-images-iem-1-ie-update-form" data-xhr-method="post">
         <input type="hidden"
            name="medium_id"
            value="1">
@@ -80,7 +83,7 @@
            value="image_collection">
     <input type="file"
            name="file"
-           data-image-editor-update-form-file
+           data-mle-image-editor-update-form-file
            hidden>
                         <input
                 type="hidden"
@@ -90,7 +93,7 @@
         type="button"
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="Setup as main."
-        data-action="set-as-first"
+        data-mle-action="set-as-first"
             >
         <span 
         role="img" 

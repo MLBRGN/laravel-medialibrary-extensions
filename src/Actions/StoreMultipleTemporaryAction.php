@@ -81,7 +81,7 @@ class StoreMultipleTemporaryAction
                     'media-library-extensions::messages.file_too_large',
                     [
                         'file' => $file->getClientOriginalName(),
-                        'max' => number_format($maxUploadSize / 1024 / 1024, 2) . ' MB',
+                        'max' => number_format($maxUploadSize / 1024 / 1024, 2).' MB',
                     ]
                 );
                 // Remove it from list so it’s not processed further
@@ -94,7 +94,7 @@ class StoreMultipleTemporaryAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.no_valid_files_provided') . ' ' . implode(' ', $errorMessages)
+                __('media-library-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
             );
         }
 
@@ -108,6 +108,7 @@ class StoreMultipleTemporaryAction
                     'media-library-extensions::messages.invalid_or_missing_collection',
                     ['file' => $file->getClientOriginalName()]
                 );
+
                 continue;
             }
 
@@ -148,8 +149,8 @@ class StoreMultipleTemporaryAction
         if ($successCount === 0) {
             $message = __('media-library-extensions::messages.upload_failed');
 
-            if (!empty($errorMessages)) {
-                $message .= ' ' . implode(' ', $errorMessages);
+            if (! empty($errorMessages)) {
+                $message .= ' '.implode(' ', $errorMessages);
             }
 
             return MediaResponse::error(
@@ -163,8 +164,8 @@ class StoreMultipleTemporaryAction
         $message = __('media-library-extensions::messages.upload_success');
         if (! empty($failedUploadFIleNames)) {
             $message .= ' '.__('media-library-extensions::messages.some_uploads_failed', [
-                    'files' => implode(', ', $failedUploadFIleNames),
-                ]);
+                'files' => implode(', ', $failedUploadFIleNames),
+            ]);
         }
 
         return MediaResponse::success(

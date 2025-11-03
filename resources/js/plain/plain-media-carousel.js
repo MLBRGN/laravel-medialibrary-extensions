@@ -15,16 +15,16 @@ export function initCarousel(carousel) {
         carousels.delete(carousel);
     }
 
-    const slides = carousel.querySelectorAll('.media-carousel-item');
+    const slides = carousel.querySelectorAll('[data-mle-carousel-item]');
     if (!slides.length) return;
 
-    const indicators = carousel.querySelectorAll('.media-carousel-indicators button');
-    const prev = carousel.querySelector('[data-slide="prev"]');
-    const next = carousel.querySelector('[data-slide="next"]');
+    const indicators = carousel.querySelectorAll('[data-mle-carousel-indicators] button');
+    const prev = carousel.querySelector('[data-mle-slide="prev"]');
+    const next = carousel.querySelector('[data-mle-slide="next"]');
 
-    const ride = carousel.getAttribute('data-carousel-ride') === 'true';
-    const rideInterval = Number(carousel.getAttribute('data-carousel-ride-interval') ?? '5000');
-    const rideOnlyAfterInteraction = carousel.getAttribute('data-carousel-ride-only-after-interaction') === 'true';
+    const ride = carousel.getAttribute('data-mle-carousel-ride') === 'true';
+    const rideInterval = Number(carousel.getAttribute('data-mle-carousel-ride-interval') ?? '5000');
+    const rideOnlyAfterInteraction = carousel.getAttribute('data-mle-carousel-ride-only-after-interaction') === 'true';
 
     let currentSlideIndex = 0;
     let hasInteracted = false;
@@ -36,26 +36,26 @@ export function initCarousel(carousel) {
         slides.forEach((slide) => {
             slide.classList.remove(
                 'active',
-                'slide-in-from-left',
-                'slide-in-from-right',
-                'slide-out-to-left',
-                'slide-out-to-right'
+                'mle-slide-in-from-left',
+                'mle-slide-in-from-right',
+                'mle-slide-out-to-left',
+                'mle-slide-out-to-right'
             );
         });
 
         const currentSlide = slides[currentSlideIndex];
         const nextSlide = slides[toSlideIndex];
 
-        if (carousel.getAttribute('data-carousel-effect') === 'slide') {
+        if (carousel.getAttribute('data-mle-carousel-effect') === 'slide') {
             const skipAnimation = carousel.classList.contains('temp-no-animation') || carousel.classList.contains('no-animation');
 
             if (!skipAnimation) {
                 if (direction === 'right') {
-                    nextSlide.classList.add('slide-in-from-right');
-                    currentSlide.classList.add('slide-out-to-left');
+                    nextSlide.classList.add('mle-slide-in-from-right');
+                    currentSlide.classList.add('mle-slide-out-to-left');
                 } else {
-                    nextSlide.classList.add('slide-in-from-left');
-                    currentSlide.classList.add('slide-out-to-right');
+                    nextSlide.classList.add('mle-slide-in-from-left');
+                    currentSlide.classList.add('mle-slide-out-to-right');
                 }
                 void nextSlide.offsetWidth; // force reflow
             }
@@ -170,7 +170,7 @@ export function initCarousel(carousel) {
 // Reinit on updates
 document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
     const mediaManager = e.detail.mediaManager;
-    document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+    document.querySelectorAll('[data-mle-carousel]').forEach(initCarousel);
 });
 
-document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+document.querySelectorAll('[data-mle-carousel]').forEach(initCarousel);

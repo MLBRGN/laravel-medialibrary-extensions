@@ -1,12 +1,11 @@
 <div 
     class="mle-media-lab-preview-base" 
-    data-media-lab-preview-base
+    data-mle-media-lab-preview-base
 >
     <div class="mle-media-lab-title">
         {{ __('media-library-extensions::messages.base') }}
     </div>
     <x-mle-media-manager-single
-        class=""
         id="medium-{{$medium->id}}"
         :model-or-class-name="$medium->model"
         :collections="['image' => $medium->collection_name]"
@@ -34,12 +33,6 @@
                     ≥ {{ $imageInfo['minWidth'] ?? '?' }} × {{ $imageInfo['minHeight'] ?? '?'  }}</div>
                 <div>{{ $imageInfo['requiredLabel'] ?? '' }}</div>
             </div>
-
-{{--            <div class="mle-info-row">--}}
-{{--                <div>{{ __('media-library-extensions::messages.min_dimensions') }}</div>--}}
-{{--                <div>≥ {{ $imageInfo['minWidth'] ?? '?' }} × {{ $imageInfo['minHeight'] ?? '?'  }}</div>--}}
-{{--                <div>{{ $requiredLabel ?? '' }}</div>--}}
-{{--            </div>--}}
 
             <div class="mle-info-row">
                 <div></div>

@@ -42,8 +42,8 @@ class YouTubeUploadForm extends BaseComponent
         $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
 
         $this->initializeConfig([
-//            'frontendTheme' => config('media-library-extensions.frontend_theme'),
-//            'useXhr' => config('media-library-extensions.use_xhr'),
+            //            'frontendTheme' => config('media-library-extensions.frontend_theme'),
+            //            'useXhr' => config('media-library-extensions.use_xhr'),
             'youtubeCollection' => $youtubeCollection,
             'mediaUploadRoute' => $mediaUploadRoute,
             'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,

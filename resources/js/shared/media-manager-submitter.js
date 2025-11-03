@@ -11,12 +11,11 @@ import { updatePreviews } from './media-manager-previews-refresher'
 import { getFormData } from './form';
 import { getMediaManagerConfig } from './media-manager-config';
 
-const mediaManagers = document.querySelectorAll('[data-media-manager]');
+const mediaManagers = document.querySelectorAll('[data-mle-media-manager]');
 
 mediaManagers.forEach(mediaManager => {
 
-    // const statusContainer = mediaManager.querySelector('[data-media-manager-layout]')
-    const statusAreaContainer = mediaManager.querySelector('[data-status-area-container]')
+    const statusAreaContainer = mediaManager.querySelector('[data-mle-status-area-container]')
 
     mediaManager.addEventListener('click', async function (e) {
         const config = getMediaManagerConfig(mediaManager);
@@ -26,11 +25,11 @@ mediaManagers.forEach(mediaManager => {
         const useXhr = config.useXhr;
         if (!useXhr) return
 
-        const target = e.target.closest('[data-action]');
+        const target = e.target.closest('[data-mle-action]');
         if (!target) return;
 
         e.preventDefault();
-        const action = target.getAttribute('data-action');
+        const action = target.getAttribute('data-mle-action');
 
         if (action === 'debugger-toggle') {
 
@@ -43,7 +42,7 @@ mediaManagers.forEach(mediaManager => {
             return
         }
 
-        const formElement = target.closest('[data-xhr-form]');
+        const formElement = target.closest('[data-mle-xhr-form]');
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
         const route = getRouteFromAction(action, target, config);
 
@@ -106,8 +105,8 @@ function getRouteFromAction(action, target, config) {
     const routes = {
         'upload-media': config.mediaUploadRoute,
         'upload-youtube-medium': config.youtubeUploadRoute,
-        'destroy-medium': target?.dataset?.route,
-        'set-as-first': target?.dataset?.route,
+        'destroy-medium': target?.dataset?.mleRoute,
+        'set-as-first': target?.dataset?.mleRoute,
     };
 
     return routes[action] || null;

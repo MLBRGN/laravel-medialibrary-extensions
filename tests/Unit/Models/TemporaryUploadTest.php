@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Session;
-use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 it('returns only uploads for the current session', function () {
@@ -97,14 +96,12 @@ it('returns all session uploads when collectionName is null', function () {
     expect($uploads)->toHaveCount(2);
 });
 
-
-//it('checks if the isAvailable static method exists', function () {
+// it('checks if the isAvailable static method exists', function () {
 //    // Call the static method
 //    $exists = TemporaryUpload::isAvailable();
 //
 //    expect($exists)->toBeTrue();
-//});
-
+// });
 
 // it('retrieves uploads for the current session', function () {
 //    // This test would require a more complex setup with a real database connection

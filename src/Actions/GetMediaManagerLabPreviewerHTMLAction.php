@@ -32,6 +32,7 @@ class GetMediaManagerLabPreviewerHTMLAction
         $initiatorId = $request->input('initiator_id');
         $medium = Media::findOrFail($mediumId);
         $part = $request->get('part', 'all');
+        $options = json_decode($request->input('options'), true) ?? [];
 
         switch ($part) {
 
@@ -39,24 +40,27 @@ class GetMediaManagerLabPreviewerHTMLAction
                 $component = new LabPreviewOriginal(
                     id: $initiatorId,
                     medium: $medium,
+                    options: $options
                 );
                 break;
             case 'base':
                 $component = new LabPreviewBase(
                     id: $initiatorId,
                     medium: $medium,
+                    options: $options
                 );
                 break;
             default:
                 $component = new LabPreviews(
                     id: $initiatorId,
                     medium: $medium,
+                    options: $options
                 );
                 break;
         }
 
         $html = Blade::renderComponent($component);
-        Log::info('GetMediaManagerLabPreviewerHTMLAction html: ' . $html);
+        Log::info('GetMediaManagerLabPreviewerHTMLAction html: '.$html);
 
         return response()->json([
             'html' => $html,

@@ -1,22 +1,23 @@
 <div
-    class="mlbrgn-mle-component theme-plain media-modal modal fade"
+    class="mle-component mle-theme-bootstrap-5 mle-media-modal mle-modal modal fade"
     id="test-media-modal-mod"
     tabindex="-1"
     role="dialog"
             aria-labelledby="test-media-modal-mod-title"
         aria-hidden="true"
-            data-autoplay=""
-        data-modal
-    data-media-modal
+            data-mle-autoplay=""
+        data-mle-modal
+    data-mle-media-modal
 >
-    <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content">
-                            <h1 class="media-modal-title mle-visually-hidden" id="test-media-modal-mod-title">test</h1>
-                        <div class="media-modal-body modal-body">
+    <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
+        <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
+                            <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="test-media-modal-mod-title">test</h1>
+                        <div class="mle-modal-body mle-media-modal-body modal-body p-0">
                 <button
                     type="button"
-                    class="media-modal-close-button modal-close-button"
-                    data-modal-close
+                    class="mle-modal-close-button mle-media-modal-close-button"
+                    data-mle-modal-close
+                    data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="Close">
                     <span 
@@ -24,21 +25,20 @@
         aria-label="Close" 
         title="Close">❓</span>
                 </button>
+                
                 <div id="test-media-modal-mod-crs"
-     class="mlbrgn-mle-component theme-plain media-carousel media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100"
-     data-carousel
-     data-carousel-id="test-media-modal-mod-crs"
-     tabindex="-1"
-          data-carousel-effect="slide"
-    >
-
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+        data-mle-carousel
+>
     
     <div
-        class="media-carousel-indicators carousel-indicators"
+        class="mle-media-carousel-indicators carousel-indicators"
+        data-mle-carousel-indicators
     >
                     <button
                 type="button"
-                data-slide-to="0"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="0"
                 class="active"
                  
                     aria-current="true" 
@@ -46,64 +46,71 @@
             </button>
                     <button
                 type="button"
-                data-slide-to="1"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="1"
                 class=""
                                 aria-label="Slide to 2">
             </button>
                     <button
                 type="button"
-                data-slide-to="2"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="2"
                 class=""
                                 aria-label="Slide to 3">
             </button>
                     <button
                 type="button"
-                data-slide-to="3"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="3"
                 class=""
                                 aria-label="Slide to 4">
             </button>
                     <button
                 type="button"
-                data-slide-to="4"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="4"
                 class=""
                                 aria-label="Slide to 5">
             </button>
             </div>
 
     
-    <div class="media-carousel-inner">
+    <div class="mle-media-carousel-inner carousel-inner">
                     <div
-
-                class="media-carousel-item active">
-                <div class="media-carousel-item-container"
+                class="mle-media-carousel-item carousel-item active"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
                                      >
-                                            <img
-        class="mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1762018897"
-                        alt="test"
+                    <img
+        class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0"
+        src="/media/1/test.jpg?v=1762202000"
+                        alt=""
          loading="lazy"         data-mle-image
     >
-                                    </div>
+                </div>
             </div>
                     <div
-
-                class="media-carousel-item">
-                <div class="media-carousel-item-container"
+                class="mle-media-carousel-item carousel-item"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
                                      >
-                                            <img
-        class="mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1762018897"
-                        alt="test2"
+                    <img
+        class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1"
+        src="/media/2/test2.jpg?v=1762202000"
+                        alt=""
          loading="lazy"         data-mle-image
     >
-                                    </div>
+                </div>
             </div>
                     <div
-
-                class="media-carousel-item">
-                <div class="media-carousel-item-container"
+                class="mle-media-carousel-item carousel-item"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
                                      >
-                                            <div class="mle-document mle-document mle-cursor-zoom-in" mle-document>
+                    <div class="mle-document mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="2" mle-document>
     <div class="mle-document-preview">
         <span 
         role="img" 
@@ -129,19 +136,15 @@
                                                 </div>
     </div>
 </div>
-                                    </div>
+                </div>
             </div>
                     <div
-
-                class="media-carousel-item">
-                <div class="media-carousel-item-container"
+                class="mle-media-carousel-item carousel-item"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
                                      >
-                                            <div
-
-                            data-modal-trigger="#test-media-modal-mod-crs-mod"
-                            class="media-preview-item-container"
-                        >
-                            <div class="mle-video">
+                    <div class="mle-video mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="3">
     <div class="mle-video-preview">
         <div class="mle-video-info">
             <p>
@@ -154,20 +157,15 @@
         </video>
     </div>
 </div>
-                        </div>
-                                    </div>
+                </div>
             </div>
                     <div
-
-                class="media-carousel-item">
-                <div class="media-carousel-item-container"
+                class="mle-media-carousel-item carousel-item"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
                                      >
-                                            <div
-
-                            data-modal-trigger="#test-media-modal-mod-crs-mod"
-                            class="media-preview-item-container"
-                        >
-                            <div class="mle-audio">
+                    <div class="mle-audio mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="4">
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
             <p>
@@ -179,30 +177,35 @@
             Your browser does not support the audio element.
         </audio>
     </div>
-</div>                        </div>
-                                    </div>
+</div>                </div>
             </div>
             </div>
 
     
-    <button 
-        class="media-carousel-control-prev"
+    <button
+        class="mle-media-carousel-control-prev carousel-control-prev"
         type="button"
-        data-slide="prev">
-        <span class="media-carousel-control-prev-icon" aria-hidden="true">
-             <span 
+        data-bs-target="#test-media-modal-mod-crs" 
+        data-bs-slide="prev" 
+        title="Previous"
+    >
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
+        <span 
         role="img" 
         aria-label="Previous" 
         title="Previous">❓</span>
         </span>
         <span class="mle-visually-hidden">Previous</span>
     </button>
-    <button 
-        class="media-carousel-control-next"
+    <button
+        class="mle-media-carousel-control-next carousel-control-next"
         type="button"
-        data-slide="next">
-        <span class="media-carousel-control-next-icon" aria-hidden="true">
-              <span 
+        data-bs-target="#test-media-modal-mod-crs"
+        data-bs-slide="next"
+        title="Next"
+    >
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
+            <span 
         role="img" 
         aria-label="Next" 
         title="Next">❓</span>
@@ -210,13 +213,12 @@
         <span class="mle-visually-hidden">Next</span>
     </button>
 </div>
-
 <script>
-            if (!document.getElementById('mlbrgn-css-plain')) {
+            if (!document.getElementById('mlbrgn-css-bootstrap-5')) {
                 const link = document.createElement('link');
-                link.id = 'mlbrgn-css-plain';
+                link.id = 'mlbrgn-css-bootstrap-5';
                 link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css";
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }
@@ -224,7 +226,7 @@
 
 
         <noscript>
-            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
+            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
             <div style="color:red;">
                 JavaScript is disabled. Some features may not work.
             </div>
@@ -236,7 +238,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js";
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -248,17 +250,6 @@
     
 
 
-    <script type="module">
-        if (!window.mleCarouselJsLoaded) {
-            const script = document.createElement('script');
-            script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/plain-media-carousel.js";
-            document.head.appendChild(script);
-            window.mleCarouselJsLoaded = true;
-
-            console.log('mleCarouselJsLoaded');
-        }
-    </script>
 
 
 
@@ -305,7 +296,7 @@
         if (!window.mleMediaModalJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/plain-modal-media.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/bs5-modal-media.js";
             document.head.appendChild(script);
             window.mleMediaModalJs = true;
 

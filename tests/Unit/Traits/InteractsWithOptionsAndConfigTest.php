@@ -1,18 +1,22 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMimeTypes;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 
-//uses()->group('traits');
+// uses()->group('traits');
 
 beforeEach(function () {
-    $this->class = new class {
-        use InteractsWithOptionsAndConfig, InteractsWithMimeTypes;
+    $this->class = new class
+    {
+        use InteractsWithMimeTypes, InteractsWithOptionsAndConfig;
 
         // properties for testing
         public array $options = [];
+
         public array $config = [];
+
         public string $modelOrClassName = 'TestModel';
+
         public array $requiredOptions = ['foo', 'bar'];
 
         // Public proxies for protected methods
@@ -48,8 +52,9 @@ beforeEach(function () {
     };
 
     // Stub mle_human_mimetype_label for trait
-    if (!function_exists('mle_human_mimetype_label')) {
-        function mle_human_mimetype_label($mime) {
+    if (! function_exists('mle_human_mimetype_label')) {
+        function mle_human_mimetype_label($mime)
+        {
             return strtoupper($mime);
         }
     }
@@ -80,7 +85,7 @@ it('initializes config with defaults and merges options/properties', function ()
     ];
 
     $this->class->callInitializeConfig([
-        'uploadFieldName' => 'customField'
+        'uploadFieldName' => 'customField',
     ]);
 
     $config = $this->class->config;
@@ -92,7 +97,7 @@ it('initializes config with defaults and merges options/properties', function ()
     expect($config['modelOrClassName'])->toBe('TestModel'); // from property
 
     // MIME type fields should exist even if empty
-//    expect($config)->toHaveKeys(['allowedMimeTypes', 'allowedMimeTypesHuman']); // TODO
+    //    expect($config)->toHaveKeys(['allowedMimeTypes', 'allowedMimeTypesHuman']); // TODO
 });
 
 it('can get, set, merge, and add config values', function () {

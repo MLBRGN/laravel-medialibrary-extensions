@@ -41,8 +41,8 @@ class ImageEditorForm extends BaseComponent
             route(mle_prefix_route('save-updated-medium'), $medium);
 
         $this->initializeConfig([
-//            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
-//            'useXhr' => config('media-library-extensions.use_xhr'),
+            //            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
+            //            'useXhr' => config('media-library-extensions.use_xhr'),
             'saveUpdatedMediumRoute' => $saveUpdatedMediumRoute,
         ]);
     }

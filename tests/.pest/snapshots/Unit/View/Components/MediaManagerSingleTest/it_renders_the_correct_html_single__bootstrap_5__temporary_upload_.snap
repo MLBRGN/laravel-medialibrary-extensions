@@ -1,25 +1,25 @@
 <div
     id="test-media-modal-mms"
-    class="mlbrgn-mle-component theme-bootstrap-5 media-manager media-manager-single" multiple="false"
-    data-media-manager=""
-    data-use-xhr="true"
+    class="mle-component mle-theme-bootstrap-5 mle-media-manager media-manager-single" multiple="false"
+    data-mle-media-manager
+
 >
-    <input id="config-test-media-modal-mms" type="hidden" class="media-manager-config" data-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","singleMedium":null,"collections":{"image":"images"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showOrder":false,"showSetAsFirstButton":false,"showYouTubeUploadForm":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","disableForm":false}'>
+    <input id="config-test-media-modal-mms" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","singleMedium":null,"collections":{"image":"images"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showOrder":false,"showSetAsFirstButton":false,"showYouTubeUploadForm":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","disableForm":false}'>
 
         
     
 
-    <div class="media-manager-layout" data-media-manager-layout>
+    <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
         
-        <div class="media-manager-form ">
+        <div class="mle-media-manager-form ">
                             
-                                    <div class="conditional-form media-manager-upload-form" data-xhr-form="data-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
+                                    <div class="mle-demo-media-carousel mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mms-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mms-media-input"
         accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
         type="file"
-        class="mle-input form-control"
+        class="mle-input mle-form-control form-control"
                     name="medium"
                         >
     <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
@@ -54,7 +54,7 @@
     <button
         type="button"
         class="mle-button mle-button-submit btn btn-primary d-block"
-        data-action="upload-media"
+        data-mle-action="upload-media"
             >
         Upload medium
     </button>
@@ -132,29 +132,31 @@
         </div>
 
         
-        <div class="media-manager-previews">
-            <div class="status-area" data-status-area-container>
-    <div class="mle-spinner-container alert alert-info" data-spinner-container>
+        <div class="mle-media-manager-previews">
+            <div class="mle-status-area" data-mle-status-area-container>
+    <div class="mle-spinner-container alert alert-info" data-mle-spinner-container>
     <div class="mle-spinner"></div>
-    <span class="mle-spinner-text">Please wait.</span>
+    <span class="mle-spinner-text"
+        data-mle-spinner-text
+    >Please wait.</span>
 </div>
     <div 
-    class="status-container mle-flex-grow visible" 
-    data-status-container 
-    data-status-timeout="4000"
+    class="mle-status-container mle-flex-grow visible" 
+    data-mle-status-container 
+    data-mle-status-timeout="4000"
 >
     <div class="mle-status-message alert alert-dismissible"
-        data-status-message
-        data-base-classes="mle-status-message alert alert-dismissible visible"
-        data-success-classes="alert-success"
-        data-error-classes="alert-danger"
+        data-mle-status-message
+        data-mle-base-classes="mle-status-message alert alert-dismissible visible"
+        data-mle-success-classes="alert-success"
+        data-mle-error-classes="alert-danger"
     >
             </div>
     </div>
 </div>            
-            <div class="media-preview-grid" data-media-preview-grid>
-    <div class="mlbrgn-mle-component media-preview-container media-manager-no-media"
-     data-media-preview-container>
+            <div class="mle-media-preview-grid" data-mle-media-preview-grid>
+    <div class="mle-component mle-media-preview-container mle-media-manager-no-media"
+     data-mle-media-preview-container>
     <span class="mle-no-media">
         No media.
     </span>

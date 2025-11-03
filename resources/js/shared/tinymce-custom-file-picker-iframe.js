@@ -8,7 +8,7 @@ insertSelectedButton.addEventListener('click', () => {
         console.error("TinyMCE not found on window.parent");
         return;
     }
-    const selected = Array.from(document.querySelectorAll('.mle-media-select-checkbox:checked'))
+    const selected = Array.from(document.querySelectorAll('[data-mle-media-select-checkbox]:checked'))
         .map(checkbox => ({
             url: checkbox.dataset.url,
             alt: checkbox.dataset.alt || '',
@@ -17,9 +17,6 @@ insertSelectedButton.addEventListener('click', () => {
             border: 0,
             borderstyle: 'none',
         }));
-
-    // const selected = Array.from(document.querySelectorAll('.mle-media-select-checkbox:checked'))
-    //     .map(checkbox => ({ url: checkbox.dataset.url, alt: checkbox.dataset.alt || '' }));
 
     if (!selected.length) {
         tinymce.activeEditor.windowManager.alert('Please select one image.');

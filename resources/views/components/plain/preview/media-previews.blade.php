@@ -1,11 +1,11 @@
 @forelse($media as $medium)
     <div
         {{ $attributes->class([
-            'mlbrgn-mle-component',
-            'theme-' . $getConfig('frontendTheme'),
-            'media-preview-container',
+            'mle-component',
+            'mle-theme-' . $getConfig('frontendTheme'),
+            'mle-media-preview-container',
         ]) }}
-        data-media-preview-container
+        data-mle-media-preview-container
     >
         <x-mle-media-preview-item
             :id="$id"
@@ -25,7 +25,7 @@
             :id="$id"
             :model-or-class-name="$modelOrClassName"
             :single-medium="$singleMedium"
-            :media-collections="$collections"
+            :collections="$collections"
             :single-medium="$singleMedium"
             :video-auto-play="true"
             :options="$options"

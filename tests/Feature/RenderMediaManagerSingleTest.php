@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
-use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 it('renders the single media manager component', function () {
     $blog = $this->getTestBlogModel();
@@ -13,7 +12,7 @@ it('renders the single media manager component', function () {
         'collections' => ['image' => 'blog-main'],
     ]);
 
-    expect($output)->toContain('<div class="media-manager');
+    expect($output)->toContain('<div class="mle-media-manager');
 });
 
 it('renders the multiple media manager component', function () {
@@ -26,5 +25,5 @@ it('renders the multiple media manager component', function () {
         'collections' => ['image' => 'blog-main'],
     ]);
 
-    expect($output)->toContain('<div class="media-manager');
+    expect($output)->toContain('<div class="mle-media-manager');
 });

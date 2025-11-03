@@ -5,7 +5,7 @@
 
 @if(config('media-library-extensions.debug') && !app()->environment('production'))
     <div class="mle-debug-wrapper">
-        <div class="mle-debug hidden" id="{{ $id }}-debug-content">
+        <div class="mle-debug mle-hidden hidden" id="{{ $id }}-debug-content">
             <h2>📦 Media Library Extensions Debug Info</h2>
 
             <div class="mle-debug-section">

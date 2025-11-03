@@ -35,11 +35,11 @@ class MediaManagerTinymce extends BaseComponent
         public bool $selectable = false,
     ) {
 
-//        dd([
-//            'disabled' => $disabled,
-//            'readonly' => $readonly,
-//            'selectable' => $selectable,
-//        ]);
+        //        dd([
+        //            'disabled' => $disabled,
+        //            'readonly' => $readonly,
+        //            'selectable' => $selectable,
+        //        ]);
 
         $id = filled($id) ? $id : null;
         parent::__construct($id);
@@ -94,8 +94,8 @@ class MediaManagerTinymce extends BaseComponent
             'uploadFieldName' => $this->uploadFieldName,
             'selectable' => $selectable,
         ]);
-//        dd($this->multiple);
-//        dd($this->config);
+        //        dd($this->multiple);
+        //        dd($this->config);
     }
 
     public function render(): View

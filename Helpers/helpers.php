@@ -1,12 +1,5 @@
 <?php
 
-// if (! function_exists('mle_package_asset')) {
-//    function mle_package_asset($name): string
-//    {
-//        return route(config('laravel-medialibrary-extensions.route_prefix').'-package.assets', ['name' => $name]);
-//    }
-// }
-
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -42,17 +35,6 @@ if (! function_exists('mle_human_filesize')) {
         return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)).' '.$size[$factor];
     }
 }
-
-// TODO still needed?
-// if (! function_exists('media_manager_theme')) {
-//    function media_manager_theme(): string
-//    {
-//        $supported = config('media-library-extensions.supported_frontend_themes', ['plain']);
-//        $configured = config('media-library-extensions.frontend_theme', 'plain');
-//
-//        return in_array($configured, $supported) ? $configured : 'plain';
-//    }
-// }
 
 if (! function_exists('mle_prefix_route')) {
 
@@ -90,22 +72,13 @@ if (! function_exists('extractYouTubeId')) {
     }
 }
 
-// if (! function_exists('getHumanMimeTypeLabel')) {
-//    function getHumanMimeTypeLabel(string $mimeType): string
-//    {
-//
-//        $mimetypeLabels = config('media-library-extensions.mimetype_labels');
-//        if (array_key_exists($mimeType, $mimetypeLabels)) {
-//            return $mimetypeLabels[$mimeType];
-//        }
-//
-//        return $mimeType;
-//    }
-// }
-
 if (! function_exists('isMediaType')) {
     function isMediaType($medium, string $type): bool
     {
+        if (!$medium) {
+            return false;
+        }
+
         if ($type === 'youtube-video') {
             return $medium->hasCustomProperty('youtube-id');
         }

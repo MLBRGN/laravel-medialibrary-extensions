@@ -2,13 +2,13 @@
     class="mle-media-lab-preview-original"
     title="{{ __('media-library-extensions::messages.original') }}"
     :model-or-class-name="$medium->model"
-    data-media-lab-preview-original
+    data-mle-media-lab-preview-original
     :options="$options"
 >
     @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
         <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}"
              alt=""
-             class="media-preview-image"
+             class="mle-image-responsive"
         >
     @else
         Geen origineel opgeslagen

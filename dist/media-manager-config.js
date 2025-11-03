@@ -1,1 +1,1 @@
-function o(n){const r=n.querySelector("[data-media-manager-config]");if(!r)return null;try{return JSON.parse(r.value)}catch(e){return console.error(`Invalid JSON config for ${n.id}:`,e),null}}export{o as g};
+function o(e){const n=e.querySelector("[data-mle-media-manager-config]");if(!n)return null;try{return JSON.parse(n.value)}catch(r){return console.error(`Invalid JSON config for ${e.id}:`,r),null}}export{o as g};

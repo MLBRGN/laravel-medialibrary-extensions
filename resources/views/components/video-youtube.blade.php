@@ -1,5 +1,5 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
-@if ($preview)
+@if ($previewMode)
     <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
         @if($medium instanceof TemporaryUpload)
             <img
@@ -22,7 +22,7 @@
         />
     </div>
 @else
-    <div {{ $attributes->merge(['class' => 'mlbrgn-mle-component media-video-container']) }} data-youtube-video-id="{{ $youtubeId }}" data-mle-youtube-video>
+    <div {{ $attributes->merge(['class' => 'mle-component mle-media-video-container']) }} data-mle-youtube-video-id="{{ $youtubeId }}" data-mle-youtube-video>
         <lite-youtube
             videoid="{{ $youtubeId }}"
             posterquality="maxresdefault"
@@ -32,7 +32,7 @@
             tabindex="-1"
         >
             <a
-                class="lite-youtube-fallback"
+                class="mle-lite-youtube-fallback"
                 href="https://www.youtube.com/watch?v={{ $youtubeId }}"
                 target="_blank"
                 tabindex="-1"
@@ -54,7 +54,7 @@
                 </div>
             </a>
         </lite-youtube>
-        <div class="media-video-touch-overlay"></div>
+        <div class="mle-media-video-touch-overlay"></div>
     </div>
 @endif
 <x-mle-shared-assets 

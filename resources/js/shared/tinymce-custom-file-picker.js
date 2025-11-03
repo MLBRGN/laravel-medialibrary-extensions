@@ -4,18 +4,18 @@ window.mleFilePicker = (callback, value, meta) => {
         const editor = tinymce.activeEditor;
         const textarea = editor.getElement();
 
-        const temporaryUploadMode = textarea.getAttribute('data-model-id') === '';
+        const temporaryUploadMode = textarea.getAttribute('data-mle-model-id') === '';
         console.log('temporaryUploadMode', temporaryUploadMode);
 
         const params = {
-            initiator_id: textarea.getAttribute('data-initiator-id'),
-            model_type: textarea.getAttribute('data-model-type') ?? '',
-            model_id: textarea.getAttribute('data-model-id'),
+            initiator_id: textarea.getAttribute('data-mle-initiator-id'),
+            model_type: textarea.getAttribute('data-mle-model-type') ?? '',
+            model_id: textarea.getAttribute('data-mle-model-id'),
             media_manager_id: 'myMediaManager',
-            collections: JSON.stringify({
-                'image': textarea.getAttribute('data-image-collection'),
-                'video': textarea.getAttribute('data-video-collection'),
-                'audio': textarea.getAttribute('data-audio-collection'),
+            collections: JSON.stringify({// TODO refactor
+                'image': textarea.getAttribute('data-mle-image-collection'),
+                'video': textarea.getAttribute('data-mle-video-collection'),
+                'audio': textarea.getAttribute('data-mle-audio-collection'),
             }),
             temporary_upload_mode: temporaryUploadMode, //textarea.getAttribute('temporaryUploadMode'),
             options: JSON.stringify({
@@ -85,31 +85,6 @@ window.mleFilePicker = (callback, value, meta) => {
                     title: file.title || ''
                 });
             }
-            // get dimensions
-            // const img = new Image();
-            // img.src = file.url;
-            // img.onload = () => {
-            //     const width = img.naturalWidth;
-            //     const height = img.naturalHeight;
-            //
-            //     console.log('width', width, 'height', height);
-            //     callback(file.url, {
-            //         alt: file.alt || '',
-            //         classes: 'mle-media-tinymce-image',
-            //         // width: file.width || '',
-            //         // height: file.height || '',
-            //         // vspace: file.vspace || '',
-            //         // hspace: file.hspace || '',
-            //         // border: file.border || '',
-            //         // borderstyle: file.borderstyle || ''
-            //     });
-            // };
-            // img.onerror = () => {
-            //     console.warn('Could not load image for dimensions');
-            //     callback(file.url, {
-            //         alt: file.alt || '',
-            //     });
-            // };
 
             window.removeEventListener('message', handleMessage);
             win.close();

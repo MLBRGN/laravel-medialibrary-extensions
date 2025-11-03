@@ -34,6 +34,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaViewer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\ImageEditorForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\MediumRestoreForm;
@@ -93,7 +94,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
         //        $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
-//        Blade::componentNamespace('Mlbrgn\\MediaLibraryExtensions\\View\\Components', $this->packageNameShort);
+        //        Blade::componentNamespace('Mlbrgn\\MediaLibraryExtensions\\View\\Components', $this->packageNameShort);
 
         // Migrate database tables necessary for this package to do it's work
         // only migrations in the top folder are loaded, so no need to exclude the demo folder
@@ -136,9 +137,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-lab', MediaLab::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
-//        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
+        //        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
         Blade::component($this->packageNameShort.'-media-manager-tinymce', MediaManagerTinymce::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
+        Blade::component($this->packageNameShort.'-media-viewer', MediaViewer::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-first-available', MediaFirstAvailable::class);

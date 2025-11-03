@@ -13,6 +13,7 @@ class MediaPreviewItem extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public ?string $componentToRender;
+
     public ?string $mediumType;
 
     public function __construct(

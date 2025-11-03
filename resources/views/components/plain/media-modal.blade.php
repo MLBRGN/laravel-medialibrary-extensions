@@ -1,10 +1,10 @@
 <div
     {{ $attributes->class([
-        'mlbrgn-mle-component',
-        'theme-'. $getConfig('frontendTheme'),
-        'media-modal',
-        'modal',
-        'fade',
+        'mle-component',
+        'mle-theme-'. $getConfig('frontendTheme'),
+        'mle-media-modal',
+        'mle-modal',
+        'mle-fade',
         ])->merge() }}
     id="{{ $id }}"
     tabindex="-1"
@@ -14,21 +14,21 @@
     @endif
     aria-hidden="true"
     @if($videoAutoPlay)
-        data-autoplay=""
+        data-mle-autoplay=""
     @endif
-    data-modal
-    data-media-modal
+    data-mle-modal
+    data-mle-media-modal
 >
-    <div class="media-modal-dialog modal-dialog">
-        <div class="media-modal-content modal-content">
+    <div class="mle-modal-dialog mle-media-modal-dialog">
+        <div class="mle-modal-content mle-media-modal-content">
             @if($title)
-                <h1 class="media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
-            <div class="media-modal-body modal-body">
+            <div class="mle-modal-body mle-media-modal-body">
                 <button
                     type="button"
-                    class="media-modal-close-button modal-close-button"
-                    data-modal-close
+                    class="mle-modal-close-button mle-media-modal-close-button"
+                    data-mle-modal-close
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
                     <x-mle-shared-icon
@@ -36,16 +36,17 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
+                {{-- important set expandableInModal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
                     :model-or-class-name="$modelOrClassName"
                     :single-medium="$singleMedium"
                     :expandable-in-modal="false"
-{{--                    :media-collection="$mediaCollection"--}}
-                    :collections="$mediaCollections"
+                    :collections="$collections"
                     :options="$options"
                     :in-modal="true"
+                    :preview-mode="false"
                 />
             </div>
         </div>

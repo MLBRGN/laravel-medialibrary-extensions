@@ -1,6 +1,5 @@
 // noinspection ES6UnusedImports
 
-import '@/js/shared/general';
 import '@/js/shared/image-fallback';
 // import '@/js/shared/image-editor-listener'
 // import '@/js/bootstrap-5/modal-media';

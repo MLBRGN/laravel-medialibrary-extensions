@@ -16,7 +16,7 @@ class ImageResponsive extends Component
 
     public function __construct(
         public Media|TemporaryUpload|null $medium = null,
-        public bool $preview = true,
+        public bool $previewMode = true,
         public string $conversion = '',
         public array $conversions = [],
         public string $sizes = '100vw',
@@ -73,6 +73,7 @@ class ImageResponsive extends Component
                     // Cache-busting based on actual file modification time
                     $timestamp = filemtime($path);
                     $separator = str_contains($url, '?') ? '&' : '?';
+
                     return "{$url}{$separator}v={$timestamp}";
                 }
             }
@@ -81,6 +82,7 @@ class ImageResponsive extends Component
             if ($this->medium?->updated_at) {
                 $timestamp = $this->medium->updated_at->timestamp;
                 $separator = str_contains($url, '?') ? '&' : '?';
+
                 return "{$url}{$separator}v={$timestamp}";
             }
         } catch (Throwable) {

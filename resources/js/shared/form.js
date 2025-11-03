@@ -27,8 +27,6 @@ export function getFormData(formElement) {
         }
     });
 
-    // console.log('formData', formData);
-
     // formData.forEach((value, key) => {
     //     console.log(key, value);
     // });

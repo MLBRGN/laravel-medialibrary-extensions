@@ -1,19 +1,19 @@
 <div id="{{ $id }}"
     @class([
-        'mlbrgn-mle-component',
-        'theme-'.$getConfig('frontendTheme'), 
+        'mle-component',
+        'mle-theme-'.$getConfig('frontendTheme'), 
         'mle-media-lab'
     ])
-     data-media-manager-lab
+    data-mle-media-manager-lab
 >
-    <input id="config-{{ $id }}" type="hidden" class="media-manager-config" data-media-manager-config value='@json($config)'>
+    <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($config)'>
 
     <x-mle-partial-status-area
         id="{{ $id }}"
         :initiator-id="$id"
         :media-manager-id="$id"
     />
-    <div class="media-manager-lab-previews" data-media-manager-lab-previews>
+    <div class="mle-media-manager-lab-previews" data-mle-media-manager-lab-previews>
         <x-mle-lab-previews
             :medium="$medium"
             :options="$options"

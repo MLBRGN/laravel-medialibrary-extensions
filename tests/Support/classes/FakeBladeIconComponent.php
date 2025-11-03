@@ -9,6 +9,6 @@ class FakeBladeIconComponent extends Component
 {
     public function render()
     {
-    return '';
+        return '';
     }
 }

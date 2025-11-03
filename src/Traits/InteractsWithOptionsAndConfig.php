@@ -24,7 +24,7 @@ trait InteractsWithOptionsAndConfig
     // are added to the config array
     protected array $configKeys = [
         'modelOrClassName',
-//        'medium',
+        //        'medium',
         'singleMedium',
         'collections',
         'multiple',
@@ -47,7 +47,7 @@ trait InteractsWithOptionsAndConfig
         'mediumSetAsFirstRoute',
         'mediumDestroyRoute',
         'mediumRestoreRoute',
-        'mediaManagerLabPreviewUpdateRoute'
+        'mediaManagerLabPreviewUpdateRoute',
 
         // any other properties you want in config
     ];
@@ -187,10 +187,10 @@ trait InteractsWithOptionsAndConfig
             'frontendTheme' => config('media-library-extensions.frontend_theme', 'bootstrap-5'),
             'useXhr' => config('media-library-extensions.use_xhr', true),
             'csrfToken' => csrf_token(),
-//            'selectable' => false,
-//            'disabled' => false,
-//            'readonly' => false,
-//            'multiple' => false,
+            //            'selectable' => false,
+            //            'disabled' => false,
+            //            'readonly' => false,
+            //            'multiple' => false,
             // allowedMimeTypes handled by separate trait
             // allowedMimeTypesHuman is produced
         ];

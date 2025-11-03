@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
@@ -16,8 +17,8 @@ class LabPreviewBase extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-
     public $requiredAspectRatio;
+
     public ?array $imageInfo = null;
 
     public function __construct(

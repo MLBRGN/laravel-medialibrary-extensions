@@ -12,7 +12,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class VideoYouTube extends Component
 {
-
     use InteractsWithOptionsAndConfig;
 
     public string $youTubeParamsAsString;
@@ -21,7 +20,7 @@ class VideoYouTube extends Component
 
     public function __construct(
         public Media|TemporaryUpload $medium,
-        public bool $preview = true,
+        public bool $previewMode = true,
         public ?array $youtubeParams = [],
         public array $options = [],
         public ?bool $multiple = true,// TODO what is this used for?

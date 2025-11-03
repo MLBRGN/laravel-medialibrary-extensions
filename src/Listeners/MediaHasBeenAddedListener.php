@@ -8,7 +8,6 @@ use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
 class MediaHasBeenAddedListener
 {
-
     use InteractsWithOriginalMedia;
 
     /**
@@ -19,14 +18,15 @@ class MediaHasBeenAddedListener
         $media = $event->media;
         $model = $media->model;
 
-        Log::info('MediaHasBeenAddedListener invoked for medium: ' . $media->getKey());
+        Log::info('MediaHasBeenAddedListener invoked for medium: '.$media->getKey());
 
         // Skip originals if disabled globally or per-model
         if (
             method_exists($model, 'shouldStoreOriginals') &&
-            !$model->shouldStoreOriginals()
+            ! $model->shouldStoreOriginals()
         ) {
-            Log::info("Skipping original copy for model");
+            Log::info('Skipping original copy for model');
+
             return;
         }
 
@@ -41,5 +41,4 @@ class MediaHasBeenAddedListener
         $media->save();
 
     }
-
 }
