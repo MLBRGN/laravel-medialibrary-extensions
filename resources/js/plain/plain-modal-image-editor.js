@@ -3,14 +3,8 @@ import '@/js/plain/_modal-core';
 
 const editors = new WeakMap(); // modal => editor instance
 
-function parseDimensions(dimensionString, fallback) {
-    if (!dimensionString) return fallback;
-    const [w, h] = dimensionString.split(/[x:]/).map(Number);
-    return { width: w || fallback.width, height: h || fallback.height };
-}
-
 function initializeImageEditor(config) {
-    console.log('initializeImageEditor config', config);
+    console.log('initializeImageEditor config', config)
     const imageEditor = config.imageEditorInstance;
 
     if (!imageEditor) {
@@ -60,7 +54,7 @@ function initializeImageEditor(config) {
     imageEditor.setConfiguration(imageEditorConfig);
 }
 
-function setupImageEditorModal(modal) {
+function initializeImageEditorModal(modal) {
     if (modal.dataset.mleImageEditorInitialized) return;
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
@@ -88,7 +82,7 @@ function setupImageEditorModal(modal) {
         const editor = document.createElement('image-editor');
         editor.id = 'my-image-editor';
 
-        editor.addEventListener('imageEditorReady', e => {
+        editor.addEventListener('imageEditorReady', (e) => {
             initializeImageEditor({
                 imageEditorInstance: e.detail.imageEditorInstance,
                 name: displayName,
@@ -117,6 +111,12 @@ function setupImageEditorModal(modal) {
     modal.dataset.mleImageEditorInitialized = 'true';
 }
 
+function parseDimensions(dimensionString, fallback) {
+    if (!dimensionString) return fallback;
+    const [w, h] = dimensionString.split(/[x:]/).map(Number);
+    return { width: w || fallback.width, height: h || fallback.height };
+}
+
 /**
  * Global handler for image updates inside any editor modal.
  */
@@ -131,12 +131,12 @@ registerModalEventHandler('onImageUpdated', globalImageUpdatedHandler);
 
 // Initialize any pre-rendered modals
 initModalEvents();
-document.querySelectorAll('[data-mle-image-editor-modal]').forEach(setupImageEditorModal);
+document.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);
 
 // Reinitialize after media previews are refreshed
 document.addEventListener('mediaManagerPreviewsUpdated', e => {
     const mediaManager = e.detail.mediaManager;
-    mediaManager.querySelectorAll('[data-mle-image-editor-modal]').forEach(setupImageEditorModal);
+    mediaManager.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);
 });
 
 // Handle external close requests
@@ -145,18 +145,20 @@ document.addEventListener('imageEditorModalCloseRequest', e => {
     closeModal(modal);
 });
 
-// Observe dynamically added modals
+// observe dynamic models, e.g. added later on by javascript, for example in media lab when refreshing previews
 const observeDynamicModals = () => {
     const observer = new MutationObserver(mutations => {
         for (const mutation of mutations) {
             for (const node of mutation.addedNodes) {
                 if (!(node instanceof HTMLElement)) continue;
 
+                // Direct modal element
                 if (node.matches('[data-mle-image-editor-modal]')) {
-                    setupImageEditorModal(node);
+                    initializeImageEditorModal(node);
                 }
 
-                node.querySelectorAll?.('[data-mle-image-editor-modal]').forEach(setupImageEditorModal);
+                // Nested modals inside appended fragments
+                node.querySelectorAll?.('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);
             }
         }
     });
@@ -164,4 +166,5 @@ const observeDynamicModals = () => {
     observer.observe(document.body, { childList: true, subtree: true });
 };
 
+// Start watching
 observeDynamicModals();

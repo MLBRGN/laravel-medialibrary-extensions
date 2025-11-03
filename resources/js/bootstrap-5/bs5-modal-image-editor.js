@@ -12,7 +12,11 @@ function initializeImageEditor(config) {
     console.log('initializeImageEditor config', config)
     const imageEditor = config.imageEditorInstance;
 
-    // No need to read from attributes anymore!
+    if (!imageEditor) {
+        console.warn('No imageEditorInstance provided.');
+        return;
+    }
+
     const {
         name,
         path,
@@ -72,7 +76,6 @@ function initializeImageEditorModal(modal) {
         const editor = document.createElement('image-editor');
         editor.id = 'my-image-editor';
 
-        // Directly pass config as event data
         editor.addEventListener('imageEditorReady', (e) => {
             initializeImageEditor({
                 imageEditorInstance: e.detail.imageEditorInstance,
@@ -83,7 +86,7 @@ function initializeImageEditorModal(modal) {
                 minDimensions,
                 maxDimensions,
             });
-        });
+        }, { once: true });
 
         placeholder.appendChild(editor);
     });
@@ -109,9 +112,9 @@ document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
     // console.log('reinitialize image editor modals for media manager', mediaManager);
 });
 
-document.addEventListener('imageEditorModalCloseRequest', (e) => {
+// Handle external close requests
+document.addEventListener('imageEditorModalCloseRequest', e => {
     const modal = e.detail.modal;
-    // console.log('imageEditorModalCloseRequest', modal);
     closeBootstrapModal(modal);
 });
 
