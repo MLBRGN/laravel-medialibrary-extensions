@@ -1,0 +1,171 @@
+<div
+    id="test-media-modal-mmm"
+    class="mle-component mle-theme-plain mle-media-manager media-manager-multiple"
+    data-mle-media-manager
+
+>
+    <input id="config-test-media-modal-mmm" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","frontendTheme":"plain","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"singleMedium":null,"collections":{"image":"images"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"plain","showYouTubeUploadForm":false,"uploadFieldName":"media"},"id":"test-media-modal-mmm","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"}'>
+
+        
+    
+
+    <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
+        
+        <div class="mle-media-manager-form ">
+                            
+                                    <div class="mle-demo-media-carousel mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+        <label for="test-media-modal-mmm-media-input" class="mle-label">Bestanden</label>
+    <input
+        id="test-media-modal-mmm-media-input"
+        accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
+        type="file"
+        class="mle-input mle-form-control mle-custom-file-input"
+                    name="media[]"
+            multiple
+                        >
+    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
+                        <input
+                type="hidden"
+                name="collections[image]"
+                value="images">
+                <input
+        type="hidden"
+        name="single_medium_id"
+        value="">
+    <input 
+        type="hidden" 
+        name="temporary_upload_mode" 
+        value="false">
+    <input
+        type="hidden"
+        name="model_type"
+        value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input
+        type="hidden"
+        name="model_id"
+        value="1">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="test-media-modal-mmm">
+    <button
+        type="button"
+        class="mle-button mle-button-submit mle-upload-button"
+        data-mle-action="upload-media"
+            >
+        Upload media
+    </button>
+    </div>
+    <script>
+            if (!document.getElementById('mlbrgn-css-plain')) {
+                const link = document.createElement('link');
+                link.id = 'mlbrgn-css-plain';
+                link.rel = 'stylesheet';
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css";
+                document.head.appendChild(link);
+                console.log('CSS dynamically loaded');
+            }
+        </script>
+
+
+        <noscript>
+            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
+            <div style="color:red;">
+                JavaScript is disabled. Some features may not work.
+            </div>
+        </noscript>
+    
+
+
+            <script type="module">
+            if (!window.mlbrgnJsLoaded) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js";
+                document.head.appendChild(script);
+                window.mlbrgnJsLoaded = true;
+
+                window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","upload_failed":"Upload failed."};
+
+                console.log('Main JS dynamically loaded');
+            }
+        </script>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script type="module">
+        if (!window.mleFormSubmitterJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/media-manager-submitter.js";
+            document.head.appendChild(script);
+            window.mleFormSubmitterJs = true;
+
+            console.log('mleFormSubmitterJs');
+        }
+    </script>
+
+
+
+
+
+                
+                                        
+        </div>
+
+        
+        <div class="mle-media-manager-previews">
+            <div class="mle-status-area" data-mle-status-area-container>
+    <div class="mle-spinner-container" data-mle-spinner-container>
+    <div class="mle-spinner"></div>
+    <span class="mle-spinner-text"
+          data-mle-spinner-text
+    >Please wait.</span>
+</div>
+    <div 
+    class="mle-status-container mle-flex-grow visible" 
+    data-mle-status-container
+    data-mle-status-timeout="4000"
+>
+    <div class="mle-status-message"
+        data-mle-status-message 
+        data-mle-base-classes="mle-status-message"
+        data-mle-success-classes="mle-status-message-success"
+        data-mle-error-classes="mle-status-message-error"
+    >
+            </div>
+    </div>
+</div>
+            <div class="mle-media-preview-grid" data-mle-media-preview-grid>
+    <div class="mle-component mle-media-preview-container mle-media-manager-no-media"
+     data-mle-media-preview-container>
+    <span class="mle-no-media">
+        No media.
+    </span>
+</div>
+</div>        </div>
+    </div>
+
+    
+
+    </div>
+

@@ -1,0 +1,276 @@
+<div
+    id="test-media-modal-mmm"
+    class="mle-component mle-theme-bootstrap-5 mle-media-manager media-manager-multiple"
+    data-mle-media-manager
+
+>
+    <input id="config-test-media-modal-mmm" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media_multiple","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"singleMedium":null,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"multiple":true,"disabled":false,"readonly":false,"selectable":false,"model":{"id":1,"title":"Test Model","created_at":null,"updated_at":null},"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"options":{"frontendTheme":"bootstrap-5","showSetAsFirstButton":true,"showOrder":true,"showDestroyButton":true,"useXhr":true,"showUploadForm":true,"allowedMimeTypes":"image\/jpeg, image\/png","showMediaEditButton":true,"uploadFieldName":"media_multiple"},"id":"test-media-modal-mmm","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","allowedMimeTypes":"image\/jpeg, image\/png"}'>
+
+        
+    
+
+    <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
+        
+        <div class="mle-media-manager-form ">
+                            
+                                    <div class="mle-demo-media-carousel mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mmm-media-upload-form" data-xhr-method="post">
+        <label for="test-media-modal-mmm-media-input" class="mle-label form-label">Bestanden</label>
+    <input
+        id="test-media-modal-mmm-media-input"
+        accept="image/jpeg, image/png"
+        type="file"
+        class="mle-input mle-form-control form-control"
+                    name="media_multiple[]"
+            multiple
+                        >
+    <span class="mle-form-text form-text">Supported file formats: JPEG, PNG.</span>
+                        <input
+                type="hidden"
+                name="collections[image]"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="collections[youtube]"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="collections[document]"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="collections[video]"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="collections[audio]"
+                value="blog-audio">
+                <input
+        type="hidden"
+        name="single_medium_id"
+        value="">
+    <input 
+        type="hidden" 
+        name="temporary_upload_mode" 
+        value="false">
+    <input
+        type="hidden"
+        name="model_type"
+        value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input
+        type="hidden"
+        name="model_id"
+        value="1">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="test-media-modal-mmm">
+    <button
+        type="button"
+        class="mle-button mle-button-submit btn btn-primary d-block"
+        data-mle-action="upload-media"
+            >
+        Upload media
+    </button>
+    </div>
+    <script>
+            if (!document.getElementById('mlbrgn-css-bootstrap-5')) {
+                const link = document.createElement('link');
+                link.id = 'mlbrgn-css-bootstrap-5';
+                link.rel = 'stylesheet';
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css";
+                document.head.appendChild(link);
+                console.log('CSS dynamically loaded');
+            }
+        </script>
+
+
+        <noscript>
+            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+            <div style="color:red;">
+                JavaScript is disabled. Some features may not work.
+            </div>
+        </noscript>
+    
+
+
+            <script type="module">
+            if (!window.mlbrgnJsLoaded) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js";
+                document.head.appendChild(script);
+                window.mlbrgnJsLoaded = true;
+
+                window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","upload_failed":"Upload failed."};
+
+                console.log('Main JS dynamically loaded');
+            }
+        </script>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script type="module">
+        if (!window.mleFormSubmitterJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/media-manager-submitter.js";
+            document.head.appendChild(script);
+            window.mleFormSubmitterJs = true;
+
+            console.log('mleFormSubmitterJs');
+        }
+    </script>
+
+
+
+
+
+                
+                                <div class="mle-demo-media-carousel mle-media-manager-youtube-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mmm-youtube-upload-form" data-xhr-method="post">
+        <input 
+        type="hidden" 
+        name="temporary_upload_mode" 
+        value="false">
+    <input
+        type="hidden"
+        name="single_medium_id"
+        value="">
+                        <input
+                type="hidden"
+                name="collections[image]"
+                value="blog-images">
+                                <input
+                type="hidden"
+                name="collections[youtube]"
+                value="blog-youtube">
+                                <input
+                type="hidden"
+                name="collections[document]"
+                value="blog-documents">
+                                <input
+                type="hidden"
+                name="collections[video]"
+                value="blog-videos">
+                                <input
+                type="hidden"
+                name="collections[audio]"
+                value="blog-audio">
+                <input
+        type="hidden"
+        name="youtube_collection"
+        value="blog-youtube">
+    <input
+        type="hidden"
+        name="model_type"
+        value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input
+        type="hidden"
+        name="model_id"
+        value="1">
+    <input
+        type="hidden"
+        name="initiator_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="media_manager_id"
+        value="test-media-modal-mmm">
+    <input
+        type="hidden"
+        name="multiple"
+        value="true">
+    <label 
+        for="test-media-modal-mmm-youtube-url" 
+        class="mle-label">
+        YouTube Video URL
+    </label>
+    <input
+        id="test-media-modal-mmm-youtube-url"
+        type="url" 
+        name="youtube_url" 
+        class="mle-input mle-form-control form-control" 
+        placeholder="https://www.youtube.com/watch?v=..."
+            >
+    <button
+        type="button"
+        class="mle-button mle-button-submit btn btn-primary d-block"
+        data-mle-action="upload-youtube-medium"
+            >
+        Add YouTube-video
+    </button>
+    </div>
+    <script type="module">
+        if (!window.mleFormSubmitterJs) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/media-manager-submitter.js";
+            document.head.appendChild(script);
+            window.mleFormSubmitterJs = true;
+
+            console.log('mleFormSubmitterJs');
+        }
+    </script>
+
+
+
+
+
+                                        
+        </div>
+
+        
+        <div class="mle-media-manager-previews">
+            <div class="mle-status-area" data-mle-status-area-container>
+    <div class="mle-spinner-container alert alert-info" data-mle-spinner-container>
+    <div class="mle-spinner"></div>
+    <span class="mle-spinner-text"
+        data-mle-spinner-text
+    >Please wait.</span>
+</div>
+    <div 
+    class="mle-status-container mle-flex-grow visible" 
+    data-mle-status-container 
+    data-mle-status-timeout="4000"
+>
+    <div class="mle-status-message alert alert-dismissible"
+        data-mle-status-message
+        data-mle-base-classes="mle-status-message alert alert-dismissible visible"
+        data-mle-success-classes="alert-success"
+        data-mle-error-classes="alert-danger"
+    >
+            </div>
+    </div>
+</div>            
+            <div class="mle-media-preview-grid" data-mle-media-preview-grid>
+    <div class="mle-component mle-media-preview-container mle-media-manager-no-media"
+     data-mle-media-preview-container>
+    <span class="mle-no-media">
+        No media.
+    </span>
+</div>
+</div>        </div>
+    </div>
+
+    
+
+    </div>
+

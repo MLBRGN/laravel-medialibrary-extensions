@@ -54,9 +54,9 @@ it('renders expected HTML for an image medium', function () {
         $model,
         ['image' => 'image_collection']
     ));
-    expect($html)->toContain('class="mle-media-preview-image" ')
+    expect($html)->toContain('class="mle-media-preview-item mle-image-responsive" ')
         ->toContain('test.jpg');
-})->only();
+});
 
 it('renders expected HTML for a video medium', function () {
     $model = $this->getModelWithMedia(['video' => 1]);
@@ -78,7 +78,7 @@ it('renders expected HTML for an audio medium', function () {
         'audio123',
         $model, ['audio' => 'audio_collection']
     ));
-    expect($html)->toContain('<div class="mle-audio"')
+    expect($html)->toContain('<div class="mle-audio')
         ->toContain('test.mp3" type="audio/mpeg"');
 });
 
