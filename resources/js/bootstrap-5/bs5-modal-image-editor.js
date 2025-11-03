@@ -23,7 +23,7 @@ function initializeImageEditor(config) {
     } = config;
 
     imageEditor.setImage(name, path, initiatorId);
-    imageEditor.setConfiguration({
+    const imageEditorConfig = {
         debug: false,
         rotateDegreesStep: 90,
         freeSelectDisabled: true,
@@ -31,6 +31,7 @@ function initializeImageEditor(config) {
         freeResizeDisabled: true,
         filtersDisabled: true,
         selectionAspectRatios: [requiredAspectRatio],
+        selectionAspectRatio: requiredAspectRatio,
         minWidth: minDimensions.width,
         minHeight: minDimensions.height,
         maxWidth: maxDimensions.width,
@@ -43,14 +44,15 @@ function initializeImageEditor(config) {
         croppingEnabled: true,
         gridEnabled: false,
         downloadingEnabled: false,
-        // freeSelectEnabled: false,// TODO causes error when set to false
+        freeSelectEnabled: false,
         freeRotationEnabled: false,
         resizingEnabled: false,
         filtersEnabled: false,
         selectionInfoEnabled: false,
         selectionAspectRatioEnabled: false,
         helpEnabled: false,
-    });
+    }
+    imageEditor.setConfiguration(imageEditorConfig);
 }
 
 function initializeImageEditorModal(modal) {
@@ -62,7 +64,7 @@ function initializeImageEditorModal(modal) {
         const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-mle-image-editor-modal-config]').value);
         const mediumPath = modal.getAttribute('data-mle-medium-path');
         const displayName = modal.getAttribute('data-mle-medium-display-name');
-        const forcedAspectRatio = modal.getAttribute('data-mle-medium-forced-aspect-ratio') ?? '16:9';
+        const forcedAspectRatio = modal.getAttribute('data-mle-medium-forced-aspect-ratio') ?? '4:3';
         const minDimensions = parseDimensions(modal.getAttribute('data-mle-medium-minimal-dimensions'), { width: 800, height: 600 });
         const maxDimensions = parseDimensions(modal.getAttribute('data-mle-medium-maximal-dimensions'), { width: 7040, height: 3960 });
         const initiatorId = imageEditorModalConfig.initiatorId;

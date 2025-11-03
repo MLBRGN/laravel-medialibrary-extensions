@@ -28,7 +28,7 @@ function initializeImageEditor(config) {
     } = config;
 
     imageEditor.setImage(name, path, initiatorId);
-    imageEditor.setConfiguration({
+    const imageEditorConfig = {
         debug: false,
         rotateDegreesStep: 90,
         freeSelectDisabled: true,
@@ -36,6 +36,7 @@ function initializeImageEditor(config) {
         freeResizeDisabled: true,
         filtersDisabled: true,
         selectionAspectRatios: [requiredAspectRatio],
+        selectionAspectRatio: requiredAspectRatio,
         minWidth: minDimensions.width,
         minHeight: minDimensions.height,
         maxWidth: maxDimensions.width,
@@ -48,14 +49,15 @@ function initializeImageEditor(config) {
         croppingEnabled: true,
         gridEnabled: false,
         downloadingEnabled: false,
-        // freeSelectEnabled: false,// TODO causes error when set to false
+        freeSelectEnabled: false,
         freeRotationEnabled: false,
         resizingEnabled: false,
         filtersEnabled: false,
         selectionInfoEnabled: false,
         selectionAspectRatioEnabled: false,
         helpEnabled: false,
-    });
+    }
+    imageEditor.setConfiguration(imageEditorConfig);
 }
 
 function setupImageEditorModal(modal) {

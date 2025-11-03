@@ -525,6 +525,8 @@ return [
         ['name' => '√2:1',   'label' => '√2:1',   'value' => 1.414,    'active' => true],
     ]),
 
+    'default_forced_aspect_ratio' => '4:3',
+
     /*
             // 2.22:1 widescreen cinematic ratio 3 images found
             // 2.26
