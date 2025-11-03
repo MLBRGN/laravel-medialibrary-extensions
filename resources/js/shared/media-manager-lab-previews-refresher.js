@@ -13,6 +13,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     const params = new URLSearchParams({
         initiator_id: config.id,
         medium_id: mediumId,
+        options: JSON.stringify(config.options),
     });
 
     // Cache-busting param
