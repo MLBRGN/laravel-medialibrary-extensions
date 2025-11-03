@@ -50,9 +50,6 @@
     .mle-media-carousel-item-container {
         height:100%;
         width:100%;
-        //display:flex;
-        //justify-content: center;
-        //align-items: center;
     }
 
     .mle-media-carousel-item {
@@ -61,9 +58,6 @@
         inset: 0;
         z-index: 0;
         pointer-events: none;
-        //    min-width: 100%;
-        //    max-width: 100%;
-        //    flex: 0 0 100%;
     }
 
     .mle-media-carousel-item.active {
@@ -226,7 +220,6 @@
     @media (hover: none) and (pointer: coarse) and (max-width: 768px) {
         .mle-media-carousel-control-prev,
         .mle-media-carousel-control-next {
-            //display: none !important;
             display: none;
         }
     }

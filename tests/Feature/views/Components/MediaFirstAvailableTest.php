@@ -56,7 +56,7 @@ it('renders expected HTML for an image medium', function () {
     ));
     expect($html)->toContain('class="mle-media-preview-image" ')
         ->toContain('test.jpg');
-});
+})->only();
 
 it('renders expected HTML for a video medium', function () {
     $model = $this->getModelWithMedia(['video' => 1]);

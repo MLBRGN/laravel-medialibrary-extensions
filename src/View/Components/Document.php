@@ -32,7 +32,7 @@ class Document extends Component
 
     public function __construct(
         public Media|TemporaryUpload $medium,
-        public bool $preview = true,
+        public bool $previewMode = true,
         public array $options = [],
         public string $alt = ''
     ) {

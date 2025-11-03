@@ -10,15 +10,15 @@
         'carousel-fade' => config('media-library-extensions.carousel_fade'),
         'mle-width-100',
         'mle-height-100'
-      ])->merge() }}
+    ])->merge() }}
     @if(config('media-library-extensions.carousel_ride'))
         data-bs-ride="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'carousel' }}"
         data-bs-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
     @endif
-     data-mle-carousel
+    data-mle-carousel
 >
     {{-- Indicators --}}
-    <div 
+    <div
         @class([
             'mle-media-carousel-indicators', 
             'carousel-indicators', 
@@ -43,70 +43,29 @@
     {{-- Slides --}}
     <div class="mle-media-carousel-inner carousel-inner">
         @forelse($media as $index => $medium)
-            <div 
+            <div
                 @class([
-                'mle-media-carousel-item',
-                'carousel-item',
-                'active' => $loop->first,
-                'mle-cursor-zoom-in' => $expandableInModal,
-            ])
-            data-mle-carousel-item
+                    'mle-media-carousel-item',
+                    'carousel-item',
+                    'active' => $loop->first,
+                    'mle-cursor-zoom-in' => $expandableInModal
+                ])
+                data-mle-carousel-item
             >
-                <div class="mle-media-carousel-item-container" 
-                     data-bs-toggle="modal"
-                     data-bs-target="#{{$id}}-mod"
-                >
-                @if(isMediaType($medium, 'youtube-video'))
-                    @if ($inModal)
-                        <x-mle-video-youtube
-                            class="mle-video-responsive"
-                            :medium="$medium" 
-                            :preview="false" 
-                        />
-                    @else
-                        <x-mle-video-youtube
-                            class="mle-video-responsive"
-                            :medium="$medium" 
-                            :preview="true"  
-                            data-bs-target="#{{$id}}-mod-crs"
-                            data-bs-slide-to="{{ $loop->index }}"
-                        />
+                <div class="mle-media-carousel-item-container"
+                     @if($expandableInModal)
+                         data-bs-toggle="modal"
+                         data-bs-target="#{{$id}}-mod"
                     @endif
-                @elseif(isMediaType($medium, 'document'))
-                    <x-mle-document :medium="$medium"
-                                    class="mle-document mle-cursor-zoom-in"
-                                    data-bs-target="{{ $id }}-mod"
-                                    data-bs-slide-to="{{ $loop->index }}"
-                                    :preview="false"
-                    />
-                @elseif(isMediaType($medium, 'video'))
-                    <div
-                        data-bs-toggle="modal"
-                        data-bs-target="#{{$id}}-mod"
-                        class="mle-media-preview-item-container"
-                    >
-                        <x-mle-video :medium="$medium" />
-                    </div>
-                @elseif(isMediaType($medium, 'audio'))
-                    <div
-                        data-bs-toggle="modal"
-                        data-bs-target="#{{$id}}-mod"
-                        class="mle-media-preview-item-container"
-                    >
-                        <x-mle-audio :medium="$medium" />
-                    </div>
-                @elseif(isMediaType($medium, 'image'))
-                    <x-mle-image-responsive
-                        class="mle-image-responsive"
+                >
+                    <x-mle-media-viewer
                         :medium="$medium"
-                        :conversions="['16x9']"
-                        sizes="100vw"
-                        :alt="$medium->name"
-                        data-bs-target="#{{$id}}-mod-crs"
+                        :options="$options"
+                        :preview-mode="$previewMode"
+                        :expandable-in-modal="$expandableInModal"
+                        data-bs-target="#{{ $id }}-mod-crs"
                         data-bs-slide-to="{{ $loop->index }}"
-                        draggable="false"
                     />
-                @endif
                 </div>
             </div>
         @empty
@@ -126,19 +85,20 @@
     {{-- Prev/Next controls --}}
     <button
         @class([
-             'mle-media-carousel-control-prev',
-             'carousel-control-prev',
-             'disabled' => $mediaCount <= 1
-         ])
-        type="button" 
+            'mle-media-carousel-control-prev',
+            'carousel-control-prev',
+            'disabled' => $mediaCount <= 1
+        ])
+        type="button"
         data-bs-target="#{{ $id }}" 
         data-bs-slide="prev" 
-        title="{{ __('media-library-extensions::messages.previous') }}">
+        title="{{ __('media-library-extensions::messages.previous') }}"
+    >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
-              <x-mle-shared-icon
-                  name="{{ config('media-library-extensions.icons.prev') }}"
-                  title="{{ __('media-library-extensions::messages.previous') }}"
-              />
+        <x-mle-shared-icon
+            name="{{ config('media-library-extensions.icons.prev') }}"
+            title="{{ __('media-library-extensions::messages.previous') }}"
+        />
         </span>
         <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
     </button>
@@ -148,15 +108,16 @@
             'carousel-control-next',
             'disabled' => $mediaCount <= 1
         ])
-        type="button" 
-        data-bs-target="#{{ $id }}" 
-        data-bs-slide="next" 
-        title="{{ __('media-library-extensions::messages.next') }}">
+        type="button"
+        data-bs-target="#{{ $id }}"
+        data-bs-slide="next"
+        title="{{ __('media-library-extensions::messages.next') }}"
+    >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
-               <x-mle-shared-icon
-                   name="{{ config('media-library-extensions.icons.next') }}"
-                   title="{{ __('media-library-extensions::messages.next') }}"
-               />
+            <x-mle-shared-icon
+                name="{{ config('media-library-extensions.icons.next') }}"
+                title="{{ __('media-library-extensions::messages.next') }}"
+            />
         </span>
         <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
     </button>
@@ -170,10 +131,10 @@
         :options="$options"
         title="Media carousel"/>
 @endif
-<x-mle-shared-assets 
-    include-css="true" 
+<x-mle-shared-assets
+    include-css="true"
     include-js="true"
     include-carousel-js="true"
-    include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}" 
+    include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}"
     :frontend-theme="$getConfig('frontendTheme')"
 />

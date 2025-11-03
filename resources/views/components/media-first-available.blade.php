@@ -1,14 +1,10 @@
 @if ($medium)
     <div class="mle-component mle-media-first-available">
-        <x-dynamic-component
-            :component="$componentToRender"
-            class="{{ $mediumType === 'image' 
-                    ? 'mle-media-preview-image' 
-                    : '' }}"
+        <x-mle-media-viewer
             :medium="$medium"
             :options="$options"
-            :draggable="$mediumType === 'image' ? 'false' : null"
-            :preview="true"
+            :preview-mode="true"
+            :expandable-in-modal="false"
         />
     </div>
 @else

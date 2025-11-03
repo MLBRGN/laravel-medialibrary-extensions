@@ -17,6 +17,7 @@
     @if($videoAutoPlay)
         data-mle-autoplay=""
     @endif
+    data-mle-modal
     data-mle-media-modal
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
@@ -27,8 +28,8 @@
             <div class="mle-modal-body mle-media-modal-body modal-body p-0">
                 <button
                     type="button"
-                    data-mle-modal-close
                     class="mle-modal-close-button mle-media-modal-close-button"
+                    data-mle-modal-close
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
@@ -37,8 +38,7 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-               
-                {{-- important set click to open in modal to false otherwise endless inclusion --}}
+                {{-- important set expandableInModal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
@@ -48,6 +48,7 @@
                     :collections="$collections"
                     :options="$options"
                     :in-modal="true"
+                    :preview-mode="false"
                 />
             </div>
         </div>

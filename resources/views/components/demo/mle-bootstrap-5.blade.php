@@ -167,18 +167,32 @@
         <x-mle-media-carousel
             id="alien-media-carousel-temporary-uploads"
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+{{--            :collections="[--}}
+{{--                'image' => 'alien-single-image', //, 'alien-multiple-images'],--}}
+{{--                'document' => 'alien-single-document', //'alien-multiple-documents'], --}}
+{{--                'youtube' => 'alien-single-youtube-video', //'alien-multiple-youtube-videos'],--}}
+{{--                'video' => 'alien-single-video', //'alien-multiple-videos'],--}}
+{{--                'audio' => 'alien-single-audio', //'alien-multiple-audio'],--}}
+{{--            ]"--}}
             :collections="[
-                                'alien-single-image', 
-                                'alien-single-document', 
-                                'alien-single-youtube-video',
-                                'alien-single-video',
-                                'alien-single-audio',
-                                'alien-multiple-images', 
-                                'alien-multiple-documents', 
-                                'alien-multiple-youtube-videos',
-                                'alien-multiple-videos',
-                                'alien-multiple-audio',
-                            ]"
+                'image' => ['alien-single-image', 'alien-multiple-images'],
+                'document' => ['alien-single-document', 'alien-multiple-documents'], 
+                'youtube' => ['alien-single-youtube-video', 'alien-multiple-youtube-videos'],
+                'video' => ['alien-single-video', 'alien-multiple-videos'],
+                'audio' => ['alien-single-audio', 'alien-multiple-audio'],
+            ]"
+{{--            :collections="[--}}
+{{--                                'alien-single-image', --}}
+{{--                                'alien-single-document', --}}
+{{--                                'alien-single-youtube-video',--}}
+{{--                                'alien-single-video',--}}
+{{--                                'alien-single-audio',--}}
+{{--                                'alien-multiple-images', --}}
+{{--                                'alien-multiple-documents', --}}
+{{--                                'alien-multiple-youtube-videos',--}}
+{{--                                'alien-multiple-videos',--}}
+{{--                                'alien-multiple-audio',--}}
+{{--                            ]"--}}
             class="my-5"
         />
 

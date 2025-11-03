@@ -29,7 +29,6 @@
         @include carousel.carousel-controls;
 
         width:100%;
-        //height:100%;
         height:fit-content;
         aspect-ratio: 16/9;
         overflow:hidden;
@@ -79,9 +78,6 @@
     .mle-media-carousel-item-container {
         width:100%;
         height:100%;
-        //display:flex;
-        //justify-content: center;
-        //align-items: center;
     }
 
     .image {

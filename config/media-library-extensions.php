@@ -438,6 +438,22 @@ return [
     */
     'mle_using_local_package' => env('MLE_USING_LOCAL_PACKAGE', false),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dynamic component resolving map
+    |--------------------------------------------------------------------------
+    |
+    | Used to resolve dynamic component for media
+    */
+    'component_map' => [
+        'image' => 'mle-image-responsive',
+        'video' => 'mle-video',
+        'audio' => 'mle-audio',
+        'document' => 'mle-document',
+        'youtube-video' => 'mle-video-youtube',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Aspect ratio settings (used by media lab)

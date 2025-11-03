@@ -16,7 +16,7 @@ class ImageResponsive extends Component
 
     public function __construct(
         public Media|TemporaryUpload|null $medium = null,
-        public bool $preview = true,
+        public bool $previewMode = true,
         public string $conversion = '',
         public array $conversions = [],
         public string $sizes = '100vw',

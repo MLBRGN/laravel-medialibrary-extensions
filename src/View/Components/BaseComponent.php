@@ -22,15 +22,6 @@ abstract class BaseComponent extends Component
         $this->id = filled($id) ? $id : 'component-'.Str::uuid();
     }
 
-    //    public function showRegularUploadForm(): bool
-    //    {
-    //        // Only check image, document, video, and audio types
-    //        return collect($this->collections)
-    //            ->only(['image', 'document', 'video', 'audio'])
-    //            ->filter(fn ($value) => filled($value)) // ignore falsy (null, '', false)
-    //            ->isNotEmpty();
-    //    }
-
     public function hasCollections(): bool
     {
         // Check all defined collection types
@@ -51,4 +42,12 @@ abstract class BaseComponent extends Component
     {
         return filled($this->collections[$key] ?? null);
     }
+
+    public function resolveComponentForMedium($medium): ?string
+    {
+        $map = config('media-library-extensions.component_map', []);
+        $type = getMediaType($medium); // your own helper or custom property
+        return $map[$type] ?? null;
+    }
+
 }

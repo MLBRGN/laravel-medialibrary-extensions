@@ -14,7 +14,7 @@
             </p>
 
             {{-- Download link (only if not preview) --}}
-            @if(!$preview)
+            @if(!$previewMode)
                 <a href="{{ $medium->getUrl() }}" target="_blank" class="mle-document-link" data-mle-document-link>
                     <x-mle-shared-icon
                         class="mle-document-fg-icon"
@@ -31,7 +31,7 @@
                 />
             @endif
 
-            @if(!$preview)
+            @if(!$previewMode)
                 @if($medium->mime_type === 'application/pdf' && config('media-library-extensions.preview_modal_embed_pdf'))
                     <embed src="{{ $medium->getUrl() }}" type="application/pdf"
                            width="100%" height="600px" class="mle-document-embed" />

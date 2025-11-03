@@ -36,6 +36,7 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
+                {{-- important set expandableInModal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
@@ -45,6 +46,7 @@
                     :collections="$collections"
                     :options="$options"
                     :in-modal="true"
+                    :preview-mode="false"
                 />
             </div>
         </div>

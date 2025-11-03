@@ -3,21 +3,12 @@
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
     >
-{{--        @if($slot->isNotEmpty())--}}
-{{--            {{ $slot }}--}}
-{{--        @else--}}
-            <x-dynamic-component
-                :component="$componentToRender"
-                class="{{ $mediumType === 'image' 
-                    ? 'mle-media-preview-image mle-cursor-zoom-in' 
-                    : 'mle-cursor-zoom-in' }}"
-                :medium="$medium"
-                :options="$options"
-                :draggable="$mediumType === 'image' ? 'false' : null"
-                :preview="true"
-{{--                :preview="in_array($mediumType, ['youtube-video'])"--}}
-            />
-{{--        @endisset--}}
+        <x-mle-media-viewer
+            :medium="$medium"
+            :options="$options"
+            :preview-mode="true"
+            :expandable-in-modal="true"
+        />
     </div>
 
     @if ($mediumType === 'image')

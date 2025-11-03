@@ -19,8 +19,8 @@ export function initCarousel(carousel) {
     if (!slides.length) return;
 
     const indicators = carousel.querySelectorAll('[data-mle-carousel-indicators] button');
-    const prev = carousel.querySelector('[data-slide="prev"]');
-    const next = carousel.querySelector('[data-slide="next"]');
+    const prev = carousel.querySelector('[data-mle-slide="prev"]');
+    const next = carousel.querySelector('[data-mle-slide="next"]');
 
     const ride = carousel.getAttribute('data-mle-carousel-ride') === 'true';
     const rideInterval = Number(carousel.getAttribute('data-mle-carousel-ride-interval') ?? '5000');

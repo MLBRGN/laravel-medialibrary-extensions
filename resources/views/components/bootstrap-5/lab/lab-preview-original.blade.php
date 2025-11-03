@@ -8,7 +8,7 @@
     @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
         <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}"
              alt=""
-             class="mle-media-preview-image"
+             class="mle-image-responsive"
         >
     @else
         Geen origineel opgeslagen

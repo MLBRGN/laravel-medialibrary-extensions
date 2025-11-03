@@ -11,10 +11,8 @@
         bottom: 15%;
         width: 5%;
         min-width: 2.5em;
-        //transition: background-color .3s ease-in-out, color .3s ease-in-out;
         transition: background-color .3s ease-in-out;
         background-color: rgb(from var(--mlbrgn-mle-carousel-control-bg-color) r g b / var(--mlbrgn-mle-carousel-control-bg-opacity));
-        //color: var(--mlbrgn-mle-carousel-control-fg-color);
     }
 
     .mle-media-carousel-control-prev svg,
@@ -46,7 +44,6 @@
     .mle-media-carousel-control-next:hover,
     .mle-media-carousel-control-next:focus-visible {
         background-color: rgb(from var(--mlbrgn-mle-carousel-control-hover-bg-color) r g b / var(--mlbrgn-mle-carousel-control-hover-bg-opacity));
-        //color: var(--mlbrgn-mle-carousel-control-hover-fg-color);
     }
 
     .mle-media-carousel-control-prev:hover svg,

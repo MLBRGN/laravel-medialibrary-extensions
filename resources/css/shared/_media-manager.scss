@@ -1,39 +1,14 @@
 .mle-component {
 
-    //.mle-media-preview-video,
-    .mle-media-preview-image {
-        width: 100%;
-        height: 100%;
-        //object-fit: cover;
-        object-fit: contain;
-        aspect-ratio: 1;
-    }
-
-    //.mle-media-preview-audio {
-    //    display:flex;
-    //    justify-content: center;
-    //    align-items: center;
-    //    width:100%;
-    //    height:100%;
-    //    padding:1rem;
-    //}
-
     .mle-media-preview-container {
         max-width: 400px;
-        //min-width: 200px;
         user-select:none;
     }
 
-    //.mle-media-preview-image {
-    //    position:relative;
-    //}
-
     .mle-media-preview-grid {
         display:grid;
-        //align-items: center;
         align-items: start;
         justify-items:start;
-        //grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 1rem;
     }
@@ -41,7 +16,6 @@
     .mle-media-preview-menu {
         width: 100%;
         color: var(--mlbrgn-mle-preview-menu-fg-color);
-        //height: auto;
         height: 40px;
         max-height: 30%;
         padding: 0.3em;
@@ -79,7 +53,6 @@
 
     .mle-pseudo-button-icon {
         margin: 0;
-        //margin-inline-start: .5rem;
         width: 30px;
         aspect-ratio: 1 / 1;
         padding: 0;
@@ -95,8 +68,6 @@
     .mle-checkbox-wrapper {
         cursor: pointer;
         overflow: hidden;
-        //border-radius:50%;
-
 
         &.mle-pseudo-button-icon {
             width: 30px;
@@ -115,7 +86,6 @@
     .mle-media-select-checkbox + .mle-pseudo-button {
         background: #eee;
         border-radius: 4px;
-        //padding: 0.25rem;
     }
 
     .mle-media-select-checkbox:checked + .mle-pseudo-button {
