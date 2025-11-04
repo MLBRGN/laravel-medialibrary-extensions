@@ -1,16 +1,18 @@
 // should be loaded when the custom file picker is enabled
 window.mleFilePicker = (callback, value, meta) => {
+    let win = null;
     if (meta.filetype === 'image') {
         const editor = tinymce.activeEditor;
         const textarea = editor.getElement();
 
         const temporaryUploadMode = textarea.getAttribute('data-mle-model-id') === '';
-        console.log('temporaryUploadMode', temporaryUploadMode);
 
-        const initiatorId = textarea.getAttribute('data-mle-initiator-id');
+        const mediaManagerId = textarea.getAttribute('data-mle-media-manager-id') || 'media-manager';
         const modelType = textarea.getAttribute('data-mle-model-type') ?? '';
         const modelId = textarea.getAttribute('data-mle-model-id');
-        const mediaManagerId = 'myMediaManager';
+        let multipleAttr = textarea.getAttribute('data-mle-multiple');
+        const multiple = multipleAttr === null || multipleAttr === 'true' || multipleAttr === '';
+
         let collections = {};
 
         try {
@@ -18,13 +20,17 @@ window.mleFilePicker = (callback, value, meta) => {
             if (attr) collections = JSON.parse(attr);
         } catch (e) {
             console.warn('Invalid data-mle-collections JSON', e);
+            editor.windowManager.alert({
+                title: 'Configuration Error',
+                text: 'The image picker could not start because the data-mle-collections attribute is invalid. Please check your editor setup.',
+            });
             return;
         }
 
         const params = {
-            initiator_id: initiatorId,
             model_type: modelType,
             model_id: modelId,
+            multiple: multiple,
             media_manager_id: mediaManagerId,
             collections: JSON.stringify(collections),
             temporary_upload_mode: temporaryUploadMode,
@@ -33,17 +39,24 @@ window.mleFilePicker = (callback, value, meta) => {
                 frontendTheme: 'plain',
             })
         };
-        // console.log(params);
 
         const url = new URL('/mlbrgn-mle/media-manager-tinymce', window.location.origin);
         url.search = new URLSearchParams(params).toString();
 
-        // open the dialog
-        const win = tinymce.activeEditor.windowManager.openUrl({
-            title: 'Select images',
-            url: url.toString(),
-            buttons: [{ type: 'cancel', text: 'Close' }]
-        });
+        try {
+            // open the dialog
+             win = editor.windowManager.openUrl({
+                title: 'Select images',
+                url: url.toString(),
+                buttons: [{ type: 'cancel', text: 'Close' }]
+            });
+        } catch (err) {
+            console.error('Error opening TinyMCE media manager', err);
+            editor.windowManager.alert(
+                'An unexpected error occurred while opening the image manager. Please try again. Error:' + err.message
+            );
+            return;
+        }
 
         function handleMessage(event) {
             if (!event.data || !event.data.mce) return;
@@ -53,8 +66,6 @@ window.mleFilePicker = (callback, value, meta) => {
                 console.warn('No file');
                 return;
             }
-            // console.log('just before callback')
-            // console.log('file', file);
 
             if (meta.filetype === 'image') {
                 // console.log('image', file);
@@ -73,7 +84,6 @@ window.mleFilePicker = (callback, value, meta) => {
                         border: file.border || '0px',
                         borderstyle: file.borderstyle || 'none',
                     };
-                    // console.log('data', data);
                     callback(file.url, data);
                 };
                 img.onerror = () => {

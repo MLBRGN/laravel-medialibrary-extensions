@@ -94,8 +94,6 @@ class MediaManagerTinymce extends BaseComponent
             'uploadFieldName' => $this->uploadFieldName,
             'selectable' => $selectable,
         ]);
-        //        dd($this->multiple);
-        //        dd($this->config);
     }
 
     public function render(): View

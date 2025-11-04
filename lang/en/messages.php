@@ -88,5 +88,6 @@ return [
     'does_not_meet_requirements' => 'Does not meet requirements',
     'unknown' => 'Unknown',
     'no_original_saved' => 'No original saved.',
-
+    'invalid_configuration' => 'Invalid configuration.',
+    'validation_error' => 'Validation error.',
 ];

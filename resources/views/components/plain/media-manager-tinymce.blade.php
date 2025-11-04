@@ -1,5 +1,5 @@
 <div class="mle-component mle-media-manager-tinymce">
-    <x-mle-media-manager-multiple
+    <x-mle-media-manager
         id="{{ $id }}"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"

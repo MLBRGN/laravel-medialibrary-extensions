@@ -19,8 +19,8 @@ class GetMediaManagerTinyMceTemporaryAction
 
         $modelType = $request->input('model_type');
         $modelId = null;
-        $id = 'something_for_now'; // TODO
-        $multiple = true; // TODO
+        $id = $request->input('media_manager_id');
+        $multiple = $request->boolean('multiple');
         $collections = json_decode(request()->string('collections'), true);
         $options = json_decode(request()->string('options'), true);
 
