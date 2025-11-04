@@ -112,6 +112,17 @@
 
     .mle-media-preview-item {
         aspect-ratio: 1;
+        position:absolute;
+        inset:0;
+    }
+
+    .mle-media-preview-item-bg {
+        width:120%;
+        height:120%;
+        object-fit:cover;
+        filter: blur(24px);
+        position:absolute;
+        inset:-24px;
     }
 
     .mle-media-preview-menu-start,

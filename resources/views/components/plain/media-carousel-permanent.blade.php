@@ -61,6 +61,13 @@
                         :options="$options"
                         :preview-mode="$previewMode"
                         :expandable-in-modal="$expandableInModal"
+                        class="mle-media-preview-item-bg"
+                    />
+                    <x-mle-media-viewer
+                        :medium="$medium"
+                        :options="$options"
+                        :preview-mode="$previewMode"
+                        :expandable-in-modal="$expandableInModal"
                     />
                 </div>
             </div>
