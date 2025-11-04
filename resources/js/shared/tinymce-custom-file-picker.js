@@ -11,7 +11,7 @@ window.mleFilePicker = (callback, value, meta) => {
             initiator_id: textarea.getAttribute('data-mle-initiator-id'),
             model_type: textarea.getAttribute('data-mle-model-type') ?? '',
             model_id: textarea.getAttribute('data-mle-model-id'),
-            media_manager_id: 'myMediaManager',
+            media_manager_id: 'myMediaManager',// TODO real id
             collections: JSON.stringify({// TODO refactor
                 'image': textarea.getAttribute('data-mle-image-collection'),
                 'video': textarea.getAttribute('data-mle-video-collection'),
