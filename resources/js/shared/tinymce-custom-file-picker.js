@@ -7,16 +7,31 @@ window.mleFilePicker = (callback, value, meta) => {
         const temporaryUploadMode = textarea.getAttribute('data-mle-model-id') === '';
         console.log('temporaryUploadMode', temporaryUploadMode);
 
+        const initiatorId = textarea.getAttribute('data-mle-initiator-id');
+        const modelType = textarea.getAttribute('data-mle-model-type') ?? '';
+        const modelId = textarea.getAttribute('data-mle-model-id');
+        const mediaManagerId = 'myMediaManager';
+        let collections = {};
+
+        try {
+            const attr = textarea.getAttribute('data-mle-collections');
+            if (attr) collections = JSON.parse(attr);
+        } catch (e) {
+            console.warn('Invalid data-mle-collections JSON', e);
+            return;
+        }
+
         const params = {
-            initiator_id: textarea.getAttribute('data-mle-initiator-id'),
-            model_type: textarea.getAttribute('data-mle-model-type') ?? '',
-            model_id: textarea.getAttribute('data-mle-model-id'),
-            media_manager_id: 'myMediaManager',// TODO real id
-            collections: JSON.stringify({// TODO refactor
-                'image': textarea.getAttribute('data-mle-image-collection'),
-                'video': textarea.getAttribute('data-mle-video-collection'),
-                'audio': textarea.getAttribute('data-mle-audio-collection'),
-            }),
+            initiator_id: initiatorId,
+            model_type: modelType,
+            model_id: modelId,
+            media_manager_id: mediaManagerId,
+            collections: JSON.stringify(collections),
+            // collections: JSON.stringify({// TODO refactor
+            //     'image': textarea.getAttribute('data-mle-image-collection'),
+            //     'video': textarea.getAttribute('data-mle-video-collection'),
+            //     'audio': textarea.getAttribute('data-mle-audio-collection'),
+            // }),
             temporary_upload_mode: temporaryUploadMode, //textarea.getAttribute('temporaryUploadMode'),
             options: JSON.stringify({
                 temporaryUploadMode: temporaryUploadMode,
