@@ -27,11 +27,6 @@ window.mleFilePicker = (callback, value, meta) => {
             model_id: modelId,
             media_manager_id: mediaManagerId,
             collections: JSON.stringify(collections),
-            // collections: JSON.stringify({// TODO refactor
-            //     'image': textarea.getAttribute('data-mle-image-collection'),
-            //     'video': textarea.getAttribute('data-mle-video-collection'),
-            //     'audio': textarea.getAttribute('data-mle-audio-collection'),
-            // }),
             temporary_upload_mode: temporaryUploadMode, //textarea.getAttribute('temporaryUploadMode'),
             options: JSON.stringify({
                 temporaryUploadMode: temporaryUploadMode,
