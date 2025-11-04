@@ -27,7 +27,7 @@ window.mleFilePicker = (callback, value, meta) => {
             model_id: modelId,
             media_manager_id: mediaManagerId,
             collections: JSON.stringify(collections),
-            temporary_upload_mode: temporaryUploadMode, //textarea.getAttribute('temporaryUploadMode'),
+            temporary_upload_mode: temporaryUploadMode,
             options: JSON.stringify({
                 temporaryUploadMode: temporaryUploadMode,
                 frontendTheme: 'plain',
