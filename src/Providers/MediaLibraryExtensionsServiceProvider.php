@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Mlbrgn\MediaLibraryExtensions\Console\Commands\ClearMediaLibraryCommand;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
+use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
@@ -107,7 +107,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
 
             $this->commands([
-                ClearMediaLibraryCommand::class,
+                ResetMediaLibraryExtensions::class,
                 InstallMediaLibraryExtensions::class,
                 ToggleRepository::class,
             ]);
@@ -287,9 +287,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * @return void
-     */
     public function setupDisks(): void
     {
         $disksToRegister = [];
@@ -308,7 +305,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // Register each one only if not already defined by the host app
         foreach ($disksToRegister as $name => $diskConfig) {
-            if (!config()->has("filesystems.disks.$name")) {
+            if (! config()->has("filesystems.disks.$name")) {
                 config()->set("filesystems.disks.$name", $diskConfig);
             }
         }

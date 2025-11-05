@@ -18,10 +18,10 @@ trait ResolveMediaComponent
         // optional: fetch from config so it’s customizable
         $map = config('media-library-extensions.component_map', [
             'youtube-video' => 'mle-video-youtube',
-            'document'      => 'mle-document',
-            'video'         => 'mle-video',
-            'audio'         => 'mle-audio',
-            'image'         => 'mle-image-responsive',
+            'document' => 'mle-document',
+            'video' => 'mle-video',
+            'audio' => 'mle-audio',
+            'image' => 'mle-image-responsive',
         ]);
 
         $type = getMediaType($medium);

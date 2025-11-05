@@ -65,7 +65,7 @@ class Alien extends Model implements HasMedia
     public function getConnectionName(): string
     {
         if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
-            return config('media-library-extensions.demo_database_name');// TODO rename config key to demo_database_name?
+            return config('media-library-extensions.demo_database_name'); // TODO rename config key to demo_database_name?
         }
 
         return config('database.default');

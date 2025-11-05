@@ -75,7 +75,7 @@ if (! function_exists('extractYouTubeId')) {
 if (! function_exists('isMediaType')) {
     function isMediaType($medium, string $type): bool
     {
-        if (!$medium) {
+        if (! $medium) {
             return false;
         }
 

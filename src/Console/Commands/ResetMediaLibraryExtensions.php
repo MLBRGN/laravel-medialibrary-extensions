@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class ClearMediaLibraryCommand extends Command
+class ResetMediaLibraryExtensions extends Command
 {
     protected $signature = 'media-library-extensions:reset
                             {--force : Skip confirmation prompt}';
@@ -17,8 +17,9 @@ class ClearMediaLibraryCommand extends Command
     public function handle(): int
     {
         // Ensure command only runs in safe environments
-        if (!App::environment(['local', 'staging'])) {
+        if (! App::environment(['local', 'staging'])) {
             $this->error('This command can only be run in local or staging environments!');
+
             return self::FAILURE;
         }
 
@@ -26,6 +27,7 @@ class ClearMediaLibraryCommand extends Command
 
         if (! $this->option('force') && ! $this->confirm('Do you really want to continue?')) {
             $this->info('Operation cancelled.');
+
             return self::SUCCESS;
         }
 
@@ -55,6 +57,7 @@ class ClearMediaLibraryCommand extends Command
             $this->truncateTemporaryUploads($demoConnection);
         }
         $this->info('Media library reset complete.');
+
         return self::SUCCESS;
     }
 
@@ -64,7 +67,7 @@ class ClearMediaLibraryCommand extends Command
 
         try {
             $files = Storage::disk($disk)->allFiles();
-            $dirs  = Storage::disk($disk)->allDirectories();
+            $dirs = Storage::disk($disk)->allDirectories();
 
             Storage::disk($disk)->delete($files);
             foreach ($dirs as $dir) {
@@ -73,7 +76,7 @@ class ClearMediaLibraryCommand extends Command
 
             $this->info("Cleared all files and directories from [$disk].");
         } catch (\Throwable $e) {
-            $this->error("Failed to clean disk [$disk]: " . $e->getMessage());
+            $this->error("Failed to clean disk [$disk]: ".$e->getMessage());
         }
     }
 
@@ -85,7 +88,7 @@ class ClearMediaLibraryCommand extends Command
             DB::table('media')->truncate();
             $this->info('Media table truncated.');
         } catch (\Throwable $e) {
-            $this->error('Failed to truncate media table: ' . $e->getMessage());
+            $this->error('Failed to truncate media table: '.$e->getMessage());
         }
     }
 
@@ -105,7 +108,7 @@ class ClearMediaLibraryCommand extends Command
 
             $this->info('Cleared successfully.');
         } catch (\Throwable $e) {
-            $this->error("Failed to clear on [$connectionName]: " . $e->getMessage());
+            $this->error("Failed to clear on [$connectionName]: ".$e->getMessage());
         }
     }
 }

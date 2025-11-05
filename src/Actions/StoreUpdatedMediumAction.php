@@ -80,8 +80,8 @@ class StoreUpdatedMediumAction
                 } else {
                     Log::warning("TemporaryUpload with ID {$mediumId} not found; creating new.");
 
-                    $disk = config('media-library-extensions.media_disks.temporary');//config('media-library-extensions.temporary_upload_disk');
-                    $basePath = '';//config('media-library-extensions.temporary_upload_path');
+                    $disk = config('media-library-extensions.media_disks.temporary');
+                    $basePath = '';
 
                     $safeFilename = sanitizeFilename(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
                     $extension = $file->getClientOriginalExtension();

@@ -92,32 +92,32 @@ return [
     */
 
     'media_disks' => [
-        'originals'  => 'media_originals',
-        'demo'       => 'media_demo',
-        'temporary'  => 'media_temporary',
+        'originals' => 'media_originals',
+        'demo' => 'media_demo',
+        'temporary' => 'media_temporary',
     ],
 
     'disks' => [
         'media_originals' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media_originals'),
-            'url' => env('APP_URL').'/storage/media_originals',// URL to access files
+            'url' => env('APP_URL').'/storage/media_originals', // URL to access files
             'visibility' => 'public',
         ],
 
         'media_demo' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media_demo'),
-            'url' => env('APP_URL').'/storage/media_demo',// URL to access files
+            'url' => env('APP_URL').'/storage/media_demo', // URL to access files
             'visibility' => 'public',
         ],
 
         'media_temporary' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media_temporary'),
-            'url' => env('APP_URL').'/storage/media_temporary',// URL to access files
+            'url' => env('APP_URL').'/storage/media_temporary', // URL to access files
             'visibility' => 'public',
-        ]
+        ],
     ],
 
     /*

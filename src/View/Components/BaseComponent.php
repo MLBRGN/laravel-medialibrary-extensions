@@ -47,7 +47,7 @@ abstract class BaseComponent extends Component
     {
         $map = config('media-library-extensions.component_map', []);
         $type = getMediaType($medium); // your own helper or custom property
+
         return $map[$type] ?? null;
     }
-
 }

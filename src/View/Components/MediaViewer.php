@@ -12,6 +12,7 @@ class MediaViewer extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public ?string $mediumType;
+
     public ?string $componentToRender;
 
     public function __construct(
@@ -20,8 +21,7 @@ class MediaViewer extends BaseComponent
         public array $options = [],
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
         public bool $expandableInModal = false // can this medium be opened in a modal when clicking it
-    )
-    {
+    ) {
         parent::__construct($id);
 
         $this->mediumType = getMediaType($this->medium);

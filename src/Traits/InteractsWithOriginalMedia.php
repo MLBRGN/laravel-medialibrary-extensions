@@ -63,8 +63,8 @@ trait InteractsWithOriginalMedia
     {
         Log::info('replaceTemporaryUpload');
 
-        $disk = config('media-library-extensions.media_disks.temporary');//config('media-library-extensions.temporary_upload_disk');
-        $basePath = '';//config('media-library-extensions.temporary_upload_path');
+        $disk = config('media-library-extensions.media_disks.temporary');
+        $basePath = '';
 
         $backup = $oldUpload->replicate(['id']);
         $oldUpload->delete();

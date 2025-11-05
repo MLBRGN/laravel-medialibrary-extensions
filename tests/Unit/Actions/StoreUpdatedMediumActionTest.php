@@ -114,9 +114,6 @@ it('replaces a temporary upload (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session')->driver());
 
-//    config()->set('media-library-extensions.temporary_upload_disk', 'tmp');
-//    config()->set('media-library-extensions.temporary_upload_path', 'temp');
-
     $mediaService = Mockery::mock(MediaService::class);
 
     $action = new StoreUpdatedMediumAction($mediaService);

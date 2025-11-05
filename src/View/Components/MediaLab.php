@@ -34,7 +34,7 @@ class MediaLab extends BaseComponent
         $this->options['showMediaEditButton'] = true;
         $this->options['showMenu'] = true;
         $this->options['showUploadForms'] = false;
-//        $this->options['frontendTheme'] = 'plain';
+        //        $this->options['frontendTheme'] = 'plain';
 
         $this->mediaManagerLabPreviewUpdateRoute = route(mle_prefix_route('media-manager-lab-preview-update'));
 

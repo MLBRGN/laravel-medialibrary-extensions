@@ -3,16 +3,13 @@
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 trait InteractsWithMediaCollections
 {
     /**
      * Load and merge media (or temporary uploads) from given collections.
-     *
-     * @param  array  $collections
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection
      */
     protected function resolveMediaFromCollections(array $collections): MediaCollection
     {
@@ -23,7 +20,7 @@ trait InteractsWithMediaCollections
 
         // CASE 2: Collect from all configured collections.
         $media = collect($collections)
-            ->filter(fn($collectionName) => !empty($collectionName))
+            ->filter(fn ($collectionName) => ! empty($collectionName))
             ->flatMap(function ($collectionNames, string $collectionType) {
                 // Normalize into array for uniform handling
                 $collectionNames = is_array($collectionNames)
@@ -43,7 +40,7 @@ trait InteractsWithMediaCollections
                         return [];
                     });
             })
-            ->sortBy(fn($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
 
         return MediaCollection::make($media);

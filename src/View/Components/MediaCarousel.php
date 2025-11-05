@@ -14,9 +14,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaCarousel extends BaseComponent
 {
+    use InteractsWithMediaCollections;
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
-    use InteractsWithMediaCollections;
 
     public Collection $media;
 
