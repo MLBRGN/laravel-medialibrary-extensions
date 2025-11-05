@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class ResetMediaLibraryExtensions extends Command
 {
@@ -75,7 +76,7 @@ class ResetMediaLibraryExtensions extends Command
             }
 
             $this->info("Cleared all files and directories from [$disk].");
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->error("Failed to clean disk [$disk]: ".$e->getMessage());
         }
     }
@@ -87,7 +88,7 @@ class ResetMediaLibraryExtensions extends Command
         try {
             DB::table('media')->truncate();
             $this->info('Media table truncated.');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->error('Failed to truncate media table: '.$e->getMessage());
         }
     }
@@ -99,15 +100,17 @@ class ResetMediaLibraryExtensions extends Command
         try {
             $connection = DB::connection($connectionName);
             $driver = $connection->getDriverName();
+//            $this->line("Database path: ".$connection->getDatabaseName());
 
             if ($driver === 'sqlite') {
                 $connection->table('mle_temporary_uploads')->delete();
+                $connection->table('media')->delete();
             } else {
                 $connection->table('mle_temporary_uploads')->truncate();
             }
 
             $this->info('Cleared successfully.');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->error("Failed to clear on [$connectionName]: ".$e->getMessage());
         }
     }
