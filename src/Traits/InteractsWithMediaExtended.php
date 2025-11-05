@@ -68,8 +68,8 @@ trait InteractsWithMediaExtended
     {
         $path = $this->id.'/'.$this->file_name;
 
-        return Storage::disk('originals')->exists($path)
-            ? Storage::disk('originals')->url($path)
+        return Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($path)
+            ? Storage::disk(config('media-library-extensions.media_disks.originals'))->url($path)
             : null;
     }
 
@@ -77,8 +77,8 @@ trait InteractsWithMediaExtended
     {
         $path = $media->id.'/'.$media->file_name;
 
-        return Storage::disk('originals')->exists($path)
-            ? Storage::disk('originals')->url($path)
+        return Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($path)
+            ? Storage::disk(config('media-library-extensions.media_disks.originals'))->url($path)
             : null;
     }
 
@@ -282,13 +282,13 @@ trait InteractsWithMediaExtended
             return $this->emptyImageInfo();
         }
 
-        $originalExists = Storage::disk('originals')->exists($originalPath);
+        $originalExists = Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($originalPath);
 
         if (! $originalExists) {
             return $this->emptyImageInfo();
         }
 
-        return $this->getImageInfo($originalPath, 'originals');
+        return $this->getImageInfo($originalPath, config('media-library-extensions.media_disks.originals'));
     }
 
     public function getBaseImageInfo(Media $media, ?array $requiredAspectRatio = null): array

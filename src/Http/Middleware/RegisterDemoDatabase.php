@@ -11,7 +11,7 @@ class RegisterDemoDatabase
 {
     public function handle($request, Closure $next)
     {
-        $connectionName = config('media-library-extensions.temp_database_name');
+        $connectionName = config('media-library-extensions.demo_database_name');
         $databasePath = storage_path('media-library-extensions-demo.sqlite');
 
         Config::set("database.connections.{$connectionName}", [

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Console\Commands\ClearMediaLibraryCommand;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
@@ -106,6 +107,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
 
             $this->commands([
+                ClearMediaLibraryCommand::class,
                 InstallMediaLibraryExtensions::class,
                 ToggleRepository::class,
             ]);
@@ -211,22 +213,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // Register package-specific event provider
         $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
 
-        // Conditionally register the originals disk
-        if (config('media-library-extensions.store_originals', true)) {
-            $disks = config('media-library-extensions.disks', []);
-
-            foreach ($disks as $disk => $diskConfig) {
-                // Only set the disk if the host app hasn't defined it
-                if (! config()->has("filesystems.disks.$disk")) {
-                    config()->set("filesystems.disks.$disk", $diskConfig);
-                }
-            }
-        }
+        $this->setupDisks();
     }
 
     public function registerDemoDatabase(): void
     {
-        $connectionName = config('media-library-extensions.temp_database_name');
+        $connectionName = config('media-library-extensions.demo_database_name');
         $databasePath = storage_path('media-library-extensions-demo.sqlite');
 
         if (! file_exists($databasePath)) {
@@ -292,6 +284,33 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         foreach ($overrides as $key => $value) {
             config()->set("form-components.$key", $value);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function setupDisks(): void
+    {
+        $disksToRegister = [];
+
+        // Add originals disk only if enabled
+        if (config('media-library-extensions.store_originals', true)) {
+            $disksToRegister[config('media-library-extensions.media_disks.originals')] = config('media-library-extensions.disks.media_originals');
+        }
+
+        // Add demo disk only if demo mode is enabled
+        if (config('media-library-extensions.demo_pages_enabled', false)) {
+            $disksToRegister[config('media-library-extensions.media_disks.demo')] = config('media-library-extensions.disks.media_demo');
+        }
+
+        $disksToRegister[config('media-library-extensions.media_disks.temporary')] = config('media-library-extensions.disks.media_temporary');
+
+        // Register each one only if not already defined by the host app
+        foreach ($disksToRegister as $name => $diskConfig) {
+            if (!config()->has("filesystems.disks.$name")) {
+                config()->set("filesystems.disks.$name", $diskConfig);
+            }
         }
     }
 }

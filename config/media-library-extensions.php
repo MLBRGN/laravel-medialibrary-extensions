@@ -49,27 +49,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Temporary Uploads
-    |--------------------------------------------------------------------------
-    |
-    | During "create" forms, the model does not yet exist, so uploaded media
-    | files cannot be immediately associated with it. Instead, they are stored
-    | temporarily until the model is created and the media can be attached.
-    |
-    | You can configure the storage disk and path used for these temporary files.
-    |
-    | IMPORTANT: The configured disk and path must be publicly accessible if you
-    | want to display preview images or file thumbnails during the upload process.
-    | Typically, this means using the `public` disk and ensuring a valid symlink
-    | (via `php artisan storage:link`) exists from public/storage.
-    |
-    */
-
-    'temporary_upload_disk' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_DISK', 'public'),
-    'temporary_upload_path' => env('MEDIA_LIBRARY_EXTENSIONS_TEMPORARY_UPLOAD_PATH', 'temp/media-library-extensions'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Originals (for lab functionality)
     |--------------------------------------------------------------------------
     |
@@ -79,17 +58,66 @@ return [
 
     'store_originals' => env('MEDIA_LIBRARY_EXTENSIONS_STORE_ORIGINALS', true),
 
-    // Disk used to store original media
-    'originals_disk' => 'originals',
+    /*
+    |--------------------------------------------------------------------------
+    | Demo database
+    |--------------------------------------------------------------------------
+    |
+    | Database configuration for demo pages
+    |
+    */
 
-    // Default configuration for the disk (used if not defined in app)
+    'demo_database_name' => 'media_demo',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disk configuration
+    |--------------------------------------------------------------------------
+    |
+    | THe extra disks used by this package
+    |
+    | "temporary":
+    | During "create" forms, the model does not yet exist, so uploaded media
+    | files cannot be immediately associated with it. Instead, they are stored
+    | temporarily until the model is created and the media can be attached to the
+    | model.
+    |
+    | "originals":
+    | Used to store originals (when enabled), so that restoring a medium is possible
+    | used by the media lab functionality
+    |
+    | "demo":
+    | use by the demo pages as to not pollute the real or temporary media folder
+    |
+    */
+
+    'media_disks' => [
+        'originals'  => 'media_originals',
+        'demo'       => 'media_demo',
+        'temporary'  => 'media_temporary',
+    ],
+
     'disks' => [
-        'originals' => [
+        'media_originals' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/media_originals'), // store originals here
-            'url' => env('APP_URL').'/storage/media_originals',   // URL to access them
+            'root' => storage_path('app/public/media_originals'),
+            'url' => env('APP_URL').'/storage/media_originals',// URL to access files
             'visibility' => 'public',
         ],
+
+        'media_demo' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media_demo'),
+            'url' => env('APP_URL').'/storage/media_demo',// URL to access files
+            'visibility' => 'public',
+        ],
+
+        'media_temporary' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media_temporary'),
+            'url' => env('APP_URL').'/storage/media_temporary',// URL to access files
+            'visibility' => 'public',
+        ]
     ],
 
     /*
@@ -277,8 +305,8 @@ return [
     */
     'max_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_WIDTH', 7040), // high end smartphone
     'max_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_IMAGE_HEIGHT', 3960), // high end smartphone
-    'min_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_WIDTH', 800),
-    'min_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_HEIGHT', 600),
+    'min_image_width' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_WIDTH', 320),
+    'min_image_height' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_IMAGE_HEIGHT', 160),
 
     /*
     |--------------------------------------------------------------------------
@@ -332,6 +360,7 @@ return [
     | Media preview modal options
     |
     */
+
     'preview_modal_embed_pdf' => env('MEDIA_LIBRARY_EXTENSIONS_PREVIEW_MODAL_EMBED_PDF', false),
 
     /*
@@ -369,20 +398,6 @@ return [
     */
 
     'youtube_support_enabled' => env('MEDIA_LIBRARY_EXTENSIONS_YOUTUBE_SUPPORT_ENABLED', true),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Temporary files
-    |--------------------------------------------------------------------------
-    |
-    | when no model exists at the moment of uploading (when the model is not yet created)
-    | temporary files are used
-    |
-    */
-
-    'temp_database_name' => 'media_demo',
-    'temp_media_path' => 'tmp-media',
-    'temp_media_lifetime' => 24, // hours
 
     /*
     |--------------------------------------------------------------------------
@@ -436,8 +451,8 @@ return [
     |
     | Only used by developer
     */
-    'mle_using_local_package' => env('MLE_USING_LOCAL_PACKAGE', false),
 
+    'mle_using_local_package' => env('MLE_USING_LOCAL_PACKAGE', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -446,6 +461,7 @@ return [
     |
     | Used to resolve dynamic component for media
     */
+
     'component_map' => [
         'image' => 'mle-image-responsive',
         'video' => 'mle-video',
@@ -461,25 +477,12 @@ return [
     |
     | Used by media lab to display friendly aspect ratio labels
     */
+
     'available_aspect_ratios' => env('MLE_AVAILABLE_ASPECT_RATIOS', [
 
         // Free / unrestricted
         ['name' => 'free', 'label' => 'Free', 'value' => -1, 'active' => true],
 
-        /*
-        // START TODO
-
-            // Landscape
-
-            // Portrait (vertical)
-
-            // Square
-            ['name' => '1:1', 'label' => '1:1', 'value' => 1, 'active' => true],
-
-            // Paper / ISO
-            ['name' => '√2:1', 'label' => '√2:1', 'value' => 1.414, 'active' => true],
-        // END TODO
-        */
         // Landscape
         ['name' => '19:10', 'label' => '19:10', 'value' => 19 / 10, 'active' => true], // Modern smartphones, some ultra-wide monitors (~1.9:1)
         ['name' => '16:10', 'label' => '16:10', 'value' => 16 / 10, 'active' => true], // Common laptop/monitor ratio (WUXGA, 1920×1200)

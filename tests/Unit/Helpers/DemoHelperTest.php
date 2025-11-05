@@ -9,7 +9,7 @@ beforeEach(function () {
     // Set default configuration for tests
     Config::set('media-library-extensions.demo_pages_enabled', true);
     Config::set('media-library-extensions.route_prefix', 'mlbrgn-mle');
-    Config::set('media-library-extensions.temp_database_name', 'media_demo');
+    Config::set('media-library-extensions.demo_database_name', config('media-library-extensions.media_disks.demo'));
 });
 
 it('uses default connection when demo pages are disabled', function () {
@@ -46,12 +46,12 @@ it('uses demo connection when on a demo page', function () {
         ->andReturn(true);
 
     // Act & Assert
-    expect($temporaryUpload->getConnectionName())->toBe('media_demo');
+    expect($temporaryUpload->getConnectionName())->toBe(config('media-library-extensions.media_disks.demo'));
 });
 
 it('uses the configured demo database name', function () {
     // Arrange
-    Config::set('media-library-extensions.temp_database_name', 'custom_demo_db');
+    Config::set('media-library-extensions.demo_database_name', 'custom_demo_db');
     $temporaryUpload = new TemporaryUpload;
 
     // Mock DemoHelper to return true

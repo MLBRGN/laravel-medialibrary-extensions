@@ -8,11 +8,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
-class CleanupTemporaryUploads extends Command
+class RemoveExpiredTemporaryUploads extends Command
 {
-    protected $signature = 'media-library-extensions:clean-temporary-uploads';
+    protected $signature = 'media-library-extensions:remove-expired-temporary-uploads';
 
-    protected $description = 'Cleans / removes temporary uploads that are expired.';
+    protected $description = 'Cleans / removes expired temporary uploads.';
 
     public function handle(): int
     {

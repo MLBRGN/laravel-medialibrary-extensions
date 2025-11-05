@@ -26,7 +26,7 @@
 //    public function getConnectionName()
 //    {
 //        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
-//            return config('media-library-extensions.temp_database_name');
+//            return config('media-library-extensions.demo_database_name');
 //        }
 //
 //        return $this->getParentConnectionName();
@@ -36,7 +36,7 @@
 // beforeEach(function () {
 //    // Set default configuration for tests
 //    Config::set('media-library-extensions.demo_pages_enabled', true);
-//    Config::set('media-library-extensions.temp_database_name', 'media_demo');
+//    Config::set('media-library-extensions.demo_database_name', config('media-library-extensions.media_disks.demo'));
 // })->skip();
 //
 // it('uses default connection when demo pages are disabled', function () {
@@ -73,12 +73,12 @@
 //        ->andReturn(true);
 //
 //    // Act & Assert
-//    expect($media->getConnectionName())->toBe('media_demo');
+//    expect($media->getConnectionName())->toBe(config('media-library-extensions.media_disks.demo'));
 // })->skip();
 //
 // it('uses the configured demo database name', function () {
 //    // Arrange
-//    Config::set('media-library-extensions.temp_database_name', 'custom_demo_db');
+//    Config::set('media-library-extensions.demo_database_name', 'custom_demo_db');
 //    $media = new TestMedia();
 //
 //    // Mock DemoHelper to return true

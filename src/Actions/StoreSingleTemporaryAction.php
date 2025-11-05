@@ -25,8 +25,8 @@ class StoreSingleTemporaryAction
     public function execute(StoreSingleRequest $request): RedirectResponse|JsonResponse
     {
         $field = config('media-library-extensions.upload_field_name_single');
-        $disk = config('media-library-extensions.temporary_upload_disk');
-        $basePath = config('media-library-extensions.temporary_upload_path');
+        $disk = config('media-library-extensions.media_disks.temporary');
+        $basePath = '';
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 

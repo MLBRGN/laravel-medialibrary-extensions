@@ -16,11 +16,11 @@ class UseDemoModeConnection
         //        if (config('media-library-extensions.demo_mode_enabled')) {
         //            // Override connection on key models
         //            \Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::resolveConnectionUsing(function () {
-        //                return 'media_demo';
+        //                return config('media-library-extensions.media_disks.demo');
         //            });
         //
         //            \Spatie\MediaLibrary\MediaCollections\Models\Media::resolveConnectionUsing(function () {
-        //                return 'media_demo';
+        //                return config('media-library-extensions.media_disks.demo');
         //            });
         //        }
         //        // Only apply during demo pages
@@ -31,7 +31,7 @@ class UseDemoModeConnection
         //            });
         //        }
 
-        //        $connectionName = config('media-library-extensions.temp_database_name');
+        //        $connectionName = config('media-library-extensions.demo_database_name');
         //        $databasePath = storage_path('media-library-extensions-demo.sqlite');
         //
         //        if (!file_exists($databasePath)) {

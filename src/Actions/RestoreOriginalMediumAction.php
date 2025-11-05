@@ -27,13 +27,13 @@ class RestoreOriginalMediumAction
         $originalPath = "{$media->id}/{$media->file_name}";
 
         Log::info('RestoreOriginalMediumAction originalPath: '.$originalPath);
-        if (! Storage::disk('originals')->exists($originalPath)) {
+        if (! Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($originalPath)) {
             return back()->with('error', 'Original file not found.');
         }
 
         try {
             // Overwrite current media file with original
-            $content = Storage::disk('originals')->get($originalPath);
+            $content = Storage::disk(config('media-library-extensions.media_disks.originals'))->get($originalPath);
             file_put_contents($media->getPath(), $content);
 
             Log::info('RestoreOriginalMediumAction stored original in media path: '.$originalPath);

@@ -11,7 +11,7 @@
     data-mle-medium-display-name="test.jpg"
     data-mle-medium-path="/media/1/test.jpg"
     data-mle-medium-forced-aspect-ratio="16:9"
-    data-mle-medium-minimal-dimensions="800x600"
+    data-mle-medium-minimal-dimensions="320x160"
     data-mle-medium-maximal-dimensions="7040x3960"
 >
     <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">

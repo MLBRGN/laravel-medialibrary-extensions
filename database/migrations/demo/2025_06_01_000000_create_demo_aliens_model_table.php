@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $connection = config('media-library-extensions.temp_database_name');
+        $connection = config('media-library-extensions.demo_database_name');
         Schema::connection($connection)->create('aliens', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -19,7 +19,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        $connection = config('media-library-extensions.temp_database_name');
+        $connection = config('media-library-extensions.demo_database_name');
         Schema::connection($connection)->dropIfExists('aliens');
     }
 };

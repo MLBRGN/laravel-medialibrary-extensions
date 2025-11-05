@@ -10,7 +10,7 @@
 // beforeEach(function () {
 //    // Set default configuration for tests
 //    Config::set('media-library-extensions.demo_pages_enabled', true);
-//    Config::set('media-library-extensions.temp_database_name', 'media_demo');
+//    Config::set('media-library-extensions.demo_database_name',config('media-library-extensions.media_disks.demo'));
 // });
 //
 // it('registers demo database when demo pages are enabled', function () {
@@ -26,12 +26,12 @@
 //    // Mock DB facade
 //    DB::shouldReceive('purge')
 //        ->once()
-//        ->with('media_demo')
+//        ->with(config('media-library-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    DB::shouldReceive('reconnect')
 //        ->once()
-//        ->with('media_demo')
+//        ->with(config('media-library-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    // Mock Schema facade
@@ -60,12 +60,12 @@
 //    // Mock DB facade
 //    DB::shouldReceive('purge')
 //        ->once()
-//        ->with('media_demo')
+//        ->with(config('media-library-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    DB::shouldReceive('reconnect')
 //        ->once()
-//        ->with('media_demo')
+//        ->with(config('media-library-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    // Mock Schema facade
@@ -90,7 +90,7 @@
 // it('uses the configured database name', function () {
 //    // Arrange
 //    $provider = new MediaLibraryExtensionsServiceProvider(app());
-//    Config::set('media-library-extensions.temp_database_name', 'custom_demo_db');
+//    Config::set('media-library-extensions.demo_database_name', 'custom_demo_db');
 //
 //    // Mock Config facade
 //    Config::shouldReceive('set')

@@ -74,7 +74,7 @@ it('stores a temporary thumbnail from URL', function () {
         ->and($tempUpload->custom_properties['youtube-url'])->toBe($youtubeUrl)
         ->and($tempUpload->custom_properties['youtube-id'])->toBe('dQw4w9WgXcQ');
 
-    Storage::disk(config('media-library-extensions.temporary_upload_disk'))
+    Storage::disk(config('media-library-extensions.media_disks.temporary'))
         ->assertExists($tempUpload->path);
 });
 

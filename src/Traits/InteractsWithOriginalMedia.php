@@ -63,8 +63,8 @@ trait InteractsWithOriginalMedia
     {
         Log::info('replaceTemporaryUpload');
 
-        $disk = config('media-library-extensions.temporary_upload_disk');
-        $basePath = config('media-library-extensions.temporary_upload_path');
+        $disk = config('media-library-extensions.media_disks.temporary');//config('media-library-extensions.temporary_upload_disk');
+        $basePath = '';//config('media-library-extensions.temporary_upload_path');
 
         $backup = $oldUpload->replicate(['id']);
         $oldUpload->delete();
@@ -109,14 +109,14 @@ trait InteractsWithOriginalMedia
         $path = $media->getPath();
         $destination = "{$media->id}/{$media->file_name}";
 
-        if (Storage::disk('originals')->exists($destination)) {
+        if (Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($destination)) {
             Log::info("Original already exists for media [{$media->id}], skipping copy.");
 
             return;
         }
 
         try {
-            Storage::disk('originals')->put($destination, file_get_contents($path));
+            Storage::disk(config('media-library-extensions.media_disks.originals'))->put($destination, file_get_contents($path));
             Log::info("Copied original media [{$media->id}] to originals disk.");
         } catch (\Throwable $e) {
             Log::error("Failed to copy original media [{$media->id}]: {$e->getMessage()}");
@@ -136,20 +136,20 @@ trait InteractsWithOriginalMedia
         $oldPath = "{$oldMedia->id}/{$oldMedia->file_name}";
         $newPath = "{$newMedia->id}/{$newMedia->file_name}";
 
-        if (! Storage::disk('originals')->exists($oldPath)) {
+        if (! Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($oldPath)) {
             Log::warning("Old original not found for media [{$oldMedia->id}].");
 
             return;
         }
 
         // TODO disabled this code, prevented old original to overwrite new original added by MediaHasBeenAddedListener
-        //        if (Storage::disk('originals')->exists($newPath)) {
+        //        if (Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($newPath)) {
         //            Log::info("Original already exists for new media [{$newMedia->id}], skipping reuse.");
         //            return;
         //        }
 
         try {
-            Storage::disk('originals')->copy($oldPath, $newPath);
+            Storage::disk(config('media-library-extensions.media_disks.originals'))->copy($oldPath, $newPath);
             Log::info("Reused old original for new media [{$newMedia->id}].");
         } catch (\Throwable $e) {
             Log::error("Failed to reuse original media: {$e->getMessage()}");

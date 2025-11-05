@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Models\demo;
 
 use Illuminate\Database\Eloquent\Model;
+use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -23,48 +24,48 @@ class Alien extends Model implements HasMedia
         $this
             ->addMediaCollection('alien-single-image')
             ->singleFile()
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this
             ->addMediaCollection('alien-single-document')
             ->singleFile()
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this
             ->addMediaCollection('alien-single-youtube-video')
             ->singleFile()
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this
             ->addMediaCollection('alien-single-video')
             ->singleFile()
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this
             ->addMediaCollection('alien-single-audio')
             ->singleFile()
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this->addMediaCollection('alien-multiple-images')
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this->addMediaCollection('alien-multiple-documents')
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this->addMediaCollection('alien-multiple-youtube-videos')
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this->addMediaCollection('alien-multiple-videos')
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
 
         $this->addMediaCollection('alien-multiple-audio')
-            ->useDisk('public');
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
     }
 
     public function getConnectionName(): string
     {
-        if (config('media-library-extensions.demo_pages_enabled') && \Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper::isRequestFromDemoPage()) {
-            return config('media-library-extensions.temp_database_name');
+        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
+            return config('media-library-extensions.demo_database_name');// TODO rename config key to demo_database_name?
         }
 
         return config('database.default');

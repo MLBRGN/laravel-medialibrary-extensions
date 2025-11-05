@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $connection = config('media-library-extensions.temp_database_name');
+        $connection = config('media-library-extensions.demo_database_name');
         Schema::connection($connection)->create('mle_temporary_uploads', function (Blueprint $table) {
             $table->id();
             $table->string('disk');
@@ -34,7 +34,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        $connection = config('media-library-extensions.temp_database_name');
+        $connection = config('media-library-extensions.demo_database_name');
         Schema::connection($connection)->dropIfExists('mle_temporary_uploads');
     }
 };

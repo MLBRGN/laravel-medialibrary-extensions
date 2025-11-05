@@ -61,8 +61,8 @@ class YouTubeService
         ?string $customId = null,
         ?string $collection = null
     ): ?TemporaryUpload {
-        $disk = config('media-library-extensions.temporary_upload_disk');
-        $basePath = config('media-library-extensions.temporary_upload_path');
+        $disk = config('media-library-extensions.media_disks.temporary');
+        $basePath = '';//config('media-library-extensions.temporary_upload_path');
         $videoId = $customId ?? extractYouTubeId($youtubeUrl);
         if (! $videoId) {
             return null;
