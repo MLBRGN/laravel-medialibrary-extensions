@@ -256,6 +256,14 @@
         margin-bottom: 0.25rem;
     }
 
+    // TODO
+    [data-mle-spinner-container].mle-active {
+        opacity: 1;
+        max-height: 4rem; /* spinner height + padding */
+        padding: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
     /* Spinner graphic */
     .mle-spinner {
         flex: 0 0 auto;

@@ -66,6 +66,13 @@
         pointer-events: auto;
     }
 
+    // TODO
+    .mle-media-carousel-item.mle-active {
+        opacity: 1;
+        z-index: 1;
+        pointer-events: auto;
+    }
+
     .mle-media-carousel-control-prev,
     .mle-media-carousel-control-next {
         position: absolute;
@@ -137,6 +144,14 @@
             z-index: 1;
         }
 
+        // TODO
+        .mle-media-carousel-item.mle-active {
+            opacity: 1;
+            position: relative;
+            transform: translateX(0);
+            z-index: 1;
+        }
+
         /* Animations */
         .mle-slide-in-from-right {
             transform: translateX(100%);
@@ -196,6 +211,13 @@
         }
 
         .mle-media-carousel-item.active {
+            opacity: 1;
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        // TODO
+        .mle-media-carousel-item.mle-active {
             opacity: 1;
             z-index: 1;
             pointer-events: auto;

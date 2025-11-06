@@ -25,6 +25,11 @@
             display: flex;
         }
 
+        // TODO
+        &.mle-active {
+            display: flex;
+        }
+
         &.mle-fade {
             opacity: 0;
             pointer-events: none;
@@ -36,6 +41,12 @@
             pointer-events: auto;
         }
 
+        // TODO
+        &.mle-fade.mle-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         // NEW: slide effect on dialog
         .mle-modal-dialog {
             transform: translateY(-40px);
@@ -43,6 +54,11 @@
         }
 
         &.mle-fade.active .mle-modal-dialog {
+            transform: translateY(0);
+        }
+
+        // TODO
+        &.mle-fade.mle-active .mle-modal-dialog {
             transform: translateY(0);
         }
     }

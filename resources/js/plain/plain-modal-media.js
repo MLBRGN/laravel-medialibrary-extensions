@@ -164,7 +164,8 @@ function initMediaModalEvents() {
 }
 
 function mediaModalKeydownHandler(e) {
-    const modal = e.target.closest('[data-mle-media-modal].active');
+    let modal = e.target.closest('[data-mle-media-modal].mle-active');// TODO
+    // modal = e.target.closest('[data-mle-media-modal].active');
     if (!modal) return;
 
     const controller = getCarouselController(modal.querySelector('[data-mle-carousel]'));

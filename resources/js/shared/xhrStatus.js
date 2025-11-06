@@ -96,6 +96,7 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
         textEl.textContent = message;
     }
     spinnerContainer.classList.add('active');
+    spinnerContainer.classList.add('mle-active');// TODO
 }
 
 export function hideSpinner(statusAreaContainer) {
@@ -109,6 +110,7 @@ export function hideSpinner(statusAreaContainer) {
         return;
     }
     spinnerContainer?.classList.remove('active');
+    spinnerContainer?.classList.remove('mle-active');// TODO
 }
 
 export function handleAjaxError(response, data, statusAreaContainer) {

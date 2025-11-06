@@ -36,6 +36,7 @@ export function initCarousel(carousel) {
         slides.forEach((slide) => {
             slide.classList.remove(
                 'active',
+                'mle-active',// TODO
                 'mle-slide-in-from-left',
                 'mle-slide-in-from-right',
                 'mle-slide-out-to-left',
@@ -62,9 +63,12 @@ export function initCarousel(carousel) {
         }
 
         currentSlide.classList.remove('active');
+        currentSlide.classList.remove('mle-active');// TODO
         nextSlide.classList.add('active');
+        nextSlide.classList.add('mle-active')// TODO
 
         indicators.forEach((btn, i) => btn.classList.toggle('active', i === toSlideIndex));
+        indicators.forEach((btn, i) => btn.classList.toggle('mle-active', i === toSlideIndex));// TODO
         currentSlideIndex = toSlideIndex;
 
         fireEvent('mleCarouselSlided', carousel, {'carousel': carousel, 'currentSlide': nextSlide, 'currentSlideIndex': currentSlideIndex});

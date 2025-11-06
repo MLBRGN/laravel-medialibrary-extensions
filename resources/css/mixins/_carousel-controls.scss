@@ -82,4 +82,9 @@
         background-color: rgb(from var(--mlbrgn-mle-control-active-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
     }
 
+    // TODO
+    .mle-media-carousel-indicators button.mle-active {
+        background-color: rgb(from var(--mlbrgn-mle-control-active-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+    }
+
 }

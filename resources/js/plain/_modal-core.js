@@ -30,6 +30,7 @@ function eventDispatcher(type, e) {
 
 export function closeModal(modal, originalEvent) {
     modal.classList.remove('active');
+    modal.classList.remove('mle-active');// TODO
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = 'initial';
 
@@ -47,6 +48,7 @@ export function openModal(modalId, trigger, originalEvent) {
     }
 
     modal.classList.add('active');
+    modal.classList.add('mle-active');// TODO
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
 
@@ -89,6 +91,7 @@ function defaultClickHandler(e) {
 function defaultKeydownHandler(e) {
     if (e.key === 'Escape') {
         document.querySelectorAll('[data-mle-modal].active').forEach(closeModal);
+        document.querySelectorAll('[data-mle-modal].mle-active').forEach(closeModal);// TODO
     }
 }
 

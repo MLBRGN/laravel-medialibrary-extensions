@@ -30,7 +30,9 @@
             <button
                 type="button"
                 data-mle-slide-to="{{ $index }}"
-                @class(['active' => $loop->first])
+{{--                @class(['active' => $loop->first])--}}
+{{--    TODO--}}
+                @class(['mle-active' => $loop->first])
                 @if($loop->first) 
                     aria-current="true" 
                 @endif
@@ -45,7 +47,9 @@
             <div
                 @class([
                     'mle-media-carousel-item',
-                    'active' => $loop->first,
+//                    'active' => $loop->first,
+                    // TODO
+                    'mle-active' => $loop->first,
                     'mle-cursor-zoom-in' => $expandableInModal
                 ])
                 data-mle-carousel-item
@@ -67,7 +71,9 @@
         @empty
             <div @class([
                     'mle-media-carousel-item',
-                    'active',
+//                    'active',
+// TODO
+                    'mle-active',
                 ])
                 data-mle-carousel-item
             >
