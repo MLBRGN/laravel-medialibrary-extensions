@@ -8,7 +8,7 @@ it('sets config and returns view with model for demoPlain', function () {
     $response = $controller->demoPlain();
 
     expect($response)->toBeInstanceOf(\Illuminate\View\View::class)
-        ->and($response->name())->toBe('media-library-extensions::components.demo.mle-plain')
+        ->and($response->name())->toBe('media-library-extensions::demo.mle-plain')
         ->and($response->getData()['model'])->toBeInstanceOf(Alien::class)
         ->and(config('media-library-extensions.frontend_theme'))->toBe('plain');
 
@@ -22,7 +22,7 @@ it('sets config and returns view with model for demoBootstrap5', function () {
     $response = $controller->demoBootstrap5();
 
     expect(config('media-library-extensions.frontend_theme'))->toBe('bootstrap-5');
-    expect($response->name())->toBe('media-library-extensions::components.demo.mle-bootstrap-5');
+    expect($response->name())->toBe('media-library-extensions::demo.mle-bootstrap-5');
 
     $model = $response->getData()['model'];
     expect($model)->toBeInstanceOf(Alien::class);

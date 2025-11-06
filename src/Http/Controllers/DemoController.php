@@ -17,7 +17,7 @@ class DemoController extends Controller
         // Get the first existing model or create it if none exists
         $model = Alien::first() ?? Alien::create();
 
-        return view('media-library-extensions::components.demo.mle-plain', [
+        return view('media-library-extensions::demo.mle-plain', [
             'model' => $model,
         ]);
 
@@ -30,7 +30,7 @@ class DemoController extends Controller
         // Get the first existing model or create it if none exists
         $model = Alien::first() ?? Alien::create();
 
-        return view('media-library-extensions::components.demo.mle-bootstrap-5', [
+        return view('media-library-extensions::demo.mle-bootstrap-5', [
             'model' => $model,
         ]);
     }
