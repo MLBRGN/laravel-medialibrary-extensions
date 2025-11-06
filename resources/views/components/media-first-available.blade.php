@@ -3,8 +3,8 @@
         <x-mle-media-viewer
             :medium="$medium"
             :options="$options"
-            :preview-mode="true"
-            :expandable-in-modal="false"
+            :preview-mode="$previewMode"
+            :expandable-in-modal="$expandableInModal"
         />
     </div>
 @else
