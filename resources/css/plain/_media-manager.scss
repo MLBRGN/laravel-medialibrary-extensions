@@ -13,6 +13,10 @@
         min-width: fit-content;
         display: block;
         overflow: hidden;
+
+        .mle-media-preview-item {
+            aspect-ratio: 1;
+        }
     }
 
     .mle-media-manager-layout {
@@ -54,7 +58,7 @@
     .mle-media-preview-item-container {
         width: 100%;
         height:100%;
-        aspect-ratio:1;
+        //aspect-ratio:1;
         // added overflow hidden, otherwise image pushes menu down?
         //overflow: hidden;
     }
