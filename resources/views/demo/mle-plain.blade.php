@@ -207,6 +207,13 @@
                 ]"
                 class="mle-margin-block-5"
             />
+
+            <h2 class="my-5">Media lab</h2>
+
+            <x-mle-media-lab
+                :medium="$medium"
+                :options="['frontendTheme' => 'plain']"
+            />
             
             <h2 class="mle-margin-block-5">Media first available</h2>
             

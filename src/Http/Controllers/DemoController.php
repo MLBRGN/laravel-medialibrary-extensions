@@ -9,6 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
 class DemoController extends Controller
 {
+
     public function demoPlain(): View
     {
 
@@ -17,8 +18,21 @@ class DemoController extends Controller
         // Get the first existing model or create it if none exists
         $model = Alien::first() ?? Alien::create();
 
+        // add medium if none exists yet
+        if ($model->getMedia()->isEmpty()) {
+            $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
+
+            $model
+                ->addMedia($demoImage)
+                ->preservingOriginal()
+                ->toMediaCollection('default');
+        }
+
+        $medium = $model->getMedia('default')->first();
+
         return view('media-library-extensions::demo.mle-plain', [
             'model' => $model,
+            'medium' => $medium,
         ]);
 
     }
@@ -30,8 +44,21 @@ class DemoController extends Controller
         // Get the first existing model or create it if none exists
         $model = Alien::first() ?? Alien::create();
 
+        // add medium if none exists yet
+        if ($model->getMedia()->isEmpty()) {
+            $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
+
+            $model
+                ->addMedia($demoImage)
+                ->preservingOriginal()
+                ->toMediaCollection('default');
+        }
+
+        $medium = $model->getMedia('default')->first();
+
         return view('media-library-extensions::demo.mle-bootstrap-5', [
             'model' => $model,
+            'medium' => $medium,
         ]);
     }
 }
