@@ -223,7 +223,9 @@
                         ]"
                         data-mle-model-type="{{ $blog->getMorphClass() }}"
                         data-mle-model-id="{{ $blog->getKey() }}"
-                        data-mle-image-collection="blog-images-extra"
+                        :data-mle-collections="json_encode([
+                            'image' => 'blog-images-extra',
+                        ])"
                     />
                 </x-form.form>
             @else
