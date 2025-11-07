@@ -28,11 +28,16 @@ class GetMediaManagerLabPreviewerHTMLAction
     public function execute(GetMediaManagerLabPreviewerHTMLRequest $request): JsonResponse|Response
     {
         Log::info('GetMediaManagerLabPreviewerHTMLAction invoked');
-        $mediumId = $request->get('medium_id');
         $initiatorId = $request->input('initiator_id');
-        $medium = Media::findOrFail($mediumId);
+        $mediumId = $request->get('medium_id');
+        $modelType = $request->input('model_type');
+        $modelId = $request->input('model_id');
         $part = $request->get('part', 'all');
         $options = json_decode($request->input('options'), true) ?? [];
+        $model = $this->mediaService->resolveModel($modelType, $modelId);
+
+        // have to query the model, don't use Media directly (this uses wrong db for demo pages)
+        $medium = $model->media()->findOrFail($mediumId);
 
         switch ($part) {
 

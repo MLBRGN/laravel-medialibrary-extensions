@@ -18,7 +18,6 @@ class DemoController extends Controller
         // Get the first existing model or create it if none exists
         $model = Alien::with('media')->first() ?? Alien::create();
 
-
         // add medium if none exists yet
         if ($model->getMedia()->isEmpty()) {
             $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
@@ -49,7 +48,7 @@ class DemoController extends Controller
         $model = Alien::with('media')->first() ?? Alien::create();
 
         // add medium if none exists yet
-        if ($model->getMedia()->isEmpty()) {
+        if ($model->getMedia('default')->isEmpty()) {
             $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
 
             $model

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerPermanentHTMLAction
 {
@@ -48,8 +47,8 @@ class GetMediaPreviewerPermanentHTMLAction
 
         // counting media
         if ($singleMediumId !== null) {
-            // count single medium
-            $singleMedium = Media::query()->find($singleMediumId);
+            // have to query the model, don't use Media directly (this uses wrong db for demo pages)
+            $singleMedium = $model->media()->findOrFail($singleMediumId);
 
             if ($singleMedium) {
                 $totalMediaCount = 1;

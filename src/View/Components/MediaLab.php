@@ -8,6 +8,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
  * Edit media and restore original if needed
  */
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
@@ -19,6 +20,10 @@ class MediaLab extends BaseComponent
 
     public string $mediaManagerLabPreviewUpdateRoute = '';
 
+    public ?Model $model = null;
+
+    public ?string $modelType = null;
+    public ?int $modelId = null;
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $medium,
@@ -27,6 +32,10 @@ class MediaLab extends BaseComponent
         $id = filled($id) ? $id : 'mle-media-lab-'.uniqid();
 
         parent::__construct($id);
+
+        $this->model = $medium->model;
+        $this->modelType = $this->model->getMorphClass();
+        $this->modelId = $this->model->getKey();
 
         // overrides
         $this->options['showDestroyButton'] = false;

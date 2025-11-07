@@ -37,7 +37,7 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
-        // no model
+        $model = new $modelType();
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))
@@ -49,14 +49,15 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         // counting media
         if ($singleMediumId !== null) {
-            // count single medium
-            $singleMedium = Media::query()->find($singleMediumId);
+            // have to query the model, don't use Media directly (this uses wrong db for demo pages)
+            $singleMedium = $model->media()->findOrFail($singleMediumId);
 
             if ($singleMedium) {
                 $totalMediaCount = 1;
             } else {
                 throw new Exception(__('media-library-extensions::messages.medium_not_found'));
             }
+
         } else {
             // Count all media in collections
             foreach ($collections as $collectionName) {

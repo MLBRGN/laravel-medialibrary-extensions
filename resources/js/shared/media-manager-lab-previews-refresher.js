@@ -11,6 +11,8 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     if (!previewsContainer) return;
 
     const params = new URLSearchParams({
+        model_type: config.modelType,
+        model_id: config.modelId,
         initiator_id: config.id,
         medium_id: mediumId,
         options: JSON.stringify(config.options),
