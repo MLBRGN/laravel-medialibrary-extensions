@@ -16,7 +16,8 @@ class DemoController extends Controller
         config(['media-library-extensions.frontend_theme' => 'plain']);
 
         // Get the first existing model or create it if none exists
-        $model = Alien::first() ?? Alien::create();
+        $model = Alien::with('media')->first() ?? Alien::create();
+
 
         // add medium if none exists yet
         if ($model->getMedia()->isEmpty()) {
@@ -26,6 +27,9 @@ class DemoController extends Controller
                 ->addMedia($demoImage)
                 ->preservingOriginal()
                 ->toMediaCollection('default');
+
+            // Re-load the media so it's immediately available
+            $model->load('media');
         }
 
         $medium = $model->getMedia('default')->first();
@@ -42,7 +46,7 @@ class DemoController extends Controller
         config(['media-library-extensions.frontend_theme' => 'bootstrap-5']);
 
         // Get the first existing model or create it if none exists
-        $model = Alien::first() ?? Alien::create();
+        $model = Alien::with('media')->first() ?? Alien::create();
 
         // add medium if none exists yet
         if ($model->getMedia()->isEmpty()) {
@@ -52,6 +56,9 @@ class DemoController extends Controller
                 ->addMedia($demoImage)
                 ->preservingOriginal()
                 ->toMediaCollection('default');
+
+            // Re-load the media so it's immediately available
+            $model->load('media');
         }
 
         $medium = $model->getMedia('default')->first();
