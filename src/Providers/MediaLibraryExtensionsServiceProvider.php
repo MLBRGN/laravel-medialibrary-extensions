@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Providers;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
+use Mlbrgn\MediaLibraryExtensions\Console\Commands\RemoveExpiredTemporaryUploads;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
@@ -110,6 +112,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 ResetMediaLibraryExtensions::class,
                 InstallMediaLibraryExtensions::class,
                 ToggleRepository::class,
+                RemoveExpiredTemporaryUploads::class,
             ]);
 
             $this->publishes([
@@ -202,6 +205,20 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // Merge your overrides
         $this->overrideFormComponentsConfig();
+
+        // add schedule for temporary uploads cleanup
+        $config = config('media-library-extensions.schedule.cleanup');
+
+        if ($config['enabled']) {
+            $this->app->booted(function () use ($config) {
+                $schedule = $this->app->make(Schedule::class);
+                $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
+                    ->{$config['frequency']}()
+                    ->withoutOverlapping()
+                    ->onOneServer();
+            });
+        }
+
     }
 
     public function register(): void

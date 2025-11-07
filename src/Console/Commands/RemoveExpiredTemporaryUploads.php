@@ -12,22 +12,27 @@ class RemoveExpiredTemporaryUploads extends Command
 {
     protected $signature = 'media-library-extensions:remove-expired-temporary-uploads';
 
-    protected $description = 'Cleans / removes expired temporary uploads.';
+    protected $description = 'Deletes orphaned temporary uploads older than the session lifetime.';
 
     public function handle(): int
     {
+        $lifetimeMinutes = config('session.lifetime');
+        $cutoff = now()->subMinutes($lifetimeMinutes);
 
-        $expired = now()->subMinutes(120);
 
-        $expiredUploads = TemporaryUpload::where('created_at', '<', $expired)->get();
+        $query = TemporaryUpload::where('created_at', '<', $cutoff);
 
-        foreach ($expiredUploads as $upload) {
-            Storage::disk($upload->disk)->delete($upload->path);
-            $upload->delete();
-        }
+        $count = 0;
+        $query->chunkById(100, function ($uploads) use (&$count) {
+            foreach ($uploads as $upload) {
+                Storage::disk($upload->disk)->delete($upload->path);
+                $upload->delete();
+                $count++;
+            }
+        });
 
-        $this->info("Cleaned up {$expiredUploads->count()} expired temporary uploads.");
-
+        $this->info("Deleted {$count} temporary upload(s) older than {$lifetimeMinutes} minutes.");
         return self::SUCCESS;
     }
+
 }
