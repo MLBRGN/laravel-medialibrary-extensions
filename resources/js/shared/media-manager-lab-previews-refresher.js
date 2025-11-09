@@ -44,12 +44,24 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
 
         // If partial update, replace only that part
         if (detail.part === 'original') {
+
             const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-original]');
-            if (replaced) replaced.outerHTML = data.html;
+            console.log('replace "original" with updated html', replaced);
+            if (!replaced) {
+                consolw.warn('replaced not found')
+                return
+            }
+            replaced.outerHTML = data.html;
         } else if (detail.part === 'base') {
             const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-base]');
-            if (replaced) replaced.outerHTML = data.html;
+            console.log('replace "base" with updated html', replaced)
+            if (!replaced) {
+                consolw.warn('replaced not found')
+                return
+            }
+            replaced.outerHTML = data.html;
         } else {
+            console.log('replace all with updated html')
             previewsContainer.innerHTML = data.html;
         }
 

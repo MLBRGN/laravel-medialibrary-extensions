@@ -211,6 +211,7 @@
             <h2 class="my-5">Media lab</h2>
 
             <x-mle-media-lab
+                id="demo-lab"
                 :medium="$medium"
                 :options="['frontendTheme' => 'plain']"
             />

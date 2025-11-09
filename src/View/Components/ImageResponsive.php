@@ -60,37 +60,51 @@ class ImageResponsive extends Component
         return '';
     }
 
-    /**
-     * Build a cache-busted URL for the medium.
-     */
     protected function buildCacheBustedUrl(string $url): string
     {
         try {
-            // For Spatie MediaLibrary (local disk)
-            if ($this->medium instanceof Media && $this->medium->disk === 'public') {
-                $path = $this->medium->getPath($this->getUseConversion());
-                if (file_exists($path)) {
-                    // Cache-busting based on actual file modification time
-                    $timestamp = filemtime($path);
-                    $separator = str_contains($url, '?') ? '&' : '?';
+            // Use the current time in milliseconds as cache-buster
+            $timestamp = (int) (microtime(true) * 1000);
+            $separator = str_contains($url, '?') ? '&' : '?';
 
-                    return "{$url}{$separator}v={$timestamp}";
-                }
-            }
-
-            // Fallback: use updated_at if available
-            if ($this->medium?->updated_at) {
-                $timestamp = $this->medium->updated_at->timestamp;
-                $separator = str_contains($url, '?') ? '&' : '?';
-
-                return "{$url}{$separator}v={$timestamp}";
-            }
-        } catch (Throwable) {
-            // Swallow errors (e.g. missing file)
+            return "{$url}{$separator}v={$timestamp}";
+        } catch (\Throwable) {
+            return $url;
         }
-
-        return $url;
     }
+
+    /**
+     * Build a cache-busted URL for the medium.
+     * did not always work, on demo pages cached image was loaded
+     */
+//    protected function buildCacheBustedUrl(string $url): string
+//    {
+//        try {
+//            // For Spatie MediaLibrary (local disk)
+//            if ($this->medium instanceof Media && $this->medium->disk === 'public') {
+//                $path = $this->medium->getPath($this->getUseConversion());
+//                if (file_exists($path)) {
+//                    // Cache-busting based on actual file modification time
+//                    $timestamp = filemtime($path);
+//                    $separator = str_contains($url, '?') ? '&' : '?';
+//
+//                    return "{$url}{$separator}v={$timestamp}";
+//                }
+//            }
+//
+//            // Fallback: use updated_at if available
+//            if ($this->medium?->updated_at) {
+//                $timestamp = $this->medium->updated_at->timestamp;
+//                $separator = str_contains($url, '?') ? '&' : '?';
+//
+//                return "{$url}{$separator}v={$timestamp}";
+//            }
+//        } catch (Throwable) {
+//            // Swallow errors (e.g. missing file)
+//        }
+//
+//        return $url;
+//    }
 
     public function render(): View
     {

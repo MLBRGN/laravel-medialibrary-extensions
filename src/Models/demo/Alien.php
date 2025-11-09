@@ -60,6 +60,10 @@ class Alien extends Model implements HasMedia
 
         $this->addMediaCollection('alien-multiple-audio')
             ->useDisk(config('media-library-extensions.media_disks.demo'));
+
+        $this->addMediaCollection('alien-media-lab')
+            ->useDisk(config('media-library-extensions.media_disks.demo'));
+
     }
 
     public function getConnectionName(): string

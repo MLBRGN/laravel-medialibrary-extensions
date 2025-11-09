@@ -19,19 +19,20 @@ class DemoController extends Controller
         $model = Alien::with('media')->first() ?? Alien::create();
 
         // add medium if none exists yet
-        if ($model->getMedia()->isEmpty()) {
+        if ($model->getMedia('alien-media-lab')->isEmpty()) {
             $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
 
             $model
                 ->addMedia($demoImage)
                 ->preservingOriginal()
-                ->toMediaCollection('default');
+                ->toMediaCollection('alien-media-lab', 'media_demo');
+//                ->toMediaCollection('alien-media-lab', 'media_demo');
 
             // Re-load the media so it's immediately available
             $model->load('media');
         }
 
-        $medium = $model->getMedia('default')->first();
+        $medium = $model->getMedia('alien-media-lab')->first();
 
         return view('media-library-extensions::demo.mle-plain', [
             'model' => $model,
@@ -48,19 +49,19 @@ class DemoController extends Controller
         $model = Alien::with('media')->first() ?? Alien::create();
 
         // add medium if none exists yet
-        if ($model->getMedia('default')->isEmpty()) {
+        if ($model->getMedia('alien-media-lab')->isEmpty()) {
             $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
 
             $model
                 ->addMedia($demoImage)
                 ->preservingOriginal()
-                ->toMediaCollection('default');
+                ->toMediaCollection('alien-media-lab', 'media_demo');
 
             // Re-load the media so it's immediately available
             $model->load('media');
         }
 
-        $medium = $model->getMedia('default')->first();
+        $medium = $model->getMedia('alien-media-lab')->first();
 
         return view('media-library-extensions::demo.mle-bootstrap-5', [
             'model' => $model,

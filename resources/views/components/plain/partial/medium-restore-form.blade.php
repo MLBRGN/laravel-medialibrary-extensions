@@ -12,6 +12,24 @@
     method="post"
     class="mle-media-lab-restore-form"
 >
+    <input type="hidden"
+           name="medium_id"
+           value="{{ $medium->id }}">
+    <input type="hidden"
+           name="model_type"
+           value="{{ $modelType }}">
+    <input type="hidden"
+           name="model_id"
+           value="{{ $modelId }}">
+    <input type="hidden"
+           name="initiator_id"
+           value="{{ $id }}">
+{{--    <input type="hidden"--}}
+{{--           name="collection"--}}
+{{--           value="{{ $medium->collection_name }}">--}}
+    <input type="hidden"
+           name="temporary_upload_mode"
+           value="{{ $temporaryUploadMode ? 'true' : 'false' }}">
     <button
         type="submit"
         class="mle-button mle-button-submit mle-button-icon"
