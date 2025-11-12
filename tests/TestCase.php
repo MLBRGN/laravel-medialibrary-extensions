@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
+use BladeUI\Icons\IconsManifest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -56,7 +57,10 @@ class TestCase extends Orchestra
             $key = 'base64:'.base64_encode(random_bytes(32));
             Config::set('app.key', $key);
         }
-
+//
+//        $this->app->singleton(IconsManifest::class, function () {
+//            return new IconsManifest(storage_path('framework/blade-icons.php'));
+//        });
         // Use a persistent session driver
         //        Config::set('session.driver', 'file');
     }

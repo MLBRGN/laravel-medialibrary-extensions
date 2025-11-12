@@ -326,34 +326,55 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Default Blade UI Kit Icon Set
+    |--------------------------------------------------------------------------
+    |
+    | If multiple Blade UI icon sets are installed, you can set the preferred
+    | one here. If null, the package will auto-detect a supported one.
+    |
+    */
+    'blade_ui_kit_icon_set' => 'bootstrap-icons',
+
+    /*
+    |--------------------------------------------------------------------------
     | Icons (uses blade-ui-kit/blade icons
     |--------------------------------------------------------------------------
     |
-    | Set icons to be used.
-    | Defaults to Bootstrap icons
+    | Set icons to be used. Default values are for bootstrap icons, adjust if
+    | using another icon set
     |
     */
 
     'icons' => [
+
+        // Core actions
         'delete' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_DELETE', 'bi-trash3'),
         'setup_as_main' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_SETUP_AS_MAIN', 'bi-star'),
         'set-as-main' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_SET_AS_MAIN', 'bi-star-fill'),
-        'play_video' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PLAY_VIDEO', 'bi-play-fill'),
+        'restore' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-arrow-counterclockwise'),
+        'edit' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_EDIT', 'bi-pencil'),
+        'check' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-check-lg'),
         'close' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_CLOSE', 'bi-x-lg'),
+        'x' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-x'),
+
+        // Navigation
         'next' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_NEXT', 'bi-chevron-right'),
         'prev' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PREV', 'bi-chevron-left'),
+
+        // Media
+        'play_video' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PLAY_VIDEO', 'bi-play-fill'),
+        'video-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_VIDEO', 'bi-file-earmark-play'),
+        'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_AUDIO', 'bi-file-earmark-music'),
+
+        // Files
         'pdf-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PDF', 'bi-file-earmark-pdf'),
         'wordprocessing-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_WORD', 'bi-file-earmark-richtext'),
         'spreadsheet-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_SPREADSHEET', 'bi-file-earmark-spreadsheet'),
         'presentation-document' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_PRESENTATION', 'bi-file-earmark-slides'),
         'unknown_file_mimetype' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_UNKNOWN', 'bi-file-earmark'),
-        'edit' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_EDIT', 'bi-pencil'),
-        'video-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_VIDEO', 'bi-file-earmark-play'),
-        'audio-file' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_AUDIO', 'bi-file-earmark-music'),
+
+        // Misc
         'bug' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_DEBUG', 'bi-bug'),
-        'restore' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-arrow-counterclockwise'),
-        'check' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-check-lg'),
-        'x' => env('MEDIA_LIBRARY_EXTENSIONS_ICON_RESTORE', 'bi-x'),
     ],
 
     /*

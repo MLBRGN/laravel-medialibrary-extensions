@@ -23,6 +23,7 @@
     "require": {
         "php": "^8.2|^8.3",
         "blade-ui-kit/blade-icons": "^1.8",
+        "davidhsianturi/blade-bootstrap-icons": "^2.1",
         "illuminate/support": "^10.0 || ^11.0 || ^12.0",
         "spatie/laravel-medialibrary": "^11.0"
     },
@@ -40,7 +41,6 @@
       "ext-gd": "*"
     },
     "suggest": {
-      "blade-ui-kit/blade-bootstrap-icons": "Optional: Bootstrap icons for use in Blade components",
       "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons"
     },
     "autoload": {

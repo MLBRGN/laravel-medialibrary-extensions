@@ -3,6 +3,43 @@
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
+
+beforeEach(function () {
+    config()->set('media-library-extensions.media_disks.originals', 'originals');
+    config()->set('filesystems.disks', [
+        'public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => '/storage',
+            'visibility' => 'public',
+        ],
+        'media' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media'),
+            'visibility' => 'public',
+        ],
+
+        'media_demo' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media_demo'),
+//            'url' => env('APP_URL').'/storage/media_demo', // URL to access files
+            'visibility' => 'public',
+        ],
+
+        'originals' => [
+            'driver' => 'local',
+//            'root' => storage_path('app/originals'),
+            'root' => storage_path('app/public/media_originals'),
+            'visibility' => 'private',
+        ],
+    ]);
+
+    Storage::fake('public');
+    Storage::fake('media');
+    Storage::fake('originals');
+    Storage::fake('media_demo');
+});
+
 it('sets config and returns view with model for demoPlain', function () {
     $controller = new DemoController;
     $response = $controller->demoPlain();
