@@ -39,7 +39,7 @@
                 <div>
                      <span
                          @class([
-                             'mle-button-pseudo mle-button-icon-pseudo mle-button-icon-pseudo-small',
+                             'mle-button-pseudo mle-button-icon-pseudo mle-button-icon-pseudo-small mle-button-no-hover',
                              'mle-button-icon-pseudo-valid' => !$imageInfo['tooWide'] && !$imageInfo['tooTall'] && !$imageInfo['tooNarrow'] && !$imageInfo['tooShort'],
                              'mle-button-icon-pseudo-invalid' => $imageInfo['tooWide'] || $imageInfo['tooTall'] || $imageInfo['tooNarrow'] || $imageInfo['tooShort'],
                          ])
@@ -56,7 +56,7 @@
                 <div>
                      <span
                          @class([
-                             'mle-button-pseudo mle-button-icon-pseudo mle-button-icon-pseudo-small',
+                             'mle-button-pseudo mle-button-icon-pseudo mle-button-icon-pseudo-small mle-button-no-hover',
                              'mle-button-icon-pseudo-valid' => $imageInfo['ratioOk'] || !$imageInfo['requiredValue'],
                              'mle-button-icon-pseudo-invalid' => !$imageInfo['ratioOk'] && $imageInfo['requiredValue'],
                          ])

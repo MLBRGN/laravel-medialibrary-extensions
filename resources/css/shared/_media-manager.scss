@@ -38,44 +38,18 @@
         overflow: hidden;
     }
 
-    //.mle-disable-pointer-events lite-youtube {
-    //    pointer-events: none;
-    //}
-
-    .mle-pseudo-button {
-        background-color: var(--mlbrgn-mle-button-bg-color);
-        color:white;
-        text-align:center;
-        border-radius: .3em;
-        font-weight:bolder;
-        user-select: none;
-    }
-
-    .mle-pseudo-button-icon {
-        margin: 0;
-        width: 30px;
-        aspect-ratio: 1 / 1;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: transparent;
-        border:1px solid var(--mlbrgn-mle-button-alt-bg-color);
-        color: var(--mlbrgn-mle-button-alt-fg-color);
-    }
-
     //* start of checkbox to select items
     .mle-checkbox-wrapper {
         cursor: pointer;
         overflow: hidden;
 
-        &.mle-pseudo-button-icon {
+        &.mle-button-icon-pseudo {
             width: 30px;
             border-width:0;
         }
     }
 
-    label.mle-pseudo-button-icon.mle-checkbox-wrapper {
+    label.mle-button-icon-pseudo.mle-checkbox-wrapper {
         margin-block:0;
     }
 
@@ -83,12 +57,12 @@
         display: none;
     }
 
-    .mle-media-select-checkbox + .mle-pseudo-button {
+    .mle-media-select-checkbox + .mle-button-pseudo {
         background: #eee;
         border-radius: 4px;
     }
 
-    .mle-media-select-checkbox:checked + .mle-pseudo-button {
+    .mle-media-select-checkbox:checked + .mle-button-pseudo {
         background: #0d6efd;
         color: #fff;
     }

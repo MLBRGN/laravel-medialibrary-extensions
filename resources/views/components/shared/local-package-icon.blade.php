@@ -1,6 +1,11 @@
 @if(config('media-library-extensions.mle_using_local_package'))
-    <div
-        class="mle-button-pseudo mle-button-icon-pseudo"
+    <button
+        @class([
+        'mle-button-pseudo', 
+        'mle-button-icon-pseudo',
+        'mle-button-no-hover',
+        'btn btn-primary' => config('media-library-extensions.frontend_theme') === 'bootstrap-5'
+    ])
         title="{{ __('media-library-extensions::messages.debug') }}"
     >
         @if(config('media-library-extensions.mle_using_local_package'))
@@ -8,5 +13,5 @@
         @else
             <span class="mle-icon-remote-package">R</span>
         @endif
-    </div>
+    </button>
 @endif

@@ -1,7 +1,7 @@
 <div class="mle-media-preview-menu">
     <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
-            <span class="mle-pseudo-button mle-pseudo-button-icon"
+            <span class="mle-button-pseudo mle-button-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent"
                 title="{{ __('media-library-extensions::messages.set-as-main') }}"
             >
                 {{ $medium->getCustomProperty('priority') + 1 }}
@@ -9,7 +9,7 @@
         @endif
 
         @if($selectable)
-            <label class="mle-pseudo-button mle-pseudo-button-icon mle-checkbox-wrapper">
+            <label class="mle-button-pseudo mle-button-icon-pseudo mle-checkbox-wrapper">
                 <input
                     type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
                     name="selected_media"
