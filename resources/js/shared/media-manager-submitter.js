@@ -35,9 +35,10 @@ mediaManagers.forEach(mediaManager => {
 
             const componentId = config.id;
             const component = document.querySelector('#'+componentId);
-            const debugSection = component.querySelector('.mle-debug');
+            const mleDebug = component.querySelector('[data-mle-debug]');
 
-            debugSection.classList.toggle('hidden');
+            mleDebug.classList.toggle('hidden');
+            mleDebug.classList.toggle('mle-hidden');
 
             return
         }

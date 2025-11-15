@@ -41,6 +41,20 @@ mediaManagerLabs.forEach(mediaManagerLab => {
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
         const route = getRouteFromAction(action, target, config);
 
+        if (action === 'debugger-toggle') {
+
+            const componentId = config.id;
+            const component = document.querySelector('#'+componentId);
+            const mleDebug = component.querySelector('[data-mle-debug]');
+
+            console.log('mleDebug', mleDebug);
+            mleDebug.parentNode.style.outline = '10px solid hotpink'
+            mleDebug.classList.toggle('hidden');
+            mleDebug.classList.toggle('mle-hidden');
+
+            return
+        }
+
         if (!route) {
             showStatusMessage(statusAreaContainer, {
                 type: 'error',
