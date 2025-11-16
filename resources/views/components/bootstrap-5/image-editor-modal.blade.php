@@ -41,7 +41,6 @@
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="{{ __('media-library-extensions::messages.close') }}">
-                    sluit
                     <x-mle-shared-icon
                         name="{{ config('media-library-extensions.icons.close') }}"
                         title="{{ __('media-library-extensions::messages.close') }}"
