@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9992df1a6c30ba792b55cd74ab4ca12",
+    "content-hash": "98f4770710fcad2c765571afc6426af0",
     "packages": [
         {
             "name": "blade-ui-kit/blade-icons",
@@ -292,67 +292,6 @@
                 }
             ],
             "time": "2025-08-20T19:15:30+00:00"
-        },
-        {
-            "name": "davidhsianturi/blade-bootstrap-icons",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/davidhsianturi/blade-bootstrap-icons.git",
-                "reference": "e4480e75c4c3b0b350dd8f3acf3dfc1bd9eb560f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/davidhsianturi/blade-bootstrap-icons/zipball/e4480e75c4c3b0b350dd8f3acf3dfc1bd9eb560f",
-                "reference": "e4480e75c4c3b0b350dd8f3acf3dfc1bd9eb560f",
-                "shasum": ""
-            },
-            "require": {
-                "blade-ui-kit/blade-icons": "^1.6",
-                "illuminate/support": "^9.0|^10.0|^11.0|^12.0",
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^7.0|^8.0|^9.0|^10.1",
-                "phpunit/phpunit": "^9.0|^10.5|^11.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Davidhsianturi\\BladeBootstrapIcons\\BladeBootstrapIconsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Davidhsianturi\\BladeBootstrapIcons\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David H. Sianturi",
-                    "email": "davidhsianturi@gmail.com",
-                    "homepage": "https://davidhsianturi.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A package to easily make use of Bootstrap Icons in your Laravel Blade views.",
-            "homepage": "https://github.com/davidhsianturi/blade-bootstrap-icons",
-            "keywords": [
-                "Bootstrap Icons",
-                "blade",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/davidhsianturi/blade-bootstrap-icons/issues",
-                "source": "https://github.com/davidhsianturi/blade-bootstrap-icons/tree/v2.1.0"
-            },
-            "time": "2025-06-18T12:39:09+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1273,16 +1212,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.38.0",
+            "version": "v12.38.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "1c30f547a3117bac99dc62a0afe767810cb112fa"
+                "reference": "7f3012af6059f5f64a12930701cd8caed6cf7c17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/1c30f547a3117bac99dc62a0afe767810cb112fa",
-                "reference": "1c30f547a3117bac99dc62a0afe767810cb112fa",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7f3012af6059f5f64a12930701cd8caed6cf7c17",
+                "reference": "7f3012af6059f5f64a12930701cd8caed6cf7c17",
                 "shasum": ""
             },
             "require": {
@@ -1488,7 +1427,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-11-12T16:51:30+00:00"
+            "time": "2025-11-13T02:12:47+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -3503,16 +3442,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "11.17.4",
+            "version": "11.17.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "b6f8d70862b02058904dd7674820ea2cc0cf65d2"
+                "reference": "eef29bbc701d786f2f6233ca4c40deb61282ac36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/b6f8d70862b02058904dd7674820ea2cc0cf65d2",
-                "reference": "b6f8d70862b02058904dd7674820ea2cc0cf65d2",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/eef29bbc701d786f2f6233ca4c40deb61282ac36",
+                "reference": "eef29bbc701d786f2f6233ca4c40deb61282ac36",
                 "shasum": ""
             },
             "require": {
@@ -3597,7 +3536,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.17.4"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.17.5"
             },
             "funding": [
                 {
@@ -3609,7 +3548,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-12T14:19:45+00:00"
+            "time": "2025-11-13T11:36:18+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
@@ -7951,39 +7890,42 @@
         },
         {
             "name": "orchestra/canvas",
-            "version": "v10.0.2",
+            "version": "v10.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/canvas.git",
-                "reference": "94f732350e5c6d7136ff7b0fd05a90079dd77deb"
+                "reference": "95e42ee5dcb6b8aa6c4a48a3a359ee44b3cf606d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/canvas/zipball/94f732350e5c6d7136ff7b0fd05a90079dd77deb",
-                "reference": "94f732350e5c6d7136ff7b0fd05a90079dd77deb",
+                "url": "https://api.github.com/repos/orchestral/canvas/zipball/95e42ee5dcb6b8aa6c4a48a3a359ee44b3cf606d",
+                "reference": "95e42ee5dcb6b8aa6c4a48a3a359ee44b3cf606d",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "composer/semver": "^3.0",
-                "illuminate/console": "^12.3.0",
-                "illuminate/database": "^12.3.0",
-                "illuminate/filesystem": "^12.3.0",
-                "illuminate/support": "^12.3.0",
-                "orchestra/canvas-core": "^10.0.1",
-                "orchestra/sidekick": "^1.1.0",
-                "orchestra/testbench-core": "^10.1.0",
+                "illuminate/console": "^12.38.0",
+                "illuminate/database": "^12.38.0",
+                "illuminate/filesystem": "^12.38.0",
+                "illuminate/support": "^12.38.0",
+                "orchestra/canvas-core": "^10.1.1",
+                "orchestra/sidekick": "^1.2.0",
+                "orchestra/testbench-core": "^10.2.1",
                 "php": "^8.2",
-                "symfony/polyfill-php83": "^1.31",
+                "symfony/polyfill-php83": "^1.32",
                 "symfony/yaml": "^7.2.0"
             },
+            "conflict": {
+                "laravel/framework": "<12.38.0|>=13.0.0"
+            },
             "require-dev": {
-                "laravel/framework": "^12.3.0",
-                "laravel/pint": "^1.21",
+                "laravel/framework": "^12.38.0",
+                "laravel/pint": "^1.24",
                 "mockery/mockery": "^1.6.12",
-                "phpstan/phpstan": "^2.1.8",
-                "phpunit/phpunit": "^11.5.13",
-                "spatie/laravel-ray": "^1.40.1"
+                "phpstan/phpstan": "^2.1.14",
+                "phpunit/phpunit": "^11.5.18",
+                "spatie/laravel-ray": "^1.40.2"
             },
             "bin": [
                 "canvas"
@@ -8018,40 +7960,41 @@
             "description": "Code Generators for Laravel Applications and Packages",
             "support": {
                 "issues": "https://github.com/orchestral/canvas/issues",
-                "source": "https://github.com/orchestral/canvas/tree/v10.0.2"
+                "source": "https://github.com/orchestral/canvas/tree/v10.1.0"
             },
-            "time": "2025-04-05T16:01:25+00:00"
+            "time": "2025-11-13T01:53:42+00:00"
         },
         {
             "name": "orchestra/canvas-core",
-            "version": "v10.0.1",
+            "version": "v10.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/canvas-core.git",
-                "reference": "22b6515e7a070e1c45c8a3a9819f8b6cb0234173"
+                "reference": "6b5a2344ac94c6072bab2a20eec1ee9f6df0f634"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/canvas-core/zipball/22b6515e7a070e1c45c8a3a9819f8b6cb0234173",
-                "reference": "22b6515e7a070e1c45c8a3a9819f8b6cb0234173",
+                "url": "https://api.github.com/repos/orchestral/canvas-core/zipball/6b5a2344ac94c6072bab2a20eec1ee9f6df0f634",
+                "reference": "6b5a2344ac94c6072bab2a20eec1ee9f6df0f634",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "composer/semver": "^3.0",
-                "illuminate/console": "^12.0",
-                "illuminate/support": "^12.0",
-                "orchestra/sidekick": "^1.0.2",
+                "illuminate/console": "^12.8.0",
+                "illuminate/support": "^12.8.0",
+                "orchestra/sidekick": "^1.2.0",
                 "php": "^8.2",
-                "symfony/polyfill-php83": "^1.31"
+                "symfony/polyfill-php83": "^1.32"
             },
             "require-dev": {
                 "laravel/framework": "^12.0",
-                "laravel/pint": "^1.21",
+                "laravel/pint": "^1.24",
                 "mockery/mockery": "^1.6.10",
-                "orchestra/testbench-core": "^10.0",
-                "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^11.5.7",
+                "orchestra/testbench-core": "^10.6.1",
+                "phpstan/phpstan": "^2.1.14",
+                "phpunit/phpunit": "^11.5.12|^12.0.1",
+                "spatie/laravel-ray": "^1.40.2",
                 "symfony/yaml": "^7.2"
             },
             "type": "library",
@@ -8084,9 +8027,9 @@
             "description": "Code Generators Builder for Laravel Applications and Packages",
             "support": {
                 "issues": "https://github.com/orchestral/canvas/issues",
-                "source": "https://github.com/orchestral/canvas-core/tree/v10.0.1"
+                "source": "https://github.com/orchestral/canvas-core/tree/v10.1.1"
             },
-            "time": "2025-02-19T04:17:05+00:00"
+            "time": "2025-11-13T02:49:23+00:00"
         },
         {
             "name": "orchestra/sidekick",
@@ -11115,16 +11058,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.2.3",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2"
+                "reference": "d74205c497bfbca49f34d4bc4c19c17e22db4ebb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2",
-                "reference": "737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/d74205c497bfbca49f34d4bc4c19c17e22db4ebb",
+                "reference": "d74205c497bfbca49f34d4bc4c19c17e22db4ebb",
                 "shasum": ""
             },
             "require": {
@@ -11153,7 +11096,7 @@
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "support": {
                 "issues": "https://github.com/theseer/tokenizer/issues",
-                "source": "https://github.com/theseer/tokenizer/tree/1.2.3"
+                "source": "https://github.com/theseer/tokenizer/tree/1.3.0"
             },
             "funding": [
                 {
@@ -11161,7 +11104,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-03T12:36:25+00:00"
+            "time": "2025-11-13T13:44:09+00:00"
         },
         {
             "name": "tomasvotruba/type-coverage",
@@ -11289,9 +11232,6 @@
     },
     "platform-dev": {
         "ext-gd": "*"
-    },
-    "platform-overrides": {
-        "php": "8.3"
     },
     "plugin-api-version": "2.6.0"
 }
