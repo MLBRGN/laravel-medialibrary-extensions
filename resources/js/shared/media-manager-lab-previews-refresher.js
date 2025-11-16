@@ -7,6 +7,8 @@ import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
 
 // updatePreviews(mediaManager, config, mediumId, { part: 'base' | 'original' })
 export async function updatePreviews(mediaManager, config, mediumId,  detail = {}) {
+    console.log('update previews media lab')
+
     const previewsContainer = mediaManager.querySelector('[data-mle-media-manager-lab-previews]');
     if (!previewsContainer) return;
 
@@ -79,11 +81,23 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     }
 }
 
+// TODO this code also triggers for non media lab managers,
+//  for now i just return when no media manager lab found, but shouldn't listen at all?
+//  How do i do this for regular media refresh?
 document.addEventListener('imageUpdated', (e) => {
-    // console.log('image updated', e);
     const initiator =  document.getElementById(e.detail.initiatorId);
     const mediaManagerLab = initiator.closest('[data-mle-media-manager-lab]')
-    const mediumId = e.detail.mediumId;
+    const mediumId = e.detail?.mediumId;
+
+    if (!mediaManagerLab) {
+        console.warn('Media manager lab not found')
+        return;
+    }
+
+    if (!mediumId) {
+        console.warn('No mediumId found')
+        return;
+    }
 
     const config = getMediaManagerConfig(mediaManagerLab);
     if (!config) {
