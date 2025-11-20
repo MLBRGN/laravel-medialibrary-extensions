@@ -9,16 +9,15 @@
         ])->merge() }}
     id="{{ $id }}"
     tabindex="-1"
-    role="dialog"
     @if($title)
         aria-labelledby="{{ $id }}-title"
     @endif
-    aria-hidden="true"
     @if($videoAutoPlay)
         data-mle-autoplay=""
     @endif
     data-mle-modal
     data-mle-media-modal
+    {{-- no aria-hidden!, role gets added by bs --}}
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">

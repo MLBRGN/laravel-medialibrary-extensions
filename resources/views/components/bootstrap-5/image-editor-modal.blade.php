@@ -9,11 +9,9 @@
     ])->merge() }}
     id="{{ $id }}"
     tabindex="-1"
-    role="dialog"
     @if($title)
         aria-labelledby="{{ $id }}-title"
     @endif
-    aria-hidden="true"
     data-mle-theme="{{$getConfig('frontendTheme')}}"
     data-mle-modal
     data-mle-image-editor-modal
@@ -22,6 +20,7 @@
     data-mle-medium-forced-aspect-ratio="{{ $forcedAspectRatio }}"
     data-mle-medium-minimal-dimensions="{{ $minimalDimensions }}"
     data-mle-medium-maximal-dimensions="{{ $maximalDimensions }}"
+    {{-- no aria-hidden!, role gets added by bs --}}
 >
     <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">
         <div class="mle-modal-content mle-image-editor-modal-content modal-content justify-content-center">
