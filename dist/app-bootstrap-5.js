@@ -1,1 +1,1 @@
-import"./image-fallback.js";import{a}from"./index.es.js";a.translationsPath="/js/vendor/image-editor/lang";
+import"./image-fallback.js";import{j as t}from"./index.es.js";t.translationsPath="/js/vendor/image-editor/lang";
