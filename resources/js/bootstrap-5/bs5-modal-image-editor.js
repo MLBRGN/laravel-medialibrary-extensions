@@ -73,6 +73,13 @@ function initializeImageEditorModal(modal) {
         const maxDimensions = parseDimensions(modal.getAttribute('data-mle-medium-maximal-dimensions'), { width: 7040, height: 3960 });
         const initiatorId = imageEditorModalConfig.initiatorId;
 
+        if (!customElements.get('image-editor')) {
+            console.warn('<image-editor> custom element is not registered.');
+            return;
+        }
+
+        placeholder.innerHTML = '';
+
         const editor = document.createElement('image-editor');
         editor.id = 'my-image-editor';
 

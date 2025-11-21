@@ -47,7 +47,9 @@
                 </button>
                 <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='@json($config)'>
                 {{-- instantiated when model opens, just in time --}}
-                <div class="mle-image-editor" data-mle-image-editor-placeholder></div>
+                <div class="mle-image-editor" data-mle-image-editor-placeholder>
+                    {{ __('media-library-extensions::messages.could_not_initialize_image_editor') }}
+                </div>
 
                 <x-mle-partial-image-editor-form
                     id="{{ $id }}"
