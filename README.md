@@ -12,18 +12,36 @@ and its default migration has been run to create the media table.
 
 ## Install
 
-Install the laravel package:
+1) Install the laravel package:
 
 ```shell
   composer require mlbrgn/laravel-medialibrary-extensions
 ```
 
-For the image editor to work, the image editor package needs to be installed:
+2) Run install command
+
+```shell
+  php artisan media-library-extensions:install
+```
+
+The install command will publish assets, config, translation, views, and a policy.
+Also it will install the required @mlbrgn/imageeditor package
+
+###
+
+You can also manually install by installing the @mlbrgn/imageeditor package
 
 ```shell
   npm install @mlbrgn/imageeditor
 ```
-`
+
+And at a minimum publish the required assets
+
+```shell
+php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="assets"
+````
+
+- assets
 ## Theme
 
 The default themes are:
