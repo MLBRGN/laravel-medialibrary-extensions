@@ -119,23 +119,28 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__.'/../../config/media-library-extensions.php' => config_path('media-library-extensions.php'),
-            ], $this->nameSpace.'-config');
+            ], 'config');
+//            ], $this->nameSpace.'-config');
 
             $this->publishes([
                 __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
-            ], $this->nameSpace.'-views');
+            ], 'views');
+//            ], $this->nameSpace.'-views');
 
             $this->publishes([
                 __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace), // TODO when is mlbrgn prefix wanted / needed?
-            ], $this->nameSpace.'-assets');
+            ], 'assets');
+//            ], $this->nameSpace.'-assets');
 
             $this->publishes([
                 __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->nameSpace),
-            ], $this->nameSpace.'-translations');
+            ], 'translations');
+//            ], $this->nameSpace.'-translations');
 
             $this->publishes([
                 __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
-            ], $this->nameSpace.'-policy');
+            ], 'policy');
+//            ], $this->nameSpace.'-policy');
 
         }
 

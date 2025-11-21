@@ -18,9 +18,24 @@ The default themes are:
 
 ## Publishing
 
-Several resources can be published:
+Several assets can be published:
 - config
 - views
+- assets
+- policy
+- translations
+
+to publish all assets:
+
+```shell
+  php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="media-library-extensions-config"
+```
+
+to publish a single tag (group of assets):
+
+```shell
+php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="config"
+````
 
 ## Icons
 
