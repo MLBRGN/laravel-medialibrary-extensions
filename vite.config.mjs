@@ -59,12 +59,12 @@ export default defineConfig({
         emptyOutDir: true,
         rollupOptions: {
             output: {
-                entryFileNames: '[name].js',      // for entry points
-                chunkFileNames: '[name].js',      // for code-split chunks
-                assetFileNames: '[name][extname]',
+                entryFileNames: '[name]-[hash].js',      // for entry points with hash for cache busting
+                chunkFileNames: '[name]-[hash].js',      // for code-split chunks with hash for cache busting
+                assetFileNames: '[name]-[hash][extname]', // assets with hash for cache busting
 
             },
         },
-        manifest: false,
+        manifest: true, // Enable manifest for asset versioning
     },
 })

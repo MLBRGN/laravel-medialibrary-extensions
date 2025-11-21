@@ -21,6 +21,7 @@ The default themes are:
 Several resources can be published:
 - config
 - views
+- assets (CSS and JavaScript files with content hashes for cache busting)
 
 ## Icons
 
@@ -40,6 +41,16 @@ php artisan vendor:publish --tag=media-library-extensions-assets
 php artisan vendor:publish --tag=media-library-extensions-policy
 php artisan vendor:publish --tag=media-library-extensions-translations
 ```
+
+### Updating Assets
+
+If you need to update the published assets after a package update, run:
+
+```shell
+php artisan vendor:publish --tag=media-library-extensions-assets --force
+```
+
+This will republish all assets with their new content hashes, ensuring browsers load the latest versions instead of cached ones.
 
 ## Testing
 

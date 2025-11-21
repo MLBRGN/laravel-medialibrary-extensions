@@ -126,7 +126,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], $this->nameSpace.'-views');
 
             $this->publishes([
-                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace), // TODO when is mlbrgn prefix wanted / needed?
+                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace), // Assets with versioning via manifest.json
             ], $this->nameSpace.'-assets');
 
             $this->publishes([
@@ -297,7 +297,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     protected function overrideFormComponentsConfig(): void
     {
         $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
-        $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/tinymce-custom-file-picker.js');
+        $extraScripts[] = \Mlbrgn\MediaLibraryExtensions\Helpers\AssetVersioning::versionedAsset('tinymce-custom-file-picker.js');
         $overrides = [
             'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
             'html_editor_tinymce_global_config.extra_scripts' => $extraScripts,
