@@ -8,17 +8,10 @@ const sharedDir = path.resolve(jsDir, 'shared')
 const plainDir = path.resolve(jsDir, 'plain')
 const bootstrap5Dir = path.resolve(jsDir, 'bootstrap-5')
 
-// function getJsFiles(dir) {
-//     return fs
-//         .readdirSync(dir)
-//         .filter(file => file.endsWith('.js') && fs.statSync(path.join(dir, file)).isFile())
-//         .map(file => path.relative(__dirname, path.join(dir, file)))
-// }
-
 function getJsFiles(dir) {
     return fs
         .readdirSync(dir)
-        // ✅ include only .js files not starting with "_"
+        // include only .js files not starting with "_"
         .filter(file =>
             file.endsWith('.js') &&
             !file.startsWith('_') &&
@@ -27,7 +20,6 @@ function getJsFiles(dir) {
         .map(file => path.relative(__dirname, path.join(dir, file)))
 }
 
-console.log(getJsFiles(plainDir));
 const faviconPath = path.resolve(__dirname, 'resources/assets/images/favicon.ico');
 
 const inputFiles = [
@@ -59,10 +51,17 @@ export default defineConfig({
         emptyOutDir: true,
         rollupOptions: {
             output: {
-                entryFileNames: '[name].js',      // for entry points
-                chunkFileNames: '[name].js',      // for code-split chunks
-                assetFileNames: '[name][extname]',
-
+                // JS entry points go in js/
+                entryFileNames: 'js/[name].js',
+                // JS chunks go in js/
+                chunkFileNames: 'js/[name].js',
+                // CSS and other assets
+                assetFileNames: assetInfo => {
+                    if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+                        return 'css/[name][extname]';
+                    }
+                    return 'assets/[name][extname]'; // images, fonts, etc
+                },
             },
         },
         manifest: false,

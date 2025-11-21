@@ -10,6 +10,20 @@ This package adds functionality toMedia Library package by Spatie:
 This package assumes that spatie/laravel-medialibrary is installed 
 and its default migration has been run to create the media table.
 
+## Install
+
+Install the laravel package:
+
+```shell
+  composer require mlbrgn/laravel-medialibrary-extensions
+```
+
+For the image editor to work, the image editor package needs to be installed:
+
+```shell
+  npm install @mlbrgn/imageeditor
+```
+`
 ## Theme
 
 The default themes are:

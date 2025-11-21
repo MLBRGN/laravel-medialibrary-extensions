@@ -112,7 +112,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 RemoveExpiredTemporaryUploads::class,
             ]);
 
-            // TODO
+            // NOTE: not yet implemented
 //            $this->optimizes(
 //                optimize: 'package:optimize',
 //                clear: 'package:clear-optimizations',
@@ -121,29 +121,24 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../../config/media-library-extensions.php' => config_path('media-library-extensions.php'),
             ], 'config');
-//            ], $this->nameSpace.'-config');
 
             $this->publishes([
                 __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
             ], 'views');
-//            ], $this->nameSpace.'-views');
 
             $this->publishes([
-                __DIR__.'/../../dist' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace), // TODO when is mlbrgn prefix wanted / needed?
+                __DIR__.'/../../dist/css' => public_path('vendor/medialibrary-extensions/css'),
+                __DIR__.'/../../dist/js' => public_path('vendor/medialibrary-extensions/js'),
             ], 'assets');
-//            ], $this->nameSpace.'-assets');
 
             $this->publishes([
-//                __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->nameSpace),
                 __DIR__.'/../../lang' =>  $this->app->langPath('vendor/'.$this->nameSpace),
 
             ], 'translations');
-//            ], $this->nameSpace.'-translations');
 
             $this->publishes([
                 __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
             ], 'policy');
-//            ], $this->nameSpace.'-policy');
 
         }
 

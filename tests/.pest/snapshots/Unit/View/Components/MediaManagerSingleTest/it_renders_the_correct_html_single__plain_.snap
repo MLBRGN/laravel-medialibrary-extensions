@@ -68,7 +68,7 @@
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-bootstrap-5';
                 link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css";
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extension/css/app-bootstrap-5.css";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }
@@ -76,7 +76,7 @@
 
         
         <noscript>
-            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/css/app-bootstrap-5.css">
             <div style="color:red;">
                 JavaScript is disabled. Some features may not work.
             </div>
@@ -88,7 +88,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js";
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/app-bootstrap-5.js";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -119,7 +119,7 @@
         if (!window.mleFormSubmitterJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/media-manager-submitter.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/media-manager-submitter.js";
             document.head.appendChild(script);
             window.mleFormSubmitterJs = true;
 

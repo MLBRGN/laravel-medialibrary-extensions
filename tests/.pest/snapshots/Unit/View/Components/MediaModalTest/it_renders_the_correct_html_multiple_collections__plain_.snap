@@ -81,7 +81,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1763223978474"
+        src="/media/1/test.jpg?v=1763760944111"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -95,7 +95,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1763223978475"
+        src="/media/2/test2.jpg?v=1763760944112"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -213,7 +213,7 @@
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-plain';
                 link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css";
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extension/css/app-plain.css";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }
@@ -221,7 +221,7 @@
 
         
         <noscript>
-            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.css">
+            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/css/app-plain.css">
             <div style="color:red;">
                 JavaScript is disabled. Some features may not work.
             </div>
@@ -233,7 +233,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-plain.js";
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/app-plain.js";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -249,7 +249,7 @@
         if (!window.mleCarouselJsLoaded) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/plain-media-carousel.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/plain-media-carousel.js";
             document.head.appendChild(script);
             window.mleCarouselJsLoaded = true;
 
@@ -285,7 +285,7 @@
                 if (!customElements.get('lite-youtube')) {
                     console.log('no lite-youtube, loading');
                     const script = document.createElement('script');
-                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/lite-youtube.js";
+                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/lite-youtube.js";
                     document.head.appendChild(script);
                 } else {
                     console.log('lite-youtube already present');
@@ -302,7 +302,7 @@
         if (!window.mleMediaModalJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/plain-modal-media.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/plain-modal-media.js";
             document.head.appendChild(script);
             window.mleMediaModalJs = true;
 

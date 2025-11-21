@@ -2,12 +2,11 @@
     class="mle-component mle-theme-bootstrap-5 mle-media-modal mle-modal modal fade"
     id="test-media-modal-mod"
     tabindex="-1"
-    role="dialog"
             aria-labelledby="test-media-modal-mod-title"
-        aria-hidden="true"
-            data-mle-autoplay=""
+                data-mle-autoplay=""
         data-mle-modal
     data-mle-media-modal
+    
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
@@ -84,7 +83,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0"
-        src="/media/1/test.jpg?v=1763223978584"
+        src="/media/1/test.jpg?v=1763760944212"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -98,7 +97,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1"
-        src="/media/2/test2.jpg?v=1763223978585"
+        src="/media/2/test2.jpg?v=1763760944213"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -218,7 +217,7 @@
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-bootstrap-5';
                 link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css";
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extension/css/app-bootstrap-5.css";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }
@@ -226,7 +225,7 @@
 
         
         <noscript>
-            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/css/app-bootstrap-5.css">
             <div style="color:red;">
                 JavaScript is disabled. Some features may not work.
             </div>
@@ -238,7 +237,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js";
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/app-bootstrap-5.js";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -279,7 +278,7 @@
                 if (!customElements.get('lite-youtube')) {
                     console.log('no lite-youtube, loading');
                     const script = document.createElement('script');
-                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/lite-youtube.js";
+                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/lite-youtube.js";
                     document.head.appendChild(script);
                 } else {
                     console.log('lite-youtube already present');
@@ -296,7 +295,7 @@
         if (!window.mleMediaModalJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/bs5-modal-media.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/bs5-modal-media.js";
             document.head.appendChild(script);
             window.mleMediaModalJs = true;
 

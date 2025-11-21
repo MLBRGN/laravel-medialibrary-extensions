@@ -2,10 +2,8 @@
     class="mle-component mle-theme-bootstrap-5 mle-image-editor-modal mle-modal modal fade"
     id="blog-images-iem-1"
     tabindex="-1"
-    role="dialog"
             aria-labelledby="blog-images-iem-1-title"
-        aria-hidden="true"
-    data-mle-theme="bootstrap-5"
+        data-mle-theme="bootstrap-5"
     data-mle-modal
     data-mle-image-editor-modal
     data-mle-medium-display-name="test.jpg"
@@ -13,6 +11,7 @@
     data-mle-medium-forced-aspect-ratio="16:9"
     data-mle-medium-minimal-dimensions="320x160"
     data-mle-medium-maximal-dimensions="7040x3960"
+    
 >
     <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">
         <div class="mle-modal-content mle-image-editor-modal-content modal-content justify-content-center">
@@ -106,7 +105,7 @@
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-bootstrap-5';
                 link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css";
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extension/css/app-bootstrap-5.css";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }
@@ -114,7 +113,7 @@
 
         
         <noscript>
-            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.css">
+            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/css/app-bootstrap-5.css">
             <div style="color:red;">
                 JavaScript is disabled. Some features may not work.
             </div>
@@ -126,7 +125,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/app-bootstrap-5.js";
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/app-bootstrap-5.js";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -157,7 +156,7 @@
         if (!window.mleFormSubmitterJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/media-manager-submitter.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/media-manager-submitter.js";
             document.head.appendChild(script);
             window.mleFormSubmitterJs = true;
 
@@ -177,7 +176,7 @@
         if (!window.mleImageEditorModalJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/bs5-modal-image-editor.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/bs5-modal-image-editor.js";
             document.head.appendChild(script);
             window.mleImageEditorModalJs = true;
 
@@ -194,7 +193,7 @@
         if (!window.mleImageEditorListenerJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/image-editor-listener.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/image-editor-listener.js";
             document.head.appendChild(script);
             window.mleImageEditorListenerJs = true;
 
