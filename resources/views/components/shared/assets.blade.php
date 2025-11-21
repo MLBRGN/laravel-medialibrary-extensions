@@ -6,7 +6,7 @@
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-{{ $frontendTheme }}';
                 link.rel = 'stylesheet';
-                link.href = "{{ asset('vendor/mlbrgn/media-library-extension/css/app-'.$frontendTheme.'.css') }}";
+                link.href = "{{ asset('vendor/mlbrgn/media-library-extensions/css/app-'.$frontendTheme.'.css') }}";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }

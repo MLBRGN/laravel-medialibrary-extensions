@@ -127,8 +127,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], 'views');
 
             $this->publishes([
-                __DIR__.'/../../dist/css' => public_path('vendor/medialibrary-extensions/css'),
-                __DIR__.'/../../dist/js' => public_path('vendor/medialibrary-extensions/js'),
+                __DIR__.'/../../dist/css' => public_path('vendor/' . $this->vendor . '/media-library-extensions/css'),
+                __DIR__.'/../../dist/js' => public_path('vendor/' . $this->vendor . '/media-library-extensions/js'),
             ], 'assets');
 
             $this->publishes([
