@@ -41,7 +41,8 @@
       "ext-gd": "*"
     },
     "suggest": {
-      "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons"
+      "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons",
+      "mlbrgn/imageeditor": "Required for the image editor UI (install via npm or yarn)."
     },
     "autoload": {
         "psr-4": {

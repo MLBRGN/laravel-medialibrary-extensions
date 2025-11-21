@@ -97,18 +97,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // This tells Laravel where to find the translation files
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
-        //        $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
-
-        //        Blade::componentNamespace('Mlbrgn\\MediaLibraryExtensions\\View\\Components', $this->packageNameShort);
+        // $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
         // Migrate database tables necessary for this package to do it's work
         // only migrations in the top folder are loaded, so no need to exclude the demo folder
         // note these will also run when testing
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-        }
-
-        if ($this->app->runningInConsole()) {
 
             $this->commands([
                 ResetMediaLibraryExtensions::class,
@@ -116,6 +111,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 ToggleRepository::class,
                 RemoveExpiredTemporaryUploads::class,
             ]);
+
+            // TODO
+//            $this->optimizes(
+//                optimize: 'package:optimize',
+//                clear: 'package:clear-optimizations',
+//            );
 
             $this->publishes([
                 __DIR__.'/../../config/media-library-extensions.php' => config_path('media-library-extensions.php'),
@@ -133,7 +134,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 //            ], $this->nameSpace.'-assets');
 
             $this->publishes([
-                __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->nameSpace),
+//                __DIR__.'/../../lang' => resource_path('lang/vendor/'.$this->nameSpace),
+                __DIR__.'/../../lang' =>  $this->app->langPath('vendor/'.$this->nameSpace),
+
             ], 'translations');
 //            ], $this->nameSpace.'-translations');
 
@@ -226,6 +229,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             });
         }
 
+        $this->publishesMigrations([
+            __DIR__.'/../../database/migrations' => database_path('migrations'),
+        ]);
+
         $this->checkBladeUIKitIconSet();
 
     }
@@ -290,6 +297,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     protected function addToAbout(): void
     {
+//        AboutCommand::add('My Package', fn () => ['Version' => '1.0.0']);
         AboutCommand::add($this->packageName, function () {
             $composer = json_decode(file_get_contents(__DIR__.'/../../composer.json'), true);
 
