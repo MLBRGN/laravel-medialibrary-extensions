@@ -9,13 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\UseDemoModeConnection;
 use Mlbrgn\MediaLibraryExtensions\Models\Media;
 
-// Prepare base middleware from config
-$baseMiddleware = config('media-library-extensions.route_middleware', []);
-
 // Conditionally add RegisterDemoDatabase if demo pages are enabled
-// if (config('media-library-extensions.demo_pages_enabled')) {
-//    $baseMiddleware[] = RegisterDemoDatabase::class;
-// }
 Route::group([
     'middleware' => config('media-library-extensions.route_middleware', ['web', 'auth']),
     'prefix' => config('media-library-extensions.route_prefix'),

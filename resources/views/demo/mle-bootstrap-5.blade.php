@@ -20,6 +20,17 @@
                 overflow: hidden;
             }
         </style>
+        <script type="module">
+            if (!window.demoJsLoaded) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/demo.js') }}";
+                document.head.appendChild(script);
+                window.demoJsLoaded = true;
+
+                console.log('demoJsLoaded');
+            }
+        </script>
     </head>
     <body>
         <div class="container-lg mt-5">

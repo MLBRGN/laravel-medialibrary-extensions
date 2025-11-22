@@ -10,6 +10,8 @@ This package adds functionality toMedia Library package by Spatie:
 This package assumes that spatie/laravel-medialibrary is installed 
 and its default migration has been run to create the media table.
 
+for the image editor to work the NPM package "@mlbrgn/media-library-extensions" needs to be installed.
+
 ## Install
 
 1) Install the laravel package:
@@ -24,24 +26,55 @@ and its default migration has been run to create the media table.
   php artisan media-library-extensions:install
 ```
 
-The install command will publish assets, config, translation, views, and a policy.
-Also it will install the required @mlbrgn/imageeditor package
+3) add @import "media-library-extensions" to your app.js (or similar)
 
-###
-
-You can also manually install by installing the @mlbrgn/imageeditor package
-
-```shell
-  npm install @mlbrgn/imageeditor
+```js
+import {ImageEditor} from '@mlbrgn/media-library-extensions'
 ```
 
-And at a minimum publish the required assets
+you can optionally set the path to the translations you want to use, but make sure
+the translations live in the path you specified.
+
+NOTE: Don't forget to run "npm run build" for the image editor to be built!
+
+```js
+
+ImageEditor.translationsPath = '/js/vendor/image-editor/lang';
+```
+
+The install command will publish assets, config, translation, views, and a policy.
+Also it will install the required @mlbrgn/media-library-extensions package
+
+### Manual install (without the install command)
+
+You can also manually install by installing the @mlbrgn/media-library-extensions package
+
+```shell
+  npm install @mlbrgn/media-library-extensions
+```
+
+And publish the required assets
 
 ```shell
 php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="assets"
 ````
+add @import for "media-library-extensions" to your app.js (or similar)
 
-- assets
+```js
+import {ImageEditor} from '@mlbrgn/media-library-extensions'
+```
+
+you can optionally set the path to the translations you want to use, but make sure
+the translations live in the path you specified.
+
+NOTE: Don't forget to run "npm run build" for the imageeditor to be built!
+
+
+```js
+
+ImageEditor.translationsPath = '/js/vendor/image-editor/lang';
+```
+
 ## Theme
 
 The default themes are:

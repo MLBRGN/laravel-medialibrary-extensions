@@ -81,7 +81,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1763760944111"
+        src="/media/1/test.jpg?v=1763810455930"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -95,7 +95,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1763760944112"
+        src="/media/2/test2.jpg?v=1763810455931"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -213,7 +213,7 @@
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-plain';
                 link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extension/css/app-plain.css";
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/css/app-plain.css";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }

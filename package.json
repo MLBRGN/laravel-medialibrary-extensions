@@ -1,7 +1,7 @@
 {
   "name": "media-library-extensions",
   "version": "0.0.10",
-  "description": "Extensions designed for use with the Media Library package by Spatie. Adds a single image uploader, multiple image uploader and a modal with carousel and XHR uploading support.",
+  "description": "Extends the functionality of Spatie's media library package by adding a single image uploader, multiple image uploader a media lab and a modal with carousel and XHR uploading support.",
   "author": "Evertjan Garretsen - BURO MLBRGN <evertjan.garretsen@mlbrgn.nl> (https://mlbrgn.nl)",
   "contributors": [
     {
@@ -32,15 +32,17 @@
     "test": "vendor/bin/pest",
     "test-f": "vendor/bin/pest --filter"
   },
+  "dependencies": {
+    "@justinribeiro/lite-youtube": "^1.8.2",
+    "bootstrap": "^5.3.3"
+  },
   "devDependencies": {
     "laravel-vite-plugin": "^1.0.0",
     "sass": "^1.77.5",
-    "vite": "^6.2.1"
+    "vite": "^6.2.1",
+    "@mlbrgn/media-library-extensions": "*"
   },
-  "dependencies": {
-    "@mlbrgn/imageeditor": "^1.0.117",
-    "@mlbrgn/imageshared": "^1.0.65",
-    "@justinribeiro/lite-youtube": "^1.8.2",
-    "bootstrap": "^5.3.3"
+  "peerDependencies": {
+    "@mlbrgn/media-library-extensions": "^1.0.0"
   }
 }

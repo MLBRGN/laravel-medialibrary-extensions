@@ -88,8 +88,6 @@
 
 {{-- Image Editor Modal --}}
 @if($includeImageEditorModalJs)
-    <script type="module" src="{{ asset('vendor/mlbrgn/media-library-extensions/js/image-editor.js') }}"></script>
-    
     <script type="module">
         if (!window.mleImageEditorModalJs) {
             const script = document.createElement('script');

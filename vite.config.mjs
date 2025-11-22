@@ -20,7 +20,7 @@ function getJsFiles(dir) {
         .map(file => path.relative(__dirname, path.join(dir, file)))
 }
 
-const faviconPath = path.resolve(__dirname, 'resources/assets/images/favicon.ico');
+const faviconPath = path.resolve(__dirname, 'resources/assets/favicon.ico');
 
 const inputFiles = [
     ...getJsFiles(jsDir),
@@ -29,8 +29,6 @@ const inputFiles = [
     ...getJsFiles(bootstrap5Dir),
     faviconPath,
 ]
-
-console.log(inputFiles)
 
 export default defineConfig({
     plugins: [
@@ -50,6 +48,19 @@ export default defineConfig({
         outDir: 'dist',
         emptyOutDir: true,
         rollupOptions: {
+            // determine if file is demo.js, if os bundle media-library-extensions (image-editor) otherwise not
+            external: (id, importer) => {
+                // Importer not provided → don't externalize
+                if (!importer) return false
+
+                // If importer is demo.js → always bundle everything
+                if (importer.endsWith('/demo.js')) {
+                    return false
+                }
+
+                // For all other files → externalize peer dependency
+                return id === '@mlbrgn/media-library-extensions'
+            },
             output: {
                 // JS entry points go in js/
                 entryFileNames: 'js/[name].js',

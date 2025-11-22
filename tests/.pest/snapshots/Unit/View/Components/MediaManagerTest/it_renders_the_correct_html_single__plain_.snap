@@ -81,7 +81,7 @@
                 const link = document.createElement('link');
                 link.id = 'mlbrgn-css-plain';
                 link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extension/css/app-plain.css";
+                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/css/app-plain.css";
                 document.head.appendChild(link);
                 console.log('CSS dynamically loaded');
             }

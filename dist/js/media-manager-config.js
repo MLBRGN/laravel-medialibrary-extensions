@@ -1,0 +1,1 @@
+function o(e){const n=e.querySelector("[data-mle-media-manager-config]");if(!n)return null;try{return JSON.parse(n.value)}catch(r){return console.error(`Invalid JSON config for ${e.id}:`,r),null}}export{o as g};

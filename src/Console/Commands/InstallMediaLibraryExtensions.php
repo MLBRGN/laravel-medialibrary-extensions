@@ -20,17 +20,22 @@ class InstallMediaLibraryExtensions extends Command
             $force = $this->confirm('Some files may already exist. Do you want to overwrite them?', false);
         }
 
-        // Only publish required assets (CSS/JS)
+        // Publish required assets (CSS/JS)
         $this->publishWithMessage(
             'assets',
             public_path('vendor/medialibrary-extensions'),
             $force
         );
 
-        // Install npm package (required for JS functionality)
-        $this->installNodePackage();
+        // Publish config
+        $this->publishWithMessage(
+            'config',
+            public_path('vendor/medialibrary-extensions'),
+            $force
+        );
 
-        $this->info('Media Library Extensions installed successfully.');
+        // show outro
+        $this->outroSuccess();
 
         return self::SUCCESS;
     }
@@ -49,19 +54,19 @@ class InstallMediaLibraryExtensions extends Command
         ]);
     }
 
-    protected function installNodePackage(): void
+    protected function outroSuccess(): void
     {
-        $this->info('Installing npm package @mlbrgn/imageeditor...');
+        $this->info('Media Library Extensions installed successfully.');
+        $this->info('');
+        $this->comment('----------------------------------------------');
+        $this->comment('NOTE: For the "image editor" to work');
+        $this->comment('run the following commands in your own project');
+        $this->comment('----------------------------------------------');
+        $this->info('');
+        $this->comment('  npm install');
+        $this->comment('  npm install @mlbrgn/media-library-extensions');
+        $this->comment('  npm run build');
+        $this->info('');
 
-        $output = [];
-        $returnVar = 0;
-
-        exec('npm install @mlbrgn/imageeditor', $output, $returnVar);
-
-        if ($returnVar !== 0) {
-            $this->error('npm install failed: ' . implode("\n", $output));
-        } else {
-            $this->info('npm package installed successfully.');
-        }
     }
 }
