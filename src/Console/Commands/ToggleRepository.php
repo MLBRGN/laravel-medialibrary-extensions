@@ -14,6 +14,10 @@ class ToggleRepository extends Command
 
     protected $description = 'Toggle between local and Packagist repositories for development packages. Manages symlinks, composer require versions, and runs composer update.';
 
+    protected $aliases = [
+        'mle:toggle',
+    ];
+
     // ------------------ Constants ------------------
     protected const COMPOSER_JSON = 'composer.json';
 

@@ -12,6 +12,11 @@ class InstallMediaLibraryExtensions extends Command
     protected $signature = 'media-library-extensions:install {--force : Overwrite any existing files}';
     protected $description = 'Install the media library extensions (publishes required assets and installs npm package).';
 
+    protected $aliases = [
+        'mle:install',
+        'mle:i',
+    ];
+
     public function handle(): int
     {
         $force = $this->option('force');

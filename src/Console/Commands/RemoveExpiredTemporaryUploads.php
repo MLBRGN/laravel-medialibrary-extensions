@@ -14,6 +14,11 @@ class RemoveExpiredTemporaryUploads extends Command
 
     protected $description = 'Deletes orphaned temporary uploads older than the session lifetime.';
 
+    protected $aliases = [
+        'mle:rm-expired-temporary-uploads',
+        'mle:retu',
+    ];
+
     public function handle(): int
     {
         $lifetimeMinutes = config('session.lifetime');
