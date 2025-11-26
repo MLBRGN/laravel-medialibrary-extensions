@@ -1,7 +1,7 @@
 {
   "packages": {
     ".": {
-      "release-type": "php-tag",
+      "release-type": "simple",
       "package-name": "vendor/laravel-package",
       "bump-minor-pre-major": true,
       "changelog-sections": [
