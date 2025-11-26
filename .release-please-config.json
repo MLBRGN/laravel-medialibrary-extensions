@@ -1,9 +1,10 @@
 {
   "packages": {
     ".": {
-      "release-type": "simple",
+      "release-type": "php",
       "package-name": "vendor/laravel-package",
       "bump-minor-pre-major": true,
+      "include-v-in-tag": false,
       "changelog-sections": [
         {"type": "feat", "section": "Features"},
         {"type": "fix", "section": "Bug Fixes"},
