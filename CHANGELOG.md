@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.8](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.0.7...2.0.8) (2025-11-26)
+
+
+### Bug Fixes
+
+* added comment to test please-release ([77772b9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/77772b9dc19b2e1567c830e4aa3c07d385730a8b))
+* updated release-please config ([d701693](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/d7016936bbf53b91395e56a9c45d2980a5c88fae))
+
 ## [2.1.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/vendor/laravel-package-2.0.7...vendor/laravel-package-2.1.0) (2025-11-26)
 
 
