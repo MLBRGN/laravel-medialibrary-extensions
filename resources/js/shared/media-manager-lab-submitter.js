@@ -1,4 +1,3 @@
-import config from "bootstrap/js/src/util/config";
 import {
     showStatusMessage,
     handleAjaxError,

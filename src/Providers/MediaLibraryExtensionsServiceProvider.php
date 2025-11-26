@@ -305,7 +305,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     protected function overrideFormComponentsConfig(): void
     {
         $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
-        $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/js/tinymce-custom-file-picker.js');
+        $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/js/shared/tinymce-custom-file-picker.js');
         $overrides = [
             'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
             'html_editor_tinymce_global_config.extra_scripts' => $extraScripts,

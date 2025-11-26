@@ -21,14 +21,14 @@
             }
         </style>
         <script type="module">
-            if (!window.demoJsLoaded) {
+            if (!window.imageEditorLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/demo.js') }}";
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/root/image-editor.js') }}";
                 document.head.appendChild(script);
-                window.demoJsLoaded = true;
+                window.imageEditorLoaded = true;
 
-                console.log('demoJsLoaded');
+                console.log('imageEditorLoaded');
             }
         </script>
     </head>

@@ -1,5 +1,5 @@
-import { setupModalBase, closeModal, initModalEvents, registerModalEventHandler } from './_modal-core';
-import '@/js/plain/_modal-core';
+import { setupModalBase, closeModal, initModalEvents, registerModalEventHandler } from './modal-core';
+import '@/js/plain/modal-core';
 
 const editors = new WeakMap(); // modal => editor instance
 

@@ -3,10 +3,10 @@ import {
     registerModalEventHandler,
     reinitModalEvents,
     setupModalBase
-} from './_modal-core';
+} from './modal-core';
 // import '@/js/plain/_modal-core'
 
-import { getCarouselController } from '@/js/plain/plain-media-carousel';
+import { getCarouselController } from '@/js/plain/media-carousel';
 
 let ytlPlayers = {}; // key: youtubeId, value: YT.Player instance
 let nativeMediaPlayers = {};// store native media players (audio / video)

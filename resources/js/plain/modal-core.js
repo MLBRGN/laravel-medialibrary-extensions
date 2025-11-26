@@ -1,5 +1,5 @@
 // modal-core.js
-import { fireEvent, trapFocus, releaseFocus } from '@/js/plain/_helpers';
+import { fireEvent, trapFocus, releaseFocus } from '@/js/plain/helpers';
 
 let listenersBound = false;
 

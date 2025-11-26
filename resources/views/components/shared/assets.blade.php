@@ -30,7 +30,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/app-'.$frontendTheme.'.js') }}";
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/root/app-'.$frontendTheme.'.js') }}";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -60,7 +60,7 @@
         if (!window.mleCarouselJsLoaded) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/plain-media-carousel.js') }}";
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/plain/media-carousel.js') }}";
             document.head.appendChild(script);
             window.mleCarouselJsLoaded = true;
 
@@ -76,7 +76,7 @@
         if (!window.tinymceCustomFilePickerIframeJsLoaded) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/tinymce-custom-file-picker-iframe.js') }}";
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/shared/tinymce-custom-file-picker-iframe.js') }}";
             document.head.appendChild(script);
             window.tinymceCustomFilePickerIframeJsLoaded = true;
 
@@ -92,7 +92,7 @@
         if (!window.mleImageEditorModalJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/' . ($frontendTheme === 'plain' ? 'plain-modal-image-editor.js' : 'bs5-modal-image-editor.js')) }}";
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/' . $frontendTheme . '/modal-image-editor.js') }}";
             document.head.appendChild(script);
             window.mleImageEditorModalJs = true;
 
@@ -108,7 +108,7 @@
         if (!window.mleMediaModalJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/' . ($frontendTheme === 'plain' ? 'plain-modal-media.js' : 'bs5-modal-media.js')) }}";
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/' . $frontendTheme . '/modal-media.js') }}";
             document.head.appendChild(script);
             window.mleMediaModalJs = true;
 
@@ -124,7 +124,7 @@
         if (!window.mleImageEditorListenerJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/image-editor-listener.js') }}";
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/shared/image-editor-listener.js') }}";
             document.head.appendChild(script);
             window.mleImageEditorListenerJs = true;
 
@@ -140,7 +140,7 @@
         if (!window.mleFormSubmitterJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/media-manager-submitter.js') }}";
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/shared/media-manager-submitter.js') }}";
             document.head.appendChild(script);
             window.mleFormSubmitterJs = true;
 
@@ -154,7 +154,7 @@
         if (!window.mleMediaLabSubmitterJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/media-manager-lab-submitter.js') }}";
+            script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/shared/media-manager-lab-submitter.js') }}";
             document.head.appendChild(script);
             window.mleMediaLabSubmitterJs = true;
 
@@ -177,7 +177,7 @@
                 if (!customElements.get('lite-youtube')) {
                     console.log('no lite-youtube, loading');
                     const script = document.createElement('script');
-                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/lite-youtube.js') }}";
+                    script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/shared/lite-youtube.js') }}";
                     document.head.appendChild(script);
                 } else {
                     console.log('lite-youtube already present');

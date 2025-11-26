@@ -8,32 +8,35 @@ const sharedDir = path.resolve(jsDir, 'shared')
 const plainDir = path.resolve(jsDir, 'plain')
 const bootstrap5Dir = path.resolve(jsDir, 'bootstrap-5')
 
-function getJsFiles(dir) {
+const faviconPath = path.resolve(__dirname, 'resources/assets/favicon.ico');
+
+function getJsEntries(dir, prefix) {
     return fs
         .readdirSync(dir)
-        // include only .js files not starting with "_"
         .filter(file =>
             file.endsWith('.js') &&
             !file.startsWith('_') &&
             fs.statSync(path.join(dir, file)).isFile()
         )
-        .map(file => path.relative(__dirname, path.join(dir, file)))
+        .reduce((entries, file) => {
+            const name = file.replace('.js', '')
+            entries[`${prefix}/${name}`] = path.relative(__dirname, path.join(dir, file))
+            return entries
+        }, {})
 }
 
-const faviconPath = path.resolve(__dirname, 'resources/assets/favicon.ico');
-
-const inputFiles = [
-    ...getJsFiles(jsDir),
-    ...getJsFiles(sharedDir),
-    ...getJsFiles(plainDir),
-    ...getJsFiles(bootstrap5Dir),
-    faviconPath,
-]
+const entries = {
+    ...getJsEntries(plainDir, 'plain'),
+    ...getJsEntries(bootstrap5Dir, 'bootstrap-5'),
+    ...getJsEntries(sharedDir, 'shared'),
+    ...getJsEntries(jsDir, 'root'),
+    favicon: faviconPath,
+}
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: inputFiles,
+            input: entries,
             publicDirectory: 'public',
             refresh: true,
         }),
@@ -54,7 +57,12 @@ export default defineConfig({
                 if (!importer) return false
 
                 // If importer is demo.js → always bundle everything
-                if (importer.endsWith('/demo.js')) {
+                // if (importer.endsWith('/demo.js')) {
+                //     return false
+                // }
+
+                // If importer is image-editor.js → always bundle everything
+                if (importer.endsWith('/image-editor.js')) {
                     return false
                 }
 
@@ -71,7 +79,7 @@ export default defineConfig({
                     if (assetInfo.name && assetInfo.name.endsWith('.css')) {
                         return 'css/[name][extname]';
                     }
-                    return 'assets/[name][extname]'; // images, fonts, etc
+                    return 'assets/[name][extname]';
                 },
             },
         },

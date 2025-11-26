@@ -1,6 +1,6 @@
 // Functionality implemented with assistance from AI (ChatGPT)
-import { fireEvent } from '@/js/plain/_helpers';
-import { registerModalEventHandler, reinitModalEvents } from "@/js/plain/_modal-core";
+import { fireEvent } from '@/js/plain/helpers';
+import { registerModalEventHandler, reinitModalEvents } from "@/js/plain/modal-core";
 
 const carousels = new Map();
 

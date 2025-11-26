@@ -2,7 +2,18 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Component tests: theme bootstrap-5</title>
+        <title>Media library custom file picker</title>
+        <script type="module">
+            if (!window.imageEditorLoaded) {
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/root/image-editor.js') }}";
+                document.head.appendChild(script);
+                window.imageEditorLoaded = true;
+
+                console.log('imageEditorLoaded');
+            }
+        </script>
     </head>
     <body>
         <div class="mle-component">
