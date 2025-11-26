@@ -15,6 +15,7 @@ class ResetMediaLibraryExtensions extends Command
 
     protected $description = 'Completely clears Spatie Media Library data and files for all configured media disks.';
 
+    // short form aliases
     protected $aliases = [
         'mle:reset',
     ];

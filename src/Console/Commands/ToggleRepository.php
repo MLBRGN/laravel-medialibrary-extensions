@@ -14,6 +14,7 @@ class ToggleRepository extends Command
 
     protected $description = 'Toggle between local and Packagist repositories for development packages. Manages symlinks, composer require versions, and runs composer update.';
 
+    // short form aliases
     protected $aliases = [
         'mle:toggle',
     ];
