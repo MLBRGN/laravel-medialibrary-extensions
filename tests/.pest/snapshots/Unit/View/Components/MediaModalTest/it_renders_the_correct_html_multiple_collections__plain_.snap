@@ -81,7 +81,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1764168260944"
+        src="/media/1/test.jpg?v=1764202011294"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -95,7 +95,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1764168260944"
+        src="/media/2/test2.jpg?v=1764202011295"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -233,7 +233,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/app-plain.js";
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/root/app-plain.js";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -249,7 +249,7 @@
         if (!window.mleCarouselJsLoaded) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/plain-media-carousel.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/plain/media-carousel.js";
             document.head.appendChild(script);
             window.mleCarouselJsLoaded = true;
 
@@ -285,7 +285,7 @@
                 if (!customElements.get('lite-youtube')) {
                     console.log('no lite-youtube, loading');
                     const script = document.createElement('script');
-                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/lite-youtube.js";
+                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/lite-youtube.js";
                     document.head.appendChild(script);
                 } else {
                     console.log('lite-youtube already present');
@@ -302,7 +302,7 @@
         if (!window.mleMediaModalJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/plain-modal-media.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/plain/modal-media.js";
             document.head.appendChild(script);
             window.mleMediaModalJs = true;
 

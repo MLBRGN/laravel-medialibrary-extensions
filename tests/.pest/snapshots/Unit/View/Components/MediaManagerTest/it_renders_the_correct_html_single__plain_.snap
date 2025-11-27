@@ -101,7 +101,7 @@
             if (!window.mlbrgnJsLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/app-plain.js";
+                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/root/app-plain.js";
                 document.head.appendChild(script);
                 window.mlbrgnJsLoaded = true;
 
@@ -132,7 +132,7 @@
         if (!window.mleFormSubmitterJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/media-manager-submitter.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/media-manager-submitter.js";
             document.head.appendChild(script);
             window.mleFormSubmitterJs = true;
 
@@ -222,7 +222,7 @@
         if (!window.mleFormSubmitterJs) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/media-manager-submitter.js";
+            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/media-manager-submitter.js";
             document.head.appendChild(script);
             window.mleFormSubmitterJs = true;
 
