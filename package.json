@@ -43,6 +43,10 @@
     "@mlbrgn/media-library-extensions": "*"
   },
   "peerDependencies": {
-    "@mlbrgn/media-library-extensions": "^1.0.0"
+    "bootstrap": "^5.3.3"
+  },
+
+  "optionalDependencies": {
+    "bootstrap": "^5.3.3"
   }
 }
