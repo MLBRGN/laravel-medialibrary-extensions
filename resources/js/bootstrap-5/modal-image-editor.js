@@ -1,4 +1,6 @@
 // noinspection JSUnresolvedReference
+import * as bootstrap from "bootstrap";
+
 const closeBootstrapModal = (modal) => {
     if (typeof bootstrap === 'undefined' || !bootstrap.Modal) {
         console.warn('Bootstrap Modal is not available.');
