@@ -91,4 +91,5 @@ return [
     'invalid_configuration' => 'Invalid configuration.',
     'validation_error' => 'Validation error.',
     'could_not_initialize_image_editor' => 'Could not initialize the image editor, have you installed the "@mlbrgn/media-library-extensions" NPM package?',
+    'no_or_invalid_storage_link' => 'No or invalid storage-link.',
 ];

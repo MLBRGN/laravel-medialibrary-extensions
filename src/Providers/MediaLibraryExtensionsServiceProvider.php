@@ -230,6 +230,19 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         $this->checkBladeUIKitIconSet();
 
+        $publicStorage = public_path('storage');
+
+        // check if the storage link exists
+        if (! $this->app->runningInConsole()) {
+            $publicStorage = public_path('storage');
+
+            if (! file_exists($publicStorage) || ! is_link($publicStorage)) {
+                $message = __('media-library-extensions::messages.no_or_invalid_storage_link');
+                Log::error($message);
+                throw new RuntimeException($message);
+            }
+        }
+
     }
 
     public function register(): void

@@ -92,4 +92,5 @@ return [
     'invalid_configuration' => 'Ongeldige configuratie.',
     'validation_error' => 'Validatiefout.',
     'could_not_initialize_image_editor' => 'Kon de "image editor" niet initialiseren, heb je het NPM pakket "@mlbrgn/media-library-extensions" geïnstalleerd?',
+    'no_or_invalid_storage_link' => 'Geen of ongeldige storage link.',
 ];

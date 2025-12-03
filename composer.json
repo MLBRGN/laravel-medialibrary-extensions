@@ -42,7 +42,8 @@
     },
     "suggest": {
         "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons",
-        "mlbrgn/imageeditor": "Required for the image editor UI (install via npm or yarn)."
+        "mlbrgn/imageeditor": "Required for the image editor UI (install via npm or yarn).",
+        "ext-pdo_sqlite": "Required for the Media Library Extensions demo database."
     },
     "autoload": {
         "psr-4": {
