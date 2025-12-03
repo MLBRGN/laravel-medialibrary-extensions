@@ -1,4 +1,5 @@
 // noinspection JSUnresolvedReference
+import * as bootstrap from "bootstrap";
 
 let ytlPlayers = {}; // Store YouTube-lite players
 let nativeMediaPlayers = {};// store native media players (audio / video)
