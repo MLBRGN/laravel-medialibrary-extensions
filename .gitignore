@@ -14,3 +14,4 @@
 /storage/media-library-extensions-demo.sqlite
 /tests/Support/tmp/
 /.env.local
+/dist/js/bootstrap.esm.js
