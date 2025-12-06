@@ -365,12 +365,22 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->app->booted(function () use ($config) {
             $schedule = $this->app->make(Schedule::class);
 
+            $frequency = $config['frequency'] ?? 'daily';
+
+            // Only allow a few safe values
+            $allowedFrequencies = ['daily', 'everyMinute', 'hourly'];
+
+            if (!in_array($frequency, $allowedFrequencies)) {
+                throw new \InvalidArgumentException(
+                    "Invalid frequency '{$frequency}' in media-library-extensions config. Allowed values: " . implode(', ', $allowedFrequencies)
+                );
+            }
+
             $event = $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
-                ->{$config['frequency']}()
+                ->$frequency()  // safe because only allowed values reach here
                 ->withoutOverlapping()
                 ->onOneServer();
 
-            // Single success pingback
             if (!empty($config['pingback_success'])) {
                 $event->pingOnSuccess($config['pingback_success']);
             }
