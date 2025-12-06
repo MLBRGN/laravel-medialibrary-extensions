@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.0.9...2.1.0) (2025-12-06)
+
+
+### Features
+
+* added check in service provider to see if storage link exists. ([392d666](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/392d666415c5b3e8b304930a35dc147b09a720f8))
+* added pinback support for scheduled tasks ([902b5ee](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/902b5ee8a8a637a14593785ee94fd3e3487b262c))
+
 ## [2.0.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.0.8...2.0.9) (2025-11-27)
 
 
