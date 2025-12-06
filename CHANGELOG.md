@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.2...2.1.3) (2025-12-06)
+
+
+### Bug Fixes
+
+* changed default frequency of cleanup to daily ([9b454e8](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9b454e8948045eee9b1978a261c762cbfa419ba9))
+
 ## [2.1.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.1...2.1.2) (2025-12-06)
 
 
