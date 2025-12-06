@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.1...2.1.2) (2025-12-06)
+
+
+### Bug Fixes
+
+* disabled storage link check, caused server error ([2fa323c](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/2fa323c872e019549c67eabc80c64c7147e45ad0))
+
 ## [2.1.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.0...2.1.1) (2025-12-06)
 
 
