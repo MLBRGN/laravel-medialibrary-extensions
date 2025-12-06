@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.0...2.1.1) (2025-12-06)
+
+
+### Bug Fixes
+
+* list of allowed values for frequency ([a61b221](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a61b22104c0f09610c989e239b907cdfd04308b7))
+
 ## [2.1.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.0.9...2.1.0) (2025-12-06)
 
 
