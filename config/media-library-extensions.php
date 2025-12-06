@@ -140,7 +140,7 @@ return [
     'schedule' => [
         'cleanup' => [
             'enabled' => true,
-            'frequency' => 'everyMinute', // allowed: 'daily', 'everyMinute', 'hourly'
+            'frequency' => 'daily', // allowed: 'daily', 'everyMinute', 'hourly'
             'pingback_success' => env('MLE_CLEANUP_SUCCESS_PING', '')
         ],
     ],
