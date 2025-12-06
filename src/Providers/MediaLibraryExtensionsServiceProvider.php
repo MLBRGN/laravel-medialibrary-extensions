@@ -211,18 +211,19 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // Merge your overrides
         $this->overrideFormComponentsConfig();
 
-        // add schedule for temporary uploads cleanup
-        $config = config('media-library-extensions.schedule.cleanup');
-
-        if ($config['enabled']) {
-            $this->app->booted(function () use ($config) {
-                $schedule = $this->app->make(Schedule::class);
-                $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
-                    ->{$config['frequency']}()
-                    ->withoutOverlapping()
-                    ->onOneServer();
-            });
-        }
+        $this->registerCleanupScheduler();
+//        // add schedule for temporary uploads cleanup
+//        $config = config('media-library-extensions.schedule.cleanup');
+//
+//        if ($config['enabled']) {
+//            $this->app->booted(function () use ($config) {
+//                $schedule = $this->app->make(Schedule::class);
+//                $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
+//                    ->{$config['frequency']}()
+//                    ->withoutOverlapping()
+//                    ->onOneServer();
+//            });
+//        }
 
         $this->publishesMigrations([
             __DIR__.'/../../database/migrations' => database_path('migrations'),
@@ -353,6 +354,30 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         }
     }
 
+    protected function registerCleanupScheduler(): void
+    {
+        $config = config('media-library-extensions.schedule.cleanup');
+
+        if (!($config['enabled'] ?? false)) {
+            return;
+        }
+
+        $this->app->booted(function () use ($config) {
+            $schedule = $this->app->make(Schedule::class);
+
+            $event = $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
+                ->{$config['frequency']}()   // dynamic frequency method
+                ->withoutOverlapping()
+                ->onOneServer();
+
+            // Single success pingback
+            if (!empty($config['pingback_success'])) {
+                $event->pingOnSuccess($config['pingback_success']);
+            }
+        });
+    }
+
+    // TODO do i want this code?
     protected function checkBladeUIKitIconSet(): void
     {
         // Skip check in tests to avoid manifest issues
@@ -397,64 +422,15 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // No icon set installed
         $message = <<<MSG
-No Blade UI Kit icon set detected.
-Install one of the following (for example):
-  composer require blade-ui-kit/blade-bootstrap-icons
-  composer require blade-ui-kit/blade-heroicons
-Then optionally set 'blade_ui_kit_icon_set' in your media-library-extensions config file.
-MSG;
+            No Blade UI Kit icon set detected.
+            Install one of the following (for example):
+              composer require blade-ui-kit/blade-bootstrap-icons
+              composer require blade-ui-kit/blade-heroicons
+            Then optionally set 'blade_ui_kit_icon_set' in your media-library-extensions config file.
+        MSG;
 
         Log::error($message);
         throw new RuntimeException($message);
     }
-
-//    protected function checkBladeUIKitIconSet(): void
-//    {
-//        // 1️⃣ Ensure Blade UI Kit is available (it’s required, but we double-check)
-//        if (!class_exists(Factory::class)) {
-//            throw new RuntimeException(
-//                'The "blade-ui-kit/blade-icons" package is required but not installed. Please run: composer require blade-ui-kit/blade-icons'
-//            );
-//        }
-//
-//        /** @var Factory $factory */
-//        $factory = app(Factory::class);
-//        $registered = array_keys($factory->all());
-//
-//        // Load configured icon set namespace
-//        $configuredNamespace = config('media-library-extensions.blade_ui_kit_icon_set');
-//
-//        // 3If explicitly configured, verify it exists
-//        if ($configuredNamespace !== null) {
-//            if (!in_array($configuredNamespace, $registered, true)) {
-//                throw new RuntimeException(sprintf(
-//                    'Configured Blade UI Kit icon set namespace [%s] not found. Available namespaces: [%s]',
-//                    $configuredNamespace,
-//                    implode(', ', $registered) ?: 'none'
-//                ));
-//            }
-//
-//            config(['media-library-extensions.active_blade_ui_kit_icon_set' => $configuredNamespace]);
-//            return;
-//        }
-//
-//        // 4Otherwise, auto-detect the first registered namespace
-//        if (!empty($registered)) {
-//            config(['media-library-extensions.active_blade_ui_kit_icon_set' => $registered[0]]);
-//            return;
-//        }
-//
-//        // No icon set detected
-//        $message = <<<MSG
-//            No Blade UI Kit icon set detected.
-//            Install one of the following (for example):
-//              composer require blade-ui-kit/blade-bootstrap-icons
-//              composer require blade-ui-kit/blade-heroicons
-//            Then optionally set 'blade_ui_kit_icon_set' in your media-library-extensions config file.
-//            MSG;
-//
-//        Log::error($message);
-//        throw new RuntimeException($message);
-//    }
 
 }
