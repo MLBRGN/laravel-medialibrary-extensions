@@ -366,7 +366,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             $schedule = $this->app->make(Schedule::class);
 
             $event = $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
-                ->{$config['frequency']}()   // dynamic frequency method
+                ->{$config['frequency']}()
                 ->withoutOverlapping()
                 ->onOneServer();
 
