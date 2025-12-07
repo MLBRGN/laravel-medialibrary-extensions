@@ -249,13 +249,13 @@
                 @php
                     $blog = Blog::all()->first();
                 @endphp
-                <x-form.form 
+                <x-form-form 
                     action="{{ route('admin.blogs.update', $blog) }}" 
                     method="put" 
                     enctype="multipart/form-data"
                     class="mle-margin-block-5"
                 >
-                    <x-form.html-editor
+                    <x-form-html-editor
                         name="content"
                         label="Content *"
                         :tinymce-config="[]"
@@ -271,7 +271,7 @@
                             'image' => 'blog-images-extra',
                         ])"
                     />
-                </x-form.form>
+                </x-form-form>
             @else
                 form components not available, skipping demo
             @endif
