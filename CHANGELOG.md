@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.1.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.2...2.1.3) (2025-12-06)
+
+
+### Bug Fixes
+
+* changed default frequency of cleanup to daily ([9b454e8](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9b454e8948045eee9b1978a261c762cbfa419ba9))
+
+## [2.1.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.1...2.1.2) (2025-12-06)
+
+
+### Bug Fixes
+
+* disabled storage link check, caused server error ([2fa323c](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/2fa323c872e019549c67eabc80c64c7147e45ad0))
+
+## [2.1.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.0...2.1.1) (2025-12-06)
+
+
+### Bug Fixes
+
+* list of allowed values for frequency ([a61b221](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a61b22104c0f09610c989e239b907cdfd04308b7))
+
+## [2.1.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.0.9...2.1.0) (2025-12-06)
+
+
+### Features
+
+* added check in service provider to see if storage link exists. ([392d666](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/392d666415c5b3e8b304930a35dc147b09a720f8))
+* added pinback support for scheduled tasks ([902b5ee](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/902b5ee8a8a637a14593785ee94fd3e3487b262c))
+
 ## [2.0.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.0.8...2.0.9) (2025-11-27)
 
 

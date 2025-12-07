@@ -129,10 +129,19 @@ return [
     |
     */
 
+//    'schedule' => [
+//        'cleanup' => [
+//            'enabled' => true,
+//            'frequency' => 'everyMinute', // or 'daily', 'everyTenMinutes', etc.
+//            'pingback_url' => null, // optional pingback url (for use with "oh dear" for example)
+//        ],
+//    ],
+
     'schedule' => [
         'cleanup' => [
             'enabled' => true,
-            'frequency' => 'everyMinute', // or 'daily', 'everyTenMinutes', etc.
+            'frequency' => 'daily', // allowed: 'daily', 'everyMinute', 'hourly'
+            'pingback_success' => env('MLE_CLEANUP_SUCCESS_PING', '')
         ],
     ],
 
