@@ -3,6 +3,7 @@
     use App\Models\Blog;
 @endphp
 <!DOCTYPE html>
+<!--suppress JSUnresolvedLibraryURL -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
