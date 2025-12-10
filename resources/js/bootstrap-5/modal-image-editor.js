@@ -1,12 +1,11 @@
 // noinspection JSUnresolvedReference
-import * as bootstrap from "bootstrap";
-
 const closeBootstrapModal = (modal) => {
-    if (typeof bootstrap === 'undefined' || !bootstrap.Modal) {
-        console.warn('Bootstrap Modal is not available.');
+    const bs = window.bootstrap;
+    if (!bs) {
+        console.error("Bootstrap is not loaded. You must load bootstrap and expose window.bootstrap.");
         return;
     }
-    const modalInstance = bootstrap.Modal.getInstance(modal);
+    const modalInstance = bs.Modal.getInstance(modal);
     modalInstance.hide();
 }
 
