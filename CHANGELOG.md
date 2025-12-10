@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.5...2.1.6) (2025-12-10)
+
+
+### Bug Fixes
+
+* better bootstrap resolving using bootstrap-resolver.js ([1794f46](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/1794f46c14c6597ef92f40b8c6fbaf126a4efb3b))
+
 ## [2.1.5](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.4...2.1.5) (2025-12-10)
 
 
