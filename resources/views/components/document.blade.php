@@ -38,10 +38,10 @@
                 @elseif(in_array($medium->mime_type, $officeMimes, true))
                     @if(config('media-library-extensions.use_external_document_viewer') === 'google-docs')
                         <iframe src="https://docs.google.com/gview?url={{ urlencode($medium->getUrl()) }}&embedded=true"
-                                style="width:100%; height:600px;" frameborder="0" class="mle-document-embed"></iframe>
+                                class="mle-document-embed"></iframe>
                     @elseif(config('media-library-extensions.use_external_document_viewer') === 'microsoft-office')
                         <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($medium->getUrl()) }}"
-                                style="width:100%; height:600px;" frameborder="0" class="mle-document-embed"></iframe>
+                                class="mle-document-embed"></iframe>
                     @endif
                 @endif
             @endif
