@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.8](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.7...2.1.8) (2025-12-10)
+
+
+### Bug Fixes
+
+* added annotation for demo bootstrap, to ignore JSUnresolvedLibraryURL ([9d0cc8d](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9d0cc8dcd49e8ca353bc3c6a4ff5c9155755849c))
+
 ## [2.1.7](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.6...2.1.7) (2025-12-10)
 
 
