@@ -1,0 +1,1 @@
+function t(){const o=window.bootstrap;if(!o)throw console.error("Bootstrap is not loaded. Host app must load bootstrap and expose window.bootstrap."),new Error("Bootstrap is not loaded. Host app must load bootstrap and expose window.bootstrap.");return o}export{t as g};

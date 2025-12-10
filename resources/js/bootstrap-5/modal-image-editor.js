@@ -1,10 +1,8 @@
 // noinspection JSUnresolvedReference
+import {getMleBootstrapInstance} from "@/js/bootstrap-5/bootstrap-resolver";
+
 const closeBootstrapModal = (modal) => {
-    const bs = window.bootstrap;
-    if (!bs) {
-        console.error("Bootstrap is not loaded. You must load bootstrap and expose window.bootstrap.");
-        return;
-    }
+    const bs = getMleBootstrapInstance();
     const modalInstance = bs.Modal.getInstance(modal);
     modalInstance.hide();
 }
