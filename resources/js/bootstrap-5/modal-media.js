@@ -1,11 +1,17 @@
 // noinspection JSUnresolvedReference
-import * as bootstrap from "bootstrap";
+// import * as bootstrap from "bootstrap";
 
 let ytlPlayers = {}; // Store YouTube-lite players
 let nativeMediaPlayers = {};// store native media players (audio / video)
 
 const initializeMediaModal = function (modal) {
     if (modal.dataset.mleImageEditorInitialized) return;
+
+    const bs = window.bootstrap;
+    if (!bs) {
+        console.error("Bootstrap is not loaded. You must load bootstrap and expose window.bootstrap.");
+        return;
+    }
 
     const carousel = modal.querySelector('[data-mle-carousel]');
     const modalId = modal.id;
@@ -100,7 +106,7 @@ const initializeMediaModal = function (modal) {
         const carouselElement = modal.querySelector('[data-mle-carousel]');
         if (!carouselElement) return;
 
-        const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+        const carouselInstance = bs.Carousel.getInstance(carouselElement);
         if (!carouselInstance) return;
 
         stopAllMediaPlayBack();
@@ -140,7 +146,7 @@ const initializeMediaModal = function (modal) {
         const carouselElement = modal.querySelector('[data-mle-carousel]');
         if (!carouselElement) return;
 
-        const carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+        const carouselInstance = bs.Carousel.getInstance(carouselElement);
         if (!carouselInstance) return;
 
         const isInsideCarousel = carousel.contains(e.target);

@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.1.5](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.4...2.1.5) (2025-12-10)
+
+
+### Bug Fixes
+
+* bootstrap not bundled with extensions, host app should import bootstrap and expose it using window.bootstrap ([d0bb6b1](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/d0bb6b10ac265e516fc9abb5f6b9df34548e88a7))
+* CSP, added dynamic-loader.js to make component comply with CSP when enabled ([b1c2da5](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b1c2da56d1059ca426d71b7694d9b5d6c2ca14b7))
+
+## [2.1.4](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.3...2.1.4) (2025-12-07)
+
+
+### Bug Fixes
+
+* changed demo views now using blade components are recognized by IDE ([8720eb5](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8720eb5c68f23fcfe411221fdc3e79b63574dbb9))
+
 ## [2.1.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.2...2.1.3) (2025-12-06)
 
 
