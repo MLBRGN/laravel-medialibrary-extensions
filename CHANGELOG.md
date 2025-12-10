@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.7](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.6...2.1.7) (2025-12-10)
+
+
+### Bug Fixes
+
+* removed frameborder from iframe (deprecated) using border:0 in css class now ([e08ca4b](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e08ca4b1a856578dc24500ac60944e32826f9779))
+* removed inline styles (CSP compatibility) ([e08ca4b](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e08ca4b1a856578dc24500ac60944e32826f9779))
+
 ## [2.1.6](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.5...2.1.6) (2025-12-10)
 
 
