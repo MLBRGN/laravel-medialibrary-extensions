@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.8...2.1.9) (2025-12-13)
+
+
+### Bug Fixes
+
+* duplicate database table mle_temporary_uploads ([b591677](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b591677b0fd73a001e23e74e9f10d573c005fefe))
+
 ## [2.1.8](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.7...2.1.8) (2025-12-10)
 
 
