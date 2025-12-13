@@ -62,7 +62,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="0"
-        src="/media/1/test.jpg?v=1764202011592"
+        src="/media/1/test.jpg?v=1765666060102"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -76,7 +76,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-crs-mod-crs" data-bs-slide-to="1"
-        src="/media/2/test2.jpg?v=1764202011593"
+        src="/media/2/test2.jpg?v=1765666060103"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -116,41 +116,14 @@
         <span class="mle-visually-hidden">Next</span>
     </button>
 </div>
-<script>
-            if (!document.getElementById('mlbrgn-css-bootstrap-5')) {
-                const link = document.createElement('link');
-                link.id = 'mlbrgn-css-bootstrap-5';
-                link.rel = 'stylesheet';
-                link.href = "http://localhost/vendor/mlbrgn/media-library-extensions/css/app-bootstrap-5.css";
-                document.head.appendChild(link);
-                console.log('CSS dynamically loaded');
-            }
-        </script>
-
-        
-        <noscript>
-            <link rel="stylesheet" href="http://localhost/vendor/mlbrgn/media-library-extensions/css/app-bootstrap-5.css">
-            <div style="color:red;">
-                JavaScript is disabled. Some features may not work.
-            </div>
-        </noscript>
-    
+<div id="mlbrgn-asset-config"
+     data-config='{"theme":"bootstrap-5","includeCss":true,"includeJs":true,"includeCarouselJs":true,"includeTinymceIframeJs":false,"includeImageEditorModalJs":false,"includeMediaModalJs":false,"includeImageEditorJs":false,"includeMediaManagerSubmitter":false,"includeMediaManagerLabSubmitter":false,"includeLiteYoutube":true,"translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}'
+     style="display:none"></div>
 
 
-            <script type="module">
-            if (!window.mlbrgnJsLoaded) {
-                const script = document.createElement('script');
-                script.type = 'module';
-                script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/root/app-bootstrap-5.js";
-                document.head.appendChild(script);
-                window.mlbrgnJsLoaded = true;
-
-                window.mediaLibraryTranslations = {"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."};
-
-                console.log('Main JS dynamically loaded');
-            }
-        </script>
-    
+<script type="module"
+        src="http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/dynamic-loader.js">
+</script>
 
 
 
@@ -171,41 +144,375 @@
 
 
 
-            <script type="module">
-            document.addEventListener('DOMContentLoaded', function() {
-                if (!window.YT) {
-                    const tag = document.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api";
-                    document.head.appendChild(tag);
-                }
 
-                if (!customElements.get('lite-youtube')) {
-                    console.log('no lite-youtube, loading');
-                    const script = document.createElement('script');
-                    script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/lite-youtube.js";
-                    document.head.appendChild(script);
-                } else {
-                    console.log('lite-youtube already present');
-                }
-            });
-        </script>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             </div>
         </div>
     </div>
 </div>
-<script type="module">
-        if (!window.mleMediaModalJs) {
-            const script = document.createElement('script');
-            script.type = 'module';
-            script.src = "http://localhost/vendor/mlbrgn/media-library-extensions/js/bootstrap-5/modal-media.js";
-            document.head.appendChild(script);
-            window.mleMediaModalJs = true;
+<div id="mlbrgn-asset-config"
+     data-config='{"theme":"bootstrap-5","includeCss":true,"includeJs":true,"includeCarouselJs":false,"includeTinymceIframeJs":false,"includeImageEditorModalJs":false,"includeMediaModalJs":true,"includeImageEditorJs":false,"includeMediaManagerSubmitter":false,"includeMediaManagerLabSubmitter":false,"includeLiteYoutube":false,"translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}'
+     style="display:none"></div>
 
-            console.log('mleMediaModalJs');
-        }
-    </script>
+
+<script type="module"
+        src="http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/dynamic-loader.js">
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

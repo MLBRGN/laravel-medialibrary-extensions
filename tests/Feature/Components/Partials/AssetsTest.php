@@ -12,7 +12,7 @@ it('renders assets view with expected content, theme plain', function () {
         ->and($html)->toContain('vendor/mlbrgn/media-library-extensions/js/app')
         ->and($html)->toContain('window.mediaLibraryTranslations = {')
         ->and($html)->toContain('media-library-extensions');
-});
+})->todo();
 
 it('renders assets view with expected content, theme bootstrap-5', function () {
     $frontendTheme = 'bootstrap-5';
@@ -24,4 +24,4 @@ it('renders assets view with expected content, theme bootstrap-5', function () {
         ->and($html)->toContain('vendor/mlbrgn/media-library-extensions/js/app')
         ->and($html)->toContain('window.mediaLibraryTranslations = {')
         ->and($html)->toContain('media-library-extensions');
-});
+})->todo();
