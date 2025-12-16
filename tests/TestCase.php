@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
-use BladeUI\Icons\IconsManifest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -39,6 +38,10 @@ class TestCase extends Orchestra
 
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
+
+        // Run package migrations
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
         Carbon::setTestNow('2025-01-01 00:00:00');
 
         $this->testModel = Blog::create(['title' => 'Test Model']);
@@ -112,7 +115,7 @@ class TestCase extends Orchestra
 
         View::addLocation(__DIR__.'/Feature/views');
 
-        // Load media library config (needed for tests that interact with media library to work)
+        // Load media library config (needed for tests that interact with the media library to work)
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
         // configure database
@@ -143,7 +146,7 @@ class TestCase extends Orchestra
 
     protected function defineDatabaseMigrations(): void
     {
-        // also loads migrations from service provider!!!
+        // also loads migrations from the service provider!!!
         $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
     }
@@ -196,7 +199,7 @@ class TestCase extends Orchestra
             basename($fileName),
             mime_content_type($path) ?: null,
             null,
-            true // mark as test file
+            true // mark as a test file
         );
     }
 
@@ -239,7 +242,7 @@ class TestCase extends Orchestra
             $name,
             $mimeType,
             null,
-            true // mark it as test file
+            true // mark it as a test file
         );
     }
 

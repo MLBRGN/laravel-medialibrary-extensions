@@ -81,7 +81,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/1/test.jpg?v=1765666059809"
+        src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
     >
@@ -95,7 +95,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false"
-        src="/media/2/test2.jpg?v=1765666059810"
+        src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
     >

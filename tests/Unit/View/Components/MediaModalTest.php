@@ -93,6 +93,7 @@ it('renders the correct html multiple collections (plain)', function () {
             ],
         ]
     );
+    $html = preg_replace('/\?v=\d+/', '', $html);
     expect($html)->toMatchSnapshot();
 });
 
@@ -121,6 +122,7 @@ it('renders the correct html multiple collections (bootstrap-5)', function () {
             ],
         ]
     );
+    $html = preg_replace('/\?v=\d+/', '', $html);
     expect($html)->toMatchSnapshot();
 });
 
@@ -143,6 +145,7 @@ it('renders the correct html single collection (plain)', function () {
             ],
         ]
     );
+    $html = preg_replace('/\?v=\d+/', '', $html);
     expect($html)->toMatchSnapshot();
 });
 
@@ -165,6 +168,7 @@ it('renders the correct html single collection (bootstrap-5)', function () {
             ],
         ]
     );
+    $html = preg_replace('/\?v=\d+/', '', $html);
     expect($html)->toMatchSnapshot();
 });
 

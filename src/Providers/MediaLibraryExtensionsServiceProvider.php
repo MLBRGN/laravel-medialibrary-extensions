@@ -103,10 +103,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
 
             // needed for testing
-            if ($this->app->environment('testing')) {
-                // Only load migrations for testing
-                $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-            }
+//            if ($this->app->environment('testing')) {
+//                // Only load migrations for testing
+//                $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+//            }
 
             $this->commands([
                 ResetMediaLibraryExtensions::class,
