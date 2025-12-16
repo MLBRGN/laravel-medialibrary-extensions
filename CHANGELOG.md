@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.10](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.9...2.1.10) (2025-12-16)
+
+
+### Bug Fixes
+
+* duplicate migrations, added loadMigrationsFrom to setup method in TestCase instead of the service provider. fixed test (cachebusting on images caused snapshots to not match) ([c88b5fb](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/c88b5fb3a6789068a93a301f3e35f254cb3c5c4f))
+
 ## [2.1.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.8...2.1.9) (2025-12-13)
 
 
