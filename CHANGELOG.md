@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.11...2.1.12) (2026-01-16)
+
+
+### Bug Fixes
+
+* testing TemporaryUploadPromoter and considering disk config ([9bc37c9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9bc37c9e3deee06a0c070d0e478bca6091dfa1a3))
+
 ## [2.1.11](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.10...2.1.11) (2026-01-16)
 
 
