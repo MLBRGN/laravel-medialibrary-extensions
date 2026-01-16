@@ -29,18 +29,27 @@ class TemporaryUploadPromoter
 
         foreach ($temporaryUploads as $temporaryUpload) {
             $media = $this->promote($model, $temporaryUpload);
-            $temporaryUploadUrl = $temporaryUpload->getUrl();
 
-            // Replace URLs inside HTML editor fields
-            if ($media && $temporaryUploadUrl) {
-                foreach ($model->getHtmlEditorFields() as $field) {
-                    if (! empty($model->{$field})) {
-                        Log::info("replace {$temporaryUploadUrl} with {$media->getUrl()}");
-                        $newValue = str_replace($temporaryUploadUrl, $media->getUrl(), $model->{$field});
-                        if ($newValue !== $model->{$field}) {
-                            $model->{$field} = $newValue;
-                            $dirty = true;
-                        }
+            if (! $media) {
+                continue; // skip if promotion failed
+            }
+
+            $filename = preg_quote($temporaryUpload->getNameWithExtension(), '#');
+
+            // Match either absolute or relative URL to the temp file
+            $pattern = "#(https?:\/\/[^\"'>]+)?/storage/media_temporary/{$filename}#";
+
+            $mediaUrl = $media->getUrl();
+
+            foreach ($model->getHtmlEditorFields() as $field) {
+                if (!empty($model->{$field})) {
+                    $oldContent = $model->{$field};
+                    $newContent = preg_replace($pattern, $mediaUrl, $oldContent);
+
+                    if ($newContent !== $oldContent) {
+                        $model->{$field} = $newContent;
+                        $dirty = true;
+                        Log::info("TemporaryUploadPromoter: replaced temporary URL with permanent media URL for {$filename}");
                     }
                 }
             }
@@ -57,6 +66,48 @@ class TemporaryUploadPromoter
             $model->saveQuietly();
         }
     }
+
+
+//    public function promoteAllForModel(Model $model): void
+//    {
+//        $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
+//
+//        if ($temporaryUploads->isEmpty()) {
+//            return;
+//        }
+//
+//        $dirty = false;
+//
+//        foreach ($temporaryUploads as $temporaryUpload) {
+//            $media = $this->promote($model, $temporaryUpload);
+//            $temporaryUploadUrl = $temporaryUpload->getUrl();
+//
+//            // Replace URLs inside HTML editor fields
+//            if ($media && $temporaryUploadUrl) {
+//                foreach ($model->getHtmlEditorFields() as $field) {
+//                    if (! empty($model->{$field})) {
+//                        Log::info("TemporaryUploadPromoter: replace {$temporaryUploadUrl} with {$media->getUrl()}");
+//                        $newValue = str_replace($temporaryUploadUrl, $media->getUrl(), $model->{$field});
+//                        if ($newValue !== $model->{$field}) {
+//                            $model->{$field} = $newValue;
+//                            $dirty = true;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // Remove the temporary file and record
+//            if (Storage::disk($temporaryUpload->disk)->exists($temporaryUpload->path)) {
+//                Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
+//            }
+//
+//            $temporaryUpload->delete();
+//        }
+//
+//        if ($dirty) {
+//            $model->saveQuietly();
+//        }
+//    }
 
     /**
      * Promote a single TemporaryUpload record to a Spatie Media record.
