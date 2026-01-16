@@ -255,10 +255,78 @@ class TestCase extends Orchestra
         File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
     }
 
-    protected function createTemporaryUpload(array $attributes = [])
+
+    /**
+     * Helper: create a temporary upload record
+     */
+    protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
     {
-        return TemporaryUploadFactory::new()->create($attributes);
+        $disk = $attributes['disk'] ?? 'public';
+
+        $defaults = [
+            'disk' => $disk,
+            'path' => 'test.png',
+            'name' => 'test',
+            'file_name' => 'test.png',
+            'collection_name' => 'default',
+            'mime_type' => 'image/jpeg',
+            'size' => 123,
+            'session_id' => session()->getId(),
+            'custom_properties' => [],
+            'order_column' => null,
+            'user_id' => null,
+        ];
+
+        $attributes = array_merge($defaults, $attributes);
+
+        Storage::disk($disk)->put($attributes['path'], 'fake image content');
+
+        return TemporaryUpload::create($attributes);
     }
+
+
+//    protected function createTemporaryUpload(array $attributes = [])
+//    {
+//        return TemporaryUploadFactory::new()->create($attributes);
+//    }
+//
+//
+//    function createTemporaryUpload(string $filename): TemporaryUpload {
+//        Storage::disk('public')->put(
+//            "media_temporary/{$filename}",
+//            'fake image'
+//        );
+//
+//        return TemporaryUpload::create([
+//            'disk' => 'public',
+//            'path' => "media_temporary/{$filename}",
+//            'name' => pathinfo($filename, PATHINFO_FILENAME),
+//            'extension' => pathinfo($filename, PATHINFO_EXTENSION),
+//            'collection_name' => 'default',
+//            'session_id' => session()->getId(),
+//        ]);
+//    }
+
+//    protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
+//    {
+//        $attributes = array_merge([
+//            'disk' => 'public',
+//            'path' => 'media_temporary/test.png',
+//            'name' => 'test',
+////            'extension' => 'png',
+//            'collection_name' => 'default',
+//            'session_id' => session()->getId(),
+//        ], $attributes);
+//
+//        // Create fake file
+//        Storage::disk($attributes['disk'])->put(
+//            $attributes['path'],
+//            'fake image'
+//        );
+//
+//        return TemporaryUploadFactory::new()->create($attributes);
+//    }
+
 
     public function getUser(): User
     {
@@ -465,6 +533,7 @@ class TestCase extends Orchestra
      * @param  array  $customProperties  Extra custom_properties
      * @param  array  $generatedConversions  Conversion map (e.g. ['thumb' => true])
      * @param  bool  $mock  Return a Mockery mock instead of a real model
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Media|\Mockery\LegacyMockInterface
      */
     public function getMedium(
         ?string $fileName = 'test.jpg',
