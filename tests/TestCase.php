@@ -203,28 +203,6 @@ class TestCase extends Orchestra
         );
     }
 
-    //    public function getFixtureUploadedFile($fileName): UploadedFile
-    //    {
-    //        dump('getFixtureUploadedFile '. $fileName);
-    //        $path = $this->getTempDirectory('uploads/'.$fileName);
-    //
-    //        dump($path);
-    //        try {
-    //            $mimeType = mime_content_type($path);
-    //        } catch (\Exception $e) {
-    //            dump('failed to get mime type');
-    //            dump($fileName);
-    //            $mimeType = 'not found';
-    //        }
-    //        return new UploadedFile(
-    //            path: $path,
-    //            originalName: basename($fileName),
-    //            mimeType: $mimeType,
-    //            error: null,
-    //            test: true, // mark as test upload (so no real upload validation)
-    //        );
-    //    }
-
     protected function getUploadedFile(
         string $name = 'test.jpg',
         int $sizeInKb = 10,
@@ -283,50 +261,6 @@ class TestCase extends Orchestra
 
         return TemporaryUpload::create($attributes);
     }
-
-
-//    protected function createTemporaryUpload(array $attributes = [])
-//    {
-//        return TemporaryUploadFactory::new()->create($attributes);
-//    }
-//
-//
-//    function createTemporaryUpload(string $filename): TemporaryUpload {
-//        Storage::disk('public')->put(
-//            "media_temporary/{$filename}",
-//            'fake image'
-//        );
-//
-//        return TemporaryUpload::create([
-//            'disk' => 'public',
-//            'path' => "media_temporary/{$filename}",
-//            'name' => pathinfo($filename, PATHINFO_FILENAME),
-//            'extension' => pathinfo($filename, PATHINFO_EXTENSION),
-//            'collection_name' => 'default',
-//            'session_id' => session()->getId(),
-//        ]);
-//    }
-
-//    protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
-//    {
-//        $attributes = array_merge([
-//            'disk' => 'public',
-//            'path' => 'media_temporary/test.png',
-//            'name' => 'test',
-////            'extension' => 'png',
-//            'collection_name' => 'default',
-//            'session_id' => session()->getId(),
-//        ], $attributes);
-//
-//        // Create fake file
-//        Storage::disk($attributes['disk'])->put(
-//            $attributes['path'],
-//            'fake image'
-//        );
-//
-//        return TemporaryUploadFactory::new()->create($attributes);
-//    }
-
 
     public function getUser(): User
     {
