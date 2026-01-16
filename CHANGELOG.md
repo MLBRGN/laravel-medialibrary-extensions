@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.11](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.10...2.1.11) (2026-01-16)
+
+
+### Bug Fixes
+
+* TemporaryUploadPromoter.php mixed absolute and relative urls and thus not working ([ce6103f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/ce6103fb6dd0beafb408e8833d2fcb761b074512))
+
 ## [2.1.10](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.9...2.1.10) (2025-12-16)
 
 
