@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -113,21 +114,23 @@ class StoreMultipleTemporaryAction
             }
 
             $originalName = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-') . '.' . $extension;
+
             $directory = "{$basePath}";
             $sessionId = $request->session()->getId();
-            $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
-            $extension = $file->getClientOriginalExtension();
-            $filename = "{$safeFilename}.{$extension}";
+//            $filename = "{$safeFilename}.{$extension}";
 
             // Store file
-            Storage::disk($disk)->putFileAs($directory, $file, $filename);
+            Storage::disk($disk)->putFileAs($directory, $file, $safeFilename);
 
             // Create DB record
             $upload = new TemporaryUpload([
                 'disk' => $disk,
-                'path' => "{$directory}/{$filename}",
+                'path' => "{$directory}/{$safeFilename}",
                 'name' => $safeFilename,
-                'file_name' => $originalName,
+//                'name' => pathinfo($safeFilename, PATHINFO_FILENAME),
+                'file_name' => $safeFilename,// no unicode (this causes problems with replacement of image source)
                 'collection_name' => $collectionName,
                 'mime_type' => $file->getMimeType(),
                 'size' => $file->getSize(),

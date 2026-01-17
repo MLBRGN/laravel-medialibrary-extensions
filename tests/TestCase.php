@@ -233,12 +233,16 @@ class TestCase extends Orchestra
         File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
     }
 
-
     /**
      * Helper: create a temporary upload record
      */
     protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
     {
+//        dump([
+//            'helper_session' => session()->getId(),
+//            'request_session' => optional(request()->session())->getId(),
+//        ]);
+
         $disk = $attributes['disk'] ?? 'public';
 
         $defaults = [
@@ -539,5 +543,27 @@ class TestCase extends Orchestra
     public function getMedia(...$args): Media
     {
         return $this->getMedium(...$args);
+    }
+
+    /**
+     * Prepare a filename for testing with MediaLibrary.
+     * Keeps original Unicode in HTML, but replaces unsafe characters for disk storage.
+     */
+    protected function prepareFilenameForTest(string $filename): array
+    {
+        // Unsafe characters: control chars, soft hyphen, zero-width spaces
+        $unsafeChars = [
+            "\u{00AD}", // soft hyphen
+            "\u{200B}", // zero-width space
+            "\u{200C}", // zero-width non-joiner
+            "\u{200D}", // zero-width joiner
+        ];
+
+        $safeFilename = str_replace($unsafeChars, '-', $filename); // replace with safe dash
+
+        return [
+            'html' => $filename,      // original filename with invisible chars
+            'disk' => $safeFilename,  // sanitized filename for storage
+        ];
     }
 }
