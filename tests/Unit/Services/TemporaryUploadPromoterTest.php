@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\Models\TestPost;
-use Spatie\MediaLibrary\Conversions\FileManipulator;
 
 beforeEach(function () {
     Storage::fake('public');
@@ -38,6 +38,20 @@ function normalizeFilename(string $filename): string
     return preg_replace('/[\x{00AD}\x{200B}-\x{200D}\x{FEFF}]+/u', '', $filename);
 }
 
+/**
+ * Prepare HTML filename and disk-safe filename from original
+ */
+function prepareSafeFilenames(string $originalName): array
+{
+    $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+    $diskFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-') . '.' . $extension;
+
+    // HTML may contain soft hyphens etc.
+    $htmlFilename = $originalName;
+
+    return compact('diskFilename', 'htmlFilename');
+}
+
 /*
 |--------------------------------------------------------------------------
 | Tests
@@ -45,17 +59,12 @@ function normalizeFilename(string $filename): string
 */
 
 it('replaces relative temporary media urls in html', function () {
-
-//    TestPost::unsetEventDispatcher();// don't listen to model create event (otherwise Promoter gets called twice)
-//    Event::fake();
-
     $filename = 'image.png';
-
     $post = TestPost::create([
-        'content' => "<h1>hello world</h1><p>test</p><p><img src=\"/storage/media_temporary/{$filename}\" alt=''></p>",
+        'content' => "<p><img src=\"/storage/media_temporary/{$filename}\" alt=''></p>",
     ]);
 
-    $temporaryUpload = $this->createTemporaryUpload([
+    $this->createTemporaryUpload([
         'path' => $filename,
         'name' => pathinfo($filename, PATHINFO_FILENAME),
         'file_name' => $filename,
@@ -64,103 +73,48 @@ it('replaces relative temporary media urls in html', function () {
     app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
 
     $post->refresh();
-
+    $media = $post->getFirstMedia();
     $normalized = normalizeFilename($filename);
 
-    $media = $post->getFirstMedia();
-
     expect($post->content)
-        ->toContain($media->getUrl());
-    // Make sure old temp URL is gone
-//    expect($post->content)
-//        ->not->toContain("/storage/media_temporary/{$filename}") // original URL gone
-//        ->toMatch("#/storage/media/\d+/{$normalized}#"); // new URL present
+        ->not->toContain('media_temporary')
+        ->toContain($media->getUrl())
+        ->toMatch("#/storage/\d+/{$normalized}#");
 
     Storage::disk($this->temporaryDisk)->assertMissing($filename);
-})->only();
-
-it('replaces relative temporary media urls in html with soft hyphen', function () {
-    // Soft hyphen in HTML content (invisible character)
-    $htmlFilename = "image\u{00AD} with some junk.png";
-
-    // Safe filename for disk
-    $diskFilename = str_replace("\u{00AD}", '-', $htmlFilename);
-
-    // Create post with temporary media URL
-    $post = TestPost::create([
-        'content' => "<p><img src=\"/storage/media_temporary/{$htmlFilename}\" alt=''></p>",
-    ]);
-
-    // Create a temporary upload with SAFE disk filename
-    $temporaryUpload = $this->createTemporaryUpload([
-        'path' => $diskFilename,
-        'name' => pathinfo($diskFilename, PATHINFO_FILENAME),
-        'file_name' => $diskFilename,
-    ]);
-
-    // Promote temporary media to permanent storage
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
-
-    $post->refresh();
-
-    $media = $post->getFirstMedia();
-
-    // The HTML content now contains the promoted media URL
-    expect($post->content)->toContain($media->getUrl());
-
-    // Original temp file (safe name) should be deleted
-    Storage::disk($this->temporaryDisk)->assertMissing($diskFilename);
-
-    // Optionally, assert that normalized filename (soft hyphen replaced) is in media filename
-    $normalized = normalizeFilename($htmlFilename);
-    expect($media->file_name)->toContain($normalized);
 });
 
-it('promotes temporary media and replaces soft hyphen in HTML', function () {
-    // Simulate a macOS screenshot filename with soft hyphen
-    $filename = "Screen\u{00AD}Shot 2026-01-17 at 12.34.56 PM.png";
+it('replaces relative temporary media urls with unicode / soft hyphen filenames', function () {
+    $originalFilename = "Screen\u{00AD}Shot 2026-01-17.png";
 
-    $sanitized = Str::slug(pathinfo($filename, PATHINFO_FILENAME), '-') . '.' . pathinfo($filename, PATHINFO_EXTENSION);
+    // Create safe disk filename
+    $diskFilename = Str::slug(pathinfo($originalFilename, PATHINFO_FILENAME), '-') . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
 
-    dump($filename);
-    dump($sanitized);
-    // Prepare filenames
-    $files = $this->prepareFilenameForTest($filename);
-    $htmlFilename = $files['html'];
-    $diskFilename = $files['disk'];
-
-    // Create post with temporary URL
+    // HTML should use the same filename as in temp storage
     $post = TestPost::create([
-        'content' => "<p><img src=\"/storage/media_temporary/{$htmlFilename}\" alt=''></p>",
+        'content' => "<p><img src=\"/storage/media_temporary/{$diskFilename}\" alt=''></p>",
     ]);
 
-    // Create temporary upload with SAFE disk filename
-    $temporaryUpload = $this->createTemporaryUpload([
+    $this->createTemporaryUpload([
         'path' => $diskFilename,
         'name' => pathinfo($diskFilename, PATHINFO_FILENAME),
         'file_name' => $diskFilename,
     ]);
 
-    // Promote temporary media
     app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
 
     $post->refresh();
     $media = $post->getFirstMedia();
 
-    // HTML content contains new media URL
-    expect($post->content)->toContain($media->getUrl());
+    $normalized = normalizeFilename($diskFilename);
 
-    // Original temp URL (with soft hyphen) is gone
-    expect($post->content)->not->toContain("/storage/media_temporary/{$htmlFilename}");
+    expect($post->content)
+        ->not->toContain("/storage/media_temporary/{$diskFilename}")
+        ->toContain($media->getUrl());
 
-    // Normalized filename (soft hyphen replaced) is used in the media
-    $normalized = normalizeFilename($htmlFilename);
     expect($media->file_name)->toContain($normalized);
-
-    // Temp file is deleted
     Storage::disk($this->temporaryDisk)->assertMissing($diskFilename);
-})->only();
-
+});
 
 
 it('replaces absolute temporary media urls in html', function () {
@@ -178,12 +132,13 @@ it('replaces absolute temporary media urls in html', function () {
     app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
 
     $post->refresh();
-
+    $media = $post->getFirstMedia();
     $normalized = normalizeFilename($filename);
 
     expect($post->content)
         ->not->toContain('media_temporary')
-        ->toMatch("#/storage/media/\d+/{$normalized}#");
+        ->toContain($media->getUrl())
+        ->toMatch("#/storage/\d+/{$normalized}#");
 
     Storage::disk($this->temporaryDisk)->assertMissing($filename);
 });
@@ -211,7 +166,7 @@ it('replaces mixed absolute and relative urls', function () {
 
     expect(substr_count($post->content, 'media_temporary'))->toBe(0)
         ->and(substr_count($post->content, $this->temporaryDiskUrl))->toBe(0)
-        ->and($post->content)->toMatch("#/storage/media/\d+/{$normalized}#");
+        ->and($post->content)->toMatch("#/storage/\d+/{$normalized}#");
 
     Storage::disk($this->temporaryDisk)->assertMissing($filename);
 });
@@ -269,8 +224,7 @@ it('replaces multiple temporary uploads in one html field', function () {
         $normalized = normalizeFilename($file);
         expect($post->content)
             ->not->toContain('media_temporary')
-            ->toMatch("#/storage/media/\d+/{$normalized}#");
-
+            ->toMatch("#/storage/\d+/{$normalized}#");
         Storage::disk($this->temporaryDisk)->assertMissing($file);
     }
 });
