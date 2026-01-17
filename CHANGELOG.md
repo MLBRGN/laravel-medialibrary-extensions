@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.13](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.12...2.1.13) (2026-01-17)
+
+
+### Bug Fixes
+
+* only using safe filename (slugged) so that unicode characters are removed to make image replacement in html easier and relialbe ([9560edc](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9560edc88f07db550832a54f4c58d6bd03346f23))
+
 ## [2.1.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.11...2.1.12) (2026-01-16)
 
 
