@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -78,6 +79,7 @@ class StoreSingleTemporaryAction
         }
 
         $originalName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
         $mimetype = $file->getMimeType();
         $collectionType = $this->mediaService->determineCollectionType($file);
         $collectionName = $collections[$collectionType] ?? null;
@@ -114,18 +116,18 @@ class StoreSingleTemporaryAction
         }
 
         // Save the new file
-        $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
-        $extension = $file->getClientOriginalExtension();
-        $filename = "{$safeFilename}.{$extension}";
+        $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-') . '.' . $extension;
+//        $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
+//        $filename = "{$safeFilename}.{$extension}";
         $directory = "{$basePath}";
 
-        Storage::disk($disk)->putFileAs($directory, $file, $filename);
+        Storage::disk($disk)->putFileAs($directory, $file, $safeFilename);
 
         $upload = new TemporaryUpload([
             'disk' => $disk,
-            'path' => "{$directory}/{$filename}",
+            'path' => "{$directory}/{$safeFilename}",
             'name' => $safeFilename,
-            'file_name' => $originalName,
+            'file_name' => $safeFilename,// no unicode (this causes problems with replacement of image source)
             'collection_name' => $collectionName,
             'mime_type' => $mimetype,
             'size' => $file->getSize(),
@@ -144,7 +146,7 @@ class StoreSingleTemporaryAction
             $initiatorId,
             $mediaManagerId,
             __('media-library-extensions::messages.upload_success'),
-            ['saved_file' => $filename]
+            ['saved_file' => $safeFilename]
         );
     }
 }

@@ -203,28 +203,6 @@ class TestCase extends Orchestra
         );
     }
 
-    //    public function getFixtureUploadedFile($fileName): UploadedFile
-    //    {
-    //        dump('getFixtureUploadedFile '. $fileName);
-    //        $path = $this->getTempDirectory('uploads/'.$fileName);
-    //
-    //        dump($path);
-    //        try {
-    //            $mimeType = mime_content_type($path);
-    //        } catch (\Exception $e) {
-    //            dump('failed to get mime type');
-    //            dump($fileName);
-    //            $mimeType = 'not found';
-    //        }
-    //        return new UploadedFile(
-    //            path: $path,
-    //            originalName: basename($fileName),
-    //            mimeType: $mimeType,
-    //            error: null,
-    //            test: true, // mark as test upload (so no real upload validation)
-    //        );
-    //    }
-
     protected function getUploadedFile(
         string $name = 'test.jpg',
         int $sizeInKb = 10,
@@ -255,9 +233,37 @@ class TestCase extends Orchestra
         File::copyDirectory(__DIR__.'/Support/files', $this->getTemporaryUploadsDirectory());
     }
 
-    protected function createTemporaryUpload(array $attributes = [])
+    /**
+     * Helper: create a temporary upload record
+     */
+    protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
     {
-        return TemporaryUploadFactory::new()->create($attributes);
+//        dump([
+//            'helper_session' => session()->getId(),
+//            'request_session' => optional(request()->session())->getId(),
+//        ]);
+
+        $disk = $attributes['disk'] ?? 'public';
+
+        $defaults = [
+            'disk' => $disk,
+            'path' => 'test.png',
+            'name' => 'test',
+            'file_name' => 'test.png',
+            'collection_name' => 'default',
+            'mime_type' => 'image/jpeg',
+            'size' => 123,
+            'session_id' => session()->getId(),
+            'custom_properties' => [],
+            'order_column' => null,
+            'user_id' => null,
+        ];
+
+        $attributes = array_merge($defaults, $attributes);
+
+        Storage::disk($disk)->put($attributes['path'], 'fake image content');
+
+        return TemporaryUpload::create($attributes);
     }
 
     public function getUser(): User
@@ -465,6 +471,7 @@ class TestCase extends Orchestra
      * @param  array  $customProperties  Extra custom_properties
      * @param  array  $generatedConversions  Conversion map (e.g. ['thumb' => true])
      * @param  bool  $mock  Return a Mockery mock instead of a real model
+     * @return \Spatie\MediaLibrary\MediaCollections\Models\Media|\Mockery\LegacyMockInterface
      */
     public function getMedium(
         ?string $fileName = 'test.jpg',
@@ -536,5 +543,27 @@ class TestCase extends Orchestra
     public function getMedia(...$args): Media
     {
         return $this->getMedium(...$args);
+    }
+
+    /**
+     * Prepare a filename for testing with MediaLibrary.
+     * Keeps original Unicode in HTML, but replaces unsafe characters for disk storage.
+     */
+    protected function prepareFilenameForTest(string $filename): array
+    {
+        // Unsafe characters: control chars, soft hyphen, zero-width spaces
+        $unsafeChars = [
+            "\u{00AD}", // soft hyphen
+            "\u{200B}", // zero-width space
+            "\u{200C}", // zero-width non-joiner
+            "\u{200D}", // zero-width joiner
+        ];
+
+        $safeFilename = str_replace($unsafeChars, '-', $filename); // replace with safe dash
+
+        return [
+            'html' => $filename,      // original filename with invisible chars
+            'disk' => $safeFilename,  // sanitized filename for storage
+        ];
     }
 }

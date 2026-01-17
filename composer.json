@@ -60,7 +60,6 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true,
     "extra": {
         "laravel": {
             "providers": [
@@ -74,10 +73,7 @@
         },
         "sort-packages": true,
         "preferred-install": "dist",
-        "optimize-autoloader": true,
-        "platform": {
-            "php": "8.3"
-        }
+        "optimize-autoloader": true
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",

@@ -1,5 +1,68 @@
 # Changelog
 
+## [2.2.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.2.0...2.2.1) (2026-01-17)
+
+
+### Bug Fixes
+
+* removed dumps ([6938932](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/6938932975f1c13555458f2ee4f59e614a4e8198))
+
+## [2.2.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.13...2.2.0) (2026-01-17)
+
+
+### Features
+
+* added aliases to commands ([6e0f8f4](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/6e0f8f46612a2d129ebceca57fb02aeb819518c7))
+* added check in service provider to see if storage link exists. ([392d666](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/392d666415c5b3e8b304930a35dc147b09a720f8))
+* added pinback support for scheduled tasks ([902b5ee](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/902b5ee8a8a637a14593785ee94fd3e3487b262c))
+
+
+### Bug Fixes
+
+* added annotation for demo bootstrap, to ignore JSUnresolvedLibraryURL ([9d0cc8d](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9d0cc8dcd49e8ca353bc3c6a4ff5c9155755849c))
+* added comment to test please-release ([77772b9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/77772b9dc19b2e1567c830e4aa3c07d385730a8b))
+* better bootstrap resolving using bootstrap-resolver.js ([1794f46](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/1794f46c14c6597ef92f40b8c6fbaf126a4efb3b))
+* bootstrap not bundled with extensions, host app should import bootstrap and expose it using window.bootstrap ([d0bb6b1](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/d0bb6b10ac265e516fc9abb5f6b9df34548e88a7))
+* changed default frequency of cleanup to daily ([9b454e8](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9b454e8948045eee9b1978a261c762cbfa419ba9))
+* changed demo views now using blade components are recognized by IDE ([8720eb5](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8720eb5c68f23fcfe411221fdc3e79b63574dbb9))
+* CSP, added dynamic-loader.js to make component comply with CSP when enabled ([b1c2da5](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b1c2da56d1059ca426d71b7694d9b5d6c2ca14b7))
+* disabled storage link check, caused server error ([2fa323c](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/2fa323c872e019549c67eabc80c64c7147e45ad0))
+* duplicate database table mle_temporary_uploads ([b591677](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b591677b0fd73a001e23e74e9f10d573c005fefe))
+* duplicate migrations, added loadMigrationsFrom to setup method in TestCase instead of the service provider. fixed test (cachebusting on images caused snapshots to not match) ([c88b5fb](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/c88b5fb3a6789068a93a301f3e35f254cb3c5c4f))
+* image editor loading again. ([b944123](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b94412352f41ae3bd5d00118481988c77efcf8ed))
+* list of allowed values for frequency ([a61b221](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a61b22104c0f09610c989e239b907cdfd04308b7))
+* only using safe filename (slugged) so that unicode characters are removed to make image replacement in html easier and relialbe ([9560edc](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9560edc88f07db550832a54f4c58d6bd03346f23))
+* path to tinymce-custom-file-picker.js ([841837e](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/841837ef7852a8fdcae5ae33b70c55c13f775512))
+* publish assets without namespace and update docs with publishing examples ([8afda79](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8afda7973eda74ebb8d33975c0ac01bf644352f3))
+* removed frameborder from iframe (deprecated) using border:0 in css class now ([e08ca4b](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e08ca4b1a856578dc24500ac60944e32826f9779))
+* removed inline styles (CSP compatibility) ([e08ca4b](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e08ca4b1a856578dc24500ac60944e32826f9779))
+* TemporaryUploadPromoter.php mixed absolute and relative urls and thus not working ([ce6103f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/ce6103fb6dd0beafb408e8833d2fcb761b074512))
+* testing TemporaryUploadPromoter and considering disk config ([9bc37c9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9bc37c9e3deee06a0c070d0e478bca6091dfa1a3))
+* updated dependencies ([82737eb](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/82737eb86c81b867adad5f3cc945638a0483c36d))
+* updated php version in composer.json ([0435d62](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/0435d62914296b0c961c90402040b51226bd2c7f))
+* updated release-please config ([d701693](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/d7016936bbf53b91395e56a9c45d2980a5c88fae))
+
+## [2.1.13](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.12...2.1.13) (2026-01-17)
+
+
+### Bug Fixes
+
+* only using safe filename (slugged) so that unicode characters are removed to make image replacement in html easier and relialbe ([9560edc](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9560edc88f07db550832a54f4c58d6bd03346f23))
+
+## [2.1.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.11...2.1.12) (2026-01-16)
+
+
+### Bug Fixes
+
+* testing TemporaryUploadPromoter and considering disk config ([9bc37c9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9bc37c9e3deee06a0c070d0e478bca6091dfa1a3))
+
+## [2.1.11](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.10...2.1.11) (2026-01-16)
+
+
+### Bug Fixes
+
+* TemporaryUploadPromoter.php mixed absolute and relative urls and thus not working ([ce6103f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/ce6103fb6dd0beafb408e8833d2fcb761b074512))
+
 ## [2.1.10](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.9...2.1.10) (2025-12-16)
 
 

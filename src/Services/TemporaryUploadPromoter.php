@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
 use Exception;
@@ -13,66 +11,92 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TemporaryUploadPromoter
 {
-    /**
-     * Promote all temporary uploads for the current session
-     * and attach them to the given model.
-     */
     public function promoteAllForModel(Model $model): void
     {
         $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
 
         if ($temporaryUploads->isEmpty()) {
+            Log::info('TemporaryUploadPromoter: no temporary uploads found for this session');
             return;
         }
 
+        Log::info('TemporaryUploadPromoter: found temporary uploads', ['count' => $temporaryUploads->count()]);
         $dirty = false;
 
         foreach ($temporaryUploads as $temporaryUpload) {
-            $media = $this->promote($model, $temporaryUpload);
-            $temporaryUploadUrl = $temporaryUpload->getUrl();
+            Log::info("TemporaryUploadPromoter: promoting temporary upload", [
+                'id' => $temporaryUpload->id,
+                'file_name' => $temporaryUpload->file_name,
+                'path' => $temporaryUpload->path,
+                'disk' => $temporaryUpload->disk,
+            ]);
 
-            // Replace URLs inside HTML editor fields
-            if ($media && $temporaryUploadUrl) {
-                foreach ($model->getHtmlEditorFields() as $field) {
-                    if (! empty($model->{$field})) {
-                        Log::info("replace {$temporaryUploadUrl} with {$media->getUrl()}");
-                        $newValue = str_replace($temporaryUploadUrl, $media->getUrl(), $model->{$field});
-                        if ($newValue !== $model->{$field}) {
-                            $model->{$field} = $newValue;
-                            $dirty = true;
-                        }
-                    }
+            $media = $this->promote($model, $temporaryUpload);
+
+            if (! $media) {
+                Log::warning("TemporaryUploadPromoter: promotion failed for temporary upload {$temporaryUpload->id}");
+                continue;
+            }
+
+            Log::info("TemporaryUploadPromoter: promotion successful", [
+                'media_id' => $media->id,
+                'media_url' => $media->getUrl(),
+            ]);
+
+            $temporaryDisk = $temporaryUpload->disk;
+            $temporaryDiskUrl = rtrim(Storage::disk($temporaryDisk)->url(''), '/');
+
+            foreach ($model->getHtmlEditorFields() as $field) {
+                $html = $model->{$field};
+
+                if (! is_string($html) || trim($html) === '') {
+                    continue;
+                }
+
+                $newHtml = $this->replaceTemporaryUrlsInHtml(
+                    $html,
+                    $temporaryDiskUrl,
+                    $media->getUrl(),
+                    $temporaryUpload->file_name
+                );
+
+                if ($newHtml !== $html) {
+                    $model->{$field} = $newHtml;
+                    $dirty = true;
+                    Log::info("TemporaryUploadPromoter: updated HTML field '{$field}' with new media URL", [
+                        'temporary_file' => $temporaryUpload->file_name,
+                        'new_media_url' => $media->getUrl(),
+                    ]);
+                } else {
+                    Log::info("TemporaryUploadPromoter: no replacements made in field '{$field}' for {$temporaryUpload->file_name}");
                 }
             }
 
-            // Remove the temporary file and record
-            if (Storage::disk($temporaryUpload->disk)->exists($temporaryUpload->path)) {
-                Storage::disk($temporaryUpload->disk)->delete($temporaryUpload->path);
+            // Cleanup temp file + DB record
+            if (Storage::disk($temporaryDisk)->exists($temporaryUpload->path)) {
+                Storage::disk($temporaryDisk)->delete($temporaryUpload->path);
+                Log::info("TemporaryUploadPromoter: deleted temporary file", ['path' => $temporaryUpload->path]);
             }
 
             $temporaryUpload->delete();
+            Log::info("TemporaryUploadPromoter: deleted temporary upload record", ['id' => $temporaryUpload->id]);
         }
 
         if ($dirty) {
             $model->saveQuietly();
+            Log::info("TemporaryUploadPromoter: model saved with updated HTML fields", ['model_id' => $model->id]);
+        } else {
+            Log::info("TemporaryUploadPromoter: no changes detected, model not saved", ['model_id' => $model->id]);
         }
     }
 
-    /**
-     * Promote a single TemporaryUpload record to a Spatie Media record.
-     */
-    public function promote(Model $model, TemporaryUpload $temporaryUpload): ?Media
+    protected function promote(Model $model, TemporaryUpload $temporaryUpload): ?Media
     {
         try {
-            $customProperties = collect($temporaryUpload->custom_properties)
-                ->except(['collections'])
-                ->toArray();
-
             $media = $model
                 ->addMediaFromDisk($temporaryUpload->path, $temporaryUpload->disk)
                 ->preservingOriginal()
-                ->withCustomProperties($customProperties)
-                ->usingFileName($temporaryUpload->getNameWithExtension())
+                ->usingFileName($temporaryUpload->file_name)
                 ->toMediaCollection($temporaryUpload->collection_name);
 
             if ($temporaryUpload->order_column !== null) {
@@ -82,16 +106,37 @@ class TemporaryUploadPromoter
 
             return $media;
         } catch (Exception $e) {
-            Log::error(__('media-library-extensions::messages.failed_to_attach_media', [
-                'message' => $e->getMessage(),
-            ]), [
+            Log::error('TemporaryUploadPromoter: failed to attach media', [
                 'temporary_upload_id' => $temporaryUpload->id,
                 'path' => $temporaryUpload->path,
                 'disk' => $temporaryUpload->disk,
-                'trace' => $e->getTraceAsString(),
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
+    protected function replaceTemporaryUrlsInHtml(
+        string $html,
+        string $temporaryDiskUrl,
+        string $mediaUrl,
+        string $filename
+    ): string {
+        $filenamePattern = preg_quote($filename, '#');
+
+        // Match relative or absolute URLs pointing to media_temporary
+        $pattern = '#(?:' . preg_quote($temporaryDiskUrl, '#') . '|)(/storage/media_temporary/.*?)' . $filenamePattern . '#iu';
+
+        $newHtml = preg_replace($pattern, $mediaUrl, $html);
+
+        if ($newHtml !== $html) {
+            Log::info('TemporaryUploadPromoter: temporary URL replaced in HTML', [
+                'old_url_pattern' => $pattern,
+                'new_url' => $mediaUrl,
             ]);
         }
 
-        return null;
+        return $newHtml;
     }
 }
