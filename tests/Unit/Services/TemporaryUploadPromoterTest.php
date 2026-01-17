@@ -171,6 +171,40 @@ it('replaces mixed absolute and relative urls', function () {
     Storage::disk($this->temporaryDisk)->assertMissing($filename);
 });
 
+it('replaces temporary uploads with Unicode / unsafe filenames in HTML', function () {
+    $originalFilename = "Émóji 💾 file\u{00AD} name.png";
+
+    // Safe disk filename
+    $diskFilename = Str::slug(pathinfo($originalFilename, PATHINFO_FILENAME), '-')
+        . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
+
+    // HTML uses the sanitized disk filename (this matches temp uploads)
+    $post = TestPost::create([
+        'content' => "<p><img src=\"/storage/media_temporary/{$diskFilename}\" alt=''></p>",
+    ]);
+
+    $this->createTemporaryUpload([
+        'path' => $diskFilename,
+        'name' => pathinfo($diskFilename, PATHINFO_FILENAME),
+        'file_name' => $diskFilename,
+    ]);
+
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+
+    $post->refresh();
+    $media = $post->getFirstMedia();
+
+    $normalized = normalizeFilename($diskFilename);
+
+    expect($post->content)
+        ->not->toContain("/storage/media_temporary/{$diskFilename}")
+        ->toContain($media->getUrl());
+
+    expect($media->file_name)->toContain($normalized);
+    Storage::disk($this->temporaryDisk)->assertMissing($diskFilename);
+});
+
+
 it('removes temporary upload file and database record', function () {
     $filename = 'image.png';
     $post = TestPost::create([

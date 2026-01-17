@@ -15,15 +15,12 @@ class TemporaryUploadPromoter
     {
         $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
 
-//        dump(print_r($temporaryUploads, true));
         if ($temporaryUploads->isEmpty()) {
             Log::info('TemporaryUploadPromoter: no temporary uploads found for this session');
-            dump('TemporaryUploadPromoter: no temporary uploads found');
             return;
         }
 
         Log::info('TemporaryUploadPromoter: found temporary uploads', ['count' => $temporaryUploads->count()]);
-        dump('TemporaryUploadPromoter: found temporary uploads');
         $dirty = false;
 
         foreach ($temporaryUploads as $temporaryUpload) {
@@ -33,13 +30,11 @@ class TemporaryUploadPromoter
                 'path' => $temporaryUpload->path,
                 'disk' => $temporaryUpload->disk,
             ]);
-            dump('TemporaryUploadPromoter: promoting temporary upload');
 
             $media = $this->promote($model, $temporaryUpload);
 
             if (! $media) {
                 Log::warning("TemporaryUploadPromoter: promotion failed for temporary upload {$temporaryUpload->id}");
-                dump('TemporaryUploadPromoter: promotion failed for temporary upload');
                 continue;
             }
 
@@ -47,7 +42,6 @@ class TemporaryUploadPromoter
                 'media_id' => $media->id,
                 'media_url' => $media->getUrl(),
             ]);
-            dump('TemporaryUploadPromoter: promotion successful');
 
             $temporaryDisk = $temporaryUpload->disk;
             $temporaryDiskUrl = rtrim(Storage::disk($temporaryDisk)->url(''), '/');
@@ -73,10 +67,8 @@ class TemporaryUploadPromoter
                         'temporary_file' => $temporaryUpload->file_name,
                         'new_media_url' => $media->getUrl(),
                     ]);
-                    dump('TemporaryUploadPromoter: updated HTML field');
                 } else {
                     Log::info("TemporaryUploadPromoter: no replacements made in field '{$field}' for {$temporaryUpload->file_name}");
-                    dump('TemporaryUploadPromoter: no replacements made in field');
                 }
             }
 
@@ -100,7 +92,6 @@ class TemporaryUploadPromoter
 
     protected function promote(Model $model, TemporaryUpload $temporaryUpload): ?Media
     {
-        dump('TemporaryUploadPromoter promote: ' . $temporaryUpload->file_name);
         try {
             $media = $model
                 ->addMediaFromDisk($temporaryUpload->path, $temporaryUpload->disk)
