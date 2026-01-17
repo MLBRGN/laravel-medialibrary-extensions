@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.2.0...2.2.1) (2026-01-17)
+
+
+### Bug Fixes
+
+* removed dumps ([6938932](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/6938932975f1c13555458f2ee4f59e614a4e8198))
+
 ## [2.2.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.1.13...2.2.0) (2026-01-17)
 
 
