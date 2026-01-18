@@ -1,33 +1,114 @@
-// dynamic-loader.js — CSP-safe asset loader
+// dynamic-loader.js
+// CSP-safe, ES-module-based, multi-component asset loader
 
-document.addEventListener('DOMContentLoaded', () => {
-    const configEl = document.getElementById('mlbrgn-asset-config');
-    if (!configEl) return;
+// -----------------------------------------------------------------------------
+// Internal registries (module-scoped, automatically single-instance)
+// -----------------------------------------------------------------------------
 
-    const config = JSON.parse(configEl.dataset.config);
+const loadedScripts = new Set();
+const loadedCss = new Set();
 
-    const theme = config.theme;
-    const base = `/vendor/mlbrgn/media-library-extensions`;
+// -----------------------------------------------------------------------------
+// Helpers
+// -----------------------------------------------------------------------------
 
-    // Global translations
-    window.mediaLibraryTranslations = config.translations;
+function loadScript(src, type = 'module') {
+    if (loadedScripts.has(src)) return;
+    loadedScripts.add(src);
 
-    /** Helper to append script */
-    const loadScript = (src, type = 'module') => {
-        console.log('loadScript', src, type);
-        const s = document.createElement('script');
-        s.src = src;
-        s.type = type;
-        document.head.appendChild(s);
+    const script = document.createElement('script');
+    script.src = src;
+    script.type = type;
+    document.head.appendChild(script);
+}
+
+function loadCss(src) {
+    if (loadedCss.has(src)) return;
+    loadedCss.add(src);
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = src;
+    document.head.appendChild(link);
+}
+
+// -----------------------------------------------------------------------------
+// Config collection & merging
+// -----------------------------------------------------------------------------
+
+function collectConfigs() {
+    const elements = document.querySelectorAll('.mlbrgn-asset-config');
+    if (!elements.length) return [];
+
+    return Array.from(elements)
+        .map(el => {
+            try {
+                return JSON.parse(el.dataset.config);
+            } catch {
+                console.warn('[mlbrgn] Invalid asset config JSON', el);
+                return null;
+            }
+        })
+        .filter(Boolean);
+}
+
+function mergeConfigs(configs) {
+    if (!configs.length) return null;
+
+    const merged = {
+        theme: configs[0].theme,
+        translations: {},
     };
 
-    /** Helper to append CSS */
-    const loadCss = (src) => {
-        console.log('loadCss', src);
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = src;
-        document.head.appendChild(link);
+    const booleanFlags = [
+        'includeCss',
+        'includeJs',
+        'includeCarouselJs',
+        'includeTinymceIframeJs',
+        'includeImageEditorModalJs',
+        'includeMediaModalJs',
+        'includeImageEditorJs',
+        'includeMediaManagerSubmitter',
+        'includeMediaManagerLabSubmitter',
+        'includeLiteYoutube',
+    ];
+
+    // Merge booleans (true if ANY component requires it)
+    for (const flag of booleanFlags) {
+        merged[flag] = configs.some(c => c[flag] === true);
+    }
+
+    // Merge translations
+    for (const c of configs) {
+        if (c.translations) {
+            Object.assign(merged.translations, c.translations);
+        }
+    }
+
+    // Warn if themes differ
+    const themes = new Set(configs.map(c => c.theme));
+    if (themes.size > 1) {
+        console.warn(
+            '[mlbrgn] Multiple frontend themes detected:',
+            Array.from(themes)
+        );
+    }
+
+    return merged;
+}
+
+// -----------------------------------------------------------------------------
+// Asset loading
+// -----------------------------------------------------------------------------
+
+function loadAssets(config) {
+    const base = '/vendor/mlbrgn/media-library-extensions';
+    const theme = config.theme;
+
+    // Expose translations globally (merged safely)
+    window.mediaLibraryTranslations = {
+        ...(window.mediaLibraryTranslations ?? {}),
+        ...config.translations,
     };
 
     // CSS
@@ -35,19 +116,21 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCss(`${base}/css/app-${theme}.css`);
     }
 
-    // Main JS
+    // Root JS
     if (config.includeJs) {
         loadScript(`${base}/js/root/app-${theme}.js`);
     }
 
-    // Carousel
+    // Carousel (plain theme only)
     if (config.includeCarouselJs && theme === 'plain') {
         loadScript(`${base}/js/plain/media-carousel.js`);
     }
 
-    // TinyMCE file picker
+    // TinyMCE custom file picker iframe
     if (config.includeTinymceIframeJs) {
-        loadScript(`${base}/js/shared/tinymce-custom-file-picker-iframe.js`);
+        loadScript(
+            `${base}/js/shared/tinymce-custom-file-picker-iframe.js`
+        );
     }
 
     // Image editor modal
@@ -65,12 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
         loadScript(`${base}/js/shared/image-editor-listener.js`);
     }
 
-    // Media Manager submitter
+    // Media manager submitter
     if (config.includeMediaManagerSubmitter) {
         loadScript(`${base}/js/shared/media-manager-submitter.js`);
     }
 
-    // Media Manager Lab submitter
+    // Media manager lab submitter
     if (config.includeMediaManagerLabSubmitter) {
         loadScript(`${base}/js/shared/media-manager-lab-submitter.js`);
     }
@@ -82,7 +165,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!window.YT) {
-            loadScript('https://www.youtube.com/iframe_api', 'text/javascript');
+            loadScript(
+                'https://www.youtube.com/iframe_api',
+                'text/javascript'
+            );
         }
     }
-});
+}
+
+// -----------------------------------------------------------------------------
+// Boot (ES modules are deferred by default)
+// so no need for DOMContentLoaded
+// -----------------------------------------------------------------------------
+
+const configs = collectConfigs();
+
+if (configs.length) {
+    const mergedConfig = mergeConfigs(configs);
+    if (mergedConfig) {
+        loadAssets(mergedConfig);
+    }
+}

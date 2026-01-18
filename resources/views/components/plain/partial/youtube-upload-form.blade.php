@@ -80,5 +80,6 @@
         include-js="true" 
         include-media-manager-submitter="true" 
         :frontend-theme="$getConfig('frontendTheme')"
+        for="plain|youtube-upload-form"
     />
 @endif

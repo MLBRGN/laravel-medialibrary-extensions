@@ -25,4 +25,5 @@
     include-js="true"
     include-media-manager-lab-submitter="true"
     :frontend-theme="$getConfig('frontendTheme')"
+    for="plain|media-lab"
 />

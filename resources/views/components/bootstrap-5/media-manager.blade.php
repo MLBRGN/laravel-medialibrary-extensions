@@ -92,4 +92,5 @@
     include-css="true"
     include-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
+    for="bootstrap-5|media-manager"
 />

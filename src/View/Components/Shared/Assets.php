@@ -20,13 +20,15 @@ class Assets extends Component
         public bool $includeMediaManagerSubmitter = false,
         public bool $includeMediaManagerLabSubmitter = false,
         public bool $includeLiteYoutube = false,
-        public bool $includeTinymceCustomFilePickerIframeJs = false
+        public bool $includeTinymceCustomFilePickerIframeJs = false,
+        public string $for = 'unknown',
     ) {
         // Default theme from config
         $this->frontendTheme ??= config('media-library-extensions.frontend_theme', 'plain');
 
         // Build the configuration array passed to the loader.js file
         $this->config = [
+            'for' => $this->for,// keep track of which config belongs to what
             'theme' => $this->frontendTheme,
             'includeCss' => $this->includeCss,
             'includeJs' => $this->includeJs,

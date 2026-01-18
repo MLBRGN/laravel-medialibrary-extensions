@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
@@ -25,6 +26,8 @@ class StoreSingleTemporaryAction
 
     public function execute(StoreSingleRequest $request): RedirectResponse|JsonResponse
     {
+        Log::info('StoreSingleTemporaryAction: invoked');
+
         $field = config('media-library-extensions.upload_field_name_single');
         $disk = config('media-library-extensions.media_disks.temporary');
         $basePath = '';
@@ -105,15 +108,15 @@ class StoreSingleTemporaryAction
         $userId = Auth::check() ? Auth::id() : null;
 
         // Remove existing upload for this session/user
-        $existing = TemporaryUpload::query()
-            ->where('session_id', $sessionId)
-            ->when($userId, fn ($q) => $q->orWhere('user_id', $userId))
-            ->first();
+//        $existing = TemporaryUpload::query()
+//            ->where('session_id', $sessionId)
+//            ->when($userId, fn ($q) => $q->orWhere('user_id', $userId))
+//            ->first();
 
-        if ($existing) {
-            Storage::disk($existing->disk)->delete($existing->path);
-            $existing->delete();
-        }
+//        if ($existing) {
+//            Storage::disk($existing->disk)->delete($existing->path);
+//            $existing->delete();
+//        }
 
         // Save the new file
         $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-') . '.' . $extension;
@@ -122,6 +125,7 @@ class StoreSingleTemporaryAction
         $directory = "{$basePath}";
 
         Storage::disk($disk)->putFileAs($directory, $file, $safeFilename);
+        Log::info('StoreSingleTemporaryUpload: stored file: ' . $safeFilename);
 
         $upload = new TemporaryUpload([
             'disk' => $disk,
@@ -141,6 +145,7 @@ class StoreSingleTemporaryAction
         ]);
         $upload->save();
 
+        Log::info('StoreSingleTemporaryUpload: stored db record');
         return MediaResponse::success(
             $request,
             $initiatorId,

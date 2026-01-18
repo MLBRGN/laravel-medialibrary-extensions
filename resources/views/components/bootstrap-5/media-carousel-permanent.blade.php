@@ -137,4 +137,5 @@
     include-carousel-js="true"
     include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}"
     :frontend-theme="$getConfig('frontendTheme')"
+    for="bootstrap-5|media-carousel-permanent"
 />

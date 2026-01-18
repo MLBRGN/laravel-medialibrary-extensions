@@ -55,5 +55,6 @@
         include-js="true" 
         include-media-manager-submitter="true" 
         :frontend-theme="$getConfig('frontendTheme')"
+        for="plain|destroy-form"
     />
 @endif

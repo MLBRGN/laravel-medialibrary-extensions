@@ -17,4 +17,5 @@
     include-js="false" 
     include-lite-youtube="true" 
     :frontend-theme="$getConfig('frontendTheme')"
+    for="shared|media-first-available"
 />

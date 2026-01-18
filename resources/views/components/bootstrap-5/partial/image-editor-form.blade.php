@@ -72,5 +72,6 @@
         include-js="true" 
         include-media-manager-submitter="true" 
         :frontend-theme="$getConfig('frontendTheme')"
+        for="bootstrap-5|image-editor-form"
     />
 @endif

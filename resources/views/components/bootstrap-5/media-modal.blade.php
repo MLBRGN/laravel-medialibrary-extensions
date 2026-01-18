@@ -58,5 +58,6 @@
     include-js="true"
     include-media-modal-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
+    for="bootstrap-5|media-modal"
 />
 

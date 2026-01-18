@@ -70,4 +70,5 @@
     include-image-editor-js="true"
     include-image-editor-modal-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
+    for="plain|image-editor-model-temporary-upload"
 />

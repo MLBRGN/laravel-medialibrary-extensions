@@ -73,4 +73,5 @@
     include-image-editor-js="true"
     include-image-editor-modal-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
+    for="bootstrap-5|image-editor-model"
 />

@@ -92,4 +92,5 @@
     include-css="true"
     include-js="true"
     :frontend-theme="$getConfig('frontendTheme')"
+    for="plain|media-manager"
 />
