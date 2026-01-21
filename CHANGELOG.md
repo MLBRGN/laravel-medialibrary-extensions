@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.2.1...2.3.0) (2026-01-21)
+
+
+### Features
+
+* ImageResponsive.php placeholder support ([8bff969](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8bff9696d5864c9152d122ea9dd026fba117f569))
+
+
+### Bug Fixes
+
+* dynamic-loader.js refactor so that multiple configs are merged and only load deferred ([c11d687](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/c11d687361eda575235e0290b2db34d065bc234b))
+
 ## [2.2.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.2.0...2.2.1) (2026-01-17)
 
 
