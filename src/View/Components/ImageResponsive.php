@@ -24,6 +24,7 @@ class ImageResponsive extends Component
         public string $alt = '',
         public bool $originalOnly = false,
         public array $options = [],
+        public ?string $placeholder = null,
     ) {
         if ($this->medium) {
             $this->generatedConversions = $this->medium->generated_conversions ?? [];
@@ -113,6 +114,8 @@ class ImageResponsive extends Component
 
         $url = '';
         $srcset = '';
+
+        $placeholder = $this->placeholder ?? asset('vendor/media-library-extensions/images/fallback.png');
 
         try {
             if ($this->medium) {

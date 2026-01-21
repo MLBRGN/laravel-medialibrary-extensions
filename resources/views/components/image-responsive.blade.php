@@ -1,7 +1,7 @@
 @if ($url)
     <img
         {{ $attributes->merge(['class' => '']) }}
-        src="{{ $url }}"
+        src="{{ $url ?: $placeholder }}"
         @if ($srcset) srcset="{{ $srcset }}" @endif
         @if ($srcset && $sizes) sizes="{{ $sizes }}" @endif
         alt="{{ $alt }}"
@@ -11,7 +11,7 @@
 @else
     <img
         {{ $attributes->merge(['class' => '']) }}
-        src="{{ asset('vendor/media-library-extensions/images/fallback.png') }}"
+        src="{{ $url ?: $placeholder }}"
         alt="Missing image"
         class="mle-opacity-50"
         data-mle-image
