@@ -20,7 +20,7 @@ class DemoController extends Controller
 
         // add medium if none exists yet
         if ($model->getMedia('alien-media-lab')->isEmpty()) {
-            $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
+            $demoImage = __DIR__ . '/../../../resources/demo/demo.jpg';
 
             $model
                 ->addMedia($demoImage)
@@ -50,7 +50,7 @@ class DemoController extends Controller
 
         // add medium if none exists yet
         if ($model->getMedia('alien-media-lab')->isEmpty()) {
-            $demoImage = __DIR__ . '/../../../resources/images/demo.jpg';
+            $demoImage = __DIR__ . '/../../../resources/demo/demo.jpg';
 
             $model
                 ->addMedia($demoImage)

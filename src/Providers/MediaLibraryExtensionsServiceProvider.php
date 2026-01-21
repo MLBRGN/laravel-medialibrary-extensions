@@ -140,6 +140,11 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], 'translations');
 
             $this->publishes([
+                __DIR__.'/../../resources/images' =>  $this->app->langPath('vendor/'.$this->nameSpace),
+
+            ], 'images');
+
+            $this->publishes([
                 __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
             ], 'policy');
 
