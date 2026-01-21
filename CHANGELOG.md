@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.2...2.3.3) (2026-01-21)
+
+
+### Bug Fixes
+
+* bug in placeholder image responsive, wrong path ([384dd61](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/384dd61e9add0ce611ef385d885275d47b493e48))
+
 ## [2.3.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.1...2.3.2) (2026-01-21)
 
 
