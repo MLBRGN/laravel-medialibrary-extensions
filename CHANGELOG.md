@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.0...2.3.1) (2026-01-21)
+
+
+### Bug Fixes
+
+* placeholder image added and now also publishing the images directory, which contains the placeholder ([754c783](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/754c783e26dbfb8b1f276605e70841af3adb3877))
+
 ## [2.3.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.2.1...2.3.0) (2026-01-21)
 
 
