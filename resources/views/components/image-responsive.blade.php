@@ -11,7 +11,7 @@
 @else
     <img
         {{ $attributes->merge(['class' => '']) }}
-        src="{{ $url ?: $placeholder }}"
+        src="{{ $placeholder }}"
         alt="Missing image"
         class="mle-opacity-50"
         data-mle-image
