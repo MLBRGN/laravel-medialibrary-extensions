@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.1...2.3.2) (2026-01-21)
+
+
+### Bug Fixes
+
+* wrong path image publishing, fixed ([b1bdbca](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b1bdbca9ac62589621f94b9da00993b74f56d6cc))
+
 ## [2.3.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.0...2.3.1) (2026-01-21)
 
 
