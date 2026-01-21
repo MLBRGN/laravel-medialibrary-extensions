@@ -140,7 +140,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], 'translations');
 
             $this->publishes([
-                __DIR__.'/../../resources/images' =>  $this->app->langPath('vendor/'.$this->nameSpace),
+                __DIR__.'/../../resources/images' =>  public_path('vendor/' . $this->vendor . '/media-library-extensions/images'),
 
             ], 'images');
 
