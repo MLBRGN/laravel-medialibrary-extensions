@@ -3,13 +3,6 @@
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-if (! function_exists('mle_package_asset')) {
-    function mle_package_asset(string $path): string
-    {
-        return asset("vendor/media-library-extensions/{$path}");
-    }
-}
-
 if (! function_exists('mle_human_mimetype_label')) {
     function mle_human_mimetype_label(string $mimeType): string
     {
