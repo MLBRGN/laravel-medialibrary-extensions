@@ -55,7 +55,11 @@
             }
         </style>
         <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}">
-        <script type="module">
+        @php($nonce = mlbrgn_csp_nonce())
+        <script
+            type="module"
+            @isset($nonce) nonce="{{ $nonce }}" @endisset
+        >
             if (!window.imageEditorLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';

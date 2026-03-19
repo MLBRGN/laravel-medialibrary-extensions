@@ -116,3 +116,14 @@ if (! function_exists('media_display_name')) {
         return "{$media->name}.{$extension}";
     }
 }
+
+if (! function_exists('mlbrgn_csp_nonce')) {
+    function mlbrgn_csp_nonce()
+    {
+        $resolver = config('media-library-extensions.csp_nonce');
+
+        return is_callable($resolver)
+            ? $resolver()
+            : $resolver;
+    }
+}

@@ -20,7 +20,10 @@
         @endif
     </div>
     @if(!config('media-library-extensions.use_xhr'))
-        <script>
+        @php($nonce = mlbrgn_csp_nonce())
+        <script
+            @isset($nonce) nonce="{{ $nonce }}" @endisset
+        >
             document.querySelectorAll('[data-mle-status-message]').forEach(el => {
                 setTimeout(() => {
                     el.classList.add('hidden');
