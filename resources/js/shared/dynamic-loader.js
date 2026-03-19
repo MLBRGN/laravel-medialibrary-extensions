@@ -36,6 +36,21 @@ function loadCss(src) {
 // Config collection & merging
 // -----------------------------------------------------------------------------
 
+// function collectConfigs() {
+//     const elements = document.querySelectorAll('.mlbrgn-asset-config');
+//     if (!elements.length) return [];
+//
+//     return Array.from(elements)
+//         .map(el => {
+//             try {
+//                 return JSON.parse(el.dataset.config);
+//             } catch {
+//                 console.warn('[mlbrgn] Invalid asset config JSON', el);
+//                 return null;
+//             }
+//         })
+//         .filter(Boolean);
+// }
 function collectConfigs() {
     const elements = document.querySelectorAll('.mlbrgn-asset-config');
     if (!elements.length) return [];
@@ -43,7 +58,7 @@ function collectConfigs() {
     return Array.from(elements)
         .map(el => {
             try {
-                return JSON.parse(el.dataset.config);
+                return JSON.parse(el.textContent.trim());
             } catch {
                 console.warn('[mlbrgn] Invalid asset config JSON', el);
                 return null;
