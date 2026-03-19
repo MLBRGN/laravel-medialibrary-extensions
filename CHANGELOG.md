@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.4](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.3...2.3.4) (2026-03-19)
+
+
+### Bug Fixes
+
+* prepare support for csp ([2f3fb22](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/2f3fb22832377a43142c557f29edb58dc5d7e0e8))
+
 ## [2.3.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.2...2.3.3) (2026-01-21)
 
 
