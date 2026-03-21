@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.6](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.5...2.3.6) (2026-03-21)
+
+
+### Bug Fixes
+
+* updated dependencies ([18a4292](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/18a42923c1bccb76da145703d5e1b2a29054bf07))
+
 ## [2.3.5](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.4...2.3.5) (2026-03-21)
 
 
