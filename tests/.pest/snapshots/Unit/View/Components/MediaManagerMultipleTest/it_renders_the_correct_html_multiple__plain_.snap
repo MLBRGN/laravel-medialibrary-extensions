@@ -60,16 +60,15 @@
         Upload media
     </button>
     </div>
-    <div id="mlbrgn-asset-config"
-     class="mlbrgn-asset-config"
-     data-config='{"for":"plain|upload-form","theme":"plain","includeCss":true,"includeJs":true,"includeCarouselJs":false,"includeTinymceIframeJs":false,"includeImageEditorModalJs":false,"includeMediaModalJs":false,"includeImageEditorJs":false,"includeMediaManagerSubmitter":true,"includeMediaManagerLabSubmitter":false,"includeLiteYoutube":false,"translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}'
-     style="display:none"></div>
+    <script
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":true,"mediaManagerLabSubmitter":false,"liteYoutube":false},"for":"plain|upload-form","theme":"plain","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}</script>
 
-
-<script type="module"
-        src="http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/dynamic-loader.js">
-</script>
-
+    <script
+        type="module"
+        src="http://localhost/vendor/mlbrgn/media-library-extensions/js/core/media-library-loader.js"
+            ></script>
 
                 
                                         
@@ -112,14 +111,9 @@
 
     </div>
 
-<div id="mlbrgn-asset-config"
-     class="mlbrgn-asset-config"
-     data-config='{"for":"plain|media-manager","theme":"plain","includeCss":true,"includeJs":true,"includeCarouselJs":false,"includeTinymceIframeJs":false,"includeImageEditorModalJs":false,"includeMediaModalJs":false,"includeImageEditorJs":false,"includeMediaManagerSubmitter":false,"includeMediaManagerLabSubmitter":false,"includeLiteYoutube":false,"translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You\u2019re not allowed to perform this action.","not_found":"We couldn\u2019t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You\u2019re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}'
-     style="display:none"></div>
-
-
-<script type="module"
-        src="http://localhost/vendor/mlbrgn/media-library-extensions/js/shared/dynamic-loader.js">
-</script>
+<script
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":false,"mediaManagerLabSubmitter":false,"liteYoutube":false},"for":"plain|media-manager","theme":"plain","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}</script>
 
 
