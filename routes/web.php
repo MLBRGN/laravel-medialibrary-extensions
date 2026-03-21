@@ -62,6 +62,6 @@ if (config('media-library-extensions.demo_pages_enabled')) {
                 'Content-Type' => 'image/x-icon',
                 'Cache-Control' => 'public, max-age=31536000', // cache for 1 year
             ]);
-        })->name('mle.favicon');
+        })->name('mlbrgn.mle.favicon');
     });
 }

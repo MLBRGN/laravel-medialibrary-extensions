@@ -54,7 +54,7 @@
             }
         }
     </style>
-    <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}">
+    <link rel="icon" type="image/x-icon" href="{{ route('mlbrgn.mle.favicon') }}">
     @php
         $nonce = mlbrgn_csp_nonce();
     @endphp
