@@ -493,6 +493,7 @@ return [
     /*
     |--------------------------------------------------------------------------
     | CSP nonce for Content Security Policy support
+    | example: 'csp_nonce' => fn () => app()->bound('csp-nonce') ? app('csp-nonce') : null,
     |--------------------------------------------------------------------------
     |
     | Content Security Policy nonce callback
