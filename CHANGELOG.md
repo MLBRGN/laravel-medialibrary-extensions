@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.8](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.7...2.3.8) (2026-03-21)
+
+
+### Bug Fixes
+
+* prefixed favicon route ([bed8054](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/bed8054fd3c0634f95fa3415d8a5966f7289c4cf))
+
 ## [2.3.7](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.6...2.3.7) (2026-03-21)
 
 
