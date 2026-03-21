@@ -3,7 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Media library custom file picker</title>
-        @php($nonce = mlbrgn_csp_nonce())
+        @php
+            $nonce = mlbrgn_csp_nonce();
+        @endphp
         <script 
             type="module" 
             @isset($nonce) nonce="{{ $nonce }}" @endisset

@@ -20,7 +20,9 @@
         @endif
     </div>
     @if(!config('media-library-extensions.use_xhr'))
-        @php($nonce = mlbrgn_csp_nonce())
+        @php
+            $nonce = mlbrgn_csp_nonce();
+        @endphp
         <script
             @isset($nonce) nonce="{{ $nonce }}" @endisset
         >

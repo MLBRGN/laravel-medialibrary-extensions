@@ -1,4 +1,6 @@
-@php($nonce = mlbrgn_csp_nonce())
+@php
+    $nonce = mlbrgn_csp_nonce();
+@endphp
 
 @if(!empty($assetConfig))
     <script
