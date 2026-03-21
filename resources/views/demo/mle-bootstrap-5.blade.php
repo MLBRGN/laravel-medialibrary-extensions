@@ -8,7 +8,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Bootstrap-5 Component tests</title>
-    {{--        <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}">--}}
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -21,6 +20,7 @@
             overflow: hidden;
         }
     </style>
+    <link rel="icon" type="image/x-icon" href="{{ route('mle.favicon') }}">
     @php
         $nonce = mlbrgn_csp_nonce();
     @endphp
