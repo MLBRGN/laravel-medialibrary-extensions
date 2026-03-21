@@ -2,4 +2,4 @@
 
 import '@/js/bootstrap-5/bootstrap-resolver'
 import '@/js/shared/image-fallback';
-import '@/css/app-bootstrap-5.scss';
+import '@/css/bootstrap-5.scss';

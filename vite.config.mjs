@@ -3,86 +3,90 @@ import laravel from 'laravel-vite-plugin'
 import path from 'path'
 import fs from 'fs'
 
+// Paths
 const jsDir = path.resolve(__dirname, 'resources/js')
-const sharedDir = path.resolve(jsDir, 'shared')
-const plainDir = path.resolve(jsDir, 'plain')
-const bootstrap5Dir = path.resolve(jsDir, 'bootstrap-5')
+const cssDir = path.resolve(__dirname, 'resources/css')
+const faviconPath = path.resolve(__dirname, 'resources/assets/favicon.ico')
+const resourcesDir = path.resolve(__dirname, 'resources')
 
-const faviconPath = path.resolve(__dirname, 'resources/assets/favicon.ico');
+function getEntriesRecursive(dir, exts = ['.js']) {
+    return fs.readdirSync(dir, { withFileTypes: true }).reduce((entries, entry) => {
+        const fullPath = path.join(dir, entry.name)
 
-function getJsEntries(dir, prefix) {
-    return fs
-        .readdirSync(dir)
-        .filter(file =>
-            file.endsWith('.js') &&
-            !file.startsWith('_') &&
-            fs.statSync(path.join(dir, file)).isFile()
-        )
-        .reduce((entries, file) => {
-            const name = file.replace('.js', '')
-            entries[`${prefix}/${name}`] = path.relative(__dirname, path.join(dir, file))
+        if (entry.isDirectory()) {
+            return { ...entries, ...getEntriesRecursive(fullPath, exts) }
+        }
+
+        if (!exts.some(ext => entry.name.endsWith(ext)) || entry.name.startsWith('_')) {
             return entries
-        }, {})
+        }
+
+        // 🔥 KEY CHANGE: relative to /resources, not js/ or css/
+        let name = path.relative(resourcesDir, fullPath)
+
+        name = name.replace(new RegExp(`${exts.join('|').replace(/\./g,'\\.')}$`), '')
+        name = name.split(path.sep).join('/')
+
+        entries[name] = path.relative(__dirname, fullPath)
+
+        return entries
+    }, {})
 }
 
+// Build entries object
 const entries = {
-    ...getJsEntries(plainDir, 'plain'),
-    ...getJsEntries(bootstrap5Dir, 'bootstrap-5'),
-    ...getJsEntries(sharedDir, 'shared'),
-    ...getJsEntries(jsDir, 'root'),
+    ...getEntriesRecursive(jsDir, ['.js']),
+    ...getEntriesRecursive(cssDir, ['.scss', '.css']),
     favicon: faviconPath,
 }
+
+// console.log('entries', entries)
 
 export default defineConfig({
     plugins: [
         laravel({
             input: entries,
             publicDirectory: 'public',
-            refresh: true,
+            refresh: true, // enables Blade auto-refresh during dev
         }),
     ],
+    build: {
+        outDir: 'dist',
+        emptyOutDir: true,
+        manifest: false,
+        rollupOptions: {
+            // Keep your external logic if needed
+            external: (id, importer) => {
+                if (!importer) return false
+                if (importer.endsWith('/image-editor.js')) return false
+                return id === '@mlbrgn/media-library-extensions'
+            },
+            output: {
+                entryFileNames: '[name].js',
+                chunkFileNames: '[name].js',
+                assetFileNames: assetInfo => {
+                    if (assetInfo.name?.endsWith('.css')) return '[name][extname]'
+                    return 'assets/[name][extname]'
+                },
+            },
+        },
+    },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                quietDeps: true,
+                silenceDeprecations: [
+                    "color-functions",
+                    "global-builtin",
+                    "import",
+                ],
+            },
+        },
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources'),
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
         },
-    },
-    build: {
-        outDir: 'dist',
-        emptyOutDir: true,
-        rollupOptions: {
-            // determine if file is demo.js, if os bundle media-library-extensions (image-editor) otherwise not
-            external: (id, importer) => {
-                // Importer not provided → don't externalize
-                if (!importer) return false
-
-                // If importer is demo.js → always bundle everything
-                // if (importer.endsWith('/demo.js')) {
-                //     return false
-                // }
-
-                // If importer is image-editor.js → always bundle everything
-                if (importer.endsWith('/image-editor.js')) {
-                    return false
-                }
-
-                // For all other files → externalize peer dependency
-                return id === '@mlbrgn/media-library-extensions'
-            },
-            output: {
-                // JS entry points go in js/
-                entryFileNames: 'js/[name].js',
-                // JS chunks go in js/
-                chunkFileNames: 'js/[name].js',
-                // CSS and other assets
-                assetFileNames: assetInfo => {
-                    if (assetInfo.name && assetInfo.name.endsWith('.css')) {
-                        return 'css/[name][extname]';
-                    }
-                    return 'assets/[name][extname]';
-                },
-            },
-        },
-        manifest: false,
     },
 })

@@ -7,7 +7,7 @@ use Illuminate\View\View;
 
 class Assets extends Component
 {
-    public array $config;
+    public array $assetConfig;
 
     public function __construct(
         public ?string $frontendTheme = null,
@@ -27,19 +27,21 @@ class Assets extends Component
         $this->frontendTheme ??= config('media-library-extensions.frontend_theme', 'plain');
 
         // Build the configuration array passed to the loader.js file
-        $this->config = [
+        $this->assetConfig = [
+            'assets' => [
+                'css' => $this->includeCss,
+                'js' => $this->includeJs,
+                'carousel' => $this->includeCarouselJs,
+                'tinymceIframe' => $this->includeTinymceCustomFilePickerIframeJs,
+                'imageEditorModal' => $this->includeImageEditorModalJs,
+                'mediaModal' => $this->includeMediaModalJs,
+                'imageEditor' => $this->includeImageEditorJs,
+                'mediaManagerSubmitter' => $this->includeMediaManagerSubmitter,
+                'mediaManagerLabSubmitter' => $this->includeMediaManagerLabSubmitter,
+                'liteYoutube' => $this->includeLiteYoutube,
+            ],
             'for' => $this->for,// keep track of which config belongs to what
             'theme' => $this->frontendTheme,
-            'includeCss' => $this->includeCss,
-            'includeJs' => $this->includeJs,
-            'includeCarouselJs' => $this->includeCarouselJs,
-            'includeTinymceIframeJs' => $this->includeTinymceCustomFilePickerIframeJs,
-            'includeImageEditorModalJs' => $this->includeImageEditorModalJs,
-            'includeMediaModalJs' => $this->includeMediaModalJs,
-            'includeImageEditorJs' => $this->includeImageEditorJs,
-            'includeMediaManagerSubmitter' => $this->includeMediaManagerSubmitter,
-            'includeMediaManagerLabSubmitter' => $this->includeMediaManagerLabSubmitter,
-            'includeLiteYoutube' => $this->includeLiteYoutube,
 
             // Translation strings (CSP-safe: no inline script)
             'translations' => [

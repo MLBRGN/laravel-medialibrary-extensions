@@ -29,7 +29,7 @@
             if (!window.imageEditorLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/root/image-editor.js') }}";
+                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/image-editor.js') }}";
                 document.head.appendChild(script);
                 window.imageEditorLoaded = true;
 
