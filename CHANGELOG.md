@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.7](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.6...2.3.7) (2026-03-21)
+
+
+### Bug Fixes
+
+* missing favicon in bootstrap preview ([c5164d3](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/c5164d352923eae30e2f9e6d4bed10cf8a22a96e))
+
 ## [2.3.6](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.5...2.3.6) (2026-03-21)
 
 
