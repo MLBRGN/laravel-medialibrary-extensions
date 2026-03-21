@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.5](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.4...2.3.5) (2026-03-21)
+
+
+### Bug Fixes
+
+* renamed variables, refactored, improved asset loading ([bc27d1a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/bc27d1a7c4188632312f9fa30ff5139b6a76aac0))
+* trying nonce support ([58cee34](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/58cee34dfa6715df8f59dd7a3c92495d23f092ab))
+
 ## [2.3.4](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.3...2.3.4) (2026-03-19)
 
 
