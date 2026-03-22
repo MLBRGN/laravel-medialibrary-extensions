@@ -109,30 +109,30 @@ class StoreSingleTemporaryAction
         $userId = Auth::check() ? Auth::id() : null;
 
         // Remove existing upload for this session/user
-//        $existing = TemporaryUpload::query()
-//            ->where('session_id', $sessionId)
-//            ->when($userId, fn ($q) => $q->orWhere('user_id', $userId))
-//            ->first();
+        //        $existing = TemporaryUpload::query()
+        //            ->where('session_id', $sessionId)
+        //            ->when($userId, fn ($q) => $q->orWhere('user_id', $userId))
+        //            ->first();
 
-//        if ($existing) {
-//            Storage::disk($existing->disk)->delete($existing->path);
-//            $existing->delete();
-//        }
+        //        if ($existing) {
+        //            Storage::disk($existing->disk)->delete($existing->path);
+        //            $existing->delete();
+        //        }
 
         // Save the new file
-        $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-') . '.' . $extension;
-//        $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
-//        $filename = "{$safeFilename}.{$extension}";
+        $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-').'.'.$extension;
+        //        $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
+        //        $filename = "{$safeFilename}.{$extension}";
         $directory = "{$basePath}";
 
         Storage::disk($disk)->putFileAs($directory, $file, $safeFilename);
-        Log::info('StoreSingleTemporaryUpload: stored file: ' . $safeFilename);
+        Log::info('StoreSingleTemporaryUpload: stored file: '.$safeFilename);
 
         $upload = new TemporaryUpload([
             'disk' => $disk,
             'path' => "{$directory}/{$safeFilename}",
             'name' => $safeFilename,
-            'file_name' => $safeFilename,// no unicode (this causes problems with replacement of image source)
+            'file_name' => $safeFilename, // no unicode (this causes problems with replacement of image source)
             'collection_name' => $collectionName,
             'mime_type' => $mimetype,
             'size' => $file->getSize(),
@@ -148,6 +148,7 @@ class StoreSingleTemporaryAction
         $upload->save();
 
         Log::info('StoreSingleTemporaryUpload: stored db record');
+
         return MediaResponse::success(
             $request,
             $initiatorId,

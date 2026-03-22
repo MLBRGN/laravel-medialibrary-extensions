@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Providers;
 
-use BladeUI\Icons\Factory;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Artisan;
@@ -99,14 +98,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
         // $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
-
         if ($this->app->runningInConsole()) {
 
             // needed for testing
-//            if ($this->app->environment('testing')) {
-//                // Only load migrations for testing
-//                $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-//            }
+            //            if ($this->app->environment('testing')) {
+            //                // Only load migrations for testing
+            //                $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+            //            }
 
             $this->commands([
                 ResetMediaLibraryExtensions::class,
@@ -116,10 +114,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ]);
 
             // NOTE: not yet implemented
-//            $this->optimizes(
-//                optimize: 'package:optimize',
-//                clear: 'package:clear-optimizations',
-//            );
+            //            $this->optimizes(
+            //                optimize: 'package:optimize',
+            //                clear: 'package:clear-optimizations',
+            //            );
 
             $this->publishes([
                 __DIR__.'/../../config/media-library-extensions.php' => config_path('media-library-extensions.php'),
@@ -130,17 +128,17 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ], 'views');
 
             $this->publishes([
-                __DIR__.'/../../dist/css' => public_path('vendor/' . $this->vendor . '/media-library-extensions/css'),
-                __DIR__.'/../../dist/js' => public_path('vendor/' . $this->vendor . '/media-library-extensions/js'),
+                __DIR__.'/../../dist/css' => public_path('vendor/'.$this->vendor.'/media-library-extensions/css'),
+                __DIR__.'/../../dist/js' => public_path('vendor/'.$this->vendor.'/media-library-extensions/js'),
             ], 'assets');
 
             $this->publishes([
-                __DIR__.'/../../lang' =>  $this->app->langPath('vendor/'.$this->nameSpace),
+                __DIR__.'/../../lang' => $this->app->langPath('vendor/'.$this->nameSpace),
 
             ], 'translations');
 
             $this->publishes([
-                __DIR__.'/../../resources/images' =>  public_path('vendor/' . $this->vendor . '/media-library-extensions/images'),
+                __DIR__.'/../../resources/images' => public_path('vendor/'.$this->vendor.'/media-library-extensions/images'),
 
             ], 'images');
 
@@ -220,18 +218,18 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->overrideFormComponentsConfig();
 
         $this->registerCleanupScheduler();
-//        // add schedule for temporary uploads cleanup
-//        $config = config('media-library-extensions.schedule.cleanup');
-//
-//        if ($config['enabled']) {
-//            $this->app->booted(function () use ($config) {
-//                $schedule = $this->app->make(Schedule::class);
-//                $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
-//                    ->{$config['frequency']}()
-//                    ->withoutOverlapping()
-//                    ->onOneServer();
-//            });
-//        }
+        //        // add schedule for temporary uploads cleanup
+        //        $config = config('media-library-extensions.schedule.cleanup');
+        //
+        //        if ($config['enabled']) {
+        //            $this->app->booted(function () use ($config) {
+        //                $schedule = $this->app->make(Schedule::class);
+        //                $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
+        //                    ->{$config['frequency']}()
+        //                    ->withoutOverlapping()
+        //                    ->onOneServer();
+        //            });
+        //        }
 
         $this->publishesMigrations([
             __DIR__.'/../../database/migrations' => database_path('migrations'),
@@ -239,18 +237,18 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         $this->checkBladeUIKitIconSet();
 
-//        $publicStorage = public_path('storage');
-//
-//        // check if the storage link exists
-//        if (! $this->app->runningInConsole()) {
-//            $publicStorage = public_path('storage');
-//
-//            if (! file_exists($publicStorage) || ! is_link($publicStorage)) {
-//                $message = __('media-library-extensions::messages.no_or_invalid_storage_link');
-//                Log::error($message);
-//                throw new RuntimeException($message);
-//            }
-//        }
+        //        $publicStorage = public_path('storage');
+        //
+        //        // check if the storage link exists
+        //        if (! $this->app->runningInConsole()) {
+        //            $publicStorage = public_path('storage');
+        //
+        //            if (! file_exists($publicStorage) || ! is_link($publicStorage)) {
+        //                $message = __('media-library-extensions::messages.no_or_invalid_storage_link');
+        //                Log::error($message);
+        //                throw new RuntimeException($message);
+        //            }
+        //        }
 
     }
 
@@ -314,7 +312,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     protected function addToAbout(): void
     {
-//        AboutCommand::add('My Package', fn () => ['Version' => '1.0.0']);
+        //        AboutCommand::add('My Package', fn () => ['Version' => '1.0.0']);
         AboutCommand::add($this->packageName, function () {
             $composer = json_decode(file_get_contents(__DIR__.'/../../composer.json'), true);
 
@@ -366,7 +364,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     {
         $config = config('media-library-extensions.schedule.cleanup');
 
-        if (!($config['enabled'] ?? false)) {
+        if (! ($config['enabled'] ?? false)) {
             return;
         }
 
@@ -378,9 +376,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             // Only allow a few safe values
             $allowedFrequencies = ['daily', 'everyMinute', 'hourly'];
 
-            if (!in_array($frequency, $allowedFrequencies)) {
+            if (! in_array($frequency, $allowedFrequencies)) {
                 throw new \InvalidArgumentException(
-                    "Invalid frequency '{$frequency}' in media-library-extensions config. Allowed values: " . implode(', ', $allowedFrequencies)
+                    "Invalid frequency '{$frequency}' in media-library-extensions config. Allowed values: ".implode(', ', $allowedFrequencies)
                 );
             }
 
@@ -389,7 +387,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 ->withoutOverlapping()
                 ->onOneServer();
 
-            if (!empty($config['pingback_success'])) {
+            if (! empty($config['pingback_success'])) {
                 $event->pingOnSuccess($config['pingback_success']);
             }
         });
@@ -401,13 +399,14 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // Skip check in tests to avoid manifest issues
         if ($this->app->runningUnitTests()) {
             config(['media-library-extensions.active_blade_ui_kit_icon_set' => null]);
+
             return;
         }
 
         // Ensure Blade UI Kit is installed
         if (! class_exists(\BladeUI\Icons\Factory::class)) {
             throw new RuntimeException(
-                'The "blade-ui-kit/blade-icons" package is required but not installed. ' .
+                'The "blade-ui-kit/blade-icons" package is required but not installed. '.
                 'Please run: composer require blade-ui-kit/blade-icons'
             );
         }
@@ -429,17 +428,19 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             }
 
             config(['media-library-extensions.active_blade_ui_kit_icon_set' => $configuredNamespace]);
+
             return;
         }
 
         // Auto-detect first available namespace
         if (! empty($registered)) {
             config(['media-library-extensions.active_blade_ui_kit_icon_set' => $registered[0]]);
+
             return;
         }
 
         // No icon set installed
-        $message = <<<MSG
+        $message = <<<'MSG'
             No Blade UI Kit icon set detected.
             Install one of the following (for example):
               composer require blade-ui-kit/blade-bootstrap-icons
@@ -450,5 +451,4 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Log::error($message);
         throw new RuntimeException($message);
     }
-
 }

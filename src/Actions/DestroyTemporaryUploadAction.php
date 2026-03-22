@@ -52,16 +52,16 @@ class DestroyTemporaryUploadAction
         $instanceId = $request->input('instance_id');
 
         $temporaryUploads = TemporaryUpload::query()
-            ->when($instanceId, fn($q) => $q->where('instance_id', $instanceId))
+            ->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
             ->where('session_id', $sessionId)
             ->whereIn('collection_name', $collections)
             ->get()
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
-//        $temporaryUploads = TemporaryUpload::where('session_id', $sessionId)
-//            ->whereIn('collection_name', $collections)
-//            ->get()
-//            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
+        //        $temporaryUploads = TemporaryUpload::where('session_id', $sessionId)
+        //            ->whereIn('collection_name', $collections)
+        //            ->get()
+        //            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
         $priority = 0;
         foreach ($temporaryUploads as $temporaryUpload) {

@@ -3,7 +3,6 @@
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
-
 beforeEach(function () {
     config()->set('media-library-extensions.media_disks.originals', 'originals');
     config()->set('filesystems.disks', [
@@ -22,13 +21,13 @@ beforeEach(function () {
         'media_demo' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media_demo'),
-//            'url' => env('APP_URL').'/storage/media_demo', // URL to access files
+            //            'url' => env('APP_URL').'/storage/media_demo', // URL to access files
             'visibility' => 'public',
         ],
 
         'originals' => [
             'driver' => 'local',
-//            'root' => storage_path('app/originals'),
+            //            'root' => storage_path('app/originals'),
             'root' => storage_path('app/public/media_originals'),
             'visibility' => 'private',
         ],

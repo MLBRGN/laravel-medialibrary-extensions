@@ -20,14 +20,14 @@ class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
         return [
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
-            'medium_id' => ['required', 'string'],// practically is "single medium id" (always one medium)
+            'medium_id' => ['required', 'string'], // practically is "single medium id" (always one medium)
             'initiator_id' => ['required', 'string'],
             'part' => ['nullable', Rule::in(['original', 'base', 'all'])],
             'options' => ['required', 'string'], // json
-//            'selectable' => ['required', 'string', Rule::in(['true', 'false'])],
-//            'multiple' => ['required', 'string', Rule::in(['true', 'false'])],
-//            'disabled' => ['required', 'string', Rule::in(['true', 'false'])],
-//            'readonly' => ['required', 'string', Rule::in(['true', 'false'])],
+            //            'selectable' => ['required', 'string', Rule::in(['true', 'false'])],
+            //            'multiple' => ['required', 'string', Rule::in(['true', 'false'])],
+            //            'disabled' => ['required', 'string', Rule::in(['true', 'false'])],
+            //            'readonly' => ['required', 'string', Rule::in(['true', 'false'])],
         ];
     }
 }

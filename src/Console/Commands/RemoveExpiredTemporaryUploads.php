@@ -25,7 +25,6 @@ class RemoveExpiredTemporaryUploads extends Command
         $lifetimeMinutes = config('session.lifetime');
         $cutoff = now()->subMinutes($lifetimeMinutes);
 
-
         $query = TemporaryUpload::where('created_at', '<', $cutoff);
 
         $count = 0;
@@ -38,7 +37,7 @@ class RemoveExpiredTemporaryUploads extends Command
         });
 
         $this->info("Deleted {$count} temporary upload(s) older than {$lifetimeMinutes} minutes.");
+
         return self::SUCCESS;
     }
-
 }

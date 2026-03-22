@@ -42,13 +42,13 @@ class UploadForm extends BaseComponent
         $mimeData = $this->resolveAllowedMimeTypes();
 
         $this->initializeConfig([
-//            'instanceId' => $this->instanceId,
+            //            'instanceId' => $this->instanceId,
             //            'frontendTheme' => config('media-library-extensions.frontend_theme'),
             //            'useXhr' => config('media-library-extensions.use_xhr'),
             ...$mimeData,
         ]);
 
-//        dump('mm upload form: ' . $this->instanceId);
+        //        dump('mm upload form: ' . $this->instanceId);
 
     }
 

@@ -65,7 +65,7 @@ class GetMediaManagerLabPreviewerHTMLAction
         }
 
         $html = Blade::renderComponent($component);
-//        Log::info('GetMediaManagerLabPreviewerHTMLAction html: '.$html);
+        //        Log::info('GetMediaManagerLabPreviewerHTMLAction html: '.$html);
 
         return response()->json([
             'html' => $html,

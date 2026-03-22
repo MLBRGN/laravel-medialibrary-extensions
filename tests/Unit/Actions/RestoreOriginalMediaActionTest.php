@@ -9,9 +9,8 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Listeners\MediaHasBeenAddedListener;
 
-
 beforeEach(function () {
-    $this->action = new RestoreOriginalMediumAction();
+    $this->action = new RestoreOriginalMediumAction;
 
     config()->set('media-library-extensions.media_disks.originals', 'originals');
     config()->set('filesystems.disks', [
@@ -28,7 +27,7 @@ beforeEach(function () {
         ],
         'originals' => [
             'driver' => 'local',
-//            'root' => storage_path('app/originals'),
+            //            'root' => storage_path('app/originals'),
             'root' => storage_path('app/public/media_originals'),
             'visibility' => 'private',
         ],
@@ -42,7 +41,7 @@ beforeEach(function () {
 it('returns error if original file not found', function () {
     Event::fake([MediaHasBeenAddedListener::class]);
 
-    $request = new RestoreOriginalMediumRequest();
+    $request = new RestoreOriginalMediumRequest;
     $media = $this->getMedia('test.jpg');
 
     Storage::disk('originals')->delete($media->getPathRelativeToRoot());
@@ -57,13 +56,13 @@ it('returns error if original file not found', function () {
 });
 
 it('restores the original file successfully', function () {
-    $request = new RestoreOriginalMediumRequest();
+    $request = new RestoreOriginalMediumRequest;
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
 
     $media = $this->getMedia('test.jpg');
 
-//    dd($media->disk);
+    //    dd($media->disk);
     $originalPath = $media->getPathRelativeToRoot();
     Storage::disk('originals')->put($originalPath, 'original-content');
 
@@ -80,11 +79,11 @@ it('restores the original file successfully', function () {
     ]);
 
     expect(Storage::disk('public')->exists($originalPath))->toBeTrue();
-//    expect(Storage::disk('media')->get($originalPath))->toBe('original-content');
+    //    expect(Storage::disk('media')->get($originalPath))->toBe('original-content');
 });
 
 it('falls back to media disk if target disk not configured', function () {
-    $request = new RestoreOriginalMediumRequest();
+    $request = new RestoreOriginalMediumRequest;
     $media = $this->getMedia('test.jpg');
     $media->disk = 'nonexistent';
     $media->save();
@@ -107,7 +106,7 @@ it('falls back to media disk if target disk not configured', function () {
 })->todo();
 
 it('returns error response on exception', function () {
-    $request = new RestoreOriginalMediumRequest();
+    $request = new RestoreOriginalMediumRequest;
     $media = $this->getMedia('test.jpg');
 
     // Force a failure by making the file path unreadable

@@ -5,7 +5,6 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;

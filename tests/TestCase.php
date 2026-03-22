@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
-use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
@@ -40,7 +39,7 @@ class TestCase extends Orchestra
         config(['app.timezone' => 'UTC']);
 
         // Run package migrations
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         Carbon::setTestNow('2025-01-01 00:00:00');
 
@@ -60,10 +59,10 @@ class TestCase extends Orchestra
             $key = 'base64:'.base64_encode(random_bytes(32));
             Config::set('app.key', $key);
         }
-//
-//        $this->app->singleton(IconsManifest::class, function () {
-//            return new IconsManifest(storage_path('framework/blade-icons.php'));
-//        });
+        //
+        //        $this->app->singleton(IconsManifest::class, function () {
+        //            return new IconsManifest(storage_path('framework/blade-icons.php'));
+        //        });
         // Use a persistent session driver
         //        Config::set('session.driver', 'file');
     }
@@ -238,10 +237,10 @@ class TestCase extends Orchestra
      */
     protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
     {
-//        dump([
-//            'helper_session' => session()->getId(),
-//            'request_session' => optional(request()->session())->getId(),
-//        ]);
+        //        dump([
+        //            'helper_session' => session()->getId(),
+        //            'request_session' => optional(request()->session())->getId(),
+        //        ]);
 
         $disk = $attributes['disk'] ?? 'public';
 

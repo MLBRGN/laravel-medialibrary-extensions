@@ -83,7 +83,7 @@ class GetMediaPreviewerPermanentHTMLAction
             'html' => $html,
             'mediaCount' => $totalMediaCount,
             'success' => true,
-            'target' => $initiatorId,// TODO contains old id, but this is probably what i want
+            'target' => $initiatorId, // TODO contains old id, but this is probably what i want
         ]);
     }
 }

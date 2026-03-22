@@ -105,7 +105,7 @@ class ResetMediaLibraryExtensions extends Command
         try {
             $connection = DB::connection($connectionName);
             $driver = $connection->getDriverName();
-//            $this->line("Database path: ".$connection->getDatabaseName());
+            //            $this->line("Database path: ".$connection->getDatabaseName());
 
             if ($driver === 'sqlite') {
                 $connection->table('mle_temporary_uploads')->delete();

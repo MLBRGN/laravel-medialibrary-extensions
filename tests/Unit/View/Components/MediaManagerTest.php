@@ -166,7 +166,7 @@ it('renders the correct html multiple (plain)', function () {
         ]
     );
 
-//    expect($html)->toMatchSnapshot();
+    //    expect($html)->toMatchSnapshot();
 });
 
 it('renders the correct html multiple (bootstrap-5)', function () {
@@ -201,7 +201,7 @@ it('renders the correct html multiple (bootstrap-5)', function () {
             ],
         ]
     );
-//    expect($html)->toMatchSnapshot();
+    //    expect($html)->toMatchSnapshot();
 });
 
 it('renders the correct html single (plain)', function () {
@@ -236,7 +236,7 @@ it('renders the correct html single (plain)', function () {
             ],
         ]
     );
-//    expect($html)->toMatchSnapshot();
+    //    expect($html)->toMatchSnapshot();
 });
 
 it('renders the correct html single (bootstrap-5)', function () {
@@ -271,7 +271,7 @@ it('renders the correct html single (bootstrap-5)', function () {
             ],
         ]
     );
-//    expect($html)->toMatchSnapshot();
+    //    expect($html)->toMatchSnapshot();
 });
 
 it('throws if given class string does not exist', function () {

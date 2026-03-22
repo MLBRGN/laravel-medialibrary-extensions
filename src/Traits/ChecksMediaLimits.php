@@ -32,6 +32,7 @@ trait ChecksMediaLimits
             ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
             ->reduce(function (int $total, string $collectionName) use ($instanceId) {
                 $temporaryItems = TemporaryUpload::getForCurrentSession($collectionName, $instanceId);
+
                 return $total + $temporaryItems->count();
             }, 0);
 

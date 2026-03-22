@@ -40,40 +40,30 @@ class Assets extends Component
                 'mediaManagerLabSubmitter' => $this->includeMediaManagerLabSubmitter,
                 'liteYoutube' => $this->includeLiteYoutube,
             ],
-            'for' => $this->for,// keep track of which config belongs to what
+            'for' => $this->for, // keep track of which config belongs to what
             'theme' => $this->frontendTheme,
 
             // Translation strings (CSP-safe: no inline script)
             'translations' => [
-                'csrf_token_mismatch' =>
-                    __('media-library-extensions::http.csrf_token_mismatch'),
+                'csrf_token_mismatch' => __('media-library-extensions::http.csrf_token_mismatch'),
 
-                'unauthenticated' =>
-                    __('media-library-extensions::http.unauthenticated'),
+                'unauthenticated' => __('media-library-extensions::http.unauthenticated'),
 
-                'forbidden' =>
-                    __('media-library-extensions::http.forbidden'),
+                'forbidden' => __('media-library-extensions::http.forbidden'),
 
-                'not_found' =>
-                    __('media-library-extensions::http.not_found'),
+                'not_found' => __('media-library-extensions::http.not_found'),
 
-                'validation_failed' =>
-                    __('media-library-extensions::http.validation_failed'),
+                'validation_failed' => __('media-library-extensions::http.validation_failed'),
 
-                'too_many_requests' =>
-                    __('media-library-extensions::http.too_many_requests'),
+                'too_many_requests' => __('media-library-extensions::http.too_many_requests'),
 
-                'server_error' =>
-                    __('media-library-extensions::http.server_error'),
+                'server_error' => __('media-library-extensions::http.server_error'),
 
-                'unknown_error' =>
-                    __('media-library-extensions::http.unknown_error'),
+                'unknown_error' => __('media-library-extensions::http.unknown_error'),
 
-                'medium_replaced' =>
-                    __('media-library-extensions::messages.medium_replaced'),
+                'medium_replaced' => __('media-library-extensions::messages.medium_replaced'),
 
-                'medium_replacement_failed' =>
-                    __('media-library-extensions::messages.medium_replacement_failed'),
+                'medium_replacement_failed' => __('media-library-extensions::messages.medium_replacement_failed'),
             ],
         ];
     }

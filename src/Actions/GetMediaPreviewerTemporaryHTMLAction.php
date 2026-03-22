@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
@@ -39,7 +38,7 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
-        $model = new $modelType();
+        $model = new $modelType;
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))
@@ -86,7 +85,7 @@ class GetMediaPreviewerTemporaryHTMLAction
             'html' => $html,
             'mediaCount' => $totalMediaCount,
             'success' => true,
-            'target' => $initiatorId,// TODO contains old id, but this is probably what i want
+            'target' => $initiatorId, // TODO contains old id, but this is probably what i want
         ]);
     }
 }

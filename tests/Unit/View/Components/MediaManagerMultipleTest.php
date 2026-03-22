@@ -105,7 +105,7 @@ it('renders the correct html multiple (plain)', function () {
             ],
         ]
     );
-//    expect($html)->toMatchSnapshot();
+    //    expect($html)->toMatchSnapshot();
 });
 
 it('renders the correct html multiple (bootstrap-5, temporary upload)', function () {
@@ -126,5 +126,5 @@ it('renders the correct html multiple (bootstrap-5, temporary upload)', function
             ],
         ]
     );
-//    expect($html)->toMatchSnapshot();
+    //    expect($html)->toMatchSnapshot();
 });

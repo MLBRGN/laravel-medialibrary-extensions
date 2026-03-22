@@ -62,13 +62,13 @@ it('does not return media when empty collection name provided', function () {
     TemporaryUpload::newFactory()->create([
         'session_id' => $sessionId,
         'collection_name' => 'images',
-        'instance_id' => 'test'
+        'instance_id' => 'test',
     ]);
 
     TemporaryUpload::newFactory()->create([
         'session_id' => $sessionId,
         'collection_name' => 'documents',
-        'instance_id' => 'test'
+        'instance_id' => 'test',
     ]);
 
     $instanceId = '';
@@ -83,12 +83,12 @@ it('returns all session uploads when collectionName is an empty string', functio
     TemporaryUpload::newFactory()->create([
         'session_id' => $sessionId,
         'collection_name' => '',
-        'instance_id' => 'test'
+        'instance_id' => 'test',
     ]);
     TemporaryUpload::newFactory()->create([
         'session_id' => $sessionId,
         'collection_name' => 'images',
-        'instance_id' => 'test'
+        'instance_id' => 'test',
     ]);
 
     $instanceId = null;

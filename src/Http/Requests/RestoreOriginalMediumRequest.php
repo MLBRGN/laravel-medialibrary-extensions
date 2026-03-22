@@ -21,18 +21,18 @@ class RestoreOriginalMediumRequest extends MediaManagerRequest
     public function rules(): array
     {
         return [
-//            'initiator_id' => ['required', 'string'],
-//            'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
-//            'model_type' => 'required|string',
-//            'model_id' => ['required_if:temporary_upload_mode,false'],
-//            'single_medium_id' => ['nullable'],
+            //            'initiator_id' => ['required', 'string'],
+            //            'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
+            //            'model_type' => 'required|string',
+            //            'model_id' => ['required_if:temporary_upload_mode,false'],
+            //            'single_medium_id' => ['nullable'],
 
-//            'media_manager_id' => ['required', 'string'],
-//            'medium_id' => 'required|string',
-//            'collection' => 'required|string',
-//            'file' => 'required|file',
-//            'collections' => ['required', 'array', 'min:1'],
-//            'collections.*' => ['nullable', 'string'],
+            //            'media_manager_id' => ['required', 'string'],
+            //            'medium_id' => 'required|string',
+            //            'collection' => 'required|string',
+            //            'file' => 'required|file',
+            //            'collections' => ['required', 'array', 'min:1'],
+            //            'collections.*' => ['nullable', 'string'],
         ];
     }
 

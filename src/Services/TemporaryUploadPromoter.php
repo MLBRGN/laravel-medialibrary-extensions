@@ -23,11 +23,13 @@ class TemporaryUploadPromoter
 
         if ($temporaryUploads->isEmpty()) {
             Log::info('TemporaryUploadPromoter: no temporary uploads found for this session/instance');
+
             return;
         }
 
         if ($temporaryUploads->isEmpty()) {
             Log::info('TemporaryUploadPromoter: no temporary uploads found for this session');
+
             return;
         }
 
@@ -35,7 +37,7 @@ class TemporaryUploadPromoter
         $dirty = false;
 
         foreach ($temporaryUploads as $temporaryUpload) {
-            Log::info("TemporaryUploadPromoter: promoting temporary upload", [
+            Log::info('TemporaryUploadPromoter: promoting temporary upload', [
                 'id' => $temporaryUpload->id,
                 'file_name' => $temporaryUpload->file_name,
                 'path' => $temporaryUpload->path,
@@ -46,10 +48,11 @@ class TemporaryUploadPromoter
 
             if (! $media) {
                 Log::warning("TemporaryUploadPromoter: promotion failed for temporary upload {$temporaryUpload->id}");
+
                 continue;
             }
 
-            Log::info("TemporaryUploadPromoter: promotion successful", [
+            Log::info('TemporaryUploadPromoter: promotion successful', [
                 'media_id' => $media->id,
                 'media_url' => $media->getUrl(),
             ]);
@@ -86,18 +89,18 @@ class TemporaryUploadPromoter
             // Cleanup temp file + DB record
             if (Storage::disk($temporaryDisk)->exists($temporaryUpload->path)) {
                 Storage::disk($temporaryDisk)->delete($temporaryUpload->path);
-                Log::info("TemporaryUploadPromoter: deleted temporary file", ['path' => $temporaryUpload->path]);
+                Log::info('TemporaryUploadPromoter: deleted temporary file', ['path' => $temporaryUpload->path]);
             }
 
             $temporaryUpload->delete();
-            Log::info("TemporaryUploadPromoter: deleted temporary upload record", ['id' => $temporaryUpload->id]);
+            Log::info('TemporaryUploadPromoter: deleted temporary upload record', ['id' => $temporaryUpload->id]);
         }
 
         if ($dirty) {
             $model->saveQuietly();
-            Log::info("TemporaryUploadPromoter: model saved with updated HTML fields", ['model_id' => $model->id]);
+            Log::info('TemporaryUploadPromoter: model saved with updated HTML fields', ['model_id' => $model->id]);
         } else {
-            Log::info("TemporaryUploadPromoter: no changes detected, model not saved", ['model_id' => $model->id]);
+            Log::info('TemporaryUploadPromoter: no changes detected, model not saved', ['model_id' => $model->id]);
         }
     }
 
@@ -137,7 +140,7 @@ class TemporaryUploadPromoter
         $filenamePattern = preg_quote($filename, '#');
 
         // Match relative or absolute URLs pointing to media_temporary
-        $pattern = '#(?:' . preg_quote($temporaryDiskUrl, '#') . '|)(/storage/media_temporary/.*?)' . $filenamePattern . '#iu';
+        $pattern = '#(?:'.preg_quote($temporaryDiskUrl, '#').'|)(/storage/media_temporary/.*?)'.$filenamePattern.'#iu';
 
         $newHtml = preg_replace($pattern, $mediaUrl, $html);
 

@@ -9,7 +9,6 @@ use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
 class DemoController extends Controller
 {
-
     public function demoPlain(): View
     {
 
@@ -20,13 +19,13 @@ class DemoController extends Controller
 
         // add medium if none exists yet
         if ($model->getMedia('alien-media-lab')->isEmpty()) {
-            $demoImage = __DIR__ . '/../../../resources/demo/demo.jpg';
+            $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
 
             $model
                 ->addMedia($demoImage)
                 ->preservingOriginal()
                 ->toMediaCollection('alien-media-lab', 'media_demo');
-//                ->toMediaCollection('alien-media-lab', 'media_demo');
+            //                ->toMediaCollection('alien-media-lab', 'media_demo');
 
             // Re-load the media so it's immediately available
             $model->load('media');
@@ -50,7 +49,7 @@ class DemoController extends Controller
 
         // add medium if none exists yet
         if ($model->getMedia('alien-media-lab')->isEmpty()) {
-            $demoImage = __DIR__ . '/../../../resources/demo/demo.jpg';
+            $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
 
             $model
                 ->addMedia($demoImage)

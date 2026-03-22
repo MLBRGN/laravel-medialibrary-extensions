@@ -1,8 +1,10 @@
-<?php /** @noinspection HtmlUnknownTarget */
+<?php
 
-use Illuminate\Support\Facades\Storage;
+/** @noinspection HtmlUnknownTarget */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
@@ -44,7 +46,7 @@ function normalizeFilename(string $filename): string
 function prepareSafeFilenames(string $originalName): array
 {
     $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-    $diskFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-') . '.' . $extension;
+    $diskFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-').'.'.$extension;
 
     // HTML may contain soft hyphens etc.
     $htmlFilename = $originalName;
@@ -88,7 +90,7 @@ it('replaces relative temporary media urls with unicode / soft hyphen filenames'
     $originalFilename = "Screen\u{00AD}Shot 2026-01-17.png";
 
     // Create safe disk filename
-    $diskFilename = Str::slug(pathinfo($originalFilename, PATHINFO_FILENAME), '-') . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
+    $diskFilename = Str::slug(pathinfo($originalFilename, PATHINFO_FILENAME), '-').'.'.pathinfo($originalFilename, PATHINFO_EXTENSION);
 
     // HTML should use the same filename as in temp storage
     $post = TestPost::create([
@@ -115,7 +117,6 @@ it('replaces relative temporary media urls with unicode / soft hyphen filenames'
     expect($media->file_name)->toContain($normalized);
     Storage::disk($this->temporaryDisk)->assertMissing($diskFilename);
 });
-
 
 it('replaces absolute temporary media urls in html', function () {
     $filename = 'image.png';
@@ -176,7 +177,7 @@ it('replaces temporary uploads with Unicode / unsafe filenames in HTML', functio
 
     // Safe disk filename
     $diskFilename = Str::slug(pathinfo($originalFilename, PATHINFO_FILENAME), '-')
-        . '.' . pathinfo($originalFilename, PATHINFO_EXTENSION);
+        .'.'.pathinfo($originalFilename, PATHINFO_EXTENSION);
 
     // HTML uses the sanitized disk filename (this matches temp uploads)
     $post = TestPost::create([
@@ -203,7 +204,6 @@ it('replaces temporary uploads with Unicode / unsafe filenames in HTML', functio
     expect($media->file_name)->toContain($normalized);
     Storage::disk($this->temporaryDisk)->assertMissing($diskFilename);
 });
-
 
 it('removes temporary upload file and database record', function () {
     $filename = 'image.png';

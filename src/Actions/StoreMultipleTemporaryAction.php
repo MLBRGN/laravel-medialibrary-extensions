@@ -116,11 +116,11 @@ class StoreMultipleTemporaryAction
 
             $originalName = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
-            $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-') . '.' . $extension;
+            $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-').'.'.$extension;
 
             $directory = "{$basePath}";
             $sessionId = $request->session()->getId();
-//            $filename = "{$safeFilename}.{$extension}";
+            //            $filename = "{$safeFilename}.{$extension}";
 
             // Store file
             Storage::disk($disk)->putFileAs($directory, $file, $safeFilename);
@@ -130,8 +130,8 @@ class StoreMultipleTemporaryAction
                 'disk' => $disk,
                 'path' => "{$directory}/{$safeFilename}",
                 'name' => $safeFilename,
-//                'name' => pathinfo($safeFilename, PATHINFO_FILENAME),
-                'file_name' => $safeFilename,// no unicode (this causes problems with replacement of image source)
+                //                'name' => pathinfo($safeFilename, PATHINFO_FILENAME),
+                'file_name' => $safeFilename, // no unicode (this causes problems with replacement of image source)
                 'collection_name' => $collectionName,
                 'mime_type' => $file->getMimeType(),
                 'size' => $file->getSize(),

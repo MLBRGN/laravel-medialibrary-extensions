@@ -38,7 +38,7 @@ class MediaCarousel extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $instanceId = '';// todo
+        $instanceId = ''; // todo
         $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();

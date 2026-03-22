@@ -10,6 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvide
 class InstallMediaLibraryExtensions extends Command
 {
     protected $signature = 'media-library-extensions:install {--force : Overwrite any existing files}';
+
     protected $description = 'Install the media library extensions (publishes required assets and installs npm package).';
 
     // short form aliases
@@ -50,6 +51,7 @@ class InstallMediaLibraryExtensions extends Command
     {
         if (file_exists($targetPath) && ! $force) {
             $this->warn("Skipped publishing [$tag]: file/folder already exists at [$targetPath]");
+
             return;
         }
 

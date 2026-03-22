@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
@@ -24,14 +23,15 @@ class RestoreOriginalMediumAction
         $originalsDisk = config('media-library-extensions.media_disks.originals');
         $originalPath = "{$media->id}/{$media->file_name}";
 
-        if (!Storage::disk($originalsDisk)->exists($originalPath)) {
+        if (! Storage::disk($originalsDisk)->exists($originalPath)) {
             Log::warning("Original not found at [$originalsDisk:$originalPath]");
+
             return back()->with('error', 'Original file not found.');
         }
 
         try {
             $targetDisk = $media->disk;
-            if (!array_key_exists($targetDisk, config('filesystems.disks'))) {
+            if (! array_key_exists($targetDisk, config('filesystems.disks'))) {
                 Log::warning("Disk [$targetDisk] not configured, using fallback [media]");
                 $targetDisk = 'media';
             }
@@ -69,20 +69,20 @@ class RestoreOriginalMediumAction
 }
 
 //
-///** @noinspection PhpMultipleClassDeclarationsInspection */
+// /** @noinspection PhpMultipleClassDeclarationsInspection */
 //
-//namespace Mlbrgn\MediaLibraryExtensions\Actions;
+// namespace Mlbrgn\MediaLibraryExtensions\Actions;
 //
-//use Illuminate\Http\JsonResponse;
-//use Illuminate\Http\RedirectResponse;
-//use Illuminate\Support\Facades\Log;
-//use Illuminate\Support\Facades\Storage;
-//use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-//use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
-//use Spatie\MediaLibrary\MediaCollections\Models\Media;
+// use Illuminate\Http\JsonResponse;
+// use Illuminate\Http\RedirectResponse;
+// use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Storage;
+// use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
+// use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
+// use Spatie\MediaLibrary\MediaCollections\Models\Media;
 //
-//class RestoreOriginalMediumAction
-//{
+// class RestoreOriginalMediumAction
+// {
 //    public function execute(
 //        RestoreOriginalMediumRequest $request,
 //        Media $media
@@ -150,4 +150,4 @@ class RestoreOriginalMediumAction
 //            );
 //        }
 //    }
-//}
+// }

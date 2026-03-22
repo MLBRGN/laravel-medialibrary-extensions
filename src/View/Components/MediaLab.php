@@ -23,6 +23,7 @@ class MediaLab extends BaseComponent
     public ?Model $model = null;
 
     public ?string $modelType = null;
+
     public ?int $modelId = null;
 
     public function __construct(

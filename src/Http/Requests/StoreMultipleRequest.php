@@ -51,17 +51,17 @@ class StoreMultipleRequest extends MediaManagerRequest
                         $collections,
                         $maxItemsInCollection,
                         $this->input('instance_id')
-                )
+                    ),
             ],
             $uploadFieldName.'.media.*' => [
-                'nullable',
-                'mimetypes:'.implode(',', Arr::flatten(config('media-library-extensions.allowed_mimetypes'))),
-                'max:'.config('media-library-extensions.max_upload_size'),
+                    'nullable',
+                    'mimetypes:'.implode(',', Arr::flatten(config('media-library-extensions.allowed_mimetypes'))),
+                    'max:'.config('media-library-extensions.max_upload_size'),
             ],
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],
-//            'instance_id' => ['nullable', 'ulid', 'max:26'], better, but first play safe
+            //            'instance_id' => ['nullable', 'ulid', 'max:26'], better, but first play safe
         ];
     }
 }

@@ -20,6 +20,7 @@ class MediaFirstAvailable extends BaseComponent
     public ?string $componentToRender;
 
     public ?string $mediumType;
+
     public bool $expandableInModal = false;
 
     public function __construct(
