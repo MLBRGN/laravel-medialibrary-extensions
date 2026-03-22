@@ -40,6 +40,7 @@ trait InteractsWithOptionsAndConfig
         'modelId',
         'options',
         'id',
+        'instanceId',
 
         'mediaUploadRoute',
         'mediaManagerPreviewUpdateRoute',

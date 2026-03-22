@@ -11,9 +11,20 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TemporaryUploadPromoter
 {
-    public function promoteAllForModel(Model $model): void
+    public function promoteAllForModel(Model $model, ?string $instanceId = null): void
     {
-        $temporaryUploads = TemporaryUpload::where('session_id', session()->getId())->get();
+        $query = TemporaryUpload::where('session_id', session()->getId());
+
+        if ($instanceId) {
+            $query->where('instance_id', $instanceId);
+        }
+
+        $temporaryUploads = $query->get();
+
+        if ($temporaryUploads->isEmpty()) {
+            Log::info('TemporaryUploadPromoter: no temporary uploads found for this session/instance');
+            return;
+        }
 
         if ($temporaryUploads->isEmpty()) {
             Log::info('TemporaryUploadPromoter: no temporary uploads found for this session');

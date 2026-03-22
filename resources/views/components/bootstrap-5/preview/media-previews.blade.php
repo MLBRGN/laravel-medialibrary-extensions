@@ -19,6 +19,7 @@
             :disabled="$disabled"
             :readonly="$readonly"
             :multiple="$multiple"
+            :instance-id="$instanceId"
         />
         <x-mle-media-modal
             :id="$id"
@@ -29,6 +30,7 @@
             :video-auto-play="true"
             :options="$options"
             title="Media carousel"
+            :instance-id="$instanceId"
         />
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
@@ -40,6 +42,7 @@
                 :options="$options"
                 :disabled="$disabled"
                 :selectable="$selectable"
+                :instance-id="$instanceId"
             />
         @endif
     </div>

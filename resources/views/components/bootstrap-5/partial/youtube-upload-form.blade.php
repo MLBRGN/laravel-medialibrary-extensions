@@ -46,6 +46,10 @@
         value="{{ $id }}">
     <input
         type="hidden"
+        name="instance_id"
+        value="{{ $getConfig('instanceId') ?? '' }}">
+    <input
+        type="hidden"
         name="media_manager_id"
         value="{{ $mediaManagerId }}">
     <input

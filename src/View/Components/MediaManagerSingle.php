@@ -63,7 +63,7 @@ class MediaManagerSingle extends MediaManager
                 if ($modelOrClassName instanceof HasMedia) {
                     $totalMediaCount += $modelOrClassName->getMedia($collectionName)->count();
                 } elseif (is_string($modelOrClassName)) {
-                    $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName)->count();
+                    $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName, $this->instanceId)->count();
                 }
             }
         }

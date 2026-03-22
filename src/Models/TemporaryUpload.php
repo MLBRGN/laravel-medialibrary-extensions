@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
@@ -30,6 +31,7 @@ class TemporaryUpload extends Model
         'size',
         'session_id',
         'user_id',
+        'instance_id',
         'custom_properties',
         'order_column',
     ];
@@ -41,15 +43,6 @@ class TemporaryUpload extends Model
     // used when serializing
     protected $appends = ['url'];
 
-    //    public static function isAvailable(): bool
-    //    {
-    //        $instance = new static;
-    //        $connection = $instance->getConnectionName();
-    //        $table = $instance->getTable();
-    //
-    //        return Schema::connection($connection)->hasTable($table);
-    //    }
-
     // null = default connection
     public function getConnectionName()
     {
@@ -60,14 +53,43 @@ class TemporaryUpload extends Model
         return parent::getConnectionName();
     }
 
-    public static function forCurrentSession($collectionName = null): Collection
+//    public static function forCurrentSession($collectionName = null): Collection
+//    {
+//        return self::where('session_id', session()->getId())
+//            ->when(! is_null($collectionName), function ($query) use ($collectionName) {
+//                return $query->where('collection_name', $collectionName);
+//            })
+//            ->orderBy('order_column', 'asc')
+//            ->get();
+//    }
+
+    public function scopeForCurrentSession($query, ?string $collectionName = null, ?string $instanceId = null)
     {
-        return self::where('session_id', session()->getId())
-            ->when(! is_null($collectionName), function ($query) use ($collectionName) {
-                return $query->where('collection_name', $collectionName);
-            })
-            ->orderBy('order_column', 'asc')
-            ->get();
+        Log::info('scopeForCurrentSession instanceId ' . $instanceId);
+        $query->when($instanceId, fn($q) => $q->where('instance_id', $instanceId))
+            ->unless($instanceId, fn($q) => $q->where('session_id', session()->getId()))
+            ->when($collectionName, fn($q) => $q->where('collection_name', $collectionName))
+            ->orderBy('order_column', 'asc');
+
+        return $query->get();
+    }
+//    public function scopeForCurrentSession($query, ?string $collectionName = null, ?string $instanceId = null)
+//    {
+//        $instanceId = $instanceId ?? request()->input('instance_id');
+//
+//        $query->when($instanceId, fn($q) => $q->where('instance_id', $instanceId))
+//            ->unless($instanceId, fn($q) => $q->where('session_id', session()->getId()))
+//            ->when($collectionName, fn($q) => $q->where('collection_name', $collectionName))
+//            ->orderBy('order_column', 'asc');
+//
+//        return $query->get();
+//    }
+
+    public static function getForCurrentSession(?string $collectionName = null, ?string $instanceId = null): Collection
+    {
+        Log::info('getForCurrentSession instanceId ' . $instanceId);
+
+        return static::forCurrentSession($collectionName, $instanceId);//->get();
     }
 
     public function getUrlAttribute(): string

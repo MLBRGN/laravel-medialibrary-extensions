@@ -25,6 +25,7 @@ class DestroyTemporaryMediumRequest extends MediaManagerRequest
             'single_medium_id' => ['nullable'],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
+            'instance_id' => ['nullable', 'string', 'max:64'],
         ];
     }
 

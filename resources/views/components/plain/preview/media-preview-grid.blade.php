@@ -9,5 +9,6 @@
         :selectable="$selectable"
         :readonly="$readonly"
         :multiple="$multiple"
+        :instance-id="$instanceId"
     />
 </div>

@@ -4,7 +4,7 @@
     data-mle-media-manager
 
 >
-    <input id="config-test-media-modal-mms" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","singleMedium":null,"collections":{"image":"images"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showOrder":false,"showSetAsFirstButton":false,"showYouTubeUploadForm":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","disableForm":false}'>
+    <input id="config-test-media-modal-mms" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":false,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"medium","frontendTheme":"bootstrap-5","useXhr":true,"csrfToken":null,"modelOrClassName":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","singleMedium":null,"collections":{"image":"images"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"model":null,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"options":{"frontendTheme":"bootstrap-5","showOrder":false,"showSetAsFirstButton":false,"showYouTubeUploadForm":false,"uploadFieldName":"medium","disableForm":false},"id":"test-media-modal-mms","instanceId":"01KMBW0X71J72HGW0BSZENTPA5","mediaUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","mediaManagerPreviewUpdateRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUploadRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube","disableForm":false}'>
 
         
     
@@ -13,7 +13,8 @@
         
         <div class="mle-media-manager-form ">
                             
-                                    <div class="mle-demo-media-carousel mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
+                                    
+                    <div class="mle-demo-media-carousel mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-mms-media-upload-form" data-xhr-method="post">
         <label for="test-media-modal-mms-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="test-media-modal-mms-media-input"
@@ -47,6 +48,10 @@
         type="hidden"
         name="initiator_id"
         value="test-media-modal-mms">
+    <input
+        type="hidden"
+        name="instance_id"
+        value="01KMBW0X71J72HGW0BSZENTPA5">
     <input
         type="hidden"
         name="media_manager_id"
@@ -97,6 +102,7 @@
     </div>
 </div>            
             <div class="mle-media-preview-grid" data-mle-media-preview-grid>
+
     <div class="mle-component mle-media-preview-container mle-media-manager-no-media"
      data-mle-media-preview-container>
     <span class="mle-no-media">

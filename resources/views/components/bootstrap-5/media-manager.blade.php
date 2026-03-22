@@ -36,6 +36,7 @@
                         :multiple="$multiple"
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
+                        :instance-id="$getConfig('instanceId')"
                     />
                 @endif
 
@@ -50,6 +51,7 @@
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
                         :multiple="$multiple"
+                        :instance-id="$getConfig('instanceId')"
                     />
                 @endif
             @endif
@@ -63,6 +65,7 @@
                 :initiator-id="$id"
                 :media-manager-id="$id"
                 :options="$options"
+                :instance-id="$getConfig('instanceId')"
             />
             
             <x-mle-media-preview-grid
@@ -75,6 +78,7 @@
                 :disabled="$disabled"
                 :readonly="$readonly"
                 :multiple="$multiple"
+                :instance-id="$getConfig('instanceId')"
             />
         </div>
     </div>

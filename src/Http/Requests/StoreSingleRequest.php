@@ -45,10 +45,16 @@ class StoreSingleRequest extends MediaManagerRequest
                 'file',
                 $temporaryUploadMode === 'false'
                     ? new MaxMediaCount($model, $collections, $maxItemsInCollection)
-                    : new MaxTemporaryUploadCount($collections, $maxItemsInCollection),
+                    : new MaxTemporaryUploadCount(
+                        $collections,
+                        $maxItemsInCollection,
+                        $this->input('instance_id')
+                ),
             ],
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],
+            'instance_id' => ['nullable', 'string', 'max:64'],
+//            'instance_id' => ['nullable', 'ulid', 'max:26'], better, but first play safe
         ];
     }
 }

@@ -5,8 +5,10 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -21,6 +23,8 @@ class MediaManager extends BaseComponent
     protected string $mediaManagerPreviewUpdateRoute; // route to update preview media when using XHR
 
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
+
+    public string $instanceId;
 
     public function __construct(
         ?string $id,
@@ -37,6 +41,8 @@ class MediaManager extends BaseComponent
 
         $id = filled($id) ? $id : null;
         parent::__construct($id);
+
+        $this->instanceId = InstanceManager::getInstanceId($id ?? Str::ulid());
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -74,7 +80,9 @@ class MediaManager extends BaseComponent
             $this->id .= '-mms';
         }
 
-        $this->initializeConfig();
+        $this->initializeConfig([
+            'instanceId' => $this->instanceId,
+        ]);
 
         // TODO is there a neater way to do this?
         // options are passed to components, config is reinitialized for each component.

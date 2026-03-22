@@ -16,17 +16,20 @@ class MaxTemporaryUploadCount implements ValidationRule
 
     protected int $max;
 
-    public function __construct(array $collections, int $max)
+    protected ?string $instanceId;
+
+    public function __construct(array $collections, int $max, ?string $instanceId = null)
     {
         $this->collections = $collections;
         $this->max = $max;
+        $this->instanceId = $instanceId;
     }
 
     public function validate(string $attribute, $value, Closure $fail): void
     {
         $newCount = is_array($value) ? count($value) : 1;
 
-        $existingCount = $this->countTemporaryUploadsInCollections($this->collections);
+        $existingCount = $this->countTemporaryUploadsInCollections($this->collections, $this->instanceId);
 
         if (($existingCount + $newCount) > $this->max) {
             $fail($this->message());

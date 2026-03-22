@@ -8,6 +8,7 @@
         :selectable="true"
         :readonly="false"
         :disabled="false"
+        :instance-id="$getConfig('instanceId')"
     />
 </div>
 <x-mle-shared-assets

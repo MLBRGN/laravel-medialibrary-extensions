@@ -26,13 +26,12 @@ trait ChecksMediaLimits
     /**
      * Count total temporary uploads for current session in given collections.
      */
-    protected function countTemporaryUploadsInCollections(array $collections): int
+    protected function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null): int
     {
         $count = collect($collections)
             ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
-            ->reduce(function (int $total, string $collectionName) {
-                $temporaryItems = TemporaryUpload::forCurrentSession($collectionName);
-
+            ->reduce(function (int $total, string $collectionName) use ($instanceId) {
+                $temporaryItems = TemporaryUpload::getForCurrentSession($collectionName, $instanceId);
                 return $total + $temporaryItems->count();
             }, 0);
 
@@ -50,8 +49,8 @@ trait ChecksMediaLimits
     /**
      * Check if there are temporary uploads in the given collections (single-medium limit).
      */
-    protected function temporaryUploadsHaveAnyMedia(array $collections): bool
+    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null): bool
     {
-        return $this->countTemporaryUploadsInCollections($collections) > 0;
+        return $this->countTemporaryUploadsInCollections($collections, $instanceId) > 0;
     }
 }

@@ -48,7 +48,9 @@ it('attaches temporary media on non created model, and stores medium on model cr
             'message' => __('media-library-extensions::messages.upload_success'),
         ]);
 
-    $temporaryMedium = TemporaryUpload::forCurrentSession('images');
+    $instanceId = null;
+
+    $temporaryMedium = TemporaryUpload::forCurrentSession('images', $instanceId);
 
     expect($temporaryMedium)->not()->toBeNull()
         ->and(TemporaryUpload::count())->toBe(1);
@@ -95,7 +97,9 @@ it('returns error when no collection provided', function () {
             'message' => __('media-library-extensions::messages.no_media_collections'),
         ]);
 
-    $temporaryMedium = TemporaryUpload::forCurrentSession('images');
+    $instanceId = '';
+
+    $temporaryMedium = TemporaryUpload::forCurrentSession('images', $instanceId);
 
     expect($temporaryMedium)->not()->toBeNull()
         ->and(TemporaryUpload::count())->toBe(0);

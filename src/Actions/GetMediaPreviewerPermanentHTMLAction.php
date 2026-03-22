@@ -32,6 +32,7 @@ class GetMediaPreviewerPermanentHTMLAction
         $disabled = $request->boolean('disabled');
         $readonly = $request->boolean('readonly');
         $selectable = $request->boolean('selectable');
+        $instanceId = $request->input('instance_id') || null;
 
         $options = json_decode($request->input('options'), true) ?? [];
         $collections = json_decode($request->input('collections'), true) ?? [];
@@ -73,6 +74,7 @@ class GetMediaPreviewerPermanentHTMLAction
             disabled: $disabled,
             readonly: $readonly,
             selectable: $selectable,
+            instanceId: $instanceId,
         );
 
         $html = Blade::renderComponent($component);

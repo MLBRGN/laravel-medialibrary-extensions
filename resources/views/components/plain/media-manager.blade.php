@@ -36,6 +36,7 @@
                         :multiple="$multiple"
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
+                        :instance-id="$getConfig('instanceId')"
                     />
                 @endif
 
@@ -49,6 +50,7 @@
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
                         :multiple="$multiple"
+                        :instance-id="$getConfig('instanceId')"
                     />
                 @endif
             @endif

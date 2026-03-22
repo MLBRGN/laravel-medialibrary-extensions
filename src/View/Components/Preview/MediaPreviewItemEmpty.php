@@ -18,7 +18,6 @@ class MediaPreviewItemEmpty extends BaseComponent
         parent::__construct($id);
 
         $this->initializeConfig();
-
     }
 
     public function render(): View

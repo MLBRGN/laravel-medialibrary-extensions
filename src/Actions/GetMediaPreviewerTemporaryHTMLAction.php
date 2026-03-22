@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
@@ -26,6 +27,7 @@ class GetMediaPreviewerTemporaryHTMLAction
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
         $initiatorId = $request->input('initiator_id');
+        $instanceId = $request->input('instance_id');
         $modelType = $request->input('model_type');
         // no modelId
         $singleMediumId = $request->input('single_medium_id');
@@ -61,7 +63,7 @@ class GetMediaPreviewerTemporaryHTMLAction
         } else {
             // Count all media in collections
             foreach ($collections as $collectionName) {
-                $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName)->count();
+                $totalMediaCount += TemporaryUpload::getForCurrentSession($collectionName, $instanceId)->count();
             }
         }
 
@@ -75,6 +77,7 @@ class GetMediaPreviewerTemporaryHTMLAction
             disabled: $disabled,
             readonly: $readonly,
             selectable: $selectable,
+            instanceId: $instanceId,
         );
 
         $html = Blade::renderComponent($component);

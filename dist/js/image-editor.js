@@ -1,4 +1,4 @@
-let ne=class Y{static isLiteralObject(e){return!!e&&e.constructor===Object}static get defaultConfig(){return{rootElement:document,fallbackTranslations:null,fallbackLanguage:"en",detectLanguage:!0,persist:!1,persistKey:"active_language",languagesSupported:["en","nl"],languagesPath:null,exposeFnName:"__",debug:!1}}errorMessages={INVALID_CONSTRUCTOR_ARGUMENTS:"Invalid constructor arguments"};#e;#t;#a;#i=new Map;constructor(e={}){if(console.log("test"),console.log("test4"),this.debug=(...t)=>{this.#e?.debug&&console.log("[Translator]",...t)},!Y.isLiteralObject(e)){console.error("[Translator]",this.errorMessages.INVALID_CONSTRUCTOR_ARGUMENTS);return}this.#e=Object.assign({},Y.defaultConfig,e),this.debug("Initialized with config:",this.#e),this.determineAndSetActiveLanguage(),this.#e.exposeFnName&&(window[this.#e.exposeFnName]=this._.bind(this),this.debug(`Exposed translate function as window.${this.#e.exposeFnName}`)),this.#r().catch(console.error)}setupMutationObserver(){const e=this.#e.rootElement,t={attributes:!0,childList:!0,subtree:!0};new MutationObserver(a=>{for(const i of a)this.#p(i.target)}).observe(e,t)}determineAndSetActiveLanguage(){if(this.config.persist){const e=localStorage.getItem(this.#e.persistKey);this.activeLanguage=e??this.config.fallbackLanguage}else if(this.config.detectLanguage){const e=this.#l();this.activeLanguage=e??this.config.fallbackLanguage}else this.activeLanguage=this.config.fallbackLanguage;this.debug("Active language =",this.#t)}#l(){const e=navigator.languages?.[0]??navigator.language??null;return e?e.substring(0,2):!1}async#r(){const e=this.#s();await this.#n(e),this.#d(),this.setupMutationObserver()}async#n(e){if(this.#i.has(this.#t)){this.debug("Loaded translations from cache"),this.#a=JSON.parse(this.#i.get(this.#t));return}await this.#c(e)}#s(){let e=null;return this.#e.languagesPath&&e`${this.#e.languagesPath}${this.#t}.json`,e}async#c(e){if(!e){this.debug(`[Translator] invalid languageUrl ${e}, not loading translations`);return}try{const t=await fetch(e);t.ok||console.warn(`[Translator] Fetch failed: ${t.status} ${t.statusText} languageUrl: ${e}`),this.#a=await t.json(),this.#i.has(this.#t)||this.#i.set(this.#t,JSON.stringify(this.#a))}catch(t){console.error("[Translator] Fetch error:",t),this.#e.fallbackTranslations&&(console.warn("[Translator] Using fallback translations"),this.#a=this.#e.fallbackTranslations)}}#d(){const e=this.#e.rootElement.querySelectorAll("[data-i18n]");for(const t of e)this.#f(t)}#f(e){const t=[];e.dataset.i18nAndAttr?t.push("inNode",e.dataset.i18nAndAttr):e.dataset.i18nAttr?t.push(e.dataset.i18nAttr):t.push("inNode");const a=e.hasAttribute("data-i18n-html"),i=e.hasAttribute("data-i18n-replacements");let l=null;if(i)try{l=JSON.parse(e.dataset.i18nReplacements)}catch{throw new Error(`Error parsing replacements JSON: ${e.dataset.i18nReplacements}`)}const n=e.dataset.i18n,o=this._(n,l);if(o)for(const f of t)f==="inNode"?a?e.innerHTML=o:e.innerText=o:e.setAttribute(f,o)}#p(e){if(!e.querySelectorAll)return;const t=e.querySelectorAll("[data-i18n]");for(const a of t)this.#f(a)}get config(){return this.#e}get activeLanguage(){return this.#t}set activeLanguage(e){this.#e.languagesSupported.includes(e)||(this.debug(`[Translator] Unsupported language "${e}", using fallback "${this.config.fallbackLanguage}"`),e=this.#e.fallbackLanguage),this.#t=e,this.#e.persist&&localStorage.setItem(this.#e.persistKey,this.#t)}_(e,t=null){let a=this.#a?.[e]||e;return t&&t.forEach(i=>{const l=`%{${Object.keys(i)[0]}}`,n=Object.values(i)[0];a=a.replace(l,n)}),a}};class ${#e;#t;#a;#i;#l={};constructor(e,t,a,i,l){this.set(e,t,a,i,l)}pointIsInsideArea(e){return e.x>this.x&&e.x<this.x+this.w&&e.y>this.y&&e.y<this.y+this.h}scale(e){return new $(this.x*e,this.y*e,this.w*e,this.h*e,this.#l)}set(e,t,a,i,l){this.#e=e,this.#t=t,this.#a=a,this.#i=i,l&&typeof l=="object"&&(this.#l=l),this.#r()}get x(){return this.#e}get y(){return this.#t}get w(){return this.#a}get h(){return this.#i}get top(){return this.#t}get right(){return this.#e+this.#a}get bottom(){return this.#t+this.#i}get left(){return this.#e}get aspectRatio(){return this.#a/this.#i}getOption(e){return this.#l[e]}set x(e){this.#e=e}set y(e){this.#t=e}set w(e){this.#a=e,this.#r()}set h(e){this.#i=e,this.#r()}get xHalfway(){return this.x+(this.right-this.left)/2}get yHalfway(){return this.y+(this.bottom-this.top)/2}setOption(e,t){return this.#l[e]=t,t}#r(){this.w<0&&(this.w=Math.abs(this.w),this.x=this.x-this.w),this.h<0&&(this.h=Math.abs(this.h),this.y=this.y-this.h)}get cloned(){return new $(this.#e,this.#t,this.#a,this.#i,this.#l)}}const oe=r=>r.charAt(0).toUpperCase()+r.slice(1),se=r=>Number(r)===r&&r%1===0,ce=r=>Number(r)===r&&r%1!==0,ae=r=>r.replace(/[A-Z]+(?![a-z])|[A-Z]/g,(e,t)=>(t?"-":"")+e.toLowerCase()),K=function(r,e,t=500){let a;return(...i)=>{clearTimeout(a),a=setTimeout(()=>{r.apply(e,i)},t)}};let de=class{#e;#t;constructor(e=!1,t=""){this.#e=e,this.#t=t}enable(){this.#e=!0}disable(){this.#e=!1}log(...e){this.#e&&console.log(this.#t?`[${this.#t}]`:"",...e)}info(...e){this.#e&&console.info(this.#t?`[${this.#t}]`:"",...e)}warn(...e){this.#e&&console.warn(this.#t?`[${this.#t}]`:"",...e)}error(...e){this.#e&&console.error(this.#t?`[${this.#t}]`:"",...e)}};const ie=(r=!1,e="")=>new de(r,e);class fe extends HTMLElement{elements={};#e=null;configuration={};#t={debug:!1};constructor(){if(super(),this.setConfiguration(this.#t),!new.target)throw new TypeError("invalid instantiation");const e=this.#e=new.target;if(this.logger=ie(this.debug,e.name),e.shadowTemplate){const t=e.shadowMode||{mode:"open",delegatesFocus:!0};this.attachShadow(t).innerHTML=e.shadowTemplate,e.elementLookup?.forEach(a=>{const i=ae(a),l=this.shadowRoot.querySelector(i);l||console.warn(`element with "${i}" not found`),this.elements[a.slice(1)]=l}),e.translationsPath&&(this.translator=new ne({rootElement:this.shadowRoot,fallbackTranslations:{},persist:!0,debug:!1,languagesSupported:["nl","en"],fallbackLanguage:"nl",detectLanguage:!0,languagesPath:e.translationsPath}))}}attributeChangedCallback(e,t,a){}shadowTemplateAdded(){}getAttributeAsBoolean(e){return this.getBooleanAttributeOrDefault(e,!1)}getAttributeAsBooleanDefaultWhenFalse(e,t=null){return this.getBooleanAttributeOrDefault(e,t)}getBooleanAttributeOrDefault(e,t=!1){if(!this.hasAttribute(e))return t;const a=this.getAttribute(e);return a===""?!0:a.toLowerCase()==="false"?!1:a.toLowerCase()==="true"?!0:!!a}setAttributeAsBoolean(e,t){if(typeof t!="boolean")throw new Error(`set ${e} must be set to a boolean value.`);this.toggleAttribute(e,t)}getAttributeAsInteger(e,t){return this.hasAttribute(e)?parseInt(this.getAttribute(e)):typeof t<"u"?t:null}setAttributeAsInteger(e,t){if(!se(t))throw new Error(`set ${e} must be set to a number value.`);this.setAttribute(e,t)}getAttributeAsFloat(e,t){return this.hasAttribute(e)?parseFloat(this.getAttribute(e)):typeof t<"u"?t:null}setAttributeAsFloat(e,t){if(!ce(t))throw new Error(`set ${e} must be set to a number value.`);this.setAttribute(e,t)}getAttributeAsCSV(e,t){const a=this.hasAttribute(e)?this.getAttribute(e):null;return t=typeof t<"u"?t:null,a?a.replace(/\s/g,"").split(","):t}setAttributeAsCSV(e,t){if(!Array.isArray(t))throw new Error(`set ${e} must called with an array as value.`);const a=t.join(", ");this.setAttribute(e,a)}setAttributeToString(e,t){if(typeof t!="string")throw new Error(`set ${e} must be set to a string value.`);this.setAttribute(e,t)}getAttributeOrDefault(e,t){return this.hasAttribute(e)?this.getAttribute(e):typeof t<"u"?t:null}setConfiguration(e){this.configuration=Object.assign(this.configuration,e)}getConfiguration(){return this.configuration}get config(){return this.configuration}get subClassName(){return this.#e.name}get debug(){return this.getAttributeAsBooleanDefaultWhenFalse("debug",this.configuration.debug)}set debug(e){this.setAttributeAsBoolean("debug",e)}}let ue=class extends fe{static formAssociated=!0;formElement;#e=["ElementInternals","FormDataEvent","Callback"];#t;internals;#a=null;#i=[];#l={required:!1};constructor(){super(),this.setConfiguration(this.#l),this.formElement=this.findContainingForm(),this.forceSubmitMode?this.setFormSubmitMode(this.forceSubmitMode):this.determineFormSubmitMode(),this.#t==="ElementInternals"&&(this.internals=this.attachInternals(),this.formElement=this.internals.form)}attributeChangedCallback(e,t,a){if(super.attributeChangedCallback(e,t,a),e=e.toLowerCase(),t!==a)switch(e){case"required":const i=a;this.internals?this.internals.ariaRequired=i:this.setAttribute("aria-required",i);break;case"disabled":const l=a;this.internals?this.internals.ariaDisabled=l:this.setAttribute("aria-disabled",l),this.enableControls(!l);break}}determineFormSubmitMode(){const e="ElementInternals"in window&&"setFormValue"in window.ElementInternals.prototype,t="FormDataEvent"in window;this.#n()&&e?this.setFormSubmitMode("ElementInternals"):this.#n()&&t?this.setFormSubmitMode("FormDataEvent"):this.setFormSubmitMode("Callback")}handleSubmitUsingFormDataEvent(){throw new Error("Must override handleSubmitUsingFormDataEvent for DormDataEvent submit method to work.")}updateValue(){this.updateValidity(),this.#t==="ElementInternals"&&(this.internals.setFormValue(this.value),this.logger.log("update ElementInternals value"))}updateValidity(){throw new Error("Must override updateValidity")}connectedCallback(){this.#t==="FormDataEvent"&&this.formElement&&(this.formElement.addEventListener("formdata",this.handleSubmitUsingFormDataEvent),this.formElement.addEventListener("submit",this.formSubmitHandler,!1))}disconnectedCallback(){this.formElement&&(this.#t==="FormDataEvent"&&(this.formElement.removeEventListener("formdata",this.handleSubmitUsingFormDataEvent),this.formElement.removeEventListener("submit",this.formSubmitHandler)),this.formElement=null)}findContainingForm(){const e=this.getRootNode();return Array.from(e.querySelectorAll("form")).find(t=>t.contains(this))||null}formAssociatedCallback(e){this.formAssociated(e)}formDisabledCallback(e){this.#r(e)}formStateRestoreCallback(e,t){t==="restore"?this.formStateRestore(e):this.logger.log("formStateRestoreCallback ignored. mode:",t)}formResetCallback(){this.formReset()}formAssociated(e){}formStateRestore(e){this.value=e}#r(e){this.enableControls(!e)}formReset(){}formSubmitHandler=e=>{if(this.#t==="FormDataEvent"&&!this.#a){e.preventDefault(),this.logger.log("formSubmitHandler message: ",this.#i[0]);const{hiddenFileUpload:t}=this.elements;t.focus(),t.setCustomValidity(this.translator._(this.#i[0])),t.reportValidity()}this.logger.log("formSubmitHandler, FormDataEvent form submit detected")};enableControls(e){throw new Error("enableControls must be overridden")}#n(){return this.formElement!==null}setFormSubmitMode(e){if(!this.#e.includes(e))throw new Error(`Not a valid submit mode ${e}. Use ${this.#e.join(", ")}`);!this.#n()&&e!=="Callback"?(this.#t="Callback",console.warn("Could not find containing form. Falling back to submit using callbacks.")):(this.#t=e,this.logger.log(`Submit mode for ${this.subClassName}`,this.#t))}set validity(e){this.#a=e}get validity(){}set validityMessages(e){this.#i=e,this.#t==="ElementInternals"&&(this.#a?this.internals.setValidity({}):(this.internals.setValidity({customError:!0},this.translator._(this.#i[0]),this.formValidationAnchor),this.internals.reportValidity()))}get validityMessages(){}get forceSubmitMode(){return this.getAttributeOrDefault("force-submit-mode",null)}set forceSubmitMode(e){this.setAttributeToString("force-submit-mode",e),this.setFormSubmitMode(e)}get submitMode(){return this.#t}get type(){return this.getAttributeOrDefault("type","input")}set type(e){this.setAttributeToString("type",e)}get value(){return this.getAttributeOrDefault("value","")}set value(e){this.setAttributeToString("value",String(e))}get name(){return this.getAttributeOrDefault("name","name")}set name(e){this.setAttributeToString("name",e)}get required(){return this.getAttributeAsBooleanDefaultWhenFalse("required",this.config.required)}set required(e){this.setAttributeAsBoolean("required",e)}get formValidationAnchor(){return this}set disabled(e){this.setAttributeAsBoolean("disabled",e)}get disabled(){}setConfiguration(e){super.setConfiguration(Object.assign(this.configuration,e)),this.config.disabled&&(this.disabled=!0)}},pe=class{#e;constructor(){this.#e=document.createElement("div")}register(e,t){this.#e.addEventListener(e,t)}remove(e,t){this.#e.removeEventListener(e,t)}fire(e,t={}){this.#e.dispatchEvent(new CustomEvent(e,{detail:t}))}};const D=new pe,he=async r=>new Promise((e,t)=>{const a=new Image;a.onload=()=>{e(a)},a.onerror=i=>{t(a,i)},a.src=r}),ge=r=>new Promise((e,t)=>{const a=new Image;a.onload=()=>{e({width:a.width,height:a.height})},a.onerror=i=>{t(i)},a.src=r.imageObjectURL}),Z=async(r,e,t)=>{let a;try{const i=await fetch(r,{signal:t}),l=await i.blob(),n=i.headers.get("content-type");a=new File([l],e,{type:n})}catch(i){console.log(i)}return a},me=(r,e)=>{const t=document.createElement("a");t.href=r,t.download=e,t.click(),t.remove()};let O=class{configuration={formatsRegex:/.png|.jpg|.jpeg|.webp/,forceAspectRatio:null,aspectRatioTolerance:.01,minWidth:100,maxWidth:3500,minHeight:100,maxHeight:3500,maxUploadFileSize:1e6,maxEditFileSize:5e6};#e=null;#t=null;#a=null;#i=null;#l="pending";#r=null;#n=null;#s=null;#c=null;#d=null;#f=null;#p=null;#w={valid:!0,rejectionMessages:[],validityMessages:[],rejected:!1};constructor(e={}){this.logger=ie(!0,"ImageFile"),this.configuration=Object.assign({},this.configuration,e)}async load(e,t,a,i="no_name",l=()=>{}){this.#e=e,this.#a=t,this.#t=a,this.name=i,await this.#h(this.#a,this.#t,null,l)}loadDefer(e,t,a,i="no_name"){this.#e=e,this.#a=t,this.#t=a,this.name=i}async loadDeferred(e,t=()=>{}){return this.#h(this.#a,this.#t,e,t)}async#h(e,t,a,i=()=>{}){this.#l="loading",D.fire("onImageFileLoadStart",{imageFile:this,intId:this.#e}),e?await this.#T(e,i):t?await this.#g(t,a,i):this.logger.log("ImageFile #load must be called with either src or file")}async#T(e,t=()=>{}){this.#a=e,this.#t=URL.createObjectURL(e),this.#C(e);try{this.#l="loaded",this.#i=URL.createObjectURL(this.#a),await this.#M()}catch(a){this.#l="loadError",this.logger.log(`#loadSrc: could not load image dimensions ${a}`)}this.#m(),t(this.#e,this),D.fire("onImageFileLoadEnd",{imageFile:this,intId:this.#e})}async#g(e,t,a=()=>{}){this.#l="loading",D.fire("onImageFileLoadStart",{imageFile:this,intId:this.#e}),this.#t=e;try{const i=await Z(this.#t,this.name,t);this.#a=i,this.#C(i),this.#l="loaded",this.#i=URL.createObjectURL(this.#a);try{await this.#M()}catch(l){this.logger.log(`#loadSrc: could not load image dimensions: ${l}`,this.#l)}}catch(i){this.#l="loadError",this.logger.log(`#loadSrc: could not load src: ${i}`,this.#l)}this.#m(),a(this.#e,this),D.fire("onImageFileLoadEnd",{imageFile:this,intId:this.#e})}#C(e){this.#n=e.type,this.#s=this.#B(e.type),this.#c=e.size,this.#r=e.name}#A=e=>{this.#d=e.width,this.#f=e.height,this.#p=e.width/e.height};async#M(){try{const e=await ge(this);this.#A(e)}catch(e){this.logger.log(`#getImageDimension: could not get image dimensions: ${e}`,this.#l)}}#B(e){return e.substring(e.lastIndexOf("/")+1)}#m(){const e=this.#w,{minWidth:t,minHeight:a,maxWidth:i,maxHeight:l}=this.configuration,{maxUploadFileSize:n,maxEditFileSize:o}=this.configuration,f=p=>{e.valid=!1,e.rejected=!0,e.validityMessages.push(p),e.rejectionMessages.push(p)},s=p=>{e.valid=!1,e.validityMessages.push(p)};if(this.#l==="loadError"){f("Load error");return}if(this.#d<t&&f("Width too small"),this.#f<a&&f("Height too small"),this.#d>i&&f("Width too large"),this.#f>l&&f("Height too large"),this.configuration.formatsRegex||console.log("empty formatsRegex!"),this.configuration.formatsRegex.test(`.${this.#s}`)||f("Wrong file format"),this.#c>o&&f("Filesize too large"),this.#c>n&&s("Filesize too large"),this.configuration.forceAspectRatio!==null){const p=this.configuration.forceAspectRatio,h=this.configuration.aspectRatioTolerance;(this.#p<p-h||this.#p>p+h)&&s("Wrong aspect ratio")}D.fire("onImageFileValidated",{imageFile:this,intId:this.#e})}destroy(){URL.revokeObjectURL(this.#i)}get file(){return this.#a}get validity(){return this.#w}get loadStatus(){return this.#l}get name(){return this.#r}set name(e){this.#r=e}get width(){return this.#d}get src(){return this.#t}get height(){return this.#f}get mimeType(){return this.#n}get imageObjectURL(){return this.#i}},J=class{#e;#t;#a;constructor(e,t,a){this.validate(e,t,a),this.#t=e,this.#a=t,this.#e=a}validate(e,t,a){if(!e||!t||!a)throw new Error("ImageSource(name, src, id), invalid parameters.")}get id(){return this.#e}get name(){return this.#t}get src(){return this.#a}};const _=r=>{for(;r?.firstChild;)r.removeChild(r.firstChild)},N=[{name:"free",label:"Free",value:-1,active:!0},{name:"16:10",label:"16:10",value:16/10,active:!0},{name:"16:9",label:"16:9",value:16/9,active:!0},{name:"5:3",label:"5:3",value:5/3,active:!0},{name:"4:3",label:"4:3",value:4/3,active:!0},{name:"3:2",label:"3:2",value:3/2,active:!0},{name:"2:1",label:"2:1",value:2,active:!0},{name:"10:16",label:"10:16",value:10/16,active:!0},{name:"9:16",label:"9:16",value:9/16,active:!0},{name:"3:5",label:"3:5",value:3/5,active:!0},{name:"3:4",label:"3:4",value:3/4,active:!0},{name:"2:3",label:"2:3",value:2/3,active:!0},{name:"1:2",label:"1:2",value:1/2,active:!0},{name:"1:1",label:"1:1",value:1,active:!0},{name:"locked",label:"Locked",value:null,active:!0}],j=[{name:"JPEG",label:"JPEG",value:"image/jpeg"},{name:"WebP",label:"WebP",value:"image/webp"},{name:"PNG",label:"PNG",value:"image/png"},{name:"GIF",label:"GIF",value:"image/gif"},{name:"BMP",label:"BMP",value:"image/bmp"}];class I{#e;#t;#a;#i;#l={};constructor(e,t,a,i,l){this.set(e,t,a,i,l)}pointIsInsideArea(e){return e.x>this.x&&e.x<this.x+this.w&&e.y>this.y&&e.y<this.y+this.h}scale(e){return new I(this.x*e,this.y*e,this.w*e,this.h*e,this.#l)}set(e,t,a,i,l){this.#e=e,this.#t=t,this.#a=a,this.#i=i,l&&typeof l=="object"&&(this.#l=l),this.#r()}get x(){return this.#e}get y(){return this.#t}get w(){return this.#a}get h(){return this.#i}get top(){return this.#t}get right(){return this.#e+this.#a}get bottom(){return this.#t+this.#i}get left(){return this.#e}get aspectRatio(){return this.#a/this.#i}getOption(e){return this.#l[e]}set x(e){this.#e=e}set y(e){this.#t=e}set w(e){this.#a=e,this.#r()}set h(e){this.#i=e,this.#r()}get xHalfway(){return this.x+(this.right-this.left)/2}get yHalfway(){return this.y+(this.bottom-this.top)/2}setOption(e,t){return this.#l[e]=t,t}#r(){this.w<0&&(this.w=Math.abs(this.w),this.x=this.x-this.w),this.h<0&&(this.h=Math.abs(this.h),this.y=this.y-this.h)}get cloned(){return new I(this.#e,this.#t,this.#a,this.#i,this.#l)}}class b{#e;#t;constructor(e,t){this.set(e,t)}scale(e){return new b(this.x*e,this.y*e)}get x(){return this.#e}get y(){return this.#t}set x(e){this.#e=e}set y(e){this.#t=e}set(e,t){this.#e=e,this.#t=t}}const be=`
+var e=class e{static isLiteralObject(e){return!!e&&e.constructor===Object}static get defaultConfig(){return{rootElement:document,fallbackTranslations:null,fallbackLanguage:`en`,detectLanguage:!0,persist:!1,persistKey:`active_language`,languagesSupported:[`en`,`nl`],languagesPath:null,exposeFnName:`__`,debug:!1}}errorMessages={INVALID_CONSTRUCTOR_ARGUMENTS:`Invalid constructor arguments`};#e;#t;#n;#r=new Map;constructor(t={}){if(console.log(`test`),console.log(`test4`),this.debug=(...e)=>{this.#e?.debug&&console.log(`[Translator]`,...e)},!e.isLiteralObject(t)){console.error(`[Translator]`,this.errorMessages.INVALID_CONSTRUCTOR_ARGUMENTS);return}this.#e=Object.assign({},e.defaultConfig,t),this.debug(`Initialized with config:`,this.#e),this.determineAndSetActiveLanguage(),this.#e.exposeFnName&&(window[this.#e.exposeFnName]=this._.bind(this),this.debug(`Exposed translate function as window.${this.#e.exposeFnName}`)),this.#a().catch(console.error)}setupMutationObserver(){let e=this.#e.rootElement;new MutationObserver(e=>{for(let t of e)this.#d(t.target)}).observe(e,{attributes:!0,childList:!0,subtree:!0})}determineAndSetActiveLanguage(){this.config.persist?this.activeLanguage=localStorage.getItem(this.#e.persistKey)??this.config.fallbackLanguage:this.config.detectLanguage?this.activeLanguage=this.#i()??this.config.fallbackLanguage:this.activeLanguage=this.config.fallbackLanguage,this.debug(`Active language =`,this.#t)}#i(){let e=navigator.languages?.[0]??navigator.language??null;return e?e.substring(0,2):!1}async#a(){let e=this.#s();await this.#o(e),this.#l(),this.setupMutationObserver()}async#o(e){if(this.#r.has(this.#t)){this.debug(`Loaded translations from cache`),this.#n=JSON.parse(this.#r.get(this.#t));return}await this.#c(e)}#s(){return this.#e.languagesPath&&null`${this.#e.languagesPath}${this.#t}.json`,null}async#c(e){if(!e){this.debug(`[Translator] invalid languageUrl ${e}, not loading translations`);return}try{let t=await fetch(e);t.ok||console.warn(`[Translator] Fetch failed: ${t.status} ${t.statusText} languageUrl: ${e}`),this.#n=await t.json(),this.#r.has(this.#t)||this.#r.set(this.#t,JSON.stringify(this.#n))}catch(e){console.error(`[Translator] Fetch error:`,e),this.#e.fallbackTranslations&&(console.warn(`[Translator] Using fallback translations`),this.#n=this.#e.fallbackTranslations)}}#l(){let e=this.#e.rootElement.querySelectorAll(`[data-i18n]`);for(let t of e)this.#u(t)}#u(e){let t=[];e.dataset.i18nAndAttr?t.push(`inNode`,e.dataset.i18nAndAttr):e.dataset.i18nAttr?t.push(e.dataset.i18nAttr):t.push(`inNode`);let n=e.hasAttribute(`data-i18n-html`),r=e.hasAttribute(`data-i18n-replacements`),i=null;if(r)try{i=JSON.parse(e.dataset.i18nReplacements)}catch{throw Error(`Error parsing replacements JSON: ${e.dataset.i18nReplacements}`)}let a=e.dataset.i18n,o=this._(a,i);if(o)for(let r of t)r===`inNode`?n?e.innerHTML=o:e.innerText=o:e.setAttribute(r,o)}#d(e){if(!e.querySelectorAll)return;let t=e.querySelectorAll(`[data-i18n]`);for(let e of t)this.#u(e)}get config(){return this.#e}get activeLanguage(){return this.#t}set activeLanguage(e){this.#e.languagesSupported.includes(e)||(this.debug(`[Translator] Unsupported language "${e}", using fallback "${this.config.fallbackLanguage}"`),e=this.#e.fallbackLanguage),this.#t=e,this.#e.persist&&localStorage.setItem(this.#e.persistKey,this.#t)}_(e,t=null){let n=this.#n?.[e]||e;return t&&t.forEach(e=>{let t=`%{${Object.keys(e)[0]}}`,r=Object.values(e)[0];n=n.replace(t,r)}),n}},t=class e{#e;#t;#n;#r;#i={};constructor(e,t,n,r,i){this.set(e,t,n,r,i)}pointIsInsideArea(e){return e.x>this.x&&e.x<this.x+this.w&&e.y>this.y&&e.y<this.y+this.h}scale(t){return new e(this.x*t,this.y*t,this.w*t,this.h*t,this.#i)}set(e,t,n,r,i){this.#e=e,this.#t=t,this.#n=n,this.#r=r,i&&typeof i==`object`&&(this.#i=i),this.#a()}get x(){return this.#e}get y(){return this.#t}get w(){return this.#n}get h(){return this.#r}get top(){return this.#t}get right(){return this.#e+this.#n}get bottom(){return this.#t+this.#r}get left(){return this.#e}get aspectRatio(){return this.#n/this.#r}getOption(e){return this.#i[e]}set x(e){this.#e=e}set y(e){this.#t=e}set w(e){this.#n=e,this.#a()}set h(e){this.#r=e,this.#a()}get xHalfway(){return this.x+(this.right-this.left)/2}get yHalfway(){return this.y+(this.bottom-this.top)/2}setOption(e,t){return this.#i[e]=t,t}#a(){this.w<0&&(this.w=Math.abs(this.w),this.x-=this.w),this.h<0&&(this.h=Math.abs(this.h),this.y-=this.h)}get cloned(){return new e(this.#e,this.#t,this.#n,this.#r,this.#i)}},n=e=>e.charAt(0).toUpperCase()+e.slice(1),r=e=>Number(e)===e&&e%1==0,i=e=>Number(e)===e&&e%1!=0,a=e=>e.replace(/[A-Z]+(?![a-z])|[A-Z]/g,(e,t)=>(t?`-`:``)+e.toLowerCase()),o=function(e,t,n=500){let r;return(...i)=>{clearTimeout(r),r=setTimeout(()=>{e.apply(t,i)},n)}},s=class{#e;#t;constructor(e=!1,t=``){this.#e=e,this.#t=t}enable(){this.#e=!0}disable(){this.#e=!1}log(...e){this.#e&&console.log(this.#t?`[${this.#t}]`:``,...e)}info(...e){this.#e&&console.info(this.#t?`[${this.#t}]`:``,...e)}warn(...e){this.#e&&console.warn(this.#t?`[${this.#t}]`:``,...e)}error(...e){this.#e&&console.error(this.#t?`[${this.#t}]`:``,...e)}},c=(e=!1,t=``)=>new s(e,t),l=class extends HTMLElement{elements={};#e=null;configuration={};#t={debug:!1};constructor(){if(super(),this.setConfiguration(this.#t),!new.target)throw TypeError(`invalid instantiation`);let t=this.#e=new.target;if(this.logger=c(this.debug,t.name),t.shadowTemplate){let n=t.shadowMode||{mode:`open`,delegatesFocus:!0};this.attachShadow(n).innerHTML=t.shadowTemplate,t.elementLookup?.forEach(e=>{let t=a(e),n=this.shadowRoot.querySelector(t);n||console.warn(`element with "${t}" not found`),this.elements[e.slice(1)]=n}),t.translationsPath&&(this.translator=new e({rootElement:this.shadowRoot,fallbackTranslations:{},persist:!0,debug:!1,languagesSupported:[`nl`,`en`],fallbackLanguage:`nl`,detectLanguage:!0,languagesPath:t.translationsPath}))}}attributeChangedCallback(e,t,n){}shadowTemplateAdded(){}getAttributeAsBoolean(e){return this.getBooleanAttributeOrDefault(e,!1)}getAttributeAsBooleanDefaultWhenFalse(e,t=null){return this.getBooleanAttributeOrDefault(e,t)}getBooleanAttributeOrDefault(e,t=!1){if(!this.hasAttribute(e))return t;let n=this.getAttribute(e);return n===``?!0:n.toLowerCase()===`false`?!1:n.toLowerCase()===`true`?!0:!!n}setAttributeAsBoolean(e,t){if(typeof t!=`boolean`)throw Error(`set ${e} must be set to a boolean value.`);this.toggleAttribute(e,t)}getAttributeAsInteger(e,t){return this.hasAttribute(e)?parseInt(this.getAttribute(e)):typeof t<`u`?t:null}setAttributeAsInteger(e,t){if(!r(t))throw Error(`set ${e} must be set to a number value.`);this.setAttribute(e,t)}getAttributeAsFloat(e,t){return this.hasAttribute(e)?parseFloat(this.getAttribute(e)):typeof t<`u`?t:null}setAttributeAsFloat(e,t){if(!i(t))throw Error(`set ${e} must be set to a number value.`);this.setAttribute(e,t)}getAttributeAsCSV(e,t){let n=this.hasAttribute(e)?this.getAttribute(e):null;return t=typeof t<`u`?t:null,n?n.replace(/\s/g,``).split(`,`):t}setAttributeAsCSV(e,t){if(!Array.isArray(t))throw Error(`set ${e} must called with an array as value.`);let n=t.join(`, `);this.setAttribute(e,n)}setAttributeToString(e,t){if(typeof t!=`string`)throw Error(`set ${e} must be set to a string value.`);this.setAttribute(e,t)}getAttributeOrDefault(e,t){return this.hasAttribute(e)?this.getAttribute(e):typeof t<`u`?t:null}setConfiguration(e){this.configuration=Object.assign(this.configuration,e)}getConfiguration(){return this.configuration}get config(){return this.configuration}get subClassName(){return this.#e.name}get debug(){return this.getAttributeAsBooleanDefaultWhenFalse(`debug`,this.configuration.debug)}set debug(e){this.setAttributeAsBoolean(`debug`,e)}},u=class extends l{static formAssociated=!0;formElement;#e=[`ElementInternals`,`FormDataEvent`,`Callback`];#t;internals;#n=null;#r=[];#i={required:!1};constructor(){super(),this.setConfiguration(this.#i),this.formElement=this.findContainingForm(),this.forceSubmitMode?this.setFormSubmitMode(this.forceSubmitMode):this.determineFormSubmitMode(),this.#t===`ElementInternals`&&(this.internals=this.attachInternals(),this.formElement=this.internals.form)}attributeChangedCallback(e,t,n){if(super.attributeChangedCallback(e,t,n),e=e.toLowerCase(),t!==n)switch(e){case`required`:let e=n;this.internals?this.internals.ariaRequired=e:this.setAttribute(`aria-required`,e);break;case`disabled`:let t=n;this.internals?this.internals.ariaDisabled=t:this.setAttribute(`aria-disabled`,t),this.enableControls(!t);break}}determineFormSubmitMode(){let e=`ElementInternals`in window&&`setFormValue`in window.ElementInternals.prototype,t=`FormDataEvent`in window;this.#o()&&e?this.setFormSubmitMode(`ElementInternals`):this.#o()&&t?this.setFormSubmitMode(`FormDataEvent`):this.setFormSubmitMode(`Callback`)}handleSubmitUsingFormDataEvent(){throw Error(`Must override handleSubmitUsingFormDataEvent for DormDataEvent submit method to work.`)}updateValue(){this.updateValidity(),this.#t===`ElementInternals`&&(this.internals.setFormValue(this.value),this.logger.log(`update ElementInternals value`))}updateValidity(){throw Error(`Must override updateValidity`)}connectedCallback(){this.#t===`FormDataEvent`&&this.formElement&&(this.formElement.addEventListener(`formdata`,this.handleSubmitUsingFormDataEvent),this.formElement.addEventListener(`submit`,this.formSubmitHandler,!1))}disconnectedCallback(){this.formElement&&=(this.#t===`FormDataEvent`&&(this.formElement.removeEventListener(`formdata`,this.handleSubmitUsingFormDataEvent),this.formElement.removeEventListener(`submit`,this.formSubmitHandler)),null)}findContainingForm(){let e=this.getRootNode();return Array.from(e.querySelectorAll(`form`)).find(e=>e.contains(this))||null}formAssociatedCallback(e){this.formAssociated(e)}formDisabledCallback(e){this.#a(e)}formStateRestoreCallback(e,t){t===`restore`?this.formStateRestore(e):this.logger.log(`formStateRestoreCallback ignored. mode:`,t)}formResetCallback(){this.formReset()}formAssociated(e){}formStateRestore(e){this.value=e}#a(e){this.enableControls(!e)}formReset(){}formSubmitHandler=e=>{if(this.#t===`FormDataEvent`&&!this.#n){e.preventDefault(),this.logger.log(`formSubmitHandler message: `,this.#r[0]);let{hiddenFileUpload:t}=this.elements;t.focus(),t.setCustomValidity(this.translator._(this.#r[0])),t.reportValidity()}this.logger.log(`formSubmitHandler, FormDataEvent form submit detected`)};enableControls(e){throw Error(`enableControls must be overridden`)}#o(){return this.formElement!==null}setFormSubmitMode(e){if(!this.#e.includes(e))throw Error(`Not a valid submit mode ${e}. Use ${this.#e.join(`, `)}`);!this.#o()&&e!==`Callback`?(this.#t=`Callback`,console.warn(`Could not find containing form. Falling back to submit using callbacks.`)):(this.#t=e,this.logger.log(`Submit mode for ${this.subClassName}`,this.#t))}set validity(e){this.#n=e}get validity(){}set validityMessages(e){this.#r=e,this.#t===`ElementInternals`&&(this.#n?this.internals.setValidity({}):(this.internals.setValidity({customError:!0},this.translator._(this.#r[0]),this.formValidationAnchor),this.internals.reportValidity()))}get validityMessages(){}get forceSubmitMode(){return this.getAttributeOrDefault(`force-submit-mode`,null)}set forceSubmitMode(e){this.setAttributeToString(`force-submit-mode`,e),this.setFormSubmitMode(e)}get submitMode(){return this.#t}get type(){return this.getAttributeOrDefault(`type`,`input`)}set type(e){this.setAttributeToString(`type`,e)}get value(){return this.getAttributeOrDefault(`value`,``)}set value(e){this.setAttributeToString(`value`,String(e))}get name(){return this.getAttributeOrDefault(`name`,`name`)}set name(e){this.setAttributeToString(`name`,e)}get required(){return this.getAttributeAsBooleanDefaultWhenFalse(`required`,this.config.required)}set required(e){this.setAttributeAsBoolean(`required`,e)}get formValidationAnchor(){return this}set disabled(e){this.setAttributeAsBoolean(`disabled`,e)}get disabled(){}setConfiguration(e){super.setConfiguration(Object.assign(this.configuration,e)),this.config.disabled&&(this.disabled=!0)}},d=new class{#e;constructor(){this.#e=document.createElement(`div`)}register(e,t){this.#e.addEventListener(e,t)}remove(e,t){this.#e.removeEventListener(e,t)}fire(e,t={}){this.#e.dispatchEvent(new CustomEvent(e,{detail:t}))}},f=async e=>new Promise((t,n)=>{let r=new Image;r.onload=()=>{t(r)},r.onerror=e=>{n(r,e)},r.src=e}),p=e=>new Promise((t,n)=>{let r=new Image;r.onload=()=>{t({width:r.width,height:r.height})},r.onerror=e=>{n(e)},r.src=e.imageObjectURL}),m=async(e,t,n)=>{let r;try{let i=await fetch(e,{signal:n}),a=await i.blob(),o=i.headers.get(`content-type`);r=new File([a],t,{type:o})}catch(e){console.log(e)}return r},h=(e,t)=>{let n=document.createElement(`a`);n.href=e,n.download=t,n.click(),n.remove()},g=class{configuration={formatsRegex:/.png|.jpg|.jpeg|.webp/,forceAspectRatio:null,aspectRatioTolerance:.01,minWidth:100,maxWidth:3500,minHeight:100,maxHeight:3500,maxUploadFileSize:1e6,maxEditFileSize:5e6};#e=null;#t=null;#n=null;#r=null;#i=`pending`;#a=null;#o=null;#s=null;#c=null;#l=null;#u=null;#d=null;#f={valid:!0,rejectionMessages:[],validityMessages:[],rejected:!1};constructor(e={}){this.logger=c(!0,`ImageFile`),this.configuration=Object.assign({},this.configuration,e)}async load(e,t,n,r=`no_name`,i=()=>{}){this.#e=e,this.#n=t,this.#t=n,this.name=r,await this.#p(this.#n,this.#t,null,i)}loadDefer(e,t,n,r=`no_name`){this.#e=e,this.#n=t,this.#t=n,this.name=r}async loadDeferred(e,t=()=>{}){return this.#p(this.#n,this.#t,e,t)}async#p(e,t,n,r=()=>{}){this.#i=`loading`,d.fire(`onImageFileLoadStart`,{imageFile:this,intId:this.#e}),e?await this.#m(e,r):t?await this.#h(t,n,r):this.logger.log(`ImageFile #load must be called with either src or file`)}async#m(e,t=()=>{}){this.#n=e,this.#t=URL.createObjectURL(e),this.#g(e);try{this.#i=`loaded`,this.#r=URL.createObjectURL(this.#n),await this.#v()}catch(e){this.#i=`loadError`,this.logger.log(`#loadSrc: could not load image dimensions ${e}`)}this.#b(),t(this.#e,this),d.fire(`onImageFileLoadEnd`,{imageFile:this,intId:this.#e})}async#h(e,t,n=()=>{}){this.#i=`loading`,d.fire(`onImageFileLoadStart`,{imageFile:this,intId:this.#e}),this.#t=e;try{let e=await m(this.#t,this.name,t);this.#n=e,this.#g(e),this.#i=`loaded`,this.#r=URL.createObjectURL(this.#n);try{await this.#v()}catch(e){this.logger.log(`#loadSrc: could not load image dimensions: ${e}`,this.#i)}}catch(e){this.#i=`loadError`,this.logger.log(`#loadSrc: could not load src: ${e}`,this.#i)}this.#b(),n(this.#e,this),d.fire(`onImageFileLoadEnd`,{imageFile:this,intId:this.#e})}#g(e){this.#o=e.type,this.#s=this.#y(e.type),this.#c=e.size,this.#a=e.name}#_=e=>{this.#l=e.width,this.#u=e.height,this.#d=e.width/e.height};async#v(){try{let e=await p(this);this.#_(e)}catch(e){this.logger.log(`#getImageDimension: could not get image dimensions: ${e}`,this.#i)}}#y(e){return e.substring(e.lastIndexOf(`/`)+1)}#b(){let e=this.#f,{minWidth:t,minHeight:n,maxWidth:r,maxHeight:i}=this.configuration,{maxUploadFileSize:a,maxEditFileSize:o}=this.configuration,s=t=>{e.valid=!1,e.rejected=!0,e.validityMessages.push(t),e.rejectionMessages.push(t)},c=t=>{e.valid=!1,e.validityMessages.push(t)};if(this.#i===`loadError`){s(`Load error`);return}if(this.#l<t&&s(`Width too small`),this.#u<n&&s(`Height too small`),this.#l>r&&s(`Width too large`),this.#u>i&&s(`Height too large`),this.configuration.formatsRegex||console.log(`empty formatsRegex!`),this.configuration.formatsRegex.test(`.${this.#s}`)||s(`Wrong file format`),this.#c>o&&s(`Filesize too large`),this.#c>a&&c(`Filesize too large`),this.configuration.forceAspectRatio!==null){let e=this.configuration.forceAspectRatio,t=this.configuration.aspectRatioTolerance;(this.#d<e-t||this.#d>e+t)&&c(`Wrong aspect ratio`)}d.fire(`onImageFileValidated`,{imageFile:this,intId:this.#e})}destroy(){URL.revokeObjectURL(this.#r)}get file(){return this.#n}get validity(){return this.#f}get loadStatus(){return this.#i}get name(){return this.#a}set name(e){this.#a=e}get width(){return this.#l}get src(){return this.#t}get height(){return this.#u}get mimeType(){return this.#o}get imageObjectURL(){return this.#r}},_=class{#e;#t;#n;constructor(e,t,n){this.validate(e,t,n),this.#t=e,this.#n=t,this.#e=n}validate(e,t,n){if(!e||!t||!n)throw Error(`ImageSource(name, src, id), invalid parameters.`)}get id(){return this.#e}get name(){return this.#t}get src(){return this.#n}},v=e=>{for(;e?.firstChild;)e.removeChild(e.firstChild)},y=[{name:`free`,label:`Free`,value:-1,active:!0},{name:`16:10`,label:`16:10`,value:16/10,active:!0},{name:`16:9`,label:`16:9`,value:16/9,active:!0},{name:`5:3`,label:`5:3`,value:5/3,active:!0},{name:`4:3`,label:`4:3`,value:4/3,active:!0},{name:`3:2`,label:`3:2`,value:3/2,active:!0},{name:`2:1`,label:`2:1`,value:2,active:!0},{name:`10:16`,label:`10:16`,value:10/16,active:!0},{name:`9:16`,label:`9:16`,value:9/16,active:!0},{name:`3:5`,label:`3:5`,value:3/5,active:!0},{name:`3:4`,label:`3:4`,value:3/4,active:!0},{name:`2:3`,label:`2:3`,value:2/3,active:!0},{name:`1:2`,label:`1:2`,value:1/2,active:!0},{name:`1:1`,label:`1:1`,value:1,active:!0},{name:`locked`,label:`Locked`,value:null,active:!0}],b=[{name:`JPEG`,label:`JPEG`,value:`image/jpeg`},{name:`WebP`,label:`WebP`,value:`image/webp`},{name:`PNG`,label:`PNG`,value:`image/png`},{name:`GIF`,label:`GIF`,value:`image/gif`},{name:`BMP`,label:`BMP`,value:`image/bmp`}],x=class e{#e;#t;#n;#r;#i={};constructor(e,t,n,r,i){this.set(e,t,n,r,i)}pointIsInsideArea(e){return e.x>this.x&&e.x<this.x+this.w&&e.y>this.y&&e.y<this.y+this.h}scale(t){return new e(this.x*t,this.y*t,this.w*t,this.h*t,this.#i)}set(e,t,n,r,i){this.#e=e,this.#t=t,this.#n=n,this.#r=r,i&&typeof i==`object`&&(this.#i=i),this.#a()}get x(){return this.#e}get y(){return this.#t}get w(){return this.#n}get h(){return this.#r}get top(){return this.#t}get right(){return this.#e+this.#n}get bottom(){return this.#t+this.#r}get left(){return this.#e}get aspectRatio(){return this.#n/this.#r}getOption(e){return this.#i[e]}set x(e){this.#e=e}set y(e){this.#t=e}set w(e){this.#n=e,this.#a()}set h(e){this.#r=e,this.#a()}get xHalfway(){return this.x+(this.right-this.left)/2}get yHalfway(){return this.y+(this.bottom-this.top)/2}setOption(e,t){return this.#i[e]=t,t}#a(){this.w<0&&(this.w=Math.abs(this.w),this.x-=this.w),this.h<0&&(this.h=Math.abs(this.h),this.y-=this.h)}get cloned(){return new e(this.#e,this.#t,this.#n,this.#r,this.#i)}},S=class e{#e;#t;constructor(e,t){this.set(e,t)}scale(t){return new e(this.x*t,this.y*t)}get x(){return this.#e}get y(){return this.#t}set x(e){this.#e=e}set y(e){this.#t=e}set(e,t){this.#e=e,this.#t=t}},C=`
 
     :host {
         --component-bg-color:#F4F4F7;
@@ -1050,7 +1050,7 @@ margin-block:1rem;
         }
 
     }
-`,d={crop:`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-crop" viewBox="0 0 16 16">' +
+`,w={crop:`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-crop" viewBox="0 0 16 16">' +
         <path d="M3.5.5A.5.5 0 0 1 4 1v13h13a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2H3.5a.5.5 0 0 1-.5-.5V4H1a.5.5 0 0 1 0-1h2V1a.5.5 0 0 1 .5-.5zm2.5 3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4H6.5a.5.5 0 0 1-.5-.5z"/>
     </svg>`,download:`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -1118,7 +1118,7 @@ margin-block:1rem;
     </svg>`,checkbox:`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
         <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z"/>
         <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0"/>
-    </svg>`};function v(r=[]){const e=Array.from(r??[]),t={};return e.forEach(a=>{const i=ve(a.getAttribute("data-modifier"));i&&(t[i]=a.value)}),t}function ve(r){return r.replace(/-([a-z])/g,(e,t)=>t.toUpperCase())}function Q(r){return r.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,(e,t,a,i)=>"#"+t+t+a+a+i+i).substring(1).match(/.{2}/g).map(e=>parseInt(e,16))}function ye(r,e){const t=r.querySelector("feFuncR"),a=r.querySelector("feFuncG"),i=r.querySelector("feFuncB"),l=v(e),[n,o,f]=Q(l.darkColor),[s,p,h]=Q(l.lightColor);return t.setAttribute("tableValues",`${n/255} ${s/255}`),a.setAttribute("tableValues",`${o/255} ${p/255}`),i.setAttribute("tableValues",`${f/255} ${h/255}`),"duotone-effect"}const xe=`
+    </svg>`};function T(e=[]){let t=Array.from(e??[]),n={};return t.forEach(e=>{let t=ee(e.getAttribute(`data-modifier`));t&&(n[t]=e.value)}),n}function ee(e){return e.replace(/-([a-z])/g,(e,t)=>t.toUpperCase())}function E(e){return e.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,(e,t,n,r)=>`#`+t+t+n+n+r+r).substring(1).match(/.{2}/g).map(e=>parseInt(e,16))}function te(e,t){let n=e.querySelector(`feFuncR`),r=e.querySelector(`feFuncG`),i=e.querySelector(`feFuncB`),a=T(t),[o,s,c]=E(a.darkColor),[l,u,d]=E(a.lightColor);return n.setAttribute(`tableValues`,`${o/255} ${l/255}`),r.setAttribute(`tableValues`,`${s/255} ${u/255}`),i.setAttribute(`tableValues`,`${c/255} ${d/255}`),`duotone-effect`}var ne=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1131,7 +1131,7 @@ margin-block:1rem;
                 <span class="label-span">Duotone</span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1158,7 +1158,7 @@ margin-block:1rem;
         </svg>
     </span>
     
-`;function we(r,e=[],t){const a=v(e),i=a.inkblotScale||50,l=a.inkblotFrequency||"0.01";console.log(i,l);const n=r.querySelector("feTurbulence"),o=r.querySelector("feDisplacementMap");return n&&n.setAttribute("baseFrequency",l),o&&o.setAttribute("scale",i),"inkblot-effect"}const Ce=`
+`;function re(e,t=[],n){let r=T(t),i=r.inkblotScale||50,a=r.inkblotFrequency||`0.01`;console.log(i,a);let o=e.querySelector(`feTurbulence`),s=e.querySelector(`feDisplacementMap`);return o&&o.setAttribute(`baseFrequency`,a),s&&s.setAttribute(`scale`,i),`inkblot-effect`}var ie=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1171,7 +1171,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Inkblot"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1197,7 +1197,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Me(r,e=[],t){const a=targetModifier.getAttribute("data-modifier"),i=targetModifier.value;return e.forEach(l=>{l.getAttribute("data-modifier")===a&&l!==targetModifier&&(l.value=i)}),a==="gamma-exponent"&&r.querySelectorAll("[exponent]").forEach(l=>l.setAttribute("exponent",i)),a==="gamma-amplitude"&&r.querySelectorAll("[amplitude]").forEach(l=>l.setAttribute("amplitude",i)),"gamma-effect"}const ke=`
+`;function ae(e,t=[],n){let r=targetModifier.getAttribute(`data-modifier`),i=targetModifier.value;return t.forEach(e=>{e.getAttribute(`data-modifier`)===r&&e!==targetModifier&&(e.value=i)}),r===`gamma-exponent`&&e.querySelectorAll(`[exponent]`).forEach(e=>e.setAttribute(`exponent`,i)),r===`gamma-amplitude`&&e.querySelectorAll(`[amplitude]`).forEach(e=>e.setAttribute(`amplitude`,i)),`gamma-effect`}var oe=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1210,13 +1210,13 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Gamma"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
             <label class="label label-small" for="exponent" data-i18n="Exponent">
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
             <input type="range" id="exponent" class="input input-range" data-modifier="gamma-exponent"
             min="0" max="3" step="0.01" value="1" data-default="1">
@@ -1248,7 +1248,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Se(r,e=[],t){const a=v(e),i=a.staticNoiseFrequency||"0.2",l=a.staticNoiseK2||"1",n=a.staticNoiseK3||"0.05",o=r.querySelector("feTurbulence"),f=r.querySelector("feComposite");return o&&o.setAttribute("baseFrequency",i),f&&(f.setAttribute("k2",l),f.setAttribute("k3",n)),"static-noise-effect"}const Fe=`
+`;function se(e,t=[],n){let r=T(t),i=r.staticNoiseFrequency||`0.2`,a=r.staticNoiseK2||`1`,o=r.staticNoiseK3||`0.05`,s=e.querySelector(`feTurbulence`),c=e.querySelector(`feComposite`);return s&&s.setAttribute(`baseFrequency`,i),c&&(c.setAttribute(`k2`,a),c.setAttribute(`k3`,o)),`static-noise-effect`}var ce=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1261,7 +1261,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Static noise"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <label class="label label-small" for="noise-frequency" data-i18n="Base frequency"></label>
@@ -1300,7 +1300,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Te(r,e=[],t){const a=v(e),i=a.watercolorFrequency||"0.05",l=a.watercolorScale||"30",n=a.watercolorSaturation||"1",o=r.querySelector("feTurbulence"),f=r.querySelector("feDisplacementMap"),s=r.querySelector("feColorMatrix");return o&&o.setAttribute("baseFrequency",i),f&&f.setAttribute("scale",l),s&&s.setAttribute("values",n),"watercolor-effect"}const Ae=`
+`;function le(e,t=[],n){let r=T(t),i=r.watercolorFrequency||`0.05`,a=r.watercolorScale||`30`,o=r.watercolorSaturation||`1`,s=e.querySelector(`feTurbulence`),c=e.querySelector(`feDisplacementMap`),l=e.querySelector(`feColorMatrix`);return s&&s.setAttribute(`baseFrequency`,i),c&&c.setAttribute(`scale`,a),l&&l.setAttribute(`values`,o),`watercolor-effect`}var ue=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1313,7 +1313,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Watercolor"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <label class="label label-small" for="watercolor-frequency" data-i18n="Base frequency"></label>
@@ -1353,7 +1353,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Be(r,e=[],t){const a=v(e),i=a.rippleFrequency||"0.02",l=a.rippleScale||"10",n=r.querySelector("feTurbulence"),o=r.querySelector("feDisplacementMap");return n&&n.setAttribute("baseFrequency",i),o&&o.setAttribute("scale",l),"ripple-effect"}const Re=`
+`;function de(e,t=[],n){let r=T(t),i=r.rippleFrequency||`0.02`,a=r.rippleScale||`10`,o=e.querySelector(`feTurbulence`),s=e.querySelector(`feDisplacementMap`);return o&&o.setAttribute(`baseFrequency`,i),s&&s.setAttribute(`scale`,a),`ripple-effect`}var D=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1366,7 +1366,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Ripple"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <label class="label label-small" for="ripple-frequency" data-i18n="Frequency"></label>
@@ -1390,7 +1390,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Ge(r,e=[],t){const a=v(e).glitchShift||"5";return r.querySelectorAll("feOffset").forEach((i,l)=>i.setAttribute(l===0?"dx":"dy",a)),"glitch-effect"}const Ee=`
+`;function fe(e,t=[],n){let r=T(t).glitchShift||`5`;return e.querySelectorAll(`feOffset`).forEach((e,t)=>e.setAttribute(t===0?`dx`:`dy`,r)),`glitch-effect`}var pe=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1403,7 +1403,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Glitch"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <label class="label label-small" for="glitch-shift" data-i18n="Shift amount"></label>
@@ -1423,7 +1423,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function ze(r,e=[],t){const a=v(e),i=a.glowBlur||"3",l=a.glowOpacity||"0.4",n=r.querySelector("feGaussianBlur"),o=r.querySelector("feComponentTransfer feFuncA");return n&&n.setAttribute("stdDeviation",i),o&&o.setAttribute("slope",l),"soft-glow-effect"}const Le=`
+`;function me(e,t=[],n){let r=T(t),i=r.glowBlur||`3`,a=r.glowOpacity||`0.4`,o=e.querySelector(`feGaussianBlur`),s=e.querySelector(`feComponentTransfer feFuncA`);return o&&o.setAttribute(`stdDeviation`,i),s&&s.setAttribute(`slope`,a),`soft-glow-effect`}var he=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1436,7 +1436,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Soft glow"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <label class="label label-small" for="glow-blur" data-i18n="Blur"></label>
@@ -1471,7 +1471,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Ne(r,e=[],t){const a=v(e),i=Number(a.sketchThreshold)||1,l=r.querySelector("feConvolveMatrix");if(l){l.setAttribute("order",3);const n=[-i,-i,-i,-i,8*i,-i,-i,-i,-i];l.setAttribute("kernelMatrix",n.join(" ")),l.setAttribute("divisor",1)}return"sketch-effect"}const De=`
+`;function ge(e,t=[],n){let r=T(t),i=Number(r.sketchThreshold)||1,a=e.querySelector(`feConvolveMatrix`);if(a){a.setAttribute(`order`,3);let e=[-i,-i,-i,-i,8*i,-i,-i,-i,-i];a.setAttribute(`kernelMatrix`,e.join(` `)),a.setAttribute(`divisor`,1)}return`sketch-effect`}var _e=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1484,7 +1484,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Sketch"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1522,7 +1522,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Ie(r,e=[],t){const a=v(e),i=Number(a.pixelateX)||4,l=Number(a.colorLevels)||5,n=r.querySelector("svg.svgFilter");if(!n)return"pixelate-effect";const o=n.querySelector("feFlood"),f=n.querySelector('feMorphology[operator="erode"]'),s=n.querySelector('feMorphology[result="raster2"]'),p=n.querySelector("feGaussianBlur"),h=n.querySelector('feMorphology[operator="dilate"]'),g=n.querySelectorAll("feComponentTransfer :not(feFuncA)");if(!o||!f||!s||!p||!h||g.length===0)return"pixelate-effect";const x=1+i*4;o.setAttribute("width",x),o.setAttribute("height",x),f.setAttribute("width",x),f.setAttribute("height",x),f.setAttribute("radius",i),s.setAttribute("radius",i),h.setAttribute("radius",i*2),p.setAttribute("stdDeviation",Math.max(0,i-.5));const B=Math.max(1,l),R=[...Array(B+1)].map((T,w)=>(w/B).toFixed(2)).join(" ");return g.forEach(T=>T.setAttribute("tableValues",R)),"pixelate-effect"}const Ve=`
+`;function ve(e,t=[],n){let r=T(t),i=Number(r.pixelateX)||4,a=Number(r.colorLevels)||5,o=e.querySelector(`svg.svgFilter`);if(!o)return`pixelate-effect`;let s=o.querySelector(`feFlood`),c=o.querySelector(`feMorphology[operator="erode"]`),l=o.querySelector(`feMorphology[result="raster2"]`),u=o.querySelector(`feGaussianBlur`),d=o.querySelector(`feMorphology[operator="dilate"]`),f=o.querySelectorAll(`feComponentTransfer :not(feFuncA)`);if(!s||!c||!l||!u||!d||f.length===0)return`pixelate-effect`;let p=1+i*4;s.setAttribute(`width`,p),s.setAttribute(`height`,p),c.setAttribute(`width`,p),c.setAttribute(`height`,p),c.setAttribute(`radius`,i),l.setAttribute(`radius`,i),d.setAttribute(`radius`,i*2),u.setAttribute(`stdDeviation`,Math.max(0,i-.5));let m=Math.max(1,a),h=[...Array(m+1)].map((e,t)=>(t/m).toFixed(2)).join(` `);return f.forEach(e=>e.setAttribute(`tableValues`,h)),`pixelate-effect`}var ye=`
 <span class="container container-filter"
       data-filter
       data-filter-type="svg"
@@ -1535,7 +1535,7 @@ margin-block:1rem;
             <span class="label-span" data-i18n="Pixelate"></span>
         </label>
         <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-            ${d.arrowRepeat}
+            ${w.arrowRepeat}
         </span>
     </div>
 
@@ -1578,7 +1578,7 @@ margin-block:1rem;
         </defs>
     </svg>
 </span>
-`;function Oe(r,e=[],t){const a=targetModifier.getAttribute("data-modifier"),i=targetModifier.value,l=(s,p,h)=>{const g=r.querySelector(s);g&&g.setAttribute(p,h)},[n,o,f]=a.split("-");return l(`feFunc${o.toUpperCase()}`,f,i),"frosted-glass-effect"}const He=`
+`;function be(e,t=[],n){let r=targetModifier.getAttribute(`data-modifier`),i=targetModifier.value,a=(t,n,r)=>{let i=e.querySelector(t);i&&i.setAttribute(n,r)},[o,s,c]=r.split(`-`);return a(`feFunc${s.toUpperCase()}`,c,i),`frosted-glass-effect`}var O=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1591,7 +1591,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Gamma (RGB)"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <!-- R Channel -->
@@ -1656,7 +1656,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`,z={width:null,height:null};let le={};function qe(r){le=r}function $e(){return le}function Pe(r,e=[],t,a){console.log("filterConfiguration",$e());const i=a.getImageEditorInstance();let l=i.canvasImageWidth,n=i.canvasImageHeight;const o=l/2,f=n/2;ee(r,"vignette-light-x",l,o),ee(r,"vignette-light-y",n,f);const s=v(e),p=s.vignetteShape||"vignette-circle",h=s.vignetteOpacity??.6,g=s.vignetteColor??"#000000";if(console.log(l,n),p==="vignette-square"){const x=r.querySelector("#vignette-square-offset");x&&(x.setAttribute("dx",s.vignetteLightX-l/2),x.setAttribute("dy",s.vignetteLightY-n/2)),s.vignetteSquareBlur;const B=s.vignetteSquareRadius??100,R=r.querySelector("#vignette-square-erode"),T=r.querySelector("#vignette-square-blur"),w=r.querySelector("#vignette-square-flood");w&&(w.setAttribute("flood-opacity",h),w.setAttribute("flood-color",g)),w&&w.setAttribute("flood-opacity",h),R&&R.setAttribute("radius",B),T&&T.setAttribute("stdDeviation",s.vignetteLightZ)}else{const x=s.vignetteLightX??o,B=s.vignetteLightY??f,R=s.vignetteLightZ??800,T=r.querySelector("#vignette-flood"),w=r.querySelector("#vignette-pointlight");T&&(T.setAttribute("flood-opacity",h),T.setAttribute("flood-color",g)),w&&(w.setAttribute("x",x),w.setAttribute("y",B),w.setAttribute("z",R))}return p}function ee(r,e,t,a){console.log(r,e,t,a);const i=r.querySelector(`#${e}`);if(console.log("input",i),!i)return;i.max=t,console.log("set max to "+t);const l=parseFloat(i.value),n=l===parseFloat(i.dataset.default);i.dataset.default=a,(isNaN(l)||n)&&(i.value=a)}const We=`
+`,k={width:null,height:null},A={};function j(e){A=e}function M(){return A}function N(e,t=[],n,r){console.log(`filterConfiguration`,M());let i=r.getImageEditorInstance(),a=i.canvasImageWidth,o=i.canvasImageHeight,s=a/2,c=o/2;P(e,`vignette-light-x`,a,s),P(e,`vignette-light-y`,o,c);let l=T(t),u=l.vignetteShape||`vignette-circle`,d=l.vignetteOpacity??.6,f=l.vignetteColor??`#000000`;if(console.log(a,o),u===`vignette-square`){let t=e.querySelector(`#vignette-square-offset`);t&&(t.setAttribute(`dx`,l.vignetteLightX-a/2),t.setAttribute(`dy`,l.vignetteLightY-o/2)),l.vignetteSquareBlur;let n=l.vignetteSquareRadius??100,r=e.querySelector(`#vignette-square-erode`),i=e.querySelector(`#vignette-square-blur`),s=e.querySelector(`#vignette-square-flood`);s&&(s.setAttribute(`flood-opacity`,d),s.setAttribute(`flood-color`,f)),s&&s.setAttribute(`flood-opacity`,d),r&&r.setAttribute(`radius`,n),i&&i.setAttribute(`stdDeviation`,l.vignetteLightZ)}else{let t=l.vignetteLightX??s,n=l.vignetteLightY??c,r=l.vignetteLightZ??800,i=e.querySelector(`#vignette-flood`),a=e.querySelector(`#vignette-pointlight`);i&&(i.setAttribute(`flood-opacity`,d),i.setAttribute(`flood-color`,f)),a&&(a.setAttribute(`x`,t),a.setAttribute(`y`,n),a.setAttribute(`z`,r))}return u}function P(e,t,n,r){console.log(e,t,n,r);let i=e.querySelector(`#${t}`);if(console.log(`input`,i),!i)return;i.max=n,console.log(`set max to `+n);let a=parseFloat(i.value),o=a===parseFloat(i.dataset.default);i.dataset.default=r,(isNaN(a)||o)&&(i.value=r)}var xe=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1669,7 +1669,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Vignette"></span>
             <label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1762,7 +1762,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function _e(r,e=[],t){const a=v(e),i=Number(a.morphRadius)||1.5,l=a.morphOperator||"dilate",n=r.querySelector("feMorphology");return n&&n.setAttribute("radius",i),n.setAttribute("operator",l),"morph-effect"}const je=`
+`;function Se(e,t=[],n){let r=T(t),i=Number(r.morphRadius)||1.5,a=r.morphOperator||`dilate`,o=e.querySelector(`feMorphology`);return o&&o.setAttribute(`radius`,i),o.setAttribute(`operator`,a),`morph-effect`}var Ce=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1775,7 +1775,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Morph"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1799,7 +1799,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Ue(r,e=[],t){const a=v(e),i=a.edgeDetectType||"edge-detect-1";console.log("edgeDetectType",i);const l=Number(a.edgeStrength)||1;return r.querySelectorAll("feConvolveMatrix").forEach(n=>{if(n.hasAttribute("data-not-modifiable"))return;const o=[0,1,0,1,-4,1,0,1,0].map(f=>f*l).join(" ");n.setAttribute("kernelMatrix",o),n.setAttribute("order","3 3"),n.setAttribute("divisor","1"),n.setAttribute("bias","0"),n.setAttribute("preserveAlpha","true")}),i}const Ye=`
+`;function we(e,t=[],n){let r=T(t),i=r.edgeDetectType||`edge-detect-1`;console.log(`edgeDetectType`,i);let a=Number(r.edgeStrength)||1;return e.querySelectorAll(`feConvolveMatrix`).forEach(e=>{if(e.hasAttribute(`data-not-modifiable`))return;let t=[0,1,0,1,-4,1,0,1,0].map(e=>e*a).join(` `);e.setAttribute(`kernelMatrix`,t),e.setAttribute(`order`,`3 3`),e.setAttribute(`divisor`,`1`),e.setAttribute(`bias`,`0`),e.setAttribute(`preserveAlpha`,`true`)}),i}var Te=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1812,7 +1812,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Edge detect"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1911,7 +1911,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Ze(r){const e=parseInt(r,10)||4,t=[];for(let a=0;a<e;a++)t.push((a/(e-1)).toFixed(4));return t.join(" ")}function Xe(r,e=[],t){const a=v(e),i=Math.max(2,Math.min(8,parseInt(a.posterizeLevels)||4));console.log(i);const l=["feFuncR","feFuncG","feFuncB"],n=Ze(i);return l.forEach(o=>{const f=r.querySelector(o);f&&(f.setAttribute("type","table"),f.setAttribute("tableValues",n))}),"posterize-effect"}const Ke=`
+`;function Ee(e){let t=parseInt(e,10)||4,n=[];for(let e=0;e<t;e++)n.push((e/(t-1)).toFixed(4));return n.join(` `)}function De(e,t=[],n){let r=T(t),i=Math.max(2,Math.min(8,parseInt(r.posterizeLevels)||4));console.log(i);let a=[`feFuncR`,`feFuncG`,`feFuncB`],o=Ee(i);return a.forEach(t=>{let n=e.querySelector(t);n&&(n.setAttribute(`type`,`table`),n.setAttribute(`tableValues`,o))}),`posterize-effect`}var Oe=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -1924,7 +1924,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Posterize"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1947,7 +1947,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function Je(r,e=[],t){const a=v(e),i=Number(a.frostedGlassBlur)||6,l=Number(a.frostedGlassOpacity)||.9,n=r.querySelector("feGaussianBlur"),o=r.querySelector("feFuncA");return n&&n.setAttribute("stdDeviation",i),o&&o.setAttribute("slope",l),"frosted-glass-effect"}const Qe=`
+`;function ke(e,t=[],n){let r=T(t),i=Number(r.frostedGlassBlur)||6,a=Number(r.frostedGlassOpacity)||.9,o=e.querySelector(`feGaussianBlur`),s=e.querySelector(`feFuncA`);return o&&o.setAttribute(`stdDeviation`,i),s&&s.setAttribute(`slope`,a),`frosted-glass-effect`}var Ae=`
     <span class="container container-filter"
         data-filter
         data-filter-type="svg"
@@ -1960,7 +1960,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Frosted Glass"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -1992,7 +1992,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function et(r,e=[],t){const a=v(e),i=Number(a["glow-blur"])||4,l=r.querySelector("feGaussianBlur");return l&&l.setAttribute("stdDeviation",i),"glow-effect"}const tt=`
+`;function je(e,t=[],n){let r=T(t),i=Number(r[`glow-blur`])||4,a=e.querySelector(`feGaussianBlur`);return a&&a.setAttribute(`stdDeviation`,i),`glow-effect`}var Me=`
     <span class="container container-filter"
         data-filter
         data-filter-type="svg"
@@ -2005,7 +2005,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Glow"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -2028,7 +2028,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function at(r,e=[],t){const a=v(e),i=Number(a.intensityR)||1,l=Number(a.intensityG)||1,n=Number(a.intensityB)||1;console.log(i,l,n);const o=[i,0,0,0,0,0,l,0,0,0,0,0,n,0,0,0,0,0,1,0].join(" "),f=r.querySelector("feColorMatrix");return f&&f.setAttribute("values",o),"channel-manipulation-effect"}const it=`
+`;function Ne(e,t=[],n){let r=T(t),i=Number(r.intensityR)||1,a=Number(r.intensityG)||1,o=Number(r.intensityB)||1;console.log(i,a,o);let s=[i,0,0,0,0,0,a,0,0,0,0,0,o,0,0,0,0,0,1,0].join(` `),c=e.querySelector(`feColorMatrix`);return c&&c.setAttribute(`values`,s),`channel-manipulation-effect`}var Pe=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -2041,7 +2041,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Color balance"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed channel-slider">
@@ -2084,7 +2084,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function lt(r,e=[],t){const a=v(e),i=Number(a.redDx)||0,l=Number(a.redDy)||0,n=Number(a.greenDx)||0,o=Number(a.greenDy)||0,f=Number(a.blueDx)||0,s=Number(a.blueDy)||0,p=r.querySelector('feOffset[inkscape\\:label="red-offset"]'),h=r.querySelector('feOffset[inkscape\\:label="green-offset"]'),g=r.querySelector('feOffset[inkscape\\:label="blue-offset"]');return p&&(p.setAttribute("dx",i),p.setAttribute("dy",l)),h&&(h.setAttribute("dx",n),h.setAttribute("dy",o)),g&&(g.setAttribute("dx",f),g.setAttribute("dy",s)),"rgb-shift-effect"}const rt=`
+`;function Fe(e,t=[],n){let r=T(t),i=Number(r.redDx)||0,a=Number(r.redDy)||0,o=Number(r.greenDx)||0,s=Number(r.greenDy)||0,c=Number(r.blueDx)||0,l=Number(r.blueDy)||0,u=e.querySelector(`feOffset[inkscape\\:label="red-offset"]`),d=e.querySelector(`feOffset[inkscape\\:label="green-offset"]`),f=e.querySelector(`feOffset[inkscape\\:label="blue-offset"]`);return u&&(u.setAttribute(`dx`,i),u.setAttribute(`dy`,a)),d&&(d.setAttribute(`dx`,o),d.setAttribute(`dy`,s)),f&&(f.setAttribute(`dx`,c),f.setAttribute(`dy`,l)),`rgb-shift-effect`}var Ie=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -2097,7 +2097,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="RGB shift"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <!-- Red channel -->
@@ -2190,7 +2190,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function nt(r,e=[],t){const a=v(e),i=Number(a.embossIntensity)||1,l=r.querySelector("feConvolveMatrix");if(l){const n=[-2*i,-1*i,0,-1*i,1,1*i,0,1*i,2*i].join(" ");l.setAttribute("kernelMatrix",n)}return"emboss-effect"}const ot=`
+`;function Le(e,t=[],n){let r=T(t),i=Number(r.embossIntensity)||1,a=e.querySelector(`feConvolveMatrix`);if(a){let e=[-2*i,-1*i,0,-1*i,1,1*i,0,1*i,2*i].join(` `);a.setAttribute(`kernelMatrix`,e)}return`emboss-effect`}var Re=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="svg"
@@ -2203,7 +2203,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Emboss"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -2226,7 +2226,7 @@ margin-block:1rem;
             </defs>
         </svg>
     </span>
-`;function st(r,e=[],t){const a=v(e),i=a.blurType||"gaussian-blur",l=parseFloat(a.blurX)||3,n=parseFloat(a.blurY)||3;return r.querySelectorAll("feGaussianBlur").forEach(o=>{o.hasAttribute("data-not-modifiable")||o.setAttribute("stdDeviation",`${l} ${n}`)}),i}const ct=`
+`;function ze(e,t=[],n){let r=T(t),i=r.blurType||`gaussian-blur`,a=parseFloat(r.blurX)||3,o=parseFloat(r.blurY)||3;return e.querySelectorAll(`feGaussianBlur`).forEach(e=>{e.hasAttribute(`data-not-modifiable`)||e.setAttribute(`stdDeviation`,`${a} ${o}`)}),i}var Be=`
        <span class="container container-filter" 
         data-filter
         data-filter-type="svg" 
@@ -2239,7 +2239,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Blur"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>  
         <div class="filter-modifiers">
@@ -2451,7 +2451,7 @@ margin-block:1rem;
         </svg>
     </span>
     
-`;function dt(r,e=[],t){const a=v(e).svgFilterId||"blur-effect";return console.log(a,a,e),a}const ft=`
+`;function Ve(e,t=[],n){let r=T(t).svgFilterId||`blur-effect`;return console.log(r,r,t),r}var He=`
 <span class="container container-filter"
         data-filter
         data-filter-type="svg"
@@ -2464,7 +2464,7 @@ margin-block:1rem;
                 <span class="label-span" data-i18n="Experimental"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -4624,7 +4624,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </defs>
         </svg>
     </span>
-`;function ut(r,e=[],t){const a=v(e),i=Number(a.pastelStrength)||.5,l=r.querySelector("feColorMatrix"),n=r.querySelector("feFuncR"),o=r.querySelector("feFuncG"),f=r.querySelector("feFuncB");if(l){const s=1-i,p=[s+.1,.1,.1,0,0,.1,s+.1,.1,0,0,.1,.1,s+.1,0,0,0,0,0,1,0];l.setAttribute("values",p.join(" "))}return n&&n.setAttribute("amplitude",1+i),o&&o.setAttribute("amplitude",1+i),f&&f.setAttribute("amplitude",1+i),"pastel-effect"}const pt=`
+`;function Ue(e,t=[],n){let r=T(t),i=Number(r.pastelStrength)||.5,a=e.querySelector(`feColorMatrix`),o=e.querySelector(`feFuncR`),s=e.querySelector(`feFuncG`),c=e.querySelector(`feFuncB`);if(a){let e=1-i,t=[e+.1,.1,.1,0,0,.1,e+.1,.1,0,0,.1,.1,e+.1,0,0,0,0,0,1,0];a.setAttribute(`values`,t.join(` `))}return o&&o.setAttribute(`amplitude`,1+i),s&&s.setAttribute(`amplitude`,1+i),c&&c.setAttribute(`amplitude`,1+i),`pastel-effect`}var We=`
 <span class="container container-filter"
       data-filter
       data-filter-type="svg"
@@ -4638,7 +4638,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
         </label>
         
         <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-            ${d.arrowRepeat}
+            ${w.arrowRepeat}
         </span>
     </div>
     
@@ -4721,7 +4721,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
         </defs>
     </svg>
 </span>
-`,y={naturalWidth:null,naturalHeight:null,aspectRatio:null,orientation:null};function ht(r,e=[],t,a){const i=a.getImageEditorInstance();return console.log(i),console.log(i.canvas),console.log(i.canvasImageWidth),console.log(i.canvasImageHeight),t?t.innerHTML="<p>hello world</p>":alert("no container"),"half-tone"}const gt=`
+`,F={naturalWidth:null,naturalHeight:null,aspectRatio:null,orientation:null};function Ge(e,t=[],n,r){let i=r.getImageEditorInstance();return console.log(i),console.log(i.canvas),console.log(i.canvasImageWidth),console.log(i.canvasImageHeight),n?n.innerHTML=`<p>hello world</p>`:alert(`no container`),`half-tone`}var Ke=`
 <span class="container container-filter"
       data-filter
       data-filter-type="svg"
@@ -4734,7 +4734,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             <span class="label-span" data-i18n="Half tone 1"></span>
         </label>
         <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-            ${d.arrowRepeat}
+            ${w.arrowRepeat}
         </span>
     </div>
     
@@ -4759,13 +4759,13 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             <filter id="half-tone" color-interpolation-filters="sRGB" primitiveUnits="userSpaceOnUse">
 
               <!-- Inline <feImage> per dot size -->
-            ${[.5,1,1.5,2,2.5,3,3.5,4].map((r,e)=>{const t=r*1.2;return`
+            ${[.5,1,1.5,2,2.5,3,3.5,4].map((e,t)=>{let n=e*1.2;return`
                 <feImage width="8" height="8"
                   xlink:href="data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'>
-                       <circle cx='4' cy='4' r='${t}' fill='black'/>
+                       <circle cx='4' cy='4' r='${n}' fill='black'/>
                      </svg>`)}" />
-                <feTile result="dot${e+1}-tile" />
-              `}).join("")}
+                <feTile result="dot${t+1}-tile" />
+              `}).join(``)}
 
               <!-- Luminance mapping -->
               <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum" />
@@ -4774,19 +4774,19 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
               </feComponentTransfer>
 
               <!-- Discrete thresholds -->
-              ${Array.from({length:8},(r,e)=>`
-              <feComponentTransfer in="lum-map" result="thresh${e+1}">
-                <feFuncA type="discrete" tableValues="${Array.from({length:8},(t,a)=>e===a?1:0).join(" ")}" />
-              </feComponentTransfer>`).join("")}
+              ${Array.from({length:8},(e,t)=>`
+              <feComponentTransfer in="lum-map" result="thresh${t+1}">
+                <feFuncA type="discrete" tableValues="${Array.from({length:8},(e,n)=>t===n?1:0).join(` `)}" />
+              </feComponentTransfer>`).join(``)}
 
               <!-- Combine dots with thresholds -->
-              ${Array.from({length:8},(r,e)=>`
-              <feComposite in="thresh${e+1}" in2="dot${e+1}-tile" operator="in" result="level${e+1}" />`).join("")}
+              ${Array.from({length:8},(e,t)=>`
+              <feComposite in="thresh${t+1}" in2="dot${t+1}-tile" operator="in" result="level${t+1}" />`).join(``)}
 
               <!-- Merge everything -->
               <feMerge result="merged">
-                ${Array.from({length:8},(r,e)=>`
-                <feMergeNode in="level${8-e}" />`).join("")}
+                ${Array.from({length:8},(e,t)=>`
+                <feMergeNode in="level${8-t}" />`).join(``)}
               </feMerge>
 
               <!-- Clip to original shape -->
@@ -4805,7 +4805,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
         </defs>
     </svg>
 </span>
-`,mt=`
+`,qe=`
 <span class="container container-filter"
       data-filter
       data-filter-type="svg"
@@ -4818,7 +4818,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             <span class="label-span" data-i18n="Cartoon"></span>
         </label>
         <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-            ${d.arrowRepeat}
+            ${w.arrowRepeat}
         </span>
     </div>
     
@@ -5000,7 +5000,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
     </filter>
 </svg>
 </span>
-`,X=[{label:"orange isolation test",value:"test_only_orange",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 0 0 0",filter:"color-isolation-filter-orange",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"test cyan",value:"test_only_cyan",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 0 0 0",filter:"color-isolation-filter-cyan",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"test 2",value:"test_only_2",matrix:"1 0 0 -.5 0   0 1 0 -1 0   0 0 1 -1 0  1 -1 -1 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"test",value:"test_only",matrix:"1 0 0 -.5 0   0 1 0 -1 0   0 0 1 -1 0  -1 1 1 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"No greens and blues",value:"no_greens_and_blues",matrix:"1 -1 -1 0 0   1 -1 -1 0 0   1 -1 -1 0 0  1 -1 -1 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"no reds and oranges, but purple and yellows",value:"no_reds_and_oranges_but_purples_and_yellows",matrix:"1 0 0 -1 0   0 1 0 0 0   0 0 1 -1 0  -1 1 1 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Only yellows, greens and blues",value:"only_yellows_greens_blues",matrix:".65 .35 0 0 0   .65 .35 0 0 0   .65 .35 0 0 0  -1 .65 -1 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Only yellow 2",value:"only_yellow-2",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0",filter:"color-isolation-filter-yellow-2",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Only yellow 3",value:"only_yellow-3",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0",filter:"color-isolation-filter-yellow-3",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Red",value:"red",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"red including purples / pinks",value:"no_yellow_green_blue",matrix:"1 0 1 0 0  1 -1 1 0 0  1 0 1 0 0  1 -1 1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Red 2",value:"red-2",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0,experimental:!0},{label:"No reds",value:"no_reds",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 0 0 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Green",value:"green",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 -1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Green 2",value:"green-2",matrix:"0 0 0 0 0  0 2 0 0 0  0 0 0 0 0  -1 1 -1 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0,experimental:!0},{label:"No greens",value:"no_greens",matrix:"1 0 0 0 0  0 0 0 0 0  0 0 1 0 0  1 0 1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Blue",value:"blue",matrix:"-1 0 1 0 0  0 0 0 0 0  0 0 0 0 0  -1 0 1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Blue 2",value:"blue-2",matrix:"0 0 0 0 0  0 0 0 0 0  -1 0 1 0 0  0  1 1 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0,experimental:!0},{label:"Blue 3",value:"blue-3",matrix:"0 0 0 0 0  0 0 0 0 0  -1 0 1 0 0  -1 -1 1 1 0",filter:"color-isolation-filter-3",blendMode:"normal",saturationBoost:!0},{label:"No blues",value:"no blues",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 -1 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"No blues, purples or pinks",value:"no_blues_purples_or_pinks",matrix:"1  0  0  0  0 0  1  0 -0.500  0  0  0  1 -1  0 0  0 -1  1  0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"No red",value:"no_red",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 1 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0},{label:"No green",value:"no_green",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 1 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0},{label:"No blue",value:"no_blue",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 1 -1 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0},{label:"Warm colors",value:"warm_colors",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 -1 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0},{label:"Purple/Magenta/Pink",value:"purple_magenta_pink",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 -1 1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Purple/Magenta/Pink/Blue",value:"purple_magenta_pink_blue",matrix:"1 0 0 0 0   0 0 0 0 0  1 0 1 0 0  -1 -1 1 1 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Yellow",value:"yellow",matrix:"1 1 -1 0 0  1 1 -1 0 0  1 1 -1 0 0  1 1 0 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0,experimental:!0},{label:"Blues / Greens",value:"blues_greens",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 0 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Only yellows / oranges / greens",value:"only_yellows_oranges_greens",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 1 -1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"Yellows / oranges / reds",value:"yellow_oranges_reds",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 -1 0 0",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"No pinks / purples",value:"no_pinks_purples",matrix:"1 0 0 0 0  0 1 0 0 0  0 0 -1 0 0  -1 0.7 -1 0 2",filter:"color-isolation-filter-original",blendMode:"normal",saturationBoost:!0,experimental:!1},{label:"filter 2 no yellows / greens / blues",value:"filter_2_tester",matrix:"0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 1 0 0",filter:"color-isolation-filter-2",blendMode:"normal",saturationBoost:!0,experimental:!1}];function bt(r,e=[],t){const a=v(e),i=a.presets||"red",l=a.blendMode||"normal",n=X.find(s=>s.value===i)??X[0],o=n.matrix,f=l!=="no-selection"?l:n.blendMode;if(console.log(n),console.log(l),n.filter==="color-isolation-filter-1"){const s=r.querySelector("#f1-isolation-matrix"),p=r.querySelector("#f1-blend");return console.log("set isolationMatrix values to ",o),s.setAttribute("values",o),console.log("set blendMode to ",f),p.setAttribute("mode",f),"color-isolation-filter-1"}if(n.filter==="color-isolation-filter-2"){const s=r.querySelector("#f2-saturation-matrix"),p=r.querySelector("#f2-isolation-matrix");r.querySelector("#f2-blend"),console.log("saturationBoost modifier value",a.saturationBoost);const h=a.saturationBoost==="yes";return console.log("saturationBoost",h),console.log("set saturationBoost to ",h),s.setAttribute("values",h?"10":"1"),console.log("set isolationMatrix values to ",o),p.setAttribute("values",o),console.log("set blendMode to ",f),"color-isolation-filter-2"}if(n.filter==="color-isolation-filter-3")return"color-isolation-filter-3";if(n.filter==="color-isolation-filter-original"){const s=r.querySelector("#original-saturation-matrix"),p=r.querySelector("#original-isolation-matrix"),h=r.querySelector("#original-blend");console.log("saturationBoost modifier value",a.saturationBoost);const g=a.saturationBoost==="yes";return console.log("saturationBoost",g),console.log("set saturationBoost to ",g),s.setAttribute("values",g?"10":"1"),console.log("set isolationMatrix values to ",o),p.setAttribute("values",o),h.setAttribute("mode",f),"color-isolation-filter-original"}return n.filter}const vt=`
+`,I=[{label:`orange isolation test`,value:`test_only_orange`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 0 0 0`,filter:`color-isolation-filter-orange`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`test cyan`,value:`test_only_cyan`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 0 0 0`,filter:`color-isolation-filter-cyan`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`test 2`,value:`test_only_2`,matrix:`1 0 0 -.5 0   0 1 0 -1 0   0 0 1 -1 0  1 -1 -1 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`test`,value:`test_only`,matrix:`1 0 0 -.5 0   0 1 0 -1 0   0 0 1 -1 0  -1 1 1 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`No greens and blues`,value:`no_greens_and_blues`,matrix:`1 -1 -1 0 0   1 -1 -1 0 0   1 -1 -1 0 0  1 -1 -1 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`no reds and oranges, but purple and yellows`,value:`no_reds_and_oranges_but_purples_and_yellows`,matrix:`1 0 0 -1 0   0 1 0 0 0   0 0 1 -1 0  -1 1 1 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Only yellows, greens and blues`,value:`only_yellows_greens_blues`,matrix:`.65 .35 0 0 0   .65 .35 0 0 0   .65 .35 0 0 0  -1 .65 -1 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Only yellow 2`,value:`only_yellow-2`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0`,filter:`color-isolation-filter-yellow-2`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Only yellow 3`,value:`only_yellow-3`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0`,filter:`color-isolation-filter-yellow-3`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Red`,value:`red`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`red including purples / pinks`,value:`no_yellow_green_blue`,matrix:`1 0 1 0 0  1 -1 1 0 0  1 0 1 0 0  1 -1 1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Red 2`,value:`red-2`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 -1 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0,experimental:!0},{label:`No reds`,value:`no_reds`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 0 0 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Green`,value:`green`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 -1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Green 2`,value:`green-2`,matrix:`0 0 0 0 0  0 2 0 0 0  0 0 0 0 0  -1 1 -1 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0,experimental:!0},{label:`No greens`,value:`no_greens`,matrix:`1 0 0 0 0  0 0 0 0 0  0 0 1 0 0  1 0 1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Blue`,value:`blue`,matrix:`-1 0 1 0 0  0 0 0 0 0  0 0 0 0 0  -1 0 1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Blue 2`,value:`blue-2`,matrix:`0 0 0 0 0  0 0 0 0 0  -1 0 1 0 0  0  1 1 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0,experimental:!0},{label:`Blue 3`,value:`blue-3`,matrix:`0 0 0 0 0  0 0 0 0 0  -1 0 1 0 0  -1 -1 1 1 0`,filter:`color-isolation-filter-3`,blendMode:`normal`,saturationBoost:!0},{label:`No blues`,value:`no blues`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 -1 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`No blues, purples or pinks`,value:`no_blues_purples_or_pinks`,matrix:`1  0  0  0  0 0  1  0 -0.500  0  0  0  1 -1  0 0  0 -1  1  0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`No red`,value:`no_red`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 1 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0},{label:`No green`,value:`no_green`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 1 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0},{label:`No blue`,value:`no_blue`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 1 -1 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0},{label:`Warm colors`,value:`warm_colors`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 -1 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0},{label:`Purple/Magenta/Pink`,value:`purple_magenta_pink`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 -1 1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Purple/Magenta/Pink/Blue`,value:`purple_magenta_pink_blue`,matrix:`1 0 0 0 0   0 0 0 0 0  1 0 1 0 0  -1 -1 1 1 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Yellow`,value:`yellow`,matrix:`1 1 -1 0 0  1 1 -1 0 0  1 1 -1 0 0  1 1 0 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0,experimental:!0},{label:`Blues / Greens`,value:`blues_greens`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1 1 0 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Only yellows / oranges / greens`,value:`only_yellows_oranges_greens`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 1 -1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`Yellows / oranges / reds`,value:`yellow_oranges_reds`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 -1 0 0`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`No pinks / purples`,value:`no_pinks_purples`,matrix:`1 0 0 0 0  0 1 0 0 0  0 0 -1 0 0  -1 0.7 -1 0 2`,filter:`color-isolation-filter-original`,blendMode:`normal`,saturationBoost:!0,experimental:!1},{label:`filter 2 no yellows / greens / blues`,value:`filter_2_tester`,matrix:`0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 -1 1 0 0`,filter:`color-isolation-filter-2`,blendMode:`normal`,saturationBoost:!0,experimental:!1}];function L(e,t=[],n){let r=T(t),i=r.presets||`red`,a=r.blendMode||`normal`,o=I.find(e=>e.value===i)??I[0],s=o.matrix,c=a===`no-selection`?o.blendMode:a;if(console.log(o),console.log(a),o.filter===`color-isolation-filter-1`){let t=e.querySelector(`#f1-isolation-matrix`),n=e.querySelector(`#f1-blend`);return console.log(`set isolationMatrix values to `,s),t.setAttribute(`values`,s),console.log(`set blendMode to `,c),n.setAttribute(`mode`,c),`color-isolation-filter-1`}if(o.filter===`color-isolation-filter-2`){let t=e.querySelector(`#f2-saturation-matrix`),n=e.querySelector(`#f2-isolation-matrix`);e.querySelector(`#f2-blend`),console.log(`saturationBoost modifier value`,r.saturationBoost);let i=r.saturationBoost===`yes`;return console.log(`saturationBoost`,i),console.log(`set saturationBoost to `,i),t.setAttribute(`values`,i?`10`:`1`),console.log(`set isolationMatrix values to `,s),n.setAttribute(`values`,s),console.log(`set blendMode to `,c),`color-isolation-filter-2`}if(o.filter===`color-isolation-filter-3`)return`color-isolation-filter-3`;if(o.filter===`color-isolation-filter-original`){let t=e.querySelector(`#original-saturation-matrix`),n=e.querySelector(`#original-isolation-matrix`),i=e.querySelector(`#original-blend`);console.log(`saturationBoost modifier value`,r.saturationBoost);let a=r.saturationBoost===`yes`;return console.log(`saturationBoost`,a),console.log(`set saturationBoost to `,a),t.setAttribute(`values`,a?`10`:`1`),console.log(`set isolationMatrix values to `,s),n.setAttribute(`values`,s),i.setAttribute(`mode`,c),`color-isolation-filter-original`}return o.filter}var Je=`
     <span class="container container-filter" 
           data-filter
           data-filter-type="svg"
@@ -5014,7 +5014,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </label>
     
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
 
@@ -5039,7 +5039,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
             <label for="color-channel-select" data-i18n="Color Channel"></label>
             <select id="color-channel-select" class="input input-select" data-modifier="presets" data-default="red">
-            ${X.filter(r=>"experimental"in r&&r.experimental===!1).map(r=>`<option value="${r.value}" data-i18n="${r.label}">${r.label}</option>`).join("")}
+            ${I.filter(e=>`experimental`in e&&e.experimental===!1).map(e=>`<option value="${e.value}" data-i18n="${e.label}">${e.label}</option>`).join(``)}
             </select>
         </fieldset>
         <svg class="svgFilter">
@@ -5505,7 +5505,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             
         </svg>
     </span>
-`;function yt(r,e=[],t){return v(e),"half-tone-newspaper"}const xt=`
+`;function Ye(e,t=[],n){return T(t),`half-tone-newspaper`}var Xe=`
 <span class="container container-filter"
       data-filter
       data-filter-type="svg"
@@ -5518,7 +5518,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             <span class="label-span" data-i18n="Half tone newspaper"></span>
         </label>
         <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-            ${d.arrowRepeat}
+            ${w.arrowRepeat}
         </span>
     </div>
 
@@ -5611,7 +5611,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
         </defs>
     </svg>
 </span>
-`;function wt(r,e=[],t){return v(e),"half-tone-three-effect"}const Ct=`
+`;function Ze(e,t=[],n){return T(t),`half-tone-three-effect`}var Qe=`
 <span class="container container-filter"
       data-filter
       data-filter-type="svg"
@@ -5624,7 +5624,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             <span class="label-span" data-i18n="Half tone 3"></span>
         </label>
         <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-            ${d.arrowRepeat}
+            ${w.arrowRepeat}
         </span>
     </div>
 
@@ -5656,18 +5656,18 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 </feComponentTransfer>
 
                 <!-- Discrete thresholds -->
-                ${[1,2,3,4,5,6,7,8].map(r=>`
-                <feComponentTransfer in="lum-map" result="thresh${r}">
-                    <feFuncA type="discrete" tableValues="${Array(8).fill(0).map((e,t)=>t+1===r?1:0).join(" ")}" />
-                </feComponentTransfer>`).join("")}
+                ${[1,2,3,4,5,6,7,8].map(e=>`
+                <feComponentTransfer in="lum-map" result="thresh${e}">
+                    <feFuncA type="discrete" tableValues="${Array(8).fill(0).map((t,n)=>n+1===e?1:0).join(` `)}" />
+                </feComponentTransfer>`).join(``)}
 
                 <!-- Combine dots with thresholds -->
-                ${[1,2,3,4,5,6,7,8].map(r=>`
-                <feComposite in="thresh${r}" in2="dot${r}-tile" operator="in" result="level${r}" />`).join("")}
+                ${[1,2,3,4,5,6,7,8].map(e=>`
+                <feComposite in="thresh${e}" in2="dot${e}-tile" operator="in" result="level${e}" />`).join(``)}
 
                 <!-- Merge everything -->
                 <feMerge result="merged">
-                    ${[8,7,6,5,4,3,2,1].map(r=>`<feMergeNode in="level${r}" />`).join(`
+                    ${[8,7,6,5,4,3,2,1].map(e=>`<feMergeNode in="level${e}" />`).join(`
 `)}
                 </feMerge>
 
@@ -5681,7 +5681,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
         </defs>
     </svg>
 </span>
-`,Mt=Object.freeze(Object.defineProperty({__proto__:null,blurEffectHTML:ct,channelManipulationEffectHTML:it,colorIsolationEffectHTML:vt,duotoneEffectHTML:xe,edgeDetectEffectHTML:Ye,embossEffectHTML:ot,experimentalEffectHtml:ft,frostedGlassEffectHTML:Qe,gammaAdvancedEffectHTML:He,gammaEffectHTML:ke,glitchEffectHTML:Ee,glowEffectHTML:tt,halfTone2EffectHTML:mt,halfToneEffectHTML:gt,halfToneNewspaperEffectHTML:xt,halfToneThreeEffectHTML:Ct,inkBlotEffectHTML:Ce,morphEffectHTML:je,pastelEffectHTML:pt,pixelateEffectHTML:Ve,posterizeEffectHTML:Ke,rgbShiftEffectHTML:rt,rippleEffectHTML:Re,sketchEffectHTML:De,softGLowHTML:Le,staticNoiseEffectHTML:Fe,vignetteEffectHTML:We,waterColorEffectHTML:Ae},Symbol.toStringTag,{value:"Module"})),kt=`
+`,$e=Object.freeze(Object.defineProperty({__proto__:null,blurEffectHTML:Be,channelManipulationEffectHTML:Pe,colorIsolationEffectHTML:Je,duotoneEffectHTML:ne,edgeDetectEffectHTML:Te,embossEffectHTML:Re,experimentalEffectHtml:He,frostedGlassEffectHTML:Ae,gammaAdvancedEffectHTML:O,gammaEffectHTML:oe,glitchEffectHTML:pe,glowEffectHTML:Me,halfTone2EffectHTML:qe,halfToneEffectHTML:Ke,halfToneNewspaperEffectHTML:Xe,halfToneThreeEffectHTML:Qe,inkBlotEffectHTML:ie,morphEffectHTML:Ce,pastelEffectHTML:We,pixelateEffectHTML:ye,posterizeEffectHTML:Oe,rgbShiftEffectHTML:Ie,rippleEffectHTML:D,sketchEffectHTML:_e,softGLowHTML:he,staticNoiseEffectHTML:ce,vignetteEffectHTML:xe,waterColorEffectHTML:ue},Symbol.toStringTag,{value:`Module`})),et=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="number" 
@@ -5694,7 +5694,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Brightness"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5707,7 +5707,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,St=`
+`,tt=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="number" 
@@ -5720,7 +5720,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Contrast"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5732,7 +5732,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,Ft=`
+`,nt=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="number" 
@@ -5745,7 +5745,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Saturate"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5757,7 +5757,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,Tt=`
+`,rt=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="number" 
@@ -5770,7 +5770,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Grayscale"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5782,7 +5782,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,At=`
+`,it=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="number" 
@@ -5795,7 +5795,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Sepia"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5807,7 +5807,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,Bt=`
+`,at=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="number" 
@@ -5820,7 +5820,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Invert"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5831,7 +5831,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,Rt=`
+`,ot=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="angle" 
@@ -5844,7 +5844,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Hue rotate"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5856,7 +5856,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,Gt=`
+`,st=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="percentage" 
@@ -5869,7 +5869,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Opacity"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <fieldset class="fieldset fieldset-filter wrapper-field-composed">
@@ -5881,7 +5881,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </span>
         </fieldset>
     </span>
-`,Et=`
+`,ct=`
     <span class="container container-filter" 
         data-filter
         data-filter-type="drop-shadow" 
@@ -5894,7 +5894,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                 <span class="label-span" data-i18n="Drop shadow"></span>
             </label>
             <span class="label-span" data-reset-effect data-i18n-attr="title" data-i18n="Reset filter">
-                ${d.arrowRepeat}
+                ${w.arrowRepeat}
             </span>
         </div>
         <span class="container-form-text" data-i18n="Only works with (partially) transparent images"></span>
@@ -5931,45 +5931,45 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             <input type="color" id="drop-shadow-color-value" class="input input-color" data-modifier="drop-shadow-color" value="#ffffff" data-default="#000000">
         </fieldset>
     </span>
-`,zt=Object.freeze(Object.defineProperty({__proto__:null,brightnessHTML:kt,contrastHTML:St,dropShadowHTML:Et,grayScaleHTML:Tt,hueRotateHTML:Rt,invertHTML:Bt,opacityHTML:Gt,saturateHTML:Ft,sepiaHTML:At},Symbol.toStringTag,{value:"Module"})),Lt=[...Object.values(zt),...Object.values(Mt)].join(""),Nt=`
+`,lt=[...Object.values(Object.freeze(Object.defineProperty({__proto__:null,brightnessHTML:et,contrastHTML:tt,dropShadowHTML:ct,grayScaleHTML:rt,hueRotateHTML:ot,invertHTML:at,opacityHTML:st,saturateHTML:nt,sepiaHTML:it},Symbol.toStringTag,{value:`Module`}))),...Object.values($e)].join(``),ut=`
   <div id="filters" class="filters">
     <div class="container filters-menu">
       <button type="button" id="deactivate-all-filters" class="button button-icon-text" 
           data-click-action="deactivate-all-filters" data-i18n="Deactivate all filters" data-i18n-attr="title">
-          <span class="icon">${d.checkbox}</span>
+          <span class="icon">${w.checkbox}</span>
           <span class="button-label" data-i18n="Deactivate all filters">Deactivate all filters</span>
       </button>
       <button type="button" id="clear-all-filters" class="button button-icon-text" 
           data-click-action="clear-all-filters" data-i18n="Clear all filters" data-i18n-attr="title">
-          <span class="icon">${d.arrowRepeat}</span>
+          <span class="icon">${w.arrowRepeat}</span>
           <span class="button-label" data-i18n="Clear all filters">Clear all filters</span>
       </button>
     </div>
     <div id="filter-container" class="filters-grid">
-      ${Lt}
+      ${lt}
     </div>
     <div id="svg-filters-container">
     
     </div>
   </div>
-`,Dt=`
+`,dt=`
     <div id="image-properties">
         <h2 data-i18n="Image properties"></h2>
         <div class="container">
             <div class="file-properties-wrapper">
 <!--                <h3 data-i18n="Image properties"></h3>-->
                 <span id="image-orientation-icon" class="icon icon-as-icon-button image-orientation-icon">
-                    <span class="landscape-or-portrait">${d.file}</span>
-                    <span class="square">${d.square}</span>
+                    <span class="landscape-or-portrait">${w.file}</span>
+                    <span class="square">${w.square}</span>
                 </span>
                 <span id="image-orientation" class="label"></span>
-                <span id="image-orientation-icon" class="icon icon-as-icon-button">${d.fileEarmark}</span>
+                <span id="image-orientation-icon" class="icon icon-as-icon-button">${w.fileEarmark}</span>
                 <span id="file-format-current" class="label"></span>&nbsp;
-                <span class="icon icon-as-icon-button image-aspect-ratio-icon" data-i18n-attr="title" data-i18n="Aspect ratio">${d.aspectRatio}</span>
+                <span class="icon icon-as-icon-button image-aspect-ratio-icon" data-i18n-attr="title" data-i18n="Aspect ratio">${w.aspectRatio}</span>
                 <span id="image-aspect-ratio" class="label"></span>
             </div>
             <div class="file-size-wrapper">
-                <span class="icon icon-as-icon-button image-aspect-ratio-icon" data-i18n-attr="title" data-i18n="File size">${d.boxSeam}</span>
+                <span class="icon icon-as-icon-button image-aspect-ratio-icon" data-i18n-attr="title" data-i18n="File size">${w.boxSeam}</span>
                 <span id="file-size-original-label" class="label" data-i18n="Original">Original</span>:
                 <span id="file-size-original" class="value-display fields-composed-uom"></span>
                 <span id="file-size-altered-label" class="label" data-i18n="Altered">Altered</span>:
@@ -5979,44 +5979,49 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </div>
         </div>
     </div>
-`,It=`
+`,ft=`
     <div id="file-format">
 <!--        <h2 data-i18n="File format"></h2>-->
         <div class="container container-buttons">
             <div class="wrapper wrapper-field-composed wrapper-file-format-select">
-                <span class="icon icon-as-icon-button" data-i18n-attr="title" data-i18n="File format">${d.fileEarmark}</span>
+                <span class="icon icon-as-icon-button" data-i18n-attr="title" data-i18n="File format">${w.fileEarmark}</span>
                 <select id="file-format-select" class="select select-file-type fields-composed-field"></select>
             </div>
         </div>
     </div>
-`,Vt=`
+`,pt=`
+ <fieldset id="menu-fieldset" class="fieldset">
+        <h1 class="heading is-hidden" data-i18n="Tools"></h1>
+        ${dt}
+        ${`
     <div id="resize">
         <h2 data-i18n="Resize"></h2>
         <div class="container">
             <div class="wrapper wrapper-field-composed wrapper-resize">
-                <span class="icon icon-as-icon-button">${d.textareaResize}</span>
+                <span class="icon icon-as-icon-button">${w.textareaResize}</span>
                 <label for="aspect-ratio-select" class="label fields-composed-label" data-i18n-attr="title" data-i18n="Aspect ratio"></label>
                 <input type="number" class="input input-number" id="resize-width" size="5">
                 <label for="resize-width">×</label>
                 <input type="number" class="input input-number" id="resize-height" size="5">
                 <label for="resize-height" data-i18n="px"></label>
                 <button id="resize-aspect-ratio-lock" class="button button-icon button-selection-lock fields-composed-button" data-click-action="toggleResizeAspectRatioLock" data-i18n="Maintain aspect ratio" data-i18n-attr="title">
-                    <span class="icon icon-unlocked">${d.unlock}</span>
-                    <span class="icon icon-locked">${d.lock}</span>
+                    <span class="icon icon-unlocked">${w.unlock}</span>
+                    <span class="icon icon-locked">${w.lock}</span>
                 </button>
             </div>
         </div>
     </div>
-`,Ot=`
+`}
+        ${`
     <div id="rotation">
         <h2 data-i18n="Rotation"></h2>
         <div class="container container-buttons">
             <button type="button" id="rotate-ccw" class="button button-icon-text" data-click-action="rotateCcw" data-i18n="Rotate ccw" data-i18n-attr="title">
-                <span class="icon">${d.arrowCounterclockwise}</span>
+                <span class="icon">${w.arrowCounterclockwise}</span>
                 <span class="button-label" data-i18n="Rotate ccw"></span>
             </button>
             <button type="button" id="rotate-cw" class="button button-icon-text" data-click-action="rotateCw" data-i18n="Rotate cw" data-i18n-attr="title">
-                <span class="icon">${d.arrowClockwise}</span>
+                <span class="icon">${w.arrowClockwise}</span>
                 <span class="button-label" data-i18n="Rotate cw"></span>
             </button>
             <div id="free-rotation">
@@ -6029,104 +6034,99 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </div>
         </div>
     </div>
-`,Ht=`
+`}
+        ${`
     <div id="mirroring">
         <h2 data-i18n="Mirroring"></h2>
         <div class="container container-buttons">
             <button type="button" id="flip" class="button button-icon-text" data-click-action="flip" data-i18n="Flip" data-i18n-attr="title">
-                <span class="icon">${d.arrowLeftRight}</span>
+                <span class="icon">${w.arrowLeftRight}</span>
                 <span class="button-label" data-i18n="Flip"></span>
             </button>
             <button type="button" id="flop" class="button button-icon-text" data-click-action="flop" data-i18n="Flop" data-i18n-attr="title">
-                <span class="icon">${d.arrowDownUp}</span>
+                <span class="icon">${w.arrowDownUp}</span>
                 <span class="button-label" data-i18n="Flop"></span>
             </button>
         </div>
     </div>
-`,qt=`
+`}
+        ${`
     <div id="selecting">
         <h2 data-i18n="Selection"></h2>
         <div class="container container-buttons">
             <span id="selection-info">
-                <span class="icon icon-as-icon-button" data-i18n-attr="title" data-i18n="Selection size">${d.boundingBox}</span>
+                <span class="icon icon-as-icon-button" data-i18n-attr="title" data-i18n="Selection size">${w.boundingBox}</span>
                 <span id="image-selection-size"></span>
                 (<span id="image-selection-aspect-ratio"></span>)
             </span>
             <div id="selection-aspect-ratio" class="wrapper wrapper-field-composed wrapper-aspect-ratio-select display-inline-block">
-                <span class="icon icon-as-icon-button" data-i18n-attr="title" data-i18n="Aspect ratio">${d.aspectRatio}</span>
+                <span class="icon icon-as-icon-button" data-i18n-attr="title" data-i18n="Aspect ratio">${w.aspectRatio}</span>
                 <select id="aspect-ratio-select" class="select select-aspect-ratios fields-composed-field"></select>
                 <button id="selection-aspect-ratio-lock" class="button button-icon button-selection-lock fields-composed-button" data-click-action="toggleSelectionAspectRatioLock" data-i18n="Maintain aspect ratio" data-i18n-attr="title" disabled>
-                    <span class="icon icon-unlocked">${d.unlock}</span>
-                    <span class="icon icon-locked">${d.lock}</span>
+                    <span class="icon icon-unlocked">${w.unlock}</span>
+                    <span class="icon icon-locked">${w.lock}</span>
                 </button>
             </div>
             <button type="button" id="clear-selection" data-click-action="clearSelection" class="button button-icon" data-i18n="Clear selection" data-i18n-attr="title">
-                <span class="icon">${d.eraser}</span>
+                <span class="icon">${w.eraser}</span>
             </button>
             <button type="button" id="crop" data-click-action="crop" class="button button-icon-text" data-i18n="Crop" data-i18n-attr="title">
-                <span class="icon">${d.crop}</span>
+                <span class="icon">${w.crop}</span>
                 <span class="button-label" data-i18n="Crop"></span>
             </button>
         </div>
     </div>
-`,$t=`
+`}
+        ${`
     <div id="other">
         <h2 data-i18n="Other"></h2>
         <div class="container container-buttons">
             <button type="button" id="reset" class="button button-icon-text" data-click-action="reset" data-i18n="Reset" data-i18n-attr="title">
-                <span class="icon">${d.arrowRepeat}</span>
+                <span class="icon">${w.arrowRepeat}</span>
                 <span class="button-label" data-i18n="Reset"></span>
             </button>
             <button type="button" id="toggle-grid" class="button button-icon" data-click-action="toggleGrid" data-i18n="Toggle grid" data-i18n-attr="title">
-                <span class="icon">${d.grid3x3}</span>
+                <span class="icon">${w.grid3x3}</span>
             </button>
             <button type="button" id="download" class="button button-icon" data-click-action="download" data-i18n="Download" data-i18n-attr="title">
-                <span class="icon">${d.download}</span>
+                <span class="icon">${w.download}</span>
             </button>
             <button type="button" id="edit-help" data-click-action="editHelp" class="button button-icon button-iconHelp" data-i18n="Help" data-i18n-attr="title">
-                <span class="icon">${d.questionCircle}</span>
+                <span class="icon">${w.questionCircle}</span>
             </button>
         </div>
     </div>
-`,Pt=`
+`}
+        ${`
     <h2 data-i18n="Save"></h2>
-    ${It}
+    ${ft}
     <div class="container container-buttons">
         <button type="button" id="save" class="button button-icon-text" data-click-action="save" data-i18n="OK" data-i18n-attr="title">
-            <span class="icon">${d.check}</span>
+            <span class="icon">${w.check}</span>
             <span data-i18n="Save"></span>
         </button>
         <button type="button" id="cancel" class="button button-icon-text" data-click-action="cancel" data-i18n="Cancel" data-i18n-attr="title">
-            <span class="icon">${d.x}</span>
+            <span class="icon">${w.x}</span>
             <span data-i18n="Cancel"></span>
         </button>
     </div>
-`,Wt=`
- <fieldset id="menu-fieldset" class="fieldset">
-        <h1 class="heading is-hidden" data-i18n="Tools"></h1>
-        ${Dt}
-        ${Vt}
-        ${Ot}
-        ${Ht}
-        ${qt}
-        ${$t}
-        ${Pt}
+`}
         <details id="filter-section" class="custom-details">
             <summary>
                 <span aria-details="filter-details">
-                    <span class="icon icon-filters-toggle">${d.arrowRightShort}</span>
+                    <span class="icon icon-filters-toggle">${w.arrowRightShort}</span>
                     <span class="filters-expand" data-i18n="Filters expand"></span>
                     <span class="filters-collapse" data-i18n="Filters collapse"></span>
                 </span>
             </summary>
         </details>
         <div role="definition" id="filter-details" class="details-content">
-            ${Nt}
+            ${ut}
         </div>
     </fieldset>
-`,_t="1.0.126",jt=`
+`,mt=`
     <style>
-        ${be}
+        ${C}
     </style>
     <main id="main" class="main">
         <div id="editor-panel" class="editor-panel" tabindex="0">
@@ -6145,7 +6145,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                         data-i18n-attr="title"
                         data-i18n="Fit"
                     >
-                        <span class="icon">${d.arrowsAngleContract}</span>
+                        <span class="icon">${w.arrowsAngleContract}</span>
                     </button>
                    <button
                         type="button"
@@ -6156,7 +6156,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                         data-i18n-attr="title"
                         data-i18n="Actual size"
                     >
-                        <span class="icon">${d.arrowsAngleExpand}</span>
+                        <span class="icon">${w.arrowsAngleExpand}</span>
                     </button>
                    <button
                         type="button"
@@ -6167,7 +6167,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                         data-i18n-attr="title"
                         data-i18n="Fit width"
                     >
-                        <span class="icon">${d.arrows}</span>
+                        <span class="icon">${w.arrows}</span>
                     </button>
                    <button
                         type="button"
@@ -6178,23 +6178,23 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
                         data-i18n-attr="title"
                         data-i18n="Fit height"
                     >
-                        <span class="icon">${d.arrowsVertical}</span>
+                        <span class="icon">${w.arrowsVertical}</span>
                     </button>
                     
                 </span>
                 <div class="canvases-zoom-buttons wrapper wrapper-field-composed wrapper-glass">
                     <button type="button" id="zoom-in" class="button button-icon shadow" data-click-action="zoomIn" data-i18n="Zoom in" data-i18n-attr="title">
-                        <span class="icon">${d.plus}</span>
+                        <span class="icon">${w.plus}</span>
                     </button>
                     <button type="button" id="zoom-out" class="button button-icon shadow" data-click-action="zoomOut" data-i18n="Zoom out" data-i18n-attr="title">
-                        <span class="icon">${d.dash}</span>
+                        <span class="icon">${w.dash}</span>
                     </button>
                 </div>
             </fieldset>
         </div>
         <div id="editor-menu" class="editor-menu">
-            ${Wt}
-            <p class="version-text">v ${_t}</p>
+            ${pt}
+            <p class="version-text">v 1.0.126</p>
             
         </div>
     </main>
@@ -6202,7 +6202,7 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
          <div class="dialog-inner">
                <div class="dialog-header">
                     <button type="button" id="dialog-help-close" class="button button-icon button-icon-close" data-click-action="dialogHelpClose" data-i18n="Close" data-i18n-attr="title" autofocus>
-                        <span class="icon">${d.xLg}</span>
+                        <span class="icon">${w.xLg}</span>
                     </button>
                </div>
                <div class="dialog-body">
@@ -6266,4 +6266,4 @@ operator="arithmetic" k1="-0.8" k2="0.8" k3="1.4" />
             </filter>
         </defs>
     </svg>
-`,te={lineWidth:1,selectionLineDashSize:14,crossLineSize:30,handleCornerSize:60,handleEdgeSize:40,handleEdgeMargin:0,touchHandleMultiplier:2,touchHandleMultiplierBreakpoint:"992px",aspectRatioTolerance:.01,snapThresholdPercentage:.01,zoomPercentageMin:1,zoomPercentageMax:1e3,zoomPercentageStep:10,gridLineCount:10,showSubGrid:!0,drawCanvasWidth:1500,animateSelection:!0,animateFPS:60,selectionHandleStrokeStyle:"rgba(230,230,230,0.9)",selectionHandleLineDashStrokeStyle:"rgba(0,0,0,0.9)",selectionHandleOverFillStyle:"rgba(230,230,230, 0.5)",gridStrokeStyle:"#ccc",selectionBoxStrokeStyle:"rgba(33,33,33,0.9)",selectionBoxLineDashStrokeStyle:"rgba(222,222,222,0.9)",selectionBoxInvalidLineDashStrokeStyle:"red",subGridStrokeStyle:"#ccc7",crossStrokeStyle:"#ccc",debug:!1,selectionAspectRatios:["free","16:10","16:9","5:3","4:3","3:2","2:1","1:1","locked"],selectionAspectRatio:"free",fileFormats:["image/png","image/jpeg","image/webp"],rotateDegreesStep:30,minWidth:100,minHeight:100,maxWidth:7040,maxHeight:3960,buttonLabelsEnabled:!0,imagePropertiesEnabled:!0,fileFormatEnabled:!0,rotationEnabled:!0,mirroringEnabled:!0,selectingEnabled:!0,selectionInfoEnabled:!0,selectionAspectRatioEnabled:!0,croppingEnabled:!0,gridEnabled:!0,downloadingEnabled:!0,freeSelectEnabled:!0,freeRotationEnabled:!0,resizingEnabled:!0,filtersEnabled:!0,helpEnabled:!0,buttonLabels:!1,defaultZoomMode:"fit",defaultActiveAspectRatios:["free","16:10","16:9","5:3","4:3","3:2","2:1","1:1","locked"],fallbackFileFormat:["image/jpeg"],filters:{duotone:{darkColor:"#004F67",lightColor:"#5ab8a5"}}};class Ut extends ue{constructor(){super(),super.setConfiguration(te),qe(te.filters)}}function Yt(r,e,t,a,i){const l={};a.forEach(o=>{l[o.getAttribute("data-modifier")]=o.value});const n=t.replace("length-1",`${l["drop-shadow-x-offset"]}px`).replace("length-2",`${l["drop-shadow-y-offset"]}px`).replace("length-3",`${l["drop-shadow-blur-radius"]}px`).replace("color",l["drop-shadow-color"]||"black");i(n)}function q(r,e,t,a){a(t?r.replace("value",`${e[0].value}${t}`):r.replace("value",`${e[0].value}`))}const Zt={"drop-shadow":Yt,percentage:(r,e,t,a,i)=>q(t,a,"%",i),angle:(r,e,t,a,i)=>q(t,a,"deg",i),length:(r,e,t,a,i)=>q(t,a,"px",i),number:(r,e,t,a,i)=>q(t,a,null,i)},Xt={"duotone-effect":ye,"gamma-effect":Me,"gamma-advanced-effect":Oe,"inkblot-effect":we,"static-noise-effect":Se,"watercolor-effect":Te,"ripple-effect":Be,"glitch-effect":Ge,"soft-glow-effect":ze,"vignette-effect":Pe,"sketch-effect":Ne,"pixelate-effect":Ie,"morph-effect":_e,"edge-detect":Ue,"posterize-effect":Xe,"frosted-glass-effect":Je,"glow-effect":et,"channel-manipulation-effect":at,"rgb-shift-effect":lt,"emboss-effect":nt,"blur-effect":st,"experimental-effects":dt,"pastel-effect":ut,"half-tone-effect":ht,"half-tone-newspaper-effect":yt,"half-tone-three-effect":wt,"color-isolation-filter":bt};class Kt{#e;#t=[];canvasImageFilter=null;shadowRoot;elements;constructor(e){if(!e)throw new Error("Must be used with an ImageEditor instance");this.#e=e,this.shadowRoot=e.shadowRoot,this.elements=e.elements,this.logger=e.logger,this.applyFilterDefaultsFromConfig()}#a(e,t=!1){this.#t=[];const{filterContainer:a}=this.elements;a.querySelectorAll("[data-filter]").forEach(i=>{const l=i.querySelector("[data-filter-active-checkbox]"),{filterType:n,filterString:o}=i.dataset,f=i.querySelectorAll("[data-modifier]");this.#r(e,f);const s=[...f].some(h=>h.type==="color"?h.value.toLowerCase()!==h.dataset.default.toLowerCase():h.value!==h.dataset.default);s&&console.log(i,"is modified"),l&&t&&e?.type!=="checkbox"&&s&&(l.checked=!0);const p=l?.checked;i.classList.toggle("is-active",p),p&&(n==="svg"?this.#i(i,f):this.#l(i,e,o,n,f))}),this.canvasImageFilter=this.#t.join(" ")||"none",console.log("applying filters:",this.canvasImageFilter),this.#e.updateFilter(this.canvasImageFilter)}#i(e,t){const a=e.getAttribute("data-filter-name"),i=Xt[a];if(i){const{svgFiltersContainer:l}=this.elements;let n=i(e,t,l,this);this.#t.push(`url(#${n})`)}else console.log(`No SVG handler for effect: ${a}`)}#l(e,t,a,i,l){const n=Zt[i];n?n(e,t,a,l,o=>this.#t.push(o)):console.log(`No CSS handler for filter type: ${i}`)}#r(e,t){e&&t.forEach(a=>{a!==e&&a.getAttribute("data-modifier")===e.getAttribute("data-modifier")&&(a.value=e.value)})}addFilterEventListeners(){const{filterContainer:e}=this.elements;e.addEventListener("click",t=>{if(t.target){if(t.target.closest("[data-reset-effect]")){const a=t.target.closest(".container-filter");this.clearFilter(a),t.stopPropagation(),t.preventDefault();return}t.target.tagName==="INPUT"&&this.#a(t.target,t.isTrusted??!1)}}),e.addEventListener("input",t=>{(t.target.tagName==="INPUT"||t.target.tagName==="SELECT")&&t.target.type!=="checkbox"&&this.#a(t.target,t.isTrusted??!1)}),e.addEventListener("contextmenu",t=>t.preventDefault())}applyFilterDefaultsFromConfig(){}#n(e=this.shadowRoot){e.querySelectorAll("[data-default]").forEach(t=>{t.value=t.dataset.default}),this.#a()}clearFilter(e){this.#n(e)}clearAllFilters(){this.#n()}deactivateAllFilters(){this.shadowRoot.querySelectorAll("[data-filter] [data-filter-active-checkbox]").forEach(e=>{e.checked=!1}),this.#a()}getImageEditorInstance(){return this.#e}}const C={flipped:!1,flopped:!1,flipXAxisDirection:null,flipYAxisDirection:null,flipXOrigin:null,flipYOrigin:null},u={imageFilter:"none",imageWidth:null,imageHeight:null,imageXOrigin:null,imageYOrigin:null,imageDrawStart:new b(0,0),drawRatio:null,drawWidth:null,drawHeight:null},k={CSSWidth:null,CSSHeight:null,CSSScaleRatio:null},M={canvasImage:null,canvasDraw:null,ctxImage:null,ctxDraw:null},m={ratio:1,percentage:null};class Jt{fps=null;delay=null;time=null;frameCount=-1;rafReference=null;isPlaying=!1;animationCallback=()=>{};constructor(e,t){if(!e||!t)throw new Error("Must provide FPS and animationCallback");this.fps=e,this.delay=1e3/this.fps,this.animationCallback=t}loop(e){this.time===null&&(this.time=e);const t=Math.floor((e-this.time)/this.delay);t>this.frameCount&&(this.frameCount=t,this.animationCallback({time:e,frameCount:this.frameCount})),this.rafReference=requestAnimationFrame(this.loop.bind(this))}start(){this.isPlaying||(this.isPlaying=!0,this.rafReference=requestAnimationFrame(this.loop.bind(this)))}pause(){this.isPlaying&&(this.isPlaying=!1,this.time=null,this.frameCount=-1,cancelAnimationFrame(this.rafReference))}}class E extends ${#e;#t;#a;#i;#l;#r;#n;constructor(e=null,t=null,a=null,i=null,l=null,n=!1,o=null,f=null,s=null,p=null,h=null){super(e,t,a,i,h),this.#e=l,this.#t=n,this.#a=o,this.#i=f,this.#l=s,this.#r=p,this.#n=!1}get name(){return this.#e}set name(e){this.#e=e}get over(){return this.#t}set over(e){this.#t=e}get type(){return this.#a}set type(e){this.#a=e}get cursor(){return this.#i}set cursor(e){this.#i=e}get mode(){return this.#l}set mode(e){this.#l=e}get action(){return this.#r}set action(e){this.#r=e}get active(){return this.#n}set active(e){this.#n=e}get cloned(){return new E(this.x,this.y,this.w,this.h,this.#e,this.#t,this.#a,this.#i,this.#l,this.#r)}}function Qt(){return{grab:new E(0,0,0,0,"grab",!1,"selection","grabbing","grab","grab"),nw:new E(0,0,0,0,"nw",!1,"corner","nwse-resize","resize","nw-resize"),n:new E(0,0,0,0,"n",!1,"edge","ns-resize","resize","n-resize"),ne:new E(0,0,0,0,"ne",!1,"corner","nesw-resize","resize","ne-resize"),e:new E(0,0,0,0,"e",!1,"edge","ew-resize","resize","e-resize"),se:new E(0,0,0,0,"se",!1,"corner","nwse-resize","resize","se-resize"),s:new E(0,0,0,0,"s",!1,"edge","ns-resize","resize","s-resize"),sw:new E(0,0,0,0,"sw",!1,"corner","nesw-resize","resize","sw-resize"),w:new E(0,0,0,0,"w",!1,"edge","ew-resize","resize","w-resize")}}const c={mode:null,action:"",startPointerOver:null,valid:!0,handleAreas:Qt(),pointerStart:new b(0,0),pointerCurrent:new b(0,0),area:new I(0,0,0,0),areaScaled:new I(0,0,0,0),wasTouchEvent:!1,aspectRatioLocked:!1,lineDashOffset:0},F={handleCornerSize:null,handleEdgeSize:null,handleEdgeMargin:null,crossLineSize:null,selectionLineDashSize:null},G={show:!1,gap:null,lines:[]},S={angle:0},H={};function U(r,e=2,t=!1){if(typeof r!="number"||isNaN(r)||r===0)return"0 Bytes";const a=r<0;r=Math.abs(r);const i=1024,l=e<0?0:e,n=["Bytes","KB","MB","GB","TB","PB"],o=Math.floor(Math.log(r)/Math.log(i)),f=parseFloat((r/Math.pow(i,o)).toFixed(l));return`${t?a?"−":"+":""}${f} ${n[o]}`}function A(r,e){r&&(e?r.style.removeProperty("display"):r.style.display="none")}function ea(r,e,t){r&&r.classList.toggle(e,t)}function ta(r){const{elements:e}=r;A(e.imageProperties,r.imagePropertiesEnabled),A(e.fileFormat,r.fileFormatEnabled),A(e.rotation,r.rotationEnabled),A(e.mirroring,r.mirroringEnabled),ea(e.main,"show-button-labels",r.buttonLabelsEnabled),A(e.selecting,r.selectingEnabled),A(e.cropping,r.croppingEnabled&&r.selectingEnabled),A(e.toggleGrid,r.gridEnabled),A(e.download,r.downloadingEnabled),A(e.resize,r.resizingEnabled),A(e.freeRotation,r.freeRotationEnabled),A(e.filters,!r.filtersEnabled),A(e.editHelp,r.helpEnabled),A(e.download,r.downloadingEnabled),A(e.selectionAspectRatio,r.selectionAspectRatioEnabled),A(e.selectionInfo,r.selectionInfoEnabled)}class re extends Ut{static shadowTemplate=jt;static elementLookup=["#main","#canvasesWrapper","#canvasesButtons","#editorPanel","#menuFieldset","#aspectRatioSelect","#editHelp","#dialogHelp","#freeRotation","#freeRotationRange","#freeRotationRangeValue","#imageProperties","#fileFormat","#resizeAspectRatioLock","#selectionAspectRatioLock","#selectionAspectRatio","#selectionInfo","#resize","#resizeWidth","#ee","#resizeHeight","#zoomPercentage","#imageAspectRatio","#imageOrientation","#imageOrientationIcon","#rotation","#mirroring","#selecting","#download","#toggleGrid","#fileFormatCurrent","#fileSizeOriginal","#fileSizeAltered","#fileSizeDifference","#fileFormatSelect","#imageSelectionSize","#imageSelectionAspectRatio","#filterSection","#filterContainer","#svgFiltersContainer"];static translationsPath="src/lang";#e=null;#t=0;#a=null;static get observedAttributes(){return["disabled"]}#i=null;#l;#r;#n;#s;#c=null;#d=null;#f="fit";constructor(){super(),this.setup(),this.#p(),this.enableControls(!1),this.#a=new Kt(this),this.determineFileFormatSupport(),this.#Le(),this.selectionBoxAnimator=new Jt(this.config.animateFPS,this.animateSelection.bind(this))}setup(){this.#y(this.config.defaultZoomMode)}getImageFileConfiguration(){return{formatsRegex:/.png|.jpg|.jpeg|.webp/,aspectRatioTolerance:.01,minWidth:100,maxWidth:3500,minHeight:100,maxHeight:3500,maxUploadFileSize:3e5,maxEditFileSize:3e5}}connectedCallback(){super.connectedCallback(),console.log(this.supportsCanvasColorSpace("srgb")),console.log(this.supportsCanvasColorSpace("display-p3")),!this._hasConnected&&(this._hasConnected=!0,this.logger.log("ImageEditor connectedCallback"),requestAnimationFrame(()=>{this.dispatchCustomEvent("imageEditorReady",{})}))}dispatchCustomEvent(e,t={}){this.dispatchEvent(new CustomEvent(e,{bubbles:!0,composed:!0,detail:{...t,imageEditorInstance:this}}))}disconnectedCallback(){super.disconnectedCallback(),this.logger.log("imageEditor disconnectedCallback")}supportsCanvasColorSpace(e){return document.createElement("canvas").getContext("2d",{colorSpace:e})?.getContextAttributes?.()?.colorSpace===e}enableControls(e){const{menuFieldset:t,canvasesButtons:a}=this.elements;e?(t.removeAttribute("disabled"),a.removeAttribute("disabled")):(t.setAttribute("disabled","disabled"),a.setAttribute("disabled","disabled"))}#p(){const{canvasesWrapper:e}=this.elements;_(e),["image","draw"].forEach(t=>{const{canvasesWrapper:a}=this.elements,i=oe(t),l=`canvas${i}`,n=`ctx${i}`,o=document.createElement("canvas");o.id=`canvas${i}`,o.className=`canvas-${t}`,t==="image"&&(o.innerText=this.translator._("Image editor canvas")),a.appendChild(o),M[l]=o,M[n]=o.getContext("2d",{colorSpace:"display-p3"})})}#w(){const e=new ResizeObserver(()=>{this.#o()}),{editorPanel:t}=this.elements;e.observe(t)}#h(e){const t=M.canvasImage.toDataURL(e),a=`data:${e};base64,`;return Math.round((t.length-a.length)*3/4)}#T(e){const t=document.createElement("canvas");return t.width=t.height=1,t.toDataURL(e)?.includes(`data:${e};base64,`)}#g(e,t){if(isNaN(e)||isNaN(t)||t===0)return"-";const a=this.config.aspectRatioTolerance,i=e/t;let l=`${i.toFixed(2)}:1`;for(const n of Object.values(N))i>n.value-a&&i<n.value+a&&(l+=` (${n.label})`);return l}#C(e,t,a){const i={},l=a*Math.PI/180,n=Math.abs(Math.cos(l)),o=Math.abs(Math.sin(l));return i.width=Math.round(t*o+e*n),i.height=Math.round(t*n+e*o),i}#A(){if(c.mode==="select")return;const{editorPanel:e}=this.elements;z.width=e.offsetWidth,z.height=e.offsetHeight,y.naturalWidth=this.#r.naturalWidth,y.naturalHeight=this.#r.naturalHeight;const t=this.#C(y.naturalWidth,y.naturalHeight,S.angle);u.imageWidth=t.width,u.imageHeight=t.height,u.drawRatio=this.config.drawCanvasWidth/u.imageWidth;const a=this.config.drawCanvasWidth/u.imageWidth;u.drawWidth=Math.round(u.imageWidth*a),u.drawHeight=Math.round(u.imageHeight*a),k.CSSScaleRatio=this.#B();const i=this.#M();k.CSSWidth=i.width,k.CSSHeight=i.height,u.imageXOrigin=u.imageWidth/2,u.imageYOrigin=u.imageHeight/2,u.imageDrawStart.x=u.imageWidth/2-y.naturalWidth/2,u.imageDrawStart.y=u.imageHeight/2-y.naturalHeight/2,C.flipXAxisDirection=C.flipped?-1:1,C.flipYAxisDirection=C.flopped?-1:1,C.flipXOrigin=C.flipped?u.imageWidth:0,C.flipYOrigin=C.flopped?u.imageHeight:0,y.aspectRatio=this.#g(y.naturalWidth,y.naturalHeight),y.orientation=u.imageWidth>u.imageHeight?"Landscape":u.imageHeight>u.imageWidth?"Portrait":"Square",G.gap=Math.round(y.naturalWidth/this.config.gridLineCount*u.drawRatio),this.lineWidth=this.#m(this.config.lineWidth),F.selectionLineDashSize=this.#m(this.config.selectionLineDashSize),F.crossLineSize=this.#k(this.config.crossLineSize),F.handleCornerSize=this.#k(this.config.handleCornerSize),F.handleEdgeSize=this.#k(this.config.handleEdgeSize),F.handleEdgeMargin=this.#k(this.config.handleEdgeMargin),window.matchMedia(`(max-width: ${this.config.touchHandleMultiplierBreakpoint})`).matches&&(this.logger.log("small viewport"),F.handleCornerSize*=this.config.touchHandleMultiplier,F.handleEdgeSize*=this.config.touchHandleMultiplier),this.#qe(),this.#Ne()}#M(){let e=Math.round(u.imageWidth*k.CSSScaleRatio),t=Math.round(u.imageHeight*k.CSSScaleRatio);return e>z.width&&(e=z.width),t>z.height&&(t=z.height),{width:e,height:t}}#B(){const e=z.width/u.imageWidth,t=z.height/u.imageHeight;return Math.min(e,t)}#m(e){return Math.ceil(e/m.ratio/k.CSSScaleRatio*u.drawRatio)}#k(e){return Math.ceil(e/m.ratio/k.CSSScaleRatio)}#b(e){this.dispatchCustomEvent("onCanvasStatusMessage",{message:e})}#ce(){const{canvasesWrapper:e}=this.elements,{canvasImage:t,canvasDraw:a}=M;[t.width,t.height]=[u.imageWidth,u.imageHeight],[a.width,a.height]=[u.drawWidth,u.drawHeight],e.style.width=t.style.width=a.style.width=k.CSSWidth*m.ratio+"px",e.style.height=t.style.height=a.style.height=k.CSSHeight*m.ratio+"px"}#o(){this.#s.loadStatus==="loaded"&&(this.#de(),this.#u())}#de(){this.#A(),this.#ce();const{canvasImage:e,ctxImage:t}=M,a=this.#r;t.clearRect(0,0,e.width,e.height),t.save(),t.imageSmoothingEnabled=!1,t.webkitImageSmoothingEnabled=!1,t.mozImageSmoothingEnabled=!1,t.translate(u.imageXOrigin,u.imageYOrigin),(C.flipped||C.flopped)&&t.scale(C.flipXAxisDirection,C.flipYAxisDirection),t.rotate(Math.PI/180*S.angle),t.translate(-u.imageXOrigin,-u.imageYOrigin),u.imageFilter&&(t.filter=u.imageFilter),t.drawImage(a,u.imageDrawStart.x,u.imageDrawStart.y,a.naturalWidth,a.naturalHeight),t.restore()}#u(){const{ctxDraw:e,canvasDraw:t}=M;e.clearRect(0,0,t.width,t.height),G.show&&this.#be(),!(c.area.w===0&&c.area.h===0)&&(c.mode==="select"?(this.#G(),this.#H()):this.#le()&&(this.#G(),this.#H(),this.#ue(),this.#me()))}async#fe(e,t){if(!this.#N())return;const{fileFormatSelect:a}=this.elements;a.value||this.#b(this.translator._("Select a file format first"));const i=a.value,l=document.createElement("canvas"),n=l.getContext("2d",{colorSpace:"display-p3"});l.width=e,l.height=t,n.drawImage(this.#i,0,0,l.width,l.height);try{const o=await Z(l.toDataURL(i,1),this.#s.name),f=new O(this.getImageFileConfiguration());await f.load(this.#n,o,null,this.#s.name),this.#S(f,()=>{this.#v()}).catch(console.error)}catch(o){console.warn(`Error during resizing of image ${o}`)}}#ue(){const e=F.handleCornerSize,t=F.handleEdgeSize,a=F.handleEdgeMargin,{x:i,y:l,w:n,h:o}=c.areaScaled,f=n/(2*e+a)>1&&o/(2*e+a)>1,s=new b(i,l),p=new b(i+n-e,l),h=new b(i+n-e,l+o-e),g=new b(i,l+o-e),x=new b(i+e+a,l),B=new b(i+n-t,l+e+a),R=new b(i+e+a,l+o-t),T=new b(i,l+e+a);let w=n-2*a-2*e,P=t,W=t,V=o-2*a-2*e;f||(s.x-=e,s.y-=e,p.x+=e,p.y-=e,h.x+=e,h.y+=e,g.x-=e,g.y+=e,x.x=i,x.y=l-t,B.x=i+n,B.y=l,R.x=i,R.y=l+o,T.x=i-t,T.y=l,w=n,V=o),w<50&&(w=0,P=0,x.set(i,l),R.set(i,l)),V<50&&(W=0,V=0,B.set(i,l),T.set(i,l));const L=c.handleAreas;L.grab.set(i,l,n,o),L.nw.set(s.x,s.y,e,e),L.n.set(x.x,x.y,w,P),L.ne.set(p.x,p.y,e,e),L.e.set(B.x,B.y,W,V),L.se.set(h.x,h.y,e,e),L.s.set(R.x,R.y,w,P),L.sw.set(g.x,g.y,e,e),L.w.set(T.x,T.y,W,V)}#pe(){const e=u.drawWidth,t=u.drawHeight,a=Math.round(G.gap/5);for(let i=0;i<e;i=i+a)G.lines.push({from:new b(i,0),to:new b(i,e),isGridLine:i%G.gap===0});for(let i=0;i<t;i=i+a)G.lines.push({from:new b(0,i),to:new b(e,i),isGridLine:i%G.gap===0})}#I(e){const t=this.config.snapThresholdPercentage,a=t*u.imageWidth,i=t*u.imageHeight;return e.x<a&&(e.x=0),e.y<i&&(e.y=0),e.right>u.imageWidth-a&&(e.x=u.imageWidth-e.w),e.bottom>u.imageHeight-i&&(e.y=u.imageHeight-e.h),e}#V(e){const t=u.imageWidth,a=u.imageHeight;return e.x<0||e.x>t||e.w>t||e.right>t||e.y<0||e.y>a||e.h>a||e.bottom>a}#R(e){const{selectionAspectRatioLock:t}=this.elements;c.area.set(e.x,e.y,e.w,e.h),c.areaScaled=c.area.scale(u.drawRatio),t.removeAttribute("disabled"),this.#J()}#O(e){const{w:t,h:a}=e;c.valid=t>=this.minWidth&&t<=this.maxWidth&&a>=this.minHeight&&a<=this.maxHeight}#G(){const{ctxDraw:e}=M;e.save();const{x:t,y:a,h:i,w:l}=c.areaScaled;e.lineWidth=this.lineWidth,e.strokeStyle=this.config.selectionBoxStrokeStyle,e.beginPath(),e.rect(t,a,l,i),e.stroke(),e.setLineDash([F.selectionLineDashSize]),e.lineDashOffset=-c.lineDashOffset,e.strokeStyle=c.valid?this.config.selectionBoxLineDashStrokeStyle:this.config.selectionBoxInvalidLineDashStrokeStyle,e.stroke(),e.restore()}#H(){this.config.animateSelection&&this.selectionBoxAnimator.start()}animateSelection(){c.lineDashOffset++,c.lineDashOffset>F.selectionLineDashSize*2&&(c.lineDashOffset=0),this.#G()}#he(){this.selectionBoxAnimator.pause()}#ge(){const{ctxDraw:e}=M;e.save(),e.strokeStyle=this.config.crossStrokeStyle,e.lineWidth=this.lineWidth;const{x:t,y:a,w:i,h:l}=c.area,n=new b(t+i/2,a+l/2),o=new b(n.x-F.crossLineSize/2,n.y).scale(u.drawRatio),f=new b(n.x+F.crossLineSize/2,n.y).scale(u.drawRatio),s=new b(n.x,n.y-F.crossLineSize/2).scale(u.drawRatio),p=new b(n.x,n.y+F.crossLineSize/2).scale(u.drawRatio);e.beginPath(),e.moveTo(o.x,o.y),e.lineTo(f.x,f.y),e.moveTo(s.x,s.y),e.lineTo(p.x,p.y),e.stroke(),e.restore()}#me(){const e=M.ctxDraw;e.save(),e.lineWidth=this.lineWidth,e.strokeStyle=this.config.selectionHandleStrokeStyle,e.fillStyle=this.config.selectionHandleOverFillStyle;for(const t of Object.values(c.handleAreas))c.mode==="resize"&&!t.active||(e.beginPath(),e.rect(t.x,t.y,t.w,t.h),t.over===!0&&e.fill(),(t.type==="corner"||t.over===!0||c.wasTouchEvent===!0)&&(e.stroke(),e.save(),e.strokeStyle=this.config.selectionHandleLineDashStrokeStyle,e.setLineDash([15,15]),e.stroke(),e.restore()));e.restore()}#be(){const e=M.ctxDraw;e.save(),e.lineWidth=this.lineWidth;for(const t of G.lines)e.beginPath(),e.moveTo(t.from.x,t.from.y),e.lineTo(t.to.x,t.to.y),t.isGridLine===!0?(e.strokeStyle=this.config.gridStrokeStyle,e.stroke()):this.config.showSubGrid&&(e.strokeStyle=this.config.subGridStrokeStyle,e.stroke());e.restore()}#q(e,t){const{canvasesWrapper:a}=this.elements,i=a.getBoundingClientRect(),l=(e-i.left)/k.CSSScaleRatio/m.ratio,n=(t-i.top)/k.CSSScaleRatio/m.ratio;return new b(l,n)}#ve(e,t){const a=this.#q(e,t);c.pointerStart.set(a.x,a.y)}#$(e,t){const a=this.#q(e,t);c.pointerCurrent.set(a.x,a.y)}#P(){const e={selectionHandle:!1,resizeHandle:!1},t=c.handleAreas;for(const a of Object.keys(t)){const i=t[a];if(i.pointIsInsideArea(c.pointerCurrent.scale(u.drawRatio))){i.mode==="grab"?(e.selectionHandle=i,e.resizeHandle=!1):i.mode==="resize"&&(e.resizeHandle=i,e.selectionHandle=!1,c.handleAreas[i.name].over=!0);const{canvasesWrapper:l}=this.elements;l.style.cursor=i.cursor}else c.handleAreas[i.name].over=!1}if(!e.selectionHandle&&!e.resizeHandle){const{canvasesWrapper:a}=this.elements;a.style.cursor="crosshair"}return e}#W(){const{w:e,h:t}=c.area;return{aspectRatio:e/t,aspectRatioLabel:this.#g(e,t)}}#E(){const{aspectRatioSelect:e}=this.elements,t=e.value;return this.#D(t).value}#ye(e){const t=M.ctxImage;t.save(),t.fillStyle="orange",t.fillRect(e.x-10,e.y-10,20,20),t.restore()}#z(e){const t=this.#E();return t>-1&&(e.w=e.h*t),e}#L(e){const t=this.#E();return t>-1&&(e.h=e.w/t),e}#xe(){const e=this.#P();return e.resizeHandle?(c.mode="resize",c.action=e.resizeHandle.action,c.startPointerOver=e,e.resizeHandle.active=!0):e.selectionHandle?(c.mode="grab",c.action=e.selectionHandle.action,c.startPointerOver=e):(c.mode="select",c.startPointerOver=null),c.mode}#we(){this.clearSelection()}#Ce(e=!1){e?this.#e=1:this.#e!==null&&(this.#e=null);const t=this.#Be();this.#O(t),this.#R(t),this.#u()}#Me(){switch(this.#c=c.area.cloned,this.#d=new b(this.#c.xHalfway,this.#c.yHalfway),c.action){case"nw-resize":case"w-resize":c.pointerStart.x=c.area.right,c.pointerStart.y=c.area.bottom;break;case"ne-resize":case"n-resize":c.pointerStart.x=c.area.left,c.pointerStart.y=c.area.bottom;break;case"se-resize":case"e-resize":c.pointerStart.x=c.area.left,c.pointerStart.y=c.area.top;break;case"sw-resize":case"s-resize":c.pointerStart.x=c.area.right,c.pointerStart.y=c.area.top;break}}#ke(e=!1){e?this.#e===null&&(this.#e=this.#W().aspectRatio):this.#e!==null&&(this.#e=null);const t=this.#Re();this.#V(t)||(this.#O(t),this.#R(t),this.#u())}#Se(){this.#c=c.area.cloned}#Fe(){const e=this.#c,t=e.cloned;t.x=e.x+c.pointerCurrent.x-c.pointerStart.x,t.y=e.y+c.pointerCurrent.y-c.pointerStart.y,this.#V(t)||(this.#R(t),this.#u(),this.#ge())}#Te(e){if(c.mode==="select")return;const t=e.clientX||e.touches[0].clientX,a=e.clientY||e.touches[0].clientY;this.#ve(t,a),e.pointerType==="touch"?(c.wasTouchEvent=!0,this.#$(t,a)):c.wasTouchEvent=!1;const i=this.#xe();i==="select"?this.#we():i==="resize"?this.#Me():i==="grab"&&this.#Se()}#Ae(e){const t=e.clientX||e.touches[0].clientX,a=e.clientY||e.touches[0].clientY;this.#$(t,a),this.#P();const i=c.mode;i==="select"?this.#Ce(e.shiftKey):i==="resize"?this.#ke(e.shiftKey):i==="grab"?this.#Fe():this.#u()}#_(){c.mode=null;const e=c.handleAreas;for(const t of Object.keys(e)){const a=e[t];a.active=!1}this.#c=null,this.#u()}#j(e){const t=M.canvasImage,a=M.ctxImage;a.save(),a.clearRect(0,0,t.width,t.height),a.fillRect(c.pointerStart.x-10,c.pointerStart.y-10,20,20),a.strokeStyle="blue",a.strokeRect(e.x,e.y,e.w,e.h),a.restore()}#U(){const e=c.pointerStart;this.#ye(e)}#Be(){const e=c.pointerStart.x,t=c.pointerStart.y,a=c.pointerCurrent.x-c.pointerStart.x,i=c.pointerCurrent.y-c.pointerStart.y;let l=new I(e,t,a,i);return this.debug&&this.#U(),l=this.#z(l),l=this.#I(l),this.debug&&this.#j(l),l}#Re(){let e=this.#c;const t=c.action,a=this.#E();this.debug&&this.#U();const i=["e-resize","w-resize"],l=["n-resize","s-resize"];if(a>-1?(l.push("ne-resize"),i.push("nw-resize","se-resize","sw-resize")):(i.push("nw-resize","ne-resize","se-resize","sw-resize"),l.push("nw-resize","ne-resize","se-resize","sw-resize")),i.includes(t)&&(e.x=c.pointerStart.x,e.w=c.pointerCurrent.x-c.pointerStart.x),l.includes(t)&&(e.y=c.pointerStart.y,e.h=c.pointerCurrent.y-c.pointerStart.y),a>-1){if((t==="n-resize"||t==="s-resize")&&(e.x=this.#d.x-e.w/2,e=this.#z(e)),(t==="w-resize"||t==="e-resize")&&(e.y=this.#d.y-e.h/2,e=this.#L(e)),t==="ne-resize"&&(e=this.#z(e)),t==="nw-resize"){e=this.#L(e);const n=c.pointerStart;e.y=n.y-e.h}(t==="sw-resize"||t==="se-resize")&&(e=this.#L(e))}return e=this.#I(e),this.debug&&this.#j(e),e}#Y={cancel:()=>{D.fire("onCloseImageEditor"),this.dispatchCustomEvent("onCloseImageEditor",{})},clearSelection:()=>{this.clearSelection()},crop:()=>{this.crop().catch(console.error)},dialogHelpClose:()=>{const{dialogHelp:e}=this.elements;e.close()},download:()=>{this.download()},editHelp:()=>{const{dialogHelp:e}=this.elements;e.showModal()},flip:()=>{this.flip()},flop:()=>{this.flop()},reset:()=>{this.reset()},clearAllFilters:()=>{this.#oe(),u.imageFilter="none",this.#o()},deactivateAllFilters:()=>{this.#se(),u.imageFilter="none",this.#o()},ee:e=>{e.target.closest(".wrapper-glass").classList.toggle("ee")},resizeAspectRatioLock:()=>{this.#Oe()},rotateCcw:()=>{this.rotate("ccw")},rotateCw:()=>{this.rotate("cw")},save:()=>{this.save()},selectionAspectRatioLock:()=>{this.#ne()},toggleGrid:()=>{this.toggleGrid()},zoomIn:()=>{this.zoomIn()},zoomOut:()=>{this.zoomOut()},zoomFit:()=>{this.zoomFit()},zoomActualSize:()=>{this.zoomActualSize()},zoomFitWidth:()=>{this.zoomFitWidth()},zoomFitHeight:()=>{this.zoomFitHeight()}};#Z(e,t=1,a=999,i=!1,l){const n=i?parseFloat(e):parseInt(e),o=Math.min(Math.max(n,t),a);return o!==n&&l(o),o}#X=K((e,t)=>{this.#fe(e,t).catch(console.error)},this);#Ge=K(()=>{this.#v()},this);#Ee={"+":()=>this.zoomIn(),"-":()=>this.zoomOut(),"=":()=>this.zoomIn(),L:()=>this.rotate("ccw"),R:()=>this.rotate("cw")};#ze=e=>{const t=this.#Ee[e.key];t&&(e.preventDefault(),t(e))};#Le(){const{canvasDraw:e}=M,{canvasesWrapper:t,fileFormatSelect:a}=this.elements,{freeRotationRange:i,freeRotationRangeValue:l}=this.elements,{resizeWidth:n,resizeHeight:o}=this.elements,{zoomPercentage:f}=this.elements;this.addEventListener("onCanvasStatusMessage",s=>{console.log("onCanvasStatusMessage",s)}),this.addEventListener("onCloseImageEditor",s=>{console.log("onCloseImageEditor",s)}),this.addEventListener("onImageSave",s=>{console.log("onImageSave",s)}),Object.entries(this.#Y).forEach(([s,p])=>{const h=ae(s),g=this.shadowRoot.querySelector(`#${h}`);if(!g){console.error(`element with id "${h}" not found, cannot add event listener`);return}g.addEventListener("click",x=>{x.stopPropagation(),x.preventDefault(),p(x)},!1)}),this.shadowRoot.addEventListener("click",s=>{const{dialogHelp:p}=this.elements;s.target===p&&this.#Y.dialogHelpClose(s)}),this.shadowRoot.addEventListener("keydown",this.#ze,!1),f.addEventListener("input",()=>{const s=f.value,p=g=>{f.value=g},h=this.#Z(s,1,1e3,!0,p);m.ratio=this.#te(h),this.#o()}),a.addEventListener("change",()=>{this.#v()}),i.addEventListener("input",s=>{s.preventDefault(),this.clearSelection(!1),S.angle=parseInt(s.target.value),this.#ie(),this.#o()}),l.addEventListener("change",s=>{s.preventDefault(),this.clearSelection(!1),this.#ae(),S.angle=this.#Z(s.target.value,0,360,!1,p=>{s.target.value=p}),this.#o()}),n.addEventListener("input",s=>{s.preventDefault();const{resizeWidth:p,resizeHeight:h}=this.elements;this.clearSelection(!1),H.aspectRatioLocked&&(h.value=Math.round(p.value/this.#K())),this.#X(p.value,h.value)}),o.addEventListener("input",s=>{s.preventDefault();const{resizeWidth:p,resizeHeight:h}=this.elements;this.clearSelection(!1),H.aspectRatioLocked&&(p.value=Math.round(h.value*this.#K())),this.#X(p.value,h.value)}),i.addEventListener("contextmenu",s=>{s.preventDefault(),s.stopPropagation()}),this.#a.addFilterEventListeners(),e.addEventListener("pointerdown",s=>{s.preventDefault(),this.#Te(s)}),e.addEventListener("pointerup",s=>{s.preventDefault(),this.#_()}),e.addEventListener("pointermove",s=>{s.preventDefault(),this.#Ae(s)}),e.addEventListener("pointerenter",s=>{s.preventDefault(),t.style.cursor="crosshair"}),e.addEventListener("pointerleave",s=>{s.preventDefault(),this.#_(),t.style.cursor="default"}),e.addEventListener("touchstart",s=>s.preventDefault()),e.addEventListener("contextmenu",s=>{s.preventDefault(),s.stopPropagation()},!0)}#K(){return this.#i.width/this.#i.height}download(){if(this.#N()){const e=this.getFileFormatSelectValue(),t=M.canvasImage.toDataURL(e),a=this.#Q(this.#s.name,e);me(t,a)}}#N(){const{fileFormatSelect:e}=this.elements;return e.value?this.#De()?!0:(e.focus(),this.#b(this.translator._("Conversion to this file format not supported")),!1):this.fileFormatEnabled?(e.focus(),this.#b(this.translator._("Select a file format first")),!1):(e.value=this.config.fallbackFileFormat,!0)}reset(){this.resetProperties(),this.#S(this.#l).catch(console.error)}toggleGrid(){G.show=!G.show,this.#u()}async crop(){if(!this.#le()){this.#b(this.translator._("Make selection before cropping"));return}if(!c.valid){this.#b(this.translator._("Invalid crop siz"));return}const e=this.getSelectionAsDataUrl();try{const t=await Z(e,this.#s.name),a=new O(this.getImageFileConfiguration());await a.load(this.#n,t,null,this.#s.name),this.#S(a,()=>{this.#v()}).catch(console.error)}catch{this.logger.log("Something went wrong during processing of cropped ImageFile")}this.resetProperties(),this.#se()}getSelectionAsDataUrl(){const e=document.createElement("canvas"),t=e.getContext("2d",{colorSpace:"display-p3"});t.imageSmoothingEnabled=!1;const{x:a,y:i,w:l,h:n}=c.area;return e.width=l,e.height=n,t.drawImage(M.canvasImage,a,i,l,n,0,0,l,n),e.toDataURL("image/png",1)}#Ne(){const{fileFormatCurrent:e,resizeWidth:t,resizeHeight:a,zoomPercentage:i,imageAspectRatio:l,imageOrientation:n,imageOrientationIcon:o}=this.elements;e.innerText=this.#l.mimeType,t.value=y.naturalWidth,a.value=y.naturalHeight,i.value=m.percentage,l.innerText=y.aspectRatio,n.innerText=this.translator._(y.orientation),y.orientation==="Landscape"?(o.classList.add("image-orientation-icon-landscape"),o.classList.remove("image-orientation-icon-portrait"),o.classList.remove("image-orientation-icon-square")):y.orientation==="Portrait"?(o.classList.remove("image-orientation-icon-landscape"),o.classList.add("image-orientation-icon-portrait"),o.classList.remove("image-orientation-icon-square")):y.orientation==="Square"&&(o.classList.remove("image-orientation-icon-landscape"),o.classList.remove("image-orientation-icon-portrait"),o.classList.add("image-orientation-icon-square")),this.#Ge()}#J(){const{imageSelectionSize:e,imageSelectionAspectRatio:t}=this.elements,{w:a,h:i}=c.area;e.innerText=Math.floor(a)+" x "+Math.floor(i),t.innerText=this.#g(a,i)}clearSelection(e=!0){const{selectionAspectRatioLock:t}=this.elements;c.area.set(0,0,0,0),c.areaScaled.set(0,0,0,0);const a=c.handleAreas;return Object.keys(a).forEach(i=>{a[i].set(0,0,0,0)}),this.#J(),this.#he(),t.setAttribute("disabled","disabled"),e&&this.#u(),this}#De(){const{fileFormatSelect:e}=this.elements;return!e.options[e.selectedIndex].hasAttribute("disabled")}#Ie(e){const{fileFormatSelect:t}=this.elements;let a=!1;for(const i of t.options)i.value===e&&!i.hasAttribute("disabled")&&(a=!0);return a}#Q(e,t){const a=t.split("/")[1];return`${e.replace(/\.[^/.]+$/,"")}.${a}`}save(){M.canvasImage.toBlob(e=>{const{fileFormatSelect:t}=this.elements,a=t.value;if(this.#N()){const i=this.#Q(this.#s.name,a),l=new File([e],i,{type:a});this.dispatchCustomEvent("onImageSave",{file:l})}else console.log("requirements not met")},this.getFileFormatSelectValue())}#ee(e){const{editorPanel:t}=this.elements;t.classList.toggle("canvases-image-loaded",!e)}async#S(e,t){if(e instanceof O){this.#ee(!0),this.#s=e;try{const a=await he(e.imageObjectURL);this.#r=a,this.#o(),this.#ee(!1),t?.(a)}catch(a){this.logger.log("error",a),console.error("error",a)}}}setImageAsImageFile(e,t){if(!e||!(t instanceof O))throw new Error("setImageAsImageFile(imageFile). Not all arguments passed / valid.");this.#l=t,this.#n=e;const a=i=>{this.#i=i,this.enableControls(!0),this.resetProperties(),this.#w(),this.#Xe(),this.#Ue(),this.#et(),this.enableFilters(),this.#tt(t.mimeType),this.#Ve(),this.#v(),this.#re(),this.#pe(),ta(this)};this.#S(t,a).catch(console.error)}async setImageAsImageSource(e){if(!(e instanceof J))throw new Error("setImageAsImageSource(imageSource), Not all arguments passed / valid.");const t=new O(this.getImageFileConfiguration());try{await t.load(e.id,null,e.src,e.name),this.setImageAsImageFile(e.id,t)}catch{console.warn("setImageAsImageSource: Could not create ImageFile")}}setImage(e,t,a){const i=t.includes("?")?"&":"?",l=`${t}${i}v=${Date.now()}`,n=new J(e,l,a);this.setImageAsImageSource(n).catch(console.error)}#v(){const{fileSizeAltered:e,fileSizeDifference:t}=this.elements,{fileFormatCurrent:a}=this.elements,{fileFormatSelect:i}=this.elements,l=i.value||this.#s.mimeType,n=this.#h(l),o=n-this.#t;e.innerText=U(n,1);let f;f=`${U(o,1,!0)}`,t.innerHTML=f}#Ve(){const{fileSizeOriginal:e}=this.elements,t=this.#s.mimeType;this.#t=this.#h(t),e.innerText=U(this.#t,1)}resetProperties(){this.#_e().#Qe().#F().#Ye().#We().#je().#Je().#oe().#He().clearSelection().#o()}updateResizeRatioLockState(){const{resizeAspectRatioLock:e}=this.elements,t=H.aspectRatioLocked;e.classList.toggle("locked",t),e.classList.toggle("is-active",t)}#Oe(){H.aspectRatioLocked=!H.aspectRatioLocked,this.updateResizeRatioLockState()}#He(){const e={"actual-size":this.zoomActualSize,fit:this.zoomFit,"fit-width":this.zoomFitWidth,"fit-height":this.zoomFitHeight}[this.config.defaultZoomMode];return e&&e.call(this),this}zoom(e){const{zoomPercentageMin:t,zoomPercentageMax:a,zoomPercentageStep:i}=this.config;let l=this.#Pe();e>0?l<=a-i&&(l+=i):l>=t+i&&(l-=i),m.ratio=this.#te(l),this.#o()}zoomIn(){this.zoom(1)}zoomOut(){this.zoom(-1)}#qe(){m.percentage=this.#x(m.ratio)}#at(){m.ratio=y.naturalWidth/k.CSSWidth,m.percentage=this.#x(m.ratio)}zoomFit(){this.#y("fit"),m.ratio=1,this.#o()}zoomFitWidth(){this.#y("fit-width"),m.ratio=z.width/y.naturalWidth/k.CSSScaleRatio,m.percentage=this.#x(m.ratio),this.#o()}zoomFitHeight(){this.#y("fit-height"),m.ratio=z.height/y.naturalHeight/k.CSSScaleRatio,m.percentage=this.#x(m.ratio),this.#o()}zoomActualSize(){this.#y("actual-size"),m.ratio=y.naturalWidth/k.CSSWidth,m.percentage=this.#x(m.ratio),this.#o()}#y(e){this.#f=e,this.#$e()}#$e(){this.shadowRoot.querySelectorAll("[data-zoom-mode]").forEach(e=>{const t=e.getAttribute("data-zoom-mode");e.classList.toggle("is-active",t===this.#f)})}#te(e){return e/100/k.CSSScaleRatio}#x(e){return(e*k.CSSScaleRatio*100).toFixed(0)}#Pe(){const{zoomPercentage:e}=this.elements;return parseFloat(e.value)}#We(){return C.flipped=!1,C.flopped=!1,this}flip(){C.flipped=!C.flipped,this.clearSelection(!1),this.#o()}flop(){C.flopped=!C.flopped,this.clearSelection(!1),this.#o()}#ae(){const{freeRotationRange:e}=this.elements;e.value=S.angle}#ie(){const{freeRotationRangeValue:e}=this.elements;e.value=S.angle}#_e(){const{freeRotationRange:e,freeRotationRangeValue:t}=this.elements;return e.value=S.angle,t.value=S.angle,this}#je(){return S.angle=0,this}rotate(e){this.clearSelection(!1),e==="ccw"?(S.angle-=this.rotateDegreesStep,S.angle<0&&(S.angle=360-Math.abs(S.angle))):e==="cw"&&(S.angle+=this.rotateDegreesStep,S.angle>360&&(S.angle=S.angle-360)),this.#ae(),this.#ie(),this.#o()}#le(){const{w:e,h:t}=c.area;return e!==0&&t!==0}#re(){const e=this.shadowRoot.querySelector('option[id="ratio_locked"]'),{aspectRatioSelect:t,selectionAspectRatioLock:a}=this.elements;if(this.freeSelectEnabled)if(c.aspectRatioLocked){const{aspectRatio:i,aspectRatioLabel:l}=this.#W();a.classList.add("locked","is-active"),e.removeAttribute("disabled"),e.label=`${l}`,this.#D("locked").value=i,t.value="locked"}else a.classList.remove("locked","is-active"),e.setAttribute("disabled","disabled"),e.label=this.translator._("Locked"),this.#F()}#ne(){c.aspectRatioLocked=!c.aspectRatioLocked,this.#re()}#Ue(){const{aspectRatioSelect:e}=this.elements;_(e);for(const t of N)if(t.active){const a=document.createElement("template");a.innerHTML=`<option value="${t.name}" id="ratio_${t.name}">${this.translator._(t.label)}</option>`,e.appendChild(a.content)}this.#F()}#F(){const{aspectRatioSelect:e}=this.elements;return e.value=this.#Ze().name,this}#Ye(){return c.aspectRatioLocked&&this.#ne(),this}#Ze(){const e=this.#D(this.selectionAspectRatio);return e?.active?e:N.find(t=>t.active)||N[0]}#D(e){return N.find(t=>t.name===e)}#Xe(){const e=this.selectionAspectRatios;N.forEach(i=>{i.active=e.includes(i.name)});const t=N.find(i=>i.name==="free");t.active=this.freeSelectEnabled;const a=N.find(i=>i.name==="locked");a.active=this.freeSelectEnabled}enableFilters(){const{filterSection:e}=this.elements;e.style.display=this.shouldEnableFilters()?"block":"none"}#Ke(){return!!M?.canvasImage?.getContext("2d")?.filter}shouldEnableFilters(){return this.#Ke()&&this.filtersEnabled}#Je(){return G.show=!1,this}#oe(){return this.#a.clearAllFilters(),this}#se(){return this.#a.deactivateAllFilters(),this}updateFilter(e){u.imageFilter=e,this.#o()}determineFileFormatSupport(){for(const e of j)e.supported=this.#T(e.value)}getFileFormatSelectValue(){const{fileFormatSelect:e}=this.elements;return e.value}#Qe(){const{fileFormatSelect:e}=this.elements;return e.value=this.#l.mimeType,this}#et(){const e=this.fileFormats;for(const t of j)t.active=e.includes(t.value)}#tt(e){const{fileFormatSelect:t}=this.elements;_(t);const a=document.createElement("template");a.innerHTML='<option hidden value="" data-i18n="Choose file format"></option>',t.appendChild(a.content);for(const i of j){const l=document.createElement("template");l.innerHTML=`<option value="${i.value}" id="fileFormat_${i.name}" ${i.supported&&i.active?"":'data-i18n-attr="title" data-i18n="Conversion to this file format not supported" disabled'}>${i.label}</option>`,t.appendChild(l.content)}e&&this.#Ie(e)?t.value=e:t.value=""}#it(){}get freeSelectEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("free-select",this.config.freeSelectEnabled)}set freeSelectEnabled(e){this.setAttributeAsBoolean("free-select",e)}get imagePropertiesEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("image-properties",this.config.imagePropertiesEnabled)}set imagePropertiesEnabled(e){this.setAttributeAsBoolean("image-properties",e)}get fileFormatEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("file-format",this.config.fileFormatEnabled)}set fileFormatEnabled(e){this.setAttributeAsBoolean("file-format",e)}get rotationEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("rotation",this.config.rotationEnabled)}set rotationEnabled(e){this.setAttributeAsBoolean("rotation",e)}get mirroringEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("mirroring",this.config.mirroringEnabled)}set mirroringEnabled(e){this.setAttributeAsBoolean("mirroring",e)}get buttonLabelsEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("button-labels",this.config.buttonLabelsEnabled)}set buttonLabelsEnabled(e){this.setAttributeAsBoolean("button-labels",e)}get selectingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("selecting",this.config.selectingEnabled)}set selectingEnabled(e){this.setAttributeAsBoolean("selecting",e)}get croppingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("cropping",this.config.croppingEnabled)}set croppingEnabled(e){this.setAttributeAsBoolean("cropping",e)}get gridEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("grid-enabled",this.config.gridEnabled)}set gridEnabled(e){this.setAttributeAsBoolean("grid-enabled",e)}get downloadingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("downloading",this.config.downloadingEnabled)}set downloadingEnabled(e){this.setAttributeAsBoolean("downloading",e)}get resizingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("resizing",this.config.resizingEnabled)}set resizingEnabled(e){this.setAttributeAsBoolean("resizing",e)}get freeRotationEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("free-rotation",this.config.freeRotationEnabled)}set freeRotationEnabled(e){this.setAttributeAsBoolean("free-rotation",e)}get helpEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("help-enabled",this.config.helpEnabled)}set helpEnabled(e){this.setAttributeAsBoolean("help-enabled",e)}get selectionAspectRatioEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("selection-aspect-ratio-enabled",this.config.selectionAspectRatioEnabled)}set selectionAspectRatioEnabled(e){this.setAttributeAsBoolean("selection-aspect-ratio-enabled",e)}get selectionInfoEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("selection-info-enabled",this.config.selectionInfoEnabled)}set selectionInfoEnabled(e){this.setAttributeAsBoolean("selection-info-enabled",e)}get filtersEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse("filters",this.config.filtersEnabled)}set filtersEnabled(e){this.setAttributeAsBoolean("filters",e)}get minWidth(){return this.getAttributeAsInteger("min-width",this.config.minWidth)}set minWidth(e){this.setAttributeAsInteger("min-width",e)}get minHeight(){return this.getAttributeAsInteger("min-height",this.config.minHeight)}set minHeight(e){this.setAttributeAsInteger("min-height",e)}get maxWidth(){return this.getAttributeAsInteger("max-width",this.config.maxWidth)}set maxWidth(e){this.setAttributeAsInteger("max-width",e)}get maxHeight(){return this.getAttributeAsInteger("max-height",this.config.maxHeight)}set maxHeight(e){this.setAttributeAsInteger("max-height",e)}get selectionAspectRatios(){const e=this.config.selectionAspectRatios??this.config.defaultActiveAspectRatios;return this.getAttributeAsCSV("selection-aspect-ratios",e)}set selectionAspectRatios(e){this.setAttributeAsCSV("selection-aspect-ratios",e)}get selectionAspectRatio(){const e=this.getAttributeOrDefault("selection-aspect-ratio",this.config.selectionAspectRatio);return this.selectionAspectRatios.includes(e)||console.warn(`ImageEditor: ${e} not in list with selectionAspectRatios ${this.selectionAspectRatios.join(", ")}`),e}set selectionAspectRatio(e){this.setAttributeToString("selection-aspect-ratio",e),this.#F()}get fileFormats(){return this.getAttributeAsCSV("file-formats",this.config.fileFormats)}set fileFormats(e){return this.setAttributeAsCSV("file-formats",e)}get rotateDegreesStep(){return this.getAttributeAsInteger("rotate-degrees-step",this.config.rotateDegreesStep)}set rotateDegreesStep(e){this.setAttributeAsInteger("rotate-degrees-step",e)}get canvasImageWidth(){return u.imageWidth}get canvasImageHeight(){return u.imageHeight}}customElements.define("image-editor",re);re.translationsPath="/js/vendor/image-editor/lang";
+`,R={lineWidth:1,selectionLineDashSize:14,crossLineSize:30,handleCornerSize:60,handleEdgeSize:40,handleEdgeMargin:0,touchHandleMultiplier:2,touchHandleMultiplierBreakpoint:`992px`,aspectRatioTolerance:.01,snapThresholdPercentage:.01,zoomPercentageMin:1,zoomPercentageMax:1e3,zoomPercentageStep:10,gridLineCount:10,showSubGrid:!0,drawCanvasWidth:1500,animateSelection:!0,animateFPS:60,selectionHandleStrokeStyle:`rgba(230,230,230,0.9)`,selectionHandleLineDashStrokeStyle:`rgba(0,0,0,0.9)`,selectionHandleOverFillStyle:`rgba(230,230,230, 0.5)`,gridStrokeStyle:`#ccc`,selectionBoxStrokeStyle:`rgba(33,33,33,0.9)`,selectionBoxLineDashStrokeStyle:`rgba(222,222,222,0.9)`,selectionBoxInvalidLineDashStrokeStyle:`red`,subGridStrokeStyle:`#ccc7`,crossStrokeStyle:`#ccc`,debug:!1,selectionAspectRatios:[`free`,`16:10`,`16:9`,`5:3`,`4:3`,`3:2`,`2:1`,`1:1`,`locked`],selectionAspectRatio:`free`,fileFormats:[`image/png`,`image/jpeg`,`image/webp`],rotateDegreesStep:30,minWidth:100,minHeight:100,maxWidth:7040,maxHeight:3960,buttonLabelsEnabled:!0,imagePropertiesEnabled:!0,fileFormatEnabled:!0,rotationEnabled:!0,mirroringEnabled:!0,selectingEnabled:!0,selectionInfoEnabled:!0,selectionAspectRatioEnabled:!0,croppingEnabled:!0,gridEnabled:!0,downloadingEnabled:!0,freeSelectEnabled:!0,freeRotationEnabled:!0,resizingEnabled:!0,filtersEnabled:!0,helpEnabled:!0,buttonLabels:!1,defaultZoomMode:`fit`,defaultActiveAspectRatios:[`free`,`16:10`,`16:9`,`5:3`,`4:3`,`3:2`,`2:1`,`1:1`,`locked`],fallbackFileFormat:[`image/jpeg`],filters:{duotone:{darkColor:`#004F67`,lightColor:`#5ab8a5`}}},ht=class extends u{constructor(){super(),super.setConfiguration(R),j(R.filters)}};function gt(e,t,n,r,i){let a={};r.forEach(e=>{a[e.getAttribute(`data-modifier`)]=e.value}),i(n.replace(`length-1`,`${a[`drop-shadow-x-offset`]}px`).replace(`length-2`,`${a[`drop-shadow-y-offset`]}px`).replace(`length-3`,`${a[`drop-shadow-blur-radius`]}px`).replace(`color`,a[`drop-shadow-color`]||`black`))}function z(e,t,n,r){r(n?e.replace(`value`,`${t[0].value}${n}`):e.replace(`value`,`${t[0].value}`))}var _t={"drop-shadow":gt,percentage:(e,t,n,r,i)=>z(n,r,`%`,i),angle:(e,t,n,r,i)=>z(n,r,`deg`,i),length:(e,t,n,r,i)=>z(n,r,`px`,i),number:(e,t,n,r,i)=>z(n,r,null,i)},vt={"duotone-effect":te,"gamma-effect":ae,"gamma-advanced-effect":be,"inkblot-effect":re,"static-noise-effect":se,"watercolor-effect":le,"ripple-effect":de,"glitch-effect":fe,"soft-glow-effect":me,"vignette-effect":N,"sketch-effect":ge,"pixelate-effect":ve,"morph-effect":Se,"edge-detect":we,"posterize-effect":De,"frosted-glass-effect":ke,"glow-effect":je,"channel-manipulation-effect":Ne,"rgb-shift-effect":Fe,"emboss-effect":Le,"blur-effect":ze,"experimental-effects":Ve,"pastel-effect":Ue,"half-tone-effect":Ge,"half-tone-newspaper-effect":Ye,"half-tone-three-effect":Ze,"color-isolation-filter":L},yt=class{#e;#t=[];canvasImageFilter=null;shadowRoot;elements;constructor(e){if(!e)throw Error(`Must be used with an ImageEditor instance`);this.#e=e,this.shadowRoot=e.shadowRoot,this.elements=e.elements,this.logger=e.logger,this.applyFilterDefaultsFromConfig()}#n(e,t=!1){this.#t=[];let{filterContainer:n}=this.elements;n.querySelectorAll(`[data-filter]`).forEach(n=>{let r=n.querySelector(`[data-filter-active-checkbox]`),{filterType:i,filterString:a}=n.dataset,o=n.querySelectorAll(`[data-modifier]`);this.#a(e,o);let s=[...o].some(e=>e.type===`color`?e.value.toLowerCase()!==e.dataset.default.toLowerCase():e.value!==e.dataset.default);s&&console.log(n,`is modified`),r&&t&&e?.type!==`checkbox`&&s&&(r.checked=!0);let c=r?.checked;n.classList.toggle(`is-active`,c),c&&(i===`svg`?this.#r(n,o):this.#i(n,e,a,i,o))}),this.canvasImageFilter=this.#t.join(` `)||`none`,console.log(`applying filters:`,this.canvasImageFilter),this.#e.updateFilter(this.canvasImageFilter)}#r(e,t){let n=e.getAttribute(`data-filter-name`),r=vt[n];if(r){let{svgFiltersContainer:n}=this.elements,i=r(e,t,n,this);this.#t.push(`url(#${i})`)}else console.log(`No SVG handler for effect: ${n}`)}#i(e,t,n,r,i){let a=_t[r];a?a(e,t,n,i,e=>this.#t.push(e)):console.log(`No CSS handler for filter type: ${r}`)}#a(e,t){e&&t.forEach(t=>{t!==e&&t.getAttribute(`data-modifier`)===e.getAttribute(`data-modifier`)&&(t.value=e.value)})}addFilterEventListeners(){let{filterContainer:e}=this.elements;e.addEventListener(`click`,e=>{if(e.target){if(e.target.closest(`[data-reset-effect]`)){let t=e.target.closest(`.container-filter`);this.clearFilter(t),e.stopPropagation(),e.preventDefault();return}e.target.tagName===`INPUT`&&this.#n(e.target,e.isTrusted??!1)}}),e.addEventListener(`input`,e=>{(e.target.tagName===`INPUT`||e.target.tagName===`SELECT`)&&e.target.type!==`checkbox`&&this.#n(e.target,e.isTrusted??!1)}),e.addEventListener(`contextmenu`,e=>e.preventDefault())}applyFilterDefaultsFromConfig(){}#o(e=this.shadowRoot){e.querySelectorAll(`[data-default]`).forEach(e=>{e.value=e.dataset.default}),this.#n()}clearFilter(e){this.#o(e)}clearAllFilters(){this.#o()}deactivateAllFilters(){this.shadowRoot.querySelectorAll(`[data-filter] [data-filter-active-checkbox]`).forEach(e=>{e.checked=!1}),this.#n()}getImageEditorInstance(){return this.#e}},B={flipped:!1,flopped:!1,flipXAxisDirection:null,flipYAxisDirection:null,flipXOrigin:null,flipYOrigin:null},V={imageFilter:`none`,imageWidth:null,imageHeight:null,imageXOrigin:null,imageYOrigin:null,imageDrawStart:new S(0,0),drawRatio:null,drawWidth:null,drawHeight:null},H={CSSWidth:null,CSSHeight:null,CSSScaleRatio:null},U={canvasImage:null,canvasDraw:null,ctxImage:null,ctxDraw:null},W={ratio:1,percentage:null},bt=class{fps=null;delay=null;time=null;frameCount=-1;rafReference=null;isPlaying=!1;animationCallback=()=>{};constructor(e,t){if(!e||!t)throw Error(`Must provide FPS and animationCallback`);this.fps=e,this.delay=1e3/this.fps,this.animationCallback=t}loop(e){this.time===null&&(this.time=e);let t=Math.floor((e-this.time)/this.delay);t>this.frameCount&&(this.frameCount=t,this.animationCallback({time:e,frameCount:this.frameCount})),this.rafReference=requestAnimationFrame(this.loop.bind(this))}start(){this.isPlaying||(this.isPlaying=!0,this.rafReference=requestAnimationFrame(this.loop.bind(this)))}pause(){this.isPlaying&&(this.isPlaying=!1,this.time=null,this.frameCount=-1,cancelAnimationFrame(this.rafReference))}},G=class e extends t{#e;#t;#n;#r;#i;#a;#o;constructor(e=null,t=null,n=null,r=null,i=null,a=!1,o=null,s=null,c=null,l=null,u=null){super(e,t,n,r,u),this.#e=i,this.#t=a,this.#n=o,this.#r=s,this.#i=c,this.#a=l,this.#o=!1}get name(){return this.#e}set name(e){this.#e=e}get over(){return this.#t}set over(e){this.#t=e}get type(){return this.#n}set type(e){this.#n=e}get cursor(){return this.#r}set cursor(e){this.#r=e}get mode(){return this.#i}set mode(e){this.#i=e}get action(){return this.#a}set action(e){this.#a=e}get active(){return this.#o}set active(e){this.#o=e}get cloned(){return new e(this.x,this.y,this.w,this.h,this.#e,this.#t,this.#n,this.#r,this.#i,this.#a)}};function xt(){return{grab:new G(0,0,0,0,`grab`,!1,`selection`,`grabbing`,`grab`,`grab`),nw:new G(0,0,0,0,`nw`,!1,`corner`,`nwse-resize`,`resize`,`nw-resize`),n:new G(0,0,0,0,`n`,!1,`edge`,`ns-resize`,`resize`,`n-resize`),ne:new G(0,0,0,0,`ne`,!1,`corner`,`nesw-resize`,`resize`,`ne-resize`),e:new G(0,0,0,0,`e`,!1,`edge`,`ew-resize`,`resize`,`e-resize`),se:new G(0,0,0,0,`se`,!1,`corner`,`nwse-resize`,`resize`,`se-resize`),s:new G(0,0,0,0,`s`,!1,`edge`,`ns-resize`,`resize`,`s-resize`),sw:new G(0,0,0,0,`sw`,!1,`corner`,`nesw-resize`,`resize`,`sw-resize`),w:new G(0,0,0,0,`w`,!1,`edge`,`ew-resize`,`resize`,`w-resize`)}}var K={mode:null,action:``,startPointerOver:null,valid:!0,handleAreas:xt(),pointerStart:new S(0,0),pointerCurrent:new S(0,0),area:new x(0,0,0,0),areaScaled:new x(0,0,0,0),wasTouchEvent:!1,aspectRatioLocked:!1,lineDashOffset:0},q={handleCornerSize:null,handleEdgeSize:null,handleEdgeMargin:null,crossLineSize:null,selectionLineDashSize:null},J={show:!1,gap:null,lines:[]},Y={angle:0},X={};function Z(e,t=2,n=!1){if(typeof e!=`number`||isNaN(e)||e===0)return`0 Bytes`;let r=e<0;e=Math.abs(e);let i=1024,a=t<0?0:t,o=[`Bytes`,`KB`,`MB`,`GB`,`TB`,`PB`],s=Math.floor(Math.log(e)/Math.log(i)),c=parseFloat((e/i**+s).toFixed(a));return`${n?r?`−`:`+`:``}${c} ${o[s]}`}function Q(e,t){e&&(t?e.style.removeProperty(`display`):e.style.display=`none`)}function St(e,t,n){e&&e.classList.toggle(t,n)}function Ct(e){let{elements:t}=e;Q(t.imageProperties,e.imagePropertiesEnabled),Q(t.fileFormat,e.fileFormatEnabled),Q(t.rotation,e.rotationEnabled),Q(t.mirroring,e.mirroringEnabled),St(t.main,`show-button-labels`,e.buttonLabelsEnabled),Q(t.selecting,e.selectingEnabled),Q(t.cropping,e.croppingEnabled&&e.selectingEnabled),Q(t.toggleGrid,e.gridEnabled),Q(t.download,e.downloadingEnabled),Q(t.resize,e.resizingEnabled),Q(t.freeRotation,e.freeRotationEnabled),Q(t.filters,!e.filtersEnabled),Q(t.editHelp,e.helpEnabled),Q(t.download,e.downloadingEnabled),Q(t.selectionAspectRatio,e.selectionAspectRatioEnabled),Q(t.selectionInfo,e.selectionInfoEnabled)}var $=class extends ht{static shadowTemplate=mt;static elementLookup=`#main.#canvasesWrapper.#canvasesButtons.#editorPanel.#menuFieldset.#aspectRatioSelect.#editHelp.#dialogHelp.#freeRotation.#freeRotationRange.#freeRotationRangeValue.#imageProperties.#fileFormat.#resizeAspectRatioLock.#selectionAspectRatioLock.#selectionAspectRatio.#selectionInfo.#resize.#resizeWidth.#ee.#resizeHeight.#zoomPercentage.#imageAspectRatio.#imageOrientation.#imageOrientationIcon.#rotation.#mirroring.#selecting.#download.#toggleGrid.#fileFormatCurrent.#fileSizeOriginal.#fileSizeAltered.#fileSizeDifference.#fileFormatSelect.#imageSelectionSize.#imageSelectionAspectRatio.#filterSection.#filterContainer.#svgFiltersContainer`.split(`.`);static translationsPath=`src/lang`;#e=null;#t=0;#n=null;static get observedAttributes(){return[`disabled`]}#r=null;#i;#a;#o;#s;#c=null;#l=null;#u=`fit`;constructor(){super(),this.setup(),this.#d(),this.enableControls(!1),this.#n=new yt(this),this.determineFileFormatSupport(),this.#he(),this.selectionBoxAnimator=new bt(this.config.animateFPS,this.animateSelection.bind(this))}setup(){this.#Ae(this.config.defaultZoomMode)}getImageFileConfiguration(){return{formatsRegex:/.png|.jpg|.jpeg|.webp/,aspectRatioTolerance:.01,minWidth:100,maxWidth:3500,minHeight:100,maxHeight:3500,maxUploadFileSize:3e5,maxEditFileSize:3e5}}connectedCallback(){super.connectedCallback(),console.log(this.supportsCanvasColorSpace(`srgb`)),console.log(this.supportsCanvasColorSpace(`display-p3`)),!this._hasConnected&&(this._hasConnected=!0,this.logger.log(`ImageEditor connectedCallback`),requestAnimationFrame(()=>{this.dispatchCustomEvent(`imageEditorReady`,{})}))}dispatchCustomEvent(e,t={}){this.dispatchEvent(new CustomEvent(e,{bubbles:!0,composed:!0,detail:{...t,imageEditorInstance:this}}))}disconnectedCallback(){super.disconnectedCallback(),this.logger.log(`imageEditor disconnectedCallback`)}supportsCanvasColorSpace(e){return document.createElement(`canvas`).getContext(`2d`,{colorSpace:e})?.getContextAttributes?.()?.colorSpace===e}enableControls(e){let{menuFieldset:t,canvasesButtons:n}=this.elements;e?(t.removeAttribute(`disabled`),n.removeAttribute(`disabled`)):(t.setAttribute(`disabled`,`disabled`),n.setAttribute(`disabled`,`disabled`))}#d(){let{canvasesWrapper:e}=this.elements;v(e),[`image`,`draw`].forEach(e=>{let{canvasesWrapper:t}=this.elements,r=n(e),i=`canvas${r}`,a=`ctx${r}`,o=document.createElement(`canvas`);o.id=`canvas${r}`,o.className=`canvas-${e}`,e===`image`&&(o.innerText=this.translator._(`Image editor canvas`)),t.appendChild(o),U[i]=o,U[a]=o.getContext(`2d`,{colorSpace:`display-p3`})})}#f(){let e=new ResizeObserver(()=>{this.#w()}),{editorPanel:t}=this.elements;e.observe(t)}#p(e){let t=U.canvasImage.toDataURL(e),n=`data:${e};base64,`;return Math.round((t.length-n.length)*3/4)}#m(e){let t=document.createElement(`canvas`);return t.width=t.height=1,t.toDataURL(e)?.includes(`data:${e};base64,`)}#h(e,t){if(isNaN(e)||isNaN(t)||t===0)return`-`;let n=this.config.aspectRatioTolerance,r=e/t,i=`${r.toFixed(2)}:1`;for(let e of Object.values(y))r>e.value-n&&r<e.value+n&&(i+=` (${e.label})`);return i}#g(e,t,n){let r={},i=n*Math.PI/180,a=Math.abs(Math.cos(i)),o=Math.abs(Math.sin(i));return r.width=Math.round(t*o+e*a),r.height=Math.round(t*a+e*o),r}#_(){if(K.mode===`select`)return;let{editorPanel:e}=this.elements;k.width=e.offsetWidth,k.height=e.offsetHeight,F.naturalWidth=this.#a.naturalWidth,F.naturalHeight=this.#a.naturalHeight;let t=this.#g(F.naturalWidth,F.naturalHeight,Y.angle);V.imageWidth=t.width,V.imageHeight=t.height,V.drawRatio=this.config.drawCanvasWidth/V.imageWidth;let n=this.config.drawCanvasWidth/V.imageWidth;V.drawWidth=Math.round(V.imageWidth*n),V.drawHeight=Math.round(V.imageHeight*n),H.CSSScaleRatio=this.#y();let r=this.#v();H.CSSWidth=r.width,H.CSSHeight=r.height,V.imageXOrigin=V.imageWidth/2,V.imageYOrigin=V.imageHeight/2,V.imageDrawStart.x=V.imageWidth/2-F.naturalWidth/2,V.imageDrawStart.y=V.imageHeight/2-F.naturalHeight/2,B.flipXAxisDirection=B.flipped?-1:1,B.flipYAxisDirection=B.flopped?-1:1,B.flipXOrigin=B.flipped?V.imageWidth:0,B.flipYOrigin=B.flopped?V.imageHeight:0,F.aspectRatio=this.#h(F.naturalWidth,F.naturalHeight),F.orientation=V.imageWidth>V.imageHeight?`Landscape`:V.imageHeight>V.imageWidth?`Portrait`:`Square`,J.gap=Math.round(F.naturalWidth/this.config.gridLineCount*V.drawRatio),this.lineWidth=this.#b(this.config.lineWidth),q.selectionLineDashSize=this.#b(this.config.selectionLineDashSize),q.crossLineSize=this.#x(this.config.crossLineSize),q.handleCornerSize=this.#x(this.config.handleCornerSize),q.handleEdgeSize=this.#x(this.config.handleEdgeSize),q.handleEdgeMargin=this.#x(this.config.handleEdgeMargin),window.matchMedia(`(max-width: ${this.config.touchHandleMultiplierBreakpoint})`).matches&&(this.logger.log(`small viewport`),q.handleCornerSize*=this.config.touchHandleMultiplier,q.handleEdgeSize*=this.config.touchHandleMultiplier),this.#ke(),this.#ve()}#v(){let e=Math.round(V.imageWidth*H.CSSScaleRatio),t=Math.round(V.imageHeight*H.CSSScaleRatio);return e>k.width&&(e=k.width),t>k.height&&(t=k.height),{width:e,height:t}}#y(){let e=k.width/V.imageWidth,t=k.height/V.imageHeight;return Math.min(e,t)}#b(e){return Math.ceil(e/W.ratio/H.CSSScaleRatio*V.drawRatio)}#x(e){return Math.ceil(e/W.ratio/H.CSSScaleRatio)}#S(e){this.dispatchCustomEvent(`onCanvasStatusMessage`,{message:e})}#C(){let{canvasesWrapper:e}=this.elements,{canvasImage:t,canvasDraw:n}=U;[t.width,t.height]=[V.imageWidth,V.imageHeight],[n.width,n.height]=[V.drawWidth,V.drawHeight],e.style.width=t.style.width=n.style.width=H.CSSWidth*W.ratio+`px`,e.style.height=t.style.height=n.style.height=H.CSSHeight*W.ratio+`px`}#w(){this.#s.loadStatus===`loaded`&&(this.#T(),this.#E())}#T(){this.#_(),this.#C();let{canvasImage:e,ctxImage:t}=U,n=this.#a;t.clearRect(0,0,e.width,e.height),t.save(),t.imageSmoothingEnabled=!1,t.webkitImageSmoothingEnabled=!1,t.mozImageSmoothingEnabled=!1,t.translate(V.imageXOrigin,V.imageYOrigin),(B.flipped||B.flopped)&&t.scale(B.flipXAxisDirection,B.flipYAxisDirection),t.rotate(Math.PI/180*Y.angle),t.translate(-V.imageXOrigin,-V.imageYOrigin),V.imageFilter&&(t.filter=V.imageFilter),t.drawImage(n,V.imageDrawStart.x,V.imageDrawStart.y,n.naturalWidth,n.naturalHeight),t.restore()}#E(){let{ctxDraw:e,canvasDraw:t}=U;e.clearRect(0,0,t.width,t.height),J.show&&this.#z(),!(K.area.w===0&&K.area.h===0)&&(K.mode===`select`?(this.#P(),this.#F()):this.#Be()&&(this.#P(),this.#F(),this.#O(),this.#R()))}async#D(e,t){if(!this.#_e())return;let{fileFormatSelect:n}=this.elements;n.value||this.#S(this.translator._(`Select a file format first`));let r=n.value,i=document.createElement(`canvas`),a=i.getContext(`2d`,{colorSpace:`display-p3`});i.width=e,i.height=t,a.drawImage(this.#r,0,0,i.width,i.height);try{let e=await m(i.toDataURL(r,1),this.#s.name),t=new g(this.getImageFileConfiguration());await t.load(this.#o,e,null,this.#s.name),this.#we(t,()=>{this.#Te()}).catch(console.error)}catch(e){console.warn(`Error during resizing of image ${e}`)}}#O(){let e=q.handleCornerSize,t=q.handleEdgeSize,n=q.handleEdgeMargin,{x:r,y:i,w:a,h:o}=K.areaScaled,s=a/(2*e+n)>1&&o/(2*e+n)>1,c=new S(r,i),l=new S(r+a-e,i),u=new S(r+a-e,i+o-e),d=new S(r,i+o-e),f=new S(r+e+n,i),p=new S(r+a-t,i+e+n),m=new S(r+e+n,i+o-t),h=new S(r,i+e+n),g=a-2*n-2*e,_=t,v=t,y=o-2*n-2*e;s||(c.x-=e,c.y-=e,l.x+=e,l.y-=e,u.x+=e,u.y+=e,d.x-=e,d.y+=e,f.x=r,f.y=i-t,p.x=r+a,p.y=i,m.x=r,m.y=i+o,h.x=r-t,h.y=i,g=a,y=o),g<50&&(g=0,_=0,f.set(r,i),m.set(r,i)),y<50&&(v=0,y=0,p.set(r,i),h.set(r,i));let b=K.handleAreas;b.grab.set(r,i,a,o),b.nw.set(c.x,c.y,e,e),b.n.set(f.x,f.y,g,_),b.ne.set(l.x,l.y,e,e),b.e.set(p.x,p.y,v,y),b.se.set(u.x,u.y,e,e),b.s.set(m.x,m.y,g,_),b.sw.set(d.x,d.y,e,e),b.w.set(h.x,h.y,v,y)}#k(){let e=V.drawWidth,t=V.drawHeight,n=Math.round(J.gap/5);for(let t=0;t<e;t+=n)J.lines.push({from:new S(t,0),to:new S(t,e),isGridLine:t%J.gap===0});for(let r=0;r<t;r+=n)J.lines.push({from:new S(0,r),to:new S(e,r),isGridLine:r%J.gap===0})}#A(e){let t=this.config.snapThresholdPercentage,n=t*V.imageWidth,r=t*V.imageHeight;return e.x<n&&(e.x=0),e.y<r&&(e.y=0),e.right>V.imageWidth-n&&(e.x=V.imageWidth-e.w),e.bottom>V.imageHeight-r&&(e.y=V.imageHeight-e.h),e}#j(e){let t=V.imageWidth,n=V.imageHeight;return e.x<0||e.x>t||e.w>t||e.right>t||e.y<0||e.y>n||e.h>n||e.bottom>n}#M(e){let{selectionAspectRatioLock:t}=this.elements;K.area.set(e.x,e.y,e.w,e.h),K.areaScaled=K.area.scale(V.drawRatio),t.removeAttribute(`disabled`),this.#ye()}#N(e){let{w:t,h:n}=e;K.valid=t>=this.minWidth&&t<=this.maxWidth&&n>=this.minHeight&&n<=this.maxHeight}#P(){let{ctxDraw:e}=U;e.save();let{x:t,y:n,h:r,w:i}=K.areaScaled;e.lineWidth=this.lineWidth,e.strokeStyle=this.config.selectionBoxStrokeStyle,e.beginPath(),e.rect(t,n,i,r),e.stroke(),e.setLineDash([q.selectionLineDashSize]),e.lineDashOffset=-K.lineDashOffset,e.strokeStyle=K.valid?this.config.selectionBoxLineDashStrokeStyle:this.config.selectionBoxInvalidLineDashStrokeStyle,e.stroke(),e.restore()}#F(){this.config.animateSelection&&this.selectionBoxAnimator.start()}animateSelection(){K.lineDashOffset++,K.lineDashOffset>q.selectionLineDashSize*2&&(K.lineDashOffset=0),this.#P()}#I(){this.selectionBoxAnimator.pause()}#L(){let{ctxDraw:e}=U;e.save(),e.strokeStyle=this.config.crossStrokeStyle,e.lineWidth=this.lineWidth;let{x:t,y:n,w:r,h:i}=K.area,a=new S(t+r/2,n+i/2),o=new S(a.x-q.crossLineSize/2,a.y).scale(V.drawRatio),s=new S(a.x+q.crossLineSize/2,a.y).scale(V.drawRatio),c=new S(a.x,a.y-q.crossLineSize/2).scale(V.drawRatio),l=new S(a.x,a.y+q.crossLineSize/2).scale(V.drawRatio);e.beginPath(),e.moveTo(o.x,o.y),e.lineTo(s.x,s.y),e.moveTo(c.x,c.y),e.lineTo(l.x,l.y),e.stroke(),e.restore()}#R(){let e=U.ctxDraw;e.save(),e.lineWidth=this.lineWidth,e.strokeStyle=this.config.selectionHandleStrokeStyle,e.fillStyle=this.config.selectionHandleOverFillStyle;for(let t of Object.values(K.handleAreas))K.mode===`resize`&&!t.active||(e.beginPath(),e.rect(t.x,t.y,t.w,t.h),t.over===!0&&e.fill(),(t.type===`corner`||t.over===!0||K.wasTouchEvent===!0)&&(e.stroke(),e.save(),e.strokeStyle=this.config.selectionHandleLineDashStrokeStyle,e.setLineDash([15,15]),e.stroke(),e.restore()));e.restore()}#z(){let e=U.ctxDraw;e.save(),e.lineWidth=this.lineWidth;for(let t of J.lines)e.beginPath(),e.moveTo(t.from.x,t.from.y),e.lineTo(t.to.x,t.to.y),t.isGridLine===!0?(e.strokeStyle=this.config.gridStrokeStyle,e.stroke()):this.config.showSubGrid&&(e.strokeStyle=this.config.subGridStrokeStyle,e.stroke());e.restore()}#B(e,t){let{canvasesWrapper:n}=this.elements,r=n.getBoundingClientRect();return new S((e-r.left)/H.CSSScaleRatio/W.ratio,(t-r.top)/H.CSSScaleRatio/W.ratio)}#V(e,t){let n=this.#B(e,t);K.pointerStart.set(n.x,n.y)}#H(e,t){let n=this.#B(e,t);K.pointerCurrent.set(n.x,n.y)}#U(){let e={selectionHandle:!1,resizeHandle:!1},t=K.handleAreas;for(let n of Object.keys(t)){let r=t[n];if(r.pointIsInsideArea(K.pointerCurrent.scale(V.drawRatio))){r.mode===`grab`?(e.selectionHandle=r,e.resizeHandle=!1):r.mode===`resize`&&(e.resizeHandle=r,e.selectionHandle=!1,K.handleAreas[r.name].over=!0);let{canvasesWrapper:t}=this.elements;t.style.cursor=r.cursor}else K.handleAreas[r.name].over=!1}if(!e.selectionHandle&&!e.resizeHandle){let{canvasesWrapper:e}=this.elements;e.style.cursor=`crosshair`}return e}#W(){let{w:e,h:t}=K.area;return{aspectRatio:e/t,aspectRatioLabel:this.#h(e,t)}}#G(){let{aspectRatioSelect:e}=this.elements,t=e.value;return this.#qe(t).value}#K(e){let t=U.ctxImage;t.save(),t.fillStyle=`orange`,t.fillRect(e.x-10,e.y-10,20,20),t.restore()}#q(e){let t=this.#G();return t>-1&&(e.w=e.h*t),e}#J(e){let t=this.#G();return t>-1&&(e.h=e.w/t),e}#Y(){let e=this.#U();return e.resizeHandle?(K.mode=`resize`,K.action=e.resizeHandle.action,K.startPointerOver=e,e.resizeHandle.active=!0):e.selectionHandle?(K.mode=`grab`,K.action=e.selectionHandle.action,K.startPointerOver=e):(K.mode=`select`,K.startPointerOver=null),K.mode}#X(){this.clearSelection()}#Z(e=!1){e?this.#e=1:this.#e!==null&&(this.#e=null);let t=this.#se();this.#N(t),this.#M(t),this.#E()}#Q(){switch(this.#c=K.area.cloned,this.#l=new S(this.#c.xHalfway,this.#c.yHalfway),K.action){case`nw-resize`:case`w-resize`:K.pointerStart.x=K.area.right,K.pointerStart.y=K.area.bottom;break;case`ne-resize`:case`n-resize`:K.pointerStart.x=K.area.left,K.pointerStart.y=K.area.bottom;break;case`se-resize`:case`e-resize`:K.pointerStart.x=K.area.left,K.pointerStart.y=K.area.top;break;case`sw-resize`:case`s-resize`:K.pointerStart.x=K.area.right,K.pointerStart.y=K.area.top;break}}#$(e=!1){e?this.#e===null&&(this.#e=this.#W().aspectRatio):this.#e!==null&&(this.#e=null);let t=this.#ce();this.#j(t)||(this.#N(t),this.#M(t),this.#E())}#ee(){this.#c=K.area.cloned}#te(){let e=this.#c,t=e.cloned;t.x=e.x+K.pointerCurrent.x-K.pointerStart.x,t.y=e.y+K.pointerCurrent.y-K.pointerStart.y,this.#j(t)||(this.#M(t),this.#E(),this.#L())}#ne(e){if(K.mode===`select`)return;let t=e.clientX||e.touches[0].clientX,n=e.clientY||e.touches[0].clientY;this.#V(t,n),e.pointerType===`touch`?(K.wasTouchEvent=!0,this.#H(t,n)):K.wasTouchEvent=!1;let r=this.#Y();r===`select`?this.#X():r===`resize`?this.#Q():r===`grab`&&this.#ee()}#re(e){let t=e.clientX||e.touches[0].clientX,n=e.clientY||e.touches[0].clientY;this.#H(t,n),this.#U();let r=K.mode;r===`select`?this.#Z(e.shiftKey):r===`resize`?this.#$(e.shiftKey):r===`grab`?this.#te():this.#E()}#ie(){K.mode=null;let e=K.handleAreas;for(let t of Object.keys(e)){let n=e[t];n.active=!1}this.#c=null,this.#E()}#ae(e){let t=U.canvasImage,n=U.ctxImage;n.save(),n.clearRect(0,0,t.width,t.height),n.fillRect(K.pointerStart.x-10,K.pointerStart.y-10,20,20),n.strokeStyle=`blue`,n.strokeRect(e.x,e.y,e.w,e.h),n.restore()}#oe(){let e=K.pointerStart;this.#K(e)}#se(){let e=K.pointerStart.x,t=K.pointerStart.y,n=new x(e,t,K.pointerCurrent.x-K.pointerStart.x,K.pointerCurrent.y-K.pointerStart.y);return this.debug&&this.#oe(),n=this.#q(n),n=this.#A(n),this.debug&&this.#ae(n),n}#ce(){let e=this.#c,t=K.action,n=this.#G();this.debug&&this.#oe();let r=[`e-resize`,`w-resize`],i=[`n-resize`,`s-resize`];if(n>-1?(i.push(`ne-resize`),r.push(`nw-resize`,`se-resize`,`sw-resize`)):(r.push(`nw-resize`,`ne-resize`,`se-resize`,`sw-resize`),i.push(`nw-resize`,`ne-resize`,`se-resize`,`sw-resize`)),r.includes(t)&&(e.x=K.pointerStart.x,e.w=K.pointerCurrent.x-K.pointerStart.x),i.includes(t)&&(e.y=K.pointerStart.y,e.h=K.pointerCurrent.y-K.pointerStart.y),n>-1){if((t===`n-resize`||t===`s-resize`)&&(e.x=this.#l.x-e.w/2,e=this.#q(e)),(t===`w-resize`||t===`e-resize`)&&(e.y=this.#l.y-e.h/2,e=this.#J(e)),t===`ne-resize`&&(e=this.#q(e)),t===`nw-resize`){e=this.#J(e);let t=K.pointerStart;e.y=t.y-e.h}(t===`sw-resize`||t===`se-resize`)&&(e=this.#J(e))}return e=this.#A(e),this.debug&&this.#ae(e),e}#le={cancel:()=>{d.fire(`onCloseImageEditor`),this.dispatchCustomEvent(`onCloseImageEditor`,{})},clearSelection:()=>{this.clearSelection()},crop:()=>{this.crop().catch(console.error)},dialogHelpClose:()=>{let{dialogHelp:e}=this.elements;e.close()},download:()=>{this.download()},editHelp:()=>{let{dialogHelp:e}=this.elements;e.showModal()},flip:()=>{this.flip()},flop:()=>{this.flop()},reset:()=>{this.reset()},clearAllFilters:()=>{this.#Ze(),V.imageFilter=`none`,this.#w()},deactivateAllFilters:()=>{this.#Qe(),V.imageFilter=`none`,this.#w()},ee:e=>{e.target.closest(`.wrapper-glass`).classList.toggle(`ee`)},resizeAspectRatioLock:()=>{this.#De()},rotateCcw:()=>{this.rotate(`ccw`)},rotateCw:()=>{this.rotate(`cw`)},save:()=>{this.save()},selectionAspectRatioLock:()=>{this.#He()},toggleGrid:()=>{this.toggleGrid()},zoomIn:()=>{this.zoomIn()},zoomOut:()=>{this.zoomOut()},zoomFit:()=>{this.zoomFit()},zoomActualSize:()=>{this.zoomActualSize()},zoomFitWidth:()=>{this.zoomFitWidth()},zoomFitHeight:()=>{this.zoomFitHeight()}};#ue(e,t=1,n=999,r=!1,i){let a=r?parseFloat(e):parseInt(e),o=Math.min(Math.max(a,t),n);return o!==a&&i(o),o}#de=o((e,t)=>{this.#D(e,t).catch(console.error)},this);#fe=o(()=>{this.#Te()},this);#pe={"+":()=>this.zoomIn(),"-":()=>this.zoomOut(),"=":()=>this.zoomIn(),L:()=>this.rotate(`ccw`),R:()=>this.rotate(`cw`)};#me=e=>{let t=this.#pe[e.key];t&&(e.preventDefault(),t(e))};#he(){let{canvasDraw:e}=U,{canvasesWrapper:t,fileFormatSelect:n}=this.elements,{freeRotationRange:r,freeRotationRangeValue:i}=this.elements,{resizeWidth:o,resizeHeight:s}=this.elements,{zoomPercentage:c}=this.elements;this.addEventListener(`onCanvasStatusMessage`,e=>{console.log(`onCanvasStatusMessage`,e)}),this.addEventListener(`onCloseImageEditor`,e=>{console.log(`onCloseImageEditor`,e)}),this.addEventListener(`onImageSave`,e=>{console.log(`onImageSave`,e)}),Object.entries(this.#le).forEach(([e,t])=>{let n=a(e),r=this.shadowRoot.querySelector(`#${n}`);if(!r){console.error(`element with id "${n}" not found, cannot add event listener`);return}r.addEventListener(`click`,e=>{e.stopPropagation(),e.preventDefault(),t(e)},!1)}),this.shadowRoot.addEventListener(`click`,e=>{let{dialogHelp:t}=this.elements;e.target===t&&this.#le.dialogHelpClose(e)}),this.shadowRoot.addEventListener(`keydown`,this.#me,!1),c.addEventListener(`input`,()=>{let e=c.value,t=this.#ue(e,1,1e3,!0,e=>{c.value=e});W.ratio=this.#Me(t),this.#w()}),n.addEventListener(`change`,()=>{this.#Te()}),r.addEventListener(`input`,e=>{e.preventDefault(),this.clearSelection(!1),Y.angle=parseInt(e.target.value),this.#Le(),this.#w()}),i.addEventListener(`change`,e=>{e.preventDefault(),this.clearSelection(!1),this.#Ie(),Y.angle=this.#ue(e.target.value,0,360,!1,t=>{e.target.value=t}),this.#w()}),o.addEventListener(`input`,e=>{e.preventDefault();let{resizeWidth:t,resizeHeight:n}=this.elements;this.clearSelection(!1),X.aspectRatioLocked&&(n.value=Math.round(t.value/this.#ge())),this.#de(t.value,n.value)}),s.addEventListener(`input`,e=>{e.preventDefault();let{resizeWidth:t,resizeHeight:n}=this.elements;this.clearSelection(!1),X.aspectRatioLocked&&(t.value=Math.round(n.value*this.#ge())),this.#de(t.value,n.value)}),r.addEventListener(`contextmenu`,e=>{e.preventDefault(),e.stopPropagation()}),this.#n.addFilterEventListeners(),e.addEventListener(`pointerdown`,e=>{e.preventDefault(),this.#ne(e)}),e.addEventListener(`pointerup`,e=>{e.preventDefault(),this.#ie()}),e.addEventListener(`pointermove`,e=>{e.preventDefault(),this.#re(e)}),e.addEventListener(`pointerenter`,e=>{e.preventDefault(),t.style.cursor=`crosshair`}),e.addEventListener(`pointerleave`,e=>{e.preventDefault(),this.#ie(),t.style.cursor=`default`}),e.addEventListener(`touchstart`,e=>e.preventDefault()),e.addEventListener(`contextmenu`,e=>{e.preventDefault(),e.stopPropagation()},!0)}#ge(){return this.#r.width/this.#r.height}download(){if(this.#_e()){let e=this.getFileFormatSelectValue();h(U.canvasImage.toDataURL(e),this.#Se(this.#s.name,e))}}#_e(){let{fileFormatSelect:e}=this.elements;return e.value?this.#be()?!0:(e.focus(),this.#S(this.translator._(`Conversion to this file format not supported`)),!1):this.fileFormatEnabled?(e.focus(),this.#S(this.translator._(`Select a file format first`)),!1):(e.value=this.config.fallbackFileFormat,!0)}reset(){this.resetProperties(),this.#we(this.#i).catch(console.error)}toggleGrid(){J.show=!J.show,this.#E()}async crop(){if(!this.#Be()){this.#S(this.translator._(`Make selection before cropping`));return}if(!K.valid){this.#S(this.translator._(`Invalid crop siz`));return}let e=this.getSelectionAsDataUrl();try{let t=await m(e,this.#s.name),n=new g(this.getImageFileConfiguration());await n.load(this.#o,t,null,this.#s.name),this.#we(n,()=>{this.#Te()}).catch(console.error)}catch{this.logger.log(`Something went wrong during processing of cropped ImageFile`)}this.resetProperties(),this.#Qe()}getSelectionAsDataUrl(){let e=document.createElement(`canvas`),t=e.getContext(`2d`,{colorSpace:`display-p3`});t.imageSmoothingEnabled=!1;let{x:n,y:r,w:i,h:a}=K.area;return e.width=i,e.height=a,t.drawImage(U.canvasImage,n,r,i,a,0,0,i,a),e.toDataURL(`image/png`,1)}#ve(){let{fileFormatCurrent:e,resizeWidth:t,resizeHeight:n,zoomPercentage:r,imageAspectRatio:i,imageOrientation:a,imageOrientationIcon:o}=this.elements;e.innerText=this.#i.mimeType,t.value=F.naturalWidth,n.value=F.naturalHeight,r.value=W.percentage,i.innerText=F.aspectRatio,a.innerText=this.translator._(F.orientation),F.orientation===`Landscape`?(o.classList.add(`image-orientation-icon-landscape`),o.classList.remove(`image-orientation-icon-portrait`),o.classList.remove(`image-orientation-icon-square`)):F.orientation===`Portrait`?(o.classList.remove(`image-orientation-icon-landscape`),o.classList.add(`image-orientation-icon-portrait`),o.classList.remove(`image-orientation-icon-square`)):F.orientation===`Square`&&(o.classList.remove(`image-orientation-icon-landscape`),o.classList.remove(`image-orientation-icon-portrait`),o.classList.add(`image-orientation-icon-square`)),this.#fe()}#ye(){let{imageSelectionSize:e,imageSelectionAspectRatio:t}=this.elements,{w:n,h:r}=K.area;e.innerText=Math.floor(n)+` x `+Math.floor(r),t.innerText=this.#h(n,r)}clearSelection(e=!0){let{selectionAspectRatioLock:t}=this.elements;K.area.set(0,0,0,0),K.areaScaled.set(0,0,0,0);let n=K.handleAreas;return Object.keys(n).forEach(e=>{n[e].set(0,0,0,0)}),this.#ye(),this.#I(),t.setAttribute(`disabled`,`disabled`),e&&this.#E(),this}#be(){let{fileFormatSelect:e}=this.elements;return!e.options[e.selectedIndex].hasAttribute(`disabled`)}#xe(e){let{fileFormatSelect:t}=this.elements,n=!1;for(let r of t.options)r.value===e&&!r.hasAttribute(`disabled`)&&(n=!0);return n}#Se(e,t){let n=t.split(`/`)[1];return`${e.replace(/\.[^/.]+$/,``)}.${n}`}save(){U.canvasImage.toBlob(e=>{let{fileFormatSelect:t}=this.elements,n=t.value;if(this.#_e()){let t=this.#Se(this.#s.name,n),r=new File([e],t,{type:n});this.dispatchCustomEvent(`onImageSave`,{file:r})}else console.log(`requirements not met`)},this.getFileFormatSelectValue())}#Ce(e){let{editorPanel:t}=this.elements;t.classList.toggle(`canvases-image-loaded`,!e)}async#we(e,t){if(e instanceof g){this.#Ce(!0),this.#s=e;try{let n=await f(e.imageObjectURL);this.#a=n,this.#w(),this.#Ce(!1),t?.(n)}catch(e){this.logger.log(`error`,e),console.error(`error`,e)}}}setImageAsImageFile(e,t){if(!e||!(t instanceof g))throw Error(`setImageAsImageFile(imageFile). Not all arguments passed / valid.`);this.#i=t,this.#o=e,this.#we(t,e=>{this.#r=e,this.enableControls(!0),this.resetProperties(),this.#f(),this.#Je(),this.#Ue(),this.#et(),this.enableFilters(),this.#tt(t.mimeType),this.#Ee(),this.#Te(),this.#Ve(),this.#k(),Ct(this)}).catch(console.error)}async setImageAsImageSource(e){if(!(e instanceof _))throw Error(`setImageAsImageSource(imageSource), Not all arguments passed / valid.`);let t=new g(this.getImageFileConfiguration());try{await t.load(e.id,null,e.src,e.name),this.setImageAsImageFile(e.id,t)}catch{console.warn(`setImageAsImageSource: Could not create ImageFile`)}}setImage(e,t,n){let r=new _(e,`${t}${t.includes(`?`)?`&`:`?`}v=${Date.now()}`,n);this.setImageAsImageSource(r).catch(console.error)}#Te(){let{fileSizeAltered:e,fileSizeDifference:t}=this.elements,{fileFormatCurrent:n}=this.elements,{fileFormatSelect:r}=this.elements,i=r.value||this.#s.mimeType,a=this.#p(i),o=a-this.#t;e.innerText=Z(a,1);let s;s=`${Z(o,1,!0)}`,t.innerHTML=s}#Ee(){let{fileSizeOriginal:e}=this.elements,t=this.#s.mimeType;this.#t=this.#p(t),e.innerText=Z(this.#t,1)}resetProperties(){this.#Re().#$e().#We().#Ge().#Fe().#ze().#Xe().#Ze().#Oe().clearSelection().#w()}updateResizeRatioLockState(){let{resizeAspectRatioLock:e}=this.elements,t=X.aspectRatioLocked;e.classList.toggle(`locked`,t),e.classList.toggle(`is-active`,t)}#De(){X.aspectRatioLocked=!X.aspectRatioLocked,this.updateResizeRatioLockState()}#Oe(){let e={"actual-size":this.zoomActualSize,fit:this.zoomFit,"fit-width":this.zoomFitWidth,"fit-height":this.zoomFitHeight}[this.config.defaultZoomMode];return e&&e.call(this),this}zoom(e){let{zoomPercentageMin:t,zoomPercentageMax:n,zoomPercentageStep:r}=this.config,i=this.#Pe();e>0?i<=n-r&&(i+=r):i>=t+r&&(i-=r),W.ratio=this.#Me(i),this.#w()}zoomIn(){this.zoom(1)}zoomOut(){this.zoom(-1)}#ke(){W.percentage=this.#Ne(W.ratio)}zoomFit(){this.#Ae(`fit`),W.ratio=1,this.#w()}zoomFitWidth(){this.#Ae(`fit-width`),W.ratio=k.width/F.naturalWidth/H.CSSScaleRatio,W.percentage=this.#Ne(W.ratio),this.#w()}zoomFitHeight(){this.#Ae(`fit-height`),W.ratio=k.height/F.naturalHeight/H.CSSScaleRatio,W.percentage=this.#Ne(W.ratio),this.#w()}zoomActualSize(){this.#Ae(`actual-size`),W.ratio=F.naturalWidth/H.CSSWidth,W.percentage=this.#Ne(W.ratio),this.#w()}#Ae(e){this.#u=e,this.#je()}#je(){this.shadowRoot.querySelectorAll(`[data-zoom-mode]`).forEach(e=>{let t=e.getAttribute(`data-zoom-mode`);e.classList.toggle(`is-active`,t===this.#u)})}#Me(e){return e/100/H.CSSScaleRatio}#Ne(e){return(e*H.CSSScaleRatio*100).toFixed(0)}#Pe(){let{zoomPercentage:e}=this.elements;return parseFloat(e.value)}#Fe(){return B.flipped=!1,B.flopped=!1,this}flip(){B.flipped=!B.flipped,this.clearSelection(!1),this.#w()}flop(){B.flopped=!B.flopped,this.clearSelection(!1),this.#w()}#Ie(){let{freeRotationRange:e}=this.elements;e.value=Y.angle}#Le(){let{freeRotationRangeValue:e}=this.elements;e.value=Y.angle}#Re(){let{freeRotationRange:e,freeRotationRangeValue:t}=this.elements;return e.value=Y.angle,t.value=Y.angle,this}#ze(){return Y.angle=0,this}rotate(e){this.clearSelection(!1),e===`ccw`?(Y.angle-=this.rotateDegreesStep,Y.angle<0&&(Y.angle=360-Math.abs(Y.angle))):e===`cw`&&(Y.angle+=this.rotateDegreesStep,Y.angle>360&&(Y.angle-=360)),this.#Ie(),this.#Le(),this.#w()}#Be(){let{w:e,h:t}=K.area;return e!==0&&t!==0}#Ve(){let e=this.shadowRoot.querySelector(`option[id="ratio_locked"]`),{aspectRatioSelect:t,selectionAspectRatioLock:n}=this.elements;if(this.freeSelectEnabled)if(K.aspectRatioLocked){let{aspectRatio:r,aspectRatioLabel:i}=this.#W();n.classList.add(`locked`,`is-active`),e.removeAttribute(`disabled`),e.label=`${i}`,this.#qe(`locked`).value=r,t.value=`locked`}else n.classList.remove(`locked`,`is-active`),e.setAttribute(`disabled`,`disabled`),e.label=this.translator._(`Locked`),this.#We()}#He(){K.aspectRatioLocked=!K.aspectRatioLocked,this.#Ve()}#Ue(){let{aspectRatioSelect:e}=this.elements;v(e);for(let t of y)if(t.active){let n=document.createElement(`template`);n.innerHTML=`<option value="${t.name}" id="ratio_${t.name}">${this.translator._(t.label)}</option>`,e.appendChild(n.content)}this.#We()}#We(){let{aspectRatioSelect:e}=this.elements;return e.value=this.#Ke().name,this}#Ge(){return K.aspectRatioLocked&&this.#He(),this}#Ke(){let e=this.#qe(this.selectionAspectRatio);return e?.active?e:y.find(e=>e.active)||y[0]}#qe(e){return y.find(t=>t.name===e)}#Je(){let e=this.selectionAspectRatios;y.forEach(t=>{t.active=e.includes(t.name)});let t=y.find(e=>e.name===`free`);t.active=this.freeSelectEnabled;let n=y.find(e=>e.name===`locked`);n.active=this.freeSelectEnabled}enableFilters(){let{filterSection:e}=this.elements;e.style.display=this.shouldEnableFilters()?`block`:`none`}#Ye(){return!!U?.canvasImage?.getContext(`2d`)?.filter}shouldEnableFilters(){return this.#Ye()&&this.filtersEnabled}#Xe(){return J.show=!1,this}#Ze(){return this.#n.clearAllFilters(),this}#Qe(){return this.#n.deactivateAllFilters(),this}updateFilter(e){V.imageFilter=e,this.#w()}determineFileFormatSupport(){for(let e of b)e.supported=this.#m(e.value)}getFileFormatSelectValue(){let{fileFormatSelect:e}=this.elements;return e.value}#$e(){let{fileFormatSelect:e}=this.elements;return e.value=this.#i.mimeType,this}#et(){let e=this.fileFormats;for(let t of b)t.active=e.includes(t.value)}#tt(e){let{fileFormatSelect:t}=this.elements;v(t);let n=document.createElement(`template`);n.innerHTML=`<option hidden value="" data-i18n="Choose file format"></option>`,t.appendChild(n.content);for(let e of b){let n=document.createElement(`template`);n.innerHTML=`<option value="${e.value}" id="fileFormat_${e.name}" ${e.supported&&e.active?``:`data-i18n-attr="title" data-i18n="Conversion to this file format not supported" disabled`}>${e.label}</option>`,t.appendChild(n.content)}e&&this.#xe(e)?t.value=e:t.value=``}get freeSelectEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`free-select`,this.config.freeSelectEnabled)}set freeSelectEnabled(e){this.setAttributeAsBoolean(`free-select`,e)}get imagePropertiesEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`image-properties`,this.config.imagePropertiesEnabled)}set imagePropertiesEnabled(e){this.setAttributeAsBoolean(`image-properties`,e)}get fileFormatEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`file-format`,this.config.fileFormatEnabled)}set fileFormatEnabled(e){this.setAttributeAsBoolean(`file-format`,e)}get rotationEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`rotation`,this.config.rotationEnabled)}set rotationEnabled(e){this.setAttributeAsBoolean(`rotation`,e)}get mirroringEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`mirroring`,this.config.mirroringEnabled)}set mirroringEnabled(e){this.setAttributeAsBoolean(`mirroring`,e)}get buttonLabelsEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`button-labels`,this.config.buttonLabelsEnabled)}set buttonLabelsEnabled(e){this.setAttributeAsBoolean(`button-labels`,e)}get selectingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`selecting`,this.config.selectingEnabled)}set selectingEnabled(e){this.setAttributeAsBoolean(`selecting`,e)}get croppingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`cropping`,this.config.croppingEnabled)}set croppingEnabled(e){this.setAttributeAsBoolean(`cropping`,e)}get gridEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`grid-enabled`,this.config.gridEnabled)}set gridEnabled(e){this.setAttributeAsBoolean(`grid-enabled`,e)}get downloadingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`downloading`,this.config.downloadingEnabled)}set downloadingEnabled(e){this.setAttributeAsBoolean(`downloading`,e)}get resizingEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`resizing`,this.config.resizingEnabled)}set resizingEnabled(e){this.setAttributeAsBoolean(`resizing`,e)}get freeRotationEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`free-rotation`,this.config.freeRotationEnabled)}set freeRotationEnabled(e){this.setAttributeAsBoolean(`free-rotation`,e)}get helpEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`help-enabled`,this.config.helpEnabled)}set helpEnabled(e){this.setAttributeAsBoolean(`help-enabled`,e)}get selectionAspectRatioEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`selection-aspect-ratio-enabled`,this.config.selectionAspectRatioEnabled)}set selectionAspectRatioEnabled(e){this.setAttributeAsBoolean(`selection-aspect-ratio-enabled`,e)}get selectionInfoEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`selection-info-enabled`,this.config.selectionInfoEnabled)}set selectionInfoEnabled(e){this.setAttributeAsBoolean(`selection-info-enabled`,e)}get filtersEnabled(){return this.getAttributeAsBooleanDefaultWhenFalse(`filters`,this.config.filtersEnabled)}set filtersEnabled(e){this.setAttributeAsBoolean(`filters`,e)}get minWidth(){return this.getAttributeAsInteger(`min-width`,this.config.minWidth)}set minWidth(e){this.setAttributeAsInteger(`min-width`,e)}get minHeight(){return this.getAttributeAsInteger(`min-height`,this.config.minHeight)}set minHeight(e){this.setAttributeAsInteger(`min-height`,e)}get maxWidth(){return this.getAttributeAsInteger(`max-width`,this.config.maxWidth)}set maxWidth(e){this.setAttributeAsInteger(`max-width`,e)}get maxHeight(){return this.getAttributeAsInteger(`max-height`,this.config.maxHeight)}set maxHeight(e){this.setAttributeAsInteger(`max-height`,e)}get selectionAspectRatios(){let e=this.config.selectionAspectRatios??this.config.defaultActiveAspectRatios;return this.getAttributeAsCSV(`selection-aspect-ratios`,e)}set selectionAspectRatios(e){this.setAttributeAsCSV(`selection-aspect-ratios`,e)}get selectionAspectRatio(){let e=this.getAttributeOrDefault(`selection-aspect-ratio`,this.config.selectionAspectRatio);return this.selectionAspectRatios.includes(e)||console.warn(`ImageEditor: ${e} not in list with selectionAspectRatios ${this.selectionAspectRatios.join(`, `)}`),e}set selectionAspectRatio(e){this.setAttributeToString(`selection-aspect-ratio`,e),this.#We()}get fileFormats(){return this.getAttributeAsCSV(`file-formats`,this.config.fileFormats)}set fileFormats(e){return this.setAttributeAsCSV(`file-formats`,e)}get rotateDegreesStep(){return this.getAttributeAsInteger(`rotate-degrees-step`,this.config.rotateDegreesStep)}set rotateDegreesStep(e){this.setAttributeAsInteger(`rotate-degrees-step`,e)}get canvasImageWidth(){return V.imageWidth}get canvasImageHeight(){return V.imageHeight}};customElements.define(`image-editor`,$),$.translationsPath=`/js/vendor/image-editor/lang`;

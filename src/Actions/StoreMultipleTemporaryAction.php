@@ -30,6 +30,7 @@ class StoreMultipleTemporaryAction
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $instanceId = $request->input('instance_id');
 
         $field = config('media-library-extensions.upload_field_name_multiple');
         $files = $request->file($field);
@@ -136,6 +137,7 @@ class StoreMultipleTemporaryAction
                 'size' => $file->getSize(),
                 'user_id' => Auth::check() ? Auth::id() : null,
                 'session_id' => $sessionId,
+                'instance_id' => $instanceId ?: null,
                 'order_column' => $nextPriority,
                 'custom_properties' => [
                     'collections' => json_encode($collections),

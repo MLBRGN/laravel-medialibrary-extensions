@@ -30,6 +30,7 @@ class DestroyForm extends BaseComponent
         public array $collections = [],
         public array $options = [],
         public ?bool $disabled = false,
+        public ?string $instanceId = null,
     ) {
         parent::__construct($id);
 

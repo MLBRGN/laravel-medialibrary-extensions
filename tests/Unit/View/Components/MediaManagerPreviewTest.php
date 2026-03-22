@@ -7,7 +7,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerPreview;
 
 beforeEach(function () {
     // Mock TemporaryUpload::forCurrentSession static method for tests using temporary uploads
-    //    TemporaryUpload::shouldReceive('forCurrentSession')->andReturn(collect());
+    //    TemporaryUpload::shouldReceive('forCurrentSession', $instanceId)->andReturn(collect());
 });
 
 it('initializes correctly with model instance', function () {

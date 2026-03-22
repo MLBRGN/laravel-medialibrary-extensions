@@ -25,6 +25,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         readonly: config.readonly,
         selectable: config.selectable,
         multiple: config.multiple,
+        instance_id: config.instanceId
     });
 
     // Cache-busting param

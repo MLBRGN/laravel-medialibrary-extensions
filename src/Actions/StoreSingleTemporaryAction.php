@@ -33,6 +33,7 @@ class StoreSingleTemporaryAction
         $basePath = '';
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $instanceId = $request->input('instance_id');
 
         $file = $request->file($field);
 
@@ -72,7 +73,7 @@ class StoreSingleTemporaryAction
             );
         }
 
-        if ($this->temporaryUploadsHaveAnyMedia($collections)) {
+        if ($this->temporaryUploadsHaveAnyMedia($collections, $instanceId)) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
@@ -137,6 +138,7 @@ class StoreSingleTemporaryAction
             'size' => $file->getSize(),
             'user_id' => $userId,
             'session_id' => $sessionId,
+            'instance_id' => $instanceId ?: null,
             'order_column' => 0,
             'custom_properties' => [
                 'collections' => $collections,

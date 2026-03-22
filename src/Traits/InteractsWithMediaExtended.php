@@ -60,7 +60,9 @@ trait InteractsWithMediaExtended
                 return;
             }
 
-            app(TemporaryUploadPromoter::class)->promoteAllForModel($model);
+            $instanceId = request()->input('instance_id') ?? null;
+
+            app(TemporaryUploadPromoter::class)->promoteAllForModel($model, $instanceId);
         });
     }
 

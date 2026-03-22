@@ -28,6 +28,7 @@ class MediaPreviewItem extends BaseComponent
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
+        public ?string $instanceId = null,
     ) {
 
         parent::__construct($id);
@@ -44,7 +45,6 @@ class MediaPreviewItem extends BaseComponent
         $this->componentToRender = $componentMap[$this->mediumType] ?? null;
 
         $this->initializeConfig();
-
     }
 
     public function render(): View

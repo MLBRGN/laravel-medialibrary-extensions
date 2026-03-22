@@ -21,6 +21,8 @@ class YouTubeUploadForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
+    public array $config = [];
+
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or its class name
@@ -30,6 +32,7 @@ class YouTubeUploadForm extends BaseComponent
         public bool $multiple = false,
         public ?bool $readonly = false,
         public ?bool $disabled = false,
+        public ?string $instanceId = null,
     ) {
         $this->mediaManagerId = $id;
 
@@ -42,12 +45,15 @@ class YouTubeUploadForm extends BaseComponent
         $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
 
         $this->initializeConfig([
+            'instanceId' => $this->instanceId,
             //            'frontendTheme' => config('media-library-extensions.frontend_theme'),
             //            'useXhr' => config('media-library-extensions.use_xhr'),
             'youtubeCollection' => $youtubeCollection,
             'mediaUploadRoute' => $mediaUploadRoute,
             'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
         ]);
+
+//        dump('mm yt upload form' . $this->instanceId);
     }
 
     public function render(): View

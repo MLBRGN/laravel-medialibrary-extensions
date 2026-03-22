@@ -11,7 +11,7 @@ trait InteractsWithMediaCollections
     /**
      * Load and merge media (or temporary uploads) from given collections.
      */
-    protected function resolveMediaFromCollections(array $collections): MediaCollection
+    protected function resolveMediaFromCollections(array $collections, $instanceId): MediaCollection
     {
         // CASE 1: If a single medium is provided, use only that.
         if (isset($this->singleMedium) && ($this->singleMedium instanceof Media || $this->singleMedium instanceof TemporaryUpload)) {
@@ -21,16 +21,16 @@ trait InteractsWithMediaCollections
         // CASE 2: Collect from all configured collections.
         $media = collect($collections)
             ->filter(fn ($collectionName) => ! empty($collectionName))
-            ->flatMap(function ($collectionNames, string $collectionType) {
+            ->flatMap(function ($collectionNames, string $collectionType) use ($instanceId) {
                 // Normalize into array for uniform handling
                 $collectionNames = is_array($collectionNames)
                     ? $collectionNames
                     : [$collectionNames];
 
                 return collect($collectionNames)
-                    ->flatMap(function ($collectionName) {
+                    ->flatMap(function ($collectionName) use ($instanceId) {
                         if ($this->temporaryUploadMode ?? false) {
-                            return TemporaryUpload::forCurrentSession($collectionName);
+                            return TemporaryUpload::forCurrentSession($collectionName, $instanceId);
                         }
 
                         if (isset($this->model) && $this->model) {

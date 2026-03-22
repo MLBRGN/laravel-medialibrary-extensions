@@ -3,7 +3,6 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Collection;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -15,8 +14,6 @@ class MediaPreviewGrid extends BaseComponent
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
-    //    public Collection $media;
-
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -27,8 +24,11 @@ class MediaPreviewGrid extends BaseComponent
         public bool $selectable = false,
         public bool $readonly = false,
         public bool $multiple = false,
+        public ?string $instanceId = null,
     ) {
         parent::__construct($id);
+
+        $this->initializeConfig();
     }
 
     public function render(): View

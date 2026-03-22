@@ -5,7 +5,9 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 
@@ -23,6 +25,8 @@ class MediaManagerTinymce extends BaseComponent
      * @var \Illuminate\Config\Repository|\Illuminate\Foundation\Application|mixed|object|null
      */
     public string $uploadFieldName;
+
+    public string $instanceId;
 
     public function __construct(
         ?string $id,
@@ -43,6 +47,8 @@ class MediaManagerTinymce extends BaseComponent
 
         $id = filled($id) ? $id : null;
         parent::__construct($id);
+
+        $this->instanceId = InstanceManager::getInstanceId($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -93,6 +99,7 @@ class MediaManagerTinymce extends BaseComponent
             'mediaUploadRoute' => $mediaUploadRoute,
             'uploadFieldName' => $this->uploadFieldName,
             'selectable' => $selectable,
+            'instanceId' => $this->instanceId,
         ]);
     }
 

@@ -32,6 +32,7 @@ class GetMediaManagerPreviewerHTMLRequest extends FormRequest
             'multiple' => ['required', 'string', Rule::in(['true', 'false'])],
             'disabled' => ['required', 'string', Rule::in(['true', 'false'])],
             'readonly' => ['required', 'string', Rule::in(['true', 'false'])],
+            'instance_id' => ['nullable', 'string', 'max:64'],
         ];
     }
 

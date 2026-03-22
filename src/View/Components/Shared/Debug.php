@@ -31,6 +31,7 @@ class Debug extends Component
         public array $config = [],
         public array $options = [],
     ) {
+
         $this->id = uniqid();
 
         $this->resolveModelOrClassName($modelOrClassName);
@@ -59,20 +60,6 @@ class Debug extends Component
     /**
      * Recursively sanitize a config array so nested objects are replaced by class name placeholders.
      */
-    //    public function getSanitizedConfig(?array $array = null): array
-    //    {
-    //        $array ??= $this->config;
-    //
-    //        return array_map(function ($value) {
-    //            if (is_object($value)) {
-    //                return '['.get_class($value).']';
-    //            } elseif (is_array($value)) {
-    //                return $this->getSanitizedConfig($value); // recursive call
-    //            }
-    //
-    //            return $value;
-    //        }, $array);
-    //    }
     public function getSanitizedConfig(?array $array = null): array
     {
         $array ??= $this->config;

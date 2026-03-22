@@ -18,6 +18,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
         initiator_id: config.id,
         medium_id: mediumId,
         options: JSON.stringify(config.options),
+        instance_id: config.instanceId ?? null
     });
 
     // Cache-busting param

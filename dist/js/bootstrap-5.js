@@ -1,1 +1,1 @@
-import"./shared/image-fallback.js";/* empty css                */
+import"./bootstrap-5/bootstrap-resolver.js";import"./shared/image-fallback.js";/* empty css                */

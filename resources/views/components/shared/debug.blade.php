@@ -20,6 +20,7 @@
                 <h3>⚙️ Component config: General</h3>
                 <ul>
                     <li><strong>Id:</strong> {{ $id }}</li>
+                    <li><strong>Instance Id:</strong> {{ $getConfig('instanceId') }}</li>
                     <li><strong>Frontend theme:</strong> {{ $getConfig('frontendTheme') }}</li>
                 </ul>
             </div>
