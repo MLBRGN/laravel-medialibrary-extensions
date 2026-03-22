@@ -64,6 +64,7 @@
                     :collections="$collections"
                     :options="$options"
                     :disabled="$disabled"
+                    :instance-id="$instanceId"
                 />
             @endif
         @endif
@@ -77,6 +78,7 @@
                 :collections="$collections"
                 :options="$options"
                 :disabled="$disabled"
+                :instance-id="$instanceId"
             />
         @endif
         

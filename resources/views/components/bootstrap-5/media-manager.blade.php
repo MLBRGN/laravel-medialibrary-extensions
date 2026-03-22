@@ -67,7 +67,7 @@
                 :options="$options"
                 :instance-id="$getConfig('instanceId')"
             />
-            
+
             <x-mle-media-preview-grid
                 :id="$id"
                 :model-or-class-name="$modelOrClassName"

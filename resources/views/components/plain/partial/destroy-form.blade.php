@@ -18,6 +18,10 @@
     <input type="hidden"
         name="media_manager_id"
         value="{{ $mediaManagerId }}">
+    <input
+        type="hidden"
+        name="instance_id"
+        value="{{ $getConfig('instanceId') ?? '' }}">
     <input type="hidden"
         name="single_medium_id"
         value="{{ $singleMedium?->id || null }}">

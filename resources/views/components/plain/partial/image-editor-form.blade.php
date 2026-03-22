@@ -19,7 +19,6 @@
     <input type="hidden"
            name="medium_id"
            value="{{ $medium->id }}">
-    
     <input
         type="hidden"
         name="single_medium_id"
