@@ -88,6 +88,7 @@ trait InteractsWithOriginalMedia
             'session_id' => $backup->session_id,
             'order_column' => $backup->order_column ?? 1,
             'custom_properties' => $backup->custom_properties ?? [],
+            'instance_id' => $backup->instance_id
         ]);
 
         $newUpload->save();

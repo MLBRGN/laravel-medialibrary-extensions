@@ -88,8 +88,10 @@ const updateMedia = (detail) => {
     const modelType = config.modelType;
     const modelId = config.modelId ?? '';
     const initiatorId = config.initiatorId;
+    const instanceId = config.instanceId;
 
     formData.append('initiator_id', initiatorId);
+    formData.append('instance_id', instanceId);
     formData.append('media_manager_id', config.mediaManagerId ?? '');
     formData.append('model_type', modelType);
     formData.append('model_id', modelId );

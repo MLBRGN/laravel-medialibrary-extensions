@@ -30,6 +30,7 @@ class UpdateMediumRequest extends MediaManagerRequest
             'file' => 'required|file',
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
+            'instance_id' => ['nullable', 'string', 'max:64'],
         ];
     }
 

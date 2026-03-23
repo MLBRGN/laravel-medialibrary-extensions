@@ -77,7 +77,9 @@ class StoreUpdatedMediumAction
 
                 if ($existingMedium) {
                     $newMedium = $this->replaceTemporaryUpload($existingMedium, $file);
-                } else {
+                }
+                // TODO when does this happen?
+                else {
                     Log::warning("TemporaryUpload with ID {$mediumId} not found; creating new.");
 
                     $disk = config('media-library-extensions.media_disks.temporary');
@@ -102,6 +104,7 @@ class StoreUpdatedMediumAction
                         'session_id' => $request->session()->getId(),
                         'order_column' => 1,
                         'custom_properties' => $collections,
+//                        'instance_id' => $instanceId,// TODO
                     ]);
                 }
             }

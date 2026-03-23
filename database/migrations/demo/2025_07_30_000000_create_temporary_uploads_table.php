@@ -22,13 +22,14 @@ return new class extends Migration
             $table->unsignedBigInteger('size');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('session_id')->nullable();
+            $table->string('instance_id')->nullable();
             $table->json('custom_properties')->nullable();
             $table->unsignedInteger('order_column')->nullable()->index();
-
             $table->timestamps();
 
             $table->index('session_id');
             $table->index('user_id');
+            $table->index('instance_id');
         });
     }
 
