@@ -366,3 +366,25 @@ it('hides media menu when all menu buttons disabled', function () {
 
     expect($component->getConfig('showMenu'))->toBeFalse();
 });
+
+it('does not leak model', function () {
+    $model = $this->getTestBlogModel();
+    $component = new MediaManager(
+        id: 'abc',
+        modelOrClassName: $model,
+        collections: ['image' => 'images'],
+        options: [
+            'uploadFieldName' => 'file_single',
+        ],
+        multiple: false
+    );
+
+    $config = $component->config;
+
+    expect($component->config)
+        ->not->toHaveKeys([
+            'model',
+            'modelOrClassName',
+            'singleMedium',
+        ]);
+});

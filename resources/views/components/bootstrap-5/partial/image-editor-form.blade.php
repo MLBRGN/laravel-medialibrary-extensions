@@ -44,7 +44,9 @@
     <input type="file"
            name="file"
            data-mle-image-editor-update-form-file
-           hidden>
+           hidden
+           aria-label="Upload image"
+    >
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input

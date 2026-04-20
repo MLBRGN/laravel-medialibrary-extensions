@@ -22,10 +22,15 @@ trait InteractsWithOptionsAndConfig
 {
     // used to map properties to config array, only keys in this array
     // are added to the config array
+
+    // NOTE don't leak:
+    // no 'modelOrClassName',
+    // no 'medium',
+    // no 'singleMedium',
+    // no 'model',
     protected array $configKeys = [
-        'modelOrClassName',
-        //        'medium',
-        'singleMedium',
+
+
         'collections',
         'multiple',
         'disabled',
@@ -35,7 +40,6 @@ trait InteractsWithOptionsAndConfig
         'uploadFieldName',
         'temporaryUploadMode',
         'csrfToken',
-        'model',
         'modelType',
         'modelId',
         'options',
