@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.8...2.3.9) (2026-05-02)
+
+
+### Bug Fixes
+
+* added aria-label to image-editor-update-form-file ([7d33a1d](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/7d33a1df2b73702caca7778174d968f55c01951f))
+* added instanceId support ([0bed2e1](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/0bed2e108fd91b8ffb662ac1ec07e21c07efbcd5))
+* temporary uploads replace after edit now working again by adding instanceId support ([04a0870](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/04a0870b0de425b54937b3831c96bd0248e267fb))
+
 ## [2.3.8](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.7...2.3.8) (2026-03-21)
 
 
