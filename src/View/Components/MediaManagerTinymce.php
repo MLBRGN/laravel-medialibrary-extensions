@@ -31,7 +31,6 @@ class MediaManagerTinymce extends BaseComponent
      */
     public string $uploadFieldName;
 
-
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name

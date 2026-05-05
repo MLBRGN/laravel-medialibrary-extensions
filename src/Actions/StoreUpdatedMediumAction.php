@@ -104,7 +104,7 @@ class StoreUpdatedMediumAction
                         'session_id' => $request->session()->getId(),
                         'order_column' => 1,
                         'custom_properties' => $collections,
-//                        'instance_id' => $instanceId,// TODO
+                        //                        'instance_id' => $instanceId,// TODO
                     ]);
                 }
             }

@@ -54,9 +54,9 @@ class StoreMultipleRequest extends MediaManagerRequest
                     ),
             ],
             $uploadFieldName.'.media.*' => [
-                    'nullable',
-                    'mimetypes:'.implode(',', Arr::flatten(config('media-library-extensions.allowed_mimetypes'))),
-                    'max:'.config('media-library-extensions.max_upload_size'),
+                'nullable',
+                'mimetypes:'.implode(',', Arr::flatten(config('media-library-extensions.allowed_mimetypes'))),
+                'max:'.config('media-library-extensions.max_upload_size'),
             ],
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],

@@ -94,7 +94,7 @@ it('initializes config with defaults and merges options/properties', function ()
     expect($config['uploadFieldName'])->toBe('customField'); // from defaults passed to initializeConfig
     expect($config['frontendTheme'])->toBe('custom-theme'); // from options
     expect($config['temporaryUploadMode'])->toBeTrue(); // from options
-//    expect($config['modelOrClassName'])->toBe('TestModel'); // from property
+    //    expect($config['modelOrClassName'])->toBe('TestModel'); // from property
 
     // MIME type fields should exist even if empty
     //    expect($config)->toHaveKeys(['allowedMimeTypes', 'allowedMimeTypesHuman']); // TODO
