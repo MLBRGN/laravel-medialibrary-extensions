@@ -30,6 +30,7 @@ mediaManagers.forEach(mediaManager => {
         e.preventDefault();
         const action = target.getAttribute('data-mle-action');
 
+        console.log('action', action);
         if (action === 'debugger-toggle') {
 
             const componentId = config.id;
