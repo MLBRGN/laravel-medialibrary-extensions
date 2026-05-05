@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.11](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.10...2.3.11) (2026-05-05)
+
+
+### Bug Fixes
+
+* added instance_id to temporary_uploads_table ([e4df85b](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e4df85b84e4fc44fd6c117f7345084c8a6dc6862))
+* logging getRouteFromAction function with console.log ([f02864a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/f02864ad563423b5c5335be36d071d6e6ff96529))
+
 ## [2.3.10](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.9...2.3.10) (2026-05-05)
 
 
