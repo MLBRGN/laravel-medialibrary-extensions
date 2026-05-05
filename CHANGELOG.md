@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.10](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.9...2.3.10) (2026-05-05)
+
+
+### Bug Fixes
+
+* routes now in routes key in config, pint fixes ([d5c2df0](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/d5c2df079b2bc32221f4fd082c2afa2848906b33))
+
 ## [2.3.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.8...2.3.9) (2026-05-05)
 
 
