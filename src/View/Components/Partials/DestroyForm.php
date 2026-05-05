@@ -56,7 +56,7 @@ class DestroyForm extends BaseComponent
         $this->initializeConfig();
 
         //        dump($this->config);
-        $this->setConfig('mediumDestroyRoute', $this->mediumDestroyRoute);
+        $this->setConfig('routes.mediumDestroy', $this->mediumDestroyRoute);
     }
 
     public function render(): View

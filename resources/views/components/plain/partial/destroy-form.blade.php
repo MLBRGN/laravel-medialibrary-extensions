@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $getConfig('mediumDestroyRoute'),
+        'action' => $getConfig('routes.mediumDestroy'),
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -44,7 +44,7 @@
         class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.delete_medium') }}"
         data-mle-action="destroy-medium"
-        data-mle-route="{{ $getConfig('mediumDestroyRoute') }}"
+        data-mle-route="{{ $getConfig('routes.mediumDestroy') }}"
         @disabled($disabled)
     >
         <x-mle-shared-icon

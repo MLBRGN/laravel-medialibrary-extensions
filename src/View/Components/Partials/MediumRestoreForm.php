@@ -52,7 +52,7 @@ class MediumRestoreForm extends BaseComponent
 
         $this->initializeConfig();
 
-        $this->setConfig('mediumDestroyRoute', $this->mediumRestoreRoute);
+        $this->setConfig('routes.mediumRestore', $this->mediumRestoreRoute);
     }
 
     public function render(): View

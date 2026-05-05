@@ -28,10 +28,10 @@
             <div class="mle-debug-section">
                 <h3>🌐 Component config: Routes</h3>
                 <ul>
-                    <li><strong>Media upload route:</strong> <code>{{ $getConfig('mediaUploadRoute') }}</code></li>
-                    <li><strong>YouTube upload route:</strong> <code>{{ $getConfig('youtubeUploadRoute') }}</code></li>
-                    <li><strong>MM Preview update route:</strong> <code>{{ $getConfig('mediaManagerPreviewUpdateRoute') }}</code></li>
-                    <li><strong>MML Preview update route:</strong> <code>{{ $getConfig('mediaManagerLabPreviewUpdateRoute') }}</code></li>
+                    <li><strong>Media upload route:</strong> <code>{{ $getConfig('routes.mediaUpload') }}</code></li>
+                    <li><strong>YouTube upload route:</strong> <code>{{ $getConfig('routes.youtubeUpload') }}</code></li>
+                    <li><strong>MM Preview update route:</strong> <code>{{ $getConfig('routes.mediaManagerPreviewUpdate') }}</code></li>
+                    <li><strong>MML Preview update route:</strong> <code>{{ $getConfig('routes.mediaManagerLabPreviewUpdate') }}</code></li>
                 </ul>
             </div>
 

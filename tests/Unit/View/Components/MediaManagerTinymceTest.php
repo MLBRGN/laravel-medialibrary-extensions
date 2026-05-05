@@ -24,7 +24,8 @@ it('sets correct upload routes and field names for single upload', function () {
 
     $config = $component->config;
 
-    expect($config['mediaUploadRoute'])->toBe(route(mle_prefix_route('media-upload-single')))
+    expect($component->getConfig('routes.mediaUpload'))
+        ->toBe(route(mle_prefix_route('media-upload-single')))
         ->and($config['uploadFieldName'])->toBe('file_single')
         ->and($component->id)->toBe('abc-mms');
 });
@@ -44,7 +45,8 @@ it('sets correct upload routes and field names for multiple upload', function ()
 
     $config = $component->config;
 
-    expect($config['mediaUploadRoute'])->toBe(route(mle_prefix_route('media-upload-multiple')))
+    expect($component->getConfig('routes.mediaUpload'))
+        ->toBe(route(mle_prefix_route('media-upload-multiple')))
         ->and($config['uploadFieldName'])->toBe('file_multiple')
         ->and($component->id)->toBe('abc-mmm');
 });

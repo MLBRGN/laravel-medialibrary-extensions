@@ -103,8 +103,8 @@ mediaManagers.forEach(mediaManager => {
 function getRouteFromAction(action, target, config) {
 
     const routes = {
-        'upload-media': config.mediaUploadRoute,
-        'upload-youtube-medium': config.youtubeUploadRoute,
+        'upload-media': config.routes.mediaUpload,
+        'upload-youtube-medium': config.routes.youtubeUpload,
         'destroy-medium': target?.dataset?.mleRoute,
         'set-as-first': target?.dataset?.mleRoute,
     };

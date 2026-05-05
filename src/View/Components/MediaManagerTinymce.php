@@ -19,13 +19,18 @@ class MediaManagerTinymce extends BaseComponent
 
     public bool $disableForm = false;
 
+    protected string $mediaUploadRoute;
+
+    protected string $mediaManagerPreviewUpdateRoute;
+
+    protected string $youtubeUploadRoute;
+
     // TODO not used?
     /**
      * @var \Illuminate\Config\Repository|\Illuminate\Foundation\Application|mixed|object|null
      */
     public string $uploadFieldName;
 
-    public string $instanceId;
 
     public function __construct(
         ?string $id,
@@ -79,23 +84,20 @@ class MediaManagerTinymce extends BaseComponent
         }
 
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
-        $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update'));
-        $youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
+        $this->mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update'));
+        $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 
         if ($this->multiple) {
-            $mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
+            $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
             $this->id = $this->id.'-mmm';
         } else {
-            $mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
+            $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
             $this->id = $this->id.'-mms';
         }
 
         $this->initializeConfig([
-            'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
-            'youtubeUploadRoute' => $youtubeUploadRoute,
-            'mediaUploadRoute' => $mediaUploadRoute,
             'uploadFieldName' => $this->uploadFieldName,
             'selectable' => $selectable,
             'instanceId' => $this->instanceId,

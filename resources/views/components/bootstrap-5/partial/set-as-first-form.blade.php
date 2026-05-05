@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $getConfig('mediumSetAsFirstRoute'),
+        'action' => $getConfig('routes.mediumSetAsFirst'),
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -47,7 +47,7 @@
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
         title="{{ __('media-library-extensions::messages.setup_as_main') }}"
         data-mle-action="set-as-first"
-        data-mle-route="{{ $getConfig('mediumSetAsFirstRoute') }}"
+        data-mle-route="{{ $getConfig('routes.mediumSetAsFirst') }}"
         @disabled($disabled)
     >
         <x-mle-shared-icon

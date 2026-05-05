@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $getConfig('mediumRestoreRoute'),
+        'action' => $getConfig('routes.mediumRestore'),
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -35,7 +35,7 @@
         class="mle-button mle-button-submit mle-button-icon"
         title="{{ __('media-library-extensions::messages.restore_original') }}"
         data-mle-action="medium-restore"
-        data-mle-route="{{ $getConfig('mediumRestoreRoute') }}"
+        data-mle-route="{{ $getConfig('routes.mediumRestore') }}"
         data-mle-medium-id="{{ $medium->id }}"
     >
         <x-mle-shared-icon

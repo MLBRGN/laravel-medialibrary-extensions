@@ -29,7 +29,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     }
 
     try {
-        const response = await fetch(`${config.mediaManagerLabPreviewUpdateRoute}?${params}`, {
+        const response = await fetch(`${config.routes.mediaManagerLabPreviewUpdate}?${params}`, {
             headers: { 'Accept': 'application/json' },
             cache: 'no-store', // prevents using or storing cache
         });

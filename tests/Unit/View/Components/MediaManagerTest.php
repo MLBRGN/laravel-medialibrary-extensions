@@ -101,7 +101,7 @@ it('initializes without temporary upload when a eloquent model is provided', fun
         ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
         ->and($component->modelId)->not()->toBeNull()
         ->and($component->getConfig('temporaryUploadMode'))->toBeFalse()
-        ->and($component->getConfig('mediaUploadRoute'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
+        ->and($component->getConfig('routes.mediaUpload'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
         ->and($component->getConfig('uploadFieldName'))->toBe('media_multiple');
 });
 
@@ -129,7 +129,7 @@ it('initializes with temporary upload when only model class name provided', func
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBeNull()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
-        ->and($component->getConfig('mediaUploadRoute'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
+        ->and($component->getConfig('routes.mediaUpload'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')))
         ->and($component->getConfig('uploadFieldName'))->toBe('media_multiple');
 });
 

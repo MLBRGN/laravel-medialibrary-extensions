@@ -29,8 +29,6 @@ trait InteractsWithOptionsAndConfig
     // no 'singleMedium',
     // no 'model',
     protected array $configKeys = [
-
-
         'collections',
         'multiple',
         'disabled',
@@ -46,15 +44,17 @@ trait InteractsWithOptionsAndConfig
         'id',
         'instanceId',
 
-        'mediaUploadRoute',
-        'mediaManagerPreviewUpdateRoute',
-        'youtubeUploadRoute',
-        'mediumSetAsFirstRoute',
-        'mediumDestroyRoute',
-        'mediumRestoreRoute',
-        'mediaManagerLabPreviewUpdateRoute',
-
         // any other properties you want in config
+    ];
+
+    protected array $configRouteKeys = [
+        'mediaUploadRoute' => 'mediaUpload',
+        'mediaManagerPreviewUpdateRoute' => 'mediaManagerPreviewUpdate',
+        'youtubeUploadRoute' => 'youtubeUpload',
+        'mediumSetAsFirstRoute' => 'mediumSetAsFirst',
+        'mediumDestroyRoute' => 'mediumDestroy',
+        'mediumRestoreRoute' => 'mediumRestore',
+        'mediaManagerLabPreviewUpdateRoute' => 'mediaManagerLabPreviewUpdate',
     ];
 
     /* -----------------------------------------------------------------
@@ -168,6 +168,19 @@ trait InteractsWithOptionsAndConfig
         }
     }
 
+    protected function resolveConfigRoutes(): array
+    {
+        $routes = [];
+
+        foreach ($this->configRouteKeys as $property => $configKey) {
+            if (property_exists($this, $property) && filled($this->{$property})) {
+                $routes[$configKey] = $this->{$property};
+            }
+        }
+
+        return $routes;
+    }
+
     /**
      * Merge all options and all explicitly defined public/protected properties
      * into $config, optionally with default values.
@@ -211,6 +224,12 @@ trait InteractsWithOptionsAndConfig
             if (property_exists($this, $key)) {
                 $config[$key] = $this->{$key};
             }
+        }
+
+        $routes = $this->resolveConfigRoutes();
+
+        if ($routes !== []) {
+            $config['routes'] = array_replace_recursive($config['routes'] ?? [], $routes);
         }
 
         // Merge non-null options

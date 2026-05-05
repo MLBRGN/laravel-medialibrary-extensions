@@ -32,7 +32,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
     params.append('_', Date.now());
 
     try {
-        const response = await fetch(`${config.mediaManagerPreviewUpdateRoute}?${params}`, {
+        const response = await fetch(`${config.routes.mediaManagerPreviewUpdate}?${params}`, {
             headers: { 'Accept': 'application/json' },
             cache: 'no-store', // prevents using or storing cache
         });
