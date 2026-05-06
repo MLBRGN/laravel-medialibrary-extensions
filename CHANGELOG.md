@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.11...2.3.12) (2026-05-06)
+
+
+### Bug Fixes
+
+* updated compatible laravel support versions, added 13 ([ec7c776](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/ec7c776d3b274df9edee0aa5085ee8dcdf7e64d4))
+
 ## [2.3.11](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.10...2.3.11) (2026-05-05)
 
 
