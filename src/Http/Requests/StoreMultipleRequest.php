@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * Handle the validation and authorization for uploading multiple media files.
@@ -26,9 +27,14 @@ class StoreMultipleRequest extends MediaManagerRequest
 
         // Resolve model only if temporary_upload_mode = 'false'
         $model = null;
-        if ($temporaryUploadMode === 'false' && $this->filled('model_type') && $this->filled('model_id')) {
+        if ($temporaryUploadMode === 'false'
+            && $this->filled('model_type')
+            && $this->filled('model_id')
+        ) {
             $modelClass = $this->input('model_type');
-            if (class_exists($modelClass)) {
+            if (class_exists($modelClass)
+                && is_subclass_of($modelClass, HasMedia::class)
+            ) {
                 $model = $modelClass::find($this->input('model_id'));
             }
         }
@@ -39,7 +45,14 @@ class StoreMultipleRequest extends MediaManagerRequest
         return [
             'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
-            'model_id' => ['required_if:temporary_upload_mode,false'],
+            'model_id' => [
+                'required_if:temporary_upload_mode,false',
+                function ($attribute, $value, $fail) use ($model) {
+                    if (! $model) {
+                        $fail('The selected model is invalid.');
+                    }
+                },
+            ],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
             $uploadFieldName => [
