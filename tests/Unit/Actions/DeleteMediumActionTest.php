@@ -27,6 +27,8 @@ it('deletes a medium and reorders priorities (JSON)', function () {
         'initiator_id' => 'foo',
         'media_manager_id' => 'bar',
         'collections' => ['image' => 'images'],
+        'model_type' => get_class($model),
+        'model_id' => $model->id,
     ]);
 
     // Simulate an AJAX/JSON request
@@ -37,7 +39,6 @@ it('deletes a medium and reorders priorities (JSON)', function () {
 
     // Act
     $response = $action->execute($request, $first);
-    //    dd($response->getData());
 
     // Assert response
     expect($response->getStatusCode())->toBe(200);

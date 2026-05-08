@@ -7,14 +7,9 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Rules\YouTubeUrl;
 
-/**
- * Handle the validation and authorization for uploading a YouTube video
- */
-class StoreYouTubeVideoRequest extends MediaManagerRequest
+class StoreYouTubeVideoRequest extends StoreRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     */
+
     public function rules(): array
     {
         $uploadFieldName = config('media-library-extensions.upload_field_name_youtube');

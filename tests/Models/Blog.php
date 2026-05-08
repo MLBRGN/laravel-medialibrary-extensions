@@ -5,10 +5,10 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Models;
 use Illuminate\Database\Eloquent\Model;
 use Mlbrgn\MediaLibraryExtensions\Tests\database\Factories\BlogFactory;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
-use Spatie\MediaLibrary\HasMedia;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Blog extends Model implements HasMedia
+class Blog extends Model implements HasMediaExtended
 {
     use InteractsWithMediaExtended;
 

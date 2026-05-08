@@ -7,10 +7,6 @@ beforeEach(function () {
     $this->request = new SetMediumAsFirstRequest;
 });
 
-it('authorizes all requests', function () {
-    expect($this->request->authorize())->toBeTrue();
-});
-
 it('passes validation with required fields and at least one collection', function () {
     $data = [
         'model_type' => 'App\\Models\\User',

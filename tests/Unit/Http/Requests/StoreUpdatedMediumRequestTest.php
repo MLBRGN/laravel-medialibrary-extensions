@@ -7,10 +7,6 @@ beforeEach(function () {
     $this->request = new UpdateMediumRequest;
 });
 
-it('authorizes all requests', function () {
-    expect($this->request->authorize())->toBeTrue();
-});
-
 it('passes validation with all required fields', function () {
     $model = $this->getTestBlogModel();
     $data = [

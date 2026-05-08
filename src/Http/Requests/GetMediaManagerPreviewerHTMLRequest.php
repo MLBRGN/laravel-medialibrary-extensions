@@ -10,14 +10,14 @@ use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-/**
- * Handles authorization and validation rules for media manager preview update request
- */
 class GetMediaManagerPreviewerHTMLRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     */
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [
@@ -35,13 +35,6 @@ class GetMediaManagerPreviewerHTMLRequest extends FormRequest
             'instance_id' => ['nullable', 'string', 'max:64'],
         ];
     }
-
-    //    protected function prepareForValidation(): void
-    //    {
-    //        $this->merge([
-    //            'single_medium_id' => $this->filled('single_medium_id') ? $this->input('single_medium_id') : null,
-    //        ]);
-    //    }
 
     protected function withValidator(Validator $validator): void
     {

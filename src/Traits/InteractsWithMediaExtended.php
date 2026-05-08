@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -435,5 +436,66 @@ trait InteractsWithMediaExtended
     public function getHtmlEditorFields(): array
     {
         return $this->htmlEditorFields ?? [];
+    }
+
+
+    public static function allowsMediaUploads(): bool
+    {
+        return true;// allow media uploads
+    }
+
+    public function allowsMediaUploadFrom(?Authenticatable $user): bool
+    {
+        return true;// allow all users
+    }
+
+    public function allowedMediaCollections(): array
+    {
+        return [];// allow all
+    }
+
+    public static function allowsMediaDeletes(): bool {
+        return true;
+    }
+
+    public function allowsMediaDeletesFrom(?Authenticatable $user): bool {
+        return true;
+    }
+
+    public static function allowsMediaEdits(): bool {
+        return true;
+    }
+
+    public function allowsMediaEditsFrom(?Authenticatable $user): bool {
+        return true;
+    }
+
+    public static function isMediaUploadable(): bool
+    {
+        return static::allowsMediaUploads();
+    }
+
+    public function isAllowedMediaCollection(string $collection): bool
+    {
+        $allowed = $this->allowedMediaCollections();
+
+        if ($allowed === []) {
+            return true;
+        }
+
+        return in_array($collection, $allowed, true);
+    }
+
+    protected function isValidUploadableModel(string $class): bool
+    {
+        if (! class_exists($class)) {
+            return false;
+        }
+
+        if (! method_exists($class, 'allowsMediaUploads')) {
+            return false;
+        }
+
+        return $class::allowsMediaUploads();
     }
 }

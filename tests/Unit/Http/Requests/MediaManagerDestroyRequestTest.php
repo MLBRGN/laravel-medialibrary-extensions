@@ -8,6 +8,8 @@ it('passes validation when required fields and one collection are provided', fun
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
         'collections' => ['image' => 'images'],
+        'model_type' => 'App\\Models\\Post',
+        'model_id' => '1',
     ];
 
     $request = new DestroyRequest;
@@ -21,6 +23,8 @@ it('fails validation when no collections are provided', function () {
     $data = [
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
+        'model_type' => 'App\\Models\\Post',
+        'model_id' => '1',
     ];
 
     $request = new DestroyRequest;
@@ -40,7 +44,8 @@ it('passes validation when a non-image collection is provided', function () {
             'media_manager_id' => 'manager456',
             $collection => 'some_collection',
             'collections' => ['image' => 'images'],
-
+            'model_type' => 'App\\Models\\Post',
+            'model_id' => '1',
         ];
 
         $request = new DestroyRequest;

@@ -98,7 +98,6 @@
 //
 //    // We could also reflect on the class to check if it uses the expected traits
 //    $uses = class_uses_recursive(Aliens::class);
-//    expect($uses)->toContain('Spatie\MediaLibrary\InteractsWithMedia');
 //    expect($uses)->toContain('Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended');
 //    expect($uses)->toContain('Mlbrgn\MediaLibraryExtensions\Traits\YouTubeCollection');
 // })->skip();

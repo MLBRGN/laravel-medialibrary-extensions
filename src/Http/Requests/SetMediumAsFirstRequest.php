@@ -4,12 +4,14 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
-/**
- * Handles the validation rules and authorization for the SetAsFirstRequest.
- * This class ensures that the necessary input parameters are present and valid.
- */
 class SetMediumAsFirstRequest extends MediaManagerRequest
 {
+
+    public function authorize(): bool
+    {
+        return $this->authorizeMediaEdit();
+    }
+
     public function rules(): array
     {
         return [

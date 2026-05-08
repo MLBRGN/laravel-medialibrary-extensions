@@ -7,14 +7,14 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-/**
- * Handles authorization and validation rules for media manager preview update request
- */
 class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     */
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [
@@ -24,10 +24,6 @@ class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
             'initiator_id' => ['required', 'string'],
             'part' => ['nullable', Rule::in(['original', 'base', 'all'])],
             'options' => ['required', 'string'], // json
-            //            'selectable' => ['required', 'string', Rule::in(['true', 'false'])],
-            //            'multiple' => ['required', 'string', Rule::in(['true', 'false'])],
-            //            'disabled' => ['required', 'string', Rule::in(['true', 'false'])],
-            //            'readonly' => ['required', 'string', Rule::in(['true', 'false'])],
         ];
     }
 }

@@ -28,6 +28,8 @@ it('deletes the medium and returns JSON', function () {
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'collections' => ['image' => 'images'],
+        'model_type' => $model->getMorphClass(),
+        'model_id' => (string) $model->getKey(),
     ]);
 
     $response->assertStatus(200)
@@ -64,6 +66,8 @@ it('deletes the medium and returns Redirect', function () {
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'collections' => $collections,
+        'model_type' => $model->getMorphClass(),
+        'model_id' => (string) $model->getKey(),
     ]);
 
     $response->assertRedirect();
@@ -113,6 +117,8 @@ it('reorders all media on delete', function () {
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
             'collections' => $collections,
+            'model_type' => $model->getMorphClass(),
+            'model_id' => (string) $model->getKey(),
         ]);
 
     $response->assertRedirect();

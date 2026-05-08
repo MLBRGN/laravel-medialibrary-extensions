@@ -1,17 +1,18 @@
 <?php
 
 /** @noinspection PhpMissingParentCallCommonInspection */
-
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
-/**
- * Handles the validation rules and authorization for the SetAsFirstRequest.
- * This class ensures that the necessary input parameters are present and valid.
- */
 class SetTemporaryMediumAsFirstRequest extends MediaManagerRequest
 {
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [

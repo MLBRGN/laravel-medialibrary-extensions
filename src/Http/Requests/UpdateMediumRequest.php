@@ -8,13 +8,14 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
-/**
- * Handles the validation rules and authorization for the SetAsFirstRequest.
- * This class ensures that the necessary input parameters are present and valid.
- */
 class UpdateMediumRequest extends MediaManagerRequest
 {
     use ValidatesCollections;
+
+    public function authorize(): bool
+    {
+        return $this->authorizeMediaEdit();
+    }
 
     public function rules(): array
     {

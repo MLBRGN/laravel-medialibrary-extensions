@@ -5,12 +5,12 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Support\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 
-class TestPost extends Model implements HasMedia
+class TestPost extends Model implements HasMediaExtended
 {
-    use InteractsWithMedia;
+    use InteractsWithMediaExtended;
 
     protected $guarded = [];
 

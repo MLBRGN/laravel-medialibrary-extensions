@@ -9,9 +9,12 @@ use Illuminate\Validation\Rule;
 
 class GetMediaManagerTinyMceRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     */
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [

@@ -8,16 +8,15 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
-/**
- * Handles authorization and validation rules for media manager medium destroy requests.
- */
 class RestoreOriginalMediumRequest extends MediaManagerRequest
 {
     use ValidatesCollections;
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
+    public function authorize(): bool
+    {
+        return $this->authorizeMediaEdit();
+    }
+
     public function rules(): array
     {
         return [

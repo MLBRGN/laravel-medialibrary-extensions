@@ -5,69 +5,42 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
-use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
-use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
-use Spatie\MediaLibrary\HasMedia;
 
-/**
- * Handles the validation rules for uploading a single media file.
- */
-class StoreSingleRequest extends MediaManagerRequest
+class StoreSingleRequest extends StoreRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         $uploadFieldName = config('media-library-extensions.upload_field_name_single');
-        $maxItemsInCollection = 1;
-        $temporaryUploadMode = $this->input('temporary_upload_mode', 'false');
-
-        // Resolve model only if temporary_upload_mode = 'false'
-        $model = null;
-        if ($temporaryUploadMode === 'false'
-            && $this->filled('model_type')
-            && $this->filled('model_id')
-        ) {
-            $modelClass = $this->input('model_type');
-            if (class_exists($modelClass)
-                && is_subclass_of($modelClass, HasMedia::class)
-            ) {
-                $model = $modelClass::find($this->input('model_id'));
-            }
-        }
 
         $collections = $this->array('collections');
 
-        // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
-        return [
-            'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
-            'model_type' => ['required', 'string'],
-            'model_id' => [
-                'required_if:temporary_upload_mode,false',
-                function ($attribute, $value, $fail) use ($model) {
-                    if (! $model) {
-                        $fail('The selected model is invalid.');
-                    }
-                },
-            ],
-            'collections' => ['required', 'array', 'min:1'],
-            'collections.*' => ['nullable', 'string'],
-            $uploadFieldName => [
-                'nullable',
-                'file',
-                $temporaryUploadMode === 'false'
-                    ? new MaxMediaCount($model, $collections, $maxItemsInCollection)
-                    : new MaxTemporaryUploadCount(
-                        $collections,
-                        $maxItemsInCollection,
-                        $this->input('instance_id')
-                    ),
-            ],
-            'initiator_id' => ['required', 'string'],
-            'media_manager_id' => ['required', 'string'],
-            'instance_id' => ['nullable', 'string', 'max:64'],
-            //            'instance_id' => ['nullable', 'ulid', 'max:26'], better, but first play safe
+        $uploadRules = [
+            'nullable',
+            'file',
         ];
+
+        if ($rule = $this->uploadLimitRule($collections, 1)) {
+            $uploadRules[] = $rule;
+        }
+
+        return array_merge(
+            $this->modelRules(),
+            [
+                'temporary_upload_mode' => [
+                    'required',
+                    'string',
+                    Rule::in(['true', 'false']),
+                ],
+
+                'collections' => ['required', 'array', 'min:1'],
+                'collections.*' => ['nullable', 'string'],
+
+                $uploadFieldName => $uploadRules,
+
+                'initiator_id' => ['required', 'string'],
+                'media_manager_id' => ['required', 'string'],
+                'instance_id' => ['nullable', 'string', 'max:64'],
+            ]
+        );
     }
 }

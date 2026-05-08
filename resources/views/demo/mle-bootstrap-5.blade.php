@@ -1,6 +1,6 @@
 @php
     use Mlbrgn\LaravelFormComponents\View\Components\Form;
-    use App\Models\Blog;
+    use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 @endphp
     <!DOCTYPE html>
 <!--suppress JSUnresolvedLibraryURL -->
@@ -222,10 +222,10 @@
     @if (app()->environment('local') && class_exists(Form::class))
         <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
         @php
-            $blog = Blog::all()->first();
+            $alien = Alien::all()->first();
         @endphp
         <x-form-form
-            action="{{ route('admin.blogs.update', $blog) }}"
+{{--            action="{{ route('admin.alien.update', $alien) }}"--}}
             method="put"
             enctype="multipart/form-data"
             class="my-5"
@@ -235,13 +235,13 @@
                 label="Content *"
                 :tinymce-config="[]"
                 :extra-form-data="[
-                                'model_type' => $blog->getMorphClass(),
-                                'model_id' => $blog->getKey(),
+                                'model_type' => $alien->getMorphClass(),
+                                'model_id' => $alien->getKey(),
                                 'collection_name' => 'blog-images-extra',
                                 'collections' => ['image' => 'blog-images-extra']
                             ]"
-                data-mle-model-type="{{ $blog->getMorphClass() }}"
-                data-mle-model-id="{{ $blog->getKey() }}"
+                data-mle-model-type="{{ $alien->getMorphClass() }}"
+                data-mle-model-id="{{ $alien->getKey() }}"
                 :data-mle-collections="json_encode([
                                 'image' => 'blog-images-extra',
                             ])"

@@ -4,15 +4,14 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Models\demo;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 
-class Alien extends Model implements HasMedia
+class Alien extends Model implements HasMediaExtended
 {
-    use InteractsWithMedia;
     use InteractsWithMediaExtended;
 
     protected $table = 'aliens';
@@ -73,5 +72,20 @@ class Alien extends Model implements HasMedia
         }
 
         return config('database.default');
+    }
+
+    public static function allowsMediaUploads(): bool
+    {
+        return true;
+    }
+
+    public function allowedMediaCollections(): array
+    {
+        return [];
+    }
+
+    public function allowsMediaUploadFrom(?Authenticatable $user): bool
+    {
+        return true;
     }
 }
