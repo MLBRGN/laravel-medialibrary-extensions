@@ -7,40 +7,37 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerLabPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerTinyMceAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediumAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediaAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\SetMediaAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerLabPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\UpdateMediumRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-// use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerController extends Controller
 {
     public function store(
         StoreSingleRequest $request,
-        StoreSingleMediumAction $storeSingleMediumAction
+        StoreSingleMediaAction $storeSingleMediumAction
     ): RedirectResponse|JsonResponse {
         return $storeSingleMediumAction->execute($request);
     }
@@ -61,46 +58,44 @@ class MediaManagerController extends Controller
 
     public function destroy(
         DestroyRequest $request,
-        Media $media,
-        DestroyMediumAction $deleteMediumAction
+        DestroyMediaAction $deleteMediumAction,
     ): RedirectResponse|JsonResponse {
-        return $deleteMediumAction->execute($request, $media);
+        return $deleteMediumAction->execute($request);
     }
 
-    public function temporaryUploadDestroy(
-        DestroyTemporaryMediumRequest $request,
-        TemporaryUpload $temporaryUpload,
-        DestroyTemporaryUploadAction $deleteTemporaryUploadAction
+    public function destroyTemporaryUpload(
+        DestroyTemporaryUploadRequest $request,
+        DestroyTemporaryUploadAction  $deleteTemporaryUploadAction,
     ): RedirectResponse|JsonResponse {
-        return $deleteTemporaryUploadAction->execute($request, $temporaryUpload);
+        return $deleteTemporaryUploadAction->execute($request);
     }
 
     public function setAsFirst(
         SetMediumAsFirstRequest $request,
-        SetMediumAsFirstAction $setMediumAsFirstAction
+        SetMediaAsFirstAction $setMediumAsFirstAction
     ): RedirectResponse|JsonResponse {
         return $setMediumAsFirstAction->execute($request);
     }
 
-    public function setTemporaryUploadAsFirst(
-        SetTemporaryMediumAsFirstRequest $request,
-        SetTemporaryUploadAsFirstAction $setTemporaryUploadAsFirstAction
+    public function setAsFirstTemporaryUpload(
+        SetTemporaryUploadAsFirstRequest $request,
+        SetTemporaryUploadAsFirstAction  $setAsFirstTemporaryUploadAction
     ): RedirectResponse|JsonResponse {
-        return $setTemporaryUploadAsFirstAction->execute($request);
+        return $setAsFirstTemporaryUploadAction->execute($request);
     }
 
-    public function saveUpdatedMedium(
+    public function saveUpdatedMedia(
         UpdateMediumRequest $request,
-        StoreUpdatedMediumAction $saveUpdatedMediumAction
+        StoreUpdatedMediumAction $saveUpdatedMediaAction,
     ): RedirectResponse|JsonResponse {
-        return $saveUpdatedMediumAction->execute($request);
+        return $saveUpdatedMediaAction->execute($request);
     }
 
     public function saveUpdatedTemporaryUpload(
         UpdateMediumRequest $request,
-        StoreUpdatedMediumAction $saveUpdatedMediumAction
+        StoreUpdatedMediumAction $saveUpdatedMediaAction,
     ): RedirectResponse|JsonResponse {
-        return $saveUpdatedMediumAction->execute($request);
+        return $saveUpdatedMediaAction->execute($request);
     }
 
     public function getUpdatedMediaManagerPreviewerHTML(
@@ -120,7 +115,7 @@ class MediaManagerController extends Controller
     public function restoreOriginalMedium(
         RestoreOriginalMediumRequest $request,
         Media $media,
-        RestoreOriginalMediumAction $restoreMediumAction
+        RestoreOriginalMediaAction $restoreMediumAction
     ): RedirectResponse|JsonResponse {
         return $restoreMediumAction->execute($request, $media);
     }

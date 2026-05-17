@@ -47,7 +47,7 @@ beforeEach(function () {
 
         public function callInitializeConfig(array $defaults = []): void
         {
-            $this->initializeConfig($defaults);
+            $this->resolveConfig($defaults);
         }
     };
 
@@ -91,7 +91,7 @@ it('initializes config with defaults and merges options/properties', function ()
     $config = $this->class->config;
 
     // Defaults + provided overrides + properties + options
-    expect($config['uploadFieldName'])->toBe('customField'); // from defaults passed to initializeConfig
+    expect($config['uploadFieldName'])->toBe('customField'); // from defaults passed to resolveConfig
     expect($config['frontendTheme'])->toBe('custom-theme'); // from options
     expect($config['temporaryUploadMode'])->toBeTrue(); // from options
     //    expect($config['modelOrClassName'])->toBe('TestModel'); // from property

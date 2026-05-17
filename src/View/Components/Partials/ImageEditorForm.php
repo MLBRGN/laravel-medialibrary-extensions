@@ -16,8 +16,8 @@ class ImageEditorForm extends BaseComponent
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
-    //    public string $saveUpdatedMediumRoute;
-    public array $config;
+    //    public string $saveUpdatedMediaRoute;
+//    public array $config;
 
     public function __construct(
         ?string $id,
@@ -25,7 +25,7 @@ class ImageEditorForm extends BaseComponent
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections,
-        public array $options,
+        array $options,
         public string $initiatorId,
         public ?string $mediaManagerId = '',
         public ?bool $disabled = false,
@@ -36,14 +36,14 @@ class ImageEditorForm extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $saveUpdatedMediumRoute = $this->getOption('temporaryUploadMode') ?
+        $saveUpdatedMediaRoute = $this->getOption('temporaryUploadMode') ?
             route(mle_prefix_route('save-updated-temporary-upload'), $medium) :
-            route(mle_prefix_route('save-updated-medium'), $medium);
+            route(mle_prefix_route('save-updated-media'), $medium);
 
-        $this->initializeConfig([
+        $this->resolveConfig([
             //            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
             //            'useXhr' => config('media-library-extensions.use_xhr'),
-            'saveUpdatedMediumRoute' => $saveUpdatedMediumRoute,
+            'saveUpdatedMediaRoute' => $saveUpdatedMediaRoute,
         ]);
     }
 

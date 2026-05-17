@@ -18,7 +18,7 @@ class Status extends BaseComponent
         ?string $id,
         public string $initiatorId,
         public string $mediaManagerId,
-        public array $options = [],
+        array $options = [],
     ) {
         parent::__construct($id);
 
@@ -33,7 +33,7 @@ class Status extends BaseComponent
                 $this->status = $sessionStatus;
             }
         }
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

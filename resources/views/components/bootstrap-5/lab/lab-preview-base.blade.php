@@ -9,7 +9,7 @@
         id="medium-{{$medium->id}}"
         :model-or-class-name="$medium->model"
         :collections="['image' => $medium->collection_name]"
-        :options="$options"
+        :options="$getOptions()"
         :single-medium="$medium"
     />
     <div class="mle-media-lab-info">

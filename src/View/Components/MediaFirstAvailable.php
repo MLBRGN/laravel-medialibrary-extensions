@@ -27,7 +27,7 @@ class MediaFirstAvailable extends BaseComponent
         public string $id,
         public mixed $modelOrClassName,
         public ?array $collections = [],
-        public array $options = [],
+        array $options = [],
         public bool $previewMode = false // should the media-viewer be in preview mode (no autoplay, no document loading or not)
     ) {
         parent::__construct($id ?: null);
@@ -51,7 +51,7 @@ class MediaFirstAvailable extends BaseComponent
         $this->mediumType = getMediaType($this->medium);
         $this->componentToRender = $this->resolveComponentForMedium($this->medium);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

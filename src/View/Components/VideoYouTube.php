@@ -22,7 +22,7 @@ class VideoYouTube extends Component
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         public ?array $youtubeParams = [],
-        public array $options = [],
+        array $options = [],
         public ?bool $multiple = true,// TODO what is this used for?
     ) {
 
@@ -47,7 +47,7 @@ class VideoYouTube extends Component
         $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
         $this->youTubeParamsAsString = http_build_query($mergedParams);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

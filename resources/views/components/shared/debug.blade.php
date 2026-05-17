@@ -1,5 +1,5 @@
 @php
-    use Mlbrgn\MediaLibraryExtensions\Models\Media;
+    use Mlbrgn\MediaLibraryExtensions\Models\DemoMedia;
     use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 @endphp
 
@@ -22,6 +22,14 @@
                     <li><strong>Id:</strong> {{ $id }}</li>
                     <li><strong>Instance Id:</strong> {{ $getConfig('instanceId') }}</li>
                     <li><strong>Frontend theme:</strong> {{ $getConfig('frontendTheme') }}</li>
+                    <li><strong>Demo mode enabled:</strong> {{ app()->bound('mle-demo-mode') ? 'Yes' : 'No' }}</li>
+                    <li><strong>DB connection
+                            name:</strong>{{ \Illuminate\Support\Facades\DB::connection()->getName() }}</li>
+                    <li><strong>DB name:</strong>{{ \Illuminate\Support\Facades\DB::getDatabaseName() }}</li>
+                    <li><strong>Model DB connection name:</strong>{{ $model?->getConnection()->getName() }}</li>
+                    <li><strong>Model DB database name:</strong>{{ $model?->getConnection()->getDatabaseName() }}</li>
+                    <li><strong>Model DB table:</strong>{{ $model?->getTable() }}</li>
+
                 </ul>
             </div>
 
@@ -29,9 +37,12 @@
                 <h3>🌐 Component config: Routes</h3>
                 <ul>
                     <li><strong>Media upload route:</strong> <code>{{ $getConfig('routes.mediaUpload') }}</code></li>
-                    <li><strong>YouTube upload route:</strong> <code>{{ $getConfig('routes.youtubeUpload') }}</code></li>
-                    <li><strong>MM Preview update route:</strong> <code>{{ $getConfig('routes.mediaManagerPreviewUpdate') }}</code></li>
-                    <li><strong>MML Preview update route:</strong> <code>{{ $getConfig('routes.mediaManagerLabPreviewUpdate') }}</code></li>
+                    <li><strong>YouTube upload route:</strong> <code>{{ $getConfig('routes.youtubeUpload') }}</code>
+                    </li>
+                    <li><strong>MM Preview update route:</strong>
+                        <code>{{ $getConfig('routes.mediaManagerPreviewUpdate') }}</code></li>
+                    <li><strong>MML Preview update route:</strong>
+                        <code>{{ $getConfig('routes.mediaManagerLabPreviewUpdate') }}</code></li>
                 </ul>
             </div>
 
@@ -60,22 +71,32 @@
             <div class="mle-debug-section">
                 <h3>🎛️ Component config: Enabled features</h3>
                 <ul>
-                    <li><strong>Show destroy button:</strong> {{ $getConfig('showDestroyButton') ? 'true' : 'false' }}</li>
-                    <li><strong>Show "Set-as-first" button:</strong> {{ $getConfig('showSetAsFirstButton') ? 'true' : 'false' }}</li>
-                    <li><strong>Show "media-edit" button:</strong> {{ $getConfig('showMediaEditButton') ? 'true' : 'false' }}</li>
+                    <li><strong>Show destroy button:</strong> {{ $getConfig('showDestroyButton') ? 'true' : 'false' }}
+                    </li>
+                    <li><strong>Show "Set-as-first"
+                            button:</strong> {{ $getConfig('showSetAsFirstButton') ? 'true' : 'false' }}</li>
+                    <li><strong>Show "media-edit"
+                            button:</strong> {{ $getConfig('showMediaEditButton') ? 'true' : 'false' }}</li>
                     <li><strong>Show order:</strong> {{ $getConfig('showOrder') ? 'true' : 'false' }}</li>
                     <li><strong>Show menu:</strong> {{ $getConfig('showMenu') ? 'true' : 'false' }}</li>
-                    <li><strong>Temporary upload:</strong> {{ $getConfig('temporaryUploadMode') === 'true' ? 'Yes' : 'No' }}</li>
+                    <li><strong>Temporary
+                            upload:</strong> {{ $getConfig('temporaryUploadMode') === 'true' ? 'Yes' : 'No' }}</li>
                 </ul>
             </div>
 
             <div class="mle-debug-section">
                 <h3>🎛️ Config file values</h3>
                 <ul>
-                    <li><strong>XHR enabled:</strong> {{ config('media-library-extensions.use_xhr') ? 'Yes' : 'No' }}</li>
-                    <li><strong>Show Status:</strong> {{ config('media-library-extensions.show_status') ? 'Yes' : 'No' }}</li>
-                    <li><strong>YouTube support enabled:</strong> {{ config('media-library-extensions.youtube_support_enabled') ? 'Yes' : 'No' }}</li>
-                    <li><strong>Allowed Mime types:</strong> {{ collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ') }}</li>
+                    <li><strong>XHR enabled:</strong> {{ config('media-library-extensions.use_xhr') ? 'Yes' : 'No' }}
+                    </li>
+                    <li><strong>Show
+                            Status:</strong> {{ config('media-library-extensions.show_status') ? 'Yes' : 'No' }}</li>
+                    <li><strong>YouTube support
+                            enabled:</strong> {{ config('media-library-extensions.youtube_support_enabled') ? 'Yes' : 'No' }}
+                    </li>
+                    <li><strong>Allowed Mime
+                            types:</strong> {{ collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ') }}
+                    </li>
                 </ul>
             </div>
 
@@ -83,14 +104,14 @@
                 <h3>🎛️ Raw config dump</h3>
                 <pre>{{ json_encode($getSanitizedConfig(), JSON_PRETTY_PRINT) }}</pre>
             </div>
-{{--            <div class="mle-debug-section">--}}
-{{--                <h3>🎛️ Raw config dump</h3>--}}
-{{--                <pre>{{ json_encode($config, JSON_PRETTY_PRINT) }}</pre>--}}
-{{--            </div>--}}
+            {{--            <div class="mle-debug-section">--}}
+            {{--                <h3>🎛️ Raw config dump</h3>--}}
+            {{--                <pre>{{ json_encode($config, JSON_PRETTY_PRINT) }}</pre>--}}
+            {{--            </div>--}}
 
             <div class="mle-debug-section">
                 <h3>🎛️ Raw options dump</h3>
-                <pre>{{ json_encode(collect($options)->sortKeys()->all(), JSON_PRETTY_PRINT) }}</pre>
+                <pre>{{ json_encode(collect($getOptions())->sortKeys()->all(), JSON_PRETTY_PRINT) }}</pre>
             </div>
 
             @if(collect($errors)->isNotEmpty())

@@ -2,7 +2,7 @@
     <div class="mle-component mle-media-first-available">
         <x-mle-media-viewer
             :medium="$medium"
-            :options="$options"
+            :options="$getOptions()"
             :preview-mode="$previewMode"
             :expandable-in-modal="$expandableInModal"
         />

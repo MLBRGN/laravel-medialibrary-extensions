@@ -12,14 +12,13 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\RemoveExpiredTemporaryUploads;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
-use Mlbrgn\MediaLibraryExtensions\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\DemoMedia;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
@@ -62,6 +61,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\MediaPreviewContainer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use RuntimeException;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -209,7 +209,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         }
 
         // only affects routes using {media} and inside this package
-        Route::model('media', Media::class);
+//        Route::model('media', Media::class); DONT DO THIS
 
         $this->registerPolicy();
         $this->addToAbout();
@@ -262,13 +262,23 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
 
         $this->setupDisks();
+
+        if (app()->bound('mle-demo-mode')) {
+            config([
+                'media-library.media_model' => DemoMedia::class,
+            ]);
+            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
+
+        } else {
+            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
+        }
     }
 
     public function registerDemoDatabase(): void
     {
         $connectionName = config('media-library-extensions.demo_database_name');
-        $databasePath = storage_path('media-library-extensions-demo.sqlite');
-
+//        $databasePath = storage_path('media-library-extensions-demo.sqlite');
+        $databasePath = database_path('media-library-extensions-demo.sqlite');
         if (! file_exists($databasePath)) {
             touch($databasePath);
         }

@@ -4,7 +4,7 @@
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
         :single-medium="$singleMedium"
-        :options="$options"
+        :options="$getOptions()"
         :disabled="$disabled"
         :selectable="$selectable"
         :readonly="$readonly"

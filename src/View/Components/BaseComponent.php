@@ -12,7 +12,7 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
-    public array $config = [];
+//    public array $config = [];
 
     public string $id;
 

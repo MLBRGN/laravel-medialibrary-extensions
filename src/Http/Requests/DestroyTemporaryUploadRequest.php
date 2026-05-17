@@ -1,12 +1,15 @@
 <?php
 
-/** @noinspection PhpMissingParentCallCommonInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
-class SetTemporaryMediumAsFirstRequest extends MediaManagerRequest
+use Illuminate\Validation\Validator;
+use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
+
+class DestroyTemporaryUploadRequest extends MediaManagerRequest
 {
+    use ValidatesCollections;
 
     public function authorize(): bool
     {
@@ -16,13 +19,17 @@ class SetTemporaryMediumAsFirstRequest extends MediaManagerRequest
     public function rules(): array
     {
         return [
-            'target_media_collection' => ['required', 'string'],
-            'medium_id' => 'required|string',
-            'single_medium_id' => ['nullable'],
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],
+            'single_medium_id' => ['nullable'],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
+            'instance_id' => ['nullable', 'string', 'max:64'],
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $this->addCollectionsValidation($validator);
     }
 }

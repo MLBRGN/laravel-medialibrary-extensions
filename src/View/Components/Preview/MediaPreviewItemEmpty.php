@@ -12,12 +12,12 @@ class MediaPreviewItemEmpty extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public array $options = [],
+        array $options = [],
     ) {
 
         parent::__construct($id);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

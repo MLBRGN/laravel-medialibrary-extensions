@@ -3,7 +3,7 @@
     title="{{ __('media-library-extensions::messages.original') }}"
     :model-or-class-name="$medium->model"
     data-mle-media-lab-preview-original
-    :options="$options"
+    :options="$getOptions()"
 >
     @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
         <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}"
@@ -22,7 +22,7 @@
         <x-mle-partial-medium-restore-form
             :model-or-class-name="$medium->model"
             :medium="$medium"
-            :options="$options"
+            :options="$getOptions()"
         />
     </x-slot>
     <x-slot name="imageInfo">

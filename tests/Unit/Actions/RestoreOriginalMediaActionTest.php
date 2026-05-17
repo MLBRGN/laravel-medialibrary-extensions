@@ -4,13 +4,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Listeners\MediaHasBeenAddedListener;
 
 beforeEach(function () {
-    $this->action = new RestoreOriginalMediumAction;
+    $this->action = new RestoreOriginalMediaAction;
 
     config()->set('media-library-extensions.media_disks.originals', 'originals');
     config()->set('filesystems.disks', [

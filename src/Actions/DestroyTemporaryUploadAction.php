@@ -8,20 +8,26 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryMediumRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 class DestroyTemporaryUploadAction
 {
-    public function execute(
-        DestroyTemporaryMediumRequest $request,
-        TemporaryUpload $temporaryUpload
-    ): JsonResponse|RedirectResponse {
-        $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+    public function __construct(
+        public MediaService $mediaService
+    ) {}
 
+    public function execute(
+        DestroyTemporaryUploadRequest $request,
+    ): JsonResponse|RedirectResponse {
+
+        $temporaryUpload = $this->mediaService->resolveTemporaryUploadModel($request->route('temporaryUploadId'));
         // Delete the medium
         $temporaryUpload->delete();
+
+        $initiatorId = $request->initiator_id;
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         // Reorder remaining uploads
         $this->reorderAllMedia($request);

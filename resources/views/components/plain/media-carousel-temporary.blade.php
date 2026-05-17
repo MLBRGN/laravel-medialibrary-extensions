@@ -58,7 +58,7 @@
                 >
                     <x-mle-media-viewer
                         :medium="$medium"
-                        :options="$options"
+                        :options="$getOptions()"
                         :preview-mode="$previewMode"
                         :expandable-in-modal="$expandableInModal"
                     />
@@ -120,7 +120,7 @@
         :model-or-class-name="$modelOrClassName"
         :single-medium="$singleMedium"
         :collections="$collections"
-        :options="$options"
+        :options="$getOptions()"
         title="Media carousel"/>
 @endif
 <x-mle-shared-assets

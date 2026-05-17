@@ -18,9 +18,9 @@ class DestroyForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-    public array $config;
+//    public array $config;
 
-    public string $mediumDestroyRoute;
+    public string $mediaDestroyRoute;
 
     public function __construct(
         ?string $id,
@@ -28,7 +28,7 @@ class DestroyForm extends BaseComponent
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public ?bool $disabled = false,
         public ?string $instanceId = null,
     ) {
@@ -40,23 +40,23 @@ class DestroyForm extends BaseComponent
         $this->id = $this->id.'-destroy-form-'.$this->medium->id;
 
         if ($this->temporaryUploadMode) {
-            $mediumDestroyRoute = route(
-                mle_prefix_route('temporary-upload-destroy'),
-                ['temporaryUpload' => $medium->id] // 👈 exact match to route parameter
+            $mediaDestroyRoute = route(
+                mle_prefix_route('destroy-temporary-upload'),
+                ['temporaryUploadId' => $medium->id]
             );
         } else {
-            $mediumDestroyRoute = route(
-                mle_prefix_route('medium-destroy'),
-                ['media' => $medium->id]
+            $mediaDestroyRoute = route(
+                mle_prefix_route('destroy-media'),
+                ['mediaId' => $medium->id]
             );
         }
 
-        $this->mediumDestroyRoute = $mediumDestroyRoute;
+        $this->mediaDestroyRoute = $mediaDestroyRoute;
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
         //        dump($this->config);
-        $this->setConfig('routes.mediumDestroy', $this->mediumDestroyRoute);
+        $this->setConfig('routes.mediaDestroy', $this->mediaDestroyRoute);
     }
 
     public function render(): View

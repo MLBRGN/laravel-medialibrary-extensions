@@ -3,32 +3,45 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Config;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+//use Illuminate\Support\Facades\Config;
+//use Illuminate\Support\Facades\DB;
+use Mlbrgn\MediaLibraryExtensions\Models\DemoMedia;
 
 class RegisterDemoDatabase
 {
     public function handle($request, Closure $next)
     {
-        $connectionName = config('media-library-extensions.demo_database_name');
-        $databasePath = storage_path('media-library-extensions-demo.sqlite');
-
-        Config::set("database.connections.{$connectionName}", [
-            'driver' => 'sqlite',
-            'database' => $databasePath,
-            'prefix' => '',
-        ]);
-
         if (config('media-library-extensions.demo_pages_enabled')) {
-            // Override connection on key models
-            TemporaryUpload::resolveConnectionUsing(function () use ($connectionName) {
-                return $connectionName;
-            });
+//            Log::info('Registering demo database for request: ');
+            app()->instance('mle-demo-mode', true);
 
-            Media::resolveConnectionUsing(function () use ($connectionName) {
-                return $connectionName;
-            });
+//            $databaseDefault = config('database.default');
+//            $databaseDemo = config('media-library-extensions.demo_database_name');
+
+            // Set the default connection to 'school'
+//            DB::setDefaultConnection($databaseDemo);
+//            Config::set('database.default', $databaseDemo);
+//
+//            // Clear previous connection if already resolved
+//            DB::purge($databaseDefault);
+//
+//            // Optional:
+//            DB::reconnect($databaseDemo);
+
+
+//            Config::set('database.default', $databaseDemo);
+
+//            DB::purge($databaseDemo);
+
+//            DB::setDefaultConnection($databaseDemo);
+
+//            DB::reconnect($databaseDemo);
+
+//            config([
+//                'media-library.media_model' => DemoMedia::class,
+//            ]);
+
+            return $next($request);
         }
 
         return $next($request);

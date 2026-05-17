@@ -73,7 +73,7 @@ class MediaManagerSingle extends MediaManager
         // boolean property to disable form(s) in blade view(s)
         $this->setOption('disableForm', $totalMediaCount >= 1);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
     }
 }

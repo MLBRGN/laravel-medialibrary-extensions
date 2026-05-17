@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -39,7 +42,7 @@ class TestCase extends Orchestra
         config(['app.timezone' => 'UTC']);
 
         // Run package migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+//        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         Carbon::setTestNow('2025-01-01 00:00:00');
 
@@ -65,6 +68,7 @@ class TestCase extends Orchestra
         //        });
         // Use a persistent session driver
         //        Config::set('session.driver', 'file');
+
     }
 
     protected function tearDown(): void
@@ -117,11 +121,26 @@ class TestCase extends Orchestra
         // Load media library config (needed for tests that interact with the media library to work)
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
-        // configure database
-        config()->set('database.default', 'sqlite');
+        // setup database
+//        config()->set('database.default', 'sqlite');
         config()->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => ':memory:',
+            'prefix' => '',
+        ]);
+
+        // setup demo db
+        $demoDatabasePath = __DIR__.'/Support/demo.sqlite';
+
+        if (file_exists($demoDatabasePath)) {
+            unlink($demoDatabasePath);
+        }
+
+        touch($demoDatabasePath);
+
+        $app['config']->set('database.connections.media_demo', [
+            'driver' => 'sqlite',
+            'database' => $demoDatabasePath,
             'prefix' => '',
         ]);
 
@@ -141,22 +160,30 @@ class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
+
+//        $app['config']->set('database.connections.media_demo', [
+//            'driver' => 'sqlite',
+//            'database' => ':memory:',
+//            'prefix' => '',
+//        ]);
     }
 
     protected function defineDatabaseMigrations(): void
     {
-        // also loads migrations from the service provider!!!
+        // package migrations
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        // test-only migrations
         $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
+
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->artisan('migrate', [
+            '--database' => 'media_demo',
+            '--path' => realpath(__DIR__.'/../database/migrations/demo'),
+            '--realpath' => true,
+        ])->run();
     }
 
-    //    protected function createDirectory($directory): void
-    //    {
-    //        if (File::isDirectory($directory)) {
-    //            File::deleteDirectory($directory);
-    //        }
-    //        File::makeDirectory($directory);
-    //    }
     protected function createDirectory(string $directory): void
     {
         if (File::isDirectory($directory)) {

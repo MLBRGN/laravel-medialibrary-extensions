@@ -45,7 +45,7 @@
                     :single-medium="$singleMedium"
                     :expandable-in-modal="false"
                     :collections="$collections"
-                    :options="$options"
+                    :options="$getOptions()"
                     :in-modal="true"
                     :preview-mode="false"
                 />

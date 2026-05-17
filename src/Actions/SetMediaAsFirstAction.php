@@ -10,7 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
-class SetMediumAsFirstAction
+class SetMediaAsFirstAction
 {
     public function __construct(
         protected MediaService $mediaService

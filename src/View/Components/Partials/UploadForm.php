@@ -20,14 +20,14 @@ class UploadForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-    public array $config = [];
+//    public array $config = [];
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public bool $multiple = false,
         public ?bool $readonly = false,
         public ?bool $disabled = false,
@@ -41,7 +41,7 @@ class UploadForm extends BaseComponent
 
         $mimeData = $this->resolveAllowedMimeTypes();
 
-        $this->initializeConfig([
+        $this->resolveConfig([
             //            'instanceId' => $this->instanceId,
             //            'frontendTheme' => config('media-library-extensions.frontend_theme'),
             //            'useXhr' => config('media-library-extensions.use_xhr'),

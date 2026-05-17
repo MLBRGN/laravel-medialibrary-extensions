@@ -63,7 +63,7 @@
                     :medium="$medium"
                     :single-medium="$singleMedium"
                     :collections="$collections"
-                    :options="$options"
+                    :options="$getOptions()"
                     :disabled="$disabled"
                     :instance-id="$instanceId"
                 />
@@ -77,7 +77,7 @@
                 :medium="$medium"
                 :single-medium="$singleMedium"
                 :collections="$collections"
-                :options="$options"
+                :options="$getOptions()"
                 :disabled="$disabled"
                 :instance-id="$instanceId"
             />

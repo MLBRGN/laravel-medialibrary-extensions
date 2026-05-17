@@ -4,10 +4,13 @@ namespace Mlbrgn\MediaLibraryExtensions\Helpers;
 
 use Illuminate\Support\Facades\Request;
 
+// TODO deprecate
 class DemoHelper
 {
     /**
      * Determine if the current request is from a demo page.
+     * The demo database is setup by service provider when demo pages are enabled
+     * The RegisterDemoDatabase middleware
      */
     public static function isRequestFromDemoPage(): bool
     {

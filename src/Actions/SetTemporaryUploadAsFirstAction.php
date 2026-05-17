@@ -7,7 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
@@ -17,7 +17,7 @@ class SetTemporaryUploadAsFirstAction
         protected MediaService $mediaService
     ) {}
 
-    public function execute(SetTemporaryMediumAsFirstRequest $request): JsonResponse|RedirectResponse
+    public function execute(SetTemporaryUploadAsFirstRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId

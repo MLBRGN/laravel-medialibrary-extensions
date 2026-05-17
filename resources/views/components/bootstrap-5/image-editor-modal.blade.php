@@ -31,7 +31,7 @@
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
-                :options="$options"
+                :options="$getOptions()"
             />
             <div class="mle-modal-body modal-body p-0">
                 <button
@@ -46,7 +46,7 @@
                         title="{{ __('media-library-extensions::messages.close') }}"
                     />
                 </button>
-                <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='@json($config)'>
+                <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='@json($getConfig())'>
                 {{-- instantiated when model opens, just in time --}}
                 <div class="mle-image-editor" data-mle-image-editor-placeholder>
                     {{ __('media-library-extensions::messages.could_not_initialize_image_editor') }}
@@ -58,7 +58,7 @@
                     :medium="$medium"
                     :single-medium="$singleMedium"
                     :collections="$collections"
-                    :options="$options"
+                    :options="$getOptions()"
                     :initiator-id="$id"
                     :media-manager-id="$mediaManagerId"
                     :disabled="$disabled"

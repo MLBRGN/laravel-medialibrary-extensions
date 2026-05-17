@@ -19,7 +19,7 @@ class MediumRestoreForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-    public array $config;
+//    public array $config;
 
     public string $mediumRestoreRoute;
 
@@ -29,7 +29,7 @@ class MediumRestoreForm extends BaseComponent
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public ?bool $disabled = false,
     ) {
         parent::__construct($id);
@@ -50,7 +50,7 @@ class MediumRestoreForm extends BaseComponent
 
         $this->mediumRestoreRoute = $mediaRestoreRoute;
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
         $this->setConfig('routes.mediumRestore', $this->mediumRestoreRoute);
     }

@@ -20,6 +20,11 @@ use RuntimeException;
  */
 trait InteractsWithOptionsAndConfig
 {
+
+    protected array $config = [];
+
+    protected array $options = [];
+
     // used to map properties to config array, only keys in this array
     // are added to the config array
 
@@ -40,9 +45,10 @@ trait InteractsWithOptionsAndConfig
         'csrfToken',
         'modelType',
         'modelId',
-        'options',
+//        'options', // don't expose these are merged into config
         'id',
         'instanceId',
+        'connection',
 
         // any other properties you want in config
     ];
@@ -52,19 +58,60 @@ trait InteractsWithOptionsAndConfig
         'mediaManagerPreviewUpdateRoute' => 'mediaManagerPreviewUpdate',
         'youtubeUploadRoute' => 'youtubeUpload',
         'mediumSetAsFirstRoute' => 'mediumSetAsFirst',
-        'mediumDestroyRoute' => 'mediumDestroy',
+        'mediaDestroyRoute' => 'mediaDestroy',
         'mediumRestoreRoute' => 'mediumRestore',
         'mediaManagerLabPreviewUpdateRoute' => 'mediaManagerLabPreviewUpdate',
     ];
+
+    protected function getDefaultOptions(): array
+    {
+        return [
+                'showDestroyButton' => true,
+                'showMediaEditButton' => true,
+                'showMenu' => true,
+                'showOrder' => false,
+                'showSetAsFirstButton' => true,
+                'showUploadForm' => true,
+                'showYouTubeUploadForm' => true,
+                'showUploadForms' => true,
+                'temporaryUploadMode' => false,
+                'uploadFieldName' => 'medium',
+                'frontendTheme' => config('media-library-extensions.frontend_theme', 'bootstrap-5'),
+                'useXhr' => config('media-library-extensions.use_xhr', true),
+                'csrfToken' => csrf_token(),
+//            'demoMode' => false,
+                'connection' => null,
+                //            'selectable' => false,
+                //            'disabled' => false,
+                //            'readonly' => false,
+                //            'multiple' => false,
+                // allowedMimeTypes handled by separate trait
+                // allowedMimeTypesHuman is produced
+        ];
+    }
 
     /* -----------------------------------------------------------------
      |  OPTION MANAGEMENT
      | -----------------------------------------------------------------
      */
 
-    protected function getOptions(): array
+//    protected function getOptions(): array
+//    {
+//        return property_exists($this, 'options') ? $this->options : [];
+//    }
+
+//    protected function getOptions(): array
+//    {
+//        return $this->options;
+//    }
+
+    public function getOptions(?string $key = null, mixed $default = null): mixed
     {
-        return property_exists($this, 'options') ? $this->options : [];
+        if ($key === null) {
+            return $this->options;
+        }
+
+        return Arr::get($this->options, $key, $default);
     }
 
     protected function getOption(string $key, mixed $default = null): mixed
@@ -91,9 +138,9 @@ trait InteractsWithOptionsAndConfig
      */
     protected function setOption(string $key, mixed $value): void
     {
-        if (! property_exists($this, 'options') || ! is_array($this->options)) {
-            $this->options = [];
-        }
+//        if (! property_exists($this, 'options') || ! is_array($this->options)) {
+//            $this->options = [];
+//        }
 
         $this->options[$key] = $value;
     }
@@ -119,47 +166,62 @@ trait InteractsWithOptionsAndConfig
      | -----------------------------------------------------------------
      */
 
-    public function getConfig(string $key, mixed $default = null): mixed
+//    public function getConfig(string $key, mixed $default = null): mixed
+//    {
+//        if (! property_exists($this, 'config') || ! is_array($this->config)) {
+//            return $default;
+//        }
+//
+//        return Arr::get($this->config, $key, $default);
+//    }
+
+    public function getConfig(?string $key = null, mixed $default = null): mixed
     {
-        if (! property_exists($this, 'config') || ! is_array($this->config)) {
-            return $default;
+        if ($key === null) {
+            return $this->config;
         }
 
         return Arr::get($this->config, $key, $default);
     }
 
+//    public function hasConfig(string $key): bool
+//    {
+//        if (! property_exists($this, 'config') || ! is_array($this->config)) {
+//            return false;
+//        }
+//
+//        return Arr::has($this->config, $key) && ! is_null(Arr::get($this->config, $key));
+//    }
+
     public function hasConfig(string $key): bool
     {
-        if (! property_exists($this, 'config') || ! is_array($this->config)) {
-            return false;
-        }
-
-        return Arr::has($this->config, $key) && ! is_null(Arr::get($this->config, $key));
+        return Arr::has($this->config, $key)
+            && ! is_null(Arr::get($this->config, $key));
     }
 
     public function setConfig(string $key, mixed $value): void
     {
-        if (! property_exists($this, 'config') || ! is_array($this->config)) {
-            $this->config = [];
-        }
+//        if (! property_exists($this, 'config') || ! is_array($this->config)) {
+//            $this->config = [];
+//        }
 
         Arr::set($this->config, $key, $value);
     }
 
     public function mergeConfig(array $values): void
     {
-        if (! property_exists($this, 'config') || ! is_array($this->config)) {
-            $this->config = [];
-        }
+//        if (! property_exists($this, 'config') || ! is_array($this->config)) {
+//            $this->config = [];
+//        }
 
         $this->config = array_replace_recursive($this->config, $values);
     }
 
     public function addConfigDefaults(array $defaults): void
     {
-        if (! property_exists($this, 'config') || ! is_array($this->config)) {
-            $this->config = [];
-        }
+//        if (! property_exists($this, 'config') || ! is_array($this->config)) {
+//            $this->config = [];
+//        }
 
         foreach ($defaults as $key => $value) {
             if (! Arr::has($this->config, $key)) {
@@ -188,39 +250,51 @@ trait InteractsWithOptionsAndConfig
      * Order of precedence:
      *   defaults < existing config < properties < non-null options
      */
-    protected function initializeConfig(array $defaults = []): void
+//    protected function resolveConfig(array $defaults = []): void
+//    {
+//
+//        // Merge provided defaults **over** hardcoded defaults
+//        $config = array_replace_recursive($this->getDefaultOptions(), $defaults);
+//
+////        if (! isset($this->configKeys)) {
+////            throw new RuntimeException(sprintf('The config keys must be set in %s', static::class));
+////        }
+//        // Include explicitly listed properties
+////        foreach ($this->configKeys ?? [] as $key) {
+//        foreach ($this->configKeys as $key) {
+//            if (property_exists($this, $key)) {
+//                $config[$key] = $this->{$key};
+//            }
+//        }
+//
+//        $routes = $this->resolveConfigRoutes();
+//
+//        if ($routes !== []) {
+//            $config['routes'] = array_replace_recursive($config['routes'] ?? [], $routes);
+//        }
+//
+//        // Merge non-null options
+////        if (property_exists($this, 'options') && is_array($this->options)) {
+//            $filteredOptions = array_filter($this->options, fn ($v) => ! is_null($v));
+//            $config = array_replace_recursive($config, $filteredOptions);
+////        }
+//
+//        // Automatically sync MIME type fields
+//        if (in_array(InteractsWithMimeTypes::class, class_uses_recursive(static::class))) {
+//            $this->syncAllowedMimeTypes($config);
+//        }
+//
+//        $this->config = $config;
+//    }
+
+    protected function resolveConfig(array $defaults = []): void
     {
-        // Hardcoded default values
-        $defaultOptionValues = [
-            'showDestroyButton' => true,
-            'showMediaEditButton' => true,
-            'showMenu' => true,
-            'showOrder' => false,
-            'showSetAsFirstButton' => true,
-            'showUploadForm' => true,
-            'showYouTubeUploadForm' => true,
-            'showUploadForms' => true,
-            'temporaryUploadMode' => false,
-            'uploadFieldName' => 'medium',
-            'frontendTheme' => config('media-library-extensions.frontend_theme', 'bootstrap-5'),
-            'useXhr' => config('media-library-extensions.use_xhr', true),
-            'csrfToken' => csrf_token(),
-            //            'selectable' => false,
-            //            'disabled' => false,
-            //            'readonly' => false,
-            //            'multiple' => false,
-            // allowedMimeTypes handled by separate trait
-            // allowedMimeTypesHuman is produced
-        ];
+        $config = array_replace_recursive(
+            $this->getDefaultOptions(),
+            $defaults
+        );
 
-        // Merge provided defaults **over** hardcoded defaults
-        $config = array_replace_recursive($defaultOptionValues, $defaults);
-
-        if (! isset($this->configKeys)) {
-            throw new RuntimeException(sprintf('The config keys must be set in %s', static::class));
-        }
-        // Include explicitly listed properties
-        foreach ($this->configKeys ?? [] as $key) {
+        foreach ($this->configKeys as $key) {
             if (property_exists($this, $key)) {
                 $config[$key] = $this->{$key};
             }
@@ -229,20 +303,36 @@ trait InteractsWithOptionsAndConfig
         $routes = $this->resolveConfigRoutes();
 
         if ($routes !== []) {
-            $config['routes'] = array_replace_recursive($config['routes'] ?? [], $routes);
+            $config['routes'] = array_replace_recursive(
+                $config['routes'] ?? [],
+                $routes
+            );
         }
 
-        // Merge non-null options
-        if (property_exists($this, 'options') && is_array($this->options)) {
-            $filteredOptions = array_filter($this->options, fn ($v) => ! is_null($v));
-            $config = array_replace_recursive($config, $filteredOptions);
-        }
+        $filteredOptions = array_filter(
+            $this->options,
+            fn ($v) => ! is_null($v)
+        );
 
-        // Automatically sync MIME type fields
-        if (in_array(InteractsWithMimeTypes::class, class_uses_recursive(static::class))) {
+        $config = array_replace_recursive(
+            $config,
+            $filteredOptions
+        );
+
+        if (in_array(
+            InteractsWithMimeTypes::class,
+            class_uses_recursive(static::class)
+        )) {
             $this->syncAllowedMimeTypes($config);
         }
 
         $this->config = $config;
     }
+
+    public function getConnection(): ?string
+    {
+        return $this->getConfig('connection');
+    }
+
+
 }

@@ -21,7 +21,7 @@ class MediaPreviews extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public bool $multiple = false,
         public bool $disabled = false,
@@ -65,7 +65,7 @@ class MediaPreviews extends BaseComponent
         // $this->mediaCount = $this->mediaItems->count();
 
         // merge into config
-        $this->initializeConfig();
+        $this->resolveConfig();
 
         // TODO is there a neater way to do this?
         // options are passed to components, config is reinitialized for each component.

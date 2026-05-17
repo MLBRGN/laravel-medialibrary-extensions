@@ -33,7 +33,7 @@ class Document extends Component
     public function __construct(
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
-        public array $options = [],
+        array $options = [],
         public string $alt = ''
     ) {
 

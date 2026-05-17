@@ -2,7 +2,7 @@
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSinglePermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
@@ -10,7 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 beforeEach(function () {
     $this->temporaryAction = Mockery::mock(StoreSingleTemporaryAction::class);
     $this->permanentAction = Mockery::mock(StoreSinglePermanentAction::class);
-    $this->action = new StoreSingleMediumAction(
+    $this->action = new StoreSingleMediaAction(
         $this->permanentAction,
         $this->temporaryAction
     );

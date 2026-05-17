@@ -24,11 +24,11 @@ class LabPreviewBase extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $medium,
-        public array $options = []
+        array $options = []
     ) {
         parent::__construct($id);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
         if ($this->medium instanceof Media) {
             $parentModel = $this->medium->model;

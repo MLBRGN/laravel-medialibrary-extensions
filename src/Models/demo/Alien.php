@@ -6,7 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Models\demo;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 
@@ -17,6 +16,8 @@ class Alien extends Model implements HasMediaExtended
     protected $table = 'aliens';
 
     protected $guarded = [];
+
+    protected $connection = 'media_demo';
 
     public function registerMediaCollections(): void
     {
@@ -65,14 +66,22 @@ class Alien extends Model implements HasMediaExtended
 
     }
 
-    public function getConnectionName(): string
-    {
-        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
-            return config('media-library-extensions.demo_database_name'); // TODO rename config key to demo_database_name?
-        }
+//    public function getConnectionName(): string
+//    {
+//        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
+//            return config('media-library-extensions.demo_database_name'); // TODO rename config key to demo_database_name?
+//        }
+//
+//        return config('database.default');
+//    }
 
-        return config('database.default');
-    }
+//    public function getConnectionName(): ?string
+//    {
+//        if (app()->bound('mle-demo-state')) {
+//            return config('media-library-extensions.demo_database_name');
+//        }
+//        return parent::getConnectionName();
+//    }
 
     public static function allowsMediaUploads(): bool
     {

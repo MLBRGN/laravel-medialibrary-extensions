@@ -2,7 +2,7 @@
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Mlbrgn\MediaLibraryExtensions\Actions\SetMediumAsFirstAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\SetMediaAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
@@ -31,7 +31,7 @@ it('fails when no collections provided JSON', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = new MediaService;
-    $action = new SetMediumAsFirstAction($mediaService);
+    $action = new SetMediaAsFirstAction($mediaService);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -73,7 +73,7 @@ it('fails when no collections provided', function () {
     ]);
 
     $mediaService = new MediaService;
-    $action = new SetMediumAsFirstAction($mediaService);
+    $action = new SetMediaAsFirstAction($mediaService);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -119,7 +119,7 @@ it('returns error when no media in collection JSON', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = new MediaService;
-    $action = new SetMediumAsFirstAction($mediaService);
+    $action = new SetMediaAsFirstAction($mediaService);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -161,7 +161,7 @@ it('returns error when no media in collection', function () {
     ]);
 
     $mediaService = new MediaService;
-    $action = new SetMediumAsFirstAction($mediaService);
+    $action = new SetMediaAsFirstAction($mediaService);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -207,7 +207,7 @@ it('can set as first in collection JSON', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = new MediaService;
-    $action = new SetMediumAsFirstAction($mediaService);
+    $action = new SetMediaAsFirstAction($mediaService);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -250,7 +250,7 @@ it('can set as first in collection', function () {
     ]);
 
     $mediaService = new MediaService;
-    $action = new SetMediumAsFirstAction($mediaService);
+    $action = new SetMediaAsFirstAction($mediaService);
 
     // Call the action's execute method
     $response = $action->execute($request);

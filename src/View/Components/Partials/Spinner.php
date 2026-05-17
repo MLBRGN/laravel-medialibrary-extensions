@@ -18,11 +18,11 @@ class Spinner extends BaseComponent
         ?string $id,
         string $initiatorId,
         public string $mediaManagerId,
-        public array $options = [],
+        array $options = [],
     ) {
         parent::__construct($id);
         $this->initiatorId = $initiatorId;
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

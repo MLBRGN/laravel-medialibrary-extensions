@@ -22,7 +22,7 @@ class MediaModal extends BaseComponent
         public ?array $collections,
         public ?string $title,// TODO do i want this?
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
-        public array $options = [],
+        array $options = [],
         public bool $videoAutoPlay = true,
 
     ) {
@@ -33,7 +33,7 @@ class MediaModal extends BaseComponent
         $this->id = $this->id.'-mod';
 
         // merge into config
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

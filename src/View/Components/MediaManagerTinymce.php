@@ -15,7 +15,7 @@ class MediaManagerTinymce extends BaseComponent
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
-    public array $config;
+//    public array $config;
 
     public bool $disableForm = false;
 
@@ -35,7 +35,7 @@ class MediaManagerTinymce extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public bool $multiple = true,
         public bool $disabled = false,
         public bool $readonly = false,
@@ -96,7 +96,7 @@ class MediaManagerTinymce extends BaseComponent
             $this->id = $this->id.'-mms';
         }
 
-        $this->initializeConfig([
+        $this->resolveConfig([
             'uploadFieldName' => $this->uploadFieldName,
             'selectable' => $selectable,
             'instanceId' => $this->instanceId,

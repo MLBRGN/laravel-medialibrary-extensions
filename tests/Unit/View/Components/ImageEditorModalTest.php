@@ -13,7 +13,7 @@ beforeEach(function () {
     Route::macro('mle_prefix_route', fn ($name) => "mle.$name");
 
     // Fake route helper
-    Route::get('mle.save-updated-medium/{media}', fn () => 'updated medium')->name('mle.save-updated-medium');
+    Route::get('mle.save-updated-media/{media}', fn () => 'updated medium')->name('mle.save-updated-media');
     Route::get('mle.save-updated-temporary-upload/{media}', fn () => 'updated temporary')->name('mle.save-updated-temporary-upload');
 });
 

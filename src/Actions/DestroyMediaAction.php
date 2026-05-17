@@ -10,14 +10,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
-class DestroyMediumAction
+class DestroyMediaAction
 {
+    public function __construct(
+        public MediaService $mediaService
+    ) {}
+
     public function execute(
         DestroyRequest $request,
-        Media $media
     ): JsonResponse|RedirectResponse {
+
+
+        $media = $this->mediaService->resolveMediaModel($request->route('mediaId'));
+
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 

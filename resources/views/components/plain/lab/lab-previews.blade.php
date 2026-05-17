@@ -3,10 +3,10 @@
 >
     <x-mle-lab-preview-original 
         :medium="$medium"
-        :options="$options"
+        :options="$getOptions()"
     />
     <x-mle-lab-preview-base 
         :medium="$medium"
-        :options="$options"
+        :options="$getOptions()"
     />
 </div>

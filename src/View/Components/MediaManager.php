@@ -32,7 +32,7 @@ class MediaManager extends BaseComponent
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         // TODO should single medium be honored when null? -> $medium->getMorphClass() test in demo for example
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public bool $multiple = false,
         public bool $disabled = false,
         public bool $readonly = false,
@@ -80,7 +80,7 @@ class MediaManager extends BaseComponent
             $this->id .= '-mms';
         }
 
-        $this->initializeConfig([
+        $this->resolveConfig([
             'instanceId' => $this->instanceId,
         ]);
 

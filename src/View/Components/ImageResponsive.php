@@ -23,7 +23,7 @@ class ImageResponsive extends Component
         public bool $lazy = true,
         public string $alt = '',
         public bool $originalOnly = false,
-        public array $options = [],
+        array $options = [],
         public ?string $placeholder = null,
     ) {
         if ($this->medium) {

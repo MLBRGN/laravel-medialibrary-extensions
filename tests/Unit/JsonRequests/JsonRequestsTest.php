@@ -4,13 +4,13 @@ dataset('authenticated_post_routes', [
     'single upload' => fn () => config('media-library-extensions.route_prefix').'-media-upload-single',
     'multiple upload' => fn () => config('media-library-extensions.route_prefix').'-media-upload-multiple',
     'youtube upload' => fn () => config('media-library-extensions.route_prefix').'-media-upload-youtube',
-    'save update medium' => fn () => config('media-library-extensions.route_prefix').'-save-updated-medium',
+    'save update medium' => fn () => config('media-library-extensions.route_prefix').'-save-updated-media',
     'save updated temporary upload' => fn () => config('media-library-extensions.route_prefix').'-save-updated-temporary-upload',
 ]);
 
 dataset('authenticated_delete_routes', [
-    'medium destroy' => fn () => config('media-library-extensions.route_prefix').'-medium-destroy',
-    'temporary upload destroy' => fn () => config('media-library-extensions.route_prefix').'-temporary-upload-destroy',
+    'medium destroy' => fn () => config('media-library-extensions.route_prefix').'-destroy-media',
+    'temporary upload destroy' => fn () => config('media-library-extensions.route_prefix').'-destroy-temporary-upload',
 ]);
 
 dataset('authenticated_put_routes', [

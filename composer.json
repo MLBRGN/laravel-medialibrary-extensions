@@ -29,6 +29,7 @@
         "spatie/laravel-medialibrary": "^11.0"
     },
     "require-dev": {
+        "ext-gd": "*",
         "barryvdh/laravel-ide-helper": "^3.0.0",
         "larastan/larastan": "^3.8.0",
         "laravel/pint": "^1.22",
@@ -38,8 +39,7 @@
         "pestphp/pest-plugin-drift": "^4.0.0",
         "pestphp/pest-plugin-type-coverage": "^4.0.0",
         "spatie/laravel-translatable": "^6.0.0",
-        "symfony/dom-crawler": "^7.0.0",
-        "ext-gd": "*"
+        "symfony/dom-crawler": "^7.0.0"
     },
     "suggest": {
         "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons",

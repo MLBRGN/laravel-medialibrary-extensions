@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
 use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 
 class TemporaryUpload extends Model
 {
+
     public static function newFactory()
     {
         return TemporaryUploadFactory::new();
@@ -42,25 +42,14 @@ class TemporaryUpload extends Model
     // used when serializing
     protected $appends = ['url'];
 
-    // null = default connection
-    public function getConnectionName()
+    public function getConnectionName(): ?string
     {
-        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
+        if (app()->bound('mle-demo-mode')) {
             return config('media-library-extensions.demo_database_name');
         }
 
         return parent::getConnectionName();
     }
-
-    //    public static function forCurrentSession($collectionName = null): Collection
-    //    {
-    //        return self::where('session_id', session()->getId())
-    //            ->when(! is_null($collectionName), function ($query) use ($collectionName) {
-    //                return $query->where('collection_name', $collectionName);
-    //            })
-    //            ->orderBy('order_column', 'asc')
-    //            ->get();
-    //    }
 
     public function scopeForCurrentSession($query, ?string $collectionName = null, ?string $instanceId = null)
     {
@@ -72,17 +61,6 @@ class TemporaryUpload extends Model
 
         return $query->get();
     }
-    //    public function scopeForCurrentSession($query, ?string $collectionName = null, ?string $instanceId = null)
-    //    {
-    //        $instanceId = $instanceId ?? request()->input('instance_id');
-    //
-    //        $query->when($instanceId, fn($q) => $q->where('instance_id', $instanceId))
-    //            ->unless($instanceId, fn($q) => $q->where('session_id', session()->getId()))
-    //            ->when($collectionName, fn($q) => $q->where('collection_name', $collectionName))
-    //            ->orderBy('order_column', 'asc');
-    //
-    //        return $query->get();
-    //    }
 
     public static function getForCurrentSession(?string $collectionName = null, ?string $instanceId = null): Collection
     {

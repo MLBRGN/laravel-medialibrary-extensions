@@ -29,7 +29,7 @@ class MediaLab extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $medium,
-        public array $options = [],
+        array $options = [],
     ) {
         $id = filled($id) ? $id : 'mle-media-lab-'.uniqid();
 
@@ -49,7 +49,7 @@ class MediaLab extends BaseComponent
 
         $this->mediaManagerLabPreviewUpdateRoute = route(mle_prefix_route('media-manager-lab-preview-update'));
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
     }
 

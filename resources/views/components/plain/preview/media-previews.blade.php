@@ -10,7 +10,7 @@
         <x-mle-media-preview-item
             :id="$id"
             :medium="$medium"
-            :options="$options"
+            :options="$getOptions()"
             :collections="$collections"
             :single-medium="$singleMedium"
             :model-or-class-name="$modelOrClassName"
@@ -28,7 +28,7 @@
             :collections="$collections"
             :single-medium="$singleMedium"
             :video-auto-play="true"
-            :options="$options"
+            :options="$getOptions()"
             title="Media carousel"
             :instance-id="$instanceId"
         />
@@ -39,7 +39,7 @@
                 :model-or-class-name="$modelOrClassName"
                 :collections="$collections"
                 :single-medium="$singleMedium"
-                :options="$options"
+                :options="$getOptions()"
                 :disabled="$disabled"
                 :selectable="$selectable"
                 :instance-id="$instanceId"

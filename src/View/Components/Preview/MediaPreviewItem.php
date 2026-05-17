@@ -21,7 +21,7 @@ class MediaPreviewItem extends BaseComponent
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public $medium,
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public int $loopIndex = 0,
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public bool $multiple = false,
@@ -44,7 +44,7 @@ class MediaPreviewItem extends BaseComponent
         $this->mediumType = getMediaType($medium);
         $this->componentToRender = $componentMap[$this->mediumType] ?? null;
 
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

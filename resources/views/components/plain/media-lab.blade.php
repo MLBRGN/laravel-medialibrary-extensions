@@ -6,7 +6,7 @@
     ])
     data-mle-media-manager-lab
 >
-    <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($config)'>
+    <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
     <x-mle-partial-status-area
         id="{{ $id }}"
@@ -16,7 +16,7 @@
     <div class="mle-media-manager-lab-previews" data-mle-media-manager-lab-previews>
         <x-mle-lab-previews
             :medium="$medium"
-            :options="$options"
+            :options="$getOptions()"
         />
     </div>
 </div>

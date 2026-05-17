@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
@@ -43,7 +44,7 @@ it('sets config and returns view with model for demoPlain', function () {
     $controller = new DemoController;
     $response = $controller->demoPlain();
 
-    expect($response)->toBeInstanceOf(\Illuminate\View\View::class)
+    expect($response)->toBeInstanceOf(View::class)
         ->and($response->name())->toBe('media-library-extensions::demo.mle-plain')
         ->and($response->getData()['model'])->toBeInstanceOf(Alien::class)
         ->and(config('media-library-extensions.frontend_theme'))->toBe('plain');

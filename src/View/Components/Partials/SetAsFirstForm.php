@@ -21,7 +21,7 @@ class SetAsFirstForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-    public array $config;
+//    public array $config;
 
     public string $mediumSetAsFirstRoute;
 
@@ -32,7 +32,7 @@ class SetAsFirstForm extends BaseComponent
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
         public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections,
-        public array $options = [],
+        array $options = [],
         public ?bool $disabled = false,
     ) {
         parent::__construct($id);
@@ -54,7 +54,7 @@ class SetAsFirstForm extends BaseComponent
 
         $this->mediumSetAsFirstRoute = $mediumSetAsFirstRoute;
 
-        $this->initializeConfig([
+        $this->resolveConfig([
             'mediumSetAsFirstRoute' => $this->mediumSetAsFirstRoute,
         ]);
     }

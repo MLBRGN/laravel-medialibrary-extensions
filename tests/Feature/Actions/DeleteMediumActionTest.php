@@ -1,8 +1,8 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediaAction;
 
-covers(DestroyMediumAction::class);
+covers(DestroyMediaAction::class);
 
 it('deletes the medium and returns JSON', function () {
     $user = $this->getUser();
@@ -23,7 +23,7 @@ it('deletes the medium and returns JSON', function () {
     $this->assertDatabaseHas('media', ['id' => $media->id]);
 
     // Call the destroy route
-    $route = route(mle_prefix_route('medium-destroy'), $media);
+    $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->deleteJson($route, [
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
@@ -61,7 +61,7 @@ it('deletes the medium and returns Redirect', function () {
     $this->assertDatabaseHas('media', ['id' => $media->id]);
 
     // Call the destroy route
-    $route = route(mle_prefix_route('medium-destroy'), $media);
+    $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->delete($route, [
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
@@ -108,7 +108,7 @@ it('reorders all media on delete', function () {
         ->withCustomProperties(['priority' => 2])
         ->toMediaCollection($collections['image']);
 
-    $route = route(mle_prefix_route('medium-destroy'), $media2);
+    $route = route(mle_prefix_route('destroy-media'), $media2);
 
     // Delete second medium
     $response = $this

@@ -30,7 +30,7 @@ class MediaCarousel extends BaseComponent
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public ?array $collections = [],
         public bool $expandableInModal = true,
-        public array $options = [],
+        array $options = [],
         public bool $inModal = false, // TODO used anywhere?
         public bool $previewMode = true // should the media-viewer be in preview mode (no autoplay, no document loading or not)
     ) {
@@ -45,7 +45,7 @@ class MediaCarousel extends BaseComponent
         $this->id = $this->id.'-crs';
 
         // merge into config
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

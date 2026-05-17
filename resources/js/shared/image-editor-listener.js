@@ -106,7 +106,7 @@ const updateMedia = (detail) => {
         formData.append(`collections[${key}]`, value);
     });
 
-    fetch(config.saveUpdatedMediumRoute, {
+    fetch(config.saveUpdatedMediaRoute, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': config.csrfToken,

@@ -18,7 +18,7 @@ class MediaPreviewGrid extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
         public bool $disabled = false,
         public bool $selectable = false,
@@ -28,7 +28,7 @@ class MediaPreviewGrid extends BaseComponent
     ) {
         parent::__construct($id);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
     }
 
     public function render(): View

@@ -10,7 +10,7 @@
     data-mle-media-manager
 {{--    data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"--}}
 >
-    <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($config)'>
+    <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
     @if(config('media-library-extensions.debug'))
         <div class="mle-component mle-debug-menu">
@@ -32,7 +32,7 @@
                         :model-or-class-name="$modelOrClassName"
                         :single-medium="$singleMedium"
                         :collections="$collections"
-                        :options="$options"
+                        :options="$getOptions()"
                         :multiple="$multiple"
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
@@ -47,7 +47,7 @@
                         :model-or-class-name="$modelOrClassName"
                         :single-medium="$singleMedium"
                         :collections="$collections"
-                        :options="$options"
+                        :options="$getOptions()"
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
                         :multiple="$multiple"
@@ -64,7 +64,7 @@
                 id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
-                :options="$options"
+                :options="$getOptions()"
                 :instance-id="$getConfig('instanceId')"
             />
 
@@ -73,7 +73,7 @@
                 :model-or-class-name="$modelOrClassName"
                 :single-medium="$singleMedium"
                 :collections="$collections"
-                :options="$options"
+                :options="$getOptions()"
                 :selectable="$selectable"
                 :disabled="$disabled"
                 :readonly="$readonly"
@@ -87,8 +87,8 @@
 
     <x-mle-shared-debug
         :model-or-class-name="$modelOrClassName"
-        :config="$config"
-        :options="$options"
+        :config="$getConfig()"
+        :options="$getOptions()"
     />
 </div>
 

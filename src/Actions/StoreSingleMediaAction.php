@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 
-class StoreSingleMediumAction
+class StoreSingleMediaAction
 {
     public function __construct(
         protected StoreSinglePermanentAction $storeSinglePermanentAction,

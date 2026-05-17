@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Validator;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 
 beforeEach(function () {
-    $this->request = new SetTemporaryMediumAsFirstRequest;
+    $this->request = new SetTemporaryUploadAsFirstRequest;
 });
 
 it('passes validation with required fields and at least one collection', function () {

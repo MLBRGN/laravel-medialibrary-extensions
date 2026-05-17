@@ -57,6 +57,7 @@
                     ]"
         :options="[
                         'frontendTheme' => 'bootstrap-5',
+                        'connection' => 'media-library-demo',
                     ]"
         class="mt-5"
     />

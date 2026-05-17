@@ -3,7 +3,7 @@
         id="{{ $id }}"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
-        :options="$options"
+        :options="$getOptions()"
         :multiple="$multiple"
         :selectable="true"
         :readonly="false"

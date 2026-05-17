@@ -22,11 +22,11 @@ class LabPreviewOriginal extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $medium,
-        public array $options = []
+        array $options = []
     ) {
         parent::__construct($id);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
         $this->imageInfo = $medium->model?->getOriginalImageInfo($medium);
     }

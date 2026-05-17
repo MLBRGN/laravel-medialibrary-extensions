@@ -5,7 +5,7 @@
     >
         <x-mle-media-viewer
             :medium="$medium"
-            :options="$options"
+            :options="$getOptions()"
             :preview-mode="true"
             :expandable-in-modal="true"
             data-bs-target="#{{ $id }}-mod-crs"
@@ -20,7 +20,7 @@
             :medium="$medium"
             :single-medium="$singleMedium"
             :collections="$collections"
-            :options="$options"
+            :options="$getOptions()"
             :initiator-id="$id"
             title="Edit Image"
         />

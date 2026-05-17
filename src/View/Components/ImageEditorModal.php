@@ -15,9 +15,9 @@ class ImageEditorModal extends BaseComponent
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
-    public array $config = [];
+//    public array $config = [];
 
-    public string $saveUpdatedMediumRoute;
+    public string $saveUpdatedMediaRoute;
 
     public ?string $mediaManagerId = null;
 
@@ -33,7 +33,7 @@ class ImageEditorModal extends BaseComponent
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedium = null,
         public array $collections,
-        public array $options,
+        array $options,
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
@@ -45,11 +45,11 @@ class ImageEditorModal extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->saveUpdatedMediumRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
-            $medium) : route(mle_prefix_route('save-updated-medium'), $medium);
+        $this->saveUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
+            $medium) : route(mle_prefix_route('save-updated-media'), $medium);
 
         // TODO look at this
-        $this->initializeConfig([
+        $this->resolveConfig([
             'initiatorId' => $this->initiatorId,
             'id' => $this->id,
             'mediaManagerId' => $this->mediaManagerId,
@@ -57,7 +57,7 @@ class ImageEditorModal extends BaseComponent
             'modelId' => $this->modelId,
             'mediumId' => $this->medium->id,
             'collection' => $this->medium->collection_name,
-            'saveUpdatedMediumRoute' => $this->saveUpdatedMediumRoute,
+            'saveUpdatedMediaRoute' => $this->saveUpdatedMediaRoute,
             'collections' => $this->collections,
         ]);
 

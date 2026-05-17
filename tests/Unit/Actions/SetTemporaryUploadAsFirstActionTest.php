@@ -3,7 +3,7 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryMediumAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('fails when no collections provided JSON', function () {
@@ -13,7 +13,7 @@ it('fails when no collections provided JSON', function () {
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryMediumAsFirstRequest([
+    $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -49,7 +49,7 @@ it('fails when no collections provided', function () {
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryMediumAsFirstRequest([
+    $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -86,7 +86,7 @@ it('returns error when no media in collection JSON', function () {
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryMediumAsFirstRequest([
+    $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -122,7 +122,7 @@ it('returns error when no media in collection', function () {
     $targetCollection = 'images';
 
     // Create request object
-    $request = new SetTemporaryMediumAsFirstRequest([
+    $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -172,7 +172,7 @@ it('can set as first in collection JSON', function () {
     ]);
 
     // Create request object
-    $request = new SetTemporaryMediumAsFirstRequest([
+    $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,
@@ -223,7 +223,7 @@ it('can set as first in collection', function () {
     ]);
 
     // Create request object
-    $request = new SetTemporaryMediumAsFirstRequest([
+    $request = new SetTemporaryUploadAsFirstRequest([
         'initiator_id' => $initiatorId,
         'media_manager_id' => $mediaManagerId,
         'target_media_collection' => $targetCollection,

@@ -4,15 +4,71 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
-use Spatie\MediaLibrary\HasMedia;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\DemoMedia;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\DemoTemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaService
 {
-    public function resolveModel(string $modelType, string $modelId): HasMedia
-    {
+
+    public function resolveModel(
+        string $modelType,
+        string|int $modelId
+    ): HasMediaExtended {
+
         abort_unless(class_exists($modelType), 400, 'Invalid model type');
 
-        return $modelType::findOrFail($modelId);
+        $model = $modelType::findOrFail($modelId);
+
+        abort_unless(
+            $model instanceof HasMediaExtended,
+            400,
+            'Invalid media model'
+        );
+
+        return $model;
+    }
+
+    public function resolveMediaModel(
+        string|int $mediaId
+    ): Media {
+
+        $mediaModelClass = $this->resolveMediaModelClass();
+
+        return $mediaModelClass::findOrFail($mediaId);
+    }
+
+    public function resolveMediaModelClass(): string
+    {
+        if (app()->bound('mle-demo-mode')) {
+            return DemoMedia::class;
+        }
+        return config(
+            'media-library.media_model',
+            Media::class
+        );
+    }
+
+    public function resolveTemporaryUploadModel(
+        string|int $temporaryUploadId
+    ): TemporaryUpload {
+
+        $mediaModelClass = $this->resolveTemporaryUploadModelClass();
+
+        return $mediaModelClass::findOrFail($temporaryUploadId);
+    }
+
+    public function resolveTemporaryUploadModelClass(): string
+    {
+        if (app()->bound('mle-demo-mode')) {
+            return DemoTemporaryUpload::class;
+        }
+        return config(
+            'media-library.media_model',
+            TemporaryUpload::class
+        );
     }
 
     public function determineCollectionType($file): ?string

@@ -28,8 +28,8 @@ class Debug extends Component
 
     public function __construct(
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public array $config = [],
-        public array $options = [],
+        array $config = [],
+        array $options = [],
     ) {
 
         $this->id = uniqid();
