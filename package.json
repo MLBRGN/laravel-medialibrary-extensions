@@ -39,7 +39,7 @@
   "devDependencies": {
     "@mlbrgn/media-library-extensions": "*",
     "laravel-vite-plugin": "^3.0.0",
-    "sass": "^1.98.0",
+    "sass": "^1.100.0",
     "vite": "^8.0.0"
   },
   "peerDependencies": {
