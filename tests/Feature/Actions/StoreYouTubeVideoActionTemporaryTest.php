@@ -1,0 +1,241 @@
+<?php
+
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoTemporaryAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+beforeEach(function () {
+    Storage::fake('public');
+    Config::set('medialibrary-extensions.youtube_support_enabled', true);
+});
+
+it('aborts if youtube support is disabled', function () {
+    Config::set('medialibrary-extensions.youtube_support_enabled', false);
+
+    $request = StoreYouTubeVideoRequest::create('/', 'POST');
+    $mediaService = app(MediaService::class);
+    $youTubeService = app(YouTubeService::class);
+    $action = new StoreYouTubeVideoTemporaryAction($mediaService, $youTubeService);
+
+    try {
+        $action->execute($request);
+        $this->fail('Expected HttpException was not thrown.'); // fail the test if we get here
+    } catch (HttpException $e) {
+        expect($e->getStatusCode())->toBe(403);
+    }
+});
+
+it('stores temporary thumbnail successfully (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+
+    $tempUpload = $this->getTemporaryUpload();
+
+    $request = StoreYouTubeVideoRequest::create('/', 'POST', [
+        'temporary_upload_mode' => true,
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
+        'youtube_url' => 'https://www.youtube.com/watch?v=abc',
+        'collections' => ['image' => 'images'],
+        'youtube_collection' => 'test-collection',
+        'temporary_upload_id' => $tempUpload->id,
+        'multiple' => 'false',
+        'model_type' => 'App\Models\Post',
+    ]);
+    $request->setLaravelSession(app('session.store'));
+
+    $request->headers->set('Accept', 'application/json');
+
+    $mediaService = app(MediaService::class);
+    $youTubeService = Mockery::mock(YouTubeService::class);
+    $action = new StoreYouTubeVideoTemporaryAction($mediaService, $youTubeService);
+
+    $youTubeService->shouldReceive('storeTemporaryThumbnailFromRequest')
+        ->once()
+        ->andReturn($tempUpload);
+
+    $response = $action->execute($request);
+
+    expect($response->getData(true))
+        ->toMatchArray([
+            'initiatorId' => $initiatorId,
+            'type' => 'success',
+            'message' => __('medialibrary-extensions::messages.youtube_video_uploaded'),
+        ]);
+});
+
+it('stores temporary thumbnail successfully (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $request = StoreYouTubeVideoRequest::create('/', 'POST', [
+        'temporary_upload_mode' => true,
+        'youtube_url' => 'https://www.youtube.com/watch?v=abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
+        'youtube_collection' => 'test-collection',
+    ]);
+
+    // Remove json Accept header to simulate redirect request
+    $request->headers->remove('Accept');
+    $request->setLaravelSession(app('session')->driver());
+
+    $tempUpload = $this->getTemporaryUpload();
+
+    $mediaService = app(MediaService::class);
+    $youTubeService = Mockery::mock(YouTubeService::class);
+    $action = new StoreYouTubeVideoTemporaryAction($mediaService, $youTubeService);
+
+    $youTubeService->shouldReceive('storeTemporaryThumbnailFromRequest')
+        ->once()
+        ->andReturn($tempUpload);
+
+    $response = $action->execute($request);
+
+    expect($response)->toBeInstanceOf(RedirectResponse::class);
+
+    $session = $request->session();
+    expect($session->has(status_session_prefix()))->toBeTrue();
+
+    $sessionData = $session->get(status_session_prefix());
+    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['type'])->toBe('success');
+    expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.youtube_video_uploaded'));
+});
+
+it('returns error when temporary thumbnail fails to download (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $request = StoreYouTubeVideoRequest::create('/', 'POST', [
+        'temporary_upload_mode' => true,
+        'youtube_url' => 'https://www.youtube.com/watch?v=abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
+        'youtube_collection' => 'test-collection',
+    ]);
+    $request->headers->set('Accept', 'application/json');
+
+    $this->youTubeService = Mockery::mock(YouTubeService::class);
+    $mediaService = app(MediaService::class);
+    $this->action = new StoreYouTubeVideoTemporaryAction($mediaService, $this->youTubeService);
+
+    $this->youTubeService
+        ->shouldReceive('storeTemporaryThumbnailFromRequest')
+        ->once()
+        ->andReturn(null);
+
+    $response = $this->action->execute($request);
+    expect($response->getData(true))
+        ->toMatchArray([
+            'initiatorId' => $initiatorId,
+            'type' => 'error',
+            'message' => __('medialibrary-extensions::messages.youtube_thumbnail_download_failed'),
+        ]);
+});
+
+it('returns error when temporary thumbnail fails to download (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $request = StoreYouTubeVideoRequest::create('/', 'POST', [
+        'temporary_upload_mode' => true,
+        'youtube_url' => 'https://www.youtube.com/watch?v=abc',
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
+        'youtube_collection' => 'test-collection',
+    ]);
+    $request->headers->remove('Accept');
+    $request->setLaravelSession(app('session')->driver());
+
+    $this->youTubeService = Mockery::mock(YouTubeService::class);
+    $mediaService = app(MediaService::class);
+    $this->action = new StoreYouTubeVideoTemporaryAction($mediaService, $this->youTubeService);
+
+    $this->youTubeService
+        ->shouldReceive('storeTemporaryThumbnailFromRequest')
+        ->once()
+        ->andReturn(null);
+
+    $response = $this->action->execute($request);
+
+    expect($response)->toBeInstanceOf(RedirectResponse::class);
+
+    $session = $request->session();
+    expect($session->has(status_session_prefix()))->toBeTrue();
+
+    $sessionData = $session->get(status_session_prefix());
+    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['type'])->toBe('error');
+    expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.youtube_thumbnail_download_failed'));
+});
+
+it('returns error when no youtube url provided for direct upload (JSON)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
+
+    $request = StoreYouTubeVideoRequest::create('/', 'POST', [
+        'temporary_upload_mode' => false,
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
+        'youtube_collection' => 'videos',
+        'model_type' => get_class($model),
+        'model_id' => $model->getKey(),
+        // no youtube_url
+    ]);
+    $request->headers->set('Accept', 'application/json');
+
+    $mediaService = app(MediaService::class);
+    $youTubeService = app(YouTubeService::class);
+    $action = new StoreYouTubeVideoTemporaryAction($mediaService, $youTubeService);
+
+    $response = $action->execute($request);
+    expect($response->getData(true))
+        ->toMatchArray([
+            'initiatorId' => $initiatorId,
+            'type' => 'error',
+            'message' => __('medialibrary-extensions::messages.upload_no_youtube_url'),
+        ]);
+});
+
+it('returns error when no youtube url provided for direct upload (redirect)', function () {
+    $initiatorId = 'initiator-456';
+    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
+
+    $request = StoreYouTubeVideoRequest::create('/', 'POST', [
+        'temporary_upload_mode' => false,
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $mediaManagerId,
+        'collections' => ['image' => 'images'],
+        'youtube_collection' => 'videos',
+        'model_type' => get_class($model),
+        'model_id' => $model->getKey(),
+        // no youtube_url
+    ]);
+    $request->headers->remove('Accept');
+    $request->setLaravelSession(app('session')->driver());
+
+    $mediaService = app(MediaService::class);
+    $youTubeService = app(YouTubeService::class);
+    $action = new StoreYouTubeVideoTemporaryAction($mediaService, $youTubeService);
+
+    $response = $action->execute($request);
+
+    expect($response)->toBeInstanceOf(RedirectResponse::class);
+
+    $session = $request->session();
+    expect($session->has(status_session_prefix()))->toBeTrue();
+
+    $sessionData = $session->get(status_session_prefix());
+    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['type'])->toBe('error');
+    expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_no_youtube_url'));
+});

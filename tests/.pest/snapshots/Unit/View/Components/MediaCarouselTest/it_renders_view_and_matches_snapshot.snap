@@ -1,0 +1,186 @@
+<div id="media-carousel-crs"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100"
+        data-mle-carousel
+>
+
+
+
+
+
+
+
+    
+    <div
+        class="mle-media-carousel-indicators carousel-indicators mle-display-none"
+        data-mle-carousel-indicators
+    >
+            </div>
+
+    
+    <div class="mle-media-carousel-inner carousel-inner">
+                    <div class="mle-media-carousel-item active"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container">
+                    <span class="mle-no-media">No media.</span>
+                </div>
+            </div>
+            </div>
+
+    
+    <button
+        class="mle-media-carousel-control-prev carousel-control-prev disabled"
+        type="button"
+        data-bs-target="#media-carousel-crs" 
+        data-bs-slide="prev" 
+        title="Previous"
+    >
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
+        <span 
+        role="img" 
+        aria-label="Previous" 
+        title="Previous">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Previous</span>
+    </button>
+    <button
+        class="mle-media-carousel-control-next carousel-control-next disabled"
+        type="button"
+        data-bs-target="#media-carousel-crs"
+        data-bs-slide="next"
+        title="Next"
+    >
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
+            <span 
+        role="img" 
+        aria-label="Next" 
+        title="Next">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Next</span>
+    </button>
+
+
+
+
+
+</div>
+    <div
+    class="mle-component mle-theme-bootstrap-5 mle-media-modal mle-modal modal fade"
+    id="media-carousel-crs-mod"
+    tabindex="-1"
+            aria-labelledby="media-carousel-crs-mod-title"
+                data-mle-autoplay=""
+        data-mle-modal
+    data-mle-media-modal
+    
+>
+    <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
+        <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
+                            <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="media-carousel-crs-mod-title">Media carousel</h1>
+                        <div class="mle-modal-body mle-media-modal-body modal-body p-0">
+                <button
+                    type="button"
+                    class="mle-modal-close-button mle-media-modal-close-button"
+                    data-mle-modal-close
+                    data-bs-dismiss="modal"
+                    aria-label="Sluit"
+                    title="Close">
+                    <span 
+        role="img" 
+        aria-label="Close" 
+        title="Close">❓</span>
+                </button>
+                
+                <div id="media-carousel-crs-mod-crs"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+        data-mle-carousel
+>
+
+
+
+
+
+
+
+    
+    <div
+        class="mle-media-carousel-indicators carousel-indicators mle-display-none"
+        data-mle-carousel-indicators
+    >
+            </div>
+
+    
+    <div class="mle-media-carousel-inner carousel-inner">
+                    <div class="mle-media-carousel-item active"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container">
+                    <span class="mle-no-media">No media.</span>
+                </div>
+            </div>
+            </div>
+
+    
+    <button
+        class="mle-media-carousel-control-prev carousel-control-prev disabled"
+        type="button"
+        data-bs-target="#media-carousel-crs-mod-crs" 
+        data-bs-slide="prev" 
+        title="Previous"
+    >
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
+        <span 
+        role="img" 
+        aria-label="Previous" 
+        title="Previous">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Previous</span>
+    </button>
+    <button
+        class="mle-media-carousel-control-next carousel-control-next disabled"
+        type="button"
+        data-bs-target="#media-carousel-crs-mod-crs"
+        data-bs-slide="next"
+        title="Next"
+    >
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
+            <span 
+        role="img" 
+        aria-label="Next" 
+        title="Next">❓</span>
+        </span>
+        <span class="mle-visually-hidden">Next</span>
+    </button>
+
+
+
+
+
+</div>
+<script
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":true,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":false,"mediaManagerLabSubmitter":false,"debugToggle":false,"liteYoutube":true},"for":"bootstrap-5|media-carousel-permanent","theme":"bootstrap-5","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}</script>
+
+    <script
+        type="module"
+        src="http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions/js/core/media-library-loader.js"
+            ></script>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":true,"imageEditor":false,"mediaManagerSubmitter":false,"mediaManagerLabSubmitter":false,"debugToggle":false,"liteYoutube":false},"for":"bootstrap-5|media-modal","theme":"bootstrap-5","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}</script>
+
+
+
+<script
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":true,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":false,"mediaManagerLabSubmitter":false,"debugToggle":false,"liteYoutube":true},"for":"bootstrap-5|media-carousel-permanent","theme":"bootstrap-5","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}</script>
+
+
