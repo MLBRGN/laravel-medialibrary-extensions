@@ -84,5 +84,5 @@ it('returns the correct message', function () {
     $rule = new MaxMediaCount($this->model, ['image' => 'images'], 5);
 
     expect($rule->message())
-        ->toBe(__('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => 5]));
+        ->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => 5]));
 });

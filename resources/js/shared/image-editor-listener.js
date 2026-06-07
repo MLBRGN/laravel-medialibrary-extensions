@@ -17,8 +17,26 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 document.addEventListener('onCloseImageEditor', (e) => {
     const imageEditor = e.detail.imageEditorInstance;
     const modal = imageEditor.closest('[data-mle-image-editor-modal]');
-    const initiatorId = imageEditor.getAttribute('data-mle-initiator-id');
-    const initiator = document.querySelector('#' + initiatorId);
+    const initiatorIdOnClose = imageEditor.getAttribute('data-mle-initiator-id');
+    let initiator = document.querySelector('#' + initiatorIdOnClose);
+
+    if (!initiator) {
+        // Fallback to media manager ID if present in the modal config
+        const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
+        if (configInput) {
+            try {
+                const config = JSON.parse(configInput.value);
+                if (config.mediaManagerId) {
+                    initiator = document.querySelector('#' + config.mediaManagerId);
+                }
+            } catch (e) {}
+        }
+    }
+
+    if (!initiator) {
+        console.warn('Initiator element not found on close:', initiatorIdOnClose);
+        return;
+    }
 
     initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
         bubbles: true,
@@ -61,9 +79,23 @@ const updateMedia = (detail) => {
         return
     }
 
-    const initiator = document.querySelector('#' + config.initiatorId);
+    const initiatorIdFromConfig = config.initiatorId;
+    let initiator = document.querySelector('#' + initiatorIdFromConfig);
 
-    console.log('initiator', initiator);
+    if (!initiator) {
+        // Fallback to media manager ID if the specific item is gone
+        const mediaManagerId = config.mediaManagerId;
+        if (mediaManagerId) {
+            initiator = document.querySelector('#' + mediaManagerId);
+        }
+    }
+
+    if (!initiator) {
+        console.warn('Initiator element not found:', initiatorIdFromConfig, 'Media Manager:', config.mediaManagerId);
+        return;
+    }
+
+    // console.log('initiator', initiator);
     const localStatusAreaContainer = resolveStatusAreaContainer(modal);
     let parentStatusAreaContainer = resolveStatusAreaContainer(initiator);// initiator = media manager
     const mediaLab = initiator.closest('[data-mle-media-manager-lab]');
@@ -72,8 +104,8 @@ const updateMedia = (detail) => {
         parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
     }
 
-    console.log('localStatusAreaContainer', localStatusAreaContainer);
-    console.log('parentStatusAreaContainer', parentStatusAreaContainer);
+    // console.log('localStatusAreaContainer', localStatusAreaContainer);
+    // console.log('parentStatusAreaContainer', parentStatusAreaContainer);
 
     if (!localStatusAreaContainer) {
         console.log('statusAreaContainer not found', localStatusAreaContainer);
@@ -89,24 +121,26 @@ const updateMedia = (detail) => {
     const modelId = config.modelId ?? '';
     const initiatorId = config.initiatorId;
     const instanceId = config.instanceId;
+    const dataSource = config.dataSource;
 
     formData.append('initiator_id', initiatorId);
     formData.append('instance_id', instanceId);
     formData.append('media_manager_id', config.mediaManagerId ?? '');
     formData.append('model_type', modelType);
     formData.append('model_id', modelId );
-    formData.append('single_medium_id', config.singleMedium?.id ?? null);// TODO keep both?
+    formData.append('single_media_id', config.singleMedia?.id ?? null);// TODO keep both?
     formData.append('medium_id', mediumId);// TODO keep both?
     // formData.append('collections', JSON.stringify(config.collections));
     formData.append('options', JSON.stringify(config.options));
     formData.append('collection', config.collection);
     formData.append('temporary_upload_mode', config.temporaryUploadMode);
     formData.append('file', file); // 'media' must match Laravel's expected field
+    formData.append('data_source', dataSource); // 'media' must match Laravel's expected field
     Object.entries(config.collections).forEach(([key, value]) => {
         formData.append(`collections[${key}]`, value);
     });
 
-    fetch(config.saveUpdatedMediaRoute, {
+    fetch(config.storeUpdatedMediaRoute, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': config.csrfToken,
@@ -142,12 +176,12 @@ const updateMedia = (detail) => {
             bubbles: true,
             composed: true,
             detail: {
-                'singleMediumId': json.singleMediumId ?? null,
+                'singleMediaId': json.singleMediaId ?? null,
             }
         }));
 
         const newMediumId = json.newMediumId;
-        console.log('newMediumId', newMediumId);
+        // console.log('newMediumId', newMediumId);
         // Notify listeners that the previews were updated
         document.dispatchEvent(new CustomEvent('imageUpdated', {
             bubbles: false,

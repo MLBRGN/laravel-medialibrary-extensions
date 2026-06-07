@@ -11,6 +11,6 @@ class LocalPackageIcon extends Component
 {
     public function render(): View
     {
-        return view('media-library-extensions::components.shared.local-package-icon');
+        return view('medialibrary-extensions::components.shared.local-package-icon');
     }
 }

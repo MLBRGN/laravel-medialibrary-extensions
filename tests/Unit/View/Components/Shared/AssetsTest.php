@@ -3,7 +3,7 @@
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Assets;
 
 it('sets default values from config', function () {
-    config(['media-library-extensions.frontend_theme' => 'default-theme']);
+    config(['medialibrary-extensions.frontend_theme' => 'default-theme']);
 
     $component = new Assets;
 
@@ -38,5 +38,5 @@ it('renders the correct view', function () {
     $component = new Assets;
     $view = $component->render();
 
-    expect($view->name())->toBe('media-library-extensions::components.shared.assets');
+    expect($view->name())->toBe('medialibrary-extensions::components.shared.assets');
 });

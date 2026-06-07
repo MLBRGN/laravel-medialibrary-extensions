@@ -16,6 +16,17 @@ class DestroyRequest extends MediaManagerRequest
         return $this->authorizeMediaDelete();
     }
 
+    public function prepareForValidation(): void
+    {
+        if ($this->route('mediaId') && ! $this->has('mediaId')) {
+            $this->merge([
+                'mediaId' => $this->route('mediaId'),
+            ]);
+        }
+
+        parent::prepareForValidation();
+    }
+
     public function rules(): array
     {
         return [
@@ -23,9 +34,10 @@ class DestroyRequest extends MediaManagerRequest
             'media_manager_id' => ['required', 'string'],
             'model_type' => ['required', 'string'],
             'model_id' => ['required', 'string'],
-            'single_medium_id' => ['nullable'],
+            'single_media_id' => ['nullable'],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
+            'data_source' => ['nullable', 'string'],
         ];
     }
 

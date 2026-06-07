@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
@@ -21,14 +22,14 @@ it('initializes with given properties', function () {
 
     expect($component->medium)->toBe($medium)
         ->and($component->id)->toBe('some-id-destroy-form-123')
-        ->and($component->options)->toMatchArray([
+        ->and($component->getOptions())->toMatchArray([
             'frontendTheme' => 'bootstrap-5',
             'useXhr' => true,
         ]);
 });
 
 it('initializes with given properties without useXhr', function () {
-    config(['media-library-extensions.use_xhr' => false]);
+    config(['medialibrary-extensions.use_xhr' => false]);
     $model = $this->getModelWithMedia(['image' => 2]);
 
     $medium = $this->getMediaModel();
@@ -66,7 +67,7 @@ it('renders the destroy-form view (plain)', function () {
 
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
+    expect($view)->toBeInstanceOf(View::class);
 });
 
 it('renders the destroy-form view (bootstrap-5)', function () {
@@ -85,7 +86,7 @@ it('renders the destroy-form view (bootstrap-5)', function () {
 
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
+    expect($view)->toBeInstanceOf(View::class);
 });
 
 it('renders the destroy form with temporary upload', function () {
@@ -110,5 +111,5 @@ it('renders the destroy form with temporary upload', function () {
 
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
+    expect($view)->toBeInstanceOf(View::class);
 })->todo();

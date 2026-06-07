@@ -19,7 +19,7 @@ class MediaManagerMultiple extends MediaManager
         parent::__construct(
             id: $id,
             modelOrClassName: $modelOrClassName,
-            singleMedium: null,// always null
+            singleMedia: null,// always null
             collections: $collections,
             options: $options,
             multiple: $multiple,
@@ -27,6 +27,7 @@ class MediaManagerMultiple extends MediaManager
             readonly: $readonly,
             selectable: $selectable,
         );
+        $this->options = $options;
 
     }
 }

@@ -20,12 +20,12 @@ class UploadForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-//    public array $config = [];
+    //    public array $config = [];
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
-        public Media|TemporaryUpload|null $singleMedium = null,
+        public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
         public bool $multiple = false,
@@ -36,24 +36,19 @@ class UploadForm extends BaseComponent
         $this->mediaManagerId = $id;
 
         parent::__construct($id);
+        $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);
 
         $mimeData = $this->resolveAllowedMimeTypes();
 
         $this->resolveConfig([
-            //            'instanceId' => $this->instanceId,
-            //            'frontendTheme' => config('media-library-extensions.frontend_theme'),
-            //            'useXhr' => config('media-library-extensions.use_xhr'),
             ...$mimeData,
         ]);
-
-        //        dump('mm upload form: ' . $this->instanceId);
-
     }
 
     public function render(): View
     {
-        return $this->getPartialView('upload-form', $this->getConfig('frontendTheme'));
+        return $this->renderView('upload-form', $this->getConfig('frontendTheme'), true);
     }
 }

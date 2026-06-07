@@ -11,6 +11,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManager extends BaseComponent
@@ -29,7 +30,7 @@ class MediaManager extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         // TODO should single medium be honored when null? -> $medium->getMorphClass() test in demo for example
         public array $collections = [],
         array $options = [],
@@ -41,6 +42,7 @@ class MediaManager extends BaseComponent
 
         $id = filled($id) ? $id : null;
         parent::__construct($id);
+        $this->options = $options;
 
         $this->instanceId = InstanceManager::getInstanceId($id ?? Str::ulid());
 
@@ -53,11 +55,11 @@ class MediaManager extends BaseComponent
 
         // throw exception when no media collection provided at all
         if (! $this->hasCollections()) {
-            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+            throw new Exception(__('medialibrary-extensions::messages.no_media_collections'));
         }
 
         // override
-        if (! $this->hasCollection('image') && ! $this->hasCollection('document') && ! $this->hasCollection('video') && ! $this->hasCollection('audio')) {
+        if (! $this->hasCollections() || ($this->hasCollection('youtube') && collect($this->collections)->except('youtube')->filter()->isEmpty())) {
             $this->setOption('showUploadForm', false);
         }
 
@@ -66,55 +68,79 @@ class MediaManager extends BaseComponent
             $this->setOption('showYouTubeUploadForm', false);
         }
 
+        // override, don't show upload forms or "set as first" for single medium media managers
+        if (! is_null($this->singleMedia)) {
+            $this->setOption('showUploadForms', false);
+            $this->setOption('showSetAsFirst', false);
+        }
+
+        // sync configuration with current state
+        $this->syncConfigOverrides();
+
+        $this->setDisableFormOption();
+    }
+
+    protected function setDisableFormOption(): void
+    {
+        if ($this->singleMedia !== null) {
+            $totalMediaCount = 1;
+        } else {
+            $totalMediaCount = 0;
+
+            foreach ($this->collections as $collectionName) {
+                if ($this->modelOrClassName instanceof HasMedia) {
+                    $totalMediaCount += $this->modelOrClassName->getMedia($collectionName)->count();
+                } elseif (is_string($this->modelOrClassName)) {
+                    $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName, $this->instanceId)->count();
+                }
+            }
+        }
+
+        if ($this->multiple) {
+            $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections', 10);
+            $this->setOption('disableForm', $totalMediaCount >= $maxItems);
+        } else {
+            $this->setOption('disableForm', $totalMediaCount >= 1);
+        }
+
+        $this->resolveConfig();
+    }
+
+    protected function syncConfigOverrides(): void
+    {
         // the routes, "set-as-first" and "destroy" are "medium specific" routes, so not defined here
         $this->mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update'));
         $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            $this->setOption('uploadFieldName', config('media-library-extensions.upload_field_name_multiple'));
             $this->id .= '-mmm';
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            $this->setOption('uploadFieldName', config('media-library-extensions.upload_field_name_single'));
             $this->id .= '-mms';
+        }
+
+        // override hide media menu when nothing to see inside menu
+        if (
+            $this->getConfig('showDestroyButton') === false &&
+            $this->getConfig('showSetAsFirstButton') === false &&
+            $this->getConfig('showMediaEditButton') === false
+        ) {
+            $this->setOption('showMenu', false);
+        }
+
+        // override
+        if (! $this->getOption('showUploadForm', true) && ! $this->getOption('showYouTubeUploadForm', true)) {
+            $this->setOption('showUploadForms', false);
         }
 
         $this->resolveConfig([
             'instanceId' => $this->instanceId,
         ]);
-
-        // TODO is there a neater way to do this?
-        // options are passed to components, config is reinitialized for each component.
-        // override hide media menu when nothing to see inside menu
-        // since i use config have to do this after config has been initialized
-        if (
-            $this->getConfig('showDestroyButton') === false &&
-            $this->getConfig('showSetAsFirstButton') === false &&
-            $this->getConfig('showMediaEditButton') === false
-
-        ) {
-            $this->options['showMenu'] = false;
-            $this->config['showMenu'] = false;
-        }
-
-        // override
-        if (! $this->getConfig('showUploadForm') && ! $this->getConfig('showYouTubeUploadForm')) {
-            $this->options['showUploadForms'] = false;
-            $this->config['showUploadForms'] = false;
-        }
-
-        // override, don't show upload forms or "set as first" for single medium media managers
-        if (! is_null($this->getConfig('singleMedium'))) {
-            $this->options['showUploadForms'] = false;
-            $this->config['showUploadForms'] = false;
-            $this->options['showSetAsFirst'] = false;
-            $this->config['showSetAsFirst'] = false;
-        }
     }
 
     public function render(): View
     {
-        return $this->getView('media-manager', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-manager', $this->getConfig('frontendTheme'));
     }
 }

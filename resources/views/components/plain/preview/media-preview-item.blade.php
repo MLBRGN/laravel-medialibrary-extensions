@@ -16,15 +16,16 @@
             id="{{ $id }}"
             :model-or-class-name="$modelOrClassName"
             :medium="$medium"
-            :single-medium="$singleMedium"
+            :single-media="$singleMedia"
             :collections="$collections"
             :options="$getOptions()"
             :initiator-id="$id"
             title="Edit Image"
+            :data-source="$getConfig('dataSource')"
         />
     @endif
 @else
     <span class="mle-unsupported">
-        {{ __('media-library-extensions::messages.non_supported_file_format') }}
+        {{ __('medialibrary-extensions::messages.non_supported_file_format') }}
     </span>
 @endif

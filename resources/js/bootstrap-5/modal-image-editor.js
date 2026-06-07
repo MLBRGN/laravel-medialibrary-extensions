@@ -8,7 +8,7 @@ const closeBootstrapModal = (modal) => {
 }
 
 function initializeImageEditor(config) {
-    console.log('initializeImageEditor config', config)
+    // console.log('initializeImageEditor config', config)
     const imageEditor = config.imageEditorInstance;
 
     if (!imageEditor) {

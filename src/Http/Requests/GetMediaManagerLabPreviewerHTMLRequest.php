@@ -9,7 +9,6 @@ use Illuminate\Validation\Rule;
 
 class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -24,6 +23,9 @@ class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
             'initiator_id' => ['required', 'string'],
             'part' => ['nullable', Rule::in(['original', 'base', 'all'])],
             'options' => ['required', 'string'], // json
+            'data_source' => ['nullable', 'string'],
+            'theme' => ['nullable', 'string'],
+            'include_debug' => ['nullable', 'string', Rule::in(['true', 'false', '1', '0'])],
         ];
     }
 }

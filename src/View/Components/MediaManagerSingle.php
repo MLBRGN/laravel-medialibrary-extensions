@@ -31,7 +31,7 @@ class MediaManagerSingle extends MediaManager
     public function __construct(
         ?string $id,
         mixed $modelOrClassName,
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         array $collections = [],
         array $options = [],
         bool $disabled = false,
@@ -44,7 +44,7 @@ class MediaManagerSingle extends MediaManager
         parent::__construct(
             id: $id,
             modelOrClassName: $modelOrClassName,
-            singleMedium: $singleMedium,
+            singleMedia: $singleMedia,
             collections: $collections,
             options: $options,
             multiple: false,
@@ -53,8 +53,10 @@ class MediaManagerSingle extends MediaManager
             selectable: $selectable,
         );
 
-        // when singleMedium provided, dont count collections
-        if ($this->singleMedium !== null) {
+        $this->options = $options;
+
+        // when singleMedia provided, dont count collections
+        if ($this->singleMedia !== null) {
             $totalMediaCount = 1;
         } else {
             $totalMediaCount = 0;

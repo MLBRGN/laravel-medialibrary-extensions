@@ -9,7 +9,7 @@
     </div>
 @else
     <div class="mle-component mle-media-placeholder">
-        <span>{{ __('media-library-extensions::messages.no_medium') }}</span>
+        <span>{{ __('medialibrary-extensions::messages.no_medium') }}</span>
     </div>
 @endif
 <x-mle-shared-assets 

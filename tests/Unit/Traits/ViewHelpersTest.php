@@ -19,7 +19,7 @@ beforeEach(function () {
 it('returns themed view path for getView', function () {
     $frontendTheme = 'custom';
     $viewName = 'example';
-    $expectedViewPath = "media-library-extensions::components.$frontendTheme.$viewName";
+    $expectedViewPath = "medialibrary-extensions::components.$frontendTheme.$viewName";
 
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -35,7 +35,7 @@ it('returns themed view path for getView', function () {
 it('returns themed partial view path for getPartialView', function () {
     $frontendTheme = 'custom';
     $viewName = 'example-partial';
-    $expectedViewPath = "media-library-extensions::components.$frontendTheme.partial.$viewName";
+    $expectedViewPath = "medialibrary-extensions::components.$frontendTheme.partial.$viewName";
 
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -44,6 +44,46 @@ it('returns themed partial view path for getPartialView', function () {
 
     $dummy = new ViewHelpersTest;
     $view = $dummy->getPartialView($viewName, $frontendTheme);
+
+    expect($view)->toBeInstanceOf(ViewInstance::class);
+});
+
+it('handles null frontendTheme by using config fallback', function () {
+    $expectedViewPath = 'medialibrary-extensions::components.bootstrap-5.media-manager';
+    View::shouldReceive('make')
+        ->with($expectedViewPath, [], [])
+        ->once()
+        ->andReturn(Mockery::mock(ViewInstance::class));
+
+    $dummy = new ViewHelpersTest;
+    $view = $dummy->getView('media-manager', null);
+
+    expect($view)->toBeInstanceOf(ViewInstance::class);
+});
+
+it('handles null frontendTheme for partial by using config fallback', function () {
+    $expectedViewPath = 'medialibrary-extensions::components.bootstrap-5.partial.upload-form';
+    View::shouldReceive('make')
+        ->with($expectedViewPath, [], [])
+        ->once()
+        ->andReturn(Mockery::mock(ViewInstance::class));
+
+    $dummy = new ViewHelpersTest;
+    $view = $dummy->getPartialView('upload-form', null);
+
+    expect($view)->toBeInstanceOf(ViewInstance::class);
+});
+
+it('uses custom config frontendTheme when provided', function () {
+    config(['medialibrary-extensions.frontend_theme' => 'plain']);
+    $expectedViewPath = 'medialibrary-extensions::components.plain.media-manager';
+    View::shouldReceive('make')
+        ->with($expectedViewPath, [], [])
+        ->once()
+        ->andReturn(Mockery::mock(ViewInstance::class));
+
+    $dummy = new ViewHelpersTest;
+    $view = $dummy->getView('media-manager', null);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
 });

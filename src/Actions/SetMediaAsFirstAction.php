@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 class SetMediaAsFirstAction
@@ -18,11 +19,14 @@ class SetMediaAsFirstAction
 
     public function execute(SetMediumAsFirstRequest $request): JsonResponse|RedirectResponse
     {
-        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
+        $dataSource = $request->input('data_source');
+
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
+        $model = $this->mediaService->findMediaModel($request->model_type, $request->model_id, $dataSource);
         $mediumId = (int) $request->medium_id;
+        $targetMedia = $this->mediaService->findMedium($mediumId, $dataSource);
 
         $collections = $request->array('collections');
 
@@ -30,23 +34,12 @@ class SetMediaAsFirstAction
         $mediaItems = collect($collections)
             ->flatMap(fn ($collection) => $model->getMedia($collection));
 
-        if ($mediaItems->count() === 0) {
+        if ($mediaItems->isEmpty()) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.no_media_collections'),
-            );
-        }
-
-        // Find target media
-        $targetMedia = $mediaItems->firstWhere('id', $mediumId);
-        if (! $targetMedia) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.medium_not_found'),
+                __('medialibrary-extensions::messages.no_media_collections'),
             );
         }
 
@@ -59,15 +52,25 @@ class SetMediaAsFirstAction
         // Assign new priorities sequentially
         $priority = 0;
         foreach ($reordered as $media) {
-            $media->setCustomProperty('priority', $priority++);
+            $media->setCustomProperty('priority', $priority);
+            $media->order_column = $priority;
+
+            // Ensure we use the correct connection if dataSource is provided
+            if ($dataSource) {
+                $connectionName = app(DataSourceResolver::class)->resolveConnection($dataSource);
+                $media->setConnection($connectionName);
+            }
+
             $media->save();
+
+            $priority++;
         }
 
         return MediaResponse::success(
             $request,
             $initiatorId,
             $mediaManagerId,
-            __('media-library-extensions::messages.medium_set_as_main')
+            __('medialibrary-extensions::messages.medium_set_as_main')
         );
     }
 }

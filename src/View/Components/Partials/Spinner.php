@@ -21,6 +21,7 @@ class Spinner extends BaseComponent
         array $options = [],
     ) {
         parent::__construct($id);
+        $this->options = $options;
         $this->initiatorId = $initiatorId;
         $this->resolveConfig();
     }

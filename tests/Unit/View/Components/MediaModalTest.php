@@ -4,8 +4,8 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
-use Spatie\MediaLibrary\HasMedia;
 
 it('appends -mod to the id', function () {
     $model = $this->getTestBlogModel();
@@ -31,7 +31,7 @@ it('returns the correct view on render', function () {
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
-        ->and($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-modal');
+        ->and($view->name())->toBe('medialibrary-extensions::components.bootstrap-5.media-modal');
 });
 
 it('renders the correct Blade view (bootstrap-5)', function () {
@@ -48,7 +48,7 @@ it('renders the correct Blade view (bootstrap-5)', function () {
     );
     $view = $component->render();
     //    dd($view);
-    expect($view->name())->toBe('media-library-extensions::components.bootstrap-5.media-modal');
+    expect($view->name())->toBe('medialibrary-extensions::components.bootstrap-5.media-modal');
 });
 
 it('renders the correct Blade view (plain)', function () {
@@ -64,7 +64,7 @@ it('renders the correct Blade view (plain)', function () {
         ]
     );
     $view = $component->render();
-    expect($view->name())->toBe('media-library-extensions::components.plain.media-modal');
+    expect($view->name())->toBe('medialibrary-extensions::components.plain.media-modal');
 
 });
 
@@ -194,20 +194,20 @@ it('throws if given class string does not exist', function () {
         modelOrClassName: $modelOrClassName,
         collections: null,
         title: 'Invalid'
-    ))->toThrow(\InvalidArgumentException::class, __('media-library-extensions::messages.class_does_not_exist', [
+    ))->toThrow(\InvalidArgumentException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
         'class_name' => $modelOrClassName,
     ]));
 });
 
-it('throws if given class string does not implement HasMedia', function () {
+it('throws if given class string does not implement HasMediaExtended', function () {
     $modelOrClassName = \stdClass::class;
     expect(fn () => new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $modelOrClassName,
         collections: null,
         title: 'Invalid'
-    ))->toThrow(\UnexpectedValueException::class, __('media-library-extensions::messages.must_implement_has_media', [
+    ))->toThrow(\UnexpectedValueException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
         'class' => $modelOrClassName,
-        'interface' => HasMedia::class,
+        'interface' => HasMediaExtended::class,
     ]));
 });

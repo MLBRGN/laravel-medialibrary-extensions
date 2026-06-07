@@ -13,6 +13,18 @@
     method="post"
     class="mle-media-manager-upload-form"
 >
+    @if($disabled)
+        <div class="mle-alert alert alert-primary">
+            @if(!$multiple && $getConfig('disableForm'))
+                {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}
+                {{--                TODO not working correctly--}}
+            @elseif($multiple && $getConfig('disableForm'))
+                {{ __('medialibrary-extensions::messages.upload_disabled_max_items_reached') }}
+            @else
+                {{ __('medialibrary-extensions::messages.disabled') }}
+            @endif
+        </div>
+    @endif
     <label for="{{ $id }}-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="{{ $id }}-media-input"
@@ -20,14 +32,14 @@
         type="file"
         class="mle-input mle-form-control form-control"
         @if($multiple)
-            name="{{ $getConfig('uploadFieldName') }}[]"
+            name="media[]"
             multiple
         @else
-            name="{{$getConfig('uploadFieldName') }}"
+            name="media"
         @endif
         @disabled($disabled)
         >
-    <span class="mle-form-text form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
+    <span class="mle-form-text form-text">{{ __('medialibrary-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
@@ -38,8 +50,8 @@
     @endforeach
     <input
         type="hidden"
-        name="single_medium_id"
-        value="{{ $singleMedium?->id || null }}">
+        name="single_media_id"
+        value="{{ $singleMedia?->id || null }}">
     <input 
         type="hidden" 
         name="temporary_upload_mode" 
@@ -64,6 +76,9 @@
         type="hidden"
         name="media_manager_id"
         value="{{ $mediaManagerId }}">
+    <input type="hidden"
+           name="data_source"
+           value="{{ $getConfig('dataSource') }}">
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit btn btn-primary d-block"
@@ -71,8 +86,8 @@
         @disabled($disabled)
     >
         {{ $multiple
-         ? __('media-library-extensions::messages.upload_media')
-         : __('media-library-extensions::messages.upload_medium') }}
+         ? __('medialibrary-extensions::messages.upload_media')
+         : __('medialibrary-extensions::messages.upload_medium') }}
     </button>
 </x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))

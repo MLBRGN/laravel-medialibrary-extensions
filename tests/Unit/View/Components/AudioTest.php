@@ -43,5 +43,5 @@ it('renders the correct Blade view', function () {
     $component = new Audio($media);
 
     $view = $component->render();
-    expect($view->name())->toBe('media-library-extensions::components.audio');
+    expect($view->name())->toBe('medialibrary-extensions::components.audio');
 });

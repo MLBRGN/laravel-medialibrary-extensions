@@ -2,11 +2,13 @@
      data-mle-media-preview-grid
 >
     <x-mle-lab-preview-original 
-        :medium="$medium"
+        :id="$id . '-original'"
+        :media="$media"
         :options="$getOptions()"
     />
     <x-mle-lab-preview-base 
-        :medium="$medium"
+        :id="$id . '-base'"
+        :media="$media"
         :options="$getOptions()"
     />
 </div>

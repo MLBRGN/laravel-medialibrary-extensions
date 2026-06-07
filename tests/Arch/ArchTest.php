@@ -170,7 +170,7 @@ arch('does not contain debugging statements in JavaScript files', function () {
             }
         }
     }
-})->skip();
+})->todo();
 
 arch('Does not use the redirect facade for redirecting')
     ->expect(Redirect::class)

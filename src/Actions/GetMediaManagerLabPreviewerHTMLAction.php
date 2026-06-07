@@ -14,6 +14,7 @@ use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewBase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewOriginal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviews;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaManagerLabPreviewerHTMLAction
@@ -32,9 +33,15 @@ class GetMediaManagerLabPreviewerHTMLAction
         $mediumId = $request->get('medium_id');
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
+        $theme = $request->input('theme');
         $part = $request->get('part', 'all');
         $options = json_decode($request->input('options'), true) ?? [];
-        $model = $this->mediaService->resolveModel($modelType, $modelId);
+
+        if ($theme) {
+            $options['theme'] = $theme;
+        }
+
+        $model = $this->mediaService->findMediaModel($modelType, $modelId, $request->input('data_source'));
 
         // have to query the model, don't use Media directly (this uses wrong db for demo pages)
         $medium = $model->media()->findOrFail($mediumId);
@@ -44,31 +51,42 @@ class GetMediaManagerLabPreviewerHTMLAction
             case 'original':
                 $component = new LabPreviewOriginal(
                     id: $initiatorId,
-                    medium: $medium,
+                    media: $medium,
                     options: $options
                 );
                 break;
             case 'base':
                 $component = new LabPreviewBase(
                     id: $initiatorId,
-                    medium: $medium,
+                    media: $medium,
                     options: $options
                 );
                 break;
             default:
                 $component = new LabPreviews(
                     id: $initiatorId,
-                    medium: $medium,
+                    media: $medium,
                     options: $options
                 );
                 break;
         }
 
         $html = Blade::renderComponent($component);
-        //        Log::info('GetMediaManagerLabPreviewerHTMLAction html: '.$html);
+        $debugHtml = null;
+
+        if (config('medialibrary-extensions.debug') && $request->boolean('include_debug')) {
+            $debugComponent = new Debug(
+                modelOrClassName: $modelType,
+                config: $component->getConfig(),
+                options: $options,
+            );
+
+            $debugHtml = Blade::renderComponent($debugComponent);
+        }
 
         return response()->json([
             'html' => $html,
+            'debugHtml' => $debugHtml,
             'success' => true,
             'target' => $initiatorId,
             'medium_id' => $medium->id,

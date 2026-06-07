@@ -10,7 +10,7 @@ use Mockery;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
-    Config::set('media-library-extensions.default_youtube_params', [
+    Config::set('medialibrary-extensions.default_youtube_params', [
         'autoplay' => 1,
         'mute' => 1,
         'loop' => 0,
@@ -30,9 +30,14 @@ beforeEach(function () {
 function createMockMedia($youtubeId = 'testid'): Media
 {
     $media = Mockery::mock(Media::class);
+
     $media->shouldReceive('getCustomProperty')
         ->with('youtube-id')
         ->andReturn($youtubeId);
+
+    $media->shouldReceive('getAttribute')
+        ->with('id')
+        ->andReturn(123);
 
     return $media;
 }
@@ -107,7 +112,7 @@ it('returns correct view on render', function () {
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
-        ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
+        ->and($view->name())->toBe('medialibrary-extensions::components.video-youtube');
 });
 
 it('renders view and matches snapshot', function () {
@@ -116,7 +121,7 @@ it('renders view and matches snapshot', function () {
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
-        ->and($view->name())->toBe('media-library-extensions::components.video-youtube');
+        ->and($view->name())->toBe('medialibrary-extensions::components.video-youtube');
 });
 
 it('renders view', function () {

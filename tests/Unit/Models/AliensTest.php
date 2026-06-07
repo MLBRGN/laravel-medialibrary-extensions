@@ -24,8 +24,8 @@
 //    // Override parent method to call our test method instead
 //    public function getConnectionName(): string
 //    {
-//        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
-//            return config('media-library-extensions.demo_database_name');
+//        if (config('medialibrary-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
+//            return config('medialibrary-extensions.demo_database_name');
 //        }
 //
 //        return $this->getParentConnectionName();
@@ -34,18 +34,18 @@
 //
 // beforeEach(function () {
 //    // Set default configuration for tests
-//    Config::set('media-library-extensions.demo_pages_enabled', true);
-//    Config::set('media-library-extensions.demo_database_name', config('media-library-extensions.media_disks.demo'));
-// })->skip();
+//    Config::set('medialibrary-extensions.demo_pages_enabled', true);
+//    Config::set('medialibrary-extensions.demo_database_name', config('medialibrary-extensions.media_disks.demo'));
+// });
 //
 // it('uses default connection when demo pages are disabled', function () {
 //    // Arrange
-//    Config::set('media-library-extensions.demo_pages_enabled', false);
+//    Config::set('medialibrary-extensions.demo_pages_enabled', false);
 //    $aliens = new TestAliens();
 //
 //    // Act & Assert
 //    expect($aliens->getConnectionName())->toBe('default_connection');
-// })->skip();
+// });
 //
 // it('uses default connection when not on a demo page', function () {
 //    // Arrange
@@ -59,7 +59,7 @@
 //
 //    // Act & Assert
 //    expect($aliens->getConnectionName())->toBe('default_connection');
-// })->skip();
+// });
 //
 // it('uses demo connection when on a demo page', function () {
 //    // Arrange
@@ -72,12 +72,12 @@
 //        ->andReturn(true);
 //
 //    // Act & Assert
-//    expect($aliens->getConnectionName())->toBe(config('media-library-extensions.media_disks.demo'));
-// })->skip();
+//    expect($aliens->getConnectionName())->toBe(config('medialibrary-extensions.media_disks.demo'));
+// });
 //
 // it('uses the configured demo database name', function () {
 //    // Arrange
-//    Config::set('media-library-extensions.demo_database_name', 'custom_demo_db');
+//    Config::set('medialibrary-extensions.demo_database_name', 'custom_demo_db');
 //    $aliens = new TestAliens();
 //
 //    // Mock DemoHelper to return true
@@ -88,7 +88,7 @@
 //
 //    // Act & Assert
 //    expect($aliens->getConnectionName())->toBe('custom_demo_db');
-// })->skip();
+// });
 //
 // it('has the expected media collections', function () {
 //    // This test would require a more complex setup with a real database connection
@@ -100,4 +100,4 @@
 //    $uses = class_uses_recursive(Aliens::class);
 //    expect($uses)->toContain('Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended');
 //    expect($uses)->toContain('Mlbrgn\MediaLibraryExtensions\Traits\YouTubeCollection');
-// })->skip();
+// });

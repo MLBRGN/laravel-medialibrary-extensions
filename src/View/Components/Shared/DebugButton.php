@@ -11,6 +11,6 @@ class DebugButton extends Component
 {
     public function render(): View
     {
-        return view('media-library-extensions::components.shared.debug-button');
+        return view('medialibrary-extensions::components.shared.debug-button');
     }
 }

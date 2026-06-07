@@ -26,18 +26,25 @@ class MediaLab extends BaseComponent
 
     public ?int $modelId = null;
 
+    public ?string $modelOrClassName = null;
+
     public function __construct(
         ?string $id,
-        public Media|TemporaryUpload|null $medium,
+        public Media|TemporaryUpload|null $media,
         array $options = [],
     ) {
         $id = filled($id) ? $id : 'mle-media-lab-'.uniqid();
+        $this->options = $options;
 
         parent::__construct($id);
 
-        $this->model = $medium->model;
+        $this->model = $media?->model;
+        if (! $this->model) {
+            throw new \Exception('MediaLab component requires a media or temporary upload');
+        }
         $this->modelType = $this->model->getMorphClass();
         $this->modelId = $this->model->getKey();
+        $this->modelOrClassName = $this->modelType;
 
         // overrides
         $this->options['showDestroyButton'] = false;
@@ -55,7 +62,6 @@ class MediaLab extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-lab', $this->getConfig('frontendTheme'));
-
+        return $this->renderView('media-lab', $this->getConfig('frontendTheme'));
     }
 }

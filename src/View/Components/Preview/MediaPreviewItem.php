@@ -2,7 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
@@ -23,15 +23,17 @@ class MediaPreviewItem extends BaseComponent
         public array $collections = [],
         array $options = [],
         public int $loopIndex = 0,
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public bool $multiple = false,
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
         public ?string $instanceId = null,
+        public ?string $dataSource = null,
     ) {
 
         parent::__construct($id);
+        $this->options = $options;
 
         $componentMap = [
             'youtube-video' => 'mle-video-youtube',
@@ -49,6 +51,6 @@ class MediaPreviewItem extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('preview.media-preview-item', $this->getConfig('frontendTheme'));
+        return $this->renderView('preview.media-preview-item', $this->getConfig('frontendTheme'));
     }
 }

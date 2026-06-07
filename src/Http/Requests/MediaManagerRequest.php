@@ -10,10 +10,10 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 abstract class MediaManagerRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -50,20 +50,11 @@ abstract class MediaManagerRequest extends FormRequest
             return null;
         }
 
+        $mediaService = app(MediaService::class);
         $modelClass = $this->resolveModelClass();
-
-        if (
-            ! $modelClass
-            || ! $this->filled('model_id')
-        ) {
-            return null;
-        }
-
-        $model = $modelClass::find($this->input('model_id'));
-
-        if (! $model instanceof HasMediaExtended) {
-            return null;
-        }
+        $modelId = $this->input('model_id');
+        $dataSource = $this->input('data_source');
+        $model = $mediaService->findMediaModel($modelClass, $modelId, $dataSource);
 
         return $model;
     }
@@ -208,6 +199,7 @@ abstract class MediaManagerRequest extends FormRequest
         foreach ($collections as $key => $value) {
             if (is_string($value)) {
                 $names[] = $value;
+
                 continue;
             }
 
@@ -270,5 +262,20 @@ abstract class MediaManagerRequest extends FormRequest
         }
 
         throw new ValidationException($validator, $response);
+    }
+
+    public function prepareForValidation(): void
+    {
+        if (
+            $this->input('data_source') === 'null'
+            || $this->input('data_source') === 'undefined'
+        ) {
+            $this->merge(['data_source' => null]);
+        }
+    }
+
+    protected function passedValidation(): void
+    {
+        //
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -32,16 +33,18 @@ class Debug extends Component
         array $options = [],
     ) {
 
+        $this->config = $config;
+        $this->options = $options;
         $this->id = uniqid();
 
         $this->resolveModelOrClassName($modelOrClassName);
 
         $this->iconExists = collect(Blade::getClassComponentAliases())
             ->keys()
-            ->contains(config('media-library-extensions.icons.delete'));
+            ->contains(config('medialibrary-extensions.icons.delete'));
 
         if (! $this->iconExists) {
-            $this->errors[] = __('media-library-extensions::messages.no_blade_ui_kit_icon_package_detected_download_at_:link', [
+            $this->errors[] = __('medialibrary-extensions::messages.no_blade_ui_kit_icon_package_detected_download_at_:link', [
                 'link' => '<a href="https://github.com/driesvints/blade-icons" target="_blank">Blade UI Kit icon package</a>',
             ]);
         }
@@ -57,13 +60,16 @@ class Debug extends Component
         }
     }
 
+    public function getComponents(): array
+    {
+        return DebugManager::getRegisteredComponents($this->getConfig('id'));
+    }
+
     /**
      * Recursively sanitize a config array so nested objects are replaced by class name placeholders.
      */
-    public function getSanitizedConfig(?array $array = null): array
+    public function getSanitizedConfig(array $array): array
     {
-        $array ??= $this->config;
-
         // Sort keys alphabetically
         ksort($array);
 
@@ -80,8 +86,26 @@ class Debug extends Component
         }, $array);
     }
 
+    public function getCollectionDebugData(): Collection
+    {
+        return collect(['image', 'document', 'video', 'audio', 'youtube'])
+            ->map(function ($type) {
+                $collectionName = $this->getConfig('collections')[$type] ?? null;
+
+                $count = ($this->model && $collectionName)
+                    ? $this->model->getMedia($collectionName)->count()
+                    : 0;
+
+                return [
+                    'type' => $type,
+                    'collection' => is_array($collectionName) ? implode(', ', $collectionName) : ($collectionName ?? 'n/a'),
+                    'count' => $count,
+                ];
+            });
+    }
+
     public function render(): View
     {
-        return view('media-library-extensions::components.shared.debug');
+        return view('medialibrary-extensions::components.shared.debug');
     }
 }

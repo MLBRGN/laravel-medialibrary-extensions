@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 
 beforeEach(function () {
-    Config::set('media-library-extensions.frontend_theme', 'bootstrap-5');
+    Config::set('medialibrary-extensions.frontend_theme', 'bootstrap-5');
 });
 
 it('initializes correctly with a single media collection', function () {

@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\FakeBladeIconComponent;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 
@@ -17,8 +18,8 @@ it('renders the debug view with model', function () {
     $component = new Debug(modelOrClassName: $model);
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class)
-        ->and($view->getName())->toBe('media-library-extensions::components.shared.debug');
+    expect($view)->toBeInstanceOf(View::class)
+        ->and($view->getName())->toBe('medialibrary-extensions::components.shared.debug');
 });
 
 it('renders the debug view with model class name', function () {
@@ -26,8 +27,8 @@ it('renders the debug view with model class name', function () {
     $component = new Debug(modelOrClassName: $model->getMorphClass());
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class)
-        ->and($view->getName())->toBe('media-library-extensions::components.shared.debug');
+    expect($view)->toBeInstanceOf(View::class)
+        ->and($view->getName())->toBe('medialibrary-extensions::components.shared.debug');
 });
 
 it('throws when given invalid class name', function () {
@@ -36,8 +37,8 @@ it('throws when given invalid class name', function () {
     $component = new Debug(modelOrClassName: 'fakeClass');
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class)
-        ->and($view->getName())->toBe('media-library-extensions::components.shared.debug');
+    expect($view)->toBeInstanceOf(View::class)
+        ->and($view->getName())->toBe('medialibrary-extensions::components.shared.debug');
 });
 
 it('throws when given model that does not extend HasMedia interface', function () {
@@ -46,14 +47,14 @@ it('throws when given model that does not extend HasMedia interface', function (
     $component = new Debug(modelOrClassName: $model);
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class)
-        ->and($view->getName())->toBe('media-library-extensions::components.shared.debug');
+    expect($view)->toBeInstanceOf(View::class)
+        ->and($view->getName())->toBe('medialibrary-extensions::components.shared.debug');
 });
 
 it('detects when the Blade UI icon alias exists', function () {
     $model = $this->getModelWithMedia();
 
-    config(['media-library-extensions.icons.delete' => 'trash']);
+    config(['medialibrary-extensions.icons.delete' => 'trash']);
 
     fakeBladeIconAlias('trash');
 
@@ -66,7 +67,7 @@ it('detects when the Blade UI icon alias exists', function () {
 it('detects when the Blade UI icon alias is missing', function () {
     $model = $this->getModelWithMedia();
 
-    config(['media-library-extensions.icons.delete' => 'missing-icon']);
+    config(['medialibrary-extensions.icons.delete' => 'missing-icon']);
 
     $component = new Debug(modelOrClassName: $model);
 

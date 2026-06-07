@@ -44,7 +44,7 @@ it('throws InvalidArgumentException for non-existing class name', function () {
 })->throws(InvalidArgumentException::class);
 
 it('throws UnexpectedValueException if class does not implement HasMedia', function () {
-    $this->class->callResolveModelOrClassName(\stdClass::class);
+    $this->class->callResolveModelOrClassName(stdClass::class);
 })->throws(UnexpectedValueException::class);
 
 it('throws TypeError for invalid type', function () {

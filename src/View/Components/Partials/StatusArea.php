@@ -20,6 +20,7 @@ class StatusArea extends BaseComponent
         public ?string $instanceId = null,
     ) {
         parent::__construct($id);
+        $this->options = $options;
         $this->resolveConfig();
 
     }

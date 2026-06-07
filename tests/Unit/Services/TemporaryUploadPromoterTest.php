@@ -23,8 +23,8 @@ beforeEach(function () {
     });
 
     // Get your package’s temporary disk dynamically
-    $this->temporaryDisk = config('media-library-extensions.media_disks.temporary');
-    $this->temporaryDiskUrl = config("media-library-extensions.disks.{$this->temporaryDisk}.url");
+    $this->temporaryDisk = config('medialibrary-extensions.media_disks.temporary');
+    $this->temporaryDiskUrl = config("medialibrary-extensions.disks.{$this->temporaryDisk}.url");
 });
 
 afterEach(function () {

@@ -2,6 +2,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -12,8 +14,8 @@ trait InteractsWithMediaModels
      * Whitelisted models that can be used with the media manager.
      */
     protected array $allowedMediaModels = [
-        \App\Models\User::class,
-        \App\Models\Post::class,
+        User::class,
+        Post::class,
         // extend as needed
     ];
 
@@ -94,8 +96,8 @@ trait InteractsWithMediaModels
     protected function allowedCollectionsFor(Model $model): array
     {
         return match (get_class($model)) {
-            \App\Models\User::class => ['user-avatar'],
-            \App\Models\Post::class => ['post-images'],
+            User::class => ['user-avatar'],
+            Post::class => ['post-images'],
             default => [],
         };
     }

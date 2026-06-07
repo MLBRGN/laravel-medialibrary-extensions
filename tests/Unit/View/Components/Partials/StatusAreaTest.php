@@ -32,7 +32,7 @@ it('renders the correct partial view', function () {
     $initiatorId = 'media-manager-125';
     $mediaManagerId = 'media-manager-125';
     $theme = 'bootstrap-5';
-    $expectedView = "media-library-extensions::components.$theme.partial.status-area";
+    $expectedView = "medialibrary-extensions::components.$theme.partial.status-area";
 
     ViewFacade::shouldReceive('make')
         ->with($expectedView, [], [])

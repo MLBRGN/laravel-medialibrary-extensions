@@ -4,15 +4,16 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class VideoYouTube extends Component
+class VideoYouTube extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
+
+    public string $id;
 
     public string $youTubeParamsAsString;
 
@@ -26,8 +27,10 @@ class VideoYouTube extends Component
         public ?bool $multiple = true,// TODO what is this used for?
     ) {
 
+        $this->options = $options;
+
         // TODO id?
-        $defaultYouTubeParams = config('media-library-extensions.default_youtube_params', [
+        $defaultYouTubeParams = config('medialibrary-extensions.default_youtube_params', [
             'autoplay' => 1, // Starts playing the video automatically when loaded.
             'mute' => 1, // Starts the video muted. Required for autoplay to work in most browsers.
             'loop' => 0, // Loops the video. Must be used with playlist={videoId} to work properly.
@@ -47,11 +50,13 @@ class VideoYouTube extends Component
         $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
         $this->youTubeParamsAsString = http_build_query($mergedParams);
 
+        $this->id = 'mle-video-youtube-'.$medium->id;
+
         $this->resolveConfig();
     }
 
     public function render(): View
     {
-        return view('media-library-extensions::components.video-youtube');
+        return $this->renderView('', null, false, 'medialibrary-extensions::components.video-youtube');
     }
 }

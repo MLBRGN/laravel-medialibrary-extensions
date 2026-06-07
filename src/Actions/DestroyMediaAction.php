@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DestroyMediaAction
 {
@@ -21,9 +23,12 @@ class DestroyMediaAction
     public function execute(
         DestroyRequest $request,
     ): JsonResponse|RedirectResponse {
+        $dataSource = $request->data_source;
 
-
-        $media = $this->mediaService->resolveMediaModel($request->route('mediaId'));
+        $media = $this->mediaService->findMedium(
+            $request->input('mediaId') ?: $request->route('mediaId'),
+            $dataSource
+        );
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
@@ -33,17 +38,17 @@ class DestroyMediaAction
         $media->delete();
 
         // Reorder remaining uploads
-        $this->reorderAllMedia($request, $model);
+        $this->reorderAllMedia($request, $model, $dataSource);
 
         return MediaResponse::success(
             $request,
             $initiatorId,
             $mediaManagerId,
-            __('media-library-extensions::messages.medium_removed')
+            __('medialibrary-extensions::messages.medium_removed')
         );
     }
 
-    protected function reorderAllMedia(Request $request, $model): void
+    protected function reorderAllMedia(Request $request, $model, ?string $dataSource = null): void
     {
         $collections = collect($request->input('collections', []))
             ->filter() // remove empty or null values
@@ -75,6 +80,12 @@ class DestroyMediaAction
             ));
 
             $media->setCustomProperty('priority', $priority);
+
+            if ($dataSource) {
+                $connectionName = app(DataSourceResolver::class)->resolveConnection($dataSource);
+                $media->setConnection($connectionName);
+            }
+
             $media->save();
             $priority++;
         }

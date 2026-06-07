@@ -18,12 +18,13 @@ class LabPreview extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public Media $medium,
+        public Media $media,
         public string $title,
         array $options = []
     ) {
         $id = filled($id) ? $id : null;
         parent::__construct($id);
+        $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);
         $this->resolveConfig();
@@ -31,6 +32,6 @@ class LabPreview extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('lab.lab-preview', $this->getConfig('frontendTheme'));
+        return $this->renderView('lab.lab-preview', $this->getConfig('frontendTheme'));
     }
 }

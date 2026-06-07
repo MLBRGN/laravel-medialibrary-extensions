@@ -1,12 +1,12 @@
 <x-mle-lab-preview
     class="mle-media-lab-preview-original"
-    title="{{ __('media-library-extensions::messages.original') }}"
-    :model-or-class-name="$medium->model"
+    title="{{ __('medialibrary-extensions::messages.original') }}"
+    :model-or-class-name="$media->model"
     data-mle-media-lab-preview-original
     :options="$getOptions()"
 >
-    @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
-        <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}"
+    @if(method_exists($media->model, 'getArchivedOriginalUrlFor'))
+        <img src="{{ $media->model->getArchivedOriginalUrlFor($media) }}"
              alt=""
              class="mle-image-responsive"
         >
@@ -20,8 +20,8 @@
 
     <x-slot name="menuEnd">
         <x-mle-partial-medium-restore-form
-            :model-or-class-name="$medium->model"
-            :medium="$medium"
+            :model-or-class-name="$media->model"
+            :media="$media"
             :options="$getOptions()"
         />
     </x-slot>
@@ -29,8 +29,8 @@
         <div class="mle-info-panel">
             <div class="mle-info-row mle-info-header">
                 <div>&nbsp;</div>
-                <div>{{ __('media-library-extensions::messages.dimensions') }}</div>
-                <div>{{ __('media-library-extensions::messages.ratio') }}</div>
+                <div>{{ __('medialibrary-extensions::messages.dimensions') }}</div>
+                <div>{{ __('medialibrary-extensions::messages.ratio') }}</div>
             </div>
 
             <div class="mle-info-row">
@@ -39,7 +39,7 @@
                     <div>{{ $imageInfo['dimensions'] ?? '?' }}</div>
                     <div>{{ $imageInfo['approx_label'] ?? '?' }}</div>
                 @else
-                    <div>{{ __('media-library-extensions::messages.no_original_saved') }}</div>
+                    <div>{{ __('medialibrary-extensions::messages.no_original_saved') }}</div>
                     <div>&nbsp;</div>
                 @endif
             </div>

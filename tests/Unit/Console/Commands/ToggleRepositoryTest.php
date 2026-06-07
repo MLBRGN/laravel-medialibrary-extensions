@@ -23,7 +23,7 @@ it('runs without touching the real system', function () {
     // Swap Process factory
     Process::macro('fromShellCommandline', fn () => $mockProcess);
 
-    $this->artisan('media-library-extensions:toggle-repository --force')
+    $this->artisan('medialibrary-extensions:toggle-data_source --force')
         ->assertExitCode(0)
         ->expectsOutputToContain('📦 Running composer update');
 })->todo('too complicated for now');

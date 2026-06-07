@@ -1,11 +1,13 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
 beforeEach(function () {
-    config()->set('media-library-extensions.media_disks.originals', 'originals');
+    config()->set('medialibrary-extensions.media_disks.originals', 'originals');
+
     config()->set('filesystems.disks', [
         'public' => [
             'driver' => 'local',
@@ -18,17 +20,13 @@ beforeEach(function () {
             'root' => storage_path('app/public/media'),
             'visibility' => 'public',
         ],
-
         'media_demo' => [
             'driver' => 'local',
             'root' => storage_path('app/public/media_demo'),
-            //            'url' => env('APP_URL').'/storage/media_demo', // URL to access files
             'visibility' => 'public',
         ],
-
         'originals' => [
             'driver' => 'local',
-            //            'root' => storage_path('app/originals'),
             'root' => storage_path('app/public/media_originals'),
             'visibility' => 'private',
         ],
@@ -40,55 +38,95 @@ beforeEach(function () {
     Storage::fake('media_demo');
 });
 
-it('sets config and returns view with model for demoPlain', function () {
+it('returns the unified demo view with bootstrap-5 theme by default', function () {
     $controller = new DemoController;
-    $response = $controller->demoPlain();
+
+    $response = $controller(
+        Request::create('/demo')
+    );
 
     expect($response)->toBeInstanceOf(View::class)
-        ->and($response->name())->toBe('media-library-extensions::demo.mle-plain')
+        ->and($response->name())->toBe('medialibrary-extensions::demo.mle-unified')
         ->and($response->getData()['model'])->toBeInstanceOf(Alien::class)
-        ->and(config('media-library-extensions.frontend_theme'))->toBe('plain');
+        ->and($response->getData()['frontendTheme'])->toBe('bootstrap-5');
+
+    expect(config('medialibrary-extensions.frontend_theme'))
+        ->toBe('bootstrap-5');
 
     $model = $response->getData()['model'];
-    expect($model)->toBeInstanceOf(Alien::class);
-    expect(Alien::find($model->id))->not()->toBeNull();
+
+    expect(Alien::on('media_demo')->find($model->id))
+        ->not()
+        ->toBeNull();
 });
 
-it('sets config and returns view with model for demoBootstrap5', function () {
+it('uses the plain theme when requested', function () {
     $controller = new DemoController;
-    $response = $controller->demoBootstrap5();
 
-    expect(config('media-library-extensions.frontend_theme'))->toBe('bootstrap-5');
-    expect($response->name())->toBe('media-library-extensions::demo.mle-bootstrap-5');
+    $response = $controller(
+        Request::create('/demo', 'GET', [
+            'theme' => 'plain',
+        ])
+    );
 
-    $model = $response->getData()['model'];
-    expect($model)->toBeInstanceOf(Alien::class);
-    expect(Alien::find($model->id))->not()->toBeNull();
+    expect($response->name())
+        ->toBe('medialibrary-extensions::demo.mle-unified');
+
+    expect($response->getData()['frontendTheme'])
+        ->toBe('plain');
+
+    expect(config('medialibrary-extensions.frontend_theme'))
+        ->toBe('plain');
 });
 
-it('uses existing Alien if present for demoPlain', function () {
-    $existingAlien = Alien::create();
+it('uses existing Alien if present', function () {
+    $existingAlien = Alien::on('media_demo')->create();
 
-    $controller = new DemoController;
-    $response = $controller->demoPlain();
-
-    $model = $response->getData()['model'];
-    expect($model->id)->toBe($existingAlien->id);
-});
-
-it('uses existing Alien if present for demoBootstrap5', function () {
-    $existingAlien = Alien::create();
-    $controller = new DemoController;
-    $response = $controller->demoBootstrap5();
+    $response = (new DemoController)(
+        Request::create('/demo')
+    );
 
     $model = $response->getData()['model'];
+
     expect($model->id)->toBe($existingAlien->id);
 });
 
 it('creates model if none exists', function () {
-    expect(Alien::count())->toBe(0);
+    expect(Alien::on('media_demo')->count())->toBe(0);
 
-    (new DemoController)->demoPlain();
+    (new DemoController)(
+        Request::create('/demo')
+    );
 
-    expect(Alien::count())->toBe(1);
+    expect(Alien::on('media_demo')->count())->toBe(1);
+});
+
+it('applies use_xhr from request', function () {
+    $response = (new DemoController)(
+        Request::create('/demo', 'GET', [
+            'use_xhr' => false,
+        ])
+    );
+
+    expect(config('medialibrary-extensions.use_xhr'))->toBeFalse();
+
+    expect($response->getData()['useXhr'])->toBeFalse();
+});
+
+it('stores demo mode in the container', function () {
+    (new DemoController)(
+        Request::create('/demo')
+    );
+
+    expect(app('mle-demo-mode'))->toBeTrue();
+});
+
+it('converts default data source to null', function () {
+    $response = (new DemoController)(
+        Request::create('/demo', 'GET', [
+            'data_source' => 'default',
+        ])
+    );
+
+    expect($response->getData()['dataSource'])->toBeNull();
 });

@@ -10,7 +10,7 @@ use Throwable;
 
 class ResetMediaLibraryExtensions extends Command
 {
-    protected $signature = 'media-library-extensions:reset
+    protected $signature = 'medialibrary-extensions:reset
                             {--force : Skip confirmation prompt}';
 
     protected $description = 'Completely clears Spatie Media Library data and files for all configured media disks.';
@@ -40,9 +40,9 @@ class ResetMediaLibraryExtensions extends Command
         // Media storage disks that need to be cleaned
         $disks = [
             'media',
-            config('media-library-extensions.media_disks.demo'),
-            config('media-library-extensions.media_disks.originals'),
-            config('media-library-extensions.media_disks.temporary'),
+            config('medialibrary-extensions.media_disks.demo'),
+            config('medialibrary-extensions.media_disks.originals'),
+            config('medialibrary-extensions.media_disks.temporary'),
         ];
 
         foreach ($disks as $disk) {
@@ -58,8 +58,8 @@ class ResetMediaLibraryExtensions extends Command
         // Normal DB
         $this->truncateTemporaryUploads(config('database.default'));
 
-        if (config('media-library-extensions.demo_pages_enabled')) {
-            $demoConnection = config('media-library-extensions.demo_database_name');
+        if (config('medialibrary-extensions.demo_pages_enabled')) {
+            $demoConnection = config('medialibrary-extensions.demo_database_name');
             $this->truncateTemporaryUploads($demoConnection);
         }
         $this->info('Media library reset complete.');

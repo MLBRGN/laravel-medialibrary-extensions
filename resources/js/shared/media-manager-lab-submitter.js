@@ -17,6 +17,14 @@ mediaManagerLabs.forEach(mediaManagerLab => {
     const statusAreaContainer = mediaManagerLab.querySelector('[data-mle-status-area-container]')
 
     mediaManagerLab.addEventListener('click', async function (e) {
+        const target = e.target.closest('[data-mle-action]');
+        if (!target) return;
+
+        const action = target.getAttribute('data-mle-action');
+        if (!action || action === 'debugger-toggle') return;
+
+        // console.log('action', action);
+
         const config = getMediaManagerConfig(mediaManagerLab);
         if (!config) return;
 
@@ -24,25 +32,13 @@ mediaManagerLabs.forEach(mediaManagerLab => {
         const useXhr = config.useXhr;
         if (!useXhr) return
 
-        const target = e.target.closest('[data-mle-action]');
-
-        const action = target?.getAttribute('data-mle-action');
-        if (!action) return;
-
-        console.log('action', action);
-
         e.preventDefault();
 
         const mediumId = target.dataset.mleMediumId;
-        if (!target) return;
 
         const formElement = target.closest('[data-mle-xhr-form]');
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
         const route = getRouteFromAction(action, target, config);
-
-        if (action === 'debugger-toggle') {
-            return
-        }
 
         if (!route) {
             showStatusMessage(statusAreaContainer, {
@@ -68,7 +64,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
             // formData.append('initiator_id', initiatorId);
             // formData.append('model_type', modelType);
             // formData.append('model_id', modelId );
-            // formData.append('single_medium_id', config.singleMedium?.id ?? null);// TODO keep both?
+            // formData.append('single_media_id', config.singleMedia?.id ?? null);// TODO keep both?
             //
             // formData.append('options', JSON.stringify(config.options));
             //
@@ -83,12 +79,12 @@ mediaManagerLabs.forEach(mediaManagerLab => {
             //     formData.append('_method', normalizedMethod);
             // }
 
-            console.log(formElement);
+            // console.log(formElement);
             const formData = getFormData(formElement);
-            console.log('just before formData')
-            formData.forEach((value, key) => {
-                console.log(key, value);
-            });
+            // console.log('just before formData')
+            // formData.forEach((value, key) => {
+            //     console.log(key, value);
+            // });
             const normalizedMethod = method.toUpperCase();
             if (['DELETE', 'PUT', 'PATCH'].includes(normalizedMethod)) {
                 formData.append('_method', normalizedMethod);

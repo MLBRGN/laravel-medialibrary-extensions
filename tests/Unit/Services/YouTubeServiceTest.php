@@ -3,12 +3,14 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
-    $this->service = new YouTubeService;
+    $this->dataSourceResolver = new DataSourceResolver;
+    $this->service = new YouTubeService($this->dataSourceResolver);
 
     Storage::fake('media');
     Auth::shouldReceive('id')->andReturn(1);
@@ -74,7 +76,7 @@ it('stores a temporary thumbnail from URL', function () {
         ->and($tempUpload->custom_properties['youtube-url'])->toBe($youtubeUrl)
         ->and($tempUpload->custom_properties['youtube-id'])->toBe('dQw4w9WgXcQ');
 
-    Storage::disk(config('media-library-extensions.media_disks.temporary'))
+    Storage::disk(config('medialibrary-extensions.media_disks.temporary'))
         ->assertExists($tempUpload->path);
 });
 

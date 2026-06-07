@@ -63,7 +63,7 @@ it('renders the correct view with expected data when a valid conversion is used'
     View::shouldReceive('make')
         ->once()
         ->with(
-            'media-library-extensions::components.image-responsive',
+            'medialibrary-extensions::components.image-responsive',
             Mockery::on(function ($data) use ($media) {
                 return $data['hasGeneratedConversion'] === true
                     && $data['useConversion'] === 'thumb'
@@ -72,7 +72,7 @@ it('renders the correct view with expected data when a valid conversion is used'
             }),
             []
         )
-        ->andReturn($mockView = Mockery::mock(\Illuminate\Contracts\View\View::class));
+        ->andReturn($mockView = Mockery::mock(Illuminate\Contracts\View\View::class));
 
     $component = new ImageResponsive($media, conversion: 'thumb');
     $result = $component->render();
@@ -89,7 +89,7 @@ it('falls back to original URL on exception', function () {
     View::shouldReceive('make')
         ->once()
         ->with(
-            'media-library-extensions::components.image-responsive',
+            'medialibrary-extensions::components.image-responsive',
             Mockery::on(function ($data) {
                 return $data['hasGeneratedConversion'] === true
                     && $data['useConversion'] === 'thumb'
@@ -98,7 +98,7 @@ it('falls back to original URL on exception', function () {
             }),
             []
         )
-        ->andReturn($mockView = Mockery::mock(\Illuminate\Contracts\View\View::class));
+        ->andReturn($mockView = Mockery::mock(Illuminate\Contracts\View\View::class));
 
     $component = new ImageResponsive($media, conversion: 'thumb');
     $result = $component->render();

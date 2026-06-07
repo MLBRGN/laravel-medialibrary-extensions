@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
@@ -14,146 +12,120 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
 class StoreSingleTemporaryAction
 {
     use ChecksMediaLimits;
 
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaService $mediaService,
+        protected UploadPreparerService $uploadPreparerService,
     ) {}
 
-    public function execute(StoreSingleRequest $request): RedirectResponse|JsonResponse
-    {
-        Log::info('StoreSingleTemporaryAction: invoked');
+    public function execute(
+        StoreSingleRequest $request
+    ): RedirectResponse|JsonResponse {
 
-        $field = config('media-library-extensions.upload_field_name_single');
-        $disk = config('media-library-extensions.media_disks.temporary');
-        $basePath = '';
+        $dataSource = $request->input('data_source');
+
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id;
         $instanceId = $request->input('instance_id');
 
-        $file = $request->file($field);
+        Log::info('StoreSingleTemporaryUpload - dataSource '.$dataSource);
+        try {
 
-        if (! $file) {
+            $prepared = $this->uploadPreparerService
+                ->prepareSingleUpload($request);
+
+        } catch (UploadException $e) {
+
             return MediaResponse::error(
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.upload_no_files')
+                $e->getMessage()
             );
         }
 
-        $maxUploadSize = (int) config('media-library-extensions.max_upload_size');
-        if ($file->getSize() > $maxUploadSize) {
+        if ($this->temporaryUploadsHaveAnyMedia(
+            $prepared->collections,
+            $instanceId,
+            null,
+            $dataSource
+        )) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __(
-                    'media-library-extensions::messages.file_too_large',
-                    [
-                        'file' => $file->getClientOriginalName(),
-                        'max' => number_format($maxUploadSize / 1024 / 1024, 2).' MB',
-                    ]
-                )
+                __('medialibrary-extensions::messages.only_one_medium_allowed')
             );
         }
 
-        $collections = $request->array('collections');
+        $disk = config('medialibrary-extensions.media_disks.temporary');
 
-        if (empty($collections)) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.no_media_collections')
-            );
-        }
+        $directory = '';
 
-        if ($this->temporaryUploadsHaveAnyMedia($collections, $instanceId)) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.only_one_medium_allowed')
-            );
-        }
+        $safeFilename = Str::slug(
+            pathinfo(
+                $prepared->originalName,
+                PATHINFO_FILENAME
+            ),
+            '-'
+        ).'.'.$prepared->file->getClientOriginalExtension();
 
-        $originalName = $file->getClientOriginalName();
-        $extension = $file->getClientOriginalExtension();
-        $mimetype = $file->getMimeType();
-        $collectionType = $this->mediaService->determineCollectionType($file);
-        $collectionName = $collections[$collectionType] ?? null;
+        Storage::disk($disk)->putFileAs(
+            $directory,
+            $prepared->file,
+            $safeFilename
+        );
 
-        if (is_null($collectionType)) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.upload_failed_due_to_invalid_mimetype_:mimetype', ['mimetype' => $mimetype]),
-            );
-        }
-
-        if (is_null($collectionName)) {
-            return MediaResponse::error(
-                $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.upload_failed_due_to_invalid_collection'));
-        }
+        Log::info(
+            'StoreSingleTemporaryUpload - stored file: '
+            .$safeFilename.' in directory '.$directory
+        );
 
         $sessionId = $request->session()->getId();
-        $userId = Auth::check() ? Auth::id() : null;
 
-        // Remove existing upload for this session/user
-        //        $existing = TemporaryUpload::query()
-        //            ->where('session_id', $sessionId)
-        //            ->when($userId, fn ($q) => $q->orWhere('user_id', $userId))
-        //            ->first();
+        Log::info('StoreSingleTemporaryUpload: session id: '.$sessionId);
 
-        //        if ($existing) {
-        //            Storage::disk($existing->disk)->delete($existing->path);
-        //            $existing->delete();
-        //        }
+        $userId = Auth::check()
+            ? Auth::id()
+            : null;
 
-        // Save the new file
-        $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-').'.'.$extension;
-        //        $safeFilename = sanitizeFilename(pathinfo($originalName, PATHINFO_FILENAME));
-        //        $filename = "{$safeFilename}.{$extension}";
-        $directory = "{$basePath}";
+        $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
 
-        Storage::disk($disk)->putFileAs($directory, $file, $safeFilename);
-        Log::info('StoreSingleTemporaryUpload: stored file: '.$safeFilename);
-
-        $upload = new TemporaryUpload([
+        $temporaryUpload->fill([
             'disk' => $disk,
             'path' => "{$directory}/{$safeFilename}",
             'name' => $safeFilename,
-            'file_name' => $safeFilename, // no unicode (this causes problems with replacement of image source)
-            'collection_name' => $collectionName,
-            'mime_type' => $mimetype,
-            'size' => $file->getSize(),
+            'file_name' => $safeFilename,
+            'collection_name' => $prepared->collectionName,
+            'mime_type' => $prepared->mimeType,
+            'size' => $prepared->size,
             'user_id' => $userId,
             'session_id' => $sessionId,
             'instance_id' => $instanceId ?: null,
             'order_column' => 0,
             'custom_properties' => [
-                'collections' => $collections,
+                'collections' => $prepared->collections,
                 'priority' => 0,
             ],
         ]);
-        $upload->save();
+        $temporaryUpload->save();
 
-        Log::info('StoreSingleTemporaryUpload: stored db record');
+        Log::info(
+            'StoreSingleTemporaryUpload - stored db record in db '.$temporaryUpload->getConnectionName()
+        );
 
         return MediaResponse::success(
             $request,
             $initiatorId,
             $mediaManagerId,
-            __('media-library-extensions::messages.upload_success'),
+            __('medialibrary-extensions::messages.upload_success'),
             ['saved_file' => $safeFilename]
         );
     }

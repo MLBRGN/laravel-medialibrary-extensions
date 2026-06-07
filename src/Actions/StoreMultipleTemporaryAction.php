@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
@@ -25,22 +26,23 @@ class StoreMultipleTemporaryAction
 
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
-        $disk = config('media-library-extensions.media_disks.temporary');
+        $dataSource = $request->input('data_source');
+
+        $disk = config('medialibrary-extensions.media_disks.temporary');
         $basePath = '';
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
         $instanceId = $request->input('instance_id');
 
-        $field = config('media-library-extensions.upload_field_name_multiple');
-        $files = $request->file($field);
+        $files = $request->file('media');
 
         if (empty($files)) {
             return MediaResponse::error(
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.upload_no_files')
+                __('medialibrary-extensions::messages.upload_no_files')
             );
         }
 
@@ -51,12 +53,12 @@ class StoreMultipleTemporaryAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.no_media_collections')
+                __('medialibrary-extensions::messages.no_media_collections')
             );
         }
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
-        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
+        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
+        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections, $instanceId, null, $dataSource);
         $nextPriority = $temporaryUploadsInCollections;
 
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
@@ -64,14 +66,14 @@ class StoreMultipleTemporaryAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection,
                 ])
             );
         }
 
         $successCount = 0;
-        $maxUploadSize = (int) config('media-library-extensions.max_upload_size');
+        $maxUploadSize = (int) config('medialibrary-extensions.max_upload_size');
         $failedUploadFIleNames = [];
         $errorMessages = [];
 
@@ -80,7 +82,7 @@ class StoreMultipleTemporaryAction
             if ($file->getSize() > $maxUploadSize) {
                 $failedUploadFIleNames[] = $file->getClientOriginalName();
                 $errorMessages[] = __(
-                    'media-library-extensions::messages.file_too_large',
+                    'medialibrary-extensions::messages.file_too_large',
                     [
                         'file' => $file->getClientOriginalName(),
                         'max' => number_format($maxUploadSize / 1024 / 1024, 2).' MB',
@@ -96,18 +98,19 @@ class StoreMultipleTemporaryAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
+                __('medialibrary-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
             );
         }
 
         foreach ($files as $file) {
             $collectionType = $this->mediaService->determineCollectionType($file);
+            // Log::info('StoreMultipleTemporaryAction - collectionType: '.$collectionType);
             $collectionName = $collections[$collectionType] ?? null;
 
             if (is_null($collectionType) || is_null($collectionName)) {
                 $failedUploadFIleNames[] = $file->getClientOriginalName();
                 $errorMessages[] = __(
-                    'media-library-extensions::messages.invalid_or_missing_collection',
+                    'medialibrary-extensions::messages.invalid_or_missing_collection',
                     ['file' => $file->getClientOriginalName()]
                 );
 
@@ -125,13 +128,13 @@ class StoreMultipleTemporaryAction
             // Store file
             Storage::disk($disk)->putFileAs($directory, $file, $safeFilename);
 
-            // Create DB record
-            $upload = new TemporaryUpload([
+            $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
+
+            $temporaryUpload->fill([
                 'disk' => $disk,
                 'path' => "{$directory}/{$safeFilename}",
                 'name' => $safeFilename,
-                //                'name' => pathinfo($safeFilename, PATHINFO_FILENAME),
-                'file_name' => $safeFilename, // no unicode (this causes problems with replacement of image source)
+                'file_name' => $safeFilename,
                 'collection_name' => $collectionName,
                 'mime_type' => $file->getMimeType(),
                 'size' => $file->getSize(),
@@ -140,19 +143,42 @@ class StoreMultipleTemporaryAction
                 'instance_id' => $instanceId ?: null,
                 'order_column' => $nextPriority,
                 'custom_properties' => [
-                    'collections' => json_encode($collections),
+                    'collections' => $collections,
                     'priority' => $nextPriority,
                 ],
             ]);
 
-            $nextPriority++;
+            $temporaryUpload->save();
 
-            $upload->save();
+            $nextPriority++;
+            //            // Create DB record
+            //            $upload = new TemporaryUpload([
+            //                'disk' => $disk,
+            //                'path' => "{$directory}/{$safeFilename}",
+            //                'name' => $safeFilename,
+            //                //                'name' => pathinfo($safeFilename, PATHINFO_FILENAME),
+            //                'file_name' => $safeFilename, // no unicode (this causes problems with replacement of image source)
+            //                'collection_name' => $collectionName,
+            //                'mime_type' => $file->getMimeType(),
+            //                'size' => $file->getSize(),
+            //                'user_id' => Auth::check() ? Auth::id() : null,
+            //                'session_id' => $sessionId,
+            //                'instance_id' => $instanceId ?: null,
+            //                'order_column' => $nextPriority,
+            //                'custom_properties' => [
+            //                    'collections' => json_encode($collections),
+            //                    'priority' => $nextPriority,
+            //                ],
+            //            ]);
+
+            //            $nextPriority++;
+
+            //            $upload->save();
             $successCount++;
         }
 
         if ($successCount === 0) {
-            $message = __('media-library-extensions::messages.upload_failed');
+            $message = __('medialibrary-extensions::messages.upload_failed');
 
             if (! empty($errorMessages)) {
                 $message .= ' '.implode(' ', $errorMessages);
@@ -166,9 +192,9 @@ class StoreMultipleTemporaryAction
             );
         }
 
-        $message = __('media-library-extensions::messages.upload_success');
+        $message = __('medialibrary-extensions::messages.upload_success');
         if (! empty($failedUploadFIleNames)) {
-            $message .= ' '.__('media-library-extensions::messages.some_uploads_failed', [
+            $message .= ' '.__('medialibrary-extensions::messages.some_uploads_failed', [
                 'files' => implode(', ', $failedUploadFIleNames),
             ]);
         }

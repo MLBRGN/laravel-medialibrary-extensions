@@ -4,7 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -21,12 +21,15 @@ class MediaModal extends BaseComponent
         //        public ?string $mediaCollection,
         public ?array $collections,
         public ?string $title,// TODO do i want this?
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         array $options = [],
         public bool $videoAutoPlay = true,
-
+        public ?string $instanceId = null,
+        public ?string $dataSource = null,
     ) {
         parent::__construct($id);
+
+        $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -38,6 +41,6 @@ class MediaModal extends BaseComponent
 
     public function render(): View
     {
-        return $this->getView('media-modal', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-modal', $this->getConfig('frontendTheme'));
     }
 }

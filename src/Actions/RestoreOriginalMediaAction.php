@@ -8,19 +8,39 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Throwable;
 
 class RestoreOriginalMediaAction
 {
+    public function __construct(
+        protected MediaService $mediaService,
+    ) {}
+
     public function execute(
         RestoreOriginalMediumRequest $request,
-        Media $media
+        string|int $mediaId
     ): JsonResponse|RedirectResponse {
+        $dataSource = $request->input('data_source');
+
+        // Prefer ID from request if present, otherwise use from URL
+        $id = $request->input('medium_id', $mediaId);
+
+        $media = $this->mediaService->findMedium($id, $dataSource);
+
+        if (! $media) {
+            return MediaResponse::error(
+                $request,
+                $request->initiator_id ?? '',
+                $request->media_manager_id ?? '',
+                __('medialibrary-extensions::messages.media_not_found')
+            );
+        }
+
         $initiatorId = $request->initiator_id ?? '';
         $mediaManagerId = $request->media_manager_id ?? '';
 
-        $originalsDisk = config('media-library-extensions.media_disks.originals');
+        $originalsDisk = config('medialibrary-extensions.media_disks.originals');
         $originalPath = "{$media->id}/{$media->file_name}";
 
         if (! Storage::disk($originalsDisk)->exists($originalPath)) {
@@ -53,7 +73,7 @@ class RestoreOriginalMediaAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.restored_original')
+                __('medialibrary-extensions::messages.restored_original')
             );
         } catch (Throwable $e) {
             Log::error("Failed to restore original for media [{$media->id}]: {$e->getMessage()}");
@@ -62,7 +82,7 @@ class RestoreOriginalMediaAction
                 $request,
                 $initiatorId,
                 $mediaManagerId,
-                __('media-library-extensions::messages.could_not_restore_original')
+                __('medialibrary-extensions::messages.could_not_restore_original')
             );
         }
     }

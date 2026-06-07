@@ -36,6 +36,28 @@ return [
     'frontend_theme' => env('MEDIA_LIBRARY_EXTENSIONS_FRONTEND_THEME', 'bootstrap-5'),
 
     /*
+      |--------------------------------------------------------------------------
+      | Asset path
+      |--------------------------------------------------------------------------
+      |
+      | Path to the assets, like js, css, images, ...
+      |
+      */
+
+    'asset_path' => 'vendor/mlbrgn/laravel-medialibrary-extensions',
+
+    /*
+      |--------------------------------------------------------------------------
+      | Image Editor Translations Path
+      |--------------------------------------------------------------------------
+      |
+      | Path to the image editor translations.
+      |
+      */
+
+    'image_editor_translations_path' => '/image-editor-translations/',
+
+    /*
     |--------------------------------------------------------------------------
     | Supported frontend themes
     |--------------------------------------------------------------------------
@@ -67,7 +89,27 @@ return [
     |
     */
 
+    'demo_connection_name' => 'media_demo',
     'demo_database_name' => 'media_demo',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Database data_sources map to connections
+    |--------------------------------------------------------------------------
+    |
+    | Maps data_source keys to connection
+    |
+    */
+
+    'data_sources' => [
+        'default' => [
+            'connection' => env('DB_CONNECTION'),
+        ],
+
+        'demo' => [
+            'connection' => 'media_demo',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -178,9 +220,10 @@ return [
     |
     */
 
-    'upload_field_name_single' => 'medium',
-    'upload_field_name_multiple' => 'media',
-    'upload_field_name_youtube' => 'youtube_url',
+    //    'upload_field_name_single' => 'medium',
+    //    'upload_field_name_multiple' => 'media',
+    //    'upload_field_name' => 'media',
+    //    'upload_field_name_youtube' => 'youtube_url',
 
     /*
     |--------------------------------------------------------------------------
@@ -432,7 +475,7 @@ return [
     |
     */
 
-    'status_session_prefix' => env('MEDIA_LIBRARY_EXTENSIONS_STATUS_SESSION_PREFIX', 'laravel-medialibrary-extensions.status'),
+    'status_session_prefix' => env('MEDIA_LIBRARY_EXTENSIONS_STATUS_SESSION_PREFIX', 'medialibrary-extensions.status'),
 
     /*
     |--------------------------------------------------------------------------

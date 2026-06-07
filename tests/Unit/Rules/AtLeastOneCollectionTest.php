@@ -9,7 +9,7 @@ beforeEach(function () {
 
 it('fails when no collections are provided', function () {
     // TODO
-    Request::swap(new \Illuminate\Http\Request([
+    Request::swap(new Illuminate\Http\Request([
         'image_collection' => null,
         'document_collection' => null,
         'video_collection' => null,
@@ -41,7 +41,7 @@ it('passes when at least one collection is present', function () {
     ];
 
     foreach ($testCases as $case) {
-        Request::swap(new \Illuminate\Http\Request($case));
+        Request::swap(new Illuminate\Http\Request($case));
 
         $failed = false;
 

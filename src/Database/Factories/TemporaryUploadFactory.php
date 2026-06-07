@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 /**
- * @extends Factory<\Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload>
+ * @extends Factory<TemporaryUpload>
  */
 class TemporaryUploadFactory extends Factory
 {

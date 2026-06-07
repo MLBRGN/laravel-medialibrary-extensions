@@ -2,8 +2,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -22,30 +22,38 @@ class MediaPreviews extends BaseComponent
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public bool $multiple = false,
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
         public ?string $instanceId = null,
+        public ?string $dataSource = null,
+        public ?string $sessionId = null,
     ) {
         parent::__construct($id);
+        $this->options = $options;
+        $this->sessionId = $sessionId ?: (request()->hasSession() ? request()->session()->getId() : session()->getId());
 
         $this->resolveModelOrClassName($modelOrClassName);
+
+        if (isset($options['temporaryUploadMode'])) {
+            $this->temporaryUploadMode = (bool) $options['temporaryUploadMode'];
+        }
 
         $this->media = collect();
 
         // CASE 1: If a single medium is provided, use only that.
-        if ($this->singleMedium instanceof Media || $this->singleMedium instanceof TemporaryUpload) {
-            $this->media->push($this->singleMedium);
+        if ($this->singleMedia instanceof Media || $this->singleMedia instanceof TemporaryUpload) {
+            $this->media->push($this->singleMedia);
         } else {
-            $this->media = collect($collections)
+            $this->media = collect($this->collections)
                 ->filter(fn ($collectionName
                 ) => ! is_null($collectionName) && $collectionName !== '') // remove null or empty
-                ->flatMap(function (?string $collectionName, string $collectionType) use ($instanceId) {
+                ->flatMap(function (?string $collectionName, string $collectionType) use ($instanceId, $dataSource) {
                     if ($this->temporaryUploadMode) {
                         if (! empty($collectionName)) {
-                            return TemporaryUpload::forCurrentSession($collectionName, $instanceId);
+                            return TemporaryUpload::getForCurrentSession($collectionName, $instanceId, $dataSource, $this->sessionId);
                         }
                     }
 
@@ -64,27 +72,28 @@ class MediaPreviews extends BaseComponent
         // $this->media = $this->mediaItems;
         // $this->mediaCount = $this->mediaItems->count();
 
-        // merge into config
         $this->resolveConfig();
 
-        // TODO is there a neater way to do this?
-        // options are passed to components, config is reinitialized for each component.
+        // sync configuration with current state
+        $this->syncConfigOverrides();
+    }
+
+    protected function syncConfigOverrides(): void
+    {
         // override hide media menu when nothing to see inside menu
-        // since i use config have to do this after config has been initialized
         if (
             $this->getConfig('showDestroyButton') === false &&
             $this->getConfig('showSetAsFirstButton') === false &&
             $this->getConfig('showMediaEditButton') === false
-
         ) {
-            $this->options['showMenu'] = false;
-            $this->config['showMenu'] = false;
+            $this->setOption('showMenu', false);
         }
 
+        $this->resolveConfig();
     }
 
     public function render(): View
     {
-        return $this->getView('preview.media-previews', $this->getConfig('frontendTheme'));
+        return $this->renderView('preview.media-previews', $this->getConfig('frontendTheme'));
     }
 }

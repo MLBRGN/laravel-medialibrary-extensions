@@ -14,8 +14,8 @@ trait InteractsWithMediaCollections
     protected function resolveMediaFromCollections(array $collections, $instanceId): MediaCollection
     {
         // CASE 1: If a single medium is provided, use only that.
-        if (isset($this->singleMedium) && ($this->singleMedium instanceof Media || $this->singleMedium instanceof TemporaryUpload)) {
-            return MediaCollection::make(collect([$this->singleMedium]));
+        if (isset($this->singleMedia) && ($this->singleMedia instanceof Media || $this->singleMedia instanceof TemporaryUpload)) {
+            return MediaCollection::make(collect([$this->singleMedia]));
         }
 
         // CASE 2: Collect from all configured collections.

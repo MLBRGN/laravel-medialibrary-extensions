@@ -21,12 +21,12 @@ class YouTubeUploadForm extends BaseComponent
 
     public ?string $mediaManagerId = '';
 
-//    public array $config = [];
+    //    public array $config = [];
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or its class name
-        public Media|TemporaryUpload|null $singleMedium = null,
+        public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
         public bool $multiple = false,
@@ -37,27 +37,26 @@ class YouTubeUploadForm extends BaseComponent
         $this->mediaManagerId = $id;
 
         parent::__construct($id, $this->getOption('frontendTheme'));
+        $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $youtubeCollection = $collections['youtube'];
+        $youtubeCollection = $collections['youtube'] ?? null;
         $mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
         $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
 
         $this->resolveConfig([
             'instanceId' => $this->instanceId,
-            //            'frontendTheme' => config('media-library-extensions.frontend_theme'),
-            //            'useXhr' => config('media-library-extensions.use_xhr'),
+            //            'frontendTheme' => config('medialibrary-extensions.frontend_theme'),
+            //            'useXhr' => config('medialibrary-extensions.use_xhr'),
             'youtubeCollection' => $youtubeCollection,
             'mediaUploadRoute' => $mediaUploadRoute,
             'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
         ]);
-
-        //        dump('mm yt upload form' . $this->instanceId);
     }
 
     public function render(): View
     {
-        return $this->getPartialView('youtube-upload-form', $this->getConfig('frontendTheme'));
+        return $this->renderView('youtube-upload-form', $this->getConfig('frontendTheme'), true);
     }
 }

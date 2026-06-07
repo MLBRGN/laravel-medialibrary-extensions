@@ -1,7 +1,7 @@
 <div 
     class="mle-status-container mle-flex-grow visible" 
     data-mle-status-container
-    data-mle-status-timeout="{{ config('media-library-extensions.status_message_timeout', 5000) }}"
+    data-mle-status-timeout="{{ config('medialibrary-extensions.status_message_timeout', 5000) }}"
 >
     <div {{ $attributes->class([
             'mle-status-message', 
@@ -17,7 +17,7 @@
             {{$status['message'] }}
         @endif
     </div>
-    @if(!config('media-library-extensions.use_xhr'))
+    @if(!config('medialibrary-extensions.use_xhr'))
         @php
             $nonce = mlbrgn_csp_nonce();
         @endphp
@@ -27,7 +27,7 @@
             document.querySelectorAll('[data-mle-status-message]').forEach(el => {
                 setTimeout(() => {
                     el.classList.add('hidden');
-                }, {{ config('media-library-extensions.status_message_timeout', 5000) }});
+                }, {{ config('medialibrary-extensions.status_message_timeout', 5000) }});
             });
         </script>
     @endif

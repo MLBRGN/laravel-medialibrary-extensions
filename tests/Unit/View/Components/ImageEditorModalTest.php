@@ -86,7 +86,7 @@ it('constructs with model and sets properties', function () {
         id: 'uploader-0',
         modelOrClassName: $model,
         medium: $medium,
-        singleMedium: null,
+        singleMedia: null,
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'uploader-1',
@@ -97,7 +97,7 @@ it('constructs with model and sets properties', function () {
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->getKey())
         ->and($component->temporaryUploadMode)->toBeFalse()
-        ->and($component->config['modelType'])->toBe($model->getMorphClass())
+        ->and($component->getConfig('modelType'))->toBe($model->getMorphClass())
         ->and($component->id)->toBe('uploader-0'.'-iem-'.$medium->id)
 //        ->and($component->config['collection'])->toBe('avatars')
         ->and($component->render())->toBeInstanceOf(View::class);
@@ -111,7 +111,7 @@ it('constructs with model class name string for temporary upload', function () {
         id: 'uploader-1',
         modelOrClassName: $model->getMorphClass(),
         medium: $medium,
-        singleMedium: null,// TODO if i don't pass this test fails
+        singleMedia: null,// TODO if i don't pass this test fails
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'uploader-2'
@@ -120,8 +120,8 @@ it('constructs with model class name string for temporary upload', function () {
     expect($component->model)->toBeNull()
         ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->temporaryUploadMode)->toBeTrue()
-        ->and($component->config['temporaryUploadMode'])->toBeTrue()
-        ->and($component->config['mediumId'])->toBe($medium->id)
+        ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
+        ->and($component->getConfig('mediumId'))->toBe($medium->id)
         ->and($component->render())->toBeInstanceOf(View::class);
 });
 
@@ -156,7 +156,7 @@ it('throws when modelOrClassName is an invalid type', function () {
         id: 'uploader-3',
         modelOrClassName: $model,
         medium: $medium, // Invalid type
-        singleMedium: null,
+        singleMedia: null,
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'fail-test'
@@ -177,7 +177,7 @@ it('throws when modelOrClassName is an class name', function () {
         id: 'uploader-3',
         modelOrClassName: $model->getMorphClass(), // Invalid type
         medium: $medium,
-        singleMedium: null,
+        singleMedia: null,
         collections: ['image' => 'images'],
         options: [],
         initiatorId: 'fail-test'

@@ -26,7 +26,7 @@ it('returns only uploads for the current session', function () {
     ]);
 
     $instanceId = null;
-    $uploads = TemporaryUpload::forCurrentSession(null, $instanceId);
+    $uploads = TemporaryUpload::forCurrentSession(null, $instanceId)->get();
 
     expect($uploads)->toHaveCount(2)
         ->and($uploads->pluck('collection_name')->all())
@@ -49,7 +49,7 @@ it('filters by collection name when provided', function () {
     ]);
 
     $instanceId = '';
-    $uploads = TemporaryUpload::forCurrentSession('images', $instanceId);
+    $uploads = TemporaryUpload::forCurrentSession('images', $instanceId)->get();
 
     expect($uploads)->toHaveCount(1)
         ->and($uploads->first()->collection_name)
@@ -72,10 +72,11 @@ it('does not return media when empty collection name provided', function () {
     ]);
 
     $instanceId = '';
-    $uploads = TemporaryUpload::forCurrentSession('', $instanceId);
+    $uploads = TemporaryUpload::forCurrentSession('', $instanceId)->get();
 
+    // Since we now check !is_null($collectionName), '' is NOT null, so it will filter by collection_name = ''
     expect($uploads)->toHaveCount(0);
-})->todo('fix this test');
+});
 
 it('returns all session uploads when collectionName is an empty string', function () {
     $sessionId = Session::getId();
@@ -94,11 +95,11 @@ it('returns all session uploads when collectionName is an empty string', functio
     $instanceId = null;
 
     // Passing '' should NOT skip the where clause (should match collection_name = '')
-    $uploads = TemporaryUpload::forCurrentSession('', $instanceId);
+    $uploads = TemporaryUpload::forCurrentSession('', $instanceId)->get();
 
-    expect($uploads)->toHaveCount(2)
+    expect($uploads)->toHaveCount(1)
         ->and($uploads->first()->collection_name)->toBe('');
-})->todo('fix this test');
+});
 
 it('returns all session uploads when collectionName is null', function () {
     $sessionId = Session::getId();
@@ -108,9 +109,45 @@ it('returns all session uploads when collectionName is null', function () {
 
     $instanceId = '';
 
-    $uploads = TemporaryUpload::forCurrentSession(null, $instanceId);
+    $uploads = TemporaryUpload::forCurrentSession(null, $instanceId)->get();
 
     expect($uploads)->toHaveCount(2);
+});
+
+it('can handle different database connections using forDataSource scope', function () {
+    $sessionId = Session::getId();
+
+    // Configure a mock data source
+    config()->set('medialibrary-extensions.data_sources.demo', [
+        'connection' => 'media_demo',
+    ]);
+
+    // Create on default connection
+    TemporaryUpload::newFactory()->create([
+        'session_id' => $sessionId,
+        'collection_name' => 'default-conn',
+    ]);
+
+    // Create on 'media_demo' connection
+    $demoUpload = TemporaryUpload::newFactory()->make([
+        'session_id' => $sessionId,
+        'collection_name' => 'demo-conn',
+    ]);
+    $demoUpload->setConnection('media_demo');
+    $demoUpload->save();
+
+    // Query using forDataSource
+    $demoUploads = TemporaryUpload::forDataSource('demo')
+        ->forCurrentSession()
+        ->get();
+
+    expect($demoUploads)->toHaveCount(1)
+        ->and($demoUploads->first()->collection_name)->toBe('demo-conn');
+
+    // Query using getForCurrentSession with dataSource
+    $demoUploadsStatic = TemporaryUpload::getForCurrentSession(null, null, 'demo');
+    expect($demoUploadsStatic)->toHaveCount(1)
+        ->and($demoUploadsStatic->first()->collection_name)->toBe('demo-conn');
 });
 
 // it('checks if the isAvailable static method exists', function () {
@@ -124,7 +161,7 @@ it('returns all session uploads when collectionName is null', function () {
 //    // This test would require a more complex setup with a real database connection
 //    // For now, we'll just test that the method exists
 //    expect(TemporaryUpload::class)->toHaveMethod('forCurrentSession', $instanceId);
-// })->skip();
+// });
 //
 // it('determines if the upload is an image', function () {
 //    // Arrange
@@ -133,7 +170,7 @@ it('returns all session uploads when collectionName is null', function () {
 //
 //    // Act & Assert
 //    expect($temporaryUpload->isImage())->toBeTrue();
-// })->skip();
+// });
 //
 // it('determines if the upload is a document', function () {
 //    // Arrange
@@ -142,7 +179,7 @@ it('returns all session uploads when collectionName is null', function () {
 //
 //    // Act & Assert
 //    expect($temporaryUpload->isDocument())->toBeTrue();
-// })->skip();
+// });
 //
 // it('determines if the upload is a YouTube video', function () {
 //    // Arrange
@@ -151,4 +188,4 @@ it('returns all session uploads when collectionName is null', function () {
 //
 //    // Act & Assert
 //    expect($temporaryUpload->isYouTubeVideo())->toBeTrue();
-// })->skip();
+// });

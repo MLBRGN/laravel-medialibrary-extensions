@@ -21,6 +21,7 @@ class Status extends BaseComponent
         array $options = [],
     ) {
         parent::__construct($id);
+        $this->options = $options;
 
         $statusKey = status_session_prefix(); // always one global key
 
@@ -38,6 +39,6 @@ class Status extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('status', $this->getConfig('frontendTheme'));
+        return $this->renderView('status', $this->getConfig('frontendTheme'), true);
     }
 }

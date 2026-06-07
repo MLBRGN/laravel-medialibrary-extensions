@@ -27,7 +27,7 @@
 </head>
 <body>
 <div class="error-box">
-    <h1>{{ $message ?? __('media-library-extensions::messages.validation_error') }}</h1>
+    <h1>{{ $message ?? __('medialibrary-extensions::messages.validation_error') }}</h1>
     @if(!empty($errors))
         <ul>
             @foreach($errors as $error)

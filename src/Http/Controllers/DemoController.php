@@ -4,92 +4,73 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 
 class DemoController extends Controller
 {
 
-    protected function getDemoModel(): Alien
+    public function __invoke(Request $request): View
     {
-        $model = Alien::with('media')->first() ?? Alien::create();
+        app()->instance('mle-demo-mode', true);
 
-        if ($model->getMedia('alien-media-lab')->isEmpty()) {
-            $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
+        $frontendTheme = $request->query('theme', config('medialibrary-extensions.frontend_theme', 'bootstrap-5'));
+        $useXhr = $request->boolean('use_xhr', config('medialibrary-extensions.use_xhr', true));
+        $dataSource = $request->query('data_source', 'demo');
 
-            $model
-                ->addMedia($demoImage)
-                ->preservingOriginal()
-                ->toMediaCollection('alien-media-lab', 'media_demo');
-
-            $model->load('media');
+        if ($dataSource === 'default') {
+            $dataSource = null;
         }
 
-        return $model;
-    }
-
-    public function demoPlain(): View
-    {
-
-        app()->instance('mle-demo-mode', true);
-
-        config(['media-library-extensions.frontend_theme' => 'plain']);
-
-        $model = $this->getDemoModel();
-
-        // Get the first existing model or create it if none exists
-//        $model = Alien::with('media')->first() ?? Alien::create();
-//
-//        // add medium if none exists yet
-//        if ($model->getMedia('alien-media-lab')->isEmpty()) {
-//            $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
-//
-//            $model
-//                ->addMedia($demoImage)
-//                ->preservingOriginal()
-//                ->toMediaCollection('alien-media-lab', 'media_demo');
-//
-//            // Re-load the media so it's immediately available
-//            $model->load('media');
-//        }
-
-        $medium = $model->getMedia('alien-media-lab')->first();
-
-        return view('media-library-extensions::demo.mle-plain', [
-            'model' => $model,
-            'medium' => $medium,
+        // Apply to config so components pick it up as default if not overridden in options
+        config([
+            'medialibrary-extensions.frontend_theme' => $frontendTheme,
+            'medialibrary-extensions.use_xhr' => $useXhr,
         ]);
 
-    }
+        $model = $this->getDemoModel($dataSource);
+        $media = $model->getMedia('alien-media-lab')->first();
 
-    public function demoBootstrap5(): View
-    {
-        app()->instance('mle-demo-mode', true);
-
-        config(['media-library-extensions.frontend_theme' => 'bootstrap-5']);
-
-        $model = $this->getDemoModel();
-        // Get the first existing model or create it if none exists
-//        $model = Alien::with('media')->first() ?? Alien::create();
-//
-//        // add medium if none exists yet
-//        if ($model->getMedia('alien-media-lab')->isEmpty()) {
-//            $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
-//
-//            $model
-//                ->addMedia($demoImage)
-//                ->preservingOriginal()
-//                ->toMediaCollection('alien-media-lab', 'media_demo');
-//
-//            // Re-load the media so it's immediately available
-//            $model->load('media');
-//        }
-
-        $medium = $model->getMedia('alien-media-lab')->first();
-
-        return view('media-library-extensions::demo.mle-bootstrap-5', [
+        return view('medialibrary-extensions::demo.mle-unified', [
             'model' => $model,
-            'medium' => $medium,
+            'media' => $media,
+            'dataSource' => $dataSource,
+            'frontendTheme' => $frontendTheme,
+            'useXhr' => $useXhr,
         ]);
     }
+
+    protected function getDemoModel(?string $dataSource = null): Alien
+    {
+        $model = new Alien;
+
+        if ($dataSource) {
+            $connection = app(DataSourceResolver::class)->resolveConnection($dataSource);
+            $model->setConnection($connection);
+        }
+
+        $existingModel = $model->newQuery()->with('media')->first();
+
+        if (! $existingModel) {
+            $existingModel = $model->newQuery()->create();
+        }
+
+        if ($existingModel->getMedia('alien-media-lab')->isEmpty()) {
+            $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
+
+            if (file_exists($demoImage)) {
+                $existingModel
+                    ->addMedia($demoImage)
+                    ->preservingOriginal()
+                    ->toMediaCollection('alien-media-lab', config('medialibrary-extensions.media_disks.demo'));
+
+                $existingModel->load('media');
+            }
+        }
+
+        return $existingModel;
+    }
+
 }

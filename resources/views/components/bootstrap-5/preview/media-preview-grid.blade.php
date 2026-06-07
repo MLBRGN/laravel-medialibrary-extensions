@@ -3,12 +3,13 @@
         :id="$id"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
-        :single-medium="$singleMedium"
+        :single-media="$singleMedia"
         :options="$getOptions()"
         :disabled="$disabled"
         :selectable="$selectable"
         :readonly="$readonly"
         :multiple="$multiple"
         :instance-id="$instanceId"
+        :data-source="$getConfig('dataSource')"
     />
 </div>

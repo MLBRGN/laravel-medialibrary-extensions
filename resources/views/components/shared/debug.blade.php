@@ -1,129 +1,289 @@
-@php
-    use Mlbrgn\MediaLibraryExtensions\Models\DemoMedia;
-    use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-@endphp
-
-@if(config('media-library-extensions.debug') && !app()->environment('production'))
+@if(config('medialibrary-extensions.debug') && !app()->environment('production'))
     <div class="mle-debug-wrapper">
-        <div class="mle-debug mle-hidden hidden" id="{{ $id }}-debug-content" data-mle-debug>
-            <h2>📦 Media Library Extensions Debug Info</h2>
+        <div
+            class="mle-debug mle-hidden hidden"
+            id="{{ $id }}-debug-content"
+            data-mle-debug
+        >
+            <div class="mle-debug-header">
+                <h2>📦 Media Library Extensions Debug</h2>
 
-            <div class="mle-debug-section">
-                <h3>🗄️ Component config: Model</h3>
-                <ul>
-                    <li><strong>Model type:</strong> {{ $modelType ?? 'n/a' }}</li>
-                    <li><strong>Model id:</strong> {{ $modelId ?? 'n/a' }}</li>
-                </ul>
+                <div class="mle-debug-badges">
+                    <span>Theme: {{ $getConfig('frontendTheme') }}</span>
+                    <span>DB: {{ DB::getDatabaseName() }}</span>
+
+                    @if(app()->bound('mle-demo-mode'))
+                        <span>Demo mode</span>
+                    @endif
+                </div>
             </div>
 
-            <div class="mle-debug-section">
-                <h3>⚙️ Component config: General</h3>
-                <ul>
-                    <li><strong>Id:</strong> {{ $id }}</li>
-                    <li><strong>Instance Id:</strong> {{ $getConfig('instanceId') }}</li>
-                    <li><strong>Frontend theme:</strong> {{ $getConfig('frontendTheme') }}</li>
-                    <li><strong>Demo mode enabled:</strong> {{ app()->bound('mle-demo-mode') ? 'Yes' : 'No' }}</li>
-                    <li><strong>DB connection
-                            name:</strong>{{ \Illuminate\Support\Facades\DB::connection()->getName() }}</li>
-                    <li><strong>DB name:</strong>{{ \Illuminate\Support\Facades\DB::getDatabaseName() }}</li>
-                    <li><strong>Model DB connection name:</strong>{{ $model?->getConnection()->getName() }}</li>
-                    <li><strong>Model DB database name:</strong>{{ $model?->getConnection()->getDatabaseName() }}</li>
-                    <li><strong>Model DB table:</strong>{{ $model?->getTable() }}</li>
-
-                </ul>
-            </div>
-
-            <div class="mle-debug-section">
-                <h3>🌐 Component config: Routes</h3>
-                <ul>
-                    <li><strong>Media upload route:</strong> <code>{{ $getConfig('routes.mediaUpload') }}</code></li>
-                    <li><strong>YouTube upload route:</strong> <code>{{ $getConfig('routes.youtubeUpload') }}</code>
-                    </li>
-                    <li><strong>MM Preview update route:</strong>
-                        <code>{{ $getConfig('routes.mediaManagerPreviewUpdate') }}</code></li>
-                    <li><strong>MML Preview update route:</strong>
-                        <code>{{ $getConfig('routes.mediaManagerLabPreviewUpdate') }}</code></li>
-                </ul>
-            </div>
-
-            <div class="mle-debug-section">
-                <h3>🎞️ Component config: Collections</h3>
-                <ul>
-                    @foreach (['image', 'document', 'video', 'audio', 'youtube'] as $type)
-                        @php
-                            $collectionName = $getConfig('collections')[$type] ?? null;
-                            $count = ($model && $collectionName)
-                            ? $model->getMedia($collectionName)->count()
-                            : 0;
-                        @endphp
-
-                        <li>
-                            <strong>{{ ucfirst($type) }}:</strong>
-                            {{ $collectionName ?? 'n/a' }}
-                            @if ($collectionName)
-                                ({{ $count }} {{ Str::plural('item', $count) }})
-                            @endif
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-
-            <div class="mle-debug-section">
-                <h3>🎛️ Component config: Enabled features</h3>
-                <ul>
-                    <li><strong>Show destroy button:</strong> {{ $getConfig('showDestroyButton') ? 'true' : 'false' }}
-                    </li>
-                    <li><strong>Show "Set-as-first"
-                            button:</strong> {{ $getConfig('showSetAsFirstButton') ? 'true' : 'false' }}</li>
-                    <li><strong>Show "media-edit"
-                            button:</strong> {{ $getConfig('showMediaEditButton') ? 'true' : 'false' }}</li>
-                    <li><strong>Show order:</strong> {{ $getConfig('showOrder') ? 'true' : 'false' }}</li>
-                    <li><strong>Show menu:</strong> {{ $getConfig('showMenu') ? 'true' : 'false' }}</li>
-                    <li><strong>Temporary
-                            upload:</strong> {{ $getConfig('temporaryUploadMode') === 'true' ? 'Yes' : 'No' }}</li>
-                </ul>
-            </div>
-
-            <div class="mle-debug-section">
-                <h3>🎛️ Config file values</h3>
-                <ul>
-                    <li><strong>XHR enabled:</strong> {{ config('media-library-extensions.use_xhr') ? 'Yes' : 'No' }}
-                    </li>
-                    <li><strong>Show
-                            Status:</strong> {{ config('media-library-extensions.show_status') ? 'Yes' : 'No' }}</li>
-                    <li><strong>YouTube support
-                            enabled:</strong> {{ config('media-library-extensions.youtube_support_enabled') ? 'Yes' : 'No' }}
-                    </li>
-                    <li><strong>Allowed Mime
-                            types:</strong> {{ collect(config('media-library-extensions.allowed_mimetypes'))->flatten()->join(', ') }}
-                    </li>
-                </ul>
-            </div>
-
-            <div class="mle-debug-section">
-                <h3>🎛️ Raw config dump</h3>
-                <pre>{{ json_encode($getSanitizedConfig(), JSON_PRETTY_PRINT) }}</pre>
-            </div>
-            {{--            <div class="mle-debug-section">--}}
-            {{--                <h3>🎛️ Raw config dump</h3>--}}
-            {{--                <pre>{{ json_encode($config, JSON_PRETTY_PRINT) }}</pre>--}}
-            {{--            </div>--}}
-
-            <div class="mle-debug-section">
-                <h3>🎛️ Raw options dump</h3>
-                <pre>{{ json_encode(collect($getOptions())->sortKeys()->all(), JSON_PRETTY_PRINT) }}</pre>
-            </div>
+            {{-- ========================================================= --}}
+            {{-- HEALTH / WARNINGS --}}
+            {{-- ========================================================= --}}
 
             @if(collect($errors)->isNotEmpty())
-                <div class="mle-debug-errors">
-                    <h3>⚠️ {{ __('media-library-extensions::messages.warning') }}</h3>
+                <section class="mle-debug-section mle-debug-errors">
+                    <h3>⚠️ Warnings</h3>
+
                     <ul>
                         @foreach($errors as $error)
                             <li>{!! $error !!}</li>
                         @endforeach
                     </ul>
-                </div>
+                </section>
             @endif
+
+            {{-- ========================================================= --}}
+            {{-- MODEL --}}
+            {{-- ========================================================= --}}
+
+            <section class="mle-debug-section">
+                <h3>🗄️ Model</h3>
+
+                <table class="mle-debug-table">
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ $modelType ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ $modelId ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Table</th>
+                        <td>{{ $model?->getTable() ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Connection</th>
+                        <td>{{ $model?->getConnection()->getName() ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Database</th>
+                        <td>{{ $model?->getConnection()->getDatabaseName() ?? 'n/a' }}</td>
+                    </tr>
+                </table>
+            </section>
+
+            {{-- ========================================================= --}}
+            {{-- COMPONENT --}}
+            {{-- ========================================================= --}}
+
+            <section class="mle-debug-section">
+                <h3>⚙️ Component</h3>
+
+                <table class="mle-debug-table">
+                    <tr>
+                        <th>Component ID</th>
+                        <td>{{ $id }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Instance ID</th>
+                        <td>{{ $getConfig('instanceId') }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Frontend Theme</th>
+                        <td>{{ $getConfig('frontendTheme') }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Temporary Upload</th>
+                        <td>{{ $getConfig('temporaryUploadMode') ? 'Yes' : 'No' }}</td>
+                    </tr>
+                </table>
+            </section>
+
+            {{-- ========================================================= --}}
+            {{-- DATABASE --}}
+            {{-- ========================================================= --}}
+
+            <section class="mle-debug-section">
+                <h3>💾 Database</h3>
+
+                <table class="mle-debug-table">
+                    <tr>
+                        <th>Default Connection</th>
+                        <td>{{ DB::connection()->getName() }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Database Name</th>
+                        <td>{{ DB::getDatabaseName() }}</td>
+                    </tr>
+                </table>
+            </section>
+
+            {{-- ========================================================= --}}
+            {{-- COLLECTIONS --}}
+            {{-- ========================================================= --}}
+
+            <section class="mle-debug-section">
+                <h3>🎞️ Collections</h3>
+
+                <table class="mle-debug-table">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Collection</th>
+                        <th>Media Count</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach ($getCollectionDebugData() as $data)
+                        <tr>
+                            <td>{{ ucfirst($data['type']) }}</td>
+                            <td>{{ $data['collection'] }}</td>
+                            <td>{{ $data['count'] }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </section>
+
+            {{-- ========================================================= --}}
+            {{-- FEATURES --}}
+            {{-- ========================================================= --}}
+
+            <section class="mle-debug-section">
+                <h3>🎛️ Features</h3>
+
+                <table class="mle-debug-table">
+                    <tr>
+                        <th>Destroy Button</th>
+                        <td>{{ $getConfig('showDestroyButton') ? 'Enabled' : 'Disabled' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Set As First</th>
+                        <td>{{ $getConfig('showSetAsFirstButton') ? 'Enabled' : 'Disabled' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Media Edit</th>
+                        <td>{{ $getConfig('showMediaEditButton') ? 'Enabled' : 'Disabled' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Menu</th>
+                        <td>{{ $getConfig('showMenu') ? 'Enabled' : 'Disabled' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Ordering</th>
+                        <td>{{ $getConfig('showOrder') ? 'Enabled' : 'Disabled' }}</td>
+                    </tr>
+                </table>
+            </section>
+
+            {{-- ========================================================= --}}
+            {{-- ROUTES --}}
+            {{-- ========================================================= --}}
+
+            <section class="mle-debug-section">
+                <h3>🌐 Routes</h3>
+
+                <table class="mle-debug-table">
+                    <tr>
+                        <th>Media Upload</th>
+                        <td><code>{{ $getConfig('routes.mediaUpload') }}</code></td>
+                    </tr>
+
+                    <tr>
+                        <th>YouTube Upload</th>
+                        <td><code>{{ $getConfig('routes.youtubeUpload') }}</code></td>
+                    </tr>
+
+                    <tr>
+                        <th>Preview Update</th>
+                        <td><code>{{ $getConfig('routes.mediaManagerPreviewUpdate') }}</code></td>
+                    </tr>
+
+                    <tr>
+                        <th>Lab Preview Update</th>
+                        <td><code>{{ $getConfig('routes.mediaManagerLabPreviewUpdate') }}</code></td>
+                    </tr>
+                </table>
+            </section>
+
+            {{-- ========================================================= --}}
+            {{-- CONFIG --}}
+            {{-- ========================================================= --}}
+
+            <section class="mle-debug-section">
+                <h3>🧩 Package Config</h3>
+
+                <table class="mle-debug-table">
+                    <tr>
+                        <th>XHR Enabled</th>
+                        <td>{{ config('medialibrary-extensions.use_xhr') ? 'Yes' : 'No' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Show Status</th>
+                        <td>{{ config('medialibrary-extensions.show_status') ? 'Yes' : 'No' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>YouTube Support</th>
+                        <td>{{ config('medialibrary-extensions.youtube_support_enabled') ? 'Yes' : 'No' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Allowed Mime Types</th>
+                        <td>
+                            {{ collect(config('medialibrary-extensions.allowed_mimetypes'))
+                                ->flatten()
+                                ->join(', ') }}
+                        </td>
+                    </tr>
+                </table>
+            </section>
+
+            <details class="mle-debug-section">
+                <summary>🗂️ All Registered Components ({{ count($getComponents()) }})</summary>
+                
+                <div class="mle-debug-components-list">
+                    @foreach($getComponents() as $compId => $compData)
+                        <details class="mle-debug-component-item">
+                            <summary>
+                                {{ $compData['name'] }} (ID: {{ $compId }})
+                            </summary>
+                            
+                            <div class="mle-debug-component-data">
+                                <strong>Config:</strong>
+                                <pre>{{ json_encode($getSanitizedConfig($compData['config']), JSON_PRETTY_PRINT) }}</pre>
+                                
+                                <strong>Options:</strong>
+                                <pre>{{ json_encode(collect($compData['options'])->sortKeys()->all(), JSON_PRETTY_PRINT) }}</pre>
+                            </div>
+                        </details>
+                    @endforeach
+                </div>
+            </details>
+
+            {{-- ========================================================= --}}
+            {{-- RAW DUMPS (Main Component) --}}
+            {{-- ========================================================= --}}
+
+            <details class="mle-debug-section">
+                <summary>🧾 Main Component Config Dump</summary>
+
+                <pre>{{ json_encode($getSanitizedConfig($getConfig()), JSON_PRETTY_PRINT) }}</pre>
+            </details>
+
+            <details class="mle-debug-section">
+                <summary>🧾 Raw Options Dump</summary>
+
+                <pre>{{ json_encode(collect($getOptions())->sortKeys()->all(), JSON_PRETTY_PRINT) }}</pre>
+            </details>
+
         </div>
     </div>
 @endif

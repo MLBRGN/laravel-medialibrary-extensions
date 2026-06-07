@@ -4,7 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -15,9 +15,9 @@ class ImageEditorModal extends BaseComponent
     use InteractsWithOptionsAndConfig;
     use ResolveModelOrClassName;
 
-//    public array $config = [];
+    //    public array $config = [];
 
-    public string $saveUpdatedMediaRoute;
+    public string $storeUpdatedMediaRoute;
 
     public ?string $mediaManagerId = null;
 
@@ -31,21 +31,23 @@ class ImageEditorModal extends BaseComponent
         string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public Media|TemporaryUpload|null $singleMedium = null,
+        public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
         array $options,
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
+        public ?string $dataSource = null
     ) {
         parent::__construct($id);
+        $this->options = $options;
 
         $this->mediaManagerId = $this->id;
         $this->id = $this->id.'-iem-'.$medium->id;
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->saveUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
+        $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
             $medium) : route(mle_prefix_route('save-updated-media'), $medium);
 
         // TODO look at this
@@ -57,14 +59,15 @@ class ImageEditorModal extends BaseComponent
             'modelId' => $this->modelId,
             'mediumId' => $this->medium->id,
             'collection' => $this->medium->collection_name,
-            'saveUpdatedMediaRoute' => $this->saveUpdatedMediaRoute,
+            'storeUpdatedMediaRoute' => $this->storeUpdatedMediaRoute,
             'collections' => $this->collections,
+            'dataSource' => $this->dataSource,
         ]);
 
-        $this->minimalDimensions = config('media-library-extensions.min_image_width').'x'.config('media-library-extensions.min_image_height');
-        $this->maximalDimensions = config('media-library-extensions.max_image_width').'x'.config('media-library-extensions.max_image_height');
+        $this->minimalDimensions = config('medialibrary-extensions.min_image_width').'x'.config('medialibrary-extensions.min_image_height');
+        $this->maximalDimensions = config('medialibrary-extensions.max_image_width').'x'.config('medialibrary-extensions.max_image_height');
         $this->forcedAspectRatio = $this->model?->getRequiredMediaAspectRatioString($medium)
-            ?? config('media-library-extensions.default_forced_aspect_ratio');
+            ?? config('medialibrary-extensions.default_forced_aspect_ratio');
     }
 
     public function render(): View

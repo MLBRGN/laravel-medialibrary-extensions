@@ -22,8 +22,8 @@
         name="medium_id"
         value="{{ $medium->id }}">
     <input type="hidden"
-        name="single_medium_id"
-        value="{{ $singleMedium?->id || null }}">
+        name="single_media_id"
+        value="{{ $singleMedia?->id || null }}">
     <input type="hidden"
         name="target_media_collection"
         value="{{ $targetMediaCollection }}">
@@ -33,7 +33,13 @@
     <input type="hidden"
         name="model_id"
         value="{{ $modelId }}">
-   
+    <input type="hidden"
+        name="temporary_upload_mode"
+        value="{{ $temporaryUploadMode ? 'true' : 'false' }}">
+    <input type="hidden"
+           name="data_source"
+           value="{{ $getConfig('dataSource') }}">
+    
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
@@ -45,14 +51,14 @@
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-button-icon btn btn-primary"
-        title="{{ __('media-library-extensions::messages.setup_as_main') }}"
+        title="{{ __('medialibrary-extensions::messages.setup_as_main') }}"
         data-mle-action="set-as-first"
         data-mle-route="{{ $getConfig('routes.mediumSetAsFirst') }}"
         @disabled($disabled)
     >
         <x-mle-shared-icon
-            name="{{ config('media-library-extensions.icons.setup_as_main') }}"
-            title="{{ __('media-library-extensions::messages.setup_as_main') }}"
+            name="{{ config('medialibrary-extensions.icons.setup_as_main') }}"
+            title="{{ __('medialibrary-extensions::messages.setup_as_main') }}"
         />
     </button>
 </x-mle-shared-conditional-form>

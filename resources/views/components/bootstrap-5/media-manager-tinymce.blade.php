@@ -9,6 +9,7 @@
         :readonly="false"
         :disabled="false"
         :instance-id="$getConfig('instanceId')"
+        :data-source="$getConfig('dataSource')"
     />
 </div>
 <x-mle-shared-assets

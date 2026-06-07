@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -53,6 +54,9 @@ trait InteractsWithMediaExtended
 
     public static function bootInteractsWithMediaExtended(): void
     {
+        if (get_called_class() === TemporaryUpload::class) {
+            return;
+        }
 
         static::created(function ($model) {
             if (! $model->exists || ! $model->getKey()) {
@@ -71,8 +75,8 @@ trait InteractsWithMediaExtended
     {
         $path = $this->id.'/'.$this->file_name;
 
-        return Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($path)
-            ? Storage::disk(config('media-library-extensions.media_disks.originals'))->url($path)
+        return Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($path)
+            ? Storage::disk(config('medialibrary-extensions.media_disks.originals'))->url($path)
             : null;
     }
 
@@ -80,8 +84,8 @@ trait InteractsWithMediaExtended
     {
         $path = $media->id.'/'.$media->file_name;
 
-        return Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($path)
-            ? Storage::disk(config('media-library-extensions.media_disks.originals'))->url($path)
+        return Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($path)
+            ? Storage::disk(config('medialibrary-extensions.media_disks.originals'))->url($path)
             : null;
     }
 
@@ -113,7 +117,7 @@ trait InteractsWithMediaExtended
 
             return $media;
         } catch (Exception $e) {
-            Log::error(__('media-library-extensions::messages.failed_to_attach_media', [
+            Log::error(__('medialibrary-extensions::messages.failed_to_attach_media', [
                 'message' => $e->getMessage(),
             ]), [
                 'path' => $path,
@@ -133,7 +137,7 @@ trait InteractsWithMediaExtended
         // priority: model property → config value → default true
         return property_exists($this, 'storeOriginals')
             ? $this->storeOriginals
-            : config('media-library-extensions.store_originals', true);
+            : config('medialibrary-extensions.store_originals', true);
     }
 
     protected function addResponsiveAspectRatioConversion(
@@ -171,8 +175,8 @@ trait InteractsWithMediaExtended
         }
 
         // Define the maximum allowed resolution (e.g., 1920x1080)
-        $maxWidth = config('media-library-extensions.max_image_width', 1920);
-        $maxHeight = config('media-library-extensions.max_image_height', 1080);
+        $maxWidth = config('medialibrary-extensions.max_image_width', 1920);
+        $maxHeight = config('medialibrary-extensions.max_image_height', 1080);
 
         // If the calculated width or height exceeds the max resolution, scale it down while maintaining the aspect ratio
         if ($targetWidth > $maxWidth || $targetHeight > $maxHeight) {
@@ -285,13 +289,13 @@ trait InteractsWithMediaExtended
             return $this->emptyImageInfo();
         }
 
-        $originalExists = Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($originalPath);
+        $originalExists = Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($originalPath);
 
         if (! $originalExists) {
             return $this->emptyImageInfo();
         }
 
-        return $this->getImageInfo($originalPath, config('media-library-extensions.media_disks.originals'));
+        return $this->getImageInfo($originalPath, config('medialibrary-extensions.media_disks.originals'));
     }
 
     public function getBaseImageInfo(Media $media, ?array $requiredAspectRatio = null): array
@@ -336,7 +340,7 @@ trait InteractsWithMediaExtended
         $approxLabel = null;
 
         // Match approximate known aspect ratios
-        foreach (config('media-library-extensions.available_aspect_ratios', []) as $availableAspectRatio) {
+        foreach (config('medialibrary-extensions.available_aspect_ratios', []) as $availableAspectRatio) {
             $value = $availableAspectRatio['value'] ?? null;
             if ($value !== null && $value !== -1) {
                 if ($ratio > $value - $tolerance && $ratio < $value + $tolerance) {
@@ -359,10 +363,10 @@ trait InteractsWithMediaExtended
                 ? "{$fractionFormat} ({$approxLabel})"
                 : $fractionFormat,
             'filled' => true,
-            'maxWidth' => config('media-library-extensions.max_image_width'),
-            'maxHeight' => config('media-library-extensions.max_image_height'),
-            'minWidth' => config('media-library-extensions.min_image_width'),
-            'minHeight' => config('media-library-extensions.min_image_height'),
+            'maxWidth' => config('medialibrary-extensions.max_image_width'),
+            'maxHeight' => config('medialibrary-extensions.max_image_height'),
+            'minWidth' => config('medialibrary-extensions.min_image_width'),
+            'minHeight' => config('medialibrary-extensions.min_image_height'),
         ];
 
         $flags = $this->getImageValidationFlags($imageInfo, $requiredAspectRatio);
@@ -380,7 +384,7 @@ trait InteractsWithMediaExtended
 
         // Aspect ratio
         $requiredValue = null;
-        $requiredLabel = __('media-library-extensions::messages.unknown');
+        $requiredLabel = __('medialibrary-extensions::messages.unknown');
 
         if (! empty($requiredAspectRatio)) {
             $requiredLabel = array_key_first($requiredAspectRatio);
@@ -418,16 +422,16 @@ trait InteractsWithMediaExtended
             'approx_label' => null,
             'display' => null,
             'filled' => false,
-            'maxWidth' => config('media-library-extensions.max_image_width'),
-            'maxHeight' => config('media-library-extensions.max_image_height'),
-            'minWidth' => config('media-library-extensions.min_image_width'),
-            'minHeight' => config('media-library-extensions.min_image_height'),
+            'maxWidth' => config('medialibrary-extensions.max_image_width'),
+            'maxHeight' => config('medialibrary-extensions.max_image_height'),
+            'minWidth' => config('medialibrary-extensions.min_image_width'),
+            'minHeight' => config('medialibrary-extensions.min_image_height'),
             'tooWide' => null,
             'tooTall' => null,
             'tooNarrow' => null,
             'tooShort' => null,
             'ratioOk' => null,
-            'requiredLabel' => __('media-library-extensions::messages.unknown'),
+            'requiredLabel' => __('medialibrary-extensions::messages.unknown'),
             'requiredValue' => null,
         ];
 
@@ -438,35 +442,38 @@ trait InteractsWithMediaExtended
         return $this->htmlEditorFields ?? [];
     }
 
-
     public static function allowsMediaUploads(): bool
     {
-        return true;// allow media uploads
+        return true; // allow media uploads
     }
 
     public function allowsMediaUploadFrom(?Authenticatable $user): bool
     {
-        return true;// allow all users
+        return true; // allow all users
     }
 
     public function allowedMediaCollections(): array
     {
-        return [];// allow all
+        return []; // allow all
     }
 
-    public static function allowsMediaDeletes(): bool {
+    public static function allowsMediaDeletes(): bool
+    {
         return true;
     }
 
-    public function allowsMediaDeletesFrom(?Authenticatable $user): bool {
+    public function allowsMediaDeletesFrom(?Authenticatable $user): bool
+    {
         return true;
     }
 
-    public static function allowsMediaEdits(): bool {
+    public static function allowsMediaEdits(): bool
+    {
         return true;
     }
 
-    public function allowsMediaEditsFrom(?Authenticatable $user): bool {
+    public function allowsMediaEditsFrom(?Authenticatable $user): bool
+    {
         return true;
     }
 

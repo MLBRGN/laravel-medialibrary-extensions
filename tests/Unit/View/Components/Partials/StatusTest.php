@@ -3,6 +3,7 @@
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\ComponentAttributeBag;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 
 it('sets status from session when initiatorId matches', function () {
@@ -67,7 +68,7 @@ it('renders the status partial view', function () {
 
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
+    expect($view)->toBeInstanceOf(View::class);
 });
 
 it('renders the status message in the view when initiatorId matches (plain)', function () {
@@ -198,4 +199,4 @@ it('sets status from validation error bag when present', function () {
     ])->render();
 
     expect($html)->toContain('Collection is verplicht.');
-})->skip();
+})->todo();

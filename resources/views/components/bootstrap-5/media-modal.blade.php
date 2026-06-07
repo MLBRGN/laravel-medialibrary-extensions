@@ -31,10 +31,10 @@
                     data-mle-modal-close
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
-                    title="{{ __('media-library-extensions::messages.close') }}">
+                    title="{{ __('medialibrary-extensions::messages.close') }}">
                     <x-mle-shared-icon
-                        name="{{ config('media-library-extensions.icons.close') }}"
-                        title="{{ __('media-library-extensions::messages.close') }}"
+                        name="{{ config('medialibrary-extensions.icons.close') }}"
+                        title="{{ __('medialibrary-extensions::messages.close') }}"
                     />
                 </button>
                 {{-- important set expandableInModal to false otherwise endless inclusion --}}
@@ -42,12 +42,13 @@
                     class="mle-width-100 mle-height-100"
                     id="{{ $id }}"
                     :model-or-class-name="$modelOrClassName"
-                    :single-medium="$singleMedium"
+                    :single-media="$singleMedia"
                     :expandable-in-modal="false"
                     :collections="$collections"
                     :options="$getOptions()"
                     :in-modal="true"
                     :preview-mode="false"
+                    :instance-id="$instanceId"
                 />
             </div>
         </div>

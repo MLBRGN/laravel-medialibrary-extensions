@@ -42,5 +42,5 @@ it('renders the correct Blade view', function () {
     $component = new Video($media);
 
     $view = $component->render();
-    expect($view->name())->toBe('media-library-extensions::components.video');
+    expect($view->name())->toBe('medialibrary-extensions::components.video');
 });

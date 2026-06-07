@@ -1,25 +1,25 @@
 <?php
 
 dataset('authenticated_post_routes', [
-    'single upload' => fn () => config('media-library-extensions.route_prefix').'-media-upload-single',
-    'multiple upload' => fn () => config('media-library-extensions.route_prefix').'-media-upload-multiple',
-    'youtube upload' => fn () => config('media-library-extensions.route_prefix').'-media-upload-youtube',
-    'save update medium' => fn () => config('media-library-extensions.route_prefix').'-save-updated-media',
-    'save updated temporary upload' => fn () => config('media-library-extensions.route_prefix').'-save-updated-temporary-upload',
+    'single upload' => fn () => config('medialibrary-extensions.route_prefix').'-media-upload-single',
+    'multiple upload' => fn () => config('medialibrary-extensions.route_prefix').'-media-upload-multiple',
+    'youtube upload' => fn () => config('medialibrary-extensions.route_prefix').'-media-upload-youtube',
+    'save update medium' => fn () => config('medialibrary-extensions.route_prefix').'-save-updated-media',
+    'save updated temporary upload' => fn () => config('medialibrary-extensions.route_prefix').'-save-updated-temporary-upload',
 ]);
 
 dataset('authenticated_delete_routes', [
-    'medium destroy' => fn () => config('media-library-extensions.route_prefix').'-destroy-media',
-    'temporary upload destroy' => fn () => config('media-library-extensions.route_prefix').'-destroy-temporary-upload',
+    'medium destroy' => fn () => config('medialibrary-extensions.route_prefix').'-destroy-media',
+    'temporary upload destroy' => fn () => config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload',
 ]);
 
 dataset('authenticated_put_routes', [
-    'set as first' => fn () => config('media-library-extensions.route_prefix').'-set-as-first',
-    'temporary upload set as first' => fn () => config('media-library-extensions.route_prefix').'-temporary-upload-set-as-first',
+    'set as first' => fn () => config('medialibrary-extensions.route_prefix').'-set-as-first',
+    'temporary upload set as first' => fn () => config('medialibrary-extensions.route_prefix').'-temporary-upload-set-as-first',
 ]);
 
 dataset('authenticated_get_routes', [
-    'preview update' => fn () => config('media-library-extensions.route_prefix').'-media-manager-preview-update',
+    'preview update' => fn () => config('medialibrary-extensions.route_prefix').'-media-manager-preview-update',
 ]);
 
 it('cannot sen post requests to routes when not authenticated', function ($routeName) {

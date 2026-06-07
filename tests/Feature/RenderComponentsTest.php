@@ -10,7 +10,7 @@ it('can test using browserKit', function () {
         echo $e->getFile().':'.$e->getLine();
         throw $e;
     }
-})->skip();
+})->todo('too complicated for now');
 
 it('can render components', function () {
     $this->registerTestRoute('render_components')
@@ -29,4 +29,4 @@ it('can render components', function () {
         ->seeElement('form[id="form_put"] input[name="_method"][value="PUT"]')
         ->seeElement('form[id="form_patch"] input[name="_method"][value="PATCH"]')
         ->seeElement('form[id="form_delete"] input[name="_method"][value="DELETE"]');
-})->skip();
+})->todo('Too complicated for now');

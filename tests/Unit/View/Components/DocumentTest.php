@@ -9,13 +9,13 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('initializes correctly and sets id', function () {
 
-    $medium = $this->getMediaModelWithMedia(['audio' => 1]);
+    $media = $this->getMediaModelWithMedia(['audio' => 1]);
 
     $component = new Document(
-        $medium
+        $media
     );
 
-    expect($component->id)->toBe('mle-document-'.$medium->id);
+    expect($component->id)->toBe('mle-document-'.$media->id);
 });
 
 it('document component renders', function () {
@@ -62,7 +62,7 @@ it('document component renders unknown file type', function () {
     expect($html)
         ->toContain('class="mle-document"')
         ->toContain('class="mle-document-preview"')
-        ->toContain(__('media-library-extensions::messages.unknown_file_mimetype'));
+        ->toContain(__('medialibrary-extensions::messages.unknown_file_mimetype'));
 });
 
 it('renders the correct view with given properties', function () {
@@ -76,7 +76,7 @@ it('renders the correct view with given properties', function () {
 
     expect($component->medium)->toBe($media);
     expect($component->alt)->toBe('Alternative Text');
-    expect($component->render()->name())->toBe('media-library-extensions::components.document');
+    expect($component->render()->name())->toBe('medialibrary-extensions::components.document');
 });
 
 it('uses default alt text if none is provided', function () {

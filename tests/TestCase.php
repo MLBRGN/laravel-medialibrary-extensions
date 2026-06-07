@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
@@ -21,6 +19,7 @@ use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvide
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
+use Mockery\LegacyMockInterface;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -42,7 +41,7 @@ class TestCase extends Orchestra
         config(['app.timezone' => 'UTC']);
 
         // Run package migrations
-//        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        //        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         Carbon::setTestNow('2025-01-01 00:00:00');
 
@@ -55,8 +54,8 @@ class TestCase extends Orchestra
 
         Route::get('/login', fn () => 'Login (dummy)')->name('login');
 
-        Config::set('media-library-extensions.demo_pages_enabled', false);
-        Config::set('media-library-extensions.store_originals', true);
+        Config::set('medialibrary-extensions.demo_pages_enabled', false);
+        Config::set('medialibrary-extensions.store_originals', true);
 
         if (empty(config('app.key'))) {
             $key = 'base64:'.base64_encode(random_bytes(32));
@@ -122,7 +121,7 @@ class TestCase extends Orchestra
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
         // setup database
-//        config()->set('database.default', 'sqlite');
+        //        config()->set('database.default', 'sqlite');
         config()->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => ':memory:',
@@ -151,6 +150,12 @@ class TestCase extends Orchestra
             'url' => '/media',
         ]);
 
+        config()->set('filesystems.disks.media', [
+            'driver' => 'local',
+            'root' => $this->getMediaDirectory(),
+            'url' => '/media',
+        ]);
+
         $app->bind('path.public', fn () => $this->getTempDirectory());
 
         $app['config']->set('media-library.media_model', Media::class);
@@ -161,11 +166,11 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-//        $app['config']->set('database.connections.media_demo', [
-//            'driver' => 'sqlite',
-//            'database' => ':memory:',
-//            'prefix' => '',
-//        ]);
+        //        $app['config']->set('database.connections.media_demo', [
+        //            'driver' => 'sqlite',
+        //            'database' => ':memory:',
+        //            'prefix' => '',
+        //        ]);
     }
 
     protected function defineDatabaseMigrations(): void
@@ -264,11 +269,6 @@ class TestCase extends Orchestra
      */
     protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
     {
-        //        dump([
-        //            'helper_session' => session()->getId(),
-        //            'request_session' => optional(request()->session())->getId(),
-        //        ]);
-
         $disk = $attributes['disk'] ?? 'public';
 
         $defaults = [
@@ -347,20 +347,6 @@ class TestCase extends Orchestra
 
         return $target;
     }
-
-    //    public function getTestImagePath(string $fileName = 'test.jpg'): string
-    //    {
-    //
-    //        $source = __DIR__.'/Support/files/'.$fileName;
-    // //        dump($source);
-    // //        dump($fileName);
-    //        $target = $this->getFixtureUploadedFile($fileName);
-    //
-    //        File::ensureDirectoryExists(dirname($target));
-    //        File::copy($source, $target);
-    //
-    //        return $target;
-    //    }
 
     public function getModelWithMedia(array $types = ['image' => 1]): Model
     {
@@ -497,7 +483,7 @@ class TestCase extends Orchestra
      * @param  array  $customProperties  Extra custom_properties
      * @param  array  $generatedConversions  Conversion map (e.g. ['thumb' => true])
      * @param  bool  $mock  Return a Mockery mock instead of a real model
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Media|\Mockery\LegacyMockInterface
+     * @return Media|LegacyMockInterface
      */
     public function getMedium(
         ?string $fileName = 'test.jpg',
@@ -549,7 +535,7 @@ class TestCase extends Orchestra
         File::ensureDirectoryExists(dirname($target));
         File::copy($source, $target);
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var Media $media */
         $media = $model
             ->addMedia($target)
             ->preservingOriginal()

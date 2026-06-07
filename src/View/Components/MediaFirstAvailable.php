@@ -31,11 +31,11 @@ class MediaFirstAvailable extends BaseComponent
         public bool $previewMode = false // should the media-viewer be in preview mode (no autoplay, no document loading or not)
     ) {
         parent::__construct($id ?: null);
-
+        $this->options = $options;
         $this->resolveModelOrClassName($modelOrClassName);
 
         if (! $this->hasCollections()) {
-            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+            throw new Exception(__('medialibrary-extensions::messages.no_media_collections'));
         }
 
         if ($this->temporaryUploadMode) {
@@ -56,6 +56,6 @@ class MediaFirstAvailable extends BaseComponent
 
     public function render(): View
     {
-        return view('media-library-extensions::components.media-first-available');
+        return $this->renderView('', null, false, 'medialibrary-extensions::components.media-first-available');
     }
 }

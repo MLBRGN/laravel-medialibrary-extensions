@@ -2,15 +2,15 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit;
 
-use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 class HasMediaExtendedTest extends TestCase
 {
     public function test_blog_model_implements_has_media_extended()
     {
-        $blog = new Blog();
+        $blog = new Blog;
 
         $this->assertInstanceOf(HasMediaExtended::class, $blog);
     }
@@ -22,7 +22,7 @@ class HasMediaExtendedTest extends TestCase
 
     public function test_it_has_expected_methods_from_trait()
     {
-        $blog = new Blog();
+        $blog = new Blog;
 
         $this->assertTrue(method_exists($blog, 'allowsMediaUploads'));
         $this->assertTrue(method_exists($blog, 'allowsMediaUploadFrom'));

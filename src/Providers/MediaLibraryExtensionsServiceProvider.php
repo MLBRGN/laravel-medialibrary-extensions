@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Providers;
 
+use BladeUI\Icons\Factory;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Artisan;
@@ -39,7 +40,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaViewer;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\DestroyForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\ImageEditorForm;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\MediumRestoreForm;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\MediaRestoreForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Spinner;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
@@ -79,7 +80,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     private string $vendor = 'mlbrgn';
 
-    private string $nameSpace = 'media-library-extensions';
+    private string $nameSpace = 'medialibrary-extensions';
 
     public function boot(): void
     {
@@ -88,13 +89,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Log::warning('['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
-        // This tells Laravel where to find Blade view files (components a registered separately)
+        // This tells Laravel where to findMediaModel Blade view files (components a registered separately)
         $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->nameSpace);
 
-        // This tells Laravel where to find the route files
+        // This tells Laravel where to findMediaModel the route files
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
 
-        // This tells Laravel where to find the translation files
+        // This tells Laravel where to findMediaModel the translation files
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
         // $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
@@ -120,31 +121,35 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             //            );
 
             $this->publishes([
-                __DIR__.'/../../config/media-library-extensions.php' => config_path('media-library-extensions.php'),
-            ], 'config');
+                __DIR__.'/../../config/media-library-extensions.php' => config_path('medialibrary-extensions.php'),
+            ], $this->nameSpace.'-config');
 
-            $this->publishes([
-                __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
-            ], 'views');
+            // Prevent publishing assets/views/etc. inside the mlbrgn-laravel-packages development app
+            // to avoid duplicates and ensure we always use the package's own resources.
+            if (! str_ends_with(base_path(), 'mlbrgn-laravel-packages')) {
+                $this->publishes([
+                    __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
+                ], $this->nameSpace.'-views');
 
-            $this->publishes([
-                __DIR__.'/../../dist/css' => public_path('vendor/'.$this->vendor.'/media-library-extensions/css'),
-                __DIR__.'/../../dist/js' => public_path('vendor/'.$this->vendor.'/media-library-extensions/js'),
-            ], 'assets');
+                $this->publishes([
+                    __DIR__.'/../../dist/css' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace.'/css'),
+                    __DIR__.'/../../dist/js' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace.'/js'),
+                ], $this->nameSpace.'-assets');
 
-            $this->publishes([
-                __DIR__.'/../../lang' => $this->app->langPath('vendor/'.$this->nameSpace),
+                $this->publishes([
+                    __DIR__.'/../../lang' => $this->app->langPath('vendor/'.$this->nameSpace),
 
-            ], 'translations');
+                ], $this->nameSpace.'-translations');
 
-            $this->publishes([
-                __DIR__.'/../../resources/images' => public_path('vendor/'.$this->vendor.'/media-library-extensions/images'),
+                $this->publishes([
+                    __DIR__.'/../../resources/images' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace.'/images'),
 
-            ], 'images');
+                ], $this->nameSpace.'-images');
 
-            $this->publishes([
-                __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
-            ], 'policy');
+                $this->publishes([
+                    __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
+                ], $this->nameSpace.'-policy');
+            }
 
         }
 
@@ -193,23 +198,19 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-upload-form', UploadForm::class);
         Blade::component($this->packageNameShort.'-partial-image-editor-form', ImageEditorForm::class);
         Blade::component($this->packageNameShort.'-partial-youtube-upload-form', YouTubeUploadForm::class);
-        Blade::component($this->packageNameShort.'-partial-medium-restore-form', MediumRestoreForm::class);
+        Blade::component($this->packageNameShort.'-partial-medium-restore-form', MediaRestoreForm::class);
         Blade::component($this->packageNameShort.'-partial-destroy-form', DestroyForm::class);
         Blade::component($this->packageNameShort.'-partial-set-as-first-form', SetAsFirstForm::class);
         Blade::component($this->packageNameShort.'-partial-status-area', StatusArea::class);
         Blade::component($this->packageNameShort.'-partial-status', Status::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
-        //                dd(Blade::getClassComponentAliases());
-        // register policies
-        if (config('media-library-extensions.demo_pages_enabled')) {
-            // Always register the demo database connection, but the models will only use it
-            // if the request is from a demo page (checked in the model's getConnectionName method)
-            $this->registerDemoDatabase();
+        if (config('medialibrary-extensions.demo_pages_enabled')) {
+            $this->bootDemoDatabase();
         }
 
         // only affects routes using {media} and inside this package
-//        Route::model('media', Media::class); DONT DO THIS
+        //        Route::model('media', Media::class); DONT DO THIS
 
         $this->registerPolicy();
         $this->addToAbout();
@@ -219,21 +220,19 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         $this->registerCleanupScheduler();
         //        // add schedule for temporary uploads cleanup
-        //        $config = config('media-library-extensions.schedule.cleanup');
+        //        $config = config('medialibrary-extensions.schedule.cleanup');
         //
         //        if ($config['enabled']) {
         //            $this->app->booted(function () use ($config) {
         //                $schedule = $this->app->make(Schedule::class);
-        //                $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
+        //                $schedule->command('medialibrary-extensions:remove-expired-temporary-uploads')
         //                    ->{$config['frequency']}()
         //                    ->withoutOverlapping()
         //                    ->onOneServer();
         //            });
         //        }
 
-        $this->publishesMigrations([
-            __DIR__.'/../../database/migrations' => database_path('migrations'),
-        ]);
+        $this->registerMigrations();
 
         $this->checkBladeUIKitIconSet();
 
@@ -244,7 +243,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         //            $publicStorage = public_path('storage');
         //
         //            if (! file_exists($publicStorage) || ! is_link($publicStorage)) {
-        //                $message = __('media-library-extensions::messages.no_or_invalid_storage_link');
+        //                $message = __('medialibrary-extensions::messages.no_or_invalid_storage_link');
         //                Log::error($message);
         //                throw new RuntimeException($message);
         //            }
@@ -256,29 +255,34 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     {
         parent::register();
 
-        $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'media-library-extensions');
+        $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'medialibrary-extensions');
 
         // Register package-specific event provider
         $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
 
         $this->setupDisks();
 
-        if (app()->bound('mle-demo-mode')) {
-            config([
-                'media-library.media_model' => DemoMedia::class,
-            ]);
-            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
-
-        } else {
-            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
+        if (config('medialibrary-extensions.demo_pages_enabled')) {
+            $this->registerDemoDatabaseConnection();
         }
+
+        //        if (app()->bound('mle-demo-mode')) {
+        //            config([
+        //                'media-library.media_model' => DemoMedia::class,
+        //            ]);
+        //            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
+        //
+        //        } else {
+        //            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
+        //        }
     }
 
-    public function registerDemoDatabase(): void
+    protected function registerDemoDatabaseConnection(): void
     {
-        $connectionName = config('media-library-extensions.demo_database_name');
-//        $databasePath = storage_path('media-library-extensions-demo.sqlite');
-        $databasePath = database_path('media-library-extensions-demo.sqlite');
+        $connectionName = config('medialibrary-extensions.demo_database_name');
+
+        $databasePath = database_path('medialibrary-extensions-demo.sqlite');
+
         if (! file_exists($databasePath)) {
             touch($databasePath);
         }
@@ -288,6 +292,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             'database' => $databasePath,
             'prefix' => '',
         ]);
+    }
+
+    public function bootDemoDatabase(): void
+    {
+        $connectionName = config('medialibrary-extensions.demo_database_name');
+        $databasePath = database_path('medialibrary-extensions-demo.sqlite');
 
         // Purge and reconnect
         DB::purge($connectionName);
@@ -304,6 +314,19 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             ]);
         }
 
+        // Also ensure 'aliens' table exists in default connection for testing 'default' data source
+        if (! Schema::hasTable('aliens')) {
+            try {
+                Artisan::call('migrate', [
+                    '--path' => realpath(__DIR__.'/../../database/migrations/demo'),
+                    '--realpath' => true,
+                    '--force' => true,
+                ]);
+            } catch (\Exception $e) {
+                // table might already exist but schema:hasTable failed for some reason (e.g. different connection)
+                Log::warning('Failed to migrate aliens table to default connection: '.$e->getMessage());
+            }
+        }
     }
 
     protected function registerPolicy(): void
@@ -335,7 +358,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     protected function overrideFormComponentsConfig(): void
     {
         $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
-        $extraScripts[] = asset('vendor/mlbrgn/media-library-extensions/js/shared/tinymce-custom-file-picker.js');
+        $extraScripts[] = asset(config('medialibrary-extensions.asset_path').'/js/shared/tinymce-custom-file-picker.js');
         $overrides = [
             'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
             'html_editor_tinymce_global_config.extra_scripts' => $extraScripts,
@@ -351,16 +374,16 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $disksToRegister = [];
 
         // Add originals disk only if enabled
-        if (config('media-library-extensions.store_originals', true)) {
-            $disksToRegister[config('media-library-extensions.media_disks.originals')] = config('media-library-extensions.disks.media_originals');
+        if (config('medialibrary-extensions.store_originals', true)) {
+            $disksToRegister[config('medialibrary-extensions.media_disks.originals')] = config('medialibrary-extensions.disks.media_originals');
         }
 
         // Add demo disk only if demo mode is enabled
-        if (config('media-library-extensions.demo_pages_enabled', false)) {
-            $disksToRegister[config('media-library-extensions.media_disks.demo')] = config('media-library-extensions.disks.media_demo');
+        if (config('medialibrary-extensions.demo_pages_enabled', false)) {
+            $disksToRegister[config('medialibrary-extensions.media_disks.demo')] = config('medialibrary-extensions.disks.media_demo');
         }
 
-        $disksToRegister[config('media-library-extensions.media_disks.temporary')] = config('media-library-extensions.disks.media_temporary');
+        $disksToRegister[config('medialibrary-extensions.media_disks.temporary')] = config('medialibrary-extensions.disks.media_temporary');
 
         // Register each one only if not already defined by the host app
         foreach ($disksToRegister as $name => $diskConfig) {
@@ -370,9 +393,40 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         }
     }
 
+    protected function registerMigrations(): void
+    {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
+        $migrationSourcePath = __DIR__.'/../../database/migrations';
+        $migrationFiles = glob($migrationSourcePath.'/*.php');
+
+        $publishableMigrations = [];
+
+        foreach ($migrationFiles as $sourceFile) {
+            $filename = basename($sourceFile);
+
+            // Remove timestamp from source filename if it exists
+            $baseName = preg_replace('/^\d{4}_\d{2}_\d{2}_\d{6}_/', '', $filename);
+
+            // Check if a migration with the same base name already exists in the app
+            $exists = collect(glob(database_path('migrations/*.php')))
+                ->some(fn ($path) => str_ends_with($path, '_'.$baseName) || basename($path) === $baseName);
+
+            if (! $exists) {
+                $publishableMigrations[$sourceFile] = database_path('migrations/'.$filename);
+            }
+        }
+
+        if (! empty($publishableMigrations)) {
+            $this->publishesMigrations($publishableMigrations, $this->nameSpace.'-migrations');
+        }
+    }
+
     protected function registerCleanupScheduler(): void
     {
-        $config = config('media-library-extensions.schedule.cleanup');
+        $config = config('medialibrary-extensions.schedule.cleanup');
 
         if (! ($config['enabled'] ?? false)) {
             return;
@@ -388,11 +442,11 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
             if (! in_array($frequency, $allowedFrequencies)) {
                 throw new \InvalidArgumentException(
-                    "Invalid frequency '{$frequency}' in media-library-extensions config. Allowed values: ".implode(', ', $allowedFrequencies)
+                    "Invalid frequency '{$frequency}' in medialibrary-extensions config. Allowed values: ".implode(', ', $allowedFrequencies)
                 );
             }
 
-            $event = $schedule->command('media-library-extensions:remove-expired-temporary-uploads')
+            $event = $schedule->command('medialibrary-extensions:remove-expired-temporary-uploads')
                 ->$frequency()  // safe because only allowed values reach here
                 ->withoutOverlapping()
                 ->onOneServer();
@@ -408,24 +462,24 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     {
         // Skip check in tests to avoid manifest issues
         if ($this->app->runningUnitTests()) {
-            config(['media-library-extensions.active_blade_ui_kit_icon_set' => null]);
+            config(['medialibrary-extensions.active_blade_ui_kit_icon_set' => null]);
 
             return;
         }
 
         // Ensure Blade UI Kit is installed
-        if (! class_exists(\BladeUI\Icons\Factory::class)) {
+        if (! class_exists(Factory::class)) {
             throw new RuntimeException(
                 'The "blade-ui-kit/blade-icons" package is required but not installed. '.
                 'Please run: composer require blade-ui-kit/blade-icons'
             );
         }
 
-        /** @var \BladeUI\Icons\Factory $factory */
-        $factory = app(\BladeUI\Icons\Factory::class);
+        /** @var Factory $factory */
+        $factory = app(Factory::class);
         $registered = array_keys($factory->all());
 
-        $configuredNamespace = config('media-library-extensions.blade_ui_kit_icon_set');
+        $configuredNamespace = config('medialibrary-extensions.blade_ui_kit_icon_set');
 
         // If configured, verify namespace exists
         if ($configuredNamespace !== null) {
@@ -437,14 +491,14 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 ));
             }
 
-            config(['media-library-extensions.active_blade_ui_kit_icon_set' => $configuredNamespace]);
+            config(['medialibrary-extensions.active_blade_ui_kit_icon_set' => $configuredNamespace]);
 
             return;
         }
 
         // Auto-detect first available namespace
         if (! empty($registered)) {
-            config(['media-library-extensions.active_blade_ui_kit_icon_set' => $registered[0]]);
+            config(['medialibrary-extensions.active_blade_ui_kit_icon_set' => $registered[0]]);
 
             return;
         }
@@ -455,7 +509,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Install one of the following (for example):
               composer require blade-ui-kit/blade-bootstrap-icons
               composer require blade-ui-kit/blade-heroicons
-            Then optionally set 'blade_ui_kit_icon_set' in your media-library-extensions config file.
+            Then optionally set 'blade_ui_kit_icon_set' in your medialibrary-extensions config file.
         MSG;
 
         Log::error($message);

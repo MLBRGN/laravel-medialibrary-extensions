@@ -12,14 +12,25 @@
     method="post"
     class="mle-media-manager-youtube-upload-form"
 >
+    @if($disabled)
+        <div class="mle-alert alert alert-primary">
+            @if(!$multiple && $getConfig('disableForm'))
+                {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}
+            @elseif($multiple && $getConfig('disableForm'))
+                {{ __('medialibrary-extensions::messages.upload_disabled_max_items_reached') }}
+            @else
+                {{ __('medialibrary-extensions::messages.disabled') }}
+            @endif
+        </div>
+    @endif
     <input 
         type="hidden" 
         name="temporary_upload_mode" 
         value="{{ $getConfig('temporaryUploadMode') ? 'true' : 'false' }}">
     <input
         type="hidden"
-        name="single_medium_id"
-        value="{{ $singleMedium?->id || null}}">
+        name="single_media_id"
+        value="{{ $singleMedia?->id || null}}">
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
@@ -56,6 +67,9 @@
         type="hidden"
         name="multiple"
         value="{{ $multiple ? 'true' : 'false' }}">
+    <input type="hidden"
+           name="data_source"
+           value="{{ $getConfig('dataSource') }}">
     <label 
         for="{{ $id }}-youtube-url" 
         class="mle-label">
@@ -75,7 +89,7 @@
         data-mle-action="upload-youtube-medium"
         @disabled($disabled)
     >
-        {{ __('media-library-extensions::messages.add_youtube_video') }}
+        {{ __('medialibrary-extensions::messages.add_youtube_video') }}
     </button>
 </x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))

@@ -8,11 +8,10 @@
         'media-manager-single' => !$multiple,
     ])->merge() }}
     data-mle-media-manager
-{{--    data-use-xhr="{{ $getConfig('useXhr') ? 'true' : 'false' }}"--}}
 >
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
-    @if(config('media-library-extensions.debug'))
+    @if(config('medialibrary-extensions.debug'))
         <div class="mle-component mle-debug-menu">
             <x-mle-shared-debug-button/>
             <x-mle-shared-local-package-icon />
@@ -30,7 +29,7 @@
                     <x-mle-partial-upload-form
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"
-                        :single-medium="$singleMedium"
+                        :single-media="$singleMedia"
                         :collections="$collections"
                         :options="$getOptions()"
                         :multiple="$multiple"
@@ -45,7 +44,7 @@
                         class="mt-3"
                         :id="$id"
                         :model-or-class-name="$modelOrClassName"
-                        :single-medium="$singleMedium"
+                        :single-media="$singleMedia"
                         :collections="$collections"
                         :options="$getOptions()"
                         :disabled="$disabled || $getConfig('disableForm')"
@@ -71,7 +70,7 @@
             <x-mle-media-preview-grid
                 :id="$id"
                 :model-or-class-name="$modelOrClassName"
-                :single-medium="$singleMedium"
+                :single-media="$singleMedia"
                 :collections="$collections"
                 :options="$getOptions()"
                 :selectable="$selectable"
@@ -79,6 +78,7 @@
                 :readonly="$readonly"
                 :multiple="$multiple"
                 :instance-id="$getConfig('instanceId')"
+                :data-source="$getConfig('dataSource')"
             />
         </div>
     </div>
@@ -91,10 +91,10 @@
         :options="$getOptions()"
     />
 </div>
-
-<x-mle-shared-assets
-    include-css="true"
-    include-js="true"
-    :frontend-theme="$getConfig('frontendTheme')"
-    for="bootstrap-5|media-manager"
-/>
+    <x-mle-shared-assets
+        include-css="true"
+        include-js="true"
+        include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
+        :frontend-theme="$getConfig('frontendTheme')"
+        for="bootstrap-5|media-manager"
+    />

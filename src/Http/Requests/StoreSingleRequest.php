@@ -10,14 +10,16 @@ class StoreSingleRequest extends StoreRequest
 {
     public function rules(): array
     {
-        $uploadFieldName = config('media-library-extensions.upload_field_name_single');
-
         $collections = $this->array('collections');
 
         $uploadRules = [
             'nullable',
             'file',
         ];
+
+        if ($maxSize = config('medialibrary-extensions.max_upload_size')) {
+            $uploadRules[] = 'max:'.$maxSize / 1024;
+        }
 
         if ($rule = $this->uploadLimitRule($collections, 1)) {
             $uploadRules[] = $rule;
@@ -35,11 +37,12 @@ class StoreSingleRequest extends StoreRequest
                 'collections' => ['required', 'array', 'min:1'],
                 'collections.*' => ['nullable', 'string'],
 
-                $uploadFieldName => $uploadRules,
+                'media' => $uploadRules,
 
                 'initiator_id' => ['required', 'string'],
                 'media_manager_id' => ['required', 'string'],
                 'instance_id' => ['nullable', 'string', 'max:64'],
+                'data_source' => ['nullable', 'string'],
             ]
         );
     }

@@ -40,6 +40,6 @@ it('fails for invalid YouTube URLs', function () {
             $failed = $message;
         });
 
-        expect($failed)->toBe(__('media-library-extensions::messages.invalid_youtube_url'));
+        expect($failed)->toBe(__('medialibrary-extensions::messages.invalid_youtube_url'));
     }
 });

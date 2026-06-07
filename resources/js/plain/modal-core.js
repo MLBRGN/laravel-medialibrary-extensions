@@ -42,7 +42,7 @@ export function closeModal(modal, originalEvent) {
 export function openModal(modalId, trigger, originalEvent) {
     const modal = document.querySelector(modalId);
     if (!modal) {
-        // console.log('could not find modal ' + modalId);
+        console.warn('could not findMediaModel modal ' + modalId);
         return;
     }
 
@@ -61,6 +61,7 @@ export function openModal(modalId, trigger, originalEvent) {
 export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
     modal.addEventListener('mleModalOpened', onOpen);
     modal.addEventListener('mleModalClosed', onClose);
+    // console.log('setupModalBase', modal);
 }
 
 function defaultClickHandler(e) {

@@ -8,6 +8,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
  * Edit media and restore original if needed
  */
 
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
@@ -21,19 +22,19 @@ class LabPreviewOriginal extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public Media|TemporaryUpload|null $medium,
+        public Media|TemporaryUpload|null $media,
         array $options = []
     ) {
         parent::__construct($id);
+        $this->options = $options;
 
         $this->resolveConfig();
 
-        $this->imageInfo = $medium->model?->getOriginalImageInfo($medium);
+        $this->imageInfo = $media->model?->getOriginalImageInfo($media);
     }
 
-    public function render()
+    public function render(): View
     {
-        return $this->getView('lab.lab-preview-original', $this->getConfig('frontendTheme'));
-
+        return $this->renderView('lab.lab-preview-original', $this->getConfig('frontendTheme'));
     }
 }

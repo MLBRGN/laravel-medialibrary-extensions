@@ -7,8 +7,17 @@ const globalLoadedStyles = new Set();
 /**
  * Create a package-scoped loader
  */
-export function createAssetLoader(namespace, { globalDedup = false, basePath = '/vendor/mlbrgn/laravel-form-components'  } = {}) {
-    console.log('mle createAssetLoader')
+export function createAssetLoader(namespace, {
+        globalDedup = false,
+        basePath
+    } = {}) {
+    console.log('mle createAssetLoader, basePath: ', basePath)
+
+    if (!basePath) {
+        throw new Error(
+            `[mlbrgn] Missing basePath for asset loader (${namespace})`
+        );
+    }
 
     const loadedScripts = new Set();
     const loadedStyles = new Set();
@@ -111,6 +120,8 @@ export function mergeConfigs(configs) {
 
     const merged = {
         theme: configs[0].theme ?? null,
+        assetBasePath: configs[0].assetBasePath ?? null,
+        imageEditorTranslationsPath: configs[0].imageEditorTranslationsPath ?? null,
         assets: {},
         translations: {},
         debug: configs.some(c => c.debug),

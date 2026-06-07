@@ -35,7 +35,7 @@ it('renders the correct view', function () {
 
     $view = $component->render();
 
-    expect($view->name())->toBe('media-library-extensions::components.video');
+    expect($view->name())->toBe('medialibrary-extensions::components.video');
 });
 
 it('renders the expected video tag', function () {

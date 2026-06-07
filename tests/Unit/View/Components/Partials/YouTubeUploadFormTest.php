@@ -12,7 +12,7 @@ it('initializes with a HasMedia model', function () {
     $component = new YouTubeUploadForm(
         id: 'component-yt',
         modelOrClassName: $model,
-        singleMedium: null,
+        singleMedia: null,
         collections: [
             'image' => null,
             'youtube' => 'youtube',
@@ -43,7 +43,7 @@ it('initializes with a model class string', function () {
     $component = new YouTubeUploadForm(
         id: 'component-yt',
         modelOrClassName: $model->getMorphClass(),
-        singleMedium: null,
+        singleMedia: null,
         collections: [
             'image' => null,
             'youtube' => 'youtube',
@@ -71,7 +71,7 @@ it('throws if modelOrClassName is non existing class name', function () {
     new YouTubeUploadForm(
         id: 'comp',
         modelOrClassName: 'someDummyClassName',
-        singleMedium: null,
+        singleMedia: null,
         collections: [
             'image' => null,
             'youtube' => 'youtube',
@@ -95,7 +95,7 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
     new YouTubeUploadForm(
         id: 'comp',
         modelOrClassName: $model,
-        singleMedium: null,
+        singleMedia: null,
         collections: [
             'image' => null,
             'youtube' => 'youtube',
@@ -116,7 +116,7 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
 it('renders the correct partial view', function () {
     $model = $this->getTestBlogModel();
     $theme = 'custom';
-    $expectedView = "media-library-extensions::components.$theme.partial.youtube-upload-form";
+    $expectedView = "medialibrary-extensions::components.$theme.partial.youtube-upload-form";
 
     ViewFacade::shouldReceive('make')
         ->with($expectedView, [], [])
@@ -126,7 +126,7 @@ it('renders the correct partial view', function () {
     $component = new YouTubeUploadForm(
         id: 'yt-comp',
         modelOrClassName: $model->getMorphClass(),
-        singleMedium: null,
+        singleMedia: null,
         collections: [
             'image' => null,
             'youtube' => 'youtube',

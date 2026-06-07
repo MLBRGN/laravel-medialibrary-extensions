@@ -36,7 +36,7 @@ it('deletes the medium and returns JSON', function () {
         ->assertJson([
             'initiatorId' => $initiatorId,
             'type' => 'success',
-            'message' => __('media-library-extensions::messages.medium_removed'),
+            'message' => __('medialibrary-extensions::messages.medium_removed'),
         ]);
 
     $this->assertDatabaseMissing('media', ['id' => $media->id]);
@@ -72,14 +72,14 @@ it('deletes the medium and returns Redirect', function () {
 
     $response->assertRedirect();
 
-    $flashKey = config('media-library-extensions.status_session_prefix');
+    $flashKey = config('medialibrary-extensions.status_session_prefix');
     $flashData = $response->getSession()->get($flashKey);
 
     expect($flashData)->not()->toBeNull()
         ->and($flashData)->toMatchArray([
             'initiator_id' => $initiatorId,
             'type' => 'success',
-            'message' => __('media-library-extensions::messages.medium_removed'),
+            'message' => __('medialibrary-extensions::messages.medium_removed'),
         ]);
 
     $this->assertDatabaseMissing('media', ['id' => $media->id]);

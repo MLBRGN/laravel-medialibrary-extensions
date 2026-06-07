@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 class DestroyTemporaryUploadAction
@@ -21,8 +22,17 @@ class DestroyTemporaryUploadAction
     public function execute(
         DestroyTemporaryUploadRequest $request,
     ): JsonResponse|RedirectResponse {
+        $dataSource = $request->data_source;
 
-        $temporaryUpload = $this->mediaService->resolveTemporaryUploadModel($request->route('temporaryUploadId'));
+        $temporaryUpload = $this->mediaService->findTemporaryUpload(
+            $request->input('temporaryUploadId') ?: $request->route('temporaryUploadId'),
+            $dataSource
+        );
+        //                $media = $this->mediaService->findMediaModel(
+        //                    Media::class,
+        //                    $request->route('mediaId'),
+        //                    $request->data_source
+        //                );
         // Delete the medium
         $temporaryUpload->delete();
 
@@ -30,17 +40,17 @@ class DestroyTemporaryUploadAction
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
         // Reorder remaining uploads
-        $this->reorderAllMedia($request);
+        $this->reorderAllMedia($request, $dataSource);
 
         return MediaResponse::success(
             $request,
             $initiatorId,
             $mediaManagerId,
-            __('media-library-extensions::messages.medium_removed')
+            __('medialibrary-extensions::messages.medium_removed')
         );
     }
 
-    protected function reorderAllMedia($request): void
+    protected function reorderAllMedia($request, ?string $dataSource = null): void
     {
         $collections = collect($request->input('collections', []))
             ->filter() // remove empty or null entries
@@ -58,20 +68,22 @@ class DestroyTemporaryUploadAction
         $instanceId = $request->input('instance_id');
 
         $temporaryUploads = TemporaryUpload::query()
+            ->forDataSource($dataSource)
             ->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
             ->where('session_id', $sessionId)
             ->whereIn('collection_name', $collections)
             ->get()
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
-        //        $temporaryUploads = TemporaryUpload::where('session_id', $sessionId)
-        //            ->whereIn('collection_name', $collections)
-        //            ->get()
-        //            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
-
         $priority = 0;
         foreach ($temporaryUploads as $temporaryUpload) {
             $temporaryUpload->setCustomProperty('priority', $priority++);
+
+            if ($dataSource) {
+                $connectionName = app(DataSourceResolver::class)->resolveConnection($dataSource);
+                $temporaryUpload->setConnection($connectionName);
+            }
+
             $temporaryUpload->save();
         }
     }

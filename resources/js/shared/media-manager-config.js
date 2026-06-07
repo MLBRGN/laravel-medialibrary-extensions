@@ -1,4 +1,5 @@
 export function getMediaManagerConfig(mediaManager) {
+    debugger;
     const configInput = mediaManager.querySelector('[data-mle-media-manager-config]');
     if (!configInput) return null;
 

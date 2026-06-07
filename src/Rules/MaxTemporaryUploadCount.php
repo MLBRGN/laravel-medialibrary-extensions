@@ -18,17 +18,21 @@ class MaxTemporaryUploadCount implements ValidationRule
 
     protected ?string $instanceId;
 
-    public function __construct(array $collections, int $max, ?string $instanceId = null)
+    protected ?string $dataSource;
+
+    public function __construct(array $collections, int $max, ?string $instanceId = null, ?string $dataSource = null)
     {
         $this->collections = $collections;
         $this->max = $max;
         $this->instanceId = $instanceId;
+        $this->dataSource = $dataSource;
     }
 
     public function validate(string $attribute, $value, Closure $fail): void
     {
         $newCount = is_array($value) ? count($value) : 1;
 
+        // TODO missing args
         $existingCount = $this->countTemporaryUploadsInCollections($this->collections, $this->instanceId);
 
         if (($existingCount + $newCount) > $this->max) {
@@ -39,10 +43,10 @@ class MaxTemporaryUploadCount implements ValidationRule
     public function message(): string
     {
         if ($this->max === 1) {
-            return __('media-library-extensions::messages.only_one_medium_allowed');
+            return __('medialibrary-extensions::messages.only_one_medium_allowed');
         }
 
-        return __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+        return __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
             'items' => $this->max,
         ]);
     }

@@ -3,9 +3,9 @@
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Tests\database\Factories\BlogFactory;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
-use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Blog extends Model implements HasMediaExtended

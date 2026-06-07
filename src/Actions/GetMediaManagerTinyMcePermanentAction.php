@@ -23,6 +23,7 @@ class GetMediaManagerTinyMcePermanentAction
         $multiple = $request->boolean('multiple');
         $collections = json_decode(request()->string('collections'), true);
         $options = json_decode(request()->string('options'), true);
+        $dataSource = $request->input('data_source');
 
         $model = null;
         if ($modelType && $modelId) {
@@ -30,12 +31,13 @@ class GetMediaManagerTinyMcePermanentAction
         }
         $modelOrClassName = $model ?? $modelType;
 
-        return view('media-library-extensions::media-manager-tinymce-wrapper', [
+        return view('medialibrary-extensions::media-manager-tinymce-wrapper', [
             'id' => $id,
             'modelOrClassName' => $modelOrClassName,
             'multiple' => $multiple,
             'collections' => $collections,
             'options' => $options,
+            'dataSource' => $dataSource,
         ]);
     }
 }

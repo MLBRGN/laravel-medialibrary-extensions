@@ -21,10 +21,11 @@ class DestroyTemporaryUploadRequest extends MediaManagerRequest
         return [
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],
-            'single_medium_id' => ['nullable'],
+            'single_media_id' => ['nullable'],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],
+            'data_source' => ['nullable', 'string'],
         ];
     }
 

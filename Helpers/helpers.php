@@ -6,13 +6,13 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 if (! function_exists('mle_human_mimetype_label')) {
     function mle_human_mimetype_label(string $mimeType): string
     {
-        $map = config('media-library-extensions.mimetype_labels', []);
+        $map = config('medialibrary-extensions.mimetype_labels', []);
 
         if (! isset($map[$mimeType])) {
             return $mimeType; // fallback
         }
 
-        return __('media-library-extensions::'.$map[$mimeType]);
+        return __('medialibrary-extensions::'.$map[$mimeType]);
     }
 }
 
@@ -20,7 +20,7 @@ if (! function_exists('mle_human_filesize')) {
     function mle_human_filesize(?int $bytes, int $decimals = 2): string
     {
         if ($bytes === null) {
-            return __('media-library-extensions::messages.unknown_file_size');
+            return __('medialibrary-extensions::messages.unknown_file_size');
         }
         $size = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
         $factor = floor((strlen((string) $bytes) - 1) / 3);
@@ -33,7 +33,7 @@ if (! function_exists('mle_prefix_route')) {
 
     function mle_prefix_route(string $suffix): string
     {
-        return config('media-library-extensions.route_prefix').'-'.$suffix;
+        return config('medialibrary-extensions.route_prefix').'-'.$suffix;
     }
 }
 
@@ -48,7 +48,7 @@ if (! function_exists('component_exists')) {
 if (! function_exists('status_session_prefix')) {
     function status_session_prefix(): string
     {
-        return config('media-library-extensions.status_session_prefix');
+        return config('medialibrary-extensions.status_session_prefix');
     }
 }
 
@@ -77,7 +77,7 @@ if (! function_exists('isMediaType')) {
         }
 
         $mimeType = $medium->mime_type ?? null;
-        $allowed = config("media-library-extensions.allowed_mimetypes.{$type}", []);
+        $allowed = config("medialibrary-extensions.allowed_mimetypes.{$type}", []);
 
         return in_array($mimeType, $allowed, true);
     }
@@ -120,7 +120,7 @@ if (! function_exists('media_display_name')) {
 if (! function_exists('mlbrgn_csp_nonce')) {
     function mlbrgn_csp_nonce()
     {
-        $resolver = config('media-library-extensions.csp_nonce');
+        $resolver = config('medialibrary-extensions.csp_nonce');
 
         return is_callable($resolver)
             ? $resolver()

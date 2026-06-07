@@ -6,7 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
-use Spatie\MediaLibrary\HasMedia;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use UnexpectedValueException;
 
 trait ResolveModelOrClassName
@@ -21,23 +21,24 @@ trait ResolveModelOrClassName
 
     protected function resolveModelOrClassName(Model|string $modelOrClassName): void
     {
-        if ($modelOrClassName instanceof HasMedia) {
+        if ($modelOrClassName instanceof HasMediaExtended) {
             $this->model = $modelOrClassName;
             $this->modelType = $modelOrClassName->getMorphClass();
             $this->modelId = $modelOrClassName->getKey();
             $this->temporaryUploadMode = false;
 
+            //            dump($this->modelId);
         } elseif (is_string($modelOrClassName)) {
             if (! class_exists($modelOrClassName)) {
-                throw new InvalidArgumentException(__('media-library-extensions::messages.class_not_found', [
+                throw new InvalidArgumentException(__('medialibrary-extensions::messages.class_not_found', [
                     'class' => $modelOrClassName,
                 ]));
             }
 
-            if (! is_subclass_of($modelOrClassName, HasMedia::class)) {
-                throw new UnexpectedValueException(__('media-library-extensions::messages.must_implement_has_media', [
+            if (! is_subclass_of($modelOrClassName, HasMediaExtended::class)) {
+                throw new UnexpectedValueException(__('medialibrary-extensions::messages.must_implement_has_media', [
                     'class' => $modelOrClassName,
-                    'interface' => HasMedia::class,
+                    'interface' => HasMediaExtended::class,
                 ]));
             }
 

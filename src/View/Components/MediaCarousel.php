@@ -27,29 +27,32 @@ class MediaCarousel extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public ?array $collections = [],
         public bool $expandableInModal = true,
         array $options = [],
         public bool $inModal = false, // TODO used anywhere?
-        public bool $previewMode = true // should the media-viewer be in preview mode (no autoplay, no document loading or not)
+        public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
+        public ?string $instanceId = null,
     ) {
         parent::__construct($id);
 
+        $this->options = $options;
+
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $instanceId = ''; // todo
+        // merge into config
+        $this->resolveConfig();
+
+        $instanceId = $this->instanceId ?? $this->getConfig('instanceId');
         $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();
         $this->id = $this->id.'-crs';
-
-        // merge into config
-        $this->resolveConfig();
     }
 
     public function render(): View
     {
-        return $this->getView('media-carousel', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-carousel', $this->getConfig('frontendTheme'));
     }
 }

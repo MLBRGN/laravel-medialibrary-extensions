@@ -17,8 +17,8 @@
         @endif
         <x-mle-shared-icon
             class="mle-icon-container-youtube-play-button"
-            name="{{ config('media-library-extensions.icons.play_video') }}"
-            title="{{ __('media-library-extensions::messages.play_video') }}"
+            name="{{ config('medialibrary-extensions.icons.play_video') }}"
+            title="{{ __('medialibrary-extensions::messages.play_video') }}"
         />
     </div>
 @else
@@ -40,15 +40,15 @@
                 <div class="mle-youtube-video mle-video-responsive">
                     <x-mle-shared-icon
                         class="mle-icon-container-youtube-play-button"
-                        name="{{ config('media-library-extensions.icons.play_video') }}"
-                        title="{{ __('media-library-extensions::messages.play_video') }}"
+                        name="{{ config('medialibrary-extensions.icons.play_video') }}"
+                        title="{{ __('medialibrary-extensions::messages.play_video') }}"
                     >
 
                     </x-mle-shared-icon>
                     <div class="mle-youtube-video-fallback-text">
                         <p>
-                            {{ __('media-library-extensions::messages.could_not_load_video') }}
-                            {{ __('media-library-extensions::messages.watch_on_youtube') }}
+                            {{ __('medialibrary-extensions::messages.could_not_load_video') }}
+                            {{ __('medialibrary-extensions::messages.watch_on_youtube') }}
                         </p>
                     </div>
                 </div>

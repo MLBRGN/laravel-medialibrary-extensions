@@ -7,7 +7,7 @@ import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
 
 // updatePreviews(mediaManager, config, mediumId, { part: 'base' | 'original' })
 export async function updatePreviews(mediaManager, config, mediumId,  detail = {}) {
-    console.log('update previews media lab')
+    // console.log('update previews media lab')
 
     const previewsContainer = mediaManager.querySelector('[data-mle-media-manager-lab-previews]');
     if (!previewsContainer) return;
@@ -18,7 +18,9 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
         initiator_id: config.id,
         medium_id: mediumId,
         options: JSON.stringify(config.options),
-        instance_id: config.instanceId ?? null
+        instance_id: config.instanceId ?? null,
+        theme: config.theme,
+        include_debug: 'true'
     });
 
     // Cache-busting param
@@ -49,7 +51,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
         if (detail.part === 'original') {
 
             const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-original]');
-            console.log('replace "original" with updated html', replaced);
+            // console.log('replace "original" with updated html', replaced);
             if (!replaced) {
                 consolw.warn('replaced not found')
                 return
@@ -57,15 +59,38 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
             replaced.outerHTML = data.html;
         } else if (detail.part === 'base') {
             const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-base]');
-            console.log('replace "base" with updated html', replaced)
+            // console.log('replace "base" with updated html', replaced)
             if (!replaced) {
                 consolw.warn('replaced not found')
                 return
             }
             replaced.outerHTML = data.html;
         } else {
-            console.log('replace all with updated html')
+            // console.log('replace all with updated html')
             previewsContainer.innerHTML = data.html;
+        }
+
+        // Update debug panel if present
+        if (data.debugHtml) {
+            const debugPanel = mediaManager.querySelector('[data-mle-debug]');
+            if (debugPanel) {
+                // We want to keep the current visibility state (hidden or not)
+                const isHidden = debugPanel.classList.contains('hidden') || debugPanel.classList.contains('mle-hidden');
+
+                // Replace the outer wrapper of the debug content
+                const debugWrapper = debugPanel.closest('.mle-debug-wrapper');
+                if (debugWrapper) {
+                    debugWrapper.outerHTML = data.debugHtml;
+
+                    // Re-apply visibility state if it was hidden
+                    const newDebugPanel = mediaManager.querySelector('[data-mle-debug]');
+                    if (newDebugPanel && isHidden) {
+                        newDebugPanel.classList.add('hidden', 'mle-hidden');
+                    } else if (newDebugPanel) {
+                        newDebugPanel.classList.remove('hidden', 'mle-hidden');
+                    }
+                }
+            }
         }
 
         // Notify listeners that the previews were updated

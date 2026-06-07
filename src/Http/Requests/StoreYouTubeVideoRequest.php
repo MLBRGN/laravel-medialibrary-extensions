@@ -9,10 +9,8 @@ use Mlbrgn\MediaLibraryExtensions\Rules\YouTubeUrl;
 
 class StoreYouTubeVideoRequest extends StoreRequest
 {
-
     public function rules(): array
     {
-        $uploadFieldName = config('media-library-extensions.upload_field_name_youtube');
 
         // NOTE: mimetypes checks for mimetype in file, mimes only checks extension
         return [
@@ -21,10 +19,11 @@ class StoreYouTubeVideoRequest extends StoreRequest
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
-            $uploadFieldName => ['nullable', 'url', new YouTubeUrl],
+            'youtube_url' => ['nullable', 'url', new YouTubeUrl],
             'initiator_id' => ['required', 'string'],
             'media_manager_id' => ['required', 'string'],
             'multiple' => ['required', Rule::in(['true', 'false'])],
+            'data_source' => ['nullable', 'string'],
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\SetAsFirstForm;
@@ -19,7 +20,7 @@ it('renders the set-as-first-form', function () {
         modelOrClassName: $model,
         media: $mediaCollection,
         medium: $medium,
-        singleMedium: null,
+        singleMedia: null,
         collections: ['image' => 'images', 'audio' => 'audio', 'video' => 'video', 'document' => 'docs', 'youtube' => 'youtube'],
         options: [
             'frontendTheme' => 'plain',
@@ -30,7 +31,7 @@ it('renders the set-as-first-form', function () {
 
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
+    expect($view)->toBeInstanceOf(View::class);
     expect($component->getConfig('useXhr'))->toBeFalse();
 
 });
@@ -38,7 +39,7 @@ it('renders the set-as-first-form', function () {
 it('falls back to config use_xhr when useXhr is null', function () {
     $model = $this->getModelWithMedia(['image' => 3]);
 
-    config()->set('media-library-extensions.use_xhr', true);
+    config()->set('medialibrary-extensions.use_xhr', true);
 
     $mediaCollection = $model->getMedia('image_collection');
     expect($mediaCollection)->toHaveCount(3);
@@ -51,7 +52,7 @@ it('falls back to config use_xhr when useXhr is null', function () {
         modelOrClassName: $model,
         media: $mediaCollection,
         medium: $medium,
-        singleMedium: null,
+        singleMedia: null,
         collections: ['video' => 'video', 'audio' => 'audio'],
         options: [
             'frontendTheme' => 'plain',
@@ -83,7 +84,7 @@ it('renders the set as first form with temporary upload', function () {
         modelOrClassName: Blog::class,
         media: $media,
         medium: $temporaryUpload,
-        singleMedium: null,
+        singleMedia: null,
         collections: [
             'image' => 'images',
             'document' => 'documents',
@@ -100,5 +101,5 @@ it('renders the set as first form with temporary upload', function () {
 
     $view = $component->render();
 
-    expect($view)->toBeInstanceOf(\Illuminate\View\View::class);
+    expect($view)->toBeInstanceOf(View::class);
 });

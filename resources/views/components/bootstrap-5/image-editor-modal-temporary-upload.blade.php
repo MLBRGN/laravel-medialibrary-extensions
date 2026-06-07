@@ -41,10 +41,10 @@
                     data-mle-modal-close
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
-                    title="{{ __('media-library-extensions::messages.close') }}">
+                    title="{{ __('medialibrary-extensions::messages.close') }}">
                     <x-mle-shared-icon
-                        name="{{ config('media-library-extensions.icons.close') }}"
-                        title="{{ __('media-library-extensions::messages.close') }}"
+                        name="{{ config('medialibrary-extensions.icons.close') }}"
+                        title="{{ __('medialibrary-extensions::messages.close') }}"
                     />
                 </button>
                 <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='@json($getConfig())'>
@@ -55,7 +55,7 @@
                     id="{{ $id }}"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
-                    :single-medium="$singleMedium"
+                    :single-media="$singleMedia"
                     :collections="$collections"
                     :options="$getOptions()"
                     :initiator-id="$id"

@@ -4,7 +4,7 @@ import '@/js/plain/modal-core';
 const editors = new WeakMap(); // modal => editor instance
 
 function initializeImageEditor(config) {
-    console.log('initializeImageEditor config', config)
+    // console.log('initializeImageEditor config', config)
     const imageEditor = config.imageEditorInstance;
 
     if (!imageEditor) {
@@ -55,11 +55,13 @@ function initializeImageEditor(config) {
 }
 
 function initializeImageEditorModal(modal) {
+    // console.log('initializeImageEditorModal', modal);
     if (modal.dataset.mleImageEditorInitialized) return;
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
-
+    // console.log('placeholder', placeholder);
     const onOpen = () => {
+        // console.log('onOpen', modal, editors.has(modal));
         if (editors.has(modal)) return;
 
         let config = {};
@@ -141,6 +143,7 @@ document.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeIma
 
 // Reinitialize after media previews are refreshed
 document.addEventListener('mediaManagerPreviewsUpdated', e => {
+    // console.log('reinitialize image editor modals for media manager', e);
     const mediaManager = e.detail.mediaManager;
     mediaManager.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);
 });

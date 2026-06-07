@@ -10,34 +10,28 @@ beforeEach(function () {
     {
         use InteractsWithMimeTypes, InteractsWithOptionsAndConfig;
 
-        // properties for testing
-        public array $options = [];
-
-        public array $config = [];
-
         public string $modelOrClassName = 'TestModel';
 
         public array $requiredOptions = ['foo', 'bar'];
 
-        // Public proxies for protected methods
-        public function callGetOptions(): array
-        {
-            return $this->getOptions();
-        }
+        public ?string $mediaUploadRoute = null;
 
-        public function callGetOption(string $key, $default = null)
-        {
-            return $this->getOption($key, $default);
-        }
+        public ?string $youtubeUploadRoute = null;
 
-        public function callHasOption(string $key): bool
-        {
-            return $this->hasOption($key);
-        }
+        public ?string $mediaManagerPreviewUpdateRoute = null;
 
-        public function callSetOption(string $key, $value): void
+        public ?string $mediumSetAsFirstRoute = null;
+
+        public ?string $mediaDestroyRoute = null;
+
+        public ?string $mediumRestoreRoute = null;
+
+        public ?string $mediaManagerLabPreviewUpdateRoute = null;
+
+        public function __construct()
         {
-            $this->setOption($key, $value);
+            $this->options = [];
+            $this->config = [];
         }
 
         public function callValidateRequiredOptions(): void
@@ -61,43 +55,43 @@ beforeEach(function () {
 });
 
 it('gets and sets options correctly', function () {
-    $this->class->callSetOption('foo', 'bar');
+    $this->class->setOption('foo', 'bar');
 
-    expect($this->class->callGetOptions())->toHaveKey('foo', 'bar');
-    expect($this->class->callGetOption('foo'))->toBe('bar');
-    expect($this->class->callGetOption('nonexistent', 'default'))->toBe('default');
-    expect($this->class->callHasOption('foo'))->toBeTrue();
-    expect($this->class->callHasOption('nonexistent'))->toBeFalse();
+    expect($this->class->getOption('foo'))->toBe('bar');
+    expect($this->class->getOption('nonexistent', 'default'))->toBe('default');
+    expect($this->class->hasOption('foo'))->toBeTrue();
+    expect($this->class->hasOption('nonexistent'))->toBeFalse();
+
+    expect($this->class->getOptions())->toBe([
+        'foo' => 'bar',
+    ]);
 });
 
 it('throws exception when required options are missing', function () {
-    $this->class->options = ['foo' => 'value'];
+    $this->class->setOption('foo', 'value');
     $this->class->requiredOptions = ['foo', 'bar'];
 
-    $this->class->callValidateRequiredOptions(); // bar is missing, should throw
-
+    $this->class->callValidateRequiredOptions();
 })->throws(RuntimeException::class, 'Missing required option "bar".');
 
 it('initializes config with defaults and merges options/properties', function () {
-    $this->class->options = [
-        'frontendTheme' => 'custom-theme',
-        'temporaryUploadMode' => true,
-    ];
+    $this->class->setOption('frontendTheme', 'custom-theme');
+    $this->class->setOption('temporaryUploadMode', true);
 
     $this->class->callInitializeConfig([
         'uploadFieldName' => 'customField',
+        'modelOrClassName' => 'TestModel',
     ]);
 
-    $config = $this->class->config;
+    // defaults override check
+    expect($this->class->getConfig('uploadFieldName'))->toBe('customField');
 
-    // Defaults + provided overrides + properties + options
-    expect($config['uploadFieldName'])->toBe('customField'); // from defaults passed to resolveConfig
-    expect($config['frontendTheme'])->toBe('custom-theme'); // from options
-    expect($config['temporaryUploadMode'])->toBeTrue(); // from options
-    //    expect($config['modelOrClassName'])->toBe('TestModel'); // from property
+    // options override check
+    expect($this->class->getConfig('frontendTheme'))->toBe('custom-theme');
+    expect($this->class->getConfig('temporaryUploadMode'))->toBeTrue();
 
-    // MIME type fields should exist even if empty
-    //    expect($config)->toHaveKeys(['allowedMimeTypes', 'allowedMimeTypesHuman']); // TODO
+    // property merge check
+    expect($this->class->getConfig('modelOrClassName'))->toBe('TestModel');
 });
 
 it('can get, set, merge, and add config values', function () {
@@ -113,12 +107,28 @@ it('can get, set, merge, and add config values', function () {
     expect($this->class->getConfig('key2'))->toBe('value2'); // unchanged
     expect($this->class->getConfig('key3'))->toBe('default3'); // added default
 });
-
 it('handles empty options/config gracefully', function () {
-    $this->class->options = [];
-    $this->class->config = [];
+    expect($this->class->getOptions())->toBe([]);
 
-    expect($this->class->callGetOptions())->toBe([]);
     expect($this->class->getConfig('nonexistent'))->toBeNull();
     expect($this->class->hasConfig('nonexistent'))->toBeFalse();
+});
+
+it('resolves config routes', function () {
+    $this->class->mediaUploadRoute = 'upload-route';
+    $this->class->youtubeUploadRoute = 'youtube-route';
+
+    $this->class->callInitializeConfig();
+
+    $routes = $this->class->getConfig('routes');
+    // We expect the config keys defined in configRouteKeys
+    expect($routes)->toHaveKey('mediaUpload', 'upload-route');
+    expect($routes)->toHaveKey('youtubeUpload', 'youtube-route');
+});
+
+it('merges config recursively', function () {
+    $this->class->setConfig('nested', ['a' => 1]);
+    $this->class->mergeConfig(['nested' => ['b' => 2]]);
+
+    expect($this->class->getConfig('nested'))->toBe(['a' => 1, 'b' => 2]);
 });

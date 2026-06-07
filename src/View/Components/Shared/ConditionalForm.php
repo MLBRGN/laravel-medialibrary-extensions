@@ -23,7 +23,7 @@ class ConditionalForm extends Component
 
     public function render(): View|string
     {
-        return view('media-library-extensions::components.shared.conditional-form');
+        return view('medialibrary-extensions::components.shared.conditional-form');
     }
 
     public function requiresMethodSpoofing(): bool

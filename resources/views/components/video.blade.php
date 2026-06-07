@@ -7,7 +7,7 @@
         </div>
         <video id="{{ $id }}" controls preload="metadata" data-mle-video>
             <source src="{{ $medium->getUrl() }}" type="{{ $medium->mime_type }}">
-            {{ __('media-library-extensions::messages.your_browser_does_not_support_the_video_element') }}
+            {{ __('medialibrary-extensions::messages.your_browser_does_not_support_the_video_element') }}
         </video>
     </div>
 </div>

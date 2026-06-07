@@ -9,8 +9,8 @@
 //
 // beforeEach(function () {
 //    // Set default configuration for tests
-//    Config::set('media-library-extensions.demo_pages_enabled', true);
-//    Config::set('media-library-extensions.demo_database_name',config('media-library-extensions.media_disks.demo'));
+//    Config::set('medialibrary-extensions.demo_pages_enabled', true);
+//    Config::set('medialibrary-extensions.demo_database_name',config('medialibrary-extensions.media_disks.demo'));
 // });
 //
 // it('registers demo database when demo pages are enabled', function () {
@@ -26,12 +26,12 @@
 //    // Mock DB facade
 //    DB::shouldReceive('purge')
 //        ->once()
-//        ->with(config('media-library-extensions.media_disks.demo'))
+//        ->with(config('medialibrary-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    DB::shouldReceive('reconnect')
 //        ->once()
-//        ->with(config('media-library-extensions.media_disks.demo'))
+//        ->with(config('medialibrary-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    // Mock Schema facade
@@ -45,7 +45,7 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-// })->skip();
+// });
 //
 // it('runs migrations if aliens table does not exist', function () {
 //    // Arrange
@@ -60,12 +60,12 @@
 //    // Mock DB facade
 //    DB::shouldReceive('purge')
 //        ->once()
-//        ->with(config('media-library-extensions.media_disks.demo'))
+//        ->with(config('medialibrary-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    DB::shouldReceive('reconnect')
 //        ->once()
-//        ->with(config('media-library-extensions.media_disks.demo'))
+//        ->with(config('medialibrary-extensions.media_disks.demo'))
 //        ->andReturnNull();
 //
 //    // Mock Schema facade
@@ -85,12 +85,12 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-// })->skip();
+// });
 //
 // it('uses the configured database name', function () {
 //    // Arrange
 //    $provider = new MediaLibraryExtensionsServiceProvider(app());
-//    Config::set('media-library-extensions.demo_database_name', 'custom_demo_db');
+//    Config::set('medialibrary-extensions.demo_database_name', 'custom_demo_db');
 //
 //    // Mock Config facade
 //    Config::shouldReceive('set')
@@ -120,11 +120,11 @@
 //    $provider->registerDemoDatabase();
 //
 //    // Assert - verification is done by Mockery expectations
-// })->skip();
+// });
 //
 // it('does not register demo database when demo pages are disabled', function () {
 //    // Arrange
-//    Config::set('media-library-extensions.demo_pages_enabled', false);
+//    Config::set('medialibrary-extensions.demo_pages_enabled', false);
 //
 //    // Mock Config facade to ensure it's not called
 //    Config::shouldNotReceive('set');
@@ -138,4 +138,4 @@
 //    $provider->boot();
 //
 //    // Assert - verification is done by Mockery expectations
-// })->skip();
+// });

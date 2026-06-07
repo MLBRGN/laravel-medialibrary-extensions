@@ -43,7 +43,7 @@ it('renders the correct view', function () {
 
     $view = $component->render();
 
-    expect($view->name())->toBe('media-library-extensions::components.media-first-available');
+    expect($view->name())->toBe('medialibrary-extensions::components.media-first-available');
 });
 
 it('renders expected HTML for an image medium', function () {

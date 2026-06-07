@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
-class UpdateMediumRequest extends MediaManagerRequest
+class StoreUpdatedMediaRequest extends MediaManagerRequest
 {
     use ValidatesCollections;
 
@@ -26,12 +26,13 @@ class UpdateMediumRequest extends MediaManagerRequest
             'model_type' => 'required|string',
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'medium_id' => 'required|string',
-            'single_medium_id' => ['nullable'],
+            'single_media_id' => ['nullable'],
             'collection' => 'required|string',
             'file' => 'required|file',
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],
+            'data_source' => ['nullable', 'string'],
         ];
     }
 

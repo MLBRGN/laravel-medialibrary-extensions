@@ -1,5 +1,6 @@
 @forelse($media as $medium)
     <div
+        id="{{ $id . '-' . $loop->index }}"
         {{ $attributes->class([
             'mle-component',
             'mle-theme-' . $getConfig('frontendTheme'),
@@ -8,11 +9,11 @@
         data-mle-media-preview-container
     >
         <x-mle-media-preview-item
-            :id="$id"
+            :id="$id . '-' . $loop->index"
             :medium="$medium"
             :options="$getOptions()"
             :collections="$collections"
-            :single-medium="$singleMedium"
+            :single-media="$singleMedia"
             :model-or-class-name="$modelOrClassName"
             :loop-index="$loop->index"
             :selectable="$selectable"
@@ -20,29 +21,32 @@
             :readonly="$readonly"
             :multiple="$multiple"
             :instance-id="$instanceId"
+            :data-source="$getConfig('dataSource')"
         />
         <x-mle-media-modal
-            :id="$id"
+            :id="$id . '-' . $loop->index"
             :model-or-class-name="$modelOrClassName"
-            :single-medium="$singleMedium"
+            :single-media="$singleMedia"
             :collections="$collections"
-            :single-medium="$singleMedium"
+            :single-media="$singleMedia"
             :video-auto-play="true"
             :options="$getOptions()"
             title="Media carousel"
             :instance-id="$instanceId"
+            :data-source="$getConfig('dataSource')"
         />
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
-                :id="$id"
+                :id="$id . '-' . $loop->index"
                 :medium="$medium"
                 :model-or-class-name="$modelOrClassName"
                 :collections="$collections"
-                :single-medium="$singleMedium"
+                :single-media="$singleMedia"
                 :options="$getOptions()"
                 :disabled="$disabled"
                 :selectable="$selectable"
                 :instance-id="$instanceId"
+                :data-source="$getConfig('dataSource')"
             />
         @endif
     </div>

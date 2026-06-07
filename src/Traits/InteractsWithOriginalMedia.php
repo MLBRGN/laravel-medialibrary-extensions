@@ -28,6 +28,9 @@ trait InteractsWithOriginalMedia
         Log::info('backup id: '.$backup->id);
 
         $model = $backup->model;
+        if ($oldMedia->getConnectionName()) {
+            $model->setConnection($oldMedia->getConnectionName());
+        }
         $collection = $backup->collection_name;
 
         if ($newFile) {
@@ -47,6 +50,7 @@ trait InteractsWithOriginalMedia
 
         $newMedia->custom_properties = $backup->custom_properties ?? [];
         $newMedia->order_column = $backup->order_column;
+        $newMedia->setConnection($oldMedia->getConnectionName());
         $newMedia->save();
 
         // Also copy original if needed for 'originals' disk
@@ -61,9 +65,7 @@ trait InteractsWithOriginalMedia
      */
     public function replaceTemporaryUpload(TemporaryUpload $oldUpload, UploadedFile $newFile): TemporaryUpload
     {
-        Log::info('replaceTemporaryUpload');
-
-        $disk = config('media-library-extensions.media_disks.temporary');
+        $disk = config('medialibrary-extensions.media_disks.temporary');
         $basePath = '';
 
         $backup = $oldUpload->replicate(['id']);
@@ -91,11 +93,10 @@ trait InteractsWithOriginalMedia
             'instance_id' => $backup->instance_id,
         ]);
 
+        $newUpload->setConnection($oldUpload->getConnectionName());
         $newUpload->save();
 
-        //        $this->reuseOriginal($backup, $newUpload);
-
-        Log::info("Replaced temporary upload [{$backup->id}] with [{$newUpload->id}].");
+        Log::info("Replaced temporary upload [{$backup->id}] with [{$newUpload->id}] on connection [{$newUpload->getConnectionName()}].");
 
         return $newUpload;
     }
@@ -110,19 +111,20 @@ trait InteractsWithOriginalMedia
         $path = $media->getPath();
         $destination = "{$media->id}/{$media->file_name}";
 
-        if (Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($destination)) {
+        if (Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($destination)) {
             Log::info("Original already exists for media [{$media->id}], skipping copy.");
 
             return;
         }
 
         try {
-            Storage::disk(config('media-library-extensions.media_disks.originals'))->put($destination, file_get_contents($path));
+            Storage::disk(config('medialibrary-extensions.media_disks.originals'))->put($destination, file_get_contents($path));
             Log::info("Copied original media [{$media->id}] to originals disk.");
         } catch (\Throwable $e) {
             Log::error("Failed to copy original media [{$media->id}]: {$e->getMessage()}");
         }
 
+        $media->setConnection($media->getConnectionName());
         $media->setCustomProperty('is_original', true);
         $media->save();
     }
@@ -137,20 +139,20 @@ trait InteractsWithOriginalMedia
         $oldPath = "{$oldMedia->id}/{$oldMedia->file_name}";
         $newPath = "{$newMedia->id}/{$newMedia->file_name}";
 
-        if (! Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($oldPath)) {
+        if (! Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($oldPath)) {
             Log::warning("Old original not found for media [{$oldMedia->id}].");
 
             return;
         }
 
         // TODO disabled this code, prevented old original to overwrite new original added by MediaHasBeenAddedListener
-        //        if (Storage::disk(config('media-library-extensions.media_disks.originals'))->exists($newPath)) {
+        //        if (Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($newPath)) {
         //            Log::info("Original already exists for new media [{$newMedia->id}], skipping reuse.");
         //            return;
         //        }
 
         try {
-            Storage::disk(config('media-library-extensions.media_disks.originals'))->copy($oldPath, $newPath);
+            Storage::disk(config('medialibrary-extensions.media_disks.originals'))->copy($oldPath, $newPath);
             Log::info("Reused old original for new media [{$newMedia->id}].");
         } catch (\Throwable $e) {
             Log::error("Failed to reuse original media: {$e->getMessage()}");
@@ -170,8 +172,9 @@ trait InteractsWithOriginalMedia
         }
 
         // Compute next global order number
-        $maxOrder = $this->getMaxGlobalOrder();
+        $maxOrder = $this->getMaxGlobalOrder($media->getConnectionName());
         $nextOrder = ((int) $maxOrder) + 1;
+        $media->setConnection($media->getConnectionName());
         $media->setCustomProperty('global_order', $nextOrder);
         $media->save();
 
@@ -181,18 +184,19 @@ trait InteractsWithOriginalMedia
     /**
      * Helper: safely get max global_order for both MySQL and SQLite.
      */
-    private function getMaxGlobalOrder(): int
+    private function getMaxGlobalOrder(?string $connection = null): int
     {
-        $driver = DB::getDriverName();
+        $connection = $connection ?: DB::getDefaultConnection();
+        $driver = DB::connection($connection)->getDriverName();
 
         if ($driver === 'sqlite') {
             // SQLite lacks JSON_UNQUOTE / JSON_EXTRACT
-            return (int) Media::all()
+            return (int) Media::on($connection)->get()
                 ->map(fn ($m) => (int) $m->getCustomProperty('global_order', 0))
                 ->max();
         }
 
-        return (int) Media::query()
+        return (int) Media::on($connection)
             ->selectRaw("MAX(CAST(JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.global_order')) AS UNSIGNED)) as max_order")
             ->value('max_order');
     }

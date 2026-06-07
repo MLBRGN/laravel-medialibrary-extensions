@@ -17,7 +17,7 @@ use Mlbrgn\MediaLibraryExtensions\Actions\SetMediaAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleMediaAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediumAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
@@ -29,17 +29,16 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\UpdateMediumRequest;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerController extends Controller
 {
     public function store(
         StoreSingleRequest $request,
-        StoreSingleMediaAction $storeSingleMediumAction
+        StoreSingleMediaAction $storesingleMediaAction
     ): RedirectResponse|JsonResponse {
-        return $storeSingleMediumAction->execute($request);
+        return $storesingleMediaAction->execute($request);
     }
 
     public function storeMany(
@@ -65,7 +64,7 @@ class MediaManagerController extends Controller
 
     public function destroyTemporaryUpload(
         DestroyTemporaryUploadRequest $request,
-        DestroyTemporaryUploadAction  $deleteTemporaryUploadAction,
+        DestroyTemporaryUploadAction $deleteTemporaryUploadAction,
     ): RedirectResponse|JsonResponse {
         return $deleteTemporaryUploadAction->execute($request);
     }
@@ -79,23 +78,23 @@ class MediaManagerController extends Controller
 
     public function setAsFirstTemporaryUpload(
         SetTemporaryUploadAsFirstRequest $request,
-        SetTemporaryUploadAsFirstAction  $setAsFirstTemporaryUploadAction
+        SetTemporaryUploadAsFirstAction $setAsFirstTemporaryUploadAction
     ): RedirectResponse|JsonResponse {
         return $setAsFirstTemporaryUploadAction->execute($request);
     }
 
-    public function saveUpdatedMedia(
-        UpdateMediumRequest $request,
-        StoreUpdatedMediumAction $saveUpdatedMediaAction,
+    public function storeUpdatedMedia(
+        StoreUpdatedMediaRequest $request,
+        StoreUpdatedMediaAction $storeUpdatedMediaAction,
     ): RedirectResponse|JsonResponse {
-        return $saveUpdatedMediaAction->execute($request);
+        return $storeUpdatedMediaAction->execute($request);
     }
 
-    public function saveUpdatedTemporaryUpload(
-        UpdateMediumRequest $request,
-        StoreUpdatedMediumAction $saveUpdatedMediaAction,
+    public function storeUpdatedTemporaryUpload(
+        StoreUpdatedMediaRequest $request,
+        StoreUpdatedMediaAction $storeUpdatedMediaAction,
     ): RedirectResponse|JsonResponse {
-        return $saveUpdatedMediaAction->execute($request);
+        return $storeUpdatedMediaAction->execute($request);
     }
 
     public function getUpdatedMediaManagerPreviewerHTML(
@@ -114,10 +113,10 @@ class MediaManagerController extends Controller
 
     public function restoreOriginalMedium(
         RestoreOriginalMediumRequest $request,
-        Media $media,
+        string|int $mediaId,
         RestoreOriginalMediaAction $restoreMediumAction
     ): RedirectResponse|JsonResponse {
-        return $restoreMediumAction->execute($request, $media);
+        return $restoreMediumAction->execute($request, $mediaId);
     }
 
     public function tinyMce(GetMediaManagerTinyMceRequest $request, GetMediaManagerTinyMceAction $getMediaManagerTinyMceAction): View

@@ -2,64 +2,57 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\Traits;
 
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+
+class ChecksMediaLimitsTestClass
+{
+    use ChecksMediaLimits {
+        countModelMediaInCollections as public publicCountModelMediaInCollections;
+        countTemporaryUploadsInCollections as public publicCountTemporaryUploadsInCollections;
+        modelHasAnyMedia as public publicModelHasAnyMedia;
+        temporaryUploadsHaveAnyMedia as public publicTemporaryUploadsHaveAnyMedia;
+    }
+}
+
 it('checks media limits for permanent files', function () {
-    //    $file = UploadedFile::fake()->image('photo.jpg');
-    $model = $this->getMediaModelWithMedia(['video' => 1]);
-    dd($model);
-    //    $initiatorId = 'initiator-456';
-    //    $mediaManagerId = 'media-manager-123';
+    $model = $this->getTestBlogModel();
+    $trait = new ChecksMediaLimitsTestClass;
 
-    //    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+    expect($trait->publicCountModelMediaInCollections($model, ['image' => 'images']))->toBe(0);
 
-    //    $model->count
-    //    $request = StoreSingleRequest::create('/upload', 'POST', [
-    //        'model_type' => $model->getMorphClass(),
-    //        'model_id' => $model->getKey(),
-    //        'initiator_id' => $initiatorId,
-    //        'media_manager_id' => $mediaManagerId,
-    //        'collections' => ['video' => 'video_collection'],
-    //    ], [], [
-    //        $uploadFieldNameSingle => $file,
-    //    ]);
-    //    $request->headers->set('Accept', 'application/json');
-    //    $response = (new StoreSinglePermanentAction(new MediaService()))->execute($request);
+    $this->getMedium('test.jpg', 'images');
+    $model = $model->fresh();
 
-    //    expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
-    //        ->and($response->getData(true))
-    //        ->toMatchArray([
-    //            'initiatorId' => $initiatorId,
-    //            'type' => 'error',
-    //            'message' => __('media-library-extensions::messages.only_one_medium_allowed'),
-    //        ]);
-})->todo();
+    expect($trait->publicCountModelMediaInCollections($model, ['image' => 'images']))->toBe(1);
+    expect($trait->publicModelHasAnyMedia($model, ['image' => 'images']))->toBeTrue();
+
+    expect($trait->publicCountModelMediaInCollections($model, ['video' => 'videos']))->toBe(0);
+    expect($trait->publicModelHasAnyMedia($model, ['video' => 'videos']))->toBeFalse();
+});
 
 it('checks media limits for temporary files', function () {
-    //    $file = UploadedFile::fake()->image('photo.jpg');
-    $model = $this->getMediaModelWithMedia(['video' => 1]);
-    dd($model);
-    //    $initiatorId = 'initiator-456';
-    //    $mediaManagerId = 'media-manager-123';
+    $sessionId = 'test-session';
+    $instanceId = 'test-instance';
+    $collection = 'test-collection';
 
-    //    $uploadFieldNameSingle = config('media-library-extensions.upload_field_name_single');
+    TemporaryUpload::create([
+        'session_id' => $sessionId,
+        'instance_id' => $instanceId,
+        'collection_name' => $collection,
+        'disk' => 'public',
+        'path' => 'temp/1.png',
+        'file_name' => '1.png',
+        'name' => '1',
+        'mime_type' => 'image/png',
+        'size' => 100,
+    ]);
 
-    //    $model->count
-    //    $request = StoreSingleRequest::create('/upload', 'POST', [
-    //        'model_type' => $model->getMorphClass(),
-    //        'model_id' => $model->getKey(),
-    //        'initiator_id' => $initiatorId,
-    //        'media_manager_id' => $mediaManagerId,
-    //        'collections' => ['video' => 'video_collection'],
-    //    ], [], [
-    //        $uploadFieldNameSingle => $file,
-    //    ]);
-    //    $request->headers->set('Accept', 'application/json');
-    //    $response = (new StoreSinglePermanentAction(new MediaService()))->execute($request);
+    $trait = new ChecksMediaLimitsTestClass;
 
-    //    expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
-    //        ->and($response->getData(true))
-    //        ->toMatchArray([
-    //            'initiatorId' => $initiatorId,
-    //            'type' => 'error',
-    //            'message' => __('media-library-extensions::messages.only_one_medium_allowed'),
-    //        ]);
-})->todo();
+    expect($trait->publicCountTemporaryUploadsInCollections(['image' => $collection], $instanceId, $sessionId))->toBe(1);
+    expect($trait->publicTemporaryUploadsHaveAnyMedia(['image' => $collection], $instanceId, $sessionId))->toBeTrue();
+
+    expect($trait->publicCountTemporaryUploadsInCollections(['video' => 'other'], $instanceId, $sessionId))->toBe(0);
+    expect($trait->publicTemporaryUploadsHaveAnyMedia(['video' => 'other'], $instanceId, $sessionId))->toBeFalse();
+});

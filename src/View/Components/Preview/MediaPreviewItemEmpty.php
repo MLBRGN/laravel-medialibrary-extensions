@@ -2,7 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
@@ -13,9 +13,11 @@ class MediaPreviewItemEmpty extends BaseComponent
     public function __construct(
         ?string $id,
         array $options = [],
+        public ?string $dataSource = null,
     ) {
 
         parent::__construct($id);
+        $this->options = $options;
 
         $this->resolveConfig();
     }
