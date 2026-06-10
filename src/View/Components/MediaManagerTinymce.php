@@ -43,17 +43,8 @@ class MediaManagerTinymce extends BaseComponent
         public ?string $dataSource = null,
     ) {
 
-        //        dd([
-        //            'disabled' => $disabled,
-        //            'readonly' => $readonly,
-        //            'selectable' => $selectable,
-        //        ]);
-
-        $id = filled($id) ? $id : null;
         parent::__construct($id);
         $this->options = $options;
-
-        $this->instanceId = InstanceManager::getInstanceId($id);
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -91,11 +82,11 @@ class MediaManagerTinymce extends BaseComponent
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             //            $this->uploadFieldName = config('medialibrary-extensions.upload_field_name');// TODO
-            $this->id = $this->id.'-mmm';
+            $this->setBaseId($this->getSuffixedId('mmm'));
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             //            $this->uploadFieldName = config('medialibrary-extensions.upload_field_name');// TODO
-            $this->id = $this->id.'-mms';
+            $this->setBaseId($this->getSuffixedId('mms'));
         }
 
         $this->resolveConfig([

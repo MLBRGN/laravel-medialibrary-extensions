@@ -33,7 +33,7 @@ class MediaCarousel extends BaseComponent
         array $options = [],
         public bool $inModal = false, // TODO used anywhere?
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
-        public ?string $instanceId = null,
+        // public ?string $instanceId = null, // Removed as it conflicts with parent property and ULID/UUID plan
     ) {
         parent::__construct($id);
 
@@ -48,7 +48,7 @@ class MediaCarousel extends BaseComponent
         $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();
-        $this->id = $this->id.'-crs';
+        $this->setBaseId($this->getSuffixedId('crs'));
     }
 
     public function render(): View

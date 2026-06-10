@@ -23,10 +23,13 @@ class MediaPreviewMenu extends BaseComponent
         public bool $selectable = false,
         public bool $readonly = false,
         public bool $multiple = false,
-        public ?string $instanceId = null,
+        public string $instanceId = '',
         public ?string $dataSource = null,
     ) {
         parent::__construct($id);
+        if ($instanceId) {
+            $this->instanceId = $instanceId;
+        }
         $this->options = $options;
 
         $this->resolveConfig();

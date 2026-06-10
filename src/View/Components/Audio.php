@@ -20,8 +20,9 @@ class Audio extends BaseComponent
         public bool $previewMode = true,
         array $options = [],
     ) {
+        parent::__construct();
         $this->options = $options;
-        $this->id = 'mle-audio-'.$medium->id;
+        $this->setBaseId('mle-audio-'.$medium->id);
 
         $this->resolveConfig();
     }

@@ -35,7 +35,7 @@ class GetMediaPreviewerPermanentHTMLAction
         $disabled = $request->boolean('disabled');
         $readonly = $request->boolean('readonly');
         $selectable = $request->boolean('selectable');
-        $instanceId = $request->input('instance_id') ?? null;
+        $instanceId = $request->input('instance_id') ?? '';
         $dataSource = $request->input('data_source');
         $theme = $request->input('theme');
 

@@ -38,8 +38,8 @@ class Document extends BaseComponent
         array $options = [],
         public string $alt = ''
     ) {
-
-        $this->id = 'mle-document-'.$medium->id;
+        parent::__construct();
+        $this->setBaseId('mle-document-'.$medium->id);
         $this->options = $options;
         $mimetype = $medium->mime_type;
 

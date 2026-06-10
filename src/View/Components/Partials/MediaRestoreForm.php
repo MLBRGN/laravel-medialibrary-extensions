@@ -37,8 +37,8 @@ class MediaRestoreForm extends BaseComponent
 
         $this->resolveModelOrClassName($modelOrClassName);
 
-        $this->mediaManagerId = $id;
-        $this->id = $this->id.'-media-restore-form-'.$this->media->id;
+        $this->mediaManagerId = $this->originalId;
+        $this->setBaseId($this->getSuffixedId('media-restore-form-'.$this->media->id));
 
         if ($this->temporaryUploadMode) {
             throw new InvalidArgumentException(__('medialibrary-extensions::messages.temporary_upload_original_cannot_be_restored'));

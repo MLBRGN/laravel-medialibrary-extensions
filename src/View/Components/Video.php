@@ -20,8 +20,9 @@ class Video extends BaseComponent
         public bool $previewMode = true,
         array $options = [],
     ) {
+        parent::__construct();
         $this->options = $options;
-        $this->id = 'mle-video-'.$medium->id;
+        $this->setBaseId('mle-video-'.$medium->id);
 
         $this->resolveConfig();
     }

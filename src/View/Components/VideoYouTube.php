@@ -26,7 +26,7 @@ class VideoYouTube extends BaseComponent
         array $options = [],
         public ?bool $multiple = true,// TODO what is this used for?
     ) {
-
+        parent::__construct();
         $this->options = $options;
 
         // TODO id?
@@ -50,7 +50,7 @@ class VideoYouTube extends BaseComponent
         $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
         $this->youTubeParamsAsString = http_build_query($mergedParams);
 
-        $this->id = 'mle-video-youtube-'.$medium->id;
+        $this->setBaseId('mle-video-youtube-'.$medium->id);
 
         $this->resolveConfig();
     }

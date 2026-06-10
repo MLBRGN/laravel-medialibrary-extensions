@@ -42,8 +42,8 @@ class ImageEditorModal extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        $this->mediaManagerId = $this->id;
-        $this->id = $this->id.'-iem-'.$medium->id;
+        $this->mediaManagerId = $this->originalId;
+        $this->setBaseId($this->getSuffixedId('iem-'.$medium->id));
 
         $this->resolveModelOrClassName($modelOrClassName);
 

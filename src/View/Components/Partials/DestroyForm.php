@@ -30,10 +30,13 @@ class DestroyForm extends BaseComponent
         public array $collections = [],
         array $options = [],
         public ?bool $disabled = false,
-        public ?string $instanceId = null,
+        public string $instanceId = '',
         public ?string $dataSource = null
     ) {
         parent::__construct($id);
+        if ($instanceId) {
+            $this->instanceId = $instanceId;
+        }
         $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);
@@ -42,8 +45,8 @@ class DestroyForm extends BaseComponent
             $this->modelId = $this->medium->model_id;
         }
 
-        $this->mediaManagerId = $id;
-        $this->id = $this->id.'-destroy-form-'.$this->medium->id;
+        $this->mediaManagerId = $this->originalId;
+        $this->setBaseId($this->getSuffixedId('destroy-form-'.$this->medium->id));
 
         if ($this->temporaryUploadMode) {
             $mediaDestroyRoute = route(

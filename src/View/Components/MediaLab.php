@@ -33,7 +33,6 @@ class MediaLab extends BaseComponent
         public Media|TemporaryUpload|null $media,
         array $options = [],
     ) {
-        $id = filled($id) ? $id : 'mle-media-lab-'.uniqid();
         $this->options = $options;
 
         parent::__construct($id);

@@ -22,7 +22,6 @@ abstract class StoreRequest extends MediaManagerRequest
     public function rules(): array
     {
 
-        Log::info(print_r($this->all(), true));
         return [];
     }
 
@@ -30,7 +29,6 @@ abstract class StoreRequest extends MediaManagerRequest
     {
         $model = $this->resolveModel();
 
-//        Log::info(print_r($this->all(), true));
         return [
             'model_type' => [
                 'required',

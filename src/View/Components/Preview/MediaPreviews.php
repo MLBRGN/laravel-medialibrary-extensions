@@ -27,11 +27,14 @@ class MediaPreviews extends BaseComponent
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
-        public ?string $instanceId = null,
+        public string $instanceId = '',
         public ?string $dataSource = null,
         public ?string $sessionId = null,
     ) {
         parent::__construct($id);
+        if ($instanceId) {
+            $this->instanceId = $instanceId;
+        }
         $this->options = $options;
         $this->sessionId = $sessionId ?: (request()->hasSession() ? request()->session()->getId() : session()->getId());
 
@@ -50,10 +53,10 @@ class MediaPreviews extends BaseComponent
             $this->media = collect($this->collections)
                 ->filter(fn ($collectionName
                 ) => ! is_null($collectionName) && $collectionName !== '') // remove null or empty
-                ->flatMap(function (?string $collectionName, string $collectionType) use ($instanceId, $dataSource) {
+                ->flatMap(function (?string $collectionName, string $collectionType) use ($dataSource) {
                     if ($this->temporaryUploadMode) {
                         if (! empty($collectionName)) {
-                            return TemporaryUpload::getForCurrentSession($collectionName, $instanceId, $dataSource, $this->sessionId);
+                            return TemporaryUpload::getForCurrentSession($collectionName, $this->instanceId, $dataSource, $this->sessionId);
                         }
                     }
 

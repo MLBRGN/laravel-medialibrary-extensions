@@ -12,11 +12,14 @@ it('initializes with provided id', function () {
     $component = new ExtendedBaseComponent('my-id');
 
     expect($component->id)->toBe('my-id');
+    expect($component->originalId)->toBe('my-id');
+    expect($component->instanceId)->toBeString();
 });
 
-it('generates a unique id if none provided', function () {
+it('generates a unique ULID id if none provided', function () {
     $component = new ExtendedBaseComponent;
 
-    expect($component->id)->toStartWith('component-');
-    expect(Str::isUuid(Str::after($component->id, 'component-')))->toBeTrue();
+    expect(Str::isUlid($component->id))->toBeTrue();
+    expect($component->originalId)->toBe($component->id);
+    expect($component->instanceId)->toBeString();
 });

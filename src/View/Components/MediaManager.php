@@ -26,8 +26,6 @@ class MediaManager extends BaseComponent
 
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
-    public string $instanceId;
-
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -41,11 +39,8 @@ class MediaManager extends BaseComponent
         public bool $selectable = false,
     ) {
 
-        $id = filled($id) ? $id : null;
         parent::__construct($id);
         $this->options = $options;
-
-        $this->instanceId = InstanceManager::getInstanceId($id ?? Str::ulid());
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -114,10 +109,10 @@ class MediaManager extends BaseComponent
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            $this->id .= '-mmm';
+            $this->setBaseId($this->getSuffixedId('mmm'));
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            $this->id .= '-mms';
+            $this->setBaseId($this->getSuffixedId('mms'));
         }
 
         // override hide media menu when nothing to see inside menu

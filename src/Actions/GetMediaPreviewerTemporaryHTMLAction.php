@@ -28,9 +28,8 @@ class GetMediaPreviewerTemporaryHTMLAction
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
         $dataSource = $request->input('data_source');
-
         $initiatorId = $request->input('initiator_id');
-        $instanceId = $request->input('instance_id');
+        $instanceId = $request->input('instance_id') ?? '';
         $modelType = $request->input('model_type');
         // no modelId
         $singleMediaId = $request->input('single_medium_id');

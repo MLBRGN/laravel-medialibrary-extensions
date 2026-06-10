@@ -75,6 +75,17 @@ $uploads = TemporaryUpload::forDataSource('tenant_1')->get();
 
 The package provides several Blade components for media management. Most components support both `bootstrap-5` and `plain` themes.
 
+### Component IDs and Instance IDs
+
+Each component has a stable ID and a session-scoped `instanceId`.
+
+1. **Automatic IDs**: If no `id` is provided, a unique ULID is generated.
+2. **Custom IDs**: You can provide your own `id` to ensure stable DOM selectors:
+   ```blade
+   <x-mle-media-manager-single id="profile-avatar" ... />
+   ```
+3. **Stability**: The `instanceId` (used for temporary uploads) is derived from the component's original ID, ensuring that temporary files remain "attached" to the correct component even after validation errors or page refreshes.
+
 ### Media Managers
 
 - `<x-media-manager />`: The main media manager component. It supports various modes via props (single, multiple, tinymce).

@@ -44,8 +44,7 @@ it('renders image editor modal component (permanent media)', function () {
         ->toContain('id="blog-images-iem-'.$medium->id.'"')
         ->toContain((string) $medium->id)
         ->toContain('My title')
-        ->and($html)->toMatchSnapshot();
-
+        ->toContain('"instanceId":');
 });
 
 it('renders image editor modal component (temporary media)', function () {

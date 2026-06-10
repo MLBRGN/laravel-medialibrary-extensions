@@ -31,11 +31,14 @@ class UploadForm extends BaseComponent
         public bool $multiple = false,
         public ?bool $readonly = false,
         public ?bool $disabled = false,
-        public ?string $instanceId = null,
+        public string $instanceId = '',
     ) {
         $this->mediaManagerId = $id;
 
         parent::__construct($id);
+        if ($instanceId) {
+            $this->instanceId = $instanceId;
+        }
         $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);

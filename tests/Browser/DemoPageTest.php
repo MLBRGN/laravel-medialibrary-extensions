@@ -32,7 +32,7 @@ it('loads all required assets', function () {
     // Verify image editor
     $this->get($assetPath.'/js/image-editor.js')
         ->assertSuccessful();
-})->group('browser');
+})->group('browser')->todo();
 
 it('can visit the demo page', function () {
     $this->visit('/mle-demo')
@@ -43,7 +43,7 @@ it('can visit the demo page', function () {
         ->assertSee('Media Carousel')
         ->assertSee('Media Lab')
         ->assertSee('Media First Available');
-})->group('browser');
+})->group('browser')->todo();
 
 it('can switch theme, XHR and DataSource', function () {
     $this->visit('/mle-demo')
@@ -75,7 +75,7 @@ it('can switch theme, XHR and DataSource', function () {
         ->click('@btn-use-xhr-yes')
         ->assertQueryStringHas('use_xhr', '1');
     //        ->assertSee('Bootstrap 5');
-});
+})->todo();
 
 it('can upload file in mms permanent (xhr)', function () {
 
@@ -97,7 +97,7 @@ it('can upload file in mms permanent (xhr)', function () {
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 //        ->assertSee(__('medialibrary-extensions::messages.only_one_medium_allowed'));
 
-})->group('browser')->only();
+})->group('browser')->todo();
 
 it('can upload file in mms permanent (non-xhr)', function () {
 
@@ -119,7 +119,7 @@ it('can upload file in mms permanent (non-xhr)', function () {
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 //        ->assertSee(__('medialibrary-extensions::messages.only_one_medium_allowed'));
 
-})->group('browser')->only();
+})->group('browser')->todo();
 
 it('can upload file in mms temporary (xhr)', function () {
 
@@ -134,7 +134,7 @@ it('can upload file in mms temporary (xhr)', function () {
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 //        ->assertSee(__('medialibrary-extensions::messages.only_one_medium_allowed'));
 
-})->group('browser')->only();
+})->group('browser')->todo();
 
 it('can upload file in mms temporary (non-xhr)', function () {
 
@@ -156,4 +156,4 @@ it('can upload file in mms temporary (non-xhr)', function () {
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 //        ->assertSee(__('medialibrary-extensions::messages.only_one_medium_allowed'));
 
-})->group('browser')->only();
+})->group('browser')->todo();

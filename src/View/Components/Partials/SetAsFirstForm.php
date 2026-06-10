@@ -45,8 +45,8 @@ class SetAsFirstForm extends BaseComponent
             $this->modelId = $this->medium->model_id;
         }
 
-        $this->mediaManagerId = $this->id;
-        $this->id = $this->id.'-set-as-first-form-'.$this->medium->id;
+        $this->mediaManagerId = $this->originalId;
+        $this->setBaseId($this->getSuffixedId('set-as-first-form-'.$this->medium->id));
 
         $this->targetMediaCollection = $medium->collection_name;
 

@@ -18,10 +18,26 @@ abstract class BaseComponent extends Component
 
     public string $id;
 
+    public string $originalId;
+
+    public string $instanceId;
+
     public function __construct(
         ?string $id = null,
     ) {
-        $this->id = filled($id) ? $id : 'component-'.Str::uuid();
+        $this->originalId = filled($id) ? $id : (string) Str::ulid();
+        $this->id = $this->originalId;
+        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->originalId);
+    }
+
+    public function setBaseId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getSuffixedId(string $suffix): string
+    {
+        return $this->originalId.'-'.$suffix;
     }
 
     public function renderView(string $viewName, ?string $theme = null, bool $isPartial = false, ?string $customView = null, array $data = []): View

@@ -28,11 +28,14 @@ class MediaPreviewItem extends BaseComponent
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
-        public ?string $instanceId = null,
+        public string $instanceId = '',
         public ?string $dataSource = null,
     ) {
 
         parent::__construct($id);
+        if ($instanceId) {
+            $this->instanceId = $instanceId;
+        }
 //        $this->id = $this->id . '-pic';
         $this->options = $options;
 
