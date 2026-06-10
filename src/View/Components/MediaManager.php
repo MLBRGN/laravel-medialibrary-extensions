@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -85,14 +86,13 @@ class MediaManager extends BaseComponent
         if ($this->singleMedia !== null) {
             $totalMediaCount = 1;
         } else {
-            $totalMediaCount = 0;
-
-            foreach ($this->collections as $collectionName) {
-                if ($this->modelOrClassName instanceof HasMedia) {
-                    $totalMediaCount += $this->modelOrClassName->getMedia($collectionName)->count();
-                } elseif (is_string($this->modelOrClassName)) {
-                    $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName, $this->instanceId)->count();
-                }
+            $mediaService = app(MediaService::class);
+            if ($this->modelOrClassName instanceof HasMedia) {
+                $totalMediaCount = $mediaService->countModelMediaInCollections($this->modelOrClassName, $this->collections);
+            } elseif (is_string($this->modelOrClassName)) {
+                $totalMediaCount = $mediaService->countTemporaryUploadsInCollections($this->collections, $this->instanceId);
+            } else {
+                $totalMediaCount = 0;
             }
         }
 

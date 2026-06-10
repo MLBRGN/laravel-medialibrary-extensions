@@ -92,7 +92,7 @@
                 border: 1px solid #eee;
             }
         </style>
-        <link rel="icon" type="image/x-icon" href="{{ route('mlbrgn.mle.favicon') }}">
+{{--        <link rel="icon" type="image/x-icon" href="{{ route('mlbrgn.mle.favicon') }}">--}}
         @php
             $nonce = mlbrgn_csp_nonce();
         @endphp
@@ -117,20 +117,20 @@
         <div class="mle-demo-controls">
             <div class="mle-demo-controls-group">
                 <span class="mle-demo-controls-label">Theme:</span>
-                <a href="{{ request()->fullUrlWithQuery(['theme' => 'bootstrap-5']) }}" class="mle-demo-btn {{ $frontendTheme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}">Bootstrap 5</a>
-                <a href="{{ request()->fullUrlWithQuery(['theme' => 'plain']) }}" class="mle-demo-btn {{ $frontendTheme === 'plain' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}">Plain</a>
+                <a href="{{ request()->fullUrlWithQuery(['theme' => 'bootstrap-5']) }}" class="mle-demo-btn {{ $frontendTheme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Bootstrap 5</a>
+                <a href="{{ request()->fullUrlWithQuery(['theme' => 'plain']) }}" class="mle-demo-btn {{ $frontendTheme === 'plain' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-plain">Plain</a>
             </div>
     
             <div class="mle-demo-controls-group">
                 <span class="mle-demo-controls-label">Data Source:</span>
-                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'demo']) }}" class="mle-demo-btn {{ $dataSource === 'demo' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}">Demo</a>
-                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'default']) }}" class="mle-demo-btn {{ empty($dataSource) ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}">Default</a>
+                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'demo']) }}" class="mle-demo-btn {{ $dataSource === 'demo' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-demo">Demo</a>
+                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'default']) }}" class="mle-demo-btn {{ empty($dataSource) ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-default">Default</a>
             </div>
     
             <div class="mle-demo-controls-group">
                 <span class="mle-demo-controls-label">Use XHR:</span>
-                <a href="{{ request()->fullUrlWithQuery(['use_xhr' => '1']) }}" class="mle-demo-btn {{ $useXhr ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}">Yes</a>
-                <a href="{{ request()->fullUrlWithQuery(['use_xhr' => '0']) }}" class="mle-demo-btn {{ !$useXhr ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}">No</a>
+                <a href="{{ request()->fullUrlWithQuery(['use_xhr' => '1']) }}" class="mle-demo-btn {{ $useXhr ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-use-xhr-yes">Yes</a>
+                <a href="{{ request()->fullUrlWithQuery(['use_xhr' => '0']) }}" class="mle-demo-btn {{ !$useXhr ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-use-xhr-no">No</a>
             </div>
         </div>
     

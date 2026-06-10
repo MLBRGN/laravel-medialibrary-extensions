@@ -1,5 +1,6 @@
 @if ($componentToRender)
     <div class="mle-media-preview-item-container"
+         id="{{ $id }}"
          data-bs-toggle="modal"
          data-bs-target="#{{ $id }}-mod"
     >

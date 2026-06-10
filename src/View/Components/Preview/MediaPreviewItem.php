@@ -33,6 +33,7 @@ class MediaPreviewItem extends BaseComponent
     ) {
 
         parent::__construct($id);
+//        $this->id = $this->id . '-pic';
         $this->options = $options;
 
         $componentMap = [

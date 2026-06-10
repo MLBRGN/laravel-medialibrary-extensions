@@ -39,8 +39,15 @@
         "pestphp/pest-plugin-drift": "^4.0.0",
         "pestphp/pest-plugin-type-coverage": "^4.0.0",
         "spatie/laravel-translatable": "^6.0.0",
-        "symfony/dom-crawler": "^7.0.0"
+        "symfony/dom-crawler": "^7.0.0",
+      "pestphp/pest-plugin-browser": "dev-fix/multipart-form-parser"
     },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/homiedopie/pest-plugin-browser"
+      }
+    ],
     "suggest": {
         "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons",
         "mlbrgn/imageeditor": "Required for the image editor UI (install via npm or yarn).",

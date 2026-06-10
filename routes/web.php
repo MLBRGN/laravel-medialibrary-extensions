@@ -43,27 +43,41 @@ Route::group([
     });
 });
 
-if (config('medialibrary-extensions.demo_pages_enabled')) {
-    Route::group([
-        'middleware' => array_merge(
-            config('medialibrary-extensions.route_middleware', ['web']),
-            [RegisterDemoDatabase::class]
-        ),
-        'prefix' => config('medialibrary-extensions.route_prefix'),
-    ], function () {
-        Route::get('mle-demo', DemoController::class)->name('mle-demo');
+// if (config('medialibrary-extensions.demo_pages_enabled')) {
+Route::group([
+    'middleware' => array_merge(
+        config('medialibrary-extensions.route_middleware', ['web']),
+        [RegisterDemoDatabase::class]
+    ),
+    'prefix' => config('medialibrary-extensions.route_prefix'),
+], function () {
+    Route::get('mle-demo', DemoController::class)->name('mle-demo');
 
-        Route::get('favicon.ico', function () {
-            $path = __DIR__.'/../resources/assets/favicon.ico';
+    //        Route::get('favicon.ico', function () {
+    //            $path = __DIR__.'/../resources/assets/favicon.ico';
+    //
+    //            if (! file_exists($path)) {
+    //                abort(404);
+    //            }
+    //
+    //            return Response::file($path, [
+    //                'Content-Type' => 'image/x-icon',
+    //                'Cache-Control' => 'public, max-age=31536000', // cache for 1 year
+    //            ]);
+    //        })->name('mlbrgn.mle.favicon');
+});
 
-            if (! file_exists($path)) {
-                abort(404);
-            }
-
-            return Response::file($path, [
-                'Content-Type' => 'image/x-icon',
-                'Cache-Control' => 'public, max-age=31536000', // cache for 1 year
-            ]);
-        })->name('mlbrgn.mle.favicon');
-    });
-}
+Route::get('/favicon.ico', fn () => response()->noContent());
+//    Route::get('/favicon.ico', function () {
+//        $path = __DIR__.'/../resources/assets/favicon.ico';
+//
+//        if (! file_exists($path)) {
+//            return response()->noContent();
+//        }
+//
+//        return Response::file($path, [
+//            'Content-Type' => 'image/x-icon',
+//            'Cache-Control' => 'public, max-age=31536000',
+//        ]);
+//    });
+// }

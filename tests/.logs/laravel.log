@@ -1,0 +1,56 @@
+[2026-06-10 09:44:15] testing.WARNING: [laravel-medialibrary-extensions] The "media" table is missing. Did you run the Spatie Media Library migration?  
+[2026-06-10 09:44:15] testing.WARNING: Failed to migrate aliens table to default connection: SQLSTATE[HY000]: General error: 1 table "aliens" already exists (Connection: media_demo, Database: /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/tests/Support/demo.sqlite, SQL: create table "aliens" ("id" integer primary key autoincrement not null, "created_at" datetime, "updated_at" datetime))  
+[2026-06-10 09:44:15] testing.INFO: TemporaryUploadPromoter: no temporary uploads found for this session/instance  
+[2026-06-10 09:44:15] testing.INFO: TemporaryUploadPromoter: no temporary uploads found for this session/instance  
+[2026-06-10 09:44:15] testing.INFO: MediaHasBeenAddedListener invoked for medium: 1  
+[2026-06-10 09:44:15] testing.INFO: ensureGlobalOrder  
+[2026-06-10 09:44:15] testing.INFO: Assigned global_order=1 to media [1]  
+[2026-06-10 09:44:15] testing.INFO: copyOriginalMedia  
+[2026-06-10 09:44:15] testing.INFO: Copied original media [1] to originals disk.  
+[2026-06-10 09:44:16] testing.INFO: findMediaModel: Mlbrgn\MediaLibraryExtensions\Models\demo\Alien 1  
+[2026-06-10 09:44:16] testing.INFO: findMediaModel: Mlbrgn\MediaLibraryExtensions\Models\demo\Alien 1  
+[2026-06-10 09:44:16] testing.INFO: Parsed Data: {"collections":{"image":"alien-single-image","document":"alien-single-document","youtube":"alien-single-youtube-video","video":"alien-single-video","audio":"alien-single-audio"},"single_media_id":null,"temporary_upload_mode":"false","model_type":"Mlbrgn\\MediaLibraryExtensions\\Models\\demo\\Alien","model_id":"1","initiator_id":"alien-single-mms","instance_id":"01KTREP48QMQS9VNMTJ2P2SG19","media_manager_id":"alien-single-mms","data_source":"demo","media":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/9t/5bxwp_9n6_79c0svw7569ps00000gn/T/pest-browser-upload-0j4cj53l651v5bIcRln"}} 
+[2026-06-10 09:44:16] testing.INFO: Parsed Files: ["media"] 
+[2026-06-10 09:44:16] testing.INFO: Raw Content: [""] 
+[2026-06-10 09:44:16] testing.INFO: controller: Array
+(
+    [collections] => Array
+        (
+            [image] => alien-single-image
+            [document] => alien-single-document
+            [youtube] => alien-single-youtube-video
+            [video] => alien-single-video
+            [audio] => alien-single-audio
+        )
+
+    [single_media_id] => 
+    [temporary_upload_mode] => false
+    [model_type] => Mlbrgn\MediaLibraryExtensions\Models\demo\Alien
+    [model_id] => 1
+    [initiator_id] => alien-single-mms
+    [instance_id] => 01KTREP48QMQS9VNMTJ2P2SG19
+    [media_manager_id] => alien-single-mms
+    [data_source] => demo
+    [media] => Illuminate\Http\UploadedFile Object
+        (
+            [originalName:Symfony\Component\HttpFoundation\File\UploadedFile:private] => test.jpg
+            [mimeType:Symfony\Component\HttpFoundation\File\UploadedFile:private] => image/jpeg
+            [error:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 0
+            [originalPath:Symfony\Component\HttpFoundation\File\UploadedFile:private] => test.jpg
+            [test:Symfony\Component\HttpFoundation\File\UploadedFile:private] => 1
+            [hashName:protected] => 
+            [pathName:SplFileInfo:private] => /private/var/folders/9t/5bxwp_9n6_79c0svw7569ps00000gn/T/pest-browser-upload-0j4cj53l651v5bIcRln
+            [fileName:SplFileInfo:private] => pest-browser-upload-0j4cj53l651v5bIcRln
+        )
+
+)
+  
+[2026-06-10 09:44:16] testing.INFO: UPLOAD PAYLOAD: {"collections":{"image":"alien-single-image","document":"alien-single-document","youtube":"alien-single-youtube-video","video":"alien-single-video","audio":"alien-single-audio"},"single_media_id":null,"temporary_upload_mode":"false","model_type":"Mlbrgn\\MediaLibraryExtensions\\Models\\demo\\Alien","model_id":"1","initiator_id":"alien-single-mms","instance_id":"01KTREP48QMQS9VNMTJ2P2SG19","media_manager_id":"alien-single-mms","data_source":"demo","media":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/9t/5bxwp_9n6_79c0svw7569ps00000gn/T/pest-browser-upload-0j4cj53l651v5bIcRln"}} 
+[2026-06-10 09:44:16] testing.INFO: findMediaModel: Mlbrgn\MediaLibraryExtensions\Models\demo\Alien 1  
+[2026-06-10 09:44:16] testing.INFO: MediaHasBeenAddedListener invoked for medium: 2  
+[2026-06-10 09:44:16] testing.INFO: ensureGlobalOrder  
+[2026-06-10 09:44:16] testing.INFO: Assigned global_order=2 to media [2]  
+[2026-06-10 09:44:16] testing.INFO: copyOriginalMedia  
+[2026-06-10 09:44:16] testing.INFO: Copied original media [2] to originals disk.  
+[2026-06-10 09:44:16] testing.INFO: GetMediaPreviewerPermanentHTMLAction - theme: bootstrap-5  
+[2026-06-10 09:44:16] testing.INFO: findMediaModel: Mlbrgn\MediaLibraryExtensions\Models\demo\Alien 1  

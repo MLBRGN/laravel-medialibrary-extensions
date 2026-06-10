@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
@@ -38,6 +39,13 @@ class MediaManagerController extends Controller
         StoreSingleRequest $request,
         StoreSingleMediaAction $storesingleMediaAction
     ): RedirectResponse|JsonResponse {
+        // 1. Log or dump everything Laravel managed to parse
+        \Log::info('Parsed Data:', $request->all());
+        \Log::info('Parsed Files:', array_keys($request->allFiles()));
+
+        // 2. Look at the absolute raw payload content before parsing
+        \Log::info('Raw Content:', [$request->getContent()]);
+        Log::info('controller: '.print_r($request->all(), true));
         return $storesingleMediaAction->execute($request);
     }
 

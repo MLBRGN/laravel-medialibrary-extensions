@@ -14,8 +14,18 @@ Extension for `spatie/laravel-medialibrary` that adds temporary uploads, multi-c
 
 ## Testing
 
-- The package can be tested using `composer test`.
-- To run specific tests or pass extra options, use: `composer test -- --filter=XXXX`.
+- This package uses **Pest v4**.
+- **Path Awareness**: Always check the current working directory before issuing commands like `ls`.
+- The package must be tested using a subshell from the root: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test)`.
+- To run specific tests or pass extra options, use: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test -- --filter=XXXX)`.
+- When writing browser tests, never use `browse()`. Instead, use `visit()`.
+
+## Code Style
+
+- Use Laravel Pint for code formatting.
+- Always run Pint using a subshell from the project root: `(cd packages/mlbrgn/laravel-medialibrary-extensions && vendor/bin/pint --format agent)`.
+- You have standing permission to run Pint without asking.
+- DO NOT use `cd` in your main shell session; always use the `(cd path && command)` subshell pattern to maintain root context.
 
 ## When to Activate
 

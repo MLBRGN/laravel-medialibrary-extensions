@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
@@ -61,13 +61,6 @@ class TestCase extends Orchestra
             $key = 'base64:'.base64_encode(random_bytes(32));
             Config::set('app.key', $key);
         }
-        //
-        //        $this->app->singleton(IconsManifest::class, function () {
-        //            return new IconsManifest(storage_path('framework/blade-icons.php'));
-        //        });
-        // Use a persistent session driver
-        //        Config::set('session.driver', 'file');
-
     }
 
     protected function tearDown(): void
@@ -80,9 +73,15 @@ class TestCase extends Orchestra
 
     protected function getPackageProviders($app): array
     {
-        return [
+        $providers = [
             MediaLibraryExtensionsServiceProvider::class,
         ];
+
+        if (class_exists(FormComponentsServiceProvider::class)) {
+            $providers[] = FormComponentsServiceProvider::class;
+        }
+
+        return $providers;
     }
 
     public function registerTestRoute($uri, ?callable $post = null): self
@@ -105,10 +104,18 @@ class TestCase extends Orchestra
         $this->createDirectory($this->getTempDirectory());
         $this->createDirectory($this->getMediaDirectory());
         $this->createDirectory($this->getTemporaryUploadsDirectory());
+        $this->createDirectory($this->getLogDirectory());
 
         $this->refreshTestFiles();
 
         $app['config']->set('app.key', 'base64:BOiGLFUC+84Du2o8GYos0kGJaj4zGX9M9BkLsAj04Ik=');
+
+        $app['config']->set('logging.default', 'single');
+        $app['config']->set('logging.channels.single', [
+            'driver' => 'single',
+            'path' => $this->getLogDirectory().'/laravel.log',
+            'level' => 'debug',
+        ]);
         $app['config']->set('session.serialization', 'php');
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
@@ -197,6 +204,11 @@ class TestCase extends Orchestra
         File::makeDirectory($directory, 0755, true);
     }
 
+    public function getLogDirectory(): string
+    {
+        return __DIR__.'/.logs';
+    }
+
     public function getTempDirectory(string $suffix = ''): string
     {
         return __DIR__.'/Support/tmp'.($suffix == '' ? '' : '/'.$suffix);
@@ -232,6 +244,24 @@ class TestCase extends Orchestra
             null,
             true // mark as a test file
         );
+    }
+
+    public function getFixtureAsFilePath(string $fileName): string
+    {
+        $path = __DIR__.'/Fixtures/'.$fileName;
+
+        return $path;
+        //        if (! file_exists($path)) {
+        //            throw new \RuntimeException("Fixture file not found: {$path}");
+        //        }
+        //
+        //        return new UploadedFile(
+        //            $path,
+        //            basename($fileName),
+        //            mime_content_type($path) ?: null,
+        //            null,
+        //            true // mark as a test file
+        //        );
     }
 
     protected function getUploadedFile(

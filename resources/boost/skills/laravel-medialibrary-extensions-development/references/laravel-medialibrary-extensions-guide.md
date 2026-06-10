@@ -4,8 +4,10 @@ Complete reference for `mlbrgn/laravel-medialibrary-extensions`.
 
 ## Testing
 
-- The package can be tested using `composer test`.
+- This package uses **Pest v4**.
+- The package must be tested using `composer test` from inside the `packages/mlbrgn/laravel-medialibrary-extensions` directory.
 - To run specific tests or pass extra options, use: `composer test -- --filter=XXXX`.
+- When writing browser tests, never use `browse()`. Instead, use `visit()`.
 
 ## Media Library Extensions Features
 

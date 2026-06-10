@@ -15,6 +15,7 @@
                     data-url="{{ $medium->getUrl() }}"
                     data-alt="{{ $medium->name }}"
                     data-mle-media-select-checkbox
+                    data-test="media-select-{{ $medium->id }}"
                 >
                 <span class="mle-media-select-indicator"
                   title="{{ __('medialibrary-extensions::messages.select') }}"
@@ -32,6 +33,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#{{ $id }}-iem-{{ $medium->id }}"
                     title="{{ __('medialibrary-extensions::messages.edit') }}"
+                    data-test="edit-button-{{ $medium->id }}"
                     @disabled($disabled)
                 >
                     <x-mle-shared-icon

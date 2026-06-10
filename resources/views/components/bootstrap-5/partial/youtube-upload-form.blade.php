@@ -77,6 +77,7 @@
     </label>
     <input
         id="{{ $id }}-youtube-url"
+        data-test="youtube-input-{{ $id }}"
         type="url" 
         name="youtube_url" 
         class="mle-input mle-form-control form-control" 
@@ -87,6 +88,7 @@
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-mle-action="upload-youtube-medium"
+        data-test="youtube-upload-button-{{ $id }}"
         @disabled($disabled)
     >
         {{ __('medialibrary-extensions::messages.add_youtube_video') }}

@@ -26,6 +26,9 @@ class StoreSinglePermanentAction
         StoreSingleRequest $request
     ): RedirectResponse|JsonResponse {
 
+        // Temporarily add this to see the payload
+        \Illuminate\Support\Facades\Log::info('UPLOAD PAYLOAD:', $request->all());
+
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id;
 
@@ -43,7 +46,8 @@ class StoreSinglePermanentAction
 
             if ($this->modelHasAnyMedia(
                 $model,
-                $prepared->collections
+                $prepared->collections,
+                $dataSource
             )) {
                 return MediaResponse::error(
                     $request,

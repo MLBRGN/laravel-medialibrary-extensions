@@ -2,7 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Spatie\MediaLibrary\HasMedia;
 
 trait ChecksMediaLimits
@@ -12,15 +12,7 @@ trait ChecksMediaLimits
      */
     protected function countModelMediaInCollections(HasMedia $model, array $collections, ?string $dataSource = null): int
     {
-        $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
-            ->reduce(function (int $total, string $collectionName) use ($model) {
-                $count = $model->getMedia($collectionName)->count();
-
-                return $total + $count;
-            }, 0);
-
-        return $count;
+        return app(MediaService::class)->countModelMediaInCollections($model, $collections, $dataSource);
     }
 
     /**
@@ -28,15 +20,7 @@ trait ChecksMediaLimits
      */
     protected function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $sessionId = null, ?string $dataSource = null): int
     {
-        $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
-            ->reduce(function (int $total, string $collectionName) use ($instanceId, $sessionId, $dataSource) {
-                $temporaryItems = TemporaryUpload::getForCurrentSession($collectionName, $instanceId, $dataSource, $sessionId);
-
-                return $total + $temporaryItems->count();
-            }, 0);
-
-        return $count;
+        return app(MediaService::class)->countTemporaryUploadsInCollections($collections, $instanceId, $sessionId, $dataSource);
     }
 
     /**

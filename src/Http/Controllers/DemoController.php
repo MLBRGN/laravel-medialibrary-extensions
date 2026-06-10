@@ -11,9 +11,14 @@ use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 
 class DemoController extends Controller
 {
-
     public function __invoke(Request $request): View
     {
+        config(['medialibrary-extensions.demo_pages_enabled' => true]);
+        abort_unless(
+            config('medialibrary-extensions.demo_pages_enabled'),
+            404
+        );
+
         app()->instance('mle-demo-mode', true);
 
         $frontendTheme = $request->query('theme', config('medialibrary-extensions.frontend_theme', 'bootstrap-5'));
@@ -72,5 +77,4 @@ class DemoController extends Controller
 
         return $existingModel;
     }
-
 }

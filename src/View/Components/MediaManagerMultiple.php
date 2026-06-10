@@ -4,8 +4,13 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Spatie\MediaLibrary\HasMedia;
+
 class MediaManagerMultiple extends MediaManager
 {
+    public int $totalMediaCount = 0;
+
     public function __construct(
         ?string $id,
         mixed $modelOrClassName,
@@ -28,6 +33,19 @@ class MediaManagerMultiple extends MediaManager
             selectable: $selectable,
         );
         $this->options = $options;
+
+        $mediaService = app(MediaService::class);
+
+        $resolved = $mediaService->resolveModelOrClassName($modelOrClassName);
+        $dataSource = $this->options['dataSource'] ?? null;
+
+        if ($modelOrClassName instanceof HasMedia) {
+            $this->totalMediaCount = $mediaService->countModelMediaInCollections($resolved->model, $collections, $dataSource);
+        } elseif (is_string($modelOrClassName)) {
+            $instanceId = $this->options['instanceId'] ?? null;
+            $sessionId = $this->options['sessionId'] ?? null;
+            $this->totalMediaCount = $mediaService->countTemporaryUploadsInCollections($collections, $instanceId, $sessionId, $dataSource);
+        }
 
     }
 }

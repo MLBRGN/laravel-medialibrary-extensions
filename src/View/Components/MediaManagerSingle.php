@@ -10,23 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends MediaManager
 {
-    //    protected array $optionKeys = [
-    //        'allowedMimeTypes',
-    //        'disabled',
-    //        'frontendTheme',
-    //        //        'multiple', always false
-    //        'readonly',
-    //        'selectable',
-    //        'showDestroyButton',
-    //        'showMediaEditButton',
-    //        'showMenu',
-    //        //        'showOrder', always false
-    //        'showSetAsFirstButton',
-    //        'showUploadForm',
-    //        'temporaryUploads',
-    //        'uploadFieldName',
-    //        'useXhr',
-    //    ];
+    public int $totalMediaCount = 0;
 
     public function __construct(
         ?string $id,
@@ -57,15 +41,13 @@ class MediaManagerSingle extends MediaManager
 
         // when singleMedia provided, dont count collections
         if ($this->singleMedia !== null) {
-            $totalMediaCount = 1;
+            $this->totalMediaCount = 1;
         } else {
-            $totalMediaCount = 0;
-
             foreach ($collections as $collectionName) {
                 if ($modelOrClassName instanceof HasMedia) {
-                    $totalMediaCount += $modelOrClassName->getMedia($collectionName)->count();
+                    $this->totalMediaCount += $modelOrClassName->getMedia($collectionName)->count();
                 } elseif (is_string($modelOrClassName)) {
-                    $totalMediaCount += TemporaryUpload::forCurrentSession($collectionName, $this->instanceId)->count();
+                    $this->totalMediaCount += TemporaryUpload::forCurrentSession($collectionName, $this->instanceId)->count();
                 }
             }
         }
@@ -73,7 +55,7 @@ class MediaManagerSingle extends MediaManager
         // TODO implement disabled and readonly, this is not per se the same as disableForm
 
         // boolean property to disable form(s) in blade view(s)
-        $this->setOption('disableForm', $totalMediaCount >= 1);
+        $this->setOption('disableForm', $this->totalMediaCount >= 1);
 
         $this->resolveConfig();
 

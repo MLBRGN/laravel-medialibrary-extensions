@@ -6,11 +6,11 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 abstract class StoreRequest extends MediaManagerRequest
 {
@@ -21,6 +21,8 @@ abstract class StoreRequest extends MediaManagerRequest
 
     public function rules(): array
     {
+
+        Log::info(print_r($this->all(), true));
         return [];
     }
 
@@ -28,6 +30,7 @@ abstract class StoreRequest extends MediaManagerRequest
     {
         $model = $this->resolveModel();
 
+//        Log::info(print_r($this->all(), true));
         return [
             'model_type' => [
                 'required',
