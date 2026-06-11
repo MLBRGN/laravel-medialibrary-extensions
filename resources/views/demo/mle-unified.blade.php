@@ -136,7 +136,7 @@
     
         <h2>Media Manager Single</h2>
         <x-mle-media-manager-single
-            id="alien-single"
+            id="alien-single-permanent"
             :model-or-class-name="$model"
             :collections="[
                             'image' => 'alien-single-image', 
@@ -153,7 +153,7 @@
     
         <h2>Media Manager Single (Temporary)</h2>
         <x-mle-media-manager-single
-            id="aliens-single-temporary"
+            id="alien-single-temporary"
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
             :collections="[
                             'image' => 'alien-single-image',
@@ -172,7 +172,7 @@
         <h2>Media Manager Multiple</h2>
         
         <x-mle-media-manager-multiple
-            id="alien-multiple"
+            id="alien-multiple-permanent"
             :model-or-class-name="$model"
             :collections="[
                 'image' => 'alien-multiple-images', 

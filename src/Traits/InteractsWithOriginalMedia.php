@@ -19,7 +19,7 @@ trait InteractsWithOriginalMedia
      */
     public function replaceMedium(Media $oldMedia, ?UploadedFile $newFile = null): Media
     {
-        Log::info('replaceMedium oldMedia id: '.$oldMedia->getKey().' invoked');
+        Log::info('InteractsWithOriginalMedia - replaceMedium oldMedia id: '.$oldMedia->getKey().' invoked');
 
         $oldId = $oldMedia->id;
         $backup = $oldMedia->replicate();
@@ -34,13 +34,13 @@ trait InteractsWithOriginalMedia
         $collection = $backup->collection_name;
 
         if ($newFile) {
-            Log::info('newFile: '.$newFile->getClientOriginalName());
+            Log::info('InteractsWithOriginalMedia - newFile: '.$newFile->getClientOriginalName());
 
             // Use uploaded file
             $newMedia = $model->addMedia($newFile)
                 ->toMediaCollection($collection);
         } else {
-            Log::info('no newFile');
+            Log::info('InteractsWithOriginalMedia - no newFile');
             // Use the old media file
             $oldPath = $backup->getPath();
             $newMedia = $model->addMedia($oldPath)
@@ -96,7 +96,7 @@ trait InteractsWithOriginalMedia
         $newUpload->setConnection($oldUpload->getConnectionName());
         $newUpload->save();
 
-        Log::info("Replaced temporary upload [{$backup->id}] with [{$newUpload->id}] on connection [{$newUpload->getConnectionName()}].");
+        Log::info("InteractsWithOriginalMedia - Replaced temporary upload [{$backup->id}] with [{$newUpload->id}] on connection [{$newUpload->getConnectionName()}].");
 
         return $newUpload;
     }
@@ -106,22 +106,22 @@ trait InteractsWithOriginalMedia
      */
     protected function copyOriginalMedia(Media $media): void
     {
-        Log::info('copyOriginalMedia');
+        Log::info('InteractsWithOriginalMedia - copyOriginalMedia invoked');
 
         $path = $media->getPath();
         $destination = "{$media->id}/{$media->file_name}";
 
         if (Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($destination)) {
-            Log::info("Original already exists for media [{$media->id}], skipping copy.");
+            Log::info("InteractsWithOriginalMedia - Original already exists for media [{$media->id}], skipping copy.");
 
             return;
         }
 
         try {
             Storage::disk(config('medialibrary-extensions.media_disks.originals'))->put($destination, file_get_contents($path));
-            Log::info("Copied original media [{$media->id}] to originals disk.");
+            Log::info("InteractsWithOriginalMedia - Copied original media [{$media->id}] to originals disk.");
         } catch (\Throwable $e) {
-            Log::error("Failed to copy original media [{$media->id}]: {$e->getMessage()}");
+            Log::error("InteractsWithOriginalMedia - Failed to copy original media [{$media->id}]: {$e->getMessage()}");
         }
 
         $media->setConnection($media->getConnectionName());
@@ -134,13 +134,13 @@ trait InteractsWithOriginalMedia
      */
     protected function reuseOriginal(Media $oldMedia, Media $newMedia): void
     {
-        Log::info('reuseOriginal oldMedia id: '.$oldMedia->getKey().' newMedia id: '.$newMedia->getKey().' invoked');
+        Log::info('InteractsWithOriginalMedia - reuseOriginal oldMedia id: '.$oldMedia->getKey().' newMedia id: '.$newMedia->getKey().' invoked');
 
         $oldPath = "{$oldMedia->id}/{$oldMedia->file_name}";
         $newPath = "{$newMedia->id}/{$newMedia->file_name}";
 
         if (! Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($oldPath)) {
-            Log::warning("Old original not found for media [{$oldMedia->id}].");
+            Log::warning("InteractsWithOriginalMedia - Old original not found for media [{$oldMedia->id}].");
 
             return;
         }
@@ -153,9 +153,9 @@ trait InteractsWithOriginalMedia
 
         try {
             Storage::disk(config('medialibrary-extensions.media_disks.originals'))->copy($oldPath, $newPath);
-            Log::info("Reused old original for new media [{$newMedia->id}].");
+            Log::info("InteractsWithOriginalMedia - Reused old original for new media [{$newMedia->id}].");
         } catch (\Throwable $e) {
-            Log::error("Failed to reuse original media: {$e->getMessage()}");
+            Log::error("InteractsWithOriginalMedia - Failed to reuse original media: {$e->getMessage()}");
         }
     }
 
@@ -164,7 +164,7 @@ trait InteractsWithOriginalMedia
      */
     protected function ensureGlobalOrder(Media $media): void
     {
-        Log::info('ensureGlobalOrder');
+        Log::info('InteractsWithOriginalMedia - ensureGlobalOrder called for media id: '.$media->getKey());
 
         // Preserve if already set (for replaced or restored media)
         if ($media->hasCustomProperty('global_order')) {
@@ -178,7 +178,7 @@ trait InteractsWithOriginalMedia
         $media->setCustomProperty('global_order', $nextOrder);
         $media->save();
 
-        Log::info("Assigned global_order={$nextOrder} to media [{$media->id}]");
+        Log::info("InteractsWithOriginalMedia - Assigned global_order={$nextOrder} to media [{$media->id}]");
     }
 
     /**

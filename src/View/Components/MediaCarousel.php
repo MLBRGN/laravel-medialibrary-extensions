@@ -42,7 +42,10 @@ class MediaCarousel extends BaseComponent
         $this->resolveModelOrClassName($modelOrClassName);
 
         // merge into config
-        $this->resolveConfig();
+        $this->resolveConfig([
+            'temporaryUploadMode' => $this->temporaryUploadMode,
+            'sessionId' => session()->getId(),
+        ]);
 
         $instanceId = $this->instanceId ?? $this->getConfig('instanceId');
         $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);

@@ -10,7 +10,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
@@ -27,6 +26,7 @@ class GetMediaPreviewerTemporaryHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
+        Log::info('GetMediaPreviewerTemporaryHTMLAction invoked');
         $dataSource = $request->input('data_source');
         $initiatorId = $request->input('initiator_id');
         $instanceId = $request->input('instance_id') ?? '';
@@ -59,20 +59,11 @@ class GetMediaPreviewerTemporaryHTMLAction
         $singleMedia = null;
         $totalMediaCount = 0;
 
-        $temporaryUploadModel = $this->mediaService->make(
-            TemporaryUpload::class,
-            $dataSource
-        );
-
-        $sessionId = $request->hasSession() ? $request->session()->getId() : session()->getId();
+        $sessionId = $request->input('session_id') ?? ($request->hasSession() ? $request->session()->getId() : session()->getId());
 
         // counting media
         if ($singleMediaId !== null) {
-            Log::info('singleMediaId', [$singleMediaId]);
-
-            $singleMedia = $temporaryUploadModel
-                ->newQuery()
-                ->find($singleMediaId);
+            $singleMedia = $this->mediaService->findTemporaryUpload($singleMediaId, $dataSource);
 
             if ($singleMedia) {
                 $totalMediaCount = 1;
@@ -80,16 +71,16 @@ class GetMediaPreviewerTemporaryHTMLAction
                 throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
             }
         } else {
-            Log::info('multiple', [$multiple]);
-            // Count all media in collections
-            foreach ($collections as $collectionName) {
-                $totalMediaCount += TemporaryUpload::getForCurrentSession(
-                    $collectionName,
-                    $instanceId,
-                    $dataSource,
-                    $sessionId
-                )->count();
-            }
+            Log::info('GetTempHtmlAction collections: '.print_r($collections, true));
+            Log::info('GetTempHtmlAction instanceID: '.$instanceId);
+            Log::info('GetTempHtmlAction dataSource: '.$dataSource);
+            Log::info('GetTempHtmlAction sessionId: '.$sessionId);
+            $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
+                $collections,
+                $instanceId,
+                $sessionId,
+                $dataSource
+            );
         }
 
         $component = new MediaPreviews(

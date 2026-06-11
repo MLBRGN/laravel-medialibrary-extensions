@@ -52,6 +52,8 @@
         data-mle-action="destroy-medium"
         data-mle-route="{{ $getConfig('routes.mediaDestroy') }}"
         data-test="destroy-button-{{ $medium->id }}"
+        data-test-id="{{ $id }}"
+        data-test="media-preview-menu-button"
         @disabled($disabled)
     >
         <x-mle-shared-icon

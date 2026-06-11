@@ -75,7 +75,9 @@ class MediaPreviews extends BaseComponent
         // $this->media = $this->mediaItems;
         // $this->mediaCount = $this->mediaItems->count();
 
-        $this->resolveConfig();
+        $this->resolveConfig([
+            'temporaryUploadMode' => $this->temporaryUploadMode,
+        ]);
 
         // sync configuration with current state
         $this->syncConfigOverrides();
@@ -92,7 +94,9 @@ class MediaPreviews extends BaseComponent
             $this->setOption('showMenu', false);
         }
 
-        $this->resolveConfig();
+        $this->resolveConfig([
+            'temporaryUploadMode' => $this->temporaryUploadMode,
+        ]);
     }
 
     public function render(): View

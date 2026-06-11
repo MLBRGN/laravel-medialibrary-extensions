@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
@@ -110,6 +111,11 @@ class StoreMultiplePermanentAction
 
                 continue;
             }
+
+            Log::info('StoreMultiplePermanentAction - store in db: ' . json_encode([
+                    'connection' => DB::connection()->getName(),
+                    'database' => DB::connection()->getDatabaseName(),
+                ]));
 
             try {
                 $model->addMedia($file)

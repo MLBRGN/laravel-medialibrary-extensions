@@ -22,18 +22,18 @@ class TemporaryUploadPromoter
         $temporaryUploads = $query->get();
 
         if ($temporaryUploads->isEmpty()) {
-            Log::info('TemporaryUploadPromoter: no temporary uploads found for this session/instance');
+            Log::info('TemporaryUploadPromoter - no temporary uploads found for this session/instance');
 
             return;
         }
 
         if ($temporaryUploads->isEmpty()) {
-            Log::info('TemporaryUploadPromoter: no temporary uploads found for this session');
+            Log::info('TemporaryUploadPromoter - no temporary uploads found for this session');
 
             return;
         }
 
-        Log::info('TemporaryUploadPromoter: found temporary uploads', ['count' => $temporaryUploads->count()]);
+        Log::info('TemporaryUploadPromoter - found temporary uploads', ['count' => $temporaryUploads->count()]);
         $dirty = false;
 
         foreach ($temporaryUploads as $temporaryUpload) {
@@ -47,12 +47,12 @@ class TemporaryUploadPromoter
             $media = $this->promote($model, $temporaryUpload);
 
             if (! $media) {
-                Log::warning("TemporaryUploadPromoter: promotion failed for temporary upload {$temporaryUpload->id}");
+                Log::warning("TemporaryUploadPromoter - promotion failed for temporary upload {$temporaryUpload->id}");
 
                 continue;
             }
 
-            Log::info('TemporaryUploadPromoter: promotion successful', [
+            Log::info('TemporaryUploadPromoter - promotion successful', [
                 'media_id' => $media->id,
                 'media_url' => $media->getUrl(),
             ]);
@@ -77,30 +77,30 @@ class TemporaryUploadPromoter
                 if ($newHtml !== $html) {
                     $model->{$field} = $newHtml;
                     $dirty = true;
-                    Log::info("TemporaryUploadPromoter: updated HTML field '{$field}' with new media URL", [
+                    Log::info("TemporaryUploadPromoter - updated HTML field '{$field}' with new media URL", [
                         'temporary_file' => $temporaryUpload->file_name,
                         'new_media_url' => $media->getUrl(),
                     ]);
                 } else {
-                    Log::info("TemporaryUploadPromoter: no replacements made in field '{$field}' for {$temporaryUpload->file_name}");
+                    Log::info("TemporaryUploadPromoter - no replacements made in field '{$field}' for {$temporaryUpload->file_name}");
                 }
             }
 
             // Cleanup temp file + DB record
             if (Storage::disk($temporaryDisk)->exists($temporaryUpload->path)) {
                 Storage::disk($temporaryDisk)->delete($temporaryUpload->path);
-                Log::info('TemporaryUploadPromoter: deleted temporary file', ['path' => $temporaryUpload->path]);
+                Log::info('TemporaryUploadPromoter - deleted temporary file', ['path' => $temporaryUpload->path]);
             }
 
             $temporaryUpload->delete();
-            Log::info('TemporaryUploadPromoter: deleted temporary upload record', ['id' => $temporaryUpload->id]);
+            Log::info('TemporaryUploadPromoter - deleted temporary upload record', ['id' => $temporaryUpload->id]);
         }
 
         if ($dirty) {
             $model->saveQuietly();
-            Log::info('TemporaryUploadPromoter: model saved with updated HTML fields', ['model_id' => $model->id]);
+            Log::info('TemporaryUploadPromoter - model saved with updated HTML fields', ['model_id' => $model->id]);
         } else {
-            Log::info('TemporaryUploadPromoter: no changes detected, model not saved', ['model_id' => $model->id]);
+            Log::info('TemporaryUploadPromoter - no changes detected, model not saved', ['model_id' => $model->id]);
         }
     }
 
@@ -120,7 +120,7 @@ class TemporaryUploadPromoter
 
             return $media;
         } catch (Exception $e) {
-            Log::error('TemporaryUploadPromoter: failed to attach media', [
+            Log::error('TemporaryUploadPromoter - failed to attach media', [
                 'temporary_upload_id' => $temporaryUpload->id,
                 'path' => $temporaryUpload->path,
                 'disk' => $temporaryUpload->disk,
@@ -145,7 +145,7 @@ class TemporaryUploadPromoter
         $newHtml = preg_replace($pattern, $mediaUrl, $html);
 
         if ($newHtml !== $html) {
-            Log::info('TemporaryUploadPromoter: temporary URL replaced in HTML', [
+            Log::info('TemporaryUploadPromoter - temporary URL replaced in HTML', [
                 'old_url_pattern' => $pattern,
                 'new_url' => $mediaUrl,
             ]);

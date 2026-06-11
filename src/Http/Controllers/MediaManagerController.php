@@ -102,6 +102,7 @@ class MediaManagerController extends Controller
         GetMediaManagerPreviewerHTMLRequest $request,
         GetMediaManagerPreviewerHTMLAction $getMediaManagerPreviewerHTMLAction
     ): RedirectResponse|JsonResponse {
+        Log::info('MediaManagerController - GetUpdatedMediaManagerPreviewerHTMLAction invoked');
         return $getMediaManagerPreviewerHTMLAction->execute($request);
     }
 

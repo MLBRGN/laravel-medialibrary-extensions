@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 
 class GetMediaManagerPreviewerHTMLAction
@@ -17,6 +18,8 @@ class GetMediaManagerPreviewerHTMLAction
 
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
+        Log::info('GetMediaManagerPreviewerHTMLAction - invoked');
+        Log::info('GetMediaManagerPreviewerHTMLAction - temporary_upload_mode: '.$request->temporary_upload_mode);
         if ($request->temporary_upload_mode === 'true') {
             return $this->getMediaPreviewerTemporaryHTMLAction->execute($request);
         }

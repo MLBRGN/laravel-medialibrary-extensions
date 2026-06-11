@@ -1,4 +1,4 @@
-<div class="mle-media-preview-grid" data-mle-media-preview-grid>
+<div class="mle-media-preview-grid" data-mle-media-preview-grid data-test="media-preview-grid-{{ $id }}">
     <x-mle-media-previews
         :id="$id"
         :model-or-class-name="$modelOrClassName"

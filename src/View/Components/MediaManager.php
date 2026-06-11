@@ -5,11 +5,9 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
@@ -131,6 +129,7 @@ class MediaManager extends BaseComponent
 
         $this->resolveConfig([
             'instanceId' => $this->instanceId,
+            'temporaryUploadMode' => $this->temporaryUploadMode,
         ]);
     }
 

@@ -62,7 +62,7 @@ class RestoreOriginalMediaAction
             // Write to medium path (on correct disk)
             Storage::disk($targetDisk)->put($targetPath, $content);
 
-            Log::info("Restored original [$originalPath] → [$targetDisk:$targetPath]");
+//            Log::info("Restored original [$originalPath] → [$targetDisk:$targetPath]");
 
             // Mark conversions for regeneration
             foreach ($media->getMediaConversionNames() as $conversionName) {

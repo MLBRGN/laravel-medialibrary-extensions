@@ -7,6 +7,7 @@
             'mle-media-preview-container',
         ]) }}
         data-mle-media-preview-container
+        data-test="media-preview-container-{{ $id }}-{{ $loop->index }}"
     >
         <x-mle-media-preview-item
             :id="$id . '-' . $loop->index"

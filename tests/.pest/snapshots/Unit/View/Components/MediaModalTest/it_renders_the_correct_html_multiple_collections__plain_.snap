@@ -91,6 +91,7 @@
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
+        data-test="media-preview-image"
     >
                 </div>
             </div>
@@ -105,6 +106,7 @@
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
+        data-test="media-preview-image"
     >
                 </div>
             </div>

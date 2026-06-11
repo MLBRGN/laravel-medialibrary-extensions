@@ -75,13 +75,13 @@ class MediaService
         ?string $dataSource = null,
         bool $validateExtended = true
     ): ?object {
-        Log::info('findMediaModel: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
+        Log::info('MediaService - findMediaModel: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
         if ($modelClass === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
             return null;
         }
 
         if (! class_exists($modelClass)) {
-            Log::info('throws Invalid model type: '.$modelClass);
+            Log::info('MediaService - throws Invalid model type: '.$modelClass);
             throw InvalidModelTypeException::for($modelClass);
         }
 
@@ -170,7 +170,7 @@ class MediaService
         }
 
         $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
+            ->filter(fn ($collectionName) => ! empty($collectionName))
             ->reduce(function (int $total, string $collectionName) use ($model) {
                 $count = $model->getMedia($collectionName)->count();
 
@@ -180,14 +180,15 @@ class MediaService
         return $count;
     }
 
-    //
-    //    /**
-    //     * Count total temporary uploads for current session in given collections.
-    //     */
+    /**
+     * Count total temporary uploads for current session in given collections.
+     */
     public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $sessionId = null, ?string $dataSource = null): int
     {
+        Log::info('MediaService - countTemporaryUploadsInCollections: '.implode(', ', $collections));
+        //        dd($collections, $instanceId, $sessionId, $dataSource);
         $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
+            ->filter(fn ($collectionName) => ! empty($collectionName))
             ->reduce(function (int $total, string $collectionName) use ($instanceId, $sessionId, $dataSource) {
                 $temporaryItems = TemporaryUpload::getForCurrentSession($collectionName, $instanceId, $dataSource, $sessionId);
 
@@ -196,20 +197,20 @@ class MediaService
 
         return $count;
     }
-    //
-    //    /**
-    //     * Check if a model already has any media in the given collections (single-media limit).
-    //     */
-    //    protected function modelHasAnyMedia(HasMediaExtended $model, array $collections, ?string $dataSource = null): bool
-    //    {
-    //        return $this->countModelMediaInCollections($model, $collections, $dataSource) > 0;
-    //    }
-    //
-    //    /**
-    //     * Check if there are temporary uploads in the given collections (single-media limit).
-    //     */
-    //    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $sessionId = null, ?string $dataSource = null): bool
-    //    {
-    //        return $this->countTemporaryUploadsInCollections($collections, $instanceId, $sessionId, $dataSource) > 0;
-    //    }
+
+    /**
+     * Check if a model already has any media in the given collections (single-media limit).
+     */
+    public function modelHasAnyMedia(HasMediaExtended $model, array $collections, ?string $dataSource = null): bool
+    {
+        return $this->countModelMediaInCollections($model, $collections, $dataSource) > 0;
+    }
+
+    /**
+     * Check if there are temporary uploads in the given collections (single-media limit).
+     */
+    public function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $sessionId = null, ?string $dataSource = null): bool
+    {
+        return $this->countTemporaryUploadsInCollections($collections, $instanceId, $sessionId, $dataSource) > 0;
+    }
 }

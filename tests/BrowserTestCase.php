@@ -28,6 +28,23 @@ class BrowserTestCase extends TestCase
             'url' => '/media_originals',
         ]);
 
+        $sessionPath = $this->getTempDirectory().'/sessions';
+
+        File::ensureDirectoryExists($sessionPath);
+
+        $app['config']->set('session.driver', 'file');
+        $app['config']->set('session.files', $sessionPath);
+
+        $app['config']->set('session.lottery', [2, 100]);
+        $app['config']->set('session.expire_on_close', false);
+
+        $app['config']->set('session.cookie', 'laravel_session');
+        $app['config']->set('session.domain', null);
+        $app['config']->set('session.secure', false);
+        $app['config']->set('session.same_site', 'lax');
+        $app['config']->set('session.http_only', true);
+        $app['config']->set('session.secure', false);
+
         // Register routes for the browser test
         Route::get('/media_originals/{path}', function (string $path) {
             $root = realpath(config('filesystems.disks.media_originals.root'));
@@ -87,5 +104,37 @@ class BrowserTestCase extends TestCase
         }
 
         return $providers;
+    }
+
+    public function getMediaInput(string $id): string
+    {
+        return "@media-input-$id";
+    }
+
+    public function getUploadButton(string $id): string
+    {
+        return "@upload-button-$id";
+    }
+
+    public function getPreviewGrid(string $id): string
+    {
+        return "[data-test=\"media-preview-grid-$id\"]";
+    }
+
+    public function getMenuEnd(string $id): string
+    {
+        return "[data-test=\"media-preview-menu-end-$id\"]";
+    }
+
+    public function getMenuButton(string $id): string
+    {
+        return '[data-test="media-preview-menu-button"]';
+    }
+
+    public function assertPreviewImageVisible($page, string $id): void
+    {
+        $grid = $this->getPreviewGrid($id);
+        $page->assertPresent("$grid [data-test=\"media-preview-item\"]:first-child")
+            ->assertPresent("$grid [data-test=\"media-preview-item\"]:first-child [data-test=\"media-preview-image\"]");
     }
 }

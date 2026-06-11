@@ -33,7 +33,9 @@ class MediaPreviewGrid extends BaseComponent
         }
         $this->options = $options;
 
-        $this->resolveConfig();
+        $this->resolveConfig([
+            'temporaryUploadMode' => $this->temporaryUploadMode,
+        ]);
     }
 
     public function render(): View

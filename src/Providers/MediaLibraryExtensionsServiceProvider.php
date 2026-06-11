@@ -86,7 +86,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     {
 
         if (! Schema::hasTable('media')) {
-            Log::warning('['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
+            Log::warning('MediaLibraryExtensionsServiceProvider - ['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
         // This tells Laravel where to findMediaModel Blade view files (components a registered separately)
@@ -324,7 +324,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 ]);
             } catch (\Exception $e) {
                 // table might already exist but schema:hasTable failed for some reason (e.g. different connection)
-                Log::warning('Failed to migrate aliens table to default connection: '.$e->getMessage());
+                Log::warning('MediaLibraryExtensionsServiceProvider - Failed to migrate aliens table to default connection: '.$e->getMessage());
             }
         }
     }

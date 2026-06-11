@@ -26,6 +26,7 @@ class GetMediaPreviewerPermanentHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
+        Log::info('GetMediaPreviewerPermanentHTMLAction invoked');
         $initiatorId = $request->input('initiator_id');
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
@@ -41,7 +42,6 @@ class GetMediaPreviewerPermanentHTMLAction
 
         $options = json_decode($request->input('options'), true) ?? [];
 
-        Log::info('GetMediaPreviewerPermanentHTMLAction - theme: '.$theme);
         if ($theme) {
             //            $options['theme'] = $theme;
             $options['frontendTheme'] = $theme;
@@ -70,10 +70,7 @@ class GetMediaPreviewerPermanentHTMLAction
             }
 
         } else {
-            // Count all media in collections
-            foreach ($collections as $collectionName) {
-                $totalMediaCount += $model->getMedia($collectionName)->count();
-            }
+            $totalMediaCount = $this->mediaService->countModelMediaInCollections($model, $collections, $dataSource);
         }
 
         $component = new MediaPreviews(
