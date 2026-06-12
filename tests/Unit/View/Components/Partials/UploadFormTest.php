@@ -7,6 +7,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 it('throws translated exception if invalid class name is provided', closure: function () {
     $component = new UploadForm(
         id: 'upload1',
+        mediaManagerId: 'upload1',
         modelOrClassName: 'someDummyClassName',
         singleMedia: null,
         collections: [
@@ -34,6 +35,7 @@ it('throws exception if given a model that does not implement HasMedia', functio
 
     $component = new UploadForm(
         id: 'upload-invalid-class',
+        mediaManagerId: 'upload-invalid-class',
         modelOrClassName: $model,
         singleMedia: null,
         collections: [
@@ -58,6 +60,7 @@ it('honors frontend theme', function () {
 
     $component = new UploadForm(
         id: 'upload-invalid-class',
+        mediaManagerId: 'upload-invalid-class',
         modelOrClassName: $model,
         singleMedia: null,
         collections: [
@@ -79,6 +82,7 @@ it('uses allowedMimeTypes from config if allowedMimeTypes not provided', functio
     $mimeTypesString = '';
     $component = new UploadForm(
         id: 'upload-empty-mime',
+        mediaManagerId: 'upload-empty-mime',
         modelOrClassName: $model,
         singleMedia: null,
         collections: [
@@ -106,6 +110,7 @@ it('sets allowedMimeTypes and allowedMimeTypesHuman from options', function () {
     $mimeTypesString = 'image/png, image/jpeg';
     $component = new UploadForm(
         id: 'upload-empty-mime',
+        mediaManagerId: 'upload-empty-mime',
         modelOrClassName: $model,
         singleMedia: null,
         collections: [
@@ -133,6 +138,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
 
     $component = new UploadForm(
         id: 'upload3',
+        mediaManagerId: 'upload3',
         modelOrClassName: $model,
         singleMedia: null,
         collections: [
@@ -214,6 +220,7 @@ it('sets model properties correctly when given a string model class name', funct
     $model = $this->getTestBlogModel();
     $component = new UploadForm(
         id: 'upload4',
+        mediaManagerId: 'upload4',
         modelOrClassName: $model->getMorphClass(),
         singleMedia: null,
         collections: [

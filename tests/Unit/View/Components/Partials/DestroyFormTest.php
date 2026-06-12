@@ -12,6 +12,7 @@ it('initializes with given properties', function () {
 
     $component = new DestroyForm(
         id: $id,
+        mediaManagerId: $id,
         modelOrClassName: $model,
         medium: $medium,
         options: [
@@ -36,6 +37,7 @@ it('initializes with given properties without useXhr', function () {
 
     $component = new DestroyForm(
         id: 'delete-456',
+        mediaManagerId: 'delete-456',
         modelOrClassName: $model,
         medium: $medium,
         options: [
@@ -57,6 +59,7 @@ it('renders the destroy-form view (plain)', function () {
 
     $component = new DestroyForm(
         id: 'delete-btn',
+        mediaManagerId: 'delete-btn',
         modelOrClassName: $model,
         medium: $medium,
         options: [
@@ -76,6 +79,7 @@ it('renders the destroy-form view (bootstrap-5)', function () {
 
     $component = new DestroyForm(
         id: 'delete-btn',
+        mediaManagerId: 'delete-btn',
         modelOrClassName: $model,
         medium: $medium,
         options: [
@@ -102,6 +106,7 @@ it('renders the destroy form with temporary upload', function () {
 
     $component = new DestroyForm(
         id: 'delete-temp-upload-btn',
+        mediaManagerId: 'delete-temp-upload-btn',
         modelOrClassName: Blog::class,
         medium: $temporaryUpload,
         collections: [],

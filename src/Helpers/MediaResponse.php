@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Helpers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 
@@ -38,6 +39,7 @@ class MediaResponse
             'type' => $type,
             'message' => $message,
         ];
+        Log::info('MediaResponse - base: ' . json_encode($base));
 
         // Add errors to Laravel's default error bag if provided
         if (! empty($extraData['errors'])) {

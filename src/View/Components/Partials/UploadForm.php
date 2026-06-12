@@ -24,6 +24,7 @@ class UploadForm extends BaseComponent
 
     public function __construct(
         ?string $id,
+        ?string $mediaManagerId = null,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
@@ -33,12 +34,13 @@ class UploadForm extends BaseComponent
         public ?bool $disabled = false,
         public string $instanceId = '',
     ) {
-        $this->mediaManagerId = $id;
-
         parent::__construct($id);
-        if ($instanceId) {
-            $this->instanceId = $instanceId;
-        }
+
+        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+
+        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
+        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+
         $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);

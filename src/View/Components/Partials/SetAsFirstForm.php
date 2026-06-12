@@ -27,6 +27,7 @@ class SetAsFirstForm extends BaseComponent
 
     public function __construct(
         ?string $id,
+        ?string $mediaManagerId = null,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Collection $media,
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
@@ -37,6 +38,12 @@ class SetAsFirstForm extends BaseComponent
         public ?string $dataSource = null,
     ) {
         parent::__construct($id);
+
+        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+
+        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
+        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+
         $this->options = $options;
 
         $this->resolveModelOrClassName($modelOrClassName);
@@ -45,7 +52,6 @@ class SetAsFirstForm extends BaseComponent
             $this->modelId = $this->medium->model_id;
         }
 
-        $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('set-as-first-form-'.$this->medium->id));
 
         $this->targetMediaCollection = $medium->collection_name;

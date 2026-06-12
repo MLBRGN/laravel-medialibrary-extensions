@@ -106,19 +106,9 @@ class BrowserTestCase extends TestCase
         return $providers;
     }
 
-    public function getMediaInput(string $id): string
-    {
-        return "@media-input-$id";
-    }
-
     public function getUploadButton(string $id): string
     {
         return "@upload-button-$id";
-    }
-
-    public function getPreviewGrid(string $id): string
-    {
-        return "[data-test=\"media-preview-grid-$id\"]";
     }
 
     public function getMenuEnd(string $id): string
@@ -129,6 +119,11 @@ class BrowserTestCase extends TestCase
     public function getMenuButton(string $id): string
     {
         return '[data-test="media-preview-menu-button"]';
+    }
+
+    public function getPreviewGrid(string $id): string
+    {
+        return "[data-test=\"media-preview-grid-$id\"]";
     }
 
     public function assertPreviewImageVisible($page, string $id): void

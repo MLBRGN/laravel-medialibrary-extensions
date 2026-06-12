@@ -16,7 +16,7 @@
             {{ $slot }}
         </div>
     
-        <div class="mle-media-preview-menu">
+        <div class="mle-media-preview-menu" data-test="media-preview-menu">
             <div class="mle-media-preview-menu-start">
                 {{ $menuStart ?? '' }}
             </div>

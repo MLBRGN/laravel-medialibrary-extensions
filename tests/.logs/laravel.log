@@ -1,27 +1,19 @@
-[2026-06-11 16:37:33] testing.WARNING: MediaLibraryExtensionsServiceProvider - [laravel-medialibrary-extensions] The "media" table is missing. Did you run the Spatie Media Library migration?  
-[2026-06-11 16:37:33] testing.WARNING: MediaLibraryExtensionsServiceProvider - Failed to migrate aliens table to default connection: SQLSTATE[HY000]: General error: 1 table "aliens" already exists (Connection: media_demo, Database: /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/tests/Support/demo.sqlite, SQL: create table "aliens" ("id" integer primary key autoincrement not null, "created_at" datetime, "updated_at" datetime))  
-[2026-06-11 16:37:33] testing.INFO: TemporaryUploadPromoter - no temporary uploads found for this session/instance  
-[2026-06-11 16:37:33] testing.INFO: TemporaryUploadPromoter - no temporary uploads found for this session/instance  
-[2026-06-11 16:37:33] testing.INFO: MediaHasBeenAddedListener - handle invoked for media with id: 1  
-[2026-06-11 16:37:33] testing.INFO: InteractsWithOriginalMedia - ensureGlobalOrder called for media id: 1  
-[2026-06-11 16:37:33] testing.INFO: InteractsWithOriginalMedia - Assigned global_order=1 to media [1]  
-[2026-06-11 16:37:33] testing.INFO: InteractsWithOriginalMedia - copyOriginalMedia invoked  
-[2026-06-11 16:37:33] testing.INFO: InteractsWithOriginalMedia - Copied original media [1] to originals disk.  
-[2026-06-11 16:37:33] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-single-image, alien-single-document, alien-single-youtube-video, alien-single-video, alien-single-audio  
-[2026-06-11 16:37:33] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
-[2026-06-11 16:37:33] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
-[2026-06-11 16:37:34] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-single-image, alien-single-document, alien-single-youtube-video, alien-single-video, alien-single-audio  
-[2026-06-11 16:37:34] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
-[2026-06-11 16:37:34] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
-[2026-06-11 16:37:34] testing.INFO: MediaService - findMediaModel: Mlbrgn\MediaLibraryExtensions\Models\demo\Alien 1  
-[2026-06-11 16:37:34] testing.INFO: MediaService - findMediaModel: Mlbrgn\MediaLibraryExtensions\Models\demo\Alien 1  
-[2026-06-11 16:37:34] testing.INFO: MediaService - findMediaModel: Mlbrgn\MediaLibraryExtensions\Models\demo\Alien 1  
-[2026-06-11 16:37:34] testing.INFO: StoreMultiplePermanentAction - store in db: {"connection":"media_demo","database":"\/Users\/evertjangarretsen\/PhpstormProjects\/mlbrgn-laravel-packages\/packages\/mlbrgn\/laravel-medialibrary-extensions\/tests\/Support\/demo.sqlite"}  
-[2026-06-11 16:37:34] testing.INFO: MediaHasBeenAddedListener - handle invoked for media with id: 2  
-[2026-06-11 16:37:34] testing.INFO: InteractsWithOriginalMedia - ensureGlobalOrder called for media id: 2  
-[2026-06-11 16:37:34] testing.INFO: InteractsWithOriginalMedia - Assigned global_order=2 to media [2]  
-[2026-06-11 16:37:34] testing.INFO: InteractsWithOriginalMedia - copyOriginalMedia invoked  
-[2026-06-11 16:37:34] testing.INFO: InteractsWithOriginalMedia - Copied original media [2] to originals disk.  
-[2026-06-11 16:37:34] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-single-image, alien-single-document, alien-single-youtube-video, alien-single-video, alien-single-audio  
-[2026-06-11 16:37:34] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
-[2026-06-11 16:37:34] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
+[2026-06-12 11:00:42] testing.WARNING: MediaLibraryExtensionsServiceProvider - [laravel-medialibrary-extensions] The "media" table is missing. Did you run the Spatie Media Library migration?  
+[2026-06-12 11:00:42] testing.WARNING: MediaLibraryExtensionsServiceProvider - Failed to migrate aliens table to default connection: SQLSTATE[HY000]: General error: 1 table "aliens" already exists (Connection: media_demo, Database: /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/tests/Support/demo.sqlite, SQL: create table "aliens" ("id" integer primary key autoincrement not null, "created_at" datetime, "updated_at" datetime))  
+[2026-06-12 11:00:42] testing.INFO: TemporaryUploadPromoter - no temporary uploads found for this session/instance  
+[2026-06-12 11:00:43] testing.INFO: TemporaryUploadPromoter - no temporary uploads found for this session/instance  
+[2026-06-12 11:00:43] testing.INFO: MediaHasBeenAddedListener - handle invoked for media with id: 1  
+[2026-06-12 11:00:43] testing.INFO: InteractsWithOriginalMedia - ensureGlobalOrder called for media id: 1  
+[2026-06-12 11:00:43] testing.INFO: InteractsWithOriginalMedia - Assigned global_order=1 to media [1]  
+[2026-06-12 11:00:43] testing.INFO: InteractsWithOriginalMedia - copyOriginalMedia invoked  
+[2026-06-12 11:00:43] testing.INFO: InteractsWithOriginalMedia - Copied original media [1] to originals disk.  
+[2026-06-12 11:00:43] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-single-image, alien-single-document, alien-single-youtube-video, alien-single-video, alien-single-audio  
+[2026-06-12 11:00:43] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
+[2026-06-12 11:00:43] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-multiple-images, alien-multiple-documents, alien-multiple-youtube-videos, alien-multiple-videos, alien-multiple-audios  
+[2026-06-12 11:00:43] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-single-image, alien-single-document, alien-single-youtube-video, alien-single-video, alien-single-audio  
+[2026-06-12 11:00:43] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-single-image, alien-single-document, alien-single-youtube-video, alien-single-video, alien-single-audio  
+[2026-06-12 11:00:43] testing.INFO: StoreSingleTemporaryUpload - stored db record in db media_demo  
+[2026-06-12 11:00:43] testing.INFO: MediaManagerController - GetUpdatedMediaManagerPreviewerHTMLAction invoked  
+[2026-06-12 11:00:43] testing.INFO: GetMediaManagerPreviewerHTMLAction - invoked  
+[2026-06-12 11:00:43] testing.INFO: GetMediaManagerPreviewerHTMLAction - temporary_upload_mode: true  
+[2026-06-12 11:00:43] testing.INFO: MediaService - countTemporaryUploadsInCollections: alien-single-image, alien-single-document, alien-single-youtube-video, alien-single-video, alien-single-audio  

@@ -1,13 +1,17 @@
 @if ($componentToRender)
     <div class="mle-media-preview-item-container"
+         id="{{ $id }}"
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
+         data-test="media-preview-item"
+         data-test-id="{{ $id }}"
     >
         <x-mle-media-viewer
             :medium="$medium"
             :options="$getOptions()"
             :preview-mode="true"
             :expandable-in-modal="true"
+            :data-source="$getConfig('dataSource')"
         />
     </div>
 

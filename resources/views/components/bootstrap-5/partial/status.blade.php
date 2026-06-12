@@ -26,9 +26,9 @@
         <script
             @isset($nonce) nonce="{{ $nonce }}" @endisset
         >
-            document.querySelectorAll('[data-mle-status-message]').forEach(el => {
+            document.querySelectorAll('[data-mle-status-container]').forEach(el => {
                 setTimeout(() => {
-                    el.classList.add('hidden');
+                    el.classList.remove('visible');
                 }, {{ config('medialibrary-extensions.status_message_timeout', 5000) }});
             });
         </script>

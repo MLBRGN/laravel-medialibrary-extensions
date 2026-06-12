@@ -19,6 +19,7 @@ class MediaPreviews extends BaseComponent
 
     public function __construct(
         ?string $id,
+        public ?string $mediaManagerId = null,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
@@ -32,9 +33,17 @@ class MediaPreviews extends BaseComponent
         public ?string $sessionId = null,
     ) {
         parent::__construct($id);
-        if ($instanceId) {
+
+        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+
+        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
+        // unless it was explicitly provided (e.g. from an XHR request or a test)
+        if (empty($instanceId)) {
+            $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+        } else {
             $this->instanceId = $instanceId;
         }
+
         $this->options = $options;
         $this->sessionId = $sessionId ?: (request()->hasSession() ? request()->session()->getId() : session()->getId());
 

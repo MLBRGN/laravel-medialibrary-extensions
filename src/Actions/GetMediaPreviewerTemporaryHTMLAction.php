@@ -17,6 +17,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerTemporaryHTMLAction
 {
+    public ?bool $temporaryUploadMode = true;
+
     public function __construct(
         protected MediaService $mediaService
     ) {}
@@ -26,7 +28,6 @@ class GetMediaPreviewerTemporaryHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        Log::info('GetMediaPreviewerTemporaryHTMLAction invoked');
         $dataSource = $request->input('data_source');
         $initiatorId = $request->input('initiator_id');
         $instanceId = $request->input('instance_id') ?? '';
@@ -41,7 +42,13 @@ class GetMediaPreviewerTemporaryHTMLAction
         $theme = $request->input('theme');
 
         $options = json_decode($request->input('options'), true) ?? [];
-        $options['temporaryUploadMode'] = true;
+        if ($request->has('temporary_upload_mode')) {
+            $this->temporaryUploadMode = $request->boolean('temporary_upload_mode');
+            $options['temporaryUploadMode'] = $this->temporaryUploadMode;
+        } else {
+            $options['temporaryUploadMode'] = true;
+            $this->temporaryUploadMode = true;
+        }
 
         if ($theme) {
             //            $options['theme'] = $theme;
@@ -49,6 +56,8 @@ class GetMediaPreviewerTemporaryHTMLAction
         }
 
         $collections = json_decode($request->input('collections'), true) ?? [];
+
+        $sessionId = ($request->hasSession() ? $request->session()->getId() : session()->getId());
         $model = new $modelType;
 
         $collections = collect($collections)
@@ -61,7 +70,6 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         $sessionId = $request->input('session_id') ?? ($request->hasSession() ? $request->session()->getId() : session()->getId());
 
-        // counting media
         if ($singleMediaId !== null) {
             $singleMedia = $this->mediaService->findTemporaryUpload($singleMediaId, $dataSource);
 
@@ -71,10 +79,10 @@ class GetMediaPreviewerTemporaryHTMLAction
                 throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
             }
         } else {
-            Log::info('GetTempHtmlAction collections: '.print_r($collections, true));
-            Log::info('GetTempHtmlAction instanceID: '.$instanceId);
-            Log::info('GetTempHtmlAction dataSource: '.$dataSource);
-            Log::info('GetTempHtmlAction sessionId: '.$sessionId);
+//            Log::info('GetTempHtmlAction collections: '.print_r($collections, true));
+//            Log::info('GetTempHtmlAction instanceID: '.$instanceId);
+//            Log::info('GetTempHtmlAction dataSource: '.$dataSource);
+//            Log::info('GetTempHtmlAction sessionId: '.$sessionId);
             $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
                 $collections,
                 $instanceId,
@@ -85,6 +93,7 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         $component = new MediaPreviews(
             id: $initiatorId,
+            mediaManagerId: $initiatorId, // Action uses the initiator_id (DOM id) as the base identity for logical operations here
             modelOrClassName: $modelType,
             collections: $collections,
             options: $options,

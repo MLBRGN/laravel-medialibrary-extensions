@@ -1,6 +1,11 @@
-<div class="mle-media-preview-grid" data-mle-media-preview-grid>
+<div 
+    class="mle-media-preview-grid" 
+    data-mle-media-preview-grid
+    data-test="media-preview-grid"
+>
     <x-mle-media-previews
         :id="$id"
+        :media-manager-id="$mediaManagerId"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
         :single-media="$singleMedia"

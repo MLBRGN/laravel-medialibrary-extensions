@@ -266,4 +266,4 @@ it('loads previews successfully after a temporary YouTube upload', function () {
     expect($data['success'])->toBeTrue();
     expect($data['mediaCount'])->toBe(1);
     expect($data['html'])->toContain('thumb.jpg');
-})->todo('fails');
+});

@@ -7,10 +7,11 @@
             'mle-media-preview-container',
         ]) }}
         data-mle-media-preview-container
-        data-test="media-preview-container-{{ $id }}-{{ $loop->index }}"
+        data-test="media-preview-container"
     >
         <x-mle-media-preview-item
             :id="$id . '-' . $loop->index"
+            :media-manager-id="$mediaManagerId"
             :medium="$medium"
             :options="$getOptions()"
             :collections="$collections"
@@ -21,7 +22,6 @@
             :disabled="$disabled"
             :readonly="$readonly"
             :multiple="$multiple"
-            :instance-id="$instanceId"
             :data-source="$getConfig('dataSource')"
         />
         <x-mle-media-modal
@@ -29,7 +29,6 @@
             :model-or-class-name="$modelOrClassName"
             :single-media="$singleMedia"
             :collections="$collections"
-            :single-media="$singleMedia"
             :video-auto-play="true"
             :options="$getOptions()"
             title="Media carousel"
@@ -39,6 +38,7 @@
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
                 :id="$id . '-' . $loop->index"
+                :media-manager-id="$mediaManagerId"
                 :medium="$medium"
                 :model-or-class-name="$modelOrClassName"
                 :collections="$collections"
@@ -46,7 +46,6 @@
                 :options="$getOptions()"
                 :disabled="$disabled"
                 :selectable="$selectable"
-                :instance-id="$instanceId"
                 :data-source="$getConfig('dataSource')"
             />
         @endif

@@ -54,9 +54,8 @@
         title="{{ __('medialibrary-extensions::messages.setup_as_main') }}"
         data-mle-action="set-as-first"
         data-mle-route="{{ $getConfig('routes.mediumSetAsFirst') }}"
-        data-test="set-as-first-button-{{ $medium->id }}"
+        data-test="media-set-as-first-button"
         data-test-id="{{ $id }}"
-        data-test="media-preview-menu-button"
         @disabled($disabled)
     >
         <x-mle-shared-icon

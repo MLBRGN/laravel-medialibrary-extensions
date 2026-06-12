@@ -7,7 +7,7 @@
         alt="{{ $alt }}"
         @if ($lazy) loading="lazy" @endif
         data-mle-image
-        data-test="media-preview-image"
+        data-test="media-preview-item"
     >
 @else
     <img
@@ -16,6 +16,6 @@
         alt="Missing image"
         class="mle-opacity-50"
         data-mle-image
-        data-test="media-preview-image"
+        data-test="media-preview-item"
     >
 @endif

@@ -14,12 +14,13 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
-    //    public array $config = [];
-
+    /** @var string The unique DOM ID for this component instance */
     public string $id;
 
+    /** @var string The stable, un-suffixed base ID (the logical identity) */
     public string $originalId;
 
+    /** @var string The session-bound ULID used for scoping temporary uploads */
     public string $instanceId;
 
     public function __construct(

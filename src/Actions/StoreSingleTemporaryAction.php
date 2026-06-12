@@ -36,7 +36,6 @@ class StoreSingleTemporaryAction
         $mediaManagerId = $request->media_manager_id;
         $instanceId = $request->input('instance_id');
 
-        Log::info('StoreSingleTemporaryUpload - dataSource '.$dataSource);
         try {
 
             $prepared = $this->uploadPreparerService
@@ -78,25 +77,13 @@ class StoreSingleTemporaryAction
             '-'
         ).'.'.$prepared->file->getClientOriginalExtension();
 
-        Log::info('StoreSingleTemporaryAction - store in db: ' . json_encode([
-                'connection' => DB::connection()->getName(),
-                'database' => DB::connection()->getDatabaseName(),
-            ]));
-
         Storage::disk($disk)->putFileAs(
             $directory,
             $prepared->file,
             $safeFilename
         );
 
-        Log::info(
-            'StoreSingleTemporaryUpload - stored file: '
-            .$safeFilename.' in directory '.$directory
-        );
-
         $sessionId = $request->session()->getId();
-
-        Log::info('StoreSingleTemporaryUpload: session id: '.$sessionId);
 
         $userId = Auth::check()
             ? Auth::id()

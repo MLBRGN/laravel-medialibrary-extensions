@@ -1,4 +1,4 @@
-<div class="mle-media-preview-menu">
+<div class="mle-media-preview-menu" data-test="media-preview-menu">
     <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
             <span class="mle-button-pseudo mle-button-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent">
@@ -15,7 +15,7 @@
                     data-url="{{ $medium->getUrl() }}"
                     data-alt="{{ $medium->name }}"
                     data-mle-media-select-checkbox
-                    data-test="media-select-{{ $medium->id }}"
+                    data-test="media-select"
                 >
                 <span class="mle-media-select-indicator"
                   title="{{ __('medialibrary-extensions::messages.select') }}"
@@ -32,7 +32,7 @@
                     class="mle-button mle-button-icon"
                     data-mle-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
                     title="{{ __('medialibrary-extensions::messages.edit') }}"
-                    data-test="edit-button-{{ $medium->id }}"
+                    data-test="media-edit-button"
                     @disabled($disabled)
                 >
                     <x-mle-shared-icon
@@ -48,6 +48,7 @@
                 <button type="button"
                         class="mle-button mle-button-icon"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
+                        data-test="media-set-as-first-button"
                         disabled
                 >
                     <x-mle-shared-icon
@@ -58,6 +59,7 @@
             @else
                 <x-mle-partial-set-as-first-form
                     :id="$id"
+                    :media-manager-id="$mediaManagerId"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
                     :single-media="$singleMedia"
@@ -73,6 +75,7 @@
         @if($getConfig('showDestroyButton'))
             <x-mle-partial-destroy-form
                 :id="$id"
+                :media-manager-id="$mediaManagerId"
                 :model-or-class-name="$modelOrClassName"
                 :medium="$medium"
                 :single-media="$singleMedia"

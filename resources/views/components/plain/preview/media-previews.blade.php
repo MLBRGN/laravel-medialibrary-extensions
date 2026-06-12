@@ -7,9 +7,11 @@
             'mle-media-preview-container',
         ]) }}
         data-mle-media-preview-container
+        data-test="media-preview-container"
     >
         <x-mle-media-preview-item
             :id="$id . '-' . $loop->index"
+            :media-manager-id="$mediaManagerId"
             :medium="$medium"
             :options="$getOptions()"
             :collections="$collections"
@@ -21,6 +23,7 @@
             :readonly="$readonly"
             :multiple="$multiple"
             :instance-id="$instanceId"
+            :data-source="$getConfig('dataSource')"
         />
         <x-mle-media-modal
             :id="$id . '-' . $loop->index"
@@ -37,6 +40,7 @@
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
                 :id="$id . '-' . $loop->index"
+                :media-manager-id="$mediaManagerId"
                 :medium="$medium"
                 :model-or-class-name="$modelOrClassName"
                 :collections="$collections"

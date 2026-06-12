@@ -28,6 +28,7 @@
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
                         :id="$id"
+                        :media-manager-id="$mediaManagerId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
                         :collections="$collections"
@@ -43,6 +44,7 @@
                 <x-mle-partial-youtube-upload-form
                         class="mt-3"
                         :id="$id"
+                        :media-manager-id="$mediaManagerId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
                         :collections="$collections"
@@ -62,13 +64,14 @@
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :initiator-id="$id"
-                :media-manager-id="$id"
+                :media-manager-id="$mediaManagerId"
                 :options="$getOptions()"
                 :instance-id="$getConfig('instanceId')"
             />
 
             <x-mle-media-preview-grid
                 :id="$id"
+                :media-manager-id="$mediaManagerId"
                 :model-or-class-name="$modelOrClassName"
                 :single-media="$singleMedia"
                 :collections="$collections"

@@ -18,6 +18,7 @@ class MediaPreviewItem extends BaseComponent
 
     public function __construct(
         ?string $id,
+        public ?string $mediaManagerId = null,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public $medium,
         public array $collections = [],
@@ -31,12 +32,13 @@ class MediaPreviewItem extends BaseComponent
         public string $instanceId = '',
         public ?string $dataSource = null,
     ) {
-
         parent::__construct($id);
-        if ($instanceId) {
-            $this->instanceId = $instanceId;
-        }
-//        $this->id = $this->id . '-pic';
+
+        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+
+        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
+        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+
         $this->options = $options;
 
         $componentMap = [

@@ -24,6 +24,9 @@ class MediaManager extends BaseComponent
 
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
+    /** @var string Reference to the parent MediaManager's originalId */
+    public string $mediaManagerId;
+
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -38,8 +41,10 @@ class MediaManager extends BaseComponent
     ) {
 
         parent::__construct($id);
-        $this->options = $options;
 
+        // For the root MediaManager, mediaManagerId is its own originalId
+        $this->mediaManagerId = $this->originalId;
+        $this->options = $options;
         $this->resolveModelOrClassName($modelOrClassName);
 
         // Override: enforce disabling "set-as-first" when multiple is disabled

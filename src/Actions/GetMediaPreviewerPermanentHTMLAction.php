@@ -75,6 +75,7 @@ class GetMediaPreviewerPermanentHTMLAction
 
         $component = new MediaPreviews(
             id: $initiatorId,
+            mediaManagerId: $initiatorId, // Action uses the initiator_id (DOM id) as the base identity for logical operations here
             modelOrClassName: $model,
             collections: $collections,
             options: $options,

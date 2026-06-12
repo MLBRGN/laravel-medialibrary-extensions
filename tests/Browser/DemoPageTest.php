@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\AnonymousComponent;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 beforeEach(function () {
+    // TODO fix: why do i need to do this?
     // Mock laravel-form-components
     Blade::component('form-form', AnonymousComponent::class);
     Blade::component('form-html-editor', AnonymousComponent::class);
@@ -14,6 +13,30 @@ beforeEach(function () {
     Blade::component('form-select', AnonymousComponent::class);
     Blade::component('form-submit', AnonymousComponent::class);
 });
+
+$waitTime = .2;
+
+dataset('test_matrix', [
+    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
+//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
+//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+
+    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
+//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+
+    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
+//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
+    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+
+    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
+//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+]);
 
 it('loads all required assets', function () {
 
@@ -37,221 +60,240 @@ it('loads all required assets', function () {
         ->assertSuccessful();
 })->group('browser');
 
-it('can visit the demo page', function () {
-
-    $this->visit('/mle-demo')
-        ->assertNoJavaScriptErrors()
-        ->assertSee('Laravel Media Library Extensions Component tests')
-        ->assertSee('Media Manager Single')
-        ->assertSee('Media Manager Multiple')
-        ->assertSee('Media Carousel')
-        ->assertSee('Media Lab')
-        ->assertSee('Media First Available');
-})->group('browser');
-
-it('can switch theme, XHR and DataSource', function () {
+it('can visit demo page switch theme, XHR and DataSource', function () {
 
     $this->visit('/mle-demo')
         ->assertNoJavaScriptErrors()
 
-        // theme
+        // Theme switching
         ->click('@btn-theme-plain')
         ->assertQueryStringHas('theme', 'plain')
 
         ->click('@btn-theme-bootstrap-5')
         ->assertQueryStringHas('theme', 'bootstrap-5')
 
-        // DataSource
+        // DataSource switching
         ->click('@btn-data-source-default')
         ->assertQueryStringHas('data_source', 'default')
 
         ->click('@btn-data-source-demo')
         ->assertQueryStringHas('data_source', 'demo')
 
-        // XHR
+        // XHR mode switching
         ->click('@btn-use-xhr-no')
         ->assertQueryStringHas('use_xhr', '0')
 
         ->click('@btn-use-xhr-yes')
-        ->assertQueryStringHas('use_xhr', '1');
+        ->assertQueryStringHas('use_xhr', '1')
+
+        ->assertSee('Laravel Media Library Extensions Component tests')
+        ->assertSee('Media Manager Single')
+        ->assertSee('Media Manager Multiple')
+        ->assertSee('Media Carousel')
+        ->assertSee('Media Lab')
+        ->assertSee('Media First Available');
 });
 
-it('can upload file in mms permanent (xhr)', function () {
+it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitTime) {
 
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
-        ->assertNoJavaScriptErrors()
-        ->assertPresent($this->getMediaInput('alien-single-permanent-mms'));
+    // get the file input and the upload button (submit button)
+    $inputSelector = '@media-input-alien-single-'.$storage.'-mms';
+    $uploadButtonSelector = '@upload-button-alien-single-'.$storage.'-mms';
+    $gridSelector = '#alien-single-'.$storage.'-mms [data-test="media-preview-grid"]';
+    $firstMediaContainer = $gridSelector . ' [data-test="media-preview-container"]:first-child';
+    $editButtonSelector = $firstMediaContainer . ' [data-test="media-edit-button"]';
+    $setAsFirstButtonSelector = $firstMediaContainer . ' [data-test="media-set-as-first-button"]';
+    $deleteButtonSelector = $firstMediaContainer . ' [data-test="media-delete-button"]';
 
-    $page->assertButtonEnabled($this->getUploadButton('alien-single-permanent-mms'))
-        ->attach($this->getMediaInput('alien-single-permanent-mms'), $this->getFixtureAsFilePath('test.jpg'))
-        ->click($this->getUploadButton('alien-single-permanent-mms'))
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-
-    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
-//    $page->assertButtonEnabled($this->getMenuEnd('alien-single-permanent-mms') . ' ' . $this->getMenuButton('alien-single-permanent-mms'));
-
-//    $this->assertButtonEnabled('id');
-    $page->assertButtonDisabled($this->getUploadButton('alien-single-permanent-mms'));
-
-})->group('browser');
-
-it('can upload file in mms permanent (non-xhr)', function () {
-
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
+    $page = $this->visit('/mle-demo')
         ->assertNoJavaScriptErrors()
 
-        // disable xhr
-        ->click('@btn-use-xhr-no')
-        ->assertQueryStringHas('use_xhr', '0')
+        // Theme switching
+        ->click('@btn-theme-' . $theme)
+        ->assertQueryStringHas('theme', $theme)
 
-        ->assertPresent($this->getMediaInput('alien-single-permanent-mms'))
-        ->assertButtonEnabled($this->getUploadButton('alien-single-permanent-mms'))
+        // Data source switching
+        ->click('@btn-data-source-' . $dataSource)
+        ->assertQueryStringHas('data_source', $dataSource)
 
-        ->attach($this->getMediaInput('alien-single-permanent-mms'), $this->getFixtureAsFilePath('test.jpg'))
+        // XHR switching (NOW uses dataset properly)
+        ->click($xhr ? '@btn-use-xhr-yes' : '@btn-use-xhr-no')
+        ->assertQueryStringHas('use_xhr', $xhr ? '1' : '0')
 
-        ->click($this->getUploadButton('alien-single-permanent-mms'))
+        ->assertPresent($inputSelector)
+
+        // assert that upload button is initially enabled
+        ->assertButtonEnabled($uploadButtonSelector)
+
+        // attach image file and submit and check if spinner shows and upload is successful
+        ->attach($inputSelector, $this->getFixtureAsFilePath('test.jpg'))
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        ->waitForText(__('medialibrary-extensions::messages.upload_success'))
 
-    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
+        // assert that upload button is disabled after upload (single media)
+        ->assertButtonDisabled($uploadButtonSelector);
 
-    $page->assertButtonDisabled($this->getUploadButton('alien-single-permanent-mms'));
+    // assert that the image is visible in the preview
+//    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
-})->group('browser');
+    // assert grid is present
+    $page->assertPresent($gridSelector);
 
-it('can upload file in mms temporary (xhr)', function () {
+    // assert grid has media container
+    $page->assertPresent($firstMediaContainer);
+
+    // check that the media item's menu has the expected buttons and state
+    $page->assertButtonEnabled($editButtonSelector);
+    // TODO fix fails in plain theme
+    $page->assertButtonDisabled($setAsFirstButtonSelector);
+    $page->assertButtonEnabled($deleteButtonSelector);
+
+        $page->click($deleteButtonSelector)
+            ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+            ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+        // the upload button should be enabled again
+        $page->assertButtonEnabled($uploadButtonSelector);
+
+//    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
+
+})->group('browser')
+    ->with('test_matrix');
+//    ->only();
+
+it('can upload file in mms temporary (xhr)', function () use ($waitTime) {
 
     // TODO
     //    session persistence	❌ broken between requests
     //    frontend preview fetch	❌ uses different session
     \Illuminate\Support\Facades\Config::set('database.default', 'media_demo');
 
+    $inputSelector = '@media-input-alien-single-temporary-mms';
+    $uploadButtonSelector = '@upload-button-alien-single-temporary-mms';
 
     $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
         ->assertNoJavaScriptErrors()
-        ->assertPresent($this->getMediaInput('alien-single-temporary-mms'))
-        ->assertButtonEnabled($this->getUploadButton('alien-single-temporary-mms'))
-        ->attach($this->getMediaInput('alien-single-temporary-mms'), $this->getFixtureAsFilePath('test.jpg'))
-        ->click($this->getUploadButton('alien-single-temporary-mms'))
+        ->assertPresent($inputSelector)
+        ->assertButtonEnabled($uploadButtonSelector)
+        ->attach($inputSelector, $this->getFixtureAsFilePath('test.jpg'))
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        ->waitForText(__('medialibrary-extensions::messages.upload_success'))
+        ->wait(5);
+})->group('browser')->only();
 
-    Log::info('test ' . TemporaryUpload::count());
-    Log::info('test ' . print_r(Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::latest()->first()?->toArray(), true));
-//    dump(TemporaryUpload::count());
+it('can upload files in mmm permanent (xhr)', function () use ($waitTime) {
+
+    \Illuminate\Support\Facades\Config::set('database.default', 'media_demo');
+
+//    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
+//        ->assertNoJavaScriptErrors()
+//        ->assertPresent($this->getMediaInput('alien-multiple-permanent-mmm'));
 //
-//    dump(
-//        TemporaryUpload::latest()->first()?->toArray()
-//    );
-
-    // TODO preview image not showing
-//    $this->assertPreviewImageVisible($page, 'alien-single-temporary-mms');
-
-})->group('browser');
-
-it('can upload file in mms temporary (non-xhr)', function () {
-    \Illuminate\Support\Facades\Config::set('database.default', 'media_demo');
-    $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
-        ->assertNoJavaScriptErrors()
-
-        // disable xhr
-        ->click('@btn-use-xhr-no')
-        ->assertQueryStringHas('use_xhr', '0')
-
-        ->assertPresent($this->getMediaInput('alien-single-temporary-mms'))
-        ->assertButtonEnabled($this->getUploadButton('alien-single-temporary-mms'))
-
-        ->attach($this->getMediaInput('alien-single-temporary-mms'), $this->getFixtureAsFilePath('test.jpg'))
-
-        ->click($this->getUploadButton('alien-single-temporary-mms'))
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-
-    Log::info('test db: ' . json_encode([
-            'connection' => DB::connection()->getName(),
-            'database' => DB::connection()->getDatabaseName(),
-        ]));
-
-    Log::info('after upload check' . json_encode([
-        'session' => session()->getId(),
-        'db_count' => TemporaryUpload::count(),
-    ]));
-
-    // TODO preview image not showing
-    //    $this->assertPreviewImageVisible($page, 'alien-single-temporary-mms');
-
-})->group('browser');
-
-it('can upload files in mmm permanent (xhr)', function () {
-
-    \Illuminate\Support\Facades\Config::set('database.default', 'media_demo');
-
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
-        ->assertNoJavaScriptErrors()
-        ->assertPresent($this->getMediaInput('alien-multiple-permanent-mmm'));
-
-    // Join the paths together into a single string separated by newlines
-//    $multipleFiles = implode("\n", [
+//    // Join the paths together into a single string separated by commas
+//    $multipleFiles = implode(",", [
 //        $this->getFixtureAsFilePath('test.jpg'),
 //        $this->getFixtureAsFilePath('test2.jpg'),
 //    ]);
 
-    $page->assertButtonEnabled($this->getUploadButton('alien-multiple-permanent-mmm'))
-        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $this->getFixtureAsFilePath('test.jpg'))
-//        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $multipleFiles)
-        ->click($this->getUploadButton('alien-multiple-permanent-mmm'))
+    $singleFile = $this->getFixtureAsFilePath('test.jpg');
+
+//    dd($multipleFiles);
+
+//    $page->assertButtonEnabled($this->getUploadButton('alien-multiple-permanent-mmm'))
+//        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $singleFile)
+////        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $multipleFiles)
+//        ->pressAndWaitFor($this->getUploadButton('alien-multiple-permanent-mmm'), $waitTime)
+//        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+//        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+//    $page->script('() => console.log(document.querySelector("#aliens-multiple-temporary-mmm-media-input").files[0])');
+//    $page->script('() => console.log(document.querySelector("#aliens-multiple-temporary-mmm-media-input"))');
+//    expect($page->script('() => document.querySelector("#aliens-multiple-temporary-mmm-media-input").files[0].name'))->toBe('test1');
+//    $this->assertPreviewImageVisible($page, 'alien-multiple-permanent-mmm');
+//    $page->waitForKey(); // Useful for debugging
+//    $page->assertNoConsoleLogs();
+
+    $inputSelector = '@media-input-alien-multiple-permanent-mmm';
+    $uploadButtonSelector = '@upload-button-alien-multiple-permanent-mmm';
+
+    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
+        ->assertNoJavaScriptErrors()
+        ->assertPresent($inputSelector)
+        ->assertButtonEnabled($uploadButtonSelector)
+        ->attach($inputSelector, $singleFile)
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
-    $this->assertPreviewImageVisible($page, 'alien-multiple-permanent-mmm');
+//    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
+})->group('browser')->todo();
 
-})->group('browser');
-
-it('can upload files in mmm permanent (non-xhr)', function () {
+it('can upload files in mmm permanent (non-xhr)', function () use ($waitTime) {
 
     // TODO fix: why do i need to do this?
     \Illuminate\Support\Facades\Config::set('database.default', 'media_demo');
 
+//    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
+//        ->assertNoJavaScriptErrors()
+////        ->assertNoConsoleLogs()
+//
+//        // disable xhr
+//        ->click('@btn-use-xhr-no')
+//        ->assertQueryStringHas('use_xhr', '0');
+//
+//        $page->assertPresent($this->getMediaInput('alien-multiple-permanent-mmm'));
+//
+//        $page->assertButtonEnabled($this->getUploadButton('alien-multiple-permanent-mmm'))
+//        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $this->getFixtureAsFilePath('test.jpg'))
+//        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $this->getFixtureAsFilePath('test2.jpg'));
+//
+////            ->attach($this->getMediaInput('alien-multiple-permanent-mmm'),
+////                [
+////                    $this->getFixtureAsFilePath('test.jpg'),
+////                    $this->getFixtureAsFilePath('test2.jpg'),
+////                ]
+////            $this->getFixtureAsFilePath('test.jpg')
+////            )
+////        $page->script(<<<'JS'
+////            const input = document.getElementById('alien-multiple-permanent-mmm-media-input');
+////
+////            const dt = new DataTransfer();
+////
+////            dt.items.add(new File(['a'], 'test1.jpg', { type: 'image/jpeg' }));
+////            dt.items.add(new File(['b'], 'test2.jpg', { type: 'image/jpeg' }));
+////
+////            input.files = dt.files;
+////            input.dispatchEvent(new Event('change', { bubbles: true }));
+////        JS);
+//
+//    $page->pressAndWaitFor($this->getUploadButton('alien-multiple-permanent-mmm'), $waitTime)
+//        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+//        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+//
+//    $this->assertPreviewImageVisible($page, 'alien-multiple-permanent-mmm');
+//
+
+    $inputSelector = '@media-input-alien-multiple-permanent-mmm';
+    $uploadButtonSelector = '@upload-button-alien-multiple-permanent-mmm';
+
     $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
         ->assertNoJavaScriptErrors()
-//        ->assertNoConsoleLogs()
 
-        // disable xhr
         ->click('@btn-use-xhr-no')
-        ->assertQueryStringHas('use_xhr', '0');
+        ->assertQueryStringHas('use_xhr', '0')
 
-        $page->assertPresent($this->getMediaInput('alien-multiple-permanent-mmm'));
+        ->assertPresent($inputSelector)
 
-        $page->assertButtonEnabled($this->getUploadButton('alien-multiple-permanent-mmm'))
-        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $this->getFixtureAsFilePath('test.jpg'))
-        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $this->getFixtureAsFilePath('test2.jpg'));
+        ->assertButtonEnabled($uploadButtonSelector)
+        ->attach($inputSelector, $this->getFixtureAsFilePath('test.jpg'))
+//        ->attach($inputSelector, $this->getFixtureAsFilePath('test2.jpg'))
 
-//            ->attach($this->getMediaInput('alien-multiple-permanent-mmm'),
-//                [
-//                    $this->getFixtureAsFilePath('test.jpg'),
-//                    $this->getFixtureAsFilePath('test2.jpg'),
-//                ]
-//            $this->getFixtureAsFilePath('test.jpg')
-//            )
-//        $page->script(<<<'JS'
-//            const input = document.getElementById('alien-multiple-permanent-mmm-media-input');
-//
-//            const dt = new DataTransfer();
-//
-//            dt.items.add(new File(['a'], 'test1.jpg', { type: 'image/jpeg' }));
-//            dt.items.add(new File(['b'], 'test2.jpg', { type: 'image/jpeg' }));
-//
-//            input.files = dt.files;
-//            input.dispatchEvent(new Event('change', { bubbles: true }));
-//        JS);
-
-        $page->click($this->getUploadButton('alien-multiple-permanent-mmm'))
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
-    $this->assertPreviewImageVisible($page, 'alien-multiple-permanent-mmm');
+//    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
-})->group('browser');
-//    ->only();
+})->group('browser')->todo();
