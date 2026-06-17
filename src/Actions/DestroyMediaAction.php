@@ -48,7 +48,7 @@ class DestroyMediaAction
         );
     }
 
-    protected function reorderAllMedia(Request $request, $model, ?string $dataSource = null): void
+    protected function reorderAllMedia(Request $request, $model, ?string $dataSource = 'default'): void
     {
         $collections = collect($request->input('collections', []))
             ->filter() // remove empty or null values

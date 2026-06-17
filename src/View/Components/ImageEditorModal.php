@@ -37,7 +37,7 @@ class ImageEditorModal extends BaseComponent
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
-        public ?string $dataSource = null
+        public ?string $dataSource = 'default'
     ) {
         parent::__construct($id);
         $this->options = $options;

@@ -30,7 +30,7 @@ trait InteractsWithMediaCollections
                 return collect($collectionNames)
                     ->flatMap(function ($collectionName) use ($instanceId) {
                         if ($this->temporaryUploadMode ?? false) {
-                            return TemporaryUpload::forCurrentSession($collectionName, $instanceId);
+                            return TemporaryUpload::getForCurrentClient($collectionName, $instanceId, null, $this->clientToken);
                         }
 
                         if (isset($this->model) && $this->model) {

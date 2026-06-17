@@ -43,8 +43,8 @@ class MediaManagerMultiple extends MediaManager
             $this->totalMediaCount = $mediaService->countModelMediaInCollections($resolved->model, $collections, $dataSource);
         } elseif (is_string($modelOrClassName)) {
             $instanceId = $this->options['instanceId'] ?? null;
-            $sessionId = $this->options['sessionId'] ?? null;
-            $this->totalMediaCount = $mediaService->countTemporaryUploadsInCollections($collections, $instanceId, $sessionId, $dataSource);
+            $clientToken = $this->options['clientToken'] ?? null;
+            $this->totalMediaCount = $mediaService->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource);
         }
 
     }

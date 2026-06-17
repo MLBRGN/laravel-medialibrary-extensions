@@ -48,7 +48,11 @@ trait InteractsWithOptionsAndConfig
         //        'options', // don't expose these are merged into config
         'id',
         'instanceId',
+        'clientToken',
+        'originalId',
+        'mediaManagerId',
         'dataSource',
+        'clientToken',
 
         // any other properties you want in config
     ];

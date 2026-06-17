@@ -136,6 +136,12 @@ const updateMedia = (detail) => {
     formData.append('temporary_upload_mode', config.temporaryUploadMode);
     formData.append('file', file); // 'media' must match Laravel's expected field
     formData.append('data_source', dataSource); // 'media' must match Laravel's expected field
+
+    // Inject current persistent client token
+    if (config.clientToken) {
+        formData.append('client_token', config.clientToken);
+    }
+
     Object.entries(config.collections).forEach(([key, value]) => {
         formData.append(`collections[${key}]`, value);
     });

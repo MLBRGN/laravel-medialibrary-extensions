@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMimeTypes;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
@@ -24,7 +25,7 @@ class UploadForm extends BaseComponent
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerId = null,
+        ?string $mediaManagerId,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
@@ -39,7 +40,7 @@ class UploadForm extends BaseComponent
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
-        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
 
         $this->options = $options;
 

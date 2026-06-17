@@ -96,7 +96,7 @@ class StoreUpdatedMediaAction
                 //                        'mime_type' => $file->getMimeType(),
                 //                        'size' => $file->getSize(),
                 //                        'user_id' => Auth::id(),
-                //                        'session_id' => $request->session()->getId(),
+                //                        'client_token' => $clientToken,
                 //                        'order_column' => 1,
                 //                        'custom_properties' => $collections,
                 //                        //                        'instance_id' => $instanceId,// TODO

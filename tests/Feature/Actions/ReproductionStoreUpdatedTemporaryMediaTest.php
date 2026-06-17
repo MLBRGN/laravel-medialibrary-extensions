@@ -32,7 +32,7 @@ it('correctly replaces a temporary upload on a custom data source', function () 
         'collection_name' => 'test',
         'mime_type' => 'image/jpeg',
         'size' => 123,
-        'session_id' => session()->getId(),
+        'client_token' => session()->getId(),
         'custom_properties' => [],
     ]);
     $existingUpload->setConnection($dataSource);

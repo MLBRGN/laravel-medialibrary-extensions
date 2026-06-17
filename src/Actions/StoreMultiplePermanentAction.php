@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
@@ -24,12 +25,18 @@ class StoreMultiplePermanentAction
 
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
-        $dataSource = $request->data_source;
+        $dataSource = $request->input('data_source');
 
         $model = $this->mediaService->findMediaModel($request->model_type, $request->model_id, $dataSource);
 
+        Log::info('After findMediaModel', [
+            'connection' => $model->getConnectionName(),
+            'database' => $model->getConnection()->getDatabaseName(),
+        ]);
+
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $instanceId = $request->input('instance_id');
 
         $files = $request->file('media', []);
 
@@ -54,7 +61,7 @@ class StoreMultiplePermanentAction
         }
 
         $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
-        $mediaInCollections = $this->countModelMediaInCollections($model, $collections);
+        $mediaInCollections = $this->countModelMediaInCollections($model, $collections, $dataSource);
         $nextPriority = $mediaInCollections;
 
         if ($mediaInCollections >= $maxItemsInCollection) {
@@ -112,10 +119,18 @@ class StoreMultiplePermanentAction
                 continue;
             }
 
-            Log::info('StoreMultiplePermanentAction - store in db: ' . json_encode([
-                    'connection' => DB::connection()->getName(),
-                    'database' => DB::connection()->getDatabaseName(),
-                ]));
+            Log::info('StoreMultiplePermanentAction - store in db: '.json_encode([
+                'connection' => $model->getConnection()->getName(),
+                'database' => $model->getConnection()->getDatabaseName(),
+            ]));
+
+            Log::info('Before addMedia', [
+                'datasource' => $dataSource,
+                'resolved' => app(DataSourceResolver::class)->resolveConnection($dataSource),
+                'model_connection_name' => $model->getConnectionName(),
+                'model_database' => $model->getConnection()->getDatabaseName(),
+                'media_model' => config('media-library.media_model'),
+            ]);
 
             try {
                 $model->addMedia($file)

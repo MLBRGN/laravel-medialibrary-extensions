@@ -8,8 +8,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\ViewErrorBag;
 
 class MediaResponse
 {
@@ -32,33 +30,27 @@ class MediaResponse
             return response()->json(array_merge($base, $extraData), $status);
         }
 
-        // snake_case for session (PHP convention)
+        // snake_case for response (PHP convention)
         $base = [
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
             'type' => $type,
             'message' => $message,
         ];
-        Log::info('MediaResponse - base: ' . json_encode($base));
-
-        // Add errors to Laravel's default error bag if provided
-        if (! empty($extraData['errors'])) {
-            $errors = $extraData['errors'];
-
-            // Convert array of errors into a MessageBag
-            $messageBag = new MessageBag($errors);
-
-            // Put it into Laravel's default error bag
-            $errorBag = session()->get('errors', new ViewErrorBag);
-            $errorBag->put('default', $messageBag);
-            session()->flash('errors', $errorBag);
-        }
+        Log::info('MediaResponse - base: '.json_encode($base));
 
         // Take the previous URL and append "#initiatorId"
         $targetUrl = url()->previous().'#'.$mediaManagerId;
 
-        return redirect()
+        $redirect = redirect()
             ->to($targetUrl)
             ->with(status_session_prefix(), $base);
+
+        // Add errors to redirect if provided
+        if (! empty($extraData['errors'])) {
+            $redirect->withErrors($extraData['errors']);
+        }
+
+        return $redirect;
     }
 }

@@ -27,7 +27,7 @@ beforeEach(function () {
 
 it('stores a youtube video temporary on a custom data source', function () {
     $dataSource = 'demo';
-    $sessionId = 'test-session';
+    $clientToken = 'test-session';
 
     // Verify we are starting clean on media_demo
     expect(DB::connection('media_demo')->table('mle_temporary_uploads')->count())->toBe(0);
@@ -43,7 +43,7 @@ it('stores a youtube video temporary on a custom data source', function () {
         'multiple' => 'true',
     ]);
     $request->setLaravelSession(app('session.store'));
-    $request->session()->setId($sessionId);
+    $request->session()->setId($clientToken);
     $request->headers->set('Accept', 'application/json');
 
     // Manually normalize data_source

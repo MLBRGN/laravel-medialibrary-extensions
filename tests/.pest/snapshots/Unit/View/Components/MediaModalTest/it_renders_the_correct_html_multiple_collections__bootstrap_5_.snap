@@ -6,6 +6,8 @@
                 data-mle-autoplay=""
         data-mle-modal
     data-mle-media-modal
+    data-test="media-modal"
+    
     
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
@@ -18,7 +20,9 @@
                     data-mle-modal-close
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
-                    title="Close">
+                    title="Close"
+                    data-test="media-modal-close-button"
+                >
                     <span 
         role="img" 
         aria-label="Close" 
@@ -26,7 +30,7 @@
                 </button>
                 
                 <div id="test-media-modal-mod-crs"
-     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" instance-id="E3642AD197F92C6D1BF5D78226"
         data-mle-carousel
 >
 
@@ -93,7 +97,7 @@
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
-        data-test="media-preview-item"
+        data-test="media-preview-image"
     >
                 </div>
             </div>
@@ -108,7 +112,7 @@
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
-        data-test="media-preview-item"
+        data-test="media-preview-image"
     >
                 </div>
             </div>

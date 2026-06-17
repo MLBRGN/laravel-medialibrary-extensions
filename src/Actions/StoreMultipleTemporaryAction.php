@@ -7,7 +7,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
@@ -122,7 +121,9 @@ class StoreMultipleTemporaryAction
             $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-').'.'.$extension;
 
             $directory = "{$basePath}";
-            $sessionId = $request->session()->getId();
+            $clientToken = $request->input('client_token')
+                ?? $request->cookie('mle_client_token')
+                ?? (string) Str::ulid();
             //            $filename = "{$safeFilename}.{$extension}";
 
             // Store file
@@ -139,7 +140,7 @@ class StoreMultipleTemporaryAction
                 'mime_type' => $file->getMimeType(),
                 'size' => $file->getSize(),
                 'user_id' => Auth::check() ? Auth::id() : null,
-                'session_id' => $sessionId,
+                'client_token' => $clientToken,
                 'instance_id' => $instanceId ?: null,
                 'order_column' => $nextPriority,
                 'custom_properties' => [
@@ -162,7 +163,7 @@ class StoreMultipleTemporaryAction
             //                'mime_type' => $file->getMimeType(),
             //                'size' => $file->getSize(),
             //                'user_id' => Auth::check() ? Auth::id() : null,
-            //                'session_id' => $sessionId,
+            //                'client_token' => $clientToken,
             //                'instance_id' => $instanceId ?: null,
             //                'order_column' => $nextPriority,
             //                'custom_properties' => [

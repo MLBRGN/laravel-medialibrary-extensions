@@ -17,9 +17,9 @@ trait ResolveModelOrClassName
 
     public bool $temporaryUploadMode = false;
 
-    protected function resolveModelOrClassName(Model|string $modelOrClassName): void
+    protected function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource = 'default'): void
     {
-        $resolved = app(MediaService::class)->resolveModelOrClassName($modelOrClassName);
+        $resolved = app(MediaService::class)->resolveModelOrClassName($modelOrClassName, $dataSource);
 
         $this->model = $resolved->model;
         $this->modelType = $resolved->modelType;

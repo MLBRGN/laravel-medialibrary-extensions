@@ -11,9 +11,21 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TemporaryUploadPromoter
 {
-    public function promoteAllForModel(Model $model, ?string $instanceId = null): void
+    public function promoteAllForModel(Model $model, ?string $instanceId = null, ?string $clientToken = null): void
     {
-        $query = TemporaryUpload::where('session_id', session()->getId());
+        $clientToken = $clientToken ?: (request()->input('client_token') ?: request()->cookie('mle_client_token'));
+
+        if (! $clientToken && app()->runningUnitTests()) {
+            $clientToken = config('medialibrary-extensions.test_client_token');
+        }
+
+        if (! $clientToken) {
+            Log::info('TemporaryUploadPromoter - no client identity found (client_token or cookie)');
+
+            return;
+        }
+
+        $query = TemporaryUpload::where('client_token', $clientToken);
 
         if ($instanceId) {
             $query->where('instance_id', $instanceId);
@@ -22,13 +34,7 @@ class TemporaryUploadPromoter
         $temporaryUploads = $query->get();
 
         if ($temporaryUploads->isEmpty()) {
-            Log::info('TemporaryUploadPromoter - no temporary uploads found for this session/instance');
-
-            return;
-        }
-
-        if ($temporaryUploads->isEmpty()) {
-            Log::info('TemporaryUploadPromoter - no temporary uploads found for this session');
+            Log::info('TemporaryUploadPromoter - no temporary uploads found for client: '.$clientToken.($instanceId ? ' and instance: '.$instanceId : ''));
 
             return;
         }

@@ -2,8 +2,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Support;
 
-use Illuminate\Support\Str;
-
 /**
  * Manages stable instance IDs for upload components.
  *
@@ -21,17 +19,13 @@ use Illuminate\Support\Str;
  */
 class InstanceManager
 {
-    public static function getInstanceId(string $instanceKey): string
+    public static function getInstanceId(string $originalId): string
     {
-        $instances = session()->get('mle_instances', []);
+        // Use a deterministic ULID-like string based on the originalId to maintain
+        // stability across page refreshes without relying on sessions.
+        // We use SHA-1 to hash the originalId and then format it as a valid-looking ULID.
+        $hash = sha1($originalId);
 
-        if (! isset($instances[$instanceKey])) {
-            //            $instances[$instanceKey] = Str::ulid()->toBase32();
-            $instances[$instanceKey] = (string) Str::ulid();
-
-            session()->put('mle_instances', $instances);
-        }
-
-        return $instances[$instanceKey];
+        return strtoupper(substr($hash, 0, 26));
     }
 }

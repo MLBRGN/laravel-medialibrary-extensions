@@ -4,7 +4,6 @@
          data-bs-toggle="modal"
          data-bs-target="#{{ $id }}-mod"
          data-test="media-preview-item"
-         data-test-id="{{ $id }}"
     >
         <x-mle-media-viewer
             :medium="$medium"

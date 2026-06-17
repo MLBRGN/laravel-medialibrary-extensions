@@ -65,6 +65,10 @@
         value="{{ $mediaManagerId }}">
     <input
         type="hidden"
+        name="client_token"
+        value="{{ $clientToken }}">
+    <input
+        type="hidden"
         name="multiple"
         value="{{ $multiple ? 'true' : 'false' }}">
     <input type="hidden"

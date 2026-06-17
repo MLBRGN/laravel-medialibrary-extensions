@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 
@@ -40,7 +39,7 @@ class MediaManagerTinymce extends BaseComponent
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
-        public ?string $dataSource = null,
+        public ?string $dataSource = 'default',
     ) {
 
         parent::__construct($id);

@@ -13,7 +13,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequ
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerTemporaryHTMLAction
 {
@@ -40,6 +39,11 @@ class GetMediaPreviewerTemporaryHTMLAction
         $readonly = $request->boolean('readonly');
         $selectable = $request->boolean('selectable');
         $theme = $request->input('theme');
+        $clientToken = $request->input('client_token') ?? $request->cookie('mle_client_token');
+
+        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$dataSource);
+        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$instanceId);
+        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$clientToken);
 
         $options = json_decode($request->input('options'), true) ?? [];
         if ($request->has('temporary_upload_mode')) {
@@ -51,13 +55,19 @@ class GetMediaPreviewerTemporaryHTMLAction
         }
 
         if ($theme) {
-            //            $options['theme'] = $theme;
             $options['frontendTheme'] = $theme;
         }
 
         $collections = json_decode($request->input('collections'), true) ?? [];
 
-        $sessionId = ($request->hasSession() ? $request->session()->getId() : session()->getId());
+        if (! $clientToken) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No client token found',
+                'html' => '',
+                'mediaCount' => 0,
+            ], 403);
+        }
         $model = new $modelType;
 
         $collections = collect($collections)
@@ -68,8 +78,6 @@ class GetMediaPreviewerTemporaryHTMLAction
         $singleMedia = null;
         $totalMediaCount = 0;
 
-        $sessionId = $request->input('session_id') ?? ($request->hasSession() ? $request->session()->getId() : session()->getId());
-
         if ($singleMediaId !== null) {
             $singleMedia = $this->mediaService->findTemporaryUpload($singleMediaId, $dataSource);
 
@@ -79,14 +87,14 @@ class GetMediaPreviewerTemporaryHTMLAction
                 throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
             }
         } else {
-//            Log::info('GetTempHtmlAction collections: '.print_r($collections, true));
-//            Log::info('GetTempHtmlAction instanceID: '.$instanceId);
-//            Log::info('GetTempHtmlAction dataSource: '.$dataSource);
-//            Log::info('GetTempHtmlAction sessionId: '.$sessionId);
+            //            Log::info('GetTempHtmlAction collections: '.print_r($collections, true));
+            //            Log::info('GetTempHtmlAction instanceID: '.$instanceId);
+            //            Log::info('GetTempHtmlAction dataSource: '.$dataSource);
+            //            Log::info('GetTempHtmlAction clientToken: '.$clientToken);
             $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
                 $collections,
                 $instanceId,
-                $sessionId,
+                $clientToken,
                 $dataSource
             );
         }
@@ -104,7 +112,7 @@ class GetMediaPreviewerTemporaryHTMLAction
             selectable: $selectable,
             instanceId: $instanceId,
             dataSource: $dataSource,
-            sessionId: $sessionId,
+            clientToken: $clientToken,
         );
 
         $html = Blade::renderComponent($component);
@@ -127,7 +135,7 @@ class GetMediaPreviewerTemporaryHTMLAction
             'success' => true,
             'instanceId' => $instanceId,
             'dataSource' => $dataSource,
-            'target' => $initiatorId, // TODO contains old id, but this is probably what i want
+            'target' => $initiatorId,
         ]);
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 
 it('confirms the MediaPreviews component correctly retrieves temporary uploads when temporaryUploadMode is enabled', function () {
-    // 1. Setup session ID
-    $sessionId = session()->getId();
-    Session::put('dummy', 'data'); // Ensure session is started/active
+    // 1. Setup client token
+    $clientToken = (string) Str::ulid();
+    request()->merge(['client_token' => $clientToken]);
 
     // 2. Create a temporary upload
     $tempUpload = TemporaryUpload::create([
@@ -19,7 +19,7 @@ it('confirms the MediaPreviews component correctly retrieves temporary uploads w
         'collection_name' => 'images',
         'mime_type' => 'image/jpeg',
         'size' => 1024,
-        'session_id' => $sessionId,
+        'client_token' => $clientToken,
         'instance_id' => 'test-instance',
     ]);
 
@@ -37,22 +37,23 @@ it('confirms the MediaPreviews component correctly retrieves temporary uploads w
     expect($component->media)->toHaveCount(1);
     expect($component->media->first()->id)->toBe($tempUpload->id);
     expect($component->media->first())->toBeInstanceOf(TemporaryUpload::class);
-})->todo('This test is failing');
+});
 
 it('correctly handles the flatMap logic in MediaPreviews for temporary uploads', function () {
-    $sessionId = session()->getId();
+    $clientToken = (string) Str::ulid();
+    request()->merge(['client_token' => $clientToken]);
 
     // Create multiple temporary uploads in different collections
     TemporaryUpload::create([
         'disk' => 'public', 'path' => 'temp/1.jpg', 'name' => '1', 'file_name' => '1.jpg',
         'collection_name' => 'images', 'mime_type' => 'image/jpeg', 'size' => 100,
-        'session_id' => $sessionId, 'instance_id' => 'inst-1',
+        'client_token' => $clientToken, 'instance_id' => 'inst-1',
     ]);
 
     TemporaryUpload::create([
         'disk' => 'public', 'path' => 'temp/2.pdf', 'name' => '2', 'file_name' => '2.pdf',
         'collection_name' => 'documents', 'mime_type' => 'application/pdf', 'size' => 200,
-        'session_id' => $sessionId, 'instance_id' => 'inst-1',
+        'client_token' => $clientToken, 'instance_id' => 'inst-1',
     ]);
 
     $component = new MediaPreviews(
@@ -70,13 +71,14 @@ it('correctly handles the flatMap logic in MediaPreviews for temporary uploads',
     expect($collectionNames)->toContain('documents');
 });
 
-it('does not retrieve temporary uploads from other sessions', function () {
-    $sessionId = session()->getId();
+it('does not retrieve temporary uploads from other clients', function () {
+    $clientToken = (string) Str::ulid();
+    request()->merge(['client_token' => $clientToken]);
 
     TemporaryUpload::create([
         'disk' => 'public', 'path' => 'temp/a.jpg', 'name' => 'a', 'file_name' => 'a.jpg',
         'collection_name' => 'images', 'mime_type' => 'image/jpeg', 'size' => 100,
-        'session_id' => 'session-b', // Different session
+        'client_token' => 'client-b', // Different client
         'instance_id' => 'inst-1',
     ]);
 

@@ -4,7 +4,6 @@
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
          data-test="media-preview-item"
-         data-test-id="{{ $id }}"
     >
         <x-mle-media-viewer
             :medium="$medium"

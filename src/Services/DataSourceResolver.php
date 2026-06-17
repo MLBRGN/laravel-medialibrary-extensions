@@ -6,7 +6,7 @@ class DataSourceResolver
 {
     public function resolveConnection(?string $dataSource): string
     {
-        if ($dataSource === null || $dataSource === '') {
+        if ($dataSource === null || $dataSource === '' || $dataSource === 'default') {
             return config('database.default');
         }
 

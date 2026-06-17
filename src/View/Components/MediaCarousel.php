@@ -44,7 +44,7 @@ class MediaCarousel extends BaseComponent
         // merge into config
         $this->resolveConfig([
             'temporaryUploadMode' => $this->temporaryUploadMode,
-            'sessionId' => session()->getId(),
+            'clientToken' => $this->clientToken,
         ]);
 
         $instanceId = $this->instanceId ?? $this->getConfig('instanceId');

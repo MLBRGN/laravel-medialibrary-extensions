@@ -34,7 +34,7 @@ class GetMediaManagerPreviewerHTMLRequest extends MediaManagerRequest
             'data_source' => ['nullable', 'string'],
             'theme' => ['nullable', 'string'],
             'include_debug' => ['nullable', 'string', Rule::in(['true', 'false', '1', '0'])],
-            'session_id' => ['nullable', 'string'],
+            'client_token' => ['nullable', 'string'],
         ];
     }
 

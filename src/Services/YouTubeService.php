@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
@@ -23,7 +24,7 @@ class YouTubeService
         string $youtubeUrl,
         string $collection,
         ?string $customId = null,
-        ?string $dataSource = null
+        ?string $dataSource = 'default'
     ): ?Media {
         $videoId = extractYouTubeId($youtubeUrl);
 
@@ -55,13 +56,15 @@ class YouTubeService
         $youtubeUrl = $request->input('youtube_url');
         $youtubeId = $request->input('youtube_id');
         $collection = $request->input('youtube_collection');
-        $sessionId = $request->session()->getId();
+        $clientToken = $request->input('client_token')
+            ?? $request->cookie('mle_client_token')
+            ?? (string) Str::ulid();
         $dataSource = $request->input('data_source');
         $instanceId = $request->input('instance_id');
 
         return $this->storeTemporaryThumbnailFromUrl(
             youtubeUrl: $youtubeUrl,
-            sessionId: $sessionId,
+            clientToken: $clientToken,
             customId: $youtubeId,
             collection: $collection,
             dataSource: $dataSource,
@@ -71,10 +74,10 @@ class YouTubeService
 
     public function storeTemporaryThumbnailFromUrl(
         string $youtubeUrl,
-        string $sessionId,
+        string $clientToken,
         ?string $customId = null,
         ?string $collection = null,
-        ?string $dataSource = null,
+        ?string $dataSource = 'default',
         ?string $instanceId = null
     ): ?TemporaryUpload {
         $disk = config('medialibrary-extensions.media_disks.temporary');
@@ -111,7 +114,7 @@ class YouTubeService
         $connection = $this->dataSourceResolver->resolveConnection($dataSource);
         $temporaryUploadModel->setConnection($connection);
 
-        $maxOrder = $temporaryUploadModel->newQuery()->where('session_id', $sessionId)->max('order_column') ?? 0;
+        $maxOrder = $temporaryUploadModel->newQuery()->where('client_token', $clientToken)->max('order_column') ?? 0;
 
         $tempUpload = $temporaryUploadModel->newQuery()->create([
             'disk' => $disk,
@@ -122,7 +125,7 @@ class YouTubeService
             'collection_name' => $collection ?? 'workplace-youtube-videos',
             'mime_type' => $mimeType,
             'user_id' => Auth::id(),
-            'session_id' => $sessionId,
+            'client_token' => $clientToken,
             'instance_id' => $instanceId,
             'order_column' => $maxOrder + 1,
             'custom_properties' => [

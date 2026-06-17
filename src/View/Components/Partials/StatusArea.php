@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 
@@ -24,7 +25,7 @@ class StatusArea extends BaseComponent
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
-        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
 
         $this->options = $options;
         $this->resolveConfig();

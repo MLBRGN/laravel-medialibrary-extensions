@@ -25,7 +25,7 @@ class MediaModal extends BaseComponent
         array $options = [],
         public bool $videoAutoPlay = true,
         string $instanceId = '',
-        public ?string $dataSource = null,
+        public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
         if ($instanceId) {

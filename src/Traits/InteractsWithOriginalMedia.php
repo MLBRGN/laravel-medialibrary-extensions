@@ -87,7 +87,7 @@ trait InteractsWithOriginalMedia
             'mime_type' => $newFile->getMimeType(),
             'size' => $newFile->getSize(),
             'user_id' => $backup->user_id,
-            'session_id' => $backup->session_id,
+            'client_token' => $backup->client_token,
             'order_column' => $backup->order_column ?? 1,
             'custom_properties' => $backup->custom_properties ?? [],
             'instance_id' => $backup->instance_id,

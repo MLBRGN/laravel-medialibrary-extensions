@@ -120,13 +120,3 @@ it('stores demo mode in the container', function () {
 
     expect(app('mle-demo-mode'))->toBeTrue();
 });
-
-it('converts default data source to null', function () {
-    $response = (new DemoController)(
-        Request::create('/demo', 'GET', [
-            'data_source' => 'default',
-        ])
-    );
-
-    expect($response->getData()['dataSource'])->toBeNull();
-});

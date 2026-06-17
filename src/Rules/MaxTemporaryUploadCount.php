@@ -20,7 +20,7 @@ class MaxTemporaryUploadCount implements ValidationRule
 
     protected ?string $dataSource;
 
-    public function __construct(array $collections, int $max, ?string $instanceId = null, ?string $dataSource = null)
+    public function __construct(array $collections, int $max, ?string $instanceId = null, ?string $dataSource = 'default')
     {
         $this->collections = $collections;
         $this->max = $max;

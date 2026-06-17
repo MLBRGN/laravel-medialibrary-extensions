@@ -20,6 +20,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
         options: JSON.stringify(config.options),
         instance_id: config.instanceId ?? null,
         theme: config.theme,
+        client_token: config.clientToken,
         include_debug: 'true'
     });
 

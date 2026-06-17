@@ -51,8 +51,7 @@
         title="{{ __('medialibrary-extensions::messages.delete_medium') }}"
         data-mle-action="destroy-medium"
         data-mle-route="{{ $getConfig('routes.mediaDestroy') }}"
-        data-test-id="{{ $id }}"
-        data-test="media-delete-button"
+        data-mle-media-delete-button
         @disabled($disabled)
     >
         <x-mle-shared-icon

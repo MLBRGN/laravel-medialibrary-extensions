@@ -51,6 +51,10 @@ mediaManagers.forEach(mediaManager => {
 
         try {
             const formData = getFormData(formElement);
+
+            // Inject current persistent client token
+            formData.set('client_token', config.clientToken);
+
             const normalizedMethod = method.toUpperCase();
             if (['DELETE', 'PUT', 'PATCH'].includes(normalizedMethod)) {
                 formData.append('_method', normalizedMethod);

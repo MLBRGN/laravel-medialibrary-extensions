@@ -15,7 +15,7 @@ class TemporaryUploadFactory extends Factory
         $fileName = $this->faker->word().'.jpg';
         $directory = 'tmp/uploads';
         $userId = $this->faker->numberBetween(1, 10);
-        $sessionId = Str::uuid();
+        $clientToken = Str::uuid();
 
         return [
             'disk' => 'public',
@@ -26,7 +26,7 @@ class TemporaryUploadFactory extends Factory
             'mime_type' => 'image/jpeg',
             'size' => $this->faker->numberBetween(1000, 5000),
             'user_id' => $userId,
-            'session_id' => $sessionId,
+            'client_token' => $clientToken,
             'order_column' => 0,
             'custom_properties' => [
                 'priority' => 0,

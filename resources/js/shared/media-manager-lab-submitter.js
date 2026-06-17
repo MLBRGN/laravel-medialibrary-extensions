@@ -81,10 +81,10 @@ mediaManagerLabs.forEach(mediaManagerLab => {
 
             // console.log(formElement);
             const formData = getFormData(formElement);
-            // console.log('just before formData')
-            // formData.forEach((value, key) => {
-            //     console.log(key, value);
-            // });
+
+            // Inject current persistent client token
+            formData.set('client_token', config.clientToken);
+
             const normalizedMethod = method.toUpperCase();
             if (['DELETE', 'PUT', 'PATCH'].includes(normalizedMethod)) {
                 formData.append('_method', normalizedMethod);

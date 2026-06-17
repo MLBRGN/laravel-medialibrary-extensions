@@ -50,7 +50,7 @@ class DestroyTemporaryUploadAction
         );
     }
 
-    protected function reorderAllMedia($request, ?string $dataSource = null): void
+    protected function reorderAllMedia($request, ?string $dataSource = 'default'): void
     {
         $collections = collect($request->input('collections', []))
             ->filter() // remove empty or null entries
@@ -63,14 +63,15 @@ class DestroyTemporaryUploadAction
             return;
         }
 
-        // For testing purposes use session id from header, otherwise real session
-        $sessionId = $request->header('X-Test-Session-Id') ?? session()->getId();
+        // Stateless client identity logic
+        $clientToken = $request->input('client_token')
+            ?? $request->cookie('mle_client_token');
         $instanceId = $request->input('instance_id');
 
         $temporaryUploads = TemporaryUpload::query()
             ->forDataSource($dataSource)
             ->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
-            ->where('session_id', $sessionId)
+            ->where('client_token', $clientToken)
             ->whereIn('collection_name', $collections)
             ->get()
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));

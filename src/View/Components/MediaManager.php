@@ -29,15 +29,15 @@ class MediaManager extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
-        // TODO should single medium be honored when null? -> $medium->getMorphClass() test in demo for example
+        public mixed $modelOrClassName,
+        public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
         public bool $multiple = false,
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
+        public ?string $dataSource = 'default',
     ) {
 
         parent::__construct($id);
@@ -45,7 +45,7 @@ class MediaManager extends BaseComponent
         // For the root MediaManager, mediaManagerId is its own originalId
         $this->mediaManagerId = $this->originalId;
         $this->options = $options;
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
         if (! $this->multiple) {
@@ -86,9 +86,9 @@ class MediaManager extends BaseComponent
         } else {
             $mediaService = app(MediaService::class);
             if ($this->modelOrClassName instanceof HasMedia) {
-                $totalMediaCount = $mediaService->countModelMediaInCollections($this->modelOrClassName, $this->collections);
+                $totalMediaCount = $mediaService->countModelMediaInCollections($this->modelOrClassName, $this->collections, $this->dataSource);
             } elseif (is_string($this->modelOrClassName)) {
-                $totalMediaCount = $mediaService->countTemporaryUploadsInCollections($this->collections, $this->instanceId);
+                $totalMediaCount = $mediaService->countTemporaryUploadsInCollections($this->collections, $this->instanceId, $this->clientToken, $this->dataSource);
             } else {
                 $totalMediaCount = 0;
             }
@@ -134,6 +134,7 @@ class MediaManager extends BaseComponent
 
         $this->resolveConfig([
             'instanceId' => $this->instanceId,
+            'clientToken' => $this->clientToken,
             'temporaryUploadMode' => $this->temporaryUploadMode,
         ]);
     }

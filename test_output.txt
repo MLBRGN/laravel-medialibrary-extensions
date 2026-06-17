@@ -1,0 +1,367 @@
+
+  [44;1m INFO [49;22m .
+
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Components\ImageResponsiveTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders with a media object[39m[90m                                      [39m [90m0.18s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit falls back to alternative conversion when primary is not availab[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses original image when no conversions are available[39m[90m            [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles null media gracefully[39m[90m                                    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles exceptions when getting media URL[39m[90m                        [39m [90m0.06s[39m  
+
+  [37;44;1m TODO [39;49;22m[39m Tests\Unit\Console\Commands\ToggleRepositoryTest[39m[90m - 1 todo[39m
+  [36;1m↓[39;22m[90m [39m[90mit runs without touching the real system[39m[90m                            [39m [90m0.06s[39m  
+  [90m// too complicated for now[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\ExampleTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit can test that true is true[39m[90m                                       [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Mlbrgn\MediaLibraryExtensions\Tests\Unit\HasMediaExtendedTest[39m
+  [32;1m✓[39;22m[90m [39m[90mblog model implements has media extended[39m[90m                            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can check if model implements interface using is subclass of[39m[90m     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit has expected methods from trait[39m[90m                                  [39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Helpers\MediaResponseTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit returns a json success response when request expects json[39m[90m        [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns a json error response with 422 status[39m[90m                    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns a redirect success response when not expecting json[39m[90m      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles errors in redirect response and flashes to error bag[39m[90m     [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Http\Controllers\DemoControllerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit returns the unified demo view with bootstrap-5 theme by default[39m[90m  [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses the plain theme when requested[39m[90m                              [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses existing Alien if present[39m[90m                                   [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit creates model if none exists[39m[90m                                     [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit applies use_xhr from request[39m[90m                                     [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit stores demo mode in the container[39m[90m                                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit converts default data source to null[39m[90m                             [39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\JsonRequests\JsonRequestsTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit cannot sen post requests to routes when not authenticated with d[39m[90m…[39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot sen post requests to routes when not authenticated with d[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot sen post requests to routes when not authenticated with d[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot sen post requests to routes when not authenticated with d[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot sen post requests to routes when not authenticated with d[39m[90m…[39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot send delete requests to routes when not authenticated wit[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot send delete requests to routes when not authenticated wit[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot send put requests to routes when not authenticated with d[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot send put requests to routes when not authenticated with d[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit cannot send get requests to routes when not authenticated with d[39m[90m…[39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Models\TemporaryUploadTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit returns only uploads for the current session[39m[90m                     [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit filters by collection name when provided[39m[90m                         [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit does not return media when empty collection name provided[39m[90m        [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns all session uploads when collectionName is an empty stri[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns all session uploads when collectionName is null[39m[90m          [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can handle different database connections using forDataSource sc[39m[90m…[39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Rules\AtLeastOneCollectionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit fails when no collections are provided[39m[90m                           [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit passes when at least one collection is present[39m[90m                   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Rules\MaxMediaCountTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit passes when adding fewer than or equal to the allowed max[39m[90m        [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit fails when adding more than the allowed max[39m[90m                      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit does not fail when non-array value makes total equal to max[39m[90m      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit fails when non-array value causes total to exceed max and return[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns the correct message[39m[90m                                      [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Rules\YouTubeUrlTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit passes for valid YouTube URLs[39m[90m                                    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit fails for invalid YouTube URLs[39m[90m                                   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Services\DataSourceTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit DataSourceResolver resolves default connection when dataSource i[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit DataSourceResolver resolves demo connection when dataSource is d[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit MediaService make uses the resolved connection[39m[90m                   [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit MediaService findMediaModel uses the resolved connection[39m[90m         [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Services\MediaServiceTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit resolves an existing model instance[39m[90m                              [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws 400 if model class does not exist[39m[90m                         [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws ModelNotFoundException if id not found[39m[90m                    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws exception if model does not implement HasMediaExtended[39m[90m    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns image collection if mime type is in image list[39m[90m           [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns document collection if mime type is in document list[39m[90m     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns null if mime type is not supported[39m[90m                       [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Services\TemporaryUploadPromoterTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit replaces relative temporary media urls in html[39m[90m                   [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit replaces relative temporary media urls with unicode / soft hyphe[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit replaces absolute temporary media urls in html[39m[90m                   [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit replaces mixed absolute and relative urls[39m[90m                        [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit replaces temporary uploads with Unicode / unsafe filenames in HT[39m[90m…[39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit removes temporary upload file and database record[39m[90m                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit does not touch model when no temp urls exist[39m[90m                     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit replaces multiple temporary uploads in one html field[39m[90m            [39m [90m0.07s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Services\YouTubeServiceTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit uploads a YouTube thumbnail to a HasMedia model[39m[90m                  [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns null if uploadThumbnailFromUrl fails[39m[90m                     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit stores a temporary thumbnail from URL[39m[90m                            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns null when thumbnail URL is invalid[39m[90m                       [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Support\InstanceManagerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit generates a new instance id[39m[90m                                      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit generates different ids for different calls[39m[90m                      [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Traits\ChecksMediaLimitsTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit checks media limits for permanent files[39m[90m                          [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit checks media limits for temporary files[39m[90m                          [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Traits\InteractsWithMimeTypesTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit converts comma-separated string to array[39m[90m                         [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit converts array to array with trimmed unique values[39m[90m               [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit converts array to comma-separated string[39m[90m                         [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit converts string to normalized comma-separated string[39m[90m             [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns allowed MIME types from options[39m[90m                          [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit resolves allowed MIME types to both formats[39m[90m                      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit syncs allowed MIME types into config array[39m[90m                       [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles empty input gracefully[39m[90m                                   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Traits\InteractsWithOptionsAndConfigTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit gets and sets options correctly[39m[90m                                  [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws exception when required options are missing[39m[90m               [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit initializes config with defaults and merges options/properties[39m[90m   [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can get, set, merge, and add config values[39m[90m                       [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles empty options/config gracefully[39m[90m                          [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit resolves config routes[39m[90m                                           [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit merges config recursively[39m[90m                                        [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Traits\ResolveModelOrClassNameTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit resolves an actual HasMedia model instance[39m[90m                       [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit resolves a class name string that implements HasMedia[39m[90m            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws InvalidArgumentException for non-existing class name[39m[90m      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws UnexpectedValueException if class does not implement HasM[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws TypeError for invalid type[39m[90m                                [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Traits\ValidatesCollectionsTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit passes validation with at least one allowed non-empty key[39m[90m        [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit adds error for invalid collection keys[39m[90m                           [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit adds error if no non-empty allowed keys[39m[90m                          [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit adds both errors if invalid keys and empty allowed keys[39m[90m          [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit works when collections input is missing[39m[90m                          [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\Traits\ViewHelpersTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit returns themed view path for getView[39m[90m                             [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns themed partial view path for getPartialView[39m[90m              [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles null frontendTheme by using config fallback[39m[90m              [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles null frontendTheme for partial by using config fallback[39m[90m  [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses custom config frontendTheme when provided[39m[90m                   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\AudioTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes correctly and sets id[39m[90m                                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can be instantiated with a medium[39m[90m                                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can be instantiated with a TemporaryUpload[39m[90m                       [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct Blade view[39m[90m                                   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\BaseComponentTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes with provided id[39m[90m                                     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit generates a unique ULID id if none provided[39m[90m                      [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\DocumentTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes correctly and sets id[39m[90m                                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit document component renders[39m[90m                                       [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit document component renders unknown file type[39m[90m                     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct view with given properties[39m[90m                   [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses default alt text if none is provided[39m[90m                        [39m [90m0.05s[39m  
+
+  [37;44;1m PASS [39;49;22m[39m Tests\Unit\View\Components\ImageEditorModalTest[39m[90m - 1 todo[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders image editor modal component (permanent media)[39m[90m           [39m [90m0.07s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit renders image editor modal component (temporary media)[39m[90m           [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit constructs with model and sets properties[39m[90m                        [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit constructs with model class name string for temporary upload[39m[90m     [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws when modelOrClassName is null[39m[90m                             [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws when modelOrClassName is an invalid type[39m[90m                  [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws when modelOrClassName is an class name[39m[90m                    [39m [90m0.05s[39m  
+
+  [37;44;1m PASS [39;49;22m[39m Tests\Unit\View\Components\ImageResponsiveTest[39m[90m - 2 todos[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders image responsive component[39m[90m                               [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns empty conversion if no media is provided[39m[90m                 [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses explicitly provided valid conversion[39m[90m                        [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit falls back to first valid conversion in list[39m[90m                     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns empty conversion if none of the conversions are valid[39m[90m    [39m [90m0.05s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit renders the correct view with expected data when a valid convers[39m[90m…[39m [90m0.05s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit falls back to original URL on exception[39m[90m                          [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\MediaCarouselTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes correctly with a single media collection[39m[90m             [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit initializes correctly with multiple media collections[39m[90m            [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit falls back to empty media collection when no model is provided[39m[90m   [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses provided frontend theme if given[39m[90m                            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders view and matches snapshot[39m[90m                                [39m [90m0.08s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\MediaModalTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit appends -mod to the id[39m[90m                                           [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns the correct view on render[39m[90m                               [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct Blade view (bootstrap-5)[39m[90m                     [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct Blade view (plain)[39m[90m                           [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct html multiple collections (plain)[39m[90m            [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct html multiple collections (bootstrap-5)[39m[90m      [39m [90m0.09s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct html single collection (plain)[39m[90m               [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct html single collection (bootstrap-5)[39m[90m         [39m [90m0.08s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit sets temporary upload mode when given a class string[39m[90m             [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws if given class string does not exist[39m[90m                      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws if given class string does not implement HasMediaExtended[39m[90m [39m [90m0.05s[39m  
+
+  [37;44;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Partials\DestroyFormTest[39m[90m - 1 todo[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes with given properties[39m[90m                                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit initializes with given properties without useXhr[39m[90m                 [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the destroy-form view (plain)[39m[90m                            [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the destroy-form view (bootstrap-5)[39m[90m                      [39m [90m0.06s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit renders the destroy form with temporary upload[39m[90m                   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Partials\SetAsFirstTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders the set-as-first-form[39m[90m                                    [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit falls back to config use_xhr when useXhr is null[39m[90m                 [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the set as first form with temporary upload[39m[90m              [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Partials\SpinnerTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders the spinner partial view and sets properties correctly[39m[90m   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Partials\StatusAreaTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes component with provided data[39m[90m                         [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct partial view[39m[90m                                 [39m [90m0.05s[39m  
+
+  [37;44;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Partials\StatusTest[39m[90m - 1 todo[39m
+  [32;1m✓[39;22m[90m [39m[90mit sets status from session when initiatorId matches[39m[90m                [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit does not set status if initiatorId does not match[39m[90m                [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the status partial view[39m[90m                                  [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the status message in the view when initiatorId matches[39m[90m… [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the status message in the view when initiatorId matches[39m[90m… [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit does not render the status message when initiatorId does not mat[39m[90m…[39m [90m0.05s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit sets status from validation error bag when present[39m[90m               [39m [90m0.05s[39m  
+
+  [37;44;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Partials\UploadFormTest[39m[90m - 1 todo[39m
+  [32;1m✓[39;22m[90m [39m[90mit throws translated exception if invalid class name is provided[39m[90m    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws exception if given a model that does not implement HasMed[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit honors frontend theme[39m[90m                                            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit uses allowedMimeTypes from config if allowedMimeTypes not provid[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit sets allowedMimeTypes and allowedMimeTypesHuman from options[39m[90m     [39m [90m0.05s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit initializes correctly when given a HasMedia model instance[39m[90m       [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit sets model properties correctly when given a string model class[39m[90m… [39m [90m0.05s[39m  
+
+  [37;44;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Partials\YouTubeUploadFormTest[39m[90m - 1 todo[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes with a HasMedia model[39m[90m                                [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit initializes with a model class string[39m[90m                            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws if modelOrClassName is non existing class name[39m[90m            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws if modelOrClassName class does not extend HasMedia[39m[90m        [39m [90m0.05s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit renders the correct partial view[39m[90m                                 [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Shared\AssetsTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit sets default values from config[39m[90m                                  [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit accepts custom constructor values[39m[90m                                [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct view[39m[90m                                         [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Shared\DebugTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders the debug view with model[39m[90m                                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the debug view with model class name[39m[90m                     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws when given invalid class name[39m[90m                             [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit throws when given model that does not extend HasMedia interface[39m[90m  [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit detects when the Blade UI icon alias exists[39m[90m                      [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit detects when the Blade UI icon alias is missing[39m[90m                  [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit populates media collections from a model[39m[90m                         [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit handles temporary upload (null model) gracefully[39m[90m                 [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\Shared\IconTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit detects when the Blade UI icon alias exists[39m[90m                      [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit detects when the Blade UI icon alias does not exist[39m[90m              [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Unit\View\Components\VideoTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit initializes correctly and sets id[39m[90m                                [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can be instantiated with a medium and match snapshot[39m[90m             [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can be instantiated with a TemporaryUpload and match snapshot[39m[90m    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders the correct Blade view[39m[90m                                   [39m [90m0.05s[39m  
+
+  [37;44;1m PASS [39;49;22m[39m Tests\Unit\View\Components\VideoYouTubeTest[39m[90m - 1 todo[39m
+  [32;1m✓[39;22m[90m [39m[90mit builds default YouTube query string correctly[39m[90m                    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit overrides default params with custom ones[39m[90m                        [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit sets component properties correctly[39m[90m                              [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns correct view on render[39m[90m                                   [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders view and matches snapshot[39m[90m                                [39m [90m0.05s[39m  
+  [36;1m↓[39;22m[90m [39m[90mit renders view[39m[90m                                                     [39m [90m0.05s[39m  
+  [90m// how to create dummy youtube medium?[39m
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\DeleteMediumActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit deletes the medium and returns JSON[39m[90m                              [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit deletes the medium and returns Redirect[39m[90m                          [39m [90m0.07s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit reorders all media on delete[39m[90m                                     [39m [90m0.08s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\DeleteTemporaryUploadActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit returns error response when no collections provided (JSON)[39m[90m       [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns error response when no collections provided Redirect[39m[90m     [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit deletes the temporary upload and returns JSON[39m[90m                    [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit deletes the temporary upload and returns redirect[39m[90m                [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit reorders all temporary uploads on delete with dummy session id[39m[90m   [39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\DestroyMediumActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit deletes a medium and reorders priorities (JSON)[39m[90m                  [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit skips reorder if no collections are passed[39m[90m                       [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\DestroyTemporaryUploadActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit deletes the temporary upload and returns a JSON response when re[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit deletes the temporary upload and returns a redirect response wit[39m[90m…[39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\GetMediaPreviewerHTMLActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit calls the temporary previewer action when temporary_upload_mode[39m[90m… [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit calls the permanent previewer action when temporary_upload_mode[39m[90m… [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit calls the permanent previewer action when temporary_upload_mode[39m[90m… [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\GetMediaPreviewerPermanentHTMLActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders media preview HTML (without media) and returns JSON resp[39m[90m…[39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit renders permanent media preview HTML and returns JSON response[39m[90m   [39m [90m0.05s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\GetMediaPreviewerTemporaryHTMLActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit renders temporary media preview HTML and returns JSON response[39m[90m   [39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\ReproductionStoreUpdatedTemporaryMediaTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit correctly replaces a temporary upload on a custom data source[39m[90m    [39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\RestoreOriginalMediaActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit returns error if media not found[39m[90m                                 [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns error if original file not found[39m[90m                         [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit restores the original file successfully[39m[90m                          [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit restores original media from a custom data source[39m[90m                [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit falls back to media disk if target disk not configured[39m[90m           [39m [90m0.06s[39m  
+
+  [30;42;1m PASS [39;49;22m[39m Tests\Feature\Actions\SetMediumAsFirstActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit fails when no collections provided JSON[39m[90m                          [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit fails when no collections provided[39m[90m                               [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns error when no media in collection JSON[39m[90m                   [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns error when no media in collection[39m[90m                        [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can set as first in collection JSON[39m[90m                              [39m [90m0.06s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit can set as first in collection[39m[90m                                   [39m [90m0.06s[39m  
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\Actions\SetTemporaryUploadAsFirstActionTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit fails when no collections provided JSON[39m[90m                          [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit fails when no collections provided[39m[90m                               [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns error when no media in collection JSON[39m[90m                   [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mit returns error when no media in collection[39m[90m                        [39m [90m0.05s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mit can set as first in collection JSON[39m[90m                              [39m [90m0.05s[39m  
+  [31m────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\Actions\SetTemporaryUploadAsFirstActionTest[22m [90m>[39m it ca…   
+[39;1m  Failed asserting that an array has a key 'type' with the value 'error'.
+Failed asserting that two strings are equal.
+  [39;22m[31m-'success'[39m[39;1m
+  [39;22m[32m+'error'[39m[39;1m
+  [39;22m
+
+  at [32mtests/Feature/Actions/SetTemporaryUploadAsFirstActionTest.php[39m:[32m203[39m
+    199▕     expect($response)->toBeInstanceOf(JsonResponse::class);
+    200▕ 
+    201▕     $data = $response->getData(true);
+    202▕ 
+  ➜ 203▕     expect($data)->toMatchArray([
+    204▕         'initiatorId' => $initiatorId,
+    205▕         'type' => 'success',
+    206▕         'message' => __('medialibrary-extensions::messages.medium_set_as_main'),
+    207▕     ]);
+
+  [33m1   [39m[39;1mtests/Feature/Actions/SetTemporaryUploadAsFirstActionTest.php[39;22m:[39;1m203[39;22m
+
+
+  [90mTests:[39m    [31;1m1 failed[39;22m[90m,[39m[39m [39m[36;1m9 todos[39;22m[90m,[39m[39m [39m[32;1m222 passed[39;22m[90m,[39m[39m [2m225 pending[22m[39m[90m (707 assertions)[39m
+  [90mDuration:[39m [39m13.34s[39m
+
+Script vendor/bin/pest handling the test event returned with error code 1

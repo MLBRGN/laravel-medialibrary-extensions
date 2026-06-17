@@ -24,7 +24,7 @@
         @endif
     </div>
 
-    <div class="mle-media-preview-menu-end" data-test="media-preview-menu-end-{{ $id }}" data-test-id="{{ $id }}">
+    <div class="mle-media-preview-menu-end" data-test="media-preview-menu-end-{{ $id }}">
         @if($getConfig('showMediaEditButton'))
             @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                 <button
@@ -33,8 +33,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#{{ $id }}-iem-{{ $medium->id }}"
                     title="{{ __('medialibrary-extensions::messages.edit') }}"
-                    data-test="media-edit-button"
-                    data-test-id="{{ $id }}"
+                    data-mle-media-edit-button
                     @disabled($disabled)
                 >
                     <x-mle-shared-icon
@@ -50,8 +49,7 @@
                 <button type="button"
                         class="mle-button mle-button-icon btn btn-primary"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
-                        data-test-id="{{ $id }}"
-                        data-test="media-set-as-first-button"
+                        data-mle-media-set-as-first-button
                         disabled
                 >
                     <x-mle-shared-icon

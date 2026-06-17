@@ -124,7 +124,7 @@
             <div class="mle-demo-controls-group">
                 <span class="mle-demo-controls-label">Data Source:</span>
                 <a href="{{ request()->fullUrlWithQuery(['data_source' => 'demo']) }}" class="mle-demo-btn {{ $dataSource === 'demo' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-demo">Demo</a>
-                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'default']) }}" class="mle-demo-btn {{ empty($dataSource) ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-default">Default</a>
+                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'default']) }}" class="mle-demo-btn {{ $dataSource === 'default' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-default">Default</a>
             </div>
     
             <div class="mle-demo-controls-group">
@@ -216,7 +216,16 @@
             id="alien-carousel"
             :model-or-class-name="$model"
             :collections="[
-                'alien-media-lab'
+                'image' => 'alien-multiple-images', 
+                'document' =>'alien-multiple-documents', 
+                'youtube' =>'alien-multiple-youtube-videos', 
+                'video' =>'alien-multiple-videos', 
+                'audio' =>'alien-multiple-audios',
+//                'image' => 'alien-single-image', 
+//                'document' =>'alien-single-document', 
+//                'youtube' =>'alien-single-youtube-video', 
+//                'video' =>'alien-single-video', 
+//                'audio' =>'alien-single-audio'
             ]"
             :options="[
                 'frontendTheme' => $frontendTheme, 

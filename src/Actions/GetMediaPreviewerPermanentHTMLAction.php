@@ -27,7 +27,9 @@ class GetMediaPreviewerPermanentHTMLAction
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
         Log::info('GetMediaPreviewerPermanentHTMLAction invoked');
+        $dataSource = $request->input('data_source');
         $initiatorId = $request->input('initiator_id');
+        $instanceId = $request->input('instance_id') ?? '';
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $singleMediaId = $request->input('single_media_id');
@@ -36,14 +38,16 @@ class GetMediaPreviewerPermanentHTMLAction
         $disabled = $request->boolean('disabled');
         $readonly = $request->boolean('readonly');
         $selectable = $request->boolean('selectable');
-        $instanceId = $request->input('instance_id') ?? '';
-        $dataSource = $request->input('data_source');
         $theme = $request->input('theme');
+        // no clientToken
+
+        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$dataSource);
+        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$instanceId);
+//        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$clientToken);
 
         $options = json_decode($request->input('options'), true) ?? [];
 
         if ($theme) {
-            //            $options['theme'] = $theme;
             $options['frontendTheme'] = $theme;
         }
 
@@ -73,6 +77,7 @@ class GetMediaPreviewerPermanentHTMLAction
             $totalMediaCount = $this->mediaService->countModelMediaInCollections($model, $collections, $dataSource);
         }
 
+        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
         $component = new MediaPreviews(
             id: $initiatorId,
             mediaManagerId: $initiatorId, // Action uses the initiator_id (DOM id) as the base identity for logical operations here
@@ -106,6 +111,8 @@ class GetMediaPreviewerPermanentHTMLAction
             'debugHtml' => $debugHtml,
             'mediaCount' => $totalMediaCount,
             'success' => true,
+            'instanceId' => $instanceId,
+            'dataSource' => $dataSource,
             'target' => $initiatorId, // TODO contains old id, but this is probably what i want
         ]);
     }

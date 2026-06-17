@@ -44,9 +44,11 @@ class SetTemporaryUploadAsFirstAction
             );
         }
 
+        $clientToken = $request->input('client_token') ?: $request->cookie('mle_client_token');
+
         $mediaItems = TemporaryUpload::query()
             ->forDataSource($dataSource)
-            ->forCurrentSession(instanceId: $instanceId)
+            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
             ->when(! empty($collectionNames), fn ($query) => $query->whereIn('collection_name', $collectionNames))
             ->get();
 
@@ -73,11 +75,11 @@ class SetTemporaryUploadAsFirstAction
         // Sort by current priority
         $sorted = $mediaItems->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
-//        foreach ($sorted as $item) {
-//            Log::info('Sorted item', [
-//                'id' => $item->id,
-//            ]);
-//        }
+        //        foreach ($sorted as $item) {
+        //            Log::info('Sorted item', [
+        //                'id' => $item->id,
+        //            ]);
+        //        }
 
         // Move target to front
         $reordered = $sorted->reject(fn ($m) => (int) $m->id === (int) $mediumId)->prepend($targetMedia);

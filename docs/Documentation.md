@@ -1,138 +1,188 @@
-# Documentation
+# Laravel Media Library Extensions
 
-## Extended Media Library Usage
+An extension for Spatie Laravel Media Library that provides enhanced media management, temporary uploads, multi-database support, and a suite of Blade components.
 
-### Interfaces and Traits
+---
 
-To use the extended features of this package, your models should implement `HasMediaExtended` and use the `InteractsWithMediaExtended` trait instead of the default Spatie ones.
+## 1. Getting Started
+
+### Installation
+
+```shell
+composer require mlbrgn/laravel-medialibrary-extensions
+```
+
+Publish the config file:
+
+```shell
+php artisan vendor:publish --tag=medialibrary-extensions-config
+```
+
+### Core Requirements
+
+To use the extended features, your models must implement `HasMediaExtended` and use the `InteractsWithMediaExtended` trait.
 
 ```php
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Post extends Model implements HasMediaExtended
 {
-    use InteractsWithMediaExtended;
+    use InteractsWithMedia, InteractsWithMediaExtended;
 }
 ```
 
-### Temporary Uploads
+---
 
-The `TemporaryUpload` model allows you to handle file uploads before the parent model is created. This is useful for "Create" forms.
+## 2. UI Components
 
-```php
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-
-// Get temporary uploads for the current session and a specific collection
-$uploads = TemporaryUpload::getForCurrentSession('images');
-
-// Filter by a specific media manager instance ID
-$uploads = TemporaryUpload::getForCurrentSession('images', 'media-manager-123');
-```
-
-### YouTube Videos
-
-You can store YouTube videos as media items. The package provides actions to handle this.
-
-```php
-use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoPermanentAction;
-
-$action = app(StoreYouTubeVideoPermanentAction::class);
-$media = $action->execute($request); // Expects 'youtube_url' and model details
-```
-
-### Media Reordering
-
-You can set a specific media item or temporary upload as the "first" item in a collection.
-
-```php
-use Mlbrgn\MediaLibraryExtensions\Actions\SetMediaAsFirstAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
-
-// For permanent media
-app(SetMediaAsFirstAction::class)->execute($media);
-
-// For temporary uploads
-app(SetTemporaryUploadAsFirstAction::class)->execute($temporaryUpload);
-```
-
-### Data Sources (Multi-database)
-
-If your application uses multiple database connections (e.g., multi-tenancy), you can use the `DataSourceResolver`.
-
-```php
-use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
-
-$resolver = app(DataSourceResolver::class);
-$connection = $resolver->resolveConnection('tenant_1');
-
-// Scoping temporary uploads by data source
-$uploads = TemporaryUpload::forDataSource('tenant_1')->get();
-```
-
-## UI Components
-
-The package provides several Blade components for media management. Most components support both `bootstrap-5` and `plain` themes.
-
-### Component IDs and Instance IDs
-
-Each component has a stable ID and a session-scoped `instanceId`.
-
-1. **Automatic IDs**: If no `id` is provided, a unique ULID is generated.
-2. **Custom IDs**: You can provide your own `id` to ensure stable DOM selectors:
-   ```blade
-   <x-mle-media-manager-single id="profile-avatar" ... />
-   ```
-3. **Stability**: The `instanceId` (used for temporary uploads) is derived from the component's original ID, ensuring that temporary files remain "attached" to the correct component even after validation errors or page refreshes.
+The package provides a rich set of Blade components for media management and display. All components support `bootstrap-5` (default) and `plain` themes.
 
 ### Media Managers
 
-- `<x-media-manager />`: The main media manager component. It supports various modes via props (single, multiple, tinymce).
-- `<x-media-manager-single />`: Wrapper for single file selection.
-- `<x-media-manager-multiple />`: Wrapper for multiple file selection.
-- `<x-media-manager-tinymce />`: Integration for TinyMCE editor.
+Media managers handle file uploads, deletions, and selection.
 
-### Display and Viewers
+- `<x-mle-media-manager />`: The universal manager.
+- `<x-mle-media-manager-single />`: Optimized for a single file (e.g., profile picture).
+- `<x-mle-media-manager-multiple />`: For galleries or multi-file attachments.
+- `<x-mle-media-manager-tinymce />`: Integration for the TinyMCE editor.
 
-- `<x-media-carousel />`: For displaying media in a carousel. Supports both permanent media and temporary uploads.
-- `<x-media-viewer />`: A modal-based viewer for media.
-- `<x-image-responsive />`: Generates a responsive `<img>` tag using Spatie Media Library conversions.
-- `<x-video-youtube />`: Embeds a YouTube video with proper styling.
+**Common Props:**
+- `modelOrClassName`: The model instance or class name (for create forms).
+- `collections`: Array of media collections to manage (e.g., `['images']`).
+- `multiple`: Boolean, allow multiple files.
+- `readonly`: Boolean, disable all actions.
+- `options`: Array of UI overrides (see Configuration).
 
-### Media Lab and Editor
+### Display Components
 
-- `<x-media-lab />`: A workspace for managing and editing media.
-- `<x-image-editor-modal />`: Integration with the `@mlbrgn/medialibrary-extensions` NPM package for client-side image editing.
+- `<x-mle-media-carousel />`: A responsive carousel supporting images and videos.
+- `<x-mle-media-viewer />`: A modal-based viewer for full-screen media inspection.
+- `<x-mle-image-responsive />`: Generates responsive `<img>` tags with conversions.
+- `<x-mle-video-youtube />`: Responsive YouTube embed.
 
-## Advanced Configuration
+### Advanced Components
 
-### Override Gate
+- `<x-mle-media-lab />`: A workspace for advanced media editing.
+- `<x-mle-image-editor-modal />`: Client-side image cropping and filters.
 
-// app/Providers/AuthServiceProvider.php
+---
 
-use App\Policies\CustomMediaPolicy;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+## 3. Temporary Uploads & Promotion
 
-public function boot()
+The package excels at handling "Create" forms where the model doesn't exist yet.
+
+### The Lifecycle
+1. **XHR Upload**: Files are uploaded to a temporary disk (`media_temporary`).
+2. **Client Token**: A `client_token` (ULID) is assigned to the browser session.
+3. **Promotion**: When the model is finally saved, temporary uploads are "promoted" to permanent media.
+
+### Automatic Promotion
+Promotion happens automatically on Eloquent `created` or `updated` events if you use `InteractsWithMediaExtended`.
+
+### HTML URL Replacement
+If you insert temporary image URLs into an HTML editor (like TinyMCE), the package can automatically swap them for permanent URLs upon promotion.
+
+Define which fields to scan in your model:
+
+```php
+public function getHtmlEditorFields(): array
 {
-$this->registerPolicies();
-
-    Gate::policy(Media::class, CustomMediaPolicy::class);
+    return ['content', 'description'];
 }
-
-or publish policies class
-
-```shell
-php artisan vendor:publish --tag=media-policy
 ```
 
-## Customizing Colors
+### Manual Promotion
+For background jobs or custom logic:
 
-You can override the default color scheme by defining the following CSS variables in your app:
+```php
+use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 
-    --mlbrgn-mle-color-primary: #ffffff;
-    --mlbrgn-mle-color-secondary: #ffffff;
-    --mlbrgn-mle-color-accent: #ffffff;
-    --mlbrgn-mle-container-light-bg: #ffffff;
-    --mlbrgn-mle-container-ligher-bg: #ffffff;
+app(TemporaryUploadPromoter::class)->promoteAllForModel($model, $instanceId, $clientToken);
+```
+
+---
+
+## 4. Advanced Features
+
+### YouTube Integration
+Store YouTube URLs as media items.
+```php
+use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoPermanentAction;
+
+$media = app(StoreYouTubeVideoPermanentAction::class)->execute($request);
+```
+
+### Media Reordering
+Set a specific item as the "main" (first) item in a collection.
+```php
+app(SetMediaAsFirstAction::class)->execute($media);
+```
+
+### Multi-Database (Data Sources)
+Scope media and temporary uploads to different database connections.
+```php
+// In config/media-library-extensions.php
+'data_sources' => [
+    'tenant_1' => ['connection' => 'tenant_db'],
+],
+
+// Usage
+TemporaryUpload::forDataSource('tenant_1')->get();
+```
+
+---
+
+## 5. Authorization
+
+Control who can upload, delete, or edit media.
+
+### Static Toggles
+```php
+public static function allowsMediaUploads(): bool { return true; }
+```
+
+### Instance Authorization
+```php
+public function allowsMediaUploadFrom(?Authenticatable $user): bool
+{
+    return $user && $user->isAdmin();
+}
+```
+
+---
+
+## 6. Configuration & Customization
+
+### Configuration Options
+Pass these via the `options` prop to components:
+- `showDestroyButton`: (bool) Show/hide delete icon.
+- `showSetAsFirstButton`: (bool) Show/hide "set as main" icon.
+- `useXhr`: (bool) Enable/disable AJAX uploads.
+- `frontendTheme`: `'bootstrap-5'` or `'plain'`.
+
+### Customizing Styles
+Override CSS variables in your application:
+```css
+:root {
+    --mlbrgn-mle-color-primary: #3490dc;
+    --mlbrgn-mle-container-light-bg: #f8fafc;
+}
+```
+
+### Customizing Icons
+Define your preferred icons in `config/media-library-extensions.php`. It supports `blade-icons`.
+
+---
+
+## 7. Troubleshooting
+
+### Temporary files not being promoted?
+- Ensure the `client_token` is being sent with your form (the package usually handles this via cookies).
+- Check if your model implements `HasMediaExtended` and uses the trait.
+
+### Assets not loading?
+- Run `php artisan vendor:publish --tag=medialibrary-extensions-assets`.
+- If using Vite, ensure you have followed the [Vite Setup Guide](./vite-package-setup.md).

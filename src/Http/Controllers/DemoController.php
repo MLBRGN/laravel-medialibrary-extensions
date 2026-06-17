@@ -26,7 +26,7 @@ class DemoController extends Controller
         $dataSource = $request->query('data_source', 'demo');
 
         if ($dataSource === 'default') {
-            $dataSource = null;
+            $dataSource = 'default';
         }
 
         // Apply to config so components pick it up as default if not overridden in options
@@ -36,6 +36,7 @@ class DemoController extends Controller
         ]);
 
         $model = $this->getDemoModel($dataSource);
+
         $media = $model->getMedia('alien-media-lab')->first();
 
         return view('medialibrary-extensions::demo.mle-unified', [
@@ -47,7 +48,7 @@ class DemoController extends Controller
         ]);
     }
 
-    protected function getDemoModel(?string $dataSource = null): Alien
+    protected function getDemoModel(?string $dataSource = 'default'): Alien
     {
         $model = new Alien;
 
@@ -62,7 +63,9 @@ class DemoController extends Controller
             $existingModel = $model->newQuery()->create();
         }
 
+        // HERE could be a bug
         if ($existingModel->getMedia('alien-media-lab')->isEmpty()) {
+
             $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
 
             if (file_exists($demoImage)) {
@@ -74,6 +77,7 @@ class DemoController extends Controller
                 $existingModel->load('media');
             }
         }
+
 
         return $existingModel;
     }

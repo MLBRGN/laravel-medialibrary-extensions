@@ -20,7 +20,7 @@ it('returns error response when no collections provided (JSON)', function () {
         'file_name' => 'test.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'session_id' => session()->getId(),
+        'client_token' => session()->getId(),
     ]);
 
     // Call your route with empty payload to trigger 422
@@ -52,7 +52,7 @@ it('returns error response when no collections provided Redirect', function () {
         'file_name' => 'test.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'session_id' => session()->getId(),
+        'client_token' => session()->getId(),
     ]);
 
     $response = $this->actingAs($user)->delete(
@@ -94,7 +94,7 @@ it('deletes the temporary upload and returns JSON', function () {
         'file_name' => 'test.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'session_id' => session()->getId(),
+        'client_token' => session()->getId(),
     ]);
 
     $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
@@ -139,7 +139,7 @@ it('deletes the temporary upload and returns redirect', function () {
         'file_name' => 'test.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'session_id' => session()->getId(),
+        'client_token' => session()->getId(),
     ]);
 
     $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
@@ -173,7 +173,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
 
     $user = $this->getUser();
 
-    $sessionId = 'test-session-id';
+    $clientToken = 'test-session-id';
     $collections = ['image' => 'images'];
     $initiatorId = 'initiator-123';
     $mediaManagerId = 'media-manager-123';
@@ -182,7 +182,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
     $temporaryUpload1 = TemporaryUpload::create([
         'collection_name' => $collections['image'],
         'custom_properties' => ['priority' => 0],
-        'session_id' => $sessionId,
+        'client_token' => $clientToken,
         'disk' => 'public',
         'path' => 'test1.png',
         'name' => 'test1',
@@ -193,7 +193,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
     $temporaryUpload2 = TemporaryUpload::create([
         'collection_name' => $collections['image'],
         'custom_properties' => ['priority' => 1],
-        'session_id' => $sessionId,
+        'client_token' => $clientToken,
         'disk' => 'public',
         'path' => 'test2.png',
         'name' => 'test2',
@@ -204,7 +204,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
     $temporaryUpload3 = TemporaryUpload::create([
         'collection_name' => $collections['image'],
         'custom_properties' => ['priority' => 2],
-        'session_id' => $sessionId,
+        'client_token' => $clientToken,
         'disk' => 'public',
         'path' => 'test3.png',
         'name' => 'test3',
@@ -215,16 +215,14 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
 
     $route = route(mle_prefix_route('destroy-temporary-upload'), $temporaryUpload2);
 
-    // Pass a dummy session ID via request headers
+    // Pass a dummy session ID via request
     $response = $this->actingAs($user)
         ->delete($route, [
             'initiator_id' => $initiatorId,
             'media_manager_id' => $mediaManagerId,
             'collections' => $collections,
-        ],
-            [
-                'X-Test-Session-Id' => $sessionId,
-            ]);
+            'client_token' => $clientToken,
+        ]);
 
     $flashKey = config('medialibrary-extensions.status_session_prefix');
     $flashData = $response->getSession()->get($flashKey);

@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ViewHelpers;
 
 abstract class BaseComponent extends Component
@@ -20,15 +21,31 @@ abstract class BaseComponent extends Component
     /** @var string The stable, un-suffixed base ID (the logical identity) */
     public string $originalId;
 
-    /** @var string The session-bound ULID used for scoping temporary uploads */
+    /** @var string The ULID used for scoping temporary uploads */
     public string $instanceId;
+
+    /** @var string The stable logical identity of the client */
+    public string $clientToken;
 
     public function __construct(
         ?string $id = null,
     ) {
         $this->originalId = filled($id) ? $id : (string) Str::ulid();
         $this->id = $this->originalId;
-        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->originalId);
+        $this->instanceId = InstanceManager::getInstanceId($this->originalId);
+
+        $tokenFromCookie = request()->cookie('mle_client_token');
+
+        // Capture client-side token (truly session-less)
+        // We no longer fallback to session()->getId() to ensure persistent scoping
+        $this->clientToken = request()->input('client_token')
+            ?? $tokenFromCookie
+            ?? (string) Str::ulid();
+
+        // If it was just generated, try to set it for the remainder of the request
+        if (! request()->has('client_token') && ! $tokenFromCookie) {
+            request()->merge(['client_token' => $this->clientToken]);
+        }
     }
 
     public function setBaseId(string $id): void

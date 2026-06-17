@@ -21,6 +21,7 @@
     data-mle-medium-forced-aspect-ratio="{{ $forcedAspectRatio }}"
     data-mle-medium-minimal-dimensions="{{ $minimalDimensions }}"
     data-mle-medium-maximal-dimensions="{{ $maximalDimensions }}"
+    data-test="image-editor-modal"
 >
     <div class="mle-modal-dialog mle-image-editor-modal-dialog">
         <div class="mle-modal-content mle-image-editor-modal-content">
@@ -39,7 +40,9 @@
                     class="mle-modal-close-button"
                     data-mle-modal-close
                     aria-label="Sluit"
-                    title="{{ __('medialibrary-extensions::messages.close') }}">
+                    title="{{ __('medialibrary-extensions::messages.close') }}"
+                    data-test="image-editor-modal-close-button"
+                >
                     <x-mle-shared-icon
                         name="{{ config('medialibrary-extensions.icons.close') }}"
                         title="{{ __('medialibrary-extensions::messages.close') }}"

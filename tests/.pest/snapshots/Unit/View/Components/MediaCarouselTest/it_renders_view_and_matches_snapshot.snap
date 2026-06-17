@@ -72,6 +72,8 @@
                 data-mle-autoplay=""
         data-mle-modal
     data-mle-media-modal
+    data-test="media-modal"
+    
     
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
@@ -84,7 +86,9 @@
                     data-mle-modal-close
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
-                    title="Close">
+                    title="Close"
+                    data-test="media-modal-close-button"
+                >
                     <span 
         role="img" 
         aria-label="Close" 
@@ -92,7 +96,7 @@
                 </button>
                 
                 <div id="media-carousel-crs-mod-crs"
-     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" instance-id="F8D3A72E0655314D684DE01103"
         data-mle-carousel
 >
 

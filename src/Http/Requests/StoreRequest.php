@@ -6,7 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
@@ -16,7 +15,7 @@ abstract class StoreRequest extends MediaManagerRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->authorizeMediaUpload();
     }
 
     public function rules(): array

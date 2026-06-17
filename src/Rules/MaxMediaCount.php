@@ -21,7 +21,7 @@ class MaxMediaCount implements ValidationRule
 
     protected ?string $dataSource;
 
-    public function __construct(HasMedia $model, array $collections, int $max, ?string $dataSource = null)
+    public function __construct(HasMedia $model, array $collections, int $max, ?string $dataSource = 'default')
     {
         $this->model = $model;
         $this->collections = $collections;

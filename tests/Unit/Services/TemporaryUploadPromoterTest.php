@@ -66,13 +66,15 @@ it('replaces relative temporary media urls in html', function () {
         'content' => "<p><img src=\"/storage/media_temporary/{$filename}\" alt=''></p>",
     ]);
 
+    $clientToken = (string) Str::ulid();
     $this->createTemporaryUpload([
         'path' => $filename,
         'name' => pathinfo($filename, PATHINFO_FILENAME),
         'file_name' => $filename,
+        'client_token' => $clientToken,
     ]);
 
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post, null, $clientToken);
 
     $post->refresh();
     $media = $post->getFirstMedia();
@@ -97,13 +99,15 @@ it('replaces relative temporary media urls with unicode / soft hyphen filenames'
         'content' => "<p><img src=\"/storage/media_temporary/{$diskFilename}\" alt=''></p>",
     ]);
 
+    $clientToken = (string) Str::ulid();
     $this->createTemporaryUpload([
         'path' => $diskFilename,
         'name' => pathinfo($diskFilename, PATHINFO_FILENAME),
         'file_name' => $diskFilename,
+        'client_token' => $clientToken,
     ]);
 
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post, null, $clientToken);
 
     $post->refresh();
     $media = $post->getFirstMedia();
@@ -124,13 +128,15 @@ it('replaces absolute temporary media urls in html', function () {
         'content' => "<img src=\"{$this->temporaryDiskUrl}/{$filename}\" alt=''>",
     ]);
 
+    $clientToken = (string) Str::ulid();
     $this->createTemporaryUpload([
         'path' => $filename,
         'name' => pathinfo($filename, PATHINFO_FILENAME),
         'file_name' => $filename,
+        'client_token' => $clientToken,
     ]);
 
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post, null, $clientToken);
 
     $post->refresh();
     $media = $post->getFirstMedia();
@@ -153,13 +159,15 @@ it('replaces mixed absolute and relative urls', function () {
         ",
     ]);
 
+    $clientToken = (string) Str::ulid();
     $this->createTemporaryUpload([
         'path' => $filename,
         'name' => pathinfo($filename, PATHINFO_FILENAME),
         'file_name' => $filename,
+        'client_token' => $clientToken,
     ]);
 
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post, null, $clientToken);
 
     $post->refresh();
 
@@ -184,13 +192,15 @@ it('replaces temporary uploads with Unicode / unsafe filenames in HTML', functio
         'content' => "<p><img src=\"/storage/media_temporary/{$diskFilename}\" alt=''></p>",
     ]);
 
+    $clientToken = (string) Str::ulid();
     $this->createTemporaryUpload([
         'path' => $diskFilename,
         'name' => pathinfo($diskFilename, PATHINFO_FILENAME),
         'file_name' => $diskFilename,
+        'client_token' => $clientToken,
     ]);
 
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post, null, $clientToken);
 
     $post->refresh();
     $media = $post->getFirstMedia();
@@ -211,13 +221,15 @@ it('removes temporary upload file and database record', function () {
         'content' => "<img src=\"/storage/media_temporary/{$filename}\" alt=''>",
     ]);
 
+    $clientToken = (string) Str::ulid();
     $this->createTemporaryUpload([
         'path' => $filename,
         'name' => pathinfo($filename, PATHINFO_FILENAME),
         'file_name' => $filename,
+        'client_token' => $clientToken,
     ]);
 
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post, null, $clientToken);
 
     expect(TemporaryUpload::count())->toBe(0);
     Storage::disk($this->temporaryDisk)->assertMissing($filename);
@@ -242,15 +254,17 @@ it('replaces multiple temporary uploads in one html field', function () {
         ",
     ]);
 
+    $clientToken = (string) Str::ulid();
     foreach ($filenames as $file) {
         $this->createTemporaryUpload([
             'path' => $file,
             'name' => pathinfo($file, PATHINFO_FILENAME),
             'file_name' => $file,
+            'client_token' => $clientToken,
         ]);
     }
 
-    app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
+    app(TemporaryUploadPromoter::class)->promoteAllForModel($post, null, $clientToken);
 
     $post->refresh();
 

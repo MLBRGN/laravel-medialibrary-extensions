@@ -32,7 +32,7 @@
                     class="mle-button mle-button-icon"
                     data-mle-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
                     title="{{ __('medialibrary-extensions::messages.edit') }}"
-                    data-test="media-edit-button"
+                    data-mle-media-edit-button
                     @disabled($disabled)
                 >
                     <x-mle-shared-icon
@@ -48,7 +48,7 @@
                 <button type="button"
                         class="mle-button mle-button-icon"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
-                        data-test="media-set-as-first-button"
+                        data-mle-media-set-as-first-button
                         disabled
                 >
                     <x-mle-shared-icon

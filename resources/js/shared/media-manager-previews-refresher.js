@@ -27,7 +27,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         selectable: config.selectable,
         multiple: config.multiple,
         instance_id: config.instanceId,
-        session_id: config.sessionId,
+        client_token: config.clientToken,
         data_source: config.dataSource,
         theme: config.frontendTheme,
         include_debug: 'true',

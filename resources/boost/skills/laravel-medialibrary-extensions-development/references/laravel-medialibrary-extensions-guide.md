@@ -32,11 +32,11 @@ The `TemporaryUpload` model handles files uploaded before the parent model is sa
 ```php
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
-// Get for current session and collection
-$uploads = TemporaryUpload::getForCurrentSession('images');
+// Get for current client and collection
+$uploads = TemporaryUpload::getForCurrentClient('images');
 
 // Filter by instance ID (for multiple components on one page)
-$uploads = TemporaryUpload::getForCurrentSession('images', 'media-manager-1');
+$uploads = TemporaryUpload::getForCurrentClient('images', 'media-manager-1');
 
 // Scope by data source
 $uploads = TemporaryUpload::forDataSource('tenant-a')->get();

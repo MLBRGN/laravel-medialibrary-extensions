@@ -18,7 +18,7 @@ class MediaService
         protected DataSourceResolver $resolver
     ) {}
 
-    public function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource = null): ResolvedModel
+    public function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource = 'default'): ResolvedModel
     {
         if ($modelOrClassName instanceof HasMediaExtended) {
             return new ResolvedModel(
@@ -54,7 +54,7 @@ class MediaService
 
     public function make(
         string $modelClass,
-        ?string $dataSource = null
+        ?string $dataSource = 'default'
     ): object {
 
         $connection = $this->resolver
@@ -72,7 +72,7 @@ class MediaService
     public function findMediaModel(
         ?string $modelClass,
         string|int|null $id,
-        ?string $dataSource = null,
+        ?string $dataSource = 'default',
         bool $validateExtended = true
     ): ?object {
         Log::info('MediaService - findMediaModel: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
@@ -95,6 +95,33 @@ class MediaService
 
         $connection = $this->resolver->resolveConnection($dataSource);
 
+        Log::info('findMediaModel resolved connection', [
+            'dataSource' => $dataSource,
+            'connection' => $connection,
+            'database' => $model->setConnection($connection)
+                ->getConnection()
+                ->getDatabaseName(),
+        ]);
+
+//        $result = $model
+//            ->setConnection($connection)
+//            ->newQuery()
+//            ->findOrFail($id);
+//
+//        Log::info('Hydrated model', [
+//            'connection' => $result->getConnectionName(),
+//            'database' => $result->getConnection()->getDatabaseName(),
+//        ]);
+//
+//        $result->setConnection($connection);
+//
+//        Log::info('Hydrated model wit setConnection', [
+//            'connection' => $result->getConnectionName(),
+//            'database' => $result->getConnection()->getDatabaseName(),
+//        ]);
+//
+//        return $result;
+
         return $model
             ->setConnection($connection)
             ->newQuery()
@@ -106,7 +133,7 @@ class MediaService
      */
     public function findMedium(
         string|int $id,
-        ?string $dataSource = null
+        ?string $dataSource = 'default'
     ): ?Media {
         try {
             return $this->findMediaModel(
@@ -125,7 +152,7 @@ class MediaService
      */
     public function findTemporaryUpload(
         string|int $id,
-        ?string $dataSource = null
+        ?string $dataSource = 'default'
     ): ?TemporaryUpload {
         try {
             return $this->findMediaModel(
@@ -161,7 +188,7 @@ class MediaService
         return null;
     }
 
-    public function countModelMediaInCollections(HasMedia $model, array $collections, ?string $dataSource = null): int
+    public function countModelMediaInCollections(HasMedia $model, array $collections, ?string $dataSource): int
     {
         $connection = $this->resolver->resolveConnection($dataSource);
 
@@ -181,16 +208,16 @@ class MediaService
     }
 
     /**
-     * Count total temporary uploads for current session in given collections.
+     * Count total temporary uploads for current client in given collections.
      */
-    public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $sessionId = null, ?string $dataSource = null): int
+    public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource): int
     {
         Log::info('MediaService - countTemporaryUploadsInCollections: '.implode(', ', $collections));
-        //        dd($collections, $instanceId, $sessionId, $dataSource);
+        //        dd($collections, $instanceId, $clientToken, $dataSource);
         $count = collect($collections)
             ->filter(fn ($collectionName) => ! empty($collectionName))
-            ->reduce(function (int $total, string $collectionName) use ($instanceId, $sessionId, $dataSource) {
-                $temporaryItems = TemporaryUpload::getForCurrentSession($collectionName, $instanceId, $dataSource, $sessionId);
+            ->reduce(function (int $total, string $collectionName) use ($instanceId, $clientToken, $dataSource) {
+                $temporaryItems = TemporaryUpload::getForCurrentClient($collectionName, $instanceId, $dataSource, $clientToken);
 
                 return $total + $temporaryItems->count();
             }, 0);
@@ -201,7 +228,7 @@ class MediaService
     /**
      * Check if a model already has any media in the given collections (single-media limit).
      */
-    public function modelHasAnyMedia(HasMediaExtended $model, array $collections, ?string $dataSource = null): bool
+    public function modelHasAnyMedia(HasMediaExtended $model, array $collections, ?string $dataSource = 'default'): bool
     {
         return $this->countModelMediaInCollections($model, $collections, $dataSource) > 0;
     }
@@ -209,8 +236,8 @@ class MediaService
     /**
      * Check if there are temporary uploads in the given collections (single-media limit).
      */
-    public function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $sessionId = null, ?string $dataSource = null): bool
+    public function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
     {
-        return $this->countTemporaryUploadsInCollections($collections, $instanceId, $sessionId, $dataSource) > 0;
+        return $this->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource) > 0;
     }
 }

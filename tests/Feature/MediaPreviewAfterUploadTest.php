@@ -122,6 +122,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
     ];
     $instanceId = 'multiple-temp-instance';
     $initiatorId = 'multiple-temp';
+    $clientToken = 'test-session-id';
 
     // 1. Upload
     $uploadRequest = StoreMultipleRequest::create('/upload', 'POST', [
@@ -130,6 +131,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
         'media_manager_id' => $this->mediaManagerId,
         'collections' => ['image' => 'images'],
         'instance_id' => $instanceId,
+        'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
     ], [], [
         'media' => $files,
@@ -150,6 +152,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
         'instance_id' => $instanceId,
+        'client_token' => $clientToken,
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 
@@ -210,10 +213,10 @@ it('loads previews successfully after a permanent YouTube upload', function () {
 });
 
 it('loads previews successfully after a temporary YouTube upload', function () {
-    $this->markTestIncomplete('Failing due to session/database interaction in test environment');
     $youtubeUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
     $instanceId = 'youtube-temp-instance';
     $initiatorId = 'youtube-temp';
+    $clientToken = 'youtube-test-session';
 
     // Mock YouTubeService
     $youtubeService = Mockery::mock(YouTubeService::class);
@@ -221,13 +224,14 @@ it('loads previews successfully after a temporary YouTube upload', function () {
     $youtubeService->shouldReceive('storeTemporaryThumbnailFromRequest')->andReturn(new TemporaryUpload([
         'id' => 123,
         'disk' => 'local',
-        'filepath' => 'temp/thumb.jpg',
         'path' => 'temp/thumb.jpg',
-        'filename' => 'thumb.jpg',
-        'file_name' => 'thumb.jpg',
         'name' => 'thumb.jpg',
-        'size' => 1024,
+        'file_name' => 'thumb.jpg',
         'collection_name' => 'youtube',
+        'client_token' => $clientToken,
+        'instance_id' => $instanceId,
+        'size' => 1024,
+        'mime_type' => 'image/jpeg',
     ]));
     app()->instance(YouTubeService::class, $youtubeService);
 
@@ -240,6 +244,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'youtube',
         'instance_id' => $instanceId,
+        'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
     ]);
     $uploadRequest->setLaravelSession(app('session.store'));
@@ -257,6 +262,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
         'instance_id' => $instanceId,
+        'client_token' => $clientToken,
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 

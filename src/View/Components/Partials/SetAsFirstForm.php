@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
@@ -27,7 +28,7 @@ class SetAsFirstForm extends BaseComponent
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerId = null,
+        ?string $mediaManagerId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Collection $media,
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
@@ -35,14 +36,14 @@ class SetAsFirstForm extends BaseComponent
         public array $collections,
         array $options = [],
         public ?bool $disabled = false,
-        public ?string $dataSource = null,
+        public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
 
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
-        $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
 
         $this->options = $options;
 

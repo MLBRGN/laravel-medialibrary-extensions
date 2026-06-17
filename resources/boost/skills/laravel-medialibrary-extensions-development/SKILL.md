@@ -15,7 +15,8 @@ Extension for `spatie/laravel-medialibrary` that adds temporary uploads, multi-c
 ## Testing
 
 - This package uses **Pest v4**.
-- **Path Awareness**: Always check the current working directory before issuing commands like `ls`.
+- **Path Awareness**: ALWAYS check your current working directory. The project root is `/Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages`. This package is located at `packages/mlbrgn/laravel-medialibrary-extensions`.
+- **CRITICAL**: DO NOT create nested `packages` directories (e.g., `.../laravel-medialibrary-extensions/packages/...`). When creating files, ensure the path is absolute from the project root or carefully relative to your current `pwd`.
 - This package must be tested using `composer test` from its root directory: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test)`.
 - ALWAYS use `composer test` when testing this package. Do NOT use `php artisan test` or `vendor/bin/phpunit` directly from the project root for this package.
 - To run specific tests or pass extra options, use: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test -- --filter=XXXX)`.
@@ -63,12 +64,12 @@ class Post extends Model implements HasMediaExtended
 
 ### Temporary Uploads
 
-Retrieve temporary uploads for the current session:
+Retrieve temporary uploads for the current client:
 
 ```php
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
-$uploads = TemporaryUpload::getForCurrentSession('images');
+$uploads = TemporaryUpload::getForCurrentClient('images');
 ```
 
 ### Data Sources
@@ -77,6 +78,16 @@ Switch database connections dynamically:
 
 ```php
 $uploads = TemporaryUpload::forDataSource('tenant-1')->get();
+```
+
+### Authorization
+
+Control media actions directly on your models:
+
+```php
+public static function allowsMediaUploads(): bool { return true; }
+public function allowsMediaUploadFrom(?Authenticatable $user): bool { return true; }
+public function allowedMediaCollections(): array { return []; }
 ```
 
 ## Do and Don't
@@ -88,7 +99,8 @@ Do:
 
 Don't:
 - Don't bypass the `DataSourceResolver`.
-- Don't forget to handle `session_id` when working with temporary uploads.
+- Don't forget to handle `client_token` when working with temporary uploads.
+- Don't use session-based scoping terminology (`session_id`, `sessionId`, `forCurrentSession`).
 
 ## References
 

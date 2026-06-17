@@ -77,6 +77,10 @@
         type="hidden"
         name="media_manager_id"
         value="{{ $mediaManagerId }}">
+    <input
+        type="hidden"
+        name="client_token"
+        value="{{ $clientToken }}">
     <input type="hidden"
            name="data_source"
            value="{{ $getConfig('dataSource') }}">

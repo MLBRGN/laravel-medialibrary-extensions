@@ -1,7 +1,6 @@
 <div 
     class="mle-media-preview-grid" 
     data-mle-media-preview-grid
-    data-test="media-preview-grid"
 >
     <x-mle-media-previews
         :id="$id"
@@ -16,5 +15,6 @@
         :multiple="$multiple"
         :instance-id="$instanceId"
         :data-source="$getConfig('dataSource')"
+        :client-token="$getConfig('clientToken')"
     />
 </div>

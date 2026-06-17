@@ -3,8 +3,10 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
@@ -19,7 +21,7 @@ class MediaPreviews extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public ?string $mediaManagerId = null,
+        public ?string $mediaManagerId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
@@ -29,8 +31,8 @@ class MediaPreviews extends BaseComponent
         public bool $readonly = false,
         public bool $selectable = false,
         public string $instanceId = '',
-        public ?string $dataSource = null,
-        public ?string $sessionId = null,
+        public ?string $dataSource = 'default',
+        ?string $clientToken = null,
     ) {
         parent::__construct($id);
 
@@ -39,13 +41,16 @@ class MediaPreviews extends BaseComponent
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         // unless it was explicitly provided (e.g. from an XHR request or a test)
         if (empty($instanceId)) {
-            $this->instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($this->mediaManagerId);
+            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
         } else {
             $this->instanceId = $instanceId;
         }
 
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
+
         $this->options = $options;
-        $this->sessionId = $sessionId ?: (request()->hasSession() ? request()->session()->getId() : session()->getId());
 
         $this->resolveModelOrClassName($modelOrClassName);
 
@@ -65,7 +70,7 @@ class MediaPreviews extends BaseComponent
                 ->flatMap(function (?string $collectionName, string $collectionType) use ($dataSource) {
                     if ($this->temporaryUploadMode) {
                         if (! empty($collectionName)) {
-                            return TemporaryUpload::getForCurrentSession($collectionName, $this->instanceId, $dataSource, $this->sessionId);
+                            return TemporaryUpload::getForCurrentClient($collectionName, $this->instanceId, $dataSource, $this->clientToken);
                         }
                     }
 
@@ -78,6 +83,8 @@ class MediaPreviews extends BaseComponent
                 ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
                 ->values();
         }
+
+        Log::info('MediaPreviews - mediaItems ' . json_encode($this->media, JSON_PRETTY_PRINT));
 
         // TODO use Collection or MediaCollection?
         // $this->mediaItems = MediaCollection::make($allMedia);

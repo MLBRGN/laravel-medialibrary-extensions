@@ -65,9 +65,23 @@ trait InteractsWithMediaExtended
                 return;
             }
 
-            $instanceId = request()->input('instance_id') ?? null;
+            $instanceId = request()->input('instance_id');
+            $clientToken = request()->input('client_token');
 
-            app(TemporaryUploadPromoter::class)->promoteAllForModel($model, $instanceId);
+            app(TemporaryUploadPromoter::class)->promoteAllForModel($model, $instanceId, $clientToken);
+        });
+
+        static::updated(function ($model) {
+            if (! $model->exists || ! $model->getKey()) {
+                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+
+                return;
+            }
+
+            $instanceId = request()->input('instance_id');
+            $clientToken = request()->input('client_token');
+
+            app(TemporaryUploadPromoter::class)->promoteAllForModel($model, $instanceId, $clientToken);
         });
     }
 
@@ -444,17 +458,17 @@ trait InteractsWithMediaExtended
 
     public static function allowsMediaUploads(): bool
     {
-        return true; // allow media uploads
+        return true;
     }
 
     public function allowsMediaUploadFrom(?Authenticatable $user): bool
     {
-        return true; // allow all users
+        return true;
     }
 
     public function allowedMediaCollections(): array
     {
-        return []; // allow all
+        return [];
     }
 
     public static function allowsMediaDeletes(): bool
@@ -499,7 +513,7 @@ trait InteractsWithMediaExtended
             return false;
         }
 
-        if (! method_exists($class, 'allowsMediaUploads')) {
+        if (! is_subclass_of($class, HasMediaExtended::class)) {
             return false;
         }
 

@@ -3,6 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 /**
@@ -14,11 +15,6 @@ class TemporaryUploadFactory extends Factory
 
     public function definition(): array
     {
-        // Ensure there's a valid session before creating uploads
-        if (! session()->isStarted()) {
-            session()->start();
-        }
-
         $collection = $this->faker->randomElement(['images', 'documents', 'audio', 'video']);
         $extension = match ($collection) {
             'audio' => 'mp3',
@@ -37,7 +33,7 @@ class TemporaryUploadFactory extends Factory
             'collection_name' => $collection,
             'mime_type' => $this->mimeTypeFor($extension),
             'size' => $this->faker->numberBetween(500, 5_000_000),
-            'session_id' => session()->getId(),
+            'client_token' => (string) Str::ulid(),
             'user_id' => null,
             'custom_properties' => [],
             'order_column' => $this->faker->numberBetween(1, 10),
@@ -68,10 +64,10 @@ class TemporaryUploadFactory extends Factory
     }
 
     /**
-     * State: assign a specific session ID.
+     * State: assign a specific client token.
      */
-    public function forSession(string $sessionId): static
+    public function forClient(string $clientToken): static
     {
-        return $this->state(fn () => ['session_id' => $sessionId]);
+        return $this->state(fn () => ['client_token' => $clientToken]);
     }
 }

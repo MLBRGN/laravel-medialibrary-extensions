@@ -26,7 +26,7 @@ class MediaHasBeenAddedListener
         }
 
         // Skip storing originals if disabled globally or per-model
-        if (!$model ||
+        if (! $model ||
             (
                 method_exists($model, 'shouldStoreOriginals') &&
                 ! $model->shouldStoreOriginals()

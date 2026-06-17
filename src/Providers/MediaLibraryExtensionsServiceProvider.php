@@ -19,7 +19,7 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\RemoveExpiredTemporaryUploads;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
-use Mlbrgn\MediaLibraryExtensions\Models\demo\DemoMedia;
+use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
@@ -94,6 +94,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // This tells Laravel where to findMediaModel the route files
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+
+        // Register Middleware
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', MlbrgnClientTokenMiddleware::class);
 
         // This tells Laravel where to findMediaModel the translation files
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);

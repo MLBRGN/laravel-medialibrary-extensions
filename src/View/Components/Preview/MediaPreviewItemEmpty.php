@@ -13,7 +13,7 @@ class MediaPreviewItemEmpty extends BaseComponent
     public function __construct(
         ?string $id,
         array $options = [],
-        public ?string $dataSource = null,
+        public ?string $dataSource = 'default',
     ) {
 
         parent::__construct($id);

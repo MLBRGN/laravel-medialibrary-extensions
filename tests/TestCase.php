@@ -23,7 +23,6 @@ use Mockery\LegacyMockInterface;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// class TestCase extends BaseTestCase
 class TestCase extends Orchestra
 {
     protected $baseUrl = 'http://medialibrary-extensions.test';
@@ -39,9 +38,6 @@ class TestCase extends Orchestra
 
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
-
-        // Run package migrations
-        //        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         Carbon::setTestNow('2025-01-01 00:00:00');
 
@@ -108,7 +104,7 @@ class TestCase extends Orchestra
 
         $this->refreshTestFiles();
 
-        $app['config']->set('app.key', 'base64:BOiGLFUC+84Du2o8GYos0kGJaj4zGX9M9BkLsAj04Ik=');
+//        $app['config']->set('app.key', 'base64:BOiGLFUC+84Du2o8GYos0kGJaj4zGX9M9BkLsAj04Ik=');
 
         $app['config']->set('logging.default', 'single');
         $app['config']->set('logging.channels.single', [
@@ -173,11 +169,7 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        //        $app['config']->set('database.connections.media_demo', [
-        //            'driver' => 'sqlite',
-        //            'database' => ':memory:',
-        //            'prefix' => '',
-        //        ]);
+        $app['config']->set('medialibrary-extensions.data_sources.default.connection', 'sqlite');
     }
 
     protected function defineDatabaseMigrations(): void
@@ -309,7 +301,7 @@ class TestCase extends Orchestra
             'collection_name' => 'default',
             'mime_type' => 'image/jpeg',
             'size' => 123,
-            'session_id' => session()->getId(),
+            'client_token' => config('medialibrary-extensions.test_client_token'),
             'custom_properties' => [],
             'order_column' => null,
             'user_id' => null,
@@ -359,7 +351,7 @@ class TestCase extends Orchestra
             'file_name' => $fileName,
             'collection_name' => 'test',
             'custom_properties' => ['image_collection' => 'images'],
-            'session_id' => session()->getId(),
+            'client_token' => config('medialibrary-extensions.test_client_token'),
         ];
 
         return TemporaryUpload::create(array_merge($defaults, $overrides));
