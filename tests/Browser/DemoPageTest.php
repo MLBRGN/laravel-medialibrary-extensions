@@ -15,7 +15,7 @@ beforeEach(function () {
     Blade::component('form-submit', AnonymousComponent::class);
 });
 
-$waitTime = .1;
+$waitTime = .3;
 
 dataset('mms_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
@@ -183,7 +183,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // check media modal opening and presence of expected elements
     ->assertPresent($mediaPreviewImageSelector)
-    ->click($mediaPreviewImageSelector)
+    ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
 //    ->assertVisible(mediaModalSelector)
     ->assertPresent($mediaModalSelector)
     ->assertPresent($mediaModalCloseButtonSelector)
@@ -192,10 +192,10 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     ->assertPresent($mediaModalCarouselItemSelector)
 
     // check that media modal can be closed
-    ->click($mediaModalCloseButtonSelector)
+    ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
 
     // check delete media works
-    ->click($deleteButtonSelector)
+    ->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.medium_removed'))
 
@@ -274,7 +274,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
         // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->click($mediaPreviewImageSelector)
+        ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
 //    ->assertVisible(mediaModalSelector)
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
@@ -283,12 +283,12 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertPresent($mediaModalCarouselItemSelector)
 
         // check that media modal can be closed
-        ->click($mediaModalCloseButtonSelector);
+        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
 
         // delete media test
         for ($i = 0; $i < $maxItems; $i++) {
             // check delete media works
-            $page->click($deleteButtonSelector)
+            $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
                 ->waitForText(__('medialibrary-extensions::messages.please_wait'))
                 ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 

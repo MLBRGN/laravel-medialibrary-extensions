@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
+// TODO DEPRECATE, use mediaService instead
 trait ResolveModelOrClassName
 {
     public ?Model $model = null;

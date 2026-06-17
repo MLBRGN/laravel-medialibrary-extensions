@@ -36,12 +36,13 @@ class GetMediaManagerLabPreviewerHTMLAction
         $theme = $request->input('theme');
         $part = $request->get('part', 'all');
         $options = json_decode($request->input('options'), true) ?? [];
+        $dataSource = $request->input('data_source');
 
         if ($theme) {
             $options['theme'] = $theme;
         }
 
-        $model = $this->mediaService->findMediaModel($modelType, $modelId, $request->input('data_source'));
+        $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
 
         // have to query the model, don't use Media directly (this uses wrong db for demo pages)
         $medium = $model->media()->findOrFail($mediumId);

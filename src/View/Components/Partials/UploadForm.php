@@ -13,6 +13,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+// TODO $dataSource?
 class UploadForm extends BaseComponent
 {
     use InteractsWithMimeTypes;
@@ -44,7 +45,7 @@ class UploadForm extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, 'default');
 
         $mimeData = $this->resolveAllowedMimeTypes();
 

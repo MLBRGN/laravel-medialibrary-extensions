@@ -10,6 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+// TODO dataSource?
 class LabPreview extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
@@ -26,7 +27,7 @@ class LabPreview extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, 'default');
         $this->resolveConfig();
     }
 

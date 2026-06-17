@@ -14,6 +14,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+// TODO dataSource?
 class Debug extends Component
 {
     use InteractsWithOptionsAndConfig;
@@ -37,7 +38,7 @@ class Debug extends Component
         $this->options = $options;
         $this->id = uniqid();
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, 'default');
 
         $this->iconExists = collect(Blade::getClassComponentAliases())
             ->keys()

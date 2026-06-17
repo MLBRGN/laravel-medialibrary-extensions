@@ -137,7 +137,7 @@ it('replaces a temporary upload (JSON)', function () {
         ]);
 
     // TODO
-    //    $temporaryUploadOld = TemporaryUpload::findMediaModel($existingUpload->id);
+    //    $temporaryUploadOld = TemporaryUpload::findMediaModel($existingUpload->id, null, $dataSource);
     //    expect($temporaryUploadOld)->toBeNull();
     //    Storage::disk('tmp')->assertExists('temp/new_temp_file.jpg');
     //    $temporaryUploadNew = TemporaryUpload::where('name', 'new_temp_file.jpg')->first();

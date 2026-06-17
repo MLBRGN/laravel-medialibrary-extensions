@@ -25,8 +25,8 @@ it('DataSourceResolver resolves demo connection when dataSource is demo', functi
 it('MediaService make uses the resolved connection', function () {
     Config::set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
 
-    $service = app(MediaService::class);
-    $model = $service->make(Blog::class, 'demo');
+    $mediaService = app(MediaService::class);
+    $model = $mediaService->make(Blog::class, 'demo');
 
     expect($model->getConnectionName())->toBe('media_demo');
 });

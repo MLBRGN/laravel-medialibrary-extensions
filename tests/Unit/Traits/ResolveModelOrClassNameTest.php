@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 
+// TODO move tests to MediaServiceTest, ResolveModelOrClassNameTest should be removed, for ResolveModelOrClassName is deprecated
 uses()->group('traits');
 
 beforeEach(function () {
@@ -12,7 +13,7 @@ beforeEach(function () {
 
         public function callResolveModelOrClassName(Model|string $modelOrClassName)
         {
-            return $this->resolveModelOrClassName($modelOrClassName);
+            return $this->resolveModelOrClassName($modelOrClassName, 'default');
         }
     };
 });

@@ -93,8 +93,6 @@ class StoreSingleTemporaryAction
             : null;
 
         $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
-//        $temporaryUpload = $this->mediaService->resolveModelOrClassName(TemporaryUpload::class, $dataSource);
-//        Log::info('StoreSingleTemporaryAction - using connection: '.$temporaryUpload->getConnectionName());
 
         Log::info('StoreSingleTemporaryAction - Connection name: '.$temporaryUpload->getConnectionName());
         Log::info(

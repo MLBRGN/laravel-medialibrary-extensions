@@ -45,7 +45,7 @@ class MediaManagerTinymce extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {

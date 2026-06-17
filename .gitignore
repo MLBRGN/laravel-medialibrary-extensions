@@ -14,3 +14,4 @@
 /tests/Support/tmp/
 /.env.local
 /dist/js/bootstrap.esm.js
+/tests/Support/storage

@@ -26,7 +26,8 @@ class StoreYouTubeVideoPermanentAction
         if (! config('medialibrary-extensions.youtube_support_enabled')) {
             abort(403);
         }
-
+        $modelType = $request->model_type;
+        $modelId = $request->model_id;
         $dataSource = $request->input('data_source');
 
         $initiatorId = $request->initiator_id;
@@ -47,7 +48,7 @@ class StoreYouTubeVideoPermanentAction
         }
 
         //        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
-        $model = $this->mediaService->findMediaModel($request->model_type, $request->model_id, $dataSource);
+        $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
         $model->load(['media' => fn ($q) => $q->whereIn('collection_name', $collections)]);
 
         $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');

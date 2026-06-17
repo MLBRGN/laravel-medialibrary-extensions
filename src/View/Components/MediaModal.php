@@ -34,7 +34,7 @@ class MediaModal extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
 
         $this->setBaseId($this->getSuffixedId('mod'));
 

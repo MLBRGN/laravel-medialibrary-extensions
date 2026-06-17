@@ -52,7 +52,7 @@ class MediaPreviews extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
 
         if (isset($options['temporaryUploadMode'])) {
             $this->temporaryUploadMode = (bool) $options['temporaryUploadMode'];

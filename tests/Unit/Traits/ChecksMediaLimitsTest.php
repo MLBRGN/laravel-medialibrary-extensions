@@ -25,10 +25,10 @@ class ChecksMediaLimitsTest extends TestCase
         $model = $model->fresh();
 
         $this->assertEquals(1, $trait->countModelMediaInCollections($model, ['image' => 'images']));
-        $this->assertTrue($trait->modelHasAnyMedia($model, ['image' => 'images']));
+        $this->assertTrue($trait->modelHasAnyMedia($model, ['image' => 'images'], 'default'));
 
         $this->assertEquals(0, $trait->countModelMediaInCollections($model, ['video' => 'videos']));
-        $this->assertFalse($trait->modelHasAnyMedia($model, ['video' => 'videos']));
+        $this->assertFalse($trait->modelHasAnyMedia($model, ['video' => 'videos'], 'default'));
     }
 
     public function test_checks_media_limits_for_temporary_files()
@@ -58,9 +58,9 @@ class ChecksMediaLimitsTest extends TestCase
         };
 
         $this->assertEquals(1, $trait->countTemporaryUploadsInCollections(['image' => $collection], $instanceId, $clientToken));
-        $this->assertTrue($trait->temporaryUploadsHaveAnyMedia(['image' => $collection], $instanceId, $clientToken));
+        $this->assertTrue($trait->temporaryUploadsHaveAnyMedia(['image' => $collection], $instanceId, $clientToken, 'default'));
 
         $this->assertEquals(0, $trait->countTemporaryUploadsInCollections(['video' => 'other'], $instanceId, $clientToken));
-        $this->assertFalse($trait->temporaryUploadsHaveAnyMedia(['video' => 'other'], $instanceId, $clientToken));
+        $this->assertFalse($trait->temporaryUploadsHaveAnyMedia(['video' => 'other'], $instanceId, $clientToken, 'default'));
     }
 }

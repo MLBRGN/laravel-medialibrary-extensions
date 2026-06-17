@@ -35,9 +35,9 @@ class MediaManagerMultiple extends MediaManager
         $this->options = $options;
 
         $mediaService = app(MediaService::class);
-
-        $resolved = $mediaService->resolveModelOrClassName($modelOrClassName);
         $dataSource = $this->options['dataSource'] ?? null;
+
+        $resolved = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
 
         if ($modelOrClassName instanceof HasMedia) {
             $this->totalMediaCount = $mediaService->countModelMediaInCollections($resolved->model, $collections, $dataSource);

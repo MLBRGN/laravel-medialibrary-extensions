@@ -47,7 +47,7 @@ class SetAsFirstForm extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
 
         if ($this->medium instanceof Media && is_null($this->modelId)) {
             $this->modelId = $this->medium->model_id;
@@ -56,8 +56,6 @@ class SetAsFirstForm extends BaseComponent
         $this->setBaseId($this->getSuffixedId('set-as-first-form-'.$this->medium->id));
 
         $this->targetMediaCollection = $medium->collection_name;
-
-        // $this->resolveModelOrClassName($modelOrClassName);
 
         if ($this->temporaryUploadMode) {
             $mediumSetAsFirstRoute = route(mle_prefix_route('temporary-upload-set-as-first'), $medium);

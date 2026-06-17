@@ -10,6 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+// TODO dataSource?
 class MediaFirstAvailable extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
@@ -32,7 +33,7 @@ class MediaFirstAvailable extends BaseComponent
     ) {
         parent::__construct($id ?: null);
         $this->options = $options;
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, 'default');
 
         if (! $this->hasCollections()) {
             throw new Exception(__('medialibrary-extensions::messages.no_media_collections'));

@@ -44,7 +44,7 @@ class DestroyForm extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
 
         if ($this->medium instanceof Media && is_null($this->modelId)) {
             $this->modelId = $this->medium->model_id;

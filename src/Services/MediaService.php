@@ -18,7 +18,7 @@ class MediaService
         protected DataSourceResolver $resolver
     ) {}
 
-    public function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource = 'default'): ResolvedModel
+    public function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource): ResolvedModel
     {
         if ($modelOrClassName instanceof HasMediaExtended) {
             return new ResolvedModel(
@@ -54,7 +54,7 @@ class MediaService
 
     public function make(
         string $modelClass,
-        ?string $dataSource = 'default'
+        ?string $dataSource
     ): object {
 
         $connection = $this->resolver
@@ -72,7 +72,7 @@ class MediaService
     public function findMediaModel(
         ?string $modelClass,
         string|int|null $id,
-        ?string $dataSource = 'default',
+        ?string $dataSource,
         bool $validateExtended = true
     ): ?object {
         Log::info('MediaService - findMediaModel: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
@@ -103,25 +103,6 @@ class MediaService
                 ->getDatabaseName(),
         ]);
 
-//        $result = $model
-//            ->setConnection($connection)
-//            ->newQuery()
-//            ->findOrFail($id);
-//
-//        Log::info('Hydrated model', [
-//            'connection' => $result->getConnectionName(),
-//            'database' => $result->getConnection()->getDatabaseName(),
-//        ]);
-//
-//        $result->setConnection($connection);
-//
-//        Log::info('Hydrated model wit setConnection', [
-//            'connection' => $result->getConnectionName(),
-//            'database' => $result->getConnection()->getDatabaseName(),
-//        ]);
-//
-//        return $result;
-
         return $model
             ->setConnection($connection)
             ->newQuery()
@@ -133,7 +114,7 @@ class MediaService
      */
     public function findMedium(
         string|int $id,
-        ?string $dataSource = 'default'
+        ?string $dataSource
     ): ?Media {
         try {
             return $this->findMediaModel(
@@ -152,7 +133,7 @@ class MediaService
      */
     public function findTemporaryUpload(
         string|int $id,
-        ?string $dataSource = 'default'
+        ?string $dataSource
     ): ?TemporaryUpload {
         try {
             return $this->findMediaModel(
@@ -228,7 +209,7 @@ class MediaService
     /**
      * Check if a model already has any media in the given collections (single-media limit).
      */
-    public function modelHasAnyMedia(HasMediaExtended $model, array $collections, ?string $dataSource = 'default'): bool
+    public function modelHasAnyMedia(HasMediaExtended $model, array $collections, ?string $dataSource): bool
     {
         return $this->countModelMediaInCollections($model, $collections, $dataSource) > 0;
     }
@@ -236,7 +217,7 @@ class MediaService
     /**
      * Check if there are temporary uploads in the given collections (single-media limit).
      */
-    public function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
+    public function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource): bool
     {
         return $this->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource) > 0;
     }

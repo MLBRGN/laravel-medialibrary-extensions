@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+// TODO dataSource?
 class MediaRestoreForm extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
@@ -35,7 +36,7 @@ class MediaRestoreForm extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, 'default');
 
         $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('media-restore-form-'.$this->media->id));

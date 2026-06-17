@@ -31,6 +31,8 @@ class StoreSinglePermanentAction
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id;
+        $modelType = $request->model_type;
+        $modelId = $request->model_id;
 
         try {
             $prepared = $this->uploadPreparerService
@@ -39,8 +41,8 @@ class StoreSinglePermanentAction
             $dataSource = $request->data_source;
 
             $model = $this->mediaService->findMediaModel(
-                $request->model_type,
-                $request->model_id,
+                $modelType,
+                $modelId,
                 $dataSource
             );
 

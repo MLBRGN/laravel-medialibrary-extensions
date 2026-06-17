@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+// TODO dataSource?
 class MediaCarousel extends BaseComponent
 {
     use InteractsWithMediaCollections;
@@ -39,7 +40,7 @@ class MediaCarousel extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, 'default');
 
         // merge into config
         $this->resolveConfig([

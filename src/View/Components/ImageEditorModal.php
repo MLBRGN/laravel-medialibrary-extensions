@@ -45,7 +45,7 @@ class ImageEditorModal extends BaseComponent
         $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('iem-'.$medium->id));
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
 
         $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
             $medium) : route(mle_prefix_route('save-updated-media'), $medium);

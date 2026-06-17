@@ -28,11 +28,7 @@ class DestroyTemporaryUploadAction
             $request->input('temporaryUploadId') ?: $request->route('temporaryUploadId'),
             $dataSource
         );
-        //                $media = $this->mediaService->findMediaModel(
-        //                    Media::class,
-        //                    $request->route('mediaId'),
-        //                    $request->data_source
-        //                );
+
         // Delete the medium
         $temporaryUpload->delete();
 

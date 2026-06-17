@@ -13,6 +13,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+// TODO $dataSource?
 class YouTubeUploadForm extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
@@ -45,7 +46,7 @@ class YouTubeUploadForm extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $this->resolveModelOrClassName($modelOrClassName, 'default');
 
         $youtubeCollection = $collections['youtube'] ?? null;
         $mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));

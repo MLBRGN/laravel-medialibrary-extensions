@@ -25,9 +25,12 @@ class StoreMultiplePermanentAction
 
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
+        $modelType = $request->model_type;
+        $modelId = $request->model_id;
+
         $dataSource = $request->input('data_source');
 
-        $model = $this->mediaService->findMediaModel($request->model_type, $request->model_id, $dataSource);
+        $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
 
         Log::info('After findMediaModel', [
             'connection' => $model->getConnectionName(),

@@ -19,12 +19,16 @@ class SetMediaAsFirstAction
 
     public function execute(SetMediumAsFirstRequest $request): JsonResponse|RedirectResponse
     {
+        $modelType = $request->model_type;
+        $modelId = $request->model_id;
+
         $dataSource = $request->input('data_source');
+
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
 
-        $model = $this->mediaService->findMediaModel($request->model_type, $request->model_id, $dataSource);
+        $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
         $mediumId = (int) $request->medium_id;
         $targetMedia = $this->mediaService->findMedium($mediumId, $dataSource);
 
