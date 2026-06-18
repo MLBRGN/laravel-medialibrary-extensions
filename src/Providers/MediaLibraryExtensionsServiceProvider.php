@@ -269,16 +269,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         if (config('medialibrary-extensions.demo_pages_enabled')) {
             $this->registerDemoDatabaseConnection();
         }
-
-        //        if (app()->bound('mle-demo-mode')) {
-        //            config([
-        //                'media-library.media_model' => DemoMedia::class,
-        //            ]);
-        //            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
-        //
-        //        } else {
-        //            Log::info('['.$this->packageName.'] Demo mode is not enabled.');
-        //        }
     }
 
     protected function registerDemoDatabaseConnection(): void

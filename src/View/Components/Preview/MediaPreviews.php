@@ -89,6 +89,7 @@ class MediaPreviews extends BaseComponent
         Log::info('MediaPreviews', [
             'mediaManagerId' => $this->mediaManagerId,
             'instanceId' => $this->instanceId,
+            'clientToken' => $this->clientToken,
         ]);
         // TODO use Collection or MediaCollection?
         // $this->mediaItems = MediaCollection::make($allMedia);

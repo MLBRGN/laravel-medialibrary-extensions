@@ -112,11 +112,3 @@ it('applies use_xhr from request', function () {
 
     expect($response->getData()['useXhr'])->toBeFalse();
 });
-
-it('stores demo mode in the container', function () {
-    (new DemoController)(
-        Request::create('/demo')
-    );
-
-    expect(app('mle-demo-mode'))->toBeTrue();
-});

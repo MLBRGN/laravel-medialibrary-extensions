@@ -2,25 +2,19 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Routes;
 
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
-use Mlbrgn\MediaLibraryExtensions\Http\Middleware\RegisterDemoDatabase;
 
-// use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-// use Mlbrgn\MediaLibraryExtensions\Models\Media;
 
 Route::group([
     'middleware' => array_merge(
         config('medialibrary-extensions.route_middleware', ['web', 'auth']),
-        [RegisterDemoDatabase::class]
+        []
     ),
+//    'middleware' => config('medialibrary-extensions.route_middleware', ['web']),
     'prefix' => config('medialibrary-extensions.route_prefix'),
 ], function () {
-
-    //    app()->instance('mle-demo-mode', true);
 
     Route::controller(MediaManagerController::class)->group(function () {
         Route::post('media-manager-upload-single', 'store')->name(config('medialibrary-extensions.route_prefix').'-media-upload-single');
@@ -43,41 +37,15 @@ Route::group([
     });
 });
 
-// if (config('medialibrary-extensions.demo_pages_enabled')) {
 Route::group([
     'middleware' => array_merge(
         config('medialibrary-extensions.route_middleware', ['web']),
-        [RegisterDemoDatabase::class]
+        []
     ),
+//    'middleware' => config('medialibrary-extensions.route_middleware', ['web']),
     'prefix' => config('medialibrary-extensions.route_prefix'),
 ], function () {
     Route::get('mle-demo', DemoController::class)->name('mle-demo');
-
-    //        Route::get('favicon.ico', function () {
-    //            $path = __DIR__.'/../resources/assets/favicon.ico';
-    //
-    //            if (! file_exists($path)) {
-    //                abort(404);
-    //            }
-    //
-    //            return Response::file($path, [
-    //                'Content-Type' => 'image/x-icon',
-    //                'Cache-Control' => 'public, max-age=31536000', // cache for 1 year
-    //            ]);
-    //        })->name('mlbrgn.mle.favicon');
 });
 
 Route::get('/favicon.ico', fn () => response()->noContent());
-//    Route::get('/favicon.ico', function () {
-//        $path = __DIR__.'/../resources/assets/favicon.ico';
-//
-//        if (! file_exists($path)) {
-//            return response()->noContent();
-//        }
-//
-//        return Response::file($path, [
-//            'Content-Type' => 'image/x-icon',
-//            'Cache-Control' => 'public, max-age=31536000',
-//        ]);
-//    });
-// }

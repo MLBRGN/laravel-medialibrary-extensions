@@ -194,7 +194,7 @@ class MediaService
      */
     public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource): int
     {
-        Log::info('MediaService - countTemporaryUploadsInCollections: '.implode(', ', $collections));
+        Log::info('MediaService - countTemporaryUploadsInCollections: '.implode(', ', $collections) . ' instanceId ' . $instanceId . ' clientToken ' . $clientToken . ' dataSource ' . $dataSource);
         //        dd($collections, $instanceId, $clientToken, $dataSource);
         $count = collect($collections)
             ->filter(fn ($collectionName) => ! empty($collectionName))
@@ -204,6 +204,7 @@ class MediaService
                 return $total + $temporaryItems->count();
             }, 0);
 
+        Log::info('MediaService - countTemporaryUploadsInCollections counted '. $count);
         return $count;
     }
 

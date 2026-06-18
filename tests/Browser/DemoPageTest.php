@@ -15,7 +15,7 @@ beforeEach(function () {
     Blade::component('form-submit', AnonymousComponent::class);
 });
 
-$waitTime = .3;
+$waitTime = 0;
 
 dataset('mms_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
@@ -62,10 +62,6 @@ dataset('mmm_test_matrix', [
 ]);
 
 it('loads all required assets', function () {
-
-//    dump(base_path());
-//    dump(env('DB_DATABASE'));
-//    dump(config('database.connections.sqlite.database'));
 
     $this->visit('/mle-demo')
         ->assertNoJavaScriptErrors();
@@ -154,12 +150,20 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         // assert that upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector)
 
+        // test that it shows error when no file selected
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.upload_no_files'))
+
+        // test that invalid mime types are rejected
+        ->attach($inputSelector, $this->getInvalidMimeTypeFixture())
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
+
         // attach image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.upload_success'))
-//        ->debug()
 
         // assert that the image is visible in the preview
         ->assertPresent($gridSelector.' [data-test="media-preview-item"]:first-child')
@@ -242,6 +246,16 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
         // assert that upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector);
+
+    // test that it shows error when no file selected
+    $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.upload_no_files'));
+
+    // test that invalid mime types are rejected
+    // TODO fix: fails
+//    $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
+//        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+//        ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
 
     $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');

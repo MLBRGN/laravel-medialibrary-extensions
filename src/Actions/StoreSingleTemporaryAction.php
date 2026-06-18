@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Mlbrgn\MediaLibraryExtensions\Exceptions\UploadException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
-use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
 class StoreSingleTemporaryAction
 {
@@ -38,9 +38,6 @@ class StoreSingleTemporaryAction
             ?? $request->cookie('mle_client_token')
             ?? (string) Str::ulid();
 
-//        Log::info("StoreSingleTemporaryAction: dataSource = $dataSource");
-//        Log::info("StoreSingleTemporaryAction: instanceId = $instanceId");
-//        Log::info("StoreSingleTemporaryAction: instanceId = $clientToken");
         try {
 
             $prepared = $this->uploadPreparerService
@@ -130,9 +127,9 @@ class StoreSingleTemporaryAction
 //        Log::info('StoreSingleTemporaryAction - ' . json_encode(config('database.connections')));
         $temporaryUpload->save();
 
-//        Log::info(
-//            'StoreSingleTemporaryUpload - stored db record in db '.$temporaryUpload->getConnectionName()
-//        );
+        Log::info(
+            'StoreSingleTemporaryUpload - stored db record in db '.$temporaryUpload->getConnectionName() . ' instanceId ' . $instanceId . ' clientToken ' . $clientToken
+        );
 
         return MediaResponse::success(
             $request,

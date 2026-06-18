@@ -19,8 +19,6 @@ class DemoController extends Controller
             404
         );
 
-        app()->instance('mle-demo-mode', true);
-
         $frontendTheme = $request->query('theme', config('medialibrary-extensions.frontend_theme', 'bootstrap-5'));
         $useXhr = $request->boolean('use_xhr', config('medialibrary-extensions.use_xhr', true));
         $dataSource = $request->query('data_source', 'demo');

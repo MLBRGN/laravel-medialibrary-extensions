@@ -46,15 +46,6 @@ class TemporaryUpload extends Model implements HasMediaExtended
     // used when serializing
     protected $appends = ['url'];
 
-//    public function getConnectionName(): ?string
-//    {
-//        //        if (app()->bound('mle-demo-mode')) {
-//        //            return config('medialibrary-extensions.demo_database_name');
-//        //        }
-//
-//        return parent::getConnectionName();
-//    }
-
     public function scopeForDataSource($query, ?string $dataSource = 'default')
     {
         if ($dataSource) {

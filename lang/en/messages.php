@@ -4,7 +4,6 @@ return [
     'upload_success' => 'Upload was successful.',
     'upload_failed_due_to_invalid_mimetype' => 'Upload failed due to invalid file type.',
     'upload_failed_due_to_invalid_collection' => 'Upload failed due to invalid collection.',
-    'upload_failed_due_to_invalid_mimetype_:mimetype' => 'Upload failed due to invalid file type :mimetype.',
     'invalid_or_missing_collection' => 'Invalid or missing collection.',
     'an_exception_occurred' => 'An exceptie occurred.',
     'upload_failed' => 'Upload failed.',

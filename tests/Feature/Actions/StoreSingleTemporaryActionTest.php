@@ -103,17 +103,15 @@ it('returns error if no file is given (JSON)', function () {
     $uploadPreparer = new UploadPreparerService($mediaService);
     $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
 
-    //    $response = $action->execute($request);
+        $response = $action->execute($request);
 
-    expect(fn () => $action->execute($request))->toThrow(UploadException::class);
-    //    dd($response->getData(true));
-    //    expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
-    //        ->and($response->getData(true))
-    //        ->toMatchArray([
-    //            'initiatorId' => $this->initiatorId,
-    //            'type' => 'error',
-    //            'message' => __('medialibrary-extensions::messages.upload_no_files'),
-    //        ]);
+        expect($response)->toBeInstanceOf(Illuminate\Http\JsonResponse::class)
+            ->and($response->getData(true))
+            ->toMatchArray([
+                'initiatorId' => $this->initiatorId,
+                'type' => 'error',
+                'message' => __('medialibrary-extensions::messages.upload_no_files'),
+            ]);
 });
 
 it('returns error if no file is given (redirect)', function () {
@@ -131,7 +129,19 @@ it('returns error if no file is given (redirect)', function () {
     $uploadPreparer = new UploadPreparerService($mediaService);
     $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
 
-    expect(fn () => $action->execute($request))->toThrow(UploadException::class);
+    $response = $action->execute($request);
+
+    expect($response)->toBeInstanceOf(RedirectResponse::class);
+
+    $session = $request->session();
+
+    expect($session->has(status_session_prefix()))->toBeTrue();
+
+    $sessionData = $session->get(status_session_prefix());
+
+    expect($sessionData['type'])->toBe('error');
+    expect($sessionData['initiator_id'])->toBe($this->initiatorId);
+    expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_no_files'));
 });
 
 it('returns error if file has invalid mimetype (JSON)', function () {
@@ -153,7 +163,13 @@ it('returns error if file has invalid mimetype (JSON)', function () {
     $uploadPreparer = new UploadPreparerService($mediaService);
     $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
 
-    expect(fn () => $action->execute($request))->toThrow(UploadException::class);
+    $response = $action->execute($request);
+
+    expect($response)->toBeInstanceOf(JsonResponse::class)
+        ->and($response->getData(true)['type'])->toBe('error')
+        ->and($response->getData(true)['message'])->toBe(
+            __('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype')
+        );
 });
 
 it('returns error if file has invalid mimetype (redirect)', function () {
@@ -175,7 +191,19 @@ it('returns error if file has invalid mimetype (redirect)', function () {
     $uploadPreparer = new UploadPreparerService($mediaService);
     $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
 
-    expect(fn () => $action->execute($request))->toThrow(UploadException::class);
+    $response = $action->execute($request);
+
+    expect($response)->toBeInstanceOf(RedirectResponse::class);
+
+    $session = $request->session();
+
+    expect($session->has(status_session_prefix()))->toBeTrue();
+
+    $sessionData = $session->get(status_session_prefix());
+
+    expect($sessionData['type'])->toBe('error');
+    expect($sessionData['initiator_id'])->toBe($this->initiatorId);
+    expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
 
 it('returns error if file exceeds max upload size (JSON)', function () {

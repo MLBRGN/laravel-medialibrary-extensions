@@ -48,10 +48,10 @@ trait InteractsWithMediaCollections
 
     protected function resolveMediaFromCollections(array $collections, $instanceId): MediaCollection
     {
-        dump('$collections ' . json_encode($collections) . ' $instanceId ' . $instanceId);
+//        dump('$collections ' . json_encode($collections) . ' $instanceId ' . $instanceId);
         $modelConnection = $this->model?->getConnectionName();
 
-        dump($modelConnection);
+//        dump($modelConnection);
         $media = collect($collections)
             ->filter(fn ($collectionName) => ! empty($collectionName))
             ->flatMap(function ($collectionNames, string $collectionType) use ($instanceId, $modelConnection) {

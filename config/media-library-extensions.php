@@ -210,6 +210,11 @@ return [
     */
 
     'route_middleware' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ROUTE_MIDDLEWARE', 'web,auth')),
+//    'route_middleware' => [
+//        'web',
+//        'auth',
+//        \Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware::class,
+//    ],
 
     /*
     |--------------------------------------------------------------------------

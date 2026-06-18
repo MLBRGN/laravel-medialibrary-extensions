@@ -11,10 +11,6 @@
                 <div class="mle-debug-badges">
                     <span>Theme: {{ $getConfig('frontendTheme') }}</span>
                     <span>DB: {{ DB::getDatabaseName() }}</span>
-
-                    @if(app()->bound('mle-demo-mode'))
-                        <span>Demo mode</span>
-                    @endif
                 </div>
             </div>
 

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
+use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
@@ -73,6 +74,13 @@ class BrowserTestCaseNew extends Orchestra
             '1280x720_16:9.png',
             '1920x1080_16:9.png',
             '3840x2160_16:9.png',
+    ];
+
+    protected array $invalidMimeTypeFixtures = [
+        'invalid-config.json',
+        'invalid-mime-test.zip',
+        'invalid-image.png',
+        'invalid-readme.txt',
     ];
 
     // runs before every test
@@ -159,7 +167,7 @@ class BrowserTestCaseNew extends Orchestra
         $app['config']->set('database.default', 'sqlite');
 
         $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
-        $app['config']->set('medialibrary-extensions.route_middleware', ['web']);
+        $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
 
         $app['config']->set('logging.default', 'single');
         $app['config']->set('logging.channels.single', [
@@ -329,6 +337,12 @@ class BrowserTestCaseNew extends Orchestra
     public function getRandomFixture(): string {
         return $this->getFixtureAsFilePath(
             $this->fixtures[array_rand($this->fixtures)]
+        );
+    }
+
+    public function getInvalidMimeTypeFixture(): string {
+        return $this->getFixtureAsFilePath(
+            $this->invalidMimeTypeFixtures[array_rand($this->invalidMimeTypeFixtures)]
         );
     }
 
