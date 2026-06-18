@@ -28,7 +28,7 @@
     <label for="{{ $id }}-media-input" class="mle-label form-label">Bestanden</label>
     <input
         id="{{ $id }}-media-input"
-        data-test="media-input-{{ $id }}"
+        data-mle-media-input
         accept="{{ $getConfig('allowedMimeTypes') }}"
         type="file"
         class="mle-input mle-form-control form-control"
@@ -88,7 +88,7 @@
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-mle-action="upload-media"
-        data-test="upload-button-{{ $id }}"
+        data-mle-media-upload-button
         @disabled($disabled)
     >
         {{ $multiple

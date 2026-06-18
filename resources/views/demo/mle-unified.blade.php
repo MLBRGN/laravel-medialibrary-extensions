@@ -191,7 +191,7 @@
     
         <h2>Media Manager Multiple (Temporary)</h2>
         <x-mle-media-manager-multiple
-            id="aliens-multiple-temporary"
+            id="alien-multiple-temporary"
             model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
             :collections="[
                 'image' => 'alien-multiple-images', 

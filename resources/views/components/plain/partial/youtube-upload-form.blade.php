@@ -82,6 +82,7 @@
     <input
         id="{{ $id }}-youtube-url"
         data-test="youtube-input-{{ $id }}"
+        data-mle-youtube-input
         type="url" 
         name="youtube_url" 
         class="mle-input" 

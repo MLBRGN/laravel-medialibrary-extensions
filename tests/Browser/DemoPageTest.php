@@ -39,48 +39,25 @@ dataset('mms_test_matrix', [
     //    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
-//dataset('mms_test_matrix', [
-////    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-////    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-////        'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
-//
-////    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-////    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-//    //    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
-//
-////    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-////    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-//    //    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
-//
-////    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-////    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-//    //    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
-//]);
-
-
 dataset('mmm_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-//    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
+    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
 //        'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
-//    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-//    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
+    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
     //    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
-//    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-//    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
+    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
+    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
     //    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
-//    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-//    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
+    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
     //    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
@@ -147,9 +124,11 @@ it('can visit demo page switch theme, XHR and DataSource', function () {
 it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitTime) {
 
     // get the file input and the upload button (submit button)
-    $inputSelector = '@media-input-alien-single-'.$storage.'-mms';
-    $uploadButtonSelector = '@upload-button-alien-single-'.$storage.'-mms';
-    $gridSelector = '#alien-single-'.$storage.'-mms [data-mle-media-preview-grid]';
+
+    $mediaManager = '#alien-single-'.$storage.'-mms';
+    $inputSelector = $mediaManager . ' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManager . ' [data-mle-media-upload-button]';
+    $gridSelector = $mediaManager . ' [data-mle-media-preview-grid]';
     $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
     $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
     $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
@@ -227,17 +206,18 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_test_matrix')
-    ->only();
+    ->with('mms_test_matrix');
+//    ->only();
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTime) {
 
     Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
 
     // get the file input and the upload button (submit button)
-    $inputSelector = '@media-input-alien-multiple-'.$storage.'-mmm';
-    $uploadButtonSelector = '@upload-button-alien-multiple-'.$storage.'-mmm';
-    $gridSelector = '#alien-multiple-'.$storage.'-mmm [data-mle-media-preview-grid]';
+    $mediaManager = '#alien-multiple-'.$storage.'-mmm';
+    $inputSelector = $mediaManager . ' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManager . ' [data-mle-media-upload-button]';
+    $gridSelector = $mediaManager . ' [data-mle-media-preview-grid]';
     $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
     $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
     $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
@@ -324,146 +304,3 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 })->group('browser')
     ->with('mmm_test_matrix');
 //    ->only();
-
-it('can upload file in mms temporary (xhr)', function () use ($waitTime) {
-
-//    dump(config('database.default'));
-
-//    dump(config('database.connections.testing'));
-
-//    dump(DB::connection()->getName());
-    // TODO does not work
-//    Config::set('database.default', 'media_demo');
-
-    $inputSelector = '@media-input-alien-single-temporary-mms';
-    $uploadButtonSelector = '@upload-button-alien-single-temporary-mms';
-
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1&data_source=default')
-        ->assertNoJavaScriptErrors()
-        ->assertPresent($inputSelector)
-        ->assertButtonEnabled($uploadButtonSelector)
-        ->attach($inputSelector, $this->getFixtureAsFilePath('test.jpg'))
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-    //
-    //        // assert that the image is visible in the preview
-    //        ->assertPresent('#aliens-single-temporary-mms [data-test="media-preview-item"]:first-child');
-})->group('browser');
-//->only();
-
-it('can upload files in mmm permanent (xhr)', function () use ($waitTime) {
-
-    Config::set('database.default', 'media_demo');
-
-    //    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
-    //        ->assertNoJavaScriptErrors()
-    //        ->assertPresent($this->getMediaInput('alien-multiple-permanent-mmm'));
-    //
-    //    // Join the paths together into a single string separated by commas
-    //    $multipleFiles = implode(",", [
-    //        $this->getFixtureAsFilePath('test.jpg'),
-    //        $this->getFixtureAsFilePath('test2.jpg'),
-    //    ]);
-
-    $singleFile = $this->getFixtureAsFilePath('test.jpg');
-
-    //    dd($multipleFiles);
-
-    //    $page->assertButtonEnabled($this->getUploadButton('alien-multiple-permanent-mmm'))
-    //        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $singleFile)
-    // //        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $multipleFiles)
-    //        ->pressAndWaitFor($this->getUploadButton('alien-multiple-permanent-mmm'), $waitTime)
-    //        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-    //        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-
-    //    $page->script('() => console.log(document.querySelector("#aliens-multiple-temporary-mmm-media-input").files[0])');
-    //    $page->script('() => console.log(document.querySelector("#aliens-multiple-temporary-mmm-media-input"))');
-    //    expect($page->script('() => document.querySelector("#aliens-multiple-temporary-mmm-media-input").files[0].name'))->toBe('test1');
-    //    $this->assertPreviewImageVisible($page, 'alien-multiple-permanent-mmm');
-    //    $page->waitForKey(); // Useful for debugging
-    //    $page->assertNoConsoleLogs();
-
-    $inputSelector = '@media-input-alien-multiple-permanent-mmm';
-    $uploadButtonSelector = '@upload-button-alien-multiple-permanent-mmm';
-
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
-        ->assertNoJavaScriptErrors()
-        ->assertPresent($inputSelector)
-        ->assertButtonEnabled($uploadButtonSelector)
-        ->attach($inputSelector, $singleFile)
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-
-    //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
-
-})->group('browser')->todo();
-
-it('can upload files in mmm permanent (non-xhr)', function () use ($waitTime) {
-
-    // TODO fix: why do i need to do this?
-    Config::set('database.default', 'media_demo');
-
-    //    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
-    //        ->assertNoJavaScriptErrors()
-    // //        ->assertNoConsoleLogs()
-    //
-    //        // disable xhr
-    //        ->click('@btn-use-xhr-no')
-    //        ->assertQueryStringHas('use_xhr', '0');
-    //
-    //        $page->assertPresent($this->getMediaInput('alien-multiple-permanent-mmm'));
-    //
-    //        $page->assertButtonEnabled($this->getUploadButton('alien-multiple-permanent-mmm'))
-    //        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $this->getFixtureAsFilePath('test.jpg'))
-    //        ->attach($this->getMediaInput('alien-multiple-permanent-mmm'), $this->getFixtureAsFilePath('test2.jpg'));
-    //
-    // //            ->attach($this->getMediaInput('alien-multiple-permanent-mmm'),
-    // //                [
-    // //                    $this->getFixtureAsFilePath('test.jpg'),
-    // //                    $this->getFixtureAsFilePath('test2.jpg'),
-    // //                ]
-    // //            $this->getFixtureAsFilePath('test.jpg')
-    // //            )
-    // //        $page->script(<<<'JS'
-    // //            const input = document.getElementById('alien-multiple-permanent-mmm-media-input');
-    // //
-    // //            const dt = new DataTransfer();
-    // //
-    // //            dt.items.add(new File(['a'], 'test1.jpg', { type: 'image/jpeg' }));
-    // //            dt.items.add(new File(['b'], 'test2.jpg', { type: 'image/jpeg' }));
-    // //
-    // //            input.files = dt.files;
-    // //            input.dispatchEvent(new Event('change', { bubbles: true }));
-    // //        JS);
-    //
-    //    $page->pressAndWaitFor($this->getUploadButton('alien-multiple-permanent-mmm'), $waitTime)
-    //        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-    //        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-    //
-    //    $this->assertPreviewImageVisible($page, 'alien-multiple-permanent-mmm');
-    //
-
-    $inputSelector = '@media-input-alien-multiple-permanent-mmm';
-    $uploadButtonSelector = '@upload-button-alien-multiple-permanent-mmm';
-
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&use_xhr=1')
-        ->assertNoJavaScriptErrors()
-
-        ->click('@btn-use-xhr-no')
-        ->assertQueryStringHas('use_xhr', '0')
-
-        ->assertPresent($inputSelector)
-
-        ->assertButtonEnabled($uploadButtonSelector)
-        ->attach($inputSelector, $this->getFixtureAsFilePath('test.jpg'))
-//        ->attach($inputSelector, $this->getFixtureAsFilePath('test2.jpg'))
-
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-
-    //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
-
-})->group('browser')->todo();
