@@ -53,6 +53,7 @@
                     :in-modal="true"
                     :preview-mode="false"
                     :instance-id="$instanceId"
+                    :data-source="$dataSource"
                 />
             </div>
         </div>

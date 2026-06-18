@@ -39,6 +39,28 @@ dataset('mms_test_matrix', [
     //    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
+//dataset('mms_test_matrix', [
+////    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
+//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
+////    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
+////        'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+//
+////    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
+//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+////    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+//    //    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+//
+////    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
+//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
+////    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+//    //    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+//
+////    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
+//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+////    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+//    //    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+//]);
+
 
 dataset('mmm_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
@@ -205,8 +227,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_test_matrix');
-//    ->only();
+    ->with('mms_test_matrix')
+    ->only();
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTime) {
 

@@ -27,7 +27,7 @@ class StoreSinglePermanentAction
     ): RedirectResponse|JsonResponse {
 
         // Temporarily add this to see the payload
-        Log::info('UPLOAD PAYLOAD:', $request->all());
+//        Log::info('UPLOAD PAYLOAD:', $request->all());
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id;

@@ -84,8 +84,12 @@ class MediaPreviews extends BaseComponent
                 ->values();
         }
 
-        Log::info('MediaPreviews - mediaItems ' . json_encode($this->media, JSON_PRETTY_PRINT));
+//        Log::info('MediaPreviews - mediaItems ' . json_encode($this->media, JSON_PRETTY_PRINT));
 
+        Log::info('MediaPreviews', [
+            'mediaManagerId' => $this->mediaManagerId,
+            'instanceId' => $this->instanceId,
+        ]);
         // TODO use Collection or MediaCollection?
         // $this->mediaItems = MediaCollection::make($allMedia);
         // $this->media = $this->mediaItems;

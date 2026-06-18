@@ -32,10 +32,10 @@ class StoreMultiplePermanentAction
 
         $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
 
-        Log::info('After findMediaModel', [
-            'connection' => $model->getConnectionName(),
-            'database' => $model->getConnection()->getDatabaseName(),
-        ]);
+//        Log::info('After findMediaModel', [
+//            'connection' => $model->getConnectionName(),
+//            'database' => $model->getConnection()->getDatabaseName(),
+//        ]);
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
@@ -122,18 +122,18 @@ class StoreMultiplePermanentAction
                 continue;
             }
 
-            Log::info('StoreMultiplePermanentAction - store in db: '.json_encode([
-                'connection' => $model->getConnection()->getName(),
-                'database' => $model->getConnection()->getDatabaseName(),
-            ]));
+//            Log::info('StoreMultiplePermanentAction - store in db: '.json_encode([
+//                'connection' => $model->getConnection()->getName(),
+//                'database' => $model->getConnection()->getDatabaseName(),
+//            ]));
 
-            Log::info('Before addMedia', [
-                'datasource' => $dataSource,
-                'resolved' => app(DataSourceResolver::class)->resolveConnection($dataSource),
-                'model_connection_name' => $model->getConnectionName(),
-                'model_database' => $model->getConnection()->getDatabaseName(),
-                'media_model' => config('media-library.media_model'),
-            ]);
+//            Log::info('Before addMedia', [
+//                'datasource' => $dataSource,
+//                'resolved' => app(DataSourceResolver::class)->resolveConnection($dataSource),
+//                'model_connection_name' => $model->getConnectionName(),
+//                'model_database' => $model->getConnection()->getDatabaseName(),
+//                'media_model' => config('media-library.media_model'),
+//            ]);
 
             try {
                 $model->addMedia($file)

@@ -28,7 +28,7 @@ class GetMediaManagerLabPreviewerHTMLAction
      */
     public function execute(GetMediaManagerLabPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        Log::info('GetMediaManagerLabPreviewerHTMLAction invoked');
+//        Log::info('GetMediaManagerLabPreviewerHTMLAction invoked');
         $initiatorId = $request->input('initiator_id');
         $mediumId = $request->get('medium_id');
         $modelType = $request->input('model_type');

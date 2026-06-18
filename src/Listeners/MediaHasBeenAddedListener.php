@@ -16,13 +16,13 @@ class MediaHasBeenAddedListener
     public function handle(MediaHasBeenAddedEvent $event): void
     {
         $media = $event->media;
-        Log::info('MediaHasBeenAddedListener - handle invoked for media with id: '.$media->getKey());
+//        Log::info('MediaHasBeenAddedListener - handle invoked for media with id: '.$media->getKey());
 
         $model = $media->model;
 
         if (! $model) {
             // TODO throw exception?
-            Log::info('MediaHasBeenAddedListener - no model found for media');
+//            Log::info('MediaHasBeenAddedListener - no model found for media');
         }
 
         // Skip storing originals if disabled globally or per-model
@@ -32,7 +32,7 @@ class MediaHasBeenAddedListener
                 ! $model->shouldStoreOriginals()
             )
         ) {
-            Log::info('MediaHasBeenAddedListener - Skipping original copy for model');
+//            Log::info('MediaHasBeenAddedListener - Skipping original copy for model');
 
             return;
         }

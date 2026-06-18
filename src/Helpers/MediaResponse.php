@@ -37,7 +37,7 @@ class MediaResponse
             'type' => $type,
             'message' => $message,
         ];
-        Log::info('MediaResponse - base: '.json_encode($base));
+//        Log::info('MediaResponse - base: '.json_encode($base));
 
         // Take the previous URL and append "#initiatorId"
         $targetUrl = url()->previous().'#'.$mediaManagerId;

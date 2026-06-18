@@ -5,19 +5,16 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaCollections;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// TODO dataSource?
 class MediaCarousel extends BaseComponent
 {
-    use InteractsWithMediaCollections;
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public Collection $media;
 
@@ -34,22 +31,47 @@ class MediaCarousel extends BaseComponent
         array $options = [],
         public bool $inModal = false, // TODO used anywhere?
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
-        // public ?string $instanceId = null, // Removed as it conflicts with parent property and ULID/UUID plan
+        ?string $instanceId = null,
+        public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
 
+        if ($instanceId) {
+            Log::info('MediaCarousel: instanceId provided: ' . $instanceId);
+            $this->instanceId = $instanceId;
+        } else {
+            Log::info('MediaCarousel: no instance id');
+        }
+
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, 'default');
+        $mediaService = app(MediaService::class);
 
+        $resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+        $model = $resolvedModel->model;
+
+//        Log::info('MediaCarousel: resolved model: ' . json_encode($model));
         // merge into config
         $this->resolveConfig([
-            'temporaryUploadMode' => $this->temporaryUploadMode,
+            'temporaryUploadMode' => $resolvedModel->temporaryUploadMode,
             'clientToken' => $this->clientToken,
         ]);
 
         $instanceId = $this->instanceId ?? $this->getConfig('instanceId');
-        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
+
+        Log::info('MediaCarousel', [
+            'id' => $this->id,
+            'originalId' => $this->originalId,
+            'instanceId' => $this->instanceId,
+        ]);
+
+        Log::info('MediaCarousel lookup', [
+            'instanceId' => $instanceId,
+            'clientToken' => $this->clientToken,
+            'collections' => $this->collections,
+        ]);
+       $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource);
+//        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();
         $this->setBaseId($this->getSuffixedId('crs'));

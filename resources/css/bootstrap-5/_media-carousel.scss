@@ -29,7 +29,10 @@
         @include carousel.carousel-controls;
 
         width:100%;
-        height:fit-content;
+        // 20260618 changed to 100% so that no media is displayed full height
+        //height:fit-content;
+
+        height:100%;
         aspect-ratio: 16/9;
         overflow:hidden;
         background-color: var(--mlbrgn-mle-container-bg-light);

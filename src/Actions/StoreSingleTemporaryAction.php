@@ -38,9 +38,9 @@ class StoreSingleTemporaryAction
             ?? $request->cookie('mle_client_token')
             ?? (string) Str::ulid();
 
-        Log::info("StoreSingleTemporaryAction: dataSource = $dataSource");
-        Log::info("StoreSingleTemporaryAction: instanceId = $instanceId");
-        Log::info("StoreSingleTemporaryAction: instanceId = $clientToken");
+//        Log::info("StoreSingleTemporaryAction: dataSource = $dataSource");
+//        Log::info("StoreSingleTemporaryAction: instanceId = $instanceId");
+//        Log::info("StoreSingleTemporaryAction: instanceId = $clientToken");
         try {
 
             $prepared = $this->uploadPreparerService
@@ -94,10 +94,10 @@ class StoreSingleTemporaryAction
 
         $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
 
-        Log::info('StoreSingleTemporaryAction - Connection name: '.$temporaryUpload->getConnectionName());
-        Log::info(
-            'StoreSingleTemporaryAction - Database connection: '.$temporaryUpload->getConnection()->getName()
-        );
+//        Log::info('StoreSingleTemporaryAction - Connection name: '.$temporaryUpload->getConnectionName());
+//        Log::info(
+//            'StoreSingleTemporaryAction - Database connection: '.$temporaryUpload->getConnection()->getName()
+//        );
 
         $temporaryUpload->fill([
             'disk' => $disk,
@@ -116,18 +116,18 @@ class StoreSingleTemporaryAction
                 'priority' => 0,
             ],
         ]);
-        Log::info('StoreSingleTemporaryAction - Default DB: '.config('database.default'));
+//        Log::info('StoreSingleTemporaryAction - Default DB: '.config('database.default'));
 
-        Log::info(
-            'StoreSingleTemporaryAction - TemporaryUpload connection: '.
-            ($temporaryUpload->getConnectionName() ?? 'null')
-        );
+//        Log::info(
+//            'StoreSingleTemporaryAction - TemporaryUpload connection: '.
+//            ($temporaryUpload->getConnectionName() ?? 'null')
+//        );
 
-        Log::info(
-            'StoreSingleTemporaryAction - Resolved connection: '.
-            $temporaryUpload->getConnection()->getName()
-        );
-        Log::info('StoreSingleTemporaryAction - ' . json_encode(config('database.connections')));
+//        Log::info(
+//            'StoreSingleTemporaryAction - Resolved connection: '.
+//            $temporaryUpload->getConnection()->getName()
+//        );
+//        Log::info('StoreSingleTemporaryAction - ' . json_encode(config('database.connections')));
         $temporaryUpload->save();
 
 //        Log::info(

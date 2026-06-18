@@ -41,9 +41,9 @@ class GetMediaPreviewerTemporaryHTMLAction
         $theme = $request->input('theme');
         $clientToken = $request->input('client_token') ?? $request->cookie('mle_client_token');
 
-        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$dataSource);
-        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$instanceId);
-        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$clientToken);
+//        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$dataSource);
+//        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$instanceId);
+//        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$clientToken);
 
         $options = json_decode($request->input('options'), true) ?? [];
         if ($request->has('temporary_upload_mode')) {

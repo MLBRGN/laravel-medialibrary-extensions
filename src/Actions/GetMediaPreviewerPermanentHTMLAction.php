@@ -26,7 +26,7 @@ class GetMediaPreviewerPermanentHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        Log::info('GetMediaPreviewerPermanentHTMLAction invoked');
+//        Log::info('GetMediaPreviewerPermanentHTMLAction invoked');
         $dataSource = $request->input('data_source');
         $initiatorId = $request->input('initiator_id');
         $instanceId = $request->input('instance_id') ?? '';
@@ -41,8 +41,8 @@ class GetMediaPreviewerPermanentHTMLAction
         $theme = $request->input('theme');
         // no clientToken
 
-        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$dataSource);
-        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$instanceId);
+//        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$dataSource);
+//        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$instanceId);
 //        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$clientToken);
 
         $options = json_decode($request->input('options'), true) ?? [];
@@ -77,7 +77,7 @@ class GetMediaPreviewerPermanentHTMLAction
             $totalMediaCount = $this->mediaService->countModelMediaInCollections($model, $collections, $dataSource);
         }
 
-        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
+//        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
         $component = new MediaPreviews(
             id: $initiatorId,
             mediaManagerId: $initiatorId, // Action uses the initiator_id (DOM id) as the base identity for logical operations here
