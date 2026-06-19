@@ -5,7 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Spatie\MediaLibrary\HasMedia;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends MediaManager
@@ -39,18 +39,26 @@ class MediaManagerSingle extends MediaManager
 
         $this->options = $options;
 
+        $dataSource = $this->options['dataSource'] ?? null;
+
+        $resolved = $this->mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+
+
         // when singleMedia provided, dont count collections
         if ($this->singleMedia !== null) {
             $this->totalMediaCount = 1;
         } else {
-            foreach ($collections as $collectionName) {
-                if ($modelOrClassName instanceof HasMedia) {
-                    $this->totalMediaCount += $modelOrClassName->getMedia($collectionName)->count();
-                } elseif (is_string($modelOrClassName)) {
-                    $this->totalMediaCount += TemporaryUpload::forCurrentClient($collectionName, $this->instanceId)->count();
-                }
-            }
+            $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+                $resolved,
+                $collections,
+                $this->options['instanceId'] ?? null,
+                $this->options['clientToken'] ?? null,
+                $dataSource
+            );
         }
+
+        $this->maxMediaCount = 1;
+
 
         // TODO implement disabled and readonly, this is not per se the same as disableForm
 

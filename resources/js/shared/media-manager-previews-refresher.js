@@ -80,8 +80,10 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         if (!config.multiple && data.mediaCount !== undefined && data.mediaCount !== null) {
             if (data.mediaCount < 1) {
                 enableFormElements(forms);
+                // hideDisabledMessage(forms);
             } else {
                 disableFormElements(forms);
+                // showDisabledMessage(forms);
             }
         }
 

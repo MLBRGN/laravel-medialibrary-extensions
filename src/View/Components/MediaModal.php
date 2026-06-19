@@ -7,13 +7,11 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaModal extends BaseComponent
+class MediaModal extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public function __construct(
         ?string $id,
@@ -34,7 +32,8 @@ class MediaModal extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $this->setModelProperties($resolvedModel);
 
         $this->setBaseId($this->getSuffixedId('mod'));
 

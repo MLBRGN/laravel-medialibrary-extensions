@@ -6,15 +6,13 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // TODO dataSource?
-class LabPreview extends BaseComponent
+class LabPreview extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public function __construct(
         ?string $id,
@@ -27,7 +25,9 @@ class LabPreview extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, 'default');
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
+        $this->setModelProperties($resolvedModel);
+
         $this->resolveConfig();
     }
 

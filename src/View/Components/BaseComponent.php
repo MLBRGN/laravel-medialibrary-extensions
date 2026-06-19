@@ -7,10 +7,13 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\ClientContext;
 use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ViewHelpers;
 
+// only generic component functionality, that all component share
 abstract class BaseComponent extends Component
 {
     use ViewHelpers;
@@ -27,6 +30,8 @@ abstract class BaseComponent extends Component
     /** @var string The stable logical identity of the client */
     public string $clientToken;
 
+//    public MediaService $mediaService;
+
     public function __construct(
         ?string $id = null,
     ) {
@@ -34,18 +39,8 @@ abstract class BaseComponent extends Component
         $this->id = $this->originalId;
         $this->instanceId = InstanceManager::getInstanceId($this->originalId);
 
-        $tokenFromCookie = request()->cookie('mle_client_token');
-
-        // Capture client-side token (truly session-less)
-        // We no longer fallback to session()->getId() to ensure persistent scoping
-        $this->clientToken = request()->input('client_token')
-            ?? $tokenFromCookie
-            ?? (string) Str::ulid();
-
-        // If it was just generated, try to set it for the remainder of the request
-        if (! request()->has('client_token') && ! $tokenFromCookie) {
-            request()->merge(['client_token' => $this->clientToken]);
-        }
+        $clientContext = new ClientContext(request());// todo remove here
+        $this->clientToken = $clientContext->get();// todo remove here
     }
 
     public function setBaseId(string $id): void
@@ -81,6 +76,7 @@ abstract class BaseComponent extends Component
         return $view;
     }
 
+    // TODO move?
     public function hasCollections(): bool
     {
         // Check all defined collection types
@@ -89,6 +85,7 @@ abstract class BaseComponent extends Component
             ->isNotEmpty();
     }
 
+    // TODO move?
     public function getCollectionValue(string $key, mixed $default = null): mixed
     {
         $value = $this->collections[$key] ?? null;
@@ -96,11 +93,13 @@ abstract class BaseComponent extends Component
         return filled($value) ? $value : $default;
     }
 
+    // TODO move?
     public function hasCollection(string $key): bool
     {
         return filled($this->collections[$key] ?? null);
     }
 
+    // TODO move?
     public function resolveComponentForMedium($medium): ?string
     {
         $map = config('medialibrary-extensions.component_map', []);

@@ -5,14 +5,12 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaPreviewGrid extends BaseComponent
+class MediaPreviewGrid extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public function __construct(
         ?string $id,
@@ -32,6 +30,9 @@ class MediaPreviewGrid extends BaseComponent
         parent::__construct($id);
 
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $this->setModelProperties($resolvedModel);
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         if (empty($instanceId)) {

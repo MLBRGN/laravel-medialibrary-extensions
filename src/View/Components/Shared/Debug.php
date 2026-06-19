@@ -5,20 +5,22 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Shared;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel;
 use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // TODO dataSource?
 class Debug extends Component
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public bool $iconExists = false;
 
@@ -27,6 +29,13 @@ class Debug extends Component
     public Collection $collections;
 
     public string $id;
+
+    public string $modelType;
+    public ?int $modelId;
+    public bool $temporaryUploadMode;
+    public ?Model $model;
+
+    private ResolvedModel $resolvedModel;
 
     public function __construct(
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -38,7 +47,12 @@ class Debug extends Component
         $this->options = $options;
         $this->id = uniqid();
 
-        $this->resolveModelOrClassName($modelOrClassName, 'default');
+        $mediaService = app(MediaService::class);
+        $this->resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, 'default');
+        $this->model = $this->resolvedModel->model;
+        $this->modelType = $this->resolvedModel->modelType;
+        $this->modelId = $this->resolvedModel->modelId;
+        $this->temporaryUploadMode = $this->resolvedModel->temporaryUploadMode;
 
         $this->iconExists = collect(Blade::getClassComponentAliases())
             ->keys()
@@ -51,8 +65,8 @@ class Debug extends Component
         }
 
         // Optional: guard against model being null to avoid exception
-        if ($this->model) {
-            $this->collections = Media::where('model_type', $this->model->getMorphClass())
+        if ($this->resolvedModel->model) {
+            $this->collections = Media::where('model_type', $this->resolvedModel->model->getMorphClass())
                 ->get()
                 ->pluck('collection_name')
                 ->unique();
@@ -93,8 +107,8 @@ class Debug extends Component
             ->map(function ($type) {
                 $collectionName = $this->getConfig('collections')[$type] ?? null;
 
-                $count = ($this->model && $collectionName)
-                    ? $this->model->getMedia($collectionName)->count()
+                $count = ($this->resolvedModel->model && $collectionName)
+                    ? $this->resolvedModel->model->getMedia($collectionName)->count()
                     : 0;
 
                 return [

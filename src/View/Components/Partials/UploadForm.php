@@ -9,16 +9,14 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMimeTypes;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // TODO $dataSource?
-class UploadForm extends BaseComponent
+class UploadForm extends BaseMediaComponent
 {
     use InteractsWithMimeTypes;
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public ?string $mediaManagerId = '';
 
@@ -45,7 +43,8 @@ class UploadForm extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, 'default');
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
+        $this->setModelProperties($resolvedModel);
 
         $mimeData = $this->resolveAllowedMimeTypes();
 

@@ -208,6 +208,30 @@ class MediaService
         return $count;
     }
 
+    public function countMediaInCollections(
+        ResolvedModel $resolved,
+        array $collections,
+        ?string $instanceId = null,
+        ?string $clientToken = null,
+        ?string $dataSource = null,
+    ): int
+    {
+        if (! $resolved->temporaryUploadMode) {
+            return $this->countModelMediaInCollections(
+                $resolved->model,
+                $collections,
+                $dataSource
+            );
+        }
+
+        return $this->countTemporaryUploadsInCollections(
+            $collections,
+            $instanceId,
+            $clientToken,
+            $dataSource
+        );
+    }
+
     /**
      * Check if a model already has any media in the given collections (single-media limit).
      */

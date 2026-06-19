@@ -7,16 +7,13 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaManager extends BaseComponent
+class MediaManager extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     protected string $mediaUploadRoute; // upload form action route
 
@@ -26,6 +23,9 @@ class MediaManager extends BaseComponent
 
     /** @var string Reference to the parent MediaManager's originalId */
     public string $mediaManagerId;
+
+    public int $totalMediaCount = 0;
+    public int $maxMediaCount = 1;
 
     public function __construct(
         ?string $id,
@@ -45,7 +45,8 @@ class MediaManager extends BaseComponent
         // For the root MediaManager, mediaManagerId is its own originalId
         $this->mediaManagerId = $this->originalId;
         $this->options = $options;
-        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $this->setModelProperties($resolvedModel);
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
         if (! $this->multiple) {
@@ -84,11 +85,10 @@ class MediaManager extends BaseComponent
         if ($this->singleMedia !== null) {
             $totalMediaCount = 1;
         } else {
-            $mediaService = app(MediaService::class);
             if ($this->modelOrClassName instanceof HasMedia) {
-                $totalMediaCount = $mediaService->countModelMediaInCollections($this->modelOrClassName, $this->collections, $this->dataSource);
+                $totalMediaCount = $this->mediaService->countModelMediaInCollections($this->modelOrClassName, $this->collections, $this->dataSource);
             } elseif (is_string($this->modelOrClassName)) {
-                $totalMediaCount = $mediaService->countTemporaryUploadsInCollections($this->collections, $this->instanceId, $this->clientToken, $this->dataSource);
+                $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections($this->collections, $this->instanceId, $this->clientToken, $this->dataSource);
             } else {
                 $totalMediaCount = 0;
             }

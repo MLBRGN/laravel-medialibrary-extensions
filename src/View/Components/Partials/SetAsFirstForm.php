@@ -9,20 +9,16 @@ use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class SetAsFirstForm extends BaseComponent
+class SetAsFirstForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public ?string $targetMediaCollection = null;
 
     public ?string $mediaManagerId = '';
-
-    //    public array $config;
 
     public string $mediumSetAsFirstRoute;
 
@@ -47,7 +43,8 @@ class SetAsFirstForm extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $this->setModelProperties($resolvedModel);
 
         if ($this->medium instanceof Media && is_null($this->modelId)) {
             $this->modelId = $this->medium->model_id;

@@ -5,12 +5,9 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Spatie\MediaLibrary\HasMedia;
 
 class MediaManagerMultiple extends MediaManager
 {
-    public int $totalMediaCount = 0;
-
     public function __construct(
         ?string $id,
         mixed $modelOrClassName,
@@ -34,18 +31,19 @@ class MediaManagerMultiple extends MediaManager
         );
         $this->options = $options;
 
-        $mediaService = app(MediaService::class);
         $dataSource = $this->options['dataSource'] ?? null;
 
-        $resolved = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+        $resolved = $this->mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
 
-        if ($modelOrClassName instanceof HasMedia) {
-            $this->totalMediaCount = $mediaService->countModelMediaInCollections($resolved->model, $collections, $dataSource);
-        } elseif (is_string($modelOrClassName)) {
-            $instanceId = $this->options['instanceId'] ?? null;
-            $clientToken = $this->options['clientToken'] ?? null;
-            $this->totalMediaCount = $mediaService->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource);
-        }
+        $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+            $resolved,
+            $collections,
+            $this->options['instanceId'] ?? null,
+            $this->options['clientToken'] ?? null,
+            $dataSource
+        );
+
+        $this->maxMediaCount = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
     }
 }

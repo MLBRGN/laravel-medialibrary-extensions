@@ -7,17 +7,12 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ImageEditorForm extends BaseComponent
+class ImageEditorForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
-
-    //    public string $storeUpdatedMediaRoute;
-    //    public array $config;
 
     public function __construct(
         ?string $id,
@@ -35,7 +30,8 @@ class ImageEditorForm extends BaseComponent
 
         $this->id = $this->id.'-ie-update-form';
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
+        $this->setModelProperties($resolvedModel);
 
         $storeUpdatedMediaRoute = $this->getOption('temporaryUploadMode') ?
             route(mle_prefix_route('save-updated-temporary-upload'), $medium) :

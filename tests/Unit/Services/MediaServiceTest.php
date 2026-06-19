@@ -76,3 +76,42 @@ it('returns null if mime type is not supported', function () {
 
     expect($collection)->toBeNull();
 });
+
+it('resolves an actual HasMedia model instance', function () {
+    $model = $this->getTestBlogModel();
+
+    $service = app(MediaService::class);
+    $resolvedModel = $service->resolveModelOrClassName($model, 'default');
+
+    expect($resolvedModel->model)->toBe($model);
+    expect($resolvedModel->modelType)->toBe($model->getMorphClass());
+    expect($resolvedModel->modelId)->toBe($model->getKey());
+    expect($resolvedModel->temporaryUploadMode)->toBeFalse();
+});
+
+it('resolves a class name string that implements HasMedia', function () {
+    $model = $this->getTestBlogModel();
+
+    $service = app(MediaService::class);
+    $resolvedModel = $service->resolveModelOrClassName($model->getMorphClass(), 'default');
+
+    expect($resolvedModel->model)->toBeNull();
+    expect($resolvedModel->modelType)->toBe($model->getMorphClass());
+    expect($resolvedModel->modelId)->toBeNull();
+    expect($resolvedModel->temporaryUploadMode)->toBeTrue();
+});
+
+it('throws InvalidArgumentException for non-existing class name', function () {
+    $service = app(MediaService::class);
+    $service->resolveModelOrClassName('NonExistentClass', 'default');
+})->throws(InvalidArgumentException::class);
+
+it('throws UnexpectedValueException if class does not implement HasMedia', function () {
+    $service = app(MediaService::class);
+    $service->resolveModelOrClassName(stdClass::class, 'default');
+})->throws(UnexpectedValueException::class);
+
+it('throws TypeError for invalid type', function () {
+    $service = app(MediaService::class);
+    $service->resolveModelOrClassName(123, 'default');
+})->throws(InvalidArgumentException::class);

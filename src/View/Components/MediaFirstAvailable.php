@@ -7,14 +7,12 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // TODO dataSource?
-class MediaFirstAvailable extends BaseComponent
+class MediaFirstAvailable extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public ?Media $medium = null;
 
@@ -33,7 +31,9 @@ class MediaFirstAvailable extends BaseComponent
     ) {
         parent::__construct($id ?: null);
         $this->options = $options;
-        $this->resolveModelOrClassName($modelOrClassName, 'default');
+
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
+        $this->setModelProperties($resolvedModel);
 
         if (! $this->hasCollections()) {
             throw new Exception(__('medialibrary-extensions::messages.no_media_collections'));

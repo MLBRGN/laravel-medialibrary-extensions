@@ -8,19 +8,15 @@ use Illuminate\View\View;
 use InvalidArgumentException;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // TODO dataSource?
-class MediaRestoreForm extends BaseComponent
+class MediaRestoreForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public ?string $mediaManagerId = '';
-
-    //    public array $config;
 
     public string $mediumRestoreRoute;
 
@@ -36,7 +32,8 @@ class MediaRestoreForm extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, 'default');
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
+        $this->setModelProperties($resolvedModel);
 
         $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('media-restore-form-'.$this->media->id));

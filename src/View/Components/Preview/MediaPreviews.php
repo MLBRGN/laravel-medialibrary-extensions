@@ -8,14 +8,12 @@ use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaPreviews extends BaseComponent
+class MediaPreviews extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public Collection $media;
 
@@ -52,7 +50,8 @@ class MediaPreviews extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $this->setModelProperties($resolvedModel);
 
         if (isset($options['temporaryUploadMode'])) {
             $this->temporaryUploadMode = (bool) $options['temporaryUploadMode'];
@@ -91,10 +90,6 @@ class MediaPreviews extends BaseComponent
             'instanceId' => $this->instanceId,
             'clientToken' => $this->clientToken,
         ]);
-        // TODO use Collection or MediaCollection?
-        // $this->mediaItems = MediaCollection::make($allMedia);
-        // $this->media = $this->mediaItems;
-        // $this->mediaCount = $this->mediaItems->count();
 
         $this->resolveConfig([
             'temporaryUploadMode' => $this->temporaryUploadMode,

@@ -8,22 +8,17 @@ use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
-use Spatie\MediaLibrary\HasMedia;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // TODO $dataSource?
-class YouTubeUploadForm extends BaseComponent
+class YouTubeUploadForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public ?string $modelType = null;
 
     public ?string $mediaManagerId = '';
-
-    //    public array $config = [];
 
     public function __construct(
         ?string $id,
@@ -46,7 +41,8 @@ class YouTubeUploadForm extends BaseComponent
 
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, 'default');
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
+        $this->setModelProperties($resolvedModel);
 
         $youtubeCollection = $collections['youtube'] ?? null;
         $mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));

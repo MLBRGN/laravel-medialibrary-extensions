@@ -9,14 +9,10 @@ use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 
-class MediaManagerTinymce extends BaseComponent
+class MediaManagerTinymce extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
-
-    //    public array $config;
 
     public bool $disableForm = false;
 
@@ -45,7 +41,8 @@ class MediaManagerTinymce extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $this->setModelProperties($resolvedModel);
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {

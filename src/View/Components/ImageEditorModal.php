@@ -7,15 +7,11 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ImageEditorModal extends BaseComponent
+class ImageEditorModal extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
-
-    //    public array $config = [];
 
     public string $storeUpdatedMediaRoute;
 
@@ -45,7 +41,8 @@ class ImageEditorModal extends BaseComponent
         $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('iem-'.$medium->id));
 
-        $this->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
+        $this->setModelProperties($resolvedModel);
 
         $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
             $medium) : route(mle_prefix_route('save-updated-media'), $medium);

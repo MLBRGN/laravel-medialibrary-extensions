@@ -24,6 +24,9 @@
         {{-- Upload form section --}}
         <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
             @if($getConfig('showUploadForms'))
+{{--                TODO when single show 1, otherwise max from config--}}
+                <span class="mle-media-manager-media-counts">{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>
+                
                 {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
