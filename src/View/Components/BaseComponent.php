@@ -41,6 +41,7 @@ abstract class BaseComponent extends Component
 
         $clientContext = new ClientContext(request());// todo remove here
         $this->clientToken = $clientContext->get();// todo remove here
+
     }
 
     public function setBaseId(string $id): void

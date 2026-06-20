@@ -2,6 +2,25 @@
     /** @noinspection ALL */
     use Mlbrgn\LaravelFormComponents\View\Components\Form;
     use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
+    
+    $showMmsPermanent = true;
+    $showMmsTemporary = true;
+    $showMmmPermanent = true;
+    $showMmmTemporary = true;
+    $showMediaCarousel = true;
+    $showMediaLab = true;
+    $showMediaFirstAvailable = true;
+    $showFormCustomFilePicker = true;
+    
+    $showMmsPermanent = false;
+    $showMmsTemporary = true;
+    $showMmmPermanent = false;
+    $showMmmTemporary = false;
+    $showMediaCarousel = false;
+    $showMediaLab = false;
+    $showMediaFirstAvailable = false;
+    $showFormCustomFilePicker = false;
+
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -133,166 +152,184 @@
                 <a href="{{ request()->fullUrlWithQuery(['use_xhr' => '0']) }}" class="mle-demo-btn {{ !$useXhr ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-use-xhr-no">No</a>
             </div>
         </div>
-    
-        <h2>Media Manager Single</h2>
-        <x-mle-media-manager-single
-            id="alien-single-permanent"
-            :model-or-class-name="$model"
-            :collections="[
-                            'image' => 'alien-single-image', 
-                            'document' =>'alien-single-document', 
-                            'youtube' =>'alien-single-youtube-video', 
-                            'video' =>'alien-single-video', 
-                            'audio' =>'alien-single-audio'
-            ]"
-            :options="[
-                        'frontendTheme' => $frontendTheme, 
-                        'dataSource' => $dataSource, 'useXhr' => $useXhr
-            ]"
-        />
-    
-        <h2>Media Manager Single (Temporary)</h2>
-        <x-mle-media-manager-single
-            id="alien-single-temporary"
-            model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-            :collections="[
-                            'image' => 'alien-single-image',
-                            'document' =>'alien-single-document',
-                            'youtube' =>'alien-single-youtube-video',
-                            'video' =>'alien-single-video',
-                            'audio' =>'alien-single-audio',
-                        ]"
-            :options="[
-                        'frontendTheme' => $frontendTheme, 
-                        'dataSource' => $dataSource, 
-                        'useXhr' => $useXhr
-            ]"
-        />
-    
-        <h2>Media Manager Multiple</h2>
-        
-        <x-mle-media-manager-multiple
-            id="alien-multiple-permanent"
-            :model-or-class-name="$model"
-            :collections="[
-                'image' => 'alien-multiple-images', 
-                'document' =>'alien-multiple-documents', 
-                'youtube' =>'alien-multiple-youtube-videos', 
-                'video' =>'alien-multiple-videos', 
-                'audio' =>'alien-multiple-audios'
-            ]"
-            :options="[
-                'showOrder' => true, 
-                'frontendTheme' => $frontendTheme, 
-                'dataSource' => $dataSource, 
-                'useXhr' => $useXhr
-            ]"
-        />
-    
-        <h2>Media Manager Multiple (Temporary)</h2>
-        <x-mle-media-manager-multiple
-            id="alien-multiple-temporary"
-            model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-            :collections="[
-                'image' => 'alien-multiple-images', 
-                'document' =>'alien-multiple-documents', 
-                'youtube' =>'alien-multiple-youtube-videos', 
-                'video' =>'alien-multiple-videos', 
-                'audio' =>'alien-multiple-audios'
-            ]"
-            :options="[
-                'showOrder' => true, 
-                'frontendTheme' => $frontendTheme, 
-                'dataSource' => $dataSource, 
-                'useXhr' => $useXhr
-            ]"
-        />
-    
-        <h2>Media Carousel</h2>
-    
-        <p>{{ __('medialibrary-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
-       
-        <x-mle-media-carousel
-            id="alien-carousel"
-            :model-or-class-name="$model"
-            :collections="[
-                'image' => 'alien-multiple-images', 
-                'document' =>'alien-multiple-documents', 
-                'youtube' =>'alien-multiple-youtube-videos', 
-                'video' =>'alien-multiple-videos', 
-                'audio' =>'alien-multiple-audios',
-//                'image' => 'alien-single-image', 
-//                'document' =>'alien-single-document', 
-//                'youtube' =>'alien-single-youtube-video', 
-//                'video' =>'alien-single-video', 
-//                'audio' =>'alien-single-audio'
-            ]"
-            :options="[
-                'frontendTheme' => $frontendTheme, 
-                'dataSource' => $dataSource
-            ]"
-        />
-    
-        <h2>Media Lab</h2>
-        
-        <x-mle-media-lab
-            id="alien-lab"
-            :media="$media"
-            :options="[
-                'frontendTheme' => $frontendTheme, 
-                'dataSource' => $dataSource, 
-                'useXhr' => $useXhr
-            ]"
-        />
-    
-        <h2>Media First Available</h2>
-       
-        <div class="mle-demo-media-first-available-container">
-            <x-mle-first-available
-                id="media-first-available"
+
+        @if ($showMmsPermanent)
+            <h2>Media Manager Single</h2>
+            <x-mle-media-manager-single
+                id="alien-single-permanent"
                 :model-or-class-name="$model"
                 :collections="[
-                    'image' => 'alien-single-image',
-                    'document' => 'alien-single-document',
-                    'youtube' => 'alien-single-youtube-video',
-                    'video' => 'alien-single-video',
-                    'audio' => 'alien-single-audio',
+                                'image' => 'alien-single-image', 
+                                'document' =>'alien-single-document', 
+                                'youtube' =>'alien-single-youtube-video', 
+                                'video' =>'alien-single-video', 
+                                'audio' =>'alien-single-audio'
                 ]"
                 :options="[
-                    'dataSource' => $dataSource,
+                            'frontendTheme' => $frontendTheme, 
+                            'dataSource' => $dataSource, 'useXhr' => $useXhr
                 ]"
-                class="mle-width-100 mle-height-100"
             />
-        </div>
-        @if (app()->environment('local') && class_exists(Form::class))
-            <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
-            <x-form-form
-                method="put"
-                enctype="multipart/form-data"
-                class="my-5"
-            >
-                <x-form-html-editor
-                    name="content"
-                    label="Content *"
-                    :tinymce-config="[]"
-                    :extra-form-data="[
-                                    'model_type' => $model->getMorphClass(),
-                                    'model_id' => $model->getKey(),
-                                    'collection_name' => 'alien-media-lab',
-                                    'collections' => ['image' => 'alien-media-lab'],
-                                    'data_source' => $dataSource,
-                                ]"
-                    data-mle-model-type="{{ $model->getMorphClass() }}"
-                    data-mle-model-id="{{ $model->getKey() }}"
-                    data-mle-data-source="{{ $dataSource }}"
-                    :data-mle-collections="json_encode([
-                                    'image' => 'alien-media-lab',
-                                ])"
-                />
-            </x-form-form>
-        @else
-            form components not available, skipping demo
         @endif
+
+        @if ($showMmsTemporary)
+            <h2>Media Manager Single (Temporary)</h2>
+            <x-mle-media-manager-single
+                id="alien-single-temporary"
+                model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+                :collections="[
+                                'image' => 'alien-single-image',
+                                'document' =>'alien-single-document',
+                                'youtube' =>'alien-single-youtube-video',
+                                'video' =>'alien-single-video',
+                                'audio' =>'alien-single-audio',
+                            ]"
+                :options="[
+                            'frontendTheme' => $frontendTheme, 
+                            'dataSource' => $dataSource, 
+                            'useXhr' => $useXhr
+                ]"
+            />
+       @endif
+
+        @if ($showMmmPermanent)
+            <h2>Media Manager Multiple</h2>
+            <x-mle-media-manager-multiple
+                id="alien-multiple-permanent"
+                :model-or-class-name="$model"
+                :collections="[
+                    'image' => 'alien-multiple-images', 
+                    'document' =>'alien-multiple-documents', 
+                    'youtube' =>'alien-multiple-youtube-videos', 
+                    'video' =>'alien-multiple-videos', 
+                    'audio' =>'alien-multiple-audios'
+                ]"
+                :options="[
+                    'showOrder' => true, 
+                    'frontendTheme' => $frontendTheme, 
+                    'dataSource' => $dataSource, 
+                    'useXhr' => $useXhr
+                ]"
+            />
+        @endif
+    
+        @if($showMmmTemporary)
+            <h2>Media Manager Multiple (Temporary)</h2>
+            
+            <x-mle-media-manager-multiple
+                id="alien-multiple-temporary"
+                model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+                :collections="[
+                    'image' => 'alien-multiple-images', 
+                    'document' =>'alien-multiple-documents', 
+                    'youtube' =>'alien-multiple-youtube-videos', 
+                    'video' =>'alien-multiple-videos', 
+                    'audio' =>'alien-multiple-audios'
+                ]"
+                :options="[
+                    'showOrder' => true, 
+                    'frontendTheme' => $frontendTheme, 
+                    'dataSource' => $dataSource, 
+                    'useXhr' => $useXhr
+                ]"
+            />
+        @endif
+        
+    
+        @if($showMediaCarousel)
+            <h2>Media Carousel</h2>
+            <p>{{ __('medialibrary-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
+           
+            <x-mle-media-carousel
+                id="alien-carousel"
+                :model-or-class-name="$model"
+                :collections="[
+                    'image' => 'alien-multiple-images', 
+                    'document' =>'alien-multiple-documents', 
+                    'youtube' =>'alien-multiple-youtube-videos', 
+                    'video' =>'alien-multiple-videos', 
+                    'audio' =>'alien-multiple-audios',
+    //                'image' => 'alien-single-image', 
+    //                'document' =>'alien-single-document', 
+    //                'youtube' =>'alien-single-youtube-video', 
+    //                'video' =>'alien-single-video', 
+    //                'audio' =>'alien-single-audio'
+                ]"
+                :options="[
+                    'frontendTheme' => $frontendTheme, 
+                    'dataSource' => $dataSource
+                ]"
+            />
+        @endif
+    
+        
+        @if ($showMediaLab)
+            <h2>Media Lab</h2>
+            <x-mle-media-lab
+                id="alien-lab"
+                :media="$media"
+                :options="[
+                    'frontendTheme' => $frontendTheme, 
+                    'dataSource' => $dataSource, 
+                    'useXhr' => $useXhr
+                ]"
+            />
+        @endif
+    
+       
+        @if ($showMediaFirstAvailable)
+            <h2>Media First Available</h2>
+            <div class="mle-demo-media-first-available-container">
+                <x-mle-first-available
+                    id="media-first-available"
+                    :model-or-class-name="$model"
+                    :collections="[
+                        'image' => 'alien-single-image',
+                        'document' => 'alien-single-document',
+                        'youtube' => 'alien-single-youtube-video',
+                        'video' => 'alien-single-video',
+                        'audio' => 'alien-single-audio',
+                    ]"
+                    :options="[
+                        'dataSource' => $dataSource,
+                    ]"
+                    class="mle-width-100 mle-height-100"
+                />
+            </div>
+        @endif
+        
+        @if($showFormCustomFilePicker)
+            @if (app()->environment('local') && class_exists(Form::class))
+                <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
+                <x-form-form
+                    method="put"
+                    enctype="multipart/form-data"
+                    class="my-5"
+                >
+                    <x-form-html-editor
+                        name="content"
+                        label="Content *"
+                        :tinymce-config="[]"
+                        :extra-form-data="[
+                                        'model_type' => $model->getMorphClass(),
+                                        'model_id' => $model->getKey(),
+                                        'collection_name' => 'alien-media-lab',
+                                        'collections' => ['image' => 'alien-media-lab'],
+                                        'data_source' => $dataSource,
+                                    ]"
+                        data-mle-model-type="{{ $model->getMorphClass() }}"
+                        data-mle-model-id="{{ $model->getKey() }}"
+                        data-mle-data-source="{{ $dataSource }}"
+                        :data-mle-collections="json_encode([
+                                        'image' => 'alien-media-lab',
+                                    ])"
+                    />
+                </x-form-form>
+            @else
+                form components not available, skipping demo
+            @endif
+        @endif
+        
     </div>
     
     @if($frontendTheme === 'bootstrap-5')

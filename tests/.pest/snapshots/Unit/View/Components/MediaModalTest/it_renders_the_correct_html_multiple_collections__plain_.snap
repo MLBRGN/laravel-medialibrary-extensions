@@ -35,13 +35,6 @@
     tabindex="-1"
         data-mle-carousel-effect="slide"
 >
-
-
-
-
-
-
-
     
     <div
         class="mle-media-carousel-indicators"
@@ -219,11 +212,6 @@
         </span>
         <span class="mle-visually-hidden">Next</span>
     </button>
-
-
-
-
-
 </div>
 <script
         type="application/json"

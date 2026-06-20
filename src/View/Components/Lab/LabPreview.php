@@ -22,11 +22,8 @@ class LabPreview extends BaseMediaComponent
         array $options = []
     ) {
         $id = filled($id) ? $id : null;
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
         $this->options = $options;
-
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
-        $this->setModelProperties($resolvedModel);
 
         $this->resolveConfig();
     }

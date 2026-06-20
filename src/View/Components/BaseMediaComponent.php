@@ -24,17 +24,47 @@ abstract class BaseMediaComponent extends BaseComponent
 
     public MediaService $mediaService;
 
-    public function __construct(?string $id = null)
+    public int $totalMediaCount = 0;
+
+    public int $maxMediaCount = 1;
+
+    public ResolvedModel $resolvedModel;
+
+    public function __construct(
+        ?string $id = null,
+        mixed $modelOrClassName,
+        ?string $dataSource = 'default'
+    )
     {
         parent::__construct($id);
 
         $this->mediaService = app(MediaService::class);
 
         $this->clientToken = app(ClientContext::class)->get();
+
+        $this->resolveModel($modelOrClassName, $dataSource);
+
+//        $this->totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
+//            $collections,
+//            $instanceId,
+//            $this->clientToken,
+//            $this->dataSource
+//        );
+//        dump($this->totalMediaCount);
+    }
+
+    protected function resolveModel(mixed $modelOrClassName, ?string $dataSource = 'default'): void
+    {
+        $this->resolvedModel = $this->mediaService->resolveModelOrClassName(
+            $modelOrClassName,
+            $dataSource
+        );
+
+        $this->setResolvedModelProperties($this->resolvedModel);
     }
 
     // TODO better name
-    protected function setModelProperties(ResolvedModel $resolvedModel): void
+    protected function setResolvedModelProperties(ResolvedModel $resolvedModel): void
     {
         $this->model = $resolvedModel->model;
         $this->modelType = $resolvedModel->modelType;

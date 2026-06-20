@@ -13,18 +13,6 @@
     method="post"
     class="mle-media-manager-upload-form"
 >
-    @if($disabled)
-        <div class="mle-alert alert alert-primary">
-            @if(!$multiple && $getConfig('disableForm'))
-                {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}
-                {{--                TODO not working correctly--}}
-            @elseif($multiple && $getConfig('disableForm'))
-                {{ __('medialibrary-extensions::messages.upload_disabled_max_items_reached') }}
-            @else
-                {{ __('medialibrary-extensions::messages.disabled') }}
-            @endif
-        </div>
-    @endif
     <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
     <input
         id="{{ $id }}-media-input"

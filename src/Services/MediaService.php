@@ -76,13 +76,12 @@ class MediaService
         ?string $dataSource,
         bool $validateExtended = true
     ): ?object {
-        Log::info('MediaService - findMediaModel: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
+//        Log::info('MediaService - findMediaModel: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
         if ($modelClass === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
             return null;
         }
 
         if (! class_exists($modelClass)) {
-            Log::info('MediaService - throws Invalid model type: '.$modelClass);
             throw InvalidModelTypeException::for($modelClass);
         }
 
@@ -96,13 +95,13 @@ class MediaService
 
         $connection = $this->resolver->resolveConnection($dataSource);
 
-        Log::info('findMediaModel resolved connection', [
-            'dataSource' => $dataSource,
-            'connection' => $connection,
-            'database' => $model->setConnection($connection)
-                ->getConnection()
-                ->getDatabaseName(),
-        ]);
+//        Log::info('findMediaModel resolved connection', [
+//            'dataSource' => $dataSource,
+//            'connection' => $connection,
+//            'database' => $model->setConnection($connection)
+//                ->getConnection()
+//                ->getDatabaseName(),
+//        ]);
 
         return $model
             ->setConnection($connection)
@@ -190,11 +189,12 @@ class MediaService
     }
 
     /**
-     * Count total temporary uploads for current client in given collections.
+     * Count total temporary uploads for the current client and component instance in given collections.
      */
-    public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource): int
+//    public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource): int
+    public function countTemporaryUploadsInCollections(array $collections, string $instanceId = null, string $clientToken = null, string $dataSource): int
     {
-        Log::info('MediaService - countTemporaryUploadsInCollections: '.implode(', ', $collections) . ' instanceId ' . $instanceId . ' clientToken ' . $clientToken . ' dataSource ' . $dataSource);
+//        Log::info('MediaService - countTemporaryUploadsInCollections: '.implode(', ', $collections) . ' instanceId ' . $instanceId . ' clientToken ' . $clientToken . ' dataSource ' . $dataSource);
         //        dd($collections, $instanceId, $clientToken, $dataSource);
         $count = collect($collections)
             ->filter(fn ($collectionName) => ! empty($collectionName))
@@ -204,24 +204,28 @@ class MediaService
                 return $total + $temporaryItems->count();
             }, 0);
 
-        Log::info('MediaService - countTemporaryUploadsInCollections counted '. $count);
+//        Log::info('MediaService - countTemporaryUploadsInCollections counted '. $count);
         return $count;
     }
 
     public function countMediaInCollections(
-        ResolvedModel $resolved,
+        ResolvedModel $resolvedModel,
         array $collections,
         ?string $instanceId = null,
         ?string $clientToken = null,
         ?string $dataSource = null,
     ): int
     {
-        if (! $resolved->temporaryUploadMode) {
+        if (! $resolvedModel->temporaryUploadMode) {
             return $this->countModelMediaInCollections(
-                $resolved->model,
+                $resolvedModel->model,
                 $collections,
                 $dataSource
             );
+        }
+
+        if ($instanceId === null || $clientToken === null || $dataSource === null) {
+            throw new \InvalidArgumentException('instanceId, clientToken, and dataSource are required when using temporary uploads');
         }
 
         return $this->countTemporaryUploadsInCollections(
@@ -301,11 +305,11 @@ class MediaService
                $dataSource
     ): MediaCollection {
 
-        Log::info('Temporary media lookup', [
-            'instanceId' => $instanceId,
-            'clientToken' => $clientToken,
-            'collection' => json_encode($collections),
-        ]);
+//        Log::info('Temporary media lookup', [
+//            'instanceId' => $instanceId,
+//            'clientToken' => $clientToken,
+//            'collection' => json_encode($collections),
+//        ]);
         // CASE A: TEMPORARY MODE (NO MODEL)
         if (! $model instanceof Model) {
             $media = collect($collections)

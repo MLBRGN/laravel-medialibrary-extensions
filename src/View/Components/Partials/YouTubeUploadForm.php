@@ -11,7 +11,6 @@ use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// TODO $dataSource?
 class YouTubeUploadForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
@@ -31,8 +30,9 @@ class YouTubeUploadForm extends BaseMediaComponent
         public ?bool $readonly = false,
         public ?bool $disabled = false,
         public string $instanceId = '',
+        public ?string $dataSource = 'default',
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
 
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
 
@@ -41,21 +41,24 @@ class YouTubeUploadForm extends BaseMediaComponent
 
         $this->options = $options;
 
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
-        $this->setModelProperties($resolvedModel);
-
         $youtubeCollection = $collections['youtube'] ?? null;
         $mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
         $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
 
         $this->resolveConfig([
             'instanceId' => $this->instanceId,
-            //            'frontendTheme' => config('medialibrary-extensions.frontend_theme'),
-            //            'useXhr' => config('medialibrary-extensions.use_xhr'),
             'youtubeCollection' => $youtubeCollection,
             'mediaUploadRoute' => $mediaUploadRoute,
             'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
         ]);
+
+        $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+            $this->resolvedModel,
+            $this->collections,
+            $this->instanceId,
+            $this->clientToken,
+            $this->dataSource
+        );
     }
 
     public function render(): View

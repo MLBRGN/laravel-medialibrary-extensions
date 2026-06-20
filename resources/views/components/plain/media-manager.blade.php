@@ -25,6 +25,21 @@
         <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
             @if($getConfig('showUploadForms'))
                 <span class="mle-media-manager-media-counts">{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>
+                @if($totalMediaCount >= $maxMediaCount)
+                    <div class="mle-alert alert alert-primary">
+                        @if(!$multiple)
+                            {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}
+                        @elseif($multiple)
+                            {{ __('medialibrary-extensions::messages.upload_disabled_max_items_reached') }}
+                        @endif
+                    </div>
+                @else
+                    @if($getConfig('disableForm'))
+                        <div class="mle-alert alert alert-primary">
+                            {{ __('medialibrary-extensions::messages.disabled') }}
+                        </div>
+                    @endif
+                @endif
                 {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
@@ -38,6 +53,7 @@
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
                         :instance-id="$getConfig('instanceId')"
+                        :data-source="$getConfig('dataSource')"
                     />
                 @endif
 
@@ -54,6 +70,7 @@
                         :readonly="$readonly"
                         :multiple="$multiple"
                         :instance-id="$getConfig('instanceId')"
+                        :data-source="$getConfig('dataSource')"
                     />
                 @endif
             @endif
@@ -94,6 +111,7 @@
         :model-or-class-name="$modelOrClassName"
         :config="$getConfig()"
         :options="$getOptions()"
+        :data-source="$dataSource"
     />
 </div>
     <x-mle-shared-assets

@@ -12,17 +12,6 @@
     method="post"
     class="mle-media-manager-youtube-upload-form"
 >
-    @if($disabled)
-        <div class="mle-alert alert alert-primary">
-            @if(!$multiple && $getConfig('disableForm'))
-                {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}
-            @elseif($multiple && $getConfig('disableForm'))
-                {{ __('medialibrary-extensions::messages.upload_disabled_max_items_reached') }}
-            @else
-                {{ __('medialibrary-extensions::messages.disabled') }}
-            @endif
-        </div>
-    @endif
     <input 
         type="hidden" 
         name="temporary_upload_mode" 

@@ -17,7 +17,6 @@ use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// TODO dataSource?
 class Debug extends Component
 {
     use InteractsWithOptionsAndConfig;
@@ -41,6 +40,7 @@ class Debug extends Component
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         array $config = [],
         array $options = [],
+        public ?string $dataSource = 'default',
     ) {
 
         $this->config = $config;
@@ -48,7 +48,9 @@ class Debug extends Component
         $this->id = uniqid();
 
         $mediaService = app(MediaService::class);
-        $this->resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, 'default');
+
+        $this->resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+
         $this->model = $this->resolvedModel->model;
         $this->modelType = $this->resolvedModel->modelType;
         $this->modelId = $this->resolvedModel->modelId;

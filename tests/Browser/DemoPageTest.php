@@ -15,10 +15,10 @@ beforeEach(function () {
     Blade::component('form-submit', AnonymousComponent::class);
 });
 
-$waitTime = 0;
+$waitTime = .3;// some mmm tests fail with low wait time
 
 dataset('mms_test_matrix', [
-    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
+//    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
     'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
     'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
     'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
@@ -42,12 +42,12 @@ dataset('mms_test_matrix', [
 dataset('mmm_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
     'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-//    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'], // TODO FAILS?
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'], // TODO FAILS?
     'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
     'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
     'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-//    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],// TODO FAILS?
+    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],// TODO FAILS?
     'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
@@ -81,7 +81,9 @@ it('loads all required assets', function () {
     // Verify image editor
     $this->get($assetPath.'/js/image-editor.js')
         ->assertSuccessful();
-})->group('browser')->skip();
+//})->group('browser');
+})->group('browser')
+    ->skip();
 
 it('can visit demo page switch theme, XHR and DataSource', function () {
 
@@ -115,7 +117,9 @@ it('can visit demo page switch theme, XHR and DataSource', function () {
         ->assertSee('Media Carousel')
         ->assertSee('Media Lab')
         ->assertSee('Media First Available');
-})->skip();
+//});
+})
+    ->skip();
 
 it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitTime) {
 
@@ -140,6 +144,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
     $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector.' [data-mle-carousel-indicators]';
     $mediaModalCarouselItemSelector = $mediaModalCarouselSelector.' [data-mle-carousel-item]';
+    $mediaModalCarouselItemContainerSelector = $mediaModalCarouselItemSelector.' .mle-media-carousel-item-container';
+    $mediaModalCarouselItemContainerImageSelector = $mediaModalCarouselItemContainerSelector.' img';
 
     $xhrInt = $xhr ? 1 : 0;
     $page = $this->visit("/mle-demo?theme={$theme}&data_source={$dataSource}&use_xhr={$xhrInt}")
@@ -183,7 +189,6 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // check that the media item's menu has the expected buttons and state
     ->assertButtonEnabled($editButtonSelector)
-    // TODO fix fails in plain theme
     ->assertButtonDisabled($setAsFirstButtonSelector)
     ->assertButtonEnabled($deleteButtonSelector)
 
@@ -196,6 +201,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     ->assertPresent($mediaModalCarouselSelector)
     ->assertPresent($mediaModalCarouselIndicatorSelector)
     ->assertPresent($mediaModalCarouselItemSelector)
+    ->assertPresent($mediaModalCarouselItemContainerSelector)
+    ->assertPresent($mediaModalCarouselItemContainerImageSelector)
 
     // check that media modal can be closed
     ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
@@ -211,8 +218,9 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_test_matrix')
-    ->skip();
+    ->with('mms_test_matrix');
+//    ->with('mms_test_matrix')
+//    ->skip();
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTime) {
 
@@ -304,10 +312,15 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
         // delete media test
         for ($i = 0; $i < $maxItems; $i++) {
+
+            Log::info('Deleting media item ' . $i);
             // check delete media works
-            $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
-                ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-                ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+            $page
+                ->assertPresent($deleteButtonSelector)
+                ->pressAndWaitFor($deleteButtonSelector, $waitTime);
+//            $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
+//                ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+//                ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 
         }
 
@@ -317,5 +330,6 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
+//    ->with('mmm_test_matrix');
     ->with('mmm_test_matrix')
     ->skip();

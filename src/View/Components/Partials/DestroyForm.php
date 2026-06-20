@@ -31,7 +31,7 @@ class DestroyForm extends BaseMediaComponent
         public string $instanceId = '',
         public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
 
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
 
@@ -39,9 +39,6 @@ class DestroyForm extends BaseMediaComponent
         $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
 
         $this->options = $options;
-
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
-        $this->setModelProperties($resolvedModel);
 
         if ($this->medium instanceof Media && is_null($this->modelId)) {
             $this->modelId = $this->medium->model_id;

@@ -37,6 +37,7 @@ class MediaManagerSingle extends MediaManager
             selectable: $selectable,
         );
 
+
         $this->options = $options;
 
         $dataSource = $this->options['dataSource'] ?? null;
@@ -51,8 +52,8 @@ class MediaManagerSingle extends MediaManager
             $this->totalMediaCount = $this->mediaService->countMediaInCollections(
                 $resolved,
                 $collections,
-                $this->options['instanceId'] ?? null,
-                $this->options['clientToken'] ?? null,
+                $this->instanceId,
+                $this->clientToken,
                 $dataSource
             );
         }

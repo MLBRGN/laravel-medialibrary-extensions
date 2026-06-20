@@ -54,6 +54,8 @@
                     :preview-mode="false"
                     :instance-id="$instanceId"
                     :data-source="$dataSource"
+                    :client-token="$clientToken"
+                    :frontend-theme="$getConfig('frontendTheme')"
                 />
             </div>
         </div>

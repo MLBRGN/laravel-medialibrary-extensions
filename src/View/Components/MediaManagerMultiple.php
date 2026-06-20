@@ -38,8 +38,8 @@ class MediaManagerMultiple extends MediaManager
         $this->totalMediaCount = $this->mediaService->countMediaInCollections(
             $resolved,
             $collections,
-            $this->options['instanceId'] ?? null,
-            $this->options['clientToken'] ?? null,
+            $this->instanceId,
+            $this->clientToken,
             $dataSource
         );
 

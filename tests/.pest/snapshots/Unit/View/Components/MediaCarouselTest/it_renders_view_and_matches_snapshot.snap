@@ -3,12 +3,6 @@
         data-mle-carousel
 >
 
-
-
-
-
-
-
     
     <div
         class="mle-media-carousel-indicators carousel-indicators mle-display-none"
@@ -58,11 +52,6 @@
         </span>
         <span class="mle-visually-hidden">Next</span>
     </button>
-
-
-
-
-
 </div>
     <div
     class="mle-component mle-theme-bootstrap-5 mle-media-modal mle-modal modal fade"
@@ -99,12 +88,6 @@
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
         data-mle-carousel
 >
-
-
-
-
-
-
 
     
     <div
@@ -155,11 +138,6 @@
         </span>
         <span class="mle-visually-hidden">Next</span>
     </button>
-
-
-
-
-
 </div>
 <script
         type="application/json"

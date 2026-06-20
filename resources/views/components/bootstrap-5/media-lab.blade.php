@@ -28,15 +28,3 @@
     :frontend-theme="$getConfig('frontendTheme')"
     for="bootstrap-5|media-lab"
 />
-{{--    @if(config('medialibrary-extensions.debug'))--}}
-{{--        <div class="mle-component mle-debug-menu">--}}
-{{--            <x-mle-shared-debug-button/>--}}
-{{--            <x-mle-shared-local-package-icon />--}}
-{{--        </div>--}}
-{{--    @endif--}}
-
-{{--    <x-mle-shared-debug--}}
-{{--        :model-or-class-name="$modelOrClassName"--}}
-{{--        :config="$getConfig()"--}}
-{{--        :options="$getOptions()"--}}
-{{--    />--}}

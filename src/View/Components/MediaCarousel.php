@@ -33,15 +33,28 @@ class MediaCarousel extends BaseComponent
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
         ?string $instanceId = null,
         public ?string $dataSource = 'default',
+        ?string $clientToken = null,
     ) {
         parent::__construct($id);
 
+        Log::info('MediaCarousel ctor', [
+            'clientToken' => $this->clientToken,
+            'instanceId' => $this->instanceId,
+        ]);
+
         if ($instanceId) {
-            Log::info('MediaCarousel: instanceId provided: ' . $instanceId);
             $this->instanceId = $instanceId;
-        } else {
-            Log::info('MediaCarousel: no instance id');
         }
+
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
+//        if ($instanceId) {
+////            Log::info('MediaCarousel: instanceId provided: ' . $instanceId);
+//            $this->instanceId = $instanceId;
+//        } else {
+//            Log::info('MediaCarousel: no instance id');
+//        }
 
         $this->options = $options;
 
@@ -59,21 +72,24 @@ class MediaCarousel extends BaseComponent
 
         $instanceId = $this->instanceId ?? $this->getConfig('instanceId');
 
-        Log::info('MediaCarousel', [
-            'id' => $this->id,
-            'originalId' => $this->originalId,
-            'instanceId' => $this->instanceId,
-        ]);
+//        Log::info('MediaCarousel', [
+//            'id' => $this->id,
+//            'originalId' => $this->originalId,
+//            'instanceId' => $this->instanceId,
+//        ]);
 
         Log::info('MediaCarousel lookup', [
             'instanceId' => $instanceId,
             'clientToken' => $this->clientToken,
-            'collections' => $this->collections,
+//            'collections' => $this->collections,
         ]);
        $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource);
 //        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();
+
+        Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
+        Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
         $this->setBaseId($this->getSuffixedId('crs'));
     }
 

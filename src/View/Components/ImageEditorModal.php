@@ -35,14 +35,11 @@ class ImageEditorModal extends BaseMediaComponent
         public bool $disabled = false,
         public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
         $this->options = $options;
 
         $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('iem-'.$medium->id));
-
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
-        $this->setModelProperties($resolvedModel);
 
         $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
             $medium) : route(mle_prefix_route('save-updated-media'), $medium);

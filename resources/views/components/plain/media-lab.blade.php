@@ -31,6 +31,7 @@
         :model-or-class-name="$modelOrClassName"
         :config="$getConfig()"
         :options="$getOptions()"
+        data-source="default"
     />
 </div>
 <x-mle-shared-assets

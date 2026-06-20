@@ -34,6 +34,13 @@ class StoreSingleTemporaryAction
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id;
         $instanceId = $request->input('instance_id');
+
+        Log::info('Upload request', [
+            'client_token_input' => $request->input('client_token'),
+            'cookie_token' => $request->cookie('mle_client_token'),
+            'all_input' => $request->all(),
+        ]);
+
         $clientToken = $request->input('client_token')
             ?? $request->cookie('mle_client_token')
             ?? (string) Str::ulid();
@@ -56,7 +63,8 @@ class StoreSingleTemporaryAction
         if ($this->temporaryUploadsHaveAnyMedia(
             $prepared->collections,
             $instanceId,
-            null,
+//            null,
+            $clientToken,
             $dataSource
         )) {
             return MediaResponse::error(
@@ -106,7 +114,8 @@ class StoreSingleTemporaryAction
             'size' => $prepared->size,
             'user_id' => $userId,
             'client_token' => $clientToken,
-            'instance_id' => $instanceId ?: null,
+//            'instance_id' => $instanceId ?: null,
+            'instance_id' => $instanceId,
             'order_column' => 0,
             'custom_properties' => [
                 'collections' => $prepared->collections,

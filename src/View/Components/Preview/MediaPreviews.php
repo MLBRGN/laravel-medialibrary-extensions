@@ -32,7 +32,7 @@ class MediaPreviews extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
 
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
 
@@ -49,9 +49,6 @@ class MediaPreviews extends BaseMediaComponent
         }
 
         $this->options = $options;
-
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
-        $this->setModelProperties($resolvedModel);
 
         if (isset($options['temporaryUploadMode'])) {
             $this->temporaryUploadMode = (bool) $options['temporaryUploadMode'];

@@ -27,12 +27,9 @@ class MediaPreviewGrid extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
 
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
-
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
-        $this->setModelProperties($resolvedModel);
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         if (empty($instanceId)) {

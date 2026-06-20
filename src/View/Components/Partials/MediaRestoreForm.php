@@ -29,11 +29,8 @@ class MediaRestoreForm extends BaseMediaComponent
         array $options = [],
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
         $this->options = $options;
-
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
-        $this->setModelProperties($resolvedModel);
 
         $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('media-restore-form-'.$this->media->id));

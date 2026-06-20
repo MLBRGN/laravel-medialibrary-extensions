@@ -29,11 +29,8 @@ class MediaFirstAvailable extends BaseMediaComponent
         array $options = [],
         public bool $previewMode = false // should the media-viewer be in preview mode (no autoplay, no document loading or not)
     ) {
-        parent::__construct($id ?: null);
+        parent::__construct($id ?: null, $this->modelOrClassName, 'default');// TODO use default?
         $this->options = $options;
-
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
-        $this->setModelProperties($resolvedModel);
 
         if (! $this->hasCollections()) {
             throw new Exception(__('medialibrary-extensions::messages.no_media_collections'));

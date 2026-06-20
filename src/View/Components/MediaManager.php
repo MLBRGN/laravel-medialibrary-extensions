@@ -24,9 +24,6 @@ class MediaManager extends BaseMediaComponent
     /** @var string Reference to the parent MediaManager's originalId */
     public string $mediaManagerId;
 
-    public int $totalMediaCount = 0;
-    public int $maxMediaCount = 1;
-
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,
@@ -40,13 +37,11 @@ class MediaManager extends BaseMediaComponent
         public ?string $dataSource = 'default',
     ) {
 
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
 
         // For the root MediaManager, mediaManagerId is its own originalId
         $this->mediaManagerId = $this->originalId;
         $this->options = $options;
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, $this->dataSource);
-        $this->setModelProperties($resolvedModel);
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
         if (! $this->multiple) {

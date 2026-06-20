@@ -18,13 +18,6 @@
     @endif
     data-mle-carousel-effect="{{ config('medialibrary-extensions.carousel_fade') ? 'fade' : 'slide' }}"
 >
-{{--    @if(config('medialibrary-extensions.debug'))--}}
-{{--        <div class="mle-component mle-debug-menu">--}}
-{{--            <x-mle-shared-debug-button/>--}}
-{{--            <x-mle-shared-local-package-icon />--}}
-{{--        </div>--}}
-{{--    @endif--}}
-
     {{-- Indicators --}}
     <div
         @class([
@@ -121,11 +114,6 @@
         </span>
         <span class="mle-visually-hidden">{{ __('medialibrary-extensions::messages.next') }}</span>
     </button>
-{{--    <x-mle-shared-debug--}}
-{{--        :model-or-class-name="$modelOrClassName"--}}
-{{--        :config="$getConfig()"--}}
-{{--        :options="$getOptions()"--}}
-{{--    />--}}
 </div>
 @if($expandableInModal)
     <x-mle-media-modal

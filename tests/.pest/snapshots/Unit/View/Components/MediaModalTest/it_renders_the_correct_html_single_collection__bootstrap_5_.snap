@@ -34,12 +34,6 @@
         data-mle-carousel
 >
 
-
-
-
-
-
-
     
     <div
         class="mle-media-carousel-indicators carousel-indicators"
@@ -128,11 +122,6 @@
         </span>
         <span class="mle-visually-hidden">Next</span>
     </button>
-
-
-
-
-
 </div>
 <script
         type="application/json"

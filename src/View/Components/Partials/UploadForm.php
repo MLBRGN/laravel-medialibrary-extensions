@@ -20,8 +20,6 @@ class UploadForm extends BaseMediaComponent
 
     public ?string $mediaManagerId = '';
 
-    //    public array $config = [];
-
     public function __construct(
         ?string $id,
         ?string $mediaManagerId,
@@ -33,8 +31,9 @@ class UploadForm extends BaseMediaComponent
         public ?bool $readonly = false,
         public ?bool $disabled = false,
         public string $instanceId = '',
+        public ?string $dataSource = 'default',
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
 
         $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
 
@@ -43,14 +42,23 @@ class UploadForm extends BaseMediaComponent
 
         $this->options = $options;
 
-        $resolvedModel = $this->mediaService->resolveModelOrClassName($modelOrClassName, 'default');// TODO use default?
-        $this->setModelProperties($resolvedModel);
-
         $mimeData = $this->resolveAllowedMimeTypes();
 
         $this->resolveConfig([
             ...$mimeData,
         ]);
+
+        if ($this->instanceId === null || $this->clientToken === null || $this->dataSource === null) {
+            dump($this->instanceId, $this->clientToken, $this->dataSource);
+        }
+
+        $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+            $this->resolvedModel,
+            $this->collections,
+            $this->instanceId,
+            $this->clientToken,
+            $this->dataSource
+        );
     }
 
     public function render(): View
