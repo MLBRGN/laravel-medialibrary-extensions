@@ -22,12 +22,12 @@
                     title="Close"
                     data-test="media-modal-close-button"
                 >
-                    <span 
-        role="img" 
-        aria-label="Close" 
+                    <span
+        role="img"
+        aria-label="Close"
         title="Close">❓</span>
                 </button>
-                
+
                 <div id="test-media-modal-mod-crs"
      class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" instance-id="E3642AD197F92C6D1BF5D78226"
     data-mle-carousel
@@ -35,7 +35,7 @@
     tabindex="-1"
         data-mle-carousel-effect="slide"
 >
-    
+
     <div
         class="mle-media-carousel-indicators"
         data-mle-carousel-indicators
@@ -44,8 +44,8 @@
                 type="button"
                 data-mle-slide-to="0"
                 class="active"
-                 
-                    aria-current="true" 
+
+                    aria-current="true"
                                 aria-label="Slide to 1">
             </button>
                     <button
@@ -74,7 +74,7 @@
             </button>
             </div>
 
-    
+
     <div class="mle-media-carousel-inner">
                     <div
                 class="mle-media-carousel-item active"
@@ -87,7 +87,7 @@
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
-        data-test="media-preview-image"
+        data-mle-media-preview-image
     >
                 </div>
             </div>
@@ -102,7 +102,7 @@
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
-        data-test="media-preview-image"
+        data-mle-media-preview-image
     >
                 </div>
             </div>
@@ -114,9 +114,9 @@
                                      >
                     <div class="mle-document mle-media-preview-item" draggable="" mle-document>
     <div class="mle-document-preview">
-        <span 
-        role="img" 
-        aria-label="PDF document." 
+        <span
+        role="img"
+        aria-label="PDF document."
         title="PDF document.">❓</span>
         <div class="mle-document-info">
             <p>
@@ -126,15 +126,15 @@
                 1 KB
             </p>
 
-            
+
                             <a href="/media/3/test.pdf" target="_blank" class="mle-document-link" data-mle-document-link>
-                    <span 
-        role="img" 
-        aria-label="PDF document." 
+                    <span
+        role="img"
+        aria-label="PDF document."
         title="PDF document.">❓</span>
                     Download document
                 </a>
-            
+
                                                 </div>
     </div>
 </div>
@@ -183,7 +183,7 @@
             </div>
             </div>
 
-    
+
     <button
         class="mle-media-carousel-control-prev"
         type="button"
@@ -191,9 +191,9 @@
         title="Previous"
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
-        <span 
-        role="img" 
-        aria-label="Previous" 
+        <span
+        role="img"
+        aria-label="Previous"
         title="Previous">❓</span>
         </span>
         <span class="mle-visually-hidden">Previous</span>
@@ -205,9 +205,9 @@
         title="Next"
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
-            <span 
-        role="img" 
-        aria-label="Next" 
+            <span
+        role="img"
+        aria-label="Next"
         title="Next">❓</span>
         </span>
         <span class="mle-visually-hidden">Next</span>

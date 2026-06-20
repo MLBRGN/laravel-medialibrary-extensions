@@ -13,7 +13,7 @@ use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ViewHelpers;
 
-// only generic component functionality, that all component share
+// only generic component functionality, that all the component share
 abstract class BaseComponent extends Component
 {
     use ViewHelpers;

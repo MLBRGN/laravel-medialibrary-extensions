@@ -21,6 +21,7 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
+use Mlbrgn\MediaLibraryExtensions\Services\DefaultYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
@@ -63,6 +64,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use RuntimeException;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -269,6 +271,11 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         if (config('medialibrary-extensions.demo_pages_enabled')) {
             $this->registerDemoDatabaseConnection();
         }
+
+        $this->app->bind(
+            YouTubeThumbnailDownloader::class,
+            DefaultYouTubeThumbnailDownloader::class
+        );
     }
 
     protected function registerDemoDatabaseConnection(): void

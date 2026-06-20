@@ -1,6 +1,6 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Tests\BrowserTestCaseNew;
+use Mlbrgn\MediaLibraryExtensions\Tests\BrowserTestCase;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 
 uses(
@@ -11,7 +11,7 @@ uses(
 //    BrowserTestCase::class
 //)->in('Browser');
 uses(
-    BrowserTestCaseNew::class
+    BrowserTestCase::class
 )->in('Browser');
 
 pest()->browser()->headed();

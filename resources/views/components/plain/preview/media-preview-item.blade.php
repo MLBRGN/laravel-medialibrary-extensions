@@ -3,7 +3,7 @@
          id="{{ $id }}"
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
-         data-test="media-preview-item"
+         data-mle-media-preview-item
     >
         <x-mle-media-viewer
             :medium="$medium"
@@ -25,6 +25,7 @@
             :initiator-id="$id"
             title="Edit Image"
             :data-source="$getConfig('dataSource')"
+            :media-manager-id="$mediaManagerId"
         />
     @endif
 @else

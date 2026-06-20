@@ -1,11 +1,9 @@
 @props([
-//    'useXhr' => false,
     'formAttributes' => [],
     'divAttributes' => [],
-//    'method' => 'post'
 ])
 @if($useXhr)
-    <div {{ $attributes->merge($divAttributes)->class(['mle-demo-media-carousel']) }} data-xhr-method="{{ $method }}">
+    <div {{ $attributes->merge($divAttributes)->class(['mle-conditional-form']) }} data-xhr-method="{{ $method }}">
         {{ $slot }}
     </div>
 @else

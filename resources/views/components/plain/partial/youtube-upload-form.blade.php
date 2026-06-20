@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => route(mle_prefix_route('media-upload-youtube')),
+        'action' => route(mle_prefix_route('media-upload-youtube'))  . '#' . $mediaManagerId,
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -66,7 +66,7 @@
     <label 
         for="{{ $id }}-youtube-url" 
         class="mle-label">
-        YouTube Video URL
+        {{ __('medialibrary-extensions::messages.youtube_video_url') }}
     </label>
     <input
         id="{{ $id }}-youtube-url"
@@ -82,7 +82,8 @@
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-upload-button"
         data-mle-action="upload-youtube-medium"
-        data-test="youtube-upload-button-{{ $id }}"
+{{--        data-test="youtube-upload-button-{{ $id }}"--}}
+        data-mle-youtube-upload-button
         @disabled($disabled)
     >
         {{ __('medialibrary-extensions::messages.add_youtube_video') }}

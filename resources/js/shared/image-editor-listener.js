@@ -82,6 +82,10 @@ const updateMedia = (detail) => {
     const initiatorIdFromConfig = config.initiatorId;
     let initiator = document.querySelector('#' + initiatorIdFromConfig);
 
+    const mediaManagerIdFromConfig = config.mediaManagerId;
+    let mediaManager = document.querySelector('#' + mediaManagerIdFromConfig);
+    let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
+
     if (!initiator) {
         // Fallback to media manager ID if the specific item is gone
         const mediaManagerId = config.mediaManagerId;
@@ -123,6 +127,7 @@ const updateMedia = (detail) => {
     const instanceId = config.instanceId;
     const dataSource = config.dataSource;
 
+    console.log('mediaManagerId ', config.mediaManagerId)
     formData.append('initiator_id', initiatorId);
     formData.append('instance_id', instanceId);
     formData.append('media_manager_id', config.mediaManagerId ?? '');
@@ -173,7 +178,9 @@ const updateMedia = (detail) => {
             detail: {'modal': modal}
         }));
 
-        showStatusMessage(parentStatusAreaContainer, {
+        console.log('show status message in ', mediaManagerStatusContainer)
+
+        showStatusMessage(mediaManagerStatusContainer, {
            type: 'success',
            message: trans('medium_replaced'),
         });

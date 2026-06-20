@@ -18,7 +18,6 @@
     @endif
     data-mle-modal
     data-mle-media-modal
-    data-test="media-modal"
 >
     <div class="mle-modal-dialog mle-media-modal-dialog">
         <div class="mle-modal-content mle-media-modal-content">
@@ -30,9 +29,8 @@
                     type="button"
                     class="mle-modal-close-button mle-media-modal-close-button"
                     data-mle-modal-close
-                    aria-label="Sluit"
+                    aria-label="{{ __('medialibrary-extensions::messages.close') }}"
                     title="{{ __('medialibrary-extensions::messages.close') }}"
-                    data-test="media-modal-close-button"
                 >
                     <x-mle-shared-icon
                         name="{{ config('medialibrary-extensions.icons.close') }}"
@@ -51,6 +49,9 @@
                     :in-modal="true"
                     :preview-mode="false"
                     :instance-id="$instanceId"
+                    :data-source="$dataSource"
+                    :client-token="$clientToken"
+                    :frontend-theme="$getConfig('frontendTheme')"
                 />
             </div>
         </div>

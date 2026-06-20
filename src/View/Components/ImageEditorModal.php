@@ -33,12 +33,15 @@ class ImageEditorModal extends BaseMediaComponent
         public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
-        public ?string $dataSource = 'default'
+        public ?string $dataSource = 'default',
+        ?string $mediaManagerId = '',
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
+
+        $this->mediaManagerId = $mediaManagerId;
         $this->options = $options;
 
-        $this->mediaManagerId = $this->originalId;
+//        $this->mediaManagerId = $this->originalId;
         $this->setBaseId($this->getSuffixedId('iem-'.$medium->id));
 
         $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),

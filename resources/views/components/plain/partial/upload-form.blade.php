@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
+        'action' => ($multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))) . '#' . $mediaManagerId,
         'method' => 'POST',
         'enctype' => 'multipart/form-data',
         'data-mle-form'
@@ -13,7 +13,7 @@
     method="post"
     class="mle-media-manager-upload-form"
 >
-    <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
+    <label for="{{ $id }}-media-input" class="mle-label">{{ __('medialibrary-extensions::messages.files') }}</label>
     <input
         id="{{ $id }}-media-input"
         data-mle-media-input

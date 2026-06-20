@@ -80,7 +80,7 @@ class GetMediaPreviewerPermanentHTMLAction
 //        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
         $component = new MediaPreviews(
             id: $initiatorId,
-            mediaManagerId: $initiatorId, // Action uses the initiator_id (DOM id) as the base identity for logical operations here
+            mediaManagerId: $initiatorId, // TODO fix
             modelOrClassName: $model,
             collections: $collections,
             options: $options,

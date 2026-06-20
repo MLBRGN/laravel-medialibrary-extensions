@@ -101,7 +101,7 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         $component = new MediaPreviews(
             id: $initiatorId,
-            mediaManagerId: $initiatorId, // Action uses the initiator_id (DOM id) as the base identity for logical operations here
+            mediaManagerId: $initiatorId, // TODO fix
             modelOrClassName: $modelType,
             collections: $collections,
             options: $options,

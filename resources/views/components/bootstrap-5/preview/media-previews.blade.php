@@ -21,6 +21,7 @@
             :disabled="$disabled"
             :readonly="$readonly"
             :multiple="$multiple"
+            :instance-id="$instanceId"
             :data-source="$getConfig('dataSource')"
         />
         <x-mle-media-modal
@@ -33,6 +34,7 @@
             title="Media carousel"
             :instance-id="$instanceId"
             :data-source="$getConfig('dataSource')"
+            :client-token="$clientToken"
         />
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
@@ -45,6 +47,7 @@
                 :options="$getOptions()"
                 :disabled="$disabled"
                 :selectable="$selectable"
+                :instance-id="$instanceId"
                 :data-source="$getConfig('dataSource')"
             />
         @endif

@@ -26,6 +26,9 @@ class ImageEditorForm extends BaseMediaComponent
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
+
+        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+
         $this->options = $options;
 
         $this->id = $this->id.'-ie-update-form';

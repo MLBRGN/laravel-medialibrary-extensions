@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -16,7 +17,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class YouTubeService
 {
     public function __construct(
-        protected DataSourceResolver $dataSourceResolver
+        protected DataSourceResolver $dataSourceResolver,
+        protected YouTubeThumbnailDownloader $thumbnailDownloader,
     ) {}
 
     public function uploadThumbnailFromUrl(
@@ -38,15 +40,33 @@ class YouTubeService
         }
 
         try {
+            $filePath = $this->thumbnailDownloader->download($videoId);
+
+            if (! $filePath) {
+                return null;
+            }
+
             return $modelInstance
-                ->addMediaFromUrl($thumbnailUrl)
+                ->addMedia($filePath)
                 ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
                 ->withCustomProperties([
                     'youtube-url' => $youtubeUrl,
                     'youtube-id' => $videoId,
                 ])
                 ->toMediaCollection($collection);
+//            return $modelInstance
+//                ->addMediaFromUrl($thumbnailUrl)
+//                ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
+//                ->withCustomProperties([
+//                    'youtube-url' => $youtubeUrl,
+//                    'youtube-id' => $videoId,
+//                ])
+//                ->toMediaCollection($collection);
         } catch (\Exception $e) {
+            Log::error('YouTube thumbnail failed', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             return null;
         }
     }
@@ -87,28 +107,22 @@ class YouTubeService
             return null;
         }
 
-        $thumbnailUrl = "https://img.youtube.com/vi/{$videoId}/maxresdefault.jpg";
+        $filePath = $this->thumbnailDownloader->download($videoId);
 
-        if (app()->environment('testing')) {
-            if (str_contains($youtubeUrl, 'invalid')) {
-                $contents = false;
-            } else {
-                $contents = file_get_contents(__DIR__.'/../../tests/Fixtures/test.jpg');
-            }
-        } else {
-            $contents = @file_get_contents($thumbnailUrl);
-        }
-
-        if (! $contents) {
+        if (! $filePath) {
             return null;
         }
 
         $filename = sanitizeFilename("youtube-{$videoId}.jpg");
         $fullPath = "{$basePath}/{$filename}";
+        $contents = file_get_contents($filePath);
 
         Storage::disk($disk)->put($fullPath, $contents);
-        $mimeType = Storage::disk($disk)->mimeType($fullPath);
-        $size = Storage::disk($disk)->size($fullPath);
+//        $mimeType = Storage::disk($disk)->mimeType($fullPath);
+//        $size = Storage::disk($disk)->size($fullPath);
+        $size = strlen($contents);
+        $mimeType = 'image/jpeg';
+//        unlink($filePath); // TODO
 
         $temporaryUploadModel = new TemporaryUpload;
         $connection = $this->dataSourceResolver->resolveConnection($dataSource);

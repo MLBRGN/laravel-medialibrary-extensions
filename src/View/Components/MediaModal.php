@@ -23,12 +23,16 @@ class MediaModal extends BaseMediaComponent
         public bool $videoAutoPlay = true,
         string $instanceId = '',
         public ?string $dataSource = 'default',
+        ?string $clientToken = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
         if ($instanceId) {
             $this->instanceId = $instanceId;
         }
 
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
         $this->options = $options;
 
         $this->setBaseId($this->getSuffixedId('mod'));

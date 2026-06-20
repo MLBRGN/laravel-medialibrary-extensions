@@ -42,7 +42,6 @@
                     data-bs-dismiss="modal"
                     aria-label="Sluit"
                     title="{{ __('medialibrary-extensions::messages.close') }}"
-                    data-test="image-editor-modal-close-button"
                 >
                     <x-mle-shared-icon
                         name="{{ config('medialibrary-extensions.icons.close') }}"

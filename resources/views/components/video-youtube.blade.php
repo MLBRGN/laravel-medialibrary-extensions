@@ -1,6 +1,9 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if ($previewMode)
-    <div {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}>
+    <div 
+        {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}
+        data-mle-media-preview-image
+    >
         @if($medium instanceof TemporaryUpload)
             <img
                 src="{{ $medium->getUrl() }}"

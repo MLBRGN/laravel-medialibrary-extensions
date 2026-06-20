@@ -108,9 +108,11 @@ class MediaManager extends BaseMediaComponent
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->setBaseId($this->getSuffixedId('mmm'));
+            $this->mediaManagerId .= '-mmm';// TODO messy
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->setBaseId($this->getSuffixedId('mms'));
+            $this->mediaManagerId .= '-mms';// TODO messy
         }
 
         // override hide media menu when nothing to see inside menu

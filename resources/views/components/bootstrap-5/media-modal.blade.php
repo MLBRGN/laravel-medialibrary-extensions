@@ -17,7 +17,6 @@
     @endif
     data-mle-modal
     data-mle-media-modal
-    data-test="media-modal"
     
     {{-- no aria-hidden!, role gets added by bs --}}
 >
@@ -32,9 +31,8 @@
                     class="mle-modal-close-button mle-media-modal-close-button"
                     data-mle-modal-close
                     data-bs-dismiss="modal"
-                    aria-label="Sluit"
+                    aria-label="{{ __('medialibrary-extensions::messages.close') }}"
                     title="{{ __('medialibrary-extensions::messages.close') }}"
-                    data-test="media-modal-close-button"
                 >
                     <x-mle-shared-icon
                         name="{{ config('medialibrary-extensions.icons.close') }}"

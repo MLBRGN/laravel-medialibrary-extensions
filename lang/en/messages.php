@@ -94,4 +94,6 @@ return [
     'validation_error' => 'Validation error.',
     'could_not_initialize_image_editor' => 'Could not initialize the image editor',
     'no_or_invalid_storage_link' => 'No or invalid storage-link.',
+    'youtube_video_url' => 'YouTube video URL',
+    'files' => 'Files',
 ];

@@ -56,15 +56,6 @@ class StoreUpdatedMediaAction
                 } else {
                     Log::warning("Medium with ID {$mediaId} not found.");
                 }
-                // TODO when does this happen?
-                //                else {
-                //                    // Create new medium if not found
-                //                    $newMedia = $model->addMedia($file)
-                //                        ->toMediaCollection($collection);
-                //
-                //                    // Assign global_order for new media
-                //                    $this->ensureGlobalOrder($newMedia);
-                //                }
             }
             // Handle Temporary Uploads
             else {
@@ -73,35 +64,6 @@ class StoreUpdatedMediaAction
                 if ($existingMedia) {
                     $newMedia = $this->replaceTemporaryUpload($existingMedia, $file);
                 }
-                // TODO when does this happen?
-                //                else {
-                //                    Log::warning("TemporaryUpload with ID {$mediaId} not found; creating new.");
-                //
-                //                    $disk = config('medialibrary-extensions.media_disks.temporary');
-                //                    $basePath = '';
-                //
-                //                    $safeFilename = sanitizeFilename(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-                //                    $extension = $file->getClientOriginalExtension();
-                //                    $filename = "{$safeFilename}.{$extension}";
-                //                    $directory = "{$basePath}";
-                //
-                //                    $path = Storage::disk($disk)->putFileAs($directory, $file, $filename);
-                //
-                //                    $newMedia = TemporaryUpload::create([
-                //                        'disk' => $disk,
-                //                        'path' => $path,
-                //                        'name' => $safeFilename,
-                //                        'file_name' => $file->getClientOriginalName(),
-                //                        'collection_name' => $collection,
-                //                        'mime_type' => $file->getMimeType(),
-                //                        'size' => $file->getSize(),
-                //                        'user_id' => Auth::id(),
-                //                        'client_token' => $clientToken,
-                //                        'order_column' => 1,
-                //                        'custom_properties' => $collections,
-                //                        //                        'instance_id' => $instanceId,// TODO
-                //                    ]);
-                //                }
             }
 
         } catch (Exception $e) {

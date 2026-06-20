@@ -95,4 +95,6 @@ return [
     'validation_error' => 'Validatiefout.',
     'could_not_initialize_image_editor' => 'Kon de "image editor" niet initialiseren',
     'no_or_invalid_storage_link' => 'Geen of ongeldige storage link.',
+    'youtube_video_url' => 'YouTube video URL',
+    'files' => 'Bestanden',
 ];

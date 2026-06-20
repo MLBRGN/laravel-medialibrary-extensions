@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $getConfig('routes.mediumSetAsFirst'),
+        'action' => $getConfig('routes.mediumSetAsFirst') . '#' . $mediaManagerId,
         'method' => 'POST',
         'data-mle-form'
     ]"

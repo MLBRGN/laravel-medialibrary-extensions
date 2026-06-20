@@ -35,6 +35,7 @@
             title="Media carousel"
             :instance-id="$instanceId"
             :data-source="$getConfig('dataSource')"
+            :client-token="$clientToken"
         />
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
