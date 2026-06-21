@@ -16,3 +16,4 @@
 /dist/js/bootstrap.esm.js
 /tests/Support/storage
 /tests/Browser/Screenshots
+/tests/.logs
