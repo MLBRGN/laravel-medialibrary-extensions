@@ -18,6 +18,7 @@ use Illuminate\Support\ServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\RemoveExpiredTemporaryUploads;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
+use Mlbrgn\MediaLibraryExtensions\Console\Commands\SetupDemoCommand;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
@@ -82,7 +83,34 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     private string $vendor = 'mlbrgn';
 
-    private string $nameSpace = 'medialibrary-extensions';
+//    private string $nameSpace = 'medialibrary-extensions';
+
+    protected function namespace(): string
+    {
+        return config('medialibrary-extensions.namespace', 'medialibrary-extensions');
+    }
+
+    // register executes before boot
+    public function register(): void
+    {
+        parent::register();
+
+        $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'medialibrary-extensions');
+
+        // Register package-specific event provider
+        $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
+
+        $this->setupDisks();
+
+        if (config('medialibrary-extensions.demo_pages_enabled')) {
+            $this->registerDemoDatabaseConnections();
+        }
+
+        $this->app->bind(
+            YouTubeThumbnailDownloader::class,
+            DefaultYouTubeThumbnailDownloader::class
+        );
+    }
 
     public function boot(): void
     {
@@ -91,18 +119,21 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Log::warning('MediaLibraryExtensionsServiceProvider - ['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
-        // This tells Laravel where to findMediaModel Blade view files (components a registered separately)
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->nameSpace);
+        // This tells Laravel where to find Blade view files (components a registered separately)
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->namespace());
 
-        // This tells Laravel where to findMediaModel the route files
+        // This tells Laravel where to find the route files
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+
+        // This tells Laravel where to find migration files
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
         // Register Middleware
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('web', MlbrgnClientTokenMiddleware::class);
 
-        // This tells Laravel where to findMediaModel the translation files
-        $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->nameSpace);
+        // This tells Laravel where to find the translation files
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->namespace());
         // $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
         if ($this->app->runningInConsole()) {
@@ -118,6 +149,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 InstallMediaLibraryExtensions::class,
                 ToggleRepository::class,
                 RemoveExpiredTemporaryUploads::class,
+                SetupDemoCommand::class
             ]);
 
             // NOTE: not yet implemented
@@ -128,33 +160,33 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__.'/../../config/media-library-extensions.php' => config_path('medialibrary-extensions.php'),
-            ], $this->nameSpace.'-config');
+            ], $this->namespace().'-config');
 
             // Prevent publishing assets/views/etc. inside the mlbrgn-laravel-packages development app
             // to avoid duplicates and ensure we always use the package's own resources.
             if (! str_ends_with(base_path(), 'mlbrgn-laravel-packages')) {
                 $this->publishes([
-                    __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->nameSpace),
-                ], $this->nameSpace.'-views');
+                    __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->namespace()),
+                ], $this->namespace().'-views');
 
                 $this->publishes([
-                    __DIR__.'/../../dist/css' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace.'/css'),
-                    __DIR__.'/../../dist/js' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace.'/js'),
-                ], $this->nameSpace.'-assets');
+                    __DIR__.'/../../dist/css' => public_path('vendor/'.$this->vendor.'/'.$this->namespace().'/css'),
+                    __DIR__.'/../../dist/js' => public_path('vendor/'.$this->vendor.'/'.$this->namespace().'/js'),
+                ], $this->namespace().'-assets');
 
                 $this->publishes([
-                    __DIR__.'/../../lang' => $this->app->langPath('vendor/'.$this->nameSpace),
+                    __DIR__.'/../../lang' => $this->app->langPath('vendor/'.$this->namespace()),
 
-                ], $this->nameSpace.'-translations');
+                ], $this->namespace().'-translations');
 
                 $this->publishes([
-                    __DIR__.'/../../resources/images' => public_path('vendor/'.$this->vendor.'/'.$this->nameSpace.'/images'),
+                    __DIR__.'/../../resources/images' => public_path('vendor/'.$this->vendor.'/'.$this->namespace().'/images'),
 
-                ], $this->nameSpace.'-images');
+                ], $this->namespace().'-images');
 
                 $this->publishes([
                     __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
-                ], $this->nameSpace.'-policy');
+                ], $this->namespace().'-policy');
             }
 
         }
@@ -211,13 +243,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-status', Status::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
-        if (config('medialibrary-extensions.demo_pages_enabled')) {
-            $this->bootDemoDatabase();
-        }
-
-        // only affects routes using {media} and inside this package
-        //        Route::model('media', Media::class); DONT DO THIS
-
         $this->registerPolicy();
         $this->addToAbout();
 
@@ -225,109 +250,49 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->overrideFormComponentsConfig();
 
         $this->registerCleanupScheduler();
-        //        // add schedule for temporary uploads cleanup
-        //        $config = config('medialibrary-extensions.schedule.cleanup');
-        //
-        //        if ($config['enabled']) {
-        //            $this->app->booted(function () use ($config) {
-        //                $schedule = $this->app->make(Schedule::class);
-        //                $schedule->command('medialibrary-extensions:remove-expired-temporary-uploads')
-        //                    ->{$config['frequency']}()
-        //                    ->withoutOverlapping()
-        //                    ->onOneServer();
-        //            });
-        //        }
-
-        $this->registerMigrations();
-
         $this->checkBladeUIKitIconSet();
-
-        //        $publicStorage = public_path('storage');
-        //
-        //        // check if the storage link exists
-        //        if (! $this->app->runningInConsole()) {
-        //            $publicStorage = public_path('storage');
-        //
-        //            if (! file_exists($publicStorage) || ! is_link($publicStorage)) {
-        //                $message = __('medialibrary-extensions::messages.no_or_invalid_storage_link');
-        //                Log::error($message);
-        //                throw new RuntimeException($message);
-        //            }
-        //        }
-
     }
 
-    public function register(): void
+    protected function registerDemoDatabaseConnections(): void
     {
-        parent::register();
+        $this->registerConnection(
+            config('medialibrary-extensions.demo_connection'),
+            $this->demoDatabasePath($this->packageNameShort.'-demo.sqlite')
+        );
 
-        $this->mergeConfigFrom(__DIR__.'/../../config/media-library-extensions.php', 'medialibrary-extensions');
-
-        // Register package-specific event provider
-        $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
-
-        $this->setupDisks();
-
-        if (config('medialibrary-extensions.demo_pages_enabled')) {
-            $this->registerDemoDatabaseConnection();
-        }
-
-        $this->app->bind(
-            YouTubeThumbnailDownloader::class,
-            DefaultYouTubeThumbnailDownloader::class
+        $this->registerConnection(
+            config('medialibrary-extensions.demo_host_app_connection'),
+            $this->demoDatabasePath($this->packageNameShort.'-demo-host-app.sqlite')
         );
     }
 
-    protected function registerDemoDatabaseConnection(): void
+    protected function demoDatabasePath(string $file): string
     {
-        $connectionName = config('medialibrary-extensions.demo_database_name');
+        $path = storage_path("app/{$this->packageNameShort}/demo/{$file}");
 
-        $databasePath = database_path('medialibrary-extensions-demo.sqlite');
-
-        if (! file_exists($databasePath)) {
-            touch($databasePath);
+        if (! is_dir(dirname($path))) {
+            mkdir(dirname($path), 0777, true);
         }
 
-        Config::set("database.connections.$connectionName", [
-            'driver' => 'sqlite',
-            'database' => $databasePath,
-            'prefix' => '',
-        ]);
+        return $path;
     }
 
-    public function bootDemoDatabase(): void
+    protected function registerConnection(string $name, string $path): void
     {
-        $connectionName = config('medialibrary-extensions.demo_database_name');
-        $databasePath = database_path('medialibrary-extensions-demo.sqlite');
-
-        // Purge and reconnect
-        DB::purge($connectionName);
-        DB::reconnect($connectionName);
-
-        // Run migrations if needed
-        if (! Schema::connection($connectionName)->hasTable('aliens')) {
-
-            Artisan::call('migrate', [
-                '--database' => $connectionName,
-                '--path' => realpath(__DIR__.'/../../database/migrations/demo'),
-                '--realpath' => true,
-                '--force' => true,
-            ]);
+        if (! file_exists($path)) {
+            touch($path);
         }
 
-        // Also ensure 'aliens' table exists in default connection for testing 'default' data source
-        if (! Schema::hasTable('aliens')) {
-            try {
-                Artisan::call('migrate', [
-                    '--path' => realpath(__DIR__.'/../../database/migrations/demo'),
-                    '--realpath' => true,
-                    '--force' => true,
-                ]);
-            } catch (\Exception $e) {
-                // table might already exist but schema:hasTable failed for some reason (e.g. different connection)
-                Log::warning('MediaLibraryExtensionsServiceProvider - Failed to migrate aliens table to default connection: '.$e->getMessage());
-            }
+        if (config()->has("database.connections.$name")) {
+            return;
         }
+
+        config()->set("database.connections.$name", [
+            'driver' => 'sqlite',
+            'database' => $path,
+            'prefix' => '',
+            'foreign_key_constraints' => true,
+        ]);
     }
 
     protected function registerPolicy(): void
@@ -346,7 +311,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     protected function addToAbout(): void
     {
-        //        AboutCommand::add('My Package', fn () => ['Version' => '1.0.0']);
         AboutCommand::add($this->packageName, function () {
             $composer = json_decode(file_get_contents(__DIR__.'/../../composer.json'), true);
 
@@ -391,37 +355,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             if (! config()->has("filesystems.disks.$name")) {
                 config()->set("filesystems.disks.$name", $diskConfig);
             }
-        }
-    }
-
-    protected function registerMigrations(): void
-    {
-        if (! $this->app->runningInConsole()) {
-            return;
-        }
-
-        $migrationSourcePath = __DIR__.'/../../database/migrations';
-        $migrationFiles = glob($migrationSourcePath.'/*.php');
-
-        $publishableMigrations = [];
-
-        foreach ($migrationFiles as $sourceFile) {
-            $filename = basename($sourceFile);
-
-            // Remove timestamp from source filename if it exists
-            $baseName = preg_replace('/^\d{4}_\d{2}_\d{2}_\d{6}_/', '', $filename);
-
-            // Check if a migration with the same base name already exists in the app
-            $exists = collect(glob(database_path('migrations/*.php')))
-                ->some(fn ($path) => str_ends_with($path, '_'.$baseName) || basename($path) === $baseName);
-
-            if (! $exists) {
-                $publishableMigrations[$sourceFile] = database_path('migrations/'.$filename);
-            }
-        }
-
-        if (! empty($publishableMigrations)) {
-            $this->publishesMigrations($publishableMigrations, $this->nameSpace.'-migrations');
         }
     }
 

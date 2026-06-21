@@ -10,8 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $connection = config('medialibrary-extensions.demo_database_name');
-        Schema::connection($connection)->create('mle_temporary_uploads', function (Blueprint $table) {
+        Schema::create('mle_temporary_uploads', function (Blueprint $table) {
             $table->id();
             $table->string('disk');
             $table->string('path');
@@ -21,7 +20,7 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->unsignedBigInteger('size');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('session_id')->nullable();
+            $table->string('client_token')->nullable();
             $table->string('instance_id')->nullable();
             $table->json('custom_properties')->nullable();
             $table->unsignedInteger('order_column')->nullable()->index();
@@ -35,7 +34,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        $connection = config('medialibrary-extensions.demo_database_name');
-        Schema::connection($connection)->dropIfExists('mle_temporary_uploads');
+        Schema::dropIfExists('mle_temporary_uploads');
     }
 };

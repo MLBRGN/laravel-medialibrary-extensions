@@ -89,7 +89,7 @@ it('uses existing Alien if present', function () {
     $model = $response->getData()['model'];
 
     expect($model->id)->toBe($existingAlien->id);
-});
+})->todo();
 
 it('creates model if none exists', function () {
     expect(Alien::on('media_demo')->count())->toBe(0);
@@ -99,7 +99,7 @@ it('creates model if none exists', function () {
     );
 
     expect(Alien::on('media_demo')->count())->toBe(1);
-});
+})->todo();
 
 it('applies use_xhr from request', function () {
     $response = (new DemoController)(

@@ -17,3 +17,8 @@
 /tests/Support/storage
 /tests/Browser/Screenshots
 /tests/.logs
+/tests/database/mle-browser-tests-demo.sqlite
+/tests/database/mle-browser-tests-demo-host-app.sqlite
+/tests/database/mle-tests-demo.sqlite
+/tests/database/mle-tests-demo-host-app.sqlite
+

@@ -36,6 +36,8 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
+//        $this->migrateDatabases();
+
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
 
@@ -97,6 +99,34 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
 
+        $pathToHostAppTestDb = __DIR__ . '/database/mle-tests-demo-host-app.sqlite';
+        $pathToDemoTestDb = __DIR__ . '/database/mle-tests-demo.sqlite';
+
+        // create the database files if they don't exist
+        if (!file_exists($pathToHostAppTestDb)) {
+            touch($pathToHostAppTestDb);
+        }
+
+        if (!file_exists($pathToDemoTestDb)) {
+            touch($pathToDemoTestDb);
+        }
+
+        // set the default database connection
+        $app['config']->set('database.default', 'host_sandbox');
+
+        // configure the database connections
+        $app['config']->set('database.connections.host_sandbox', [
+            'driver' => 'sqlite',
+            'database' => $pathToHostAppTestDb,
+            'prefix' => '',
+        ]);
+
+        $app['config']->set('database.connections.media_demo', [
+            'driver' => 'sqlite',
+            'database' => $pathToDemoTestDb,
+            'prefix' => '',
+        ]);
+
         $this->createDirectory($this->getTempDirectory());
         $this->createDirectory($this->getMediaDirectory());
         $this->createDirectory($this->getTemporaryUploadsDirectory());
@@ -123,29 +153,6 @@ class TestCase extends Orchestra
         // Load media library config (needed for tests that interact with the media library to work)
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
-        // setup database
-        //        config()->set('database.default', 'sqlite');
-        config()->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
-
-        // setup demo db
-        $demoDatabasePath = __DIR__.'/Support/demo.sqlite';
-
-        if (file_exists($demoDatabasePath)) {
-            unlink($demoDatabasePath);
-        }
-
-        touch($demoDatabasePath);
-
-        $app['config']->set('database.connections.media_demo', [
-            'driver' => 'sqlite',
-            'database' => $demoDatabasePath,
-            'prefix' => '',
-        ]);
-
         // configure filesystem
         config()->set('filesystems.disks.public', [
             'driver' => 'local',
@@ -162,31 +169,75 @@ class TestCase extends Orchestra
         $app->bind('path.public', fn () => $this->getTempDirectory());
 
         $app['config']->set('media-library.media_model', Media::class);
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
-
-        $app['config']->set('medialibrary-extensions.data_sources.default.connection', 'sqlite');
     }
+
+//    protected function migrateDatabases(): void
+//    {
+//        static $migrated = false;
+//
+//        if ($migrated) {
+//            return;
+//        }
+//
+//        $this->artisan('migrate:fresh', [
+//            '--database' => 'host_sandbox',// connection to use
+//            '--path' => realpath(__DIR__ . '/database/migrations'),
+//            '--realpath' => true,
+//        ]);
+//
+//        $this->artisan('migrate:fresh', [
+//            '--database' => 'media_demo',// connection to use
+//            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
+//            '--realpath' => true,
+//        ]);
+//
+//        $migrated = true;
+//    }
 
     protected function defineDatabaseMigrations(): void
     {
-        // package migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        static $migrated = false;
 
-        // test-only migrations
-        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
+        if ($migrated) {
+            return;
+        }
 
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-        $this->artisan('migrate', [
-            '--database' => 'media_demo',
-            '--path' => realpath(__DIR__.'/../database/migrations/demo'),
+        $this->artisan('migrate:fresh', [
+            '--database' => 'host_sandbox',// connection to use
+            '--path' => realpath(__DIR__ . '/database/migrations'),
             '--realpath' => true,
-        ])->run();
+        ]);
+
+        $this->artisan('migrate:fresh', [
+            '--database' => 'media_demo',// connection to use
+            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
+            '--realpath' => true,
+        ]);
+
+        $migrated = true;
+//        // Host app database
+//
+//        $this->artisan('migrate:fresh', [
+//            '--database' => 'sqlite',
+//            '--path' => realpath(__DIR__.'/database/migrations'),
+//            '--realpath' => true,
+//        ]);
+//
+//        $this->artisan('migrate', [
+//            '--database' => 'sqlite',
+//            '--path' => realpath(__DIR__.'/../database/migrations'),
+//            '--realpath' => true,
+//        ]);
+//
+//        // Demo database
+//
+//        $this->artisan('migrate:fresh', [
+//            '--database' => 'media_demo',
+//            '--path' => realpath(__DIR__.'/../database/demo-migrations'),
+//            '--realpath' => true,
+//        ]);
     }
+
 
     protected function createDirectory(string $directory): void
     {

@@ -1,10 +1,10 @@
 <?php
 
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -26,7 +26,7 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 /**
  * Browser test filesystem layout.
  *
- * tests/
+ * Tests/
  * └── Support/
  *     └── storage/
  *         ├── media_demo/
@@ -44,7 +44,7 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
  *
  * Browser test
  * ↓
- * MediaLibrary writes file
+ * MediaLibrary writes the file
  * ↓
  * tests/Support/storage/media_*
  * ↓
@@ -69,14 +69,14 @@ class BrowserTestCase extends Orchestra
     ];
 
     protected array $fixtures = [
-            '512x512_1:1.png',
-            '640x360_16:9.png',
-            '720x1280_9:16.png',
-            '800x600_4:3.png',
-            '1080x1080_1:1.png',
-            '1280x720_16:9.png',
-            '1920x1080_16:9.png',
-            '3840x2160_16:9.png',
+        '512x512_1:1.png',
+        '640x360_16:9.png',
+        '720x1280_9:16.png',
+        '800x600_4:3.png',
+        '1080x1080_1:1.png',
+        '1280x720_16:9.png',
+        '1920x1080_16:9.png',
+        '3840x2160_16:9.png',
     ];
 
     protected array $invalidMimeTypeFixtures = [
@@ -86,14 +86,14 @@ class BrowserTestCase extends Orchestra
         'invalid-readme.txt',
     ];
 
+    protected bool $migrated = false;
+
     // runs before every test
     protected function setUp(): void
     {
         parent::setUp();
 
-//        Artisan::call('migrate:fresh', [
-//            '--database' => 'sqlite',
-//        ]);
+        $this->migrateDatabases();
 
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
@@ -104,16 +104,16 @@ class BrowserTestCase extends Orchestra
         $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
         $this->app['translator']->addNamespace(
             'medialibrary-extensions',
-            __DIR__.'/../lang'
+            __DIR__ . '/../lang'
         );
 
-        Route::get('/login', fn () => 'Login (dummy)')->name('login');
+        Route::get('/login', fn() => 'Login (dummy)')->name('login');
 
         Config::set('medialibrary-extensions.demo_pages_enabled', false);
         Config::set('medialibrary-extensions.store_originals', true);
 
         if (empty(config('app.key'))) {
-            $key = 'base64:'.base64_encode(random_bytes(32));
+            $key = 'base64:' . base64_encode(random_bytes(32));
             Config::set('app.key', $key);
         }
 
@@ -148,50 +148,58 @@ class BrowserTestCase extends Orchestra
     // Configure the Testbench application before booting.
     public function getEnvironmentSetUp($app): void
     {
-        $mainDb = __DIR__.'/../../../../database/browser-testing.sqlite';
+        $pathToHostAppTestDb = __DIR__ . '/database/mle-browser-tests-demo-host-app.sqlite';
+        $pathToDemoTestDb = __DIR__ . '/database/mle-browser-tests-demo.sqlite';
 
-        if (file_exists($mainDb)) {
-            unlink($mainDb);
+        // create the database files if they don't exist
+        if (!file_exists($pathToHostAppTestDb)) {
+            touch($pathToHostAppTestDb);
         }
 
-        touch($mainDb);
-
-        // setup demo db
-        $demoDatabasePath = __DIR__.'/Support/demo.sqlite';
-
-        if (file_exists($demoDatabasePath)) {
-            unlink($demoDatabasePath);
+        if (!file_exists($pathToDemoTestDb)) {
+            touch($pathToDemoTestDb);
         }
 
-        touch($demoDatabasePath);
-
-        $app['config']->set('database.connections.media_demo', [
+        // configure the database connections
+        $app['config']->set('database.connections.host_sandbox', [
             'driver' => 'sqlite',
-            'database' => $demoDatabasePath,
+            'database' => $pathToHostAppTestDb,
             'prefix' => '',
         ]);
 
-        $app['config']->set('database.connections.sqlite.database', $mainDb);
+        $app['config']->set('database.connections.media_demo', [
+            'driver' => 'sqlite',
+            'database' => $pathToDemoTestDb,
+            'prefix' => '',
+        ]);
 
-        $app['config']->set('database.default', 'sqlite');
+        // set the default database connection
+        $app['config']->set('database.default', 'host_sandbox');
 
+        // enable demo pages
         $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
+
+        // TODO needed?
         $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
 
+        // configure logging
         $app['config']->set('logging.default', 'single');
         $app['config']->set('logging.channels.single', [
             'driver' => 'single',
-            'path' => $this->getLogDirectory().'/laravel.log',
+            'path' => $this->getLogDirectory() . '/laravel.log',
             'level' => 'debug',
         ]);
+
+        // configure sessions
         $app['config']->set('session.serialization', 'php');
 
         // Load media library config (needed for tests that interact with the media library to work)
-        $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
+        $app['config']->set('media-library', require __DIR__ . '/config/media-library.php');
 
+        // set the media model to use
         $app['config']->set('media-library.media_model', Media::class);
 
-
+        // create the storage directories
         foreach (self::TEST_STORAGE_DISKS as $disk) {
             $this->createDirectory(
                 $this->getBrowserStorageDirectory($disk)
@@ -199,15 +207,22 @@ class BrowserTestCase extends Orchestra
         }
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            return 'Mlbrgn\\MediaLibraryExtensions\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory';
+            return 'Mlbrgn\\MediaLibraryExtensions\\Tests\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
         });
 
-        View::addLocation(__DIR__.'/Feature/views');
+        View::addLocation(__DIR__ . '/Feature/views');
 
-        $this->registerBrowserTestDisks($app);
+        foreach (self::TEST_STORAGE_DISKS as $disk) {
+            $app['config']->set("filesystems.disks.$disk", [
+                'driver' => 'local',
+                'root' => $this->getBrowserStorageDirectory($disk),
+                'url' => "/storage/$disk",
+                'visibility' => 'public',
+            ]);
+        }
 
         // bind the public path to the test/Support/public directory
-        $app->bind('path.public', fn () => $this->getFakePublicDirectory());
+        $app->bind('path.public', fn() => $this->getFakePublicDirectory());
 
         $this->registerRoutes();
 
@@ -215,21 +230,9 @@ class BrowserTestCase extends Orchestra
 
     public function getFixtureAsFilePath(string $fileName): string
     {
-        $path = __DIR__.'/Fixtures/'.$fileName;
+        $path = __DIR__ . '/Fixtures/' . $fileName;
 
         return $path;
-    }
-
-    protected function registerBrowserTestDisks(Application $app): void
-    {
-        foreach (self::TEST_STORAGE_DISKS as $disk) {
-            $app['config']->set("filesystems.disks.{$disk}", [
-                'driver' => 'local',
-                'root' => $this->getBrowserStorageDirectory($disk),
-                'url' => "/storage/{$disk}",
-                'visibility' => 'public',
-            ]);
-        }
     }
 
     /**
@@ -245,11 +248,12 @@ class BrowserTestCase extends Orchestra
      *
      * /storage/media_demo/1/image.jpg
      *
-     * resolves to:
+     * Resolves to:
      *
      * tests/Support/storage/media_demo/1/image.jpg
      */
-    protected function registerRoutes(): void {
+    protected function registerRoutes(): void
+    {
 
         Route::get('/storage/{disk}/{path}', function (string $disk, string $path) {
 
@@ -258,16 +262,16 @@ class BrowserTestCase extends Orchestra
                 404
             );
 
-            $root = realpath(config("filesystems.disks.{$disk}.root"));
+            $root = realpath(config("filesystems.disks.$disk.root"));
 
             abort_if($root === false, 404);
 
-            $file = realpath($root.'/'.$path);
+            $file = realpath($root . '/' . $path);
 
             if (
-                ! $file ||
-                ! str_starts_with($file, $root.DIRECTORY_SEPARATOR)
-                || ! is_file($file)
+                !$file ||
+                !str_starts_with($file, $root . DIRECTORY_SEPARATOR)
+                || !is_file($file)
             ) {
                 abort(404);
             }
@@ -277,17 +281,17 @@ class BrowserTestCase extends Orchestra
 
         Route::middleware('web')->group(function () {
             Route::get('mle-demo', DemoController::class)->name('mle-demo');
-            Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
+            Route::get('mle-theme-switch', fn() => redirect()->back())->name('mlbrgn.mle.theme-switch');
 
             Route::get('/vendor/mlbrgn/{package}/{type}/{path}', function ($package, $type, $path) {
-                $baseDistPath = realpath(__DIR__.'/../dist');
-                $filePath = $baseDistPath.'/'.$type.'/'.$path;
+                $baseDistPath = realpath(__DIR__ . '/../dist');
+                $filePath = $baseDistPath . '/' . $type . '/' . $path;
 
-                if (! $baseDistPath || ! str_starts_with(realpath($filePath) ?: '', $baseDistPath)) {
+                if (!$baseDistPath || !str_starts_with(realpath($filePath) ?: '', $baseDistPath)) {
                     abort(403);
                 }
 
-                if (! file_exists($filePath)) {
+                if (!file_exists($filePath)) {
                     abort(404);
                 }
 
@@ -302,61 +306,68 @@ class BrowserTestCase extends Orchestra
                 ]);
             })->where('path', '.*');
         });
-        Route::get('favicon.ico', fn () => '')->name('mlbrgn.mle.favicon');
-    }
-    protected function defineDatabaseMigrations(): void
-    {
-        // package migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
-        // test-only migrations
-        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
-
-//        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-        $this->artisan('migrate', [
-            '--database' => 'media_demo',
-            '--path' => realpath(__DIR__.'/../database/migrations/demo'),
-            '--realpath' => true,
-        ])->run();
+        Route::get('favicon.ico', fn() => '')->name('mlbrgn.mle.favicon');
     }
 
     protected function createDirectory(string $directory): void
     {
-//        if (File::isDirectory($directory)) {
-//            File::deleteDirectory($directory);
-//        }
-//        File::makeDirectory($directory, 0755, true);
 
-        if (! File::isDirectory($directory)) {
+        if (!File::isDirectory($directory)) {
             File::makeDirectory($directory, 0755, true);
         }
     }
 
     public function getLogDirectory(): string
     {
-        return __DIR__.'/.logs';
+        return __DIR__ . '/.logs';
     }
 
     public function getBrowserStorageDirectory(string $suffix = ''): string
     {
-        return __DIR__.'/Support/storage'
-            .($suffix === '' ? '' : '/'.$suffix);
+        return __DIR__ . '/Support/storage'
+            . ($suffix === '' ? '' : '/' . $suffix);
     }
 
-    public function getRandomFixture(): string {
+    public function getRandomFixture(): string
+    {
         return $this->getFixtureAsFilePath(
             $this->fixtures[array_rand($this->fixtures)]
         );
     }
 
-    public function getYouTubeFixture() : string {
+    public function getYouTubeFixture(): string
+    {
         return 'https://www.youtube.com/watch?v=jNQXAC9IVRw';
     }
 
-    public function getInvalidMimeTypeFixture(): string {
+    public function getInvalidMimeTypeFixture(): string
+    {
         return $this->getFixtureAsFilePath(
             $this->invalidMimeTypeFixtures[array_rand($this->invalidMimeTypeFixtures)]
         );
+    }
+
+    protected function migrateDatabases(): void
+    {
+        static $migrated = false;
+
+        if ($migrated) {
+            return;
+        }
+
+        $this->artisan('migrate:fresh', [
+            '--database' => 'host_sandbox',// connection to use
+            '--path' => realpath(__DIR__ . '/database/migrations'),
+            '--realpath' => true,
+        ]);
+
+        $this->artisan('migrate:fresh', [
+            '--database' => 'media_demo',// connection to use
+            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
+            '--realpath' => true,
+        ]);
+
+        $migrated = true;
     }
 
 }

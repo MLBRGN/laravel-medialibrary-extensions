@@ -10,8 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $connection = config('medialibrary-extensions.demo_database_name');
-        Schema::connection($connection)->create('aliens', function (Blueprint $table) {
+        Schema::create('aliens', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -19,7 +18,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        $connection = config('medialibrary-extensions.demo_database_name');
-        Schema::connection($connection)->dropIfExists('aliens');
+        Schema::dropIfExists('aliens');
     }
 };

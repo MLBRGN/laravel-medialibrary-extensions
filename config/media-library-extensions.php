@@ -89,8 +89,8 @@ return [
     |
     */
 
-    'demo_connection_name' => 'media_demo',
-    'demo_database_name' => 'media_demo',
+    'demo_connection' => 'media_demo',
+    'demo_host_app_connection' => 'media_demo_host_app_sandbox',
 
     /*
     |--------------------------------------------------------------------------
@@ -107,8 +107,11 @@ return [
         ],
 
         'demo' => [
-            'connection' => 'media_demo',
+            'connection' => 'media_demo',// TODO try to do this without hardcoding the connection name
         ],
+        'host_app_sandbox' => [
+            'connection' => 'media_demo_host_app_sandbox',// TODO try to do this without hardcoding the connection name
+        ]
     ],
 
     /*
@@ -635,57 +638,6 @@ return [
 
     'default_forced_aspect_ratio' => '4:3',
 
-    /*
-            // 2.22:1 widescreen cinematic ratio 3 images found
-            // 2.26
-            // 2.28
-            ['name' => '2:1',    'label' => '2:1',    'value' => 2,         'active' => true], // Modern cinematic / 18:9 smartphones / web ultra-wide
-            ['name' => '19:10',  'label' => '19:10',  'value' => 19 / 10,   'active' => true], // Modern smartphones, some ultra-wide monitors (~1.9:1)
-            ['name' => '16:10',  'label' => '16:10',  'value' => 16 / 10,   'active' => true], // Common laptop/monitor ratio (WUXGA 1920×1200)
-            ['name' => '16:9',   'label' => '16:9',   'value' => 16 / 9,    'active' => true], // Standard HD / Full HD / 4K video (~1.78:1)
-            ['name' => '5:3',    'label' => '5:3',    'value' => 5 / 3,     'active' => true], // Widescreen photography / 720p video (~1.67:1)
-            ['name' => '1.43:1', 'label' => '1.43:1', 'value' => 1.43,      'active' => true], // IMAX film format
-            ['name' => '1.37:1', 'label' => '1.37:1', 'value' => 1.37,      'active' => true], // Academy ratio (classic 1930s–50s cinema)
-            ['name' => '4:3',    'label' => '4:3',    'value' => 4 / 3,     'active' => true], // Classic TV and photography (~1.33:1)
-            ['name' => '3:2',    'label' => '3:2',    'value' => 3 / 2,     'active' => true], // 35mm film and DSLR sensors (~1.5:1)
-            ['name' => '5:4',    'label' => '5:4',    'value' => 5 / 4,     'active' => true], // SXGA monitors (1280×1024), medium-format photography
-            ['name' => '6:5',    'label' => '6:5',    'value' => 6 / 5,     'active' => true], // Slightly taller than 5:4, uncommon artistic/print format
-            ['name' => '1:1',    'label' => '1:1',    'value' => 1,         'active' => true], // Perfect square (social media, design)
-            ['name' => '15:16',  'label' => '15:16',  'value' => 15 / 16,   'active' => true], // Near-square portrait (~0.94:1)
-            ['name' => '9:10',   'label' => '9:10',   'value' => 9 / 10,    'active' => true], // Portrait ratio (common on mobile / social media)
-            ['name' => '3:4',    'label' => '3:4',    'value' => 3 / 4,     'active' => true], // Portrait photography (~0.75:1)
+    'namespace' => 'medialibrary-extensions',
 
-        [
-            // CINEMA / FILM
-            ['name' => '2.39:1',  'label' => '2.39:1',  'value' => 2.39,      'active' => true], // Cinemascope / anamorphic widescreen
-            ['name' => '2.35:1',  'label' => '2.35:1',  'value' => 2.35,      'active' => true], // Classic widescreen cinema
-            ['name' => '2.20:1',  'label' => '2.20:1',  'value' => 2.20,      'active' => true], // 70mm film (Todd-AO, Panavision)
-            ['name' => '2:1',     'label' => '2:1',     'value' => 2,         'active' => true], // Modern cinematic / 18:9 smartphones
-            ['name' => '1.85:1',  'label' => '1.85:1',  'value' => 1.85,      'active' => true], // Standard widescreen cinema
-            ['name' => '1.43:1',  'label' => '1.43:1',  'value' => 1.43,      'active' => true], // IMAX film format
-            ['name' => '1.37:1',  'label' => '1.37:1',  'value' => 1.37,      'active' => true], // Academy ratio (1930s–50s)
-
-            // DISPLAY / MONITORS / SMARTPHONES
-            ['name' => '19:10',   'label' => '19:10',   'value' => 19 / 10,   'active' => true], // Modern smartphones, ultra-wide monitors
-            ['name' => '16:10',   'label' => '16:10',   'value' => 16 / 10,   'active' => true], // Laptop/monitor ratio (WUXGA)
-            ['name' => '16:9',    'label' => '16:9',    'value' => 16 / 9,    'active' => true], // Standard HD / Full HD / 4K
-            ['name' => '5:3',     'label' => '5:3',     'value' => 5 / 3,     'active' => true], // Widescreen photography, 720p video
-
-            // PHOTOGRAPHY / GENERAL
-            ['name' => '4:3',     'label' => '4:3',     'value' => 4 / 3,     'active' => true], // Classic photography / SD video
-            ['name' => '3:2',     'label' => '3:2',     'value' => 3 / 2,     'active' => true], // 35mm film / DSLR sensors
-            ['name' => '5:4',     'label' => '5:4',     'value' => 5 / 4,     'active' => true], // SXGA monitors, medium-format photography
-            ['name' => '6:5',     'label' => '6:5',     'value' => 6 / 5,     'active' => true], // Slightly taller than 5:4, uncommon
-            ['name' => '1:1',     'label' => '1:1',     'value' => 1,         'active' => true], // Square images (social media, design)
-
-            // PORTRAIT / MOBILE / SOCIAL MEDIA
-            ['name' => '9:16',    'label' => '9:16',    'value' => 9 / 16,    'active' => true], // Vertical video / Instagram stories / TikTok
-            ['name' => '4:5',     'label' => '4:5',     'value' => 4 / 5,     'active' => true], // Portrait photos for Instagram feed
-            ['name' => '3:5',     'label' => '3:5',     'value' => 3 / 5,     'active' => true], // Portrait / mobile marketing
-            ['name' => '15:16',   'label' => '15:16',   'value' => 15 / 16,   'active' => true], // Near-square portrait (~0.94:1)
-            ['name' => '9:10',    'label' => '9:10',    'value' => 9 / 10,    'active' => true], // Portrait format common in apps / web
-            ['name' => '3:4',     'label' => '3:4',     'value' => 3 / 4,     'active' => true], // Portrait photography (~0.75:1)
-        ];
-
-         */
 ];

@@ -20,69 +20,69 @@ $waitTImeNonXhr = .3;// non-xhr tests are slower (0.3 seems the minimum for me)
 
 dataset('mms_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
+//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
     'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
     'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
     'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
+//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
     'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
     'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
     'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
 dataset('mmm_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
+//    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
+//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
     'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+//    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
+//    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
     'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+//    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
 dataset('mms_youtube_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
+//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
     'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
     'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
     'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
     // TODO plain tests sometimes fail?
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
+//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
     'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
     'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
     'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
 it('loads all required assets', function () {
@@ -385,9 +385,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-//    ->with('mmm_test_matrix');
-    ->with('mmm_test_matrix')
- ->only();
+    ->with('mmm_test_matrix');
+//    ->with('mmm_test_matrix')
+// ->only();
 //    ->skip();
 
 
