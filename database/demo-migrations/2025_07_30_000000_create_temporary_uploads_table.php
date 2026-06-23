@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedInteger('order_column')->nullable()->index();
             $table->timestamps();
 
-            $table->index('session_id');
+            $table->index('client_token');
             $table->index('user_id');
             $table->index('instance_id');
         });
