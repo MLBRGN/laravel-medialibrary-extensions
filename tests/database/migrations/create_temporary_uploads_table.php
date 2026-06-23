@@ -20,13 +20,13 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->unsignedBigInteger('size');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('client_id')->nullable();
+            $table->string('client_token')->nullable();
             $table->string('instance_id')->nullable();
             $table->json('custom_properties')->nullable();
             $table->unsignedInteger('order_column')->nullable()->index();
             $table->timestamps();
 
-            $table->index('session_id');
+            $table->index('client_token');
             $table->index('user_id');
             $table->index('instance_id');
         });
