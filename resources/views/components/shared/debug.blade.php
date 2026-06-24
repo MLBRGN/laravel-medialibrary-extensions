@@ -248,7 +248,7 @@
             </section>
 
             <details class="mle-debug-section">
-                <summary>🗂️ All Registered Components ({{ count($getComponents()) }})</summary>
+                <summary>🗂️ Registered (sub-) components ({{ count($getComponents()) }})</summary>
                 
                 <div class="mle-debug-components-list">
                     @foreach($getComponents() as $compId => $compData)
