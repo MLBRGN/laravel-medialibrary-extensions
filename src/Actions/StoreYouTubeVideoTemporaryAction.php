@@ -6,8 +6,10 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
@@ -27,7 +29,7 @@ class StoreYouTubeVideoTemporaryAction
         if (! config('medialibrary-extensions.youtube_support_enabled')) {
             abort(403);
         }
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source') ?? 'default';
 
         $initiatorId = $request->initiator_id;
         $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
@@ -79,6 +81,11 @@ class StoreYouTubeVideoTemporaryAction
                     $mediaManagerId,
                     __('medialibrary-extensions::messages.youtube_thumbnail_download_failed')
                 );
+            }
+
+            if ($dataSource) {
+                $connection = app(DataSourceResolver::class)->resolveConnection($dataSource);
+                $tempUpload->setConnection($connection);
             }
 
             $tempUpload->instance_id = $instanceId;

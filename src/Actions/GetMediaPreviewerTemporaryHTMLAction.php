@@ -27,7 +27,7 @@ class GetMediaPreviewerTemporaryHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source') ?? 'default';
         $initiatorId = $request->input('initiator_id');
         $instanceId = $request->input('instance_id') ?? '';
         $modelType = $request->input('model_type');
@@ -87,10 +87,6 @@ class GetMediaPreviewerTemporaryHTMLAction
                 throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
             }
         } else {
-            //            Log::info('GetTempHtmlAction collections: '.print_r($collections, true));
-            //            Log::info('GetTempHtmlAction instanceID: '.$instanceId);
-            //            Log::info('GetTempHtmlAction dataSource: '.$dataSource);
-            //            Log::info('GetTempHtmlAction clientToken: '.$clientToken);
             $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
                 $collections,
                 $instanceId,
@@ -101,7 +97,7 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         $component = new MediaPreviews(
             id: $initiatorId,
-            mediaManagerDomId: $initiatorId, // TODO fix
+            mediaManagerDomId: $initiatorId,
             modelOrClassName: $modelType,
             collections: $collections,
             options: $options,

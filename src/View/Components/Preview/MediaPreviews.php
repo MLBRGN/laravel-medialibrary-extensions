@@ -37,18 +37,18 @@ class MediaPreviews extends BaseMediaComponent
 
         $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
-        // Ensure instanceId is derived from the mediaManagerDomId (the parent manager's identity)
-        // unless it was explicitly provided (e.g. from an XHR request or a test)
-        if (empty($instanceId)) {
-            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
-        } else {
+        // Priority:
+        // 1. Explicitly passed $instanceId (e.g. from XHR or tests)
+        // 2. Derive from $mediaManagerDomId
+        if (! empty($instanceId)) {
             $this->instanceId = $instanceId;
+        } elseif (! empty($this->mediaManagerDomId)) {
+            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
         }
 
-//        if ($clientToken) {
-//            $this->clientToken = $clientToken;
-//        }
-
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
 
         $this->options = $options;
 
@@ -68,13 +68,8 @@ class MediaPreviews extends BaseMediaComponent
                 ->flatMap(function (?string $collectionName, string $collectionType) use ($dataSource) {
                     if ($this->temporaryUploadMode) {
                         if (! empty($collectionName)) {
-                            Log::info('MediaPreviews - Looking up temporary uploads', [
-                                'collection' => $collectionName,
-                                'instanceId' => $this->instanceId,
-                                'clientToken' => $this->clientToken,
-                                'dataSource' => $dataSource,
-                            ]);
-                            return TemporaryUpload::getForCurrentClient($collectionName, $this->instanceId, $dataSource, $this->clientToken);
+                            $temps = TemporaryUpload::getForCurrentClient($collectionName, $this->instanceId, $dataSource, $this->clientToken);
+                            return $temps;
                         }
                     }
 
@@ -87,14 +82,6 @@ class MediaPreviews extends BaseMediaComponent
                 ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
                 ->values();
         }
-
-//        Log::info('MediaPreviews - mediaItems ' . json_encode($this->media, JSON_PRETTY_PRINT));
-
-        Log::info('MediaPreviews', [
-            'mediaManagerDomId' => $this->mediaManagerDomId,
-            'instanceId' => $this->instanceId,
-            'clientToken' => $this->clientToken,
-        ]);
 
         $this->resolveConfig([
             'temporaryUploadMode' => $this->temporaryUploadMode,

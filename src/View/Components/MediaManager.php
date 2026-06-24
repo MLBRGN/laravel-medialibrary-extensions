@@ -81,13 +81,22 @@ class MediaManager extends BaseMediaComponent
 
     protected function setDisableFormOption(): void
     {
+        // CASE 1: provided with a single medium (permanent or temporary)
         if ($this->singleMedia !== null) {
             $totalMediaCount = 1;
         } else {
+            // CASE 2: Permanent mode (model instance provided)
             if ($this->modelOrClassName instanceof HasMedia) {
                 $totalMediaCount = $this->mediaService->countModelMediaInCollections($this->modelOrClassName, $this->collections, $this->dataSource);
-            } elseif (is_string($this->modelOrClassName)) {
-                $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections($this->collections, $this->instanceId, $this->clientToken, $this->dataSource);
+            }
+            // CASE 3: Temporary mode (class name string provided)
+            elseif (is_string($this->modelOrClassName)) {
+                $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
+                    $this->collections,
+                    $this->instanceId,
+                    $this->clientToken,
+                    $this->dataSource
+                );
             } else {
                 $totalMediaCount = 0;
             }
@@ -112,12 +121,11 @@ class MediaManager extends BaseMediaComponent
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->applyDomSuffix('mmm');
-            $this->mediaManagerDomId = $this->domId;// TODO ugly, use InstanceManager scope registry?
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->applyDomSuffix('mms');
-            $this->mediaManagerDomId = $this->domId;// TODO ugly, use InstanceManager scope registry?
         }
+        $this->mediaManagerDomId = $this->domId;
 
         // override hide media menu when nothing to see inside menu
         if (

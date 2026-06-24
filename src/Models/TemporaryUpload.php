@@ -52,9 +52,8 @@ class TemporaryUpload extends Model implements HasMediaExtended
             $connection = app(DataSourceResolver::class)
                 ->resolveConnection($dataSource);
 
-//            dump('TemporaryUpload - scopeForDataSource called with dataSource: ' .$dataSource);
-//            dump('TemporaryUpload - scopeForDataSource use connection: ' .$connection);
             $query->getQuery()->connection = app('db')->connection($connection);
+            $query->getModel()->setConnection($connection);
         }
 
         return $query;
@@ -87,13 +86,6 @@ class TemporaryUpload extends Model implements HasMediaExtended
 
     public static function getForCurrentClient(mixed $collectionName = null, ?string $instanceId = null, ?string $dataSource = 'default', ?string $clientToken = null): Collection
     {
-//        dump('TemporaryUpload - getForCurrentClient called with dataSource: ' .$dataSource);
-//        Log::info('TemporaryUpload - getForCurrentClient called with: '.implode(', ', func_get_args()));
-        $query = static::query()
-            ->forDataSource($dataSource)
-            ->forCurrentClient($collectionName, $instanceId, $clientToken)
-            ->toSql();
-//        dump('TemporaryUpload - getForCurrentClient query: '.$query);
         return static::query()
             ->forDataSource($dataSource)
             ->forCurrentClient($collectionName, $instanceId, $clientToken)

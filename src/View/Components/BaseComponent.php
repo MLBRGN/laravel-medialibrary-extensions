@@ -28,7 +28,7 @@ abstract class BaseComponent extends Component
     public string $instanceId;
 
     /** Identity of the client, used for scoping temporary uploads, together with instanceId */
-    public readonly string $clientToken;
+    public string $clientToken;
 
     public function __construct(
         ?string $id = null,
@@ -47,6 +47,7 @@ abstract class BaseComponent extends Component
 
     public function applyDomSuffix(string $suffix): void {
         $this->domId = $this->suffixDomId($suffix);
+        $this->instanceId = InstanceManager::getInstanceId($this->domId);
     }
 
 //    public function childDomId(string $name): string { return "{$this->id}-{$name}"; }

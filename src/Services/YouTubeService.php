@@ -148,12 +148,6 @@ class YouTubeService
             ],
         ]);
 
-//        Log::info('storeTemporaryThumbnailFromUrl success', [
-//            'id' => $tempUpload->id,
-//            'collection' => $tempUpload->collection_name,
-//            'instance_id' => $tempUpload->instance_id,
-//        ]);
-
         return $tempUpload;
     }
 }

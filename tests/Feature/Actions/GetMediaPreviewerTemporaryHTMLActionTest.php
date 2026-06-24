@@ -19,7 +19,9 @@ it('renders temporary media preview HTML and returns JSON response', function ()
 
     $requestData = [
         'initiator_id' => $initiatorId,
+        'instance_id' => 'test-instance',
         'client_token' => 'test-session',
+        'data_source' => 'default',
         'model_type' => $model->getMorphClass(),
         'collections' => json_encode([
             'image' => 'images',
