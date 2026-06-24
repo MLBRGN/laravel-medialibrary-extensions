@@ -21,4 +21,4 @@
 /tests/database/mle-browser-tests-demo-host-app.sqlite
 /tests/database/mle-tests-demo.sqlite
 /tests/database/mle-tests-demo-host-app.sqlite
-
+/tests/Support/demo.sqlite

@@ -3,7 +3,7 @@
         <span 
         role="img" 
         aria-label="PDF document." 
-        title="PDF document.">❓</span>
+        title="PDF document.">?</span>
         <div class="mle-document-info">
             <p>
                 test.pdf
@@ -16,7 +16,7 @@
                             <span 
         role="img" 
         aria-label="PDF document." 
-        title="PDF document.">❓</span>
+        title="PDF document.">?</span>
             
                     </div>
     </div>

@@ -24,10 +24,10 @@
                     <span 
         role="img" 
         aria-label="Close" 
-        title="Close">❓</span>
+        title="Close">?</span>
                 </button>
                 
-                <div id="test-media-modal-mod-crs"
+                <div id="test-media-modal-mod-carousel"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="bootstrap-5"
         data-mle-carousel
 >
@@ -101,7 +101,7 @@
         <span 
         role="img" 
         aria-label="Previous" 
-        title="Previous">❓</span>
+        title="Previous">?</span>
         </span>
         <span class="mle-visually-hidden">Previous</span>
     </button>
@@ -116,7 +116,7 @@
             <span 
         role="img" 
         aria-label="Next" 
-        title="Next">❓</span>
+        title="Next">?</span>
         </span>
         <span class="mle-visually-hidden">Next</span>
     </button>

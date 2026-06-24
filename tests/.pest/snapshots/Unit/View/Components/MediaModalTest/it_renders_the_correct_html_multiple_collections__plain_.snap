@@ -23,13 +23,13 @@
                     <span 
         role="img" 
         aria-label="Close" 
-        title="Close">❓</span>
+        title="Close">?</span>
                 </button>
                 
-                <div id="test-media-modal-mod-crs"
+                <div id="test-media-modal-mod-carousel"
      class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="plain"
     data-mle-carousel
-    data-mle-carousel-id="test-media-modal-mod-crs"
+    data-mle-carousel-id="test-media-modal-mod-carousel"
     tabindex="-1"
         data-mle-carousel-effect="slide"
 >
@@ -115,7 +115,7 @@
         <span 
         role="img" 
         aria-label="PDF document." 
-        title="PDF document.">❓</span>
+        title="PDF document.">?</span>
         <div class="mle-document-info">
             <p>
                 test.pdf
@@ -129,7 +129,7 @@
                     <span 
         role="img" 
         aria-label="PDF document." 
-        title="PDF document.">❓</span>
+        title="PDF document.">?</span>
                     Download document
                 </a>
             
@@ -192,7 +192,7 @@
         <span 
         role="img" 
         aria-label="Previous" 
-        title="Previous">❓</span>
+        title="Previous">?</span>
         </span>
         <span class="mle-visually-hidden">Previous</span>
     </button>
@@ -206,7 +206,7 @@
             <span 
         role="img" 
         aria-label="Next" 
-        title="Next">❓</span>
+        title="Next">?</span>
         </span>
         <span class="mle-visually-hidden">Next</span>
     </button>
