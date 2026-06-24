@@ -20,7 +20,7 @@ class MediaPreviews extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public ?string $mediaManagerId,
+        public ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
@@ -35,12 +35,12 @@ class MediaPreviews extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
+        // Ensure instanceId is derived from the mediaManagerDomId (the parent manager's identity)
         // unless it was explicitly provided (e.g. from an XHR request or a test)
         if (empty($instanceId)) {
-            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
         } else {
             $this->instanceId = $instanceId;
         }
@@ -91,7 +91,7 @@ class MediaPreviews extends BaseMediaComponent
 //        Log::info('MediaPreviews - mediaItems ' . json_encode($this->media, JSON_PRETTY_PRINT));
 
         Log::info('MediaPreviews', [
-            'mediaManagerId' => $this->mediaManagerId,
+            'mediaManagerDomId' => $this->mediaManagerDomId,
             'instanceId' => $this->instanceId,
             'clientToken' => $this->clientToken,
         ]);

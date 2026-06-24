@@ -33,7 +33,7 @@ class StoreSingleTemporaryAction
         $dataSource = $request->input('data_source');
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;
+        $mediaManagerDomId = $request->media_manager_id;
         $instanceId = $request->input('instance_id');
 
         Log::info('Upload request', [
@@ -56,7 +56,7 @@ class StoreSingleTemporaryAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 $e->getMessage()
             );
         }
@@ -71,7 +71,7 @@ class StoreSingleTemporaryAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.only_one_medium_allowed')
             );
         }
@@ -144,7 +144,7 @@ class StoreSingleTemporaryAction
         return MediaResponse::success(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             __('medialibrary-extensions::messages.upload_success'),
             ['saved_file' => $safeFilename]
         );

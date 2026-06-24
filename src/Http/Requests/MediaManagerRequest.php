@@ -243,13 +243,13 @@ abstract class MediaManagerRequest extends FormRequest
     {
         $request = $this; // the FormRequest itself
         $initiatorId = $request->input('initiator_id') ?? 'unknown';
-        $mediaManagerId = $request->input('media_manager_id') ?? 'unknown';
+        $mediaManagerDomId = $request->input('media_manager_id') ?? 'unknown';
         $errors = $validator->errors();
 
         $response = MediaResponse::error(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             $errors->first(),
             ['errors' => $errors->messages()]
         );

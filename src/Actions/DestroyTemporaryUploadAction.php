@@ -33,7 +33,7 @@ class DestroyTemporaryUploadAction
         $temporaryUpload->delete();
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
 
         // Reorder remaining uploads
         $this->reorderAllMedia($request, $dataSource);
@@ -41,7 +41,7 @@ class DestroyTemporaryUploadAction
         return MediaResponse::success(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             __('medialibrary-extensions::messages.medium_removed')
         );
     }

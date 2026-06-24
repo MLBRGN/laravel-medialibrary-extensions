@@ -22,7 +22,7 @@ class MediaManager extends BaseMediaComponent
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
     /** @var string Reference to the parent MediaManager's id */
-    public string $mediaManagerId;
+    public string $mediaManagerDomId;
 
     public function __construct(
         ?string $id,
@@ -42,8 +42,8 @@ class MediaManager extends BaseMediaComponent
 //        dump('dataSource '.$dataSource);
 //        dump('clientToken '.$this->clientToken);
 
-        // For the root MediaManager, mediaManagerId is its own id
-        $this->mediaManagerId = $this->id;
+        // For the root MediaManager, mediaManagerDomId is its own id
+        $this->mediaManagerDomId = $this->domId;// todo replace with new way below
         $this->options = $options;
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
@@ -112,9 +112,11 @@ class MediaManager extends BaseMediaComponent
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
             $this->applyDomSuffix('mmm');
+            $this->mediaManagerDomId = $this->domId;// TODO ugly, use InstanceManager scope registry?
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
             $this->applyDomSuffix('mms');
+            $this->mediaManagerDomId = $this->domId;// TODO ugly, use InstanceManager scope registry?
         }
 
         // override hide media menu when nothing to see inside menu
@@ -136,6 +138,11 @@ class MediaManager extends BaseMediaComponent
             'clientToken' => $this->clientToken,
             'temporaryUploadMode' => $this->temporaryUploadMode,
         ]);
+    }
+
+    public function getMediaManagerDomId(): string
+    {
+        return $this->domId;
     }
 
     public function render(): View

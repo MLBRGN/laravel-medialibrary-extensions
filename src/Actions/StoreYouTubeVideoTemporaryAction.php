@@ -30,7 +30,7 @@ class StoreYouTubeVideoTemporaryAction
         $dataSource = $request->input('data_source');
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
         $instanceId = $request->input('instance_id');
 
         $collection = $request->youtube_collection;

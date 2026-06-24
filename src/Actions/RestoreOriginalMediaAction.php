@@ -38,7 +38,7 @@ class RestoreOriginalMediaAction
         }
 
         $initiatorId = $request->initiator_id ?? '';
-        $mediaManagerId = $request->media_manager_id ?? '';
+        $mediaManagerDomId = $request->media_manager_id ?? '';
 
         $originalsDisk = config('medialibrary-extensions.media_disks.originals');
         $originalPath = "{$media->id}/{$media->file_name}";
@@ -72,7 +72,7 @@ class RestoreOriginalMediaAction
             return MediaResponse::success(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.restored_original')
             );
         } catch (Throwable $e) {
@@ -81,7 +81,7 @@ class RestoreOriginalMediaAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.could_not_restore_original')
             );
         }

@@ -7,7 +7,7 @@ covers(DestroyMediaAction::class);
 it('deletes the medium and returns JSON', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $imageCollectionName = 'images';
 
     // Create a model with media
@@ -26,7 +26,7 @@ it('deletes the medium and returns JSON', function () {
     $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->deleteJson($route, [
         'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'media_manager_id' => $mediaManagerDomId,
         'collections' => ['image' => 'images'],
         'model_type' => $model->getMorphClass(),
         'model_id' => (string) $model->getKey(),
@@ -45,7 +45,7 @@ it('deletes the medium and returns JSON', function () {
 it('deletes the medium and returns Redirect', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $collections = ['image' => 'images'];
 
     // Create a model with media
@@ -64,7 +64,7 @@ it('deletes the medium and returns Redirect', function () {
     $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->delete($route, [
         'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'media_manager_id' => $mediaManagerDomId,
         'collections' => $collections,
         'model_type' => $model->getMorphClass(),
         'model_id' => (string) $model->getKey(),
@@ -88,7 +88,7 @@ it('deletes the medium and returns Redirect', function () {
 it('reorders all media on delete', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $collections = ['image' => 'images'];
 
     // Create model with multiple media items
@@ -115,7 +115,7 @@ it('reorders all media on delete', function () {
         ->actingAs($user)
         ->delete($route, [
             'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'media_manager_id' => $mediaManagerDomId,
             'collections' => $collections,
             'model_type' => $model->getMorphClass(),
             'model_id' => (string) $model->getKey(),

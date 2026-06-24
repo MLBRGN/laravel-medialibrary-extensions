@@ -38,7 +38,7 @@ class StoreMultiplePermanentAction
 //        ]);
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
         $instanceId = $request->input('instance_id');
 
         $files = $request->file('media', []);
@@ -47,7 +47,7 @@ class StoreMultiplePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.upload_no_files')
             );
         }
@@ -58,7 +58,7 @@ class StoreMultiplePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.no_media_collections')
             );
         }
@@ -71,7 +71,7 @@ class StoreMultiplePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection,
                 ])
@@ -103,7 +103,7 @@ class StoreMultiplePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
             );
         }
@@ -164,7 +164,7 @@ class StoreMultiplePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 $message
             );
         }
@@ -179,7 +179,7 @@ class StoreMultiplePermanentAction
         return MediaResponse::success(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             $message
         );
     }

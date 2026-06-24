@@ -114,10 +114,12 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
 document.addEventListener('imageUpdated', (e) => {
     const initiator =  document.getElementById(e.detail.initiatorId);
     const mediaManagerLab = initiator.closest('[data-mle-media-manager-lab]')
+    console.log('mediaManagerLab: ' + mediaManagerLab)
     const mediumId = e.detail?.mediumId;
 
     if (!mediaManagerLab) {
-        console.warn('Media manager lab not found')
+        // TODO should i differentiate between media lab and regular media manager?
+        console.info('Media manager lab not found, skipping')
         return;
     }
 

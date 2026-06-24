@@ -2,13 +2,13 @@
     <x-mle-partial-spinner 
         id="{{ $domId.'-spinner' }}" 
         :initiator-id="$initiatorId"
-        :media-manager-id="$mediaManagerId"
+        :media-manager-dom-id="$mediaManagerDomId"
         :options="$getOptions()"
     />
     <x-mle-partial-status 
         id="{{ $domId.'-alert' }}" 
         :initiator-id="$initiatorId"
-        :media-manager-id="$mediaManagerId"
+        :media-manager-dom-id="$mediaManagerDomId"
         :options="$getOptions()"
     />
 </div>

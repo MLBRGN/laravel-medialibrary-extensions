@@ -22,12 +22,12 @@ class ImageEditorForm extends BaseMediaComponent
         public array $collections,
         array $options,
         public string $initiatorId,
-        public ?string $mediaManagerId = '',
+        public ?string $mediaManagerDomId = '',
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
         $this->applyDomSuffix('ie-update-form');
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
         $this->options = $options;
 

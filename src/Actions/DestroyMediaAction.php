@@ -31,7 +31,7 @@ class DestroyMediaAction
         );
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
 
         // Delete the medium
         $model = $media->model;
@@ -43,7 +43,7 @@ class DestroyMediaAction
         return MediaResponse::success(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             __('medialibrary-extensions::messages.medium_removed')
         );
     }

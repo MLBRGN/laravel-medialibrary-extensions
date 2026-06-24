@@ -47,6 +47,7 @@ mediaManagers.forEach(mediaManager => {
             return;
         }
 
+        console.log('media-manager-submitter.js - statusAreaContainer: ' + statusAreaContainer)
         xhrRequestStart(statusAreaContainer);
 
         try {

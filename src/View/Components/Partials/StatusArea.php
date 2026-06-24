@@ -16,16 +16,16 @@ class StatusArea extends BaseComponent
     public function __construct(
         ?string $id,
         public string $initiatorId,
-        public ?string $mediaManagerId = null,
+        public ?string $mediaManagerDomId = null,
         array $options = [],
         public string $instanceId = '',
     ) {
         parent::__construct($id);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+        // Ensure instanceId is derived from the mediaManagerDomId (the parent manager's identity)
+        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
 
         $this->options = $options;
         $this->resolveConfig();

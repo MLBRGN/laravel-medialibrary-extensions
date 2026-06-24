@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Log;
  */
 class InstanceManager
 {
+    protected static array $scopes = [];
+
     public static function getInstanceId(string $id): string
     {
         Log::debug('Generating instance ID for ID: '.$id);
@@ -30,5 +32,20 @@ class InstanceManager
         $hash = sha1($id);
 
         return strtoupper(substr($hash, 0, 26));
+    }
+
+    public static function registerScope(string $instanceId, array $data): void
+    {
+        self::$scopes[$instanceId] = $data;
+    }
+
+    public static function getScope(string $instanceId): ?array
+    {
+        return self::$scopes[$instanceId] ?? null;
+    }
+
+    public static function getRootDomId(string $instanceId): ?string
+    {
+        return self::$scopes[$instanceId]['mediaManagerDomId'] ?? null;
     }
 }

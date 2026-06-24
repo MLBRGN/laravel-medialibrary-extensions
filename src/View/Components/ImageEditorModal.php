@@ -15,7 +15,7 @@ class ImageEditorModal extends BaseMediaComponent
 
     public string $storeUpdatedMediaRoute;
 
-    public ?string $mediaManagerId = null;
+    public ?string $mediaManagerDomId = null;
 
     public string $minimalDimensions;
 
@@ -34,12 +34,12 @@ class ImageEditorModal extends BaseMediaComponent
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
         public ?string $dataSource = 'default',
-        ?string $mediaManagerId = '',
+        ?string $mediaManagerDomId = '',
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
         $this->applyDomSuffix('iem-'.$medium->id);
 
-        $this->mediaManagerId = $mediaManagerId;
+        $this->mediaManagerDomId = $mediaManagerDomId;
         $this->options = $options;
 
         $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
@@ -49,7 +49,7 @@ class ImageEditorModal extends BaseMediaComponent
         $this->resolveConfig([
             'initiatorId' => $this->initiatorId,
             'id' => $this->id,
-            'mediaManagerId' => $this->mediaManagerId,
+            'mediaManagerDomId' => $this->mediaManagerDomId,
             'modelType' => $this->modelType,
             'modelId' => $this->modelId,
             'mediumId' => $this->medium->id,

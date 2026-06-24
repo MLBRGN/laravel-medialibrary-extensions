@@ -17,7 +17,7 @@ it('renders the set-as-first-form', function () {
 
     $component = new SetAsFirstForm(
         id: 'set-first-btn',
-        mediaManagerId: 'set-first-btn',
+        mediaManagerDomId: 'set-first-btn',
         modelOrClassName: $model,
         media: $mediaCollection,
         medium: $medium,
@@ -50,7 +50,7 @@ it('falls back to config use_xhr when useXhr is null', function () {
 
     $component = new SetAsFirstForm(
         id: 'set-first-btn',
-        mediaManagerId: 'set-first-btn',
+        mediaManagerDomId: 'set-first-btn',
         modelOrClassName: $model,
         media: $mediaCollection,
         medium: $medium,
@@ -83,7 +83,7 @@ it('renders the set as first form with temporary upload', function () {
 
     $component = new SetAsFirstForm(
         id: 'set-as-first-btn',
-        mediaManagerId: 'set-as-first-btn',
+        mediaManagerDomId: 'set-as-first-btn',
         modelOrClassName: Blog::class,
         media: $media,
         medium: $temporaryUpload,

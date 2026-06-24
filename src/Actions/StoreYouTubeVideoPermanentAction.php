@@ -31,7 +31,7 @@ class StoreYouTubeVideoPermanentAction
         $dataSource = $request->input('data_source');
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
 
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
@@ -42,7 +42,7 @@ class StoreYouTubeVideoPermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.no_media_collections')
             );
         }
@@ -68,7 +68,7 @@ class StoreYouTubeVideoPermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 $message
             );
         }
@@ -85,7 +85,7 @@ class StoreYouTubeVideoPermanentAction
                 return MediaResponse::error(
                     $request,
                     $initiatorId,
-                    $mediaManagerId,
+                    $mediaManagerDomId,
                     __('medialibrary-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
@@ -96,14 +96,14 @@ class StoreYouTubeVideoPermanentAction
             return MediaResponse::success(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.youtube_video_uploaded'));
         }
 
         return MediaResponse::error(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             __('medialibrary-extensions::messages.upload_no_youtube_url'));
     }
 }

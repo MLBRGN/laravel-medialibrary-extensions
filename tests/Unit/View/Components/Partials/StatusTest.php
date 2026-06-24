@@ -8,19 +8,19 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 
 it('sets status from session when initiatorId matches', function () {
     $initiatorId = 'media-manager-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $statusKey = status_session_prefix();
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'media_manager_id' => $mediaManagerDomId,
         'message' => 'Test status message',
     ]);
 
     $component = new Status(
         id: 'status-1',
         initiatorId: $initiatorId,
-        mediaManagerId: $mediaManagerId,
+        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'plain',
         ],
@@ -32,20 +32,20 @@ it('sets status from session when initiatorId matches', function () {
 
 it('does not set status if initiatorId does not match', function () {
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
-    $differentMediaManagerId = 'other-initiator';
+    $mediaManagerDomId = 'media-manager-123';
+    $differentmediaManagerDomId = 'other-initiator';
     $statusKey = status_session_prefix();
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
-        'media_manager_id' => $differentMediaManagerId,
+        'media_manager_id' => $differentmediaManagerDomId,
         'message' => 'Test status message',
     ]);
 
     $component = new Status(
         id: 'status-1',
         initiatorId: $initiatorId,
-        mediaManagerId: $mediaManagerId,
+        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'plain',
         ],
@@ -56,11 +56,11 @@ it('does not set status if initiatorId does not match', function () {
 
 it('renders the status partial view', function () {
     $initiatorId = 'media-manager-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $component = new Status(
         id: 'status-1',
         initiatorId: $initiatorId,
-        mediaManagerId: $mediaManagerId,
+        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'plain',
         ],
@@ -73,12 +73,12 @@ it('renders the status partial view', function () {
 
 it('renders the status message in the view when initiatorId matches (plain)', function () {
     $initiatorId = 'media-manager-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $statusKey = status_session_prefix($initiatorId);
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'media_manager_id' => $mediaManagerDomId,
         'type' => 'success',
         'message' => 'Test status message',
     ]);
@@ -86,7 +86,7 @@ it('renders the status message in the view when initiatorId matches (plain)', fu
     $component = new Status(
         id: 'status-1',
         initiatorId: $initiatorId,
-        mediaManagerId: $mediaManagerId,
+        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'plain',
         ],
@@ -104,12 +104,12 @@ it('renders the status message in the view when initiatorId matches (plain)', fu
 
 it('renders the status message in the view when initiatorId matches (bootstrap-5)', function () {
     $initiatorId = 'media-manager-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $statusKey = status_session_prefix($initiatorId);
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'media_manager_id' => $mediaManagerDomId,
         'type' => 'success',
         'message' => 'Test status message',
     ]);
@@ -117,7 +117,7 @@ it('renders the status message in the view when initiatorId matches (bootstrap-5
     $component = new Status(
         id: 'status-1',
         initiatorId: $initiatorId,
-        mediaManagerId: $mediaManagerId,
+        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'bootstrap-5',
         ],
@@ -135,14 +135,14 @@ it('renders the status message in the view when initiatorId matches (bootstrap-5
 
 it('does not render the status message when initiatorId does not match', function () {
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $differentInitiatorId = 'other-initiator';
-    $differentMediaManagerId = 'other-media-manager';
-    $statusKey = status_session_prefix($differentMediaManagerId);
+    $differentmediaManagerDomId = 'other-media-manager';
+    $statusKey = status_session_prefix($differentmediaManagerDomId);
 
     session()->put($statusKey, [
         'initiator_id' => $initiatorId,
-        'media_manager_id' => $differentMediaManagerId,
+        'media_manager_id' => $differentmediaManagerDomId,
         'type' => 'error',
         'message' => 'Test status message',
     ]);
@@ -150,7 +150,7 @@ it('does not render the status message when initiatorId does not match', functio
     $component = new Status(
         id: 'status-1',
         initiatorId: $initiatorId,
-        mediaManagerId: $mediaManagerId,
+        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'plain',
         ],
@@ -169,7 +169,7 @@ it('sets status from validation error bag when present', function () {
     app()->setLocale('en');
 
     $initiatorId = 'media-manager-456';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
 
     // Prepare an error bag with one message
     $errors = new ViewErrorBag;
@@ -182,7 +182,7 @@ it('sets status from validation error bag when present', function () {
     $component = new Status(
         id: 'status-2',
         initiatorId: $initiatorId,
-        mediaManagerId: $mediaManagerId,
+        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'plain',
         ],

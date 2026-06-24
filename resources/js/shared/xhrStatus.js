@@ -5,8 +5,9 @@ const spinnerDelayTimeoutMap = new WeakMap();
 // Called when an XHR or fetch request starts.
 // Will only show spinner if request takes longer than delay
 export function xhrRequestStart(statusAreaContainer, customMessage = null) {
-    if (!statusAreaContainer) {
-        console.error("xhrRequestStart: No statusAreaContainer provided");
+    console.log('xhrRequestStart', statusAreaContainer, customMessage);
+    if (!statusAreaContainer.nodeType === Node.ELEMENT_NODE) {
+        console.error("xhrStatus.js - xhrRequestStart: No statusAreaContainer provided", statusAreaContainer);
         return;
     }
     const delay = 300; // 1 second delay before showing spinner
@@ -24,7 +25,7 @@ export function xhrRequestStart(statusAreaContainer, customMessage = null) {
 // Hides spinner and clears any delayed show timeout.
 export function xhrRequestEnd(statusAreaContainer) {
     if (!statusAreaContainer) {
-        console.error("xhrRequestEnd: No statusAreaContainer provided");
+        console.error("xhrStatus.js - xhrRequestEnd: No statusAreaContainer provided");
         return;
     }
 
@@ -35,7 +36,7 @@ export function xhrRequestEnd(statusAreaContainer) {
 export function showStatusMessage(statusAreaContainer, data) {
 
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - showStatusMessage: no statusAreaContainer provided', statusAreaContainer);
         return;
     }
     const { type, message, message_extra: messageExtra = null } = data;
@@ -67,7 +68,7 @@ export function showStatusMessage(statusAreaContainer, data) {
 
 export function hideStatusMessage(statusAreaContainer) {
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - hideStatusMessage no statusAreaContainer provided');
         return;
     }
     const statusContainer = statusAreaContainer.querySelector('[data-mle-status-container]');
@@ -80,7 +81,7 @@ export function hideStatusMessage(statusAreaContainer) {
 
 export function showSpinner(statusAreaContainer, customMessage = null) {
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - showSpinner: no statusAreaContainer provided');
         return;
     }
     hideStatusMessage(statusAreaContainer); // Hides the message before showing spinner
@@ -100,7 +101,7 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
 
 export function hideSpinner(statusAreaContainer) {
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - hideSpinner no statusAreaContainer provided');
         return;
     }
     const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');

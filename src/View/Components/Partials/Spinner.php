@@ -17,7 +17,7 @@ class Spinner extends BaseComponent
     public function __construct(
         ?string $id,
         string $initiatorId,
-        public string $mediaManagerId,
+        public string $mediaManagerDomId,
         array $options = [],
     ) {
         parent::__construct($id);

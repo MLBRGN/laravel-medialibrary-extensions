@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => ($multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))) . '#' . $mediaManagerId,
+        'action' => ($multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))) . '#' . $mediaManagerDomId,
         'method' => 'POST',
         'enctype' => 'multipart/form-data',
         'data-mle-form'
@@ -64,7 +64,7 @@
     <input
         type="hidden"
         name="media_manager_id"
-        value="{{ $mediaManagerId }}">
+        value="{{ $mediaManagerDomId }}">
     <input
         type="hidden"
         name="client_token"

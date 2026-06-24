@@ -26,8 +26,8 @@ document.addEventListener('onCloseImageEditor', (e) => {
         if (configInput) {
             try {
                 const config = JSON.parse(configInput.value);
-                if (config.mediaManagerId) {
-                    initiator = document.querySelector('#' + config.mediaManagerId);
+                if (config.mediaManagerDomId) {
+                    initiator = document.querySelector('#' + config.mediaManagerDomId);
                 }
             } catch (e) {}
         }
@@ -82,20 +82,23 @@ const updateMedia = (detail) => {
     const initiatorIdFromConfig = config.initiatorId;
     let initiator = document.querySelector('#' + initiatorIdFromConfig);
 
-    const mediaManagerIdFromConfig = config.mediaManagerId;
-    let mediaManager = document.querySelector('#' + mediaManagerIdFromConfig);
+    const mediaManagerDomIdFromConfig = config.mediaManagerDomId;
+    console.log('mediaManagerDomIdFromConfig', mediaManagerDomIdFromConfig);
+    let mediaManager = document.querySelector('#' + mediaManagerDomIdFromConfig);
+
+    console.log('mediaManager', mediaManager);
     let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
 
     if (!initiator) {
         // Fallback to media manager ID if the specific item is gone
-        const mediaManagerId = config.mediaManagerId;
-        if (mediaManagerId) {
-            initiator = document.querySelector('#' + mediaManagerId);
+        const mediaManagerDomId = config.mediaManagerDomId;
+        if (mediaManagerDomId) {
+            initiator = document.querySelector('#' + mediaManagerDomId);
         }
     }
 
     if (!initiator) {
-        console.warn('Initiator element not found:', initiatorIdFromConfig, 'Media Manager:', config.mediaManagerId);
+        console.warn('Initiator element not found:', initiatorIdFromConfig, 'Media Manager:', config.mediaManagerDomId);
         return;
     }
 
@@ -115,6 +118,7 @@ const updateMedia = (detail) => {
         console.warn('statusAreaContainer not found', localStatusAreaContainer);
         return;
     }
+    console.log('image-editor-listener.js - localStatusAreaContainer', localStatusAreaContainer);
     xhrRequestStart(localStatusAreaContainer);
 
     // console.log('collections', config.collections);
@@ -127,10 +131,10 @@ const updateMedia = (detail) => {
     const instanceId = config.instanceId;
     const dataSource = config.dataSource;
 
-    // console.log('mediaManagerId ', config.mediaManagerId)
+    // console.log('mediaManagerDomId ', config.mediaManagerDomId)
     formData.append('initiator_id', initiatorId);
     formData.append('instance_id', instanceId);
-    formData.append('media_manager_id', config.mediaManagerId ?? '');
+    formData.append('media_manager_id', config.mediaManagerDomId ?? '');
     formData.append('model_type', modelType);
     formData.append('model_id', modelId );
     formData.append('single_media_id', config.singleMedia?.id ?? null);// TODO keep both?
@@ -178,8 +182,7 @@ const updateMedia = (detail) => {
             detail: {'modal': modal}
         }));
 
-        // console.log('show status message in ', mediaManagerStatusContainer)
-
+        console.log('mediaManagerStatusContainer', mediaManagerStatusContainer);
         showStatusMessage(mediaManagerStatusContainer, {
            type: 'success',
            message: trans('medium_replaced'),

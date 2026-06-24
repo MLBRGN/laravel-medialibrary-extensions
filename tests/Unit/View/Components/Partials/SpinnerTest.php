@@ -8,7 +8,7 @@ it('renders the spinner partial view and sets properties correctly', function ()
     $component = new Spinner(
         id: $id,
         initiatorId: 'initiator-123',
-        mediaManagerId: 'test-media-manager-id',
+        mediaManagerDomId: 'test-media-manager-dom-id',
         options: [
             'frontendTheme' => 'plain',
         ]
@@ -18,7 +18,7 @@ it('renders the spinner partial view and sets properties correctly', function ()
 
     expect($view)->toBeInstanceOf(View::class)
         ->and($component->domId)->toBe($id)
-        ->and($component->mediaManagerId)->toBe('test-media-manager-id')
+        ->and($component->mediaManagerDomId)->toBe('test-media-manager-dom-id')
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
         ->and($component->initiatorId)->toBe('initiator-123');
 });

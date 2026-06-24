@@ -18,11 +18,11 @@ class UploadForm extends BaseMediaComponent
     use InteractsWithMimeTypes;
     use InteractsWithOptionsAndConfig;
 
-    public ?string $mediaManagerId = '';
+    public ?string $mediaManagerDomId = '';
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerId,
+        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
@@ -35,9 +35,9 @@ class UploadForm extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
 
         $this->options = $options;
 

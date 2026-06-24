@@ -15,13 +15,13 @@ class DestroyForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public ?string $mediaManagerId = '';
+    public ?string $mediaManagerDomId = '';
 
     public string $mediaDestroyRoute;
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerId,
+        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedia = null,
@@ -35,10 +35,10 @@ class DestroyForm extends BaseMediaComponent
 
         $this->applyDomSuffix('destroy-form-'.$this->medium->id);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+        // Ensure instanceId is derived from the mediaManagerDomId (the parent manager's identity)
+        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
 
         $this->options = $options;
 

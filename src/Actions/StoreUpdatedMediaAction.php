@@ -24,7 +24,7 @@ class StoreUpdatedMediaAction
     public function execute(StoreUpdatedMediaRequest $request): JsonResponse|RedirectResponse
     {
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;
+        $mediaManagerDomId = $request->media_manager_id;
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $mediaId = $request->input('medium_id');
@@ -41,7 +41,7 @@ class StoreUpdatedMediaAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.no_media_collections')
             );
         }
@@ -72,7 +72,7 @@ class StoreUpdatedMediaAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.something_went_wrong'),
                 [
                     'mediumId' => $mediaId, // TODO rename to mediaId
@@ -84,7 +84,7 @@ class StoreUpdatedMediaAction
         return MediaResponse::success(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             __('medialibrary-extensions::messages.medium_replaced'),
             [
                 'mediumId' => $mediaId, // TODO rename to mediaId

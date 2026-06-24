@@ -18,13 +18,13 @@ class SetAsFirstForm extends BaseMediaComponent
 
     public ?string $targetMediaCollection = null;
 
-    public ?string $mediaManagerId = '';
+    public ?string $mediaManagerDomId = '';
 
     public string $mediumSetAsFirstRoute;
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerId,
+        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Collection $media,
         public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
@@ -36,10 +36,10 @@ class SetAsFirstForm extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+        // Ensure instanceId is derived from the mediaManagerDomId (the parent manager's identity)
+        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
 
         $this->options = $options;
 

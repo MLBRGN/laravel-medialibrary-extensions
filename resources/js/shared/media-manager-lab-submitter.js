@@ -69,7 +69,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
             // formData.append('options', JSON.stringify(config.options));
             //
             // formData.append('temporary_upload_mode', config.temporaryUploadMode);
-            // // formData.append('media_manager_id', config.mediaManagerId ?? '');
+            // // formData.append('media_manager_id', config.mediaManagerDomId ?? '');
             // // formData.append('medium_id', mediumId);// TODO keep both?
             // // formData.append('collections', JSON.stringify(config.collections));
             // // formData.append('collection', config.collection);

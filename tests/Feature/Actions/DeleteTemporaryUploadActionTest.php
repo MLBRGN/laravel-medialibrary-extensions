@@ -8,7 +8,7 @@ covers(DestroyTemporaryUploadAction::class);
 it('returns error response when no collections provided (JSON)', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
 
     // Create a temporary upload
     $upload = TemporaryUpload::create([
@@ -26,7 +26,7 @@ it('returns error response when no collections provided (JSON)', function () {
     // Call your route with empty payload to trigger 422
     $response = $this->actingAs($user)->deleteJson(
         route(config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload', $upload),
-        ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerId]
+        ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerDomId]
     );
 
     $response->assertStatus(422)
@@ -40,7 +40,7 @@ it('returns error response when no collections provided (JSON)', function () {
 it('returns error response when no collections provided Redirect', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
 
     // Create a temporary upload
     $upload = TemporaryUpload::create([
@@ -57,7 +57,7 @@ it('returns error response when no collections provided Redirect', function () {
 
     $response = $this->actingAs($user)->delete(
         route(config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload', $upload),
-        ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerId]
+        ['initiator_id' => $initiatorId,  'media_manager_id' => $mediaManagerDomId]
     );
 
     $response->assertStatus(302);
@@ -77,7 +77,7 @@ it('returns error response when no collections provided Redirect', function () {
 it('deletes the temporary upload and returns JSON', function () {
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $imageCollectionName = 'images';
 
     //    // Dump all queries executed during the request
@@ -107,7 +107,7 @@ it('deletes the temporary upload and returns JSON', function () {
             $route,
             [
                 'initiator_id' => $initiatorId,
-                'media_manager_id' => $mediaManagerId,
+                'media_manager_id' => $mediaManagerDomId,
                 'collections' => ['image' => 'images'],
             ]
         );
@@ -126,7 +126,7 @@ it('deletes the temporary upload and returns redirect', function () {
 
     $user = $this->getUser();
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
     $collections = ['image' => 'images'];
 
     // Create a temporary upload
@@ -150,7 +150,7 @@ it('deletes the temporary upload and returns redirect', function () {
         $route,
         [
             'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'media_manager_id' => $mediaManagerDomId,
             'collections' => $collections,
         ]
     );
@@ -176,7 +176,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
     $clientToken = 'test-session-id';
     $collections = ['image' => 'images'];
     $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $mediaManagerDomId = 'media-manager-123';
 
     // Create temporary uploads with the dummy session ID
     $temporaryUpload1 = TemporaryUpload::create([
@@ -219,7 +219,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
     $response = $this->actingAs($user)
         ->delete($route, [
             'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'media_manager_id' => $mediaManagerDomId,
             'collections' => $collections,
             'client_token' => $clientToken,
         ]);

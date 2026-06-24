@@ -29,7 +29,7 @@ class StoreSinglePermanentAction
         Log::info('UPLOAD REQUEST:', $request->all());
 
         $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id;
+        $mediaManagerDomId = $request->media_manager_id;
         $modelType = $request->model_type;
         $modelId = $request->model_id;
 
@@ -53,7 +53,7 @@ class StoreSinglePermanentAction
                 return MediaResponse::error(
                     $request,
                     $initiatorId,
-                    $mediaManagerId,
+                    $mediaManagerDomId,
                     __('medialibrary-extensions::messages.only_one_medium_allowed')
                 );
             }
@@ -71,7 +71,7 @@ class StoreSinglePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 $e->getMessage()
             );
 
@@ -82,7 +82,7 @@ class StoreSinglePermanentAction
             return MediaResponse::error(
                 $request,
                 $initiatorId,
-                $mediaManagerId,
+                $mediaManagerDomId,
                 __('medialibrary-extensions::messages.something_went_wrong')
             );
         }
@@ -90,7 +90,7 @@ class StoreSinglePermanentAction
         return MediaResponse::success(
             $request,
             $initiatorId,
-            $mediaManagerId,
+            $mediaManagerDomId,
             __('medialibrary-extensions::messages.upload_success')
         );
     }

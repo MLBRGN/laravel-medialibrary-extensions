@@ -25,7 +25,7 @@
             :initiator-id="$id"
             title="Edit Image"
             :data-source="$getConfig('dataSource')"
-            :media-manager-id="$mediaManagerId"
+            :media-manager-dom-id="$mediaManagerDomId"
         />
     @endif
 @else

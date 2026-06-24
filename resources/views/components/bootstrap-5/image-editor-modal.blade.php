@@ -32,7 +32,7 @@
             <x-mle-partial-status-area
                 id="{{ $domId }}"
                 :initiator-id="$id"
-                :media-manager-id="$id"
+                :media-manager-dom-id="$id"
                 :options="$getOptions()"
             />
             <div class="mle-modal-body modal-body p-0">
@@ -65,7 +65,7 @@
                     :collections="$collections"
                     :options="$getOptions()"
                     :initiator-id="$id"
-                    :media-manager-id="$mediaManagerId"
+                    :media-manager-dom-id="$mediaManagerDomId"
                     :disabled="$disabled"
                 />
             </div>

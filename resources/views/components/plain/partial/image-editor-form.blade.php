@@ -34,7 +34,7 @@
            value="{{ $id }}">
     <input type="hidden"
            name="media_manager_id"
-           value="{{ $mediaManagerId }}">
+           value="{{ $mediaManagerDomId }}">
     <input type="hidden"
            name="temporary_upload_mode"
            value="{{ $temporaryUploadMode ? 'true' : 'false' }}">

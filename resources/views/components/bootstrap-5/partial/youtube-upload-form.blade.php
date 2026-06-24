@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => route(mle_prefix_route('media-upload-youtube'))  . '#' . $mediaManagerId,
+        'action' => route(mle_prefix_route('media-upload-youtube'))  . '#' . $mediaManagerDomId,
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -51,7 +51,7 @@
     <input
         type="hidden"
         name="media_manager_id"
-        value="{{ $mediaManagerId }}">
+        value="{{ $mediaManagerDomId }}">
     <input
         type="hidden"
         name="client_token"
