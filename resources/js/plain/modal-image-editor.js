@@ -8,7 +8,6 @@ function initializeImageEditor(config) {
     const imageEditor = config.imageEditorInstance;
 
     if (!imageEditor) {
-        console.warn('No imageEditorInstance provided.');
         return;
     }
 
@@ -55,11 +54,14 @@ function initializeImageEditor(config) {
 }
 
 function initializeImageEditorModal(modal) {
-    // console.log('initializeImageEditorModal', modal);
-    if (modal.dataset.mleImageEditorInitialized) return;
+    if (modal.dataset.mleImageEditorInitialized === 'true') {
+        console.log('modal already initialized, skipping')
+        return;
+    } else {
+        console.log('modal not initialized, initializing')
+    }
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
-    // console.log('placeholder', placeholder);
     const onOpen = () => {
         // console.log('onOpen', modal, editors.has(modal));
         if (editors.has(modal)) return;
