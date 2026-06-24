@@ -96,7 +96,7 @@ function loadMediaAssets(loader, manifest) {
     // console.log('assets to load: ', tasks)
     Promise.allSettled(tasks).then(() => {
         if (debug) {
-            console.log('[media] assets loaded', manifest);
+            console.debug('[media] assets loaded', manifest);
         }
     });
 }

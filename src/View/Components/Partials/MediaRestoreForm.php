@@ -30,10 +30,11 @@ class MediaRestoreForm extends BaseMediaComponent
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
+        $this->applyDomSuffix('media-restore-form-'.$this->media->id);
+
         $this->options = $options;
 
-        $this->mediaManagerId = $this->originalId;
-        $this->setBaseId($this->getSuffixedId('media-restore-form-'.$this->media->id));
+        $this->mediaManagerId = $this->id;
 
         if ($this->temporaryUploadMode) {
             throw new InvalidArgumentException(__('medialibrary-extensions::messages.temporary_upload_original_cannot_be_restored'));

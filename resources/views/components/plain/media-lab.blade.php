@@ -1,4 +1,4 @@
-<div id="{{ $id }}"
+<div id="{{ $domId }}"
     @class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'), 
@@ -9,7 +9,7 @@
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
     <x-mle-partial-status-area
-        id="{{ $id }}"
+        id="{{ $domId }}"
         :initiator-id="$id"
         :media-manager-id="$id"
     />

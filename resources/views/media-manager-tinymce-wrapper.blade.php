@@ -29,7 +29,7 @@
         </div>
         <div class="mle-component mle-media-manager-tinymce">
             <x-mle-media-manager-tinymce
-                id="{{ $id }}"
+                id="{{ $domId }}"
                 :model-or-class-name="$modelOrClassName"
                 :collections="$collections"
                 :options="$options"

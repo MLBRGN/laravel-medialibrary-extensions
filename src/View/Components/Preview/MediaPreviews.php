@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\ClientContext;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
@@ -34,7 +35,7 @@ class MediaPreviews extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         // unless it was explicitly provided (e.g. from an XHR request or a test)
@@ -44,9 +45,10 @@ class MediaPreviews extends BaseMediaComponent
             $this->instanceId = $instanceId;
         }
 
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+//        if ($clientToken) {
+//            $this->clientToken = $clientToken;
+//        }
+
 
         $this->options = $options;
 
@@ -66,6 +68,12 @@ class MediaPreviews extends BaseMediaComponent
                 ->flatMap(function (?string $collectionName, string $collectionType) use ($dataSource) {
                     if ($this->temporaryUploadMode) {
                         if (! empty($collectionName)) {
+                            Log::info('MediaPreviews - Looking up temporary uploads', [
+                                'collection' => $collectionName,
+                                'instanceId' => $this->instanceId,
+                                'clientToken' => $this->clientToken,
+                                'dataSource' => $dataSource,
+                            ]);
                             return TemporaryUpload::getForCurrentClient($collectionName, $this->instanceId, $dataSource, $this->clientToken);
                         }
                     }

@@ -71,8 +71,8 @@ it('appends correct id suffix based on multiple flag', function () {
         multiple: false,
     );
 
-    expect($componentMultiple->id)->toBe('my-media-mmm')
-        ->and($componentSingle->id)->toBe('my-media-mms');
+    expect($componentMultiple->domId)->toBe('my-media-mmm')
+        ->and($componentSingle->domId)->toBe('my-media-mms');
 });
 
 it('initializes without temporary upload when a eloquent model is provided', function () {

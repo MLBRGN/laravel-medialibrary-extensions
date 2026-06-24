@@ -14,6 +14,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreYouTubeVideoTemporaryAction
 {
+    // TODO use MediaService::countTemporaryUploadsInCollections() or countMediaInCollections()
     use ChecksMediaLimits;
 
     public function __construct(
@@ -51,7 +52,7 @@ class StoreYouTubeVideoTemporaryAction
             );
         }
 
-        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections, null, null, $dataSource);
+        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections, $instanceId, null, $dataSource);
         $nextPriority = $temporaryUploadsInCollections;
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
             $message = $maxItemsInCollection === 1

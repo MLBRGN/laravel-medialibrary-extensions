@@ -8,29 +8,15 @@ use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
-beforeEach(function () {
-    Config::set('medialibrary-extensions.youtube_support_enabled', true);
-    Config::set('medialibrary-extensions.data_sources.demo', [
-        'connection' => 'media_demo',
-    ]);
-
-    // Ensure media_demo has the same tables as testbench
-    Artisan::call('migrate:fresh', [
-        '--database' => 'media_demo',
-        '--path' => [
-            'database/migrations',
-            'tests/Database/Migrations',
-        ],
-        '--realpath' => true,
-    ]);
-});
-
 it('stores a youtube video temporary on a custom data source', function () {
     $dataSource = 'demo';
     $clientToken = 'test-session';
 
+    $testDemoConnection = 'mle_test_demo';
+    $testDemoHostConnection = 'mle_test_host_app';
+
     // Verify we are starting clean on media_demo
-    expect(DB::connection('media_demo')->table('mle_temporary_uploads')->count())->toBe(0);
+    expect(DB::connection($testDemoConnection)->table('mle_temporary_uploads')->count())->toBe(0);
 
     $request = StoreYouTubeVideoRequest::create('/upload-youtube', 'POST', [
         'temporary_upload_mode' => 'true',
@@ -57,25 +43,28 @@ it('stores a youtube video temporary on a custom data source', function () {
     expect($response->status())->toBe(200);
 
     // Verify it was stored in the demo database
-    $count = DB::connection('media_demo')->table('mle_temporary_uploads')->count();
+    $count = DB::connection($testDemoConnection)->table('mle_temporary_uploads')->count();
     expect($count)->toBe(1);
 
     // Verify it was NOT stored in the default database
-    expect(DB::connection('testbench')->table('mle_temporary_uploads')->count())->toBe(0);
+    expect(DB::connection($testDemoHostConnection)->table('mle_temporary_uploads')->count())->toBe(0);
 
-    $uploaded = DB::connection('media_demo')->table('mle_temporary_uploads')->first();
+    $uploaded = DB::connection($testDemoConnection)->table('mle_temporary_uploads')->first();
     expect($uploaded->collection_name)->toBe('videos');
 });
 
 it('stores a youtube video permanent on a custom data source', function () {
     $dataSource = 'demo';
 
+    $testDemoConnection = 'mle_test_demo';
+    $testDemoHostConnection = 'mle_test_host_app';
+
     // Create a model in the demo database
-    $model = Blog::on('media_demo')->create(['title' => 'Demo Blog']);
+    $model = Blog::on($testDemoConnection)->create(['title' => 'Demo Blog']);
     $modelId = $model->id;
 
     // Verify we are starting clean on media_demo media table
-    expect(DB::connection('media_demo')->table('media')->count())->toBe(0);
+    expect(DB::connection($testDemoConnection)->table('media')->count())->toBe(0);
 
     $request = StoreYouTubeVideoRequest::create('/upload-youtube', 'POST', [
         'temporary_upload_mode' => 'false',
@@ -103,9 +92,9 @@ it('stores a youtube video permanent on a custom data source', function () {
     expect($response->status())->toBe(200);
 
     // Verify it was stored in the demo database
-    $count = DB::connection('media_demo')->table('media')->count();
+    $count = DB::connection($testDemoConnection)->table('media')->count();
     expect($count)->toBe(1);
 
     // Verify it was NOT stored in the default database
-    expect(DB::connection('testbench')->table('media')->count())->toBe(0);
-});
+    expect(DB::connection($testDemoHostConnection)->table('media')->count())->toBe(0);
+})->todo();

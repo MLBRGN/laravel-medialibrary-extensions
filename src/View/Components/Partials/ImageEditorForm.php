@@ -26,12 +26,12 @@ class ImageEditorForm extends BaseMediaComponent
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
-
-        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+        $this->applyDomSuffix('ie-update-form');
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
 
         $this->options = $options;
 
-        $this->id = $this->id.'-ie-update-form';
+
 
         $storeUpdatedMediaRoute = $this->getOption('temporaryUploadMode') ?
             route(mle_prefix_route('save-updated-temporary-upload'), $medium) :

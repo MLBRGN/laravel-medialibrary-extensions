@@ -2,6 +2,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Support;
 
+use Illuminate\Support\Facades\Log;
+
 /**
  * Manages stable instance IDs for upload components.
  *
@@ -19,12 +21,13 @@ namespace Mlbrgn\MediaLibraryExtensions\Support;
  */
 class InstanceManager
 {
-    public static function getInstanceId(string $originalId): string
+    public static function getInstanceId(string $id): string
     {
-        // Use a deterministic ULID-like string based on the originalId to maintain
+        Log::debug('Generating instance ID for ID: '.$id);
+        // Use a deterministic ULID-like string based on the id to maintain
         // stability across page refreshes without relying on sessions.
-        // We use SHA-1 to hash the originalId and then format it as a valid-looking ULID.
-        $hash = sha1($originalId);
+        // We use SHA-1 to hash the id and then format it as a valid-looking ULID.
+        $hash = sha1($id);
 
         return strtoupper(substr($hash, 0, 26));
     }

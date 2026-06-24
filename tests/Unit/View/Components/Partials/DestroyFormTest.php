@@ -22,7 +22,7 @@ it('initializes with given properties', function () {
     );
 
     expect($component->medium)->toBe($medium)
-        ->and($component->id)->toBe('some-id-destroy-form-123')
+        ->and($component->domId)->toBe('some-id-destroy-form-123')
         ->and($component->getOptions())->toMatchArray([
             'frontendTheme' => 'bootstrap-5',
             'useXhr' => true,
@@ -48,7 +48,7 @@ it('initializes with given properties without useXhr', function () {
     $component->render();
 
     expect($component->medium)->toBe($medium)
-        ->and($component->id)->toBe('delete-456-destroy-form-1')
+        ->and($component->domId)->toBe('delete-456-destroy-form-1')
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
         ->and($component->getConfig('useXhr'))->toBeFalse();
 });

@@ -46,9 +46,9 @@ class MediaCarousel extends BaseComponent
             $this->instanceId = $instanceId;
         }
 
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+//        if ($clientToken) {
+//            $this->clientToken = $clientToken;
+//        }
 //        if ($instanceId) {
 ////            Log::info('MediaCarousel: instanceId provided: ' . $instanceId);
 //            $this->instanceId = $instanceId;
@@ -74,7 +74,6 @@ class MediaCarousel extends BaseComponent
 
 //        Log::info('MediaCarousel', [
 //            'id' => $this->id,
-//            'originalId' => $this->originalId,
 //            'instanceId' => $this->instanceId,
 //        ]);
 
@@ -90,7 +89,7 @@ class MediaCarousel extends BaseComponent
 
         Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
         Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
-        $this->setBaseId($this->getSuffixedId('crs'));
+        $this->applyDomSuffix('crs');
     }
 
     public function render(): View

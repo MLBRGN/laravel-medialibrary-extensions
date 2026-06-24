@@ -13,16 +13,15 @@ class Audio extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public string $id;
-
     public function __construct(
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         array $options = [],
     ) {
         parent::__construct();
+        $this->domId = 'mle-audio-'.$medium->id;
+
         $this->options = $options;
-        $this->setBaseId('mle-audio-'.$medium->id);
 
         $this->resolveConfig();
     }

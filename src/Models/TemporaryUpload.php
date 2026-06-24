@@ -52,6 +52,8 @@ class TemporaryUpload extends Model implements HasMediaExtended
             $connection = app(DataSourceResolver::class)
                 ->resolveConnection($dataSource);
 
+//            dump('TemporaryUpload - scopeForDataSource called with dataSource: ' .$dataSource);
+//            dump('TemporaryUpload - scopeForDataSource use connection: ' .$connection);
             $query->getQuery()->connection = app('db')->connection($connection);
         }
 
@@ -62,6 +64,7 @@ class TemporaryUpload extends Model implements HasMediaExtended
     {
         $clientToken = $clientToken ?: (request()->input('client_token') ?: request()->cookie('mle_client_token'));
 
+        // TODO needed?
         if (! $clientToken && app()->runningUnitTests()) {
             // We use a stable fallback for unit tests to avoid breaking them
             // when no explicit token is provided.
@@ -73,7 +76,8 @@ class TemporaryUpload extends Model implements HasMediaExtended
             return $query->whereRaw('1 = 0');
         }
 
-        $query->where('client_token', $clientToken)
+        $query
+            ->where('client_token', $clientToken)
             ->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
             ->when(! is_null($collectionName), fn ($q) => $q->where('collection_name', $collectionName))
             ->orderBy('order_column', 'asc');
@@ -83,7 +87,13 @@ class TemporaryUpload extends Model implements HasMediaExtended
 
     public static function getForCurrentClient(mixed $collectionName = null, ?string $instanceId = null, ?string $dataSource = 'default', ?string $clientToken = null): Collection
     {
+//        dump('TemporaryUpload - getForCurrentClient called with dataSource: ' .$dataSource);
 //        Log::info('TemporaryUpload - getForCurrentClient called with: '.implode(', ', func_get_args()));
+        $query = static::query()
+            ->forDataSource($dataSource)
+            ->forCurrentClient($collectionName, $instanceId, $clientToken)
+            ->toSql();
+//        dump('TemporaryUpload - getForCurrentClient query: '.$query);
         return static::query()
             ->forDataSource($dataSource)
             ->forCurrentClient($collectionName, $instanceId, $clientToken)

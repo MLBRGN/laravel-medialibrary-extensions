@@ -18,48 +18,49 @@ abstract class BaseComponent extends Component
 {
     use ViewHelpers;
 
-    /** @var string The unique DOM ID for this component instance */
-    public string $id;
+    /** Logical component identity */
+    public readonly string $id;// never to be modified
 
-    /** @var string The stable, un-suffixed base ID (the logical identity) */
-    public string $originalId;
+    /** HTML/DOM identity */
+    public string $domId;
 
-    /** @var string The ULID used for scoping temporary uploads */
+    /** identify the instance of a component (more than one can be on same page), also used for scoping temporary uploads, together with clientToken */
     public string $instanceId;
 
-    /** @var string The stable logical identity of the client */
-    public string $clientToken;
-
-//    public MediaService $mediaService;
+    /** Identity of the client, used for scoping temporary uploads, together with instanceId */
+    public readonly string $clientToken;
 
     public function __construct(
         ?string $id = null,
     ) {
-        $this->originalId = filled($id) ? $id : (string) Str::ulid();
-        $this->id = $this->originalId;
-        $this->instanceId = InstanceManager::getInstanceId($this->originalId);
-
-        $clientContext = new ClientContext(request());// todo remove here
-        $this->clientToken = $clientContext->get();// todo remove here
-
+        $this->id = filled($id) ? $id : (string) Str::ulid();
+        $this->domId = $this->id;
+        $this->instanceId = InstanceManager::getInstanceId($this->id);
+        $this->clientToken = app(ClientContext::class)->get();
     }
 
-    public function setBaseId(string $id): void
+    private function suffixDomId(string $suffix): string
     {
-        $this->id = $id;
+//        dd('test1');
+        return "{$this->id}-{$suffix}";
     }
 
-    public function getSuffixedId(string $suffix): string
-    {
-        return $this->originalId.'-'.$suffix;
+    public function applyDomSuffix(string $suffix): void {
+        $this->domId = $this->suffixDomId($suffix);
     }
+
+//    public function childDomId(string $name): string { return "{$this->id}-{$name}"; }
+
+//    public function nestedDomId(string ...$segments): string { return implode('-', [ $this->id, ...$segments, ]); }
+
+//    public function getIdentityContext(): array { return [ 'id' => $this->id, 'domId' => $this->domId, 'instanceId' => $this->instanceId, 'clientToken' => $this->clientToken, ]; }
 
     public function renderView(string $viewName, ?string $theme = null, bool $isPartial = false, ?string $customView = null, array $data = []): View
     {
         $debug = config('medialibrary-extensions.debug', false);
 
         if ($debug) {
-            DebugManager::pushScope($this->id);
+            DebugManager::pushScope($this->domId);
         }
 
         if ($customView) {
@@ -71,7 +72,7 @@ abstract class BaseComponent extends Component
         }
 
         if ($debug) {
-            DebugManager::popScope($this->id);
+            DebugManager::popScope($this->domId);
         }
 
         return $view;

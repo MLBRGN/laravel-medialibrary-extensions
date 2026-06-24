@@ -32,11 +32,10 @@ class YouTubeUploadForm extends BaseMediaComponent
         public string $instanceId = '',
         public ?string $dataSource = 'default',
     ) {
-        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
 
         $this->options = $options;

@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
@@ -17,6 +18,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultipleTemporaryAction
 {
+    // TODO use MediaService::countTemporaryUploadsInCollections() or countMediaInCollections()
     use ChecksMediaLimits;
 
     public function __construct(
@@ -151,6 +153,13 @@ class StoreMultipleTemporaryAction
 
             $temporaryUpload->save();
 
+            Log::info('Saved temporary upload', [
+                'id' => $temporaryUpload->id,
+                'collection' => $collectionName,
+                'instanceId' => $instanceId,
+                'clientToken' => $clientToken,
+                'connection' => $temporaryUpload->getConnectionName(),
+            ]);
             $nextPriority++;
             //            // Create DB record
             //            $upload = new TemporaryUpload([

@@ -59,11 +59,20 @@ function initializeImageEditor(config) {
 }
 
 function initializeImageEditorModal(modal) {
-    if (modal.dataset.mleImageEditorInitialized) return;
+    console.log('initializeImageEditorModal', modal);
+    console.log('modal initialized ' + modal.dataset.mleImageEditorInitialized)
+
+    if (modal.dataset.mleImageEditorInitialized === 'true') {
+        console.log('modal already initialized, skipping')
+        return;
+    } else {
+        console.log('modal not initialized, initializing')
+    }
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
 
     modal.addEventListener('show.bs.modal', function () {
+        console.log('show.bs.modal', modal);
         const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-mle-image-editor-modal-config]').value);
         const mediumPath = modal.getAttribute('data-mle-medium-path');
         const displayName = modal.getAttribute('data-mle-medium-display-name');

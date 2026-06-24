@@ -10,7 +10,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
     $this->dataSourceResolver = new DataSourceResolver;
-    $this->service = new YouTubeService($this->dataSourceResolver);
+//    $this->youTubeThumnailDownloader
+//    $this->service = new YouTubeService($this->dataSourceResolver);
+
+    $this->service = app(YouTubeService::class);
 
     Storage::fake('media');
     Auth::shouldReceive('id')->andReturn(1);
@@ -38,7 +41,7 @@ it('uploads a YouTube thumbnail to a HasMedia model', function () {
     );
 
     expect($media)->toBe($mediaMock);
-})->todo('ethod Mockery_2_Spatie_MediaLibrary_HasMedia::setConnection() does not exist on this mock object');
+})->todo('Mocking errors, do not use mocking in this test');
 
 it('returns null if uploadThumbnailFromUrl fails', function () {
     $model = Mockery::mock(HasMedia::class);
@@ -52,17 +55,12 @@ it('returns null if uploadThumbnailFromUrl fails', function () {
     );
 
     expect($result)->toBeNull();
-})->todo('ethod Mockery_2_Spatie_MediaLibrary_HasMedia::setConnection() does not exist on this mock object');
+})->todo('Mocking errors, do not use mocking in this test');
 
 it('stores a temporary thumbnail from URL', function () {
     $youtubeUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
     $clientToken = 'fake-session';
     $collection = 'temp-collection';
-
-    // Mock file_get_contents to return fake content
-    //    function file_get_contents($url) {
-    //        return 'fake-image-content';
-    //    }
 
     $tempUpload = $this->service->storeTemporaryThumbnailFromUrl(
         youtubeUrl: $youtubeUrl,

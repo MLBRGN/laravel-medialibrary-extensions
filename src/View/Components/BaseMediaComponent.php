@@ -20,7 +20,7 @@ abstract class BaseMediaComponent extends BaseComponent
 
     public bool $temporaryUploadMode = false;
 
-    public string $clientToken;
+//    public string $clientToken;
 
     public MediaService $mediaService;
 
@@ -33,17 +33,18 @@ abstract class BaseMediaComponent extends BaseComponent
     public function __construct(
         ?string $id = null,
         mixed $modelOrClassName,
-        ?string $dataSource = 'default'
+        public ?string $dataSource = 'default'
     )
     {
         parent::__construct($id);
 
         $this->mediaService = app(MediaService::class);
 
-        $this->clientToken = app(ClientContext::class)->get();
+//        $this->clientToken = app(ClientContext::class)->get();
 
         $this->resolveModel($modelOrClassName, $dataSource);
 
+//        dump('datasource '.$dataSource);
 //        $this->totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
 //            $collections,
 //            $instanceId,

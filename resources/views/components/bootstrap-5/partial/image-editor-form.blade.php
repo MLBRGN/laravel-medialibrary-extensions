@@ -12,7 +12,7 @@
         'data-mle-xhr-form' => $getConfig('useXhr'),
         'id' => $id,
     ]"
-    id="{{ $id }}"
+    id="{{ $domId }}"
     method="post"
     class="mle-image-editor-form"
 >

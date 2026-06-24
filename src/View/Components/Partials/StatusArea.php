@@ -22,7 +22,7 @@ class StatusArea extends BaseComponent
     ) {
         parent::__construct($id);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);

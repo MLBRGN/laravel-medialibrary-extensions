@@ -7,7 +7,7 @@
         'modal',
         'fade',
         ])->merge() }}
-    id="{{ $id }}"
+    id="{{ $domId }}"
     tabindex="-1"
     @if($title)
         aria-labelledby="{{ $id }}-title"
@@ -23,7 +23,7 @@
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
             @if($title)
-                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $domId }}-title">{{ $title }}</h1>
             @endif
             <div class="mle-modal-body mle-media-modal-body modal-body p-0">
                 <button
@@ -42,7 +42,7 @@
                 {{-- important set expandableInModal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"
-                    id="{{ $id }}"
+                    id="{{ $domId }}"
                     :model-or-class-name="$modelOrClassName"
                     :single-media="$singleMedia"
                     :expandable-in-modal="false"

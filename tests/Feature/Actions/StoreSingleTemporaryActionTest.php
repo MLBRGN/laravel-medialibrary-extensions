@@ -64,6 +64,7 @@ it('stores file and returns redirect success', function () {
         'initiator_id' => $this->initiatorId,
         'media_manager_id' => $this->mediaManagerId,
         'collections' => ['image' => 'images'],
+        'data_source' => 'demo',
     ], [], [
         'media' => $file,
     ]);
@@ -96,6 +97,7 @@ it('returns error if no file is given (JSON)', function () {
         'initiator_id' => $this->initiatorId,
         'media_manager_id' => $this->mediaManagerId,
         'collections' => ['image' => 'images'],
+        'data_source' => 'demo',
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -121,6 +123,7 @@ it('returns error if no file is given (redirect)', function () {
         'initiator_id' => $this->initiatorId,
         'media_manager_id' => $this->mediaManagerId,
         'collections' => ['image' => 'images'],
+        'data_source' => 'demo',
     ]);
 
     $request->setLaravelSession(app('session.store'));
@@ -153,6 +156,7 @@ it('returns error if file has invalid mimetype (JSON)', function () {
         'initiator_id' => $this->initiatorId,
         'media_manager_id' => $this->mediaManagerId,
         'collections' => ['image' => 'images'],
+        'data_source' => 'demo',
     ], [], [
         'media' => $file,
     ]);
@@ -181,6 +185,7 @@ it('returns error if file has invalid mimetype (redirect)', function () {
         'initiator_id' => $this->initiatorId,
         'media_manager_id' => $this->mediaManagerId,
         'collections' => ['image' => 'images'],
+        'data_source' => 'demo',
     ], [], [
         'media' => $file,
     ]);
@@ -229,6 +234,7 @@ it('returns error if file exceeds max upload size (JSON)', function () {
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',
                 'media' => $tooLargeFile,
+                'data_source' => 'demo',
             ]
         );
 
@@ -262,12 +268,18 @@ it('returns error if file exceeds max upload size (redirect)', function () {
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',
                 'media' => $tooLargeFile,
+                'data_source' => 'demo',
             ]
         );
 
     $response->assertStatus(302);
 
-    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
-        return str_contains($message, 'must not be greater than 100 kilobytes');
-    });
-})->todo('fix this test');
+//    dd(session('errors')->toArray());
+
+    $response->assertSessionHasErrors([
+        'media',
+    ]);
+//    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
+//        return str_contains($message, 'must not be greater than 100 kilobytes');
+//    });
+});

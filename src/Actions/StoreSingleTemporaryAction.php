@@ -18,6 +18,7 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreSingleTemporaryAction
 {
+    // TODO use MediaService::countTemporaryUploadsInCollections() or countMediaInCollections()
     use ChecksMediaLimits;
 
     public function __construct(

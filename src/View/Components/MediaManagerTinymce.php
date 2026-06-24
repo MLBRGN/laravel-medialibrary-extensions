@@ -74,18 +74,13 @@ class MediaManagerTinymce extends BaseMediaComponent
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            //            $this->uploadFieldName = config('medialibrary-extensions.upload_field_name');// TODO
-            $this->setBaseId($this->getSuffixedId('mmm'));
-//            $this->mediaManagerId .= '-mmm';// TODO messy
+            $this->applyDomSuffix('mmm');
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            //            $this->uploadFieldName = config('medialibrary-extensions.upload_field_name');// TODO
-            $this->setBaseId($this->getSuffixedId('mms'));
-//            $this->mediaManagerId .= '-mms';// TODO messy
+            $this->applyDomSuffix('mms');
         }
 
         $this->resolveConfig([
-            //            'uploadFieldName' => $this->uploadFieldName,
             'uploadFieldName' => 'media',
             'selectable' => $selectable,
             'instanceId' => $this->instanceId,

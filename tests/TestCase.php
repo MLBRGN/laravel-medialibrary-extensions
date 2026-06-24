@@ -36,8 +36,6 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-//        $this->migrateDatabases();
-
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
 
@@ -111,21 +109,23 @@ class TestCase extends Orchestra
             touch($pathToDemoTestDb);
         }
 
-        // set the default database connection
-        $app['config']->set('database.default', 'host_sandbox');
-
         // configure the database connections
-        $app['config']->set('database.connections.host_sandbox', [
+        $app['config']->set('database.connections.mle_test_host_app', [
             'driver' => 'sqlite',
             'database' => $pathToHostAppTestDb,
             'prefix' => '',
         ]);
 
-        $app['config']->set('database.connections.media_demo', [
+        $app['config']->set('database.connections.mle_test_demo', [
             'driver' => 'sqlite',
             'database' => $pathToDemoTestDb,
             'prefix' => '',
         ]);
+
+        // set the default database connection
+        $app['config']->set('database.default', 'mle_test_host_app');
+        $app['config']->set('medialibrary-extensions.data_sources.default.connection', 'mle_test_host_app');
+        $app['config']->set('medialibrary-extensions.data_sources.demo.connection', 'mle_test_demo');
 
         $this->createDirectory($this->getTempDirectory());
         $this->createDirectory($this->getMediaDirectory());
@@ -133,8 +133,6 @@ class TestCase extends Orchestra
         $this->createDirectory($this->getLogDirectory());
 
         $this->refreshTestFiles();
-
-//        $app['config']->set('app.key', 'base64:BOiGLFUC+84Du2o8GYos0kGJaj4zGX9M9BkLsAj04Ik=');
 
         $app['config']->set('logging.default', 'single');
         $app['config']->set('logging.channels.single', [
@@ -171,71 +169,20 @@ class TestCase extends Orchestra
         $app['config']->set('media-library.media_model', Media::class);
     }
 
-//    protected function migrateDatabases(): void
-//    {
-//        static $migrated = false;
-//
-//        if ($migrated) {
-//            return;
-//        }
-//
-//        $this->artisan('migrate:fresh', [
-//            '--database' => 'host_sandbox',// connection to use
-//            '--path' => realpath(__DIR__ . '/database/migrations'),
-//            '--realpath' => true,
-//        ]);
-//
-//        $this->artisan('migrate:fresh', [
-//            '--database' => 'media_demo',// connection to use
-//            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
-//            '--realpath' => true,
-//        ]);
-//
-//        $migrated = true;
-//    }
-
     protected function defineDatabaseMigrations(): void
     {
-        static $migrated = false;
-
-        if ($migrated) {
-            return;
-        }
-
         $this->artisan('migrate:fresh', [
-            '--database' => 'host_sandbox',// connection to use
+            '--database' => 'mle_test_host_app',// connection to use
             '--path' => realpath(__DIR__ . '/database/migrations'),
             '--realpath' => true,
         ]);
 
         $this->artisan('migrate:fresh', [
-            '--database' => 'media_demo',// connection to use
+            '--database' => 'mle_test_demo',// connection to use
             '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
             '--realpath' => true,
         ]);
 
-        $migrated = true;
-//        // Host app database
-//
-//        $this->artisan('migrate:fresh', [
-//            '--database' => 'sqlite',
-//            '--path' => realpath(__DIR__.'/database/migrations'),
-//            '--realpath' => true,
-//        ]);
-//
-//        $this->artisan('migrate', [
-//            '--database' => 'sqlite',
-//            '--path' => realpath(__DIR__.'/../database/migrations'),
-//            '--realpath' => true,
-//        ]);
-//
-//        // Demo database
-//
-//        $this->artisan('migrate:fresh', [
-//            '--database' => 'media_demo',
-//            '--path' => realpath(__DIR__.'/../database/demo-migrations'),
-//            '--realpath' => true,
-//        ]);
     }
 
 
@@ -294,17 +241,6 @@ class TestCase extends Orchestra
         $path = __DIR__.'/Fixtures/'.$fileName;
 
         return $path;
-        //        if (! file_exists($path)) {
-        //            throw new \RuntimeException("Fixture file not found: {$path}");
-        //        }
-        //
-        //        return new UploadedFile(
-        //            $path,
-        //            basename($fileName),
-        //            mime_content_type($path) ?: null,
-        //            null,
-        //            true // mark as a test file
-        //        );
     }
 
     protected function getUploadedFile(

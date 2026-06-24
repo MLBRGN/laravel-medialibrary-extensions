@@ -13,16 +13,15 @@ class Video extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public string $id;
-
     public function __construct(
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         array $options = [],
     ) {
         parent::__construct();
+        $this->domId = 'mle-video-'.$medium->id;
+
         $this->options = $options;
-        $this->setBaseId('mle-video-'.$medium->id);
 
         $this->resolveConfig();
     }

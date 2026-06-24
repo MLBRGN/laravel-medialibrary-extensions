@@ -115,7 +115,7 @@ it('loads previews successfully after a permanent multiple upload', function () 
     expect($data['html'])->toContain('photo2.jpg');
 });
 
-it('loads previews successfully after a temporary multiple upload', function () {
+it('loads previews successfully after a temporary single upload', function () {
     $files = [
         UploadedFile::fake()->image('photo-temp1.jpg'),
         UploadedFile::fake()->image('photo-temp2.jpg'),
@@ -133,6 +133,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
         'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
+        'data_source' => 'demo',
     ], [], [
         'media' => $files,
     ]);
@@ -153,6 +154,59 @@ it('loads previews successfully after a temporary multiple upload', function () 
         'temporary_upload_mode' => 'true',
         'instance_id' => $instanceId,
         'client_token' => $clientToken,
+        'data_source' => 'demo',
+    ]);
+    $previewRequest->setLaravelSession($uploadRequest->session());
+
+    $previewResponse = $this->getTemporaryPreviewAction->execute($previewRequest);
+
+    $data = $previewResponse->getData(true);
+    expect($data['success'])->toBeTrue();
+    expect($data['mediaCount'])->toBe(2);
+    expect($data['html'])->toContain('photo-temp1.jpg');
+    expect($data['html'])->toContain('photo-temp2.jpg');
+})->todo('copied from temporary multiple upload test, check and adjust');
+
+it('loads previews successfully after a temporary multiple upload', function () {
+    $files = [
+        UploadedFile::fake()->image('photo-temp1.jpg'),
+        UploadedFile::fake()->image('photo-temp2.jpg'),
+    ];
+    $instanceId = 'multiple-temp-instance';
+    $initiatorId = 'multiple-temp';
+    $clientToken = 'test-session-id';
+
+    // 1. Upload
+    $uploadRequest = StoreMultipleRequest::create('/upload', 'POST', [
+        'model_type' => get_class($this->model),
+        'initiator_id' => $initiatorId,
+        'media_manager_id' => $this->mediaManagerId,
+        'collections' => ['image' => 'images'],
+        'instance_id' => $instanceId,
+        'client_token' => $clientToken,
+        'temporary_upload_mode' => 'true',
+        'data_source' => 'demo',
+    ], [], [
+        'media' => $files,
+    ]);
+    $uploadRequest->setLaravelSession(app('session.store'));
+    $uploadRequest->headers->set('Accept', 'application/json');
+
+    $action = new StoreMultipleTemporaryAction($this->mediaService);
+    $uploadResponse = $action->execute($uploadRequest);
+
+    expect($uploadResponse->status())->toBe(200);
+
+    // 2. Request Preview
+    $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
+        'initiator_id' => $initiatorId,
+        'model_type' => get_class($this->model),
+        'collections' => json_encode(['image' => 'images']),
+        'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
+        'temporary_upload_mode' => 'true',
+        'instance_id' => $instanceId,
+        'client_token' => $clientToken,
+        'data_source' => 'demo',
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 
@@ -246,6 +300,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
         'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
+        'data_source' => 'demo',
     ]);
     $uploadRequest->setLaravelSession(app('session.store'));
     $uploadRequest->headers->set('Accept', 'application/json');
@@ -263,6 +318,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
         'temporary_upload_mode' => 'true',
         'instance_id' => $instanceId,
         'client_token' => $clientToken,
+        'data_source' => 'demo',
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 

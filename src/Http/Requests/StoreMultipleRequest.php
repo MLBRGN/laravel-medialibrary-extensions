@@ -47,7 +47,10 @@ class StoreMultipleRequest extends StoreRequest
                 'initiator_id' => ['required', 'string'],
                 'media_manager_id' => ['required', 'string'],
                 'instance_id' => ['nullable', 'string', 'max:64'],
-                'data_source' => ['nullable', 'string'],
+                'data_source' => [
+                    Rule::requiredIf(fn () => $this->input('temporary_upload_mode') === 'true'),
+                    'string',
+                ],
             ]
         );
     }

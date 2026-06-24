@@ -18,7 +18,7 @@ it('initializes correctly with a single media collection', function () {
         collections: ['image_collection']
     );
     expect($component->mediaCount)->toBe(1)
-        ->and($component->id)->toBe('carousel-id-crs')
+        ->and($component->domId)->toBe('carousel-id-crs')
         ->and($component->getConfig('frontendTheme'))->toBe('bootstrap-5');
 });
 
@@ -34,7 +34,7 @@ it('initializes correctly with multiple media collections', function () {
         ]
     );
     expect($component->mediaCount)->toBe(3)
-        ->and($component->id)->toBe('carousel-id-crs')
+        ->and($component->domId)->toBe('carousel-id-crs')
         ->and($component->getConfig('frontendTheme'))->toBe('plain');
 });
 
@@ -48,7 +48,7 @@ it('falls back to empty media collection when no model is provided', function ()
 
     expect($component->media)->toBeInstanceOf(Collection::class)
         ->and($component->mediaCount)->toBe(0)
-        ->and($component->id)->toBe('carousel-empty-crs');
+        ->and($component->domId)->toBe('carousel-empty-crs');
 });
 
 it('uses provided frontend theme if given', function () {

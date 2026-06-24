@@ -5,6 +5,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests;
 
+use BladeUI\Icons\BladeIconsServiceProvider;
+use Davidhsianturi\BladeBootstrapIcons\BladeBootstrapIconsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -136,6 +138,8 @@ class BrowserTestCase extends Orchestra
         $providers = [
             MediaLibraryServiceProvider::class,// YouTube video download browser testing fails without these
             MediaLibraryExtensionsServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeBootstrapIconsServiceProvider::class,
         ];
 
         if (class_exists(FormComponentsServiceProvider::class)) {
@@ -161,20 +165,22 @@ class BrowserTestCase extends Orchestra
         }
 
         // configure the database connections
-        $app['config']->set('database.connections.host_sandbox', [
+        $app['config']->set('database.connections.mle_demo_host_app', [
             'driver' => 'sqlite',
             'database' => $pathToHostAppTestDb,
             'prefix' => '',
         ]);
 
-        $app['config']->set('database.connections.media_demo', [
+        $app['config']->set('database.connections.mle_demo', [
             'driver' => 'sqlite',
             'database' => $pathToDemoTestDb,
             'prefix' => '',
         ]);
 
-        // set the default database connection
-        $app['config']->set('database.default', 'host_sandbox');
+        // set the database connections to use (DataSourceResolver looks in data_sources.xxxx.connection)
+        $app['config']->set('database.default', 'mle_demo_host_app');
+        $app['config']->set('medialibrary-extensions.data_sources.default.connection', 'mle_demo_host_app');
+        $app['config']->set('medialibrary-extensions.data_sources.demo.connection', 'mle_demo');
 
         // enable demo pages
         $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
@@ -191,6 +197,8 @@ class BrowserTestCase extends Orchestra
         ]);
 
         // configure sessions
+//        'driver' => env('SESSION_DRIVER', 'database'),
+        $app['config']->set('session.driver', 'file');
         $app['config']->set('session.serialization', 'php');
 
         // Load media library config (needed for tests that interact with the media library to work)
@@ -305,6 +313,14 @@ class BrowserTestCase extends Orchestra
                     'Content-Type' => $mimeType,
                 ]);
             })->where('path', '.*');
+//            Route::get('image-editor-translations/nl.json', function () {
+//                return response()->json([]);
+//            });
+
+
+        });
+        Route::get('image-editor-translations/{locale}.json', function () {
+            return response()->json([]);
         });
         Route::get('favicon.ico', fn() => '')->name('mlbrgn.mle.favicon');
     }
@@ -356,13 +372,13 @@ class BrowserTestCase extends Orchestra
         }
 
         $this->artisan('migrate:fresh', [
-            '--database' => 'host_sandbox',// connection to use
+            '--database' => 'mle_demo_host_app',// connection to use
             '--path' => realpath(__DIR__ . '/database/migrations'),
             '--realpath' => true,
         ]);
 
         $this->artisan('migrate:fresh', [
-            '--database' => 'media_demo',// connection to use
+            '--database' => 'mle_demo',// connection to use
             '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
             '--realpath' => true,
         ]);

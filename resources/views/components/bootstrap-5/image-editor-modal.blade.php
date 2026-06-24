@@ -7,7 +7,7 @@
         'modal',
         'fade',
     ])->merge() }}
-    id="{{ $id }}"
+    id="{{ $domId }}"
     tabindex="-1"
     @if($title)
         aria-labelledby="{{ $id }}-title"
@@ -21,6 +21,7 @@
     data-mle-medium-minimal-dimensions="{{ $minimalDimensions }}"
     data-mle-medium-maximal-dimensions="{{ $maximalDimensions }}"
     data-test="image-editor-modal"
+    data-mle-image-editor-initialized="false"
     {{-- no aria-hidden!, role gets added by bs --}}
 >
     <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">
@@ -29,7 +30,7 @@
                 <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <x-mle-partial-status-area
-                id="{{ $id }}"
+                id="{{ $domId }}"
                 :initiator-id="$id"
                 :media-manager-id="$id"
                 :options="$getOptions()"
@@ -57,7 +58,7 @@
                 </div>
 
                 <x-mle-partial-image-editor-form
-                    id="{{ $id }}"
+                    id="{{ $domId }}"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
                     :single-media="$singleMedia"

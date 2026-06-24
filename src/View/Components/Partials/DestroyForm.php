@@ -33,7 +33,9 @@ class DestroyForm extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+        $this->applyDomSuffix('destroy-form-'.$this->medium->id);
+
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
@@ -43,8 +45,6 @@ class DestroyForm extends BaseMediaComponent
         if ($this->medium instanceof Media && is_null($this->modelId)) {
             $this->modelId = $this->medium->model_id;
         }
-
-        $this->setBaseId($this->getSuffixedId('destroy-form-'.$this->medium->id));
 
         if ($this->temporaryUploadMode) {
             $mediaDestroyRoute = route(

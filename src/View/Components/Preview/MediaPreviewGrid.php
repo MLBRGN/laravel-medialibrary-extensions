@@ -29,7 +29,7 @@ class MediaPreviewGrid extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         if (empty($instanceId)) {
@@ -38,9 +38,9 @@ class MediaPreviewGrid extends BaseMediaComponent
             $this->instanceId = $instanceId;
         }
 
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+//        if ($clientToken) {
+//            $this->clientToken = $clientToken;
+//        }
 
         $this->options = $options;
 

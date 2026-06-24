@@ -25,6 +25,7 @@ it('passes validation with required fields and at least one collection', functio
         'media' => null,
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
+        'data_source' => 'demo',
     ];
 
     $request = new StoreSingleRequest;
@@ -42,6 +43,7 @@ it('fails validation when no collections are provided', function () {
         'media' => null,
         'initiator_id' => 'user123',
         'media_manager_id' => 'manager456',
+        'data_source' => 'demo',
     ];
 
     $request = new StoreSingleRequest;

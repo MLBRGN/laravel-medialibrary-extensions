@@ -17,7 +17,9 @@ class MediaManagerMultiple extends MediaManager
         bool $disabled = false,
         bool $readonly = false,
         bool $selectable = false,
+        public ?string $dataSource = 'default',
     ) {
+//        dump('dataSource '.$dataSource);
         parent::__construct(
             id: $id,
             modelOrClassName: $modelOrClassName,
@@ -28,20 +30,20 @@ class MediaManagerMultiple extends MediaManager
             disabled: $disabled,
             readonly: $readonly,
             selectable: $selectable,
+            dataSource: $dataSource,
         );
         $this->options = $options;
 
-        $dataSource = $this->options['dataSource'] ?? null;
 
-        $resolved = $this->mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+//        $resolved = $this->mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
 
-        $this->totalMediaCount = $this->mediaService->countMediaInCollections(
-            $resolved,
-            $collections,
-            $this->instanceId,
-            $this->clientToken,
-            $dataSource
-        );
+//        $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+//            $resolved,
+//            $collections,
+//            $this->instanceId,
+//            $this->clientToken,
+//            $dataSource
+//        );
 
         $this->maxMediaCount = config('medialibrary-extensions.max_items_in_shared_media_collections');
 

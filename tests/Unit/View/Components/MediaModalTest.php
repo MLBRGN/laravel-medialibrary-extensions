@@ -16,7 +16,7 @@ it('appends -mod to the id', function () {
         title: 'ID Test'
     );
 
-    expect($component->id)->toBe('media1-mod');
+    expect($component->domId)->toBe('media1-mod');
 });
 
 it('returns the correct view on render', function () {

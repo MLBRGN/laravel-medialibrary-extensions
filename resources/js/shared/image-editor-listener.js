@@ -11,7 +11,7 @@ document.addEventListener('onImageSave', (e) => {
 });
 
 document.addEventListener('onCanvasStatusMessage', (e) => {
-    console.log('onCanvasStatusMessage:', e.detail);
+    // console.log('onCanvasStatusMessage:', e.detail);
 });
 
 document.addEventListener('onCloseImageEditor', (e) => {
@@ -55,7 +55,7 @@ const updateMedia = (detail) => {
 
     try {
         config = JSON.parse(configInput.value);
-        console.log(config);
+        // console.log(config);
     } catch (e) {
         console.error('Invalid JSON config');
     }
@@ -112,7 +112,7 @@ const updateMedia = (detail) => {
     // console.log('parentStatusAreaContainer', parentStatusAreaContainer);
 
     if (!localStatusAreaContainer) {
-        console.log('statusAreaContainer not found', localStatusAreaContainer);
+        console.warn('statusAreaContainer not found', localStatusAreaContainer);
         return;
     }
     xhrRequestStart(localStatusAreaContainer);
@@ -127,7 +127,7 @@ const updateMedia = (detail) => {
     const instanceId = config.instanceId;
     const dataSource = config.dataSource;
 
-    console.log('mediaManagerId ', config.mediaManagerId)
+    // console.log('mediaManagerId ', config.mediaManagerId)
     formData.append('initiator_id', initiatorId);
     formData.append('instance_id', instanceId);
     formData.append('media_manager_id', config.mediaManagerId ?? '');
@@ -178,7 +178,7 @@ const updateMedia = (detail) => {
             detail: {'modal': modal}
         }));
 
-        console.log('show status message in ', mediaManagerStatusContainer)
+        // console.log('show status message in ', mediaManagerStatusContainer)
 
         showStatusMessage(mediaManagerStatusContainer, {
            type: 'success',

@@ -3,7 +3,7 @@
     data-mle-media-preview-grid
 >
     <x-mle-media-previews
-        :id="$id"
+        :id="$domId"
         :media-manager-id="$mediaManagerId"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
@@ -14,6 +14,7 @@
         :readonly="$readonly"
         :multiple="$multiple"
         :instance-id="$instanceId"
-        :data-source="$getConfig('dataSource')"
+        :data-source="$dataSource"
+        :client-token="$clientToken"
     />
 </div>

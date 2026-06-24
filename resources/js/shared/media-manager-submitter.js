@@ -76,6 +76,11 @@ mediaManagers.forEach(mediaManager => {
                 return;
             }
 
+            // console.log('media-manager-submitter.js - config instanceId before updating previews ', config.instanceId);
+            if (!config.initiatorId) {
+                console.warn('media-manager-submitter.js - full config', config);
+            }
+
             showStatusMessage(statusAreaContainer, data);
             updatePreviews(mediaManager, config, {});
             resetFields(formElement);

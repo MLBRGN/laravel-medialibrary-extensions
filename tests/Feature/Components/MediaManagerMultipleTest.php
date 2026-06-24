@@ -35,7 +35,7 @@ it('initializes correctly with model instance', function () {
         ->and($component->getConfig('showOrder'))->toBeTrue()
         ->and($component->collections)
         ->toHaveKey('image', 'images')
-        ->and($component->id)->toBe('blog-1-mmm');
+        ->and($component->domId)->toBe('blog-1-mmm');
 });
 
 it('initializes correctly with model class name', function () {

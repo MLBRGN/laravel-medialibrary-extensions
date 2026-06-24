@@ -15,7 +15,7 @@
 >
     <label for="{{ $id }}-media-input" class="mle-label">{{ __('medialibrary-extensions::messages.files') }}</label>
     <input
-        id="{{ $id }}-media-input"
+        id="{{ $domId }}-media-input"
         data-mle-media-input
         accept="{{ $getConfig('allowedMimeTypes') }}"
         type="file"

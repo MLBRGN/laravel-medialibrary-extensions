@@ -15,8 +15,6 @@ class Document extends BaseComponent
 
     public array $icon;
 
-    public string $id;
-
     /** @var string[] */
     public array $officeMimes = [
         'application/msword',
@@ -39,7 +37,7 @@ class Document extends BaseComponent
         public string $alt = ''
     ) {
         parent::__construct();
-        $this->setBaseId('mle-document-'.$medium->id);
+        $this->domId = 'mle-document-'.$medium->id;
         $this->options = $options;
         $mimetype = $medium->mime_type;
 

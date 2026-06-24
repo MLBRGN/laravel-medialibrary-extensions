@@ -126,7 +126,7 @@ it('can handle different database connections using forDataSource scope', functi
 
     // Configure a mock data source
     config()->set('medialibrary-extensions.data_sources.demo', [
-        'connection' => 'media_demo',
+        'connection' => 'mle_test_demo',
     ]);
 
     // Create on default connection
@@ -135,12 +135,12 @@ it('can handle different database connections using forDataSource scope', functi
         'collection_name' => 'default-conn',
     ]);
 
-    // Create on 'media_demo' connection
+    // Create on demo connection
     $demoUpload = TemporaryUpload::newFactory()->make([
         'client_token' => $clientToken,
         'collection_name' => 'demo-conn',
     ]);
-    $demoUpload->setConnection('media_demo');
+    $demoUpload->setConnection('mle_test_demo');
     $demoUpload->save();
 
     // Query using forDataSource
@@ -156,47 +156,6 @@ it('can handle different database connections using forDataSource scope', functi
     expect($demoUploadsStatic)->toHaveCount(1)
         ->and($demoUploadsStatic->first()->collection_name)->toBe('demo-conn');
 });
-
-// it('checks if the isAvailable static method exists', function () {
-//    // Call the static method
-//    $exists = TemporaryUpload::isAvailable();
-//
-//    expect($exists)->toBeTrue();
-// });
-
-// it('retrieves uploads for the current session', function () {
-//    // This test would require a more complex setup with a real database connection
-//    // For now, we'll just test that the method exists
-//    expect(TemporaryUpload::class)->toHaveMethod('forCurrentClient', $instanceId);
-// });
-//
-// it('determines if the upload is an image', function () {
-//    // Arrange
-//    $temporaryUpload = new TemporaryUpload();
-//    $temporaryUpload->mime_type = 'image/jpeg';
-//
-//    // Act & Assert
-//    expect($temporaryUpload->isImage())->toBeTrue();
-// });
-//
-// it('determines if the upload is a document', function () {
-//    // Arrange
-//    $temporaryUpload = new TemporaryUpload();
-//    $temporaryUpload->mime_type = 'application/pdf';
-//
-//    // Act & Assert
-//    expect($temporaryUpload->isDocument())->toBeTrue();
-// });
-//
-// it('determines if the upload is a YouTube video', function () {
-//    // Arrange
-//    $temporaryUpload = new TemporaryUpload();
-//    $temporaryUpload->custom_properties = ['youtube-id' => 'abc123'];
-//
-//    // Act & Assert
-//    expect($temporaryUpload->isYouTubeVideo())->toBeTrue();
-// });
-
 
 it('stores temporary uploads with client token and instance id', function () {
     // Create a temporary upload with specific client token and instance id
@@ -255,7 +214,7 @@ it('retrieves temporary uploads using client token', function () {
 
     expect($uploads)->toHaveCount(2);
     expect($uploads->first()->client_token)->toBe($clientToken);
-})->todo('This test is not working.');
+})->todo('This test needs refactoring.');
 
 it('retrieves temporary uploads using instance id', function () {
     // Create a temporary upload with instance id
@@ -290,7 +249,7 @@ it('retrieves temporary uploads using instance id', function () {
 
     expect($uploads)->toHaveCount(2);
     expect($uploads->first()->instance_id)->toBe($instanceId);
-})->todo('This test is not working.');
+})->todo('This test needs refactoring.');;
 
 it('retrieves temporary uploads using session client token', function () {
     // Set up session with client token
@@ -314,7 +273,7 @@ it('retrieves temporary uploads using session client token', function () {
 
     expect($uploads)->toHaveCount(1);
     expect($uploads->first()->client_token)->toBe('session-test-token');
-})->todo('This test is not working.');
+})->todo('This test needs refactoring.');;
 
 it('handles missing client identity gracefully', function () {
     // Create a temporary upload without client token or instance id
@@ -356,7 +315,7 @@ it('associates uploads with correct client token during upload process', functio
     expect($temporaryUpload->client_token)->toBe($clientToken);
 
     // Verify we can retrieve it using that token
-    $retrieved = TemporaryUpload::getForCurrentClient(null, 'instance_id', 'default', $clientToken);
+    $retrieved = TemporaryUpload::getForCurrentClient('default', 'instance_id', 'default', $clientToken);
     expect($retrieved)->toHaveCount(1);
     expect($retrieved->first()->id)->toBe($temporaryUpload->id);
-})->todo('This test is not working.');
+})->todo('This test not working.');;

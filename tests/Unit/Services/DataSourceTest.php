@@ -32,12 +32,12 @@ it('MediaService make uses the resolved connection', function () {
 });
 
 it('MediaService findMediaModel uses the resolved connection', function () {
-    Config::set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
+    Config::set('medialibrary-extensions.data_sources.demo.connection', 'mle_test_demo');
 
     $service = app(MediaService::class);
 
     // We create the blogs table on the media_demo connection manually for this test
-    Schema::connection('media_demo')->create('blogs', function ($table) {
+    Schema::connection('mle_test_demo')->create('blogs', function ($table) {
         $table->id();
         $table->string('title');
         $table->timestamps();
@@ -45,14 +45,14 @@ it('MediaService findMediaModel uses the resolved connection', function () {
 
     // We create a model on the media_demo connection
     $blog = new Blog;
-    $blog->setConnection('media_demo');
+    $blog->setConnection('mle_test_demo');
     $blog->title = 'Demo Blog';
     $blog->save();
 
     $found = $service->findMediaModel(Blog::class, $blog->id, 'demo');
 
-    expect($found->getConnectionName())->toBe('media_demo')
+    expect($found->getConnectionName())->toBe('mle_test_demo')
         ->and($found->id)->toBe($blog->id);
 
-    Schema::connection('media_demo')->dropIfExists('blogs');
+    Schema::connection('mle_test_demo')->dropIfExists('blogs');
 });

@@ -84,6 +84,11 @@
                     </tr>
 
                     <tr>
+                        <th>Client token</th>
+                        <td>{{ $getConfig('clientToken') }}</td>
+                    </tr>
+
+                    <tr>
                         <th>Frontend Theme</th>
                         <td>{{ $getConfig('frontendTheme') }}</td>
                     </tr>

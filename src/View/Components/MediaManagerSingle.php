@@ -21,10 +21,12 @@ class MediaManagerSingle extends MediaManager
         bool $disabled = false,
         bool $readonly = false,
         bool $selectable = false,
+        public ?string $dataSource = 'default',
     ) {
         // override options
         $options['showOrder'] = false; // should always be false
 
+//        dump('dataSource '.$dataSource);
         parent::__construct(
             id: $id,
             modelOrClassName: $modelOrClassName,
@@ -35,28 +37,29 @@ class MediaManagerSingle extends MediaManager
             disabled: $disabled,
             readonly: $readonly,
             selectable: $selectable,
+            dataSource: $dataSource,
         );
 
 
         $this->options = $options;
 
-        $dataSource = $this->options['dataSource'] ?? null;
+//        $dataSource = $this->options['dataSource'] ?? null;
 
-        $resolved = $this->mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+//        $resolved = $this->mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
 
 
         // when singleMedia provided, dont count collections
-        if ($this->singleMedia !== null) {
-            $this->totalMediaCount = 1;
-        } else {
-            $this->totalMediaCount = $this->mediaService->countMediaInCollections(
-                $resolved,
-                $collections,
-                $this->instanceId,
-                $this->clientToken,
-                $dataSource
-            );
-        }
+//        if ($this->singleMedia !== null) {
+//            $this->totalMediaCount = 1;
+//        } else {
+//            $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+//                $this->resolvedModel,
+//                $collections,
+//                $this->instanceId,
+//                $this->clientToken,
+//                $dataSource
+//            );
+//        }
 
         $this->maxMediaCount = 1;
 

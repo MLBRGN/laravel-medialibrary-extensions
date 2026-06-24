@@ -11,7 +11,7 @@ export function createAssetLoader(namespace, {
         globalDedup = false,
         basePath
     } = {}) {
-    console.log('mle createAssetLoader, basePath: ', basePath)
+    // console.log('mle createAssetLoader, basePath: ', basePath)
 
     if (!basePath) {
         throw new Error(
@@ -29,7 +29,7 @@ export function createAssetLoader(namespace, {
     }
 
     function markLoaded(set, globalSet, key, globalKey) {
-        console.log(key, 'loaded')
+        // console.log(key, 'loaded')
 
         set.add(key);
         if (globalDedup) globalSet.add(globalKey);
@@ -45,7 +45,7 @@ export function createAssetLoader(namespace, {
 
     function loadScript(src, { type = 'module', async = false } = {}) {
         const fullSrc = resolveUrl(src);
-        console.log('mle: loadScript ', fullSrc)
+        // console.log('mle: loadScript ', fullSrc)
 
         const key = `${namespace}:${fullSrc}`;
         const globalKey = fullSrc;

@@ -1,4 +1,4 @@
-<div id="{{ $id }}"
+<div id="{{ $domId }}"
      {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),
@@ -9,7 +9,7 @@
         'mle-height-100'
     ])->merge() }}
     data-mle-carousel
-    data-mle-carousel-id="{{ $id }}"
+    data-mle-carousel-id="{{ $domId }}"
     tabindex="-1"
     @if(config('medialibrary-extensions.carousel_ride'))
         data-mle-carousel-ride="{{ config('medialibrary-extensions.carousel_ride') ? 'true' : 'false' }}"
@@ -57,7 +57,7 @@
                     @endif
                 >
                     <x-mle-media-viewer
-                        :id="$id . '-' . $loop->index"
+                        :id="$domId . '-' . $loop->index"
                         :medium="$medium"
                         :options="$getOptions()"
                         :preview-mode="$previewMode"
@@ -117,7 +117,7 @@
 </div>
 @if($expandableInModal)
     <x-mle-media-modal
-        :id="$id"
+        :id="$domId"
         :model-or-class-name="$modelOrClassName"
         :single-media="$singleMedia"
         :collections="$collections"

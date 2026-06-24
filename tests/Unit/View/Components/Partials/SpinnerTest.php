@@ -17,7 +17,7 @@ it('renders the spinner partial view and sets properties correctly', function ()
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
-        ->and($component->id)->toBe($id)
+        ->and($component->domId)->toBe($id)
         ->and($component->mediaManagerId)->toBe('test-media-manager-id')
         ->and($component->getConfig('frontendTheme'))->toBe('plain')
         ->and($component->initiatorId)->toBe('initiator-123');

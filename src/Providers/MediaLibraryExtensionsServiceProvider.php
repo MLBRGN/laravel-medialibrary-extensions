@@ -394,7 +394,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     // TODO do i want this code?
     protected function checkBladeUIKitIconSet(): void
     {
-        // Skip check in tests to avoid manifest issues
+        // Skip this check in tests to avoid manifest issues
         if ($this->app->runningUnitTests()) {
             config(['medialibrary-extensions.active_blade_ui_kit_icon_set' => null]);
 

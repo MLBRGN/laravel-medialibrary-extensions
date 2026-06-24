@@ -1,6 +1,6 @@
 @if ($componentToRender)
     <div class="mle-media-preview-item-container"
-         id="{{ $id }}"
+         id="{{ $domId }}"
          data-bs-toggle="modal"
          data-bs-target="#{{ $id }}-mod"
          data-mle-media-preview-item
@@ -18,7 +18,7 @@
 
     @if ($mediumType === 'image')
         <x-mle-image-editor-modal
-            id="{{ $id }}"
+            id="{{ $domId }}"
             :model-or-class-name="$modelOrClassName"
             :medium="$medium"
             :single-media="$singleMedia"

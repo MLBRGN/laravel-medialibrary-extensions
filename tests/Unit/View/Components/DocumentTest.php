@@ -15,7 +15,7 @@ it('initializes correctly and sets id', function () {
         $media
     );
 
-    expect($component->id)->toBe('mle-document-'.$media->id);
+    expect($component->domId)->toBe('mle-document-'.$media->id);
 });
 
 it('document component renders', function () {

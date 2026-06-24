@@ -13,7 +13,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
     const forms = mediaManager.querySelectorAll('[data-mle-form], [data-mle-xhr-form]');
     if (!previewGrid) return;
 
-    console.log('update previews media manager', config, detail);
+    // console.log('update previews media manager', config, detail);
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
@@ -32,6 +32,8 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         theme: config.frontendTheme,
         include_debug: 'true',
     });
+
+    // console.log('instance_id ', config.instanceId)
 
     // Cache-busting param
     params.append('_', Date.now());

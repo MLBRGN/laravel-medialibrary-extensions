@@ -1,6 +1,6 @@
 <div class="mle-component mle-media-manager-tinymce">
     <x-mle-media-manager
-        id="{{ $id }}"
+        id="{{ $domid }}"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
         :options="$getOptions()"
@@ -8,8 +8,8 @@
         :selectable="true"
         :readonly="false"
         :disabled="false"
-        :instance-id="$getConfig('instanceId')"
-        :data-source="$getConfig('dataSource')"
+        :instance-id="$instanceId"
+        :data-source="$dataSource"
     />
 </div>
 <x-mle-shared-assets

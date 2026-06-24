@@ -12,6 +12,10 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 beforeEach(function () {
+
+    $testDemoConnection = 'mle_test_demo';
+//    $testDemoHostConnection = 'mle_test_host_app';
+
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));
     Storage::fake('public');
 
@@ -25,20 +29,20 @@ beforeEach(function () {
     $this->model = $this->getTestBlogModel();
 
     // Re-register the media_demo connection to ensure it's in config
-    $demoDatabasePath = __DIR__.'/../Support/demo.sqlite';
-    config()->set('database.connections.media_demo', [
-        'driver' => 'sqlite',
-        'database' => $demoDatabasePath,
-        'prefix' => '',
-    ]);
+//    $demoDatabasePath = __DIR__.'/../Support/demo.sqlite';
+//    config()->set('database.connections.media_demo', [
+//        'driver' => 'sqlite',
+//        'database' => $demoDatabasePath,
+//        'prefix' => '',
+//    ]);
 
-    config()->set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
-
-    DB::purge('media_demo');
+//    config()->set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
+//
+//    DB::purge('media_demo');
 
     // Ensure blogs table exists on demo connection
-    if (! Schema::connection('media_demo')->hasTable('blogs')) {
-        Schema::connection('media_demo')->create('blogs', function (Blueprint $table) {
+    if (! Schema::connection($testDemoConnection)->hasTable('blogs')) {
+        Schema::connection($testDemoConnection)->create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->timestamps();
@@ -47,10 +51,14 @@ beforeEach(function () {
 });
 
 it('preserves dataSource after updating media and refreshing previews', function () {
+
+//    $testDemoHostConnection = 'mle_test_host_app';
+    $testDemoConnection = 'mle_test_demo';
+
     $file = UploadedFile::fake()->image('original.jpg');
 
     $demoModel = $this->model->replicate();
-    $demoModel->setConnection('media_demo');
+    $demoModel->setConnection($testDemoConnection);
     $demoModel->save();
 
     $existingMedium = $demoModel

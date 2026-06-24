@@ -1,5 +1,5 @@
 <div
-    id="{{ $id }}"
+    id="{{ $domId }}"
     {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),
@@ -42,6 +42,7 @@
                     @endif
                 @endif
                 {{ $form_start ?? '' }}
+            
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
                         :id="$id"
@@ -53,8 +54,8 @@
                         :multiple="$multiple"
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
-                        :instance-id="$getConfig('instanceId')"
-                        :data-source="$getConfig('dataSource')"
+                        :instance-id="$instanceId"
+                        :data-source="$dataSource"
                     />
                 @endif
 
@@ -70,8 +71,8 @@
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
                         :multiple="$multiple"
-                        :instance-id="$getConfig('instanceId')"
-                        :data-source="$getConfig('dataSource')"
+                        :instance-id="$instanceId"
+                        :data-source="$dataSource"
                     />
                 @endif
             @endif
@@ -81,7 +82,7 @@
         {{-- Preview section --}}
         <div class="mle-media-manager-previews">
             <x-mle-partial-status-area
-                id="{{ $id }}"
+                id="{{ $domId }}"
                 :initiator-id="$id"
                 :media-manager-id="$mediaManagerId"
                 :options="$getOptions()"
@@ -99,8 +100,9 @@
                 :disabled="$disabled"
                 :readonly="$readonly"
                 :multiple="$multiple"
-                :instance-id="$getConfig('instanceId')"
-                :data-source="$getConfig('dataSource')"
+                :instance-id="$instanceId"
+                :data-source="$dataSource"
+                :client-token="$clientToken"
             />
         </div>
     </div>

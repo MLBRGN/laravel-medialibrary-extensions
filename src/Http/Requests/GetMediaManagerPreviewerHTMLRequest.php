@@ -31,7 +31,7 @@ class GetMediaManagerPreviewerHTMLRequest extends MediaManagerRequest
             'disabled' => ['required', 'string', Rule::in(['true', 'false'])],
             'readonly' => ['required', 'string', Rule::in(['true', 'false'])],
             'instance_id' => ['nullable', 'string', 'max:64'],
-            'data_source' => ['nullable', 'string'],
+            'data_source' => ['nullable', 'string'],// TODO if temporary required
             'theme' => ['nullable', 'string'],
             'include_debug' => ['nullable', 'string', Rule::in(['true', 'false', '1', '0'])],
             'client_token' => ['nullable', 'string'],

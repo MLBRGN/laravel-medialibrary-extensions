@@ -1,4 +1,4 @@
-<div id="{{ $id }}"
+<div id="{{ $domId }}"
      {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),

@@ -36,7 +36,7 @@ class SetAsFirstForm extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->originalId;
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
 
         // Ensure instanceId is derived from the mediaManagerId (the parent manager's identity)
         $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
@@ -47,7 +47,7 @@ class SetAsFirstForm extends BaseMediaComponent
             $this->modelId = $this->medium->model_id;
         }
 
-        $this->setBaseId($this->getSuffixedId('set-as-first-form-'.$this->medium->id));
+        $this->applyDomSuffix('set-as-first-form-'.$this->medium->id);
 
         $this->targetMediaCollection = $medium->collection_name;
 

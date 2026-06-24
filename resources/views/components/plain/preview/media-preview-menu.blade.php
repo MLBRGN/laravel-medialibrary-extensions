@@ -58,7 +58,7 @@
                 </button>
             @else
                 <x-mle-partial-set-as-first-form
-                    :id="$id"
+                    :id="$domId"
                     :media-manager-id="$mediaManagerId"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"

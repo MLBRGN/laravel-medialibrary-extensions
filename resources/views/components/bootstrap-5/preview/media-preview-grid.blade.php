@@ -14,7 +14,7 @@
         :readonly="$readonly"
         :multiple="$multiple"
         :instance-id="$instanceId"
-        :data-source="$getConfig('dataSource')"
-        :client-token="$getConfig('clientToken')"
+        :data-source="$dataSource"
+        :client-token="$clientToken"
     />
 </div>

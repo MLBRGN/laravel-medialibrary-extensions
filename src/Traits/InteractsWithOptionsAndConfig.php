@@ -33,6 +33,8 @@ trait InteractsWithOptionsAndConfig
     // no 'medium',
     // no 'singleMedia',
     // no 'model',
+    //
+    // don't expose "options" these are merged into config
     protected array $configKeys = [
         'collections',
         'multiple',
@@ -45,11 +47,10 @@ trait InteractsWithOptionsAndConfig
         'csrfToken',
         'modelType',
         'modelId',
-        //        'options', // don't expose these are merged into config
         'id',
+        'domId',
         'instanceId',
         'clientToken',
-        'originalId',
         'mediaManagerId',
         'dataSource',
         'clientToken',

@@ -26,16 +26,18 @@ class MediaModal extends BaseMediaComponent
         ?string $clientToken = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
+
+        $this->applyDomSuffix('mod');
+
         if ($instanceId) {
             $this->instanceId = $instanceId;
         }
 
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+//        if ($clientToken) {
+//            $this->clientToken = $clientToken;
+//        }
         $this->options = $options;
 
-        $this->setBaseId($this->getSuffixedId('mod'));
 
         // merge into config
         $this->resolveConfig();

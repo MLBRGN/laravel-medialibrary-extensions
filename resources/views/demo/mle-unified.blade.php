@@ -12,14 +12,14 @@
     $showMediaFirstAvailable = true;
     $showFormCustomFilePicker = true;
     
-//    $showMmsPermanent = true;
-//    $showMmsTemporary = true;
-//    $showMmmPermanent = false;
-//    $showMmmTemporary = false;
-//    $showMediaCarousel = false;
-//    $showMediaLab = false;
-//    $showMediaFirstAvailable = false;
-//    $showFormCustomFilePicker = false;
+    $showMmsPermanent = true;
+    $showMmsTemporary = true;
+    $showMmmPermanent = true;
+    $showMmmTemporary = true;
+    $showMediaCarousel = false;
+    $showMediaLab = false;
+    $showMediaFirstAvailable = false;
+    $showFormCustomFilePicker = false;
 
 @endphp
 <!DOCTYPE html>
@@ -125,7 +125,7 @@
                 script.src = "{{ asset(config('medialibrary-extensions.asset_path') . '/js/image-editor.js') }}";
                 document.head.appendChild(script);
                 window.imageEditorLoaded = true;
-                console.log('imageEditorLoaded');
+                // console.log('imageEditorLoaded');
             }
         </script>
     </head>
@@ -167,8 +167,10 @@
                 ]"
                 :options="[
                             'frontendTheme' => $frontendTheme, 
-                            'dataSource' => $dataSource, 'useXhr' => $useXhr
+                            'dataSource' => $dataSource, 
+                            'useXhr' => $useXhr
                 ]"
+                :data-source="$dataSource"
             />
         @endif
 
@@ -189,6 +191,8 @@
                             'dataSource' => $dataSource, 
                             'useXhr' => $useXhr
                 ]"
+                :data-source="$dataSource"
+                
             />
        @endif
 
@@ -210,6 +214,8 @@
                     'dataSource' => $dataSource, 
                     'useXhr' => $useXhr
                 ]"
+                :data-source="$dataSource"
+                
             />
         @endif
     
@@ -232,6 +238,7 @@
                     'dataSource' => $dataSource, 
                     'useXhr' => $useXhr
                 ]"
+                :data-source="$dataSource"
             />
         @endif
         

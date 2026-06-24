@@ -69,7 +69,7 @@
         {{ __('medialibrary-extensions::messages.youtube_video_url') }}
     </label>
     <input
-        id="{{ $id }}-youtube-url"
+        id="{{ $domId }}-youtube-url"
         data-test="youtube-input-{{ $id }}"
         data-mle-youtube-input
         type="url" 

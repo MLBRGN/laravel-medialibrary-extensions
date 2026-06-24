@@ -46,6 +46,7 @@ it('stores temporary thumbnail successfully (JSON)', function () {
         'temporary_upload_id' => $tempUpload->id,
         'multiple' => 'false',
         'model_type' => 'App\Models\Post',
+        'data_source' => 'demo',
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -79,7 +80,8 @@ it('stores temporary thumbnail successfully (redirect)', function () {
         'media_manager_id' => $mediaManagerId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
-    ]);
+        'data_source' => 'demo',
+        ]);
 
     // Remove json Accept header to simulate redirect request
     $request->headers->remove('Accept');
@@ -118,6 +120,7 @@ it('returns error when temporary thumbnail fails to download (JSON)', function (
         'media_manager_id' => $mediaManagerId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
+        'data_source' => 'demo',
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -149,6 +152,7 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
         'media_manager_id' => $mediaManagerId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
+        'data_source' => 'demo',
     ]);
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());
@@ -189,6 +193,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
         // no youtube_url
+        'data_source' => 'demo',
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -219,6 +224,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
         // no youtube_url
+        'data_source' => 'demo',
     ]);
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());

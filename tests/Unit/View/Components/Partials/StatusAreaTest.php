@@ -22,7 +22,7 @@ it('initializes component with provided data', function () {
         ],
     );
 
-    expect($component->id)->toBe('component-123')
+    expect($component->domId)->toBe('component-123')
         ->and($component->getConfig('frontendTheme'))->toBe('custom-theme')
         ->and($component->initiatorId)->toBe($initiatorId)
         ->and($component->mediaManagerId)->toBe($mediaManagerId);

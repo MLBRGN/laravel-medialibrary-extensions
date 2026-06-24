@@ -23,7 +23,7 @@ class MediaFirstAvailable extends BaseMediaComponent
     public bool $expandableInModal = false;
 
     public function __construct(
-        public string $id,
+        ?string $id,
         public mixed $modelOrClassName,
         public ?array $collections = [],
         array $options = [],

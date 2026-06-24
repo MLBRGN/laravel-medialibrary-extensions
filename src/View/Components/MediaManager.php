@@ -21,7 +21,7 @@ class MediaManager extends BaseMediaComponent
 
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
-    /** @var string Reference to the parent MediaManager's originalId */
+    /** @var string Reference to the parent MediaManager's id */
     public string $mediaManagerId;
 
     public function __construct(
@@ -39,8 +39,11 @@ class MediaManager extends BaseMediaComponent
 
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        // For the root MediaManager, mediaManagerId is its own originalId
-        $this->mediaManagerId = $this->originalId;
+//        dump('dataSource '.$dataSource);
+//        dump('clientToken '.$this->clientToken);
+
+        // For the root MediaManager, mediaManagerId is its own id
+        $this->mediaManagerId = $this->id;
         $this->options = $options;
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
@@ -69,10 +72,11 @@ class MediaManager extends BaseMediaComponent
             $this->setOption('showSetAsFirst', false);
         }
 
-        // sync configuration with current state
+        // sync configuration with the current state
         $this->syncConfigOverrides();
 
         $this->setDisableFormOption();
+
     }
 
     protected function setDisableFormOption(): void
@@ -107,12 +111,10 @@ class MediaManager extends BaseMediaComponent
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            $this->setBaseId($this->getSuffixedId('mmm'));
-            $this->mediaManagerId .= '-mmm';// TODO messy
+            $this->applyDomSuffix('mmm');
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            $this->setBaseId($this->getSuffixedId('mms'));
-            $this->mediaManagerId .= '-mms';// TODO messy
+            $this->applyDomSuffix('mms');
         }
 
         // override hide media menu when nothing to see inside menu

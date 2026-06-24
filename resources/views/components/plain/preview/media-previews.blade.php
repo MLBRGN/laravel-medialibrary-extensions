@@ -1,6 +1,6 @@
 @forelse($media as $medium)
     <div
-        id="{{ $id . '-' . $loop->index }}"
+        id="{{ $domId . '-' . $loop->index }}"
         {{ $attributes->class([
             'mle-component',
             'mle-theme-' . $getConfig('frontendTheme'),
@@ -9,7 +9,7 @@
         data-mle-media-preview-container
     >
         <x-mle-media-preview-item
-            :id="$id . '-' . $loop->index"
+            :id="$domId . '-' . $loop->index"
             :media-manager-id="$mediaManagerId"
             :medium="$medium"
             :options="$getOptions()"
@@ -25,7 +25,7 @@
             :data-source="$getConfig('dataSource')"
         />
         <x-mle-media-modal
-            :id="$id . '-' . $loop->index"
+            :id="$domId . '-' . $loop->index"
             :model-or-class-name="$modelOrClassName"
             :single-media="$singleMedia"
             :collections="$collections"
@@ -39,7 +39,7 @@
         />
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
-                :id="$id . '-' . $loop->index"
+                :id="$domId . '-' . $loop->index"
                 :media-manager-id="$mediaManagerId"
                 :medium="$medium"
                 :model-or-class-name="$modelOrClassName"

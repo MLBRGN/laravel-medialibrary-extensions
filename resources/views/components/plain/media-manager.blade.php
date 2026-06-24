@@ -1,5 +1,5 @@
 <div
-    id="{{ $id }}"
+    id="{{ $domId }}"
     {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),
@@ -43,7 +43,7 @@
                 {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
-                        :id="$id"
+                        :id="$domId"
                         :media-manager-id="$mediaManagerId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
@@ -52,15 +52,15 @@
                         :multiple="$multiple"
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
-                        :instance-id="$getConfig('instanceId')"
-                        :data-source="$getConfig('dataSource')"
+                        :instance-id="$instanceId"
+                        :data-source="$dataSource"
                     />
                 @endif
 
                 @if($getConfig('showYouTubeUploadForm'))
                 <x-mle-partial-youtube-upload-form
                         class="mt-3"
-                        :id="$id"
+                        :id="$domId"
                         :media-manager-id="$mediaManagerId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
@@ -69,8 +69,8 @@
                         :disabled="$disabled || $getConfig('disableForm')"
                         :readonly="$readonly"
                         :multiple="$multiple"
-                        :instance-id="$getConfig('instanceId')"
-                        :data-source="$getConfig('dataSource')"
+                        :instance-id="$instanceId"
+                        :data-source="$dataSource"
                     />
                 @endif
             @endif
@@ -80,7 +80,7 @@
         {{-- Preview section --}}
         <div class="mle-media-manager-previews">
             <x-mle-partial-status-area
-                id="{{ $id }}"
+                id="{{ $domId }}"
                 data-test="status-area-{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-id="$mediaManagerId"
@@ -89,7 +89,7 @@
             />
 
             <x-mle-media-preview-grid
-                :id="$id"
+                :id="$domId"
                 :media-manager-id="$mediaManagerId"
                 :model-or-class-name="$modelOrClassName"
                 :single-media="$singleMedia"
@@ -99,8 +99,9 @@
                 :disabled="$disabled"
                 :readonly="$readonly"
                 :multiple="$multiple"
-                :instance-id="$getConfig('instanceId')"
-                :data-source="$getConfig('dataSource')"
+                :instance-id="$instanceId"
+                :data-source="$dataSource"
+                :client-token="$clientToken"
             />
         </div>
     </div>

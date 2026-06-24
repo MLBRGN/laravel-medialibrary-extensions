@@ -37,7 +37,7 @@ it('initializes correctly with model instance', function () {
         ->and($component->getConfig('showOrder'))->toBeFalse()// mms sets showOrder to false
         ->and($component->collections)
         ->toHaveKey('image', 'images')
-        ->and($component->id)->toBe('blog-1-mms');
+        ->and($component->domId)->toBe('blog-1-mms');
 });
 
 it('initializes correctly with model class name', function () {
