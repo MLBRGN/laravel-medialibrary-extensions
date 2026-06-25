@@ -56,6 +56,10 @@ class MediaPreviewItem extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string {
+        return 'media-preview-item-'.$this->loopIndex;
+    }
+
     public function render(): View
     {
         return $this->renderView('preview.media-preview-item', $this->getConfig('frontendTheme'));

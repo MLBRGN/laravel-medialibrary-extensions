@@ -7,7 +7,7 @@
         'modal',
         'fade',
     ])->merge() }}
-    id="{{ $domId }}"
+    id="{{ $getDomId() }}"
     tabindex="-1"
     @if($title)
         aria-labelledby="{{ $id }}-title"
@@ -30,7 +30,7 @@
                 <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <x-mle-partial-status-area
-                id="{{ $domId }}"
+                id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-dom-id="$id"
                 :options="$getOptions()"
@@ -58,7 +58,7 @@
                 </div>
 
                 <x-mle-partial-image-editor-form
-                    id="{{ $domId }}"
+                    id="{{ $id }}"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
                     :single-media="$singleMedia"

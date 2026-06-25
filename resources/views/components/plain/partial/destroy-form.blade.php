@@ -11,6 +11,7 @@
     ]"
     method="delete"
     class="mle-media-manager-destroy-form"
+    id="{{ $getDomId() }}"
 >
     <input type="hidden"
         name="initiator_id"

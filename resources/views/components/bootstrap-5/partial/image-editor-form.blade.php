@@ -10,11 +10,10 @@
     ]"
     :div-attributes="[
         'data-mle-xhr-form' => $getConfig('useXhr'),
-        'id' => $id,
     ]"
-    id="{{ $domId }}"
     method="post"
     class="mle-image-editor-form"
+    id="{{ $getDomId() }}"
 >
     <input type="hidden"
            name="medium_id"

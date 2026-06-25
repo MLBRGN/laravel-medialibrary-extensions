@@ -8,6 +8,7 @@
         @if ($lazy) loading="lazy" @endif
         data-mle-image
         data-mle-media-preview-image
+        id="{{ $getDomId() }}"
     >
 @else
     <img

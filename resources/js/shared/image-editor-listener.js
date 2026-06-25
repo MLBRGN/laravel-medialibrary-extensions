@@ -82,25 +82,27 @@ const updateMedia = (detail) => {
     const initiatorIdFromConfig = config.initiatorId;
     let initiator = document.querySelector('#' + initiatorIdFromConfig);
 
-    const mediaManagerDomIdFromConfig = config.mediaManagerDomId;
-    console.log('mediaManagerDomIdFromConfig', mediaManagerDomIdFromConfig);
-    let mediaManager = document.querySelector('#' + mediaManagerDomIdFromConfig);
+    // TODO temp fix
+    const mediaManager = initiator = modal.closest('[data-mle-media-manager]');
+    // const mediaManagerDomIdFromConfig = config.mediaManagerDomId;
+    // console.log('mediaManagerDomIdFromConfig', mediaManagerDomIdFromConfig);
+    // let mediaManager = document.querySelector('#' + mediaManagerDomIdFromConfig);
 
     console.log('mediaManager', mediaManager);
     let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
 
-    if (!initiator) {
-        // Fallback to media manager ID if the specific item is gone
-        const mediaManagerDomId = config.mediaManagerDomId;
-        if (mediaManagerDomId) {
-            initiator = document.querySelector('#' + mediaManagerDomId);
-        }
-    }
-
-    if (!initiator) {
-        console.warn('Initiator element not found:', initiatorIdFromConfig, 'Media Manager:', config.mediaManagerDomId);
-        return;
-    }
+    // if (!initiator) {
+    //     // Fallback to media manager ID if the specific item is gone
+    //     const mediaManagerDomId = config.mediaManagerDomId;
+    //     if (mediaManagerDomId) {
+    //         initiator = document.querySelector('#' + mediaManagerDomId);
+    //     }
+    // }
+    //
+    // if (!initiator) {
+    //     console.warn('Initiator element not found:', initiatorIdFromConfig, 'Media Manager:', config.mediaManagerDomId);
+    //     return;
+    // }
 
     // console.log('initiator', initiator);
     const localStatusAreaContainer = resolveStatusAreaContainer(modal);

@@ -45,6 +45,10 @@ class LabPreviewBase extends BaseComponent
         }
     }
 
+    protected function domIdSuffix(): string {
+        return 'lab-preview-base';
+    }
+
     public function render(): View
     {
         return $this->renderView('lab.lab-preview-base', $this->getConfig('frontendTheme'));

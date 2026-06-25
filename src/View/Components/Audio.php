@@ -26,6 +26,10 @@ class Audio extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string {
+        return 'audio';
+    }
+
     public function render(): View
     {
         return $this->renderView('', null, false, 'medialibrary-extensions::components.audio');

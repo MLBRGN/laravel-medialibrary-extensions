@@ -30,7 +30,6 @@ class MediaRestoreForm extends BaseMediaComponent
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
-        $this->applyDomSuffix('media-restore-form-'.$this->media->id);
 
         $this->options = $options;
 
@@ -50,6 +49,10 @@ class MediaRestoreForm extends BaseMediaComponent
         $this->resolveConfig();
 
         $this->setConfig('routes.mediumRestore', $this->mediumRestoreRoute);
+    }
+
+    protected function domIdSuffix(): string {
+        return 'media-restore-form-'.$this->media->id;
     }
 
     public function render(): View

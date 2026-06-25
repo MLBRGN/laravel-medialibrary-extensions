@@ -129,6 +129,7 @@ document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
 
 // Handle external close requests
 document.addEventListener('imageEditorModalCloseRequest', e => {
+    console.warn('imageEditorModalCloseRequest', e.detail);
     const modal = e.detail.modal;
     closeBootstrapModal(modal);
 });

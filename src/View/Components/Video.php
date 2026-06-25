@@ -26,6 +26,10 @@ class Video extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string {
+        return 'video';
+    }
+
     public function render(): View
     {
         return $this->renderView('', null, false, 'medialibrary-extensions::components.video');

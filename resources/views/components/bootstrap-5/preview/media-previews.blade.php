@@ -1,6 +1,6 @@
 @forelse($media as $medium)
     <div
-        id="{{ $id . '-' . $loop->index }}"
+        id="{{ $getDomId() . '-' . $loop->index }}"
         {{ $attributes->class([
             'mle-component',
             'mle-theme-' . $getConfig('frontendTheme'),
@@ -29,6 +29,7 @@
             :model-or-class-name="$modelOrClassName"
             :single-media="$singleMedia"
             :collections="$collections"
+            :single-media="$singleMedia"
             :video-auto-play="true"
             :options="$getOptions()"
             title="Media carousel"

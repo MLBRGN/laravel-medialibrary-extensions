@@ -1,5 +1,5 @@
 <div
-    id="{{ $domId }}"
+    id="{{ $getDomId() }}"
     {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),
@@ -24,7 +24,6 @@
         {{-- Upload form section --}}
         <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
             @if($getConfig('showUploadForms'))
-{{--                TODO when single show 1, otherwise max from config--}}
                 <span class="mle-media-manager-media-counts">{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>
                 @if($totalMediaCount >= $maxMediaCount)
                     <div class="mle-alert alert alert-primary">
@@ -82,7 +81,7 @@
         {{-- Preview section --}}
         <div class="mle-media-manager-previews">
             <x-mle-partial-status-area
-                id="{{ $domId }}"
+                id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-dom-id="$mediaManagerDomId"
                 :options="$getOptions()"

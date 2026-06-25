@@ -47,8 +47,6 @@ class SetAsFirstForm extends BaseMediaComponent
             $this->modelId = $this->medium->model_id;
         }
 
-        $this->applyDomSuffix('set-as-first-form-'.$this->medium->id);
-
         $this->targetMediaCollection = $medium->collection_name;
 
         if ($this->temporaryUploadMode) {
@@ -63,6 +61,11 @@ class SetAsFirstForm extends BaseMediaComponent
             'mediumSetAsFirstRoute' => $this->mediumSetAsFirstRoute,
         ]);
     }
+
+    protected function domIdSuffix(): string {
+        return 'set-as-first-form-'.$this->medium->id;
+    }
+
 
     public function render(): View
     {

@@ -1,4 +1,6 @@
-<div class="mle-media-preview-menu" data-test="media-preview-menu">
+<div class="mle-media-preview-menu" 
+     id="{{ $getDomId() }}"
+>
     <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
             <span class="mle-button-pseudo mle-button-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent">
@@ -67,6 +69,7 @@
                     :collections="$collections"
                     :options="$getOptions()"
                     :disabled="$disabled"
+                    :instance-id="$instanceId"
                     :data-source="$getConfig('dataSource')"
                 />
             @endif
@@ -82,6 +85,7 @@
                 :collections="$collections"
                 :options="$getOptions()"
                 :disabled="$disabled"
+                :instance-id="$instanceId"
                 :data-source="$getConfig('dataSource')"
             />
         @endif

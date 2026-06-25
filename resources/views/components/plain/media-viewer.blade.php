@@ -10,5 +10,6 @@
             'mle-image-responsive' => isMediaType($medium, 'image'),
             'mle-cursor-zoom-in' => $expandableInModal
         ]) }}
+        id="{{ $getDomId() }}"
     />
 @endif

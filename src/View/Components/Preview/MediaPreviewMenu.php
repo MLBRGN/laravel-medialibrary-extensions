@@ -40,6 +40,10 @@ class MediaPreviewMenu extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string {
+        return 'media-preview-menu';
+    }
+
     public function render(): View
     {
         return $this->renderView('preview.media-preview-menu', $this->getConfig('frontendTheme'));

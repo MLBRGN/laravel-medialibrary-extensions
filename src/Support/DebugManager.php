@@ -2,6 +2,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Support;
 
+use Illuminate\Support\Facades\Log;
+
 class DebugManager
 {
     protected static array $components = [];
@@ -10,11 +12,14 @@ class DebugManager
 
     public static function pushScope(string $id): void
     {
+        Log::info('DebugManager: Pushing scope: ' . $id);
         static::$scopeStack[] = $id;
     }
 
     public static function popScope(?string $id = null): void
     {
+        Log::info('DebugManager: popping scope: ' . $id);
+
         if ($id === null) {
             array_pop(static::$scopeStack);
 

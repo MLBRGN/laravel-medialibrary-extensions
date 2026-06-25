@@ -1,4 +1,8 @@
-<div {{ $attributes->class('mle-document') }} mle-document>
+<div
+    {{ $attributes->class('mle-document') }} 
+    data-mle-document
+    id="{{ $getDomId() }}"
+>
     <div class="mle-document-preview">
         <x-mle-shared-icon
             class="mle-document-bg-icon"

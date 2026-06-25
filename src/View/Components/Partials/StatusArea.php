@@ -32,6 +32,11 @@ class StatusArea extends BaseComponent
 
     }
 
+    protected function domIdSuffix(): string
+    {
+        return 'status-area';
+    }
+
     public function render(): View
     {
         return $this->getPartialView('status-area', $this->getConfig('frontendTheme'));

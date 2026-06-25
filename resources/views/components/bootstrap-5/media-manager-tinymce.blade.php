@@ -1,6 +1,6 @@
 <div class="mle-component mle-media-manager-tinymce">
     <x-mle-media-manager
-        id="{{ $domid }}"
+        id="{{ $id }}"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
         :options="$getOptions()"

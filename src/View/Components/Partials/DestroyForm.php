@@ -33,8 +33,6 @@ class DestroyForm extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->applyDomSuffix('destroy-form-'.$this->medium->id);
-
         $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
         // Ensure instanceId is derived from the mediaManagerDomId (the parent manager's identity)
@@ -63,6 +61,10 @@ class DestroyForm extends BaseMediaComponent
         $this->resolveConfig();
 
         $this->setConfig('routes.mediaDestroy', $this->mediaDestroyRoute);
+    }
+
+    protected function domIdSuffix(): string {
+        return 'destroy-form-'.$this->medium->id;
     }
 
     public function render(): View

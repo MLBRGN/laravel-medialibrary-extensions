@@ -59,6 +59,10 @@ class MediaLab extends BaseComponent
 
     }
 
+    protected function domIdSuffix(): string {
+        return 'lab';
+    }
+
     public function render(): View
     {
         return $this->renderView('media-lab', $this->getConfig('frontendTheme'));

@@ -27,8 +27,6 @@ class MediaModal extends BaseMediaComponent
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->applyDomSuffix('mod');
-
         if ($instanceId) {
             $this->instanceId = $instanceId;
         }
@@ -41,6 +39,10 @@ class MediaModal extends BaseMediaComponent
 
         // merge into config
         $this->resolveConfig();
+    }
+
+    protected function domIdSuffix(): string {
+        return 'mod';
     }
 
     public function render(): View

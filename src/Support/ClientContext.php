@@ -27,35 +27,35 @@ class ClientContext
         // 1. request input
         // Browser tests can consistently inject the token into every request, avoiding dependence on sessions or queued cookies,
         if ($token = $this->request->input('client_token')) {
-            Log::info('ClientContext - client token found in request input: '.$token);
+//            Log::info('ClientContext - client token found in request input: '.$token);
             return $token;
         }
 
 //        dd('ClientContext - client token not found in request input');
         // 2. request attribute (best / middleware-provided)
         if ($token = $this->request->attributes->get('mle_client_token')) {
-            Log::info('ClientContext - client token found in request attributes: '.$token);
+//            Log::info('ClientContext - client token found in request attributes: '.$token);
             return $token;
         }
 
         // 3. session fallback (optional but useful for tests)
         if ($this->request->hasSession()) {
             if ($token = $this->request->session()->get('mle_client_token')) {
-                Log::info('ClientContext - client token found in session: '.$token);
+//                Log::info('ClientContext - client token found in session: '.$token);
                 return $token;
             }
         }
 
         // 4. cookie (cross-request persistence)
         if ($token = $this->request->cookie('mle_client_token')) {
-            Log::info('ClientContext - client token found in cookie: '.$token);
+//            Log::info('ClientContext - client token found in cookie: '.$token);
             return $token;
         }
 
         // 5. generate ONLY if absolutely missing
         $token = (string) Str::ulid();
 
-        Log::info('ClientContext - client token generated: '.$token);
+//        Log::info('ClientContext - client token generated: '.$token);
 
         // set to the request for the rest of request lifecycle
         $this->request->attributes->set('mle_client_token', $token);

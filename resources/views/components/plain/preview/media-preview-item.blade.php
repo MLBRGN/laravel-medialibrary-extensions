@@ -1,6 +1,6 @@
 @if ($componentToRender)
     <div class="mle-media-preview-item-container"
-         id="{{ $domId }}"
+         id="{{ $getDomId() }}"
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
          data-mle-media-preview-item
@@ -16,7 +16,7 @@
 
     @if ($mediumType === 'image')
         <x-mle-image-editor-modal
-            id="{{ $domId }}"
+            id="{{ $id }}"
             :model-or-class-name="$modelOrClassName"
             :medium="$medium"
             :single-media="$singleMedia"

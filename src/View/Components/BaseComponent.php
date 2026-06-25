@@ -4,10 +4,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\ClientContext;
 use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
@@ -22,7 +22,7 @@ abstract class BaseComponent extends Component
     public readonly string $id;// never to be modified
 
     /** HTML/DOM identity */
-    public string $domId;
+//    private string $domId;// todo must go
 
     /** identify the instance of a component (more than one can be on same page), also used for scoping temporary uploads, together with clientToken */
     public string $instanceId;
@@ -39,29 +39,27 @@ abstract class BaseComponent extends Component
         $this->clientToken = app(ClientContext::class)->get();
     }
 
-    private function suffixDomId(string $suffix): string
+    // can be overridden in child classes
+    protected function domIdSuffix(): string
     {
-//        dd('test1');
-        return "{$this->id}-{$suffix}";
+        return '';
     }
 
-    public function applyDomSuffix(string $suffix): void {
-        $this->domId = $this->suffixDomId($suffix);
-        $this->instanceId = InstanceManager::getInstanceId($this->domId);
+    public function getDomId(): string
+    {
+        $suffix = $this->domIdSuffix();
+
+        return $suffix === ''
+            ? $this->id
+            : "{$this->id}-{$suffix}";
     }
-
-//    public function childDomId(string $name): string { return "{$this->id}-{$name}"; }
-
-//    public function nestedDomId(string ...$segments): string { return implode('-', [ $this->id, ...$segments, ]); }
-
-//    public function getIdentityContext(): array { return [ 'id' => $this->id, 'domId' => $this->domId, 'instanceId' => $this->instanceId, 'clientToken' => $this->clientToken, ]; }
 
     public function renderView(string $viewName, ?string $theme = null, bool $isPartial = false, ?string $customView = null, array $data = []): View
     {
         $debug = config('medialibrary-extensions.debug', false);
 
         if ($debug) {
-            DebugManager::pushScope($this->domId);
+            DebugManager::pushScope($this->getDomId());
         }
 
         if ($customView) {
@@ -73,7 +71,7 @@ abstract class BaseComponent extends Component
         }
 
         if ($debug) {
-            DebugManager::popScope($this->domId);
+            DebugManager::popScope($this->getDomId());
         }
 
         return $view;

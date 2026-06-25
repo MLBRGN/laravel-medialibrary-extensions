@@ -89,7 +89,10 @@ class MediaCarousel extends BaseComponent
 
         Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
         Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
-        $this->applyDomSuffix('crs');
+    }
+
+    protected function domIdSuffix(): string {
+        return 'crs';
     }
 
     public function render(): View

@@ -8,10 +8,10 @@
     ]"
     :div-attributes="[
         'data-mle-xhr-form' => $getConfig('useXhr'), 
-        'id' => $id.'-media-upload-form'
     ]"
     method="post"
     class="mle-media-manager-upload-form"
+    id="{{ $getDomId() }}"
 >
     <label for="{{ $id }}-media-input" class="mle-label form-label">{{ __('medialibrary-extensions::messages.files') }}</label>
     <input

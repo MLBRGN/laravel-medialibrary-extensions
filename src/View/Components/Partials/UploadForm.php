@@ -56,6 +56,11 @@ class UploadForm extends BaseMediaComponent
         );
     }
 
+    protected function domIdSuffix(): string
+    {
+        return 'upload-form';
+    }
+
     public function render(): View
     {
         return $this->renderView('upload-form', $this->getConfig('frontendTheme'), true);

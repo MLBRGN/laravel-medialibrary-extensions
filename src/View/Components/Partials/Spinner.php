@@ -26,6 +26,11 @@ class Spinner extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string
+    {
+        return 'spinner';
+    }
+
     public function render(): View
     {
         return $this->getPartialView('spinner', $this->getConfig('frontendTheme'));

@@ -4,6 +4,7 @@
     :model-or-class-name="$media->model"
     data-mle-media-lab-preview-original
     :options="$getOptions()"
+    id="{{ $getDomId() }}"
 >
     @if(method_exists($media->model, 'getArchivedOriginalUrlFor'))
         <img src="{{ $media->model->getArchivedOriginalUrlFor($media) }}"

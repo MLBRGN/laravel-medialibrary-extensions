@@ -15,6 +15,7 @@ class MediaManager extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
+    protected ?string $domIdSuffix = 'mmm';
     protected string $mediaUploadRoute; // upload form action route
 
     protected string $mediaManagerPreviewUpdateRoute; // route to update preview media when using XHR
@@ -120,12 +121,10 @@ class MediaManager extends BaseMediaComponent
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            $this->applyDomSuffix('mmm');
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            $this->applyDomSuffix('mms');
         }
-        $this->mediaManagerDomId = $this->domId;
+//        $this->mediaManagerDomId = $this->domId;
 
         // override hide media menu when nothing to see inside menu
         if (
@@ -146,11 +145,6 @@ class MediaManager extends BaseMediaComponent
             'clientToken' => $this->clientToken,
             'temporaryUploadMode' => $this->temporaryUploadMode,
         ]);
-    }
-
-    public function getMediaManagerDomId(): string
-    {
-        return $this->domId;
     }
 
     public function render(): View

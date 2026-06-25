@@ -113,6 +113,10 @@ class Document extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string {
+        return 'document';
+    }
+
     public function render(): View
     {
         return $this->renderView('', null, false, 'medialibrary-extensions::components.document');

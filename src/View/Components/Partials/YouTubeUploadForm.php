@@ -60,6 +60,11 @@ class YouTubeUploadForm extends BaseMediaComponent
         );
     }
 
+    protected function domIdSuffix(): string
+    {
+        return 'youtube-upload-form';
+    }
+
     public function render(): View
     {
         return $this->renderView('youtube-upload-form', $this->getConfig('frontendTheme'), true);

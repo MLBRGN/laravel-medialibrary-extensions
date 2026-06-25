@@ -1,5 +1,5 @@
 <div
-    id="{{ $domId }}"
+    id="{{ $getDomId() }}"
     {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),
@@ -43,7 +43,7 @@
                 {{ $form_start ?? '' }}
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
-                        :id="$domId"
+                        :id="$id"
                         :media-manager-dom-id="$mediaManagerDomId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
@@ -60,7 +60,7 @@
                 @if($getConfig('showYouTubeUploadForm'))
                 <x-mle-partial-youtube-upload-form
                         class="mt-3"
-                        :id="$domId"
+                        :id="$id"
                         :media-manager-dom-id="$mediaManagerDomId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
@@ -80,8 +80,7 @@
         {{-- Preview section --}}
         <div class="mle-media-manager-previews">
             <x-mle-partial-status-area
-                id="{{ $domId }}"
-                data-test="status-area-{{ $id }}"
+                id="{{ $id }}"
                 :initiator-id="$id"
                 :media-manager-dom-id="$mediaManagerDomId"
                 :options="$getOptions()"
@@ -89,7 +88,7 @@
             />
 
             <x-mle-media-preview-grid
-                :id="$domId"
+                :id="$id"
                 :media-manager-dom-id="$mediaManagerDomId"
                 :model-or-class-name="$modelOrClassName"
                 :single-media="$singleMedia"

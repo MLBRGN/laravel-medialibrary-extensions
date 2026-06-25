@@ -107,6 +107,10 @@ class MediaPreviews extends BaseMediaComponent
         ]);
     }
 
+    protected function domIdSuffix(): string {
+        return 'media-previews';
+    }
+
     public function render(): View
     {
         return $this->renderView('preview.media-previews', $this->getConfig('frontendTheme'));

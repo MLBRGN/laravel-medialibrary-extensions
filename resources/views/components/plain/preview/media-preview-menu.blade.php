@@ -1,4 +1,6 @@
-<div class="mle-media-preview-menu" data-test="media-preview-menu">
+<div class="mle-media-preview-menu" 
+     id="{{ $getDomId() }}"
+>
     <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
             <span class="mle-button-pseudo mle-button-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent">
@@ -58,7 +60,7 @@
                 </button>
             @else
                 <x-mle-partial-set-as-first-form
-                    :id="$domId"
+                    :id="$id"
                     :media-manager-dom-id="$mediaManagerDomId"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"

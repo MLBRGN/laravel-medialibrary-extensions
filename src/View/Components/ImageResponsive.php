@@ -81,6 +81,10 @@ class ImageResponsive extends BaseComponent
         }
     }
 
+    protected function domIdSuffix(): string {
+        return 'image-responsive';
+    }
+
     public function render(): View
     {
         $hasConversion = $this->hasGeneratedConversion();

@@ -52,7 +52,6 @@ trait InteractsWithOptionsAndConfig
         'instanceId',
         'clientToken',
         'mediaManagerDomId',
-        'newMediaManagerDomId',
         'dataSource',
         'clientToken',
 

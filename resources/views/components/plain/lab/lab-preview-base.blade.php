@@ -1,6 +1,7 @@
 <div 
     class="mle-media-lab-preview-base" 
     data-mle-media-lab-preview-base
+    id="{{ $getDomId() }}"
 >
     <div class="mle-media-lab-title">
         {{ __('medialibrary-extensions::messages.base') }}

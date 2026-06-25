@@ -33,6 +33,10 @@ class LabPreviewOriginal extends BaseComponent
         $this->imageInfo = $media->model?->getOriginalImageInfo($media);
     }
 
+    protected function domIdSuffix(): string {
+        return 'lab-preview-original';
+    }
+
     public function render(): View
     {
         return $this->renderView('lab.lab-preview-original', $this->getConfig('frontendTheme'));

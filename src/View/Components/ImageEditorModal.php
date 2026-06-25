@@ -37,7 +37,6 @@ class ImageEditorModal extends BaseMediaComponent
         ?string $mediaManagerDomId = '',
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
-        $this->applyDomSuffix('iem-'.$medium->id);
 
         $this->mediaManagerDomId = $mediaManagerDomId;
         $this->options = $options;
@@ -63,6 +62,10 @@ class ImageEditorModal extends BaseMediaComponent
         $this->maximalDimensions = config('medialibrary-extensions.max_image_width').'x'.config('medialibrary-extensions.max_image_height');
         $this->forcedAspectRatio = $this->model?->getRequiredMediaAspectRatioString($medium)
             ?? config('medialibrary-extensions.default_forced_aspect_ratio');
+    }
+
+    protected function domIdSuffix(): string {
+        return 'iem-'.$this->medium->id;
     }
 
     public function render(): View

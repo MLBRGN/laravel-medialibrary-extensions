@@ -1,5 +1,8 @@
 @if ($medium)
-    <div class="mle-component mle-media-first-available">
+    <div 
+        class="mle-component mle-media-first-available"
+        id="{{ $getDomId() }}"
+    >
         <x-mle-media-viewer
             :medium="$medium"
             :options="$getOptions()"
@@ -8,7 +11,9 @@
         />
     </div>
 @else
-    <div class="mle-component mle-media-placeholder">
+    <div class="mle-component mle-media-placeholder"
+         id="{{ $getDomId() }}"
+    >
         <span>{{ __('medialibrary-extensions::messages.no_medium') }}</span>
     </div>
 @endif

@@ -3,6 +3,7 @@
     <div 
         {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}
         data-mle-media-preview-image
+        id="{{ $getDomId() }}"
     >
         @if($medium instanceof TemporaryUpload)
             <img

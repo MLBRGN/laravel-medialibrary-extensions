@@ -84,7 +84,8 @@
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
+        "test": "vendor/bin/pest --exclude-group browser",
+        "test-browser": "vendor/bin/pest --group browser",
         "coverage": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage"
     }
 }

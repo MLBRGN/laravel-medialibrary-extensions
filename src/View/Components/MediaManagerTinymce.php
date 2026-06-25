@@ -74,10 +74,8 @@ class MediaManagerTinymce extends BaseMediaComponent
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            $this->applyDomSuffix('mmm');
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            $this->applyDomSuffix('mms');
         }
 
         $this->resolveConfig([
@@ -86,6 +84,14 @@ class MediaManagerTinymce extends BaseMediaComponent
             'instanceId' => $this->instanceId,
             'dataSource' => $this->dataSource,
         ]);
+    }
+
+    protected function domIdSuffix(): string {
+        if ($this->multiple) {
+            return 'mmm';
+        } else {
+            return 'mms';
+        }
     }
 
     public function render(): View

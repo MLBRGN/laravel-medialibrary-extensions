@@ -29,6 +29,10 @@ class LabPreviews extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string {
+        return 'lab-previews';
+    }
+
     public function render(): View
     {
         return $this->renderView('lab.lab-previews', $this->getConfig('frontendTheme'));

@@ -7,10 +7,10 @@
     ]"
     :div-attributes="[
         'data-mle-xhr-form' => $getConfig('useXhr'), 
-        'id' => $id.'-media-set-as-first-form'
     ]"
     method="put"
     class="mle-set-as-first-form"
+    id="{{ $getDomId() }}}"
 >
     <input type="hidden"
         name="initiator_id"

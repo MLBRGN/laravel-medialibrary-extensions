@@ -52,6 +52,10 @@ class MediaFirstAvailable extends BaseMediaComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string {
+        return 'media-first-available';
+    }
+
     public function render(): View
     {
         return $this->renderView('', null, false, 'medialibrary-extensions::components.media-first-available');

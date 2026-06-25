@@ -26,7 +26,6 @@ class ImageEditorForm extends BaseMediaComponent
         public ?bool $disabled = false,
     ) {
         parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
-        $this->applyDomSuffix('ie-update-form');
         $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
 
         $this->options = $options;
@@ -42,6 +41,10 @@ class ImageEditorForm extends BaseMediaComponent
             //            'useXhr' => config('medialibrary-extensions.use_xhr'),
             'storeUpdatedMediaRoute' => $storeUpdatedMediaRoute,
         ]);
+    }
+
+    protected function domIdSuffix(): string {
+        return 'ie-update-form';
     }
 
     public function render(): View

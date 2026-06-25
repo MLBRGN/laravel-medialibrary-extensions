@@ -37,6 +37,11 @@ class Status extends BaseComponent
         $this->resolveConfig();
     }
 
+    protected function domIdSuffix(): string
+    {
+        return 'status';
+    }
+
     public function render(): View
     {
         return $this->renderView('status', $this->getConfig('frontendTheme'), true);

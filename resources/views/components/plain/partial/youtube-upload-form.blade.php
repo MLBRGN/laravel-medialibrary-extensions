@@ -7,10 +7,10 @@
     ]"
     :div-attributes="[
         'data-mle-xhr-form' => $getConfig('useXhr'), 
-        'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
     class="mle-media-manager-youtube-upload-form"
+    id="{{ $getDomId() }}"
 >
     <input 
         type="hidden" 
@@ -69,7 +69,7 @@
         {{ __('medialibrary-extensions::messages.youtube_video_url') }}
     </label>
     <input
-        id="{{ $domId }}-youtube-url"
+        id="{{ $id }}-youtube-url"
         data-test="youtube-input-{{ $id }}"
         data-mle-youtube-input
         type="url" 
