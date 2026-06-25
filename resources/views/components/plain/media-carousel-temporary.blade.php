@@ -88,6 +88,7 @@
         type="button"
         data-mle-slide="prev"
         title="{{ __('medialibrary-extensions::messages.previous') }}"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <x-mle-shared-icon
@@ -105,6 +106,7 @@
         type="button"
         data-mle-slide="next"
         title="{{ __('medialibrary-extensions::messages.next') }}"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <x-mle-shared-icon

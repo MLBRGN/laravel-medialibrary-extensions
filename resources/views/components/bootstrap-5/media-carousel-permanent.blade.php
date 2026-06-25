@@ -30,8 +30,9 @@
         @foreach($media as $index => $medium)
             <button
                 type="button"
-                data-bs-target="#{{ $id }}"
+                data-bs-target="#{{ $getDomId() }}"
                 data-bs-slide-to="{{ $index }}"
+                data-mle-slide-to="{{ $index }}" {{-- for browser testing purposes--}}
                 @class(['active' => $loop->first])
                 @if($loop->first) 
                     aria-current="true" 
@@ -92,9 +93,10 @@
             'disabled' => $mediaCount <= 1
         ])
         type="button"
-        data-bs-target="#{{ $id }}" 
+        data-bs-target="#{{ $getDomId() }}" 
         data-bs-slide="prev" 
         title="{{ __('medialibrary-extensions::messages.previous') }}"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <x-mle-shared-icon
@@ -111,9 +113,10 @@
             'disabled' => $mediaCount <= 1
         ])
         type="button"
-        data-bs-target="#{{ $id }}"
+        data-bs-target="#{{ $getDomId() }}"
         data-bs-slide="next"
         title="{{ __('medialibrary-extensions::messages.next') }}"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <x-mle-shared-icon

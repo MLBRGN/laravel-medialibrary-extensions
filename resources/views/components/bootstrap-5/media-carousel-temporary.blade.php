@@ -31,6 +31,7 @@
                 type="button"
                 data-bs-target="#{{ $id }}"
                 data-bs-slide-to="{{ $index }}"
+                data-mle-slide-to="{{ $index }}" {{-- for browser testing purposes--}}
                 @class(['active' => $loop->first])
                 @if($loop->first) 
                     aria-current="true" 
@@ -94,6 +95,7 @@
         data-bs-target="#{{ $id }}" 
         data-bs-slide="prev" 
         title="{{ __('medialibrary-extensions::messages.previous') }}"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <x-mle-shared-icon
@@ -113,6 +115,7 @@
         data-bs-target="#{{ $id }}"
         data-bs-slide="next"
         title="{{ __('medialibrary-extensions::messages.next') }}"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <x-mle-shared-icon
