@@ -47,6 +47,6 @@ it('renders the expected video tag', function () {
     $html = Blade::renderComponent(new Video($media));
 
     expect($html)->toContain('<video')
-        ->toContain('id="mle-video-99"')
+        ->toContain('id="mle-video-99-video"')
         ->toContain('<source src="/storage/video.mp4" type="video/mp4">');
 });

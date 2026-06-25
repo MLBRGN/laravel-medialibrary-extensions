@@ -10,7 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
 class MediaPreviewContainer extends BaseComponent
 {
     public function __construct(
-        public string $id
+        string $id
     ) {
         parent::__construct($id);
     }

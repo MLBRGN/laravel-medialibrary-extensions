@@ -1,7 +1,7 @@
 <div 
     {{ $attributes->class(['mle-spinner-container', 'alert', 'alert-info']) }} 
     data-mle-spinner-container
-    id="{{ $getDomId() }}}"
+    id="{{ $getDomId() }}"
 >
     <div class="mle-spinner"></div>
     <span class="mle-spinner-text"

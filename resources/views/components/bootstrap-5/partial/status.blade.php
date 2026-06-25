@@ -2,7 +2,7 @@
     class="mle-status-container mle-flex-grow visible" 
     data-mle-status-container 
     data-mle-status-timeout="{{ config('medialibrary-extensions.status_message_timeout', 5000) }}"
-    id="{{ $getDomId() }}}"
+    id="{{ $getDomId() }}"
 >
     <div {{ $attributes->class([
             'mle-status-message', 

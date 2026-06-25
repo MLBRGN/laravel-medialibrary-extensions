@@ -48,8 +48,4 @@ class MediaManagerMultiple extends MediaManager
         $this->maxMediaCount = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
     }
-
-    protected function domIdSuffix(): string {
-        return 'mmm';
-    }
 }

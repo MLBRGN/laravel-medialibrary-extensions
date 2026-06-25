@@ -26,7 +26,7 @@ it('sets correct upload routes and field names for single upload', function () {
 
     expect($component->getConfig('routes.mediaUpload'))
         ->toBe(route(mle_prefix_route('media-upload-single')))
-        ->and($component->domId)->toBe('abc-mms');
+        ->and($component->getDomId())->toBe('abc-mms');
 });
 
 it('sets correct upload routes and field names for multiple upload', function () {
@@ -45,7 +45,7 @@ it('sets correct upload routes and field names for multiple upload', function ()
 
     expect($component->getConfig('routes.mediaUpload'))
         ->toBe(route(mle_prefix_route('media-upload-multiple')))
-        ->and($component->domId)->toBe('abc-mmm');
+        ->and($component->getDomId())->toBe('abc-mmm');
 });
 
 it('disables upload-related options when readonly or disabled', function () {

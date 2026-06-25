@@ -15,7 +15,11 @@ class ImageEditorModal extends BaseMediaComponent
 
     public string $storeUpdatedMediaRoute;
 
-    public ?string $mediaManagerDomId = null;
+    /** Identity of the parent MediaManager (logical ID, not suffixed) */
+    public string $mediaManagerId;
+
+    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
+    public string $mediaManagerDomId;
 
     public string $minimalDimensions;
 
@@ -35,11 +39,17 @@ class ImageEditorModal extends BaseMediaComponent
         public bool $disabled = false,
         public ?string $dataSource = 'default',
         ?string $mediaManagerDomId = '',
+        ?string $mediaManagerId = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerDomId = $mediaManagerDomId;
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
         $this->options = $options;
+
+        // Note: ImageEditorModal uses its own instanceId for its forms, but often needs to know the parent manager's identity.
+        // If it needs to scope uploads to the manager, it should use $this->mediaManagerId.
+        // BaseComponent already set $this->instanceId = InstanceManager::getInstanceId($this->id).
 
         $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
             $medium) : route(mle_prefix_route('save-updated-media'), $medium);

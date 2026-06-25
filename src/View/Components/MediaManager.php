@@ -44,7 +44,7 @@ class MediaManager extends BaseMediaComponent
 //        dump('clientToken '.$this->clientToken);
 
         // For the root MediaManager, mediaManagerDomId is its own id
-        $this->mediaManagerDomId = $this->domId;// todo replace with new way below
+        $this->mediaManagerDomId = $this->getDomId();// todo replace with new way below
         $this->options = $options;
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
@@ -145,6 +145,15 @@ class MediaManager extends BaseMediaComponent
             'clientToken' => $this->clientToken,
             'temporaryUploadMode' => $this->temporaryUploadMode,
         ]);
+    }
+
+    // Note: must be here and not in MediaManagerSingle and MediaManagerMultiple classes. MediaManager can be called on its own.
+    protected function domIdSuffix(): string {
+        if ($this->multiple) {
+            return 'mmm';
+        } else {
+            return 'mms';
+        }
     }
 
     public function render(): View

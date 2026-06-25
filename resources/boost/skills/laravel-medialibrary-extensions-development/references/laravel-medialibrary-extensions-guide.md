@@ -66,6 +66,15 @@ The debug panel (`x-mle-shared-debug`) displays all registered sub-components fo
 
 ## Component Architecture
 
+### Identity Architecture
+
+Use separate identities for logical (`id`), DOM identity (via `$getDomId()`), and upload scoping (`instanceId`).
+
+- `id` is the logical identity and must never be mutated or suffixed.
+- `$getDomId()` is used to retrieve the HTML identity and can be suffixed for uniqueness.
+- `instanceId` is the stable upload scope derived from `id`.
+- Always pass the logical `id` to child components.
+
 ### BaseComponent & Rendering
 All view components should inherit from `BaseComponent`. Use `renderView()` in the `render()` method to automate scope management and theme-aware view resolution.
 

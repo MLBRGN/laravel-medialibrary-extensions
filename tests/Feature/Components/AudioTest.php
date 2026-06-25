@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-it('initializes correctly and sets domId', function () {
+it('initializes correctly and uses correct suffix', function () {
 
     $medium = $this->getMediaModelWithMedia(['audio' => 1]);
 
@@ -12,7 +12,7 @@ it('initializes correctly and sets domId', function () {
         $medium
     );
 
-    expect($component->domId)->toBe('mle-audio-'.$medium->id);
+    expect($component->getDomId())->toBe($component->id . '-audio');
 });
 
 it('can be instantiated with a medium', function () {

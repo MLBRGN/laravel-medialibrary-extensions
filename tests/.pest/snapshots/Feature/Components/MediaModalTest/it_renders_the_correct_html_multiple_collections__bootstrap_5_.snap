@@ -27,7 +27,7 @@
         title="Close">?</span>
                 </button>
                 
-                <div id="test-media-modal-mod-crs"
+                <div id="test-media-modal-crs"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="bootstrap-5"
         data-mle-carousel
 >
@@ -39,7 +39,7 @@
     >
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod"
+                data-bs-target="#test-media-modal"
                 data-bs-slide-to="0"
                 class="active"
                  
@@ -48,28 +48,28 @@
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod"
+                data-bs-target="#test-media-modal"
                 data-bs-slide-to="1"
                 class=""
                                 aria-label="Slide to 2">
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod"
+                data-bs-target="#test-media-modal"
                 data-bs-slide-to="2"
                 class=""
                                 aria-label="Slide to 3">
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod"
+                data-bs-target="#test-media-modal"
                 data-bs-slide-to="3"
                 class=""
                                 aria-label="Slide to 4">
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal-mod"
+                data-bs-target="#test-media-modal"
                 data-bs-slide-to="4"
                 class=""
                                 aria-label="Slide to 5">
@@ -85,11 +85,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="0"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-0-media-viewer" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="0"
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
+        id="mle-image-responsive-1-image-responsive"
     >
                 </div>
             </div>
@@ -100,11 +101,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="1"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-1-media-viewer" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="1"
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
+        id="mle-image-responsive-2-image-responsive"
     >
                 </div>
             </div>
@@ -114,7 +116,11 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-document mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="2" mle-document>
+                    <div
+    class="mle-document mle-media-preview-item" draggable="" id="test-media-modal-2-media-viewer" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="2" 
+    data-mle-document
+    id="01KVZAKKW4MYCRXMBP05S04PGA-document"
+>
     <div class="mle-document-preview">
         <span 
         role="img" 
@@ -148,14 +154,18 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-video mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="3">
+                    <div 
+    class="mle-video mle-media-preview-item" draggable="" id="test-media-modal-3-media-viewer" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="3"
+    id="mle-video-5-video"
+    data-mle-video
+>
     <div class="mle-video-preview">
         <div class="mle-video-info">
             <p>
                 test.mp4
             </p>
         </div>
-        <video id="mle-video-5" controls preload="metadata" data-mle-video>
+        <video id="mle-video-5-video" controls preload="metadata" data-mle-video>
             <source src="/media/5/test.mp4" type="video/mp4">
             medialibrary-extensions::messages.your_browser_does_not_support_the_video_element
         </video>
@@ -169,14 +179,17 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-audio mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="4">
+                    <div 
+    class="mle-audio mle-media-preview-item" draggable="" id="test-media-modal-4-media-viewer" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="4"
+    id="01KVZAKKW7RDA1HSBEHSTR0BRW-audio"
+>
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
             <p>
                 test.mp3
             </p>
         </div>
-        <audio id="mle-audio-4" controls data-mle-audio>
+        <audio id="01KVZAKKW7RDA1HSBEHSTR0BRW-audio" controls data-mle-audio>
             <source src="/media/4/test.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
@@ -189,7 +202,7 @@
     <button
         class="mle-media-carousel-control-prev carousel-control-prev"
         type="button"
-        data-bs-target="#test-media-modal-mod" 
+        data-bs-target="#test-media-modal" 
         data-bs-slide="prev" 
         title="Previous"
     >
@@ -204,7 +217,7 @@
     <button
         class="mle-media-carousel-control-next carousel-control-next"
         type="button"
-        data-bs-target="#test-media-modal-mod"
+        data-bs-target="#test-media-modal"
         data-bs-slide="next"
         title="Next"
     >

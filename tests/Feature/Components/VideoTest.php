@@ -12,7 +12,7 @@ it('initializes correctly and sets id', function () {
         $medium
     );
 
-    expect($component->domId)->toBe('mle-video-'.$medium->id);
+    expect($component->getDomId())->toBe($component->id . '-video');
 });
 
 it('can be instantiated with a medium and match snapshot', function () {

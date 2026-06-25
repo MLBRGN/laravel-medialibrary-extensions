@@ -11,10 +11,11 @@ beforeEach(function () {
 });
 
 it('initializes component with provided data', function () {
+    $id = 'component-123';
     $initiatorId = 'media-manager-125';
     $mediaManagerDomId = 'media-manager-125';
     $component = new StatusArea(
-        id: 'component-123',
+        id: $id,
         initiatorId: $initiatorId,
         mediaManagerDomId: $mediaManagerDomId,
         options: [
@@ -22,7 +23,7 @@ it('initializes component with provided data', function () {
         ],
     );
 
-    expect($component->domId)->toBe('component-123')
+    expect($component->getDomId())->toBe($id.'-status-area')
         ->and($component->getConfig('frontendTheme'))->toBe('custom-theme')
         ->and($component->initiatorId)->toBe($initiatorId)
         ->and($component->mediaManagerDomId)->toBe($mediaManagerDomId);

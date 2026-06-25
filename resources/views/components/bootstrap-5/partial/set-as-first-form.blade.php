@@ -10,7 +10,7 @@
     ]"
     method="put"
     class="mle-set-as-first-form"
-    id="{{ $getDomId() }}}"
+    id="{{ $getDomId() }}"
 >
     <input type="hidden"
         name="initiator_id"

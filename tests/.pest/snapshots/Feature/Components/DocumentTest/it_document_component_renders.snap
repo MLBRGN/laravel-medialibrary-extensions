@@ -1,4 +1,8 @@
-<div class="mle-document" mle-document>
+<div
+    class="mle-document" 
+    data-mle-document
+    id="01KVZAKFYN4PHD9E7GJVNDH1FP-document"
+>
     <div class="mle-document-preview">
         <span 
         role="img" 

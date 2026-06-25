@@ -97,7 +97,7 @@ it('constructs with model and sets properties', function () {
         ->and($component->modelId)->toBe($model->getKey())
         ->and($component->temporaryUploadMode)->toBeFalse()
         ->and($component->getConfig('modelType'))->toBe($model->getMorphClass())
-        ->and($component->domId)->toBe('uploader-0'.'-iem-'.$medium->id)
+        ->and($component->getDomId())->toBe('uploader-0-iem-'.$medium->id)
 //        ->and($component->config['collection'])->toBe('avatars')
         ->and($component->render())->toBeInstanceOf(View::class);
 });

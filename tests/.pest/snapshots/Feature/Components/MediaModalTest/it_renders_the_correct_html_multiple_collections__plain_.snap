@@ -26,10 +26,10 @@
         title="Close">?</span>
                 </button>
                 
-                <div id="test-media-modal-mod-crs"
+                <div id="test-media-modal-crs"
      class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="plain"
     data-mle-carousel
-    data-mle-carousel-id="test-media-modal-mod-crs"
+    data-mle-carousel-id="test-media-modal-crs"
     tabindex="-1"
         data-mle-carousel-effect="slide"
 >
@@ -81,11 +81,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-0-media-viewer"
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
+        id="mle-image-responsive-1-image-responsive"
     >
                 </div>
             </div>
@@ -96,11 +97,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-1-media-viewer"
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
+        id="mle-image-responsive-2-image-responsive"
     >
                 </div>
             </div>
@@ -110,7 +112,11 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-document mle-media-preview-item" draggable="" mle-document>
+                    <div
+    class="mle-document mle-media-preview-item" draggable="" id="test-media-modal-2-media-viewer" 
+    data-mle-document
+    id="01KVZAKKS5RZ2N349AESK8ZVNX-document"
+>
     <div class="mle-document-preview">
         <span 
         role="img" 
@@ -144,14 +150,18 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-video mle-media-preview-item" draggable="">
+                    <div 
+    class="mle-video mle-media-preview-item" draggable="" id="test-media-modal-3-media-viewer"
+    id="mle-video-5-video"
+    data-mle-video
+>
     <div class="mle-video-preview">
         <div class="mle-video-info">
             <p>
                 test.mp4
             </p>
         </div>
-        <video id="mle-video-5" controls preload="metadata" data-mle-video>
+        <video id="mle-video-5-video" controls preload="metadata" data-mle-video>
             <source src="/media/5/test.mp4" type="video/mp4">
             medialibrary-extensions::messages.your_browser_does_not_support_the_video_element
         </video>
@@ -165,14 +175,17 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-audio mle-media-preview-item" draggable="">
+                    <div 
+    class="mle-audio mle-media-preview-item" draggable="" id="test-media-modal-4-media-viewer"
+    id="01KVZAKKS9NX6WQ6JPGMY7VN8V-audio"
+>
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
             <p>
                 test.mp3
             </p>
         </div>
-        <audio id="mle-audio-4" controls data-mle-audio>
+        <audio id="01KVZAKKS9NX6WQ6JPGMY7VN8V-audio" controls data-mle-audio>
             <source src="/media/4/test.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>

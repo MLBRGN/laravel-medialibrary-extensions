@@ -12,9 +12,15 @@ class MediaPreviewGrid extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
+    /** Identity of the parent MediaManager (logical ID, not suffixed) */
+    public string $mediaManagerId;
+
+    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
+    public string $mediaManagerDomId;
+
     public function __construct(
         ?string $id,
-        public ?string $mediaManagerDomId,
+        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
@@ -26,14 +32,16 @@ class MediaPreviewGrid extends BaseMediaComponent
         public string $instanceId = '',
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
+        ?string $mediaManagerId = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
 
-        // Ensure instanceId is derived from the mediaManagerDomId (the parent manager's identity)
+        // Ensure instanceId is derived from the mediaManagerId (the parent manager's stable identity)
         if (empty($instanceId)) {
-            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerDomId);
+            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
         } else {
             $this->instanceId = $instanceId;
         }

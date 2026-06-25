@@ -14,6 +14,12 @@ class ImageEditorForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
+    /** Identity of the parent MediaManager (logical ID, not suffixed) */
+    public string $mediaManagerId;
+
+    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
+    public string $mediaManagerDomId;
+
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -22,11 +28,14 @@ class ImageEditorForm extends BaseMediaComponent
         public array $collections,
         array $options,
         public string $initiatorId,
-        public ?string $mediaManagerDomId = '',
+        ?string $mediaManagerDomId = '',
         public ?bool $disabled = false,
+        ?string $mediaManagerId = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->id;
+
+        $this->mediaManagerId = $mediaManagerId ?? $this->id;
+        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
 
         $this->options = $options;
 
@@ -43,9 +52,6 @@ class ImageEditorForm extends BaseMediaComponent
         ]);
     }
 
-    protected function domIdSuffix(): string {
-        return 'ie-update-form';
-    }
 
     public function render(): View
     {

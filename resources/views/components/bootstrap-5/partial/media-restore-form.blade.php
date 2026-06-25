@@ -10,7 +10,7 @@
     ]"
     method="post"
     class="mle-media-lab-restore-form"
-    id="{{ $getDomId() }}}"
+    id="{{ $getDomId() }}"
 >
     <input type="hidden"
            name="medium_id"

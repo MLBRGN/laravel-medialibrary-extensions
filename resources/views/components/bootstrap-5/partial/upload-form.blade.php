@@ -64,7 +64,7 @@
     <input
         type="hidden"
         name="media_manager_id"
-        value="{{ $mediaManagerDomId }}">
+        value="{{ $mediaManagerId }}">
     <input
         type="hidden"
         name="client_token"

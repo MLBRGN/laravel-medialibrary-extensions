@@ -26,10 +26,10 @@
         title="Close">?</span>
                 </button>
                 
-                <div id="test-media-modal-mod-crs"
+                <div id="test-media-modal-crs"
      class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="plain"
     data-mle-carousel
-    data-mle-carousel-id="test-media-modal-mod-crs"
+    data-mle-carousel-id="test-media-modal-crs"
     tabindex="-1"
         data-mle-carousel-effect="slide"
 >
@@ -63,11 +63,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-0-media-viewer"
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
+        id="mle-image-responsive-1-image-responsive"
     >
                 </div>
             </div>
@@ -78,11 +79,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-1-media-viewer"
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
+        id="mle-image-responsive-2-image-responsive"
     >
                 </div>
             </div>

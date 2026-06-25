@@ -19,7 +19,6 @@ class Audio extends BaseComponent
         array $options = [],
     ) {
         parent::__construct();
-        $this->domId = 'mle-audio-'.$medium->id;
 
         $this->options = $options;
 

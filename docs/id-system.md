@@ -1,12 +1,10 @@
-Here's a documentation-style version that reads as project documentation rather than a discussion.
-
 # Component Identity Architecture
 
 ## Overview
 
-Media Library Extensions components use multiple identifiers, each with a distinct responsibility. Separating these identities reduces ambiguity, prevents bugs, and makes component relationships easier to understand.
+Media Library Extensions components use multiple identifiers, each with a distinct responsibility. Separating these identities reduces ambiguity, prevents bugs, and makes component hierarchy easier to understand.
 
-Historically, the `id` property has been used for both logical component identification and HTML DOM identification. This dual responsibility introduces confusion when IDs are modified or suffixed during component construction.
+Historically, the `id` property was used for both logical component identification and HTML DOM identification. This dual responsibility introduced confusion.
 
 This document defines a clear identity model and the responsibilities of each identifier.
 
@@ -24,12 +22,6 @@ The component ID represents the logical identity of a component instance.
 <x-mle-media-manager id="gallery" />
 ```
 
-Result:
-
-```php
-id = 'gallery';
-```
-
 ### Responsibilities
 
 * Identifies a media manager instance.
@@ -37,7 +29,6 @@ id = 'gallery';
 * Used to derive child component identities.
 * Used to derive upload scopes.
 * Used for component communication.
-* Used in Alpine and JavaScript events.
 * Used for parent-child relationships.
 
 ### Rules
@@ -49,16 +40,16 @@ id = 'gallery';
 
 ---
 
-## DOM ID (`domId`)
+## DOM ID (`$getDomId()`)
 
-The DOM ID represents the HTML identity of a rendered element.
+The DOM ID represents the HTML identity of a rendered element and is retrieved via the `$getDomId()` method.
 
 ### Examples
 
 ```html
-<div id="gallery">
-<form id="gallery-upload">
-<div id="gallery-preview">
+<div id="{{ $getDomId() }}">
+<form id="{{ $getDomId() }}-upload">
+<div id="{{ $getDomId() }}-preview">
 ```
 
 ### Responsibilities
@@ -70,8 +61,8 @@ The DOM ID represents the HTML identity of a rendered element.
 
 ### Rules
 
-* May be derived from the component ID.
-* May be suffixed.
+* Derived from the component ID.
+* May be suffixed (via `domIdSuffix()` in the component class).
 * May differ between related components.
 * Must not be used for business logic.
 
@@ -81,25 +72,9 @@ The DOM ID represents the HTML identity of a rendered element.
 
 The instance ID represents a temporary upload scope.
 
-### Example
-
-```php
-instanceId = 'abc123';
-```
-
 ### Responsibilities
 
-Temporary uploads are scoped by:
-
-```text
-clientToken + instanceId
-```
-
-Example usage:
-
-```php
-TemporaryUpload::where(...)
-```
+Temporary uploads are scoped by `clientToken + instanceId`.
 
 ### Rules
 
@@ -114,41 +89,21 @@ TemporaryUpload::where(...)
 
 The client token represents the browser or client identity.
 
-### Example
-
-```php
-clientToken = 'xyz789';
-```
-
 ### Responsibilities
 
-* Distinguishes different browsers.
-* Distinguishes different users.
-* Works together with `instanceId` to scope temporary uploads.
-
-### Rules
-
-* Never derived from component IDs.
-* Never derived from DOM IDs.
-* Remains stable during a session.
+* Distinguishes different browsers/clients.
+* Works with `instanceId` to scope temporary uploads.
 
 ---
 
 # Goals
 
-No ambiguity because it makes it difficult to determine whether an identifier should be used for:
-
-* HTML rendering
-* Upload scoping
-* Event communication
-* Parent-child relationships
-
-Internally, responsibilities are separated.
+Internally, responsibilities are separated to avoid ambiguity.
 
 | Property      | Meaning                    | Mutable |
 | ------------- | -------------------------- | ------- |
 | `id`          | Logical component identity | No      |
-| `domId`       | HTML/DOM identity          | Yes     |
+| `$getDomId()` | HTML/DOM identity          | Yes     |
 | `instanceId`  | Temporary upload scope     | No      |
 | `clientToken` | Browser/client scope       | No      |
 
@@ -160,24 +115,19 @@ Internally, responsibilities are separated.
 abstract class BaseComponent extends Component
 {
     public string $id;
-
-    public string $domId;
-
     public string $instanceId;
-
     public string $clientToken;
 
     public function __construct(?string $id = null)
     {
-        $this->id = filled($id)
-            ? $id
-            : (string) Str::ulid();
-
-        $this->domId = $this->id;
-
+        $this->id = filled($id) ? $id : (string) Str::ulid();
         $this->instanceId = InstanceManager::getInstanceId($this->id);
-
         $this->clientToken = app(ClientContext::class)->get();
+    }
+
+    public function getDomId(): string
+    {
+         // returns id + domIdSuffix()
     }
 }
 ```
@@ -188,110 +138,24 @@ abstract class BaseComponent extends Component
 
 ## Generate a DOM ID
 
-```php
-public function getDomId(string $suffix): string
-{
-    return "{$this->id}-{$suffix}";
-}
+Blade templates use the `$getDomId()` method to retrieve the HTML identity.
+
+```blade
+<div id="{{ $getDomId() }}">
 ```
 
-Example:
+In the component class, you can call `$this->getDomId()`:
 
 ```php
-$this->getDomId('mmm');
-
-// gallery-mmm
+$domId = $this->getDomId();
 ```
 
----
-
-## Set the Current DOM ID
+Example with suffix (managed via `domIdSuffix()` in child components):
 
 ```php
-public function setDomId(string $suffix): void
-{
-    $this->domId = $this->getDomId($suffix);
-}
+// If domIdSuffix() returns 'mmm'
+$this->getDomId(); // gallery-mmm
 ```
-
-Example:
-
-```php
-$this->setDomId('mmm');
-
-// gallery-mmm
-```
-
----
-
-## Generate a Child DOM ID
-
-```php
-public function childDomId(string $name): string
-{
-    return "{$this->id}-{$name}";
-}
-```
-
-Examples:
-
-```php
-$this->childDomId('upload-form');
-// gallery-upload-form
-
-$this->childDomId('preview');
-// gallery-preview
-```
-
----
-
-## Generate Nested DOM IDs
-
-```php
-public function nestedDomId(string ...$segments): string
-{
-    return implode('-', [
-        $this->id,
-        ...$segments,
-    ]);
-}
-```
-
-Examples:
-
-```php
-$this->nestedDomId('preview');
-// gallery-preview
-
-$this->nestedDomId('preview', 'image');
-// gallery-preview-image
-
-$this->nestedDomId('upload', 'progress');
-// gallery-upload-progress
-```
-
----
-
-## Export Identity Context
-
-```php
-public function getIdentityContext(): array
-{
-    return [
-        'id' => $this->id,
-        'domId' => $this->domId,
-        'instanceId' => $this->instanceId,
-        'clientToken' => $this->clientToken,
-    ];
-}
-```
-
-Useful for:
-
-* Alpine
-* AJAX requests
-* Debugging
-* Event payloads
 
 ---
 
@@ -301,66 +165,20 @@ Useful for:
 
 ```php
 id          = gallery
-domId       = gallery-mmm
 instanceId  = abc123
 clientToken = xyz789
+getDomId()  = gallery-mmm (if domIdSuffix is 'mmm')
 ```
-
-Construction:
-
-```php
-$this->setDomId('mmm');
-```
-
----
 
 ## Upload Form
 
-Blade:
-
-```blade
-<x-mle-partial-upload-form
-    :id="$id"
-    :instance-id="$instanceId"
-/>
-```
-
-Construction:
-
-```php
-parent::__construct($id);
-
-$this->setDomId('upload-form');
-```
-
 Result:
 
 ```php
 id          = gallery
-domId       = gallery-upload-form
 instanceId  = abc123
 clientToken = xyz789
-```
-
----
-
-## Preview Component
-
-Construction:
-
-```php
-parent::__construct($id);
-
-$this->setDomId('preview');
-```
-
-Result:
-
-```php
-id          = gallery
-domId       = gallery-preview
-instanceId  = abc123
-clientToken = xyz789
+getDomId()  = gallery-upload-form (if domIdSuffix is 'upload-form')
 ```
 
 ---
@@ -370,107 +188,40 @@ clientToken = xyz789
 Child components should continue receiving the logical component ID:
 
 ```blade
-<x-mle-partial-upload-form
-    :id="$id"
-/>
+<x-mle-partial-upload-form :id="$id" />
 ```
 
-The upload form belongs to:
-
-```text
-gallery
-```
-
-not:
-
-```text
-gallery-mmm
-```
-
-If a child component requires its own DOM identifier, it should derive it internally:
+If a child component requires its own DOM identifier, it should define it via `domIdSuffix()`:
 
 ```php
-$this->domId = "{$this->id}-upload-form";
+protected function domIdSuffix(): string
+{
+    return 'upload-form';
+}
 ```
 
-This ensures all related components share the same logical identity while rendering unique DOM elements.
+This ensures all related components share the same logical identity while rendering unique DOM elements via `$getDomId()`.
 
 ---
 
-# Identity Rules
+# Identity Rules Summary
 
 ## id
+* Logical component identity.
+* Never mutate/suffix.
+* Safe for business logic and events.
 
-Represents:
-
-> The logical component identity.
-
-Examples:
-
-```php
-gallery
-profile-images
-product-media
-```
-
-Rules:
-
-* Never mutate.
-* Never suffix.
-* Never overwrite.
-* Safe for business logic.
-* Safe for routing.
-* Safe for events.
-* Safe for component relationships.
-
----
-
-## domId
-
-Represents:
-
-> The HTML element identity.
-
-Examples:
-
-```php
-gallery-mmm
-gallery-upload
-gallery-preview
-```
-
-Rules:
-
+## DOM ID
+* HTML element identity, accessed via `$getDomId()`.
 * May be suffixed.
-* May be generated.
 * Intended exclusively for DOM interaction.
 
----
-
 ## instanceId
-
-Represents:
-
-> Temporary upload scope.
-
-Rules:
-
-* Generated once.
-* Derived from the logical component identity.
-* Never derived from DOM IDs.
-
----
+* Temporary upload scope.
+* Derived from `id`.
 
 ## clientToken
-
-Represents:
-
-> Browser/client identity.
-
-Rules:
-
-* Used together with `instanceId`.
-* Never derived from DOM IDs.
+* Browser/client identity.
 
 ---
 
@@ -483,18 +234,16 @@ Media Manager
 ├── instanceId = abc123
 ├── clientToken = xyz789
 │
-├── domId = gallery-mmm
+├── domId = gallery-mmm (via $getDomId())
 │
 ├── Upload Form
-│   └── domId = gallery-upload-form
+│   └── domId = gallery-upload-form (via $getDomId())
 │
 ├── Preview
-│   └── domId = gallery-preview
+│   └── domId = gallery-preview (via $getDomId())
 │
 └── Progress Bar
-    └── domId = gallery-progress
+    └── domId = gallery-progress (via $getDomId())
 ```
 
-All related components share the same logical identity (`id`) and upload scope (`instanceId`), while each rendered element receives a unique DOM identity (`domId`).
-
-This separation makes the component hierarchy easier to reason about and prevents bugs caused by identifiers changing meaning during construction.
+All related components share the same logical identity (`id`) and upload scope (`instanceId`), while each rendered element receives a unique DOM identity via `$getDomId()`.

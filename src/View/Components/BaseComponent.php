@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
@@ -21,9 +20,6 @@ abstract class BaseComponent extends Component
     /** Logical component identity */
     public readonly string $id;// never to be modified
 
-    /** HTML/DOM identity */
-//    private string $domId;// todo must go
-
     /** identify the instance of a component (more than one can be on same page), also used for scoping temporary uploads, together with clientToken */
     public string $instanceId;
 
@@ -34,7 +30,6 @@ abstract class BaseComponent extends Component
         ?string $id = null,
     ) {
         $this->id = filled($id) ? $id : (string) Str::ulid();
-        $this->domId = $this->id;
         $this->instanceId = InstanceManager::getInstanceId($this->id);
         $this->clientToken = app(ClientContext::class)->get();
     }
@@ -62,12 +57,18 @@ abstract class BaseComponent extends Component
             DebugManager::pushScope($this->getDomId());
         }
 
+        $data['getDomId'] = fn () => $this->getDomId();
+
         if ($customView) {
             $view = view($customView, $data);
         } else {
             $view = $isPartial
                 ? $this->getPartialView($viewName, $theme)
                 : $this->getView($viewName, $theme);
+
+            if (! empty($data)) {
+                $view->with($data);
+            }
         }
 
         if ($debug) {

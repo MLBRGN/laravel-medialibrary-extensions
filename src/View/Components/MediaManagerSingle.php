@@ -72,8 +72,4 @@ class MediaManagerSingle extends MediaManager
         $this->resolveConfig();
 
     }
-
-    protected function domIdSuffix(): string {
-        return 'mms';
-    }
 }

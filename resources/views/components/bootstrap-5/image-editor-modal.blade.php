@@ -29,12 +29,13 @@
             @if($title)
                 <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
-            <x-mle-partial-status-area
-                id="{{ $id }}"
-                :initiator-id="$id"
-                :media-manager-dom-id="$id"
-                :options="$getOptions()"
-            />
+                <x-mle-partial-status-area
+                    id="{{ $id }}"
+                    :initiator-id="$id"
+                    :media-manager-id="$mediaManagerId"
+                    :media-manager-dom-id="$mediaManagerDomId"
+                    :options="$getOptions()"
+                />
             <div class="mle-modal-body modal-body p-0">
                 <button
                     type="button"
@@ -65,6 +66,7 @@
                     :collections="$collections"
                     :options="$getOptions()"
                     :initiator-id="$id"
+                    :media-manager-id="$mediaManagerId"
                     :media-manager-dom-id="$mediaManagerDomId"
                     :disabled="$disabled"
                 />

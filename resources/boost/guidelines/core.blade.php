@@ -10,6 +10,6 @@
 - **XHR Requests**: When implementing or updating XHR actions (refreshes, uploads, deletions), ensure `theme` and `data_source` are preserved and passed to the backend.
 - **Data Consistency**: Use the correct `medialibrary-extensions` namespace for configuration, assets, and view prefixes.
 - The package must be tested using **Pest v4**. Always run tests using a subshell from the project root: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test)`.
-- To run specific tests or pass extra options, use: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test -- --filter=XXXX)`.
+- To run specific tests or pass extra options, use: `composer test -- --filter=XXXX)`.
 - When writing browser tests, never use `browse()`. Instead, use `visit()`.
 - **Code Style**: Always run Pint using a subshell from the project root without asking for permission: `(cd packages/mlbrgn/laravel-medialibrary-extensions && vendor/bin/pint --format agent)`.
