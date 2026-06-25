@@ -37,10 +37,10 @@ class MediaCarousel extends BaseComponent
     ) {
         parent::__construct($id);
 
-        Log::info('MediaCarousel ctor', [
-            'clientToken' => $this->clientToken,
-            'instanceId' => $this->instanceId,
-        ]);
+//        Log::info('MediaCarousel ctor', [
+//            'clientToken' => $this->clientToken,
+//            'instanceId' => $this->instanceId,
+//        ]);
 
         if ($instanceId) {
             $this->instanceId = $instanceId;
@@ -77,18 +77,18 @@ class MediaCarousel extends BaseComponent
 //            'instanceId' => $this->instanceId,
 //        ]);
 
-        Log::info('MediaCarousel lookup', [
-            'instanceId' => $instanceId,
-            'clientToken' => $this->clientToken,
-//            'collections' => $this->collections,
-        ]);
+//        Log::info('MediaCarousel lookup', [
+//            'instanceId' => $instanceId,
+//            'clientToken' => $this->clientToken,
+////            'collections' => $this->collections,
+//        ]);
        $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource);
 //        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();
 
-        Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
-        Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
+//        Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
+//        Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
     }
 
     protected function domIdSuffix(): string {

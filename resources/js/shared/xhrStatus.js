@@ -7,9 +7,11 @@ const spinnerDelayTimeoutMap = new WeakMap();
 export function xhrRequestStart(statusAreaContainer, customMessage = null) {
     console.log('xhrRequestStart', statusAreaContainer, customMessage);
     if (!statusAreaContainer.nodeType === Node.ELEMENT_NODE) {
+        console.log('xhrRequestStart - statusAreaContainer is not an element node', statusAreaContainer);
         console.error("xhrStatus.js - xhrRequestStart: No statusAreaContainer provided", statusAreaContainer);
         return;
     }
+    console.log('xhrRequestStart - statusAreaContainer is an element node', statusAreaContainer);
     const delay = 300; // 1 second delay before showing spinner
 
     clearTimeout(spinnerDelayTimeoutMap.get(statusAreaContainer));
@@ -113,6 +115,7 @@ export function hideSpinner(statusAreaContainer) {
 }
 
 export function handleAjaxError(response, data, statusAreaContainer) {
+   console.log('handleAjaxError', response, data, statusAreaContainer);
     let message = trans('upload_failed');
 
     const status = response?.status || 500;

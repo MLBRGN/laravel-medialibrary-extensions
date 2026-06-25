@@ -55,14 +55,12 @@ const updateMedia = (detail) => {
 
     try {
         config = JSON.parse(configInput.value);
-        // console.log(config);
     } catch (e) {
         console.error('Invalid JSON config');
     }
 
     const useXhr = config.useXhr;
 
-    // console.log('config', config);
     if (!useXhr) {
         const file = detail.file;
         const form = modal.querySelector('[data-mle-image-editor-update-form]');
@@ -88,7 +86,6 @@ const updateMedia = (detail) => {
     // console.log('mediaManagerDomIdFromConfig', mediaManagerDomIdFromConfig);
     // let mediaManager = document.querySelector('#' + mediaManagerDomIdFromConfig);
 
-    console.log('mediaManager', mediaManager);
     let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
 
     // if (!initiator) {
@@ -104,7 +101,6 @@ const updateMedia = (detail) => {
     //     return;
     // }
 
-    // console.log('initiator', initiator);
     const localStatusAreaContainer = resolveStatusAreaContainer(modal);
     let parentStatusAreaContainer = resolveStatusAreaContainer(initiator);// initiator = media manager
     const mediaLab = initiator.closest('[data-mle-media-manager-lab]');
@@ -113,14 +109,10 @@ const updateMedia = (detail) => {
         parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
     }
 
-    // console.log('localStatusAreaContainer', localStatusAreaContainer);
-    // console.log('parentStatusAreaContainer', parentStatusAreaContainer);
-
     if (!localStatusAreaContainer) {
         console.warn('statusAreaContainer not found', localStatusAreaContainer);
         return;
     }
-    console.log('image-editor-listener.js - localStatusAreaContainer', localStatusAreaContainer);
     xhrRequestStart(localStatusAreaContainer);
 
     // console.log('collections', config.collections);
@@ -133,7 +125,6 @@ const updateMedia = (detail) => {
     const instanceId = config.instanceId;
     const dataSource = config.dataSource;
 
-    // console.log('mediaManagerDomId ', config.mediaManagerDomId)
     formData.append('initiator_id', initiatorId);
     formData.append('instance_id', instanceId);
     formData.append('media_manager_id', config.mediaManagerDomId ?? '');
@@ -167,13 +158,35 @@ const updateMedia = (detail) => {
         cache: 'no-store', // prevents using or storing cache
     })
     .then(async response => {
-        const json = await response.json();
-        if (!response.ok) {
-            handleAjaxError(response, json, localStatusAreaContainer);// note localStatusArea when errors occur!
-            throw new Error('Update of medium failed');// stops the chain, goes to .catch
+        let data = {};
+
+        try {
+            data = await response.json();
+        } catch (e) {
+            console.warn('Response is not JSON');
+
+            try {
+                data = {
+                    message: await response.clone().text()
+                };
+            } catch {
+                data = {
+                    message: 'Unable to read response body'
+                };
+            }
         }
 
-        return json;
+        if (!response.ok) {
+            handleAjaxError(response, data, localStatusAreaContainer);// note localStatusArea when errors occur!
+            // initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+            //     bubbles: true,
+            //     composed: true,
+            //     detail: {'modal': modal}
+            // }));
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        return data;
     })
     .then(json => {
 
@@ -184,7 +197,6 @@ const updateMedia = (detail) => {
             detail: {'modal': modal}
         }));
 
-        console.log('mediaManagerStatusContainer', mediaManagerStatusContainer);
         showStatusMessage(mediaManagerStatusContainer, {
            type: 'success',
            message: trans('medium_replaced'),
@@ -210,7 +222,14 @@ const updateMedia = (detail) => {
                 initiatorId: initiatorId,
             }
         }));
-    }).finally(() => {
+    }).
+    catch(error => {
+        showStatusMessage(localStatusAreaContainer, {
+            type: 'error',
+            message: trans('update_failed'),
+        });
+    }).
+    finally(() => {
         xhrRequestEnd(localStatusAreaContainer);
     });
 }

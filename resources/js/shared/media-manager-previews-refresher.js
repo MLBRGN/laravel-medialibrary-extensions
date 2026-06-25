@@ -44,7 +44,23 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
             cache: 'no-store', // prevents using or storing cache
         });
 
-        const data = await response.json();
+        let data = {};
+
+        try {
+            data = await response.json();
+        } catch (e) {
+            console.warn('Response is not JSON');
+
+            try {
+                data = {
+                    message: await response.clone().text()
+                };
+            } catch {
+                data = {
+                    message: 'Unable to read response body'
+                };
+            }
+        }
 
         if (!response.ok) {
             handleAjaxError(response, data);

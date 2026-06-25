@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
@@ -638,28 +640,28 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
     // prepare MMM selectors to upload media first
     $mmmId = '#alien-multiple-permanent-mmm';
-    $mmmInputSelector = $mmmId . ' [data-mle-media-input]';
-    $mmmUploadButtonSelector = $mmmId . ' [data-mle-media-upload-button]';
+    $mmmInputSelector = $mmmId.' [data-mle-media-input]';
+    $mmmUploadButtonSelector = $mmmId.' [data-mle-media-upload-button]';
 
     // prepare carousel selectors
     $carouselId = '#alien-carousel-crs';
-    $indicatorsSelector = $carouselId . ' [data-mle-carousel-indicators]';
-    $nextButtonSelector = $carouselId . ' [data-mle-carousel-next]';
-    $prevButtonSelector = $carouselId . ' [data-mle-carousel-prev]';
-    $firstItemSelector = $carouselId . ' [data-mle-carousel-item]:first-child';
-    $secondItemSelector = $carouselId . ' [data-mle-carousel-item]:nth-child(2)';
+    $indicatorsSelector = $carouselId.' [data-mle-carousel-indicators]';
+    $nextButtonSelector = $carouselId.' [data-mle-carousel-next]';
+    $prevButtonSelector = $carouselId.' [data-mle-carousel-prev]';
+    $firstItemSelector = $carouselId.' [data-mle-carousel-item]:first-child';
+    $secondItemSelector = $carouselId.' [data-mle-carousel-item]:nth-child(2)';
 
     // modal selectors
     $modalId = '#alien-carousel-mod';
-    $modalSelector = $modalId . '[data-mle-media-modal]';
-    $modalCloseButtonSelector = $modalSelector . ' [data-mle-modal-close]';
+    $modalSelector = $modalId.'[data-mle-media-modal]';
+    $modalCloseButtonSelector = $modalSelector.' [data-mle-modal-close]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
     $scrollToId = 'alien-carousel-crs';
 
     // TODO scrolling not working scroll id is removed from url?
-//    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$scrollToId")
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$scrollToId")
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-carousel-crs")
         ->assertNoJavaScriptErrors();
 
@@ -709,14 +711,74 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         ->assertPresent($modalSelector)
         ->click($modalCloseButtonSelector)
         ->wait(0.5)
-        ->assertMissing($modalSelector);// not visible
+        ->assertMissing($modalSelector); // not visible
 
 })->group('browser')
     ->with([
         'bootstrap + default + xhr' => ['bootstrap-5', 'default', true, true],
-//        'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+        //        'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
         'plain + default + xhr' => ['plain', 'default', true],
-//        'plain + demo + no xhr' => ['plain', 'demo', false],
+        //        'plain + demo + no xhr' => ['plain', 'demo', false],
+    ]);
+//    ->only();
+
+it('can control media lab', function ($theme, $dataSource, $xhr) use ($waitTimeXhr, $waitTImeNonXhr) {
+
+    // prepare MMM selectors to upload media first
+    $mmmId = '#alien-multiple-permanent-mmm';
+    $mmmInputSelector = $mmmId.' [data-mle-media-input]';
+    $mmmUploadButtonSelector = $mmmId.' [data-mle-media-upload-button]';
+
+    // prepare media lab selectors
+    $labId = '#alien-lab-lab';
+//    $labSelector = $labId.'[data-mle-media-manager-lab]';
+    $labOriginalSelector = $labId.' [data-mle-media-lab-preview-original]';
+    $labBaseSelector = $labId.' [data-mle-media-lab-preview-base]';
+
+    // selectors inside base preview (nested MMS)
+    $mmsSelector = $labBaseSelector.' [data-mle-media-manager]';
+    $mmsEditButtonSelector = $mmsSelector.' [data-mle-media-edit-button]';
+
+    // selectors for image editor
+    $imageEditorModalSelector = $labBaseSelector.' [data-mle-image-editor-modal]';
+    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
+    $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
+
+    // restore button in original preview
+    $restoreButtonSelector = $labOriginalSelector.' [data-mle-action="medium-restore"]';
+
+    $xhrInt = $xhr ? 1 : 0;
+    $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
+
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-multiple-permanent-mmm")
+        ->assertNoJavaScriptErrors()
+
+        ->assertPresent($labId)
+        ->assertPresent($labOriginalSelector)
+        ->assertPresent($labBaseSelector)
+        ->assertPresent($mmsSelector)
+
+        // 3. Test image editor via nested MMS in Lab
+        ->pressAndWaitFor($mmsEditButtonSelector, $waitTime)
+        ->assertPresent($imageEditorModalSelector)
+        ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
+        ->assertPresent($imageEditorModalSaveButtonSelector)
+        ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
+
+//        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+        ->assertMissing($imageEditorModalSelector)
+
+        // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
+        ->assertPresent($restoreButtonSelector)
+        ->pressAndWaitFor($restoreButtonSelector, $waitTime)
+
+        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
+
+})->group('browser')
+    ->with([
+        'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
+        'plain + default + xhr' => ['plain', 'default', true],
     ])
-//    ->with('mms_youtube_test_matrix')
     ->only();

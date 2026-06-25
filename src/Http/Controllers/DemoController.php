@@ -23,9 +23,9 @@ class DemoController extends Controller
         $useXhr = $request->boolean('use_xhr', config('medialibrary-extensions.use_xhr', true));
         $dataSource = $request->query('data_source', 'demo');
 
-        if ($dataSource === 'default') {
-            $dataSource = 'default';
-        }
+//        if ($dataSource === 'default') {
+//            $dataSource = 'default';
+//        }
 
         // Apply to config so components pick it up as default if not overridden in options
         config([
