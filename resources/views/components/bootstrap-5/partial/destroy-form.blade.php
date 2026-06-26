@@ -1,8 +1,13 @@
+{{--@php--}}
+{{--    $nonXhrOnSubmit = $getConfig('useXhr') ? null : "(function(el){el.setAttribute('data-mle-busy','1');var c=el.closest('[data-mle-media-manager]');if(!c)return;var a=c.querySelector('[data-mle-status-area-container]');if(!a)return;var m=document.createElement('div');m.setAttribute('data-mle-status-message','');m.textContent='" . e(__('medialibrary-extensions::messages.please_wait')) . "';a.innerHTML='';a.appendChild(m);})(this)";--}}
+{{--@endphp--}}
+
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
         'action' => $getConfig('routes.mediaDestroy') . '#' . $id,
         'method' => 'POST',
+//        'onsubmit' => $nonXhrOnSubmit,
         'data-mle-form'
     ]"
     :div-attributes="[
