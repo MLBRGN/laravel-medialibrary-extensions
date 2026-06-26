@@ -20,7 +20,7 @@
     </x-slot>
 
     <x-slot name="menuEnd">
-        <x-mle-partial-medium-restore-form
+        <x-mle-partial-media-restore-form
             :model-or-class-name="$media->model"
             :media="$media"
             :options="$getOptions()"
