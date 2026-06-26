@@ -23,8 +23,7 @@ it('passes validation with required fields and at least one collection', functio
         'model_type' => $model->getMorphClass(),
         'collections' => ['image' => 'images'],
         'media' => null,
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'data_source' => 'demo',
     ];
 
@@ -41,8 +40,7 @@ it('fails validation when no collections are provided', function () {
         'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
         'media' => null,
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'data_source' => 'demo',
     ];
 
@@ -62,8 +60,7 @@ it('applies MaxMediaCount rule for non-temporary upload', function () {
         'model_id' => $model->getKey(),
         'collections' => ['image' => 'images'],
         'media' => null,
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
     ];
 
     $request = new StoreSingleRequest;
@@ -85,8 +82,7 @@ it('applies MaxTemporaryUploadCount rule for temporary upload', function () {
         'model_type' => $model->getMorphClass(),
         'collections' => ['image' => 'images'],
         'media' => null,
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
     ];
 
     $request = new StoreSingleRequest;

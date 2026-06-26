@@ -9,17 +9,22 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequ
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 it('preserves data source during temporary upload reordering and refresh', function () {
     $this->withSession([]);
-    $dataSource = 'media_demo';
+    $dataSource = 'demo';
     $targetCollection = 'blog-images';
-    $instanceId = 'test-instance';
-    $initiatorId = 'test-initiator';
+    $baseId = 'test-media-manager';
+    $instanceId = InstanceManager::getInstanceId($baseId);
 
-    config()->set('medialibrary-extensions.data_sources.media_demo.connection', 'media_demo');
+    // TestCase already configures data source mappings:
+    // 'demo' => connection 'mle_test_demo', with migrations applied.
 
-    // 1. Create temporary uploads on the 'media_demo' connection
+    // Resolve actual connection name for the 'demo' data source
+    $connectionName = config('medialibrary-extensions.data_sources.demo.connection');
+
+    // 1. Create temporary uploads on the demo connection
     $media1 = new TemporaryUpload([
         'disk' => 'media',
         'path' => 'uploads/temp1.jpg',
@@ -32,7 +37,7 @@ it('preserves data source during temporary upload reordering and refresh', funct
         'client_token' => session()->getId(),
         'custom_properties' => ['priority' => 1],
     ]);
-    $media1->setConnection($dataSource);
+    $media1->setConnection($connectionName);
     $media1->save();
 
     $media2 = new TemporaryUpload([
@@ -47,29 +52,28 @@ it('preserves data source during temporary upload reordering and refresh', funct
         'client_token' => session()->getId(),
         'custom_properties' => ['priority' => 2],
     ]);
-    $media2->setConnection($dataSource);
+    $media2->setConnection($connectionName);
     $media2->save();
 
     // Verify they are in the correct database and NOT in the default one
-    expect(DB::connection($dataSource)->table('mle_temporary_uploads')->where('id', $media1->id)->exists())->toBeTrue();
-    expect(DB::connection($dataSource)->table('mle_temporary_uploads')->where('id', $media2->id)->exists())->toBeTrue();
+    expect(DB::connection($connectionName)->table('mle_temporary_uploads')->where('id', $media1->id)->exists())->toBeTrue();
+    expect(DB::connection($connectionName)->table('mle_temporary_uploads')->where('id', $media2->id)->exists())->toBeTrue();
 
     // In some test setups, the default might be the same as dataSource if not careful,
     // but here we expect them to be separate.
     $defaultConn = config('database.default');
-    if ($defaultConn !== $dataSource) {
+    if ($defaultConn !== $connectionName) {
         expect(DB::connection($defaultConn)->table('mle_temporary_uploads')->where('id', $media1->id)->exists())->toBeFalse();
     }
 
     // 2. Execute SetTemporaryUploadAsFirstAction with data_source
     $setAsFirstRequest = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => 'mm-123',
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media2->id,
         'collections' => [$targetCollection],
         'data_source' => $dataSource,
-        'instance_id' => $instanceId,
+        'client_token' => session()->getId(),
     ]);
     $setAsFirstRequest->setLaravelSession(app('session')->driver());
 
@@ -81,8 +85,8 @@ it('preserves data source during temporary upload reordering and refresh', funct
     expect($response->status())->toBe(302); // Redirect back
 
     // Verify priorities were updated in the CORRECT database
-    $media2Refresh = (new TemporaryUpload)->setConnection($dataSource)->find($media2->id);
-    $media1Refresh = (new TemporaryUpload)->setConnection($dataSource)->find($media1->id);
+    $media2Refresh = (new TemporaryUpload)->setConnection($connectionName)->find($media2->id);
+    $media1Refresh = (new TemporaryUpload)->setConnection($connectionName)->find($media1->id);
 
     expect($media2Refresh->getCustomProperty('priority'))->toBe(0);
     expect($media1Refresh->getCustomProperty('priority'))->toBe(1);
@@ -90,13 +94,17 @@ it('preserves data source during temporary upload reordering and refresh', funct
     // 3. Execute GetMediaPreviewerTemporaryHTMLAction with data_source
     $refreshRequest = new GetMediaManagerPreviewerHTMLRequest([
         'data_source' => $dataSource,
-        'initiator_id' => $initiatorId,
-        'instance_id' => $instanceId,
+        'base_id' => $baseId,
+        // do NOT send instance_id here; server derives it from base_id
         'client_token' => session()->getId(),
-        'model_type' => 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien',
-        'multiple' => true,
+        'model_type' => 'Mlbrgn\\MediaLibraryExtensions\\Models\\demo\\Alien',
         'collections' => json_encode([$targetCollection]),
         'options' => json_encode([]),
+        'temporary_upload_mode' => 'true',
+        'selectable' => 'true',
+        'multiple' => 'true',
+        'disabled' => 'false',
+        'readonly' => 'false',
     ]);
     $refreshRequest->setLaravelSession(app('session')->driver());
 
@@ -114,4 +122,4 @@ it('preserves data source during temporary upload reordering and refresh', funct
     // The media IDs should be present in the HTML
     expect($data['html'])->toContain('temp1.jpg');
     expect($data['html'])->toContain('temp2.jpg');
-})->todo('This test is not working yet');
+});

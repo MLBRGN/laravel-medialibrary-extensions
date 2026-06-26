@@ -14,11 +14,11 @@ beforeEach(function () {
 
 it('renders temporary media preview HTML and returns JSON response', function () {
     $model = $this->getTestBlogModel();
-    $initiatorId = 'initiator-123';
+    $baseId = 'initiator-123';
     $frontendTheme = 'bootstrap-5';
 
     $requestData = [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'instance_id' => 'test-instance',
         'client_token' => 'test-session',
         'data_source' => 'default',
@@ -40,8 +40,8 @@ it('renders temporary media preview HTML and returns JSON response', function ()
 
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaPreviews $component) use ($initiatorId, $requestData, $frontendTheme) {
-            expect($component->id)->toBe($initiatorId);
+        ->withArgs(function (MediaPreviews $component) use ($baseId, $requestData, $frontendTheme) {
+            expect($component->id)->toBe($baseId);
             expect($component->modelOrClassName)->toBe($requestData['model_type']);
             expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);
             expect($component->getConfig('showDestroyButton'))->toBeTrue();
@@ -62,6 +62,6 @@ it('renders temporary media preview HTML and returns JSON response', function ()
     expect($data)->toMatchArray([
         'html' => '<div>Rendered Temporary Media Preview</div>',
         'success' => true,
-        'target' => $initiatorId,
+        'target' => $baseId,
     ]);
 });

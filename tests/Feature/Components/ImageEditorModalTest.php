@@ -88,7 +88,7 @@ it('constructs with model and sets properties', function () {
         singleMedia: null,
         collections: ['image' => 'images'],
         options: [],
-        initiatorId: 'uploader-1',
+
         title: 'blaat'
     );
 
@@ -113,7 +113,7 @@ it('constructs with model class name string for temporary upload', function () {
         singleMedia: null,// TODO if i don't pass this test fails
         collections: ['image' => 'images'],
         options: [],
-        initiatorId: 'uploader-2'
+
     );
 
     expect($component->model)->toBeNull()
@@ -137,7 +137,7 @@ it('throws when modelOrClassName is null', function () {
         medium: $medium,
         collections: ['image' => 'images'],
         options: [],
-        initiatorId: 'fail-test'
+
     );
 });
 
@@ -158,7 +158,7 @@ it('throws when modelOrClassName is an invalid type', function () {
         singleMedia: null,
         collections: ['image' => 'images'],
         options: [],
-        initiatorId: 'fail-test'
+
     );
 });
 
@@ -179,6 +179,6 @@ it('throws when modelOrClassName is an class name', function () {
         singleMedia: null,
         collections: ['image' => 'images'],
         options: [],
-        initiatorId: 'fail-test'
+
     );
 });

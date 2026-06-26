@@ -20,8 +20,7 @@ it('stores a youtube video temporary on a custom data source', function () {
 
     $request = StoreYouTubeVideoRequest::create('/upload-youtube', 'POST', [
         'temporary_upload_mode' => 'true',
-        'initiator_id' => 'test-initiator',
-        'media_manager_id' => 'test-manager',
+        'base_id' => 'test-base',
         'youtube_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         'collections' => ['video' => 'videos'],
         'youtube_collection' => 'videos',
@@ -68,8 +67,7 @@ it('stores a youtube video permanent on a custom data source', function () {
 
     $request = StoreYouTubeVideoRequest::create('/upload-youtube', 'POST', [
         'temporary_upload_mode' => 'false',
-        'initiator_id' => 'test-initiator',
-        'media_manager_id' => 'test-manager',
+        'base_id' => 'test-base',
         'youtube_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         'collections' => ['video' => 'videos'],
         'youtube_collection' => 'videos',

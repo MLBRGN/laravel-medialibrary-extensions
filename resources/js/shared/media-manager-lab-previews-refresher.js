@@ -15,10 +15,10 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
-        initiator_id: config.id,
+        base_id: config.id,
         medium_id: mediumId,
         options: JSON.stringify(config.options),
-        instance_id: config.instanceId ?? null,
+        // Do not send instance_id; it is derived server-side from base_id
         theme: config.theme,
         client_token: config.clientToken,
         include_debug: 'true'
@@ -128,9 +128,15 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
 //  for now i just return when no media manager lab found, but shouldn't listen at all?
 //  How do i do this for regular media refresh?
 document.addEventListener('imageUpdated', (e) => {
-    const initiator =  document.getElementById(e.detail.initiatorId);
-    const mediaManagerLab = initiator.closest('[data-mle-media-manager-lab]')
-    console.log('mediaManagerLab: ' + mediaManagerLab)
+    // Resolve the media manager lab by Base ID
+    const baseId = e.detail.baseId;
+    let mediaManagerLab = document.querySelector(`[data-mle-media-manager-lab][data-base-id="${baseId}"]`);
+    if (!mediaManagerLab) {
+        // Fallback: find element by DOM id and climb to lab container
+        const el = document.getElementById(baseId);
+        mediaManagerLab = el?.closest('[data-mle-media-manager-lab]') ?? null;
+    }
+
     const mediumId = e.detail?.mediumId;
 
     if (!mediaManagerLab) {

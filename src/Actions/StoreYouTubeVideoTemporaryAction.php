@@ -6,13 +6,13 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreYouTubeVideoTemporaryAction
 {
@@ -31,9 +31,9 @@ class StoreYouTubeVideoTemporaryAction
         }
         $dataSource = $request->input('data_source') ?? 'default';
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
-        $instanceId = $request->input('instance_id');
+        // Strict: only accept base_id; derive instance ID server-side
+        $baseId = (string) $request->input('base_id');
+        $instanceId = InstanceManager::getInstanceId($baseId);
 
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
@@ -48,8 +48,7 @@ class StoreYouTubeVideoTemporaryAction
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_media_collections')
             );
         }
@@ -65,8 +64,7 @@ class StoreYouTubeVideoTemporaryAction
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
+                $baseId,
                 $message
             );
         }
@@ -77,8 +75,7 @@ class StoreYouTubeVideoTemporaryAction
             if (! $tempUpload) {
                 return MediaResponse::error(
                     $request,
-                    $initiatorId,
-                    $mediaManagerId,
+                    $baseId,
                     __('medialibrary-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
@@ -94,16 +91,18 @@ class StoreYouTubeVideoTemporaryAction
 
             return MediaResponse::success(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('medialibrary-extensions::messages.youtube_video_uploaded')
+                $baseId,
+                __('medialibrary-extensions::messages.youtube_video_uploaded'),
+                [
+                    // ensure client token persistence for subsequent preview fetches
+                    'client_token' => $tempUpload->client_token ?? null,
+                ]
             );
         }
 
         return MediaResponse::error(
             $request,
-            $initiatorId,
-            $mediaManagerId,
+            $baseId,
             __('medialibrary-extensions::messages.upload_no_youtube_url')
         );
     }

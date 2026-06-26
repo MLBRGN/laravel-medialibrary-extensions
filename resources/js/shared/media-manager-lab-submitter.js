@@ -52,32 +52,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
 
         try {
 
-            // const formData = getFormData(formElement);
-            // // const formData = new FormData();
-            //
-            // // const file = detail.file;
-            // const mediumId = config.mediumId ?? null;
-            // const modelType = config.modelType;
-            // const modelId = config.modelId ?? '';
-            // const initiatorId = config.initiatorId;
-            //
-            // formData.append('initiator_id', initiatorId);
-            // formData.append('model_type', modelType);
-            // formData.append('model_id', modelId );
-            // formData.append('single_media_id', config.singleMedia?.id ?? null);// TODO keep both?
-            //
-            // formData.append('options', JSON.stringify(config.options));
-            //
-            // formData.append('temporary_upload_mode', config.temporaryUploadMode);
-            // // formData.append('media_manager_id', config.mediaManagerDomId ?? '');
-            // // formData.append('medium_id', mediumId);// TODO keep both?
-            // // formData.append('collections', JSON.stringify(config.collections));
-            // // formData.append('collection', config.collection);
-            //
-            // const normalizedMethod = method.toUpperCase();
-            // if (['DELETE', 'PUT', 'PATCH'].includes(normalizedMethod)) {
-            //     formData.append('_method', normalizedMethod);
-            // }
+            // Legacy example block removed (initiator_id/media_manager_id)
 
             // console.log(formElement);
             const formData = getFormData(formElement);
@@ -126,10 +101,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
 
             showStatusMessage(statusAreaContainer, data);
 
-            // const div = document.createElement('div');
-            // console.log(mediaManagerLab);
-            // div.innerHTML = 'mediaManagerLab id:' + mediaManagerLab.id + ' mediumId: ' + mediumId + 'config.initiatorId:  ' + config.initatorId;
-            // mediaManagerLab.appendChild(div);
+            // Debug snippet removed
         } catch (error) {
             console.error('Error during upload:', error);
             showStatusMessage(statusAreaContainer, {
@@ -141,11 +113,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
         }
     });
 
-    // mediaManagerLab.addEventListener('refreshRequest', function (e) {
-    //     const detail = e.detail;
-    //     const config = getMediaManagerConfig(mediaManagerLab);
-    //     updatePreviews(mediaManagerLab, config, detail);
-    // })
+    // Custom refreshRequest listener removed
 });
 
 function getRouteFromAction(action, target, config) {

@@ -13,6 +13,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequ
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class GetMediaPreviewerTemporaryHTMLAction
 {
@@ -28,8 +29,10 @@ class GetMediaPreviewerTemporaryHTMLAction
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
         $dataSource = $request->input('data_source') ?? 'default';
-        $initiatorId = $request->input('initiator_id');
-        $instanceId = $request->input('instance_id') ?? '';
+        // Strict: only Base ID is accepted; legacy keys are intentionally ignored by validation
+        $baseId = (string) $request->input('base_id');
+        // Derive instance ID server-side from Base ID
+        $instanceId = InstanceManager::getInstanceId($baseId);
         $modelType = $request->input('model_type');
         // no modelId
         $singleMediaId = $request->input('single_medium_id');
@@ -41,9 +44,17 @@ class GetMediaPreviewerTemporaryHTMLAction
         $theme = $request->input('theme');
         $clientToken = $request->input('client_token') ?? $request->cookie('mle_client_token');
 
-//        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$dataSource);
-//        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$instanceId);
-//        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$clientToken);
+        Log::info('GetMediaPreviewerTemporaryHTMLAction.request', [
+            'base_id' => $baseId,
+            'derived_instance_id' => $instanceId,
+            'model_type' => $modelType,
+            'has_client_token' => (bool) $clientToken,
+            'data_source' => $dataSource,
+        ]);
+
+        //        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$dataSource);
+        //        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$instanceId);
+        //        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$clientToken);
 
         $options = json_decode($request->input('options'), true) ?? [];
         if ($request->has('temporary_upload_mode')) {
@@ -61,6 +72,11 @@ class GetMediaPreviewerTemporaryHTMLAction
         $collections = json_decode($request->input('collections'), true) ?? [];
 
         if (! $clientToken) {
+            Log::warning('GetMediaPreviewerTemporaryHTMLAction.missing_client_token', [
+                'base_id' => $baseId,
+                'derived_instance_id' => $instanceId,
+                'data_source' => $dataSource,
+            ]);
             return response()->json([
                 'success' => false,
                 'message' => 'No client token found',
@@ -93,11 +109,18 @@ class GetMediaPreviewerTemporaryHTMLAction
                 $clientToken,
                 $dataSource
             );
+            Log::info('GetMediaPreviewerTemporaryHTMLAction.count_result', [
+                'base_id' => $baseId,
+                'derived_instance_id' => $instanceId,
+                'client_token' => $clientToken,
+                'collections' => $collections,
+                'data_source' => $dataSource,
+                'total_media_count' => $totalMediaCount,
+            ]);
         }
 
         $component = new MediaPreviews(
-            id: $initiatorId,
-            mediaManagerDomId: $initiatorId,
+            id: $baseId,
             modelOrClassName: $modelType,
             collections: $collections,
             options: $options,
@@ -131,7 +154,7 @@ class GetMediaPreviewerTemporaryHTMLAction
             'success' => true,
             'instanceId' => $instanceId,
             'dataSource' => $dataSource,
-            'target' => $initiatorId,
+            'target' => $baseId,
         ]);
     }
 }

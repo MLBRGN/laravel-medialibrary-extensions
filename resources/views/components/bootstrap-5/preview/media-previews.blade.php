@@ -10,8 +10,6 @@
     >
         <x-mle-media-preview-item
             :id="$id . '-' . $loop->index"
-            :media-manager-id="$mediaManagerId"
-            :media-manager-dom-id="$mediaManagerDomId"
             :medium="$medium"
             :options="$getOptions()"
             :collections="$collections"
@@ -41,8 +39,6 @@
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
                 :id="$id . '-' . $loop->index"
-                :media-manager-id="$mediaManagerId"
-                :media-manager-dom-id="$mediaManagerDomId"
                 :medium="$medium"
                 :model-or-class-name="$modelOrClassName"
                 :collections="$collections"

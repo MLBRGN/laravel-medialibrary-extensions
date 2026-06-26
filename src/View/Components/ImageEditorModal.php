@@ -15,12 +15,6 @@ class ImageEditorModal extends BaseMediaComponent
 
     public string $storeUpdatedMediaRoute;
 
-    /** Identity of the parent MediaManager (logical ID, not suffixed) */
-    public string $mediaManagerId;
-
-    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
-    public string $mediaManagerDomId;
-
     public string $minimalDimensions;
 
     public string $maximalDimensions;
@@ -34,31 +28,21 @@ class ImageEditorModal extends BaseMediaComponent
         public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
         array $options,
-        public string $initiatorId,
         public string $title = 'no title',// TODO do i want this?
         public bool $disabled = false,
         public ?string $dataSource = 'default',
-        ?string $mediaManagerDomId = '',
-        ?string $mediaManagerId = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
         $this->options = $options;
-
-        // Note: ImageEditorModal uses its own instanceId for its forms, but often needs to know the parent manager's identity.
-        // If it needs to scope uploads to the manager, it should use $this->mediaManagerId.
-        // BaseComponent already set $this->instanceId = InstanceManager::getInstanceId($this->id).
 
         $this->storeUpdatedMediaRoute = $this->temporaryUploadMode ? route(mle_prefix_route('save-updated-temporary-upload'),
             $medium) : route(mle_prefix_route('save-updated-media'), $medium);
 
         // TODO look at this
         $this->resolveConfig([
-            'initiatorId' => $this->initiatorId,
             'id' => $this->id,
-            'mediaManagerDomId' => $this->mediaManagerDomId,
+            'baseId' => $this->id,
             'modelType' => $this->modelType,
             'modelId' => $this->modelId,
             'mediumId' => $this->medium->id,
@@ -74,7 +58,8 @@ class ImageEditorModal extends BaseMediaComponent
             ?? config('medialibrary-extensions.default_forced_aspect_ratio');
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'iem-'.$this->medium->id;
     }
 

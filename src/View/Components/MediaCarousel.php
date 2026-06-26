@@ -37,24 +37,13 @@ class MediaCarousel extends BaseComponent
     ) {
         parent::__construct($id);
 
-//        Log::info('MediaCarousel ctor', [
-//            'clientToken' => $this->clientToken,
-//            'instanceId' => $this->instanceId,
-//        ]);
-
         if ($instanceId) {
             $this->instanceId = $instanceId;
         }
 
-//        if ($clientToken) {
-//            $this->clientToken = $clientToken;
-//        }
-//        if ($instanceId) {
-////            Log::info('MediaCarousel: instanceId provided: ' . $instanceId);
-//            $this->instanceId = $instanceId;
-//        } else {
-//            Log::info('MediaCarousel: no instance id');
-//        }
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
 
         $this->options = $options;
 
@@ -63,7 +52,7 @@ class MediaCarousel extends BaseComponent
         $resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
         $model = $resolvedModel->model;
 
-//        Log::info('MediaCarousel: resolved model: ' . json_encode($model));
+        //        Log::info('MediaCarousel: resolved model: ' . json_encode($model));
         // merge into config
         $this->resolveConfig([
             'temporaryUploadMode' => $resolvedModel->temporaryUploadMode,
@@ -72,26 +61,27 @@ class MediaCarousel extends BaseComponent
 
         $instanceId = $this->instanceId ?? $this->getConfig('instanceId');
 
-//        Log::info('MediaCarousel', [
-//            'id' => $this->id,
-//            'instanceId' => $this->instanceId,
-//        ]);
+        //        Log::info('MediaCarousel', [
+        //            'id' => $this->id,
+        //            'instanceId' => $this->instanceId,
+        //        ]);
 
-//        Log::info('MediaCarousel lookup', [
-//            'instanceId' => $instanceId,
-//            'clientToken' => $this->clientToken,
-////            'collections' => $this->collections,
-//        ]);
-       $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource);
-//        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
+        //        Log::info('MediaCarousel lookup', [
+        //            'instanceId' => $instanceId,
+        //            'clientToken' => $this->clientToken,
+        // //            'collections' => $this->collections,
+        //        ]);
+        $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource);
+        //        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();
 
-//        Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
-//        Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
+        //        Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
+        //        Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'crs';
     }
 

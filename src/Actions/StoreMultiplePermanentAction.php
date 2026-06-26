@@ -32,13 +32,12 @@ class StoreMultiplePermanentAction
 
         $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
 
-//        Log::info('After findMediaModel', [
-//            'connection' => $model->getConnectionName(),
-//            'database' => $model->getConnection()->getDatabaseName(),
-//        ]);
+        //        Log::info('After findMediaModel', [
+        //            'connection' => $model->getConnectionName(),
+        //            'database' => $model->getConnection()->getDatabaseName(),
+        //        ]);
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
+        $baseId = (string) $request->input('base_id');
         $instanceId = $request->input('instance_id');
 
         $files = $request->file('media', []);
@@ -46,8 +45,7 @@ class StoreMultiplePermanentAction
         if (empty($files)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.upload_no_files')
             );
         }
@@ -57,8 +55,7 @@ class StoreMultiplePermanentAction
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_media_collections')
             );
         }
@@ -70,8 +67,7 @@ class StoreMultiplePermanentAction
         if ($mediaInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection,
                 ])
@@ -102,8 +98,7 @@ class StoreMultiplePermanentAction
         if (empty($files)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
             );
         }
@@ -122,18 +117,18 @@ class StoreMultiplePermanentAction
                 continue;
             }
 
-//            Log::info('StoreMultiplePermanentAction - store in db: '.json_encode([
-//                'connection' => $model->getConnection()->getName(),
-//                'database' => $model->getConnection()->getDatabaseName(),
-//            ]));
+            //            Log::info('StoreMultiplePermanentAction - store in db: '.json_encode([
+            //                'connection' => $model->getConnection()->getName(),
+            //                'database' => $model->getConnection()->getDatabaseName(),
+            //            ]));
 
-//            Log::info('Before addMedia', [
-//                'datasource' => $dataSource,
-//                'resolved' => app(DataSourceResolver::class)->resolveConnection($dataSource),
-//                'model_connection_name' => $model->getConnectionName(),
-//                'model_database' => $model->getConnection()->getDatabaseName(),
-//                'media_model' => config('media-library.media_model'),
-//            ]);
+            //            Log::info('Before addMedia', [
+            //                'datasource' => $dataSource,
+            //                'resolved' => app(DataSourceResolver::class)->resolveConnection($dataSource),
+            //                'model_connection_name' => $model->getConnectionName(),
+            //                'model_database' => $model->getConnection()->getDatabaseName(),
+            //                'media_model' => config('media-library.media_model'),
+            //            ]);
 
             try {
                 $model->addMedia($file)
@@ -163,8 +158,7 @@ class StoreMultiplePermanentAction
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 $message
             );
         }
@@ -178,8 +172,7 @@ class StoreMultiplePermanentAction
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             $message
         );
     }

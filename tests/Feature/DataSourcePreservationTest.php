@@ -23,8 +23,7 @@ beforeEach(function () {
     $this->storeUpdatedAction = new StoreUpdatedMediaAction($this->mediaService);
     $this->getPermanentPreviewAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
 
-    $this->initiatorId = 'initiator-datasource';
-    $this->mediaManagerId = 'media-manager-datasource';
+    $this->baseId = 'media-manager-datasource';
     $this->dataSource = 'demo';
     $this->model = $this->getTestBlogModel();
 
@@ -74,8 +73,7 @@ it('preserves dataSource after updating media and refreshing previews', function
         'collection' => 'images',
         'collections' => ['image' => 'images'],
         'temporary_upload_mode' => false,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
         'data_source' => $this->dataSource,
     ], [], [
         'file' => $updateFile,
@@ -88,11 +86,16 @@ it('preserves dataSource after updating media and refreshing previews', function
 
     // 3. Request Preview refresh with dataSource
     $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
-        'initiator_id' => $this->initiatorId,
+        'base_id' => $this->baseId,
         'model_type' => get_class($demoModel),
         'model_id' => $demoModel->id,
         'collections' => json_encode(['image' => 'images']),
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
+        'temporary_upload_mode' => 'false',
+        'selectable' => 'true',
+        'multiple' => 'false',
+        'disabled' => 'false',
+        'readonly' => 'false',
         'data_source' => $this->dataSource,
     ]);
 

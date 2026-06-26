@@ -8,6 +8,7 @@
         'fade',
     ])->merge() }}
     id="{{ $getDomId() }}"
+    data-base-id="{{ $id }}"
     tabindex="-1"
     @if($title)
         aria-labelledby="{{ $id }}-title"
@@ -31,9 +32,6 @@
             @endif
                 <x-mle-partial-status-area
                     id="{{ $id }}"
-                    :initiator-id="$id"
-                    :media-manager-id="$mediaManagerId"
-                    :media-manager-dom-id="$mediaManagerDomId"
                     :options="$getOptions()"
                 />
             <div class="mle-modal-body modal-body p-0">
@@ -65,9 +63,6 @@
                     :single-media="$singleMedia"
                     :collections="$collections"
                     :options="$getOptions()"
-                    :initiator-id="$id"
-                    :media-manager-id="$mediaManagerId"
-                    :media-manager-dom-id="$mediaManagerDomId"
                     :disabled="$disabled"
                 />
             </div>

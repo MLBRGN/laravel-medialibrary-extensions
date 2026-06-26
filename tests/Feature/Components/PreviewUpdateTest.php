@@ -26,7 +26,6 @@ it('confirms the MediaPreviews component correctly retrieves temporary uploads w
     // 3. Initialize MediaPreviews with temporaryUploadMode => true
     $component = new MediaPreviews(
         id: 'test-id',
-        mediaManagerDomId: 'test-id',
         modelOrClassName: Blog::class,
         collections: ['image' => 'images'],
         options: ['temporaryUploadMode' => true],
@@ -58,7 +57,6 @@ it('correctly handles the flatMap logic in MediaPreviews for temporary uploads',
 
     $component = new MediaPreviews(
         id: 'test-id-2',
-        mediaManagerDomId: 'test-id-2',
         modelOrClassName: Blog::class,
         collections: ['image' => 'images', 'document' => 'documents'],
         options: ['temporaryUploadMode' => true],
@@ -84,7 +82,6 @@ it('does not retrieve temporary uploads from other clients', function () {
 
     $component = new MediaPreviews(
         id: 'test-id-3',
-        mediaManagerDomId: 'test-id-3',
         modelOrClassName: Blog::class,
         collections: ['image' => 'images'],
         options: ['temporaryUploadMode' => true],

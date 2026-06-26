@@ -3,11 +3,8 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Support\ClientContext;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -18,15 +15,8 @@ class MediaPreviews extends BaseMediaComponent
 
     public Collection $media;
 
-    /** Identity of the parent MediaManager (logical ID, not suffixed) */
-    public string $mediaManagerId;
-
-    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
-    public string $mediaManagerDomId;
-
     public function __construct(
         ?string $id,
-        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
@@ -38,20 +28,14 @@ class MediaPreviews extends BaseMediaComponent
         public string $instanceId = '',
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
-        ?string $mediaManagerId = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
-
         // Priority:
         // 1. Explicitly passed $instanceId (e.g. from XHR or tests)
-        // 2. Derive from $mediaManagerId
+        // 2. Derive from $id (baseId)
         if (! empty($instanceId)) {
             $this->instanceId = $instanceId;
-        } elseif (! empty($this->mediaManagerId)) {
-            $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
         }
 
         if ($clientToken) {
@@ -77,6 +61,7 @@ class MediaPreviews extends BaseMediaComponent
                     if ($this->temporaryUploadMode) {
                         if (! empty($collectionName)) {
                             $temps = TemporaryUpload::getForCurrentClient($collectionName, $this->instanceId, $dataSource, $this->clientToken);
+
                             return $temps;
                         }
                     }
@@ -115,7 +100,8 @@ class MediaPreviews extends BaseMediaComponent
         ]);
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'media-previews';
     }
 

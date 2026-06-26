@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $getConfig('routes.mediumSetAsFirst') . '#' . $mediaManagerDomId,
+        'action' => $getConfig('routes.mediumSetAsFirst') . '#' . $id,
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -13,11 +13,11 @@
     id="{{ $getDomId() }}"
 >
     <input type="hidden"
-        name="initiator_id"
+        name="base_id"
         value="{{ $id }}">
     <input type="hidden"
-        name="media_manager_id"
-        value="{{ $mediaManagerDomId }}">
+        name="client_token"
+        value="{{ $getConfig('clientToken') }}">
     <input type="hidden"
         name="medium_id"
         value="{{ $medium->id }}">

@@ -15,6 +15,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreMultipleTemporaryAction
 {
@@ -32,17 +33,16 @@ class StoreMultipleTemporaryAction
         $disk = config('medialibrary-extensions.media_disks.temporary');
         $basePath = '';
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
-        $instanceId = $request->input('instance_id');
+        // Strict: only accept base_id; derive instance ID server-side
+        $baseId = (string) $request->input('base_id');
+        $instanceId = InstanceManager::getInstanceId($baseId);
 
         $files = $request->file('media');
 
         if (empty($files)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.upload_no_files')
             );
         }
@@ -52,8 +52,7 @@ class StoreMultipleTemporaryAction
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_media_collections')
             );
         }
@@ -65,8 +64,7 @@ class StoreMultipleTemporaryAction
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection,
                 ])
@@ -97,8 +95,7 @@ class StoreMultipleTemporaryAction
         if (empty($files)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
             );
         }
@@ -143,7 +140,7 @@ class StoreMultipleTemporaryAction
                 'size' => $file->getSize(),
                 'user_id' => Auth::check() ? Auth::id() : null,
                 'client_token' => $clientToken,
-                'instance_id' => $instanceId ?: null,
+                'instance_id' => $instanceId,
                 'order_column' => $nextPriority,
                 'custom_properties' => [
                     'collections' => $collections,
@@ -196,8 +193,7 @@ class StoreMultipleTemporaryAction
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 $message
             );
         }
@@ -211,9 +207,11 @@ class StoreMultipleTemporaryAction
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
-            $message
+            $baseId,
+            $message,
+            [
+                'client_token' => $clientToken ?? null,
+            ]
         );
     }
 }

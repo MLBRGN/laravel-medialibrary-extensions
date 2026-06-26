@@ -15,6 +15,7 @@
     data-mle-theme="{{$getConfig('frontendTheme')}}"
     data-mle-modal
     data-mle-image-editor-modal
+    data-base-id="{{ $id }}"
     data-mle-medium-display-name="{{ media_display_name($medium) }}"
     data-mle-medium-path="{{ $medium->getUrl() }}"
     data-mle-medium-forced-aspect-ratio="{{ $forcedAspectRatio }}"
@@ -30,8 +31,6 @@
             @endif
             <x-mle-partial-status-area
                 id="{{ $id }}"
-                :initiator-id="$id"
-                :media-manager-dom-id="$id"
                 :options="$getOptions()"
             />
             <div class="mle-modal-body modal-body p-0">
@@ -58,8 +57,6 @@
                     :single-media="$singleMedia"
                     :collections="$collections"
                     :options="$getOptions()"
-                    :initiator-id="$id"
-                    :media-manager-dom-id="$mediaManagerDomId"
                     :disabled="$disabled"
                 />
             </div>

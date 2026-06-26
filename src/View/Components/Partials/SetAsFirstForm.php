@@ -4,7 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
@@ -18,34 +17,27 @@ class SetAsFirstForm extends BaseMediaComponent
 
     public ?string $targetMediaCollection = null;
 
-    /** Identity of the parent MediaManager (logical ID, not suffixed) */
-    public string $mediaManagerId;
-
-    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
-    public string $mediaManagerDomId;
-
     public string $mediumSetAsFirstRoute;
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public Collection $media,
-        public Media|TemporaryUpload $medium,// TODO should never be temporary upload, but then I get error on demo pages?
+        public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
         array $options = [],
         public ?bool $disabled = false,
         public ?string $dataSource = 'default',
-        ?string $mediaManagerId = null,
+        ?string $clientToken = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
+        // Ensure instanceId is derived from the Base ID
+        $this->instanceId = InstanceManager::getInstanceId($this->id);
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's stable identity)
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
 
         $this->options = $options;
 
@@ -55,23 +47,29 @@ class SetAsFirstForm extends BaseMediaComponent
 
         $this->targetMediaCollection = $medium->collection_name;
 
+        // These routes do not accept path parameters; IDs are posted in the body.
+        // Passing $medium to route() would append a bogus query string like `?10`.
         if ($this->temporaryUploadMode) {
-            $mediumSetAsFirstRoute = route(mle_prefix_route('temporary-upload-set-as-first'), $medium);
+            $mediumSetAsFirstRoute = route(mle_prefix_route('temporary-upload-set-as-first'));
         } else {
-            $mediumSetAsFirstRoute = route(mle_prefix_route('set-as-first'), $medium);
+            $mediumSetAsFirstRoute = route(mle_prefix_route('set-as-first'));
         }
 
         $this->mediumSetAsFirstRoute = $mediumSetAsFirstRoute;
 
         $this->resolveConfig([
+            // Expose under routes.* namespace for blade partials
+            'routes' => array_merge($this->resolveConfigRoutes(), [
+                'mediumSetAsFirst' => $this->mediumSetAsFirstRoute,
+            ]),
             'mediumSetAsFirstRoute' => $this->mediumSetAsFirstRoute,
         ]);
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'set-as-first-form-'.$this->medium->id;
     }
-
 
     public function render(): View
     {

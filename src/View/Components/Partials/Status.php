@@ -16,8 +16,6 @@ class Status extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public string $initiatorId,
-        public string $mediaManagerDomId,
         array $options = [],
     ) {
         parent::__construct($id);
@@ -29,8 +27,8 @@ class Status extends BaseComponent
         if (session()->has($statusKey)) {
             $sessionStatus = session($statusKey);
 
-            // Only attach if the initiator matches this component
-            if (($sessionStatus['media_manager_id'] ?? null) === $this->mediaManagerDomId) {
+            // Only attach if the initiator matches this component (base_id only)
+            if (($sessionStatus['base_id'] ?? null) === $this->id) {
                 $this->status = $sessionStatus;
             }
         }

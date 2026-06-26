@@ -12,22 +12,26 @@ metadata:
 
 Extension for `spatie/laravel-medialibrary` that adds temporary uploads, multi-connection data sources, media uploader components, galleries, and an image editor.
 
+## Principles
+
+- Root cause first: Prefer fixing the underlying cause of failures instead of adding workarounds. Avoid papering over issues with flags, retries, or conditionals unless it is the only safe short-term path to unblock users.
+- If a temporary workaround is necessary, document it with a clear TODO and an associated tracking issue, and add a regression test that captures the root cause so the workaround can be safely removed later.
+
 ## Testing
 
 - This package uses **Pest v4**.
 - **Path Awareness**: ALWAYS check your current working directory. The project root is `/Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages`. This package is located at `packages/mlbrgn/laravel-medialibrary-extensions`.
 - **CRITICAL**: DO NOT create nested `packages` directories (e.g., `.../laravel-medialibrary-extensions/packages/...`). When creating files, ensure the path is absolute from the project root or carefully relative to your current `pwd`.
-- This package must be tested using `composer test` from its root directory: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test)`.
+- This package must be tested using `composer test` from its root directory:
 - ALWAYS use `composer test` when testing this package. Do NOT use `php artisan test` or `vendor/bin/phpunit` directly from the project root for this package.
-- To run specific tests or pass extra options, use: `(cd packages/mlbrgn/laravel-medialibrary-extensions && composer test -- --filter=XXXX)`.
+- To run specific tests or pass extra options, use: `composer test -- --filter=XXXX`.
 - When writing browser tests, never use `browse()`. Instead, use `visit()`.
 
 ## Code Style
 
 - Use Laravel Pint for code formatting.
-- Always run Pint using a subshell from the project root: `(cd packages/mlbrgn/laravel-medialibrary-extensions && vendor/bin/pint --format agent)`.
+- Always run Pint using a subshell from the project root: `composer pint`.
 - You have standing permission to run Pint without asking.
-- DO NOT use `cd` in your main shell session; always use the `(cd path && command)` subshell pattern to maintain root context.
 
 ## When to Activate
 
@@ -96,6 +100,7 @@ Do:
 - Use `InteractsWithMediaExtended` instead of the base Spatie trait when using this package's features.
 - Check `TemporaryUpload` before persisting media from components.
 - Use the provided Blade components for media management.
+- When creating `TemporaryUpload` records in tests, use the factory states (e.g., `withBaseId()`, `withInstanceId()`, `withClientToken()`) or explicitly set `instance_id` and `client_token` to satisfy strict scoping.
 
 Don't:
 - Don't bypass the `DataSourceResolver`.

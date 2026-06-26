@@ -12,26 +12,18 @@ beforeEach(function () {
 
 it('initializes component with provided data', function () {
     $id = 'component-123';
-    $initiatorId = 'media-manager-125';
-    $mediaManagerDomId = 'media-manager-125';
     $component = new StatusArea(
         id: $id,
-        initiatorId: $initiatorId,
-        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => 'custom-theme',
         ],
     );
 
     expect($component->getDomId())->toBe($id.'-status-area')
-        ->and($component->getConfig('frontendTheme'))->toBe('custom-theme')
-        ->and($component->initiatorId)->toBe($initiatorId)
-        ->and($component->mediaManagerDomId)->toBe($mediaManagerDomId);
+        ->and($component->getConfig('frontendTheme'))->toBe('custom-theme');
 });
 
 it('renders the correct partial view', function () {
-    $initiatorId = 'media-manager-125';
-    $mediaManagerDomId = 'media-manager-125';
     $theme = 'bootstrap-5';
     $expectedView = "medialibrary-extensions::components.$theme.partial.status-area";
 
@@ -42,8 +34,6 @@ it('renders the correct partial view', function () {
 
     $component = new StatusArea(
         id: 'component-123',
-        initiatorId: $initiatorId,
-        mediaManagerDomId: $mediaManagerDomId,
         options: [
             'frontendTheme' => $theme,
         ],

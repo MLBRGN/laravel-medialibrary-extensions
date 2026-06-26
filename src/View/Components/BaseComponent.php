@@ -18,7 +18,7 @@ abstract class BaseComponent extends Component
     use ViewHelpers;
 
     /** Logical component identity */
-    public readonly string $id;// never to be modified
+    public readonly string $id; // never to be modified
 
     /** identify the instance of a component (more than one can be on same page), also used for scoping temporary uploads, together with clientToken */
     public string $instanceId;
@@ -57,7 +57,9 @@ abstract class BaseComponent extends Component
             DebugManager::pushScope($this->getDomId());
         }
 
+        $data['id'] = $this->id;
         $data['getDomId'] = fn () => $this->getDomId();
+        $data['instanceId'] = $this->instanceId;
 
         if ($customView) {
             $view = view($customView, $data);

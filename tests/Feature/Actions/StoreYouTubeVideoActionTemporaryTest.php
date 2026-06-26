@@ -31,15 +31,15 @@ it('aborts if youtube support is disabled', function () {
 });
 
 it('stores temporary thumbnail successfully (JSON)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
 
     $tempUpload = $this->getTemporaryUpload();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
@@ -64,24 +64,24 @@ it('stores temporary thumbnail successfully (JSON)', function () {
 
     expect($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'success',
             'message' => __('medialibrary-extensions::messages.youtube_video_uploaded'),
         ]);
 });
 
 it('stores temporary thumbnail successfully (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'data_source' => 'demo',
-        ]);
+    ]);
 
     // Remove json Accept header to simulate redirect request
     $request->headers->remove('Accept');
@@ -105,19 +105,19 @@ it('stores temporary thumbnail successfully (redirect)', function () {
     expect($session->has(status_session_prefix()))->toBeTrue();
 
     $sessionData = $session->get(status_session_prefix());
-    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['base_id'])->toBe($baseId);
     expect($sessionData['type'])->toBe('success');
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.youtube_video_uploaded'));
 });
 
 it('returns error when temporary thumbnail fails to download (JSON)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'data_source' => 'demo',
@@ -136,20 +136,20 @@ it('returns error when temporary thumbnail fails to download (JSON)', function (
     $response = $this->action->execute($request);
     expect($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.youtube_thumbnail_download_failed'),
         ]);
 });
 
 it('returns error when temporary thumbnail fails to download (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'data_source' => 'demo',
@@ -174,20 +174,20 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
     expect($session->has(status_session_prefix()))->toBeTrue();
 
     $sessionData = $session->get(status_session_prefix());
-    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['base_id'])->toBe($baseId);
     expect($sessionData['type'])->toBe('error');
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.youtube_thumbnail_download_failed'));
 });
 
 it('returns error when no youtube url provided for direct upload (JSON)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
@@ -204,21 +204,21 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $response = $action->execute($request);
     expect($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.upload_no_youtube_url'),
         ]);
 });
 
 it('returns error when no youtube url provided for direct upload (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
@@ -241,7 +241,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     expect($session->has(status_session_prefix()))->toBeTrue();
 
     $sessionData = $session->get(status_session_prefix());
-    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['base_id'])->toBe($baseId);
     expect($sessionData['type'])->toBe('error');
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_no_youtube_url'));
 });

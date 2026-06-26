@@ -16,14 +16,12 @@ class MediaManager extends BaseMediaComponent
     use InteractsWithOptionsAndConfig;
 
     protected ?string $domIdSuffix = 'mmm';
+
     protected string $mediaUploadRoute; // upload form action route
 
     protected string $mediaManagerPreviewUpdateRoute; // route to update preview media when using XHR
 
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
-
-    /** @var string Reference to the parent MediaManager's id */
-    public string $mediaManagerDomId;
 
     public function __construct(
         ?string $id,
@@ -40,11 +38,6 @@ class MediaManager extends BaseMediaComponent
 
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-//        dump('dataSource '.$dataSource);
-//        dump('clientToken '.$this->clientToken);
-
-        // For the root MediaManager, mediaManagerDomId is its own id
-        $this->mediaManagerDomId = $this->getDomId();// todo replace with new way below
         $this->options = $options;
 
         // Override: enforce disabling "set-as-first" when multiple is disabled
@@ -124,7 +117,7 @@ class MediaManager extends BaseMediaComponent
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
         }
-//        $this->mediaManagerDomId = $this->domId;
+        //        $this->mediaManagerDomId = $this->domId;
 
         // override hide media menu when nothing to see inside menu
         if (
@@ -148,7 +141,8 @@ class MediaManager extends BaseMediaComponent
     }
 
     // Note: must be here and not in MediaManagerSingle and MediaManagerMultiple classes. MediaManager can be called on its own.
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         if ($this->multiple) {
             return 'mmm';
         } else {

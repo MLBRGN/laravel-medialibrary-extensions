@@ -10,8 +10,7 @@ beforeEach(function () {
 it('passes validation with all required fields', function () {
     $model = $this->getTestBlogModel();
     $data = [
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'temporary_upload_mode' => 'false',
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
@@ -38,8 +37,7 @@ it('fails validation when required fields are missing', function () {
     $validator = Validator::make($data, $this->request->rules());
 
     expect($validator->fails())->toBeTrue();
-    expect($validator->errors()->has('initiator_id'))->toBeTrue();
-    expect($validator->errors()->has('media_manager_id'))->toBeTrue();
+    expect($validator->errors()->has('base_id'))->toBeTrue();
     expect($validator->errors()->has('temporary_upload_mode'))->toBeTrue();
     expect($validator->errors()->has('model_type'))->toBeTrue();
     expect($validator->errors()->has('medium_id'))->toBeTrue();
@@ -50,8 +48,7 @@ it('fails validation when required fields are missing', function () {
 
 it('fails validation if model_id is missing when temporary_upload is false', function () {
     $data = [
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'temporary_upload_mode' => 'false',
         'model_type' => 'App\Models\Post',
         'medium_id' => '123',

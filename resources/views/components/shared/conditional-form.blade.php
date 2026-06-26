@@ -7,7 +7,7 @@
         {{ $slot }}
     </div>
 @else
-    <form {{ $attributes->merge($formAttributes)->class(['mle-conditional-form']) }} enctype="multipart/form-data" method="{{ $method }}">
+    <form {{ $attributes->merge($formAttributes)->class(['mle-conditional-form']) }} enctype="multipart/form-data" method="{{ in_array(strtolower($method), ['get', 'post']) ? strtolower($method) : 'post' }}">
         @csrf
         @if(!in_array(strtolower($method), ['get', 'post']))
             @method($method)

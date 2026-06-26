@@ -5,14 +5,10 @@
 >
     <x-mle-partial-spinner 
         id="{{ $id }}" 
-        :initiator-id="$initiatorId"
-        :media-manager-dom-id="$mediaManagerDomId"
         :options="$getOptions()"
     />
     <x-mle-partial-status 
         id="{{ $id }}" 
-        :initiator-id="$initiatorId"
-        :media-manager-dom-id="$mediaManagerDomId"
         :options="$getOptions()"
     />
 </div>

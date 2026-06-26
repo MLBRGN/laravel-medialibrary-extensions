@@ -20,13 +20,24 @@ class StoreYouTubeVideoRequest extends StoreRequest
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
             'youtube_url' => ['nullable', 'url', new YouTubeUrl],
-            'initiator_id' => ['required', 'string'],
-            'media_manager_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'multiple' => ['required', Rule::in(['true', 'false'])],
             'data_source' => [
                 Rule::requiredIf(fn () => $this->input('temporary_upload_mode') === 'true'),
                 'string',
             ],
         ];
+    }
+
+    protected function withValidator(\Illuminate\Validation\Validator $validator): void
+    {
+        $validator->after(function ($validator) {
+            // Reject legacy identifier keys if present (keep check for instance_id only)
+            foreach (['instance_id'] as $legacyKey) {
+                if ($this->has($legacyKey)) {
+                    $validator->errors()->add($legacyKey, 'Legacy identifier "'.$legacyKey.'" is not allowed. Use base_id.');
+                }
+            }
+        });
     }
 }

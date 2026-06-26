@@ -24,9 +24,7 @@ class SetMediaAsFirstAction
 
         $dataSource = $request->input('data_source');
 
-
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
+        $baseId = (string) $request->input('base_id');
 
         $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
         $mediumId = (int) $request->medium_id;
@@ -41,8 +39,7 @@ class SetMediaAsFirstAction
         if ($mediaItems->isEmpty()) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_media_collections'),
             );
         }
@@ -72,8 +69,7 @@ class SetMediaAsFirstAction
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             __('medialibrary-extensions::messages.medium_set_as_main')
         );
     }

@@ -15,8 +15,7 @@ it('authorizes temporary upload mode correctly', function () {
         'model_id' => '1',
         'target_media_collection' => 'alien-multiple-images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'alien-multiple-images'],
     ];
 
@@ -32,8 +31,7 @@ it('fails authorization if model_type is invalid', function () {
         'model_id' => '1',
         'target_media_collection' => 'alien-multiple-images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'alien-multiple-images'],
     ];
 
@@ -50,8 +48,7 @@ it('fails authorization if temporary_upload_mode is false and model is missing',
         'model_id' => 'non-existent',
         'target_media_collection' => 'alien-multiple-images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'alien-multiple-images'],
     ];
 
@@ -76,8 +73,7 @@ it('fails authorization if collections are not allowed', function () {
         'model_id' => '1',
         'target_media_collection' => 'invalid-collection',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'invalid-collection'],
     ];
 
@@ -92,8 +88,7 @@ it('fails authorization if temporary_upload_mode is missing and model_id is null
         'model_id' => null, // empty
         'target_media_collection' => 'alien-multiple-images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'alien-multiple-images'],
     ];
 
@@ -110,8 +105,7 @@ it('authorizes correctly when temporary_upload_mode is explicitly true and model
         'model_id' => null,
         'target_media_collection' => 'alien-multiple-images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'alien-multiple-images'],
     ];
 
@@ -126,8 +120,7 @@ it('passes validation with required fields and at least one collection', functio
         'model_id' => '1',
         'target_media_collection' => 'alien-multiple-images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image1' => 'images'],
     ];
 
@@ -142,8 +135,7 @@ it('passes validation when model_id is null', function () {
         'model_id' => null,
         'target_media_collection' => 'images',
         'medium_id' => '123',
-        'initiator_id' => 'initiator123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'initiator123',
         'collections' => ['image1' => 'images'],
     ];
 
@@ -156,8 +148,7 @@ it('fails validation when no collections are provided', function () {
     $data = [
         'target_media_collection' => 'images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         // 'collections' is intentionally missing
     ];
 
@@ -176,6 +167,5 @@ it('fails validation when required fields are missing', function () {
     expect($validator->fails())->toBeTrue();
     expect($validator->errors()->has('target_media_collection'))->toBeTrue();
     expect($validator->errors()->has('medium_id'))->toBeTrue();
-    expect($validator->errors()->has('initiator_id'))->toBeTrue();
-    expect($validator->errors()->has('media_manager_id'))->toBeTrue();
+    expect($validator->errors()->has('base_id'))->toBeTrue();
 });

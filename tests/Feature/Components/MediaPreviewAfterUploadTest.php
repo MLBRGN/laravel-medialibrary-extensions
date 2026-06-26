@@ -31,8 +31,7 @@ beforeEach(function () {
     $this->getPermanentPreviewAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
     $this->getTemporaryPreviewAction = new GetMediaPreviewerTemporaryHTMLAction($this->mediaService);
 
-    $this->initiatorId = 'initiator-123';
-    $this->mediaManagerId = 'media-manager-123';
+    $this->baseId = 'media-manager-123';
     $this->model = $this->getTestBlogModel();
 });
 
@@ -43,8 +42,7 @@ it('loads previews successfully after a permanent single upload', function () {
     $uploadRequest = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
     ], [], [
         'media' => $file,
@@ -57,11 +55,16 @@ it('loads previews successfully after a permanent single upload', function () {
 
     // 2. Request Preview
     $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
-        'initiator_id' => $this->initiatorId,
+        'base_id' => $this->baseId,
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id,
         'collections' => json_encode(['image' => 'images']),
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
+        'temporary_upload_mode' => 'false',
+        'selectable' => 'true',
+        'multiple' => 'false',
+        'disabled' => 'false',
+        'readonly' => 'false',
     ]);
 
     $previewResponse = $this->getPermanentPreviewAction->execute($previewRequest);
@@ -78,14 +81,13 @@ it('loads previews successfully after a permanent multiple upload', function () 
         UploadedFile::fake()->image('photo1.jpg'),
         UploadedFile::fake()->image('photo2.jpg'),
     ];
-    $initiatorId = 'multiple-perm';
+    $baseId = 'multiple-perm';
 
     // 1. Upload
     $uploadRequest = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
     ], [], [
         'media' => $files,
@@ -99,11 +101,16 @@ it('loads previews successfully after a permanent multiple upload', function () 
 
     // 2. Request Preview
     $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id,
         'collections' => json_encode(['image' => 'images']),
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
+        'temporary_upload_mode' => 'false',
+        'selectable' => 'true',
+        'multiple' => 'true',
+        'disabled' => 'false',
+        'readonly' => 'false',
     ]);
 
     $previewResponse = $this->getPermanentPreviewAction->execute($previewRequest);
@@ -117,17 +124,14 @@ it('loads previews successfully after a permanent multiple upload', function () 
 
 it('loads previews successfully after a temporary single upload', function () {
     $file = UploadedFile::fake()->image('photo-temp-single.jpg');
-    $instanceId = 'single-temp-instance';
-    $initiatorId = 'single-temp';
+    $baseId = 'single-temp';
     $clientToken = 'test-session-id-single';
 
     // 1. Upload
     $uploadRequest = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
-        'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
         'data_source' => 'demo',
@@ -143,12 +147,11 @@ it('loads previews successfully after a temporary single upload', function () {
 
     // 2. Request Preview
     $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'model_type' => get_class($this->model),
         'collections' => json_encode(['image' => 'images']),
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
-        'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'data_source' => 'demo',
     ]);
@@ -167,17 +170,14 @@ it('loads previews successfully after a temporary multiple upload', function () 
         UploadedFile::fake()->image('photo-temp1.jpg'),
         UploadedFile::fake()->image('photo-temp2.jpg'),
     ];
-    $instanceId = 'multiple-temp-instance';
-    $initiatorId = 'multiple-temp';
+    $baseId = 'multiple-temp';
     $clientToken = 'test-session-id';
 
     // 1. Upload
     $uploadRequest = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
-        'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
         'data_source' => 'demo',
@@ -194,12 +194,11 @@ it('loads previews successfully after a temporary multiple upload', function () 
 
     // 2. Request Preview
     $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'model_type' => get_class($this->model),
         'collections' => json_encode(['image' => 'images']),
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
-        'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'data_source' => 'demo',
     ]);
@@ -216,7 +215,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
 
 it('loads previews successfully after a permanent YouTube upload', function () {
     $youtubeUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-    $initiatorId = 'youtube-perm';
+    $baseId = 'youtube-perm';
 
     // Mock YouTubeService
     $youtubeService = Mockery::mock(YouTubeService::class);
@@ -230,8 +229,7 @@ it('loads previews successfully after a permanent YouTube upload', function () {
     $uploadRequest = StoreYouTubeVideoRequest::create('/upload-youtube', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $baseId,
         'youtube_url' => $youtubeUrl,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'youtube',
@@ -245,7 +243,7 @@ it('loads previews successfully after a permanent YouTube upload', function () {
 
     // 2. Request Preview
     $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id,
         'collections' => json_encode(['image' => 'images', 'youtube' => 'youtube']),
@@ -263,8 +261,7 @@ it('loads previews successfully after a permanent YouTube upload', function () {
 
 it('loads previews successfully after a temporary YouTube upload', function () {
     $youtubeUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-    $instanceId = 'youtube-temp-instance';
-    $initiatorId = 'youtube-temp';
+    $baseId = 'youtube-temp';
     $clientToken = 'youtube-test-session';
 
     // Mock YouTubeService
@@ -278,7 +275,6 @@ it('loads previews successfully after a temporary YouTube upload', function () {
         'file_name' => 'thumb.jpg',
         'collection_name' => 'youtube',
         'client_token' => $clientToken,
-        'instance_id' => $instanceId,
         'size' => 1024,
         'mime_type' => 'image/jpeg',
     ]));
@@ -287,12 +283,10 @@ it('loads previews successfully after a temporary YouTube upload', function () {
     // 1. Upload
     $uploadRequest = StoreYouTubeVideoRequest::create('/upload-youtube', 'POST', [
         'model_type' => get_class($this->model),
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $baseId,
         'youtube_url' => $youtubeUrl,
         'collections' => ['youtube' => 'youtube'],
         'youtube_collection' => 'youtube',
-        'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
         'data_source' => 'demo',
@@ -306,12 +300,11 @@ it('loads previews successfully after a temporary YouTube upload', function () {
 
     // 2. Request Preview
     $previewRequest = GetMediaManagerPreviewerHTMLRequest::create('/preview', 'GET', [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'model_type' => get_class($this->model),
         'collections' => json_encode(['youtube' => 'youtube']),
         'options' => json_encode(['frontendTheme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
-        'instance_id' => $instanceId,
         'client_token' => $clientToken,
         'data_source' => 'demo',
     ]);

@@ -7,6 +7,7 @@
         'mle-fade',
     ])->merge() }}
     id="{{ $getDomId() }}"
+    data-base-id="{{ $id }}"
     tabindex="-1"
     role="dialog"
     @if($title)
@@ -31,8 +32,6 @@
             @endif
             <x-mle-partial-status-area
                 id="{{ $id }}"
-                :initiator-id="$id"
-                :media-manager-dom-id="$id"
                 :options="$getOptions()"
             />
             <div class="mle-modal-body">
@@ -63,8 +62,6 @@
                     :single-media="$singleMedia"
                     :collections="$collections"
                     :options="$getOptions()"
-                    :initiator-id="$id"
-                    :media-manager-dom-id="$mediaManagerDomId"
                     :disabled="$disabled"
                 />
             </div>

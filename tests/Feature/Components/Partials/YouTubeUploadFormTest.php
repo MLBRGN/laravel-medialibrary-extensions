@@ -11,7 +11,6 @@ it('initializes with a HasMedia model', function () {
 
     $component = new YouTubeUploadForm(
         id: 'component-yt',
-        mediaManagerDomId: 'component-yt',
         modelOrClassName: $model,
         singleMedia: null,
         collections: [
@@ -43,7 +42,6 @@ it('initializes with a model class string', function () {
     $model = $this->getTestBlogModel();
     $component = new YouTubeUploadForm(
         id: 'component-yt',
-        mediaManagerDomId: 'component-yt',
         modelOrClassName: $model->getMorphClass(),
         singleMedia: null,
         collections: [
@@ -72,7 +70,6 @@ it('initializes with a model class string', function () {
 it('throws if modelOrClassName is non existing class name', function () {
     new YouTubeUploadForm(
         id: 'comp',
-        mediaManagerDomId: 'comp',
         modelOrClassName: 'someDummyClassName',
         singleMedia: null,
         collections: [
@@ -97,7 +94,6 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
 
     new YouTubeUploadForm(
         id: 'comp',
-        mediaManagerDomId: 'comp',
         modelOrClassName: $model,
         singleMedia: null,
         collections: [
@@ -129,7 +125,6 @@ it('renders the correct partial view', function () {
 
     $component = new YouTubeUploadForm(
         id: 'yt-comp',
-        mediaManagerDomId: 'yt-comp',
         modelOrClassName: $model->getMorphClass(),
         singleMedia: null,
         collections: [

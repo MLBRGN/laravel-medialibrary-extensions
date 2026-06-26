@@ -30,8 +30,8 @@ class StoreYouTubeVideoPermanentAction
         $modelId = $request->model_id;
         $dataSource = $request->input('data_source');
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
+        // Strict: only accept base_id from the request
+        $baseId = (string) $request->input('base_id');
 
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
@@ -41,8 +41,7 @@ class StoreYouTubeVideoPermanentAction
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_media_collections')
             );
         }
@@ -67,8 +66,7 @@ class StoreYouTubeVideoPermanentAction
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 $message
             );
         }
@@ -84,8 +82,7 @@ class StoreYouTubeVideoPermanentAction
             if (! $thumbnail) {
                 return MediaResponse::error(
                     $request,
-                    $initiatorId,
-                    $mediaManagerDomId,
+                    $baseId,
                     __('medialibrary-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
@@ -95,15 +92,13 @@ class StoreYouTubeVideoPermanentAction
 
             return MediaResponse::success(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.youtube_video_uploaded'));
         }
 
         return MediaResponse::error(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             __('medialibrary-extensions::messages.upload_no_youtube_url'));
     }
 }

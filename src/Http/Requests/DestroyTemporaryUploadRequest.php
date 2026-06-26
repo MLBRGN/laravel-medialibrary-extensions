@@ -19,8 +19,7 @@ class DestroyTemporaryUploadRequest extends MediaManagerRequest
     public function rules(): array
     {
         return [
-            'initiator_id' => ['required', 'string'],
-            'media_manager_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'single_media_id' => ['nullable'],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],

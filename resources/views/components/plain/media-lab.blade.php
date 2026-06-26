@@ -10,8 +10,6 @@
 
     <x-mle-partial-status-area
         id="{{ $id }}"
-        :initiator-id="$id"
-        :media-manager-dom-id="$id"
     />
     <div class="mle-media-manager-lab-previews" data-mle-media-manager-lab-previews>
         <x-mle-lab-previews

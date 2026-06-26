@@ -25,7 +25,7 @@ class InstanceManager
 
     public static function getInstanceId(string $id): string
     {
-//        Log::debug('Generating instance ID for ID: '.$id);
+        //        Log::debug('Generating instance ID for ID: '.$id);
         // Use a deterministic ULID-like string based on the id to maintain
         // stability across page refreshes without relying on sessions.
         // We use SHA-1 to hash the id and then format it as a valid-looking ULID.
@@ -46,6 +46,8 @@ class InstanceManager
 
     public static function getRootDomId(string $instanceId): ?string
     {
-        return self::$scopes[$instanceId]['mediaManagerDomId'] ?? null;
+        // Only support the unified Base ID going forward. Legacy keys like
+        // 'mediaManagerDomId' have been removed as part of the Base ID refactor.
+        return self::$scopes[$instanceId]['base_id'] ?? null;
     }
 }

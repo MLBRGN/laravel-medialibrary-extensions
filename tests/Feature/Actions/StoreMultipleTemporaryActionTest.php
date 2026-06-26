@@ -9,8 +9,8 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('stores multiple valid files (json)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
     $model = $this->getTestBlogModel();
@@ -19,8 +19,8 @@ it('stores multiple valid files (json)', function () {
         'temporary_upload_mode' => 'true',
         'model_type' => get_class($model),
         'model_id' => 1,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'default',
     ], [], [
@@ -36,15 +36,15 @@ it('stores multiple valid files (json)', function () {
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'success',
             'message' => __('medialibrary-extensions::messages.upload_success'),
         ]);
 });
 
 it('stores multiple valid files (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getTestBlogModel();
 
@@ -52,8 +52,8 @@ it('stores multiple valid files (redirect)', function () {
         'temporary_upload_mode' => 'true',
         'model_type' => get_class($model),
         'model_id' => 1,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'default',
     ], [], [
@@ -73,20 +73,20 @@ it('stores multiple valid files (redirect)', function () {
     $sessionData = $session->get(status_session_prefix());
 
     expect($sessionData['type'])->toBe('success');
-    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['base_id'])->toBe($baseId);
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_success'));
 });
 
 it('returns error if no files are given (JSON)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'default',
     ]);
@@ -100,22 +100,22 @@ it('returns error if no files are given (JSON)', function () {
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.upload_no_files'),
         ]);
 });
 
 it('returns error if no files are given (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
     $request = StoreMultipleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => 1,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'default',
     ]);
@@ -135,13 +135,13 @@ it('returns error if no files are given (redirect)', function () {
     $sessionData = $session->get(status_session_prefix());
 
     expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['base_id'])->toBe($baseId);
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_no_files'));
 });
 
 it('returns error if file has invalid mimetype (JSON)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
 
@@ -149,8 +149,8 @@ it('returns error if file has invalid mimetype (JSON)', function () {
         'temporary_upload_mode' => 'true',
         'model_type' => get_class($model),
         'model_id' => 1,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'default',
     ], [], [
@@ -171,8 +171,8 @@ it('returns error if file has invalid mimetype (JSON)', function () {
 });
 
 it('returns error if file has invalid mimetype (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
 
@@ -180,8 +180,8 @@ it('returns error if file has invalid mimetype (redirect)', function () {
         'temporary_upload_mode' => 'true',
         'model_type' => get_class($model),
         'model_id' => 1,
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'default',
     ], [], [
@@ -202,13 +202,13 @@ it('returns error if file has invalid mimetype (redirect)', function () {
     $sessionData = $session->get(status_session_prefix());
 
     expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiator_id'])->toBe($initiatorId);
+    expect($sessionData['base_id'])->toBe($baseId);
     expect($sessionData['message'])->toContain(__('medialibrary-extensions::messages.invalid_or_missing_collection', ['file' => 'file.exe']));
 });
 
 it('returns error if max media count is exceeded (JSON)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
@@ -230,8 +230,8 @@ it('returns error if max media count is exceeded (JSON)', function () {
         [
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->id,
-            'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'base_id' => $baseId,
+            'base_id' => $baseId,
             'collections' => ['image' => 'images'],
             'temporary_upload_mode' => 'true',
             'media' => [$file1, $file2, $file3, $file4],
@@ -248,8 +248,8 @@ it('returns error if max media count is exceeded (JSON)', function () {
 });
 
 it('returns error if max media count is exceeded (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
@@ -271,8 +271,8 @@ it('returns error if max media count is exceeded (redirect)', function () {
         [
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->id,
-            'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'base_id' => $baseId,
+            'base_id' => $baseId,
             'collections' => ['image' => 'images'],
             'temporary_upload_mode' => 'true',
             'media' => [$file1, $file2, $file3, $file4],
@@ -288,8 +288,8 @@ it('returns error if max media count is exceeded (redirect)', function () {
 });
 
 it('returns error if file exceeds max upload size (JSON)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
@@ -307,8 +307,8 @@ it('returns error if file exceeds max upload size (JSON)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->id,
-                'initiator_id' => $initiatorId,
-                'media_manager_id' => $mediaManagerId,
+                'base_id' => $baseId,
+                'base_id' => $baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',
                 'media' => [$tooLargeFile],
@@ -324,8 +324,8 @@ it('returns error if file exceeds max upload size (JSON)', function () {
 });
 
 it('returns error if file exceeds max upload size (redirect)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
@@ -343,8 +343,8 @@ it('returns error if file exceeds max upload size (redirect)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->id,
-                'initiator_id' => $initiatorId,
-                'media_manager_id' => $mediaManagerId,
+                'base_id' => $baseId,
+                'base_id' => $baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',
                 'media' => [$tooLargeFile],
@@ -354,12 +354,12 @@ it('returns error if file exceeds max upload size (redirect)', function () {
 
     $response->assertStatus(302);
 
-//    dd(session('errors')->toArray());
+    //    dd(session('errors')->toArray());
     $response->assertSessionHasErrors([
         'media.0',
     ]);
-//    dd($response->getContent());
-//    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
-//        return str_contains($message, 'must not be greater than 100 kilobytes');
-//    });
+    //    dd($response->getContent());
+    //    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
+    //        return str_contains($message, 'must not be greater than 100 kilobytes');
+    //    });
 });

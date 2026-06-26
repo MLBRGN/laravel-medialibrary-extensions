@@ -28,8 +28,8 @@ class GetMediaManagerLabPreviewerHTMLAction
      */
     public function execute(GetMediaManagerLabPreviewerHTMLRequest $request): JsonResponse|Response
     {
-//        Log::info('GetMediaManagerLabPreviewerHTMLAction invoked');
-        $initiatorId = $request->input('initiator_id');
+        // Read the single authoritative Base ID
+        $baseId = (string) $request->input('base_id');
         $mediumId = $request->get('medium_id');
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
@@ -51,21 +51,21 @@ class GetMediaManagerLabPreviewerHTMLAction
 
             case 'original':
                 $component = new LabPreviewOriginal(
-                    id: $initiatorId,
+                    id: $baseId,
                     media: $medium,
                     options: $options
                 );
                 break;
             case 'base':
                 $component = new LabPreviewBase(
-                    id: $initiatorId,
+                    id: $baseId,
                     media: $medium,
                     options: $options
                 );
                 break;
             default:
                 $component = new LabPreviews(
-                    id: $initiatorId,
+                    id: $baseId,
                     media: $medium,
                     options: $options
                 );
@@ -89,7 +89,7 @@ class GetMediaManagerLabPreviewerHTMLAction
             'html' => $html,
             'debugHtml' => $debugHtml,
             'success' => true,
-            'target' => $initiatorId,
+            'target' => $baseId,
             'medium_id' => $medium->id,
             'part' => $part,
         ]);

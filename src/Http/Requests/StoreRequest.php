@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 abstract class StoreRequest extends MediaManagerRequest
 {
@@ -84,10 +85,13 @@ abstract class StoreRequest extends MediaManagerRequest
             );
         }
 
+        $baseId = (string) $this->input('base_id');
+        $derivedInstanceId = InstanceManager::getInstanceId($baseId);
+
         return new MaxTemporaryUploadCount(
             $collections,
             $maxItems,
-            $this->input('instance_id'),
+            $derivedInstanceId,
             $dataSource
         );
     }

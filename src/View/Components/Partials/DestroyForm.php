@@ -15,17 +15,10 @@ class DestroyForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    /** Identity of the parent MediaManager (logical ID, not suffixed) */
-    public string $mediaManagerId;
-
-    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
-    public string $mediaManagerDomId;
-
     public string $mediaDestroyRoute;
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedia = null,
@@ -34,15 +27,18 @@ class DestroyForm extends BaseMediaComponent
         public ?bool $disabled = false,
         public string $instanceId = '',
         public ?string $dataSource = 'default',
-        ?string $mediaManagerId = null,
+        ?string $clientToken = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
+        // Ensure instanceId is derived from the Base ID
+        if (empty($this->instanceId)) {
+            $this->instanceId = InstanceManager::getInstanceId($this->id);
+        }
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's stable identity)
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
 
         $this->options = $options;
 
@@ -69,7 +65,8 @@ class DestroyForm extends BaseMediaComponent
         $this->setConfig('routes.mediaDestroy', $this->mediaDestroyRoute);
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'destroy-form-'.$this->medium->id;
     }
 

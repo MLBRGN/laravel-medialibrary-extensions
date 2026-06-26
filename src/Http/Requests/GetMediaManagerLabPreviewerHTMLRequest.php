@@ -20,7 +20,7 @@ class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'medium_id' => ['required', 'string'], // practically is "single medium id" (always one medium)
-            'initiator_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'part' => ['nullable', Rule::in(['original', 'base', 'all'])],
             'options' => ['required', 'string'], // json
             'data_source' => ['nullable', 'string'],

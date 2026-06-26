@@ -16,8 +16,6 @@ class MediaRestoreForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public ?string $mediaManagerDomId = '';
-
     public string $mediumRestoreRoute;
 
     public function __construct(
@@ -29,11 +27,9 @@ class MediaRestoreForm extends BaseMediaComponent
         array $options = [],
         public ?bool $disabled = false,
     ) {
-        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
+        parent::__construct($id, $this->modelOrClassName, 'default'); // TODO use default?
 
         $this->options = $options;
-
-        $this->mediaManagerDomId = $this->id;
 
         if ($this->temporaryUploadMode) {
             throw new InvalidArgumentException(__('medialibrary-extensions::messages.temporary_upload_original_cannot_be_restored'));
@@ -51,7 +47,8 @@ class MediaRestoreForm extends BaseMediaComponent
         $this->setConfig('routes.mediumRestore', $this->mediumRestoreRoute);
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'media-restore-form-'.$this->media->id;
     }
 

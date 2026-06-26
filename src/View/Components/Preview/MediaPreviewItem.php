@@ -13,19 +13,12 @@ class MediaPreviewItem extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    /** Identity of the parent MediaManager (logical ID, not suffixed) */
-    public string $mediaManagerId;
-
-    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
-    public string $mediaManagerDomId;
-
     public ?string $componentToRender;
 
     public ?string $mediumType;
 
     public function __construct(
         ?string $id,
-        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public $medium,
         public array $collections = [],
@@ -38,15 +31,15 @@ class MediaPreviewItem extends BaseComponent
         public bool $selectable = false,
         public string $instanceId = '',
         public ?string $dataSource = 'default',
-        ?string $mediaManagerId = null,
+        ?string $clientToken = null,
     ) {
         parent::__construct($id);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
+        $this->instanceId = InstanceManager::getInstanceId($this->id);
 
-        // Ensure instanceId is derived from the mediaManagerId (the parent manager's stable identity)
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
 
         $this->options = $options;
 
@@ -64,7 +57,8 @@ class MediaPreviewItem extends BaseComponent
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'media-preview-item-'.$this->loopIndex;
     }
 

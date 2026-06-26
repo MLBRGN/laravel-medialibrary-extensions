@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class SetTemporaryUploadAsFirstAction
 {
@@ -25,26 +26,45 @@ class SetTemporaryUploadAsFirstAction
 
         $mediumId = (int) $request->medium_id;
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
+        $baseId = (string) $request->input('base_id');
 
         $collections = $request->array('collections');
-        $instanceId = $request->input('instance_id');
+        // Derive instanceId strictly from base_id (do not trust client-sent instance_id)
+        $instanceId = InstanceManager::getInstanceId($baseId);
 
-        // Flatten collections array if it's keyed by type
+        // Build effective collection names: include provided collections and the explicit target collection
         $collectionNames = is_array($collections) ? array_values($collections) : [];
-        $collectionNames = array_filter($collectionNames);
+        $targetCollection = (string) $request->input('target_media_collection', '');
+        if ($targetCollection !== '') {
+            $collectionNames[] = $targetCollection;
+        }
+        // Normalize and deduplicate
+        $collectionNames = array_values(array_unique(array_filter(array_map(function ($name) {
+            // Normalize known pluralization edge-case for audio collections ("*-audios" -> "*-audio")
+            if (is_string($name) && str_ends_with($name, '-audios')) {
+                return substr($name, 0, -1); // drop trailing 's'
+            }
+            return $name;
+        }, $collectionNames))));
 
         if (empty($collectionNames)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_media_collections'),
             );
         }
 
         $clientToken = $request->input('client_token') ?: $request->cookie('mle_client_token');
+
+        Log::info('SetTemporaryUploadAsFirstAction.request', [
+            'base_id' => $baseId,
+            'derived_instance_id' => $instanceId,
+            'medium_id' => $mediumId,
+            'has_client_token' => (bool) $clientToken,
+            'data_source' => $dataSource,
+            'collections' => $collectionNames,
+        ]);
 
         $mediaItems = TemporaryUpload::query()
             ->forDataSource($dataSource)
@@ -53,10 +73,16 @@ class SetTemporaryUploadAsFirstAction
             ->get();
 
         if ($mediaItems->isEmpty()) {
+            Log::warning('SetTemporaryUploadAsFirstAction.no_items_for_scope', [
+                'base_id' => $baseId,
+                'derived_instance_id' => $instanceId,
+                'has_client_token' => (bool) $clientToken,
+                'data_source' => $dataSource,
+                'collections' => $collectionNames,
+            ]);
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.no_media_collections'),
             );
         }
@@ -64,10 +90,13 @@ class SetTemporaryUploadAsFirstAction
         $targetMedia = $this->mediaService->findTemporaryUpload($mediumId, $dataSource);
 
         if (! $targetMedia) {
+            Log::warning('SetTemporaryUploadAsFirstAction.target_not_found', [
+                'medium_id' => $mediumId,
+                'data_source' => $dataSource,
+            ]);
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.medium_not_found'),
             );
         }
@@ -103,8 +132,7 @@ class SetTemporaryUploadAsFirstAction
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             __('medialibrary-extensions::messages.medium_set_as_main')
         );
     }

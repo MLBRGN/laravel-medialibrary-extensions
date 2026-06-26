@@ -17,28 +17,14 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 document.addEventListener('onCloseImageEditor', (e) => {
     const imageEditor = e.detail.imageEditorInstance;
     const modal = imageEditor.closest('[data-mle-image-editor-modal]');
-    const initiatorIdOnClose = imageEditor.getAttribute('data-mle-initiator-id');
-    let initiator = document.querySelector('#' + initiatorIdOnClose);
-
-    if (!initiator) {
-        // Fallback to media manager ID if present in the modal config
-        const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
-        if (configInput) {
-            try {
-                const config = JSON.parse(configInput.value);
-                if (config.mediaManagerDomId) {
-                    initiator = document.querySelector('#' + config.mediaManagerDomId);
-                }
-            } catch (e) {}
-        }
-    }
-
-    if (!initiator) {
-        console.warn('Initiator element not found on close:', initiatorIdOnClose);
+    // Always anchor events to the nearest media manager container
+    const mediaManager = modal?.closest('[data-mle-media-manager]');
+    if (!mediaManager) {
+        console.warn('Media Manager element not found on close');
         return;
     }
 
-    initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+    mediaManager.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
         bubbles: true,
         composed: true,
         detail: {'modal': modal}
@@ -77,14 +63,9 @@ const updateMedia = (detail) => {
         return
     }
 
-    const initiatorIdFromConfig = config.initiatorId;
-    let initiator = document.querySelector('#' + initiatorIdFromConfig);
-
-    // TODO temp fix
-    const mediaManager = initiator = modal.closest('[data-mle-media-manager]');
-    // const mediaManagerDomIdFromConfig = config.mediaManagerDomId;
-    // console.log('mediaManagerDomIdFromConfig', mediaManagerDomIdFromConfig);
-    // let mediaManager = document.querySelector('#' + mediaManagerDomIdFromConfig);
+    // Resolve the media manager context directly from the modal
+    const mediaManager = modal.closest('[data-mle-media-manager]');
+    const initiator = mediaManager; // for backward event dispatch naming
 
     let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
 
@@ -121,13 +102,11 @@ const updateMedia = (detail) => {
     const mediumId = config.mediumId ?? null;
     const modelType = config.modelType;
     const modelId = config.modelId ?? '';
-    const initiatorId = config.initiatorId;
-    const instanceId = config.instanceId;
+    // instanceId is derived server-side from base_id; do not send from client
     const dataSource = config.dataSource;
+    const baseId = modal.getAttribute('data-base-id') || config.id;
 
-    formData.append('initiator_id', initiatorId);
-    formData.append('instance_id', instanceId);
-    formData.append('media_manager_id', config.mediaManagerDomId ?? '');
+    formData.append('base_id', baseId);
     formData.append('model_type', modelType);
     formData.append('model_id', modelId );
     formData.append('single_media_id', config.singleMedia?.id ?? null);// TODO keep both?
@@ -219,7 +198,7 @@ const updateMedia = (detail) => {
                 mediumId: newMediumId,
                 modelType: modelType,
                 modelId: modelId,
-                initiatorId: initiatorId,
+                baseId: baseId,
             }
         }));
     }).

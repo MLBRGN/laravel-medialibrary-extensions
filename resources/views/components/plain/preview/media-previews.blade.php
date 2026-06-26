@@ -1,6 +1,7 @@
 @forelse($media as $medium)
     <div
         id="{{ $getDomId() . '-' . $loop->index }}"
+        data-base-id="{{ $id }}"
         {{ $attributes->class([
             'mle-component',
             'mle-theme-' . $getConfig('frontendTheme'),
@@ -9,8 +10,7 @@
         data-mle-media-preview-container
     >
         <x-mle-media-preview-item
-            :id="$id . '-' . $loop->index"
-            :media-manager-dom-id="$mediaManagerDomId"
+            :id="$id"
             :medium="$medium"
             :options="$getOptions()"
             :collections="$collections"
@@ -23,13 +23,13 @@
             :multiple="$multiple"
             :instance-id="$instanceId"
             :data-source="$getConfig('dataSource')"
+            :client-token="$clientToken"
         />
         <x-mle-media-modal
-            :id="$id . '-' . $loop->index"
+            :id="$id"
             :model-or-class-name="$modelOrClassName"
             :single-media="$singleMedia"
             :collections="$collections"
-            :single-media="$singleMedia"
             :video-auto-play="true"
             :options="$getOptions()"
             title="Media carousel"
@@ -39,8 +39,7 @@
         />
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
-                :id="$id . '-' . $loop->index"
-                :media-manager-dom-id="$mediaManagerDomId"
+                :id="$id"
                 :medium="$medium"
                 :model-or-class-name="$modelOrClassName"
                 :collections="$collections"
@@ -50,6 +49,7 @@
                 :selectable="$selectable"
                 :instance-id="$instanceId"
                 :data-source="$getConfig('dataSource')"
+                :client-token="$clientToken"
             />
         @endif
     </div>

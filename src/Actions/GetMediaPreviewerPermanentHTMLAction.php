@@ -14,6 +14,7 @@ use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class GetMediaPreviewerPermanentHTMLAction
 {
@@ -26,10 +27,12 @@ class GetMediaPreviewerPermanentHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-//        Log::info('GetMediaPreviewerPermanentHTMLAction invoked');
+        //        Log::info('GetMediaPreviewerPermanentHTMLAction invoked');
         $dataSource = $request->input('data_source');
-        $initiatorId = $request->input('initiator_id');
-        $instanceId = $request->input('instance_id') ?? '';
+        // Strict: only Base ID is accepted
+        $baseId = (string) $request->input('base_id');
+        // Derive instance ID server-side
+        $instanceId = InstanceManager::getInstanceId($baseId);
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $singleMediaId = $request->input('single_media_id');
@@ -41,9 +44,9 @@ class GetMediaPreviewerPermanentHTMLAction
         $theme = $request->input('theme');
         // no clientToken
 
-//        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$dataSource);
-//        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$instanceId);
-//        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$clientToken);
+        //        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$dataSource);
+        //        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$instanceId);
+        //        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$clientToken);
 
         $options = json_decode($request->input('options'), true) ?? [];
 
@@ -77,10 +80,9 @@ class GetMediaPreviewerPermanentHTMLAction
             $totalMediaCount = $this->mediaService->countModelMediaInCollections($model, $collections, $dataSource);
         }
 
-//        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
+        //        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
         $component = new MediaPreviews(
-            id: $initiatorId,
-            mediaManagerDomId: $initiatorId,
+            id: $baseId,
             modelOrClassName: $model,
             collections: $collections,
             options: $options,
@@ -113,7 +115,7 @@ class GetMediaPreviewerPermanentHTMLAction
             'success' => true,
             'instanceId' => $instanceId,
             'dataSource' => $dataSource,
-            'target' => $initiatorId, // TODO contains old id, but this is probably what i want
+            'target' => $baseId,
         ]);
     }
 }

@@ -30,8 +30,7 @@ class DestroyMediaAction
             $dataSource
         );
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
+        $baseId = (string) $request->input('base_id');
 
         // Delete the medium
         $model = $media->model;
@@ -42,8 +41,7 @@ class DestroyMediaAction
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             __('medialibrary-extensions::messages.medium_removed')
         );
     }
@@ -71,13 +69,13 @@ class DestroyMediaAction
 
         $priority = 0;
         foreach ($mediaItems as $media) {
-//            Log::info(sprintf(
-//                'Media #%d (%s): old priority=%s → new priority=%d',
-//                $media->id,
-//                $media->file_name,
-//                $media->getCustomProperty('priority'),
-//                $priority
-//            ));
+            //            Log::info(sprintf(
+            //                'Media #%d (%s): old priority=%s → new priority=%d',
+            //                $media->id,
+            //                $media->file_name,
+            //                $media->getCustomProperty('priority'),
+            //                $priority
+            //            ));
 
             $media->setCustomProperty('priority', $priority);
 

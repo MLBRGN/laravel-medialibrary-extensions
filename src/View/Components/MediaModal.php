@@ -31,17 +31,17 @@ class MediaModal extends BaseMediaComponent
             $this->instanceId = $instanceId;
         }
 
-//        if ($clientToken) {
-//            $this->clientToken = $clientToken;
-//        }
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
         $this->options = $options;
-
 
         // merge into config
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'mod';
     }
 

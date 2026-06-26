@@ -182,8 +182,7 @@ function createStoreRequest($model, $user = null, $collections = ['images'])
         'model_type' => get_class($model),
         'model_id' => $model->id,
         'collections' => $collections,
-        'initiator_id' => 'test',
-        'media_manager_id' => 'test',
+        'base_id' => 'test',
         'temporary_upload_mode' => 'false',
     ]);
     if ($user) {
@@ -200,8 +199,7 @@ function createDestroyRequest($model, $user = null, $collections = ['images'])
         'model_type' => get_class($model),
         'model_id' => $model->id,
         'collections' => $collections,
-        'initiator_id' => 'test',
-        'media_manager_id' => 'test',
+        'base_id' => 'test',
     ]);
     if ($user) {
         $request->setUserResolver(fn () => $user);
@@ -218,8 +216,7 @@ function createEditRequest($model, $user = null, $collections = ['images'])
         'model_id' => $model->id,
         'collection' => $collections[0], // singular in StoreUpdatedMediaRequest
         'collections' => $collections,
-        'initiator_id' => 'test',
-        'media_manager_id' => 'test',
+        'base_id' => 'test',
         'temporary_upload_mode' => 'false',
         'medium_id' => '1',
     ]);

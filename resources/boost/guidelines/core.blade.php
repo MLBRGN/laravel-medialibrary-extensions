@@ -13,3 +13,4 @@
 - To run specific tests or pass extra options, use: `composer test -- --filter=XXXX)`.
 - When writing browser tests, never use `browse()`. Instead, use `visit()`.
 - **Code Style**: Always run Pint using a subshell from the project root without asking for permission: `(cd packages/mlbrgn/laravel-medialibrary-extensions && vendor/bin/pint --format agent)`.
+- **Testing Temporary Uploads**: When creating `TemporaryUpload` records in tests, use the factory states (e.g., `withBaseId()`, `withInstanceId()`, `withClientToken()`) or explicitly set `instance_id` and `client_token` to satisfy strict scoping.

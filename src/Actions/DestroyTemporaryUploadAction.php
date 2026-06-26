@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class DestroyTemporaryUploadAction
 {
@@ -32,16 +33,14 @@ class DestroyTemporaryUploadAction
         // Delete the medium
         $temporaryUpload->delete();
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id; // non-xhr needs media-manager-dom-id, xhr relies on initiatorId
+        $baseId = (string) $request->input('base_id');
 
         // Reorder remaining uploads
         $this->reorderAllMedia($request, $dataSource);
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             __('medialibrary-extensions::messages.medium_removed')
         );
     }
@@ -62,26 +61,26 @@ class DestroyTemporaryUploadAction
         // Stateless client identity logic
         $clientToken = $request->input('client_token')
             ?? $request->cookie('mle_client_token');
-        $instanceId = $request->input('instance_id');
+
+        // Derive instanceId strictly from base_id (do not trust client-sent instance_id)
+        $baseId = (string) $request->input('base_id');
+        $instanceId = InstanceManager::getInstanceId($baseId);
 
         $temporaryUploads = TemporaryUpload::query()
             ->forDataSource($dataSource)
-            ->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
-            ->where('client_token', $clientToken)
+            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
             ->whereIn('collection_name', $collections)
             ->get()
             ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
         $priority = 0;
+        $connectionName = app(DataSourceResolver::class)->resolveConnection($dataSource);
         foreach ($temporaryUploads as $temporaryUpload) {
-            $temporaryUpload->setCustomProperty('priority', $priority++);
-
-            if ($dataSource) {
-                $connectionName = app(DataSourceResolver::class)->resolveConnection($dataSource);
-                $temporaryUpload->setConnection($connectionName);
-            }
-
+            $temporaryUpload->setCustomProperty('priority', $priority);
+            $temporaryUpload->order_column = $priority;
+            $temporaryUpload->setConnection($connectionName);
             $temporaryUpload->save();
+            $priority++;
         }
     }
 }

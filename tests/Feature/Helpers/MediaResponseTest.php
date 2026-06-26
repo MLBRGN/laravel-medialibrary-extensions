@@ -13,7 +13,6 @@ it('returns a json success response when request expects json', function () {
     $response = MediaResponse::success(
         $request,
         'initiator-123',
-        'manager-456',
         'Success message',
         ['extra' => 'data']
     );
@@ -21,7 +20,7 @@ it('returns a json success response when request expects json', function () {
     expect($response)->toBeInstanceOf(JsonResponse::class);
     expect($response->getStatusCode())->toBe(200);
     expect($response->getData(true))->toMatchArray([
-        'initiatorId' => 'initiator-123',
+        'baseId' => 'initiator-123',
         'type' => 'success',
         'message' => 'Success message',
         'extra' => 'data',
@@ -35,7 +34,6 @@ it('returns a json error response with 422 status', function () {
     $response = MediaResponse::error(
         $request,
         'initiator-123',
-        'manager-456',
         'Error message'
     );
 
@@ -56,17 +54,15 @@ it('returns a redirect success response when not expecting json', function () {
     $response = MediaResponse::success(
         $request,
         'initiator-123',
-        'manager-456',
         'Success message'
     );
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
-    expect($response->getTargetUrl())->toContain('/previous#manager-456');
+    expect($response->getTargetUrl())->toContain('/previous#initiator-123');
 
     $sessionData = session()->get(status_session_prefix());
     expect($sessionData)->toMatchArray([
-        'initiator_id' => 'initiator-123',
-        'media_manager_id' => 'manager-456',
+        'base_id' => 'initiator-123',
         'type' => 'success',
         'message' => 'Success message',
     ]);
@@ -80,7 +76,6 @@ it('handles errors in redirect response and flashes to error bag', function () {
     $response = MediaResponse::error(
         $request,
         'initiator-123',
-        'manager-456',
         'Error message',
         ['errors' => $errors]
     );

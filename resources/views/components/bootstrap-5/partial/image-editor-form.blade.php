@@ -29,11 +29,8 @@
            name="model_id"
            value="{{ $modelId }}">
     <input type="hidden"
-           name="initiator_id"
+           name="base_id"
            value="{{ $id }}">
-    <input type="hidden"
-           name="media_manager_id"
-           value="{{ $mediaManagerId }}">
     <input type="hidden"
            name="temporary_upload_mode"
            value="{{ $temporaryUploadMode ? 'true' : 'false' }}">

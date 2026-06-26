@@ -14,12 +14,6 @@ class ImageEditorForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    /** Identity of the parent MediaManager (logical ID, not suffixed) */
-    public string $mediaManagerId;
-
-    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
-    public string $mediaManagerDomId;
-
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -27,19 +21,11 @@ class ImageEditorForm extends BaseMediaComponent
         public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
         array $options,
-        public string $initiatorId,
-        ?string $mediaManagerDomId = '',
         public ?bool $disabled = false,
-        ?string $mediaManagerId = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
-
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
+        parent::__construct($id, $this->modelOrClassName, 'default'); // TODO use default?
 
         $this->options = $options;
-
-
 
         $storeUpdatedMediaRoute = $this->getOption('temporaryUploadMode') ?
             route(mle_prefix_route('save-updated-temporary-upload'), $medium) :
@@ -51,7 +37,6 @@ class ImageEditorForm extends BaseMediaComponent
             'storeUpdatedMediaRoute' => $storeUpdatedMediaRoute,
         ]);
     }
-
 
     public function render(): View
     {

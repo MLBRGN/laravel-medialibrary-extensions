@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $getConfig('routes.mediumRestore') . '#' . $mediaManagerDomId,
+        'action' => $getConfig('routes.mediumRestore') . '#' . $id,
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -22,7 +22,7 @@
            name="model_id"
            value="{{ $modelId }}">
     <input type="hidden"
-           name="initiator_id"
+           name="base_id"
            value="{{ $id }}">
 {{--    <input type="hidden"--}}
 {{--           name="collection"--}}

@@ -12,8 +12,8 @@ use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 beforeEach(function () {
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));
 
-    $this->initiatorId = 'initiator-456';
-    $this->mediaManagerId = 'media-manager-123';
+    $this->baseId = 'initiator-456';
+    $this->baseId = 'media-manager-123';
 
     $this->model = $this->getTestBlogModel();
 
@@ -30,16 +30,16 @@ beforeEach(function () {
 });
 
 it('stores file (json)', function () {
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-456';
+    $baseId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $model = $this->getTestBlogModel();
 
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
     ], [], [
         'media' => $file1,
@@ -52,7 +52,7 @@ it('stores file (json)', function () {
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $this->initiatorId,
+            'baseId' => $this->baseId,
             'type' => 'success',
             'message' => __('medialibrary-extensions::messages.upload_success'),
         ]);
@@ -64,8 +64,8 @@ it('stores file (redirect)', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
     ], [], [
         'media' => $file,
@@ -82,7 +82,7 @@ it('stores file (redirect)', function () {
     $sessionData = $session->get(status_session_prefix());
 
     expect($sessionData['type'])->toBe('success');
-    expect($sessionData['initiator_id'])->toBe($this->initiatorId);
+    expect($sessionData['base_id'])->toBe($this->baseId);
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_success'));
 });
 
@@ -91,8 +91,8 @@ it('returns error if no file is given (JSON)', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
     ]);
     $request->headers->set('Accept', 'application/json');
@@ -102,7 +102,7 @@ it('returns error if no file is given (JSON)', function () {
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $this->initiatorId,
+            'baseId' => $this->baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.upload_no_files'),
         ]);
@@ -112,8 +112,8 @@ it('returns error if no file is given (redirect)', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
     ]);
 
@@ -130,7 +130,7 @@ it('returns error if no file is given (redirect)', function () {
     $sessionData = $session->get(status_session_prefix());
 
     expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiator_id'])->toBe($this->initiatorId);
+    expect($sessionData['base_id'])->toBe($this->baseId);
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_no_files'));
 });
 
@@ -140,8 +140,8 @@ it('returns error if file has invalid mimetype (JSON)', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
     ], [], [
         'media' => $file,
@@ -163,8 +163,8 @@ it('returns error if file has invalid mimetype (redirect)', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
     ], [], [
         'media' => $file,
@@ -182,7 +182,7 @@ it('returns error if file has invalid mimetype (redirect)', function () {
     $sessionData = $session->get(status_session_prefix());
 
     expect($sessionData['type'])->toBe('error');
-    expect($sessionData['initiator_id'])->toBe($this->initiatorId);
+    expect($sessionData['base_id'])->toBe($this->baseId);
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
 
@@ -195,8 +195,8 @@ it('returns error if model already has media in given collections (JSON)', funct
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => $model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'image_collection'],
     ], [], [
         'media' => $file,
@@ -207,7 +207,7 @@ it('returns error if model already has media in given collections (JSON)', funct
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $this->initiatorId,
+            'baseId' => $this->baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.only_one_medium_allowed'),
         ]);
@@ -222,8 +222,8 @@ it('returns error if model already has media in given collections (redirect)', f
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($model),
         'model_id' => $model->id ?? 1,
-        'initiator_id' => $this->initiatorId,
-        'media_manager_id' => $this->mediaManagerId,
+        'base_id' => $this->baseId,
+        'base_id' => $this->baseId,
         'collections' => ['image' => 'image_collection'],
     ], [], [
         'media' => $file,
@@ -241,7 +241,7 @@ it('returns error if model already has media in given collections (redirect)', f
 
     expect($sessionData)->toMatchArray([
         'type' => 'error',
-        'initiator_id' => $this->initiatorId,
+        'base_id' => $this->baseId,
         'message' => __('medialibrary-extensions::messages.only_one_medium_allowed'),
     ]);
 });
@@ -264,8 +264,8 @@ it('returns error if file exceeds max upload size (JSON)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->getKey(),
-                'initiator_id' => $this->initiatorId,
-                'media_manager_id' => $this->mediaManagerId,
+                'base_id' => $this->baseId,
+                'base_id' => $this->baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'false',
                 'media' => $tooLargeFile,
@@ -297,8 +297,8 @@ it('returns error if file exceeds max upload size (redirect)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->getKey(),
-                'initiator_id' => $this->initiatorId,
-                'media_manager_id' => $this->mediaManagerId,
+                'base_id' => $this->baseId,
+                'base_id' => $this->baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'false',
                 'media' => $tooLargeFile,

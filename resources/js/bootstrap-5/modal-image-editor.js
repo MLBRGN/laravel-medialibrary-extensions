@@ -19,13 +19,14 @@ function initializeImageEditor(config) {
     const {
         name,
         path,
-        initiatorId,
+        baseId,
         requiredAspectRatio,
         minDimensions,
         maxDimensions,
     } = config;
 
-    imageEditor.setImage(name, path, initiatorId);
+    // Base ID is the single source of truth for scoping/identity
+    imageEditor.setImage(name, path, baseId);
     const imageEditorConfig = {
         debug: false,
         rotateDegreesStep: 90,
@@ -79,7 +80,9 @@ function initializeImageEditorModal(modal) {
         const forcedAspectRatio = modal.getAttribute('data-mle-medium-forced-aspect-ratio') ?? '4:3';
         const minDimensions = parseDimensions(modal.getAttribute('data-mle-medium-minimal-dimensions'), { width: 800, height: 600 });
         const maxDimensions = parseDimensions(modal.getAttribute('data-mle-medium-maximal-dimensions'), { width: 7040, height: 3960 });
-        const initiatorId = imageEditorModalConfig.initiatorId;
+        // Prefer baseId from config; fall back to data-base-id on the modal
+        const baseId = imageEditorModalConfig.baseId
+            ?? modal.getAttribute('data-base-id');
 
         if (!customElements.get('image-editor')) {
             console.warn('<image-editor> custom element is not registered.');
@@ -96,7 +99,7 @@ function initializeImageEditorModal(modal) {
                 imageEditorInstance: e.detail.imageEditorInstance,
                 name: displayName,
                 path: mediumPath,
-                initiatorId,
+                baseId,
                 requiredAspectRatio: forcedAspectRatio,
                 minDimensions,
                 maxDimensions,

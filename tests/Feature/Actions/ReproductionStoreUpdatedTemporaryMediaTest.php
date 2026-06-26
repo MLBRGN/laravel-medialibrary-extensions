@@ -7,20 +7,20 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 beforeEach(function () {
-//    Storage::fake('public');
-//    config(['medialibrary-extensions.media_disks.temporary' => 'public']);
-//
-//    config(['medialibrary-extensions.data_sources.demo' => [
-//        'connection' => 'mle_test_demo',
-//    ]]);
+    //    Storage::fake('public');
+    //    config(['medialibrary-extensions.media_disks.temporary' => 'public']);
+    //
+    //    config(['medialibrary-extensions.data_sources.demo' => [
+    //        'connection' => 'mle_test_demo',
+    //    ]]);
 
     // Ensure the connection exists in DB config
-//    config(['database.connections.media_demo' => config('database.connections.testbench')]);
+    //    config(['database.connections.media_demo' => config('database.connections.testbench')]);
 });
 
 it('correctly replaces a temporary upload on a custom data source', function () {
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-456';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-456';
     $dataSource = 'mle_test_demo';
 
     // 1. Create an initial temporary upload on the custom connection
@@ -59,8 +59,8 @@ it('correctly replaces a temporary upload on a custom data source', function () 
         'collection' => 'test',
         'collections' => ['image' => 'test'],
         'temporary_upload_mode' => 'true',
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'data_source' => $dataSource,
     ], [], ['file' => $newFile]);
 

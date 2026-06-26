@@ -18,15 +18,8 @@ class UploadForm extends BaseMediaComponent
     use InteractsWithMimeTypes;
     use InteractsWithOptionsAndConfig;
 
-    /** Identity of the parent MediaManager (logical ID, not suffixed) */
-    public string $mediaManagerId;
-
-    /** Identity of the parent MediaManager (DOM ID, potentially suffixed) */
-    public string $mediaManagerDomId;
-
     public function __construct(
         ?string $id,
-        ?string $mediaManagerDomId,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
@@ -36,16 +29,21 @@ class UploadForm extends BaseMediaComponent
         public ?bool $disabled = false,
         public string $instanceId = '',
         public ?string $dataSource = 'default',
-        ?string $mediaManagerId = null,
+        ?string $clientToken = null,
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->mediaManagerId = $mediaManagerId ?? $this->id;
-        $this->mediaManagerDomId = $mediaManagerDomId ?? $this->getDomId();
-
-        $this->instanceId = InstanceManager::getInstanceId($this->mediaManagerId);
-
         $this->options = $options;
+
+        if (empty($instanceId)) {
+            $this->instanceId = InstanceManager::getInstanceId($this->id);
+        } else {
+            $this->instanceId = $instanceId;
+        }
+
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
 
         $mimeData = $this->resolveAllowedMimeTypes();
 

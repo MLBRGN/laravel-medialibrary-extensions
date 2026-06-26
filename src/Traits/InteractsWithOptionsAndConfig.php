@@ -51,7 +51,6 @@ trait InteractsWithOptionsAndConfig
         'domId',
         'instanceId',
         'clientToken',
-        'mediaManagerDomId',
         'dataSource',
         'clientToken',
 
@@ -273,7 +272,8 @@ trait InteractsWithOptionsAndConfig
 
         $filteredOptions = array_filter(
             $this->options,
-            fn ($v) => ! is_null($v)
+            fn ($v, $k) => ! is_null($v) || $k === 'frontendTheme',
+            ARRAY_FILTER_USE_BOTH
         );
 
         $config = array_replace_recursive(

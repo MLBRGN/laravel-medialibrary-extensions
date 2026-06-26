@@ -24,8 +24,7 @@ it('passes validation with required fields and at least one collection', functio
         'model_id' => $model->getKey(),
         'collections' => ['image' => 'images'],
         'media' => [],
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
     ];
 
     $request = new StoreMultipleRequest;
@@ -41,8 +40,7 @@ it('fails validation when no collections are provided', function () {
         'temporary_upload_mode' => 'true',
         'model_type' => $model->getMorphClass(),
         'media' => [],
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
     ];
 
     $request = new StoreMultipleRequest;
@@ -61,8 +59,7 @@ it('applies MaxMediaCount rule for non-temporary uploads', function () {
         'model_id' => $model->getKey(),
         'collections' => ['image' => 'images'],
         'media' => [],
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
     ];
 
     $request = new StoreMultipleRequest;
@@ -85,8 +82,7 @@ it('applies MaxTemporaryUploadCount rule for temporary uploads', function () {
         'model_type' => $model->getMorphClass(),
         'collections' => ['image' => 'images'],
         'media' => [],
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
     ];
 
     $request = new StoreMultipleRequest;

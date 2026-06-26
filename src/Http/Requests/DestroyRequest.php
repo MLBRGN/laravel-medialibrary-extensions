@@ -30,12 +30,16 @@ class DestroyRequest extends MediaManagerRequest
     public function rules(): array
     {
         return [
-            'initiator_id' => ['required', 'string'],
-            'media_manager_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'model_type' => ['required', 'string'],
-            'model_id' => ['required', 'string'],
+            // When operating in temporary upload mode there is no persisted model,
+            // so `model_id` must be allowed to be absent. For persisted media it is required.
+            'model_id' => ['required_unless:temporary_upload_mode,true', 'string'],
             'single_media_id' => ['nullable'],
-            'collections' => ['required', 'array', 'min:1'],
+            // Allow missing collections; the action will gracefully handle empty collections
+            // and reordering is skipped. This avoids 422s during delete when the UI does not
+            // need to reorder any other items.
+            'collections' => ['nullable', 'array'],
             'collections.*' => ['nullable', 'string'],
             'data_source' => ['nullable', 'string'],
         ];

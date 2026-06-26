@@ -5,8 +5,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
 
 it('passes validation when required fields and one collection are provided', function () {
     $data = [
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'images'],
     ];
 
@@ -19,8 +18,7 @@ it('passes validation when required fields and one collection are provided', fun
 
 it('fails validation when no collections are provided', function () {
     $data = [
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
     ];
 
     $request = new DestroyTemporaryUploadRequest;
@@ -36,8 +34,7 @@ it('passes validation when a non-image collection is provided', function () {
 
     foreach ($collections as $collection) {
         $data = [
-            'initiator_id' => 'user123',
-            'media_manager_id' => 'manager456',
+            'base_id' => 'user123',
             $collection => 'some_collection',
             'collections' => ['image' => 'images'],
         ];

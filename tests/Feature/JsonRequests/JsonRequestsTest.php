@@ -22,7 +22,7 @@ dataset('authenticated_get_routes', [
     'preview update' => fn () => config('medialibrary-extensions.route_prefix').'-media-manager-preview-update',
 ]);
 
-it('cannot sen post requests to routes when not authenticated', function ($routeName) {
+it('cannot send post requests to routes when not authenticated', function ($routeName) {
     // Arrange: model + media
     $model = $this->getTestBlogModel();
     $media = $model->addMedia($this->getFixtureUploadedFile('test.png'))
@@ -32,8 +32,7 @@ it('cannot sen post requests to routes when not authenticated', function ($route
 
     // Payload as JS FormData equivalent
     $payload = [
-        'initiator_id' => 'foo',
-        'media_manager_id' => 'bar',
+        'base_id' => 'foo',
         'collections' => ['images'],
     ];
 
@@ -54,8 +53,7 @@ it('cannot send delete requests to routes when not authenticated', function ($ro
 
     // Payload as JS FormData equivalent
     $payload = [
-        'initiator_id' => 'foo',
-        'media_manager_id' => 'bar',
+        'base_id' => 'foo',
         'collections' => ['images'],
     ];
 
@@ -76,8 +74,7 @@ it('cannot send put requests to routes when not authenticated', function ($route
 
     // Payload as JS FormData equivalent
     $payload = [
-        'initiator_id' => 'foo',
-        'media_manager_id' => 'bar',
+        'base_id' => 'foo',
         'collections' => ['images'],
     ];
 
@@ -98,8 +95,7 @@ it('cannot send get requests to routes when not authenticated', function ($route
 
     // Payload as JS FormData equivalent
     $payload = [
-        'initiator_id' => 'foo',
-        'media_manager_id' => 'bar',
+        'base_id' => 'foo',
         'collections' => ['images'],
     ];
 

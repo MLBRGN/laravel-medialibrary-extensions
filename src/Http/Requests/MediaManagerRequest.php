@@ -226,14 +226,15 @@ abstract class MediaManagerRequest extends FormRequest
     }
 
     /**
-     * Override the redirect URL to include the media manager ID.
+     * Override the redirect URL to include the Base ID.
      */
     protected function getRedirectUrl(): string
     {
         $url = parent::getRedirectUrl();
+        $baseId = $this->input('base_id');
 
-        if ($this->has('media_manager_id')) {
-            $url .= '#'.$this->input('media_manager_id');
+        if ($baseId) {
+            $url .= '#'.$baseId;
         }
 
         return $url;
@@ -242,14 +243,12 @@ abstract class MediaManagerRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $request = $this; // the FormRequest itself
-        $initiatorId = $request->input('initiator_id') ?? 'unknown';
-        $mediaManagerDomId = $request->input('media_manager_id') ?? 'unknown';
+        $baseId = $request->input('base_id') ?? 'unknown';
         $errors = $validator->errors();
 
         $response = MediaResponse::error(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             $errors->first(),
             ['errors' => $errors->messages()]
         );

@@ -19,8 +19,7 @@ beforeEach(function () {
 
 it('attaches temporary media on non created model, and stores medium on model create (removes temporary medium)', function () {
 
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'media-manager-123';
     $fileName = 'test.jpg';
     $uploadedFile = $this->getFixtureUploadedFile($fileName);
     $model = Blog::make(['title' => 'Testing']);
@@ -29,8 +28,7 @@ it('attaches temporary media on non created model, and stores medium on model cr
         [
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->id,
-            'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'base_id' => $baseId,
             'client_token' => session()->getId(),
             'collections' => ['image' => 'images'],
         ], [], [
@@ -47,7 +45,7 @@ it('attaches temporary media on non created model, and stores medium on model cr
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'success',
             'message' => __('medialibrary-extensions::messages.upload_success'),
         ]);
@@ -70,8 +68,7 @@ it('attaches temporary media on non created model, and stores medium on model cr
 
 it('returns error when no collection provided', function () {
 
-    $initiatorId = 'initiator-456';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'media-manager-123';
     $fileName = 'test.jpg';
     $uploadedFile = $this->getFixtureUploadedFile($fileName);
     $model = Blog::make(['title' => 'Testing']);
@@ -80,8 +77,7 @@ it('returns error when no collection provided', function () {
         [
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->id,
-            'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'base_id' => $baseId,
             //            'collections' => ['image' => 'images'],
         ], [], [
             'media' => $uploadedFile,
@@ -97,7 +93,7 @@ it('returns error when no collection provided', function () {
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true))
         ->toMatchArray([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.no_media_collections'),
         ]);

@@ -8,15 +8,15 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('fails when no collections provided JSON', function () {
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-123';
 
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         // collections intentionally missing
@@ -37,7 +37,7 @@ it('fails when no collections provided JSON', function () {
     $data = $response->getData(true);
 
     expect($data)->toMatchArray([
-        'initiatorId' => $initiatorId,
+        'baseId' => $baseId,
         'type' => 'error',
         'message' => __('medialibrary-extensions::messages.no_media_collections'),
     ]);
@@ -45,14 +45,14 @@ it('fails when no collections provided JSON', function () {
 });
 
 it('fails when no collections provided', function () {
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-123';
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         // collections intentionally missing
@@ -74,7 +74,7 @@ it('fails when no collections provided', function () {
 
     expect($flashData)->not()->toBeNull()
         ->and($flashData)->toMatchArray([
-            'initiator_id' => $initiatorId,
+            'base_id' => $baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.no_media_collections'),
         ]);
@@ -82,14 +82,14 @@ it('fails when no collections provided', function () {
 });
 
 it('returns error when no media in collection JSON', function () {
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-123';
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         'collections' => ['image' => 'blog-non-existing-collection'],
@@ -111,21 +111,21 @@ it('returns error when no media in collection JSON', function () {
     $data = $response->getData(true);
 
     expect($data)->toMatchArray([
-        'initiatorId' => $initiatorId,
+        'baseId' => $baseId,
         'type' => 'error',
         'message' => __('medialibrary-extensions::messages.no_media_collections'),
     ]);
 });
 
 it('returns error when no media in collection', function () {
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-123';
     $targetCollection = 'images';
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         'collections' => ['image' => 'blog-non-existing-collection'],
@@ -147,7 +147,7 @@ it('returns error when no media in collection', function () {
 
     expect($flashData)->not()->toBeNull()
         ->and($flashData)->toMatchArray([
-            'initiator_id' => $initiatorId,
+            'base_id' => $baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.no_media_collections'),
         ]);
@@ -158,8 +158,8 @@ it('can set as first in collection JSON', function () {
 
     $this->withSession([]); // boot a session in the test
 
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
     $clientToken = (string) Str::ulid();
@@ -167,18 +167,20 @@ it('can set as first in collection JSON', function () {
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
+        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
     ]);
 
     $media2 = $this->getTemporaryUpload('temp2.jpg', [
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
+        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
     ]);
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'collections' => ['image' => 'blog-images'],
@@ -202,7 +204,7 @@ it('can set as first in collection JSON', function () {
     $data = $response->getData(true);
 
     expect($data)->toMatchArray([
-        'initiatorId' => $initiatorId,
+        'baseId' => $baseId,
         'type' => 'success',
         'message' => __('medialibrary-extensions::messages.medium_set_as_main'),
     ]);
@@ -222,8 +224,8 @@ it('can set as first in collection', function () {
 
     $this->withSession([]); // boot a session in the test
 
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
     $clientToken = (string) Str::ulid();
@@ -231,18 +233,20 @@ it('can set as first in collection', function () {
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
+        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
     ]);
 
     $media2 = $this->getTemporaryUpload('temp2.jpg', [
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
+        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
     ]);
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'collections' => ['image' => 'blog-images'],
@@ -268,7 +272,7 @@ it('can set as first in collection', function () {
 
     expect($flashData)->not()->toBeNull();
     expect($flashData)->toMatchArray([
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'type' => 'success',
         'message' => __('medialibrary-extensions::messages.medium_set_as_main'),
     ]);
@@ -279,8 +283,8 @@ it('can set as first in collection with null model_id', function () {
 
     $this->withSession([]); // boot a session in the test
 
-    $initiatorId = 'initiator-123';
-    $mediaManagerId = 'media-manager-123';
+    $baseId = 'initiator-123';
+    $baseId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
     $media1 = $this->getTemporaryUpload('temp1.jpg', [
@@ -295,8 +299,8 @@ it('can set as first in collection with null model_id', function () {
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerId,
+        'base_id' => $baseId,
+        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'collections' => ['image' => 'blog-images'],
@@ -319,7 +323,7 @@ it('can set as first in collection with null model_id', function () {
     $data = $response->getData(true);
 
     expect($data)->toMatchArray([
-        'initiatorId' => $initiatorId,
+        'baseId' => $baseId,
         'type' => 'success',
         'message' => __('medialibrary-extensions::messages.medium_set_as_main'),
     ]);

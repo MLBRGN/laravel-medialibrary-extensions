@@ -20,8 +20,8 @@ class StoreUpdatedMediaRequest extends MediaManagerRequest
     public function rules(): array
     {
         return [
-            'initiator_id' => ['required', 'string'],
-            'media_manager_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => 'required|string',
             'model_id' => ['required_if:temporary_upload_mode,false'],

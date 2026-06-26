@@ -17,7 +17,7 @@ class GetMediaManagerTinyMceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'media_manager_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'collections' => ['required', 'string'], // json

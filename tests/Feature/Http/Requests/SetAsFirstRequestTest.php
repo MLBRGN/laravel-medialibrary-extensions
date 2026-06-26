@@ -13,8 +13,7 @@ it('passes validation with required fields and at least one collection', functio
         'model_id' => '1',
         'target_media_collection' => 'images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         'collections' => ['image' => 'images'],
     ];
 
@@ -29,8 +28,7 @@ it('fails validation when no collections are provided', function () {
         'model_id' => '1',
         'target_media_collection' => 'images',
         'medium_id' => '123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager456',
+        'base_id' => 'user123',
         // collections intentionally missing
     ];
 
@@ -49,6 +47,5 @@ it('fails validation when required fields are missing', function () {
     expect($validator->errors()->has('model_type'))->toBeTrue();
     expect($validator->errors()->has('target_media_collection'))->toBeTrue();
     expect($validator->errors()->has('medium_id'))->toBeTrue();
-    expect($validator->errors()->has('initiator_id'))->toBeTrue();
-    expect($validator->errors()->has('media_manager_id'))->toBeTrue();
+    expect($validator->errors()->has('base_id'))->toBeTrue();
 });

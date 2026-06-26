@@ -15,6 +15,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreSingleTemporaryAction
 {
@@ -32,9 +33,9 @@ class StoreSingleTemporaryAction
 
         $dataSource = $request->input('data_source');
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerDomId = $request->media_manager_id;
-        $instanceId = $request->input('instance_id');
+        // Strict: only accept base_id; derive instance ID server-side
+        $baseId = (string) $request->input('base_id');
+        $instanceId = InstanceManager::getInstanceId($baseId);
 
         Log::info('Upload request', [
             'client_token_input' => $request->input('client_token'),
@@ -55,8 +56,7 @@ class StoreSingleTemporaryAction
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 $e->getMessage()
             );
         }
@@ -64,14 +64,12 @@ class StoreSingleTemporaryAction
         if ($this->temporaryUploadsHaveAnyMedia(
             $prepared->collections,
             $instanceId,
-//            null,
             $clientToken,
             $dataSource
         )) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerDomId,
+                $baseId,
                 __('medialibrary-extensions::messages.only_one_medium_allowed')
             );
         }
@@ -100,10 +98,10 @@ class StoreSingleTemporaryAction
 
         $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
 
-//        Log::info('StoreSingleTemporaryAction - Connection name: '.$temporaryUpload->getConnectionName());
-//        Log::info(
-//            'StoreSingleTemporaryAction - Database connection: '.$temporaryUpload->getConnection()->getName()
-//        );
+        //        Log::info('StoreSingleTemporaryAction - Connection name: '.$temporaryUpload->getConnectionName());
+        //        Log::info(
+        //            'StoreSingleTemporaryAction - Database connection: '.$temporaryUpload->getConnection()->getName()
+        //        );
 
         $temporaryUpload->fill([
             'disk' => $disk,
@@ -115,7 +113,7 @@ class StoreSingleTemporaryAction
             'size' => $prepared->size,
             'user_id' => $userId,
             'client_token' => $clientToken,
-//            'instance_id' => $instanceId ?: null,
+            //            'instance_id' => $instanceId ?: null,
             'instance_id' => $instanceId,
             'order_column' => 0,
             'custom_properties' => [
@@ -123,30 +121,32 @@ class StoreSingleTemporaryAction
                 'priority' => 0,
             ],
         ]);
-//        Log::info('StoreSingleTemporaryAction - Default DB: '.config('database.default'));
+        //        Log::info('StoreSingleTemporaryAction - Default DB: '.config('database.default'));
 
-//        Log::info(
-//            'StoreSingleTemporaryAction - TemporaryUpload connection: '.
-//            ($temporaryUpload->getConnectionName() ?? 'null')
-//        );
+        //        Log::info(
+        //            'StoreSingleTemporaryAction - TemporaryUpload connection: '.
+        //            ($temporaryUpload->getConnectionName() ?? 'null')
+        //        );
 
-//        Log::info(
-//            'StoreSingleTemporaryAction - Resolved connection: '.
-//            $temporaryUpload->getConnection()->getName()
-//        );
-//        Log::info('StoreSingleTemporaryAction - ' . json_encode(config('database.connections')));
+        //        Log::info(
+        //            'StoreSingleTemporaryAction - Resolved connection: '.
+        //            $temporaryUpload->getConnection()->getName()
+        //        );
+        //        Log::info('StoreSingleTemporaryAction - ' . json_encode(config('database.connections')));
         $temporaryUpload->save();
 
         Log::info(
-            'StoreSingleTemporaryUpload - stored db record in db '.$temporaryUpload->getConnectionName() . ' instanceId ' . $instanceId . ' clientToken ' . $clientToken
+            'StoreSingleTemporaryUpload - stored db record in db '.$temporaryUpload->getConnectionName().' instanceId '.$instanceId.' clientToken '.$clientToken
         );
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerDomId,
+            $baseId,
             __('medialibrary-extensions::messages.upload_success'),
-            ['saved_file' => $safeFilename]
+            [
+                'saved_file' => $safeFilename,
+                'client_token' => $clientToken,
+            ]
         );
     }
 }

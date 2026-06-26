@@ -1,5 +1,6 @@
 <div
     id="{{ $getDomId() }}"
+    data-base-id="{{ $id }}"
     {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('frontendTheme'),
@@ -45,8 +46,6 @@
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
                         :id="$id"
-                        :media-manager-id="$id"
-                        :media-manager-dom-id="$mediaManagerDomId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
                         :collections="$collections"
@@ -56,6 +55,7 @@
                         :readonly="$readonly"
                         :instance-id="$instanceId"
                         :data-source="$dataSource"
+                        :client-token="$clientToken"
                     />
                 @endif
 
@@ -63,8 +63,6 @@
                 <x-mle-partial-youtube-upload-form
                         class="mt-3"
                         :id="$id"
-                        :media-manager-id="$id"
-                        :media-manager-dom-id="$mediaManagerDomId"
                         :model-or-class-name="$modelOrClassName"
                         :single-media="$singleMedia"
                         :collections="$collections"
@@ -74,6 +72,7 @@
                         :multiple="$multiple"
                         :instance-id="$instanceId"
                         :data-source="$dataSource"
+                        :client-token="$clientToken"
                     />
                 @endif
             @endif
@@ -83,18 +82,13 @@
         {{-- Preview section --}}
         <div class="mle-media-manager-previews">
             <x-mle-partial-status-area
-                id="{{ $id }}"
-                :initiator-id="$id"
-                :media-manager-id="$id"
-                :media-manager-dom-id="$mediaManagerDomId"
+                :id="$id"
                 :options="$getOptions()"
-                :instance-id="$getConfig('instanceId')"
+                :instance-id="$instanceId"
             />
 
             <x-mle-media-preview-grid
                 :id="$id"
-                :media-manager-id="$id"
-                :media-manager-dom-id="$mediaManagerDomId"
                 :model-or-class-name="$modelOrClassName"
                 :single-media="$singleMedia"
                 :collections="$collections"

@@ -1,18 +1,17 @@
 <?php
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 covers(DestroyMediaAction::class);
 
 it('deletes the medium and returns JSON', function () {
     $user = $this->getUser();
-    $initiatorId = 'initiator-123';
-    $mediaManagerDomId = 'media-manager-123';
+    $baseId = 'initiator-123';
     $imageCollectionName = 'images';
 
     // Create a model with media
@@ -30,8 +29,7 @@ it('deletes the medium and returns JSON', function () {
     // Call the destroy route
     $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->deleteJson($route, [
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerDomId,
+        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'model_type' => $model->getMorphClass(),
         'model_id' => (string) $model->getKey(),
@@ -39,7 +37,7 @@ it('deletes the medium and returns JSON', function () {
 
     $response->assertStatus(200)
         ->assertJson([
-            'initiatorId' => $initiatorId,
+            'baseId' => $baseId,
             'type' => 'success',
             'message' => __('medialibrary-extensions::messages.medium_removed'),
         ]);
@@ -49,8 +47,7 @@ it('deletes the medium and returns JSON', function () {
 
 it('deletes the medium and returns Redirect', function () {
     $user = $this->getUser();
-    $initiatorId = 'initiator-123';
-    $mediaManagerDomId = 'media-manager-123';
+    $baseId = 'initiator-123';
     $collections = ['image' => 'images'];
 
     // Create a model with media
@@ -68,8 +65,7 @@ it('deletes the medium and returns Redirect', function () {
     // Call the destroy route
     $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->delete($route, [
-        'initiator_id' => $initiatorId,
-        'media_manager_id' => $mediaManagerDomId,
+        'base_id' => $baseId,
         'collections' => $collections,
         'model_type' => $model->getMorphClass(),
         'model_id' => (string) $model->getKey(),
@@ -82,7 +78,7 @@ it('deletes the medium and returns Redirect', function () {
 
     expect($flashData)->not()->toBeNull()
         ->and($flashData)->toMatchArray([
-            'initiator_id' => $initiatorId,
+            'base_id' => $baseId,
             'type' => 'success',
             'message' => __('medialibrary-extensions::messages.medium_removed'),
         ]);
@@ -92,8 +88,7 @@ it('deletes the medium and returns Redirect', function () {
 
 it('reorders all media on delete', function () {
     $user = $this->getUser();
-    $initiatorId = 'initiator-123';
-    $mediaManagerDomId = 'media-manager-123';
+    $baseId = 'initiator-123';
     $collections = ['image' => 'images'];
 
     // Create model with multiple media items
@@ -119,8 +114,7 @@ it('reorders all media on delete', function () {
     $response = $this
         ->actingAs($user)
         ->delete($route, [
-            'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerDomId,
+            'base_id' => $baseId,
             'collections' => $collections,
             'model_type' => $model->getMorphClass(),
             'model_id' => (string) $model->getKey(),
@@ -157,8 +151,7 @@ it('deletes a medium and reorders priorities via action execute (JSON)', functio
 
     $request = DestroyRequest::create('/media/'.$first->id, 'DELETE', [
         'mediaId' => $first->id,
-        'initiator_id' => 'foo',
-        'media_manager_id' => 'bar',
+        'base_id' => 'foo',
         'collections' => ['image' => 'images'],
         'model_type' => get_class($model),
         'model_id' => $model->id,
@@ -177,7 +170,7 @@ it('deletes a medium and reorders priorities via action execute (JSON)', functio
     expect($response->getStatusCode())->toBe(200);
     expect($response->getData(true))
         ->toHaveKey('message')
-        ->toMatchArray(['initiatorId' => 'foo']);
+        ->toMatchArray(['baseId' => 'foo']);
 
     $mediaService = app(MediaService::class);
     // The deleted medium should be gone
@@ -206,8 +199,7 @@ it('skips reorder if no collections are passed via action execute', function () 
     // Act: create a request with no collections
     $request = DestroyRequest::create('/media/'.$media->id, 'DELETE', [
         'mediaId' => $media->id,
-        'initiator_id' => 'foo',
-        'media_manager_id' => 'bar',
+        'base_id' => 'foo',
     ]);
 
     // Make sure Laravel treats this as a JSON request
@@ -226,5 +218,5 @@ it('skips reorder if no collections are passed via action execute', function () 
     expect($response->getStatusCode())->toBe(200);
     $data = $response->getData(true);
     expect($data)->toHaveKey('message');
-    expect($data['initiatorId'])->toBe('foo');
+    expect($data['baseId'])->toBe('foo');
 });

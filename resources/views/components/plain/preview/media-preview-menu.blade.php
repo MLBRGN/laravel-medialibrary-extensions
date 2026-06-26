@@ -61,7 +61,6 @@
             @else
                 <x-mle-partial-set-as-first-form
                     :id="$id"
-                    :media-manager-dom-id="$mediaManagerDomId"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
                     :single-media="$singleMedia"
@@ -70,6 +69,7 @@
                     :disabled="$disabled"
                     :instance-id="$instanceId"
                     :data-source="$getConfig('dataSource')"
+                    :client-token="$clientToken"
                 />
             @endif
         @endif
@@ -77,7 +77,6 @@
         @if($getConfig('showDestroyButton'))
             <x-mle-partial-destroy-form
                 :id="$id"
-                :media-manager-dom-id="$mediaManagerDomId"
                 :model-or-class-name="$modelOrClassName"
                 :medium="$medium"
                 :single-media="$singleMedia"
@@ -86,6 +85,7 @@
                 :disabled="$disabled"
                 :instance-id="$instanceId"
                 :data-source="$getConfig('dataSource')"
+                :client-token="$clientToken"
             />
         @endif
         

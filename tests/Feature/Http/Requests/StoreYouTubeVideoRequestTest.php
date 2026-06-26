@@ -16,8 +16,7 @@ it('passes validation with valid YouTube URL and required fields', function () {
             'video' => null,
         ],
         'youtube_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager123',
+        'base_id' => 'user123',
         'multiple' => 'true',
     ];
 
@@ -41,8 +40,7 @@ it('fails validation with invalid YouTube URL', function () {
             'video' => null,
         ],
         'youtube_url' => 'https://invalid.com/watch?v=abc123',
-        'initiator_id' => 'user123',
-        'media_manager_id' => 'manager123',
+        'base_id' => 'user123',
         'multiple' => 'true',
     ];
 
@@ -65,7 +63,6 @@ it('fails when required fields are missing', function () {
     expect($validator->errors()->has('temporary_upload_mode'))->toBeTrue();
     expect($validator->errors()->has('model_type'))->toBeTrue();
     expect($validator->errors()->has('collections'))->toBeTrue();
-    expect($validator->errors()->has('initiator_id'))->toBeTrue();
-    expect($validator->errors()->has('media_manager_id'))->toBeTrue();
+    expect($validator->errors()->has('base_id'))->toBeTrue();
     expect($validator->errors()->has('multiple'))->toBeTrue();
 });

@@ -9,7 +9,7 @@ it('normalizes undefined data_source to null', function () {
     });
 
     $response = $this->postJson('/test-route', [
-        'initiator_id' => 'test',
+        'base_id' => 'test',
         'model_type' => 'test',
         'data_source' => 'undefined',
         'temporary_upload_mode' => 'true',
@@ -30,7 +30,7 @@ it('normalizes null string data_source to null', function () {
     });
 
     $response = $this->postJson('/test-route-null', [
-        'initiator_id' => 'test',
+        'base_id' => 'test',
         'model_type' => 'test',
         'data_source' => 'null',
         'temporary_upload_mode' => 'true',
@@ -51,7 +51,7 @@ it('preserves valid data_source', function () {
     });
 
     $response = $this->postJson('/test-route-valid', [
-        'initiator_id' => 'test',
+        'base_id' => 'test',
         'model_type' => 'test',
         'data_source' => 'demo',
         'temporary_upload_mode' => 'true',

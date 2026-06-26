@@ -14,10 +14,10 @@ it('renders media preview HTML (without media) and returns JSON response', funct
     //    $model = Blog::create(['title' => 'Test title']);
     $model = $this->getTestBlogModel();
 
-    $initiatorId = 'initiator-789';
+    $baseId = 'initiator-789';
 
     $requestData = [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'model_type' => get_class($model),
         'model_id' => $model->id,
         'frontend_theme' => 'bootstrap-5',
@@ -36,7 +36,7 @@ it('renders media preview HTML (without media) and returns JSON response', funct
     expect($data)->toMatchArray([
         'mediaCount' => 0,
         'success' => true,
-        'target' => $initiatorId,
+        'target' => $baseId,
     ]);
 
     expect($data['html'])->toContain('mle-no-media');
@@ -44,11 +44,11 @@ it('renders media preview HTML (without media) and returns JSON response', funct
 
 it('renders permanent media preview HTML and returns JSON response', function () {
     $model = $this->getTestBlogModel();
-    $initiatorId = 'initiator-123';
+    $baseId = 'initiator-123';
     $frontendTheme = 'bootstrap-5';
 
     $requestData = [
-        'initiator_id' => $initiatorId,
+        'base_id' => $baseId,
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
         'collections' => json_encode([
@@ -75,6 +75,6 @@ it('renders permanent media preview HTML and returns JSON response', function ()
     expect($data)->toMatchArray([
         'mediaCount' => 0,
         'success' => true,
-        'target' => $initiatorId,
+        'target' => $baseId,
     ]);
 });

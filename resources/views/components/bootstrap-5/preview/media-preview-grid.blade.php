@@ -5,8 +5,6 @@
 >
     <x-mle-media-previews
         :id="$id"
-        :media-manager-id="$mediaManagerId"
-        :media-manager-dom-id="$mediaManagerDomId"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
         :single-media="$singleMedia"

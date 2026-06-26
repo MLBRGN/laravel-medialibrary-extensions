@@ -1,7 +1,7 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $getConfig('routes.mediaDestroy') . '#' . $mediaManagerDomId,
+        'action' => $getConfig('routes.mediaDestroy') . '#' . $id,
         'method' => 'POST',
         'data-mle-form'
     ]"
@@ -14,15 +14,8 @@
     id="{{ $getDomId() }}"
 >
     <input type="hidden"
-        name="initiator_id"
+        name="base_id"
         value="{{ $id }}">
-    <input type="hidden"
-        name="media_manager_id"
-        value="{{ $mediaManagerDomId }}">
-    <input
-        type="hidden"
-        name="instance_id"
-        value="{{ $getConfig('instanceId') ?? '' }}">
     <input type="hidden"
         name="single_media_id"
         value="{{ $singleMedia?->id || null }}">

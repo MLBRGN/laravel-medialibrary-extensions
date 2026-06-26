@@ -5,6 +5,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class TemporaryUploadFactory extends Factory
 {
@@ -44,6 +45,27 @@ class TemporaryUploadFactory extends Factory
         return $this->state(fn () => [
             'order_column' => $priority,
             'custom_properties' => ['priority' => $priority],
+        ]);
+    }
+
+    public function withBaseId(string $baseId)
+    {
+        return $this->state(fn () => [
+            'instance_id' => InstanceManager::getInstanceId($baseId),
+        ]);
+    }
+
+    public function withInstanceId(string $instanceId)
+    {
+        return $this->state(fn () => [
+            'instance_id' => $instanceId,
+        ]);
+    }
+
+    public function withClientToken(string $clientToken)
+    {
+        return $this->state(fn () => [
+            'client_token' => $clientToken,
         ]);
     }
 }

@@ -12,17 +12,12 @@ class Spinner extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public string $initiatorId;
-
     public function __construct(
         ?string $id,
-        string $initiatorId,
-        public string $mediaManagerDomId,
         array $options = [],
     ) {
         parent::__construct($id);
         $this->options = $options;
-        $this->initiatorId = $initiatorId;
         $this->resolveConfig();
     }
 

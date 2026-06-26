@@ -2,106 +2,21 @@
 
 use Illuminate\Support\Facades\Validator;
 
-// it('passes validation with minimum required fields', function () {
-//    $data = [
-//        'initiator_id' => 'abc123',
-//        'temporary_upload_mode' => 'true',
-//        'model_type' => 'App\Models\Post',
-//        'show_destroy_button' => 'true',
-//        'show_set_as_first_button' => 'false',
-//        'show_media_edit_button' => 'true',
-//    ];
-//
-//    $request = new GetMediaPreviewerHTMLRequest();
-//
-//    $validator = Validator::make($data, $request->rules());
-//    $request->withValidator($validator);
-//
-//    expect($validator->passes())->toBeTrue();
-// });
+// Legacy example removed: used initiator_id
 
-// it('passes validation with minimum required fields', function () {
-//    $data = [
-//        'initiator_id' => 'abc123',
-//        'temporary_upload_mode' => 'true',
-//        'model_type' => 'App\Models\Post',
-//        'show_destroy_button' => 'true',
-//        'show_set_as_first_button' => 'false',
-//        'show_media_edit_button' => 'true',
-//    ];
-//
-//    $request = new GetMediaPreviewerHTMLRequest();
-//
-//    $validator = Validator::make($data, $request->rules());
-//    $request->withValidator($validator);
-//
-//    expect($validator->passes())->toBeTrue();
-// });
+// Legacy example removed: used initiator_id
 
-// it('passes validation with minimum required fields', function () {
-//    $data = [
-//        'initiator_id' => 'abc123',
-//        'temporary_upload_mode' => 'true',
-//        'model_type' => 'App\Models\Post',
-//        'show_destroy_button' => 'true',
-//        'show_set_as_first_button' => 'false',
-//        'show_media_edit_button' => 'true',
-//    ];
-//
-//    $request = new GetMediaPreviewerHTMLRequest();
-//    $request->merge($data); // <--- hydrate request inputs
-//
-//    $validator = Validator::make($request->all(), $request->rules());
-//    $request->withValidator($validator);
-//
-//    expect($validator->passes())->toBeTrue();
-// });
+// Legacy example removed: used initiator_id
 
-// it('passes validation with minimum required fields', function () {
-//    $data = [
-//        'initiator_id' => 'abc123',
-//        'temporary_upload_mode' => 'true',
-//        'model_type' => 'App\Models\Post',
-//        'show_destroy_button' => 'true',
-//        'show_set_as_first_button' => 'false',
-//        'show_media_edit_button' => 'true',
-//    ];
-//
-//    $request = new GetMediaPreviewerHTMLRequest();
-//
-//    // Create validator on the raw data
-//    $validator = Validator::make($data, $request->rules());
-//
-//    // Override withValidator() to inject $data instead of $request->input()
-//    $request->withValidator($validator->sometimes('model_id', ['required', 'integer'], function () use ($data) {
-//        return $data['temporary_upload_mode'] === 'false';
-//    }));
-//
-//    expect($validator->passes())->toBeTrue();
-// });
+// Legacy example removed: used initiator_id
 
 //
 //
-// it('fails validation if initiator_id is missing', function () {
-//    $data = [
-//        'temporary_upload_mode' => 'true',
-//        'model_type' => 'App\Models\Post',
-//        'show_destroy_button' => 'true',
-//        'show_set_as_first_button' => 'false',
-//        'show_media_edit_button' => 'true',
-//    ];
-//
-//    $request = new GetMediaPreviewerHTMLRequest();
-//    $validator = Validator::make($data, $request->rules());
-//    $request->withValidator($validator);
-//
-//    expect($validator->fails())->toBeTrue();
-//    expect($validator->errors()->has('initiator_id'))->toBeTrue();
-// });
+// Legacy example removed: initiator_id
 //
 // it('requires model_id when temporary_upload_mode is false', function () {
 //    $data = [
-//        'initiator_id' => 'abc123',
+//        'base_id' => 'abc123',
 //        'temporary_upload_mode' => 'false',
 //        'model_type' => 'App\Models\Post',
 //        'show_destroy_button' => 'true',

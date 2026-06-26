@@ -2,10 +2,10 @@
     class="mle-media-preview-grid" 
     data-mle-media-preview-grid
     id="{{ $getDomId() }}"
+    data-base-id="{{ $id }}"
 >
     <x-mle-media-previews
         :id="$id"
-        :media-manager-dom-id="$mediaManagerDomId"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
         :single-media="$singleMedia"

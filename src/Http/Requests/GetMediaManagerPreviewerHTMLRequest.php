@@ -23,15 +23,16 @@ class GetMediaManagerPreviewerHTMLRequest extends MediaManagerRequest
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'single_media_id' => ['nullable'],
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],
-            'initiator_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'collections' => ['required', 'string'], // json
             //            'options' => ['required', 'string'], // json
             'selectable' => ['required', 'string', Rule::in(['true', 'false'])],
             'multiple' => ['required', 'string', Rule::in(['true', 'false'])],
             'disabled' => ['required', 'string', Rule::in(['true', 'false'])],
             'readonly' => ['required', 'string', Rule::in(['true', 'false'])],
-            'instance_id' => ['nullable', 'string', 'max:64'],
-            'data_source' => ['nullable', 'string'],// TODO if temporary required
+            // client-provided instance IDs are not allowed; always derived from base_id
+            'instance_id' => ['prohibited'],
+            'data_source' => ['nullable', 'string'], // TODO if temporary required
             'theme' => ['nullable', 'string'],
             'include_debug' => ['nullable', 'string', Rule::in(['true', 'false', '1', '0'])],
             'client_token' => ['nullable', 'string'],
