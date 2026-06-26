@@ -11,7 +11,7 @@ it('sets the id correctly for media', function () {
     $media->mime_type = 'video/mp4';
     $media->setRelation('model', null); // Media needs this sometimes
 
-    $component = new Video($media);
+    $component = new Video($media, id: 'mle-video-123');
 
     expect($component->id)->toBe('mle-video-123');
 });
@@ -21,7 +21,7 @@ it('sets the id correctly for temporary upload', function () {
     $upload->id = 456;
     $upload->mime_type = 'video/webm';
 
-    $component = new Video($upload);
+    $component = new Video($upload, id: 'mle-video-456');
 
     expect($component->id)->toBe('mle-video-456');
 });
@@ -44,7 +44,7 @@ it('renders the expected video tag', function () {
     $media->mime_type = 'video/mp4';
     $media->shouldReceive('getUrl')->andReturn('/storage/video.mp4');
 
-    $html = Blade::renderComponent(new Video($media));
+    $html = Blade::renderComponent(new Video($media, id: 'mle-video-99'));
 
     expect($html)->toContain('<video')
         ->toContain('id="mle-video-99-video"')

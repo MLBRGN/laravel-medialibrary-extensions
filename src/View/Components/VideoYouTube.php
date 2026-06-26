@@ -23,10 +23,9 @@ class VideoYouTube extends BaseComponent
         public ?array $youtubeParams = [],
         array $options = [],
         public ?bool $multiple = true,// TODO what is this used for?
+        ?string $id = null,
     ) {
-        parent::__construct();
-
-        $this->domId = 'mle-video-youtube-'.$medium->id;
+        parent::__construct($id);
 
         $this->options = $options;
 
@@ -51,11 +50,11 @@ class VideoYouTube extends BaseComponent
         $mergedParams = array_merge($defaultYouTubeParams, $youtubeParams ?? []);
         $this->youTubeParamsAsString = http_build_query($mergedParams);
 
-
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'video-youtube';
     }
 

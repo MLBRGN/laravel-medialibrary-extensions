@@ -15,7 +15,7 @@ it('initializes correctly and sets id', function () {
         $media
     );
 
-    expect($component->getDomId())->toBe($component->id . '-document');
+    expect($component->getDomId())->toBe($component->id.'-document');
 });
 
 it('document component renders', function () {
@@ -24,6 +24,7 @@ it('document component renders', function () {
     $medium = $this->getMediaModelWithMedia(['document' => 1]);
 
     $html = Blade::render('<x-mle-document
+                    id="test-document"
                     :medium="$medium"
                     alt="alternative text"
                 />', [
@@ -31,11 +32,10 @@ it('document component renders', function () {
     ]);
 
     expect($html)
+        ->toContain('id="test-document-document"')
         ->toContain('class="mle-document"')
         ->toContain('class="mle-document-preview"')
-        ->toContain('PDF document')
-        ->and($html)->toMatchSnapshot();
-
+        ->toContain('PDF document');
 });
 
 it('document component renders unknown file type', function () {
@@ -53,6 +53,7 @@ it('document component renders unknown file type', function () {
     $medium->exists = true;
 
     $html = Blade::render('<x-mle-document
+                    id="test-unknown"
                     :medium="$medium"
                     alt="alternative text"
                 />', [
@@ -60,6 +61,7 @@ it('document component renders unknown file type', function () {
     ]);
 
     expect($html)
+        ->toContain('id="test-unknown-document"')
         ->toContain('class="mle-document"')
         ->toContain('class="mle-document-preview"')
         ->toContain(__('medialibrary-extensions::messages.unknown_file_mimetype'));

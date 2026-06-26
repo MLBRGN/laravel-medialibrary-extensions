@@ -17,15 +17,17 @@ class Audio extends BaseComponent
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         array $options = [],
+        ?string $id = null,
     ) {
-        parent::__construct();
+        parent::__construct($id);
 
         $this->options = $options;
 
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'audio';
     }
 

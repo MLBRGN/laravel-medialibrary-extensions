@@ -34,10 +34,11 @@ class Document extends BaseComponent
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         array $options = [],
-        public string $alt = ''
+        public string $alt = '',
+        ?string $id = null,
     ) {
-        parent::__construct();
-        $this->domId = 'mle-document-'.$medium->id;
+        parent::__construct($id);
+
         $this->options = $options;
         $mimetype = $medium->mime_type;
 
@@ -113,7 +114,8 @@ class Document extends BaseComponent
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'document';
     }
 

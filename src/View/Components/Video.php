@@ -17,16 +17,17 @@ class Video extends BaseComponent
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         array $options = [],
+        ?string $id = null,
     ) {
-        parent::__construct(id: 'mle-video-'.$medium->id);
-        $this->domId = 'mle-video-'.$medium->id;
+        parent::__construct($id);
 
         $this->options = $options;
 
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'video';
     }
 

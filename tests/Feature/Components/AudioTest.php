@@ -12,7 +12,7 @@ it('initializes correctly and uses correct suffix', function () {
         $medium
     );
 
-    expect($component->getDomId())->toBe($component->id . '-audio');
+    expect($component->getDomId())->toBe($component->id.'-audio');
 });
 
 it('can be instantiated with a medium', function () {
@@ -22,7 +22,7 @@ it('can be instantiated with a medium', function () {
         'medium' => $medium,
     ]);
 
-    expect($html)->toContain($medium->id);
+    expect($html)->toContain('test-audio-audio');
     expect($html)->toMatchSnapshot();
 });
 
@@ -34,7 +34,7 @@ it('can be instantiated with a TemporaryUpload', function () {
         'medium' => $temporaryUpload,
     ]);
 
-    expect($html)->toContain($temporaryUpload->id);
+    expect($html)->toContain('test-audio-audio');
     expect($html)->toMatchSnapshot();
 });
 

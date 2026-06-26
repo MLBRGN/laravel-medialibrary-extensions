@@ -12,7 +12,7 @@ it('initializes correctly and sets id', function () {
         $medium
     );
 
-    expect($component->getDomId())->toBe($component->id . '-video');
+    expect($component->getDomId())->toBe($component->id.'-video');
 });
 
 it('can be instantiated with a medium and match snapshot', function () {
@@ -21,7 +21,7 @@ it('can be instantiated with a medium and match snapshot', function () {
         'medium' => $medium,
     ]);
 
-    expect($html)->toContain($medium->id);
+    expect($html)->toContain('test-video-video');
     expect($html)->toMatchSnapshot();
 });
 
@@ -33,7 +33,7 @@ it('can be instantiated with a TemporaryUpload and match snapshot', function () 
         'medium' => $temporaryUpload,
     ]);
 
-    expect($html)->toContain($temporaryUpload->id);
+    expect($html)->toContain('test-video-video');
     //    expect($html)->toMatchSnapshot();
 });
 
