@@ -27,7 +27,7 @@
         title="Close">?</span>
                 </button>
                 
-                <div id="test-media-modal-crs"
+                <div id="test-media-modal-mod-crs"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="bootstrap-5"
         data-mle-carousel
 >
@@ -39,8 +39,9 @@
     >
                     <button
                 type="button"
-                data-bs-target="#test-media-modal"
+                data-bs-target="#test-media-modal-mod-crs"
                 data-bs-slide-to="0"
+                data-mle-slide-to="0" 
                 class="active"
                  
                     aria-current="true" 
@@ -48,8 +49,9 @@
             </button>
                     <button
                 type="button"
-                data-bs-target="#test-media-modal"
+                data-bs-target="#test-media-modal-mod-crs"
                 data-bs-slide-to="1"
+                data-mle-slide-to="1" 
                 class=""
                                 aria-label="Slide to 2">
             </button>
@@ -64,7 +66,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-0-media-viewer" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="0"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-0-media-viewer" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="0"
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
@@ -80,7 +82,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-1-media-viewer" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="1"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-1-media-viewer" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="1"
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
@@ -95,9 +97,10 @@
     <button
         class="mle-media-carousel-control-prev carousel-control-prev"
         type="button"
-        data-bs-target="#test-media-modal" 
+        data-bs-target="#test-media-modal-mod-crs" 
         data-bs-slide="prev" 
         title="Previous"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <span 
@@ -110,9 +113,10 @@
     <button
         class="mle-media-carousel-control-next carousel-control-next"
         type="button"
-        data-bs-target="#test-media-modal"
+        data-bs-target="#test-media-modal-mod-crs"
         data-bs-slide="next"
         title="Next"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <span 

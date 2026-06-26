@@ -731,7 +731,7 @@ it('can control media lab', function ($theme, $dataSource, $xhr) use ($waitTimeX
 
     // prepare media lab selectors
     $labId = '#alien-lab-lab';
-//    $labSelector = $labId.'[data-mle-media-manager-lab]';
+    //    $labSelector = $labId.'[data-mle-media-manager-lab]';
     $labOriginalSelector = $labId.' [data-mle-media-lab-preview-original]';
     $labBaseSelector = $labId.' [data-mle-media-lab-preview-base]';
 
@@ -780,5 +780,5 @@ it('can control media lab', function ($theme, $dataSource, $xhr) use ($waitTimeX
     ->with([
         'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
         'plain + default + xhr' => ['plain', 'default', true],
-    ])
-    ->only();
+    ]);
+//    ->only();

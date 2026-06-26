@@ -1,6 +1,6 @@
 <div 
-    class="mle-audio" id="test-audio"
-    id="01KVZAKFN9Z9YC7A72V95Z1RDT-audio"
+    class="mle-audio"
+    id="test-audio-audio"
 >
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
@@ -8,7 +8,7 @@
                 temp.jpg
             </p>
         </div>
-        <audio id="01KVZAKFN9Z9YC7A72V95Z1RDT-audio" controls data-mle-audio>
+        <audio id="test-audio-audio" controls data-mle-audio>
             <source src="/storage/uploads/temp.jpg" type="">
             Your browser does not support the audio element.
         </audio>

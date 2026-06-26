@@ -26,10 +26,10 @@
         title="Close">?</span>
                 </button>
                 
-                <div id="test-media-modal-crs"
+                <div id="test-media-modal-mod-crs"
      class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="plain"
     data-mle-carousel
-    data-mle-carousel-id="test-media-modal-crs"
+    data-mle-carousel-id="test-media-modal-mod-crs"
     tabindex="-1"
         data-mle-carousel-effect="slide"
 >
@@ -81,7 +81,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-0-media-viewer"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-0-media-viewer"
         src="/media/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
@@ -97,7 +97,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-1-media-viewer"
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-1-media-viewer"
         src="/media/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
@@ -113,9 +113,9 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div
-    class="mle-document mle-media-preview-item" draggable="" id="test-media-modal-2-media-viewer" 
+    class="mle-document mle-media-preview-item" draggable="" 
     data-mle-document
-    id="01KVZAKKS5RZ2N349AESK8ZVNX-document"
+    id="test-media-modal-mod-2-media-viewer-document"
 >
     <div class="mle-document-preview">
         <span 
@@ -151,8 +151,8 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-video mle-media-preview-item" draggable="" id="test-media-modal-3-media-viewer"
-    id="mle-video-5-video"
+    class="mle-video mle-media-preview-item" draggable=""
+    id="test-media-modal-mod-3-media-viewer-video"
     data-mle-video
 >
     <div class="mle-video-preview">
@@ -161,7 +161,7 @@
                 test.mp4
             </p>
         </div>
-        <video id="mle-video-5-video" controls preload="metadata" data-mle-video>
+        <video id="test-media-modal-mod-3-media-viewer-video" controls preload="metadata" data-mle-video>
             <source src="/media/5/test.mp4" type="video/mp4">
             medialibrary-extensions::messages.your_browser_does_not_support_the_video_element
         </video>
@@ -176,8 +176,8 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-audio mle-media-preview-item" draggable="" id="test-media-modal-4-media-viewer"
-    id="01KVZAKKS9NX6WQ6JPGMY7VN8V-audio"
+    class="mle-audio mle-media-preview-item" draggable=""
+    id="test-media-modal-mod-4-media-viewer-audio"
 >
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
@@ -185,7 +185,7 @@
                 test.mp3
             </p>
         </div>
-        <audio id="01KVZAKKS9NX6WQ6JPGMY7VN8V-audio" controls data-mle-audio>
+        <audio id="test-media-modal-mod-4-media-viewer-audio" controls data-mle-audio>
             <source src="/media/4/test.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
@@ -200,6 +200,7 @@
         type="button"
         data-mle-slide="prev"
         title="Previous"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <span 
@@ -214,6 +215,7 @@
         type="button"
         data-mle-slide="next"
         title="Next"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <span 

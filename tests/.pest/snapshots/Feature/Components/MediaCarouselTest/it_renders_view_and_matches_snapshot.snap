@@ -25,9 +25,10 @@
     <button
         class="mle-media-carousel-control-prev carousel-control-prev disabled"
         type="button"
-        data-bs-target="#media-carousel" 
+        data-bs-target="#media-carousel-crs" 
         data-bs-slide="prev" 
         title="Previous"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <span 
@@ -40,9 +41,10 @@
     <button
         class="mle-media-carousel-control-next carousel-control-next disabled"
         type="button"
-        data-bs-target="#media-carousel"
+        data-bs-target="#media-carousel-crs"
         data-bs-slide="next"
         title="Next"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <span 
@@ -82,7 +84,7 @@
         title="Close">?</span>
                 </button>
                 
-                <div id="media-carousel-crs"
+                <div id="media-carousel-mod-crs"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="bootstrap-5"
         data-mle-carousel
 >
@@ -109,9 +111,10 @@
     <button
         class="mle-media-carousel-control-prev carousel-control-prev disabled"
         type="button"
-        data-bs-target="#media-carousel" 
+        data-bs-target="#media-carousel-mod-crs" 
         data-bs-slide="prev" 
         title="Previous"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <span 
@@ -124,9 +127,10 @@
     <button
         class="mle-media-carousel-control-next carousel-control-next disabled"
         type="button"
-        data-bs-target="#media-carousel"
+        data-bs-target="#media-carousel-mod-crs"
         data-bs-slide="next"
         title="Next"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <span 
