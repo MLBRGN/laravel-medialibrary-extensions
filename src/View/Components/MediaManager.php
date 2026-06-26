@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
@@ -79,14 +80,28 @@ class MediaManager extends BaseMediaComponent
         if ($this->singleMedia !== null) {
             $totalMediaCount = 1;
         } else {
+            // Determine effective collections to count.
+            // For Single managers we should only consider the target collection,
+            // not sum across every non-empty collection in the map. This avoids
+            // incorrectly disabling the form when another collection has items.
+            $effectiveCollections = $this->collections;
+
+            if (! $this->multiple) {
+                // Keep only the first non-empty collection value
+                $nonEmpty = array_values(array_filter($this->collections, fn ($v) => filled($v)));
+                if (! empty($nonEmpty)) {
+                    $effectiveCollections = [$nonEmpty[0]];
+                }
+            }
+
             // CASE 2: Permanent mode (model instance provided)
             if ($this->modelOrClassName instanceof HasMedia) {
-                $totalMediaCount = $this->mediaService->countModelMediaInCollections($this->modelOrClassName, $this->collections, $this->dataSource);
+                $totalMediaCount = $this->mediaService->countModelMediaInCollections($this->modelOrClassName, $effectiveCollections, $this->dataSource);
             }
             // CASE 3: Temporary mode (class name string provided)
             elseif (is_string($this->modelOrClassName)) {
                 $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
-                    $this->collections,
+                    $effectiveCollections,
                     $this->instanceId,
                     $this->clientToken,
                     $this->dataSource
@@ -102,6 +117,19 @@ class MediaManager extends BaseMediaComponent
         } else {
             $this->setOption('disableForm', $totalMediaCount >= 1);
         }
+
+        // Structured debug to help diagnose cross-scope counting
+        Log::debug('mle.mediaManager.setDisableFormOption', [
+            'component' => static::class,
+            'id' => $this->id,
+            'instanceId' => $this->instanceId,
+            'dataSource' => $this->dataSource,
+            'clientToken' => $this->clientToken ? substr($this->clientToken, 0, 4).'…'.substr($this->clientToken, -4) : null,
+            'multiple' => $this->multiple,
+            'effectiveCollections' => $effectiveCollections ?? $this->collections,
+            'totalMediaCount' => $totalMediaCount,
+            'disableForm' => (bool) $this->getOption('disableForm'),
+        ]);
 
         $this->resolveConfig();
     }

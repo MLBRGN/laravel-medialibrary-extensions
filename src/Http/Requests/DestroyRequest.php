@@ -36,10 +36,8 @@ class DestroyRequest extends MediaManagerRequest
             // so `model_id` must be allowed to be absent. For persisted media it is required.
             'model_id' => ['required_unless:temporary_upload_mode,true', 'string'],
             'single_media_id' => ['nullable'],
-            // Allow missing collections; the action will gracefully handle empty collections
-            // and reordering is skipped. This avoids 422s during delete when the UI does not
-            // need to reorder any other items.
-            'collections' => ['nullable', 'array'],
+            // Collections are required by contract; at least one valid collection must be provided.
+            'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
             'data_source' => ['nullable', 'string'],
         ];

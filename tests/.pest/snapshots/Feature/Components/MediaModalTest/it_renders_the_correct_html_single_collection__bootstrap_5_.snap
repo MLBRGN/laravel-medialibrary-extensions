@@ -1,0 +1,150 @@
+<div
+    class="mle-component mle-theme-bootstrap-5 mle-media-modal mle-modal modal fade"
+    id="test-media-modal-mod"
+    tabindex="-1"
+            aria-labelledby="test-media-modal-title"
+                data-mle-autoplay=""
+        data-mle-modal
+    data-mle-media-modal
+    
+    
+>
+    <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
+        <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
+                            <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="test-media-modal-mod-title">test</h1>
+                        <div class="mle-modal-body mle-media-modal-body modal-body p-0">
+                <button
+                    type="button"
+                    class="mle-modal-close-button mle-media-modal-close-button"
+                    data-mle-modal-close
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    title="Close"
+                >
+                    <span 
+        role="img" 
+        aria-label="Close" 
+        title="Close">?</span>
+                </button>
+                
+                <div id="test-media-modal-mod-crs"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" frontend-theme="bootstrap-5"
+        data-mle-carousel
+>
+
+    
+    <div
+        class="mle-media-carousel-indicators carousel-indicators"
+        data-mle-carousel-indicators
+    >
+                    <button
+                type="button"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="0"
+                data-mle-slide-to="0" 
+                class="active"
+                 
+                    aria-current="true" 
+                                aria-label="Slide to 1">
+            </button>
+                    <button
+                type="button"
+                data-bs-target="#test-media-modal-mod-crs"
+                data-bs-slide-to="1"
+                data-mle-slide-to="1" 
+                class=""
+                                aria-label="Slide to 2">
+            </button>
+            </div>
+
+    
+    <div class="mle-media-carousel-inner carousel-inner">
+                    <div
+                class="mle-media-carousel-item carousel-item active"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
+                                     >
+                    <img
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-0-media-viewer" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="0"
+        src="/media/1/test.jpg"
+                        alt=""
+         loading="lazy"         data-mle-image
+        data-mle-media-preview-image
+        id="mle-image-responsive-1-image-responsive"
+    >
+                </div>
+            </div>
+                    <div
+                class="mle-media-carousel-item carousel-item"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container"
+                                     >
+                    <img
+        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-1-media-viewer" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="1"
+        src="/media/2/test2.jpg"
+                        alt=""
+         loading="lazy"         data-mle-image
+        data-mle-media-preview-image
+        id="mle-image-responsive-2-image-responsive"
+    >
+                </div>
+            </div>
+            </div>
+
+    
+    <button
+        class="mle-media-carousel-control-prev carousel-control-prev"
+        type="button"
+        data-bs-target="#test-media-modal-mod-crs" 
+        data-bs-slide="prev" 
+        title="Previous"
+        data-mle-carousel-prev
+    >
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
+        <span 
+        role="img" 
+        aria-label="Previous" 
+        title="Previous">?</span>
+        </span>
+        <span class="mle-visually-hidden">Previous</span>
+    </button>
+    <button
+        class="mle-media-carousel-control-next carousel-control-next"
+        type="button"
+        data-bs-target="#test-media-modal-mod-crs"
+        data-bs-slide="next"
+        title="Next"
+        data-mle-carousel-next
+    >
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
+            <span 
+        role="img" 
+        aria-label="Next" 
+        title="Next">?</span>
+        </span>
+        <span class="mle-visually-hidden">Next</span>
+    </button>
+</div>
+<script
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":true,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":false,"mediaManagerLabSubmitter":false,"debugToggle":false,"liteYoutube":true},"for":"bootstrap-5|media-carousel-permanent","theme":"bootstrap-5","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}</script>
+
+    <script
+        type="module"
+        src="http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions/js/core/media-library-loader.js"
+            ></script>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":true,"imageEditor":false,"mediaManagerSubmitter":false,"mediaManagerLabSubmitter":false,"debugToggle":false,"liteYoutube":false},"for":"bootstrap-5|media-modal","theme":"bootstrap-5","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed."}}</script>
+
+
+

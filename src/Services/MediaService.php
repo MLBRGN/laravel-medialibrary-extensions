@@ -194,16 +194,36 @@ class MediaService
 //    public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource): int
     public function countTemporaryUploadsInCollections(array $collections, string $instanceId = null, string $clientToken = null, string $dataSource = null): int
     {
-        $count = collect($collections)
+        $collections = collect($collections)
             ->filter(fn ($collectionName) => ! empty($collectionName))
-            ->reduce(function (int $total, string $collectionName) use ($instanceId, $clientToken, $dataSource) {
-                $temporaryItems = TemporaryUpload::getForCurrentClient($collectionName, $instanceId, $dataSource, $clientToken);
+            ->values();
 
-                return $total + $temporaryItems->count();
-            }, 0);
+        $total = 0;
 
-//        Log::info('MediaService - countTemporaryUploadsInCollections counted '. $count);
-        return $count;
+        foreach ($collections as $collectionName) {
+            $items = TemporaryUpload::getForCurrentClient($collectionName, $instanceId, $dataSource, $clientToken);
+            $c = $items->count();
+
+            Log::debug('mle.countTemporaryUploadsInCollections.per_collection', [
+                'collection' => $collectionName,
+                'count' => $c,
+                'instanceId' => $instanceId,
+                'dataSource' => $dataSource,
+                'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
+            ]);
+
+            $total += $c;
+        }
+
+        Log::debug('mle.countTemporaryUploadsInCollections.total', [
+            'total' => $total,
+            'collections' => $collections->all(),
+            'instanceId' => $instanceId,
+            'dataSource' => $dataSource,
+            'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
+        ]);
+
+        return $total;
     }
 
     public function countMediaInCollections(

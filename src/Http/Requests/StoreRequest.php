@@ -68,6 +68,7 @@ abstract class StoreRequest extends MediaManagerRequest
     ): ?ValidationRule {
 
         $dataSource = $this->input('data_source');
+        $clientToken = $this->input('client_token');
 
         if (! $this->isTemporaryUpload()) {
 
@@ -92,7 +93,8 @@ abstract class StoreRequest extends MediaManagerRequest
             $collections,
             $maxItems,
             $derivedInstanceId,
-            $dataSource
+            $dataSource,
+            $clientToken
         );
     }
 }
