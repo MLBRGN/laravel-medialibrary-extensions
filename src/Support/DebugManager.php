@@ -12,13 +12,13 @@ class DebugManager
 
     public static function pushScope(string $id): void
     {
-        Log::info('DebugManager: Pushing scope: ' . $id);
+//        Log::info('DebugManager: Pushing scope: ' . $id);
         static::$scopeStack[] = $id;
     }
 
     public static function popScope(?string $id = null): void
     {
-        Log::info('DebugManager: popping scope: ' . $id);
+//        Log::info('DebugManager: popping scope: ' . $id);
 
         if ($id === null) {
             array_pop(static::$scopeStack);

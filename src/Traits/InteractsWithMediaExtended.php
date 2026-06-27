@@ -8,13 +8,16 @@ use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+
+use Intervention\Image\ImageManager;
 
 trait InteractsWithMediaExtended
 {
@@ -47,6 +50,18 @@ trait InteractsWithMediaExtended
 
         '1x1' => 1,
     ];
+
+    protected static ?ImageManager $imageManager = null;
+
+    protected static function imageManager(): ImageManager
+    {
+//        return self::$imageManager ??= new ImageManager(new Driver());
+        return self::$imageManager ??= new ImageManager(
+            extension_loaded('imagick')
+                ? new ImagickDriver()
+                : new GdDriver()
+        );
+    }
 
     // ============================================================
     // Boot logic for temporary uploads (unchanged)
@@ -333,10 +348,12 @@ trait InteractsWithMediaExtended
             } else {
                 $absolutePath = $path;
             }
-//            dump('here');
-            $image = Image::read($absolutePath);
+//            $manager = new ImageManager(new Driver());
+
+            $image = self::imageManager()->read($absolutePath);
         } catch (\Throwable $e) {
 //            dump('could not read Image: '.$e->getMessage());
+            Log::error(__('medialibrary-extensions::messages.failed_to_read_image' . $e->getMessage()));
             return $this->emptyImageInfo();
         }
 

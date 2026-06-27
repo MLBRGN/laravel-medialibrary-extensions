@@ -119,17 +119,17 @@ class MediaManager extends BaseMediaComponent
         }
 
         // Structured debug to help diagnose cross-scope counting
-        Log::debug('mle.mediaManager.setDisableFormOption', [
-            'component' => static::class,
-            'id' => $this->id,
-            'instanceId' => $this->instanceId,
-            'dataSource' => $this->dataSource,
-            'clientToken' => $this->clientToken ? substr($this->clientToken, 0, 4).'…'.substr($this->clientToken, -4) : null,
-            'multiple' => $this->multiple,
-            'effectiveCollections' => $effectiveCollections ?? $this->collections,
-            'totalMediaCount' => $totalMediaCount,
-            'disableForm' => (bool) $this->getOption('disableForm'),
-        ]);
+//        Log::debug('mle.mediaManager.setDisableFormOption', [
+//            'component' => static::class,
+//            'id' => $this->id,
+//            'instanceId' => $this->instanceId,
+//            'dataSource' => $this->dataSource,
+//            'clientToken' => $this->clientToken ? substr($this->clientToken, 0, 4).'…'.substr($this->clientToken, -4) : null,
+//            'multiple' => $this->multiple,
+//            'effectiveCollections' => $effectiveCollections ?? $this->collections,
+//            'totalMediaCount' => $totalMediaCount,
+//            'disableForm' => (bool) $this->getOption('disableForm'),
+//        ]);
 
         $this->resolveConfig();
     }

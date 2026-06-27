@@ -90,11 +90,12 @@ return [
     'meets_requirements' => 'Voldoet aan vereisten',
     'does_not_meet_requirements' => 'Voldoet niet aan vereisten',
     'unknown' => 'Onbekend',
-    'no_original_saved' => 'Geen origineel opgeslagen.',
+    'no_original_saved' => 'Geen origineel opgeslagen',
     'invalid_configuration' => 'Ongeldige configuratie.',
     'validation_error' => 'Validatiefout.',
     'could_not_initialize_image_editor' => 'Kon de "image editor" niet initialiseren',
     'no_or_invalid_storage_link' => 'Geen of ongeldige storage link.',
     'youtube_video_url' => 'YouTube video URL',
     'files' => 'Bestanden',
+    'failed_to_read_image' => 'Kon afbeelding niet lezen',
 ];

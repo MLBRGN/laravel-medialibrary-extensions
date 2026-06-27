@@ -204,24 +204,24 @@ class MediaService
             $items = TemporaryUpload::getForCurrentClient($collectionName, $instanceId, $dataSource, $clientToken);
             $c = $items->count();
 
-            Log::debug('mle.countTemporaryUploadsInCollections.per_collection', [
-                'collection' => $collectionName,
-                'count' => $c,
-                'instanceId' => $instanceId,
-                'dataSource' => $dataSource,
-                'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
-            ]);
+//            Log::debug('mle.countTemporaryUploadsInCollections.per_collection', [
+//                'collection' => $collectionName,
+//                'count' => $c,
+//                'instanceId' => $instanceId,
+//                'dataSource' => $dataSource,
+//                'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
+//            ]);
 
             $total += $c;
         }
 
-        Log::debug('mle.countTemporaryUploadsInCollections.total', [
-            'total' => $total,
-            'collections' => $collections->all(),
-            'instanceId' => $instanceId,
-            'dataSource' => $dataSource,
-            'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
-        ]);
+//        Log::debug('mle.countTemporaryUploadsInCollections.total', [
+//            'total' => $total,
+//            'collections' => $collections->all(),
+//            'instanceId' => $instanceId,
+//            'dataSource' => $dataSource,
+//            'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
+//        ]);
 
         return $total;
     }

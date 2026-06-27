@@ -34,7 +34,7 @@ class RestoreOriginalMediaAction
             return MediaResponse::error(
                 $request,
                 $baseId,
-                __('medialibrary-extensions::messages.media_not_found')
+                __('medialibrary-extensions::messages.medium_not_found')
             );
         }
 
@@ -44,7 +44,12 @@ class RestoreOriginalMediaAction
         if (! Storage::disk($originalsDisk)->exists($originalPath)) {
             Log::warning("Original not found at [$originalsDisk:$originalPath]");
 
-            return back()->with('error', 'Original file not found.');
+            return MediaResponse::error(
+                $request,
+                $baseId,
+                __('media-library-extensions::messages.no_original_saved')
+            );
+//            return back()->with('error', 'Original file not found.');
         }
 
         try {

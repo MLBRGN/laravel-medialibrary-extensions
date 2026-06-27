@@ -89,11 +89,12 @@ return [
     'meets_requirements' => 'Meets requirements',
     'does_not_meet_requirements' => 'Does not meet requirements',
     'unknown' => 'Unknown',
-    'no_original_saved' => 'No original saved.',
+    'no_original_saved' => 'No original saved',
     'invalid_configuration' => 'Invalid configuration.',
     'validation_error' => 'Validation error.',
     'could_not_initialize_image_editor' => 'Could not initialize the image editor',
     'no_or_invalid_storage_link' => 'No or invalid storage-link.',
     'youtube_video_url' => 'YouTube video URL',
     'files' => 'Files',
+    'failed_to_read_image' => 'Failed to read image',
 ];

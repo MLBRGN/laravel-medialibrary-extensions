@@ -46,15 +46,14 @@ class MediaLab extends BaseComponent
         $this->modelOrClassName = $this->modelType;
 
         // overrides
-        $this->options['showDestroyButton'] = false;
+        $this->options['showDestroyButton'] = false; // don't show the destroy button
         $this->options['showSetAsFirstButton'] = false;
         $this->options['showMediaEditButton'] = true;
         $this->options['showMenu'] = true;
         // Never show any upload forms inside the Media Lab previews
         $this->options['showUploadForms'] = false; // container visibility
         $this->options['showUploadForm'] = false; // singular file upload form
-        $this->options['showYouTubeUploadForm'] = false; // youtube upload form
-        //        $this->options['frontendTheme'] = 'plain';
+        $this->options['showYouTubeUploadForm'] = false; // don't show YouTube upload form
 
         $this->mediaManagerLabPreviewUpdateRoute = route(mle_prefix_route('media-manager-lab-preview-update'));
 

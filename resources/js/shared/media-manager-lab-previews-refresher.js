@@ -12,13 +12,13 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     const previewsContainer = mediaManager.querySelector('[data-mle-media-manager-lab-previews]');
     if (!previewsContainer) return;
 
+    console.log(config.options);
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
         base_id: config.id,
         medium_id: mediumId,
         options: JSON.stringify(config.options),
-        // Do not send instance_id; it is derived server-side from base_id
         theme: config.theme,
         client_token: config.clientToken,
         include_debug: 'true'

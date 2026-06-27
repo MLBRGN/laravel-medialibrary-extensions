@@ -30,8 +30,9 @@
             <div class="mle-info-row">
                 <div>{{ __('medialibrary-extensions::messages.required') }}</div>
                 <div>
-                    ≤ {{ $imageInfo['maxWidth'] ?? '?' }} × {{ $imageInfo['maxHeight'] ?? '?'  }}<br>
-                    ≥ {{ $imageInfo['minWidth'] ?? '?' }} × {{ $imageInfo['minHeight'] ?? '?'  }}</div>
+                    ≥ {{ $imageInfo['minWidth'] ?? '?' }} × {{ $imageInfo['minHeight'] ?? '?'  }}<br>
+                    ≤ {{ $imageInfo['maxWidth'] ?? '?' }} × {{ $imageInfo['maxHeight'] ?? '?'  }}
+                </div>
                 <div>{{ $imageInfo['requiredLabel'] ?? '' }}</div>
             </div>
 
