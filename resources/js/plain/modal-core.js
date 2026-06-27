@@ -42,7 +42,7 @@ export function closeModal(modal, originalEvent) {
 export function openModal(modalId, trigger, originalEvent) {
     const modal = document.querySelector(modalId);
     if (!modal) {
-        console.warn('could not findMediaModel modal ' + modalId);
+        console.warn('could not find modal ' + modalId);
         return;
     }
 

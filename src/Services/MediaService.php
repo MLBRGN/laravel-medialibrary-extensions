@@ -68,7 +68,7 @@ class MediaService
     }
 
     /*
-     * Use this method to findMediaModel a model by its ID.
+     * Use this method to find a model by its ID.
      */
     public function findMediaModel(
         ?string $modelClass,
@@ -110,7 +110,7 @@ class MediaService
     }
 
     /*
-     * Use this method to findMediaModel a medium by its ID.
+     * Use this method to find a medium by its ID.
      */
     public function findMedium(
         string|int $id,
@@ -129,7 +129,7 @@ class MediaService
     }
 
     /*
-     * Use this method to findMediaModel a temporary upload by its ID.
+     * Use this method to find a temporary upload by its ID.
      */
     public function findTemporaryUpload(
         string|int $id,

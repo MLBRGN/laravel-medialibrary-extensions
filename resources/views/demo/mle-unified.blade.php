@@ -272,15 +272,24 @@
         
         @if ($showMediaLab)
             <h2>Media Lab</h2>
-            <x-mle-media-lab
-                id="alien-lab"
-                :media="$media"
-                :options="[
-                    'frontendTheme' => $frontendTheme, 
-                    'dataSource' => $dataSource, 
-                    'useXhr' => $useXhr
-                ]"
-            />
+            @php
+            $mediaService = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaService::class);
+                $media = $mediaService->findMedium();
+                dump($media)
+            @endphp
+            @isset($media)
+                <x-mle-media-lab
+                    id="alien-lab"
+                    :media="$media"
+                    :options="[
+                        'frontendTheme' => $frontendTheme, 
+                        'dataSource' => $dataSource, 
+                        'useXhr' => $useXhr
+                    ]"
+                />
+            @else
+                Media lab not showing, no media.
+            @endisset
         @endif
     
        

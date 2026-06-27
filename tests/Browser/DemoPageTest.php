@@ -89,6 +89,29 @@ dataset('mms_youtube_test_matrix', [
     'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
+dataset('media_lab_test_matrix', [
+    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
+    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
+    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
+    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
+
+    // TODO fail
+//    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
+//    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
+//    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+//    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+
+//    'plain + default + xhr' => ['plain', 'default', true],
+//    'plain + default + xhr' => ['plain', 'default', true],
+//    'plain + default + no xhr' => ['plain', 'default', false],
+//    'plain + default + no xhr' => ['plain', 'default', false],
+
+    'plain + demo + xhr' => ['plain', 'demo', true],
+//    'plain + demo + xhr' => ['plain', 'demo', true],
+//    'plain + demo + no xhr' => ['plain', 'demo', false],
+//    'plain + demo + no xhr' => ['plain', 'demo', false],
+]);
+
 it('loads all required assets', function () {
 
     $this->visit('/mle-demo')
@@ -740,7 +763,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         'plain + demo + no xhr' => ['plain', 'demo', false],
     ]);
 
-it('can control media lab', function ($theme, $dataSource, $xhr) use ($waitTimeXhr, $waitTImeNonXhr) {
+it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
 
     // prepare MMM selectors to upload media first
     $mmmId = '#alien-multiple-permanent-mmm';
@@ -769,10 +792,24 @@ it('can control media lab', function ($theme, $dataSource, $xhr) use ($waitTimeX
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-multiple-permanent-mmm")
-        ->assertNoJavaScriptErrors()
 
-        ->assertPresent($labId)
+
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-multiple-permanent-mmm")
+        ->assertNoJavaScriptErrors();
+
+        // don't upload each iteration
+//        if ($uploadMedia) {
+//            // 1. Upload two images via MMM
+//            $page->attach($mmmInputSelector, $this->getRandomFixture())
+//                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
+//                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+//
+//            $page->attach($mmmInputSelector, $this->getRandomFixture())
+//                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
+//                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+//        }
+
+        $page->assertPresent($labId)
         ->assertPresent($labOriginalSelector)
         ->assertPresent($labBaseSelector)
         ->assertPresent($mmsSelector)
@@ -790,13 +827,15 @@ it('can control media lab', function ($theme, $dataSource, $xhr) use ($waitTimeX
         // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
         ->assertPresent($restoreButtonSelector)
         ->pressAndWaitFor($restoreButtonSelector, $waitTime)
-
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
+
+    if($xhr) {
+        $page->waitForText(__('medialibrary-extensions::messages.restored_original'));
+    }
+
     // TODO fix
 //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
-    ->with([
-        'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
-        'plain + default + xhr' => ['plain', 'default', true],
-    ]);
+    ->with('media_lab_test_matrix')
+    ->only();

@@ -69,20 +69,20 @@ class DemoController extends Controller
             $existingModel = $model->newQuery()->create();
         }
 
-        // HERE could be a bug
-        if ($existingModel->getMedia('alien-media-lab')->isEmpty()) {
-
-            $demoImage = __DIR__.'/../../../resources/demo/demo_small.jpeg';
-
-            if (file_exists($demoImage)) {
-                $existingModel
-                    ->addMedia($demoImage)
-                    ->preservingOriginal()
-                    ->toMediaCollection('alien-media-lab', config('medialibrary-extensions.media_disks.demo'));
-
-                $existingModel->load('media');
-            }
-        }
+        // There could be a bug here, no datasources support
+//        if ($existingModel->getMedia('alien-media-lab')->isEmpty()) {
+//
+//            $demoImage = __DIR__.'/../../../resources/demo/demo_small.jpeg';
+//
+//            if (file_exists($demoImage)) {
+//                $existingModel
+//                    ->addMedia($demoImage)
+//                    ->preservingOriginal()
+//                    ->toMediaCollection('alien-media-lab', config('medialibrary-extensions.media_disks.demo'));
+//
+//                $existingModel->load('media');
+//            }
+//        }
 
 
         return $existingModel;

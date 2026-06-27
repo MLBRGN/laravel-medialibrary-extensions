@@ -45,7 +45,7 @@ export function showStatusMessage(statusAreaContainer, data) {
     const statusContainer = statusAreaContainer.querySelector('[data-mle-status-container]');
     const messageDiv = statusAreaContainer?.querySelector('[data-mle-status-message]');
     if (!statusContainer || !messageDiv) {
-        console.error('could not findMediaModel status container')
+        console.error('could not find status container')
         return;
     }
 
@@ -75,7 +75,7 @@ export function hideStatusMessage(statusAreaContainer) {
     }
     const statusContainer = statusAreaContainer.querySelector('[data-mle-status-container]');
     if (!statusAreaContainer) {
-        console.error('could not findMediaModel status container')
+        console.error('could not find status container')
         return;
     }
     statusContainer?.classList.remove('visible');
@@ -89,7 +89,7 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
     hideStatusMessage(statusAreaContainer); // Hides the message before showing spinner
     const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');
     if (!spinnerContainer) {
-        console.error('could not findMediaModel spinner container')
+        console.error('could not find spinner container')
         return;
     }
 
@@ -108,7 +108,7 @@ export function hideSpinner(statusAreaContainer) {
     }
     const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');
     if (!spinnerContainer) {
-        console.error('could not findMediaModel spinner container')
+        console.error('could not find spinner container')
         return;
     }
     spinnerContainer?.classList.remove('active');
