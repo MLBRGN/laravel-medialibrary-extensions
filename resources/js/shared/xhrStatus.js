@@ -116,6 +116,9 @@ export function hideSpinner(statusAreaContainer) {
 
 export function handleAjaxError(response, data, statusAreaContainer) {
    console.log('handleAjaxError', response, data, statusAreaContainer);
+   try {
+       console.error('XHR error status:', response?.status, 'url:', response?.url, 'message:', data?.message);
+   } catch (e) {}
     let message = trans('upload_failed');
 
     const status = response?.status || 500;

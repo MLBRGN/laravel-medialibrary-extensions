@@ -43,7 +43,7 @@ it('fails validation when required fields are missing', function () {
     expect($validator->errors()->has('medium_id'))->toBeTrue();
     expect($validator->errors()->has('collection'))->toBeTrue();
     expect($validator->errors()->has('file'))->toBeTrue();
-    expect($validator->errors()->has('collections'))->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeFalse();
 });
 
 it('fails validation if model_id is missing when temporary_upload is false', function () {

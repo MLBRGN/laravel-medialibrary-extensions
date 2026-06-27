@@ -47,6 +47,7 @@
                 :options="$getOptions()"
                 :disabled="$disabled"
                 :selectable="$selectable"
+                :multiple="$multiple"
                 :instance-id="$instanceId"
                 :data-source="$getConfig('dataSource')"
                 :client-token="$clientToken"

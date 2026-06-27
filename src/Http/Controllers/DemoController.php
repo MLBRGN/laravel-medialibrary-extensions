@@ -64,7 +64,7 @@ class DemoController extends Controller
         // HERE could be a bug
         if ($existingModel->getMedia('alien-media-lab')->isEmpty()) {
 
-            $demoImage = __DIR__.'/../../../resources/demo/demo.jpg';
+            $demoImage = __DIR__.'/../../../resources/demo/demo_small.jpeg';
 
             if (file_exists($demoImage)) {
                 $existingModel

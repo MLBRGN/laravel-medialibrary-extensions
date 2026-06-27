@@ -50,6 +50,12 @@ class ImageEditorModal extends BaseMediaComponent
             'storeUpdatedMediaRoute' => $this->storeUpdatedMediaRoute,
             'collections' => $this->collections,
             'dataSource' => $this->dataSource,
+            // Provide CSRF directly to the modal config to make tests and SSR robust
+            'csrfToken' => csrf_token(),
+            // Preserve current theme for any XHR/refresh flows that need it
+            'theme' => $this->getConfig('frontendTheme'),
+            // Normalize as strings to satisfy validation Rule::in(['true','false'])
+            'temporaryUploadMode' => $this->temporaryUploadMode ? 'true' : 'false',
         ]);
 
         $this->minimalDimensions = config('medialibrary-extensions.min_image_width').'x'.config('medialibrary-extensions.min_image_height');

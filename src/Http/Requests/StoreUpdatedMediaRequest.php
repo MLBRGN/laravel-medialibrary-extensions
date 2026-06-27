@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
@@ -29,7 +30,7 @@ class StoreUpdatedMediaRequest extends MediaManagerRequest
             'single_media_id' => ['nullable'],
             'collection' => 'required|string',
             'file' => 'required|file',
-            'collections' => ['required', 'array', 'min:1'],
+            'collections' => ['nullable', 'array'],
             'collections.*' => ['nullable', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],
             'data_source' => ['nullable', 'string'],
@@ -38,6 +39,20 @@ class StoreUpdatedMediaRequest extends MediaManagerRequest
 
     public function withValidator(Validator $validator): void
     {
-        $this->addCollectionsValidation($validator);
+        $collections = $this->input('collections');
+        if (is_array($collections) && ! empty($collections)) {
+            $this->addCollectionsValidation($validator);
+        }
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        Log::error('mle.imageEditor.save.validation_failed', [
+            'errors' => $validator->errors()->toArray(),
+            'input_keys' => array_keys($this->all()),
+            'route' => $this->path(),
+        ]);
+
+        parent::failedValidation($validator);
     }
 }

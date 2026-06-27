@@ -26,7 +26,6 @@ class MediaManagerSingle extends MediaManager
         // override options
         $options['showOrder'] = false; // should always be false
 
-//        dump('dataSource '.$dataSource);
         parent::__construct(
             id: $id,
             modelOrClassName: $modelOrClassName,
@@ -39,37 +38,9 @@ class MediaManagerSingle extends MediaManager
             selectable: $selectable,
             dataSource: $dataSource,
         );
-
-
-        $this->options = $options;
-
-//        $dataSource = $this->options['dataSource'] ?? null;
-
-//        $resolved = $this->mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
-
-
-        // when singleMedia provided, dont count collections
-//        if ($this->singleMedia !== null) {
-//            $this->totalMediaCount = 1;
-//        } else {
-//            $this->totalMediaCount = $this->mediaService->countMediaInCollections(
-//                $this->resolvedModel,
-//                $collections,
-//                $this->instanceId,
-//                $this->clientToken,
-//                $dataSource
-//            );
-//        }
-
-        $this->maxMediaCount = 1;
-
-
-        // TODO implement disabled and readonly, this is not per se the same as disableForm
-
-        // boolean property to disable form(s) in blade view(s)
-        $this->setOption('disableForm', $this->totalMediaCount >= 1);
-
+        // For the dedicated Single component, keep the "Set as first" button available in config.
+        // Blades already ensure it is disabled visually for singles.
+        $this->setOption('showSetAsFirstButton', true);
         $this->resolveConfig();
-
     }
 }

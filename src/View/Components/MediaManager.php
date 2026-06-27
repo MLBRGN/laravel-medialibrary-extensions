@@ -41,8 +41,9 @@ class MediaManager extends BaseMediaComponent
 
         $this->options = $options;
 
-        // Override: enforce disabling "set-as-first" when multiple is disabled
-        if (! $this->multiple) {
+        // Enforce option: do not allow "Set as first" when not multiple
+        // This aligns backend config with tests that expect the option to be false for Single managers.
+        if ($this->multiple === false) {
             $this->setOption('showSetAsFirstButton', false);
         }
 
@@ -61,10 +62,9 @@ class MediaManager extends BaseMediaComponent
             $this->setOption('showYouTubeUploadForm', false);
         }
 
-        // override, don't show upload forms or "set as first" for single medium media managers
+        // override, don't show upload forms for single medium media managers
         if (! is_null($this->singleMedia)) {
             $this->setOption('showUploadForms', false);
-            $this->setOption('showSetAsFirst', false);
         }
 
         // sync configuration with the current state

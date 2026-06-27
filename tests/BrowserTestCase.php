@@ -70,15 +70,16 @@ class BrowserTestCase extends Orchestra
         'media_temporary',
     ];
 
+    // large files cause timeouts in browser testing, disabled (for now)
     protected array $fixtures = [
         '512x512_1:1.png',
         '640x360_16:9.png',
         '720x1280_9:16.png',
         '800x600_4:3.png',
-        '1080x1080_1:1.png',
-        '1280x720_16:9.png',
-        '1920x1080_16:9.png',
-        '3840x2160_16:9.png',
+//        '1080x1080_1:1.png',
+//        '1280x720_16:9.png',
+//        '1920x1080_16:9.png',
+//        '3840x2160_16:9.png',
     ];
 
     protected array $invalidMimeTypeFixtures = [

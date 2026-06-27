@@ -47,7 +47,19 @@
         @endif
 
         @if($getConfig('showSetAsFirstButton'))
-            @if($medium->getCustomProperty('priority') === 0)
+            @if(isset($multiple) && $multiple === false)
+                <button type="button"
+                        class="mle-button mle-button-icon btn btn-primary"
+                        title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
+                        data-mle-media-set-as-first-button
+                        disabled
+                >
+                    <x-mle-shared-icon
+                        name="{{ config('medialibrary-extensions.icons.set-as-main') }}"
+                        title="{{ __('medialibrary-extensions::messages.medium_set_as_main') }}"
+                    />
+                </button>
+            @elseif($medium->getCustomProperty('priority') === 0)
                 <button type="button"
                         class="mle-button mle-button-icon btn btn-primary"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
