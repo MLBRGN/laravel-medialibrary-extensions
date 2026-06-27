@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\Traits;
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Feature\Traits;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as ViewInstance;

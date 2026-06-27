@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit;
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Feature;
 
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;

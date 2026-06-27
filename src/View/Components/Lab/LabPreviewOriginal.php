@@ -31,6 +31,12 @@ class LabPreviewOriginal extends BaseComponent
         $this->resolveConfig();
 
         $this->imageInfo = $media->model?->getOriginalImageInfo($media);
+
+        // Prefer original image info when an archived original exists; otherwise
+        // gracefully fall back to the base image so the UI still shows details.
+//        if (empty($this->imageInfo) || ($this->imageInfo['filled'] ?? false) === false) {
+//            $this->imageInfo = $media->model?->getBaseImageInfo($media);
+//        }
     }
 
     protected function domIdSuffix(): string {

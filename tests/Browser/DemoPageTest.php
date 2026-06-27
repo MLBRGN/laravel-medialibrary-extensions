@@ -15,6 +15,9 @@ beforeEach(function () {
     Blade::component('form-checkbox', AnonymousComponent::class);
     Blade::component('form-select', AnonymousComponent::class);
     Blade::component('form-submit', AnonymousComponent::class);
+
+    config(['medialibrary-extensions.demo_pages_enabled' => true]);
+
 });
 
 $waitTimeXhr = .1;

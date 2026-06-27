@@ -7,6 +7,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
 beforeEach(function () {
     config()->set('medialibrary-extensions.media_disks.originals', 'originals');
+    config(['medialibrary-extensions.demo_pages_enabled' => true]);
 
     config()->set('filesystems.disks', [
         'public' => [

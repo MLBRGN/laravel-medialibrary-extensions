@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Database\Factories\TemporaryUploadFactory;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
-use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 
 class TemporaryUpload extends Model implements HasMediaExtended

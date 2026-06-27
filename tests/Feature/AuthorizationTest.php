@@ -1,5 +1,7 @@
 <?php
 
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Feature;
+
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Session;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
@@ -7,6 +9,11 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
+use Mlbrgn\MediaLibraryExtensions\Tests\Feature\Support\DeniedUploadBlog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Feature\Support\AuthorizedBlog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Feature\Support\CollectionRestrictedBlog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Feature\Support\DeniedDeleteBlog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Feature\Support\DeniedEditBlog;
 
 beforeEach(function () {
     Session::start();
@@ -23,55 +30,6 @@ it('authorizes media uploads via global toggle', function () {
     $request = createStoreRequest($deniedModel);
     expect($request->authorize())->toBeFalse();
 });
-
-class DeniedUploadBlog extends Blog
-{
-    public static function allowsMediaUploads(): bool
-    {
-        return false;
-    }
-
-    public function getTable()
-    {
-        return 'blogs';
-    }
-}
-
-class AuthorizedBlog extends Blog
-{
-    public function allowsMediaUploadFrom(?Authenticatable $user): bool
-    {
-        return $user && $user->getAuthIdentifier() === 1;
-    }
-
-    public function allowsMediaDeletesFrom(?Authenticatable $user): bool
-    {
-        return $user && $user->getAuthIdentifier() === 1;
-    }
-
-    public function allowsMediaEditsFrom(?Authenticatable $user): bool
-    {
-        return $user && $user->getAuthIdentifier() === 1;
-    }
-
-    public function getTable()
-    {
-        return 'blogs';
-    }
-}
-
-class CollectionRestrictedBlog extends Blog
-{
-    public function allowedMediaCollections(): array
-    {
-        return ['allowed-collection'];
-    }
-
-    public function getTable()
-    {
-        return 'blogs';
-    }
-}
 
 it('authorizes media uploads via user check', function () {
     $user = new User(['id' => 1]);
@@ -98,19 +56,6 @@ it('authorizes media deletes via global toggle', function () {
     expect($request->authorize())->toBeFalse();
 });
 
-class DeniedDeleteBlog extends Blog
-{
-    public static function allowsMediaDeletes(): bool
-    {
-        return false;
-    }
-
-    public function getTable()
-    {
-        return 'blogs';
-    }
-}
-
 it('authorizes media deletes via user check', function () {
     $user = new User(['id' => 1]);
     $model = AuthorizedBlog::create(['title' => 'Delete User Check']);
@@ -132,19 +77,6 @@ it('authorizes media edits via global toggle', function () {
     $request = createEditRequest($deniedModel);
     expect($request->authorize())->toBeFalse();
 });
-
-class DeniedEditBlog extends Blog
-{
-    public static function allowsMediaEdits(): bool
-    {
-        return false;
-    }
-
-    public function getTable()
-    {
-        return 'blogs';
-    }
-}
 
 it('authorizes media edits via user check', function () {
     $user = new User(['id' => 1]);

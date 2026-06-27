@@ -1,6 +1,6 @@
 <?php
 
-namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\Traits;
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Feature\Traits;
 
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;

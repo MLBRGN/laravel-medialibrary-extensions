@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 use Spatie\Image\Enums\Fit;
@@ -305,6 +305,7 @@ trait InteractsWithMediaExtended
 
         $originalExists = Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($originalPath);
 
+//        dump($originalExists);
         if (! $originalExists) {
             return $this->emptyImageInfo();
         }
@@ -325,15 +326,17 @@ trait InteractsWithMediaExtended
 
     public function getImageInfo(string $path, ?string $disk = null, float $tolerance = 0.01, $requiredAspectRatio = null): array
     {
+//        dump('getImageInfo: '.$path.' '.$disk.' '.$tolerance);
         try {
             if ($disk) {
                 $absolutePath = Storage::disk($disk)->path($path);
             } else {
                 $absolutePath = $path;
             }
-
-            $image = Image::make($absolutePath);
+//            dump('here');
+            $image = Image::read($absolutePath);
         } catch (\Throwable $e) {
+//            dump('could not read Image: '.$e->getMessage());
             return $this->emptyImageInfo();
         }
 

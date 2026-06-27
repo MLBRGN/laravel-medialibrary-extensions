@@ -13,11 +13,19 @@ class DemoController extends Controller
 {
     public function __invoke(Request $request): View
     {
-        config(['medialibrary-extensions.demo_pages_enabled' => true]);
         abort_unless(
             config('medialibrary-extensions.demo_pages_enabled'),
             404
         );
+
+        config(['medialibrary-extensions.disks.media_originals' =>
+            [
+                'driver' => 'local',
+                'root' => storage_path('app/public/media_originals'),
+                'url' => config('app.url').'/storage/media_originals', // URL to access files
+                'visibility' => 'public',
+            ]
+        ]);
 
         $frontendTheme = $request->query('theme', config('medialibrary-extensions.frontend_theme', 'bootstrap-5'));
         $useXhr = $request->boolean('use_xhr', config('medialibrary-extensions.use_xhr', true));
