@@ -115,7 +115,9 @@ export function hideSpinner(statusAreaContainer) {
 }
 
 export function handleAjaxError(response, data, statusAreaContainer) {
-   console.log('handleAjaxError', response, data, statusAreaContainer);
+   console.log('handleAjaxError response ', response);
+   console.log('handleAjaxError data ', data);
+   console.log('handleAjaxError statusAreaContainer ', statusAreaContainer);
    try {
        console.error('XHR error status:', response?.status, 'url:', response?.url, 'message:', data?.message);
    } catch (e) {}

@@ -25,9 +25,12 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
         options: JSON.stringify(config.options),
         theme: config.theme,
         client_token: config.clientToken,
-        include_debug: 'true'
+        include_debug: 'true',
+        data_source: config.dataSource
     });
 
+
+    console.log('config', config)
     // Cache-busting param
     params.append('_', Date.now());
 
@@ -41,29 +44,28 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
             cache: 'no-store', // prevents using or storing cache
         });
 
-        let data = {};
+        let data;
 
-        try {
+        const contentType = response.headers.get('content-type') ?? '';
+
+        if (contentType.includes('application/json')) {
             data = await response.json();
-        } catch (e) {
-            console.warn('Response is not JSON');
-
-            try {
-                data = {
-                    message: await response.clone().text()
-                };
-            } catch {
-                data = {
-                    message: 'Unable to read response body'
-                };
-            }
+        } else {
+            data = {
+                message: await response.text(),
+            };
         }
 
         if (!response.ok) {
-            handleAjaxError(response, data);
+            console.log('response not ok', response, data)
+            handleAjaxError(response, {
+                message: data.message,
+                status: response.status,
+            });
             return;
         }
 
+        // check for html in the response, as we expect
         if (!data.html) {
             return;
         }
