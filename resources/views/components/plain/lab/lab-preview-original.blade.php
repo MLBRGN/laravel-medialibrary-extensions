@@ -21,6 +21,7 @@
 
     <x-slot name="menuEnd">
         <x-mle-partial-media-restore-form
+            :id="$id"
             :model-or-class-name="$media->model"
             :media="$media"
             :options="$getOptions()"
@@ -36,9 +37,10 @@
 
             <div class="mle-info-row">
                 <div>&nbsp;</div>
-                @if($imageInfo['filled'])
-                    <div>{{ $imageInfo['dimensions'] ?? '?' }}</div>
-                    <div>{{ $imageInfo['approx_label'] ?? '?' }}</div>
+                @php($info = $imageInfo ?? [])
+                @if(($info['filled'] ?? false) === true)
+                    <div>{{ $info['dimensions'] ?? '?' }}</div>
+                    <div>{{ $info['approx_label'] ?? ($info['fraction'] ?? '?') }}</div>
                 @else
                     <div>{{ __('medialibrary-extensions::messages.no_original_saved') }}</div>
                     <div>&nbsp;</div>

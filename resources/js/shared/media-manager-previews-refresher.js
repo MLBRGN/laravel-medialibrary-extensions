@@ -9,6 +9,8 @@ import { disableFormElements, enableFormElements } from './form';
  * @param {Object} detail
  */
 export async function updatePreviews(mediaManager, config, detail = {}) {
+    console.log('media-manager-previews-refresher.js - updatePreviews called')
+
     const previewGrid = mediaManager.querySelector('[data-mle-media-preview-grid]');
     const forms = mediaManager.querySelectorAll('[data-mle-form], [data-mle-xhr-form]');
     if (!previewGrid) return;
@@ -106,7 +108,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         }
 
         // Notify listeners that the previews were updated
-        document.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
+        mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
             bubbles: false,
             detail: {
                 mediaManager: mediaManager,

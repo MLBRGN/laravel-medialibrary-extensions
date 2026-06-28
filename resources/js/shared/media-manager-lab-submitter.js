@@ -37,6 +37,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
         const mediumId = target.dataset.mleMediumId;
 
         const formElement = target.closest('[data-mle-xhr-form]');
+        console.log('formElement', formElement);
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
         const route = getRouteFromAction(action, target, config);
 
@@ -51,8 +52,6 @@ mediaManagerLabs.forEach(mediaManagerLab => {
         xhrRequestStart(statusAreaContainer);
 
         try {
-
-            // Legacy example block removed (initiator_id/media_manager_id)
 
             // console.log(formElement);
             const formData = getFormData(formElement);

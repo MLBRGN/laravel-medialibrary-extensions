@@ -3,12 +3,12 @@
      id="{{ $getDomId() }}"
 >
     <x-mle-lab-preview-original 
-        :id="$id . '-original'"
+        :id="$id"
         :media="$media"
         :options="$getOptions()"
     />
     <x-mle-lab-preview-base 
-        :id="$id . '-base'"
+        :id="$id"
         :media="$media"
         :options="$getOptions()"
     />

@@ -21,6 +21,7 @@
 
     <x-slot name="menuEnd">
         <x-mle-partial-media-restore-form
+            :id="$id"
             :model-or-class-name="$media->model"
             :media="$media"
             :options="$getOptions()"

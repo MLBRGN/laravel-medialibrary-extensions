@@ -7,12 +7,16 @@ import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
 
 // updatePreviews(mediaManager, config, mediumId, { part: 'base' | 'original' })
 export async function updatePreviews(mediaManager, config, mediumId,  detail = {}) {
-    // console.log('update previews media lab')
+    console.log('media-manager-lab-previews-refresher.js - updatePreviews called')
 
     const previewsContainer = mediaManager.querySelector('[data-mle-media-manager-lab-previews]');
-    if (!previewsContainer) return;
-
-    console.log(config.options);
+    if (!previewsContainer) {
+        console.warn('No previews container found');
+        return;
+    } else {
+        // console.log('previewsContainer found: ', previewsContainer)
+    }
+// console.log('medium id ', mediumId)
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
@@ -70,7 +74,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
             const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-original]');
             // console.log('replace "original" with updated html', replaced);
             if (!replaced) {
-                consolw.warn('replaced not found')
+                console.warn('replaced not found')
                 return
             }
             replaced.outerHTML = data.html;
@@ -78,7 +82,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
             const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-base]');
             // console.log('replace "base" with updated html', replaced)
             if (!replaced) {
-                consolw.warn('replaced not found')
+                console.warn('replaced not found')
                 return
             }
             replaced.outerHTML = data.html;
@@ -111,7 +115,7 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
         }
 
         // Notify listeners that the previews were updated
-        document.dispatchEvent(new CustomEvent('mediaManagerLabPreviewsUpdated', {
+        mediaManager.dispatchEvent(new CustomEvent('mediaManagerLabPreviewsUpdated', {
             bubbles: false,
             detail: {
                 mediaManager: mediaManager,
@@ -158,3 +162,50 @@ document.addEventListener('imageUpdated', (e) => {
 
     updatePreviews(mediaManagerLab, config, mediumId, { part : 'all'})
 });
+
+// export async function initializeMediaLab(mediaManagerLab) {
+//     console.log('initializeMediaLab', mediaManagerLab)
+    // TODO this code also triggers for non media lab managers,
+    //  for now i just return when no media manager lab found, but shouldn't listen at all?
+    //  How do i do this for regular media refresh?
+    // document.addEventListener('imageUpdated', (e) => {
+    //     console.log('imageUpdated triggered', e.detail)
+    //     console.log('imageUpdated triggered within media lab', e)
+    //     // Resolve the media manager lab by Base ID
+    //     const baseId = e.detail.baseId;
+    //     console.log('baseId', baseId)
+    //     let mediaManagerLab = document.querySelector(`[data-mle-media-manager-lab][data-base-id="${baseId}"]`);
+    //     console.log('imageUpdated', e.detail, mediaManagerLab)
+    //     console.log('selector: [data-mle-media-manager-lab][data-base-id="' + baseId + '"]')
+    //     if (!mediaManagerLab) {
+    //         // Fallback: find element by DOM id and climb to lab container
+    //         const el = document.getElementById(baseId);
+    //         mediaManagerLab = el?.closest('[data-mle-media-manager-lab]') ?? null;
+    //     }
+    //
+    //     const mediumId = e.detail?.mediumId;
+    //
+    //     if (!mediaManagerLab) {
+    //         // TODO should i differentiate between media lab and regular media manager?
+    //         console.info('Media manager lab not found, skipping')
+    //         return;
+    //     }
+    //
+    //     if (!mediumId) {
+    //         console.warn('No mediumId found')
+    //         return;
+    //     }
+    //
+    //     const config = getMediaManagerConfig(mediaManagerLab);
+    //     if (!config) {
+    //         console.warn('Could not get config')
+    //         return;
+    //     }
+    //
+    //     updatePreviews(mediaManagerLab, config, mediumId, { part : 'all'})
+    // });
+// }
+
+// document.querySelectorAll('[data-mle-media-manager-lab]').forEach(mediaManagerLab => {
+//     initializeMediaLab(mediaManagerLab)
+// })

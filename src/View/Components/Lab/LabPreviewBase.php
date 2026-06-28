@@ -46,7 +46,7 @@ class LabPreviewBase extends BaseComponent
     }
 
     protected function domIdSuffix(): string {
-        return 'lab-preview-base';
+        return 'base';
     }
 
     public function render(): View

@@ -28,9 +28,13 @@ class RestoreOriginalMediaAction
 
         $media = $this->mediaService->findMedium($id, $dataSource);
 
+        Log::info('RestoreOriginalMediaAction - execute: $mediaId: ' . $mediaId);
+        Log::info('RestoreOriginalMediaAction - execute: $dataSource: ' . $dataSource);
+
         $baseId = (string) ($request->input('base_id') ?? '');
 
         if (! $media) {
+            Log::warning('RestoreOriginalMediaAction - execute: $media not found');
             return MediaResponse::error(
                 $request,
                 $baseId,

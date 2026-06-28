@@ -1,4 +1,4 @@
-<div 
+<div
     {{ $attributes->merge([ 'class' => 'mle-media-lab-preview' ]) }}
 >
     <div class="mle-media-lab-title">

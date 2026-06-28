@@ -23,7 +23,7 @@ class Spinner extends BaseComponent
 
     protected function domIdSuffix(): string
     {
-        return 'spinner';
+        return 'spinner-container';
     }
 
     public function render(): View

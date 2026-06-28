@@ -274,12 +274,12 @@
             <h2>Media Lab</h2>
             @php
             $mediaService = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaService::class);
-                $media = $mediaService->findMedium();
-                dump($media)
+//                $media = $mediaService->findMedium();
+//                dump($media)
             @endphp
             @isset($media)
                 <x-mle-media-lab
-                    id="alien-lab"
+                    id="alien-laboratory"
                     :media="$media"
                     :options="[
                         'frontendTheme' => $frontendTheme, 

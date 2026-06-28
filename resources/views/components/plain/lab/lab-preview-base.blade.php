@@ -6,8 +6,11 @@
     <div class="mle-media-lab-title">
         {{ __('medialibrary-extensions::messages.base') }}
     </div>
+    <div>
+        Media id {{ $media->id }}
+    </div>
     <x-mle-media-manager-single
-        id="media-{{$media->id}}"
+        id="{{ $id }}"
         :model-or-class-name="$media->model"
         :collections="['image' => $media->collection_name]"
         :options="$getOptions()"
@@ -30,8 +33,9 @@
             <div class="mle-info-row">
                 <div>{{ __('medialibrary-extensions::messages.required') }}</div>
                 <div>
-                    ≤ {{ $imageInfo['maxWidth'] ?? '?' }} × {{ $imageInfo['maxHeight'] ?? '?'  }}<br>
-                    ≥ {{ $imageInfo['minWidth'] ?? '?' }} × {{ $imageInfo['minHeight'] ?? '?'  }}</div>
+                    ≥ {{ $imageInfo['minWidth'] ?? '?' }} × {{ $imageInfo['minHeight'] ?? '?'  }}<br>
+                    ≤ {{ $imageInfo['maxWidth'] ?? '?' }} × {{ $imageInfo['maxHeight'] ?? '?'  }}
+                </div>
                 <div>{{ $imageInfo['requiredLabel'] ?? '' }}</div>
             </div>
 

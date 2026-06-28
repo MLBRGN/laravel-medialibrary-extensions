@@ -26,6 +26,7 @@ class LabPreviewOriginal extends BaseComponent
         array $options = []
     ) {
         parent::__construct($id);
+
         $this->options = $options;
 
         $this->resolveConfig();
@@ -40,7 +41,7 @@ class LabPreviewOriginal extends BaseComponent
     }
 
     protected function domIdSuffix(): string {
-        return 'lab-preview-original';
+        return 'original';
     }
 
     public function render(): View

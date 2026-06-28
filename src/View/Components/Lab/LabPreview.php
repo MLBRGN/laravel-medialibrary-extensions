@@ -19,10 +19,10 @@ class LabPreview extends BaseMediaComponent
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media $media,
         public string $title,
-        array $options = []
+        array $options = [],
+        public ?string $dataSource = 'default',// TODO check if honored
     ) {
-        $id = filled($id) ? $id : null;
-        parent::__construct($id, $this->modelOrClassName, 'default');// TODO use default?
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
         $this->options = $options;
 
         $this->resolveConfig();

@@ -13,6 +13,7 @@
     />
     <div class="mle-media-manager-lab-previews" data-mle-media-manager-lab-previews>
         <x-mle-lab-previews
+            :id="$id"
             :media="$media"
             :options="$getOptions()"
         />

@@ -13,24 +13,11 @@
     />
     <div class="mle-media-manager-lab-previews" data-mle-media-manager-lab-previews>
         <x-mle-lab-previews
+            :id="$id"
             :media="$media"
             :options="$getOptions()"
         />
     </div>
-
-    @if(config('medialibrary-extensions.debug'))
-        <div class="mle-component mle-debug-menu">
-            <x-mle-shared-debug-button/>
-            <x-mle-shared-local-package-icon />
-        </div>
-    @endif
-
-    <x-mle-shared-debug
-        :model-or-class-name="$modelOrClassName"
-        :config="$getConfig()"
-        :options="$getOptions()"
-        data-source="default"
-    />
 </div>
 <x-mle-shared-assets
     include-css="true"

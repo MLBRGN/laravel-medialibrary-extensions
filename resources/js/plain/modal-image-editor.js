@@ -8,6 +8,7 @@ function initializeImageEditor(config) {
     const imageEditor = config.imageEditorInstance;
 
     if (!imageEditor) {
+        console.warn('No imageEditorInstance provided.');
         return;
     }
 
@@ -55,14 +56,19 @@ function initializeImageEditor(config) {
 }
 
 function initializeImageEditorModal(modal) {
+    // console.log('initializeImageEditorModal', modal);
+    // console.log('modal is initialized', modal.dataset.mleImageEditorInitialized)
+    // console.log('modal is initialized', modal.getAttribute('data-mle-image-editor-initialized'))
     if (modal.dataset.mleImageEditorInitialized === 'true') {
-        console.log('modal already initialized, skipping')
+        // console.log('modal already initialized, skipping')
         return;
     } else {
-        console.log('modal not initialized, initializing')
+        // console.log('modal not initialized, initializing')
     }
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
+
+    // console.log('placeholder', placeholder)
     const onOpen = () => {
         // console.log('onOpen', modal, editors.has(modal));
         if (editors.has(modal)) return;
@@ -92,6 +98,7 @@ function initializeImageEditorModal(modal) {
         }
 
         placeholder.innerHTML = '';
+
         const editor = document.createElement('image-editor');
         editor.id = 'my-image-editor';
 
@@ -108,6 +115,7 @@ function initializeImageEditorModal(modal) {
         }, { once: true });
 
         placeholder.appendChild(editor);
+        // console.log('editors.set called', modal, editor)
         editors.set(modal, editor);
     };
 
@@ -120,8 +128,10 @@ function initializeImageEditorModal(modal) {
         placeholder.innerHTML = '';
     };
 
+    // console.log('just before setupModalBase')
     setupModalBase(modal, onClose, onOpen);
     modal.dataset.mleImageEditorInitialized = 'true';
+    // console.log('set modal initialized to true')
 }
 
 function parseDimensions(dimensionString, fallback) {
@@ -161,6 +171,7 @@ document.addEventListener('imageEditorModalCloseRequest', e => {
 
 // observe dynamic models, e.g. added later on by javascript, for example in media lab when refreshing previews
 const observeDynamicModals = () => {
+    // console.log('observeDynamicModals')
     const observer = new MutationObserver(mutations => {
         for (const mutation of mutations) {
             for (const node of mutation.addedNodes) {
@@ -168,6 +179,7 @@ const observeDynamicModals = () => {
 
                 // Direct modal element
                 if (node.matches('[data-mle-image-editor-modal]')) {
+                    // console.log('found image editor modal to initialize')
                     initializeImageEditorModal(node);
                 }
 
@@ -182,3 +194,5 @@ const observeDynamicModals = () => {
 
 // Start watching
 observeDynamicModals();
+
+// document.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);

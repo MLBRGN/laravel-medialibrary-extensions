@@ -5,9 +5,11 @@
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\AnonymousComponent;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 
 beforeEach(function () {
-    // TODO fix: why do i need to do this?
+    // TODO fix: why do I need to do this?
     // Mock laravel-form-components
     Blade::component('form-form', AnonymousComponent::class);
     Blade::component('form-html-editor', AnonymousComponent::class);
@@ -111,6 +113,74 @@ dataset('media_lab_test_matrix', [
 //    'plain + demo + no xhr' => ['plain', 'demo', false],
 //    'plain + demo + no xhr' => ['plain', 'demo', false],
 ]);
+
+/**
+ * Ensure there is exactly one medium available for the Media Lab preview.
+ *
+ * Preference order:
+ *  - Reuse an existing upload from the Single manager collection ('alien-single-image') if present
+ *  - Otherwise append the demo image to the 'alien-media-lab' collection
+ *
+ * All actions are executed on the correct connection resolved from the given data source.
+ */
+function ensureLabMedium(string $dataSource): void
+{
+    /** @var Alien $model */
+    $model = new Alien();
+
+    if ($dataSource !== '') {
+        $connection = app(DataSourceResolver::class)->resolveConnection($dataSource);
+        $model->setConnection($connection);
+    }
+
+    /** @var Alien $existingModel */
+    $existingModel = $model->newQuery()->with('media')->first();
+    if (! $existingModel) {
+        $existingModel = $model->newQuery()->create();
+    }
+
+    // If Lab already has a medium, nothing to do
+    if (! $existingModel->getMedia('alien-media-lab')->isEmpty()) {
+        dump('Lab already has a medium, nothing to do');
+        return;
+    } else {
+        dump('Lab does not have a medium, adding one');
+    }
+
+    // Prefer reusing a Single upload if available
+    $single = $existingModel->getMedia('alien-single-image')->first();
+
+    // Resolve disk for the data source, fallback to 'demo'
+    $mediaDisks = config('medialibrary-extensions.media_disks');
+    $disk = $mediaDisks[$dataSource] ?? ($mediaDisks['demo'] ?? null);
+
+    if ($single && is_file($single->getPath())) {
+        $existingModel
+            ->addMedia($single->getPath())
+            ->preservingOriginal()
+            ->toMediaCollection('alien-media-lab', $disk);
+
+        $existingModel->load('media');
+
+        return;
+    }
+
+    // Fallback: add the packaged demo image
+//    $demoImage = base_path('packages/mlbrgn/laravel-medialibrary-extensions/resources/demo/demo_small.jpeg');
+    $demoImage = __DIR__ . '/../../resources/demo/demo_small.jpeg';
+
+    if (is_file($demoImage)) {
+        dump('added packaged demo image to Lab');
+        $existingModel
+            ->addMedia($demoImage)
+            ->preservingOriginal()
+            ->toMediaCollection('alien-media-lab', $disk);
+
+        $existingModel->load('media');
+    }
+
+    // If still empty here, allow the DemoController fallback to create a demo image.
+}
 
 it('loads all required assets', function () {
 
@@ -288,7 +358,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-    // TODO non-xhr does not show delete message
+    // TODO non-xhr does not show the delete message
     if ($xhr) {
         $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
     }
@@ -436,7 +506,7 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
         ->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-       // TODO non-xhr does not show delete message
+       // TODO non-xhr does not show the delete message
         if ($xhr) {
             $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
         }
@@ -514,7 +584,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // assert that the image is visible in the preview
     $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
-    // TODO fix: assert that upload button is disabled after uploading maxItems
+    // TODO fix: assert that the upload button is disabled after uploading maxItems
 //        ->assertButtonDisabled($uploadButtonSelector)
 
     // assert that the image is visible in the preview
@@ -792,7 +862,8 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-
+    // Ensure the Media Lab has a medium to work with, using the correct data source
+    ensureLabMedium($dataSource);
 
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-multiple-permanent-mmm")
         ->assertNoJavaScriptErrors();
