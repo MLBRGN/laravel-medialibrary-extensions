@@ -21,8 +21,10 @@ class LabPreviews extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $media,
-        array $options = []
+        array $options = [],
+        public ?string $dataSource = 'default'
     ) {
+        dump($dataSource);
         parent::__construct($id);
         $this->options = $options;
 

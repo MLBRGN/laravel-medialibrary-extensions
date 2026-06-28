@@ -8,6 +8,7 @@
     </div>
     <div>
         Media id {{ $media->id }}
+        Data source {{ $dataSource }}
     </div>
     <x-mle-media-manager-single
         id="{{ $id }}"
@@ -15,6 +16,7 @@
         :collections="['image' => $media->collection_name]"
         :options="$getOptions()"
         :single-media="$media"
+        :data-source="$dataSource"
     />
     <div class="mle-media-lab-info">
         <div class="mle-info-panel">

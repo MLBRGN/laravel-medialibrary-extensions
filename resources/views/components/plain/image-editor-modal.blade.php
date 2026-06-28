@@ -63,6 +63,7 @@
                     :collections="$collections"
                     :options="$getOptions()"
                     :disabled="$disabled"
+                    :data-source="$dataSource"
                 />
             </div>
         </div>

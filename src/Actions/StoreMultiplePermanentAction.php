@@ -30,9 +30,9 @@ class StoreMultiplePermanentAction
 
         $dataSource = $request->input('data_source');
 
-        $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
+        $model = $this->mediaService->findMedia($modelType, $modelId, $dataSource);
 
-        //        Log::info('After findMediaModel', [
+        //        Log::info('After findMedia', [
         //            'connection' => $model->getConnectionName(),
         //            'database' => $model->getConnection()->getDatabaseName(),
         //        ]);

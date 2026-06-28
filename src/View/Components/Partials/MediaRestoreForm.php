@@ -26,8 +26,9 @@ class MediaRestoreForm extends BaseMediaComponent
         public array $collections = [],
         array $options = [],
         public ?bool $disabled = false,
+        public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id, $this->modelOrClassName, 'default'); // TODO use default?
+        parent::__construct($id, $this->modelOrClassName, $this->dataSource);
 
         $this->options = $options;
 

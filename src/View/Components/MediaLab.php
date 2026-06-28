@@ -32,7 +32,9 @@ class MediaLab extends BaseComponent
         ?string $id,
         public Media|TemporaryUpload|null $media,
         array $options = [],
+        public ?string $dataSource = 'default'
     ) {
+        dump($dataSource);
         $this->options = $options;
 
         parent::__construct($id);

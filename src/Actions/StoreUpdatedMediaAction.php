@@ -33,7 +33,7 @@ class StoreUpdatedMediaAction
         $collections = $request->array('collections');
         $dataSource = $request->input('data_source');
 
-        $issingleMedia = $singleMediaId !== null && $singleMediaId !== 'null';
+        $isSingleMedia = $singleMediaId !== null && $singleMediaId !== 'null';
         $newMedia = null;
         if (empty($collections)) {
             return MediaResponse::error(
@@ -84,7 +84,7 @@ class StoreUpdatedMediaAction
             [
                 'mediumId' => $mediaId, // TODO rename to mediaId
                 'newMediumId' => $newMedia?->id,
-                'singleMediaId' => $issingleMedia ? $newMedia?->id : null,
+                'singleMediaId' => $isSingleMedia ? $newMedia?->id : null,
             ]
         );
     }

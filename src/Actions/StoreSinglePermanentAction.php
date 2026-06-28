@@ -38,7 +38,7 @@ class StoreSinglePermanentAction
 
             $dataSource = $request->data_source;
 
-            $model = $this->mediaService->findMediaModel(
+            $model = $this->mediaService->findMedia(
                 $modelType,
                 $modelId,
                 $dataSource

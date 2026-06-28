@@ -286,6 +286,7 @@
                         'dataSource' => $dataSource, 
                         'useXhr' => $useXhr
                     ]"
+                    :data-source="$dataSource"
                 />
             @else
                 Media lab not showing, no media.

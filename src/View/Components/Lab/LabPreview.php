@@ -20,7 +20,7 @@ class LabPreview extends BaseMediaComponent
         public Media $media,
         public string $title,
         array $options = [],
-        public ?string $dataSource = 'default',// TODO check if honored
+        public ?string $dataSource = 'default',
     ) {
         parent::__construct($id, $this->modelOrClassName, $dataSource);
         $this->options = $options;

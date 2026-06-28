@@ -175,7 +175,7 @@ it('deletes a medium and reorders priorities via action execute (JSON)', functio
     $mediaService = app(MediaService::class);
     // The deleted medium should be gone
     try {
-        $mediaService->findMediaModel(Media::class, $first->id, 'default');
+        $mediaService->findMedia(Media::class, $first->id, 'default');
         $this->fail('The medium should have been deleted');
     } catch (ModelNotFoundException $e) {
         // Expected

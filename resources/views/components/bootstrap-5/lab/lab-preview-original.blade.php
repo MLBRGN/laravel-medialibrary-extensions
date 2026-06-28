@@ -6,6 +6,10 @@
     :options="$getOptions()"
     id="{{ $getDomId() }}"
 >
+    <div>
+        Media id {{ $media->id }}
+        Data source {{ $dataSource }}
+    </div>
     @if(method_exists($media->model, 'getArchivedOriginalUrlFor'))
         <img src="{{ $media->model->getArchivedOriginalUrlFor($media) }}"
              alt=""
@@ -25,6 +29,7 @@
             :model-or-class-name="$media->model"
             :media="$media"
             :options="$getOptions()"
+            :data-source="$dataSource"
         />
     </x-slot>
     <x-slot name="imageInfo">

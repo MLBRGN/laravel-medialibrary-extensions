@@ -8,6 +8,7 @@
             :options="$getOptions()"
             :preview-mode="$previewMode"
             :expandable-in-modal="$expandableInModal"
+            :data-source="$dataSource"
         />
     </div>
 @else

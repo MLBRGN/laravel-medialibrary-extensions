@@ -54,7 +54,7 @@ it('stores permanent thumbnail successfully (JSON)', function () {
     $fakeMedia->shouldReceive('save')->once()->andReturnSelf();
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->andReturn($model);
 
@@ -98,7 +98,7 @@ it('stores permanent thumbnail successfully (redirect)', function () {
     $fakeMedia->shouldReceive('save')->once()->andReturnSelf();
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->andReturn($model);
 
@@ -139,7 +139,7 @@ it('returns error when permanent thumbnail fails to download (JSON)', function (
     $request->headers->set('Accept', 'application/json');
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->andReturn($model);
 
@@ -176,7 +176,7 @@ it('returns error when permanent thumbnail fails to download (redirect)', functi
     $request->setLaravelSession(app('session')->driver());
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->andReturn($model);
 
@@ -217,7 +217,7 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->with(get_class($model), $model->getKey(), null)
         ->andReturn($model);
@@ -260,7 +260,7 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
     $request->setLaravelSession(app('session')->driver());
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->with(get_class($model), $model->getKey(), null)
         ->andReturn($model);
@@ -306,7 +306,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $request->headers->set('Accept', 'application/json');
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->andReturn($model);
 
@@ -338,7 +338,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     $request->setLaravelSession(app('session')->driver());
 
     $this->mediaService
-        ->shouldReceive('findMediaModel')
+        ->shouldReceive('findMedia')
         ->once()
         ->andReturn($model);
 

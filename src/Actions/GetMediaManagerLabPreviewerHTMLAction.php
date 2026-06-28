@@ -42,7 +42,7 @@ class GetMediaManagerLabPreviewerHTMLAction
             $options['theme'] = $theme;
         }
 
-        $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
+        $model = $this->mediaService->findMedia($modelType, $modelId, $dataSource);
 
         // have to query the model, don't use Media directly (this uses wrong db for demo pages)
         $medium = $model->media()->findOrFail($mediumId);

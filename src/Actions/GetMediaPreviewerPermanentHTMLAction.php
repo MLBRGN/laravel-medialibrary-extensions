@@ -55,7 +55,7 @@ class GetMediaPreviewerPermanentHTMLAction
         }
 
         $collections = json_decode($request->input('collections'), true) ?? [];
-        $model = $this->mediaService->findMediaModel($modelType, $modelId, $dataSource);
+        $model = $this->mediaService->findMedia($modelType, $modelId, $dataSource);
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))

@@ -6,10 +6,12 @@
         :id="$id"
         :media="$media"
         :options="$getOptions()"
+        :data-source="$dataSource"
     />
     <x-mle-lab-preview-base 
         :id="$id"
         :media="$media"
         :options="$getOptions()"
+        :data-source="$dataSource"
     />
 </div>

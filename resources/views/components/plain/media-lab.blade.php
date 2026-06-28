@@ -16,6 +16,7 @@
             :id="$id"
             :media="$media"
             :options="$getOptions()"
+            :data-source="$dataSource"
         />
     </div>
 </div>
