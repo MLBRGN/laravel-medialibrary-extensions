@@ -4,6 +4,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

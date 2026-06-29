@@ -46,6 +46,7 @@ class DestroyMediaAction
         );
     }
 
+    // TODO move to service GlobalOrderService
     protected function reorderAllMedia(Request $request, $model, ?string $dataSource = 'default'): void
     {
         $collections = collect($request->input('collections', []))
