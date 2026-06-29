@@ -12,12 +12,9 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaReplacement;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOriginalMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class StoreUpdatedMediaAction
 {
-    use InteractsWithOriginalMedia;
 
     public function __construct(
         protected MediaService $mediaService,
@@ -36,9 +33,9 @@ class StoreUpdatedMediaAction
         $file = $request->file('file');
         $collections = $request->array('collections');
         $dataSource = $request->input('data_source');
-
         $isSingleMedia = $singleMediaId !== null && $singleMediaId !== 'null';
         $newMedia = null;
+
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
@@ -52,12 +49,18 @@ class StoreUpdatedMediaAction
             if (! $temporaryUploadMode) {
                 $existingMedia = $this->mediaService->findMedium($mediaId, $dataSource);
                 if ($existingMedia) {
-                    // Replace medium using old original
+                    // store the updated medium and remove the old one
                     $newMedia = $this->mediaReplacement->replaceMedium($existingMedia, $file);
                 } else {
                     Log::warning("Medium with ID {$mediaId} not found.");
+                    return MediaResponse::error(
+                        $request,
+                        $baseId,
+                        __('medialibrary-extensions::messages.medium_not_found')
+                    );
                 }
             }
+
             // Handle Temporary Uploads
             else {
                 $existingMedia = $this->mediaService->findTemporaryUpload($mediaId, $dataSource);

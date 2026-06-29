@@ -2,15 +2,12 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Listeners;
 
-use Illuminate\Support\Facades\Log;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaReplacement;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOriginalMedia;
+use Mlbrgn\MediaLibraryExtensions\Services\GlobalOrderService;
+use Mlbrgn\MediaLibraryExtensions\Services\OriginalMediaService;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
 class MediaHasBeenAddedListener
 {
-    use InteractsWithOriginalMedia;
-
     /**
      * Handle the event.
      */
@@ -38,12 +35,14 @@ class MediaHasBeenAddedListener
             return;
         }
 
-        $mediaReplacementService = app(MediaReplacement::class);
+        $originalMediaService = app(OriginalMediaService::class);
+        $globalOrderService = app(GlobalOrderService::class);
+
         // Ensure consistent global order across all media
-        $this->ensureGlobalOrder($media);
+        $globalOrderService->ensureGlobalOrder($media);
 
         // Copy original to the originals disk if not already stored
-        $this->copyOriginalMedia($media);
+        $originalMediaService->archiveOriginalMedia($media);
 
         $media->setCustomProperty('original_path', "$media->id/$media->file_name");
         $media->setCustomProperty('has_original_copy', true);
