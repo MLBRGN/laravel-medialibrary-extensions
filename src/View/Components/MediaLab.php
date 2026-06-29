@@ -34,7 +34,6 @@ class MediaLab extends BaseComponent
         array $options = [],
         public ?string $dataSource = 'default'
     ) {
-        dump($dataSource);
         $this->options = $options;
 
         parent::__construct($id);

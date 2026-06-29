@@ -3,6 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Listeners;
 
 use Illuminate\Support\Facades\Log;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaReplacement;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOriginalMedia;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
@@ -37,6 +38,7 @@ class MediaHasBeenAddedListener
             return;
         }
 
+        $mediaReplacementService = app(MediaReplacement::class);
         // Ensure consistent global order across all media
         $this->ensureGlobalOrder($media);
 

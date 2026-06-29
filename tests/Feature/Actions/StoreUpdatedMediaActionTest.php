@@ -31,18 +31,10 @@ it('replaces a permanent medium (JSON)', function () {
         'collections' => ['image' => 'blog-images'],
         'temporary_upload_mode' => 'false',
         'base_id' => $baseId,
-        'base_id' => $baseId,
     ], [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = Mockery::mock(MediaService::class);
-    $mediaService
-        ->shouldReceive('findMedium')
-        ->once()
-        ->with((string) $existingMedium->id, null)
-        ->andReturn($existingMedium);
-
-    $action = new StoreUpdatedMediaAction($mediaService);
+    $action = app(StoreUpdatedMediaAction::class);
 
     $response = $action->execute($request);
 
@@ -74,18 +66,10 @@ it('replaces a permanent medium (redirect)', function () {
         'collections' => ['image' => 'blog-images'],
         'temporary_upload_mode' => 'false',
         'base_id' => $baseId,
-        'base_id' => $baseId,
     ], [], ['file' => $file]);
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = Mockery::mock(MediaService::class);
-    $mediaService
-        ->shouldReceive('findMedium')
-        ->once()
-        ->with((string) $existingMedium->id, null)
-        ->andReturn($existingMedium);
-
-    $action = new StoreUpdatedMediaAction($mediaService);
+    $action = app(StoreUpdatedMediaAction::class);
 
     $response = $action->execute($request);
 
@@ -112,20 +96,12 @@ it('replaces a temporary upload (JSON)', function () {
         'collections' => ['image' => 'temp-images'],
         'temporary_upload_mode' => 'true',
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'model_type' => get_class($this->getTestBlogModel()),
     ], [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = Mockery::mock(MediaService::class);
-    $mediaService
-        ->shouldReceive('findTemporaryUpload')
-        ->once()
-        ->with((string) $existingUpload->id, null)
-        ->andReturn($existingUpload);
-
-    $action = new StoreUpdatedMediaAction($mediaService);
+    $action = app(StoreUpdatedMediaAction::class);
 
     $response = $action->execute($request);
 
@@ -146,7 +122,6 @@ it('replaces a temporary upload (JSON)', function () {
 });
 
 it('stores validation errors in initiator-specific error bag when not using XHR', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 
@@ -158,7 +133,6 @@ it('stores validation errors in initiator-specific error bag when not using XHR'
         'medium_id' => '123',
         'collections' => ['image' => 'images'],
         'temporary_upload_mode' => 'false',
-        'base_id' => $baseId,
         'base_id' => $baseId,
     ], [], ['file' => $file]);
 
@@ -208,19 +182,11 @@ it('preserves the priority custom property when replacing a permanent medium', f
         'collections' => ['image' => 'blog-images'],
         'temporary_upload_mode' => 'false',
         'base_id' => $baseId,
-        'base_id' => $baseId,
     ], [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
 
-    // Mock media service to resolve model correctly
-    $mediaService = Mockery::mock(MediaService::class);
-    $mediaService->shouldReceive('findMedium')
-        ->once()
-        ->with((string) $existingMedium->id, null)
-        ->andReturn($existingMedium);
+    $action = app(StoreUpdatedMediaAction::class);
 
-    // Run action
-    $action = new StoreUpdatedMediaAction($mediaService);
     $response = $action->execute($request);
 
     // Response assertions
@@ -238,13 +204,11 @@ it('preserves the priority custom property when replacing a permanent medium', f
 it('returns error response if collections array is missing', function () {
     $request = StoreUpdatedMediaRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
-        'base_id' => 'x',
         'base_id' => 'y',
     ], [], ['file' => UploadedFile::fake()->image('test.jpg')]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = Mockery::mock(MediaService::class);
-    $action = new StoreUpdatedMediaAction($mediaService);
+    $action = app(StoreUpdatedMediaAction::class);
 
     $response = $action->execute($request);
 
@@ -265,15 +229,12 @@ it('logs a warning when existing medium is not found', function () {
         'collection' => 'images',
         'collections' => ['image' => 'images'],
         'temporary_upload_mode' => false,
-        'base_id' => 'test',
         'base_id' => 'mgr',
     ], [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = Mockery::mock(MediaService::class);
-    $mediaService->shouldReceive('findMedium')->andReturn(null);
+    $action = app(StoreUpdatedMediaAction::class);
 
-    $action = new StoreUpdatedMediaAction($mediaService);
     $action->execute($request);
 
     Log::shouldHaveReceived('warning')

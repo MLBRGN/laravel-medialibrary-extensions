@@ -30,13 +30,14 @@ class GetMediaManagerLabPreviewerHTMLAction
     {
         // Read the single authoritative Base ID
         $baseId = (string) $request->input('base_id');
-        $mediumId = $request->get('medium_id');
+        $mediumId = $request->input('medium_id');
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         $theme = $request->input('theme');
-        $part = $request->get('part', 'all');
         $options = json_decode($request->input('options'), true) ?? [];
         $dataSource = $request->input('data_source');
+
+//        $part = $request->input('part', 'all');
 
         if ($theme) {
             $options['theme'] = $theme;
@@ -47,31 +48,37 @@ class GetMediaManagerLabPreviewerHTMLAction
         // have to query the model, don't use Media directly (this uses wrong db for demo pages)
         $medium = $model->media()->findOrFail($mediumId);
 
-        switch ($part) {
+//        switch ($part) {
+//
+//            case 'original':
+//                $component = new LabPreviewOriginal(
+//                    id: $baseId,
+//                    media: $medium,
+//                    options: $options
+//                );
+//                break;
+//            case 'base':
+//                $component = new LabPreviewBase(
+//                    id: $baseId,
+//                    media: $medium,
+//                    options: $options
+//                );
+//                break;
+            // all
+//            default:
+//                $component = new LabPreviews(
+//                    id: $baseId,
+//                    media: $medium,
+//                    options: $options
+//                );
+//                break;
+//        }
 
-            case 'original':
-                $component = new LabPreviewOriginal(
-                    id: $baseId,
-                    media: $medium,
-                    options: $options
-                );
-                break;
-            case 'base':
-                $component = new LabPreviewBase(
-                    id: $baseId,
-                    media: $medium,
-                    options: $options
-                );
-                break;
-            default:
-                $component = new LabPreviews(
-                    id: $baseId,
-                    media: $medium,
-                    options: $options
-                );
-                break;
-        }
-
+        $component = new LabPreviewBase(
+            id: $baseId,
+            media: $medium,
+            options: $options
+        );
         $html = Blade::renderComponent($component);
         $debugHtml = null;
 
@@ -91,7 +98,6 @@ class GetMediaManagerLabPreviewerHTMLAction
             'success' => true,
             'target' => $baseId,
             'medium_id' => $medium->id,
-            'part' => $part,
         ]);
     }
 }

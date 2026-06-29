@@ -5,18 +5,17 @@ import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
  * Refreshes the media preview container after upload, deletion, or restore.
  */
 
-// updatePreviews(mediaManager, config, mediumId, { part: 'base' | 'original' })
-export async function updatePreviews(mediaManager, config, mediumId,  detail = {}) {
+export async function updateMediaLabBase(mediaManager, config, mediumId,  detail = {}) {
     console.log('media-manager-lab-previews-refresher.js - updatePreviews called')
 
-    const previewsContainer = mediaManager.querySelector('[data-mle-media-manager-lab-previews]');
+    const previewsContainer = mediaManager.querySelector('[data-mle-media-lab-previews]');
     if (!previewsContainer) {
         console.warn('No previews container found');
         return;
     } else {
         // console.log('previewsContainer found: ', previewsContainer)
     }
-// console.log('medium id ', mediumId)
+    console.log('updateMediaLabBase - medium id ', mediumId)
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
@@ -33,10 +32,6 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     console.log('config', config)
     // Cache-busting param
     params.append('_', Date.now());
-
-    if (detail.part) {
-        params.append('part', detail.part);
-    }
 
     try {
         const response = await fetch(`${config.routes.mediaManagerLabPreviewUpdate}?${params}`, {
@@ -70,28 +65,12 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
             return;
         }
 
-        // If partial update, replace only that part
-        if (detail.part === 'original') {
-
-            const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-original]');
-            // console.log('replace "original" with updated html', replaced);
-            if (!replaced) {
-                console.warn('replaced not found')
-                return
-            }
-            replaced.outerHTML = data.html;
-        } else if (detail.part === 'base') {
-            const replaced = previewsContainer.querySelector('[data-mle-media-lab-preview-base]');
-            // console.log('replace "base" with updated html', replaced)
-            if (!replaced) {
-                console.warn('replaced not found')
-                return
-            }
-            replaced.outerHTML = data.html;
-        } else {
-            // console.log('replace all with updated html')
-            previewsContainer.innerHTML = data.html;
+        const labPreviewBase = previewsContainer.querySelector('[data-mle-media-lab-preview-base]');
+        if (!labPreviewBase) {
+            console.warn('labPreviewBase not found')
+            return
         }
+        labPreviewBase.outerHTML = data.html;
 
         // Update debug panel if present
         if (data.debugHtml) {
@@ -130,84 +109,27 @@ export async function updatePreviews(mediaManager, config, mediumId,  detail = {
     }
 }
 
-// TODO this code also triggers for non media lab managers,
-//  for now i just return when no media manager lab found, but shouldn't listen at all?
-//  How do i do this for regular media refresh?
+// TODO does this event even get catched?
+// listen to imageUpdated event so that we can update the restore form's media_id
 document.addEventListener('imageUpdated', (e) => {
-    // Resolve the media manager lab by Base ID
-    const baseId = e.detail.baseId;
-    let mediaManagerLab = document.querySelector(`[data-mle-media-manager-lab][data-base-id="${baseId}"]`);
-    if (!mediaManagerLab) {
-        // Fallback: find element by DOM id and climb to lab container
-        const el = document.getElementById(baseId);
-        mediaManagerLab = el?.closest('[data-mle-media-manager-lab]') ?? null;
-    }
-
+    console.log('imageUpdated event', e)
     const mediumId = e.detail?.mediumId;
+    const newMediumId = e.detail?.newMediumId;
+    console.log('imageUpdated old medium id ', mediumId, ' new medium id ', newMediumId)
 
-    if (!mediaManagerLab) {
-        // TODO should i differentiate between media lab and regular media manager?
-        console.info('Media manager lab not found, skipping')
+    const baseId = e.detail.baseId;
+
+    const mediaLab = e.target.closest('[data-mle-media-lab]');
+    console.log('mediaLab', mediaLab)
+    const restoreForm = mediaLab?.querySelector('[data-mle-restore-form]');
+    console.log('restoreForm', restoreForm)
+    if (!restoreForm) {
+        console.error('Restore form not found for media lab with base ID:', baseId);
         return;
     }
+    const mediaIdInput = restoreForm.querySelector('[name="medium_id"]');
+    console.log('mediaIdInput', mediaIdInput)
+    mediaIdInput.value = newMediumId;
 
-    if (!mediumId) {
-        console.warn('No mediumId found')
-        return;
-    }
-
-    const config = getMediaManagerConfig(mediaManagerLab);
-    if (!config) {
-        console.warn('Could not get config')
-        return;
-    }
-
-    updatePreviews(mediaManagerLab, config, mediumId, { part : 'all'})
+    updateMediaLabBase(mediaLab, config, newMediumId)
 });
-
-// export async function initializeMediaLab(mediaManagerLab) {
-//     console.log('initializeMediaLab', mediaManagerLab)
-    // TODO this code also triggers for non media lab managers,
-    //  for now i just return when no media manager lab found, but shouldn't listen at all?
-    //  How do i do this for regular media refresh?
-    // document.addEventListener('imageUpdated', (e) => {
-    //     console.log('imageUpdated triggered', e.detail)
-    //     console.log('imageUpdated triggered within media lab', e)
-    //     // Resolve the media manager lab by Base ID
-    //     const baseId = e.detail.baseId;
-    //     console.log('baseId', baseId)
-    //     let mediaManagerLab = document.querySelector(`[data-mle-media-manager-lab][data-base-id="${baseId}"]`);
-    //     console.log('imageUpdated', e.detail, mediaManagerLab)
-    //     console.log('selector: [data-mle-media-manager-lab][data-base-id="' + baseId + '"]')
-    //     if (!mediaManagerLab) {
-    //         // Fallback: find element by DOM id and climb to lab container
-    //         const el = document.getElementById(baseId);
-    //         mediaManagerLab = el?.closest('[data-mle-media-manager-lab]') ?? null;
-    //     }
-    //
-    //     const mediumId = e.detail?.mediumId;
-    //
-    //     if (!mediaManagerLab) {
-    //         // TODO should i differentiate between media lab and regular media manager?
-    //         console.info('Media manager lab not found, skipping')
-    //         return;
-    //     }
-    //
-    //     if (!mediumId) {
-    //         console.warn('No mediumId found')
-    //         return;
-    //     }
-    //
-    //     const config = getMediaManagerConfig(mediaManagerLab);
-    //     if (!config) {
-    //         console.warn('Could not get config')
-    //         return;
-    //     }
-    //
-    //     updatePreviews(mediaManagerLab, config, mediumId, { part : 'all'})
-    // });
-// }
-
-// document.querySelectorAll('[data-mle-media-manager-lab]').forEach(mediaManagerLab => {
-//     initializeMediaLab(mediaManagerLab)
-// })

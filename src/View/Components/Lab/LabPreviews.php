@@ -24,7 +24,6 @@ class LabPreviews extends BaseComponent
         array $options = [],
         public ?string $dataSource = 'default'
     ) {
-        dump($dataSource);
         parent::__construct($id);
         $this->options = $options;
 

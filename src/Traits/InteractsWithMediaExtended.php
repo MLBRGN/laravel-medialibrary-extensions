@@ -320,7 +320,6 @@ trait InteractsWithMediaExtended
 
         $originalExists = Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($originalPath);
 
-//        dump($originalExists);
         if (! $originalExists) {
             return $this->emptyImageInfo();
         }
@@ -341,7 +340,6 @@ trait InteractsWithMediaExtended
 
     public function getImageInfo(string $path, ?string $disk = null, float $tolerance = 0.01, $requiredAspectRatio = null): array
     {
-//        dump('getImageInfo: '.$path.' '.$disk.' '.$tolerance);
         try {
             if ($disk) {
                 $absolutePath = Storage::disk($disk)->path($path);
@@ -352,7 +350,6 @@ trait InteractsWithMediaExtended
 
             $image = self::imageManager()->read($absolutePath);
         } catch (\Throwable $e) {
-//            dump('could not read Image: '.$e->getMessage());
             Log::error(__('medialibrary-extensions::messages.failed_to_read_image' . $e->getMessage()));
             return $this->emptyImageInfo();
         }

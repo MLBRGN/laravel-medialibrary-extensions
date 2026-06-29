@@ -68,7 +68,7 @@ class RestoreOriginalMediaAction
             $targetPath = $media->getPathRelativeToRoot(); // safer for Storage
             $content = Storage::disk($originalsDisk)->get($originalPath);
 
-            // Write to medium path (on correct disk)
+            // Write to the medium path (on the correct disk)
             Storage::disk($targetDisk)->put($targetPath, $content);
 
             //            Log::info("Restored original [$originalPath] → [$targetDisk:$targetPath]");

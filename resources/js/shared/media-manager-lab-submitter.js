@@ -6,11 +6,11 @@ import {
     xhrRequestEnd
 } from './xhrStatus';
 
-import { updatePreviews } from './media-manager-lab-previews-refresher'
+import {updateMediaLabBase} from './media-manager-lab-previews-refresher'
 import { getFormData } from './form';
 import { getMediaManagerConfig } from './media-manager-config';
 
-const mediaManagerLabs = document.querySelectorAll('[data-mle-media-manager-lab]');
+const mediaManagerLabs = document.querySelectorAll('[data-mle-media-lab]');
 
 mediaManagerLabs.forEach(mediaManagerLab => {
 
@@ -22,8 +22,6 @@ mediaManagerLabs.forEach(mediaManagerLab => {
 
         const action = target.getAttribute('data-mle-action');
         if (!action || action === 'debugger-toggle') return;
-
-        // console.log('action', action);
 
         const config = getMediaManagerConfig(mediaManagerLab);
         if (!config) return;
@@ -96,8 +94,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
                 return;
             }
 
-            updatePreviews(mediaManagerLab, config, mediumId, { part : 'base' });
-
+            updateMediaLabBase(mediaManagerLab, config, mediumId);
             showStatusMessage(statusAreaContainer, data);
 
             // Debug snippet removed

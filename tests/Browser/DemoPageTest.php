@@ -93,25 +93,16 @@ dataset('mms_youtube_test_matrix', [
 
 dataset('media_lab_test_matrix', [
     'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
-    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
-    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
     'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
 
-    // TODO fail
-//    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
-//    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
-//    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
-//    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
+    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
 
-//    'plain + default + xhr' => ['plain', 'default', true],
-//    'plain + default + xhr' => ['plain', 'default', true],
-//    'plain + default + no xhr' => ['plain', 'default', false],
-//    'plain + default + no xhr' => ['plain', 'default', false],
+    'plain + default + xhr' => ['plain', 'default', true],
+    'plain + default + no xhr' => ['plain', 'default', false],
 
     'plain + demo + xhr' => ['plain', 'demo', true],
-//    'plain + demo + xhr' => ['plain', 'demo', true],
-//    'plain + demo + no xhr' => ['plain', 'demo', false],
-//    'plain + demo + no xhr' => ['plain', 'demo', false],
+    'plain + demo + no xhr' => ['plain', 'demo', false],
 ]);
 
 /**
@@ -841,8 +832,8 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     $mmmUploadButtonSelector = $mmmId.' [data-mle-media-upload-button]';
 
     // prepare media lab selectors
-    $labId = '#alien-lab-lab';
-    //    $labSelector = $labId.'[data-mle-media-manager-lab]';
+    $labId = '#alien-laboratory-lab';
+    //    $labSelector = $labId.'[data-mle-media-lab]';
     $labOriginalSelector = $labId.' [data-mle-media-lab-preview-original]';
     $labBaseSelector = $labId.' [data-mle-media-lab-preview-base]';
 
@@ -897,6 +888,8 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 
         // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
         ->assertPresent($restoreButtonSelector)
+            // TODO why do i need the refresh, if i don't refresh i get medium not found!
+        ->refresh()
         ->pressAndWaitFor($restoreButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
@@ -908,5 +901,5 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
-    ->with('media_lab_test_matrix')
-    ->only();
+    ->with('media_lab_test_matrix');
+//    ->only();

@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaReplacement;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOriginalMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -18,7 +19,10 @@ class StoreUpdatedMediaAction
 {
     use InteractsWithOriginalMedia;
 
-    public function __construct(protected MediaService $mediaService) {}
+    public function __construct(
+        protected MediaService $mediaService,
+        protected MediaReplacement $mediaReplacement
+    ) {}
 
     public function execute(StoreUpdatedMediaRequest $request): JsonResponse|RedirectResponse
     {
@@ -49,7 +53,7 @@ class StoreUpdatedMediaAction
                 $existingMedia = $this->mediaService->findMedium($mediaId, $dataSource);
                 if ($existingMedia) {
                     // Replace medium using old original
-                    $newMedia = $this->replaceMedium($existingMedia, $file);
+                    $newMedia = $this->mediaReplacement->replaceMedium($existingMedia, $file);
                 } else {
                     Log::warning("Medium with ID {$mediaId} not found.");
                 }
@@ -59,7 +63,7 @@ class StoreUpdatedMediaAction
                 $existingMedia = $this->mediaService->findTemporaryUpload($mediaId, $dataSource);
 
                 if ($existingMedia) {
-                    $newMedia = $this->replaceTemporaryUpload($existingMedia, $file);
+                    $newMedia = $this->mediaReplacement->replaceTemporaryUpload($existingMedia, $file);
                 }
             }
 
@@ -82,7 +86,7 @@ class StoreUpdatedMediaAction
             $baseId,
             __('medialibrary-extensions::messages.medium_replaced'),
             [
-                'mediumId' => $mediaId, // TODO rename to mediaId
+                'mediumId' => $mediaId,
                 'newMediumId' => $newMedia?->id,
                 'singleMediaId' => $isSingleMedia ? $newMedia?->id : null,
             ]

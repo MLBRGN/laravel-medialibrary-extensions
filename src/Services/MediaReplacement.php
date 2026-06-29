@@ -1,22 +1,23 @@
 <?php
 
-/** @noinspection PhpMultipleClassDeclarationsInspection */
+namespace Mlbrgn\MediaLibraryExtensions\Services;
 
-namespace Mlbrgn\MediaLibraryExtensions\Traits;
+/*
+ * Replaces media
+ */
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-trait InteractsWithOriginalMedia
+class MediaReplacement
 {
-    /**
-     * Replace an existing permanent medium with a new file.
-     * Preserves order, priority, and custom properties (including global_order).
-     */
+    public function __construct(
+    ) {}
+
     public function replaceMedium(Media $oldMedia, ?UploadedFile $newFile = null): Media
     {
         Log::info(sprintf(
@@ -172,92 +173,6 @@ trait InteractsWithOriginalMedia
         return $newUpload;
     }
 
-    /**
-     * Copy the original media file to the configured 'originals' disk.
-     */
-//    protected function copyOriginalMedia(Media $media): void
-//    {
-////        Log::info('InteractsWithOriginalMedia - copyOriginalMedia invoked');
-//
-//        $path = $media->getPath();
-//        $destination = "{$media->id}/{$media->file_name}";
-//
-//        if (Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($destination)) {
-////            Log::info("InteractsWithOriginalMedia - Original already exists for media [{$media->id}], skipping copy.");
-//
-//            return;
-//        }
-//
-//        try {
-//            Storage::disk(config('medialibrary-extensions.media_disks.originals'))->put($destination, file_get_contents($path));
-////            Log::info("InteractsWithOriginalMedia - Copied original media [{$media->id}] to originals disk.");
-//        } catch (\Throwable $e) {
-//            Log::error("InteractsWithOriginalMedia - Failed to copy original media [{$media->id}]: {$e->getMessage()}");
-//        }
-//
-//        $media->setConnection($media->getConnectionName());
-//        $media->setCustomProperty('is_original', true);
-//        $media->save();
-//    }
-
-    protected function copyOriginalMedia(Media $media): void
-    {
-        $disk = Storage::disk(config('medialibrary-extensions.media_disks.originals'));
-
-        $destination = "{$media->id}/{$media->file_name}";
-
-        if ($disk->exists($destination)) {
-            return;
-        }
-
-        $stream = fopen($media->getPath(), 'rb');
-
-        if (! $stream) {
-            throw new \RuntimeException(
-                "Unable to open media file [{$media->getPath()}]."
-            );
-        }
-
-        try {
-            $disk->put($destination, $stream);
-
-            $media->setCustomProperty('is_original', true);
-            $media->save();
-        } finally {
-            fclose($stream);
-        }
-    }
-
-    /**
-     * Reuse an existing original when a medium is replaced.
-     */
-//    protected function reuseOriginal(Media $oldMedia, Media $newMedia): void
-//    {
-////        Log::info('InteractsWithOriginalMedia - reuseOriginal oldMedia id: '.$oldMedia->getKey().' newMedia id: '.$newMedia->getKey().' invoked');
-//
-//        $oldPath = "{$oldMedia->id}/{$oldMedia->file_name}";
-//        $newPath = "{$newMedia->id}/{$newMedia->file_name}";
-//
-//        if (! Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($oldPath)) {
-//            Log::warning("InteractsWithOriginalMedia - Old original not found for media [{$oldMedia->id}].");
-//
-//            return;
-//        }
-//
-//        // TODO disabled this code, prevented old original to overwrite new original added by MediaHasBeenAddedListener
-//        //        if (Storage::disk(config('medialibrary-extensions.media_disks.originals'))->exists($newPath)) {
-//        //            Log::info("Original already exists for new media [{$newMedia->id}], skipping reuse.");
-//        //            return;
-//        //        }
-//
-//        try {
-//            Storage::disk(config('medialibrary-extensions.media_disks.originals'))->copy($oldPath, $newPath);
-////            Log::info("InteractsWithOriginalMedia - Reused old original for new media [{$newMedia->id}].");
-//        } catch (\Throwable $e) {
-//            Log::error("InteractsWithOriginalMedia - Failed to reuse original media: {$e->getMessage()}");
-//        }
-//    }
-
     protected function reuseOriginal(Media $oldMedia, Media $newMedia): void
     {
         $disk = Storage::disk(config('medialibrary-extensions.media_disks.originals'));
@@ -278,9 +193,6 @@ trait InteractsWithOriginalMedia
         $disk->copy($oldPath, $newPath);
     }
 
-    /**
-     * Assign or preserve a global sequential order across all media.
-     */
     protected function ensureGlobalOrder(Media $media): void
     {
 //        Log::info('InteractsWithOriginalMedia - ensureGlobalOrder called for media id: '.$media->getKey());

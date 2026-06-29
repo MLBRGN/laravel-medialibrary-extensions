@@ -72,7 +72,7 @@ const updateMedia = async (detail) => {
 
     const localStatusAreaContainer = resolveStatusAreaContainer(modal);
     let parentStatusAreaContainer = resolveStatusAreaContainer(mediaManager);
-    //const mediaLab = mediaManager.closest('[data-mle-media-manager-lab]');
+    //const mediaLab = mediaManager.closest('[data-mle-media-lab]');
 
     // TODO other solution?
     //if (mediaLab) {
@@ -179,9 +179,10 @@ const updateMedia = async (detail) => {
         // console.log('newMediumId', newMediumId);
         // Notify listeners that the previews were updated
         mediaManager.dispatchEvent(new CustomEvent('imageUpdated', {
-            bubbles: false,// TODO should it bubble?
+            bubbles: true,// TODO should it bubble?
             detail: {
-                mediumId: newMediumId,
+                mediumId: mediumId,
+                newMediumId: newMediumId,
                 modelType: modelType,
                 modelId: modelId,
                 baseId: baseId,

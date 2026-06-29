@@ -11,6 +11,7 @@
     method="post"
     class="mle-media-lab-restore-form"
     id="{{ $getDomId() }}"
+    data-mle-restore-form
 >
     <input type="hidden"
            name="medium_id"

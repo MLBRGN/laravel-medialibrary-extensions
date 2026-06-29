@@ -20,7 +20,7 @@ beforeEach(function () {
     Storage::fake('public');
 
     $this->mediaService = app(MediaService::class);
-    $this->storeUpdatedAction = new StoreUpdatedMediaAction($this->mediaService);
+    $this->storeUpdatedMediaAction = app(StoreUpdatedMediaAction::class);
     $this->getPermanentPreviewAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
 
     $this->baseId = 'media-manager-datasource';
@@ -81,7 +81,7 @@ it('preserves dataSource after updating media and refreshing previews', function
     $updateRequest->setLaravelSession(app('session.store'));
     $updateRequest->headers->set('Accept', 'application/json');
 
-    $updateResponse = $this->storeUpdatedAction->execute($updateRequest);
+    $updateResponse = $this->storeUpdatedMediaAction->execute($updateRequest);
     expect($updateResponse->status())->toBe(200);
 
     // 3. Request Preview refresh with dataSource

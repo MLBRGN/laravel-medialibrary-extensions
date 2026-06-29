@@ -15,6 +15,6 @@ it('renders the spinner partial view and sets properties correctly', function ()
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
-        ->and($component->getDomId())->toBe($id.'-spinner')
+        ->and($component->getDomId())->toBe($id.'-spinner-container')
         ->and($component->getConfig('frontendTheme'))->toBe('plain');
 });
