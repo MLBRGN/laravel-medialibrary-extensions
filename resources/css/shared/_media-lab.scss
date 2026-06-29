@@ -22,6 +22,10 @@
         width:100%;
     }
 
+    .mle-media-lab-preview-original img {
+        aspect-ratio: 1;
+    }
+
     .mle-media-lab-title {
         background-color: var(--mlbrgn-mle-preview-menu-bg-color);
         font-weight: 900;
