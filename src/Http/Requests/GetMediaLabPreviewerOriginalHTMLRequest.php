@@ -7,7 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GetMediaManagerLabPreviewerHTMLRequest extends FormRequest
+class GetMediaLabPreviewerOriginalHTMLRequest extends FormRequest
 {
     public function authorize(): bool
     {

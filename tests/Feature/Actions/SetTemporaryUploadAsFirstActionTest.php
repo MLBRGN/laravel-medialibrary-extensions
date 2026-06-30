@@ -16,7 +16,6 @@ it('fails when no collections provided JSON', function () {
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         // collections intentionally missing
@@ -51,7 +50,6 @@ it('fails when no collections provided', function () {
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
@@ -89,7 +87,6 @@ it('returns error when no media in collection JSON', function () {
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
         'collections' => ['image' => 'blog-non-existing-collection'],
@@ -124,7 +121,6 @@ it('returns error when no media in collection', function () {
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => 1,
@@ -179,7 +175,6 @@ it('can set as first in collection JSON', function () {
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
@@ -246,7 +241,6 @@ it('can set as first in collection', function () {
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'collections' => ['image' => 'blog-images'],
@@ -299,7 +293,6 @@ it('can set as first in collection with null model_id', function () {
 
     // Create request object
     $request = new SetTemporaryUploadAsFirstRequest([
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,

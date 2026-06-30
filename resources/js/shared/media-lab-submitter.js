@@ -6,24 +6,24 @@ import {
     xhrRequestEnd
 } from './xhrStatus';
 
-import {updateMediaLabBase} from './media-manager-lab-previews-refresher'
+import {updateMediaLabBase} from './media-lab-previews-refresher'
 import { getFormData } from './form';
 import { getMediaManagerConfig } from './media-manager-config';
 
-const mediaManagerLabs = document.querySelectorAll('[data-mle-media-lab]');
+const mediaLabs = document.querySelectorAll('[data-mle-media-lab]');
 
-mediaManagerLabs.forEach(mediaManagerLab => {
+mediaLabs.forEach(mediaLab => {
 
-    const statusAreaContainer = mediaManagerLab.querySelector('[data-mle-status-area-container]')
+    const statusAreaContainer = mediaLab.querySelector('[data-mle-status-area-container]')
 
-    mediaManagerLab.addEventListener('click', async function (e) {
+    mediaLab.addEventListener('click', async function (e) {
         const target = e.target.closest('[data-mle-action]');
         if (!target) return;
 
         const action = target.getAttribute('data-mle-action');
         if (!action || action === 'debugger-toggle') return;
 
-        const config = getMediaManagerConfig(mediaManagerLab);
+        const config = getMediaManagerConfig(mediaLab);
         if (!config) return;
 
         // if not using XHR skip let form handle normal submission
@@ -94,7 +94,7 @@ mediaManagerLabs.forEach(mediaManagerLab => {
                 return;
             }
 
-            updateMediaLabBase(mediaManagerLab, config, mediumId);
+            updateMediaLabBase(mediaLab, config, mediumId);
             showStatusMessage(statusAreaContainer, data);
 
             // Debug snippet removed

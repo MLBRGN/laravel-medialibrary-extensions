@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
-use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerLabPreviewerHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaLabPreviewerBaseHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaLabPreviewerOriginalHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerPreviewerHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaManagerTinyMceAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediaAction;
@@ -22,7 +23,8 @@ use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerLabPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaLabPreviewerBaseHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaLabPreviewerOriginalHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
@@ -105,12 +107,20 @@ class MediaManagerController extends Controller
         return $getMediaManagerPreviewerHTMLAction->execute($request);
     }
 
-    public function getUpdatedMediaManagerLabPreviewerHTML(
-        GetMediaManagerLabPreviewerHTMLRequest $request,
-        GetMediaManagerLabPreviewerHTMLAction $getMediaManagerLabPreviewerHTMLAction
+    public function getUpdatedMediaLabPreviewerBaseHTML(
+        GetMediaLabPreviewerBaseHTMLRequest $request,
+        GetMediaLabPreviewerBaseHTMLAction $getMediaLabPreviewerBaseHTMLAction
     ): RedirectResponse|JsonResponse {
-        return $getMediaManagerLabPreviewerHTMLAction->execute($request);
+        return $getMediaLabPreviewerBaseHTMLAction->execute($request);
     }
+
+    public function getUpdatedMediaLabPreviewerOriginalHTML(
+        GetMediaLabPreviewerOriginalHTMLRequest $request,
+        GetMediaLabPreviewerOriginalHTMLAction $getMediaLabPreviewerOriginalHTMLAction
+    ): RedirectResponse|JsonResponse {
+        return $getMediaLabPreviewerOriginalHTMLAction->execute($request);
+    }
+
 
     public function restoreOriginalMedium(
         RestoreOriginalMediumRequest $request,

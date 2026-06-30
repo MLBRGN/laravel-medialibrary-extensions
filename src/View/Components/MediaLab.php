@@ -18,7 +18,8 @@ class MediaLab extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public string $mediaManagerLabPreviewUpdateRoute = '';
+    public string $mediaLabPreviewBaseUpdateRoute = '';
+    public string $mediaLabPreviewOriginalUpdateRoute = '';
 
     public ?Model $model = null;
 
@@ -56,7 +57,8 @@ class MediaLab extends BaseComponent
         $this->options['showUploadForm'] = false; // singular file upload form
         $this->options['showYouTubeUploadForm'] = false; // don't show YouTube upload form
 
-        $this->mediaManagerLabPreviewUpdateRoute = route(mle_prefix_route('media-manager-lab-preview-update'));
+        $this->mediaLabPreviewBaseUpdateRoute = route(mle_prefix_route('media-lab-preview-base-update'));
+        $this->mediaLabPreviewOriginalUpdateRoute = route(mle_prefix_route('media-lab-preview-original-update'));
 
         $this->resolveConfig();
 

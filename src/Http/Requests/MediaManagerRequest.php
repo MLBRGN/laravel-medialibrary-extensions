@@ -54,7 +54,7 @@ abstract class MediaManagerRequest extends FormRequest
         $modelClass = $this->resolveModelClass();
         $modelId = $this->input('model_id');
         $dataSource = $this->input('data_source');
-        $model = $mediaService->findMedia($modelClass, $modelId, $dataSource);
+        $model = $mediaService->resolveModelById($modelClass, $modelId, $dataSource);
 
         return $model;
     }

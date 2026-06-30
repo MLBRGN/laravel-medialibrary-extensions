@@ -31,7 +31,7 @@ it('MediaService make uses the resolved connection', function () {
     expect($model->getConnectionName())->toBe('media_demo');
 });
 
-it('MediaService findMedia uses the resolved connection', function () {
+it('MediaService resolveModelById uses the resolved connection', function () {
     Config::set('medialibrary-extensions.data_sources.demo.connection', 'mle_test_demo');
 
     $service = app(MediaService::class);
@@ -49,7 +49,7 @@ it('MediaService findMedia uses the resolved connection', function () {
     $blog->title = 'Demo Blog';
     $blog->save();
 
-    $found = $service->findMedia(Blog::class, $blog->id, 'demo');
+    $found = $service->resolveModelById(Blog::class, $blog->id, 'demo');
 
     expect($found->getConnectionName())->toBe('mle_test_demo')
         ->and($found->id)->toBe($blog->id);

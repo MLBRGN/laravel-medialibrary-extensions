@@ -9,7 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerLabPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaLabPreviewerBaseHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewBase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewOriginal;
@@ -17,7 +18,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class GetMediaManagerLabPreviewerHTMLAction
+class GetMediaLabPreviewerBaseHTMLAction
 {
     public function __construct(
         protected MediaService $mediaService
@@ -26,7 +27,7 @@ class GetMediaManagerLabPreviewerHTMLAction
     /**
      * @throws Exception
      */
-    public function execute(GetMediaManagerLabPreviewerHTMLRequest $request): JsonResponse|Response
+    public function execute(GetMediaLabPreviewerBaseHTMLRequest $request): JsonResponse|Response
     {
         // Read the single authoritative Base ID
         $baseId = (string) $request->input('base_id');
@@ -43,41 +44,27 @@ class GetMediaManagerLabPreviewerHTMLAction
             $options['theme'] = $theme;
         }
 
-        $model = $this->mediaService->findMedia($modelType, $modelId, $dataSource);
+        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
 
         // have to query the model, don't use Media directly (this uses wrong db for demo pages)
-        $medium = $model->media()->findOrFail($mediumId);
+        $medium = $model->media()->find($mediumId);
 
-//        switch ($part) {
-//
-//            case 'original':
-//                $component = new LabPreviewOriginal(
-//                    id: $baseId,
-//                    media: $medium,
-//                    options: $options
-//                );
-//                break;
-//            case 'base':
-//                $component = new LabPreviewBase(
-//                    id: $baseId,
-//                    media: $medium,
-//                    options: $options
-//                );
-//                break;
-            // all
-//            default:
-//                $component = new LabPreviews(
-//                    id: $baseId,
-//                    media: $medium,
-//                    options: $options
-//                );
-//                break;
-//        }
+        if (! $medium) {
+            Log::error('GetMediaLabPreviewerHTMLAction - medium with mediumId: ' . $mediumId . ' not found');
+            throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
+
+//            return MediaResponse::error(
+//                $request,
+//                $baseId,
+//                __('medialibrary-extensions::messages.medium_not_found')
+//            );
+        }
 
         $component = new LabPreviewBase(
             id: $baseId,
             media: $medium,
-            options: $options
+            options: $options,
+            dataSource: $dataSource,
         );
         $html = Blade::renderComponent($component);
         $debugHtml = null;

@@ -39,7 +39,6 @@ it('stores temporary thumbnail successfully (JSON)', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
@@ -76,7 +75,6 @@ it('stores temporary thumbnail successfully (redirect)', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
@@ -117,7 +115,6 @@ it('returns error when temporary thumbnail fails to download (JSON)', function (
         'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'data_source' => 'demo',
@@ -148,7 +145,6 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
@@ -187,7 +183,6 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
@@ -217,7 +212,6 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
 
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',

@@ -207,8 +207,13 @@
                     </tr>
 
                     <tr>
-                        <th>Lab Preview Update</th>
-                        <td><code>{{ $getConfig('routes.mediaManagerLabPreviewUpdate') }}</code></td>
+                        <th>Lab Preview Base Update</th>
+                        <td><code>{{ $getConfig('routes.mediaLabPreviewBaseUpdate') }}</code></td>
+                    </tr>
+
+                    <tr>
+                        <th>Lab Preview Original Update</th>
+                        <td><code>{{ $getConfig('routes.mediaLabPreviewOriginalUpdate') }}</code></td>
                     </tr>
                 </table>
             </section>

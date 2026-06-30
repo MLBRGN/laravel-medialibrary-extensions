@@ -44,10 +44,6 @@ class GetMediaPreviewerPermanentHTMLAction
         $theme = $request->input('theme');
         // no clientToken
 
-        //        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$dataSource);
-        //        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$instanceId);
-        //        Log::info('GetMediaPreviewerPermanentHTMLAction - singleMediaId: '.$clientToken);
-
         $options = json_decode($request->input('options'), true) ?? [];
 
         if ($theme) {
@@ -55,7 +51,7 @@ class GetMediaPreviewerPermanentHTMLAction
         }
 
         $collections = json_decode($request->input('collections'), true) ?? [];
-        $model = $this->mediaService->findMedia($modelType, $modelId, $dataSource);
+        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))

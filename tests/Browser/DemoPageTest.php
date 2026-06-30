@@ -28,67 +28,67 @@ $waitTImeNonXhr = .3; // non-xhr tests are slower (0.3 seems the minimum for me)
 dataset('mms_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
     'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-//    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
+    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
-//    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-//    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
+    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
     'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-//    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
-//    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-//    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
+    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
 dataset('mmm_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
     'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-//    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
+    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
-//    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-//    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
+    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
     'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-//    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
-//    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-//    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
+    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
 dataset('mms_youtube_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
     'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-//    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],// TODO fails
-//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],// TODO fails
+    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
-//    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-//    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
+    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
     'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-//    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
-//    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-//    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
+    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
 dataset('media_lab_test_matrix', [
@@ -132,10 +132,7 @@ function ensureLabMedium(string $dataSource): void
 
     // If Lab already has a medium, nothing to do
     if (! $existingModel->getMedia('alien-media-lab')->isEmpty()) {
-        dump('Lab already has a medium, nothing to do');
         return;
-    } else {
-        dump('Lab does not have a medium, adding one');
     }
 
     // Prefer reusing a Single upload if available
@@ -161,7 +158,6 @@ function ensureLabMedium(string $dataSource): void
     $demoImage = __DIR__ . '/../../resources/demo/demo_small.jpeg';
 
     if (is_file($demoImage)) {
-        dump('added packaged demo image to Lab');
         $existingModel
             ->addMedia($demoImage)
             ->preservingOriginal()
@@ -350,9 +346,9 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
     // TODO non-xhr does not show the delete message
-    if ($xhr) {
+//    if ($xhr) {
         $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-    }
+//    }
 
     // the upload button should be enabled again
         $page->assertButtonEnabled($uploadButtonSelector);
@@ -498,9 +494,9 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
        // TODO non-xhr does not show the delete message
-        if ($xhr) {
+//        if ($xhr) {
             $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-        }
+//        }
 
         // the upload button should be enabled again
         $page->assertButtonEnabled($uploadButtonSelector);
@@ -621,9 +617,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-        if($xhr) {
+//        if($xhr) {
             $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-        }
+//        }
 
     }
 
@@ -893,9 +889,9 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->pressAndWaitFor($restoreButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-    if($xhr) {
+//    if($xhr) {
         $page->waitForText(__('medialibrary-extensions::messages.restored_original'));
-    }
+//    }
 
     // TODO fix
 //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));

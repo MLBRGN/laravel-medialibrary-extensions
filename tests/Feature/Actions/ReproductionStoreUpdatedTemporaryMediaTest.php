@@ -60,7 +60,6 @@ it('correctly replaces a temporary upload on a custom data source', function () 
         'collections' => ['image' => 'test'],
         'temporary_upload_mode' => 'true',
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'data_source' => $dataSource,
     ], [], ['file' => $newFile]);
 

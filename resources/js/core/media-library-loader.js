@@ -73,8 +73,8 @@ function loadMediaAssets(loader, manifest) {
         tasks.push(loadScript(`js/shared/media-manager-submitter.js`));
     }
 
-    if (assets.mediaManagerLabSubmitter) {
-        tasks.push(loadScript(`js/shared/media-manager-lab-submitter.js`));
+    if (assets.mediaLabSubmitter) {
+        tasks.push(loadScript(`js/shared/media-lab-submitter.js`));
     }
 
     if (assets.debugToggle || debug) {

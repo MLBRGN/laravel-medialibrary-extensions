@@ -26,7 +26,7 @@ class SetMediaAsFirstAction
 
         $baseId = (string) $request->input('base_id');
 
-        $model = $this->mediaService->findMedia($modelType, $modelId, $dataSource);
+        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
         $mediumId = (int) $request->medium_id;
         $targetMedia = $this->mediaService->findMedium($mediumId, $dataSource);
 

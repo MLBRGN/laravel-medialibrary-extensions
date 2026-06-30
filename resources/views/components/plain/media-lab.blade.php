@@ -11,7 +11,7 @@
     <x-mle-partial-status-area
         id="{{ $id }}"
     />
-    <div class="mle-media-manager-lab-previews" data-mle-media-lab-previews>
+    <div class="mle-media-lab-previews" data-mle-media-lab-previews>
         <x-mle-lab-previews
             :id="$id"
             :media="$media"
@@ -23,7 +23,7 @@
 <x-mle-shared-assets
     include-css="true"
     include-js="true"
-    include-media-manager-lab-submitter="true"
+    include-media-lab-submitter="true"
     include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
     :frontend-theme="$getConfig('frontendTheme')"
     for="plain|media-lab"

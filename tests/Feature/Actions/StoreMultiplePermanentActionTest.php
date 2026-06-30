@@ -22,7 +22,6 @@ it('stores multiple valid files (json)', function () {
             'model_type' => get_class($model),
             'model_id' => 1,
             'base_id' => $baseId,
-            'base_id' => $baseId,
             'collections' => ['image' => 'images'],
         ],
         [], // cookies
@@ -280,7 +279,6 @@ it('returns error if max media count is exceeded (JSON)', function () {
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->getKey(),
             'base_id' => $baseId,
-            'base_id' => $baseId,
             'collections' => ['image' => 'images'],
             'temporary_upload_mode' => 'false',
             'media' => [$file1, $file2, $file3, $file4],
@@ -321,7 +319,6 @@ it('returns error if max media count is exceeded (redirect)', function () {
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->getKey(),
             'base_id' => $baseId,
-            'base_id' => $baseId,
             'collections' => ['image' => 'images'],
             'temporary_upload_mode' => 'false',
             'media' => [$file1, $file2, $file3, $file4],
@@ -356,7 +353,6 @@ it('returns error if file exceeds max upload size (JSON)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->getKey(),
-                'base_id' => $baseId,
                 'base_id' => $baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'false',

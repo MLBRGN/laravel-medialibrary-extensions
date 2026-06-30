@@ -47,7 +47,7 @@ class StoreYouTubeVideoPermanentAction
         }
 
         //        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
-        $model = $this->mediaService->findMedia($modelType, $modelId, $dataSource);
+        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
         $model->load(['media' => fn ($q) => $q->whereIn('collection_name', $collections)]);
 
         $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');

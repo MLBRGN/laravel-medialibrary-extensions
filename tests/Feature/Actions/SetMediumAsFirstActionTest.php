@@ -24,7 +24,6 @@ it('fails when no collections provided JSON', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
     ]);
@@ -42,7 +41,6 @@ it('fails when no collections provided JSON', function () {
 
     expect($data)->toMatchArray([
         'baseId' => $baseId,
-        //        'base_id' => $baseId,
         'type' => 'error',
         'message' => __('medialibrary-extensions::messages.no_media_collections'),
     ]);
@@ -67,7 +65,6 @@ it('fails when no collections provided', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
     ]);
@@ -86,7 +83,6 @@ it('fails when no collections provided', function () {
     expect($flashData)->not()->toBeNull()
         ->and($flashData)->toMatchArray([
             'base_id' => $baseId,
-            //            'base_id' => $baseId,
             'type' => 'error',
             'message' => __('medialibrary-extensions::messages.no_media_collections'),
         ]);
@@ -110,7 +106,6 @@ it('returns error when no media in collection JSON', function () {
     $request = new SetMediumAsFirstRequest([
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
@@ -153,7 +148,6 @@ it('returns error when no media in collection', function () {
     $request = new SetMediumAsFirstRequest([
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
@@ -198,7 +192,6 @@ it('can set as first in collection JSON', function () {
     $request = new SetMediumAsFirstRequest([
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
@@ -245,7 +238,6 @@ it('can set as first in collection', function () {
     $request = new SetMediumAsFirstRequest([
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->id,
-        'base_id' => $baseId,
         'base_id' => $baseId,
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,

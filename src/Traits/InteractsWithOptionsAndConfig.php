@@ -64,7 +64,8 @@ trait InteractsWithOptionsAndConfig
         'mediumSetAsFirstRoute' => 'mediumSetAsFirst',
         'mediaDestroyRoute' => 'mediaDestroy',
         'mediumRestoreRoute' => 'mediumRestore',
-        'mediaManagerLabPreviewUpdateRoute' => 'mediaManagerLabPreviewUpdate',
+        'mediaLabPreviewBaseUpdateRoute' => 'mediaLabPreviewBaseUpdate',
+        'mediaLabPreviewOriginalUpdateRoute' => 'mediaLabPreviewOriginalUpdate',
     ];
 
     protected function getDefaultOptions(): array

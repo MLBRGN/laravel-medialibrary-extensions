@@ -68,18 +68,19 @@ class MediaService
     }
 
     /*
-     * Use this method to find a model by its ID.
+     * Use this method to resolve a model by its ID.
+     * also sets the correct connection for the model.
      */
-    public function findMedia(
+    public function resolveModelById(
         ?string $modelClass,
         string|int|null $id,
         ?string $dataSource,
         bool $validateExtended = true
     ): ?object {
 
-//        Log::info('MediaService - findMedia: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
+//        Log::info('MediaService - resolveModelById: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
         if ($modelClass === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
-            Log::info('MediaService - findMedia: returning null');
+            Log::info('MediaService - resolveModelById: returning null');
             return null;
         }
 
@@ -97,8 +98,8 @@ class MediaService
 
         $connection = $this->resolver->resolveConnection($dataSource);
 
-        Log::info('MediaService - findMedia: resolved connection ' . $connection);
-//        Log::info('MediaService - findMedia resolved connection', [
+        Log::info('MediaService - resolveModelById: resolved connection ' . $connection);
+//        Log::info('MediaService - resolveModelById resolved connection', [
 //            'dataSource' => $dataSource,
 //            'connection' => $connection,
 //            'database' => $model->setConnection($connection)
@@ -112,7 +113,7 @@ class MediaService
                 ->newQuery()
                 ->findOrFail($id);
         } catch (\Exception $e) {
-            Log::error('MediaService - findMedia failed', [
+            Log::error('MediaService - resolveModelById failed', [
                 'id' => $id,
                 'connection' => $connection,
                 'error' => $e->getMessage(),
@@ -136,10 +137,10 @@ class MediaService
             'connection' => $this->resolver->resolveConnection($dataSource),
         ]);
         try {
-            Log::info('MediaService - findMedium calling findMedia');
+            Log::info('MediaService - findMedium calling resolveModelById');
 
             Log::info(config('media-library.media_model'));
-            return $this->findMedia(
+            return $this->resolveModelById(
                 config('media-library.media_model'),
                 $id,
                 $dataSource,
@@ -158,7 +159,7 @@ class MediaService
         ?string $dataSource
     ): ?TemporaryUpload {
         try {
-            return $this->findMedia(
+            return $this->resolveModelById(
                 TemporaryUpload::class,
                 $id,
                 $dataSource

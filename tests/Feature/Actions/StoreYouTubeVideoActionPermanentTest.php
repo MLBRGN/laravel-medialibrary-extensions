@@ -39,7 +39,6 @@ it('stores permanent thumbnail successfully (JSON)', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
         'collections' => ['image' => 'images'],
@@ -54,7 +53,7 @@ it('stores permanent thumbnail successfully (JSON)', function () {
     $fakeMedia->shouldReceive('save')->once()->andReturnSelf();
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
 
@@ -82,7 +81,6 @@ it('stores permanent thumbnail successfully (redirect)', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'youtube_url' => 'https://www.youtube.com/watch?v=abc',
@@ -98,7 +96,7 @@ it('stores permanent thumbnail successfully (redirect)', function () {
     $fakeMedia->shouldReceive('save')->once()->andReturnSelf();
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
 
@@ -128,7 +126,6 @@ it('returns error when permanent thumbnail fails to download (JSON)', function (
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'model_type' => $model->getMorphClass(),
@@ -139,7 +136,7 @@ it('returns error when permanent thumbnail fails to download (JSON)', function (
     $request->headers->set('Accept', 'application/json');
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
 
@@ -165,7 +162,6 @@ it('returns error when permanent thumbnail fails to download (redirect)', functi
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
         'model_type' => $model->getMorphClass(),
@@ -176,7 +172,7 @@ it('returns error when permanent thumbnail fails to download (redirect)', functi
     $request->setLaravelSession(app('session')->driver());
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
 
@@ -207,7 +203,6 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
@@ -217,7 +212,7 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->with(get_class($model), $model->getKey(), null)
         ->andReturn($model);
@@ -249,7 +244,6 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
@@ -260,7 +254,7 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
     $request->setLaravelSession(app('session')->driver());
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->with(get_class($model), $model->getKey(), null)
         ->andReturn($model);
@@ -296,7 +290,6 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
@@ -306,7 +299,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $request->headers->set('Accept', 'application/json');
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
 
@@ -327,7 +320,6 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload' => false,
         'base_id' => $baseId,
-        'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'videos',
         'model_type' => get_class($model),
@@ -338,7 +330,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     $request->setLaravelSession(app('session')->driver());
 
     $this->mediaService
-        ->shouldReceive('findMedia')
+        ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
 

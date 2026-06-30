@@ -26,7 +26,9 @@ beforeEach(function () {
 
         public ?string $mediumRestoreRoute = null;
 
-        public ?string $mediaManagerLabPreviewUpdateRoute = null;
+        public ?string $mediaLabPreviewBaseUpdateRoute = null;
+
+        public ?string $mediaLabPreviewOriginalUpdateRoute = null;
 
         public function __construct()
         {

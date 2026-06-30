@@ -1,0 +1,217 @@
+import { handleAjaxError } from './xhrStatus';
+import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
+
+/**
+ * Refreshes the media preview container after upload, deletion, or restore.
+ */
+
+export async function updateMediaLabBase(mediaManager, config, mediumId,  detail = {}) {
+
+   console.log('media-lab-previews-refresher.js - updateMediaLabBase called, config: ', config)
+    const previewsContainer = mediaManager.querySelector('[data-mle-media-lab-previews]');
+    if (!previewsContainer) {
+        console.warn('No previews container found');
+        return;
+    }
+
+    const params = new URLSearchParams({
+        model_type: config.modelType,
+        model_id: config.modelId,
+        base_id: config.id,
+        medium_id: mediumId,
+        options: JSON.stringify(config.options),
+        theme: config.theme,
+        client_token: config.clientToken,
+        include_debug: 'true',
+        data_source: config.dataSource
+    });
+
+    // Cache-busting param
+    params.append('_', Date.now());
+
+    try {
+        const response = await fetch(`${config.routes.mediaLabPreviewBaseUpdate}?${params}`, {
+            headers: { 'Accept': 'application/json' },
+            cache: 'no-store', // prevents using or storing cache
+        });
+
+        let data;
+
+        const contentType = response.headers.get('content-type') ?? '';
+
+        if (contentType.includes('application/json')) {
+            data = await response.json();
+        } else {
+            data = {
+                message: await response.text(),
+            };
+        }
+
+        if (!response.ok) {
+            console.warn('response not ok', response, data)
+            handleAjaxError(response, {
+                message: data.message,
+                status: response.status,
+            });
+            return;
+        }
+
+        // check for html in the response, as we expect
+        if (!data.html) {
+            return;
+        }
+
+        const mediaLabPreviewBase = previewsContainer.querySelector('[data-mle-media-lab-preview-base]');
+        if (!mediaLabPreviewBase) {
+            console.warn('mediaLabPreviewBase not found')
+            return
+        }
+        mediaLabPreviewBase.outerHTML = data.html;
+
+        // Update debug panel if present
+        if (data.debugHtml) {
+            const debugPanel = mediaManager.querySelector('[data-mle-debug]');
+            if (debugPanel) {
+                // We want to keep the current visibility state (hidden or not)
+                const isHidden = debugPanel.classList.contains('hidden') || debugPanel.classList.contains('mle-hidden');
+
+                // Replace the outer wrapper of the debug content
+                const debugWrapper = debugPanel.closest('.mle-debug-wrapper');
+                if (debugWrapper) {
+                    debugWrapper.outerHTML = data.debugHtml;
+
+                    // Re-apply the visibility state if it was hidden
+                    const newDebugPanel = mediaManager.querySelector('[data-mle-debug]');
+                    if (newDebugPanel && isHidden) {
+                        newDebugPanel.classList.add('hidden', 'mle-hidden');
+                    } else if (newDebugPanel) {
+                        newDebugPanel.classList.remove('hidden', 'mle-hidden');
+                    }
+                }
+            }
+        }
+
+        // Notify listeners that the previews were updated
+        // mediaManager.dispatchEvent(new CustomEvent('mediaLabPreviewBaseUpdated', {
+        //     bubbles: false,
+        //     detail: {
+        //         mediaManager: mediaManager,
+        //         previewsContainer: previewsContainer
+        //     }
+        // }));
+
+    } catch (error) {
+        console.error('Error refreshing media lab base:', error);
+    }
+}
+
+export async function updateMediaLabOriginal(mediaManager, config, mediumId,  detail = {}) {
+    console.log('media-lab-previews-refresher.js - updateMediaLabOriginal called')
+
+    const previewsContainer = mediaManager.querySelector('[data-mle-media-lab-previews]');
+    if (!previewsContainer) {
+        console.warn('No previews container found');
+        return;
+    }
+
+    // console.log('updateMediaLabOriginal - medium id ', mediumId)
+    const params = new URLSearchParams({
+        model_type: config.modelType,
+        model_id: config.modelId,
+        base_id: config.id,
+        medium_id: mediumId,
+        options: JSON.stringify(config.options),
+        theme: config.theme,
+        client_token: config.clientToken,
+        include_debug: 'true',
+        data_source: config.dataSource
+    });
+
+    // Cache-busting param
+    params.append('_', Date.now());
+
+    try {
+        const response = await fetch(`${config.routes.mediaLabPreviewOriginalUpdate}?${params}`, {
+            headers: { 'Accept': 'application/json' },
+            cache: 'no-store', // prevents using or storing cache
+        });
+
+        let data;
+
+        const contentType = response.headers.get('content-type') ?? '';
+
+        if (contentType.includes('application/json')) {
+            data = await response.json();
+        } else {
+            data = {
+                message: await response.text(),
+            };
+        }
+
+        if (!response.ok) {
+            console.log('response not ok', response, data)
+            handleAjaxError(response, {
+                message: data.message,
+                status: response.status,
+            });
+            return;
+        }
+
+        // check for html in the response, as we expect
+        if (!data.html) {
+            return;
+        }
+
+        console.log('updateMediaLabOriginal - data.html ', data.html)
+        const mediaLabPreviewOriginal = previewsContainer.querySelector('[data-mle-media-lab-preview-original]');
+        if (!mediaLabPreviewOriginal) {
+            console.warn('mediaLabPreviewOriginal not found')
+            return
+        }
+        mediaLabPreviewOriginal.outerHTML = data.html;
+        mediaLabPreviewOriginal.style.outline = '11px solid red';
+        console.log('mediaLabPreviewOriginal html updated', mediaLabPreviewOriginal)
+        // Update debug panel if present
+        // if (data.debugHtml) {
+        //     const debugPanel = mediaManager.querySelector('[data-mle-debug]');
+        //     if (debugPanel) {
+        //         // We want to keep the current visibility state (hidden or not)
+        //         const isHidden = debugPanel.classList.contains('hidden') || debugPanel.classList.contains('mle-hidden');
+        //
+        //         // Replace the outer wrapper of the debug content
+        //         const debugWrapper = debugPanel.closest('.mle-debug-wrapper');
+        //         if (debugWrapper) {
+        //             debugWrapper.outerHTML = data.debugHtml;
+        //
+        //             // Re-apply visibility state if it was hidden
+        //             const newDebugPanel = mediaManager.querySelector('[data-mle-debug]');
+        //             if (newDebugPanel && isHidden) {
+        //                 newDebugPanel.classList.add('hidden', 'mle-hidden');
+        //             } else if (newDebugPanel) {
+        //                 newDebugPanel.classList.remove('hidden', 'mle-hidden');
+        //             }
+        //         }
+        //     }
+        // }
+
+        // Notify listeners that the previews were updated
+        // mediaManager.dispatchEvent(new CustomEvent('medialabPreviewOriginalUpdated', {
+        //     bubbles: false,
+        //     detail: {
+        //         mediaManager: mediaManager,
+        //         previewsContainer: previewsContainer
+        //     }
+        // }));
+
+    } catch (error) {
+        console.error('Error refreshing media lab original:', error);
+    }
+}
+
+// listen to imageUpdated event so that we can update the restore form's media_id
+document.addEventListener('imageUpdated', (e) => {
+    const newMediumId = e.detail?.newMediumId;
+    const mediaLab = e.target.closest('[data-mle-media-lab]');
+    const config = getMediaManagerConfig(mediaLab);
+    updateMediaLabOriginal(mediaLab, config, newMediumId)
+});

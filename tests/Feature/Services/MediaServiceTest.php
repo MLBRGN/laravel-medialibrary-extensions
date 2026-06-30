@@ -13,7 +13,7 @@ it('resolves an existing model instance', function () {
     $model = $this->getTestBlogModel();
     $service = app(MediaService::class);
 
-    $resolved = $service->findMedia(Blog::class, $model->id, 'default');
+    $resolved = $service->resolveModelById(Blog::class, $model->id, 'default');
 
     expect($resolved)->toBeInstanceOf(Blog::class)
         ->and($resolved->id)->toBe($model->id);
@@ -22,13 +22,13 @@ it('resolves an existing model instance', function () {
 it('throws 400 if model class does not exist', function () {
     $service = app(MediaService::class);
 
-    $service->findMedia('NonExistentClass', '1', 'default');
+    $service->resolveModelById('NonExistentClass', '1', 'default');
 })->throws(InvalidModelTypeException::class);
 
 it('throws ModelNotFoundException if id not found', function () {
     $service = app(MediaService::class);
 
-    $service->findMedia(Blog::class, '999', 'default');
+    $service->resolveModelById(Blog::class, '999', 'default');
 })->throws(ModelNotFoundException::class);
 
 it('throws exception if model does not implement HasMediaExtended', function () {
@@ -38,7 +38,7 @@ it('throws exception if model does not implement HasMediaExtended', function () 
     $class = new class extends Model {};
     $className = get_class($class);
 
-    $service->findMedia($className, 1, 'default');
+    $service->resolveModelById($className, 1, 'default');
 })->throws(InvalidModelTypeException::class, 'must implement Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended');
 
 beforeEach(function () {
