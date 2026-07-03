@@ -22,15 +22,22 @@ Extension for `spatie/laravel-medialibrary` that adds temporary uploads, multi-c
 - This package uses **Pest v4**.
 - **Path Awareness**: ALWAYS check your current working directory. The project root is `/Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages`. This package is located at `packages/mlbrgn/laravel-medialibrary-extensions`.
 - **CRITICAL**: DO NOT create nested `packages` directories (e.g., `.../laravel-medialibrary-extensions/packages/...`). When creating files, ensure the path is absolute from the project root or carefully relative to your current `pwd`.
-- This package must be tested using `composer test` from its root directory:
-- ALWAYS use `composer test` when testing this package. Do NOT use `php artisan test` or `vendor/bin/phpunit` directly from the project root for this package.
-- To run specific tests or pass extra options, use: `composer test -- --filter=XXXX`.
+- Always run tests via this package’s Composer scripts. From the repo root, prefer `--working-dir` to avoid CWD mistakes:
+  - Run all tests: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test`
+  - Run a single file: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test -- tests/Feature/StoreUpdatedMediaActionTest.php`
+  - Filter by name: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test -- --filter="replaces a medium"`
+  - Browser tests only: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test-browser`
+  - Update snapshots: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test -- --update-snapshots`
+- Do NOT use `php artisan test` from the monorepo root for this package.
 - When writing browser tests, never use `browse()`. Instead, use `visit()`.
+  - Troubleshooting: If the test run outputs `No tests found.`, remove any `->only()` usages in Pest tests or browser tests (e.g. `it(...)->only()`, `test(...)->only()`, `describe(...)->only()`, or `->group('browser')->only()`). These limit discovery and can cause zero tests to run.
 
 ## Code Style
 
 - Use Laravel Pint for code formatting.
-- Always run Pint using a subshell from the project root: `composer pint`.
+- Prefer running Pint scoped to this package:
+  - `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions pint` (if defined), or
+  - From repo root: `vendor/bin/pint --format agent` (formats dirty files project-wide).
 - You have standing permission to run Pint without asking.
 
 ## When to Activate

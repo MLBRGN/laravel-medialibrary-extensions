@@ -23,6 +23,7 @@ class MediaReplacement
     // this will create a new id for the new medium!
     public function replaceMedium(Media $oldMedia, ?UploadedFile $newFile = null): Media
     {
+//        Log::info('oldMedia: ' . print_r($oldMedia, true));
         Log::info(sprintf(
             'MediaReplacement - replaceMedium [%d]',
             $oldMedia->getKey()
@@ -81,9 +82,12 @@ class MediaReplacement
 
             $newMedia->save();
 
+            Log::info('MediaReplacement - ' . $oldMedia->getKey() . ' ' . $newMedia->getKey());
+
+//            Log::info('backup: ' . print_r($backup, true));
             // Reuse the archived original before deleting the old media.
             // This ensures the original remains available if anything fails earlier.
-            $this->originalMediaService->copyArchivedOriginal($backup, $newMedia);
+            $this->originalMediaService->copyArchivedOriginal($oldMedia, $newMedia);
 
             // Once the replacement has been created successfully, remove
             // the original media record.

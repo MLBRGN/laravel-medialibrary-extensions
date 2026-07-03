@@ -91,6 +91,7 @@ dataset('mms_youtube_test_matrix', [
     'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
+// sometimes fails, seen it fail on the 3rd and 7th item
 dataset('media_lab_test_matrix', [
     'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
     'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
@@ -882,6 +883,27 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 //        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->assertMissing($imageEditorModalSelector)
 
+        // After save, ensure Base and Original reference the same new medium id
+        // We read the medium id from the restore button data attribute in the Original panel,
+        // and from the nested MMS Single component button/link in the Base panel if available.
+        // Fallback: use the restore button as source of truth and assert Base has updated too by
+        // checking that the restore form's data route contains the same id and that the Base panel exists.
+//        ->assertPresent($restoreButtonSelector)
+//        ->wait(0.2)
+//        ->tap(function ($page) use ($restoreButtonSelector, $labBaseSelector) {
+//            // Extract the new medium id from the Original restore button
+//            $newMediumId = $page->attribute($restoreButtonSelector, 'data-mle-medium-id');
+//
+//            expect(is_numeric($newMediumId))->toBeTrue("Expected numeric medium id after save");
+//
+//            // Also ensure the restore route reflects the same id
+//            $restoreRoute = $page->attribute($restoreButtonSelector, 'data-mle-route');
+//            expect($restoreRoute)->toContain("/{$newMediumId}");
+//
+//            // Within Base preview, ensure the nested media manager is re-rendered (sanity)
+//            $page->assertPresent($labBaseSelector);
+//        })
+
         // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
         ->assertPresent($restoreButtonSelector)
             // TODO why do i need the refresh, if i don't refresh i get medium not found!
@@ -897,5 +919,5 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
-    ->with('media_lab_test_matrix');
-//    ->only();
+    ->with('media_lab_test_matrix')
+    ->only();

@@ -68,6 +68,16 @@ export async function updateMediaLabBase(mediaManager, config, mediumId,  detail
         }
         mediaLabPreviewBase.outerHTML = data.html;
 
+        // Notify listeners that the previews were updated so components can re-initialize
+        // mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
+        //     bubbles: true,
+        //     composed: true,
+        //     detail: {
+        //         mediaManager: mediaManager,
+        //         previewsContainer: previewsContainer,
+        //     }
+        // }));
+
         // Update debug panel if present
         if (data.debugHtml) {
             const debugPanel = mediaManager.querySelector('[data-mle-debug]');
@@ -106,7 +116,7 @@ export async function updateMediaLabBase(mediaManager, config, mediumId,  detail
 }
 
 export async function updateMediaLabOriginal(mediaManager, config, mediumId,  detail = {}) {
-    console.log('media-lab-previews-refresher.js - updateMediaLabOriginal called')
+    // console.log('media-lab-previews-refresher.js - updateMediaLabOriginal called')
 
     const previewsContainer = mediaManager.querySelector('[data-mle-media-lab-previews]');
     if (!previewsContainer) {
@@ -149,7 +159,7 @@ export async function updateMediaLabOriginal(mediaManager, config, mediumId,  de
         }
 
         if (!response.ok) {
-            console.log('response not ok', response, data)
+            // console.log('response not ok', response, data)
             handleAjaxError(response, {
                 message: data.message,
                 status: response.status,
@@ -162,15 +172,24 @@ export async function updateMediaLabOriginal(mediaManager, config, mediumId,  de
             return;
         }
 
-        console.log('updateMediaLabOriginal - data.html ', data.html)
+        // console.log('updateMediaLabOriginal - data.html ', data.html)
         const mediaLabPreviewOriginal = previewsContainer.querySelector('[data-mle-media-lab-preview-original]');
         if (!mediaLabPreviewOriginal) {
             console.warn('mediaLabPreviewOriginal not found')
             return
         }
         mediaLabPreviewOriginal.outerHTML = data.html;
-        mediaLabPreviewOriginal.style.outline = '11px solid red';
-        console.log('mediaLabPreviewOriginal html updated', mediaLabPreviewOriginal)
+
+        // Notify listeners that the previews were updated so components can re-initialize
+        // mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
+        //     bubbles: true,
+        //     composed: true,
+        //     detail: {
+        //         mediaManager: mediaManager,
+        //         previewsContainer: previewsContainer,
+        //     }
+        // }));
+        // console.log('mediaLabPreviewOriginal html updated', mediaLabPreviewOriginal)
         // Update debug panel if present
         // if (data.debugHtml) {
         //     const debugPanel = mediaManager.querySelector('[data-mle-debug]');

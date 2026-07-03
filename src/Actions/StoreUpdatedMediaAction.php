@@ -78,7 +78,7 @@ class StoreUpdatedMediaAction
                 $baseId,
                 __('medialibrary-extensions::messages.something_went_wrong'),
                 [
-                    'mediumId' => $mediaId, // TODO rename to mediaId
+                    'mediumId' => $mediaId,
                     'exception' => $e->getMessage(),
                 ]
             );
@@ -89,7 +89,7 @@ class StoreUpdatedMediaAction
             $baseId,
             __('medialibrary-extensions::messages.medium_replaced'),
             [
-                'mediumId' => $mediaId,
+                'oldMediumId' => $mediaId,
                 'newMediumId' => $newMedia?->id,
                 'singleMediaId' => $isSingleMedia ? $newMedia?->id : null,
             ]

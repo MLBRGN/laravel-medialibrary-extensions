@@ -95,6 +95,8 @@ const updateMedia = async (detail) => {
     const dataSource = config.dataSource;
     const baseId = modal.getAttribute('data-base-id') || config.id;
 
+    console.log('image-editor-listener.js - mediumId: ', mediumId);
+
     formData.append('base_id', baseId);
     formData.append('model_type', modelType);
     formData.append('model_id', modelId );
@@ -175,13 +177,15 @@ const updateMedia = async (detail) => {
             }
         }));
 
+        const oldMediumId = mediumId;
         const newMediumId = json.newMediumId;
+
         // console.log('newMediumId', newMediumId);
         // Notify listeners that the previews were updated
         mediaManager.dispatchEvent(new CustomEvent('imageUpdated', {
-            bubbles: true,// TODO should it bubble?
+            bubbles: true,
             detail: {
-                mediumId: mediumId,
+                oldMediumId: oldMediumId,
                 newMediumId: newMediumId,
                 modelType: modelType,
                 modelId: modelId,
