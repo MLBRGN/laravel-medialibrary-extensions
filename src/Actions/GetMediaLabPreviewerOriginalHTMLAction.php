@@ -34,7 +34,7 @@ class GetMediaLabPreviewerOriginalHTMLAction
         $options = json_decode($request->input('options'), true) ?? [];
         $dataSource = $request->input('data_source');
 
-//        $part = $request->input('part', 'all');
+        //        $part = $request->input('part', 'all');
 
         if ($theme) {
             $options['theme'] = $theme;
@@ -46,15 +46,25 @@ class GetMediaLabPreviewerOriginalHTMLAction
         $medium = $model->media()->find($mediumId);
 
         if (! $medium) {
-            Log::error('GetMediaLabPreviewerHTMLAction - medium with mediumId: ' . $mediumId . ' not found');
+            Log::error('GetMediaLabPreviewerHTMLAction - medium with mediumId: '.$mediumId.' not found');
             throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
-
-//            return MediaResponse::error(
-//                $request,
-//                $baseId,
-//                __('medialibrary-extensions::messages.medium_not_found')
-//            );
+            //            return MediaResponse::error(
+            //                $request,
+            //                $baseId,
+            //                __('medialibrary-extensions::messages.medium_not_found')
+            //            );
         }
+
+        // Enforce Media Lab UI constraints regardless of what the client sends
+        $options = array_merge($options, [
+            'showDestroyButton' => false,
+            'showSetAsFirstButton' => false,
+            'showMediaEditButton' => true,
+            'showMenu' => true,
+            'showUploadForms' => false,
+            'showUploadForm' => false,
+            'showYouTubeUploadForm' => false,
+        ]);
 
         $component = new LabPreviewOriginal(
             id: $baseId,

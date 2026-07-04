@@ -58,7 +58,20 @@ class GetMediaLabPreviewerBaseHTMLAction
             //            );
         }
 
-        Log::info('GetMediaLabPreviewerHTMLAction - options: '.print_r($options, true));
+        // Enforce Media Lab UI constraints regardless of what the client sends
+        // The Lab should never expose destructive actions like delete or set-as-first.
+        $options = array_merge($options, [
+            'showDestroyButton' => false,
+            'showSetAsFirstButton' => false,
+            'showMediaEditButton' => true,
+            'showMenu' => true,
+            // Never show any upload forms inside the Media Lab previews
+            'showUploadForms' => false,
+            'showUploadForm' => false,
+            'showYouTubeUploadForm' => false,
+        ]);
+
+        Log::info('GetMediaLabPreviewerHTMLAction - options (lab-enforced): '.print_r($options, true));
         $component = new LabPreviewBase(
             id: $baseId,
             media: $medium,
