@@ -71,7 +71,7 @@ class GetMediaLabPreviewerBaseHTMLAction
             'showYouTubeUploadForm' => false,
         ]);
 
-        Log::info('GetMediaLabPreviewerHTMLAction - options (lab-enforced): '.print_r($options, true));
+//        Log::info('GetMediaLabPreviewerHTMLAction - options (lab-enforced): '.print_r($options, true));
         $component = new LabPreviewBase(
             id: $baseId,
             media: $medium,

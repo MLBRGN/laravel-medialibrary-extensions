@@ -1,4 +1,4 @@
-<div class="mle-media-preview-grid" 
+<div class="mle-media-preview-grid mle-lab-previews"
      data-mle-media-preview-grid
      id="{{ $getDomId() }}"
 >

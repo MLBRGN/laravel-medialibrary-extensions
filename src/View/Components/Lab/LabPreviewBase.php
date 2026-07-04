@@ -32,7 +32,7 @@ class LabPreviewBase extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-        Log::info('LabPreviewBase - options: '.print_r($options, true));
+//        Log::info('LabPreviewBase - options: '.print_r($options, true));
         $this->resolveConfig();
 
         if ($this->media instanceof Media) {

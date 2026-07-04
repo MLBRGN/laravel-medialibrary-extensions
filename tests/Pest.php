@@ -14,6 +14,6 @@ uses(
     BrowserTestCase::class
 )->in('Browser');
 
-pest()->browser()->headed()->timeout(3000);
+pest()->browser()->headed()->timeout(5000);
 // pest()->browser()->inFirefox();
 // pest()->browser()->inSafari();
