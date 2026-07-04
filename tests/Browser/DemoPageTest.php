@@ -967,5 +967,5 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
-    ->with('media_lab_test_matrix');
-//    ->only();
+    ->with('media_lab_test_matrix')
+    ->only();

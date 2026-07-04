@@ -76,9 +76,13 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         // Update counts in the upload section header
         const formContainer = mediaManager.querySelector('.mle-media-manager-form');
         const countsEl = formContainer?.querySelector('.mle-media-manager-media-counts');
-        const maxFromResponse = (typeof data.maxMediaCount !== 'undefined') ? data.maxMediaCount : undefined;
-        const maxFromConfig = (typeof config.maxMediaCount !== 'undefined') ? config.maxMediaCount : undefined;
-        const maxCount = maxFromResponse ?? maxFromConfig ?? (config.multiple ? 10 : 1);
+        const maxFromConfig = (typeof config.maxMediaCount !== 'undefined') ? Number(config.maxMediaCount) : undefined;
+        const maxFromResponse = (typeof data.maxMediaCount !== 'undefined') ? Number(data.maxMediaCount) : undefined;
+        const hasExplicitPerInstanceMax = (typeof maxFromConfig !== 'undefined' && !Number.isNaN(maxFromConfig));
+        // Prefer per-instance max from component config when provided; fall back to server response, then default.
+        const maxCount = hasExplicitPerInstanceMax
+            ? maxFromConfig
+            : (maxFromResponse ?? (config.multiple ? 10 : 1));
         if (countsEl && (typeof data.mediaCount !== 'undefined')) {
             countsEl.textContent = `${data.mediaCount} / ${maxCount}`;
         }
@@ -108,7 +112,11 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
 
         // Handle disabling/enabling of forms and alert visibility
         if (data.mediaCount !== undefined && data.mediaCount !== null) {
-            const isAtMax = (typeof data.isAtMax !== 'undefined') ? data.isAtMax : (data.mediaCount >= maxCount);
+            // If component provided an explicit per-instance max, compute locally against that value
+            // and ignore potentially conflicting server-provided isAtMax (which uses global config).
+            const isAtMax = hasExplicitPerInstanceMax
+                ? (data.mediaCount >= maxCount)
+                : ((typeof data.isAtMax !== 'undefined') ? data.isAtMax : (data.mediaCount >= maxCount));
 
             // Toggle form elements based on capacity for single; for multiple, keep enabled unless at max
             if (!config.multiple) {
@@ -142,7 +150,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
                     maxAlert.className = 'mle-alert alert alert-primary';
                     maxAlert.setAttribute('data-mle-max-reached-alert', '');
                     // Minimal text; server-side translations are not available here
-                    maxAlert.textContent = config.multiple ? 'Maximum items reached' : 'Only one medium allowed';
+                    maxAlert.textContent = config.multiple ? trans('upload_disabled_max_items_reached') : trans('upload_disabled_only_one_medium_allowed');
                     // Insert after counts if available, else append to formContainer
                     if (countsEl && countsEl.parentElement) {
                         countsEl.parentElement.insertBefore(maxAlert, countsEl.nextSibling);
@@ -165,4 +173,8 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
     } catch (error) {
         console.error('Error refreshing media manager:', error);
     }
+}
+
+function trans (key) {
+    return window.mediaLibraryTranslations?.[key] || key;
 }

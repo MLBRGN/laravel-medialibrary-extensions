@@ -72,9 +72,12 @@ class Assets extends Component
                 'medium_replacement_failed' => __('medialibrary-extensions::messages.medium_replacement_failed'),
 
                 'image_load_failed' => __('medialibrary-extensions::messages.image_load_failed'),
-            ],
+
+                'upload_disabled_only_one_medium_allowed' => __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed'),
+
+                'upload_disabled_max_items_reached' => __('medialibrary-extensions::messages.upload_disabled_max_items_reached'),
+                ],
         ];
-        //        dump($this->assetConfig);
     }
 
     public function render(): View

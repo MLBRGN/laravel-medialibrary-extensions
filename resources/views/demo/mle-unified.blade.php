@@ -168,7 +168,7 @@
                 :options="[
                             'theme' => $theme, 
                             'dataSource' => $dataSource, 
-                            'useXhr' => $useXhr
+                            'useXhr' => $useXhr,
                 ]"
                 :data-source="$dataSource"
             />
@@ -212,7 +212,9 @@
                     'showOrder' => true, 
                     'theme' => $theme, 
                     'dataSource' => $dataSource, 
-                    'useXhr' => $useXhr
+                    'useXhr' => $useXhr,
+                    'maxMediaCount' => 3
+
                 ]"
                 :data-source="$dataSource"
                 
@@ -236,7 +238,8 @@
                     'showOrder' => true, 
                     'theme' => $theme, 
                     'dataSource' => $dataSource, 
-                    'useXhr' => $useXhr
+                    'useXhr' => $useXhr,
+                    'maxMediaCount' => 3
                 ]"
                 :data-source="$dataSource"
             />

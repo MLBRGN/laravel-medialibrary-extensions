@@ -10,6 +10,7 @@
     ])->merge() }}
     data-mle-media-manager
 >
+    MAX ITEMS IN SHARED MEDIA COLLECTIONS {{ $getConfig('maxMediaCount') }}
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
     @if(config('medialibrary-extensions.debug'))
@@ -24,6 +25,7 @@
     <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
         {{-- Upload form section --}}
         <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
+           
             @if($getConfig('showUploadForms'))
                 <span class="mle-media-manager-media-counts">{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>
                 @if($totalMediaCount >= $maxMediaCount)
