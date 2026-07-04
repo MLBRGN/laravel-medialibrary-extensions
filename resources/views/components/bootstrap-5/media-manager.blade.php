@@ -26,7 +26,13 @@
         <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
            
             @if($getConfig('showUploadForms'))
-                <span class="mle-media-manager-media-counts">{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>
+{{--                <span class="mle-media-manager-media-counts" data-mle-media-manager-media-counts>{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>--}}
+                <span class="mle-media-manager-media-counts mle-form-text form-text" data-mle-media-manager-media-counts>
+                    {{ __('medialibrary-extensions::messages.media_counts', [
+                        'current' => $totalMediaCount,
+                        'total' => $maxMediaCount,
+                    ]) }}    
+                </span>
                 @if(($totalMediaCount >= $maxMediaCount) || ($multiple && $getConfig('disableForm')))
                     <div class="mle-alert alert alert-primary" data-mle-max-reached-alert>
                         @if(!$multiple)

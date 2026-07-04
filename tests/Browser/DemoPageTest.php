@@ -352,7 +352,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // check that media modal can be closed
     $page->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
 
-    // check image editor modal can be opened and closed
+    // check image editor modal can be closed using esc key
+    $page->pressAndWaitFor($editButtonSelector, $waitTime)
+        ->assertPresent($imageEditorModalSelector)
+        ->focus($imageEditorModalSelector)
+        ->keys($imageEditorModalSelector, '{esc}');
+
+    // check image editor modal can be closed using the close button
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
@@ -384,9 +390,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
 })->group('browser')
     ->with('mms_test_matrix')
-//    ->with('mms_test_matrix')
-    ->skip();
-// ->only();
+ ->skip();
 
 it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -494,13 +498,19 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
         // check that media modal can be closed
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
 
-    // check image editor modal can be opened and closed
+    // check image editor modal can be closed using the close button
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime)
         ->assertMissing($imageEditorModalSelector);
+
+    // TODO, don't know how to check image editor modal can be closed using esc key
+//    $page->pressAndWaitFor($editButtonSelector, $waitTime)
+//        ->assertPresent($imageEditorModalSelector);
+//        ->focus($imageEditorModalSelector)
+//        ->keys($imageEditorModalSelector, '{esc}');
 
     // check saving edited image in the image editor
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
@@ -547,8 +557,8 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_test_matrix');
-// ->only();
+    ->with('mms_test_matrix')
+ ->only();
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -798,12 +808,16 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     ->with('mms_youtube_test_matrix');
 // ->only();
 
-it('can control standalone media carousel', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
+it('can control standalone media carousel', function ($theme, $dataSource, $xhr, $temporary = false, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
 
     // prepare MMM selectors to upload media first
-    $mmmId = '#alien-multiple-permanent-mmm';
-    $mmmInputSelector = $mmmId.' [data-mle-media-input]';
-    $mmmUploadButtonSelector = $mmmId.' [data-mle-media-upload-button]';
+    $mmmPermanentId = '#alien-multiple-permanent-mmm';
+    $mmmPermanentInputSelector = $mmmPermanentId.' [data-mle-media-input]';
+    $mmmPermanentUploadButtonSelector = $mmmPermanentId.' [data-mle-media-upload-button]';
+
+    $mmmTemporaryId = '#alien-multiple-temporary-mmm';
+    $mmmTemporaryInputSelector = $mmmTemporaryId.' [data-mle-media-input]';
+    $mmmTemporaryUploadButtonSelector = $mmmTemporaryId.' [data-mle-media-upload-button]';
 
     // prepare carousel selectors
     $carouselId = '#alien-carousel-crs';
@@ -832,19 +846,39 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
     // don't upload each iteration
     if ($uploadMedia) {
-        // 1. Upload two images via MMM
-        $page->attach($mmmInputSelector, $this->getRandomFixture())
-            ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
-        $page->attach($mmmInputSelector, $this->getRandomFixture())
-            ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        if (!$temporary) {
+            $this->scrollIntoView($page, $mmmPermanentId);
+
+            // 1. Upload two images via MMM
+            $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
+                ->pressAndWaitFor($mmmPermanentUploadButtonSelector, $waitTime)
+                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+            $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
+                ->pressAndWaitFor($mmmPermanentUploadButtonSelector, $waitTime)
+                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        } else {
+            $this->scrollIntoView($page, $mmmTemporaryId);
+
+            // 1. Upload two images via MMM
+            $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
+                ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+            $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
+                ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        }
+
     }
 
     // 2. Refresh the page to see them in Carousel
-    $page->refresh()
-        ->assertPresent($carouselId)
+    $page->refresh();
+
+    $this->scrollIntoView($page, $carouselId);
+
+    $page->assertPresent($carouselId)
         ->assertPresent($carouselId)
         ->assertPresent($indicatorsSelector)
         ->assertPresent($nextButtonSelector)
@@ -854,36 +888,43 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // click next
         ->click($nextButtonSelector)
-        ->wait(0.5) // Wait for transition
+//        ->wait(0.5) // Wait for transition
         ->assertAttributeContains($secondItemSelector, 'class', 'active')
 //        ->assertAttributeMissing($firstItemSelector, 'class', 'active')
 
         // click prev
         ->click($prevButtonSelector)
-        ->wait(0.5) // Wait for transition
+//        ->wait(0.5) // Wait for transition
         ->assertAttributeContains($firstItemSelector, 'class', 'active')
 //        ->assertAttributeMissing($secondItemSelector, 'class', 'active')
 
         // click the indicator for the second item
         ->click($indicatorsSelector.' [data-mle-slide-to="1"]')
-        ->wait(0.5) // Wait for transition
+//        ->wait(0.5) // Wait for transition
         ->assertAttributeContains($secondItemSelector, 'class', 'active')
 
         // test modal expansion if applicable (default is true)
 //        ->click($secondItemSelector.' [data-mle-modal-trigger]')
         ->click($secondItemSelector)
-        ->wait(0.5)
+//        ->wait(0.5)
         ->assertPresent($modalSelector)
         ->click($modalCloseButtonSelector)
-        ->wait(0.5)
+//        ->wait(0.5)
         ->assertMissing($modalSelector); // not visible
 
 })->group('browser')
     ->with([
-        'bootstrap + default + xhr' => ['bootstrap-5', 'default', true, true],
-        'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false, true],
-        'plain + default + xhr' => ['plain', 'default', true],
-        'plain + demo + no xhr' => ['plain', 'demo', false],
+        'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, false, true],
+        'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, false, true],
+
+        'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, true, true],
+        'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, true, true],
+
+        'plain + default + xhr + permanent' => ['plain', 'default', true, false, false],
+        'plain + demo + no xhr + permanent' => ['plain', 'demo', false, false, false],
+
+        'plain + default + xhr + temporary' => ['plain', 'default', true, true, false],
+        'plain + demo + no xhr + temporary' => ['plain', 'demo', false, true, false],
     ]);
 
 it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
@@ -990,5 +1031,5 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
-    ->with('media_lab_test_matrix')
-    ->only();
+    ->with('media_lab_test_matrix');
+//    ->only();

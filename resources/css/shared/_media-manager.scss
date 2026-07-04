@@ -94,4 +94,16 @@
     .mle-media-manager-no-media {
         aspect-ratio: 1;
     }
+
+    .mle-media-manager-media-counts {
+        display:flex;
+        justify-content: end;
+        margin-bottom: 1rem;
+    }
+
+    //.mle-media-manager-media-counts:after {
+    //    content: "";
+    //    display: block;
+    //    clear:both;
+    //}
 }

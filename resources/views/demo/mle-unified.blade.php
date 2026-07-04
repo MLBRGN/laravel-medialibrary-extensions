@@ -259,11 +259,6 @@
                     'youtube' =>'alien-multiple-youtube-videos', 
                     'video' =>'alien-multiple-videos', 
                     'audio' =>'alien-multiple-audios',
-    //                'image' => 'alien-single-image', 
-    //                'document' =>'alien-single-document', 
-    //                'youtube' =>'alien-single-youtube-video', 
-    //                'video' =>'alien-single-video', 
-    //                'audio' =>'alien-single-audio'
                 ]"
                 :options="[
                     'theme' => $theme, 
@@ -276,9 +271,7 @@
         @if ($showMediaLab)
             <h2>Media Lab</h2>
             @php
-            $mediaService = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaService::class);
-//                $media = $mediaService->findMedium();
-//                dump($media)
+                $mediaService = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaService::class);
             @endphp
             @isset($media)
                 <x-mle-media-lab

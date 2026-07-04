@@ -98,4 +98,5 @@ return [
     'files' => 'Files',
     'failed_to_read_image' => 'Failed to read image',
     'image_load_failed' => 'Image loading / decoding failed',
+    'media_counts' => ':current of :total',
 ];
