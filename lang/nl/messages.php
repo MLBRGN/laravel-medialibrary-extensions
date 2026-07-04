@@ -98,4 +98,5 @@ return [
     'youtube_video_url' => 'YouTube video URL',
     'files' => 'Bestanden',
     'failed_to_read_image' => 'Kon afbeelding niet lezen',
+    'image_load_failed' => 'Image loading / decoding failed',
 ];

@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
         'mle-component',
-        'mle-theme-'. $getConfig('frontendTheme'),
+        'mle-theme-'. $getConfig('theme'),
         'mle-media-modal',
         'mle-modal',
         'mle-fade',
@@ -51,7 +51,7 @@
                     :instance-id="$instanceId"
                     :data-source="$dataSource"
                     :client-token="$clientToken"
-                    :frontend-theme="$getConfig('frontendTheme')"
+                    :frontend-theme="$getConfig('theme')"
                 />
             </div>
         </div>
@@ -61,7 +61,7 @@
     include-css="true" 
     include-js="true"
     include-media-modal-js="true"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :frontend-theme="$getConfig('theme')"
     for="plain|media-modal"
 />
 

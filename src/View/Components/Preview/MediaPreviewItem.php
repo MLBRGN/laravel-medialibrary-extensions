@@ -64,6 +64,6 @@ class MediaPreviewItem extends BaseComponent
 
     public function render(): View
     {
-        return $this->renderView('preview.media-preview-item', $this->getConfig('frontendTheme'));
+        return $this->renderView('preview.media-preview-item', $this->getConfig('theme'));
     }
 }

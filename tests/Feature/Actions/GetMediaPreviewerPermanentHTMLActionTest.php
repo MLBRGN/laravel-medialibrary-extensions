@@ -45,7 +45,7 @@ it('renders media preview HTML (without media) and returns JSON response', funct
 it('renders permanent media preview HTML and returns JSON response', function () {
     $model = $this->getTestBlogModel();
     $baseId = 'initiator-123';
-    $frontendTheme = 'bootstrap-5';
+    $theme = 'bootstrap-5';
 
     $requestData = [
         'base_id' => $baseId,
@@ -57,7 +57,7 @@ it('renders permanent media preview HTML and returns JSON response', function ()
             'youtube' => 'youtube',
         ]),
         'options' => json_encode([
-            'frontendTheme' => $frontendTheme,
+            'theme' => $theme,
             'showDestroyButton' => true,
             'showSetAsFirstButton' => false,
             'showOrder' => false,

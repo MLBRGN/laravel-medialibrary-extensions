@@ -47,6 +47,6 @@ class MediaModal extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('media-modal', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-modal', $this->getConfig('theme'));
     }
 }

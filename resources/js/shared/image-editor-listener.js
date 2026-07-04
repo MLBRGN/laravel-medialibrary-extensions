@@ -4,6 +4,8 @@ import {
     xhrRequestEnd,
     showStatusMessage
 } from "@/js/shared/xhrStatus";
+import { getMediaManagerConfig } from "@/js/shared/media-manager-config";
+import { updateMediaLabBase, updateMediaLabOriginal } from "@/js/shared/media-lab-previews-refresher";
 
 document.addEventListener('onImageSave', (e) => {
     // console.log('onImageSave:', e.detail, e);
@@ -155,7 +157,7 @@ const updateMedia = async (detail) => {
 
         return data;
     })
-    .then(json => {
+    .then(async json => {
 
         // console.log('fire events imageEditorModalCloseRequest and refreshRequest and onImageUpdated');
         mediaManager.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
@@ -180,8 +182,21 @@ const updateMedia = async (detail) => {
         const oldMediumId = mediumId;
         const newMediumId = json.newMediumId;
 
-        // console.log('newMediumId', newMediumId);
-        // Notify listeners that the previews were updated
+        // Proactively refresh both Base and Original previews to avoid races
+        // (particularly visible in the plain theme if the user clicks Restore immediately)
+        try {
+            const mediaLab = mediaManager.closest('[data-mle-media-lab]') || mediaManager;
+            const refreshConfig = getMediaManagerConfig(mediaLab);
+
+            // Ensure these complete before continuing so action buttons reference the new medium id
+            await updateMediaLabBase(mediaLab, refreshConfig, newMediumId, { sourceEvent: 'imageUpdated' });
+            await updateMediaLabOriginal(mediaLab, refreshConfig, newMediumId, { sourceEvent: 'imageUpdated' });
+        } catch (e) {
+            // Non-fatal; fallback to event-based listeners
+            console.warn('image-editor-listener: failed to eagerly refresh previews after update', e);
+        }
+
+        // Still emit the event for any external listeners
         mediaManager.dispatchEvent(new CustomEvent('imageUpdated', {
             bubbles: true,
             detail: {

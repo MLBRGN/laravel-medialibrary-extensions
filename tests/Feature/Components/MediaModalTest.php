@@ -36,14 +36,14 @@ it('returns the correct view on render', function () {
 
 it('renders the correct Blade view (bootstrap-5)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
-    $frontendTheme = 'bootstrap-5';
+    $theme = 'bootstrap-5';
     $component = new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $model,
         collections: ['image_collection'],
         title: 'Render Test',
         options: [
-            'frontendTheme' => $frontendTheme,
+            'theme' => $theme,
         ]
     );
     $view = $component->render();
@@ -53,14 +53,14 @@ it('renders the correct Blade view (bootstrap-5)', function () {
 
 it('renders the correct Blade view (plain)', function () {
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
-    $frontendTheme = 'plain';
+    $theme = 'plain';
     $component = new MediaModal(
         id: 'test-media-modal',
         modelOrClassName: $model,
         collections: ['image_collection'],
         title: 'Render Test',
         options: [
-            'frontendTheme' => $frontendTheme,
+            'theme' => $theme,
         ]
     );
     $view = $component->render();
@@ -89,7 +89,7 @@ it('renders the correct html multiple collections (plain)', function () {
                 'youtube_collection',
             ],
             'options' => [
-                'frontendTheme' => 'plain',
+                'theme' => 'plain',
             ],
         ]
     );
@@ -118,7 +118,7 @@ it('renders the correct html multiple collections (bootstrap-5)', function () {
                 'youtube_collection',
             ],
             'options' => [
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
             ],
         ]
     );
@@ -141,7 +141,7 @@ it('renders the correct html single collection (plain)', function () {
             'model' => $model,
             'collections' => ['image_collection'],
             'options' => [
-                'frontendTheme' => 'plain',
+                'theme' => 'plain',
             ],
         ]
     );
@@ -164,7 +164,7 @@ it('renders the correct html single collection (bootstrap-5)', function () {
             'model' => $model,
             'collections' => ['image_collection'],
             'options' => [
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
             ],
         ]
     );

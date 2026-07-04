@@ -28,12 +28,13 @@ class LabPreview extends BaseMediaComponent
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'lab-preview';
     }
 
     public function render(): View
     {
-        return $this->renderView('lab.lab-preview', $this->getConfig('frontendTheme'));
+        return $this->renderView('lab.lab-preview', $this->getConfig('theme'));
     }
 }

@@ -31,7 +31,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
         // Do not send instance_id; it is derived server-side from base_id
         client_token: config.clientToken,
         data_source: config.dataSource,
-        theme: config.frontendTheme,
+        theme: config.theme,
         include_debug: 'true',
     });
 

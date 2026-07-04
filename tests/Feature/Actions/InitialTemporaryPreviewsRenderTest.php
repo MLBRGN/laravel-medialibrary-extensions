@@ -1,13 +1,12 @@
 <?php
 
-use IlluminateHttpJsonResponse as JsonResponseAlias;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
-use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 
 beforeEach(function () {
     $this->mediaService = app(MediaService::class);
@@ -59,7 +58,7 @@ it('finds temporary uploads on initial render using cookie client_token and deri
             'youtube' => 'youtube',
         ]),
         'options' => json_encode([
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
         ]),
         'temporary_upload_mode' => 'true',
         'selectable' => 'false',
@@ -99,7 +98,7 @@ it('returns 403 when no client token is provided for initial render', function (
             'image' => 'images',
         ]),
         'options' => json_encode([
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
         ]),
         'temporary_upload_mode' => 'true',
         'selectable' => 'false',

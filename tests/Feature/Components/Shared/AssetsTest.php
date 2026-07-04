@@ -7,7 +7,7 @@ it('sets default values from config', function () {
 
     $component = new Assets;
 
-    expect($component->frontendTheme)->toBe('default-theme')
+    expect($component->theme)->toBe('default-theme')
         ->and($component->includeCss)->toBeFalse()
         ->and($component->includeJs)->toBeFalse()
         ->and($component->includeImageEditorJs)->toBeFalse()
@@ -18,7 +18,7 @@ it('sets default values from config', function () {
 
 it('accepts custom constructor values', function () {
     $component = new Assets(
-        frontendTheme: 'custom-theme',
+        theme: 'custom-theme',
         includeCss: true,
         includeJs: true,
         includeImageEditorJs: true,
@@ -26,7 +26,7 @@ it('accepts custom constructor values', function () {
         includeLiteYoutube: true,
     );
 
-    expect($component->frontendTheme)->toBe('custom-theme')
+    expect($component->theme)->toBe('custom-theme')
         ->and($component->includeCss)->toBeTrue()
         ->and($component->includeJs)->toBeTrue()
         ->and($component->includeImageEditorJs)->toBeTrue()

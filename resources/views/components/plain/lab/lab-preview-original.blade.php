@@ -25,6 +25,7 @@
             :model-or-class-name="$media->model"
             :media="$media"
             :options="$getOptions()"
+            :data-source="$dataSource"
         />
     </x-slot>
     <x-slot name="imageInfo">

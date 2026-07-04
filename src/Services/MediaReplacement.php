@@ -23,7 +23,7 @@ class MediaReplacement
     // this will create a new id for the new medium!
     public function replaceMedium(Media $oldMedia, ?UploadedFile $newFile = null): Media
     {
-//        Log::info('oldMedia: ' . print_r($oldMedia, true));
+        //        Log::info('oldMedia: ' . print_r($oldMedia, true));
         Log::info(sprintf(
             'MediaReplacement - replaceMedium [%d]',
             $oldMedia->getKey()
@@ -82,12 +82,26 @@ class MediaReplacement
 
             $newMedia->save();
 
-            Log::info('MediaReplacement - ' . $oldMedia->getKey() . ' ' . $newMedia->getKey());
+            Log::info('MediaReplacement - '.$oldMedia->getKey().' '.$newMedia->getKey());
 
-//            Log::info('backup: ' . print_r($backup, true));
+            //            Log::info('backup: ' . print_r($backup, true));
             // Reuse the archived original before deleting the old media.
-            // This ensures the original remains available if anything fails earlier.
-            $this->originalMediaService->copyArchivedOriginal($oldMedia, $newMedia);
+            // Overwrite destination to ensure the historical original from the
+            // old media becomes the authoritative archived original for the
+            // replacement media (lineage correctness).
+            $this->originalMediaService->copyArchivedOriginal($oldMedia, $newMedia, overwrite: true);
+
+            // Lineage: prefer earliest known source id if present on the backup
+            $sourceId = $backup->getCustomProperty('original_source_media_id')
+                ?? $oldMedia->getKey();
+            $newMedia->setCustomProperty('original_source_media_id', $sourceId);
+
+            // Normalize original flags/paths on the replacement so the
+            // archived original path reflects the new media id.
+            $newMedia->setCustomProperty('has_original_copy', true);
+            $newMedia->setCustomProperty('original_path', $newMedia->id.'/'.$newMedia->file_name);
+
+            $newMedia->save();
 
             // Once the replacement has been created successfully, remove
             // the original media record.
@@ -134,7 +148,7 @@ class MediaReplacement
         $newUpload->setConnection($oldUpload->getConnectionName());
         $newUpload->save();
 
-//        Log::info("MediaReplacement - Replaced temporary upload [{$backup->id}] with [{$newUpload->id}] on connection [{$newUpload->getConnectionName()}].");
+        //        Log::info("MediaReplacement - Replaced temporary upload [{$backup->id}] with [{$newUpload->id}] on connection [{$newUpload->getConnectionName()}].");
 
         return $newUpload;
     }

@@ -8,22 +8,22 @@ use Illuminate\View\View;
 
 trait ViewHelpers
 {
-    public function getView($viewName, $frontendTheme): View
+    public function getView($viewName, $theme): View
     {
-        if (! $frontendTheme) {
-            $frontendTheme = config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
+        if (! $theme) {
+            $theme = config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
         }
-        $viewPath = "medialibrary-extensions::components.$frontendTheme.$viewName";
+        $viewPath = "medialibrary-extensions::components.$theme.$viewName";
 
         return view($viewPath);
     }
 
-    public function getPartialView($viewName, $frontendTheme): View
+    public function getPartialView($viewName, $theme): View
     {
-        if (! $frontendTheme) {
-            $frontendTheme = config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
+        if (! $theme) {
+            $theme = config('medialibrary-extensions.frontend_theme', 'bootstrap-5');
         }
-        $viewPath = "medialibrary-extensions::components.$frontendTheme.partial.$viewName";
+        $viewPath = "medialibrary-extensions::components.$theme.partial.$viewName";
 
         return view($viewPath);
     }

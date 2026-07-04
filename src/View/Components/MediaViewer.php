@@ -38,12 +38,13 @@ class MediaViewer extends BaseComponent
         ]);
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'media-viewer';
     }
 
     public function render(): View
     {
-        return $this->renderView('media-viewer', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-viewer', $this->getConfig('theme'));
     }
 }

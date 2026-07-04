@@ -81,7 +81,7 @@ it('defaults optional values when omitted', function () {
         ->and($component->getConfig('showMediaEditButton'))->toBeTrue()
         ->and($component->getConfig('showOrder'))->toBeFalse()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
-        ->and($component->getConfig('frontendTheme'))->toBe('bootstrap-5')
+        ->and($component->getConfig('theme'))->toBe('bootstrap-5')
         ->and($component->multiple)->toBeFalse();
 });
 
@@ -104,7 +104,7 @@ it('renders the correct html single (plain)', function () {
         [
             'modelOrClassName' => $model,
             'options' => [
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
             ],
         ]
     );
@@ -125,7 +125,7 @@ it('renders the correct html single (bootstrap-5, temporary upload)', function (
         [
             'modelOrClassName' => $model->getMorphClass(),
             'options' => [
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
             ],
         ]
     );

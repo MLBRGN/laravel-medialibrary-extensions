@@ -86,7 +86,8 @@ class MediaManagerTinymce extends BaseMediaComponent
         ]);
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         if ($this->multiple) {
             return 'mmm';
         } else {
@@ -96,6 +97,6 @@ class MediaManagerTinymce extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('media-manager-tinymce', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-manager-tinymce', $this->getConfig('theme'));
     }
 }

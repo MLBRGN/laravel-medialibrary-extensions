@@ -25,8 +25,14 @@ function initializeImageEditor(config) {
         maxDimensions,
     } = config;
 
+    console.log('just before setImage')
+    console.log('name: ', name, ' path: ', path, ' baseId: ', baseId)
+
     // Base ID is the single source of truth for scoping/identity
     imageEditor.setImage(name, path, baseId);
+
+    console.log('just after setImage')
+
     const imageEditorConfig = {
         debug: false,
         rotateDegreesStep: 90,
@@ -84,29 +90,36 @@ function initializeImageEditorModal(modal) {
         const baseId = imageEditorModalConfig.baseId
             ?? modal.getAttribute('data-base-id');
 
+        const mountEditor = () => {
+            placeholder.innerHTML = '';
+
+            const editor = document.createElement('image-editor');
+            editor.id = 'my-image-editor';
+
+            editor.addEventListener('imageEditorReady', (e) => {
+                console.log('imageEditorReady', e);
+                initializeImageEditor({
+                    imageEditorInstance: e.detail.imageEditorInstance,
+                    name: displayName,
+                    path: mediumPath,
+                    baseId,
+                    requiredAspectRatio: forcedAspectRatio,
+                    minDimensions,
+                    maxDimensions,
+                });
+            }, { once: true });
+
+            placeholder.appendChild(editor);
+        };
+
+        // If the custom element is not registered yet, wait for it instead of bailing out
         if (!customElements.get('image-editor')) {
-            console.warn('<image-editor> custom element is not registered.');
+            console.warn('<image-editor> custom element is not registered yet. Waiting…');
+            customElements.whenDefined('image-editor').then(mountEditor);
             return;
         }
 
-        placeholder.innerHTML = '';
-
-        const editor = document.createElement('image-editor');
-        editor.id = 'my-image-editor';
-
-        editor.addEventListener('imageEditorReady', (e) => {
-            initializeImageEditor({
-                imageEditorInstance: e.detail.imageEditorInstance,
-                name: displayName,
-                path: mediumPath,
-                baseId,
-                requiredAspectRatio: forcedAspectRatio,
-                minDimensions,
-                maxDimensions,
-            });
-        }, { once: true });
-
-        placeholder.appendChild(editor);
+        mountEditor();
     });
 
     modal.addEventListener('hidden.bs.modal', function () {

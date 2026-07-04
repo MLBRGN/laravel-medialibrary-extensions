@@ -9,7 +9,7 @@
                 <h2>📦 Media Library Extensions Debug</h2>
 
                 <div class="mle-debug-badges">
-                    <span>Theme: {{ $getConfig('frontendTheme') }}</span>
+                    <span>Theme: {{ $getConfig('theme') }}</span>
                     <span>DB: {{ DB::getDatabaseName() }}</span>
                 </div>
             </div>
@@ -90,7 +90,7 @@
 
                     <tr>
                         <th>Frontend Theme</th>
-                        <td>{{ $getConfig('frontendTheme') }}</td>
+                        <td>{{ $getConfig('theme') }}</td>
                     </tr>
 
                     <tr>

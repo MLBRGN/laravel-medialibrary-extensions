@@ -28,6 +28,6 @@ class Spinner extends BaseComponent
 
     public function render(): View
     {
-        return $this->getPartialView('spinner', $this->getConfig('frontendTheme'));
+        return $this->getPartialView('spinner', $this->getConfig('theme'));
     }
 }

@@ -55,6 +55,6 @@ class MediaRestoreForm extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('media-restore-form', $this->getConfig('frontendTheme'), true);
+        return $this->renderView('media-restore-form', $this->getConfig('theme'), true);
     }
 }

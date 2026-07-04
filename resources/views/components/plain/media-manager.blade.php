@@ -2,7 +2,7 @@
     id="{{ $getDomId() }}"
     {{ $attributes->class([
         'mle-component',
-        'mle-theme-'.$getConfig('frontendTheme'),
+        'mle-theme-'.$getConfig('theme'),
         'mle-media-manager',
         'media-manager-multiple' => $multiple,
         'media-manager-single' => !$multiple,
@@ -113,6 +113,6 @@
         include-css="true"
         include-js="true"
         include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
-        :frontend-theme="$getConfig('frontendTheme')"
+        :frontend-theme="$getConfig('theme')"
         for="plain|media-manager"
     />

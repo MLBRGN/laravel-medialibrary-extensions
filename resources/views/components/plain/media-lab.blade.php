@@ -1,7 +1,7 @@
 <div id="{{ $getDomId() }}"
     @class([
         'mle-component',
-        'mle-theme-'.$getConfig('frontendTheme'), 
+        'mle-theme-'.$getConfig('theme'), 
         'mle-media-lab'
     ])
     data-mle-media-lab
@@ -25,6 +25,6 @@
     include-js="true"
     include-media-lab-submitter="true"
     include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :frontend-theme="$getConfig('theme')"
     for="plain|media-lab"
 />

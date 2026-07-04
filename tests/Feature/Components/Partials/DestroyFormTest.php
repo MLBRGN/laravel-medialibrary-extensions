@@ -15,7 +15,7 @@ it('initializes with given properties', function () {
         modelOrClassName: $model,
         medium: $medium,
         options: [
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
             'useXhr' => true,
         ]
     );
@@ -23,7 +23,7 @@ it('initializes with given properties', function () {
     expect($component->medium)->toBe($medium)
         ->and($component->getDomId())->toBe('some-id-destroy-form-123')
         ->and($component->getOptions())->toMatchArray([
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
             'useXhr' => true,
         ]);
 });
@@ -39,7 +39,7 @@ it('initializes with given properties without useXhr', function () {
         modelOrClassName: $model,
         medium: $medium,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ]
     );
 
@@ -47,7 +47,7 @@ it('initializes with given properties without useXhr', function () {
 
     expect($component->medium)->toBe($medium)
         ->and($component->getDomId())->toBe('delete-456-destroy-form-1')
-        ->and($component->getConfig('frontendTheme'))->toBe('plain')
+        ->and($component->getConfig('theme'))->toBe('plain')
         ->and($component->getConfig('useXhr'))->toBeFalse();
 });
 
@@ -60,7 +60,7 @@ it('renders the destroy-form view (plain)', function () {
         modelOrClassName: $model,
         medium: $medium,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'useXhr' => true,
         ]
     );
@@ -79,7 +79,7 @@ it('renders the destroy-form view (bootstrap-5)', function () {
         modelOrClassName: $model,
         medium: $medium,
         options: [
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
             'useXhr' => true,
         ]
     );

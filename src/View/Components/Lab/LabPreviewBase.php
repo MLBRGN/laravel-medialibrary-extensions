@@ -8,6 +8,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
  * Edit media and restore original if needed
  */
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
@@ -31,6 +32,7 @@ class LabPreviewBase extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
+        Log::info('LabPreviewBase - options: '.print_r($options, true));
         $this->resolveConfig();
 
         if ($this->media instanceof Media) {
@@ -46,12 +48,15 @@ class LabPreviewBase extends BaseComponent
         }
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'base';
     }
 
     public function render(): View
     {
-        return $this->renderView('lab.lab-preview-base', $this->getConfig('frontendTheme'));
+        Log::info('LabPreviewBase - theme: '.$this->getConfig('theme'));
+
+        return $this->renderView('lab.lab-preview-base', $this->getConfig('theme'));
     }
 }

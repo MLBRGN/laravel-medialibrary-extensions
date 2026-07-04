@@ -53,7 +53,7 @@ class ImageEditorModal extends BaseMediaComponent
             // Provide CSRF directly to the modal config to make tests and SSR robust
             'csrfToken' => csrf_token(),
             // Preserve current theme for any XHR/refresh flows that need it
-            'theme' => $this->getConfig('frontendTheme'),
+            'theme' => $this->getConfig('theme'),
             // Normalize as strings to satisfy validation Rule::in(['true','false'])
             'temporaryUploadMode' => $this->temporaryUploadMode ? 'true' : 'false',
         ]);
@@ -72,9 +72,9 @@ class ImageEditorModal extends BaseMediaComponent
     public function render(): View
     {
         if ($this->temporaryUploadMode) {
-            return $this->getView('image-editor-modal-temporary-upload', $this->getConfig('frontendTheme'));
+            return $this->getView('image-editor-modal-temporary-upload', $this->getConfig('theme'));
         }
 
-        return $this->getView('image-editor-modal', $this->getConfig('frontendTheme'));
+        return $this->getView('image-editor-modal', $this->getConfig('theme'));
     }
 }

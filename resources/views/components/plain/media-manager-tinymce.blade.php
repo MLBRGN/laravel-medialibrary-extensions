@@ -17,6 +17,6 @@
     include-js="true"
     include-tinymce-custom-file-picker-js="true"
     include-tinymce-custom-file-picker-iframe-js="true"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :frontend-theme="$getConfig('theme')"
     for="plain|media-manager-tinymce"
 />

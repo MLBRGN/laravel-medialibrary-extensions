@@ -17,9 +17,9 @@ beforeEach(function () {
 });
 
 it('returns themed view path for getView', function () {
-    $frontendTheme = 'custom';
+    $theme = 'custom';
     $viewName = 'example';
-    $expectedViewPath = "medialibrary-extensions::components.$frontendTheme.$viewName";
+    $expectedViewPath = "medialibrary-extensions::components.$theme.$viewName";
 
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -27,15 +27,15 @@ it('returns themed view path for getView', function () {
         ->andReturn(Mockery::mock(ViewInstance::class));
 
     $dummy = new ViewHelpersTest;
-    $view = $dummy->getView($viewName, $frontendTheme);
+    $view = $dummy->getView($viewName, $theme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
 });
 
 it('returns themed partial view path for getPartialView', function () {
-    $frontendTheme = 'custom';
+    $theme = 'custom';
     $viewName = 'example-partial';
-    $expectedViewPath = "medialibrary-extensions::components.$frontendTheme.partial.$viewName";
+    $expectedViewPath = "medialibrary-extensions::components.$theme.partial.$viewName";
 
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -43,12 +43,12 @@ it('returns themed partial view path for getPartialView', function () {
         ->andReturn(Mockery::mock(ViewInstance::class));
 
     $dummy = new ViewHelpersTest;
-    $view = $dummy->getPartialView($viewName, $frontendTheme);
+    $view = $dummy->getPartialView($viewName, $theme);
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
 });
 
-it('handles null frontendTheme by using config fallback', function () {
+it('handles null theme by using config fallback', function () {
     $expectedViewPath = 'medialibrary-extensions::components.bootstrap-5.media-manager';
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -61,7 +61,7 @@ it('handles null frontendTheme by using config fallback', function () {
     expect($view)->toBeInstanceOf(ViewInstance::class);
 });
 
-it('handles null frontendTheme for partial by using config fallback', function () {
+it('handles null theme for partial by using config fallback', function () {
     $expectedViewPath = 'medialibrary-extensions::components.bootstrap-5.partial.upload-form';
     View::shouldReceive('make')
         ->with($expectedViewPath, [], [])
@@ -74,7 +74,7 @@ it('handles null frontendTheme for partial by using config fallback', function (
     expect($view)->toBeInstanceOf(ViewInstance::class);
 });
 
-it('uses custom config frontendTheme when provided', function () {
+it('uses custom config theme when provided', function () {
     config(['medialibrary-extensions.frontend_theme' => 'plain']);
     $expectedViewPath = 'medialibrary-extensions::components.plain.media-manager';
     View::shouldReceive('make')

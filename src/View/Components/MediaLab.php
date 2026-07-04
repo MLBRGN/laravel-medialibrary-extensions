@@ -19,6 +19,7 @@ class MediaLab extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public string $mediaLabPreviewBaseUpdateRoute = '';
+
     public string $mediaLabPreviewOriginalUpdateRoute = '';
 
     public ?Model $model = null;
@@ -64,12 +65,13 @@ class MediaLab extends BaseComponent
 
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'lab';
     }
 
     public function render(): View
     {
-        return $this->renderView('media-lab', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-lab', $this->getConfig('theme'));
     }
 }

@@ -19,7 +19,7 @@ it('initializes correctly with a single media collection', function () {
     );
     expect($component->mediaCount)->toBe(1)
         ->and($component->getDomId())->toBe('carousel-id-crs')
-        ->and($component->getConfig('frontendTheme'))->toBe('bootstrap-5');
+        ->and($component->getConfig('theme'))->toBe('bootstrap-5');
 });
 
 it('initializes correctly with multiple media collections', function () {
@@ -30,12 +30,12 @@ it('initializes correctly with multiple media collections', function () {
         modelOrClassName: $model,
         collections: ['image_collection', 'audio_collection'],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ]
     );
     expect($component->mediaCount)->toBe(3)
         ->and($component->getDomId())->toBe('carousel-id-crs')
-        ->and($component->getConfig('frontendTheme'))->toBe('plain');
+        ->and($component->getConfig('theme'))->toBe('plain');
 });
 
 it('falls back to empty media collection when no model is provided', function () {
@@ -57,11 +57,11 @@ it('uses provided frontend theme if given', function () {
         id: 'custom-theme',
         modelOrClassName: $model,
         options: [
-            'frontendTheme' => 'tailwind',
+            'theme' => 'tailwind',
         ]
     );
 
-    expect($component->getConfig('frontendTheme'))->toBe('tailwind');
+    expect($component->getConfig('theme'))->toBe('tailwind');
 });
 
 it('renders view and matches snapshot', function () {

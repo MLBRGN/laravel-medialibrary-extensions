@@ -73,6 +73,6 @@ class SetAsFirstForm extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('set-as-first-form', $this->getConfig('frontendTheme'), true);
+        return $this->renderView('set-as-first-form', $this->getConfig('theme'), true);
     }
 }

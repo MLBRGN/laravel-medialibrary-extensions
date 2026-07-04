@@ -54,6 +54,6 @@ class MediaPreviewGrid extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('preview.media-preview-grid', $this->getConfig('frontendTheme'));
+        return $this->renderView('preview.media-preview-grid', $this->getConfig('theme'));
     }
 }

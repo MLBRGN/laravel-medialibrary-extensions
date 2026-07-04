@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class GetMediaPreviewerTemporaryHTMLAction
 {
@@ -66,7 +66,7 @@ class GetMediaPreviewerTemporaryHTMLAction
         }
 
         if ($theme) {
-            $options['frontendTheme'] = $theme;
+            $options['theme'] = $theme;
         }
 
         $collections = json_decode($request->input('collections'), true) ?? [];
@@ -77,6 +77,7 @@ class GetMediaPreviewerTemporaryHTMLAction
                 'derived_instance_id' => $instanceId,
                 'data_source' => $dataSource,
             ]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'No client token found',

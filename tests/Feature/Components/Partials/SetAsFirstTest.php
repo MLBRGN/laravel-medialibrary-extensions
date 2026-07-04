@@ -23,7 +23,7 @@ it('renders the set-as-first-form', function () {
         singleMedia: null,
         collections: ['image' => 'images', 'audio' => 'audio', 'video' => 'video', 'document' => 'docs', 'youtube' => 'youtube'],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'useXhr' => false,
             'showSetAsFirstButton' => true,
         ],
@@ -55,7 +55,7 @@ it('falls back to config use_xhr when useXhr is null', function () {
         singleMedia: null,
         collections: ['video' => 'video', 'audio' => 'audio'],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'useXhr' => true,
             'showSetAsFirstButton' => true,
         ],
@@ -93,7 +93,7 @@ it('renders the set as first form with temporary upload', function () {
             'audio' => 'audio',
         ],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'useXhr' => false,
             'showSetAsFirstButton' => true,
         ],

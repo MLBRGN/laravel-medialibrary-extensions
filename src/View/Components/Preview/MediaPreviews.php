@@ -107,6 +107,6 @@ class MediaPreviews extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('preview.media-previews', $this->getConfig('frontendTheme'));
+        return $this->renderView('preview.media-previews', $this->getConfig('theme'));
     }
 }

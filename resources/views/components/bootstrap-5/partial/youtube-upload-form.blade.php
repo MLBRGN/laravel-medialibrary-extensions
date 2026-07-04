@@ -86,7 +86,7 @@
         include-css="true" 
         include-js="true" 
         include-media-manager-submitter="true" 
-        :frontend-theme="$getConfig('frontendTheme')"
+        :frontend-theme="$getConfig('theme')"
         for="bootstrap-5|youtube-upload-form"
     />
 @endif

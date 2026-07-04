@@ -68,7 +68,7 @@ it('defaults optional values when omitted', function () {
         modelOrClassName: $className,
         collections: ['image' => 'blog-images'],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'showUploadForm' => true,
             'showDestroyButton' => true,
             'showOrder' => false,
@@ -82,7 +82,7 @@ it('defaults optional values when omitted', function () {
         ->and($component->getConfig('showDestroyButton'))->toBeTrue()
         ->and($component->getConfig('showSetAsFirstButton'))->toBeTrue()
         ->and($component->getConfig('showOrder'))->toBeFalse()
-        ->and($component->getConfig('frontendTheme'))->toBe('plain')
+        ->and($component->getConfig('theme'))->toBe('plain')
         ->and($component->getConfig('multiple'))->toBeTrue();
 });
 
@@ -100,7 +100,7 @@ it('renders the correct html multiple (plain)', function () {
         [
             'modelOrClassName' => $model,
             'options' => [
-                'frontendTheme' => 'plain',
+                'theme' => 'plain',
             ],
         ]
     );
@@ -121,7 +121,7 @@ it('renders the correct html multiple (bootstrap-5, temporary upload)', function
         [
             'modelOrClassName' => $model->getMorphClass(),
             'options' => [
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
             ],
         ]
     );

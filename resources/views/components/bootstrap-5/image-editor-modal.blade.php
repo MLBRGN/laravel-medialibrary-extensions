@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
         'mle-component',
-        'mle-theme-'. $getConfig('frontendTheme'),
+        'mle-theme-'. $getConfig('theme'),
         'mle-image-editor-modal',
         'mle-modal',
         'modal',
@@ -13,7 +13,7 @@
     @if($title)
         aria-labelledby="{{ $id }}-title"
     @endif
-    data-mle-theme="{{$getConfig('frontendTheme')}}"
+    data-mle-theme="{{$getConfig('theme')}}"
     data-mle-modal
     data-mle-image-editor-modal
     data-mle-medium-display-name="{{ media_display_name($medium) }}"
@@ -75,6 +75,6 @@
     include-js="true"
     include-image-editor-js="true"
     include-image-editor-modal-js="true"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :frontend-theme="$getConfig('theme')"
     for="bootstrap-5|image-editor-model"
 />

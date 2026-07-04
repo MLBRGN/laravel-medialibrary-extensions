@@ -1,7 +1,7 @@
 <div id="{{ $getDomId() }}"
      {{ $attributes->class([
         'mle-component',
-        'mle-theme-'.$getConfig('frontendTheme'),
+        'mle-theme-'.$getConfig('theme'),
         'mle-media-carousel',
         'mle-media-carousel-empty' => $mediaCount === 0,
         'mle-media-carousel-plain',
@@ -132,6 +132,6 @@
     include-carousel-js="true"
     include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
     include-lite-youtube="{{ config('medialibrary-extensions.youtube_support_enabled') }}"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :frontend-theme="$getConfig('theme')"
     for="plain|media-carousel-permanent"
 />

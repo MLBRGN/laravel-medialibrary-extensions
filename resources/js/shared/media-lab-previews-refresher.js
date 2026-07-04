@@ -14,6 +14,8 @@ export async function updateMediaLabBase(mediaManager, config, mediumId,  detail
         return;
     }
 
+    console.log('updateMediaLabBase - config ', config)
+    console.log('updateMediaLabBase - theme ', config.theme)
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
@@ -69,14 +71,16 @@ export async function updateMediaLabBase(mediaManager, config, mediumId,  detail
         mediaLabPreviewBase.outerHTML = data.html;
 
         // Notify listeners that the previews were updated so components can re-initialize
-        // mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
-        //     bubbles: true,
-        //     composed: true,
-        //     detail: {
-        //         mediaManager: mediaManager,
-        //         previewsContainer: previewsContainer,
-        //     }
-        // }));
+        mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
+            bubbles: true,
+            composed: true,
+            detail: {
+                mediaManager: mediaManager,
+                previewsContainer: previewsContainer,
+                section: 'base',
+                mediumId: mediumId,
+            }
+        }));
 
         // Update debug panel if present
         if (data.debugHtml) {
@@ -101,14 +105,16 @@ export async function updateMediaLabBase(mediaManager, config, mediumId,  detail
             }
         }
 
-        // Notify listeners that the previews were updated
-        // mediaManager.dispatchEvent(new CustomEvent('mediaLabPreviewBaseUpdated', {
-        //     bubbles: false,
-        //     detail: {
-        //         mediaManager: mediaManager,
-        //         previewsContainer: previewsContainer
-        //     }
-        // }));
+        // Notify listeners (section-specific) that Base was updated
+        mediaManager.dispatchEvent(new CustomEvent('mediaLabPreviewBaseUpdated', {
+            bubbles: true,
+            composed: true,
+            detail: {
+                mediaManager: mediaManager,
+                previewsContainer: previewsContainer,
+                mediumId: mediumId,
+            }
+        }));
 
     } catch (error) {
         console.error('Error refreshing media lab base:', error);
@@ -181,14 +187,16 @@ export async function updateMediaLabOriginal(mediaManager, config, mediumId,  de
         mediaLabPreviewOriginal.outerHTML = data.html;
 
         // Notify listeners that the previews were updated so components can re-initialize
-        // mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
-        //     bubbles: true,
-        //     composed: true,
-        //     detail: {
-        //         mediaManager: mediaManager,
-        //         previewsContainer: previewsContainer,
-        //     }
-        // }));
+        mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
+            bubbles: true,
+            composed: true,
+            detail: {
+                mediaManager: mediaManager,
+                previewsContainer: previewsContainer,
+                section: 'original',
+                mediumId: mediumId,
+            }
+        }));
         // console.log('mediaLabPreviewOriginal html updated', mediaLabPreviewOriginal)
         // Update debug panel if present
         // if (data.debugHtml) {
@@ -213,14 +221,16 @@ export async function updateMediaLabOriginal(mediaManager, config, mediumId,  de
         //     }
         // }
 
-        // Notify listeners that the previews were updated
-        // mediaManager.dispatchEvent(new CustomEvent('medialabPreviewOriginalUpdated', {
-        //     bubbles: false,
-        //     detail: {
-        //         mediaManager: mediaManager,
-        //         previewsContainer: previewsContainer
-        //     }
-        // }));
+        // Notify listeners (section-specific) that Original was updated
+        mediaManager.dispatchEvent(new CustomEvent('mediaLabPreviewOriginalUpdated', {
+            bubbles: true,
+            composed: true,
+            detail: {
+                mediaManager: mediaManager,
+                previewsContainer: previewsContainer,
+                mediumId: mediumId,
+            }
+        }));
 
     } catch (error) {
         console.error('Error refreshing media lab original:', error);
@@ -230,7 +240,20 @@ export async function updateMediaLabOriginal(mediaManager, config, mediumId,  de
 // listen to imageUpdated event so that we can update the restore form's media_id
 document.addEventListener('imageUpdated', (e) => {
     const newMediumId = e.detail?.newMediumId;
+    if (!newMediumId) {
+        console.warn('imageUpdated: missing newMediumId in event.detail');
+        return;
+    }
+
     const mediaLab = e.target.closest('[data-mle-media-lab]');
+    if (!mediaLab) {
+        console.warn('imageUpdated: could not resolve media lab from event target');
+        return;
+    }
+
     const config = getMediaManagerConfig(mediaLab);
-    updateMediaLabOriginal(mediaLab, config, newMediumId)
+    // Update both previews so hidden form inputs and buttons reflect the new medium id
+    // This prevents stale actions like restore/delete referencing the old medium
+    updateMediaLabBase(mediaLab, config, newMediumId, { sourceEvent: 'imageUpdated' });
+    updateMediaLabOriginal(mediaLab, config, newMediumId, { sourceEvent: 'imageUpdated' });
 });

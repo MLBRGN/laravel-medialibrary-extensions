@@ -65,6 +65,6 @@
     include-css="true" 
     include-js="false" 
     include-lite-youtube="true" 
-    :frontend-theme="$getConfig('frontendTheme')"
+    :frontend-theme="$getConfig('theme')"
     for="shared|video-youtube"
 />

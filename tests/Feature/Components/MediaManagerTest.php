@@ -37,7 +37,7 @@ it('renders media manager component', function () {
                 'useXhr' => true,
                 'showUploadForm' => true,
                 'allowedMimeTypes' => 'image/jpeg, image/png',
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
                 'showMediaEditButton' => true,
             ]"
             multiple
@@ -89,7 +89,7 @@ it('initializes without temporary upload when a eloquent model is provided', fun
             'useXhr' => true,
             'showUploadForm' => true,
             'allowedMimeTypes' => 'image/jpeg, image/png',
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
             'showMediaEditButton' => true,
         ],
         multiple: true,
@@ -115,7 +115,7 @@ it('initializes with temporary upload when only model class name provided', func
             'useXhr' => true,
             //            'showUploadForm' => true,
             //            'allowedMimeTypes' => 'image/jpeg, image/png',
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
             'showMediaEditButton' => true,
         ],
         multiple: true,
@@ -150,7 +150,7 @@ it('renders the correct html multiple (plain)', function () {
                 'audio' => 'blog-audio',
             ],
             'options' => [
-                'frontendTheme' => 'plain',
+                'theme' => 'plain',
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,
@@ -186,7 +186,7 @@ it('renders the correct html multiple (bootstrap-5)', function () {
                 'audio' => 'blog-audio',
             ],
             'options' => [
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,
@@ -221,7 +221,7 @@ it('renders the correct html single (plain)', function () {
                 'audio' => 'blog-audio',
             ],
             'options' => [
-                'frontendTheme' => 'plain',
+                'theme' => 'plain',
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,
@@ -256,7 +256,7 @@ it('renders the correct html single (bootstrap-5)', function () {
                 'audio' => 'blog-audio',
             ],
             'options' => [
-                'frontendTheme' => 'bootstrap-5',
+                'theme' => 'bootstrap-5',
                 'showSetAsFirstButton' => true,
                 'showOrder' => true,
                 'showDestroyButton' => true,

@@ -33,7 +33,7 @@ class ImageEditorForm extends BaseMediaComponent
             route(mle_prefix_route('save-updated-media'), $medium);
 
         $this->resolveConfig([
-            //            'frontendTheme' => $this->getOption('frontendTheme', config('medialibrary-extensions.frontend_theme')),
+            //            'theme' => $this->getOption('theme', config('medialibrary-extensions.frontend_theme')),
             //            'useXhr' => config('medialibrary-extensions.use_xhr'),
             'storeUpdatedMediaRoute' => $storeUpdatedMediaRoute,
         ]);
@@ -41,6 +41,6 @@ class ImageEditorForm extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('image-editor-form', $this->getConfig('frontendTheme'), true);
+        return $this->renderView('image-editor-form', $this->getConfig('theme'), true);
     }
 }

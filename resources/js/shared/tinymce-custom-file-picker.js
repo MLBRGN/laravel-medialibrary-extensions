@@ -36,7 +36,7 @@ window.mleFilePicker = (callback, value, meta) => {
             temporary_upload_mode: temporaryUploadMode,
             options: JSON.stringify({
                 temporaryUploadMode: temporaryUploadMode,
-                frontendTheme: 'plain',
+                theme: 'plain',
             })
         };
 

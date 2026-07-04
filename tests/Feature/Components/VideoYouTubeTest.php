@@ -96,14 +96,14 @@ it('sets component properties correctly', function () {
         medium: $media,
         previewMode: false,
         options: [
-            'frontendTheme' => 'custom',
+            'theme' => 'custom',
         ]);
 
     expect($component->medium)->toBe($media)
         ->and($component->previewMode)->toBeFalse()
         ->and($component->youtubeId)->toBe('my-youtube-id')
         ->and($component->youTubeParamsAsString)->toBeString()
-        ->and($component->getConfig('frontendTheme'))->toBe('custom');
+        ->and($component->getConfig('theme'))->toBe('custom');
 });
 
 it('returns correct view on render', function () {
@@ -135,7 +135,7 @@ it('renders view', function () {
 ', [
         'medium' => $medium,
         'options' => [
-            'frontendTheme' => 'custom',
+            'theme' => 'custom',
         ],
     ]);
 

@@ -72,7 +72,7 @@ dataset('mmm_test_matrix', [
 dataset('mms_youtube_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
     'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],// TODO fails
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'], // TODO fails
     'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
     'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
@@ -94,16 +94,16 @@ dataset('mms_youtube_test_matrix', [
 // sometimes fails, seen it fail on the 3rd and 7th item
 dataset('media_lab_test_matrix', [
     'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
-    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
+        'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
 
-    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],// TODO sometimes fails
-    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+        'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],// TODO sometimes fails
+        'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
 
-    'plain + default + xhr' => ['plain', 'default', true],
-    'plain + default + no xhr' => ['plain', 'default', false],
+        'plain + default + xhr' => ['plain', 'default', true],// TODO sometimes fails
+        'plain + default + no xhr' => ['plain', 'default', false],
 
-    'plain + demo + xhr' => ['plain', 'demo', true],
-    'plain + demo + no xhr' => ['plain', 'demo', false],
+        'plain + demo + xhr' => ['plain', 'demo', true],
+        'plain + demo + no xhr' => ['plain', 'demo', false],
 ]);
 
 /**
@@ -118,7 +118,7 @@ dataset('media_lab_test_matrix', [
 function ensureLabMedium(string $dataSource): void
 {
     /** @var Alien $model */
-    $model = new Alien();
+    $model = new Alien;
 
     if ($dataSource !== '') {
         $connection = app(DataSourceResolver::class)->resolveConnection($dataSource);
@@ -155,8 +155,8 @@ function ensureLabMedium(string $dataSource): void
     }
 
     // Fallback: add the packaged demo image
-//    $demoImage = base_path('packages/mlbrgn/laravel-medialibrary-extensions/resources/demo/demo_small.jpeg');
-    $demoImage = __DIR__ . '/../../resources/demo/demo_small.jpeg';
+    //    $demoImage = base_path('packages/mlbrgn/laravel-medialibrary-extensions/resources/demo/demo_small.jpeg');
+    $demoImage = __DIR__.'/../../resources/demo/demo_small.jpeg';
 
     if (is_file($demoImage)) {
         $existingModel
@@ -266,35 +266,38 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
 //        ->setViewportSize(1900, 1000)
 
-        ->assertNoJavaScriptErrors()
+        ->assertNoJavaScriptErrors();
 
-        ->assertPresent($inputSelector)
+    $this->scrollIntoView($page, $mediaManagerId);
 
-        // assert that the upload button is initially enabled
+    $page->assertPresent($inputSelector)
+
+    // assert that the upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector)
 
-        // test that it shows error when no file selected
+    // test that it shows error when no file selected
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.upload_no_files'))
 
-        // test that invalid mime types are rejected
+    // test that invalid mime types are rejected
         ->attach($inputSelector, $this->getInvalidMimeTypeFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
 
-        // attach an image file and submit and check if spinner shows and upload is successful
+    // attach an image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.upload_success'))
 
-        // assert that the image is visible in the preview
+    // assert that the image is visible in the preview
         ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
-        // assert that the upload button is disabled after upload (single media)
+    // assert that the upload button is disabled after upload (single media)
 //        ->assertButtonDisabled($uploadButtonSelector)
 
     // assert that the image is visible in the preview
@@ -347,12 +350,12 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
     // TODO non-xhr does not show the delete message
-//    if ($xhr) {
-        $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-//    }
+    //    if ($xhr) {
+    $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+    //    }
 
     // the upload button should be enabled again
-        $page->assertButtonEnabled($uploadButtonSelector);
+    $page->assertButtonEnabled($uploadButtonSelector);
 
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
@@ -397,53 +400,56 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
-        ->assertNoJavaScriptErrors()
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+        ->assertNoJavaScriptErrors();
 
-        ->assertPresent($inputSelector)
+    $this->scrollIntoView($page, $mediaManagerId);
 
-        // assert that the upload button is initially enabled
+    $page->assertPresent($inputSelector)
+
+    // assert that the upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector)
 
-        // test that it shows error when no file selected
+    // test that it shows error when no file selected
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.upload_no_files'))
 
-        // test that invalid mime types are rejected
+    // test that invalid mime types are rejected
         ->attach($inputSelector, $this->getInvalidMimeTypeFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
 
-        // attach an image file and submit and check if spinner shows and upload is successful
+    // attach an image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.upload_success'))
 
-        // assert that the image is visible in the preview
+    // assert that the image is visible in the preview
         ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
-        // assert that the upload button is disabled after upload (single media)
+    // assert that the upload button is disabled after upload (single media)
 // FIXME
 //        ->assertButtonDisabled($uploadButtonSelector)
 
-        // assert that the image is visible in the preview
-        //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
+    // assert that the image is visible in the preview
+    //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
-        // assert grid is present
+    // assert grid is present
         ->assertPresent($gridSelector)
 
-        // assert grid has the media container
+    // assert grid has the media container
         ->assertPresent($firstMediaPreviewContainer)
 
-        // check that the media item's menu has the expected buttons and state
+    // check that the media item's menu has the expected buttons and state
         ->assertButtonEnabled($editButtonSelector)
 //     TODO not available in mms, should not be visible at all
 //        ->assertMissing($setAsFirstButtonSelector)
         ->assertButtonDisabled($setAsFirstButtonSelector)
         ->assertButtonEnabled($deleteButtonSelector)
 
-        // check media modal opening and presence of expected elements
+    // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
 //    ->assertVisible(mediaModalSelector)
@@ -455,10 +461,10 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
         ->assertPresent($mediaModalCarouselItemContainerSelector)
         ->assertPresent($mediaModalCarouselItemContainerImageSelector)
 
-        // check that media modal can be closed
+    // check that media modal can be closed
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
 
-        // check image editor modal can be opened and closed
+    // check image editor modal can be opened and closed
         ->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->assertVisible($imageEditorModalSelector)
@@ -466,7 +472,7 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime)
         ->assertMissing($imageEditorModalSelector)
 
-        // check saving edited image in the image editor
+    // check saving edited image in the image editor
         ->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->assertVisible($imageEditorModalSelector)
@@ -482,7 +488,7 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
 //    ->waitForText(__('medialibrary-extensions::messages.please_wait'))
 //    ->waitForText(__('medialibrary-extensions::messages.medium_set_as_main'))
 
-        // check canceling image editing in the image editor
+    // check canceling image editing in the image editor
 // TODO image editor modal was not closed after canceling
 //    ->pressAndWaitFor($editButtonSelector, $waitTime)
 //    ->assertVisible($imageEditorModalSelector)
@@ -490,17 +496,17 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
 //    ->pressAndWaitFor($imageEditorModalCancelButtonSelector, $waitTime)
 //    ->assertMissing($imageEditorModalSelector)
 
-        // check delete media works
+    // check delete media works
         ->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-       // TODO non-xhr does not show the delete message
-//        if ($xhr) {
-            $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-//        }
+    // TODO non-xhr does not show the delete message
+    //        if ($xhr) {
+    $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+    //        }
 
-        // the upload button should be enabled again
-        $page->assertButtonEnabled($uploadButtonSelector);
+    // the upload button should be enabled again
+    $page->assertButtonEnabled($uploadButtonSelector);
 
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
@@ -543,10 +549,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
-        ->assertNoJavaScriptErrors()
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+        ->assertNoJavaScriptErrors();
 
-        ->assertPresent($inputSelector)
+    $this->scrollIntoView($page, $mediaManagerId);
+
+    $page->assertPresent($inputSelector)
 
         // assert that the upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector);
@@ -592,6 +601,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
+
 //    ->assertVisible(mediaModalSelector)
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
@@ -600,12 +610,17 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertPresent($mediaModalCarouselItemSelector)
 
     // check that media modal can be closed
-        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
+        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
+    $this->scrollIntoView($page, $mediaManagerId);
 
     // check image editor modal can be opened and closed
-        ->pressAndWaitFor($editButtonSelector, $waitTime)
+    $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
+//        ->wait(2)
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
+    //        ->wait(2);
+
+    $this->scrollIntoView($page, $mediaManagerId);
 
     // delete media test
     for ($i = 0; $i < $maxItems; $i++) {
@@ -616,11 +631,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         //                ->assertPresent($deleteButtonSelector)
         //                ->pressAndWaitFor($deleteButtonSelector, $waitTime);
         $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.please_wait'));
-
-//        if($xhr) {
-            $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-//        }
+            ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+            ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+        //        ->wait(2);
 
     }
 
@@ -632,7 +645,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 })->group('browser')
     ->with('mmm_test_matrix');
 //    ->with('mmm_test_matrix')
-// ->only();
+//    ->only();
 //    ->skip();
 
 // TODO: more complex, youtube downloading does not work in tests, need to stub?
@@ -664,47 +677,50 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
-        ->assertNoJavaScriptErrors()
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+        ->assertNoJavaScriptErrors();
 
-        ->assertPresent($inputSelector)
+    $this->scrollIntoView($page, $mediaManagerId);
 
-        // assert that the upload button is initially enabled
+    $page->assertPresent($inputSelector)
+
+    // assert that the upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector)
 
-        // test that it shows an error when no YouTube url entered
+    // test that it shows an error when no YouTube url entered
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.upload_no_youtube_url'))
 
-        // enter youtube url
+    // enter youtube url
         ->type($inputSelector, $this->getYouTubeFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.youtube_video_uploaded'))
 //        ->waitForText(__('medialibrary-extensions::messages.youtube_thumbnail_download_failed'))
 
-        // assert that the image is visible in the preview
+    // assert that the image is visible in the preview
         ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
-        // assert that the upload button is disabled after upload (single media)
+    // assert that the upload button is disabled after upload (single media)
 //        ->assertButtonDisabled($uploadButtonSelector)
 
-        // assert that the image is visible in the preview
-        //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
+    // assert that the image is visible in the preview
+    //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
-        // assert grid is present
+    // assert grid is present
         ->assertPresent($gridSelector)
 
-        // assert grid has the media container
+    // assert grid has the media container
         ->assertPresent($firstMediaPreviewContainer)
 
-        // check that the media item's menu has the expected buttons and state
+    // check that the media item's menu has the expected buttons and state
         ->assertMissing($editButtonSelector)
         ->assertButtonDisabled($setAsFirstButtonSelector)
         ->assertButtonEnabled($deleteButtonSelector)
 
-        // check media modal opening and presence of expected elements
+    // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
 //    ->assertVisible(mediaModalSelector)
@@ -716,25 +732,25 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($mediaModalCarouselItemContainerSelector)
         ->assertPresent($mediaModalCarouselItemContainerLiteYouTubeSelector)
 
-        // check that media modal can be closed
+    // check that media modal can be closed
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
 
-        // check delete media works
+    // check delete media works
         ->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
     // TODO non-xhr does not show delete message
-        if ($xhr) {
-            $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-        }
-        // the upload button should be enabled again
-        $page->assertButtonEnabled($uploadButtonSelector);
+    if ($xhr) {
+        $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+    }
+    // the upload button should be enabled again
+    $page->assertButtonEnabled($uploadButtonSelector);
 
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
     ->with('mms_youtube_test_matrix');
-//->only();
+// ->only();
 
 it('can control standalone media carousel', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -762,8 +778,11 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
     // TODO scrolling not working scroll id is removed from url?
     //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$scrollToId")
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-carousel-crs")
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-carousel-crs")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
+
+    $this->scrollIntoView($page, $carouselId);
 
     // don't upload each iteration
     if ($uploadMedia) {
@@ -853,27 +872,33 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     // Ensure the Media Lab has a medium to work with, using the correct data source
     ensureLabMedium($dataSource);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-multiple-permanent-mmm")
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-laboratory-lab")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
-        // don't upload each iteration
-//        if ($uploadMedia) {
-//            // 1. Upload two images via MMM
-//            $page->attach($mmmInputSelector, $this->getRandomFixture())
-//                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
-//                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-//
-//            $page->attach($mmmInputSelector, $this->getRandomFixture())
-//                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
-//                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-//        }
+    $this->scrollIntoView($page, $labId);
+    // don't upload each iteration
+    //        if ($uploadMedia) {
+    //            // 1. Upload two images via MMM
+    //            $page->attach($mmmInputSelector, $this->getRandomFixture())
+    //                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
+    //                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+    //
+    //            $page->attach($mmmInputSelector, $this->getRandomFixture())
+    //                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
+    //                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+    //        }
 
-        $page->assertPresent($labId)
+    $page->assertPresent($labId)
+//            ->scrollTo($labId)
         ->assertPresent($labOriginalSelector)
         ->assertPresent($labBaseSelector)
         ->assertPresent($mmsSelector)
+//            ->wait(2)
+            ->wait(1)// needed because JavaScript uses error to see if image can be loaded, this might take some time
+        ->assertDontSee('Image loading / decoding failed')
 
-        // 3. Test image editor via nested MMS in Lab
+    // 3. Test image editor via nested MMS in Lab
         ->pressAndWaitFor($mmsEditButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
@@ -883,11 +908,11 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 //        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->assertMissing($imageEditorModalSelector)
 
-        // After save, ensure Base and Original reference the same new medium id
-        // We read the medium id from the restore button data attribute in the Original panel,
-        // and from the nested MMS Single component button/link in the Base panel if available.
-        // Fallback: use the restore button as source of truth and assert Base has updated too by
-        // checking that the restore form's data route contains the same id and that the Base panel exists.
+    // After save, ensure Base and Original reference the same new medium id
+    // We read the medium id from the restore button data attribute in the Original panel,
+    // and from the nested MMS Single component button/link in the Base panel if available.
+    // Fallback: use the restore button as source of truth and assert Base has updated too by
+    // checking that the restore form's data route contains the same id and that the Base panel exists.
 //        ->assertPresent($restoreButtonSelector)
 //        ->wait(0.2)
 //        ->tap(function ($page) use ($restoreButtonSelector, $labBaseSelector) {
@@ -904,19 +929,19 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 //            $page->assertPresent($labBaseSelector);
 //        })
 
-        // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
+    // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
         ->assertPresent($restoreButtonSelector)
-            // TODO why do i need the refresh, if i don't refresh i get medium not found!
-        ->refresh()
+        // TODO why do i need the refresh, if i don't refresh i get medium not found!
+//        ->refresh()
         ->pressAndWaitFor($restoreButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-//    if($xhr) {
-        $page->waitForText(__('medialibrary-extensions::messages.restored_original'));
-//    }
+    //    if($xhr) {
+    $page->waitForText(__('medialibrary-extensions::messages.restored_original'));
+    //    }
 
     // TODO fix
-//        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
+    //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
     ->with('media_lab_test_matrix')

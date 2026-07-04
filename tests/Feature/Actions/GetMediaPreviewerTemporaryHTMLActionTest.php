@@ -15,7 +15,7 @@ beforeEach(function () {
 it('renders temporary media preview HTML and returns JSON response', function () {
     $model = $this->getTestBlogModel();
     $baseId = 'initiator-123';
-    $frontendTheme = 'bootstrap-5';
+    $theme = 'bootstrap-5';
 
     $requestData = [
         'base_id' => $baseId,
@@ -29,7 +29,7 @@ it('renders temporary media preview HTML and returns JSON response', function ()
             'youtube' => 'youtube',
         ]),
         'options' => json_encode([
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
             'showDestroyButton' => true,
             'showSetAsFirstButton' => false,
             'showOrder' => false,
@@ -40,10 +40,10 @@ it('renders temporary media preview HTML and returns JSON response', function ()
 
     Blade::shouldReceive('renderComponent')
         ->once()
-        ->withArgs(function (MediaPreviews $component) use ($baseId, $requestData, $frontendTheme) {
+        ->withArgs(function (MediaPreviews $component) use ($baseId, $requestData, $theme) {
             expect($component->id)->toBe($baseId);
             expect($component->modelOrClassName)->toBe($requestData['model_type']);
-            expect($component->getConfig('frontendTheme'))->toBe($frontendTheme);
+            expect($component->getConfig('theme'))->toBe($theme);
             expect($component->getConfig('showDestroyButton'))->toBeTrue();
             expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();
             expect($component->getConfig('showOrder'))->toBeFalse();

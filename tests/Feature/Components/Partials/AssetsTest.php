@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Blade;
 
 it('renders assets view with expected content, theme plain', function () {
-    $frontendTheme = 'plain';
-    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" frontend-theme="'.$frontendTheme.'"/>');
+    $theme = 'plain';
+    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" frontend-theme="'.$theme.'"/>');
 
     expect($html)
         ->toContain('<link rel="stylesheet" href="')
@@ -15,8 +15,8 @@ it('renders assets view with expected content, theme plain', function () {
 })->todo();
 
 it('renders assets view with expected content, theme bootstrap-5', function () {
-    $frontendTheme = 'bootstrap-5';
-    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" frontend-theme="'.$frontendTheme.'"/>');
+    $theme = 'bootstrap-5';
+    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" frontend-theme="'.$theme.'"/>');
 
     expect($html)
         ->toContain('<link rel="stylesheet" href="')

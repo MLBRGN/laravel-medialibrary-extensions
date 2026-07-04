@@ -36,17 +36,18 @@ class LabPreviewOriginal extends BaseComponent
 
         // Prefer original image info when an archived original exists; otherwise
         // gracefully fall back to the base image so the UI still shows details.
-//        if (empty($this->imageInfo) || ($this->imageInfo['filled'] ?? false) === false) {
-//            $this->imageInfo = $media->model?->getBaseImageInfo($media);
-//        }
+        //        if (empty($this->imageInfo) || ($this->imageInfo['filled'] ?? false) === false) {
+        //            $this->imageInfo = $media->model?->getBaseImageInfo($media);
+        //        }
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'original';
     }
 
     public function render(): View
     {
-        return $this->renderView('lab.lab-preview-original', $this->getConfig('frontendTheme'));
+        return $this->renderView('lab.lab-preview-original', $this->getConfig('theme'));
     }
 }

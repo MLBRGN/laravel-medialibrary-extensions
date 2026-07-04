@@ -82,7 +82,7 @@ it('calls correct view with configured frontend theme plain', function () {
         modelOrClassName: $model,
         collections: ['image' => 'images'],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'showSetAsFirstButton' => false,
         ],
     );
@@ -94,7 +94,7 @@ it('calls correct view with configured frontend theme plain', function () {
         ->and($component->getConfig('showMediaEditButton'))->toBeTrue()
         ->and($component->getConfig('showOrder'))->toBeFalse()
         ->and($component->getConfig('temporaryUploadMode'))->toBeFalse()
-        ->and($component->getConfig('frontendTheme'))->toBe('plain');
+        ->and($component->getConfig('theme'))->toBe('plain');
 
     expect($view)->toBeInstanceOf(View::class);
     expect($view->name())->toBe('medialibrary-extensions::components.plain.media-manager-tinymce');
@@ -107,7 +107,7 @@ it('calls correct view with configured frontend theme bootstrap-5', function () 
         modelOrClassName: $model->getMorphClass(),
         collections: ['image' => 'images'],
         options: [
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
             'showDestroyButton' => false,
             'showSetAsFirstButton' => true,
             'showMediaEditButton' => false,
@@ -123,7 +123,7 @@ it('calls correct view with configured frontend theme bootstrap-5', function () 
         ->and($component->getConfig('showMediaEditButton'))->toBeFalse()
         ->and($component->getConfig('showOrder'))->toBeTrue()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
-        ->and($component->getConfig('frontendTheme'))->toBe('bootstrap-5');
+        ->and($component->getConfig('theme'))->toBe('bootstrap-5');
     expect($view)->toBeInstanceOf(View::class);
     expect($view->name())->toBe('medialibrary-extensions::components.bootstrap-5.media-manager-tinymce');
 });

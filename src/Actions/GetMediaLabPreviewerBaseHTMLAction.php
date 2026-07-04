@@ -13,8 +13,6 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaLabPreviewerBaseHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewBase;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewOriginal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -38,7 +36,8 @@ class GetMediaLabPreviewerBaseHTMLAction
         $options = json_decode($request->input('options'), true) ?? [];
         $dataSource = $request->input('data_source');
 
-//        $part = $request->input('part', 'all');
+        Log::info('GetMediaLabPreviewerHTMLAction - theme: '.$theme);
+        //        $part = $request->input('part', 'all');
 
         if ($theme) {
             $options['theme'] = $theme;
@@ -50,16 +49,16 @@ class GetMediaLabPreviewerBaseHTMLAction
         $medium = $model->media()->find($mediumId);
 
         if (! $medium) {
-            Log::error('GetMediaLabPreviewerHTMLAction - medium with mediumId: ' . $mediumId . ' not found');
+            Log::error('GetMediaLabPreviewerHTMLAction - medium with mediumId: '.$mediumId.' not found');
             throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
-
-//            return MediaResponse::error(
-//                $request,
-//                $baseId,
-//                __('medialibrary-extensions::messages.medium_not_found')
-//            );
+            //            return MediaResponse::error(
+            //                $request,
+            //                $baseId,
+            //                __('medialibrary-extensions::messages.medium_not_found')
+            //            );
         }
 
+        Log::info('GetMediaLabPreviewerHTMLAction - options: '.print_r($options, true));
         $component = new LabPreviewBase(
             id: $baseId,
             media: $medium,

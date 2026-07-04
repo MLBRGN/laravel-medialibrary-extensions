@@ -72,6 +72,6 @@ class DestroyForm extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('destroy-form', $this->getConfig('frontendTheme'), true);
+        return $this->renderView('destroy-form', $this->getConfig('theme'), true);
     }
 }

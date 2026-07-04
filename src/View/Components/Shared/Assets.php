@@ -10,7 +10,7 @@ class Assets extends Component
     public array $assetConfig;
 
     public function __construct(
-        public ?string $frontendTheme = null,
+        public ?string $theme = null,
         public bool $includeCss = false,
         public bool $includeJs = false,
         public bool $includeCarouselJs = false,
@@ -25,7 +25,7 @@ class Assets extends Component
         public string $for = 'unknown',
     ) {
         // Default theme from config
-        $this->frontendTheme ??= config('medialibrary-extensions.frontend_theme', 'plain');
+        $this->theme ??= config('medialibrary-extensions.frontend_theme', 'plain');
 
         // Build the configuration array passed to the loader.js file
         $this->assetConfig = [
@@ -43,7 +43,7 @@ class Assets extends Component
                 'liteYoutube' => $this->includeLiteYoutube,
             ],
             'for' => $this->for, // keep track of which config belongs to what
-            'theme' => $this->frontendTheme,
+            'theme' => $this->theme,
             'assetBasePath' => asset(
                 config('medialibrary-extensions.asset_path')
             ),
@@ -70,6 +70,8 @@ class Assets extends Component
                 'medium_replaced' => __('medialibrary-extensions::messages.medium_replaced'),
 
                 'medium_replacement_failed' => __('medialibrary-extensions::messages.medium_replacement_failed'),
+
+                'image_load_failed' => __('medialibrary-extensions::messages.image_load_failed'),
             ],
         ];
         //        dump($this->assetConfig);

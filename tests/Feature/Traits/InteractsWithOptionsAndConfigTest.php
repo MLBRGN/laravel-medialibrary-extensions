@@ -77,7 +77,7 @@ it('throws exception when required options are missing', function () {
 })->throws(RuntimeException::class, 'Missing required option "bar".');
 
 it('initializes config with defaults and merges options/properties', function () {
-    $this->class->setOption('frontendTheme', 'custom-theme');
+    $this->class->setOption('theme', 'custom-theme');
     $this->class->setOption('temporaryUploadMode', true);
 
     $this->class->callInitializeConfig([
@@ -89,7 +89,7 @@ it('initializes config with defaults and merges options/properties', function ()
     expect($this->class->getConfig('uploadFieldName'))->toBe('customField');
 
     // options override check
-    expect($this->class->getConfig('frontendTheme'))->toBe('custom-theme');
+    expect($this->class->getConfig('theme'))->toBe('custom-theme');
     expect($this->class->getConfig('temporaryUploadMode'))->toBeTrue();
 
     // property merge check

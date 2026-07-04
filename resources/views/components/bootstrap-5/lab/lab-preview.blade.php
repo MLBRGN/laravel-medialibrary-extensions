@@ -6,7 +6,7 @@
     </div>
     <div @class(['
         mle-component', 
-        'mle-theme-'.$getConfig('frontendTheme'), 
+        'mle-theme-'.$getConfig('theme'), 
         'mle-media-preview-container'
     ])
          data-mle-media-preview-container=""

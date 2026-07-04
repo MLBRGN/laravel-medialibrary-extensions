@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Storage;
 use RuntimeException;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/*
+ * Original media are stored initially by the MediaHasBeenAddedListener.
+ */
 class OriginalMediaService
 {
     public function __construct(
@@ -19,7 +22,6 @@ class OriginalMediaService
     /**
      * Copy the original media file to the configured 'originals' disk.
      */
-
     public function archiveOriginalMedia(Media $media): void
     {
         // Use the configured originals disk
@@ -34,7 +36,7 @@ class OriginalMediaService
         }
 
         // Stream the file instead of loading it entirely into memory.
-        $stream = fopen($media->getPath(), 'rb');// rb = read and binary
+        $stream = fopen($media->getPath(), 'rb'); // rb = read and binary
 
         if (! $stream) {
             throw new RuntimeException(
@@ -54,15 +56,22 @@ class OriginalMediaService
             $media->setCustomProperty('is_original', true);
             $media->save();
         } finally {
-            fclose($stream);// always close the stream
+            fclose($stream); // always close the stream
         }
     }
 
-    public function copyArchivedOriginal(Media $oldMedia, Media $newMedia): void
+    /**
+     * Copy the archived original from the old media id to the new media id.
+     *
+     * When $overwrite is true, an existing destination will be removed first so the
+     * historical original from the old media becomes the authoritative archived
+     * original for the replacement media.
+     */
+    public function copyArchivedOriginal(Media $oldMedia, Media $newMedia, bool $overwrite = false): void
     {
 
         Log::info("Copying archived original from media [{$oldMedia->id}] to media [{$newMedia->id}]");
-//        Log::info("Old media: ", $oldMedia->toArray());
+        //        Log::info("Old media: ", $oldMedia->toArray());
 
         // Use the configured originals disk.
         $disk = Storage::disk(config('medialibrary-extensions.media_disks.originals'));
@@ -75,15 +84,30 @@ class OriginalMediaService
 
         // Nothing to reuse if the original has not been archived.
         if (! $disk->exists($sourcePath)) {
-            Log::warning("Original not found for media [{$oldMedia->id}].");
-            //throw new \RuntimeException("Original not found for media [{$oldMedia->id}].");
-            return;
+            Log::warning("Original not found for media [{$oldMedia->id}] at [$sourcePath].");
+            // Opportunistic backfill: if the old media file still exists on its disk, try to archive it now
+            try {
+                $this->archiveOriginalMedia($oldMedia);
+            } catch (\Throwable $e) {
+                Log::warning("Backfill archiving failed for media [{$oldMedia->id}]: {$e->getMessage()}");
+            }
+
+            if (! $disk->exists($sourcePath)) {
+                // Still missing, bail out gracefully
+                return;
+            }
         }
 
-        // Don't overwrite an existing archived original.
+        // Don't overwrite an existing archived original unless explicitly allowed.
         if ($disk->exists($destinationPath)) {
-            Log::info("Original already exists for media [{$newMedia->id}].");
-            return;
+            if (! $overwrite) {
+                Log::info("Original already exists for media [{$newMedia->id}]. Keeping destination.");
+
+                return;
+            }
+
+            Log::info("Overwriting existing archived original for media [{$newMedia->id}] at [$destinationPath].");
+            $disk->delete($destinationPath);
         }
 
         // Copy the archived original to the replacement media.
@@ -92,10 +116,9 @@ class OriginalMediaService
         Log::info("Original media [{$oldMedia->id}] copied to media [{$newMedia->id}].");
         if (! $copied) {
             Log::warning("Failed to reuse original media [{$oldMedia->id}] for media [{$newMedia->id}].");
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 "Failed to reuse original media [{$oldMedia->id}] for media [{$newMedia->id}]."
             );
         }
     }
-
 }

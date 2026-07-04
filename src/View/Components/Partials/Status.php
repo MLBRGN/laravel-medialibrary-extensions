@@ -42,6 +42,6 @@ class Status extends BaseComponent
 
     public function render(): View
     {
-        return $this->renderView('status', $this->getConfig('frontendTheme'), true);
+        return $this->renderView('status', $this->getConfig('theme'), true);
     }
 }

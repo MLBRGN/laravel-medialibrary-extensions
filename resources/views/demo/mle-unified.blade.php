@@ -27,7 +27,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Laravel Media Library Extensions Component tests</title>
-        @if($frontendTheme === 'bootstrap-5')
+        @if($theme === 'bootstrap-5')
             <link
                 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
                 rel="stylesheet"
@@ -136,8 +136,8 @@
         <div class="mle-demo-controls">
             <div class="mle-demo-controls-group">
                 <span class="mle-demo-controls-label">Theme:</span>
-                <a href="{{ request()->fullUrlWithQuery(['theme' => 'bootstrap-5']) }}" class="mle-demo-btn {{ $frontendTheme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Bootstrap 5</a>
-                <a href="{{ request()->fullUrlWithQuery(['theme' => 'plain']) }}" class="mle-demo-btn {{ $frontendTheme === 'plain' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-plain">Plain</a>
+                <a href="{{ request()->fullUrlWithQuery(['theme' => 'bootstrap-5']) }}" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Bootstrap 5</a>
+                <a href="{{ request()->fullUrlWithQuery(['theme' => 'plain']) }}" class="mle-demo-btn {{ $theme === 'plain' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-plain">Plain</a>
             </div>
     
             <div class="mle-demo-controls-group">
@@ -166,7 +166,7 @@
                                 'audio' =>'alien-single-audio'
                 ]"
                 :options="[
-                            'frontendTheme' => $frontendTheme, 
+                            'theme' => $theme, 
                             'dataSource' => $dataSource, 
                             'useXhr' => $useXhr
                 ]"
@@ -187,7 +187,7 @@
                                 'audio' =>'alien-single-audio',
                             ]"
                 :options="[
-                            'frontendTheme' => $frontendTheme, 
+                            'theme' => $theme, 
                             'dataSource' => $dataSource, 
                             'useXhr' => $useXhr
                 ]"
@@ -210,7 +210,7 @@
                 ]"
                 :options="[
                     'showOrder' => true, 
-                    'frontendTheme' => $frontendTheme, 
+                    'theme' => $theme, 
                     'dataSource' => $dataSource, 
                     'useXhr' => $useXhr
                 ]"
@@ -234,7 +234,7 @@
                 ]"
                 :options="[
                     'showOrder' => true, 
-                    'frontendTheme' => $frontendTheme, 
+                    'theme' => $theme, 
                     'dataSource' => $dataSource, 
                     'useXhr' => $useXhr
                 ]"
@@ -263,7 +263,7 @@
     //                'audio' =>'alien-single-audio'
                 ]"
                 :options="[
-                    'frontendTheme' => $frontendTheme, 
+                    'theme' => $theme, 
                     'dataSource' => $dataSource
                 ]"
             />
@@ -282,7 +282,7 @@
                     id="alien-laboratory"
                     :media="$media"
                     :options="[
-                        'frontendTheme' => $frontendTheme, 
+                        'theme' => $theme, 
                         'dataSource' => $dataSource, 
                         'useXhr' => $useXhr
                     ]"
@@ -349,7 +349,7 @@
         
     </div>
     
-    @if($frontendTheme === 'bootstrap-5')
+    @if($theme === 'bootstrap-5')
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             crossorigin="anonymous"

@@ -71,6 +71,6 @@ class YouTubeUploadForm extends BaseMediaComponent
 
     public function render(): View
     {
-        return $this->renderView('youtube-upload-form', $this->getConfig('frontendTheme'), true);
+        return $this->renderView('youtube-upload-form', $this->getConfig('theme'), true);
     }
 }

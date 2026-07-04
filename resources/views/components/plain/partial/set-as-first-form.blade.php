@@ -68,7 +68,7 @@
         include-css="true" 
         include-js="true" 
         include-media-manager-submitter="true" 
-        :frontend-theme="$getConfig('frontendTheme')"
+        :frontend-theme="$getConfig('theme')"
         for="plain|set-as-first-form"
     />
 @endif

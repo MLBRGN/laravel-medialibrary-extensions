@@ -15,12 +15,12 @@ it('initializes component with provided data', function () {
     $component = new StatusArea(
         id: $id,
         options: [
-            'frontendTheme' => 'custom-theme',
+            'theme' => 'custom-theme',
         ],
     );
 
     expect($component->getDomId())->toBe($id.'-status-area')
-        ->and($component->getConfig('frontendTheme'))->toBe('custom-theme');
+        ->and($component->getConfig('theme'))->toBe('custom-theme');
 });
 
 it('renders the correct partial view', function () {
@@ -35,12 +35,12 @@ it('renders the correct partial view', function () {
     $component = new StatusArea(
         id: 'component-123',
         options: [
-            'frontendTheme' => $theme,
+            'theme' => $theme,
         ],
     );
 
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(ViewInstance::class)
-        ->and($component->getConfig('frontendTheme'))->toBe('bootstrap-5');
+        ->and($component->getConfig('theme'))->toBe('bootstrap-5');
 });

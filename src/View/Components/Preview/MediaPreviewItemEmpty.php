@@ -22,12 +22,13 @@ class MediaPreviewItemEmpty extends BaseComponent
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'media-preview-item-empty';
     }
 
     public function render(): View
     {
-        return $this->getView('preview.media-preview-item-empty', $this->getConfig('frontendTheme'));
+        return $this->getView('preview.media-preview-item-empty', $this->getConfig('theme'));
     }
 }

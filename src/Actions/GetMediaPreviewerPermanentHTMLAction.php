@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class GetMediaPreviewerPermanentHTMLAction
 {
@@ -47,7 +47,7 @@ class GetMediaPreviewerPermanentHTMLAction
         $options = json_decode($request->input('options'), true) ?? [];
 
         if ($theme) {
-            $options['frontendTheme'] = $theme;
+            $options['theme'] = $theme;
         }
 
         $collections = json_decode($request->input('collections'), true) ?? [];

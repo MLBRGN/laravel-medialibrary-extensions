@@ -17,12 +17,12 @@ it('throws translated exception if invalid class name is provided', closure: fun
             'audio' => 'audio',
         ],
         options: [
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
         ],
         multiple: true,
         readonly: true,
         disabled: true,
-        //        frontendTheme: 'plain',
+        //        theme: 'plain',
     );
 
     $component->render();
@@ -67,10 +67,10 @@ it('honors frontend theme', function () {
             'video' => 'videos',
             'audio' => 'audio',
         ],
-        options: ['frontendTheme' => 'something-else'],
+        options: ['theme' => 'something-else'],
     );
 
-    expect($component->getConfig('frontendTheme'))->toBe('something-else');
+    expect($component->getConfig('theme'))->toBe('something-else');
 });
 
 it('uses allowedMimeTypes from config if allowedMimeTypes not provided', function () {
@@ -143,7 +143,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
             'audio' => 'audio',
         ],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'allowedMimeTypes' => 'image/jpeg, image/png',
             'showDestroyButton' => true,
             'showSetAsFirstButton' => true,
@@ -167,7 +167,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
 
     expect($allowedMimeTypes)->toBeString()->not->toBeEmpty()
         ->and($allowedMimeTypesHuman)->toBeString()->not->toBeEmpty()
-        ->and($component->getConfig('frontendTheme'))->toBe('plain')
+        ->and($component->getConfig('theme'))->toBe('plain')
         ->and($component->getConfig('useXhr'))->toBe(config('medialibrary-extensions.use_xhr'))
         ->and($view)->toBeInstanceOf(View::class)
         ->and($view->name())->toContain('upload-form');
@@ -189,7 +189,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
 //            'audio' => 'audio',
 //        ],
 //        options: [
-//            'frontendTheme'=> 'plain',
+//            'theme'=> 'plain',
 //            'allowedMimeTypes' => '',
 //            'showDestroyButton' => true,
 //            'showSetAsFirstButton' => true,
@@ -224,7 +224,7 @@ it('sets model properties correctly when given a string model class name', funct
             'audio' => 'audio',
         ],
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
             'allowedMimeTypes' => 'image/jpeg,image/png',
             'showDestroyButton' => false,
             'showSetAsFirstButton' => false,
@@ -244,7 +244,7 @@ it('sets model properties correctly when given a string model class name', funct
         ->and($component->modelId)->toBeNull()
         ->and($allowedMimeTypes)->toBeString()->not->toBeEmpty()
         ->and($allowedMimeTypesHuman)->toBeString()->not->toBeEmpty()
-        ->and($component->getConfig('frontendTheme'))->toBe('plain')
+        ->and($component->getConfig('theme'))->toBe('plain')
         ->and($component->getConfig('useXhr'))->toBe(config('medialibrary-extensions.use_xhr'))
         ->and($view)->toBeInstanceOf(View::class)
         ->and($view->name())->toContain('upload-form');

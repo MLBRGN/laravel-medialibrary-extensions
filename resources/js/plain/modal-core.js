@@ -31,7 +31,8 @@ function eventDispatcher(type, e) {
 export function closeModal(modal, originalEvent) {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = 'initial';
+    // document.body.style.overflow = 'initial';
+    document.body.style.overflow = '';
 
     releaseFocus(modal);
     fireEvent('mleModalClosed', modal, {

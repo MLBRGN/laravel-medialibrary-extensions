@@ -41,7 +41,7 @@ trait InteractsWithOptionsAndConfig
         'disabled',
         'readonly',
         'selectable',
-        'frontendTheme',
+        'theme',
         'uploadFieldName',
         'temporaryUploadMode',
         'csrfToken',
@@ -81,7 +81,7 @@ trait InteractsWithOptionsAndConfig
             'showUploadForms' => true,
             'temporaryUploadMode' => false,
             'uploadFieldName' => 'media',
-            'frontendTheme' => config('medialibrary-extensions.frontend_theme', 'bootstrap-5'),
+            'theme' => config('medialibrary-extensions.frontend_theme', 'bootstrap-5'),
             'useXhr' => config('medialibrary-extensions.use_xhr', true),
             'csrfToken' => csrf_token(),
             // allowedMimeTypes handled by separate trait
@@ -273,7 +273,7 @@ trait InteractsWithOptionsAndConfig
 
         $filteredOptions = array_filter(
             $this->options,
-            fn ($v, $k) => ! is_null($v) || $k === 'frontendTheme',
+            fn ($v, $k) => ! is_null($v) || $k === 'theme',
             ARRAY_FILTER_USE_BOTH
         );
 

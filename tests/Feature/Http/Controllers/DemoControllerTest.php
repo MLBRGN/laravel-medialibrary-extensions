@@ -49,7 +49,7 @@ it('returns the unified demo view with bootstrap-5 theme by default', function (
     expect($response)->toBeInstanceOf(View::class)
         ->and($response->name())->toBe('medialibrary-extensions::demo.mle-unified')
         ->and($response->getData()['model'])->toBeInstanceOf(Alien::class)
-        ->and($response->getData()['frontendTheme'])->toBe('bootstrap-5');
+        ->and($response->getData()['theme'])->toBe('bootstrap-5');
 
     expect(config('medialibrary-extensions.frontend_theme'))
         ->toBe('bootstrap-5');
@@ -73,7 +73,7 @@ it('uses the plain theme when requested', function () {
     expect($response->name())
         ->toBe('medialibrary-extensions::demo.mle-unified');
 
-    expect($response->getData()['frontendTheme'])
+    expect($response->getData()['theme'])
         ->toBe('plain');
 
     expect(config('medialibrary-extensions.frontend_theme'))

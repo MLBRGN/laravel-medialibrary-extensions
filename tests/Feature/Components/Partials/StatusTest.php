@@ -18,7 +18,7 @@ it('sets status from session when baseId matches', function () {
     $component = new Status(
         id: $baseId,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ],
     );
 
@@ -39,7 +39,7 @@ it('does not set status if baseId does not match', function () {
     $component = new Status(
         id: $baseId,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ],
     );
 
@@ -51,7 +51,7 @@ it('renders the status partial view', function () {
     $component = new Status(
         id: $baseId,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ],
     );
 
@@ -73,7 +73,7 @@ it('renders the status message in the view when baseId matches (plain)', functio
     $component = new Status(
         id: $baseId,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ],
     );
 
@@ -100,7 +100,7 @@ it('renders the status message in the view when baseId matches (bootstrap-5)', f
     $component = new Status(
         id: $baseId,
         options: [
-            'frontendTheme' => 'bootstrap-5',
+            'theme' => 'bootstrap-5',
         ],
     );
 
@@ -128,7 +128,7 @@ it('does not render the status message when baseId does not match', function () 
     $component = new Status(
         id: $baseId,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ],
     );
 
@@ -157,7 +157,7 @@ it('sets status from validation error bag when present', function () {
     $component = new Status(
         id: $baseId,
         options: [
-            'frontendTheme' => 'plain',
+            'theme' => 'plain',
         ],
     );
 

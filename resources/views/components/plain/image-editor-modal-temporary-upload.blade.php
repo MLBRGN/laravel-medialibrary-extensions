@@ -1,7 +1,7 @@
 <div
     {{ $attributes->class([
         'mle-component',
-        'mle-theme-'. $getConfig('frontendTheme'),
+        'mle-theme-'. $getConfig('theme'),
         'mle-image-editor-modal',
         'mle-modal',
         'mle-fade',
@@ -13,7 +13,7 @@
         aria-labelledby="{{ $id }}-title"
     @endif
     aria-hidden="true"
-    data-mle-theme="{{$getConfig('frontendTheme')}}"
+    data-mle-theme="{{$getConfig('theme')}}"
     data-mle-modal
     data-mle-image-editor-modal
     data-base-id="{{ $id }}"
@@ -66,6 +66,6 @@
     include-js="true"
     include-image-editor-js="true"
     include-image-editor-modal-js="true"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :frontend-theme="$getConfig('theme')"
     for="plain|image-editor-model-temporary-upload"
 />

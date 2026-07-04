@@ -161,7 +161,7 @@ Pass these via the `options` prop to components:
 - `showDestroyButton`: (bool) Show/hide delete icon.
 - `showSetAsFirstButton`: (bool) Show/hide "set as main" icon.
 - `useXhr`: (bool) Enable/disable AJAX uploads.
-- `frontendTheme`: `'bootstrap-5'` or `'plain'`.
+- `theme`: `'bootstrap-5'` or `'plain'`.
 
 ### Customizing Styles
 Override CSS variables in your application:
@@ -186,3 +186,17 @@ Define your preferred icons in `config/media-library-extensions.php`. It support
 ### Assets not loading?
 - Run `php artisan vendor:publish --tag=medialibrary-extensions-assets`.
 - If using Vite, ensure you have followed the [Vite Setup Guide](./vite-package-setup.md).
+
+---
+
+## 8. Originals (archiving, replacement, restoration)
+
+This package can archive the original uploaded file to a dedicated filesystem disk and later restore it or reuse it across replacements.
+
+Quick facts:
+- Storage location: files are saved to the disk configured at `medialibrary-extensions.media_disks.originals` under the path `<media id>/<file_name>`.
+- When archived: on `MediaHasBeenAddedEvent` (if the owning model allows originals), the package streams the file from the media’s path and writes it to the originals disk. It records helpful flags on the media’s `custom_properties`.
+- Database: there is no separate table; originals are indicated by flags in `custom_properties`. A convenience model `OriginalMedia` extends Spatie’s `Media` while using the same `media` table.
+- Restore: the archived file can be copied back to the media’s actual storage location, and conversions are marked for regeneration.
+
+See the detailed guide: [Originals – storage and lifecycle](./originals.md)
