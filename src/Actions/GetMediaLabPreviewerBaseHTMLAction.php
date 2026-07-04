@@ -36,9 +36,6 @@ class GetMediaLabPreviewerBaseHTMLAction
         $options = json_decode($request->input('options'), true) ?? [];
         $dataSource = $request->input('data_source');
 
-        Log::info('GetMediaLabPreviewerHTMLAction - theme: '.$theme);
-        //        $part = $request->input('part', 'all');
-
         if ($theme) {
             $options['theme'] = $theme;
         }
@@ -71,7 +68,6 @@ class GetMediaLabPreviewerBaseHTMLAction
             'showYouTubeUploadForm' => false,
         ]);
 
-//        Log::info('GetMediaLabPreviewerHTMLAction - options (lab-enforced): '.print_r($options, true));
         $component = new LabPreviewBase(
             id: $baseId,
             media: $medium,

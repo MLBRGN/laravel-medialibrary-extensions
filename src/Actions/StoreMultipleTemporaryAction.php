@@ -102,7 +102,6 @@ class StoreMultipleTemporaryAction
 
         foreach ($files as $file) {
             $collectionType = $this->mediaService->determineCollectionType($file);
-            // Log::info('StoreMultipleTemporaryAction - collectionType: '.$collectionType);
             $collectionName = $collections[$collectionType] ?? null;
 
             if (is_null($collectionType) || is_null($collectionName)) {
@@ -150,37 +149,7 @@ class StoreMultipleTemporaryAction
 
             $temporaryUpload->save();
 
-            Log::info('Saved temporary upload', [
-                'id' => $temporaryUpload->id,
-                'collection' => $collectionName,
-                'instanceId' => $instanceId,
-                'clientToken' => $clientToken,
-                'connection' => $temporaryUpload->getConnectionName(),
-            ]);
             $nextPriority++;
-            //            // Create DB record
-            //            $upload = new TemporaryUpload([
-            //                'disk' => $disk,
-            //                'path' => "{$directory}/{$safeFilename}",
-            //                'name' => $safeFilename,
-            //                //                'name' => pathinfo($safeFilename, PATHINFO_FILENAME),
-            //                'file_name' => $safeFilename, // no unicode (this causes problems with replacement of image source)
-            //                'collection_name' => $collectionName,
-            //                'mime_type' => $file->getMimeType(),
-            //                'size' => $file->getSize(),
-            //                'user_id' => Auth::check() ? Auth::id() : null,
-            //                'client_token' => $clientToken,
-            //                'instance_id' => $instanceId ?: null,
-            //                'order_column' => $nextPriority,
-            //                'custom_properties' => [
-            //                    'collections' => json_encode($collections),
-            //                    'priority' => $nextPriority,
-            //                ],
-            //            ]);
-
-            //            $nextPriority++;
-
-            //            $upload->save();
             $successCount++;
         }
 

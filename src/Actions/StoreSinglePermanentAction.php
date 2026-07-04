@@ -26,8 +26,6 @@ class StoreSinglePermanentAction
         StoreSingleRequest $request
     ): RedirectResponse|JsonResponse {
 
-        Log::info('UPLOAD REQUEST:', $request->all());
-
         $baseId = (string) $request->input('base_id');
         $modelType = $request->model_type;
         $modelId = $request->model_id;

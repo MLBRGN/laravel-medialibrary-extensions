@@ -37,12 +37,6 @@ class StoreSingleTemporaryAction
         $baseId = (string) $request->input('base_id');
         $instanceId = InstanceManager::getInstanceId($baseId);
 
-        Log::info('Upload request', [
-            'client_token_input' => $request->input('client_token'),
-            'cookie_token' => $request->cookie('mle_client_token'),
-            'all_input' => $request->all(),
-        ]);
-
         $clientToken = $request->input('client_token')
             ?? $request->cookie('mle_client_token')
             ?? (string) Str::ulid();
@@ -98,11 +92,6 @@ class StoreSingleTemporaryAction
 
         $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
 
-        //        Log::info('StoreSingleTemporaryAction - Connection name: '.$temporaryUpload->getConnectionName());
-        //        Log::info(
-        //            'StoreSingleTemporaryAction - Database connection: '.$temporaryUpload->getConnection()->getName()
-        //        );
-
         $temporaryUpload->fill([
             'disk' => $disk,
             'path' => "{$directory}/{$safeFilename}",
@@ -121,23 +110,7 @@ class StoreSingleTemporaryAction
                 'priority' => 0,
             ],
         ]);
-        //        Log::info('StoreSingleTemporaryAction - Default DB: '.config('database.default'));
-
-        //        Log::info(
-        //            'StoreSingleTemporaryAction - TemporaryUpload connection: '.
-        //            ($temporaryUpload->getConnectionName() ?? 'null')
-        //        );
-
-        //        Log::info(
-        //            'StoreSingleTemporaryAction - Resolved connection: '.
-        //            $temporaryUpload->getConnection()->getName()
-        //        );
-        //        Log::info('StoreSingleTemporaryAction - ' . json_encode(config('database.connections')));
         $temporaryUpload->save();
-
-        Log::info(
-            'StoreSingleTemporaryUpload - stored db record in db '.$temporaryUpload->getConnectionName().' instanceId '.$instanceId.' clientToken '.$clientToken
-        );
 
         return MediaResponse::success(
             $request,

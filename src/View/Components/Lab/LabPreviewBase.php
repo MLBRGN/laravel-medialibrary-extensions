@@ -32,7 +32,6 @@ class LabPreviewBase extends BaseComponent
         parent::__construct($id);
         $this->options = $options;
 
-//        Log::info('LabPreviewBase - options: '.print_r($options, true));
         $this->resolveConfig();
 
         if ($this->media instanceof Media) {
@@ -55,8 +54,6 @@ class LabPreviewBase extends BaseComponent
 
     public function render(): View
     {
-        Log::info('LabPreviewBase - theme: '.$this->getConfig('theme'));
-
         return $this->renderView('lab.lab-preview-base', $this->getConfig('theme'));
     }
 }

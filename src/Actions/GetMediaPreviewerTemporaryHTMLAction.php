@@ -44,18 +44,6 @@ class GetMediaPreviewerTemporaryHTMLAction
         $theme = $request->input('theme');
         $clientToken = $request->input('client_token') ?? $request->cookie('mle_client_token');
 
-        Log::info('GetMediaPreviewerTemporaryHTMLAction.request', [
-            'base_id' => $baseId,
-            'derived_instance_id' => $instanceId,
-            'model_type' => $modelType,
-            'has_client_token' => (bool) $clientToken,
-            'data_source' => $dataSource,
-        ]);
-
-        //        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$dataSource);
-        //        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$instanceId);
-        //        Log::info('GetMediaPreviewerTemporaryHTMLAction - singleMediaId: '.$clientToken);
-
         $options = json_decode($request->input('options'), true) ?? [];
         if ($request->has('temporary_upload_mode')) {
             $this->temporaryUploadMode = $request->boolean('temporary_upload_mode');
@@ -110,14 +98,6 @@ class GetMediaPreviewerTemporaryHTMLAction
                 $clientToken,
                 $dataSource
             );
-            Log::info('GetMediaPreviewerTemporaryHTMLAction.count_result', [
-                'base_id' => $baseId,
-                'derived_instance_id' => $instanceId,
-                'client_token' => $clientToken,
-                'collections' => $collections,
-                'data_source' => $dataSource,
-                'total_media_count' => $totalMediaCount,
-            ]);
         }
 
         // Determine max and flags

@@ -70,17 +70,12 @@ class OriginalMediaService
     public function copyArchivedOriginal(Media $oldMedia, Media $newMedia, bool $overwrite = false): void
     {
 
-        Log::info("Copying archived original from media [{$oldMedia->id}] to media [{$newMedia->id}]");
-        //        Log::info("Old media: ", $oldMedia->toArray());
-
         // Use the configured originals disk.
         $disk = Storage::disk(config('medialibrary-extensions.media_disks.originals'));
 
         // Build the source and destination paths.
         $sourcePath = "{$oldMedia->id}/{$oldMedia->file_name}";
         $destinationPath = "{$newMedia->id}/{$newMedia->file_name}";
-
-        Log::info("Copying archived original from [$sourcePath] to [$destinationPath]");
 
         // Nothing to reuse if the original has not been archived.
         if (! $disk->exists($sourcePath)) {
@@ -101,19 +96,15 @@ class OriginalMediaService
         // Don't overwrite an existing archived original unless explicitly allowed.
         if ($disk->exists($destinationPath)) {
             if (! $overwrite) {
-                Log::info("Original already exists for media [{$newMedia->id}]. Keeping destination.");
-
                 return;
             }
 
-            Log::info("Overwriting existing archived original for media [{$newMedia->id}] at [$destinationPath].");
             $disk->delete($destinationPath);
         }
 
         // Copy the archived original to the replacement media.
         $copied = $disk->copy($sourcePath, $destinationPath);
 
-        Log::info("Original media [{$oldMedia->id}] copied to media [{$newMedia->id}].");
         if (! $copied) {
             Log::warning("Failed to reuse original media [{$oldMedia->id}] for media [{$newMedia->id}].");
             throw new RuntimeException(

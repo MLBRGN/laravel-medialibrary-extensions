@@ -57,15 +57,6 @@ class SetTemporaryUploadAsFirstAction
 
         $clientToken = $request->input('client_token') ?: $request->cookie('mle_client_token');
 
-        Log::info('SetTemporaryUploadAsFirstAction.request', [
-            'base_id' => $baseId,
-            'derived_instance_id' => $instanceId,
-            'medium_id' => $mediumId,
-            'has_client_token' => (bool) $clientToken,
-            'data_source' => $dataSource,
-            'collections' => $collectionNames,
-        ]);
-
         $mediaItems = TemporaryUpload::query()
             ->forDataSource($dataSource)
             ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
@@ -103,12 +94,6 @@ class SetTemporaryUploadAsFirstAction
 
         // Sort by current priority
         $sorted = $mediaItems->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
-
-        //        foreach ($sorted as $item) {
-        //            Log::info('Sorted item', [
-        //                'id' => $item->id,
-        //            ]);
-        //        }
 
         // Move target to front
         $reordered = $sorted->reject(fn ($m) => (int) $m->id === (int) $mediumId)->prepend($targetMedia);

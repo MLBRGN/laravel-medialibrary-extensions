@@ -18,8 +18,6 @@ class GetMediaManagerPreviewerHTMLAction
 
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-//        Log::info('GetMediaManagerPreviewerHTMLAction - invoked');
-//        Log::info('GetMediaManagerPreviewerHTMLAction - temporary_upload_mode: '.$request->temporary_upload_mode);
         if ($request->temporary_upload_mode === 'true') {
             return $this->getMediaPreviewerTemporaryHTMLAction->execute($request);
         }

@@ -52,7 +52,6 @@ class MediaCarousel extends BaseComponent
         $resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
         $model = $resolvedModel->model;
 
-        //        Log::info('MediaCarousel: resolved model: ' . json_encode($model));
         // merge into config
         $this->resolveConfig([
             'temporaryUploadMode' => $resolvedModel->temporaryUploadMode,
@@ -61,23 +60,10 @@ class MediaCarousel extends BaseComponent
 
         $instanceId = $this->instanceId ?? $this->getConfig('instanceId');
 
-        //        Log::info('MediaCarousel', [
-        //            'id' => $this->id,
-        //            'instanceId' => $this->instanceId,
-        //        ]);
-
-        //        Log::info('MediaCarousel lookup', [
-        //            'instanceId' => $instanceId,
-        //            'clientToken' => $this->clientToken,
-        // //            'collections' => $this->collections,
-        //        ]);
         $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource);
-        //        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
 
         $this->mediaCount = $this->media->count();
 
-        //        Log::info('MediaCarousel media: ' . json_encode($this->media, JSON_PRETTY_PRINT));
-        //        Log::info('MediaCarousel mediaCount : ' . $this->mediaCount);
     }
 
     protected function domIdSuffix(): string

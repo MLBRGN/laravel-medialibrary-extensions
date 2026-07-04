@@ -70,14 +70,6 @@ class DestroyMediaAction
 
         $priority = 0;
         foreach ($mediaItems as $media) {
-            //            Log::info(sprintf(
-            //                'Media #%d (%s): old priority=%s → new priority=%d',
-            //                $media->id,
-            //                $media->file_name,
-            //                $media->getCustomProperty('priority'),
-            //                $priority
-            //            ));
-
             $media->setCustomProperty('priority', $priority);
 
             if ($dataSource) {

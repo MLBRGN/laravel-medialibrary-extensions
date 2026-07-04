@@ -28,10 +28,6 @@ class RestoreOriginalMediaAction
 
         $media = $this->mediaService->findMedium($id, $dataSource);
 
-        Log::info('RestoreOriginalMediaAction - execute: $mediaId: ' . $mediaId);
-        Log::info('RestoreOriginalMediaAction - execute: $dataSource: ' . $dataSource);
-
-        Log::info('RestoreOriginalMediaAction - execute: $media: ' . $media);
         $baseId = (string) ($request->input('base_id') ?? '');
 
         if (! $media) {
@@ -43,7 +39,6 @@ class RestoreOriginalMediaAction
             );
         }
 
-        Log::info('RestoreOriginalMediaAction - execute: media found, now restoring');
         $originalsDisk = config('medialibrary-extensions.media_disks.originals');
         $originalPath = "{$media->id}/{$media->file_name}";
 
@@ -70,8 +65,6 @@ class RestoreOriginalMediaAction
 
             // Write to the medium path (on the correct disk)
             Storage::disk($targetDisk)->put($targetPath, $content);
-
-            //            Log::info("Restored original [$originalPath] → [$targetDisk:$targetPath]");
 
             // Mark conversions for regeneration
             foreach ($media->getMediaConversionNames() as $conversionName) {

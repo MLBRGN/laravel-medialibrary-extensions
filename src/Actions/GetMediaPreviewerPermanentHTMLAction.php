@@ -27,7 +27,6 @@ class GetMediaPreviewerPermanentHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        //        Log::info('GetMediaPreviewerPermanentHTMLAction invoked');
         $dataSource = $request->input('data_source');
         // Strict: only Base ID is accepted
         $baseId = (string) $request->input('base_id');
@@ -82,7 +81,6 @@ class GetMediaPreviewerPermanentHTMLAction
             : 1;
         $isAtMax = $totalMediaCount >= $maxMediaCount;
 
-        //        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
         $component = new MediaPreviews(
             id: $baseId,
             modelOrClassName: $model,

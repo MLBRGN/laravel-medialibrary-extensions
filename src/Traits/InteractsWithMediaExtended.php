@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 use Spatie\Image\Enums\Fit;
@@ -75,8 +76,7 @@ trait InteractsWithMediaExtended
 
         static::created(function ($model) {
             if (! $model->exists || ! $model->getKey()) {
-                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
-
+                Log::warning('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
                 return;
             }
 
@@ -88,7 +88,7 @@ trait InteractsWithMediaExtended
 
         static::updated(function ($model) {
             if (! $model->exists || ! $model->getKey()) {
-                Log::info('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+                Log::warning('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
 
                 return;
             }

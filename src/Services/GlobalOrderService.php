@@ -21,8 +21,6 @@ class GlobalOrderService
      */
     public function ensureGlobalOrder(Media $media): void
     {
-//        Log::info('GlobalOrderService - ensureGlobalOrder called for media id: '.$media->getKey());
-
         // Preserve if already set (for replaced or restored media)
         if ($media->hasCustomProperty('global_order')) {
             return;
@@ -34,8 +32,6 @@ class GlobalOrderService
         $media->setConnection($media->getConnectionName());
         $media->setCustomProperty('global_order', $nextOrder);
         $media->save();
-
-//        Log::info("GlobalOrderService - Assigned global_order={$nextOrder} to media [{$media->id}]");
     }
 
     /**

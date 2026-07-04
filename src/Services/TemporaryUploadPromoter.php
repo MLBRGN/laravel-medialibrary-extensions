@@ -20,8 +20,6 @@ class TemporaryUploadPromoter
         }
 
         if (! $clientToken) {
-//            Log::info('TemporaryUploadPromoter - no client identity found (client_token or cookie)');
-
             return;
         }
 
@@ -34,22 +32,12 @@ class TemporaryUploadPromoter
         $temporaryUploads = $query->get();
 
         if ($temporaryUploads->isEmpty()) {
-//            Log::info('TemporaryUploadPromoter - no temporary uploads found for client: '.$clientToken.($instanceId ? ' and instance: '.$instanceId : ''));
-
             return;
         }
 
-//        Log::info('TemporaryUploadPromoter - found temporary uploads', ['count' => $temporaryUploads->count()]);
         $dirty = false;
 
         foreach ($temporaryUploads as $temporaryUpload) {
-//            Log::info('TemporaryUploadPromoter: promoting temporary upload', [
-//                'id' => $temporaryUpload->id,
-//                'file_name' => $temporaryUpload->file_name,
-//                'path' => $temporaryUpload->path,
-//                'disk' => $temporaryUpload->disk,
-//            ]);
-
             $media = $this->promote($model, $temporaryUpload);
 
             if (! $media) {
@@ -57,11 +45,6 @@ class TemporaryUploadPromoter
 
                 continue;
             }
-
-//            Log::info('TemporaryUploadPromoter - promotion successful', [
-//                'media_id' => $media->id,
-//                'media_url' => $media->getUrl(),
-//            ]);
 
             $temporaryDisk = $temporaryUpload->disk;
             $temporaryDiskUrl = rtrim(Storage::disk($temporaryDisk)->url(''), '/');
@@ -83,30 +66,23 @@ class TemporaryUploadPromoter
                 if ($newHtml !== $html) {
                     $model->{$field} = $newHtml;
                     $dirty = true;
-//                    Log::info("TemporaryUploadPromoter - updated HTML field '{$field}' with new media URL", [
-//                        'temporary_file' => $temporaryUpload->file_name,
-//                        'new_media_url' => $media->getUrl(),
-//                    ]);
                 } else {
-                    Log::info("TemporaryUploadPromoter - no replacements made in field '{$field}' for {$temporaryUpload->file_name}");
+                    Log::warning("TemporaryUploadPromoter - no replacements made in field '{$field}' for {$temporaryUpload->file_name}");
                 }
             }
 
             // Cleanup temp file + DB record
             if (Storage::disk($temporaryDisk)->exists($temporaryUpload->path)) {
                 Storage::disk($temporaryDisk)->delete($temporaryUpload->path);
-//                Log::info('TemporaryUploadPromoter - deleted temporary file', ['path' => $temporaryUpload->path]);
             }
 
             $temporaryUpload->delete();
-//            Log::info('TemporaryUploadPromoter - deleted temporary upload record', ['id' => $temporaryUpload->id]);
         }
 
         if ($dirty) {
             $model->saveQuietly();
-//            Log::info('TemporaryUploadPromoter - model saved with updated HTML fields', ['model_id' => $model->id]);
         } else {
-            Log::info('TemporaryUploadPromoter - no changes detected, model not saved', ['model_id' => $model->id]);
+            Log::warning('TemporaryUploadPromoter - no changes detected, model not saved', ['model_id' => $model->id]);
         }
     }
 
@@ -151,7 +127,7 @@ class TemporaryUploadPromoter
         $newHtml = preg_replace($pattern, $mediaUrl, $html);
 
         if ($newHtml !== $html) {
-            Log::info('TemporaryUploadPromoter - temporary URL replaced in HTML', [
+            Log::warning('TemporaryUploadPromoter - temporary URL replaced in HTML', [
                 'old_url_pattern' => $pattern,
                 'new_url' => $mediaUrl,
             ]);

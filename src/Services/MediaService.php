@@ -78,9 +78,7 @@ class MediaService
         bool $validateExtended = true
     ): ?object {
 
-//        Log::info('MediaService - resolveModelById: '.($modelClass ?? 'NULL').' '.($id ?? 'NULL'));
         if ($modelClass === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
-            Log::info('MediaService - resolveModelById: returning null');
             return null;
         }
 
@@ -97,15 +95,6 @@ class MediaService
         $model = new $modelClass;
 
         $connection = $this->resolver->resolveConnection($dataSource);
-
-        Log::info('MediaService - resolveModelById: resolved connection ' . $connection);
-//        Log::info('MediaService - resolveModelById resolved connection', [
-//            'dataSource' => $dataSource,
-//            'connection' => $connection,
-//            'database' => $model->setConnection($connection)
-//                ->getConnection()
-//                ->getDatabaseName(),
-//        ]);
 
         try {
             return $model
@@ -130,16 +119,7 @@ class MediaService
         string|int $id,
         ?string $dataSource
     ): ?Media {
-        Log::info('MediaService - findMedium: '.($id ?? 'NULL') . ' ' . ($dataSource ?? 'NULL'));
-        Log::info([
-            'media_model' => config('media-library.media_model'),
-            'data_source' => $dataSource,
-            'connection' => $this->resolver->resolveConnection($dataSource),
-        ]);
         try {
-            Log::info('MediaService - findMedium calling resolveModelById');
-
-            Log::info(config('media-library.media_model'));
             return $this->resolveModelById(
                 config('media-library.media_model'),
                 $id,
@@ -346,11 +326,6 @@ class MediaService
                $dataSource
     ): MediaCollection {
 
-//        Log::info('Temporary media lookup', [
-//            'instanceId' => $instanceId,
-//            'clientToken' => $clientToken,
-//            'collection' => json_encode($collections),
-//        ]);
         // CASE A: TEMPORARY MODE (NO MODEL)
         if (! $model instanceof Model) {
             $media = collect($collections)
