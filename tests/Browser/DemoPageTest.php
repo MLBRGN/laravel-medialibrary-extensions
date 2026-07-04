@@ -131,17 +131,40 @@ function ensureLabMedium(string $dataSource): void
         $existingModel = $model->newQuery()->create();
     }
 
-    // If Lab already has a medium, nothing to do
-    if (! $existingModel->getMedia('alien-media-lab')->isEmpty()) {
+    // Resolve disk for the data source, fallback to 'demo'
+    $mediaDisks = config('medialibrary-extensions.media_disks');
+    $disk = $mediaDisks[$dataSource] ?? ($mediaDisks['demo'] ?? null);
+
+    // If Lab already has media, ensure exactly one is present and its file exists on the expected disk.
+    $labMedia = $existingModel->getMedia('alien-media-lab');
+    if (! $labMedia->isEmpty()) {
+        $current = $labMedia->first();
+
+        // When a record exists but its file was cleaned or lives on a different disk, re-create deterministically.
+        $fileExists = is_file($current->getPath());
+        $onExpectedDisk = method_exists($current, 'disk') ? ($current->disk === $disk) : true;
+
+        if ($fileExists && $onExpectedDisk) {
+            return; // Healthy state
+        }
+
+        // Self-heal: reset the collection to a single known demo image on the expected disk.
+        $existingModel->clearMediaCollection('alien-media-lab');
+
+        $demoImage = __DIR__.'/../../resources/demo/demo_small.jpeg';
+        if (is_file($demoImage)) {
+            $existingModel
+                ->addMedia($demoImage)
+                ->preservingOriginal()
+                ->toMediaCollection('alien-media-lab', $disk);
+        }
+
+        $existingModel->load('media');
         return;
     }
 
     // Prefer reusing a Single upload if available
     $single = $existingModel->getMedia('alien-single-image')->first();
-
-    // Resolve disk for the data source, fallback to 'demo'
-    $mediaDisks = config('medialibrary-extensions.media_disks');
-    $disk = $mediaDisks[$dataSource] ?? ($mediaDisks['demo'] ?? null);
 
     if ($single && is_file($single->getPath())) {
         $existingModel

@@ -24,11 +24,8 @@ class StoreUpdatedMediaAction
     public function execute(StoreUpdatedMediaRequest $request): JsonResponse|RedirectResponse
     {
         $baseId = (string) $request->input('base_id');
-        $modelType = $request->input('model_type');
-        $modelId = $request->input('model_id');
         $mediaId = $request->input('medium_id');
         $singleMediaId = $request->input('single_media_id');
-        $collection = $request->input('collection');
         $temporaryUploadMode = $request->boolean('temporary_upload_mode');
         $file = $request->file('file');
         $collections = $request->array('collections');
@@ -36,6 +33,7 @@ class StoreUpdatedMediaAction
         $isSingleMedia = $singleMediaId !== null && $singleMediaId !== 'null';
         $newMedia = null;
 
+        $oldMediaId = $mediaId;
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
@@ -84,12 +82,14 @@ class StoreUpdatedMediaAction
             );
         }
 
+        Log::info("Medium with ID {$oldMediaId} replaced with ID {$newMedia?->id}");
+
         return MediaResponse::success(
             $request,
             $baseId,
             __('medialibrary-extensions::messages.medium_replaced'),
             [
-                'oldMediumId' => $mediaId,
+                'oldMediumId' => $oldMediaId,
                 'newMediumId' => $newMedia?->id,
                 'singleMediaId' => $isSingleMedia ? $newMedia?->id : null,
             ]

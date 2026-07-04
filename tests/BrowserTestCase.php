@@ -266,7 +266,7 @@ class BrowserTestCase extends Orchestra
 
         Route::get('/storage/{disk}/{path}', function (string $disk, string $path) {
 
-            Log::warning('Storage request', [
+            Log::info('Storage request', [
                 'url' => request()->fullUrl(),
                 'referer' => request()->headers->get('referer'),
                 'disk' => $disk,
