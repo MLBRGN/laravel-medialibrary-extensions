@@ -292,10 +292,10 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'))
+        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
     // assert that the image is visible in the preview
-        ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
+    $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child');
 
     // assert that the upload button is disabled after upload (single media)
 //        ->assertButtonDisabled($uploadButtonSelector)
@@ -304,18 +304,18 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
     // assert grid is present
-        ->assertPresent($gridSelector)
+    $page->assertPresent($gridSelector);
 
     // assert grid has the media container
-        ->assertPresent($firstMediaPreviewContainer)
+    $page->assertPresent($firstMediaPreviewContainer);
 
     // check that the media item's menu has the expected buttons and state
-        ->assertButtonEnabled($editButtonSelector)
+    $page->assertButtonEnabled($editButtonSelector)
         ->assertButtonDisabled($setAsFirstButtonSelector)
-        ->assertButtonEnabled($deleteButtonSelector)
+        ->assertButtonEnabled($deleteButtonSelector);
 
     // check media modal opening and presence of expected elements
-        ->assertPresent($mediaPreviewImageSelector)
+    $page->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
 //    ->assertVisible(mediaModalSelector)
         ->assertPresent($mediaModalSelector)
@@ -324,21 +324,21 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertPresent($mediaModalCarouselIndicatorSelector)
         ->assertPresent($mediaModalCarouselItemSelector)
         ->assertPresent($mediaModalCarouselItemContainerSelector)
-        ->assertPresent($mediaModalCarouselItemContainerImageSelector)
+        ->assertPresent($mediaModalCarouselItemContainerImageSelector);
 
     // check that media modal can be closed
-        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
+    $page->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
 
     // check image editor modal can be opened and closed
-        ->pressAndWaitFor($editButtonSelector, $waitTime)
+    $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
-        ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime)
+        ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
 
     // check saving image in the image editor
-        ->pressAndWaitFor($editButtonSelector, $waitTime)
+    $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
-        ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
+        ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime);
 
 //     TODO not available in mms
 //    ->pressAndWaitFor($setAsFirstButtonSelector, $waitTime)
@@ -346,7 +346,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 //    ->waitForText(__('medialibrary-extensions::messages.medium_set_as_main'))
 
     // check delete media works
-        ->pressAndWaitFor($deleteButtonSelector, $waitTime)
+    $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
     // TODO non-xhr does not show the delete message
@@ -371,6 +371,8 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
     $mediaManagerId = '#alien-single-'.$storage.'-mms';
     $inputSelector = $mediaManagerId.' [data-mle-media-input]';
     $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
+    $countsSelector = $mediaManagerId.' .mle-media-manager-media-counts';
+    $maxReachedAlertSelector = $mediaManagerId.' [data-mle-max-reached-alert]';
     $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
     $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
     $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
@@ -424,10 +426,17 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
         ->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'))
+        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+        // counts should update to 1 / 1 in single manager and show max alert
+    $page->assertSeeIn($countsSelector, '1 / 1');
+
+    if ($xhr) {
+        $page->assertPresent($maxReachedAlertSelector);
+    }
 
     // assert that the image is visible in the preview
-        ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
+    $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child');
 
     // assert that the upload button is disabled after upload (single media)
 // FIXME
@@ -437,22 +446,21 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
     // assert grid is present
-        ->assertPresent($gridSelector)
+    $page->assertPresent($gridSelector);
 
     // assert grid has the media container
-        ->assertPresent($firstMediaPreviewContainer)
+    $page->assertPresent($firstMediaPreviewContainer);
 
     // check that the media item's menu has the expected buttons and state
-        ->assertButtonEnabled($editButtonSelector)
+    $page->assertButtonEnabled($editButtonSelector)
 //     TODO not available in mms, should not be visible at all
 //        ->assertMissing($setAsFirstButtonSelector)
         ->assertButtonDisabled($setAsFirstButtonSelector)
-        ->assertButtonEnabled($deleteButtonSelector)
+        ->assertButtonEnabled($deleteButtonSelector);
 
     // check media modal opening and presence of expected elements
-        ->assertPresent($mediaPreviewImageSelector)
+    $page->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
-//    ->assertVisible(mediaModalSelector)
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
@@ -460,26 +468,25 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
         ->assertPresent($mediaModalCarouselItemSelector)
         ->assertPresent($mediaModalCarouselItemContainerSelector)
         ->assertPresent($mediaModalCarouselItemContainerImageSelector)
-
-    // check that media modal can be closed
-        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
+        // check that media modal can be closed
+        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
 
     // check image editor modal can be opened and closed
-        ->pressAndWaitFor($editButtonSelector, $waitTime)
+    $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime)
-        ->assertMissing($imageEditorModalSelector)
+        ->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
-        ->pressAndWaitFor($editButtonSelector, $waitTime)
+    $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
         ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
-        ->assertMissing($imageEditorModalSelector)
+        ->assertMissing($imageEditorModalSelector);
 // TODO
 //        ->waitForText(__('medialibrary-extensions::messages.medium_replaced'))
 
@@ -497,7 +504,7 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
 //    ->assertMissing($imageEditorModalSelector)
 
     // check delete media works
-        ->pressAndWaitFor($deleteButtonSelector, $waitTime)
+    $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
     // TODO non-xhr does not show the delete message
@@ -508,12 +515,16 @@ it('can control mms 2', function ($theme, $dataSource, $xhr, $storage) use ($wai
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
 
+    // counts should be 0 / 1 and max alert should be gone after XHR delete
+    $page->assertSeeIn($countsSelector, '0 / 1');
+    if ($xhr) {
+        $page->assertMissing($maxReachedAlertSelector);
+    }
+
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-//    ->with('mms_test_matrix');
-    ->with('mms_test_matrix')
-    ->skip();
+    ->with('mms_test_matrix');
 // ->only();
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
@@ -524,6 +535,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $mediaManagerId = '#alien-multiple-'.$storage.'-mmm';
     $inputSelector = $mediaManagerId.' [data-mle-media-input]';
     $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
+    $countsSelector = $mediaManagerId.' .mle-media-manager-media-counts';
+    $maxReachedAlertSelector = $mediaManagerId.' [data-mle-max-reached-alert]';
     $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
     $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
     $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
@@ -578,6 +591,12 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
             ->waitForText(__('medialibrary-extensions::messages.upload_success'));
     }
 
+    // counts should reflect max, and upload should be disabled with an alert when at max
+    $page->assertSeeIn($countsSelector, $maxItems.' / '.$maxItems);
+    if ($xhr) {
+        $page->assertPresent($maxReachedAlertSelector);
+    }
+
     // assert that the image is visible in the preview
     $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
@@ -622,19 +641,23 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     $this->scrollIntoView($page, $mediaManagerId);
 
-    // delete media test
-    for ($i = 0; $i < $maxItems; $i++) {
+    // delete one media and validate counts/alerts/form state
+    $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+        ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 
-        Log::info('Deleting media item '.$i);
-        // check delete media works
-        //            $page
-        //                ->assertPresent($deleteButtonSelector)
-        //                ->pressAndWaitFor($deleteButtonSelector, $waitTime);
+    $remaining = $maxItems - 1;
+    $page->assertSeeIn($countsSelector, $remaining.' / '.$maxItems);
+    if ($xhr) {
+        $page->assertMissing($maxReachedAlertSelector);
+    }
+    $page->assertButtonEnabled($uploadButtonSelector);
+
+    // delete the rest to ensure stability of the delete flow
+    for ($i = 0; $i < $remaining; $i++) {
         $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.please_wait'))
             ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-        //        ->wait(2);
-
     }
 
     // the upload button should be enabled again
@@ -944,5 +967,5 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
-    ->with('media_lab_test_matrix')
-    ->only();
+    ->with('media_lab_test_matrix');
+//    ->only();

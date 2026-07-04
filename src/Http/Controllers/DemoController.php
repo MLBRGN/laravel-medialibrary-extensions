@@ -27,6 +27,9 @@ class DemoController extends Controller
         ],
         ]);
 
+        // lower the max number in shared media collections to make testing easier
+        config(['medialibrary-extensions.max_items_in_shared_media_collections' => 3]);
+
         $theme = $request->query('theme', config('medialibrary-extensions.frontend_theme', 'bootstrap-5'));
         $useXhr = $request->boolean('use_xhr', config('medialibrary-extensions.use_xhr', true));
         $dataSource = $request->query('data_source', 'demo');

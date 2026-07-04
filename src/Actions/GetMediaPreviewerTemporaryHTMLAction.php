@@ -120,6 +120,12 @@ class GetMediaPreviewerTemporaryHTMLAction
             ]);
         }
 
+        // Determine max and flags
+        $maxMediaCount = $multiple
+            ? (int) config('medialibrary-extensions.max_items_in_shared_media_collections', 10)
+            : 1;
+        $isAtMax = $totalMediaCount >= $maxMediaCount;
+
         $component = new MediaPreviews(
             id: $baseId,
             modelOrClassName: $modelType,
@@ -152,6 +158,8 @@ class GetMediaPreviewerTemporaryHTMLAction
             'html' => $html,
             'debugHtml' => $debugHtml,
             'mediaCount' => $totalMediaCount,
+            'maxMediaCount' => $maxMediaCount,
+            'isAtMax' => $isAtMax,
             'success' => true,
             'instanceId' => $instanceId,
             'dataSource' => $dataSource,

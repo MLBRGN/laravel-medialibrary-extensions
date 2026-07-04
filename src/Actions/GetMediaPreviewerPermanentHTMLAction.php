@@ -76,6 +76,12 @@ class GetMediaPreviewerPermanentHTMLAction
             $totalMediaCount = $this->mediaService->countModelMediaInCollections($model, $collections, $dataSource);
         }
 
+        // Determine max and flags
+        $maxMediaCount = $multiple
+            ? (int) config('medialibrary-extensions.max_items_in_shared_media_collections', 10)
+            : 1;
+        $isAtMax = $totalMediaCount >= $maxMediaCount;
+
         //        Log::info('GetMediaPreviewerPermanentHTMLAction - totalMediaCount ' . $totalMediaCount);
         $component = new MediaPreviews(
             id: $baseId,
@@ -108,6 +114,8 @@ class GetMediaPreviewerPermanentHTMLAction
             'html' => $html,
             'debugHtml' => $debugHtml,
             'mediaCount' => $totalMediaCount,
+            'maxMediaCount' => $maxMediaCount,
+            'isAtMax' => $isAtMax,
             'success' => true,
             'instanceId' => $instanceId,
             'dataSource' => $dataSource,

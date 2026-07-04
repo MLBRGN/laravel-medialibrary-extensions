@@ -5,13 +5,10 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends MediaManager
 {
-    public int $totalMediaCount = 0;
-
     public function __construct(
         ?string $id,
         mixed $modelOrClassName,

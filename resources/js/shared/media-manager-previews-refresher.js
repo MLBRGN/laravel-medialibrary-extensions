@@ -73,6 +73,16 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
 
         previewGrid.innerHTML = data.html;
 
+        // Update counts in the upload section header
+        const formContainer = mediaManager.querySelector('.mle-media-manager-form');
+        const countsEl = formContainer?.querySelector('.mle-media-manager-media-counts');
+        const maxFromResponse = (typeof data.maxMediaCount !== 'undefined') ? data.maxMediaCount : undefined;
+        const maxFromConfig = (typeof config.maxMediaCount !== 'undefined') ? config.maxMediaCount : undefined;
+        const maxCount = maxFromResponse ?? maxFromConfig ?? (config.multiple ? 10 : 1);
+        if (countsEl && (typeof data.mediaCount !== 'undefined')) {
+            countsEl.textContent = `${data.mediaCount} / ${maxCount}`;
+        }
+
         // Update debug panel if present
         if (data.debugHtml) {
             const debugPanel = mediaManager.querySelector('[data-mle-debug]');
@@ -96,14 +106,50 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
             }
         }
 
-        // Handle single-media disabling/enabling of forms
-        if (!config.multiple && data.mediaCount !== undefined && data.mediaCount !== null) {
-            if (data.mediaCount < 1) {
-                enableFormElements(forms);
-                // hideDisabledMessage(forms);
+        // Handle disabling/enabling of forms and alert visibility
+        if (data.mediaCount !== undefined && data.mediaCount !== null) {
+            const isAtMax = (typeof data.isAtMax !== 'undefined') ? data.isAtMax : (data.mediaCount >= maxCount);
+
+            // Toggle form elements based on capacity for single; for multiple, keep enabled unless at max
+            if (!config.multiple) {
+                if (data.mediaCount < 1) {
+                    enableFormElements(forms);
+                } else {
+                    disableFormElements(forms);
+                }
             } else {
-                disableFormElements(forms);
-                // showDisabledMessage(forms);
+                if (isAtMax) {
+                    disableFormElements(forms);
+                } else {
+                    enableFormElements(forms);
+                }
+            }
+
+            // Hide alerts when no longer at max or disabled; add alert when reaching max
+            if (!isAtMax && formContainer) {
+                const maxAlert = formContainer.querySelector('[data-mle-max-reached-alert]');
+                if (maxAlert) {
+                    maxAlert.remove();
+                }
+                const disabledAlert = formContainer.querySelector('[data-mle-disabled-alert]');
+                if (disabledAlert) {
+                    disabledAlert.remove();
+                }
+            } else if (isAtMax && formContainer) {
+                let maxAlert = formContainer.querySelector('[data-mle-max-reached-alert]');
+                if (!maxAlert) {
+                    maxAlert = document.createElement('div');
+                    maxAlert.className = 'mle-alert alert alert-primary';
+                    maxAlert.setAttribute('data-mle-max-reached-alert', '');
+                    // Minimal text; server-side translations are not available here
+                    maxAlert.textContent = config.multiple ? 'Maximum items reached' : 'Only one medium allowed';
+                    // Insert after counts if available, else append to formContainer
+                    if (countsEl && countsEl.parentElement) {
+                        countsEl.parentElement.insertBefore(maxAlert, countsEl.nextSibling);
+                    } else {
+                        formContainer.appendChild(maxAlert);
+                    }
+                }
             }
         }
 

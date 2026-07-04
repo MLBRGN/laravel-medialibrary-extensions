@@ -111,11 +111,16 @@ class MediaManager extends BaseMediaComponent
             }
         }
 
+        // Persist counts for downstream blades / sub-components
+        $this->totalMediaCount = (int) ($totalMediaCount ?? 0);
+
         if ($this->multiple) {
-            $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections', 10);
-            $this->setOption('disableForm', $totalMediaCount >= $maxItems);
+            $maxItems = (int) config('medialibrary-extensions.max_items_in_shared_media_collections', 10);
+            $this->maxMediaCount = $maxItems;
+            $this->setOption('disableForm', $this->totalMediaCount >= $maxItems);
         } else {
-            $this->setOption('disableForm', $totalMediaCount >= 1);
+            $this->maxMediaCount = 1;
+            $this->setOption('disableForm', $this->totalMediaCount >= 1);
         }
 
         // Structured debug to help diagnose cross-scope counting
@@ -131,7 +136,23 @@ class MediaManager extends BaseMediaComponent
         //            'disableForm' => (bool) $this->getOption('disableForm'),
         //        ]);
 
-        $this->resolveConfig();
+        // Expose counters and convenience booleans through the component config
+        $this->resolveConfig([
+            'totalMediaCount' => $this->totalMediaCount,
+            'maxMediaCount' => $this->maxMediaCount,
+            'isEmpty' => $this->totalMediaCount === 0,
+            'isAtMax' => $this->totalMediaCount >= $this->maxMediaCount,
+            'multiple' => (bool) $this->multiple,
+        ]);
+
+        // Also propagate these values to options so that all sub-components
+        // (which only receive the parent's options) can access them via
+        // their own $getConfig() after resolveConfig merges options -> config.
+        $this->setOption('totalMediaCount', $this->totalMediaCount);
+        $this->setOption('maxMediaCount', $this->maxMediaCount);
+        $this->setOption('isEmpty', $this->totalMediaCount === 0);
+        $this->setOption('isAtMax', $this->totalMediaCount >= $this->maxMediaCount);
+        $this->setOption('multiple', (bool) $this->multiple);
     }
 
     protected function syncConfigOverrides(): void
