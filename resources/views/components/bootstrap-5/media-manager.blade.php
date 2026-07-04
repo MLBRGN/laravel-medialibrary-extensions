@@ -27,7 +27,7 @@
            
             @if($getConfig('showUploadForms'))
                 <span class="mle-media-manager-media-counts">{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>
-                @if($totalMediaCount >= $maxMediaCount)
+                @if(($totalMediaCount >= $maxMediaCount) || ($multiple && $getConfig('disableForm')))
                     <div class="mle-alert alert alert-primary" data-mle-max-reached-alert>
                         @if(!$multiple)
                         {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}
@@ -35,12 +35,10 @@
                         {{ __('medialibrary-extensions::messages.upload_disabled_max_items_reached') }}
                         @endif
                     </div>
-                @else
-                    @if($getConfig('disableForm'))
+                @elseif($getConfig('disableForm'))
                         <div class="mle-alert alert alert-primary" data-mle-disabled-alert>
                             {{ __('medialibrary-extensions::messages.disabled') }}
                         </div>
-                    @endif
                 @endif
                 {{ $form_start ?? '' }}
             
