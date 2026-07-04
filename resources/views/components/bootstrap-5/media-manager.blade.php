@@ -26,14 +26,14 @@
         <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
            
             @if($getConfig('showUploadForms'))
-{{--                <span class="mle-media-manager-media-counts" data-mle-media-manager-media-counts>{{ $totalMediaCount }} / {{ $maxMediaCount }}</span>--}}
+{{--                <span class="mle-media-manager-media-counts" data-mle-media-manager-media-counts>{{ $totalMediaCount }} / {{ $getConfig('maxMediaCount') }}</span>--}}
                 <span class="mle-media-manager-media-counts mle-form-text form-text" data-mle-media-manager-media-counts>
                     {{ __('medialibrary-extensions::messages.media_counts', [
                         'current' => $totalMediaCount,
-                        'total' => $maxMediaCount,
+                        'total' => $getConfig('maxMediaCount'),
                     ]) }}    
                 </span>
-                @if(($totalMediaCount >= $maxMediaCount) || ($multiple && $getConfig('disableForm')))
+                @if(($totalMediaCount >= $getConfig('maxMediaCount')) || ($multiple && $getConfig('disableForm')))
                     <div class="mle-alert alert alert-primary" data-mle-max-reached-alert>
                         @if(!$multiple)
                         {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}

@@ -28,10 +28,10 @@
                 <span class="mle-media-manager-media-counts mle-form-text" data-mle-media-manager-media-counts>
                     {{ __('medialibrary-extensions::messages.media_counts', [
                         'current' => $totalMediaCount,
-                        'total' => $maxMediaCount,
+                        'total' => $getConfig('maxMediaCount'),
                     ]) }}    
                 </span>
-                @if($totalMediaCount >= $maxMediaCount)
+                @if($totalMediaCount >= $getConfig('maxMediaCount'))
                     <div class="mle-alert alert alert-primary" data-mle-max-reached-alert>
                         @if(!$multiple)
                             {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}

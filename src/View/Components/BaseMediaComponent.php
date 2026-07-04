@@ -6,9 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel;
-use Mlbrgn\MediaLibraryExtensions\Support\ClientContext;
 use Illuminate\Database\Eloquent\Model;
-
 
 abstract class BaseMediaComponent extends BaseComponent
 {
@@ -26,7 +24,7 @@ abstract class BaseMediaComponent extends BaseComponent
 
     public int $totalMediaCount = 0;
 
-    public int $maxMediaCount = 1;
+    protected int $maxMediaCount = 1;// don't use in views directly, use $getConfig('maxMediaCount') instead'
 
     public ResolvedModel $resolvedModel;
 
@@ -40,18 +38,7 @@ abstract class BaseMediaComponent extends BaseComponent
 
         $this->mediaService = app(MediaService::class);
 
-//        $this->clientToken = app(ClientContext::class)->get();
-
         $this->resolveModel($modelOrClassName, $dataSource);
-
-//        dump('datasource '.$dataSource);
-//        $this->totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
-//            $collections,
-//            $instanceId,
-//            $this->clientToken,
-//            $this->dataSource
-//        );
-//        dump($this->totalMediaCount);
     }
 
     protected function resolveModel(mixed $modelOrClassName, ?string $dataSource = 'default'): void
@@ -64,7 +51,6 @@ abstract class BaseMediaComponent extends BaseComponent
         $this->setResolvedModelProperties($this->resolvedModel);
     }
 
-    // TODO better name
     protected function setResolvedModelProperties(ResolvedModel $resolvedModel): void
     {
         $this->model = $resolvedModel->model;
