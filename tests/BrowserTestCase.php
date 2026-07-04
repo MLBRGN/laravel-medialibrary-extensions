@@ -76,10 +76,6 @@ class BrowserTestCase extends Orchestra
         '640x360_16:9.png',
         '720x1280_9:16.png',
         '800x600_4:3.png',
-        //        '1080x1080_1:1.png',
-        //        '1280x720_16:9.png',
-        //        '1920x1080_16:9.png',
-        //        '3840x2160_16:9.png',
     ];
 
     protected array $invalidMimeTypeFixtures = [
@@ -87,6 +83,12 @@ class BrowserTestCase extends Orchestra
         'invalid-mime-test.zip',
         'invalid-image.png',
         'invalid-readme.txt',
+    ];
+
+    protected array $tinyImageFixtures = [
+        'tiny.jpg',
+        'tiny.png',
+        'tiny.webp',
     ];
 
     protected bool $migrated = false;
@@ -385,6 +387,13 @@ class BrowserTestCase extends Orchestra
     {
         return $this->getFixtureAsFilePath(
             $this->invalidMimeTypeFixtures[array_rand($this->invalidMimeTypeFixtures)]
+        );
+    }
+
+    public function getTinyImageFixture(): string
+    {
+        return $this->getFixtureAsFilePath(
+            $this->tinyImageFixtures[array_rand($this->tinyImageFixtures)]
         );
     }
 

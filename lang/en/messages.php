@@ -99,4 +99,6 @@ return [
     'failed_to_read_image' => 'Failed to read image',
     'image_load_failed' => 'Image loading / decoding failed',
     'media_counts' => ':current of :total',
+    'image_too_large' => 'The image is too large (:widthx:height). Maximum allowed is :max_widthx:max_height.',
+    'image_too_small' => 'The image is too small (:widthx:height). Minimum required is :min_widthx:min_height.',
 ];

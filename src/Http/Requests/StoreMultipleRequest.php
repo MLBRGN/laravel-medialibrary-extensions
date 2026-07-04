@@ -42,6 +42,7 @@ class StoreMultipleRequest extends StoreRequest
                     'nullable',
                     'file',
                     'max:'.(config('medialibrary-extensions.max_upload_size') / 1024),
+                    new \Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig(),
                 ],
 
                 'base_id' => ['required', 'string'],

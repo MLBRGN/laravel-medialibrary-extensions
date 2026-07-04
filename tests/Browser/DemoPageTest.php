@@ -427,6 +427,54 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 })->group('browser')
     ->with('mms_test_matrix');
 
+
+it('honors min / max width height and file size constraints in uploads', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
+
+    // prepare selectors
+    $mediaManagerId = '#alien-single-'.$storage.'-mms';
+    $inputSelector = $mediaManagerId.' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
+
+    $xhrInt = $xhr ? 1 : 0;
+    $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
+
+    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+        ->assertNoJavaScriptErrors();
+
+    $this->scrollIntoView($page, $mediaManagerId);
+
+    $page->assertPresent($inputSelector)
+
+        // assert that the upload button is initially enabled
+        ->assertButtonEnabled($uploadButtonSelector);
+
+        config(['medialibrary-extensions.max_image_width' => 1500]);
+        config(['medialibrary-extensions.max_image_height' => 1500]);
+        // test that an image that is too small is rejected
+        $page->attach($inputSelector, $this->getTinyImageFixture())
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
+
+        // test that an image that is too large is rejected
+        config(['medialibrary-extensions.max_image_width' => 15]);
+        config(['medialibrary-extensions.max_image_height' => 15]);
+        $page->attach($inputSelector, $this->getTinyImageFixture())
+            ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+            ->waitForText(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => config('medialibrary-extensions.max_image_width'), 'max_height' => config('medialibrary-extensions.max_image_height')]));
+
+    // test that too large images (file size) are rejected
+    config(['medialibrary-extensions.max_upload_size' => 1024]);
+    $page->attach($inputSelector, $this->getRandomFixture())
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->waitwaitForText('must not be greater than 1 kilobytes');
+
+
+
+})->group('browser')
+    ->with('mms_test_matrix')
+->only();
+
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
     Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);

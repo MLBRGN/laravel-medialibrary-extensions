@@ -25,6 +25,9 @@ class StoreSingleRequest extends StoreRequest
             $uploadRules[] = $rule;
         }
 
+        // Enforce image dimension limits from config when the uploaded file is an image.
+        $uploadRules[] = new \Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig();
+
         return array_merge(
             $this->modelRules(),
             [
