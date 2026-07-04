@@ -10,7 +10,6 @@
     ])->merge() }}
     data-mle-media-manager
 >
-    MAX ITEMS IN SHARED MEDIA COLLECTIONS {{ $getConfig('maxMediaCount') }}
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
     @if(config('medialibrary-extensions.debug'))
