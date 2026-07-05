@@ -3,7 +3,7 @@ let statusMessageTimeoutMap = new WeakMap();
 const spinnerDelayTimeoutMap = new WeakMap();
 
 // Called when an XHR or fetch request starts.
-// Will only show spinner if request takes longer than delay
+// Will only show spinner if the request takes longer than delay
 export function xhrRequestStart(statusAreaContainer, customMessage = null) {
     console.log('xhrRequestStart', statusAreaContainer, customMessage);
     if (!statusAreaContainer.nodeType === Node.ELEMENT_NODE) {
@@ -12,7 +12,7 @@ export function xhrRequestStart(statusAreaContainer, customMessage = null) {
         return;
     }
     console.log('xhrRequestStart - statusAreaContainer is an element node', statusAreaContainer);
-    const delay = 300; // 1 second delay before showing spinner
+    const delay = 300; // 1-second delay before showing the spinner
 
     clearTimeout(spinnerDelayTimeoutMap.get(statusAreaContainer));
 
@@ -86,7 +86,7 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
         console.error('xhrStatus.js - showSpinner: no statusAreaContainer provided');
         return;
     }
-    hideStatusMessage(statusAreaContainer); // Hides the message before showing spinner
+    hideStatusMessage(statusAreaContainer); // Hides the message before showing the spinner
     const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');
     if (!spinnerContainer) {
         console.error('could not find spinner container')

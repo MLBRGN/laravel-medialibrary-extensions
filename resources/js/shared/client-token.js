@@ -32,3 +32,7 @@ export const ClientToken = {
         return str;
     }
 };
+
+document.addEventListener('keypress', (e) => {
+    console.log('key pressed: ', e)
+})

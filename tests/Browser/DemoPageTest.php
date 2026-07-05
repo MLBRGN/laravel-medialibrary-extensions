@@ -27,12 +27,12 @@ dataset('mms_test_matrix', [
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
     'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
     'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],// saw this test failing when running in full test for "it honor min /...."
 
     'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
     'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
     'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],// saw this test failing when running in full test for "it honor min /...."
 ]);
 
 dataset('mmm_test_matrix', [
@@ -165,8 +165,7 @@ function ensureLabMedium(string $dataSource): void
         return;
     }
 
-    // Fallback: add the packaged demo image
-    //    $demoImage = base_path('packages/mlbrgn/laravel-medialibrary-extensions/resources/demo/demo_small.jpeg');
+    // fallback
     $demoImage = __DIR__ . '/../../resources/demo/demo_small.jpeg';
 
     if (is_file($demoImage)) {
@@ -178,7 +177,6 @@ function ensureLabMedium(string $dataSource): void
         $existingModel->load('media');
     }
 
-    // If still empty here, allow the DemoController fallback to create a demo image.
 }
 
 it('loads all required assets', function () {
@@ -202,8 +200,6 @@ it('loads all required assets', function () {
     $this->get($assetPath . '/js/image-editor.js')
         ->assertSuccessful();
 })->group('browser');
-// })->group('browser')
-//    ->skip();
 
 it('can visit demo page switch theme, XHR and DataSource', function () {
 
@@ -242,6 +238,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $mediaManagerId = '#alien-single-' . $storage . '-mms';
     $inputSelector = $mediaManagerId . ' [data-mle-media-input]';
     $uploadButtonSelector = $mediaManagerId . ' [data-mle-media-upload-button]';
+    $uploadButtonYouTubeSelector = $mediaManagerId . ' [data-mle-youtube-upload-button]';
+
     $countsSelector = $mediaManagerId . ' .mle-media-manager-media-counts';
     $maxReachedAlertSelector = $mediaManagerId . ' [data-mle-max-reached-alert]';
     $gridSelector = $mediaManagerId . ' [data-mle-media-preview-grid]';
@@ -273,7 +271,6 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
@@ -306,20 +303,18 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $page->wait(0.3)
         ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 1, 'total' => 1]));
 
-
-    if ($xhr) {
-        $page->assertPresent($maxReachedAlertSelector);
-    }
+    $page->assertPresent($maxReachedAlertSelector);
 
     // assert that the image is visible in the preview
     $page->assertPresent($gridSelector . ' [data-mle-media-preview-item]:first-child');
 
     // assert that the upload button is disabled after upload (single media)
-// FIXME
-//        ->assertButtonDisabled($uploadButtonSelector)
+    $page->assertButtonDisabled($uploadButtonSelector);
+    $page->assertButtonDisabled($uploadButtonYouTubeSelector);
 
     // assert that the image is visible in the preview
-    //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
+    // TODO causes Call to undefined method Tests\Browser\DemoPageTest::assertPreviewImageVisible()
+//        $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
     // assert grid is present
     $page->assertPresent($gridSelector);
@@ -328,9 +323,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $page->assertPresent($firstMediaPreviewContainer);
 
     // check that the media item's menu has the expected buttons and state
+    // TODO set as first should not be available in mms at all, should not be visible at all using->assertMissing($setAsFirstButtonSelector)
     $page->assertButtonEnabled($editButtonSelector)
-//     TODO not available in mms, should not be visible at all
-//        ->assertMissing($setAsFirstButtonSelector)
         ->assertButtonDisabled($setAsFirstButtonSelector)
         ->assertButtonEnabled($deleteButtonSelector);
 
@@ -344,8 +338,24 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertPresent($mediaModalCarouselItemSelector)
         ->assertPresent($mediaModalCarouselItemContainerSelector)
         ->assertPresent($mediaModalCarouselItemContainerImageSelector)
-        // check that media modal can be closed
+
+       // Check that media modal can be closed using the close button
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
+
+    // TODO, don't know how to check that the media modal can be closed using esc key
+//    if ($theme === 'plain') {
+//        $page->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
+//                ->assertPresent($mediaModalSelector)
+//    //        ->click($mediaModalSelector)
+//    //        ->keys('body', ['{ESCAPE}']);
+//    //        ->keys($mediaModalSelector, ['{Escape}']);
+//    //        ->keys($mediaModalSelector, ['{ESC}']);
+//    //        ->keys($mediaModalSelector, ['{esc}']);
+//    //        ->keys($mediaModalSelector, ['{escape}']);
+//    //        ->keys('body', ['Escape']);
+//            ->keys('body', ['Escape']);
+//    }
+
 
     // check image editor modal can be closed using the close button
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
@@ -355,7 +365,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime)
         ->assertMissing($imageEditorModalSelector);
 
-    // TODO, don't know how to check image editor modal can be closed using esc key
+    // TODO, don't know how to check that the image editor modal can be closed using esc key
 //    $page->pressAndWaitFor($editButtonSelector, $waitTime)
 //        ->assertPresent($imageEditorModalSelector);
 //        ->focus($imageEditorModalSelector)
@@ -369,13 +379,9 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
         ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
         ->assertMissing($imageEditorModalSelector);
-// TODO
-//        ->waitForText(__('medialibrary-extensions::messages.medium_replaced'))
 
-//     TODO not available in mms
-//    ->pressAndWaitFor($setAsFirstButtonSelector, $waitTime)
-//    ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-//    ->waitForText(__('medialibrary-extensions::messages.medium_set_as_main'))
+        // TODO fails with dataset "plain + default + no xhr + permanent"
+//        ->waitForText(__('medialibrary-extensions::messages.medium_replaced'));
 
     // check canceling image editing in the image editor
 // TODO image editor modal was not closed after canceling
@@ -389,18 +395,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-    // TODO non-xhr does not show the delete message
-    //        if ($xhr) {
     $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
-    //        }
 
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
 
     // max alert should be gone after XHR delete
-    if ($xhr) {
-        $page->assertMissing($maxReachedAlertSelector);
-    }
+    $page->assertMissing($maxReachedAlertSelector);
 
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
@@ -430,7 +431,10 @@ it('honors min / max width height and file size constraints in uploads', functio
 
     config(['medialibrary-extensions.max_image_width' => 1500]);
     config(['medialibrary-extensions.max_image_height' => 1500]);
+
     // test that an image that is too small is rejected
+    // TODO saw this test failing when running in full test with Expected to see text [The image is too small (16x16). Minimum required is 320x160.] on the page initially with the url [http://127.0.0.1:64169/mle-demo?theme=plain&data_source=default&use_xhr=0], but it was not found or not visible. A screenshot of the page has been saved to [Tests/Browser/Screenshots/it_honors_min___max_width_height_and_file_size_constraints_in_uploads].
+    dump('expect 16x16 and ' . ' min_width: ' . config('medialibrary-extensions.min_image_width') . ' min_height: ' . config('medialibrary-extensions.min_image_height'));
     $page->attach($inputSelector, $this->getTinyImageFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
@@ -446,11 +450,11 @@ it('honors min / max width height and file size constraints in uploads', functio
     config(['medialibrary-extensions.max_upload_size' => 1024]);
     $page->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitwaitForText('must not be greater than 1 kilobytes');
+        ->waitForText('must not be greater than 1 kilobytes');
 
 })->group('browser')
-    ->with('mms_test_matrix')
-    ->todo('works standalone, but not combined with the other tests');
+    ->with('mms_test_matrix');
+//    ->todo('works standalone, but not combined with the other tests');
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
