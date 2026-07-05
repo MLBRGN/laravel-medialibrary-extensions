@@ -84,7 +84,10 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
             ? maxFromConfig
             : (maxFromResponse ?? (config.multiple ? 10 : 1));
         if (countsEl && (typeof data.mediaCount !== 'undefined')) {
-            countsEl.textContent = `${data.mediaCount} / ${maxCount}`;
+            const tpl = trans('media_counts') || ':current / :total';
+            const localized = tpl.replace(':current', String(data.mediaCount))
+                                 .replace(':total', String(maxCount));
+            countsEl.textContent = localized;
         }
 
         // Update debug panel if present

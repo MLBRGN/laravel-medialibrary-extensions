@@ -76,6 +76,12 @@ class Assets extends Component
                 'upload_disabled_only_one_medium_allowed' => __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed'),
 
                 'upload_disabled_max_items_reached' => __('medialibrary-extensions::messages.upload_disabled_max_items_reached'),
+
+                // Template for media counts used by JS; placeholders are replaced client-side
+                'media_counts' => __('medialibrary-extensions::messages.media_counts', [
+                    'current' => ':current',
+                    'total' => ':total',
+                ]),
                 ],
         ];
     }
