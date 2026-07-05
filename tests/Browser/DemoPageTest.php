@@ -300,7 +300,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         // assert that the upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector);
 
-        // TODO check counts are correct
+        // check counts start at 0 of 1
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => 1]));
 
         // test that it shows error when no file selected
@@ -318,12 +318,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
-        // counts should update to 1 / 1 in single manager and show max alert
-        // TODO test that media count is correct
-//        ->wait(0.3)
-//        ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 1, 'total' => 1]));
-
-    $page->wait(0.3)
+        // counts should update to 1 of 1 and show max alert
+        $page->wait(0.3)
         ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 1, 'total' => 1]));
 
 
@@ -417,8 +413,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
 
-    // counts should be 0 / 1, and max alert should be gone after XHR delete
-//    $page->assertSeeIn($countsSelector, '0 / 1');
+    // max alert should be gone after XHR delete
     if ($xhr) {
         $page->assertMissing($maxReachedAlertSelector);
     }
@@ -427,7 +422,6 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
 })->group('browser')
     ->with('mms_test_matrix');
-
 
 it('honors min / max width height and file size constraints in uploads', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -530,16 +524,26 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //        ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
     $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
+
+    // check counts start at 0
+    $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
+
     for ($i = 0; $i < $maxItems; $i++) {
         // attach an image file and submit and check if spinner shows and upload is successful
         $page->attach($inputSelector, $this->getRandomFixture())
             ->pressAndWaitFor($uploadButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.please_wait'))
             ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+        // counts should update to 1 of 1 and show max alert
+        $page->wait(0.3)
+            ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i+1, 'total' => $maxItems]));
+
+//        $this->scrollIntoView($page, $mediaManagerId);
+
     }
 
     // counts should reflect max, and upload should be disabled with an alert when at max
-//    $page->assertSeeIn($countsSelector, $maxItems.' / '.$maxItems);
     if ($xhr) {
         $page->assertPresent($maxReachedAlertSelector);
     }
@@ -577,7 +581,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // check that media modal can be closed
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
-    $this->scrollIntoView($page, $mediaManagerId);
+//    $this->scrollIntoView($page, $mediaManagerId);
 
     // check image editor modal can be opened and closed
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
@@ -586,25 +590,33 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
     //        ->wait(2);
 
-    $this->scrollIntoView($page, $mediaManagerId);
+//    $this->scrollIntoView($page, $mediaManagerId);
 
     // delete one media and validate counts/alerts/form state
     $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 
-    $remaining = $maxItems - 1;
-//    $page->assertSeeIn($countsSelector, $remaining.' / '.$maxItems);
     if ($xhr) {
         $page->assertMissing($maxReachedAlertSelector);
     }
     $page->assertButtonEnabled($uploadButtonSelector);
 
     // delete the rest to ensure stability of the delete flow
-    for ($i = 0; $i < $remaining; $i++) {
-        $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
+    for ($i = 0; $i < $maxItems - 1; $i++) {
+        $currentDeleteButtonSelector =
+            $gridSelector .
+            ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
+        $page->pressAndWaitFor($currentDeleteButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.please_wait'))
             ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+
+        // counts check (NOTE: 1 is deleted outside the loop)
+        $page->wait(0.3)
+            ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $maxItems - $i - 2, 'total' => $maxItems]));
+
+//        $this->scrollIntoView($page, $mediaManagerId);
+
     }
 
     // the upload button should be enabled again
@@ -614,6 +626,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
 })->group('browser')
     ->with('mmm_test_matrix');
+//    ->only();
 
 it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -794,28 +807,23 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // click next
         ->click($nextButtonSelector)
-//        ->wait(0.5) // Wait for transition
         ->assertAttributeContains($secondItemSelector, 'class', 'active')
 //        ->assertAttributeMissing($firstItemSelector, 'class', 'active')
 
         // click prev
         ->click($prevButtonSelector)
-//        ->wait(0.5) // Wait for transition
         ->assertAttributeContains($firstItemSelector, 'class', 'active')
 //        ->assertAttributeMissing($secondItemSelector, 'class', 'active')
 
         // click the indicator for the second item
         ->click($indicatorsSelector.' [data-mle-slide-to="1"]')
-//        ->wait(0.5) // Wait for transition
         ->assertAttributeContains($secondItemSelector, 'class', 'active')
 
         // test modal expansion if applicable (default is true)
 //        ->click($secondItemSelector.' [data-mle-modal-trigger]')
         ->click($secondItemSelector)
-//        ->wait(0.5)
         ->assertPresent($modalSelector)
         ->click($modalCloseButtonSelector)
-//        ->wait(0.5)
         ->assertMissing($modalSelector); // not visible
 
 })->group('browser')
@@ -888,7 +896,7 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->assertPresent($labBaseSelector)
         ->assertPresent($mmsSelector)
 //            ->wait(2)
-            ->wait(1)// needed because JavaScript uses error to see if the image can be loaded, this might take some time
+            ->wait(.2)// needed because JavaScript uses error to see if the image can be loaded, this might take some time
         ->assertDontSee('Image loading / decoding failed')
 
     // 3. Test image editor via nested MMS in Lab
