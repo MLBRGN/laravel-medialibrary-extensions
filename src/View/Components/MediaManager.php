@@ -81,18 +81,12 @@ class MediaManager extends BaseMediaComponent
             $totalMediaCount = 1;
         } else {
             // Determine effective collections to count.
-            // For Single managers we should only consider the target collection,
-            // not sum across every non-empty collection in the map. This avoids
-            // incorrectly disabling the form when another collection has items.
+            // IMPORTANT: For Single managers we must consider ALL configured
+            // collections (including YouTube) because only one medium is
+            // allowed across the entire manager, regardless of type.
+            // For Multiple managers, we also count across all configured
+            // collections to enforce shared limits consistently.
             $effectiveCollections = $this->collections;
-
-            if (! $this->multiple) {
-                // Keep only the first non-empty collection value
-                $nonEmpty = array_values(array_filter($this->collections, fn ($v) => filled($v)));
-                if (! empty($nonEmpty)) {
-                    $effectiveCollections = [$nonEmpty[0]];
-                }
-            }
 
             // CASE 2: Permanent mode (model instance provided)
             if ($this->modelOrClassName instanceof HasMedia) {

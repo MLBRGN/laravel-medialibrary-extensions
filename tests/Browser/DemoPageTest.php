@@ -403,6 +403,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // max alert should be gone after XHR delete
     $page->assertMissing($maxReachedAlertSelector);
 
+    // TODO
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
@@ -433,8 +434,7 @@ it('honors min / max width height and file size constraints in uploads', functio
     config(['medialibrary-extensions.max_image_height' => 1500]);
 
     // test that an image that is too small is rejected
-    // TODO saw this test failing when running in full test with Expected to see text [The image is too small (16x16). Minimum required is 320x160.] on the page initially with the url [http://127.0.0.1:64169/mle-demo?theme=plain&data_source=default&use_xhr=0], but it was not found or not visible. A screenshot of the page has been saved to [Tests/Browser/Screenshots/it_honors_min___max_width_height_and_file_size_constraints_in_uploads].
-    dump('expect 16x16 and ' . ' min_width: ' . config('medialibrary-extensions.min_image_width') . ' min_height: ' . config('medialibrary-extensions.min_image_height'));
+    // NOTE saw this test failing when running in full test with Expected to see text [The image is too small (16x16). Minimum required is 320x160.] on the page initially with the url [http://127.0.0.1:64169/mle-demo?theme=plain&data_source=default&use_xhr=0], but it was not found or not visible. A screenshot of the page has been saved to [Tests/Browser/Screenshots/it_honors_min___max_width_height_and_file_size_constraints_in_uploads].
     $page->attach($inputSelector, $this->getTinyImageFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
@@ -453,8 +453,8 @@ it('honors min / max width height and file size constraints in uploads', functio
         ->waitForText('must not be greater than 1 kilobytes');
 
 })->group('browser')
-    ->with('mms_test_matrix');
-//    ->todo('works standalone, but not combined with the other tests');
+    ->with('mms_test_matrix')
+    ->flaky();
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -530,17 +530,15 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     }
 
     // counts should reflect max, and upload should be disabled with an alert when at max
-    if ($xhr) {
-        $page->assertPresent($maxReachedAlertSelector);
-    }
+    $page->assertPresent($maxReachedAlertSelector);
 
     // assert that the image is visible in the preview
     $page->assertPresent($gridSelector . ' [data-mle-media-preview-item]:first-child')
 
-        // TODO fix: assert that the upload button is disabled after uploading maxItems
-//        ->assertButtonDisabled($uploadButtonSelector)
+//         TODO fix: assert that the upload button is disabled after uploading maxItems
+        ->assertButtonDisabled($uploadButtonSelector)
 
-        // assert that the image is visible in the preview
+        // TODO assert that the image is visible in the preview
         //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
         // assert grid is present
@@ -578,9 +576,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
         ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 
-    if ($xhr) {
-        $page->assertMissing($maxReachedAlertSelector);
-    }
+    $page->assertMissing($maxReachedAlertSelector);
+
     $page->assertButtonEnabled($uploadButtonSelector);
 
     // delete the rest to ensure stability of the delete flow
@@ -601,11 +598,11 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
 
+    // TODO
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
     ->with('mmm_test_matrix');
-//    ->only();
 
 it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -662,7 +659,8 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($gridSelector . ' [data-mle-media-preview-item]:first-child')
 
         // assert that the upload button is disabled after upload (single media)
-//        ->assertButtonDisabled($uploadButtonSelector)
+        // TODO fails with dataset "bootstrap + default + no xhr + permanent"
+        ->assertButtonDisabled($uploadButtonSelector)
 
         // assert that the image is visible in the preview
         //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
