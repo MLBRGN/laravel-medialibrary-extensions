@@ -7,12 +7,11 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultiplePermanentAction
@@ -21,6 +20,7 @@ class StoreMultiplePermanentAction
 
     public function __construct(
         protected MediaService $mediaService,
+        protected UploadPreparerService $uploadPreparerService,
     ) {}
 
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
@@ -69,62 +69,43 @@ class StoreMultiplePermanentAction
         }
 
         $successCount = 0;
-        $maxUploadSize = (int) config('medialibrary-extensions.max_upload_size');
         $failedUploadFIleNames = [];
         $errorMessages = [];
 
-        // Check file sizes before proceeding
-        foreach ($files as $key => $file) {
-            if ($file->getSize() > $maxUploadSize) {
-                $failedUploadFIleNames[] = $file->getClientOriginalName();
-                $errorMessages[] = __(
-                    'medialibrary-extensions::messages.file_too_large',
-                    [
-                        'file' => $file->getClientOriginalName(),
-                        'max' => number_format($maxUploadSize / 1024 / 1024, 2).' MB',
-                    ]
-                );
-                // Remove it from list so it’s not processed further
-                unset($files[$key]);
-            }
-        }
+        // Delegate validation & mapping to service
+        $result = $this->uploadPreparerService->prepareMultipleUploads($files, $collections);
+        $preparedUploads = $result['prepared'];
+        $failedUploadFIleNames = array_merge($failedUploadFIleNames, $result['failedFilenames']);
+        $errorMessages = array_merge($errorMessages, $result['errors']);
 
-        if (empty($files)) {
+        if (empty($preparedUploads)) {
+            $message = __('medialibrary-extensions::messages.upload_failed');
+            if (! empty($errorMessages)) {
+                $message .= ' '.implode(' ', $errorMessages);
+            }
+
             return MediaResponse::error(
                 $request,
                 $baseId,
-                __('medialibrary-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
+                $message
             );
         }
 
-        foreach ($files as $file) {
-            $collectionType = $this->mediaService->determineCollectionType($file);
-            $collectionName = $collections[$collectionType] ?? null;
-
-            if (is_null($collectionType) || is_null($collectionName)) {
-                $failedUploadFIleNames[] = $file->getClientOriginalName();
-                $errorMessages[] = __(
-                    'medialibrary-extensions::messages.invalid_or_missing_collection',
-                    ['file' => $file->getClientOriginalName()]
-                );
-
-                continue;
-            }
-
+        foreach ($preparedUploads as $prepared) {
             try {
-                $model->addMedia($file)
+                $model->addMedia($prepared->file)
                     ->withCustomProperties([
                         'priority' => $nextPriority,
                     ])
-                    ->toMediaCollection($collectionName);
+                    ->toMediaCollection($prepared->collectionName);
                 $nextPriority++;
                 $successCount++;
             } catch (Exception $e) {
                 Log::error($e);
-                $failedUploadFIleNames[] = $file->getClientOriginalName();
+                $failedUploadFIleNames[] = $prepared->originalName;
                 $errorMessages[] = __(
                     'medialibrary-extensions::messages.something_went_wrong',
-                    ['file' => $file->getClientOriginalName()]
+                    ['file' => $prepared->originalName]
                 );
                 $errorMessages[] = $e->getMessage();
             }

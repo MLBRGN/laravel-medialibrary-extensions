@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection InvalidDatasetNameCaseInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use Illuminate\Support\Facades\Config;
@@ -503,9 +503,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->waitForText(__('medialibrary-extensions::messages.upload_no_files'));
 
     // TODO test that invalid mime types are rejected
-//    $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
-//        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-//        ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+    $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
+        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
     $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
