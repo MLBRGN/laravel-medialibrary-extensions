@@ -35,14 +35,15 @@
         "barryvdh/laravel-ide-helper": "^3.0.0",
         "larastan/larastan": "^3.8.0",
         "laravel/pint": "^1.22",
+        "mlbrgn/laravel-form-components": "^1.0",
         "orchestra/testbench": "^10.0.0",
         "orchestra/testbench-browser-kit": "^10.0.0",
         "pestphp/pest": "^4.0.0",
+        "pestphp/pest-plugin-browser": "dev-fix/multipart-form-parser",
         "pestphp/pest-plugin-drift": "^4.0.0",
         "pestphp/pest-plugin-type-coverage": "^4.0.0",
         "spatie/laravel-translatable": "^6.0.0",
-        "symfony/dom-crawler": "^7.0.0",
-      "pestphp/pest-plugin-browser": "dev-fix/multipart-form-parser"
+        "symfony/dom-crawler": "^7.0.0"
     },
     "repositories": [
       {

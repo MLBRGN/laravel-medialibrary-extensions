@@ -102,4 +102,5 @@ return [
     'media_counts' => ':current of :total',
     'image_too_large' => 'De afbeelding is te groot (:widthx:height). Maximaal toegestaan is :max_widthx:max_height.',
     'image_too_small' => 'De afbeelding is te klein (:widthx:height). Minimaal vereist is :min_widthx:min_height.',
+    'custom_file_picker' => 'Aangepaste file picker',
 ];

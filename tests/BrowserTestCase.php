@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
@@ -126,6 +125,28 @@ class BrowserTestCase extends Orchestra
             YouTubeThumbnailDownloader::class,
             FakeYouTubeThumbnailDownloader::class
         );
+
+        $this->afterApplicationCreated(function () {
+//            $this->overrideVendorRoutes();
+        });
+    }
+
+    protected function overrideVendorRoutes(): void
+    {
+        Route::get(
+            '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
+            function () {
+                dd('INTERCEPTED');
+            }
+        );
+
+        Route::get(
+            '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
+            function () {
+                dd('INTERCEPTED');
+            }
+        );
+
     }
 
     protected function tearDown(): void
@@ -145,8 +166,8 @@ class BrowserTestCase extends Orchestra
             BladeBootstrapIconsServiceProvider::class,
         ];
 
-        if (class_exists(FormComponentsServiceProvider::class)) {
-            $providers[] = FormComponentsServiceProvider::class;
+        if (class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class)) {
+            $providers[] = \Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class;
         }
 
         return $providers;
@@ -319,7 +340,27 @@ class BrowserTestCase extends Orchestra
             Route::get('mle-demo', DemoController::class)->name('mle-demo');
             Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
 
+            Route::get(
+                '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
+                function () {
+                    return response()->file(__DIR__ . '/../../laravel-form-components/dist/js/core/form-components-loader.js', [
+                        'Content-Type' => 'application/javascript',
+                    ]);
+                }
+            );
+
+//            Route::get(
+//                '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
+//                function () {
+//                    return response()->file('../../../laravel-form-components/dist/js/core/form-components-loader.js', [
+//                        'Content-Type' => 'application/javascript',
+//                    ]);
+//                }
+//            );
+
             Route::get('/vendor/mlbrgn/{package}/{type}/{path}', function ($package, $type, $path) {
+                dump('intercepting package ' . $package . ' type ' . $type . ' path ' . $path);
+                Log::info('Vendor request, package ' . $package . ' type ' . $type . ' path ' . $path);
                 $baseDistPath = realpath(__DIR__.'/../dist');
                 $filePath = $baseDistPath.'/'.$type.'/'.$path;
 
@@ -340,12 +381,19 @@ class BrowserTestCase extends Orchestra
                 return response()->file($filePath, [
                     'Content-Type' => $mimeType,
                 ]);
-            })->where('path', '.*');
+            })
+                ->where('path', '^(?!core/form-components-loader\.js$).*$');
+//                ->where('path', '.*');
             //            Route::get('image-editor-translations/nl.json', function () {
             //                return response()->json([]);
             //            });
 
         });
+
+//        Route::get('/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js', function () {
+//            dd('test');
+//           return '';
+//        });
         Route::get('image-editor-translations/{locale}.json', function () {
             return response()->json([]);
         });

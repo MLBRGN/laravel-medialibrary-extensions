@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cfe81d8d34420f7b11a8fda65199f15",
+    "content-hash": "306bf8e5f0cd1034af73acae89443a2d",
     "packages": [
         {
             "name": "blade-ui-kit/blade-icons",
@@ -9477,6 +9477,96 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.10.1"
             },
             "time": "2026-06-23T18:43:15+00:00"
+        },
+        {
+            "name": "mlbrgn/laravel-form-components",
+            "version": "1.0.121",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/evertjanMlbrgn/laravel-form-components.git",
+                "reference": "9f48ab913547511f24d9d4e771d1a7341dbd5aa8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/evertjanMlbrgn/laravel-form-components/zipball/9f48ab913547511f24d9d4e771d1a7341dbd5aa8",
+                "reference": "9f48ab913547511f24d9d4e771d1a7341dbd5aa8",
+                "shasum": ""
+            },
+            "require": {
+                "barryvdh/laravel-ide-helper": "^3.0.0",
+                "illuminate/support": "^9 || ^10 || ^11 || ^12 || ^13",
+                "php": "^8.1 || ^8.2 || ^8.3 || ^8.4",
+                "symfony/http-foundation": "^6.0 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0.0",
+                "laravel/pint": "^1.16",
+                "mockery/mockery": "^1.4.4",
+                "nesbot/carbon": "^3.0.0",
+                "orchestra/testbench": "^10.0.0",
+                "orchestra/testbench-browser-kit": "^10.0.0",
+                "pestphp/pest": "^4.0.0",
+                "pestphp/pest-plugin-drift": "^4.0.0",
+                "pestphp/pest-plugin-type-coverage": "^4.0.0",
+                "spatie/laravel-translatable": "^6.0.0",
+                "symfony/dom-crawler": "^7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mlbrgn\\LaravelFormComponents\\Providers\\FormComponentsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Helpers/helpers.php"
+                ],
+                "psr-4": {
+                    "Mlbrgn\\LaravelFormComponents\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nick D.",
+                    "email": "info@mlbrgn.nl",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Evertjan G.",
+                    "email": "info@mlbrgn.nl",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Pascal Baljet",
+                    "email": "pascal@protone.media",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Blade components to rapidly build forms with Bootstrap 5.",
+            "homepage": "https://github.com/mlbrgn/laravel-form-components",
+            "keywords": [
+                "Forms",
+                "Mlbrgn",
+                "bootstrap-5",
+                "bootstrap5",
+                "form",
+                "form-builder",
+                "form-components",
+                "laravel",
+                "laravel-form-builder",
+                "laravel-form-components"
+            ],
+            "support": {
+                "issues": "https://github.com/evertjanMlbrgn/laravel-form-components/issues",
+                "source": "https://github.com/evertjanMlbrgn/laravel-form-components/tree/1.0.121"
+            },
+            "time": "2026-05-06T17:10:58+00:00"
         },
         {
             "name": "mockery/mockery",

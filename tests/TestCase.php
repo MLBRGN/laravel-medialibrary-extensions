@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
-use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
@@ -73,8 +72,8 @@ class TestCase extends Orchestra
             MediaLibraryExtensionsServiceProvider::class,
         ];
 
-        if (class_exists(FormComponentsServiceProvider::class)) {
-            $providers[] = FormComponentsServiceProvider::class;
+        if (class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class)) {
+            $providers[] = \Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class;
         }
 
         return $providers;

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Media library custom file picker</title>
+        <title>{{ __('medialibrary-extensions::messages.custom_file_picker') }}</title>
         @php
             $nonce = mlbrgn_csp_nonce();
         @endphp
@@ -32,9 +32,7 @@
                 $id = isset($id) && $id !== ''
                     ? (string) $id
                     : 'mle-tinymce-'.\Illuminate\Support\Str::uuid()->toString();
-//                $options['theme'] = 'plain';
             @endphp
-            Datasource {{ $dataSource }}
             <x-mle-media-manager-tinymce
                 id="{{ $id }}"
                 :model-or-class-name="$modelOrClassName"

@@ -7,6 +7,15 @@ use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 
 beforeEach(function () {
+
+    // Mock laravel-form-components
+//    Blade::component('form-form', AnonymousComponent::class);
+//    Blade::component('form-html-editor', AnonymousComponent::class);
+//    Blade::component('form-input', AnonymousComponent::class);
+//    Blade::component('form-checkbox', AnonymousComponent::class);
+//    Blade::component('form-select', AnonymousComponent::class);
+//    Blade::component('form-submit', AnonymousComponent::class);
+
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });
 
@@ -79,21 +88,33 @@ dataset('mms_youtube_test_matrix', [
     'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
-// sometimes fails, seen it fail on the 3rd and 7th item
 dataset('media_lab_test_matrix', [
     'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
     'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
 
-    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],// TODO sometimes fails
+    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
     'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
 
-    'plain + default + xhr' => ['plain', 'default', true],// TODO sometimes fails
+    'plain + default + xhr' => ['plain', 'default', true],
     'plain + default + no xhr' => ['plain', 'default', false],
 
     'plain + demo + xhr' => ['plain', 'demo', true],
     'plain + demo + no xhr' => ['plain', 'demo', false],
 ]);
 
+dataset('media_html_editor_matrix', [
+//    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
+//    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
+
+//    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
+//    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+
+    'plain + default + xhr' => ['plain', 'default', true],
+//    'plain + default + no xhr' => ['plain', 'default', false],
+
+//    'plain + demo + xhr' => ['plain', 'demo', true],
+//    'plain + demo + no xhr' => ['plain', 'demo', false],
+]);
 /**
  * Ensure there is exactly one medium available for the Media Lab preview.
  *
@@ -855,24 +876,11 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $labId);
-    // don't upload each iteration
-    //        if ($uploadMedia) {
-    //            // 1. Upload two images via MMM
-    //            $page->attach($mmmInputSelector, $this->getRandomFixture())
-    //                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
-    //                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-    //
-    //            $page->attach($mmmInputSelector, $this->getRandomFixture())
-    //                ->pressAndWaitFor($mmmUploadButtonSelector, $waitTime)
-    //                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-    //        }
 
     $page->assertPresent($labId)
-//            ->scrollTo($labId)
         ->assertPresent($labOriginalSelector)
         ->assertPresent($labBaseSelector)
         ->assertPresent($mmsSelector)
-//            ->wait(2)
         ->wait(.2)// needed because JavaScript uses error to see if the image can be loaded, this might take some time
         ->assertDontSee('Image loading / decoding failed')
 
@@ -909,17 +917,31 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 
         // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
         ->assertPresent($restoreButtonSelector)
-        // TODO why do i need the refresh, if i don't refresh i get medium not found!
-//        ->refresh()
         ->pressAndWaitFor($restoreButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'));
 
-    //    if($xhr) {
     $page->waitForText(__('medialibrary-extensions::messages.restored_original'));
-    //    }
 
-    // TODO fix
-    //        ->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
     ->with('media_lab_test_matrix');
+
+
+it('can control html editor\'s custom file picker', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
+
+    $imageButton = '[data-mce-name="image"]';
+
+    $xhrInt = $xhr ? 1 : 0;
+    $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
+
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt");
+//        ->assertNoJavaScriptErrors();
+
+    $page->assertSee('Mlbrgn Form components custom file picker integration');
+//    $page->wait(4);
+//    $page->debug();
+//    $page->assertPresent($imageButton);
+
+})->group('browser')
+    ->with('media_html_editor_matrix')
+    ->todo('test custom file picker');

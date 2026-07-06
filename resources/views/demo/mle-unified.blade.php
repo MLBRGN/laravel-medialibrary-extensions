@@ -1,6 +1,5 @@
 @php
     /** @noinspection ALL */
-    use Mlbrgn\LaravelFormComponents\View\Components\Form;
     use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
     
     $showMmsPermanent = true;
@@ -312,7 +311,8 @@
         @endif
         
         @if($showFormCustomFilePicker)
-            @if (app()->environment('local') && class_exists(Form::class))
+{{--            @if ((app()->environment('local') || app()->environment('testing')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))--}}
+            @if ((app()->environment('local')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
                 <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
                 <x-form-form
                     method="put"
@@ -339,6 +339,8 @@
                     />
                 </x-form-form>
             @else
+                @dump(app()->environment('local'));
+                @dump(class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
                 form components not available, skipping demo
             @endif
         @endif
