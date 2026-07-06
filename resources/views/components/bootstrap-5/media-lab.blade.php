@@ -25,6 +25,6 @@
     include-js="true"
     include-media-lab-submitter="true"
     include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
-    :frontend-theme="$getConfig('theme')"
+    :theme="$getConfig('theme')"
     for="bootstrap-5|media-lab"
 />

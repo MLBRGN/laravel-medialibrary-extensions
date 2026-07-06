@@ -36,6 +36,7 @@ class MediaManagerCountTest extends TestCase
         $this->assertStringContainsString('"multiple":false', $html);
 
         // And the visible counter text in the upload form section
-        $this->assertStringContainsString('<span class="mle-media-manager-media-counts">1 / 1</span>', $html);
+        $this->assertStringContainsString( __('medialibrary-extensions::messages.media_counts', ['current' => 1, 'total' => 1]), $html);
+//        $this->assertStringContainsString('<span class="mle-media-manager-media-counts">1 / 1</span>', $html);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Blade;
 
 it('renders assets view with expected content, theme plain', function () {
     $theme = 'plain';
-    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" frontend-theme="'.$theme.'"/>');
+    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" theme="'.$theme.'"/>');
 
     expect($html)
         ->toContain('<link rel="stylesheet" href="')
@@ -16,7 +16,7 @@ it('renders assets view with expected content, theme plain', function () {
 
 it('renders assets view with expected content, theme bootstrap-5', function () {
     $theme = 'bootstrap-5';
-    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" frontend-theme="'.$theme.'"/>');
+    $html = Blade::render('<x-mle-shared-assets include-css="true" include-js="true" theme="'.$theme.'"/>');
 
     expect($html)
         ->toContain('<link rel="stylesheet" href="')

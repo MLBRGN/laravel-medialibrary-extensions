@@ -326,16 +326,16 @@
                         :extra-form-data="[
                                         'model_type' => $model->getMorphClass(),
                                         'model_id' => $model->getKey(),
-                                        'collection_name' => 'alien-media-lab',
-                                        'collections' => ['image' => 'alien-media-lab'],
+                                        'collection_name' => 'alien-media-html-editor',
+                                        'collections' => ['image' => 'alien-media-html-editor'],
                                         'data_source' => $dataSource,
                                     ]"
                         data-mle-model-type="{{ $model->getMorphClass() }}"
                         data-mle-model-id="{{ $model->getKey() }}"
                         data-mle-data-source="{{ $dataSource }}"
                         :data-mle-collections="json_encode([
-                                        'image' => 'alien-media-lab',
-                                    ])"
+                            'image' => 'alien-media-html-editor',
+                        ])"
                     />
                 </x-form-form>
             @else

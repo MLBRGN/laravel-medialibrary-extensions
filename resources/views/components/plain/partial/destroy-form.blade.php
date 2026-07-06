@@ -64,7 +64,7 @@
         include-css="true" 
         include-js="true" 
         include-media-manager-submitter="true" 
-        :frontend-theme="$getConfig('theme')"
+        :theme="$getConfig('theme')"
         for="plain|destroy-form"
     />
 @endif

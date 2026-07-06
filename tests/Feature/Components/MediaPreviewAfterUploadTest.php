@@ -95,7 +95,7 @@ it('loads previews successfully after a permanent multiple upload', function () 
     $uploadRequest->setLaravelSession(app('session.store'));
     $uploadRequest->headers->set('Accept', 'application/json');
 
-    $action = new StoreMultiplePermanentAction($this->mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $uploadResponse = $action->execute($uploadRequest);
     expect($uploadResponse->status())->toBe(200);
 
@@ -187,7 +187,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
     $uploadRequest->setLaravelSession(app('session.store'));
     $uploadRequest->headers->set('Accept', 'application/json');
 
-    $action = new StoreMultipleTemporaryAction($this->mediaService);
+    $action = app(StoreMultipleTemporaryAction::class);
     $uploadResponse = $action->execute($uploadRequest);
 
     expect($uploadResponse->status())->toBe(200);

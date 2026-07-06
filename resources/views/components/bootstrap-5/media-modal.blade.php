@@ -53,7 +53,7 @@
                     :instance-id="$instanceId"
                     :data-source="$dataSource"
                     :client-token="$clientToken"
-                    :frontend-theme="$getConfig('theme')"
+                    :theme="$getConfig('theme')"
                 />
             </div>
         </div>
@@ -63,7 +63,7 @@
     include-css="true" 
     include-js="true"
     include-media-modal-js="true"
-    :frontend-theme="$getConfig('theme')"
+    :theme="$getConfig('theme')"
     for="bootstrap-5|media-modal"
 />
 

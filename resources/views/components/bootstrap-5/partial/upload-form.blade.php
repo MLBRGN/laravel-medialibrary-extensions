@@ -81,7 +81,7 @@
         include-css="true" 
         include-js="true" 
         include-media-manager-submitter="true" 
-        :frontend-theme="$getConfig('theme')"
+        :theme="$getConfig('theme')"
         for="bootstrap-5|upload-form"
     />
 @endif

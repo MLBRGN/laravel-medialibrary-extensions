@@ -29,7 +29,7 @@ it('stores multiple valid files (json)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultipleTemporaryAction($mediaService);
+    $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -60,7 +60,7 @@ it('stores multiple valid files (redirect)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultipleTemporaryAction($mediaService);
+    $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
@@ -91,7 +91,7 @@ it('returns error if no files are given (JSON)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultipleTemporaryAction($mediaService);
+    $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -119,7 +119,7 @@ it('returns error if no files are given (redirect)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultipleTemporaryAction($mediaService);
+    $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
@@ -155,13 +155,13 @@ it('returns error if file has invalid mimetype (JSON)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultipleTemporaryAction($mediaService);
+    $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response->getData(true)['type'])->toBe('error')
         ->and($response->getData(true)['message'])->toContain(
-            __('medialibrary-extensions::messages.invalid_or_missing_collection', ['file' => 'file.exe'])
+            __('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype')
         );
 });
 
@@ -184,7 +184,7 @@ it('returns error if file has invalid mimetype (redirect)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultipleTemporaryAction($mediaService);
+    $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
@@ -197,7 +197,7 @@ it('returns error if file has invalid mimetype (redirect)', function () {
 
     expect($sessionData['type'])->toBe('error');
     expect($sessionData['base_id'])->toBe($baseId);
-    expect($sessionData['message'])->toContain(__('medialibrary-extensions::messages.invalid_or_missing_collection', ['file' => 'file.exe']));
+    expect($sessionData['message'])->toContain(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 });
 
 it('returns error if max media count is exceeded (JSON)', function () {

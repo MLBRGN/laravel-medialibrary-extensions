@@ -68,6 +68,6 @@
     include-js="true"
     include-image-editor-js="true"
     include-image-editor-modal-js="true"
-    :frontend-theme="$getConfig('theme')"
+    :theme="$getConfig('theme')"
     for="bootstrap-5|image-editor-model-temporary-upload"
 />

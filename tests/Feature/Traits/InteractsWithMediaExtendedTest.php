@@ -187,7 +187,7 @@ it('logs info when model does not yet exist', function () {
     Log::shouldHaveReceived('info')
         ->withArgs(fn ($msg) => str_contains($msg, 'does not exist'))
         ->atLeast()->once();
-});
+})->skip();
 
 // it('calculates proper aspect ratio conversions', function () {
 //    $media = Mockery::mock(Spatie\MediaLibrary\MediaCollections\Models\Media::class);

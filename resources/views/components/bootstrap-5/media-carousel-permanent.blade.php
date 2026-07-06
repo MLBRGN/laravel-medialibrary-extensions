@@ -142,6 +142,6 @@
     include-carousel-js="true"
     include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
     include-lite-youtube="{{ config('medialibrary-extensions.youtube_support_enabled') }}"
-    :frontend-theme="$getConfig('theme')"
+    :theme="$getConfig('theme')"
     for="bootstrap-5|media-carousel-permanent"
 />

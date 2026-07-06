@@ -89,7 +89,7 @@
                     </tr>
 
                     <tr>
-                        <th>Frontend Theme</th>
+                        <th>Theme</th>
                         <td>{{ $getConfig('theme') }}</td>
                     </tr>
 

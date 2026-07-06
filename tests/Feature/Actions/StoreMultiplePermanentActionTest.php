@@ -9,7 +9,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('stores multiple valid files (json)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
@@ -33,7 +32,7 @@ it('stores multiple valid files (json)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -46,7 +45,6 @@ it('stores multiple valid files (json)', function () {
 });
 
 it('fails upload when no collections (json)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
@@ -64,7 +62,7 @@ it('fails upload when no collections (json)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -77,7 +75,6 @@ it('fails upload when no collections (json)', function () {
 });
 
 it('stores multiple valid files (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getTestBlogModel();
@@ -93,7 +90,7 @@ it('stores multiple valid files (redirect)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
@@ -109,7 +106,6 @@ it('stores multiple valid files (redirect)', function () {
 });
 
 it('fails upload when no collections (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getTestBlogModel();
@@ -124,7 +120,7 @@ it('fails upload when no collections (redirect)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
@@ -140,7 +136,6 @@ it('fails upload when no collections (redirect)', function () {
 });
 
 it('returns error if no files are given (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
@@ -152,7 +147,7 @@ it('returns error if no files are given (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -165,7 +160,6 @@ it('returns error if no files are given (JSON)', function () {
 });
 
 it('returns error if no files are given (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
@@ -178,7 +172,7 @@ it('returns error if no files are given (redirect)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
@@ -195,7 +189,6 @@ it('returns error if no files are given (redirect)', function () {
 });
 
 it('returns error if upload fails (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
@@ -211,7 +204,7 @@ it('returns error if upload fails (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -222,7 +215,6 @@ it('returns error if upload fails (JSON)', function () {
 });
 
 it('returns error if upload fails (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
@@ -238,7 +230,7 @@ it('returns error if upload fails (redirect)', function () {
     $request->setLaravelSession(app('session.store'));
 
     $mediaService = app(MediaService::class);
-    $action = new StoreMultiplePermanentAction($mediaService);
+    $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
@@ -255,7 +247,6 @@ it('returns error if upload fails (redirect)', function () {
 });
 
 it('returns error if max media count is exceeded (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
@@ -295,7 +286,6 @@ it('returns error if max media count is exceeded (JSON)', function () {
 });
 
 it('returns error if max media count is exceeded (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
@@ -334,7 +324,6 @@ it('returns error if max media count is exceeded (redirect)', function () {
 });
 
 it('returns error if file exceeds max upload size (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
@@ -368,7 +357,6 @@ it('returns error if file exceeds max upload size (JSON)', function () {
 });
 
 it('returns error if file exceeds max upload size (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
@@ -387,7 +375,6 @@ it('returns error if file exceeds max upload size (redirect)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->getKey(),
-                'base_id' => $baseId,
                 'base_id' => $baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'false',

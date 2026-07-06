@@ -32,7 +32,9 @@
                 $id = isset($id) && $id !== ''
                     ? (string) $id
                     : 'mle-tinymce-'.\Illuminate\Support\Str::uuid()->toString();
+//                $options['theme'] = 'plain';
             @endphp
+            Datasource {{ $dataSource }}
             <x-mle-media-manager-tinymce
                 id="{{ $id }}"
                 :model-or-class-name="$modelOrClassName"
@@ -42,7 +44,7 @@
                 :disabled="false"
                 :readonly="false"
                 :selectable="true"
-                :data-source="$dataSource ?? null"
+                :data-source="$dataSource ?? 'default'"
             />
         </div>
     </body>
