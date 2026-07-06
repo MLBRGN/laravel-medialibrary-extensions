@@ -124,7 +124,12 @@
                 script.src = "{{ asset(config('medialibrary-extensions.asset_path') . '/js/image-editor.js') }}";
                 document.head.appendChild(script);
                 window.imageEditorLoaded = true;
-                // console.log('imageEditorLoaded');
+            }
+        </script>
+        {{-- for form components loader to work it needs config to be set --}}
+        <script class="mlbrgn-form-components-config" type="application/json">
+            {
+              "assetBasePath": "/vendor/mlbrgn/laravel-form-components"
             }
         </script>
     </head>
@@ -311,8 +316,8 @@
         @endif
         
         @if($showFormCustomFilePicker)
-{{--            @if ((app()->environment('local') || app()->environment('testing')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))--}}
-            @if ((app()->environment('local')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
+            @if ((app()->environment('local') || app()->environment('testing')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
+{{--            @if ((app()->environment('local')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))--}}
                 <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
                 <x-form-form
                     method="put"
@@ -339,8 +344,6 @@
                     />
                 </x-form-form>
             @else
-                @dump(app()->environment('local'));
-                @dump(class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
                 form components not available, skipping demo
             @endif
         @endif

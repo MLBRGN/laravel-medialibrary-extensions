@@ -119,7 +119,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             Log::warning('MediaLibraryExtensionsServiceProvider - ['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
         }
 
-        // This tells Laravel where to find Blade view files (components a registered separately)
+        // This tells Laravel where to find Blade view files (components are registered separately)
         $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->namespace());
 
         // This tells Laravel where to find the route files
@@ -322,8 +322,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     protected function overrideFormComponentsConfig(): void
     {
+//        $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
+//        $extraScripts[] = asset(config('medialibrary-extensions.asset_path').'/js/shared/tinymce-custom-file-picker.js');
+
         $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
-        $extraScripts[] = asset(config('medialibrary-extensions.asset_path').'/js/shared/tinymce-custom-file-picker.js');
+        $extraScripts[] =
+            '/' . trim(config('medialibrary-extensions.asset_path'), '/')
+            . '/js/shared/tinymce-custom-file-picker.js';
         $overrides = [
             'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
             'html_editor_tinymce_global_config.extra_scripts' => $extraScripts,
@@ -394,7 +399,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     // TODO do i want this code?
     protected function checkBladeUIKitIconSet(): void
     {
-        // Skip this check in tests to avoid manifest issues
+        // Skip this in tests to avoid manifest issues
         if ($this->app->runningUnitTests()) {
             config(['medialibrary-extensions.active_blade_ui_kit_icon_set' => null]);
 

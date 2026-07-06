@@ -8,6 +8,7 @@ use BladeUI\Icons\BladeIconsServiceProvider;
 use Davidhsianturi\BladeBootstrapIcons\BladeBootstrapIconsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -99,6 +100,11 @@ class BrowserTestCase extends Orchestra
 
         $this->migrateDatabases();
 
+        Artisan::call('vendor:publish', [
+            '--tag' => 'medialibrary-extensions-assets',
+            '--force' => true,
+        ]);
+
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
 
@@ -131,23 +137,23 @@ class BrowserTestCase extends Orchestra
         });
     }
 
-    protected function overrideVendorRoutes(): void
-    {
-        Route::get(
-            '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
-            function () {
-                dd('INTERCEPTED');
-            }
-        );
-
-        Route::get(
-            '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
-            function () {
-                dd('INTERCEPTED');
-            }
-        );
-
-    }
+//    protected function overrideVendorRoutes(): void
+//    {
+//        Route::get(
+//            '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
+//            function () {
+//                dd('INTERCEPTED');
+//            }
+//        );
+//
+//        Route::get(
+//            '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
+//            function () {
+//                dd('INTERCEPTED');
+//            }
+//        );
+//
+//    }
 
     protected function tearDown(): void
     {
@@ -255,7 +261,6 @@ class BrowserTestCase extends Orchestra
 
         // bind the public path to the test/Support/public directory
         $app->bind('path.public', fn () => $this->getFakePublicDirectory());
-
         $this->registerRoutes();
 
     }
@@ -288,7 +293,6 @@ class BrowserTestCase extends Orchestra
     {
 
         Route::get('/storage/{disk}/{path}', function (string $disk, string $path) {
-
             Log::info('Storage request', [
                 'url' => request()->fullUrl(),
                 'referer' => request()->headers->get('referer'),
@@ -340,60 +344,49 @@ class BrowserTestCase extends Orchestra
             Route::get('mle-demo', DemoController::class)->name('mle-demo');
             Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
 
-            Route::get(
-                '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
-                function () {
-                    return response()->file(__DIR__ . '/../../laravel-form-components/dist/js/core/form-components-loader.js', [
-                        'Content-Type' => 'application/javascript',
-                    ]);
-                }
-            );
+            Route::get('/vendor/mlbrgn/{package}/{path}', function ($package, $path) {
 
-//            Route::get(
-//                '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
-//                function () {
-//                    return response()->file('../../../laravel-form-components/dist/js/core/form-components-loader.js', [
-//                        'Content-Type' => 'application/javascript',
-//                    ]);
-//                }
-//            );
+                $root = realpath(__DIR__ . '/../../../..');
 
-            Route::get('/vendor/mlbrgn/{package}/{type}/{path}', function ($package, $type, $path) {
-                dump('intercepting package ' . $package . ' type ' . $type . ' path ' . $path);
-                Log::info('Vendor request, package ' . $package . ' type ' . $type . ' path ' . $path);
-                $baseDistPath = realpath(__DIR__.'/../dist');
-                $filePath = $baseDistPath.'/'.$type.'/'.$path;
+                $map = [
+                    'laravel-medialibrary-extensions' =>
+                        $root . '/packages/mlbrgn/laravel-medialibrary-extensions/dist',
 
-                if (! $baseDistPath || ! str_starts_with(realpath($filePath) ?: '', $baseDistPath)) {
-                    abort(403);
-                }
+                    'laravel-form-components' =>
+                        $root . '/packages/mlbrgn/laravel-form-components/dist',
+                ];
 
-                if (! file_exists($filePath)) {
-                    abort(404);
-                }
+                abort_unless(isset($map[$package]), 404);
 
-                $mimeType = match ($type) {
-                    'css' => 'text/css',
-                    'js' => 'application/javascript',
-                    default => File::mimeType($filePath),
-                };
+                $basePath = realpath($map[$package]);
+                abort_unless($basePath, 404);
 
-                return response()->file($filePath, [
-                    'Content-Type' => $mimeType,
+                // Normalize requested path
+                $relativePath = ltrim($path, '/');
+
+                // Build full path
+                $filePath = $basePath . '/' . $relativePath;
+
+                // Resolve real path (THIS is the key security step)
+                $realFilePath = realpath($filePath);
+
+                // Block missing files
+                abort_unless($realFilePath && file_exists($realFilePath), 404);
+
+                // CRITICAL: ensure that the file is inside the allowed base directory
+                abort_unless(str_starts_with($realFilePath, $basePath), 403);
+
+                return response()->file($realFilePath, [
+                    'Content-Type' => match (pathinfo($realFilePath, PATHINFO_EXTENSION)) {
+                        'js' => 'application/javascript',
+                        'css' => 'text/css',
+                        default => 'application/octet-stream',
+                    },
                 ]);
-            })
-                ->where('path', '^(?!core/form-components-loader\.js$).*$');
-//                ->where('path', '.*');
-            //            Route::get('image-editor-translations/nl.json', function () {
-            //                return response()->json([]);
-            //            });
 
+            })->where('path', '.*');
         });
 
-//        Route::get('/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js', function () {
-//            dd('test');
-//           return '';
-//        });
         Route::get('image-editor-translations/{locale}.json', function () {
             return response()->json([]);
         });

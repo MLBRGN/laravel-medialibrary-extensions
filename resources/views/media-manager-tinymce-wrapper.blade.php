@@ -23,7 +23,7 @@
     </head>
     <body>
         <div class="mle-component">
-            <button type="button" id="insert-selected" class="mle-button mle-button-submit">
+            <button type="button" id="insert-selected" class="mle-button mle-button-submit" data-mle-insert-selected>
                 {{ __('medialibrary-extensions::messages.insert_selected_medium') }}
             </button>
         </div>

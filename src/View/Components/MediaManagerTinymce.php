@@ -22,7 +22,6 @@ class MediaManagerTinymce extends BaseMediaComponent
 
     protected string $youtubeUploadRoute;
 
-    // TODO not used?
     /**
      * @var Repository|Application|mixed|object|null
      */
