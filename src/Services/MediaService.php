@@ -96,20 +96,20 @@ class MediaService
 
         $connection = $this->resolver->resolveConnection($dataSource);
 
-        try {
+//        try {
             return $model
                 ->setConnection($connection)
                 ->newQuery()
                 ->findOrFail($id);
-        } catch (\Exception $e) {
-            Log::error('MediaService - resolveModelById failed', [
-                'id' => $id,
-                'connection' => $connection,
-                'error' => $e->getMessage(),
-            ]);
-
-            throw $e;
-        }
+//        } catch (\Exception $e) {
+//            Log::error('MediaService - resolveModelById failed', [
+//                'id' => $id,
+//                'connection' => $connection,
+//                'error' => $e->getMessage(),
+//            ]);
+//
+//            throw $e;
+//        }
     }
 
     /*
@@ -119,16 +119,16 @@ class MediaService
         string|int $id,
         ?string $dataSource
     ): ?Media {
-        try {
+//        try {
             return $this->resolveModelById(
                 config('media-library.media_model'),
                 $id,
                 $dataSource,
                 false
             );
-        } catch (\Exception) {
-            return null;
-        }
+//        } catch (\Exception) {
+//            return null;
+//        }
     }
 
     /*
@@ -138,15 +138,17 @@ class MediaService
         string|int $id,
         ?string $dataSource
     ): ?TemporaryUpload {
-        try {
+//        try {
+//            dump($id);
+//            dump($dataSource);
             return $this->resolveModelById(
                 TemporaryUpload::class,
                 $id,
                 $dataSource
             );
-        } catch (\Exception) {
-            return null;
-        }
+//        } catch (\Exception) {
+//            return null;
+//        }
     }
 
     public function determineCollectionType($file): ?string

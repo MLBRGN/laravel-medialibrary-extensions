@@ -19,7 +19,6 @@ beforeEach(function () {
 });
 
 it('correctly replaces a temporary upload on a custom data source', function () {
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-456';
     $dataSource = 'mle_test_demo';
 
@@ -43,7 +42,6 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     $check = TemporaryUpload::on($dataSource)->find($oldId);
     if (! $check) {
         // If it's not found, maybe it was saved to the default connection despite setConnection?
-        // Let's check "testbench".
         $checkDefault = TemporaryUpload::on('mle_test_host_app')->find($oldId);
         if ($checkDefault) {
             throw new Exception("TemporaryUpload was saved to testbench instead of $dataSource");
@@ -70,12 +68,13 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     $action = app(StoreUpdatedMediaAction::class);
     $response = $action->execute($request);
 
+    dd($response);
     // 4. Assertions
     expect($response->getStatusCode())->toBe(200);
     $data = $response->getData(true);
-    $newId = $data['newMediumId'];
+    $newMediumId = $data['newMediumId'];
 
-    expect($newId)->not->toBeNull();
+    expect($newMediumId)->not->toBeNull();
 
     // Check if the old one is gone from the custom database
     expect(TemporaryUpload::on($dataSource)->find($oldId))->toBeNull();

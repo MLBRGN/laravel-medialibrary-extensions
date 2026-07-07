@@ -108,7 +108,8 @@ it('renders the correct html single (plain)', function () {
             ],
         ]
     );
-    //    expect($html)->toMatchSnapshot();
+    $html = $this->sanitizeHtmlSnapshot($html);
+    expect($html)->toMatchSnapshot();
 });
 
 it('renders the correct html single (bootstrap-5, temporary upload)', function () {
@@ -129,5 +130,6 @@ it('renders the correct html single (bootstrap-5, temporary upload)', function (
             ],
         ]
     );
-    //    expect($html)->toMatchSnapshot();
+    $html = $this->sanitizeHtmlSnapshot($html);
+    expect($html)->toMatchSnapshot();
 });

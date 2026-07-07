@@ -81,11 +81,11 @@ class OriginalMediaService
         if (! $disk->exists($sourcePath)) {
             Log::warning("Original not found for media [{$oldMedia->id}] at [$sourcePath].");
             // Opportunistic backfill: if the old media file still exists on its disk, try to archive it now
-            try {
+//            try {
                 $this->archiveOriginalMedia($oldMedia);
-            } catch (\Throwable $e) {
-                Log::warning("Backfill archiving failed for media [{$oldMedia->id}]: {$e->getMessage()}");
-            }
+//            } catch (\Throwable $e) {
+//                Log::warning("Backfill archiving failed for media [{$oldMedia->id}]: {$e->getMessage()}");
+//            }
 
             if (! $disk->exists($sourcePath)) {
                 // Still missing, bail out gracefully

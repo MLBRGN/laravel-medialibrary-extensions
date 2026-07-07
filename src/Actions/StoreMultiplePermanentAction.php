@@ -119,7 +119,7 @@ class StoreMultiplePermanentAction
                 Log::error($e);
                 $failedUploadFIleNames[] = $prepared->originalName;
                 $errorMessages[] = __(
-                    'medialibrary-extensions::messages.something_went_wrong',
+                    'medialibrary-extensions::messages.could_not_save_media',
                     ['file' => $prepared->originalName]
                 );
                 $errorMessages[] = $e->getMessage();

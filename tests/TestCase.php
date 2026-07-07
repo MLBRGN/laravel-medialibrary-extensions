@@ -586,4 +586,21 @@ class TestCase extends Orchestra
             'disk' => $safeFilename,  // sanitized filename for storage
         ];
     }
+
+    function sanitizeHtmlSnapshot(string $html): string
+    {
+        $html = str_replace(
+            config('app.url'),
+            '<APP_URL>',
+            $html
+        );
+
+        $html = preg_replace(
+            '/01[A-Z0-9]{24}/',
+            '<ULID>',
+            $html
+        );
+
+        return $html;
+    }
 }

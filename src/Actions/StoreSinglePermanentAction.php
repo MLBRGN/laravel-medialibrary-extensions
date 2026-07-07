@@ -72,12 +72,12 @@ class StoreSinglePermanentAction
 
         } catch (Exception $e) {
 
-            Log::error($e);
+            Log::error('StoreSinglePermanentAction - execute: ' . $e->getMessage());
 
             return MediaResponse::error(
                 $request,
                 $baseId,
-                __('medialibrary-extensions::messages.something_went_wrong')
+                __('medialibrary-extensions::messages.could_not_save_media')
             );
         }
 

@@ -175,6 +175,7 @@ trait InteractsWithMediaExtended
                 'collection' => $collection,
                 'trace' => $e->getTraceAsString(),
             ]);
+            throw $e;
         }
 
         return null;

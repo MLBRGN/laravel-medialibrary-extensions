@@ -11,6 +11,7 @@ use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 
 beforeEach(function () {
     Storage::fake('media');
@@ -122,13 +123,21 @@ it('returns error when no collection provided', function () {
 });
 
 it('logs error when safeAddMedia fails', function () {
-    $model = Mockery::mock(Blog::class)->makePartial();
-    $model->shouldReceive('addMediaFromDisk')->andThrow(new Exception('Test failure'));
+    $model = $this->getTestBlogModel();
+//    $model = Mockery::mock(Blog::class)->makePartial();
+//    $model->shouldReceive('addMediaFromDisk')->andThrow(new Exception('Test failure'));
 
     $refMethod = new ReflectionMethod($model, 'safeAddMedia');
     $refMethod->setAccessible(true);
 
-    $refMethod->invoke($model, $model, 'fake-path.jpg', 'media', 'file.jpg', 'images');
+    expect(fn () => $refMethod->invoke(
+        $model,
+        $model,
+        'fake-path.jpg',
+        'media',
+        'file.jpg',
+        'images'
+    ))->toThrow(FileDoesNotExist::class);
 
     Log::shouldHaveReceived('error')
         ->withArgs(fn ($message, $context) => str_contains($message, 'Failed to attach media') &&

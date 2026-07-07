@@ -63,9 +63,11 @@ class StoreUpdatedMediaAction
             else {
                 $existingMedia = $this->mediaService->findTemporaryUpload($mediaId, $dataSource);
 
-                if ($existingMedia) {
-                    $newMedia = $this->mediaReplacement->replaceTemporaryUpload($existingMedia, $file);
+                if (! $existingMedia) {
+                    throw new Exception("Temporary upload with ID {$mediaId} not found.");
                 }
+
+                $newMedia = $this->mediaReplacement->replaceTemporaryUpload($existingMedia, $file);
             }
 
         } catch (Exception $e) {
@@ -74,7 +76,7 @@ class StoreUpdatedMediaAction
             return MediaResponse::error(
                 $request,
                 $baseId,
-                __('medialibrary-extensions::messages.something_went_wrong'),
+                __('medialibrary-extensions::messages.could_not_save_updated_medium'),
                 [
                     'mediumId' => $mediaId,
                     'exception' => $e->getMessage(),

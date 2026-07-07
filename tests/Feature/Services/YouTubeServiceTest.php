@@ -20,42 +20,33 @@ beforeEach(function () {
 });
 
 it('uploads a YouTube thumbnail to a HasMedia model', function () {
-    $model = Mockery::mock(HasMedia::class);
-    $mediaMock = Mockery::mock(Media::class);
+    $model = $this->getTestBlogModel();
 
-    $model->shouldReceive('addMediaFromUrl')
-        ->once()
-        ->withArgs(function ($url) {
-            return str_contains($url, 'https://img.youtube.com/vi/');
-        })
-        ->andReturnSelf();
-
-    $model->shouldReceive('usingFileName')->andReturnSelf();
-    $model->shouldReceive('withCustomProperties')->andReturnSelf();
-    $model->shouldReceive('toMediaCollection')->andReturn($mediaMock);
-
+    $youTubeUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
     $media = $this->service->uploadThumbnailFromUrl(
         $model,
-        'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        $youTubeUrl,
         'image_collection'
     );
 
-    expect($media)->toBe($mediaMock);
-})->todo('Mocking errors, do not use mocking in this test');
+    expect($media)->not()->toBeNull();
+
+    $modelMedia = $model->getMedia('image_collection')->first();
+    expect($modelMedia->getCustomProperty('youtube-id'))->toBe('dQw4w9WgXcQ');
+    expect($modelMedia->getCustomProperty('youtube-url'))->toBe($youTubeUrl);
+});
 
 it('returns null if uploadThumbnailFromUrl fails', function () {
-    $model = Mockery::mock(HasMedia::class);
-
-    $model->shouldReceive('addMediaFromUrl')->andThrow(new Exception('fail'));
+    $model = $this->getTestBlogModel();
 
     $result = $this->service->uploadThumbnailFromUrl(
         $model,
-        'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        'https://www.youtube.com/watch?v=dQw',
         'image_collection'
     );
 
     expect($result)->toBeNull();
-})->todo('Mocking errors, do not use mocking in this test');
+});
 
 it('stores a temporary thumbnail from URL', function () {
     $youtubeUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';

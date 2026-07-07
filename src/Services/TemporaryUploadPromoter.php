@@ -88,7 +88,7 @@ class TemporaryUploadPromoter
 
     protected function promote(Model $model, TemporaryUpload $temporaryUpload): ?Media
     {
-        try {
+//        try {
             $media = $model
                 ->addMediaFromDisk($temporaryUpload->path, $temporaryUpload->disk)
                 ->preservingOriginal()
@@ -101,16 +101,16 @@ class TemporaryUploadPromoter
             }
 
             return $media;
-        } catch (Exception $e) {
-            Log::error('TemporaryUploadPromoter - failed to attach media', [
-                'temporary_upload_id' => $temporaryUpload->id,
-                'path' => $temporaryUpload->path,
-                'disk' => $temporaryUpload->disk,
-                'error' => $e->getMessage(),
-            ]);
+//        } catch (Exception $e) {
+//            Log::error('TemporaryUploadPromoter - failed to attach media', [
+//                'temporary_upload_id' => $temporaryUpload->id,
+//                'path' => $temporaryUpload->path,
+//                'disk' => $temporaryUpload->disk,
+//                'error' => $e->getMessage(),
+//            ]);
 
-            return null;
-        }
+//            return null;
+//        }
     }
 
     protected function replaceTemporaryUrlsInHtml(

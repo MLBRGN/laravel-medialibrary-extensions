@@ -39,7 +39,7 @@ class YouTubeService
             $modelInstance->setConnection($connection);
         }
 
-        try {
+//        try {
             $filePath = $this->thumbnailDownloader->download($videoId);
 
             if (! $filePath) {
@@ -62,13 +62,13 @@ class YouTubeService
 //                    'youtube-id' => $videoId,
 //                ])
 //                ->toMediaCollection($collection);
-        } catch (\Exception $e) {
-            Log::error('YouTube thumbnail failed', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            return null;
-        }
+//        } catch (\Exception $e) {
+//            Log::error('YouTube thumbnail failed', [
+//                'message' => $e->getMessage(),
+//                'trace' => $e->getTraceAsString(),
+//            ]);
+//            return null;
+//        }
     }
 
     public function storeTemporaryThumbnailFromRequest(StoreYouTubeVideoRequest $request): ?TemporaryUpload

@@ -25,10 +25,17 @@ class RestoreOriginalMediaAction
 
         // Prefer ID from request if present, otherwise use from URL
         $id = $request->input('medium_id', $mediaId);
-
-        $media = $this->mediaService->findMedium($id, $dataSource);
-
         $baseId = (string) ($request->input('base_id') ?? '');
+
+        try {
+            $media = $this->mediaService->findMedium($id, $dataSource);
+        } catch (Throwable $e) {
+            return MediaResponse::error(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.medium_not_found')
+            );
+        }
 
         if (! $media) {
             Log::warning('RestoreOriginalMediaAction - execute: media not found');

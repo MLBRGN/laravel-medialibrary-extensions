@@ -216,11 +216,12 @@ it('returns error response if collections array is missing', function () {
         ->and($response->getData(true)['type'])->toBe('error');
 });
 
-it('logs a warning when existing medium is not found', function () {
+it('handles existing medium is not found', function () {
     Log::spy();
 
     $model = $this->getTestBlogModel();
-    $file = UploadedFile::fake()->image('new.jpg');
+    $file = $this->getFixtureUploadedFile('test.jpg');
+//    $file = UploadedFile::fake()->image('new.jpg');
 
     $request = StoreUpdatedMediaRequest::create('/', 'POST', [
         'model_type' => get_class($model),
@@ -235,9 +236,13 @@ it('logs a warning when existing medium is not found', function () {
 
     $action = app(StoreUpdatedMediaAction::class);
 
-    $action->execute($request);
+    $response = $action->execute($request);
 
-    Log::shouldHaveReceived('warning')
-        ->once()
-        ->with(Mockery::on(fn ($msg) => str_contains($msg, 'not found')));
+    expect($response->getData(true))
+        ->toMatchArray([
+            'baseId' => 'mgr',
+            'type' => 'error',
+            'message' => 'Could not save updated medium.',
+            'mediumId' => 99999,
+        ]);
 });

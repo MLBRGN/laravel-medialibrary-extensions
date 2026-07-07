@@ -62,7 +62,6 @@ return [
     'upload_disabled_only_one_medium_allowed' => 'Uploading disabled, only one medium allowed.',
     'upload_disabled_max_items_reached' => 'Uploading disabled, maximum number of items reached.',
     'invalid_youtube_url' => 'Invalid YouTube URL.',
-    'something_went_wrong' => 'Something went wrong.',
     'download_document' => 'Download document',
     'medium_not_found' => 'Medium not found.',
     'class_does_not_exist' => 'Class ":class_name" does not exist.',
@@ -89,7 +88,7 @@ return [
     'meets_requirements' => 'Meets requirements',
     'does_not_meet_requirements' => 'Does not meet requirements',
     'unknown' => 'Unknown',
-    'no_original_saved' => 'No original saved',
+    'no_original_saved' => 'No original saved.',
     'invalid_configuration' => 'Invalid configuration.',
     'validation_error' => 'Validation error.',
     'could_not_initialize_image_editor' => 'Could not initialize the image editor',
@@ -102,4 +101,6 @@ return [
     'image_too_large' => 'The image is too large (:widthx:height). Maximum allowed is :max_widthx:max_height.',
     'image_too_small' => 'The image is too small (:widthx:height). Minimum required is :min_widthx:min_height.',
     'custom_file_picker' => 'Custom file picker',
+    'could_not_save_updated_medium' => 'Could not save updated medium.',
+    'could_not_save_media' => 'Could not save media.',
 ];

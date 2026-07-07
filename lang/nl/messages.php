@@ -63,7 +63,6 @@ return [
     'upload_disabled_only_one_medium_allowed' => 'Uploaden is uitgeschakeld, slechts 1 medium toegestaan.',
     'upload_disabled_max_items_reached' => 'Uploaden is uitgeschakeld, maximaal aantal uploads bereikt.',
     'invalid_youtube_url' => 'Ongeldig YouTube URL.',
-    'something_went_wrong' => 'Er ging iets verkeerd.',
     'download_document' => 'Download document',
     'medium_not_found' => 'Medium niet gevonden.',
     'class_does_not_exist' => 'Class ":class_name" bestaat niet.',
@@ -90,7 +89,7 @@ return [
     'meets_requirements' => 'Voldoet aan vereisten',
     'does_not_meet_requirements' => 'Voldoet niet aan vereisten',
     'unknown' => 'Onbekend',
-    'no_original_saved' => 'Geen origineel opgeslagen',
+    'no_original_saved' => 'Geen origineel opgeslagen.',
     'invalid_configuration' => 'Ongeldige configuratie.',
     'validation_error' => 'Validatiefout.',
     'could_not_initialize_image_editor' => 'Kon de "image editor" niet initialiseren',
@@ -103,4 +102,6 @@ return [
     'image_too_large' => 'De afbeelding is te groot (:widthx:height). Maximaal toegestaan is :max_widthx:max_height.',
     'image_too_small' => 'De afbeelding is te klein (:widthx:height). Minimaal vereist is :min_widthx:min_height.',
     'custom_file_picker' => 'Aangepaste file picker',
+    'could_not_save_updated_medium' => 'Kon gewijzigde medium niet opslaan.',
+    'could_not_save_media' => 'Kon media niet opslaan.',
 ];

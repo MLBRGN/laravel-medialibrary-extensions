@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoPermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 it('stores a youtube video temporary on a custom data source', function () {
@@ -59,7 +60,7 @@ it('stores a youtube video permanent on a custom data source', function () {
     $testDemoHostConnection = 'mle_test_host_app';
 
     // Create a model in the demo database
-    $model = Blog::on($testDemoConnection)->create(['title' => 'Demo Blog']);
+    $model = Alien::on($testDemoConnection)->create();
     $modelId = $model->id;
 
     // Verify we are starting clean on the media_demo media table
@@ -95,4 +96,4 @@ it('stores a youtube video permanent on a custom data source', function () {
 
     // Verify it was NOT stored in the default database
     expect(DB::connection($testDemoHostConnection)->table('media')->count())->toBe(0);
-})->todo('something wrong with factories and namespace');
+});
