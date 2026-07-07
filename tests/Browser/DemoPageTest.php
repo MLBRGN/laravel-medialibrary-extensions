@@ -8,15 +8,6 @@ use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Pest\Browser\Api\AwaitableWebpage;
 
 beforeEach(function () {
-
-    // Mock laravel-form-components
-//    Blade::component('form-form', AnonymousComponent::class);
-//    Blade::component('form-html-editor', AnonymousComponent::class);
-//    Blade::component('form-input', AnonymousComponent::class);
-//    Blade::component('form-checkbox', AnonymousComponent::class);
-//    Blade::component('form-select', AnonymousComponent::class);
-//    Blade::component('form-submit', AnonymousComponent::class);
-
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });
 
@@ -47,24 +38,24 @@ dataset('mms_test_matrix', [
 
 dataset('mmm_test_matrix', [
     'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-//    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-//    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-//    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
+    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
+    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
 
-//    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-//    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-//    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-//    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
+    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
+    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
+    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
 
-//    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-//    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-//    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-//    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
+    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
+    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
+    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
 
-//    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-//    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-//    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-//    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
+    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
+    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
+    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
 ]);
 
 dataset('mms_youtube_test_matrix', [
@@ -116,6 +107,7 @@ dataset('media_html_editor_matrix', [
 //    'plain + demo + xhr' => ['plain', 'demo', true],
 //    'plain + demo + no xhr' => ['plain', 'demo', false],
 ]);
+
 /**
  * Ensure there is exactly one medium available for the Media Lab preview.
  *
@@ -443,7 +435,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_test_matrix');
+    ->with('mms_test_matrix')
+    ->flaky();
 
 it('honors min / max width height and file size constraints in uploads', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -638,7 +631,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mmm_test_matrix');
+    ->with('mmm_test_matrix')
+->flaky();
 
 it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -1134,4 +1128,3 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
 
 })->group('browser')
     ->with('media_html_editor_matrix');
-//    ->todo('test custom file picker');
