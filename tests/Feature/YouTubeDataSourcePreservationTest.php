@@ -62,7 +62,7 @@ it('stores a youtube video permanent on a custom data source', function () {
     $model = Blog::on($testDemoConnection)->create(['title' => 'Demo Blog']);
     $modelId = $model->id;
 
-    // Verify we are starting clean on media_demo media table
+    // Verify we are starting clean on the media_demo media table
     expect(DB::connection($testDemoConnection)->table('media')->count())->toBe(0);
 
     $request = StoreYouTubeVideoRequest::create('/upload-youtube', 'POST', [
@@ -95,4 +95,4 @@ it('stores a youtube video permanent on a custom data source', function () {
 
     // Verify it was NOT stored in the default database
     expect(DB::connection($testDemoHostConnection)->table('media')->count())->toBe(0);
-})->todo();
+})->todo('something wrong with factories and namespace');

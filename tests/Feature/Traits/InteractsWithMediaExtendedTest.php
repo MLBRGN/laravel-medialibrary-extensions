@@ -10,6 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 beforeEach(function () {
     Storage::fake('media');
@@ -18,6 +19,8 @@ beforeEach(function () {
 });
 
 it('attaches temporary media on non created model, and stores medium on model create (removes temporary medium)', function () {
+
+    $clientToken = 'upload-process-token';
 
     $baseId = 'media-manager-123';
     $fileName = 'test.jpg';
@@ -29,17 +32,21 @@ it('attaches temporary media on non created model, and stores medium on model cr
             'model_type' => $model->getMorphClass(),
             'model_id' => $model->id,
             'base_id' => $baseId,
-            'client_token' => session()->getId(),
+            'client_token' => $clientToken,
             'collections' => ['image' => 'images'],
+            'data_source' => 'default',
+            'instance_id' => InstanceManager::getInstanceId($baseId),
         ], [], [
             'media' => $uploadedFile,
         ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
+    app()->instance('request', $request);
 
-    $mediaService = app(MediaService::class);
-    $uploadPreparer = app(UploadPreparerService::class);
-    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+//    $mediaService = app(MediaService::class);
+//    $uploadPreparer = app(UploadPreparerService::class);
+//    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+    $action = app(StoreSingleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -50,10 +57,12 @@ it('attaches temporary media on non created model, and stores medium on model cr
             'message' => __('medialibrary-extensions::messages.upload_success'),
         ]);
 
-    $instanceId = null;
+    // Use the same instance ID derivation as the action under test
+    $instanceId = InstanceManager::getInstanceId($baseId);
 
-    $temporaryMedium = TemporaryUpload::forCurrentClient('images', $instanceId);
+    $temporaryMedium = TemporaryUpload::getForCurrentClient('images', $instanceId, 'default', $clientToken);
 
+//    dump($temporaryMedium->toArray());
     expect($temporaryMedium)->not()->toBeNull()
         ->and(TemporaryUpload::count())->toBe(1);
 
@@ -64,7 +73,7 @@ it('attaches temporary media on non created model, and stores medium on model cr
     expect($permanentMedium)->not->toBeNull()
         ->and(Storage::disk('media')->exists('uploads/'.$fileName))->toBeFalse()
         ->and(TemporaryUpload::count())->toBe(0);
-})->todo('fix this');
+});
 
 it('returns error when no collection provided', function () {
 
@@ -110,7 +119,7 @@ it('returns error when no collection provided', function () {
     $permanentMedium = $model->getMedia('images')->first();
 
     expect($permanentMedium)->toBeNull();
-})->todo();
+});
 
 it('logs error when safeAddMedia fails', function () {
     $model = Mockery::mock(Blog::class)->makePartial();
@@ -138,7 +147,7 @@ it('replaces temporary urls in html editor fields', function () {
 
     Storage::disk('media')->put('uploads/temp.jpg', 'dummy content');
 
-    // Sanity check — ensure temporary file exists
+    // Sanity check — ensure the temporary file exists
     expect(Storage::disk('media')->exists('uploads/temp.jpg'))->toBeTrue();
 
     // The model should support automatic replacement of temporary URLs
@@ -178,15 +187,15 @@ it('logs info when model does not yet exist', function () {
     // Get the "created" event listeners for the Blog model
     $listeners = Blog::getEventDispatcher()->getListeners('eloquent.created: '.Blog::class);
 
-    // Call each listener manually with correct payload structure
+    // Call each listener manually with the correct payload structure
     foreach ($listeners as $listener) {
         // Pass array payload: [$model]
         $listener('eloquent.created: '.Blog::class, [$model]);
     }
 
-    Log::shouldHaveReceived('info')
-        ->withArgs(fn ($msg) => str_contains($msg, 'does not exist'))
-        ->atLeast()->once();
+//    Log::shouldHaveReceived('info')
+//        ->withArgs(fn ($msg) => str_contains($msg, 'does not exist'))
+//        ->atLeast()->once();
 })->skip();
 
 // it('calculates proper aspect ratio conversions', function () {

@@ -26,7 +26,7 @@ it('deletes the medium and returns JSON', function () {
 
     $this->assertDatabaseHas('media', ['id' => $media->id]);
 
-    // Call the destroy route
+    // Call the "destroy" route
     $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->deleteJson($route, [
         'base_id' => $baseId,
@@ -62,7 +62,7 @@ it('deletes the medium and returns Redirect', function () {
 
     $this->assertDatabaseHas('media', ['id' => $media->id]);
 
-    // Call the destroy route
+    // Call the "destroy" route
     $route = route(mle_prefix_route('destroy-media'), $media);
     $response = $this->actingAs($user)->delete($route, [
         'base_id' => $baseId,
@@ -91,7 +91,7 @@ it('reorders all media on delete', function () {
     $baseId = 'initiator-123';
     $collections = ['image' => 'images'];
 
-    // Create model with multiple media items
+    // Create the model with multiple media items
     $model = $this->getModelWithMedia([
         'image' => 2,
     ]);

@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig;
 
 class StoreSingleRequest extends StoreRequest
 {
@@ -26,7 +27,7 @@ class StoreSingleRequest extends StoreRequest
         }
 
         // Enforce image dimension limits from config when the uploaded file is an image.
-        $uploadRules[] = new \Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig();
+        $uploadRules[] = new ImageDimensionsWithinConfig();
 
         return array_merge(
             $this->modelRules(),

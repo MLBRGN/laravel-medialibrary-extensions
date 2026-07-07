@@ -14,6 +14,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
+use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
@@ -111,6 +112,11 @@ class StoreSingleTemporaryAction
             ],
         ]);
         $temporaryUpload->save();
+
+        app(MediaUploadContext::class)->set(
+            $temporaryUpload->instance_id,
+            $temporaryUpload->client_token
+        );
 
         return MediaResponse::success(
             $request,

@@ -143,7 +143,7 @@ it('stores validation errors in initiator-specific error bag when not using XHR'
 
     $this->assertTrue($validator->fails());
 
-    // Flash errors into initiator-specific bag (like failedValidation does)
+    // Flash errors into the initiator-specific bag (like failedValidation does)
     $bagName = 'initiator_'.$request->input('base_id');
     $request->session()->flash(
         'errors',

@@ -11,7 +11,7 @@ beforeEach(function () {
     Route::name('mlbrgn-mle.media-upload-multiple')->post('media-upload-multiple', fn () => 'uploaded');
     Route::name('mlbrgn-mle.media-upload')->post('media-upload', fn () => 'uploaded');
 
-    // Other test config
+    // Other test configuration
     Config::set('medialibrary-extensions.frontend_theme', 'plain');
 });
 

@@ -21,7 +21,7 @@ it('preserves data source during temporary upload reordering and refresh', funct
     // TestCase already configures data source mappings:
     // 'demo' => connection 'mle_test_demo', with migrations applied.
 
-    // Resolve actual connection name for the 'demo' data source
+    // Resolve the actual connection name for the 'demo' data source
     $connectionName = config('medialibrary-extensions.data_sources.demo.connection');
 
     // 1. Create temporary uploads on the demo connection

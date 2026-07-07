@@ -26,7 +26,7 @@ it('keeps single temporary manager enabled on demo when default has an upload in
         'order_column' => 0,
     ]);
 
-    // Build a Single manager in TEMPORARY mode by passing a class string; target collection is empty on DEMO
+    // Build a Single manager in TEMPORARY mode by passing a class string; the target collection is empty on DEMO
     $collections = [
         'image' => 'blog-single-image', // target we care about
         'document' => 'blog-single-document', // has an item but on DEFAULT connection
@@ -51,7 +51,7 @@ it('keeps single temporary manager enabled on demo when default has an upload in
     // Overwrite the public property so the count uses our token
     $component->clientToken = $clientToken;
 
-    // Assert: because DEMO has 0 items in target collection, Single must be enabled
+    // Assert: because DEMO has 0 items in the target collection, Single must be enabled
     expect($component->getOption('disableForm'))->toBeFalse();
 });
 
@@ -62,7 +62,7 @@ it('does not block uploads across different instanceIds for the same clientToken
     $instanceB = InstanceManager::getInstanceId($baseIdB);
     $clientToken = (string) Str::ulid();
 
-    // Existing upload on DEFAULT for instance A
+    // Existing upload on "default" for instance A
     TemporaryUpload::create([
         'client_token' => $clientToken,
         'instance_id' => $instanceA,

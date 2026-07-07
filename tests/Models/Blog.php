@@ -4,7 +4,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
-use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\BlogFactory;
+use Mlbrgn\MediaLibraryExtensions\Tests\Factories\BlogFactory;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

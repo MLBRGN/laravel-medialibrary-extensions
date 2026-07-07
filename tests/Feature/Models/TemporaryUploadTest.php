@@ -8,7 +8,7 @@ it('returns only uploads for the current session', function () {
     $clientToken = 'test-token-'.(string) Str::ulid();
     request()->merge(['client_token' => $clientToken]);
 
-    // Uploads for current session
+    // Uploads for the current session
     TemporaryUpload::newFactory()->create([
         'client_token' => $clientToken,
         'collection_name' => 'images',
@@ -158,7 +158,7 @@ it('can handle different database connections using forDataSource scope', functi
 });
 
 it('stores temporary uploads with client token and instance id', function () {
-    // Create a temporary upload with specific client token and instance id
+    // Create a temporary upload with the specific client token and instance id
     $clientToken = 'test-client-token-123';
     $instanceId = 'test-instance-id-456';
 
@@ -182,7 +182,7 @@ it('stores temporary uploads with client token and instance id', function () {
 });
 
 it('retrieves temporary uploads using client token', function () {
-    // Create a temporary upload with client token
+    // Create a temporary upload with the client token
     $clientToken = 'retrieve-test-token';
 
     TemporaryUpload::create([
@@ -249,10 +249,10 @@ it('retrieves temporary uploads using instance id', function () {
 
     expect($uploads)->toHaveCount(2);
     expect($uploads->first()->instance_id)->toBe($instanceId);
-})->todo('This test needs refactoring.');;
+})->todo('This test needs refactoring.');
 
 it('retrieves temporary uploads using session client token', function () {
-    // Set up session with client token
+    // Set up the session with the client token
     Session::put('medialibrary_extensions_client_token', 'session-test-token');
 
     // Create a temporary upload with the same client token
@@ -273,10 +273,10 @@ it('retrieves temporary uploads using session client token', function () {
 
     expect($uploads)->toHaveCount(1);
     expect($uploads->first()->client_token)->toBe('session-test-token');
-})->todo('This test needs refactoring.');;
+})->todo('This test needs refactoring.');
 
 it('handles missing client identity gracefully', function () {
-    // Create a temporary upload without client token or instance id
+    // Create a temporary upload without the client token or instance id
     TemporaryUpload::create([
         'disk' => 'public',
         'path' => 'uploads/no-identity.jpg',
@@ -288,7 +288,7 @@ it('handles missing client identity gracefully', function () {
         'custom_properties' => [],
     ]);
 
-    // Should return empty collection when no client identity
+    // Should return an empty collection when no client identity
     $uploads = TemporaryUpload::getForCurrentClient('default');
 
     expect($uploads)->toHaveCount(0);
@@ -318,4 +318,4 @@ it('associates uploads with correct client token during upload process', functio
     $retrieved = TemporaryUpload::getForCurrentClient('default', 'instance_id', 'default', $clientToken);
     expect($retrieved)->toHaveCount(1);
     expect($retrieved->first()->id)->toBe($temporaryUpload->id);
-})->todo('This test not working.');;
+})->todo('This test not working.');

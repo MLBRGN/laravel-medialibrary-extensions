@@ -29,7 +29,6 @@ it('stores file and returns JSON success', function () {
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
-        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'demo',
     ], [], [
@@ -60,7 +59,6 @@ it('stores file and returns redirect success', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'base_id' => $this->baseId,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'demo',
@@ -94,7 +92,6 @@ it('returns error if no file is given (JSON)', function () {
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
-        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'demo',
     ]);
@@ -119,7 +116,6 @@ it('returns error if no file is given (redirect)', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'base_id' => $this->baseId,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'demo',
@@ -153,7 +149,6 @@ it('returns error if file has invalid mimetype (JSON)', function () {
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
-        'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'demo',
     ], [], [
@@ -181,7 +176,6 @@ it('returns error if file has invalid mimetype (redirect)', function () {
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),
         'model_id' => $this->model->id ?? 1,
-        'base_id' => $this->baseId,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
         'data_source' => 'demo',
@@ -214,7 +208,7 @@ it('returns error if file exceeds max upload size (JSON)', function () {
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
-    // Configure: allow normal collection limit but small max file size
+    // Configure: allow the normal collection limit but a small max file size
     Config::set('medialibrary-extensions.route_middleware', []);
     Config::set('medialibrary-extensions.max_upload_size', 1024 * 100); // 100 KB
 
@@ -228,7 +222,6 @@ it('returns error if file exceeds max upload size (JSON)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->id,
-                'base_id' => $this->baseId,
                 'base_id' => $this->baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',
@@ -248,7 +241,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
-    // Configure: allow normal collection limit but small max file size
+    // Configure: allow the normal collection limit but a small max file size
     Config::set('medialibrary-extensions.route_middleware', []);
     Config::set('medialibrary-extensions.max_upload_size', 1024 * 100); // 100 KB
 
@@ -262,7 +255,6 @@ it('returns error if file exceeds max upload size (redirect)', function () {
             [
                 'model_type' => $model->getMorphClass(),
                 'model_id' => $model->id,
-                'base_id' => $this->baseId,
                 'base_id' => $this->baseId,
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',

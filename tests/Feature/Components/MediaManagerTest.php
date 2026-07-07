@@ -323,7 +323,7 @@ it('disables upload form when no uploadable collections exist', function () {
     $component = new MediaManager(
         id: 'test-no-uploadables',
         modelOrClassName: $model,
-        collections: ['youtube' => 'blog-youtube'], // only youtube
+        collections: ['youtube' => 'blog-youtube'], // only YouTube
         options: ['showUploadForm' => true],
         multiple: true,
     );

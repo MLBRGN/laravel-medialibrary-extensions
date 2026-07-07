@@ -285,7 +285,7 @@ it('returns error if file exceeds max upload size (JSON)', function () {
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
-    // Configure: allow normal collection limit but small max file size
+    // Configure: allow the normal collection limit but a small max file size
     Config::set('medialibrary-extensions.route_middleware', []);
     Config::set('medialibrary-extensions.max_upload_size', 1024 * 100); // 100 KB
 
@@ -320,7 +320,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
 
-    // Configure: allow normal collection limit but small max file size
+    // Configure: allow the normal collection limit but a small max file size
     Config::set('medialibrary-extensions.route_middleware', []);
     Config::set('medialibrary-extensions.max_upload_size', 1024 * 100); // 100 KB
 

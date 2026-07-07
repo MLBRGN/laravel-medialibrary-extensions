@@ -41,7 +41,7 @@ function normalizeFilename(string $filename): string
 }
 
 /**
- * Prepare HTML filename and disk-safe filename from original
+ * Prepare HTML filename and disk-safe filename from the original
  */
 function prepareSafeFilenames(string $originalName): array
 {
@@ -91,7 +91,7 @@ it('replaces relative temporary media urls in html', function () {
 it('replaces relative temporary media urls with unicode / soft hyphen filenames', function () {
     $originalFilename = "Screen\u{00AD}Shot 2026-01-17.png";
 
-    // Create safe disk filename
+    // Create the safe disk filename
     $diskFilename = Str::slug(pathinfo($originalFilename, PATHINFO_FILENAME), '-').'.'.pathinfo($originalFilename, PATHINFO_EXTENSION);
 
     // HTML should use the same filename as in temp storage

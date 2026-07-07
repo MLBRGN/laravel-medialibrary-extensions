@@ -23,6 +23,7 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\Services\DefaultYouTubeThumbnailDownloader;
+use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
@@ -110,6 +111,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
             YouTubeThumbnailDownloader::class,
             DefaultYouTubeThumbnailDownloader::class
         );
+
+        // singleton to remember media upload context (used by InteractsWithMediaExtended to promote temporary uploads to permanent)
+        $this->app->singleton(MediaUploadContext::class);
     }
 
     public function boot(): void

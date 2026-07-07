@@ -81,7 +81,7 @@ it('stores temporary thumbnail successfully (redirect)', function () {
         'data_source' => 'demo',
     ]);
 
-    // Remove json Accept header to simulate redirect request
+    // Remove JSON Accept header to simulate the redirect request
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());
 

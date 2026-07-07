@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
+use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
@@ -75,6 +77,15 @@ trait InteractsWithMediaExtended
         }
 
         static::created(function ($model) {
+//            dump(request()->all());
+//            dump('baseId '. request()->input('base_id'));
+//            dump([
+//                'created' => true,
+//                'model' => get_class($model),
+//                'id' => $model->id,
+////                'instance' => InstanceManager::getInstanceId($baseId),
+//            ]);
+
             if (! $model->exists || ! $model->getKey()) {
                 Log::warning('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
                 return;
@@ -87,16 +98,25 @@ trait InteractsWithMediaExtended
         });
 
         static::updated(function ($model) {
-            if (! $model->exists || ! $model->getKey()) {
-                Log::warning('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
 
+            $context = app(MediaUploadContext::class);
+
+            if (! $context->hasContext()) {
                 return;
             }
 
-            $instanceId = request()->input('instance_id');
-            $clientToken = request()->input('client_token');
+            if (! $model->exists || ! $model->getKey()) {
+                Log::warning('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+                return;
+            }
 
-            app(TemporaryUploadPromoter::class)->promoteAllForModel($model, $instanceId, $clientToken);
+//            dump($context->getInstanceId());
+//            dump($context->getClientToken());
+            app(TemporaryUploadPromoter::class)->promoteAllForModel(
+                $model,
+                $context->getInstanceId(),
+                $context->getClientToken()
+            );
         });
     }
 

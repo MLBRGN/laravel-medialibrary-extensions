@@ -87,7 +87,7 @@ it('stores permanent thumbnail successfully (redirect)', function () {
         'model_type' => $model->getMorphClass(),
         'model_id' => $model->getKey(),
     ]);
-    // Remove json Accept header to simulate redirect request
+    // Remove JSON Accept header to simulate the redirect request
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());
 

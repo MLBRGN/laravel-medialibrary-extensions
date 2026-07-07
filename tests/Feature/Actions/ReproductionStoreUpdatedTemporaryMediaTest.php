@@ -14,7 +14,7 @@ beforeEach(function () {
     //        'connection' => 'mle_test_demo',
     //    ]]);
 
-    // Ensure the connection exists in DB config
+    // Ensure the connection exists in DB the "config"
     //    config(['database.connections.media_demo' => config('database.connections.testbench')]);
 });
 
@@ -43,7 +43,7 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     $check = TemporaryUpload::on($dataSource)->find($oldId);
     if (! $check) {
         // If it's not found, maybe it was saved to the default connection despite setConnection?
-        // Let's check testbench.
+        // Let's check "testbench".
         $checkDefault = TemporaryUpload::on('mle_test_host_app')->find($oldId);
         if ($checkDefault) {
             throw new Exception("TemporaryUpload was saved to testbench instead of $dataSource");
@@ -51,7 +51,7 @@ it('correctly replaces a temporary upload on a custom data source', function () 
         throw new Exception('TemporaryUpload not found in either database');
     }
 
-    // 2. Prepare request to update it
+    // 2. Prepare the request
     $newFile = UploadedFile::fake()->image('new.jpg');
 
     $request = StoreUpdatedMediaRequest::create('/mlbrgn-mle/media/update', 'POST', [
@@ -77,10 +77,10 @@ it('correctly replaces a temporary upload on a custom data source', function () 
 
     expect($newId)->not->toBeNull();
 
-    // Check if old one is gone from custom database
+    // Check if the old one is gone from the custom database
     expect(TemporaryUpload::on($dataSource)->find($oldId))->toBeNull();
 
-    // Check if new one exists in custom database
+    // Check if the new one exists in the custom database
     $newUpload = TemporaryUpload::on($dataSource)->find($newId);
     expect($newUpload)->not->toBeNull();
     expect($newUpload->file_name)->toBe('new.jpg');
@@ -88,6 +88,6 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     // Check if it's NOT in the default database
     expect(TemporaryUpload::on('mle_test_host_app')->find($newId))->toBeNull();
 
-    // Check if file exists on disk
+    // Check if the file exists on disk
     Storage::disk('public')->assertExists($newUpload->path);
 })->todo('ai generated - refactor this test');

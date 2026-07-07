@@ -25,7 +25,7 @@ beforeEach(function () {
     };
 
     // Create a real Validator
-    $this->validator = ValidatorFacade::make([], []); // empty data & rules, we just need errors bag
+    $this->validator = ValidatorFacade::make([], []); // empty data & rules, we just need the errors bag
 });
 
 it('passes validation with at least one allowed non-empty key', function () {

@@ -26,7 +26,7 @@ it('returns error response when no collections provided (JSON)', function () {
         'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
     ]);
 
-    // Call your route with empty payload to trigger 422
+    // Call your route with an empty payload to trigger 422
     $response = $this->withCookie('mle_client_token', session()->getId())
         ->actingAs($user)->deleteJson(
         route(config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload', $upload),

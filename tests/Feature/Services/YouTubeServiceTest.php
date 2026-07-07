@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
     $this->dataSourceResolver = new DataSourceResolver;
-//    $this->youTubeThumnailDownloader
+//    $this->youTubeThumbnailDownloader
 //    $this->service = new YouTubeService($this->dataSourceResolver);
 
     $this->service = app(YouTubeService::class);

@@ -11,7 +11,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 // configured to use our package TestCase in tests/Pest.php.
 
 it('replaces a medium and returns newMediumId while deleting the old one', function () {
-    // Arrange: model with one media
+
+
+    $user = $this->getUser();
+
     /** @var Blog $model */
     $model = Blog::query()->create(['title' => 'Test blog']);
 
@@ -29,17 +32,18 @@ it('replaces a medium and returns newMediumId while deleting the old one', funct
     /** @var Media $old */
     $old = $model->getFirstMedia('blog-main');
 
-    // Act: replace via action route used by the image editor
+    // Act: replace via the action route used by the image editor
     $file = UploadedFile::fake()->image('replacement.jpg', 120, 120);
 
-    $response = $this->post(route(mle_prefix_route('save-updated-media'), ['mediaId' => $old->id]), [
+    $route = route(mle_prefix_route('save-updated-media'), ['mediaId' => $old->id]);
+    $response = $this->actingAs($user)->postJson($route, [
         'base_id' => 'test-base',
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
-        'medium_id' => $old->id,
-        'single_media_id' => $old->id,
+        'medium_id' => (string) $old->id,
+        'single_media_id' => (string) $old->id,
         'collection' => 'blog-main',
-        'temporary_upload_mode' => false,
+        'temporary_upload_mode' => 'false',
         'file' => $file,
         'data_source' => 'default',
         'collections' => ['image' => 'blog-main'],
@@ -50,10 +54,10 @@ it('replaces a medium and returns newMediumId while deleting the old one', funct
     $response->assertSuccessful();
     $json = $response->json();
 
-    expect($json['oldMediumId'])->toBe($old->id);
-    expect($json['newMediumId'])->not()->toBe($old->id);
+    expect($json['oldMediumId'])->toBe((string) $old->id);
+    expect($json['newMediumId'])->not()->toBe((string) $old->id);
 
     // Old record is deleted, new exists
     $this->assertDatabaseMissing($old->getTable(), ['id' => $old->id]);
     $this->assertDatabaseHas($old->getTable(), ['id' => $json['newMediumId']]);
-})->todo();
+});
