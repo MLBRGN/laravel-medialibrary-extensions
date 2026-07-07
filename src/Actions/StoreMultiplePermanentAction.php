@@ -93,11 +93,26 @@ class StoreMultiplePermanentAction
 
         foreach ($preparedUploads as $prepared) {
             try {
-                $model->addMedia($prepared->file)
+                Log::info('Adding media', [
+                    'collection' => $prepared->collectionName,
+                    'default_disk' => config('media-library.disk_name'),
+                ]);
+
+                $media = $model->addMedia($prepared->file)
                     ->withCustomProperties([
                         'priority' => $nextPriority,
                     ])
                     ->toMediaCollection($prepared->collectionName);
+
+                Log::info('StoreMultiplePermanentAction - execute: Stored media', [
+                    'disk' => $media->disk,
+                    'conversions_disk' => $media->conversions_disk,
+                    'path' => $media->getPath(),
+                    'url' => $media->getUrl(),
+                    'preview_url' => $media->hasGeneratedConversion('preview')
+                        ? $media->getUrl('preview')
+                        : null,
+                ]);
                 $nextPriority++;
                 $successCount++;
             } catch (Exception $e) {
@@ -124,6 +139,14 @@ class StoreMultiplePermanentAction
                 $message
             );
         }
+
+        Log::withContext([
+            'base_id' => $baseId,
+        ]);
+
+        Log::info('{success_count} uploads successful', [
+            'success_count' => $successCount,
+        ]);
 
         $message = __('medialibrary-extensions::messages.upload_success');
         if (! empty($failedUploadFIleNames)) {

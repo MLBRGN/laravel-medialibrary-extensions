@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Models\demo;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 
@@ -21,6 +22,14 @@ class Alien extends Model implements HasMediaExtended
 
     public function registerMediaCollections(): void
     {
+//        Log::info('Registered media collections', [
+//            'collections' => collect($this->mediaCollections)
+//                ->pluck('name')
+//                ->values()
+//                ->toArray(),
+//        ]);
+
+
         $this
             ->addMediaCollection('alien-single-image')
             ->singleFile()
@@ -64,6 +73,9 @@ class Alien extends Model implements HasMediaExtended
         $this->addMediaCollection('alien-media-lab')
             ->useDisk(config('medialibrary-extensions.media_disks.demo'));
 
+        $this
+            ->addMediaCollection('alien-media-html-editor')
+            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
     }
 
     public static function allowsMediaUploads(): bool

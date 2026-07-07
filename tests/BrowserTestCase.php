@@ -293,7 +293,7 @@ class BrowserTestCase extends Orchestra
     {
 
         Route::get('/storage/{disk}/{path}', function (string $disk, string $path) {
-            Log::info('Storage request', [
+            Log::info('BrowserTestCase - registerRoutes: Storage request', [
                 'url' => request()->fullUrl(),
                 'referer' => request()->headers->get('referer'),
                 'disk' => $disk,
@@ -301,7 +301,7 @@ class BrowserTestCase extends Orchestra
             ]);
 
             if (! in_array($disk, self::TEST_STORAGE_DISKS, true)) {
-                Log::warning('Invalid storage disk requested', [
+                Log::warning('BrowserTestCase - registerRoutes: Invalid storage disk requested', [
                     'disk' => $disk,
                     'allowed' => self::TEST_STORAGE_DISKS,
                     'path' => $path,
@@ -313,7 +313,7 @@ class BrowserTestCase extends Orchestra
             $root = realpath(config("filesystems.disks.$disk.root"));
 
             if ($root === false) {
-                Log::warning('Storage root does not exist', [
+                Log::warning('BrowserTestCase - registerRoutes: Storage root does not exist', [
                     'disk' => $disk,
                     'configured_root' => config("filesystems.disks.$disk.root"),
                 ]);
@@ -328,7 +328,7 @@ class BrowserTestCase extends Orchestra
                 ! str_starts_with($file, $root.DIRECTORY_SEPARATOR)
                 || ! is_file($file)
             ) {
-                Log::warning('Storage file not found', [
+                Log::warning('BrowserTestCase - registerRoutes: Storage file not found', [
                     'disk' => $disk,
                     'root' => $root,
                     'path' => $path,

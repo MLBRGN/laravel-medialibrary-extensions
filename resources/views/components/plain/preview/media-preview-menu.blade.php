@@ -9,7 +9,9 @@
         @endif
 
         @if($selectable)
-            <label class="mle-button-pseudo mle-button-icon-pseudo mle-checkbox-wrapper">
+            <label 
+                class="mle-button-pseudo mle-button-icon-pseudo mle-checkbox-wrapper"
+                data-mle-media-select-wrapper>
                 <input
                     type="{{ config('medialibrary-extensions.single_select') ? 'radio' : 'checkbox' }}"
                     name="selected_media"
