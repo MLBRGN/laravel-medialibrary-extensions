@@ -47,7 +47,8 @@ Route::group([
 //    'middleware' => config('medialibrary-extensions.route_middleware', ['web']),
     'prefix' => config('medialibrary-extensions.route_prefix'),
 ], function () {
-    Route::get('mle-demo', DemoController::class)->name('mle-demo');
+    Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
+    Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
 });
 
 Route::get('/favicon.ico', fn () => response()->noContent());

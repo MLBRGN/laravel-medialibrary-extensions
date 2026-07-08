@@ -180,25 +180,30 @@
 
         @if ($showMmsTemporary)
             <h2>Media Manager Single (Temporary)</h2>
-            <x-mle-media-manager-single
-                id="alien-single-temporary"
-                model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-                :collections="[
-                                'image' => 'alien-single-image',
-                                'document' =>'alien-single-document',
-                                'youtube' =>'alien-single-youtube-video',
-                                'video' =>'alien-single-video',
-                                'audio' =>'alien-single-audio',
-                            ]"
-                :options="[
-                            'theme' => $theme, 
-                            'dataSource' => $dataSource, 
-                            'useXhr' => $useXhr
-                ]"
-                :data-source="$dataSource"
-                
-            />
-       @endif
+            <form action="{{ route('store-alien') }}" method="post">
+                @csrf
+                <input type="hidden" name="name" value="dummy">
+                <x-mle-media-manager-single
+                    id="alien-single-temporary"
+                    model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+                    :collections="[
+                                    'image' => 'alien-single-image',
+                                    'document' =>'alien-single-document',
+                                    'youtube' =>'alien-single-youtube-video',
+                                    'video' =>'alien-single-video',
+                                    'audio' =>'alien-single-audio',
+                                ]"
+                    :options="[
+                                'theme' => $theme, 
+                                'dataSource' => $dataSource, 
+                                'useXhr' => $useXhr
+                    ]"
+                    :data-source="$dataSource"
+                    
+                />
+                <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model</button>
+            </form>
+        @endif
 
         @if ($showMmmPermanent)
             <h2>Media Manager Multiple</h2>
@@ -227,26 +232,30 @@
     
         @if($showMmmTemporary)
             <h2>Media Manager Multiple (Temporary)</h2>
-            
-            <x-mle-media-manager-multiple
-                id="alien-multiple-temporary"
-                model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
-                :collections="[
-                    'image' => 'alien-multiple-images', 
-                    'document' =>'alien-multiple-documents', 
-                    'youtube' =>'alien-multiple-youtube-videos', 
-                    'video' =>'alien-multiple-videos', 
-                    'audio' =>'alien-multiple-audios'
-                ]"
-                :options="[
-                    'showOrder' => true, 
-                    'theme' => $theme, 
-                    'dataSource' => $dataSource, 
-                    'useXhr' => $useXhr,
-                    'maxMediaCount' => 3
-                ]"
-                :data-source="$dataSource"
-            />
+            <form action="{{ route('store-alien') }}" method="post">
+                @csrf
+                <input type="hidden" name="name" value="dummy">
+                <x-mle-media-manager-multiple
+                    id="alien-multiple-temporary"
+                    model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+                    :collections="[
+                        'image' => 'alien-multiple-images', 
+                        'document' =>'alien-multiple-documents', 
+                        'youtube' =>'alien-multiple-youtube-videos', 
+                        'video' =>'alien-multiple-videos', 
+                        'audio' =>'alien-multiple-audios'
+                    ]"
+                    :options="[
+                        'showOrder' => true, 
+                        'theme' => $theme, 
+                        'dataSource' => $dataSource, 
+                        'useXhr' => $useXhr,
+                        'maxMediaCount' => 3
+                    ]"
+                    :data-source="$dataSource"
+                />
+                <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model</button>
+            </form>
         @endif
         
     

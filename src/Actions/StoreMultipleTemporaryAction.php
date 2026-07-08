@@ -106,14 +106,19 @@ class StoreMultipleTemporaryAction
                 ?? $request->cookie('mle_client_token')
                 ?? (string) Str::ulid();
 
-            // Store file
-            Storage::disk($disk)->putFileAs($directory, $prepared->file, $safeFilename);
+//            Storage::disk($disk)->putFileAs($directory, $prepared->file, $safeFilename);
 
+            // Store file
+            $path = Storage::disk($disk)->putFileAs(
+                $directory,
+                $prepared->file,
+                $safeFilename
+            );
             $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
 
             $temporaryUpload->fill([
                 'disk' => $disk,
-                'path' => "{$directory}/{$safeFilename}",
+                'path' => $path,
                 'name' => $safeFilename,
                 'file_name' => $safeFilename,
                 'collection_name' => $prepared->collectionName,

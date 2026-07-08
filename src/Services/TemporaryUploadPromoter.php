@@ -88,7 +88,26 @@ class TemporaryUploadPromoter
 
     protected function promote(Model $model, TemporaryUpload $temporaryUpload): ?Media
     {
+//        dump($temporaryUpload->disk);
+//        dump($temporaryUpload->path);
+//        dump(config("filesystems.disks.{$temporaryUpload->disk}"));
+//        dump(Storage::disk($temporaryUpload->disk)->exists($temporaryUpload->path));
+//        dump(storage_path($temporaryUpload->disk . $temporaryUpload->path));
+//        dump(Storage::disk($temporaryUpload->disk)->allFiles());
+//        dump(file_exists(storage_path($temporaryUpload->disk . $temporaryUpload->path)));
 //        try {
+
+//        dump(app('filesystem')->disk($temporaryUpload->disk));
+//        dump([
+//            'disk' => $temporaryUpload->disk,
+//            'path' => $temporaryUpload->path,
+//            'path_trimmed' => ltrim($temporaryUpload->path, '/'),
+//            'disk_root' => config("filesystems.disks.{$temporaryUpload->disk}.root"),
+//            'resolved_path' => Storage::disk($temporaryUpload->disk)->path(ltrim($temporaryUpload->path, '/')),
+//            'exists_original' => Storage::disk($temporaryUpload->disk)->exists($temporaryUpload->path),
+//            'exists_trimmed' => Storage::disk($temporaryUpload->disk)->exists(ltrim($temporaryUpload->path, '/')),
+//            'files' => Storage::disk($temporaryUpload->disk)->allFiles(),
+//        ]);
             $media = $model
                 ->addMediaFromDisk($temporaryUpload->path, $temporaryUpload->disk)
                 ->preservingOriginal()

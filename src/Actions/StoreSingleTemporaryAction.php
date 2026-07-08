@@ -81,7 +81,7 @@ class StoreSingleTemporaryAction
             '-'
         ).'.'.$prepared->file->getClientOriginalExtension();
 
-        Storage::disk($disk)->putFileAs(
+        $path = Storage::disk($disk)->putFileAs(
             $directory,
             $prepared->file,
             $safeFilename
@@ -95,7 +95,7 @@ class StoreSingleTemporaryAction
 
         $temporaryUpload->fill([
             'disk' => $disk,
-            'path' => "{$directory}/{$safeFilename}",
+            'path' => $path,
             'name' => $safeFilename,
             'file_name' => $safeFilename,
             'collection_name' => $prepared->collectionName,

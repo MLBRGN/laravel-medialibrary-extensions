@@ -4,15 +4,18 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Controllers;
 
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\demo\StoreAlienRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
-use Mlbrgn\MediaLibraryExtensions\Models\demo\DemoMedia;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 
 class DemoController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function index(Request $request): View
     {
         abort_unless(
             config('medialibrary-extensions.demo_pages_enabled'),
@@ -43,14 +46,18 @@ class DemoController extends Controller
         $media = $model->getMedia('alien-media-lab')->first();
 
         // Create one demo image so the Lab can render
-        if ($media === null && (bool) config('medialibrary-extensions.demo_pages_enabled')) {
+        if ($media === null && config('medialibrary-extensions.demo_pages_enabled')) {
             $demoImage = __DIR__.'/../../../resources/demo/demo_small.jpeg';
 
             if (file_exists($demoImage)) {
-                $model
-                    ->addMedia($demoImage)
-                    ->preservingOriginal()
-                    ->toMediaCollection('alien-media-lab', config('medialibrary-extensions.media_disks.demo'));
+                try {
+                    $model
+                        ->addMedia($demoImage)
+                        ->preservingOriginal()
+                        ->toMediaCollection('alien-media-lab', config('medialibrary-extensions.media_disks.demo'));
+                } catch (Exception $e) {
+                    Log::warning('Failed to add demo image to media collection: '.$e->getMessage());
+                }
 
                 $model->load('media');
                 $media = $model->getMedia('alien-media-lab')->first();
@@ -64,6 +71,14 @@ class DemoController extends Controller
             'theme' => $theme,
             'useXhr' => $useXhr,
         ]);
+    }
+
+    public function store(StoreAlienRequest $request): RedirectResponse
+    {
+        $alien = new Alien($request->validated());
+        $alien->save();
+
+        return back();
     }
 
     protected function getDemoModel(?string $dataSource = 'default'): Alien
