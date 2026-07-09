@@ -14,8 +14,8 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
-use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultipleTemporaryAction
 {
@@ -106,7 +106,7 @@ class StoreMultipleTemporaryAction
                 ?? $request->cookie('mle_client_token')
                 ?? (string) Str::ulid();
 
-//            Storage::disk($disk)->putFileAs($directory, $prepared->file, $safeFilename);
+            //            Storage::disk($disk)->putFileAs($directory, $prepared->file, $safeFilename);
 
             // Store file
             $path = Storage::disk($disk)->putFileAs(
@@ -115,6 +115,21 @@ class StoreMultipleTemporaryAction
                 $safeFilename
             );
             $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
+
+            // Diagnostics: log upload context and resolved connection before persisting
+            try {
+                \Log::info('StoreMultipleTemporaryAction: preparing temporary upload', [
+                    'data_source' => $dataSource,
+                    'resolved_connection' => method_exists($temporaryUpload, 'getConnectionName') ? $temporaryUpload->getConnectionName() : null,
+                    'instance_id' => $instanceId,
+                    'client_token' => $clientToken,
+                    'collection' => $prepared->collectionName,
+                    'disk' => $disk,
+                    'path' => $path ?? null,
+                ]);
+            } catch (\Throwable $e) {
+                // ignore logging failures
+            }
 
             $temporaryUpload->fill([
                 'disk' => $disk,
@@ -135,6 +150,20 @@ class StoreMultipleTemporaryAction
             ]);
 
             $temporaryUpload->save();
+
+            // Diagnostics: confirm persisted record and connection
+            try {
+                \Log::info('StoreMultipleTemporaryAction: temporary upload saved', [
+                    'temporary_upload_id' => $temporaryUpload->getKey(),
+                    'data_source' => $dataSource,
+                    'resolved_connection' => method_exists($temporaryUpload, 'getConnectionName') ? $temporaryUpload->getConnectionName() : null,
+                    'instance_id' => $instanceId,
+                    'client_token' => $clientToken,
+                    'collection' => $prepared->collectionName,
+                ]);
+            } catch (\Throwable $e) {
+                // ignore logging failures
+            }
 
             $nextPriority++;
             $successCount++;

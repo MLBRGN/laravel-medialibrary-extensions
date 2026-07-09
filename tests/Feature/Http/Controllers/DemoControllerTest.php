@@ -42,7 +42,7 @@ beforeEach(function () {
 it('returns the unified demo view with bootstrap-5 theme by default', function () {
     $controller = new DemoController;
 
-    $response = $controller(
+    $response = $controller->index(
         Request::create('/demo')
     );
 
@@ -64,7 +64,7 @@ it('returns the unified demo view with bootstrap-5 theme by default', function (
 it('uses the plain theme when requested', function () {
     $controller = new DemoController;
 
-    $response = $controller(
+    $response = $controller->index(
         Request::create('/demo', 'GET', [
             'theme' => 'plain',
         ])
@@ -83,7 +83,7 @@ it('uses the plain theme when requested', function () {
 it('uses existing Alien if present', function () {
     $existingAlien = Alien::on('mle_test_demo')->create();
 
-    $response = (new DemoController)(
+    $response = (new DemoController)->index(
         Request::create('/demo')
     );
 
@@ -95,7 +95,7 @@ it('uses existing Alien if present', function () {
 it('creates model if none exists', function () {
     expect(Alien::on('mle_test_demo')->count())->toBe(0);
 
-    (new DemoController)(
+    (new DemoController)->index(
         Request::create('/demo')
     );
 
@@ -103,7 +103,7 @@ it('creates model if none exists', function () {
 });
 
 it('applies use_xhr from request', function () {
-    $response = (new DemoController)(
+    $response = (new DemoController)->index(
         Request::create('/demo', 'GET', [
             'use_xhr' => false,
         ])

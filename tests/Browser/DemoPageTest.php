@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection InvalidDatasetNameCaseInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
@@ -28,12 +29,12 @@ dataset('mms_test_matrix', [
     'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
     'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
     'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],// saw this test failing when running in full test for "it honors min /...."
+    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
 
     'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
     'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
     'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],// saw this test failing when running in full test for "it honors min /...."
+    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
 ]);
 
 dataset('mmm_test_matrix', [
@@ -95,17 +96,17 @@ dataset('media_lab_test_matrix', [
 ]);
 
 dataset('media_html_editor_matrix', [
-//    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
-//    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
+    //    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
+    //    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
 
-//    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
-//    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+    //    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
+    //    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
 
     'plain + default + xhr' => ['plain', 'default', true],
-//    'plain + default + no xhr' => ['plain', 'default', false],
+    //    'plain + default + no xhr' => ['plain', 'default', false],
 
-//    'plain + demo + xhr' => ['plain', 'demo', true],
-//    'plain + demo + no xhr' => ['plain', 'demo', false],
+    //    'plain + demo + xhr' => ['plain', 'demo', true],
+    //    'plain + demo + no xhr' => ['plain', 'demo', false],
 ]);
 
 /**
@@ -129,7 +130,7 @@ function ensureLabMedium(string $dataSource): void
 
     /** @var Alien $existingModel */
     $existingModel = $model->newQuery()->with('media')->first();
-    if (!$existingModel) {
+    if (! $existingModel) {
         $existingModel = $model->newQuery()->create();
     }
 
@@ -139,7 +140,7 @@ function ensureLabMedium(string $dataSource): void
 
     // If Lab already has media, ensure exactly one is present and its file exists on the expected disk.
     $labMedia = $existingModel->getMedia('alien-media-lab');
-    if (!$labMedia->isEmpty()) {
+    if (! $labMedia->isEmpty()) {
         $current = $labMedia->first();
 
         // When a record exists but its file was cleaned or lives on a different disk, re-create deterministically.
@@ -153,7 +154,7 @@ function ensureLabMedium(string $dataSource): void
         // Self-heal: reset the collection to a single known demo image on the expected disk.
         $existingModel->clearMediaCollection('alien-media-lab');
 
-        $demoImage = __DIR__ . '/../../resources/demo/demo_small.jpeg';
+        $demoImage = __DIR__.'/../../resources/demo/demo_small.jpeg';
         if (is_file($demoImage)) {
             $existingModel
                 ->addMedia($demoImage)
@@ -162,6 +163,7 @@ function ensureLabMedium(string $dataSource): void
         }
 
         $existingModel->load('media');
+
         return;
     }
 
@@ -180,7 +182,7 @@ function ensureLabMedium(string $dataSource): void
     }
 
     // fallback
-    $demoImage = __DIR__ . '/../../resources/demo/demo_small.jpeg';
+    $demoImage = __DIR__.'/../../resources/demo/demo_small.jpeg';
 
     if (is_file($demoImage)) {
         $existingModel
@@ -197,7 +199,6 @@ it('loads required assets', function () {
 
     $this->visit('/mle-demo')
         ->assertNoJavaScriptErrors();
-
 
     $laravelMedialibraryExtensions = 'laravel-medialibrary-extensions';
     $laravelFormComponents = 'laravel-form-components';
@@ -263,38 +264,38 @@ it('can visit demo page switch theme, XHR and DataSource', function () {
 it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
     // prepare selectors
-    $mediaManagerId = '#alien-single-' . $storage . '-mms';
-    $inputSelector = $mediaManagerId . ' [data-mle-media-input]';
-    $uploadButtonSelector = $mediaManagerId . ' [data-mle-media-upload-button]';
-    $uploadButtonYouTubeSelector = $mediaManagerId . ' [data-mle-youtube-upload-button]';
+    $mediaManagerId = '#alien-single-'.$storage.'-mms';
+    $inputSelector = $mediaManagerId.' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
+    $uploadButtonYouTubeSelector = $mediaManagerId.' [data-mle-youtube-upload-button]';
 
-    $countsSelector = $mediaManagerId . ' .mle-media-manager-media-counts';
-    $maxReachedAlertSelector = $mediaManagerId . ' [data-mle-max-reached-alert]';
-    $gridSelector = $mediaManagerId . ' [data-mle-media-preview-grid]';
-    $firstMediaPreviewContainer = $gridSelector . ' [data-mle-media-preview-container]:first-child';
-    $editButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-edit-button]';
-    $setAsFirstButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-set-as-first-button]';
-    $deleteButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-delete-button]';
+    $countsSelector = $mediaManagerId.' .mle-media-manager-media-counts';
+    $maxReachedAlertSelector = $mediaManagerId.' [data-mle-max-reached-alert]';
+    $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
+    $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
+    $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
+    $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
+    $deleteButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-delete-button]';
 
     // for media modal testing
-    $mediaPreviewItemSelector = $firstMediaPreviewContainer . ' [data-mle-media-preview-item]';
-    $mediaPreviewImageSelector = $mediaPreviewItemSelector . ' [data-mle-media-preview-image]';
-    $mediaModalSelector = $firstMediaPreviewContainer . ' [data-mle-media-modal]';
-    $mediaModalCloseButtonSelector = $mediaModalSelector . ' [data-mle-modal-close]';
+    $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
+    $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
+    $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
     // for modal carousel testing
-    $mediaModalCarouselSelector = $mediaModalSelector . ' [data-mle-carousel]';
-    $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-indicators]';
-    $mediaModalCarouselItemSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-item]';
-    $mediaModalCarouselItemContainerSelector = $mediaModalCarouselItemSelector . ' .mle-media-carousel-item-container';
-    $mediaModalCarouselItemContainerImageSelector = $mediaModalCarouselItemContainerSelector . ' img';
+    $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
+    $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector.' [data-mle-carousel-indicators]';
+    $mediaModalCarouselItemSelector = $mediaModalCarouselSelector.' [data-mle-carousel-item]';
+    $mediaModalCarouselItemContainerSelector = $mediaModalCarouselItemSelector.' .mle-media-carousel-item-container';
+    $mediaModalCarouselItemContainerImageSelector = $mediaModalCarouselItemContainerSelector.' img';
 
     // for image editor modal testing
-    $imageEditorModalSelector = $firstMediaPreviewContainer . ' [data-mle-image-editor-modal]';
-    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector . ' [data-mle-modal-close]';
-    $imageEditorModalSaveButtonSelector = $imageEditorModalSelector . ' [data-click-action="save"]';
-    $imageEditorModalCancelButtonSelector = $imageEditorModalSelector . ' [data-click-action="cancel"]';
-    $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector . ' [data-click-action="rotateCcw"]';
+    $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
+    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
+    $imageEditorModalCancelButtonSelector = $imageEditorModalSelector.' [data-click-action="cancel"]';
+    $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -334,7 +335,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $page->assertPresent($maxReachedAlertSelector);
 
     // assert that the image is visible in the preview
-    $page->assertPresent($gridSelector . ' [data-mle-media-preview-item]:first-child');
+    $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child');
 
     // assert that the upload button is disabled after upload (single media)
     $page->assertButtonDisabled($uploadButtonSelector);
@@ -342,7 +343,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // assert that the image is visible in the preview
     // TODO causes Call to undefined method Tests\Browser\DemoPageTest::assertPreviewImageVisible()
-//        $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
+    //        $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
     // assert grid is present
     $page->assertPresent($gridSelector);
@@ -371,19 +372,18 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
 
     // TODO, don't know how to check that the media modal can be closed using esc key
-//    if ($theme === 'plain') {
-//        $page->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
-//                ->assertPresent($mediaModalSelector)
-//    //        ->click($mediaModalSelector)
-//    //        ->keys('body', ['{ESCAPE}']);
-//    //        ->keys($mediaModalSelector, ['{Escape}']);
-//    //        ->keys($mediaModalSelector, ['{ESC}']);
-//    //        ->keys($mediaModalSelector, ['{esc}']);
-//    //        ->keys($mediaModalSelector, ['{escape}']);
-//    //        ->keys('body', ['Escape']);
-//            ->keys('body', ['Escape']);
-//    }
-
+    //    if ($theme === 'plain') {
+    //        $page->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
+    //                ->assertPresent($mediaModalSelector)
+    //    //        ->click($mediaModalSelector)
+    //    //        ->keys('body', ['{ESCAPE}']);
+    //    //        ->keys($mediaModalSelector, ['{Escape}']);
+    //    //        ->keys($mediaModalSelector, ['{ESC}']);
+    //    //        ->keys($mediaModalSelector, ['{esc}']);
+    //    //        ->keys($mediaModalSelector, ['{escape}']);
+    //    //        ->keys('body', ['Escape']);
+    //            ->keys('body', ['Escape']);
+    //    }
 
     // check image editor modal can be closed using the close button
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
@@ -394,10 +394,10 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertMissing($imageEditorModalSelector);
 
     // TODO, don't know how to check that the image editor modal can be closed using esc key
-//    $page->pressAndWaitFor($editButtonSelector, $waitTime)
-//        ->assertPresent($imageEditorModalSelector);
-//        ->focus($imageEditorModalSelector)
-//        ->keys($imageEditorModalSelector, '{esc}');
+    //    $page->pressAndWaitFor($editButtonSelector, $waitTime)
+    //        ->assertPresent($imageEditorModalSelector);
+    //        ->focus($imageEditorModalSelector)
+    //        ->keys($imageEditorModalSelector, '{esc}');
 
     // check saving edited image in the image editor
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
@@ -408,16 +408,16 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
         ->assertMissing($imageEditorModalSelector);
 
-        // TODO fails with dataset "plain + default + no xhr + permanent"
-//        ->waitForText(__('medialibrary-extensions::messages.medium_replaced'));
+    // TODO fails with dataset "plain + default + no xhr + permanent"
+    //        ->waitForText(__('medialibrary-extensions::messages.medium_replaced'));
 
     // check canceling image editing in the image editor
-// TODO image editor modal was not closed after canceling
-//    ->pressAndWaitFor($editButtonSelector, $waitTime)
-//    ->assertVisible($imageEditorModalSelector)
-//    ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-//    ->pressAndWaitFor($imageEditorModalCancelButtonSelector, $waitTime)
-//    ->assertMissing($imageEditorModalSelector)
+    // TODO image editor modal was not closed after canceling
+    //    ->pressAndWaitFor($editButtonSelector, $waitTime)
+    //    ->assertVisible($imageEditorModalSelector)
+    //    ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
+    //    ->pressAndWaitFor($imageEditorModalCancelButtonSelector, $waitTime)
+    //    ->assertMissing($imageEditorModalSelector)
 
     // check delete media works
     $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
@@ -441,9 +441,9 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 it('honors min / max width height and file size constraints in uploads', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
     // prepare selectors
-    $mediaManagerId = '#alien-single-' . $storage . '-mms';
-    $inputSelector = $mediaManagerId . ' [data-mle-media-input]';
-    $uploadButtonSelector = $mediaManagerId . ' [data-mle-media-upload-button]';
+    $mediaManagerId = '#alien-single-'.$storage.'-mms';
+    $inputSelector = $mediaManagerId.' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -490,32 +490,32 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
 
     // prepare selectors
-    $mediaManagerId = '#alien-multiple-' . $storage . '-mmm';
-    $inputSelector = $mediaManagerId . ' [data-mle-media-input]';
-    $uploadButtonSelector = $mediaManagerId . ' [data-mle-media-upload-button]';
-    $countsSelector = $mediaManagerId . ' .mle-media-manager-media-counts';
-    $maxReachedAlertSelector = $mediaManagerId . ' [data-mle-max-reached-alert]';
-    $gridSelector = $mediaManagerId . ' [data-mle-media-preview-grid]';
-    $firstMediaPreviewContainer = $gridSelector . ' [data-mle-media-preview-container]:first-child';
-    $editButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-edit-button]';
-    $setAsFirstButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-set-as-first-button]';
-    $deleteButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-delete-button]';
+    $mediaManagerId = '#alien-multiple-'.$storage.'-mmm';
+    $inputSelector = $mediaManagerId.' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
+    $countsSelector = $mediaManagerId.' .mle-media-manager-media-counts';
+    $maxReachedAlertSelector = $mediaManagerId.' [data-mle-max-reached-alert]';
+    $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
+    $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
+    $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
+    $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
+    $deleteButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-delete-button]';
 
     // for modal testing
-    $mediaPreviewItemSelector = $firstMediaPreviewContainer . ' [data-mle-media-preview-item]';
-    $mediaPreviewImageSelector = $mediaPreviewItemSelector . ' [data-mle-media-preview-image]';
-    $mediaModalSelector = $firstMediaPreviewContainer . ' [data-mle-media-modal]';
-    $mediaModalCloseButtonSelector = $mediaModalSelector . ' [data-mle-modal-close]';
+    $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
+    $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
+    $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
     // for modal carousel testing
-    $mediaModalCarouselSelector = $mediaModalSelector . ' [data-mle-carousel]';
-    $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-indicators]';
-    $mediaModalCarouselItemSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-item]';
+    $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
+    $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector.' [data-mle-carousel-indicators]';
+    $mediaModalCarouselItemSelector = $mediaModalCarouselSelector.' [data-mle-carousel-item]';
 
     // for image editor modal testing
-    $imageEditorModalSelector = $firstMediaPreviewContainer . ' [data-mle-image-editor-modal]';
-    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector . ' [data-mle-modal-close]';
-    $imageEditorModalSaveButtonSelector = $imageEditorModalSelector . ' [data-click-action="save"]';
+    $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
+    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -562,7 +562,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $page->assertPresent($maxReachedAlertSelector);
 
     // assert that the image is visible in the preview
-    $page->assertPresent($gridSelector . ' [data-mle-media-preview-item]:first-child')
+    $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
 //         TODO fix: assert that the upload button is disabled after uploading maxItems
         ->assertButtonDisabled($uploadButtonSelector)
@@ -612,7 +612,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // delete the rest to ensure stability of the delete flow
     for ($i = 0; $i < $maxItems - 1; $i++) {
         $currentDeleteButtonSelector =
-            $gridSelector .
+            $gridSelector.
             ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
         $page->pressAndWaitFor($currentDeleteButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.please_wait'))
@@ -632,32 +632,32 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
 })->group('browser')
     ->with('mmm_test_matrix')
-->flaky();
+    ->flaky();
 
 it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
     // prepare selectors
-    $mediaManagerId = '#alien-single-' . $storage . '-mms';
-    $inputSelector = $mediaManagerId . ' [data-mle-youtube-input]';
-    $uploadButtonSelector = $mediaManagerId . ' [data-mle-youtube-upload-button]';
-    $gridSelector = $mediaManagerId . ' [data-mle-media-preview-grid]';
-    $firstMediaPreviewContainer = $gridSelector . ' [data-mle-media-preview-container]:first-child';
-    $editButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-edit-button]';
-    $setAsFirstButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-set-as-first-button]';
-    $deleteButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-delete-button]';
+    $mediaManagerId = '#alien-single-'.$storage.'-mms';
+    $inputSelector = $mediaManagerId.' [data-mle-youtube-input]';
+    $uploadButtonSelector = $mediaManagerId.' [data-mle-youtube-upload-button]';
+    $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
+    $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
+    $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
+    $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
+    $deleteButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-delete-button]';
 
     // for modal testing
-    $mediaPreviewItemSelector = $firstMediaPreviewContainer . ' [data-mle-media-preview-item]';
-    $mediaPreviewImageSelector = $mediaPreviewItemSelector . ' [data-mle-media-preview-image]';
-    $mediaModalSelector = $firstMediaPreviewContainer . ' [data-mle-media-modal]';
-    $mediaModalCloseButtonSelector = $mediaModalSelector . ' [data-mle-modal-close]';
+    $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
+    $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
+    $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
     // for modal carousel testing
-    $mediaModalCarouselSelector = $mediaModalSelector . ' [data-mle-carousel]';
-    $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-indicators]';
-    $mediaModalCarouselItemSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-item]';
-    $mediaModalCarouselItemContainerSelector = $mediaModalCarouselItemSelector . ' .mle-media-carousel-item-container';
-    $mediaModalCarouselItemContainerLiteYouTubeSelector = $mediaModalCarouselItemContainerSelector . ' lite-youtube';
+    $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
+    $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector.' [data-mle-carousel-indicators]';
+    $mediaModalCarouselItemSelector = $mediaModalCarouselSelector.' [data-mle-carousel-item]';
+    $mediaModalCarouselItemContainerSelector = $mediaModalCarouselItemSelector.' .mle-media-carousel-item-container';
+    $mediaModalCarouselItemContainerLiteYouTubeSelector = $mediaModalCarouselItemContainerSelector.' lite-youtube';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -686,7 +686,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
 //        ->waitForText(__('medialibrary-extensions::messages.youtube_thumbnail_download_failed'))
 
         // assert that the image is visible in the preview
-        ->assertPresent($gridSelector . ' [data-mle-media-preview-item]:first-child')
+        ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
         // assert that the upload button is disabled after upload (single media)
         // TODO fails with dataset "bootstrap + default + no xhr + permanent"
@@ -741,25 +741,25 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
     // prepare MMM selectors to upload media first
     $mmmPermanentId = '#alien-multiple-permanent-mmm';
-    $mmmPermanentInputSelector = $mmmPermanentId . ' [data-mle-media-input]';
-    $mmmPermanentUploadButtonSelector = $mmmPermanentId . ' [data-mle-media-upload-button]';
+    $mmmPermanentInputSelector = $mmmPermanentId.' [data-mle-media-input]';
+    $mmmPermanentUploadButtonSelector = $mmmPermanentId.' [data-mle-media-upload-button]';
 
     $mmmTemporaryId = '#alien-multiple-temporary-mmm';
-    $mmmTemporaryInputSelector = $mmmTemporaryId . ' [data-mle-media-input]';
-    $mmmTemporaryUploadButtonSelector = $mmmTemporaryId . ' [data-mle-media-upload-button]';
+    $mmmTemporaryInputSelector = $mmmTemporaryId.' [data-mle-media-input]';
+    $mmmTemporaryUploadButtonSelector = $mmmTemporaryId.' [data-mle-media-upload-button]';
 
     // prepare carousel selectors
     $carouselId = '#alien-carousel-crs';
-    $indicatorsSelector = $carouselId . ' [data-mle-carousel-indicators]';
-    $nextButtonSelector = $carouselId . ' [data-mle-carousel-next]';
-    $prevButtonSelector = $carouselId . ' [data-mle-carousel-prev]';
-    $firstItemSelector = $carouselId . ' [data-mle-carousel-item]:first-child';
-    $secondItemSelector = $carouselId . ' [data-mle-carousel-item]:nth-child(2)';
+    $indicatorsSelector = $carouselId.' [data-mle-carousel-indicators]';
+    $nextButtonSelector = $carouselId.' [data-mle-carousel-next]';
+    $prevButtonSelector = $carouselId.' [data-mle-carousel-prev]';
+    $firstItemSelector = $carouselId.' [data-mle-carousel-item]:first-child';
+    $secondItemSelector = $carouselId.' [data-mle-carousel-item]:nth-child(2)';
 
     // modal selectors
     $modalId = '#alien-carousel-mod';
-    $modalSelector = $modalId . '[data-mle-media-modal]';
-    $modalCloseButtonSelector = $modalSelector . ' [data-mle-modal-close]';
+    $modalSelector = $modalId.'[data-mle-media-modal]';
+    $modalCloseButtonSelector = $modalSelector.' [data-mle-modal-close]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -773,7 +773,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     // don't upload each iteration
     if ($uploadMedia) {
 
-        if (!$temporary) {
+        if (! $temporary) {
             $this->scrollIntoView($page, $mmmPermanentId);
 
             // 1. Upload two images via MMM
@@ -823,7 +823,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 //        ->assertAttributeMissing($secondItemSelector, 'class', 'active')
 
         // click the indicator for the second item
-        ->click($indicatorsSelector . ' [data-mle-slide-to="1"]')
+        ->click($indicatorsSelector.' [data-mle-slide-to="1"]')
         ->assertAttributeContains($secondItemSelector, 'class', 'active')
 
         // test modal expansion if applicable (default is true)
@@ -852,27 +852,27 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 
     // prepare MMM selectors to upload media first
     $mmmId = '#alien-multiple-permanent-mmm';
-    $mmmInputSelector = $mmmId . ' [data-mle-media-input]';
-    $mmmUploadButtonSelector = $mmmId . ' [data-mle-media-upload-button]';
+    $mmmInputSelector = $mmmId.' [data-mle-media-input]';
+    $mmmUploadButtonSelector = $mmmId.' [data-mle-media-upload-button]';
 
     // prepare media lab selectors
     $labId = '#alien-laboratory-lab';
     //    $labSelector = $labId.'[data-mle-media-lab]';
-    $labOriginalSelector = $labId . ' [data-mle-media-lab-preview-original]';
-    $labBaseSelector = $labId . ' [data-mle-media-lab-preview-base]';
+    $labOriginalSelector = $labId.' [data-mle-media-lab-preview-original]';
+    $labBaseSelector = $labId.' [data-mle-media-lab-preview-base]';
 
     // selectors inside base preview (nested MMS)
-    $mmsSelector = $labBaseSelector . ' [data-mle-media-manager]';
-    $mmsEditButtonSelector = $mmsSelector . ' [data-mle-media-edit-button]';
+    $mmsSelector = $labBaseSelector.' [data-mle-media-manager]';
+    $mmsEditButtonSelector = $mmsSelector.' [data-mle-media-edit-button]';
 
     // selectors for image editor
-    $imageEditorModalSelector = $labBaseSelector . ' [data-mle-image-editor-modal]';
-    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector . ' [data-mle-modal-close]';
-    $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector . ' [data-click-action="rotateCcw"]';
-    $imageEditorModalSaveButtonSelector = $imageEditorModalSelector . ' [data-click-action="save"]';
+    $imageEditorModalSelector = $labBaseSelector.' [data-mle-image-editor-modal]';
+    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
+    $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
 
     // restore button in original preview
-    $restoreButtonSelector = $labOriginalSelector . ' [data-mle-action="medium-restore"]';
+    $restoreButtonSelector = $labOriginalSelector.' [data-mle-action="medium-restore"]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -931,27 +931,26 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 
     $page->waitForText(__('medialibrary-extensions::messages.restored_original'));
 
-
 })->group('browser')
     ->with('media_lab_test_matrix');
 
 it('can control html editor\'s custom file picker', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
 
-//    config(['app.url' => 'http://127.0.0.1:53665']);
+    //    config(['app.url' => 'http://127.0.0.1:53665']);
 
     $imageButton = '[data-mce-name="image"]';
     $saveButtonSelector = '[data-mce-name="Save"]';
     $cancelButtonSelector = '[data-mce-name="Cancel"]';
     $browseFilesButtonSelector = '[data-mce-name="Browse files"]';
 
-//        $insertSelectedButtonSelector = '[data-mle-insert-selected]';
+    //        $insertSelectedButtonSelector = '[data-mle-insert-selected]';
 
     // tinyMCE selectors
     $iframeSelector = '.tox-dialog-wrap iframe';
 
     $mediaManagerId = '#media-manager-mmm';
-    $inputSelector = $mediaManagerId . ' [data-mle-media-input]';
-    $uploadButtonSelector = $mediaManagerId . ' [data-mle-media-upload-button]';
+    $inputSelector = $mediaManagerId.' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -972,8 +971,8 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
     $page->pressAndWaitFor($cancelButtonSelector, $waitTime);
 
     // TODO open image picker and save
-//    $page->pressAndWaitFor($imageButton, $waitTime);
-//    $page->pressAndWaitFor($saveButtonSelector, $waitTime);
+    //    $page->pressAndWaitFor($imageButton, $waitTime);
+    //    $page->pressAndWaitFor($saveButtonSelector, $waitTime);
 
     // open the image picker and open the file picker
     $page->pressAndWaitFor($imageButton, $waitTime);
@@ -981,37 +980,37 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
     $page->assertPresent('.tox-dialog-wrap');
     $page->assertPresent($iframeSelector);
 
-    $page->withinFrame($iframeSelector, function (AwaitableWebpage $page) use ($saveButtonSelector, $waitTime) {
+    $page->withinFrame($iframeSelector, function (AwaitableWebpage $page) use ($waitTime) {
 
-//        Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
+        //        Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
 
         // prepare selectors
         $mediaManagerId = '#media-manager-mmm';
-        $inputSelector = $mediaManagerId . ' [data-mle-media-input]';
-        $uploadButtonSelector = $mediaManagerId . ' [data-mle-media-upload-button]';
-        $countsSelector = $mediaManagerId . ' .mle-media-manager-media-counts';
-        $maxReachedAlertSelector = $mediaManagerId . ' [data-mle-max-reached-alert]';
-        $gridSelector = $mediaManagerId . ' [data-mle-media-preview-grid]';
-        $firstMediaPreviewContainer = $gridSelector . ' [data-mle-media-preview-container]:first-child';
-        $editButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-edit-button]';
-        $setAsFirstButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-set-as-first-button]';
-        $deleteButtonSelector = $firstMediaPreviewContainer . ' [data-mle-media-delete-button]';
+        $inputSelector = $mediaManagerId.' [data-mle-media-input]';
+        $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
+        $countsSelector = $mediaManagerId.' .mle-media-manager-media-counts';
+        $maxReachedAlertSelector = $mediaManagerId.' [data-mle-max-reached-alert]';
+        $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
+        $firstMediaPreviewContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
+        $editButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-edit-button]';
+        $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
+        $deleteButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-delete-button]';
 
         // for modal testing
-        $mediaPreviewItemSelector = $firstMediaPreviewContainer . ' [data-mle-media-preview-item]';
-        $mediaPreviewImageSelector = $mediaPreviewItemSelector . ' [data-mle-media-preview-image]';
-        $mediaModalSelector = $firstMediaPreviewContainer . ' [data-mle-media-modal]';
-        $mediaModalCloseButtonSelector = $mediaModalSelector . ' [data-mle-modal-close]';
+        $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
+        $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
+        $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+        $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
         // for modal carousel testing
-        $mediaModalCarouselSelector = $mediaModalSelector . ' [data-mle-carousel]';
-        $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-indicators]';
-        $mediaModalCarouselItemSelector = $mediaModalCarouselSelector . ' [data-mle-carousel-item]';
+        $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
+        $mediaModalCarouselIndicatorSelector = $mediaModalCarouselSelector.' [data-mle-carousel-indicators]';
+        $mediaModalCarouselItemSelector = $mediaModalCarouselSelector.' [data-mle-carousel-item]';
 
         // for image editor modal testing
-        $imageEditorModalSelector = $firstMediaPreviewContainer . ' [data-mle-image-editor-modal]';
-        $imageEditorModalCloseButtonSelector = $imageEditorModalSelector . ' [data-mle-modal-close]';
-        $imageEditorModalSaveButtonSelector = $imageEditorModalSelector . ' [data-click-action="save"]';
+        $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
+        $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+        $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
 
         $page->assertPresent($inputSelector)
 
@@ -1031,7 +1030,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $maxItems = 3;
 
         // check counts start at 0
-//        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
+        //        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
 
         for ($i = 0; $i < $maxItems; $i++) {
             // attach an image file and submit and check if spinner shows and upload is successful
@@ -1041,16 +1040,16 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
                 ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
             // counts should update to 1 of 1 and show max alert
-//            $page->wait(0.3)
-//                ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
+            //            $page->wait(0.3)
+            //                ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
 
         }
 
         // counts should reflect max, and upload should be disabled with an alert when at max
-//        $page->assertPresent($maxReachedAlertSelector);
+        //        $page->assertPresent($maxReachedAlertSelector);
 
         // assert that the image is visible in the preview
-        $page->assertPresent($gridSelector . ' [data-mle-media-preview-item]:first-child')
+        $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
 //         TODO fix: assert that the upload button is disabled after uploading maxItems
 //            ->assertButtonDisabled($uploadButtonSelector)
@@ -1069,9 +1068,9 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             ->assertButtonDisabled($setAsFirstButtonSelector)
             ->assertButtonEnabled($deleteButtonSelector);
 
-            // check media modal opening and presence of expected elements
-//            $page->assertPresent($mediaPreviewImageSelector)
-//            ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime);
+        // check media modal opening and presence of expected elements
+        //            $page->assertPresent($mediaPreviewImageSelector)
+        //            ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime);
 
         // delete one media and validate counts/alerts/form state
         $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
@@ -1079,7 +1078,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 
         // select the first item
-        $firstItemSelectSelector = $firstMediaPreviewContainer . ' [data-mle-media-select-wrapper]';
+        $firstItemSelectSelector = $firstMediaPreviewContainer.' [data-mle-media-select-wrapper]';
         $page->assertPresent($firstItemSelectSelector);
         $page->click($firstItemSelectSelector);
         $page->wait(.5);
@@ -1088,7 +1087,6 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $insertSelectedButtonSelector = '[data-mle-insert-selected]';
         $page->pressAndWaitFor($insertSelectedButtonSelector, $waitTime);
         $page->wait(.5);
-
 
         // TODO modal opening not working in test
         //            ->assertVisible($mediaModalSelector)
@@ -1106,8 +1104,6 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         //            ->assertPresent($imageEditorModalSelector)
         //            ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
 
-
-
         //        $page->assertMissing($maxReachedAlertSelector);
 
         //        $page->assertButtonEnabled($uploadButtonSelector);
@@ -1122,9 +1118,92 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
     $page->withinFrame($tinyMceIframeSelector, function (AwaitableWebpage $page) {
         $tinyMceBodySelector = '#tinymce';
         $page->assertPresent($tinyMceBodySelector);
-        $tinyMceBodyImgSelector = $tinyMceBodySelector . ' img';
+        $tinyMceBodyImgSelector = $tinyMceBodySelector.' img';
         $page->assertPresent($tinyMceBodyImgSelector);
     });
 
 })->group('browser')
     ->with('media_html_editor_matrix');
+
+it('promotes temporary uploads to permanent media on form submit', function () use ($waitTimeXhr) {
+    $theme = 'bootstrap-5';
+    $dataSource = 'default';
+    $xhr = true;
+    $xhrInt = 1;
+//    $waitTime = $waitTimeXhr;
+    $waitTime = 1;
+
+    $mmmTemporaryId = '#alien-multiple-temporary-mmm';
+    $mmmTemporaryInputSelector = $mmmTemporaryId.' [data-mle-media-input]';
+    $mmmTemporaryUploadButtonSelector = $mmmTemporaryId.' [data-mle-media-upload-button]';
+    $mmmTemporaryFormSubmitSelector = $mmmTemporaryId.' + button[type="submit"]';
+
+    $mmmPermanentId = '#alien-multiple-permanent-mmm';
+    $mmmPermanentGridSelector = $mmmPermanentId.' [data-mle-media-preview-grid]';
+
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+        ->assertNoJavaScriptErrors();
+
+    $this->scrollIntoView($page, $mmmTemporaryId);
+
+    // 1. Upload an image to temporary MMM
+    $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
+        ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+    // 2. Submit the form to create the model and promote media
+    // We need to click the specific "Save model" button for the MMM form
+    $page->press($mmmTemporaryId.' ~ button[type="submit"]')
+        ->wait(1)
+        ->assertPathIs('/mle-demo')
+        ->wait(1);
+
+    // 3. Verify it appears in the permanent MMM
+    $this->scrollIntoView($page, $mmmPermanentId);
+    $page->wait(1)
+        ->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
+})->group('browser')->only();
+
+it('promotes multiple temporary uploads to permanent media on form submit (MMM temporary)', function () use ($waitTimeXhr) {
+    // Allow multiple items in the shared collection for this test
+    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
+    $theme = 'bootstrap-5';
+    $dataSource = 'default';
+    $xhrInt = 1;
+//    $waitTime = $waitTimeXhr;
+    $waitTime = 1;
+
+    $mmmTemporaryId = '#alien-multiple-temporary-mmm';
+    $mmmTemporaryInputSelector = $mmmTemporaryId.' [data-mle-media-input]';
+    $mmmTemporaryUploadButtonSelector = $mmmTemporaryId.' [data-mle-media-upload-button]';
+
+    $mmmPermanentId = '#alien-multiple-permanent-mmm';
+    $mmmPermanentGridSelector = $mmmPermanentId.' [data-mle-media-preview-grid]';
+
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+        ->assertNoJavaScriptErrors();
+
+    $this->scrollIntoView($page, $mmmTemporaryId);
+
+    // 1. Upload two images to temporary MMM
+    $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
+        ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+    $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
+        ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+    // 2. Submit the specific MMM form's save button to create the model and promote media
+    // Use pressAndWaitFor to allow time for the POST + redirect to complete before asserting the path.
+    $page->pressAndWaitFor($mmmTemporaryId.' ~ button[type="submit"]', $waitTime)
+        ->wait(0.6)
+        ->assertPathIs('/mle-demo')
+        ->wait(1);
+
+    // 3. Verify at least two items appear in the permanent MMM grid
+    $this->scrollIntoView($page, $mmmPermanentId);
+    $page->assertPresent($mmmPermanentGridSelector);
+    $page->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
+    $page->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:nth-child(2) [data-mle-media-preview-item] [data-mle-media-preview-image]');
+})->group('browser')->only();

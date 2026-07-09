@@ -28,9 +28,11 @@ Extension for `spatie/laravel-medialibrary` that adds temporary uploads, multi-c
   - Filter by name: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test -- --filter="replaces a medium"`
   - Browser tests only: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test-browser`
   - Update snapshots: `composer --working-dir=packages/mlbrgn/laravel-medialibrary-extensions test -- --update-snapshots`
-- Do NOT use `php artisan test` from the monorepo root for this package.
-- When writing browser tests, never use `browse()`. Instead, use `visit()`.
-  - Troubleshooting: If the test run outputs `No tests found.`, remove any `->only()` usages in Pest tests or browser tests (e.g. `it(...)->only()`, `test(...)->only()`, `describe(...)->only()`, or `->group('browser')->only()`). These limit discovery and can cause zero tests to run.
+  - Do NOT use `php artisan test` from the monorepo root for this package.
+  - When writing browser tests, never use `browse()`. Instead, use `visit()`.
+    - Troubleshooting: If the test run outputs `No tests found.`, remove any `->only()` usages in Pest tests or browser tests (e.g. `it(...)->only()`, `test(...)->only()`, `describe(...)->only()`, or `->group('browser')->only()`). These limit discovery and can cause zero tests to run.
+   - Browser tests environment: Do NOT rely on session or cookies for critical data (e.g., `mle_client_token`). Always pass required values explicitly in the request body/hidden inputs for actions that follow XHR uploads. The test browser may not persist cookies between requests the same way a real browser does.
+   - Browser test logs are written to `packages/mlbrgn/laravel-medialibrary-extensions/tests/.logs/laravel.log`. Inspect this file for end-to-end flows.
 
 ## Code Style
 

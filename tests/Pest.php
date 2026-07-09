@@ -7,14 +7,14 @@ uses(
     TestCase::class
 )->in('Feature', 'Unit', 'Arch');
 
-//uses(
+// uses(
 //    BrowserTestCase::class
-//)->in('Browser');
+// )->in('Browser');
 uses(
     BrowserTestCase::class
 )->in('Browser');
 
-pest()->browser()->headed()->timeout(10000);
-//pest()->browser()->timeout(5000);
+pest()->browser()->headed()->timeout(5000);
+// pest()->browser()->timeout(5000);
 // pest()->browser()->inFirefox();
 // pest()->browser()->inSafari();

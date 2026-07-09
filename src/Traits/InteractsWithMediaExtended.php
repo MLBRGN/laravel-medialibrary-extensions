@@ -8,6 +8,9 @@ use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\ImageManager;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
@@ -17,10 +20,6 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
-use Intervention\Image\Drivers\Gd\Driver as GdDriver;
-
-use Intervention\Image\ImageManager;
 
 trait InteractsWithMediaExtended
 {
@@ -58,11 +57,11 @@ trait InteractsWithMediaExtended
 
     protected static function imageManager(): ImageManager
     {
-//        return self::$imageManager ??= new ImageManager(new Driver());
+        //        return self::$imageManager ??= new ImageManager(new Driver());
         return self::$imageManager ??= new ImageManager(
             extension_loaded('imagick')
-                ? new ImagickDriver()
-                : new GdDriver()
+                ? new ImagickDriver
+                : new GdDriver
         );
     }
 
@@ -77,45 +76,87 @@ trait InteractsWithMediaExtended
         }
 
         static::created(function ($model) {
-//            dump(request()->all());
-//            dump('baseId '. request()->input('base_id'));
-//            dump([
-//                'created' => true,
-//                'model' => get_class($model),
-//                'id' => $model->id,
-////                'instance' => InstanceManager::getInstanceId($baseId),
-//            ]);
+
+            Log::info('InteractsWithMediaExtended: created model, attempting to promote temporary uploads', [
+                'model_class' => get_class($model),
+                'model_id' => $model->getKey(),
+            ]);
+
+            $instanceId = request()->input('instance_id');
+            $clientToken = request()->input('client_token') ?: request()->cookie('mle_client_token');
+
+            $requestedDataSource = request()->input('data_source');
+            $connectionName = method_exists($model, 'getConnectionName')
+                ? ($model->getConnectionName() ?: config('database.default'))
+                : config('database.default');
+
+            if (! $instanceId && ! $clientToken && app()->bound(MediaUploadContext::class)) {
+                $context = app(MediaUploadContext::class);
+                if ($context->hasContext()) {
+                    $instanceId = $context->instanceId();
+                    $clientToken = $context->clientToken();
+                }
+            }
 
             if (! $model->exists || ! $model->getKey()) {
                 Log::warning('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+
                 return;
             }
 
-            $instanceId = request()->input('instance_id');
-            $clientToken = request()->input('client_token');
+            Log::info('InteractsWithMediaExtended: created model, attempting to promote temporary uploads', [
+                'model_class' => get_class($model),
+                'model_morph' => $model->getMorphClass(),
+                'model_id' => $model->getKey(),
+                'instance_id' => $instanceId,
+                'client_token' => $clientToken,
+                'requested_data_source' => $requestedDataSource,
+                'db_connection' => $connectionName,
+                'route' => optional(request()->route())->getName(),
+                'url' => request()->fullUrl(),
+            ]);
 
-            app(TemporaryUploadPromoter::class)->promoteAllForModel($model, $instanceId, $clientToken);
+            app(TemporaryUploadPromoter::class)->promoteAllForModel(
+                $model,
+                $instanceId,
+                $clientToken
+            );
+
+            Log::info('InteractsWithMediaExtended: promotion attempted for created model', [
+                'model_class' => get_class($model),
+                'model_id' => $model->getKey(),
+            ]);
         });
 
         static::updated(function ($model) {
 
-            $context = app(MediaUploadContext::class);
+            Log::info('InteractsWithMediaExtended: updated model, attempting to promote temporary uploads', [
+                'model_class' => get_class($model),
+                'model_id' => $model->getKey(),
+            ]);
+            $instanceId = request()->input('instance_id');
+            $clientToken = request()->input('client_token');
 
-            if (! $context->hasContext()) {
-                return;
+            if (! $instanceId && ! $clientToken && app()->bound(MediaUploadContext::class)) {
+                $context = app(MediaUploadContext::class);
+                if ($context->hasContext()) {
+                    $instanceId = $context->instanceId();
+                    $clientToken = $context->clientToken();
+                }
             }
 
             if (! $model->exists || ! $model->getKey()) {
                 Log::warning('model with model type: '.$model->getMorphClass().' and id: '.$model->getKey().' does not exist');
+
                 return;
             }
 
-//            dump($context->getInstanceId());
-//            dump($context->getClientToken());
+            //            dump($context->getInstanceId());
+            //            dump($context->getClientToken());
             app(TemporaryUploadPromoter::class)->promoteAllForModel(
                 $model,
-                $context->getInstanceId(),
-                $context->getClientToken()
+                $instanceId,
+                $clientToken
             );
         });
     }
@@ -367,11 +408,12 @@ trait InteractsWithMediaExtended
             } else {
                 $absolutePath = $path;
             }
-//            $manager = new ImageManager(new Driver());
+            //            $manager = new ImageManager(new Driver());
 
             $image = self::imageManager()->read($absolutePath);
         } catch (\Throwable $e) {
-            Log::error(__('medialibrary-extensions::messages.failed_to_read_image' . $e->getMessage()));
+            Log::error(__('medialibrary-extensions::messages.failed_to_read_image'.$e->getMessage()));
+
             return $this->emptyImageInfo();
         }
 

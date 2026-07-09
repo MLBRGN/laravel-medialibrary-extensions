@@ -103,15 +103,17 @@ return [
 
     'data_sources' => [
         'default' => [
-            'connection' => env('DB_CONNECTION'),
+            // In demo pages, the logical "default" should simulate the host app sandbox,
+            // never the real host application's default. We map it explicitly here.
+            'connection' => 'media_demo_host_app_sandbox',
         ],
 
         'demo' => [
-            'connection' => 'media_demo',// TODO try to do this without hardcoding the connection name
+            'connection' => 'media_demo', // TODO try to do this without hardcoding the connection name
         ],
         'host_app_sandbox' => [
-            'connection' => 'media_demo_host_app_sandbox',// TODO try to do this without hardcoding the connection name
-        ]
+            'connection' => 'media_demo_host_app_sandbox', // TODO try to do this without hardcoding the connection name
+        ],
     ],
 
     /*
@@ -212,12 +214,12 @@ return [
     |
     */
 
-    'route_middleware' => explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ROUTE_MIDDLEWARE', 'web,auth')),
-//    'route_middleware' => [
-//        'web',
-//        'auth',
-//        \Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware::class,
-//    ],
+    'route_middleware' => array_filter(array_map('trim', explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ROUTE_MIDDLEWARE', 'web,auth')))),
+    //    'route_middleware' => [
+    //        'web',
+    //        'auth',
+    //        \Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware::class,
+    //    ],
 
     /*
     |--------------------------------------------------------------------------

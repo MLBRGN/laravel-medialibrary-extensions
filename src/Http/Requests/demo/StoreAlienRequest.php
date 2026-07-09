@@ -20,7 +20,15 @@ class StoreAlienRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'name' => ['required', 'string'],
+            // Demo UI props and context
+            //            'data_source' => ['sometimes', 'string', 'in:default,demo'],
+            //            'client_token' => ['sometimes', 'string'],
+            //            'instance_id' => ['sometimes', 'string'],
+            //            'theme' => ['sometimes', 'string'],
+            //            'use_xhr' => ['sometimes', 'string', 'in:0,1,true,false'],
+            //            // Demo model field (currently a hidden dummy value)
+            //            'name' => ['sometimes', 'string', 'max:255'],
+
         ];
     }
 

@@ -183,6 +183,10 @@
             <form action="{{ route('store-alien') }}" method="post">
                 @csrf
                 <input type="hidden" name="name" value="dummy">
+                <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-single-temporary') }}">
+                <input type="hidden" name="data_source" value="{{ $dataSource }}">
+                <input type="hidden" name="client_token" value="" data-mle-client-token>
+                <input type="hidden" name="data_source" value="{{ $dataSource }}">
                 <x-mle-media-manager-single
                     id="alien-single-temporary"
                     model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
@@ -235,6 +239,10 @@
             <form action="{{ route('store-alien') }}" method="post">
                 @csrf
                 <input type="hidden" name="name" value="dummy">
+                <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-multiple-temporary') }}">
+                <input type="hidden" name="data_source" value="{{ $dataSource }}">
+                <input type="hidden" name="client_token" value="" data-mle-client-token>
+                <input type="hidden" name="data_source" value="{{ $dataSource }}">
                 <x-mle-media-manager-multiple
                     id="alien-multiple-temporary"
                     model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
@@ -257,6 +265,57 @@
                 <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model</button>
             </form>
         @endif
+
+        @push('scripts')
+            <script>
+                (function () {
+                    function readCookie(name) {
+                        const nameEQ = name + '=';
+                        const ca = document.cookie.split(';');
+                        for (let i = 0; i < ca.length; i++) {
+                            let c = ca[i];
+                            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+                        }
+                        return null;
+                    }
+
+                    function syncClientTokenHiddenInputs(token) {
+                        if (!token) { return; }
+                        document.querySelectorAll('input[data-mle-client-token]')
+                            .forEach(function (el) { el.value = token; });
+                    }
+
+                    function ensureTokenOnSubmit() {
+                        const forms = document.querySelectorAll('form');
+                        forms.forEach(function (form) {
+                            // Only wire demo forms that include a client token hidden input
+                            if (!form.querySelector('input[data-mle-client-token]')) { return; }
+                            form.addEventListener('submit', function () {
+                                const token = readCookie('mle_client_token');
+                                syncClientTokenHiddenInputs(token);
+                            }, { capture: true });
+                        });
+                    }
+
+                    // Initial sync from cookie on page load
+                    const cookieToken = readCookie('mle_client_token');
+                    if (cookieToken) {
+                        syncClientTokenHiddenInputs(cookieToken);
+                    }
+
+                    // Also listen for component updates that may carry a client token
+                    document.addEventListener('mediaManagerPreviewsUpdated', function (e) {
+                        // Some dispatchers include detail with config; fall back to cookie if absent
+                        const token = (e && e.detail && e.detail.clientToken) || readCookie('mle_client_token');
+                        syncClientTokenHiddenInputs(token);
+                    }, true);
+
+                    // Ensure token is written right before submitting demo forms
+                    ensureTokenOnSubmit();
+                })();
+            </script>
+        @endpush
         
     
         @if($showMediaCarousel)
@@ -365,5 +424,6 @@
             crossorigin="anonymous"
         ></script>
     @endif
+    @stack('scripts')
     </body>
 </html>

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
@@ -133,27 +134,27 @@ class BrowserTestCase extends Orchestra
         );
 
         $this->afterApplicationCreated(function () {
-//            $this->overrideVendorRoutes();
+            //            $this->overrideVendorRoutes();
         });
     }
 
-//    protected function overrideVendorRoutes(): void
-//    {
-//        Route::get(
-//            '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
-//            function () {
-//                dd('INTERCEPTED');
-//            }
-//        );
-//
-//        Route::get(
-//            '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
-//            function () {
-//                dd('INTERCEPTED');
-//            }
-//        );
-//
-//    }
+    //    protected function overrideVendorRoutes(): void
+    //    {
+    //        Route::get(
+    //            '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
+    //            function () {
+    //                dd('INTERCEPTED');
+    //            }
+    //        );
+    //
+    //        Route::get(
+    //            '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
+    //            function () {
+    //                dd('INTERCEPTED');
+    //            }
+    //        );
+    //
+    //    }
 
     protected function tearDown(): void
     {
@@ -172,8 +173,8 @@ class BrowserTestCase extends Orchestra
             BladeBootstrapIconsServiceProvider::class,
         ];
 
-        if (class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class)) {
-            $providers[] = \Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class;
+        if (class_exists(FormComponentsServiceProvider::class)) {
+            $providers[] = FormComponentsServiceProvider::class;
         }
 
         return $providers;
@@ -214,6 +215,8 @@ class BrowserTestCase extends Orchestra
 
         // enable demo pages
         $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
+        // mark that we are running browser tests to allow safe demo/testing fallbacks
+        $app['config']->set('medialibrary-extensions.browser_tests', true);
 
         // TODO needed?
         $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
@@ -341,19 +344,18 @@ class BrowserTestCase extends Orchestra
         })->where('path', '.*');
 
         Route::middleware('web')->group(function () {
-            Route::get('mle-demo', DemoController::class)->name('mle-demo');
+            Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
+            Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
             Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
 
             Route::get('/vendor/mlbrgn/{package}/{path}', function ($package, $path) {
 
-                $root = realpath(__DIR__ . '/../../../..');
+                $root = realpath(__DIR__.'/../../../..');
 
                 $map = [
-                    'laravel-medialibrary-extensions' =>
-                        $root . '/packages/mlbrgn/laravel-medialibrary-extensions/dist',
+                    'laravel-medialibrary-extensions' => $root.'/packages/mlbrgn/laravel-medialibrary-extensions/dist',
 
-                    'laravel-form-components' =>
-                        $root . '/packages/mlbrgn/laravel-form-components/dist',
+                    'laravel-form-components' => $root.'/packages/mlbrgn/laravel-form-components/dist',
                 ];
 
                 abort_unless(isset($map[$package]), 404);
@@ -365,7 +367,7 @@ class BrowserTestCase extends Orchestra
                 $relativePath = ltrim($path, '/');
 
                 // Build full path
-                $filePath = $basePath . '/' . $relativePath;
+                $filePath = $basePath.'/'.$relativePath;
 
                 // Resolve real path (THIS is the key security step)
                 $realFilePath = realpath($filePath);
