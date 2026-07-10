@@ -180,13 +180,7 @@
 
         @if ($showMmsTemporary)
             <h2>Media Manager Single (Temporary)</h2>
-            <form action="{{ route('store-alien') }}" method="post">
-                @csrf
-                <input type="hidden" name="name" value="dummy">
-                <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-single-temporary') }}">
-                <input type="hidden" name="data_source" value="{{ $dataSource }}">
-                <input type="hidden" name="client_token" value="" data-mle-client-token>
-                <input type="hidden" name="data_source" value="{{ $dataSource }}">
+
                 <x-mle-media-manager-single
                     id="alien-single-temporary"
                     model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
@@ -205,8 +199,15 @@
                     :data-source="$dataSource"
                     
                 />
-                <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model</button>
-            </form>
+{{--                <form action="{{ route('store-alien') }}" method="post">--}}
+{{--                    @csrf--}}
+{{--                    <input type="hidden" name="name" value="dummy">--}}
+{{--                    <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-single-temporary') }}">--}}
+{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
+{{--                    <input type="hidden" name="client_token" value="" data-mle-client-token>--}}
+{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
+{{--                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>--}}
+{{--                </form>--}}
         @endif
 
         @if ($showMmmPermanent)
@@ -236,13 +237,7 @@
     
         @if($showMmmTemporary)
             <h2>Media Manager Multiple (Temporary)</h2>
-            <form action="{{ route('store-alien') }}" method="post">
-                @csrf
-                <input type="hidden" name="name" value="dummy">
-                <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-multiple-temporary') }}">
-                <input type="hidden" name="data_source" value="{{ $dataSource }}">
-                <input type="hidden" name="client_token" value="" data-mle-client-token>
-                <input type="hidden" name="data_source" value="{{ $dataSource }}">
+
                 <x-mle-media-manager-multiple
                     id="alien-multiple-temporary"
                     model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
@@ -262,8 +257,15 @@
                     ]"
                     :data-source="$dataSource"
                 />
-                <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model</button>
-            </form>
+{{--                <form action="{{ route('store-alien') }}" method="post">--}}
+{{--                    @csrf--}}
+{{--                    <input type="hidden" name="name" value="dummy">--}}
+{{--                    <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-multiple-temporary') }}">--}}
+{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
+{{--                    <input type="hidden" name="client_token" value="" data-mle-client-token>--}}
+{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
+{{--                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>--}}
+{{--                </form>--}}
         @endif
 
 {{--        @push('scripts')--}}

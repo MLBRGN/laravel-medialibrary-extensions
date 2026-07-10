@@ -28,7 +28,7 @@ class DemoController extends Controller
         // Default to 'default' (host-app sandbox) when not provided.
         if ($request->query('data_source') === null) {
             $redirectParams = [
-                'data_source' => 'default',
+                'data_source' => 'demo_default',
             ];
 
             // Preserve other demo UI context if present
@@ -39,14 +39,10 @@ class DemoController extends Controller
                 $redirectParams['use_xhr'] = $request->query('use_xhr');
             }
 
-            try {
-                Log::info('DemoController@index: missing data_source, redirecting with default', [
-                    'from_url' => $request->fullUrl(),
-                    'to_params' => $redirectParams,
-                ]);
-            } catch (\Throwable $e) {
-                // ignore logging errors
-            }
+            Log::info('DemoController@index: missing data_source, redirecting with default', [
+                'from_url' => $request->fullUrl(),
+                'to_params' => $redirectParams,
+            ]);
 
             return redirect()->route('mle-demo', $redirectParams);
         }

@@ -39,9 +39,9 @@ class MediaManagerController extends Controller
 {
     public function store(
         StoreSingleRequest $request,
-        StoreSingleMediaAction $storesingleMediaAction
+        StoreSingleMediaAction $storeSingleMediaAction
     ): RedirectResponse|JsonResponse {
-        return $storesingleMediaAction->execute($request);
+        return $storeSingleMediaAction->execute($request);
     }
 
     public function storeMany(

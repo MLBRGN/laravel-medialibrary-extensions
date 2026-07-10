@@ -187,6 +187,8 @@ class StoreMultipleTemporaryAction
             ]);
         }
 
+        Log::info('{success_count} uploads successful', ['success_count' => $successCount]);
+        Log::info('just before mediaresponse');
         return MediaResponse::success(
             $request,
             $baseId,
