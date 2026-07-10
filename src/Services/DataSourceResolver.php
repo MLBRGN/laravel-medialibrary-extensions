@@ -2,29 +2,22 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
+use InvalidArgumentException;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
+
 class DataSourceResolver
 {
-    public function resolveConnection(?string $dataSource): string
+
+    public function resolveConnection(string $dataSource): string
     {
-        if ($dataSource === null || $dataSource === '' || $dataSource === 'default') {
-            return config('database.default');
-        }
+        return match ($dataSource) {
+            'default'      => config('database.default'),
+            'demo_default' => PackageInfrastructure::connection('demo', 'default'),
+            'demo_alt'     => PackageInfrastructure::connection('demo', 'alt'),
+            'test_default' => PackageInfrastructure::connection('test', 'default'),
+            'test_alt'     => PackageInfrastructure::connection('test', 'alt'),
 
-        $connection = config("medialibrary-extensions.data_sources.$dataSource.connection");
-
-        abort_unless(
-            $connection !== null,
-            500,
-            "Data source [$dataSource] has no connection configured."
-        );
-
-        return $connection === 'default'
-            ? config('database.default')
-            : $connection;
-    }
-
-    public function resolveRepository(?string $repository = null): string
-    {
-        return $repository ?? 'default';
+            default => throw new InvalidArgumentException("Invalid data source [$dataSource]"),
+        };
     }
 }

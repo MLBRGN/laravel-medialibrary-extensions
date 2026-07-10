@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
@@ -96,35 +97,7 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
 
-        $pathToHostAppTestDb = __DIR__ . '/database/mle-tests-demo-host-app.sqlite';
-        $pathToDemoTestDb = __DIR__ . '/database/mle-tests-demo.sqlite';
-
-        // create the database files if they don't exist
-        if (!file_exists($pathToHostAppTestDb)) {
-            touch($pathToHostAppTestDb);
-        }
-
-        if (!file_exists($pathToDemoTestDb)) {
-            touch($pathToDemoTestDb);
-        }
-
-        // configure the database connections
-        $app['config']->set('database.connections.mle_test_host_app', [
-            'driver' => 'sqlite',
-            'database' => $pathToHostAppTestDb,
-            'prefix' => '',
-        ]);
-
-        $app['config']->set('database.connections.mle_test_demo', [
-            'driver' => 'sqlite',
-            'database' => $pathToDemoTestDb,
-            'prefix' => '',
-        ]);
-
-        // set the default database connection
-        $app['config']->set('database.default', 'mle_test_host_app');
-        $app['config']->set('medialibrary-extensions.data_sources.default.connection', 'mle_test_host_app');
-        $app['config']->set('medialibrary-extensions.data_sources.demo.connection', 'mle_test_demo');
+        PackageInfrastructure::register('test');
 
         $this->createDirectory($this->getTempDirectory());
         $this->createDirectory($this->getMediaDirectory());
@@ -151,39 +124,96 @@ class TestCase extends Orchestra
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
         // configure filesystem
-        config()->set('filesystems.disks.public', [
-            'driver' => 'local',
-            'root' => $this->getMediaDirectory(),
-            'url' => '/media',
-        ]);
-
-        config()->set('filesystems.disks.media', [
-            'driver' => 'local',
-            'root' => $this->getMediaDirectory(),
-            'url' => '/media',
-        ]);
+//        config()->set('filesystems.disks.public', [
+//            'driver' => 'local',
+//            'root' => $this->getMediaDirectory(),
+//            'url' => '/media',
+//        ]);
+//
+//        config()->set('filesystems.disks.media', [
+//            'driver' => 'local',
+//            'root' => $this->getMediaDirectory(),
+//            'url' => '/media',
+//        ]);
 
         $app->bind('path.public', fn () => $this->getTempDirectory());
 
         $app['config']->set('media-library.media_model', Media::class);
     }
 
+//    protected function defineDatabaseMigrations(): void
+//    {
+////        $this->artisan('migrate:fresh', [
+////            '--database' => 'mle_test_host_app',// connection to use
+////            '--path' => realpath(__DIR__ . '/database/migrations'),
+////            '--realpath' => true,
+////        ]);
+////
+////        $this->artisan('migrate:fresh', [
+////            '--database' => 'mle_test_demo',// connection to use
+////            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
+////            '--realpath' => true,
+////        ]);
+//
+//    }
+
+//    protected function migrateConnection(
+//        string $connection,
+//        array $paths
+//    ): void {
+//
+//        dump('migrating '.$connection);
+//        $this->artisan('migrate:fresh', [
+//            '--database' => $connection,
+//        ]);
+//
+//        foreach ($paths as $path) {
+//            dump('path: '.base_path($path));
+//            $this->artisan('migrate', [
+//                '--database' => $connection,
+//                '--path' => base_path($path),
+//                '--realpath' => true,
+//            ]);
+//        }
+//    }
+
+    protected function migrateConnection(
+        string $connection,
+        string $path
+    ): void {
+        $this->artisan('migrate:fresh', [
+            '--database' => $connection,
+            '--path' => realpath($path),
+            '--realpath' => true,
+        ]);
+    }
     protected function defineDatabaseMigrations(): void
     {
-        $this->artisan('migrate:fresh', [
-            '--database' => 'mle_test_host_app',// connection to use
-            '--path' => realpath(__DIR__ . '/database/migrations'),
-            '--realpath' => true,
-        ]);
+        PackageInfrastructure::register('test');
 
-        $this->artisan('migrate:fresh', [
-            '--database' => 'mle_test_demo',// connection to use
-            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
-            '--realpath' => true,
-        ]);
+        $this->migrateConnection(
+            PackageInfrastructure::connection('test'),
+            realpath(__DIR__ . '/database/migrations')
+        );
 
+        $this->migrateConnection(
+            PackageInfrastructure::connection('test', 'alt'),
+            realpath(__DIR__ . '/database/migrations')
+        );
+
+//        PackageInfrastructure::register('test');
+//
+//        foreach (
+//            PackageInfrastructure::connections('test')
+//            as $name => $connection
+//        ) {
+//
+//            $this->migrateConnection(
+//                $connection,
+//                PackageInfrastructure::migrationPaths('test', $name)
+//            );
+//        }
     }
-
 
     protected function createDirectory(string $directory): void
     {

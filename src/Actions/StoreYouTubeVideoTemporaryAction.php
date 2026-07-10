@@ -29,7 +29,7 @@ class StoreYouTubeVideoTemporaryAction
         if (! config('medialibrary-extensions.youtube_support_enabled')) {
             abort(403);
         }
-        $dataSource = $request->input('data_source') ?? 'default';
+        $dataSource = $request->input('data_source', 'default');
 
         // Strict: only accept base_id; derive instance ID server-side
         $baseId = (string) $request->input('base_id');

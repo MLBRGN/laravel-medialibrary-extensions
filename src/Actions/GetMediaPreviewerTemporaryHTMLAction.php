@@ -28,7 +28,7 @@ class GetMediaPreviewerTemporaryHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        $dataSource = $request->input('data_source') ?? 'default';
+        $dataSource = $request->input('data_source', 'default');
         // Strict: only Base ID is accepted; legacy keys are intentionally ignored by validation
         $baseId = (string) $request->input('base_id');
         // Derive instance ID server-side from Base ID

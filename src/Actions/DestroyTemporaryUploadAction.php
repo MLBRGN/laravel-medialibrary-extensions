@@ -23,7 +23,8 @@ class DestroyTemporaryUploadAction
     public function execute(
         DestroyTemporaryUploadRequest $request,
     ): JsonResponse|RedirectResponse {
-        $dataSource = $request->data_source;
+        $dataSource = $request->input('data_source', 'default');
+        $baseId = (string) $request->input('base_id');
 
         $temporaryUpload = $this->mediaService->findTemporaryUpload(
             $request->input('temporaryUploadId') ?: $request->route('temporaryUploadId'),
@@ -32,8 +33,6 @@ class DestroyTemporaryUploadAction
 
         // Delete the medium
         $temporaryUpload->delete();
-
-        $baseId = (string) $request->input('base_id');
 
         // Reorder remaining uploads
         $this->reorderAllMedia($request, $dataSource);

@@ -9,7 +9,7 @@
             </p>
         </div>
         <audio id="test-audio-audio" controls data-mle-audio>
-            <source src="/media/1/test.mp3" type="audio/mpeg">
+            <source src="/storage/1/test.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
     </div>

@@ -134,7 +134,7 @@ it('loads previews successfully after a temporary single upload', function () {
         'collections' => ['image' => 'images'],
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ], [], [
         'media' => $file,
     ]);
@@ -153,7 +153,7 @@ it('loads previews successfully after a temporary single upload', function () {
         'options' => json_encode(['theme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
         'client_token' => $clientToken,
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 
@@ -180,7 +180,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
         'collections' => ['image' => 'images'],
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ], [], [
         'media' => $files,
     ]);
@@ -200,7 +200,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
         'options' => json_encode(['theme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
         'client_token' => $clientToken,
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 
@@ -289,7 +289,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
         'youtube_collection' => 'youtube',
         'client_token' => $clientToken,
         'temporary_upload_mode' => 'true',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $uploadRequest->setLaravelSession(app('session.store'));
     $uploadRequest->headers->set('Accept', 'application/json');
@@ -306,7 +306,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
         'options' => json_encode(['theme' => 'bootstrap-5']),
         'temporary_upload_mode' => 'true',
         'client_token' => $clientToken,
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 

@@ -32,7 +32,7 @@ class StoreSingleTemporaryAction
         StoreSingleRequest $request
     ): RedirectResponse|JsonResponse {
 
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         // Strict: only accept base_id; derive instance ID server-side
         $baseId = (string) $request->input('base_id');

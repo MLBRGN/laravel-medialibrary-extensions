@@ -34,7 +34,7 @@ class StoreSinglePermanentAction
             $prepared = $this->uploadPreparerService
                 ->prepareSingleUpload($request);
 
-            $dataSource = $request->data_source;
+            $dataSource = $request->input('data_source', 'default');
 
             $model = $this->mediaService->resolveModelById(
                 $modelType,
@@ -77,7 +77,12 @@ class StoreSinglePermanentAction
             return MediaResponse::error(
                 $request,
                 $baseId,
-                __('medialibrary-extensions::messages.could_not_save_media')
+                __('medialibrary-extensions::messages.could_not_save_media',
+                    [
+                        'file' => $prepared->originalName,
+                        'message' => $e->getMessage(),
+                    ]
+                )
             );
         }
 

@@ -23,3 +23,6 @@
 /tests/database/mle-tests-demo-host-app.sqlite
 /tests/Support/demo.sqlite
 /tests/test-results.xml
+/tests/database/mle-browser-tests.sqlite
+/tests/database/mle-browser-tests-host-app.sqlite
+/tests/database/mle-tests-host-app.sqlite

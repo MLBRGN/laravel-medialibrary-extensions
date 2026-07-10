@@ -27,6 +27,7 @@ return [
     'add_youtube_video' => 'Add YouTube-video',
     'missing_model' => ':component requires a model, but none was provided.',
     'model_not_found' => 'Model not found.',
+    'database_query_error' => 'Database query error.',
     'missing_collection' => ':component requires a media collection name, but none was provided.',
     'delete_medium' => 'Delete',
     'warning' => 'Warning',
@@ -102,5 +103,5 @@ return [
     'image_too_small' => 'The image is too small (:widthx:height). Minimum required is :min_widthx:min_height.',
     'custom_file_picker' => 'Custom file picker',
     'could_not_save_updated_medium' => 'Could not save updated medium.',
-    'could_not_save_media' => 'Could not save media.',
+    'could_not_save_media' => 'Could not save media file ":file". Error: :message',
 ];

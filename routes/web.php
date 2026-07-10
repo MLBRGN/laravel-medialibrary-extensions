@@ -13,7 +13,6 @@ Route::group([
         config('medialibrary-extensions.route_middleware', ['web', 'auth']),
         []
     ),
-//    'middleware' => config('medialibrary-extensions.route_middleware', ['web']),
     'prefix' => config('medialibrary-extensions.route_prefix'),
 ], function () {
 
@@ -44,7 +43,6 @@ Route::group([
         config('medialibrary-extensions.route_middleware', ['web']),
         []
     ),
-//    'middleware' => config('medialibrary-extensions.route_middleware', ['web']),
     'prefix' => config('medialibrary-extensions.route_prefix'),
 ], function () {
     Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');

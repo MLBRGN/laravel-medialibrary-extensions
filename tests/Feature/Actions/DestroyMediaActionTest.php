@@ -33,6 +33,7 @@ it('deletes the medium and returns JSON', function () {
         'collections' => ['image' => 'images'],
         'model_type' => $model->getMorphClass(),
         'model_id' => (string) $model->getKey(),
+//        'data_source' => 'default',
     ]);
 
     $response->assertStatus(200)
@@ -69,6 +70,7 @@ it('deletes the medium and returns Redirect', function () {
         'collections' => $collections,
         'model_type' => $model->getMorphClass(),
         'model_id' => (string) $model->getKey(),
+        'data_source' => 'default',
     ]);
 
     $response->assertRedirect();
@@ -118,6 +120,7 @@ it('reorders all media on delete', function () {
             'collections' => $collections,
             'model_type' => $model->getMorphClass(),
             'model_id' => (string) $model->getKey(),
+//            'data_source' => 'default',
         ]);
 
     $response->assertRedirect();
@@ -155,6 +158,7 @@ it('deletes a medium and reorders priorities via action execute (JSON)', functio
         'collections' => ['image' => 'images'],
         'model_type' => get_class($model),
         'model_id' => $model->id,
+        'data_source' => 'default',
     ]);
 
     // Simulate an AJAX/JSON request
@@ -200,6 +204,7 @@ it('skips reorder if no collections are passed via action execute', function () 
     $request = DestroyRequest::create('/media/'.$media->id, 'DELETE', [
         'mediaId' => $media->id,
         'base_id' => 'foo',
+        'data_source' => 'default',
     ]);
 
     // Make sure Laravel treats this as a JSON request

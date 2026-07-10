@@ -50,8 +50,9 @@ class MediaResponse
         ];
 
         // Take the previous URL and append "#baseId"
-        $targetUrl = url()->previous().'#'.$baseId;
+        $targetUrl = url()->previous().'#'.$baseId;// had to add a hidden <a> scroll element to the media manager view, for baseId !== domId
 
+        dd($targetUrl);
         $redirect = redirect()
             ->to($targetUrl)
             ->with(status_session_prefix(), $base);

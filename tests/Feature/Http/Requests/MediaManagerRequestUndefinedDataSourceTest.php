@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 
-it('normalizes undefined data_source to null', function () {
+it('normalizes undefined data_source to default', function () {
     Route::post('/test-route', function (GetMediaManagerPreviewerHTMLRequest $request) {
         return response()->json(['data_source' => $request->input('data_source')]);
     });
@@ -21,10 +21,10 @@ it('normalizes undefined data_source to null', function () {
     ]);
 
     $response->assertStatus(200);
-    expect($response->json('data_source'))->toBeNull();
+    expect($response->json('data_source'))->toBe('default');
 });
 
-it('normalizes null string data_source to null', function () {
+it('normalizes null string data_source to default', function () {
     Route::post('/test-route-null', function (GetMediaManagerPreviewerHTMLRequest $request) {
         return response()->json(['data_source' => $request->input('data_source')]);
     });
@@ -42,7 +42,7 @@ it('normalizes null string data_source to null', function () {
     ]);
 
     $response->assertStatus(200);
-    expect($response->json('data_source'))->toBeNull();
+    expect($response->json('data_source'))->toBe('default');
 });
 
 it('preserves valid data_source', function () {
@@ -53,7 +53,7 @@ it('preserves valid data_source', function () {
     $response = $this->postJson('/test-route-valid', [
         'base_id' => 'test',
         'model_type' => 'test',
-        'data_source' => 'demo',
+        'data_source' => 'default',
         'temporary_upload_mode' => 'true',
         'collections' => '[]',
         'selectable' => 'false',
@@ -63,5 +63,5 @@ it('preserves valid data_source', function () {
     ]);
 
     $response->assertStatus(200);
-    expect($response->json('data_source'))->toBe('demo');
+    expect($response->json('data_source'))->toBe('default');
 });

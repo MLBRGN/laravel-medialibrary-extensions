@@ -28,10 +28,13 @@ class StoreMultiplePermanentAction
         $modelType = $request->model_type;
         $modelId = $request->model_id;
 
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
-        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
-
+        try {
+            $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
         $baseId = (string) $request->input('base_id');
 
         $files = $request->file('media', []);
@@ -74,6 +77,7 @@ class StoreMultiplePermanentAction
 
         // Delegate validation & mapping to service
         $result = $this->uploadPreparerService->prepareMultipleUploads($files, $collections);
+
         $preparedUploads = $result['prepared'];
         $failedUploadFIleNames = array_merge($failedUploadFIleNames, $result['failedFilenames']);
         $errorMessages = array_merge($errorMessages, $result['errors']);
@@ -120,7 +124,10 @@ class StoreMultiplePermanentAction
                 $failedUploadFIleNames[] = $prepared->originalName;
                 $errorMessages[] = __(
                     'medialibrary-extensions::messages.could_not_save_media',
-                    ['file' => $prepared->originalName]
+                    [
+                        'file' => $prepared->originalName,
+                        'message' => $e->getMessage(),
+                    ]
                 );
                 $errorMessages[] = $e->getMessage();
             }

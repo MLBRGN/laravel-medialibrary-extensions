@@ -18,7 +18,9 @@ use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Fakes\FakeYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
@@ -32,13 +34,13 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
  * Tests/
  * └── Support/
  *     └── storage/
- *         ├── media_demo/
+ *         ├── media_demo/ TODO check
  *         ├── media_originals/
  *         └── media_temporary/
  *
  * Files are served through a dedicated test route:
  *
- * /storage/media_demo/*
+ * /storage/media_demo/* // TODO check
  * /storage/media_originals/*
  * /storage/media_temporary/*
  *
@@ -64,12 +66,6 @@ class BrowserTestCase extends Orchestra
     protected Blog $testModel;
 
     protected Ufo $testModelNotExtendingHasMedia;
-
-    protected const TEST_STORAGE_DISKS = [
-        'media_demo',
-        'media_originals',
-        'media_temporary',
-    ];
 
     // large files cause timeouts in browser testing, disabled (for now)
     protected array $fixtures = [
@@ -100,6 +96,7 @@ class BrowserTestCase extends Orchestra
         parent::setUp();
 
         $this->migrateDatabases();
+        $this->seedDatabases();
 
         Artisan::call('vendor:publish', [
             '--tag' => 'medialibrary-extensions-assets',
@@ -121,6 +118,7 @@ class BrowserTestCase extends Orchestra
         Route::get('/login', fn () => 'Login (dummy)')->name('login');
 
         Config::set('medialibrary-extensions.demo_pages_enabled', false);
+        Config::set('medialibrary-extensions.debug', true);
         Config::set('medialibrary-extensions.store_originals', true);
 
         if (empty(config('app.key'))) {
@@ -137,24 +135,6 @@ class BrowserTestCase extends Orchestra
             //            $this->overrideVendorRoutes();
         });
     }
-
-    //    protected function overrideVendorRoutes(): void
-    //    {
-    //        Route::get(
-    //            '/vendor/mlbrgn/laravel-form-components/js/core/form-components-loader.js',
-    //            function () {
-    //                dd('INTERCEPTED');
-    //            }
-    //        );
-    //
-    //        Route::get(
-    //            '/vendor/mlbrgn/laravel-medialibrary-extensions/js/shared/tinymce-custom-file-picker.js',
-    //            function () {
-    //                dd('INTERCEPTED');
-    //            }
-    //        );
-    //
-    //    }
 
     protected function tearDown(): void
     {
@@ -183,40 +163,11 @@ class BrowserTestCase extends Orchestra
     // Configure the Testbench application before booting.
     public function getEnvironmentSetUp($app): void
     {
-        $pathToHostAppTestDb = __DIR__.'/database/mle-browser-tests-demo-host-app.sqlite';
-        $pathToDemoTestDb = __DIR__.'/database/mle-browser-tests-demo.sqlite';
-
-        // create the database files if they don't exist
-        if (! file_exists($pathToHostAppTestDb)) {
-            touch($pathToHostAppTestDb);
-        }
-
-        if (! file_exists($pathToDemoTestDb)) {
-            touch($pathToDemoTestDb);
-        }
-
-        // configure the database connections
-        $app['config']->set('database.connections.mle_demo_host_app', [
-            'driver' => 'sqlite',
-            'database' => $pathToHostAppTestDb,
-            'prefix' => '',
-        ]);
-
-        $app['config']->set('database.connections.mle_demo', [
-            'driver' => 'sqlite',
-            'database' => $pathToDemoTestDb,
-            'prefix' => '',
-        ]);
-
-        // set the database connections to use (DataSourceResolver looks in data_sources.xxxx.connection)
-        $app['config']->set('database.default', 'mle_demo_host_app');
-        $app['config']->set('medialibrary-extensions.data_sources.default.connection', 'mle_demo_host_app');
-        $app['config']->set('medialibrary-extensions.data_sources.demo.connection', 'mle_demo');
-
-        // enable demo pages
         $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
         // mark that we are running browser tests to allow safe demo/testing fallbacks
         $app['config']->set('medialibrary-extensions.browser_tests', true);
+
+        PackageInfrastructure::register('demo');// use same as demo page
 
         // TODO needed?
         $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
@@ -240,27 +191,11 @@ class BrowserTestCase extends Orchestra
         // set the media model to use
         $app['config']->set('media-library.media_model', Media::class);
 
-        // create the storage directories
-        foreach (self::TEST_STORAGE_DISKS as $disk) {
-            $this->createDirectory(
-                $this->getBrowserStorageDirectory($disk)
-            );
-        }
-
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             return 'Mlbrgn\\MediaLibraryExtensions\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory';
         });
 
         View::addLocation(__DIR__.'/Feature/views');
-
-        foreach (self::TEST_STORAGE_DISKS as $disk) {
-            $app['config']->set("filesystems.disks.$disk", [
-                'driver' => 'local',
-                'root' => $this->getBrowserStorageDirectory($disk),
-                'url' => "/storage/$disk",
-                'visibility' => 'public',
-            ]);
-        }
 
         // bind the public path to the test/Support/public directory
         $app->bind('path.public', fn () => $this->getFakePublicDirectory());
@@ -303,13 +238,14 @@ class BrowserTestCase extends Orchestra
                 'path' => $path,
             ]);
 
-            if (! in_array($disk, self::TEST_STORAGE_DISKS, true)) {
+            if (! in_array($disk, [
+                PackageInfrastructure::diskUrlSegment('demo')
+            ], true)) {
                 Log::warning('BrowserTestCase - registerRoutes: Invalid storage disk requested', [
                     'disk' => $disk,
-                    'allowed' => self::TEST_STORAGE_DISKS,
+                    'allowed' => PackageInfrastructure::disk('demo'),
                     'path' => $path,
                 ]);
-
                 abort(404);
             }
 
@@ -449,18 +385,27 @@ class BrowserTestCase extends Orchestra
         }
 
         $this->artisan('migrate:fresh', [
-            '--database' => 'mle_demo_host_app', // connection to use
+            '--database' => PackageInfrastructure::connection('demo', 'default'),
             '--path' => realpath(__DIR__.'/database/migrations'),
             '--realpath' => true,
         ]);
 
         $this->artisan('migrate:fresh', [
-            '--database' => 'mle_demo', // connection to use
+            '--database' => PackageInfrastructure::connection('demo', 'alt'),
             '--path' => realpath(__DIR__.'/../database/demo-migrations'),
             '--realpath' => true,
         ]);
 
         $migrated = true;
+    }
+
+    protected function seedDatabases(): void
+    {
+        Alien::on(PackageInfrastructure::connection('demo', 'default'))
+            ->create([]);
+
+        Alien::on(PackageInfrastructure::connection('demo', 'alt'))
+            ->create([]);
     }
 
     protected function scrollIntoView($page, string $selector): void

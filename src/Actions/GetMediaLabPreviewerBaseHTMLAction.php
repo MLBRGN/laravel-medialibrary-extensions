@@ -34,7 +34,7 @@ class GetMediaLabPreviewerBaseHTMLAction
         $modelId = $request->input('model_id');
         $theme = $request->input('theme');
         $options = json_decode($request->input('options'), true) ?? [];
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         if ($theme) {
             $options['theme'] = $theme;

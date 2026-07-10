@@ -112,11 +112,11 @@ mediaManagers.forEach(mediaManager => {
         }
     });
 
-        mediaManager.addEventListener('refreshRequest', function (e) {
-            const detail = e.detail;
-            const config = getMediaManagerConfig(mediaManager);
-            updatePreviews(mediaManager, config, detail);
-        })
+    mediaManager.addEventListener('refreshRequest', function (e) {
+        const detail = e.detail;
+        const config = getMediaManagerConfig(mediaManager);
+        updatePreviews(mediaManager, config, detail);
+    })
 });
 
 function getRouteFromAction(action, target, config) {

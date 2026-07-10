@@ -105,8 +105,29 @@ class Debug extends Component
 
     public function getCollectionDebugData(): Collection
     {
+        // Determine the active database details for the resolved model (if any)
+        $connectionName = null;
+        $databaseName = null;
+
+        if ($this->resolvedModel->model) {
+            try {
+                $connectionName = $this->resolvedModel->model->getConnectionName()
+                    ?: $this->resolvedModel->model->getConnection()->getName();
+            } catch (\Throwable $e) {
+                $connectionName = null;
+            }
+
+            try {
+                $databaseName = $this->resolvedModel->model->getConnection()->getDatabaseName();
+            } catch (\Throwable $e) {
+                $databaseName = null;
+            }
+        }
+
+        $dataSource = $this->dataSource; // passed into the component
+
         return collect(['image', 'document', 'video', 'audio', 'youtube'])
-            ->map(function ($type) {
+            ->map(function ($type) use ($dataSource, $connectionName, $databaseName) {
                 $collectionName = $this->getConfig('collections')[$type] ?? null;
 
                 $count = ($this->resolvedModel->model && $collectionName)
@@ -117,8 +138,50 @@ class Debug extends Component
                     'type' => $type,
                     'collection' => is_array($collectionName) ? implode(', ', $collectionName) : ($collectionName ?? 'n/a'),
                     'count' => $count,
+                    'data_source' => $dataSource,
+                    'database' => $databaseName ?? 'n/a',
+                    'connection' => $connectionName ?? 'n/a',
                 ];
             });
+    }
+
+    /**
+     * Return a concise set of the most important component properties for debugging.
+     * This mirrors what the frontend component receives from its config/options.
+     *
+     * @return array{
+     *     clientToken: mixed,
+     *     collections: array<string, mixed>|null,
+     *     dataSource: string|null,
+     *     id: string|null,
+     *     instanceId: string|null,
+     *     isAtMax: bool|null,
+     *     isEmpty: bool|null,
+     *     maxMediaCount: int|null,
+     *     theme: string|null,
+     *     totalMediaCount: int|null,
+     *     useXhr: bool|null
+     * }
+     */
+    public function getMainComponentProperties(): array
+    {
+        // Prefer values coming from the component config; fall back to known alternatives
+        $props = [
+            'clientToken' => $this->getConfig('clientToken'),
+            'collections' => $this->getConfig('collections') ?? null,
+            'dataSource' => $this->getConfig('dataSource') ?? $this->dataSource,
+            'id' => $this->getConfig('id'), // logical component id
+            'instanceId' => $this->getConfig('instanceId'),
+            'isAtMax' => $this->getConfig('isAtMax'),
+            'isEmpty' => $this->getConfig('isEmpty'),
+            'maxMediaCount' => $this->getConfig('maxMediaCount'),
+            'theme' => $this->getConfig('theme'),
+            'totalMediaCount' => $this->getConfig('totalMediaCount'),
+            'useXhr' => $this->getConfig('useXhr') ?? $this->getConfig('use_xhr'),
+        ];
+
+        // Sanitize nested complex values for safe debug output
+        return $this->getSanitizedConfig($props);
     }
 
     public function render(): View

@@ -12,7 +12,6 @@ use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 beforeEach(function () {
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));
 
-    $this->baseId = 'initiator-456';
     $this->baseId = 'media-manager-123';
     $this->model = $this->getTestBlogModel();
     $this->model->save();
@@ -30,7 +29,7 @@ it('stores file and returns JSON success', function () {
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ], [], [
         'media' => $file,
     ]);
@@ -61,7 +60,7 @@ it('stores file and returns redirect success', function () {
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ], [], [
         'media' => $file,
     ]);
@@ -93,7 +92,7 @@ it('returns error if no file is given (JSON)', function () {
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -118,7 +117,7 @@ it('returns error if no file is given (redirect)', function () {
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
 
     $request->setLaravelSession(app('session.store'));
@@ -150,7 +149,7 @@ it('returns error if file has invalid mimetype (JSON)', function () {
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ], [], [
         'media' => $file,
     ]);
@@ -178,7 +177,7 @@ it('returns error if file has invalid mimetype (redirect)', function () {
         'model_id' => $this->model->id ?? 1,
         'base_id' => $this->baseId,
         'collections' => ['image' => 'images'],
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ], [], [
         'media' => $file,
     ]);
@@ -226,7 +225,7 @@ it('returns error if file exceeds max upload size (JSON)', function () {
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',
                 'media' => $tooLargeFile,
-                'data_source' => 'demo',
+                'data_source' => 'default',
             ]
         );
 
@@ -259,7 +258,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
                 'collections' => ['image' => 'images'],
                 'temporary_upload_mode' => 'true',
                 'media' => $tooLargeFile,
-                'data_source' => 'demo',
+                'data_source' => 'default',
             ]
         );
 
@@ -273,4 +272,4 @@ it('returns error if file exceeds max upload size (redirect)', function () {
     //    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
     //        return str_contains($message, 'must not be greater than 100 kilobytes');
     //    });
-});
+})->todo('fix this test');

@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
@@ -29,7 +30,7 @@ class StoreMultipleTemporaryAction
 
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         $disk = config('medialibrary-extensions.media_disks.temporary');
         $basePath = '';
@@ -152,18 +153,14 @@ class StoreMultipleTemporaryAction
             $temporaryUpload->save();
 
             // Diagnostics: confirm persisted record and connection
-            try {
-                \Log::info('StoreMultipleTemporaryAction: temporary upload saved', [
-                    'temporary_upload_id' => $temporaryUpload->getKey(),
-                    'data_source' => $dataSource,
-                    'resolved_connection' => method_exists($temporaryUpload, 'getConnectionName') ? $temporaryUpload->getConnectionName() : null,
-                    'instance_id' => $instanceId,
-                    'client_token' => $clientToken,
-                    'collection' => $prepared->collectionName,
-                ]);
-            } catch (\Throwable $e) {
-                // ignore logging failures
-            }
+            Log::info('StoreMultipleTemporaryAction: temporary upload saved', [
+                'temporary_upload_id' => $temporaryUpload->getKey(),
+                'data_source' => $dataSource,
+                'resolved_connection' => method_exists($temporaryUpload, 'getConnectionName') ? $temporaryUpload->getConnectionName() : null,
+                'instance_id' => $instanceId,
+                'client_token' => $clientToken,
+                'collection' => $prepared->collectionName,
+            ]);
 
             $nextPriority++;
             $successCount++;

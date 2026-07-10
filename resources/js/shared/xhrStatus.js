@@ -128,7 +128,7 @@ export function handleAjaxError(response, data, statusAreaContainer) {
         case 419: message = trans('csrf_token_mismatch'); break;
         case 401: message = trans('unauthenticated'); break;
         case 403: message = trans('forbidden'); break;
-        case 404: message = trans('not_found'); break;
+        case 404: message = trans('not_found') + ' Message ' + data.message; break;
         case 422:
             if (data.errors) {
                 const allErrors = Object.values(data.errors).flat();
@@ -143,10 +143,12 @@ export function handleAjaxError(response, data, statusAreaContainer) {
             break;
         case 429: message = trans('too_many_requests'); break;
         case 500:
-        case 503: message = trans('server_error'); break;
+        case 503: message = trans('server_error') + ' (' + data.message + ')'; break;
         default:
             message = data.message || message;
     }
+
+    console.log('handleAjaxError message ', message, ' data:', data);
 
     showStatusMessage(statusAreaContainer, { type: 'error', message });
 }

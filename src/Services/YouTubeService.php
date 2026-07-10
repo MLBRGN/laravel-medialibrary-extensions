@@ -79,7 +79,7 @@ class YouTubeService
         $clientToken = $request->input('client_token')
             ?? $request->cookie('mle_client_token')
             ?? (string) Str::ulid();
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
         $instanceId = $request->input('instance_id');
 
         return $this->storeTemporaryThumbnailFromUrl(

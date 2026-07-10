@@ -54,29 +54,39 @@
                     </tr>
 
                     <tr>
+                        <th>DataSource</th>
+                        <td>{{ $dataSource ?? 'n/a' }}</td>
+                    </tr>
+                    
+                    <tr>
                         <th>Connection</th>
                         <td>{{ $model?->getConnection()->getName() ?? 'n/a' }}</td>
                     </tr>
 
                     <tr>
-                        <th>Database</th>
+                        <th>Database name / location</th>
                         <td>{{ $model?->getConnection()->getDatabaseName() ?? 'n/a' }}</td>
                     </tr>
                 </table>
             </section>
 
             {{-- ========================================================= --}}
-            {{-- COMPONENT --}}
+            {{-- DEBUG COMPONENT --}}
             {{-- ========================================================= --}}
 
             <section class="mle-debug-section">
-                <h3>⚙️ Component</h3>
+                <h3>⚙️Debug component</h3>
 
                 <table class="mle-debug-table">
                     <tr>
                         <th>Component ID</th>
                         <td>{{ $id }}</td>
                     </tr>
+
+{{--                    <tr>--}}
+{{--                        <th>Component baseID</th>--}}
+{{--                        <td>{{ $getDomId() }}</td>--}}
+{{--                    </tr>--}}
 
                     <tr>
                         <th>Instance ID</th>
@@ -101,21 +111,95 @@
             </section>
 
             {{-- ========================================================= --}}
-            {{-- DATABASE --}}
+            {{-- MAIN COMPONENT PROPERTIES (CONFIG) --}}
             {{-- ========================================================= --}}
 
             <section class="mle-debug-section">
-                <h3>💾 Database</h3>
+                <h3>🧩 Main component properties</h3>
+                @php($props = $getMainComponentProperties())
 
                 <table class="mle-debug-table">
                     <tr>
-                        <th>Default Connection</th>
-                        <td>{{ DB::connection()->getName() }}</td>
+                        <th>Client Token</th>
+                        <td>{{ $props['clientToken'] ?? 'n/a' }}</td>
                     </tr>
 
                     <tr>
-                        <th>Database Name</th>
-                        <td>{{ DB::getDatabaseName() }}</td>
+                        <th>Collections</th>
+                        <td>
+                            @if(isset($props['collections']) && is_array($props['collections']))
+                                <ul style="margin:0; padding-left: 1.25rem;">
+                                    @foreach($props['collections'] as $k => $v)
+                                        <li><strong>{{ $k }}:</strong> {{ is_array($v) ? implode(', ', $v) : ($v ?? 'n/a') }}</li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <span>{{ $props['collections'] ?? 'n/a' }}</span>
+                            @endif
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Data Source</th>
+                        <td>{{ $props['dataSource'] ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Logical ID</th>
+                        <td>{{ $props['id'] ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Instance ID</th>
+                        <td>{{ $props['instanceId'] ?? 'n/a' }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th>Total Media Count</th>
+                        <td>{{ $props['totalMediaCount'] ?? 'n/a' }}</td>
+                    </tr>
+                   
+                    <tr>
+                        <th>Is At Max</th>
+                        <td>
+                            @if(! array_key_exists('isAtMax', $props) || $props['isAtMax'] === null)
+                                n/a
+                            @else
+                                {{ $props['isAtMax'] ? 'Yes' : 'No' }}
+                            @endif
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Is Empty</th>
+                        <td>
+                            @if(! array_key_exists('isEmpty', $props) || $props['isEmpty'] === null)
+                                n/a
+                            @else
+                                {{ $props['isEmpty'] ? 'Yes' : 'No' }}
+                            @endif
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Max Media Count</th>
+                        <td>{{ $props['maxMediaCount'] ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Theme</th>
+                        <td>{{ $props['theme'] ?? 'n/a' }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Use XHR</th>
+                        <td>
+                            @if(! array_key_exists('useXhr', $props) || $props['useXhr'] === null)
+                                n/a
+                            @else
+                                {{ $props['useXhr'] ? 'Yes' : 'No' }}
+                            @endif
+                        </td>
                     </tr>
                 </table>
             </section>
@@ -133,6 +217,9 @@
                         <th>Type</th>
                         <th>Collection</th>
                         <th>Media Count</th>
+                        <th>Data Source</th>
+                        <th>Database</th>
+                        <th>Connection</th>
                     </tr>
                     </thead>
 
@@ -142,6 +229,9 @@
                             <td>{{ ucfirst($data['type']) }}</td>
                             <td>{{ $data['collection'] }}</td>
                             <td>{{ $data['count'] }}</td>
+                            <td>{{ $data['data_source'] ?? 'n/a' }}</td>
+                            <td>{{ $data['database'] ?? 'n/a' }}</td>
+                            <td>{{ $data['connection'] ?? 'n/a' }}</td>
                         </tr>
                     @endforeach
                     </tbody>

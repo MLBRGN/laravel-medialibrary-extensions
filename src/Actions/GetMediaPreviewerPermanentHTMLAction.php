@@ -27,7 +27,7 @@ class GetMediaPreviewerPermanentHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
         // Strict: only Base ID is accepted
         $baseId = (string) $request->input('base_id');
         // Derive instance ID server-side

@@ -23,7 +23,7 @@ class GetMediaManagerTinyMcePermanentAction
         $multiple = $request->boolean('multiple');
         $collections = json_decode(request()->string('collections'), true);
         $options = json_decode(request()->string('options'), true);
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         $model = null;
         if ($modelType && $modelId) {

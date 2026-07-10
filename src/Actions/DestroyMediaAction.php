@@ -23,7 +23,7 @@ class DestroyMediaAction
     public function execute(
         DestroyRequest $request,
     ): JsonResponse|RedirectResponse {
-        $dataSource = $request->data_source;
+        $dataSource = $request->input('data_source', 'default');
 
         $media = $this->mediaService->findMedium(
             $request->input('mediaId') ?: $request->route('mediaId'),

@@ -146,8 +146,8 @@
     
             <div class="mle-demo-controls-group">
                 <span class="mle-demo-controls-label">Data Source:</span>
-                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'demo']) }}" class="mle-demo-btn {{ $dataSource === 'demo' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-demo">Demo</a>
-                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'default']) }}" class="mle-demo-btn {{ $dataSource === 'default' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-default">Default</a>
+                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'demo_alt']) }}" class="mle-demo-btn {{ $dataSource === 'demo_alt' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-demo">Demo alt</a>
+                <a href="{{ request()->fullUrlWithQuery(['data_source' => 'demo_default']) }}" class="mle-demo-btn {{ $dataSource === 'demo_default' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-data-source-default">Demo default</a>
             </div>
     
             <div class="mle-demo-controls-group">
@@ -266,56 +266,56 @@
             </form>
         @endif
 
-        @push('scripts')
-            <script>
-                (function () {
-                    function readCookie(name) {
-                        const nameEQ = name + '=';
-                        const ca = document.cookie.split(';');
-                        for (let i = 0; i < ca.length; i++) {
-                            let c = ca[i];
-                            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-                        }
-                        return null;
-                    }
+{{--        @push('scripts')--}}
+{{--            <script>--}}
+{{--                (function () {--}}
+{{--                    function readCookie(name) {--}}
+{{--                        const nameEQ = name + '=';--}}
+{{--                        const ca = document.cookie.split(';');--}}
+{{--                        for (let i = 0; i < ca.length; i++) {--}}
+{{--                            let c = ca[i];--}}
+{{--                            while (c.charAt(0) === ' ') c = c.substring(1, c.length);--}}
+{{--                            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);--}}
+{{--                        }--}}
+{{--                        return null;--}}
+{{--                    }--}}
 
-                    function syncClientTokenHiddenInputs(token) {
-                        if (!token) { return; }
-                        document.querySelectorAll('input[data-mle-client-token]')
-                            .forEach(function (el) { el.value = token; });
-                    }
+{{--                    function syncClientTokenHiddenInputs(token) {--}}
+{{--                        if (!token) { return; }--}}
+{{--                        document.querySelectorAll('input[data-mle-client-token]')--}}
+{{--                            .forEach(function (el) { el.value = token; });--}}
+{{--                    }--}}
 
-                    function ensureTokenOnSubmit() {
-                        const forms = document.querySelectorAll('form');
-                        forms.forEach(function (form) {
-                            // Only wire demo forms that include a client token hidden input
-                            if (!form.querySelector('input[data-mle-client-token]')) { return; }
-                            form.addEventListener('submit', function () {
-                                const token = readCookie('mle_client_token');
-                                syncClientTokenHiddenInputs(token);
-                            }, { capture: true });
-                        });
-                    }
+{{--                    function ensureTokenOnSubmit() {--}}
+{{--                        const forms = document.querySelectorAll('form');--}}
+{{--                        forms.forEach(function (form) {--}}
+{{--                            // Only wire demo forms that include a client token hidden input--}}
+{{--                            if (!form.querySelector('input[data-mle-client-token]')) { return; }--}}
+{{--                            form.addEventListener('submit', function () {--}}
+{{--                                const token = readCookie('mle_client_token');--}}
+{{--                                syncClientTokenHiddenInputs(token);--}}
+{{--                            }, { capture: true });--}}
+{{--                        });--}}
+{{--                    }--}}
 
-                    // Initial sync from cookie on page load
-                    const cookieToken = readCookie('mle_client_token');
-                    if (cookieToken) {
-                        syncClientTokenHiddenInputs(cookieToken);
-                    }
+{{--                    // Initial sync from cookie on page load--}}
+{{--                    const cookieToken = readCookie('mle_client_token');--}}
+{{--                    if (cookieToken) {--}}
+{{--                        syncClientTokenHiddenInputs(cookieToken);--}}
+{{--                    }--}}
 
-                    // Also listen for component updates that may carry a client token
-                    document.addEventListener('mediaManagerPreviewsUpdated', function (e) {
-                        // Some dispatchers include detail with config; fall back to cookie if absent
-                        const token = (e && e.detail && e.detail.clientToken) || readCookie('mle_client_token');
-                        syncClientTokenHiddenInputs(token);
-                    }, true);
+{{--                    // Also listen for component updates that may carry a client token--}}
+{{--                    document.addEventListener('mediaManagerPreviewsUpdated', function (e) {--}}
+{{--                        // Some dispatchers include detail with config; fall back to cookie if absent--}}
+{{--                        const token = (e && e.detail && e.detail.clientToken) || readCookie('mle_client_token');--}}
+{{--                        syncClientTokenHiddenInputs(token);--}}
+{{--                    }, true);--}}
 
-                    // Ensure token is written right before submitting demo forms
-                    ensureTokenOnSubmit();
-                })();
-            </script>
-        @endpush
+{{--                    // Ensure token is written right before submitting demo forms--}}
+{{--                    ensureTokenOnSubmit();--}}
+{{--                })();--}}
+{{--            </script>--}}
+{{--        @endpush--}}
         
     
         @if($showMediaCarousel)
@@ -339,7 +339,6 @@
             />
         @endif
     
-        
         @if ($showMediaLab)
             <h2>Media Lab</h2>
             @php
@@ -385,7 +384,6 @@
         
         @if($showFormCustomFilePicker)
             @if ((app()->environment('local') || app()->environment('testing')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
-{{--            @if ((app()->environment('local')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))--}}
                 <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>
                 <x-form-form
                     method="put"

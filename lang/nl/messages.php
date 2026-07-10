@@ -28,6 +28,7 @@ return [
     'add_youtube_video' => 'YouTube-video toevoegen',
     'missing_model' => ':component vereist een model, maar er is er geen meegegeven.',
     'model_not_found' => 'Model niet gevonden.',
+    'database_query_error' => 'Database-queryfout.',
     'missing_collection' => ':component vereist een media collectie naam, maar er is er geen meegegeven.',
     'delete_medium' => 'Verwijder',
     'warning' => 'Waarschuwing',
@@ -103,5 +104,5 @@ return [
     'image_too_small' => 'De afbeelding is te klein (:widthx:height). Minimaal vereist is :min_widthx:min_height.',
     'custom_file_picker' => 'Aangepaste file picker',
     'could_not_save_updated_medium' => 'Kon gewijzigde medium niet opslaan.',
-    'could_not_save_media' => 'Kon media niet opslaan.',
+    'could_not_save_media' => 'Kon media niet opslaan ":file". Fout: :message',
 ];

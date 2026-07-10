@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Throwable;
 
 class ResetMediaLibraryExtensions extends Command
@@ -40,7 +41,8 @@ class ResetMediaLibraryExtensions extends Command
         // Media storage disks that need to be cleaned
         $disks = [
             'media',
-            config('medialibrary-extensions.media_disks.demo'),
+            PackageInfrastructure::disk('demo'),
+            PackageInfrastructure::disk('test'),
             config('medialibrary-extensions.media_disks.originals'),
             config('medialibrary-extensions.media_disks.temporary'),
         ];

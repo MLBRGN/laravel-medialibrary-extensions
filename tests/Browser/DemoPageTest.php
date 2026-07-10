@@ -16,97 +16,97 @@ $waitTimeXhr = .1;
 $waitTImeNonXhr = .3; // non-xhr tests are slower (0.3 seems the minimum for me)
 
 dataset('mms_test_matrix', [
-    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
+    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],
+    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
-    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+    'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
+    'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
+    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
+    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
 
-    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
+    'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
+    'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
+    'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
+    'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
 
-    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
+    'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
+    'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
+    'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
+    'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
 ]);
 
 dataset('mmm_test_matrix', [
-    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'],
-    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
+    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],
+    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
-    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+    'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
+    'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
+    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
+    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
 
-    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+    'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
+    'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
+    'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
+    'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'],
 
-    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+    'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
+    'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
+    'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
+    'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'],
 ]);
 
 dataset('mms_youtube_test_matrix', [
-    'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, 'permanent'],
-    'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, 'temporary'],
-    'bootstrap + default + no xhr + permanent' => ['bootstrap-5', 'default', false, 'permanent'], // TODO fails
-    'bootstrap + default + no xhr + temporary' => ['bootstrap-5', 'default', false, 'temporary'],
+    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
+    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'], // TODO fails
+    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
-    'bootstrap + demo + xhr + permanent' => ['bootstrap-5', 'demo', true, 'permanent'],
-    'bootstrap + demo + xhr + temporary' => ['bootstrap-5', 'demo', true, 'temporary'],
-    'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, 'permanent'],
-    'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, 'temporary'],
+    'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
+    'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
+    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
+    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
 
-    'plain + default + xhr + permanent' => ['plain', 'default', true, 'permanent'],
-    'plain + default + xhr + temporary' => ['plain', 'default', true, 'temporary'],
-    'plain + default + no xhr + permanent' => ['plain', 'default', false, 'permanent'],
-    'plain + default + no xhr + temporary' => ['plain', 'default', false, 'temporary'],
+    'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
+    'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
+    'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
+    'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'],
 
-    'plain + demo + xhr + permanent' => ['plain', 'demo', true, 'permanent'],
-    'plain + demo + xhr + temporary' => ['plain', 'demo', true, 'temporary'],
-    'plain + demo + no xhr + permanent' => ['plain', 'demo', false, 'permanent'],
-    'plain + demo + no xhr + temporary' => ['plain', 'demo', false, 'temporary'],
+    'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
+    'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
+    'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
+    'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'],
 ]);
 
 dataset('media_lab_test_matrix', [
-    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
-    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
+    'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+    'bootstrap + demo default + no xhr' => ['bootstrap-5', 'demo_default', false],
 
-    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
-    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+    'bootstrap + demo alt + xhr' => ['bootstrap-5', 'demo_alt', true],
+    'bootstrap + demo alt + no xhr' => ['bootstrap-5', 'demo_alt', false],
 
-    'plain + default + xhr' => ['plain', 'default', true],
-    'plain + default + no xhr' => ['plain', 'default', false],
+    'plain + demo default + xhr' => ['plain', 'demo_default', true],
+    'plain + demo default + no xhr' => ['plain', 'demo_default', false],
 
-    'plain + demo + xhr' => ['plain', 'demo', true],
-    'plain + demo + no xhr' => ['plain', 'demo', false],
+    'plain + demo alt + xhr' => ['plain', 'demo_alt', true],
+    'plain + demo alt + no xhr' => ['plain', 'demo_alt', false],
 ]);
 
 dataset('media_html_editor_matrix', [
-    //    'bootstrap + default + xhr' => ['bootstrap-5', 'default', true],
-    //    'bootstrap + default + no xhr' => ['bootstrap-5', 'default', false],
+    //    'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+    //    'bootstrap + demo default + no xhr' => ['bootstrap-5', 'demo_default', false],
 
-    //    'bootstrap + demo + xhr' => ['bootstrap-5', 'demo', true],
-    //    'bootstrap + demo + no xhr' => ['bootstrap-5', 'demo', false],
+    //    'bootstrap + demo alt + xhr' => ['bootstrap-5', 'demo_alt', true],
+    //    'bootstrap + demo alt + no xhr' => ['bootstrap-5', 'demo_alt', false],
 
-    'plain + default + xhr' => ['plain', 'default', true],
-    //    'plain + default + no xhr' => ['plain', 'default', false],
+    'plain + demo default + xhr' => ['plain', 'demo_default', true],
+    //    'plain + demo default + no xhr' => ['plain', 'demo_default', false],
 
-    //    'plain + demo + xhr' => ['plain', 'demo', true],
-    //    'plain + demo + no xhr' => ['plain', 'demo', false],
+    //    'plain + demo alt + xhr' => ['plain', 'demo_alt', true],
+    //    'plain + demo alt + no xhr' => ['plain', 'demo_alt', false],
 ]);
 
 /**
@@ -134,9 +134,9 @@ function ensureLabMedium(string $dataSource): void
         $existingModel = $model->newQuery()->create();
     }
 
-    // Resolve disk for the data source, fallback to 'demo'
+    // Resolve disk for the data source, fallback to 'demo_alt'
     $mediaDisks = config('medialibrary-extensions.media_disks');
-    $disk = $mediaDisks[$dataSource] ?? ($mediaDisks['demo'] ?? null);
+    $disk = $mediaDisks[$dataSource] ?? ($mediaDisks['demo_alt'] ?? null);
 
     // If Lab already has media, ensure exactly one is present and its file exists on the expected disk.
     $labMedia = $existingModel->getMedia('alien-media-lab');
@@ -243,9 +243,9 @@ it('can visit demo page switch theme, XHR and DataSource', function () {
 
         // DataSource switching
         ->click('@btn-data-source-default')
-        ->assertQueryStringHas('data_source', 'default')
+        ->assertQueryStringHas('data_source', 'demo_default')
         ->click('@btn-data-source-demo')
-        ->assertQueryStringHas('data_source', 'demo')
+        ->assertQueryStringHas('data_source', 'demo_alt')
 
         // XHR mode switching
         ->click('@btn-use-xhr-no')
@@ -408,7 +408,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
         ->assertMissing($imageEditorModalSelector);
 
-    // TODO fails with dataset "plain + default + no xhr + permanent"
+    // TODO fails with dataset "plain + demo default + no xhr + permanent"
     //        ->waitForText(__('medialibrary-extensions::messages.medium_replaced'));
 
     // check canceling image editing in the image editor
@@ -689,7 +689,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
         // assert that the upload button is disabled after upload (single media)
-        // TODO fails with dataset "bootstrap + default + no xhr + permanent"
+        // TODO fails with dataset "bootstrap + demo default + no xhr + permanent"
         ->assertButtonDisabled($uploadButtonSelector)
 
         // assert that the image is visible in the preview
@@ -835,17 +835,17 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
 })->group('browser')
     ->with([
-        'bootstrap + default + xhr + permanent' => ['bootstrap-5', 'default', true, false, true],
-        'bootstrap + demo + no xhr + permanent' => ['bootstrap-5', 'demo', false, false, true],
+        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, false, true],
+        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, false, true],
 
-        'bootstrap + default + xhr + temporary' => ['bootstrap-5', 'default', true, true, true],
-        'bootstrap + demo + no xhr + temporary' => ['bootstrap-5', 'demo', false, true, true],
+        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, true, true],
+        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, true, true],
 
-        'plain + default + xhr + permanent' => ['plain', 'default', true, false, false],
-        'plain + demo + no xhr + permanent' => ['plain', 'demo', false, false, false],
+        'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, false, false],
+        'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, false, false],
 
-        'plain + default + xhr + temporary' => ['plain', 'default', true, true, false],
-        'plain + demo + no xhr + temporary' => ['plain', 'demo', false, true, false],
+        'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, true, false],
+        'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, true, false],
     ]);
 
 it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
@@ -1127,7 +1127,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
 
 it('promotes temporary uploads to permanent media on form submit', function () use ($waitTimeXhr) {
     $theme = 'bootstrap-5';
-    $dataSource = 'default';
+    $dataSource = 'demo_default';
     $xhr = true;
     $xhrInt = 1;
 //    $waitTime = $waitTimeXhr;
@@ -1162,13 +1162,13 @@ it('promotes temporary uploads to permanent media on form submit', function () u
     $this->scrollIntoView($page, $mmmPermanentId);
     $page->wait(1)
         ->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
-})->group('browser')->only();
+})->group('browser');
 
 it('promotes multiple temporary uploads to permanent media on form submit (MMM temporary)', function () use ($waitTimeXhr) {
     // Allow multiple items in the shared collection for this test
     Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
     $theme = 'bootstrap-5';
-    $dataSource = 'default';
+    $dataSource = 'demo_default';
     $xhrInt = 1;
 //    $waitTime = $waitTimeXhr;
     $waitTime = 1;
@@ -1206,4 +1206,4 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
     $page->assertPresent($mmmPermanentGridSelector);
     $page->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
     $page->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:nth-child(2) [data-mle-media-preview-item] [data-mle-media-preview-image]');
-})->group('browser')->only();
+})->group('browser');

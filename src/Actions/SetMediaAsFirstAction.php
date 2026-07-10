@@ -22,7 +22,7 @@ class SetMediaAsFirstAction
         $modelType = $request->model_type;
         $modelId = $request->model_id;
 
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         $baseId = (string) $request->input('base_id');
 

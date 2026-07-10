@@ -10,6 +10,7 @@ import { updateMediaLabBase, updateMediaLabOriginal } from "@/js/shared/media-la
 document.addEventListener('onImageSave', (e) => {
     // console.log('onImageSave:', e.detail, e);
     // Fire-and-forget; internal flow handles its own async
+    console.log('image-editor-listener.js - onImageSave called')
     updateMedia(e.detail);
 });
 

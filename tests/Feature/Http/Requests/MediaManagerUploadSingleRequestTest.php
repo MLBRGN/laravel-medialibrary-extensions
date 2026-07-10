@@ -24,7 +24,7 @@ it('passes validation with required fields and at least one collection', functio
         'collections' => ['image' => 'images'],
         'media' => null,
         'base_id' => 'user123',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ];
 
     $request = new StoreSingleRequest;
@@ -41,7 +41,7 @@ it('fails validation when no collections are provided', function () {
         'model_type' => $model->getMorphClass(),
         'media' => null,
         'base_id' => 'user123',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ];
 
     $request = new StoreSingleRequest;

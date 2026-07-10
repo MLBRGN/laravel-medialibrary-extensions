@@ -8,5 +8,5 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 class DemoTemporaryUpload extends TemporaryUpload
 {
-    protected $connection = 'media_demo';
+//    protected $connection = 'media_demo';
 }

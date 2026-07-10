@@ -22,7 +22,7 @@ class SetTemporaryUploadAsFirstAction
 
     public function execute(SetTemporaryUploadAsFirstRequest $request): JsonResponse|RedirectResponse
     {
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         $mediumId = (int) $request->medium_id;
 

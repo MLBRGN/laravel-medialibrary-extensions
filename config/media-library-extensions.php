@@ -82,42 +82,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Demo database
-    |--------------------------------------------------------------------------
-    |
-    | Database configuration for demo pages
-    |
-    */
-
-    'demo_connection' => 'media_demo',
-    'demo_host_app_connection' => 'media_demo_host_app_sandbox',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Database data_sources map to connections
-    |--------------------------------------------------------------------------
-    |
-    | Maps data_source keys to connection
-    |
-    */
-
-    'data_sources' => [
-        'default' => [
-            // In demo pages, the logical "default" should simulate the host app sandbox,
-            // never the real host application's default. We map it explicitly here.
-            'connection' => 'media_demo_host_app_sandbox',
-        ],
-
-        'demo' => [
-            'connection' => 'media_demo', // TODO try to do this without hardcoding the connection name
-        ],
-        'host_app_sandbox' => [
-            'connection' => 'media_demo_host_app_sandbox', // TODO try to do this without hardcoding the connection name
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Disk configuration
     |--------------------------------------------------------------------------
     |
@@ -133,14 +97,11 @@ return [
     | Used to store originals (when enabled), so that restoring a medium is possible
     | used by the media lab functionality
     |
-    | "demo":
-    | use by the demo pages as to not pollute the real or temporary media folder
-    |
     */
 
     'media_disks' => [
         'originals' => 'media_originals',
-        'demo' => 'media_demo',
+//        'demo' => 'media_demo',
         'temporary' => 'media_temporary',
     ],
 
@@ -149,13 +110,6 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public/media_originals'),
             'url' => env('APP_URL').'/storage/media_originals', // URL to access files
-            'visibility' => 'public',
-        ],
-
-        'media_demo' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media_demo'),
-            'url' => env('APP_URL').'/storage/media_demo', // URL to access files
             'visibility' => 'public',
         ],
 
@@ -215,25 +169,6 @@ return [
     */
 
     'route_middleware' => array_filter(array_map('trim', explode(',', env('MEDIA_LIBRARY_EXTENSIONS_ROUTE_MIDDLEWARE', 'web,auth')))),
-    //    'route_middleware' => [
-    //        'web',
-    //        'auth',
-    //        \Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware::class,
-    //    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Upload field names
-    |--------------------------------------------------------------------------
-    |
-    | The field names used for uploading media
-    |
-    */
-
-    //    'upload_field_name_single' => 'medium',
-    //    'upload_field_name_multiple' => 'media',
-    //    'upload_field_name' => 'media',
-    //    'upload_field_name_youtube' => 'youtube_url',
 
     /*
     |--------------------------------------------------------------------------

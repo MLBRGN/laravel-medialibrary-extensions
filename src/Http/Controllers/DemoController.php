@@ -12,15 +12,44 @@ use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\demo\StoreAlienRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 class DemoController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
         abort_unless(
             config('medialibrary-extensions.demo_pages_enabled'),
             404
         );
+
+        // Ensure the demo page URL always carries an explicit data_source to keep
+        // the DB context consistent across refreshes and redirects.
+        // Default to 'default' (host-app sandbox) when not provided.
+        if ($request->query('data_source') === null) {
+            $redirectParams = [
+                'data_source' => 'default',
+            ];
+
+            // Preserve other demo UI context if present
+            if ($request->has('theme')) {
+                $redirectParams['theme'] = $request->query('theme');
+            }
+            if ($request->has('use_xhr')) {
+                $redirectParams['use_xhr'] = $request->query('use_xhr');
+            }
+
+            try {
+                Log::info('DemoController@index: missing data_source, redirecting with default', [
+                    'from_url' => $request->fullUrl(),
+                    'to_params' => $redirectParams,
+                ]);
+            } catch (\Throwable $e) {
+                // ignore logging errors
+            }
+
+            return redirect()->route('mle-demo', $redirectParams);
+        }
 
         config(['medialibrary-extensions.disks.media_originals' => [
             'driver' => 'local',
@@ -58,8 +87,9 @@ class DemoController extends Controller
             $resolvedConnection = null;
         }
 
-        $requestedId = $request->query('id');
-        $model = $this->getDemoModel($dataSource, $requestedId);
+//        $requestedId = $request->query('id');
+//        dd($dataSource);
+        $model = $this->getDemoModel($dataSource);
 
         // Prefer a specifically prepared Lab medium; otherwise reuse existing uploads
         $media = $model->getMedia('alien-media-lab')->first();
@@ -73,7 +103,7 @@ class DemoController extends Controller
                     $model
                         ->addMedia($demoImage)
                         ->preservingOriginal()
-                        ->toMediaCollection('alien-media-lab', config('medialibrary-extensions.media_disks.demo'));
+                        ->toMediaCollection('alien-media-lab', PackageInfrastructure::disk('demo'));
                 } catch (Exception $e) {
                     Log::warning('Failed to add demo image to media collection: '.$e->getMessage());
                 }
@@ -137,7 +167,26 @@ class DemoController extends Controller
             // ignore logging errors
         }
 
+        // Ensure the model persists to the correct demo database, even if the
+        // demo middleware did not (or could not) switch the default connection.
+        // We explicitly set the connection based on the incoming data_source.
         $alien = new Alien($request->validated());
+        try {
+            $dataSourceForStore = (string) $request->input('data_source', $request->query('data_source', 'default'));
+            $resolvedForStore = app(DataSourceResolver::class)->resolveConnection($dataSourceForStore);
+            if (! empty($resolvedForStore)) {
+                $alien->setConnection($resolvedForStore);
+            }
+            \Log::info('DemoController@store: setting model connection before save', [
+                'data_source' => $dataSourceForStore,
+                'resolved_connection' => $resolvedForStore ?? null,
+            ]);
+        } catch (\Throwable $e) {
+            \Log::warning('DemoController@store: failed to set connection explicitly, falling back to default', [
+                'error' => $e->getMessage(),
+            ]);
+        }
+
         $alien->save();
 
         // Diagnostic: confirm request context and active connection after middleware
@@ -180,7 +229,8 @@ class DemoController extends Controller
         return redirect()->route('mle-demo', $redirectParams);
     }
 
-    protected function getDemoModel(?string $dataSource = 'default', ?int $id = null): Alien
+//    protected function getDemoModel(?string $dataSource = 'default', ?int $id = null): Alien
+    protected function getDemoModel(?string $dataSource = 'default'): Alien
     {
         $model = new Alien;
 
@@ -191,14 +241,14 @@ class DemoController extends Controller
 
         $query = $model->newQuery()->with('media');
 
-        if ($id !== null) {
-            $existingModel = $query->find($id);
-        } else {
+//        if ($id !== null) {
+//            $existingModel = $query->find($id);
+//        } else {
             $existingModel = $query->first();
-        }
+//        }
 
         if (! $existingModel) {
-            $existingModel = $model->newQuery()->create();
+            throw new Exception('no Alien model found');
         }
 
         return $existingModel;

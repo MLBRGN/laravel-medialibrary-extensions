@@ -28,7 +28,7 @@ class StoreYouTubeVideoPermanentAction
         }
         $modelType = $request->model_type;
         $modelId = $request->model_id;
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         // Strict: only accept base_id from the request
         $baseId = (string) $request->input('base_id');

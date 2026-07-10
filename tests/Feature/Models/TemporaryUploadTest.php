@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 it('returns only uploads for the current session', function () {
     $clientToken = 'test-token-'.(string) Str::ulid();
@@ -125,9 +126,9 @@ it('can handle different database connections using forDataSource scope', functi
     request()->merge(['client_token' => $clientToken]);
 
     // Configure a mock data source
-    config()->set('medialibrary-extensions.data_sources.demo', [
-        'connection' => 'mle_test_demo',
-    ]);
+//    config()->set('medialibrary-extensions.data_sources.demo', [
+//        'connection' => 'mle_test_demo',
+//    ]);
 
     // Create on default connection
     TemporaryUpload::newFactory()->create([
@@ -140,11 +141,11 @@ it('can handle different database connections using forDataSource scope', functi
         'client_token' => $clientToken,
         'collection_name' => 'demo-conn',
     ]);
-    $demoUpload->setConnection('mle_test_demo');
+    $demoUpload->setConnection(PackageInfrastructure::connection('test', 'alt'));
     $demoUpload->save();
 
     // Query using forDataSource
-    $demoUploads = TemporaryUpload::forDataSource('demo')
+    $demoUploads = TemporaryUpload::forDataSource('test_alt')
         ->forCurrentClient()
         ->get();
 
@@ -152,7 +153,7 @@ it('can handle different database connections using forDataSource scope', functi
         ->and($demoUploads->first()->collection_name)->toBe('demo-conn');
 
     // Query using getForCurrentClient with dataSource
-    $demoUploadsStatic = TemporaryUpload::getForCurrentClient(null, null, 'demo');
+    $demoUploadsStatic = TemporaryUpload::getForCurrentClient(null, null, 'test_alt');
     expect($demoUploadsStatic)->toHaveCount(1)
         ->and($demoUploadsStatic->first()->collection_name)->toBe('demo-conn');
 });

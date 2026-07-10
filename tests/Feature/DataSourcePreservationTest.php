@@ -10,11 +10,11 @@ use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 beforeEach(function () {
 
-    $testDemoConnection = 'mle_test_demo';
-    //    $testDemoHostConnection = 'mle_test_host_app';
+    $testDemoConnection = PackageInfrastructure::connection('test', 'default');
 
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));
     Storage::fake('public');
@@ -24,7 +24,7 @@ beforeEach(function () {
     $this->getPermanentPreviewAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
 
     $this->baseId = 'media-manager-datasource';
-    $this->dataSource = 'demo';
+    $this->dataSource = 'test_default';
     $this->model = $this->getTestBlogModel();
 
     // Re-register the media_demo connection to ensure it's in config
@@ -51,8 +51,7 @@ beforeEach(function () {
 
 it('preserves dataSource after updating media and refreshing previews', function () {
 
-    //    $testDemoHostConnection = 'mle_test_host_app';
-    $testDemoConnection = 'mle_test_demo';
+    $testDemoConnection = PackageInfrastructure::connection('test', 'default');
 
     $file = UploadedFile::fake()->image('original.jpg');
 

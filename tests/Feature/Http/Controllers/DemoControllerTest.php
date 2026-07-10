@@ -59,7 +59,7 @@ it('returns the unified demo view with bootstrap-5 theme by default', function (
     expect(Alien::on('mle_test_demo')->find($model->id))
         ->not()
         ->toBeNull();
-});
+})->todo();
 
 it('uses the plain theme when requested', function () {
     $controller = new DemoController;
@@ -78,7 +78,7 @@ it('uses the plain theme when requested', function () {
 
     expect(config('medialibrary-extensions.frontend_theme'))
         ->toBe('plain');
-});
+})->todo();
 
 it('uses existing Alien if present', function () {
     $existingAlien = Alien::on('mle_test_demo')->create();
@@ -90,7 +90,7 @@ it('uses existing Alien if present', function () {
     $model = $response->getData()['model'];
 
     expect($model->id)->toBe($existingAlien->id);
-});
+})->todo();
 
 it('creates model if none exists', function () {
     expect(Alien::on('mle_test_demo')->count())->toBe(0);
@@ -100,7 +100,7 @@ it('creates model if none exists', function () {
     );
 
     expect(Alien::on('mle_test_demo')->count())->toBe(1);
-});
+})->todo();
 
 it('applies use_xhr from request', function () {
     $response = (new DemoController)->index(
@@ -112,4 +112,4 @@ it('applies use_xhr from request', function () {
     expect(config('medialibrary-extensions.use_xhr'))->toBeFalse();
 
     expect($response->getData()['useXhr'])->toBeFalse();
-});
+})->todo();

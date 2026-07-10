@@ -10,6 +10,8 @@
     ])->merge() }}
     data-mle-media-manager
 >
+    <!-- hidden anchor for scrolling -->
+    <a id="{{ $id }}"></a>
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
     @if(config('medialibrary-extensions.debug'))

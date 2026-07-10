@@ -25,6 +25,7 @@ it('passes validation with required fields and at least one collection', functio
         'collections' => ['image' => 'images'],
         'media' => [],
         'base_id' => 'user123',
+        'data_source' => 'default',
     ];
 
     $request = new StoreMultipleRequest;

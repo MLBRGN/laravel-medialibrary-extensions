@@ -64,7 +64,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-0-media-viewer"
-        src="/media/1/test.jpg"
+        src="/storage/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
@@ -80,7 +80,7 @@
                                      >
                     <img
         class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-1-media-viewer"
-        src="/media/2/test2.jpg"
+        src="/storage/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image

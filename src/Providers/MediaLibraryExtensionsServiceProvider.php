@@ -23,6 +23,7 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\Services\DefaultYouTubeThumbnailDownloader;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
@@ -84,8 +85,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     private string $vendor = 'mlbrgn';
 
-//    private string $nameSpace = 'medialibrary-extensions';
-
     protected function namespace(): string
     {
         return config('medialibrary-extensions.namespace', 'medialibrary-extensions');
@@ -101,12 +100,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // Register package-specific event provider
         $this->app->register(MediaLibraryExtensionsEventServiceProvider::class);
 
-        $this->setupDisks();
-
-        if (config('medialibrary-extensions.demo_pages_enabled')) {
-            $this->registerDemoDatabaseConnections();
-        }
-
         $this->app->bind(
             YouTubeThumbnailDownloader::class,
             DefaultYouTubeThumbnailDownloader::class
@@ -114,6 +107,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // singleton to remember media upload context (used by InteractsWithMediaExtended to promote temporary uploads to permanent)
         $this->app->singleton(MediaUploadContext::class);
+
+        $this->setupDisks();
+
+        if (config('medialibrary-extensions.demo_pages_enabled')) {
+            PackageInfrastructure::register('demo');
+        }
     }
 
     public function boot(): void
@@ -138,15 +137,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         // This tells Laravel where to find the translation files
         $this->loadTranslationsFrom(__DIR__.'/../../lang', $this->namespace());
-        // $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
 
         if ($this->app->runningInConsole()) {
-
-            // needed for testing
-            //            if ($this->app->environment('testing')) {
-            //                // Only load migrations for testing
-            //                $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-            //            }
 
             $this->commands([
                 ResetMediaLibraryExtensions::class,
@@ -200,7 +192,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-lab', MediaLab::class);
         Blade::component($this->packageNameShort.'-media-manager-single', MediaManagerSingle::class);
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
-        //        Blade::component($this->packageNameShort.'-media-manager-preview', MediaManagerPreview::class);
         Blade::component($this->packageNameShort.'-media-manager-tinymce', MediaManagerTinymce::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-media-viewer', MediaViewer::class);
@@ -257,46 +248,57 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->checkBladeUIKitIconSet();
     }
 
-    protected function registerDemoDatabaseConnections(): void
+//    protected function registerDemoDatabaseConnections(): void
+//    {
+//        config()->set(
+//            'database.connections.'.PackageInfrastructure::connection(),
+//            PackageInfrastructure::connectionConfig(
+//                PackageInfrastructure::databasePath($this->packageNameShort)
+//            )
+//        );
+//
+//        config()->set(
+//            'database.connections.'.PackageInfrastructure::hostConnection(),
+//            PackageInfrastructure::connectionConfig(
+//                PackageInfrastructure::databasePath($this->packageNameShort, true)
+//            )
+//        );
+//    }
+
+    public function setupDisks(): void
     {
-        $this->registerConnection(
-            config('medialibrary-extensions.demo_connection'),
-            $this->demoDatabasePath($this->packageNameShort.'-demo.sqlite')
-        );
+        $disksToRegister = [];
 
-        $this->registerConnection(
-            config('medialibrary-extensions.demo_host_app_connection'),
-            $this->demoDatabasePath($this->packageNameShort.'-demo-host-app.sqlite')
-        );
-    }
+        // Temporary disk is always required
+        $disksToRegister[
+            config('medialibrary-extensions.media_disks.temporary')
+        ] = config('medialibrary-extensions.disks.media_temporary');
 
-    protected function demoDatabasePath(string $file): string
-    {
-        $path = storage_path("app/{$this->packageNameShort}/demo/{$file}");
-
-        if (! is_dir(dirname($path))) {
-            mkdir(dirname($path), 0777, true);
+        // Originals only when enabled
+        if (config('medialibrary-extensions.store_originals', true)) {
+            $disksToRegister[
+                config('medialibrary-extensions.media_disks.originals')
+            ] = config('medialibrary-extensions.disks.media_originals');
         }
 
-        return $path;
-    }
+        // Demo disk only for demo pages
+//        if (config('medialibrary-extensions.demo_pages_enabled')) {
+//            config()->set(
+//                'filesystems.disks.'.PackageInfrastructure::disk(),
+//                PackageInfrastructure::diskConfig($this->packageNameShort)
+//            );
+//        }
 
-    protected function registerConnection(string $name, string $path): void
-    {
-        if (! file_exists($path)) {
-            touch($path);
+        // Register each one only if not already defined by the host app
+        foreach ($disksToRegister as $name => $diskConfig) {
+            config()->set(
+                "filesystems.disks.$name",
+                array_replace(
+                    $diskConfig,
+                    config("filesystems.disks.$name", [])
+                )
+            );
         }
-
-        if (config()->has("database.connections.$name")) {
-            return;
-        }
-
-        config()->set("database.connections.$name", [
-            'driver' => 'sqlite',
-            'database' => $path,
-            'prefix' => '',
-            'foreign_key_constraints' => true,
-        ]);
     }
 
     protected function registerPolicy(): void
@@ -326,9 +328,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     protected function overrideFormComponentsConfig(): void
     {
-//        $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
-//        $extraScripts[] = asset(config('medialibrary-extensions.asset_path').'/js/shared/tinymce-custom-file-picker.js');
-
         $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
         $extraScripts[] =
             '/' . trim(config('medialibrary-extensions.asset_path'), '/')
@@ -340,30 +339,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         foreach ($overrides as $key => $value) {
             config()->set("form-components.$key", $value);
-        }
-    }
-
-    public function setupDisks(): void
-    {
-        $disksToRegister = [];
-
-        // Add originals disk only if enabled
-        if (config('medialibrary-extensions.store_originals', true)) {
-            $disksToRegister[config('medialibrary-extensions.media_disks.originals')] = config('medialibrary-extensions.disks.media_originals');
-        }
-
-        // Add demo disk only if demo mode is enabled
-        if (config('medialibrary-extensions.demo_pages_enabled', false)) {
-            $disksToRegister[config('medialibrary-extensions.media_disks.demo')] = config('medialibrary-extensions.disks.media_demo');
-        }
-
-        $disksToRegister[config('medialibrary-extensions.media_disks.temporary')] = config('medialibrary-extensions.disks.media_temporary');
-
-        // Register each one only if not already defined by the host app
-        foreach ($disksToRegister as $name => $diskConfig) {
-            if (! config()->has("filesystems.disks.$name")) {
-                config()->set("filesystems.disks.$name", $diskConfig);
-            }
         }
     }
 

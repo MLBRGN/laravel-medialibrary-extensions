@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 
 class Alien extends Model implements HasMediaExtended
@@ -33,49 +34,49 @@ class Alien extends Model implements HasMediaExtended
         $this
             ->addMediaCollection('alien-single-image')
             ->singleFile()
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this
             ->addMediaCollection('alien-single-document')
             ->singleFile()
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this
             ->addMediaCollection('alien-single-youtube-video')
             ->singleFile()
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this
             ->addMediaCollection('alien-single-video')
             ->singleFile()
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this
             ->addMediaCollection('alien-single-audio')
             ->singleFile()
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this->addMediaCollection('alien-multiple-images')
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this->addMediaCollection('alien-multiple-documents')
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this->addMediaCollection('alien-multiple-youtube-videos')
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this->addMediaCollection('alien-multiple-videos')
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this->addMediaCollection('alien-multiple-audio')
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this->addMediaCollection('alien-media-lab')
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this
             ->addMediaCollection('alien-media-html-editor')
-            ->useDisk(config('medialibrary-extensions.media_disks.demo'));
+            ->useDisk(PackageInfrastructure::disk('demo'));
     }
 
     public static function allowsMediaUploads(): bool

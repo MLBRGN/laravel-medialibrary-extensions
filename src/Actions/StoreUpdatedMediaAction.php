@@ -29,7 +29,7 @@ class StoreUpdatedMediaAction
         $temporaryUploadMode = $request->boolean('temporary_upload_mode');
         $file = $request->file('file');
         $collections = $request->array('collections');
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
         $isSingleMedia = $singleMediaId !== null && $singleMediaId !== 'null';
         $newMedia = null;
 

@@ -21,7 +21,7 @@ class RestoreOriginalMediaAction
         RestoreOriginalMediumRequest $request,
         string|int $mediaId
     ): JsonResponse|RedirectResponse {
-        $dataSource = $request->input('data_source');
+        $dataSource = $request->input('data_source', 'default');
 
         // Prefer ID from request if present, otherwise use from URL
         $id = $request->input('medium_id', $mediaId);

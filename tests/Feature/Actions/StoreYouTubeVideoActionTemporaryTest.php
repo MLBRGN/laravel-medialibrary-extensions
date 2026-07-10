@@ -45,7 +45,7 @@ it('stores temporary thumbnail successfully (JSON)', function () {
         'temporary_upload_id' => $tempUpload->id,
         'multiple' => 'false',
         'model_type' => 'App\Models\Post',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $request->setLaravelSession(app('session.store'));
 
@@ -78,7 +78,7 @@ it('stores temporary thumbnail successfully (redirect)', function () {
         'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
 
     // Remove JSON Accept header to simulate the redirect request
@@ -117,7 +117,7 @@ it('returns error when temporary thumbnail fails to download (JSON)', function (
         'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -148,7 +148,7 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
         'base_id' => $baseId,
         'collections' => ['image' => 'images'],
         'youtube_collection' => 'test-collection',
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());
@@ -188,7 +188,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
         // no youtube_url
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $request->headers->set('Accept', 'application/json');
 
@@ -218,7 +218,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
         'model_type' => get_class($model),
         'model_id' => $model->getKey(),
         // no youtube_url
-        'data_source' => 'demo',
+        'data_source' => 'default',
     ]);
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());

@@ -8,5 +8,5 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class DemoMedia extends BaseMedia
 {
-    protected $connection = 'media_demo';
+//    protected $connection = 'media_demo';
 }

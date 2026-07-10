@@ -43,7 +43,7 @@ it('keeps single temporary manager enabled on demo when default has an upload in
         disabled: false,
         readonly: false,
         selectable: false,
-        dataSource: 'demo', // ensure we count on DEMO while the upload exists on DEFAULT
+        dataSource: 'test_alt', // ensure we count on test_alt while the upload exists on DEFAULT
     );
 
     // Force component to reuse our test client token
