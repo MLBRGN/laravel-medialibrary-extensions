@@ -31,7 +31,6 @@ it('aborts if youtube support is disabled', function () {
 });
 
 it('stores temporary thumbnail successfully (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
 
     $tempUpload = $this->getTemporaryUpload();
@@ -70,7 +69,6 @@ it('stores temporary thumbnail successfully (JSON)', function () {
 });
 
 it('stores temporary thumbnail successfully (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,
@@ -109,7 +107,6 @@ it('stores temporary thumbnail successfully (redirect)', function () {
 });
 
 it('returns error when temporary thumbnail fails to download (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
         'temporary_upload_mode' => true,

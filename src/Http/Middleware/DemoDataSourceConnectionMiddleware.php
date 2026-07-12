@@ -3,6 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +13,8 @@ class DemoDataSourceConnectionMiddleware
 {
     public function handle($request, Closure $next)
     {
-        dd('DEPRECATED?');
+        throw new Exception('DEPRECATED?');
+
         $dataSource = $request->input('data_source')
             ?? $request->query('data_source')
             ?? 'default';

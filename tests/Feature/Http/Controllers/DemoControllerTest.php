@@ -4,34 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 beforeEach(function () {
     config()->set('medialibrary-extensions.media_disks.originals', 'originals');
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
+    config()->set('medialibrary-extensions.demo_pages_enabled', true);
 
-    config()->set('filesystems.disks', [
-        'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => '/storage',
-            'visibility' => 'public',
-        ],
-        'media' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media'),
-            'visibility' => 'public',
-        ],
-        'media_demo' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media_demo'),
-            'visibility' => 'public',
-        ],
-        'originals' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/media_originals'),
-            'visibility' => 'private',
-        ],
-    ]);
+    PackageInfrastructure::register('demo');
 
     Storage::fake('public');
     Storage::fake('media');
@@ -39,77 +19,84 @@ beforeEach(function () {
     Storage::fake('media_demo');
 });
 
-it('returns the unified demo view with bootstrap-5 theme by default', function () {
-    $controller = new DemoController;
+it('can render the demo pge', function () {
 
-    $response = $controller->index(
-        Request::create('/demo')
-    );
+    $user = $this->getUser();
+    $route = route('mle-demo');
 
-    expect($response)->toBeInstanceOf(View::class)
-        ->and($response->name())->toBe('medialibrary-extensions::demo.mle-unified')
-        ->and($response->getData()['model'])->toBeInstanceOf(Alien::class)
-        ->and($response->getData()['theme'])->toBe('bootstrap-5');
+    $response = $this
+        ->actingAs($user)
+        ->followingRedirects()
+        ->get($route);
 
+    $response->assertOk()
+        ->assertViewIs('medialibrary-extensions::demo.mle-unified');
     expect(config('medialibrary-extensions.frontend_theme'))
         ->toBe('bootstrap-5');
 
-    $model = $response->getData()['model'];
+    $model = $response->viewData('model');
 
-    expect(Alien::on('mle_test_demo')->find($model->id))
+    expect($model)
+        ->toBeInstanceOf(Alien::class);
+
+    expect(Alien::on(PackageInfrastructure::connection('demo', 'default'))->find($model->id))
         ->not()
         ->toBeNull();
-})->todo();
+});
 
-it('uses the plain theme when requested', function () {
-    $controller = new DemoController;
+//it('uses the plain theme when requested', function () {
+//    $user = $this->getUser();
+//    $route = route('mle-demo');
+//
+//    $response = $this
+//        ->actingAs($user)
+//        ->followingRedirects()
+//        ->get($route);
+//
+//    $response->assertOk()
+//        ->assertViewIs('medialibrary-extensions::demo.mle-unified');
+//
+//    $model = $response->viewData('model');
+//
+//    expect($model)
+//        ->toBeInstanceOf(Alien::class);
+//
+//    expect(Alien::on(PackageInfrastructure::connection('demo', 'default'))->find($model->id))
+//        ->not()
+//        ->toBeNull();
+//
+//});
 
-    $response = $controller->index(
-        Request::create('/demo', 'GET', [
-            'theme' => 'plain',
-        ])
-    );
-
-    expect($response->name())
-        ->toBe('medialibrary-extensions::demo.mle-unified');
-
-    expect($response->getData()['theme'])
-        ->toBe('plain');
-
-    expect(config('medialibrary-extensions.frontend_theme'))
-        ->toBe('plain');
-})->todo();
-
-it('uses existing Alien if present', function () {
-    $existingAlien = Alien::on('mle_test_demo')->create();
-
-    $response = (new DemoController)->index(
-        Request::create('/demo')
-    );
-
-    $model = $response->getData()['model'];
-
-    expect($model->id)->toBe($existingAlien->id);
-})->todo();
-
-it('creates model if none exists', function () {
-    expect(Alien::on('mle_test_demo')->count())->toBe(0);
-
-    (new DemoController)->index(
-        Request::create('/demo')
-    );
-
-    expect(Alien::on('mle_test_demo')->count())->toBe(1);
-})->todo();
-
-it('applies use_xhr from request', function () {
-    $response = (new DemoController)->index(
-        Request::create('/demo', 'GET', [
-            'use_xhr' => false,
-        ])
-    );
-
-    expect(config('medialibrary-extensions.use_xhr'))->toBeFalse();
-
-    expect($response->getData()['useXhr'])->toBeFalse();
-})->todo();
+//it('uses existing Alien if present', function () {
+//    $existingAlien = Alien::on('mle_test_demo')->create();
+//
+//    $response = (new DemoController)->index(
+//        Request::create('/demo')
+//    );
+//
+//    $model = $response->getData()['model'];
+//
+//    expect($model->id)->toBe($existingAlien->id);
+//});
+//
+//it('creates model if none exists', function () {
+//    expect(Alien::on('mle_test_demo')->count())->toBe(0);
+//
+//    (new DemoController)->index(
+//        Request::create('/demo')
+//    );
+//
+//    expect(Alien::on('mle_test_demo')->count())->toBe(1);
+//});
+//
+//it('applies use_xhr from request', function () {
+//    $response = (new DemoController)->index(
+//        Request::create('/demo', 'GET', [
+//            'use_xhr' => false,
+//        ])
+//    );
+//
+//    expect(config('medialibrary-extensions.use_xhr'))->toBeFalse();
+//
+//    expect($response->getData()['useXhr'])->toBeFalse();
+//});

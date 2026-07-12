@@ -172,7 +172,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
         ->and($view)->toBeInstanceOf(View::class)
         ->and($view->name())->toContain('upload-form');
 
-})->todo();
+});
 
 // it('sets model properties correctly when given a HasMedia model instance', function () {
 //    $model = $this->getTestBlogModel();

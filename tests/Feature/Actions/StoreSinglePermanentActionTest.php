@@ -30,7 +30,6 @@ beforeEach(function () {
 });
 
 it('stores file (json)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $model = $this->getTestBlogModel();

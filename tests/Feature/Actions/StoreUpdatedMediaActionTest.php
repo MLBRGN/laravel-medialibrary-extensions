@@ -14,7 +14,6 @@ beforeEach(function () {
 });
 
 it('replaces a permanent medium (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 
@@ -49,7 +48,6 @@ it('replaces a permanent medium (JSON)', function () {
 });
 
 it('replaces a permanent medium (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 

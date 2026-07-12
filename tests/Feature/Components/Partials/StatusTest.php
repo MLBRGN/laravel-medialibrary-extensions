@@ -160,7 +160,6 @@ it('sets status from validation error bag when present', function () {
             'theme' => 'plain',
         ],
     );
-
     expect($component->status)->toBeArray()
         ->and($component->status['type'])->toBe('error')
         ->and($component->status['message'])->toContain('Collection is verplicht.');

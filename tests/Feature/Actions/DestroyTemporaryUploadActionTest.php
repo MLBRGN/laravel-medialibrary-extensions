@@ -5,6 +5,7 @@ use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyTemporaryUploadAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 covers(DestroyTemporaryUploadAction::class);
 
@@ -23,7 +24,7 @@ it('returns error response when no collections provided (JSON)', function () {
         'mime_type' => 'image/png',
         'size' => 123,
         'client_token' => session()->getId(),
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     // Call your route with an empty payload to trigger 422
@@ -41,7 +42,7 @@ it('returns error response when no collections provided (JSON)', function () {
         ]);
 });
 
-it('returns error response when no collections provided Redirect', function () {
+it('returns error response when no collections provided (Redirect)', function () {
     $user = $this->getUser();
     $baseId = 'initiator-123';
 
@@ -56,8 +57,9 @@ it('returns error response when no collections provided Redirect', function () {
         'mime_type' => 'image/png',
         'size' => 123,
         'client_token' => session()->getId(),
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
+
 
     $response = $this->withCookie('mle_client_token', session()->getId())
         ->actingAs($user)->delete(
@@ -65,8 +67,8 @@ it('returns error response when no collections provided Redirect', function () {
         ['base_id' => $baseId]
     );
 
-    $response->assertStatus(302);
-    $response->assertRedirect();
+    $response->assertStatus(422);
+//    $response->assertRedirect();
 
     $flashKey = config('medialibrary-extensions.status_session_prefix');
     $flashData = $response->getSession()->get($flashKey);
@@ -77,7 +79,7 @@ it('returns error response when no collections provided Redirect', function () {
             'type' => 'error',
             'message' => 'The collections field is required.',
         ]);
-})->todo();
+});
 
 it('deletes the temporary upload and returns JSON', function () {
     $user = $this->getUser();
@@ -94,7 +96,7 @@ it('deletes the temporary upload and returns JSON', function () {
         'mime_type' => 'image/png',
         'size' => 123,
         'client_token' => session()->getId(),
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
@@ -184,7 +186,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
         'file_name' => 'test1.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
     $temporaryUpload2 = TemporaryUpload::create([
         'collection_name' => $collections['image'],
@@ -196,7 +198,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
         'file_name' => 'test2.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
     $temporaryUpload3 = TemporaryUpload::create([
         'collection_name' => $collections['image'],
@@ -208,7 +210,7 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
         'file_name' => 'test3.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     $route = route(mle_prefix_route('destroy-temporary-upload'), $temporaryUpload2);

@@ -249,6 +249,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
 
     $response = $this
         ->withoutMiddleware(Authenticate::class)
+        ->followingRedirects()
         ->post(
             route(config('medialibrary-extensions.route_prefix').'-media-upload-single'),
             [
@@ -262,14 +263,12 @@ it('returns error if file exceeds max upload size (redirect)', function () {
             ]
         );
 
-    $response->assertStatus(302);
-
-    //    dd(session('errors')->toArray());
+    $response->assertStatus(422);
 
     $response->assertSessionHasErrors([
-        'media',
+        'media' => __('validation.max.file', [
+        'attribute' => 'media',
+        'max' => 100,
+            ])
     ]);
-    //    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
-    //        return str_contains($message, 'must not be greater than 100 kilobytes');
-    //    });
-})->todo('fix this test');
+});

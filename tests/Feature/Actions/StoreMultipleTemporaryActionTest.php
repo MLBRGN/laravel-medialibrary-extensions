@@ -9,7 +9,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('stores multiple valid files (json)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
@@ -42,7 +41,6 @@ it('stores multiple valid files (json)', function () {
 });
 
 it('stores multiple valid files (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('photo.jpg');
     $model = $this->getTestBlogModel();
@@ -76,7 +74,6 @@ it('stores multiple valid files (redirect)', function () {
 });
 
 it('returns error if no files are given (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 

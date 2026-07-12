@@ -88,7 +88,7 @@ class BrowserTestCase extends Orchestra
         'tiny.webp',
     ];
 
-    protected bool $migrated = false;
+    protected static bool $migrated = false;
 
     // runs before every test
     protected function setUp(): void
@@ -96,6 +96,7 @@ class BrowserTestCase extends Orchestra
         parent::setUp();
 
         $this->migrateDatabases();
+//        $this->truncateDatabases();
         $this->seedDatabases();
 
         Artisan::call('vendor:publish', [
@@ -238,18 +239,23 @@ class BrowserTestCase extends Orchestra
                 'path' => $path,
             ]);
 
-            if (! in_array($disk, [
-                PackageInfrastructure::diskUrlSegment('demo')
-            ], true)) {
-                Log::warning('BrowserTestCase - registerRoutes: Invalid storage disk requested', [
+            $diskConfig = config("filesystems.disks.$disk");
+
+            if ($diskConfig === null) {
+                Log::warning('Unknown disk', [
                     'disk' => $disk,
-                    'allowed' => PackageInfrastructure::disk('demo'),
-                    'path' => $path,
                 ]);
+
                 abort(404);
             }
 
-            $root = realpath(config("filesystems.disks.$disk.root"));
+            $root = realpath($diskConfig['root']);
+
+            Log::info('Disk config', [
+                'disk' => $disk,
+                'config' => config("filesystems.disks.$disk"),
+                'all_disks' => array_keys(config('filesystems.disks')),
+            ]);
 
             if ($root === false) {
                 Log::warning('BrowserTestCase - registerRoutes: Storage root does not exist', [
@@ -378,12 +384,11 @@ class BrowserTestCase extends Orchestra
 
     protected function migrateDatabases(): void
     {
-        static $migrated = false;
-
-        if ($migrated) {
+        if (static::$migrated) {
             return;
         }
 
+        Log::info('BrowserTestCase - migrateDatabases !!!!!!!!!!');
         $this->artisan('migrate:fresh', [
             '--database' => PackageInfrastructure::connection('demo', 'default'),
             '--path' => realpath(__DIR__.'/database/migrations'),
@@ -396,8 +401,37 @@ class BrowserTestCase extends Orchestra
             '--realpath' => true,
         ]);
 
-        $migrated = true;
+        static::$migrated = true;
     }
+
+//    protected function truncateDatabases(): void
+//    {
+//        foreach ([
+//                     PackageInfrastructure::connection('demo', 'default'),
+//                     PackageInfrastructure::connection('demo', 'alt'),
+//                 ] as $connection) {
+//
+//            $db = \DB::connection($connection);
+//
+//            $driver = $db->getDriverName();
+//
+//            if ($driver === 'sqlite') {
+//                $db->statement('PRAGMA foreign_keys = OFF');
+//            } else {
+//                $db->statement('SET FOREIGN_KEY_CHECKS=0');
+//            }
+//
+//            foreach ($db->getDoctrineSchemaManager()->listTableNames() as $table) {
+//                $db->table($table)->truncate();
+//            }
+//
+//            if ($driver === 'sqlite') {
+//                $db->statement('PRAGMA foreign_keys = ON');
+//            } else {
+//                $db->statement('SET FOREIGN_KEY_CHECKS=1');
+//            }
+//        }
+//    }
 
     protected function seedDatabases(): void
     {

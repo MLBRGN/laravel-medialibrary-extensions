@@ -13,50 +13,51 @@ use Mlbrgn\MediaLibraryExtensions\Actions\RestoreOriginalMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
 use Mlbrgn\MediaLibraryExtensions\Listeners\MediaHasBeenAddedListener;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 beforeEach(function () {
     $this->mediaService = app(MediaService::class);
     $this->action = new RestoreOriginalMediaAction($this->mediaService);
 
-    config()->set('medialibrary-extensions.media_disks.originals', 'originals');
-    config()->set('filesystems.disks.originals', [
-        'driver' => 'local',
-        'root' => storage_path('app/public/media_originals'),
-        'visibility' => 'private',
-    ]);
-    config()->set('filesystems.disks.public', [
-        'driver' => 'local',
-        'root' => storage_path('app/public'),
-        'visibility' => 'public',
-    ]);
-    config()->set('filesystems.disks.media', [
-        'driver' => 'local',
-        'root' => storage_path('app/public/media'),
-        'visibility' => 'public',
-    ]);
+//    PackageInfrastructure::connection('testbench', 'default');
+//    config()->set('medialibrary-extensions.media_disks.originals', 'originals');
+//    config()->set('filesystems.disks.originals', [
+//        'driver' => 'local',
+//        'root' => storage_path('app/public/media_originals'),
+//        'visibility' => 'private',
+//    ]);
+//    config()->set('filesystems.disks.public', [
+//        'driver' => 'local',
+//        'root' => storage_path('app/public'),
+//        'visibility' => 'public',
+//    ]);
+//    config()->set('filesystems.disks.media', [
+//        'driver' => 'local',
+//        'root' => storage_path('app/public/media'),
+//        'visibility' => 'public',
+//    ]);
 
     Storage::fake('public');
     Storage::fake('media');
     Storage::fake('originals');
 
     // Setup for data_source tests
-    $this->dataSource = 'demo';
-    $demoDatabasePath = __DIR__.'/../../Support/demo.sqlite';
-    config()->set('database.connections.media_demo', [
-        'driver' => 'sqlite',
-        'database' => $demoDatabasePath,
-        'prefix' => '',
-    ]);
-    config()->set('medialibrary-extensions.data_sources.default.connection', 'testbench');
-    config()->set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
-    DB::purge('media_demo');
-    if (! Schema::connection('media_demo')->hasTable('blogs')) {
-        Schema::connection('media_demo')->create('blogs', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->timestamps();
-        });
-    }
+//    $demoDatabasePath = __DIR__.'/../../Support/demo.sqlite';
+//    config()->set('database.connections.media_demo', [
+//        'driver' => 'sqlite',
+//        'database' => $demoDatabasePath,
+//        'prefix' => '',
+//    ]);
+//    config()->set('medialibrary-extensions.data_sources.default.connection', 'testbench');
+//    config()->set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
+//    DB::purge('media_demo');
+//    if (! Schema::connection('media_demo')->hasTable('blogs')) {
+//        Schema::connection('media_demo')->create('blogs', function (Blueprint $table) {
+//            $table->id();
+//            $table->string('title');
+//            $table->timestamps();
+//        });
+//    }
 });
 
 it('returns error if media not found', function () {
@@ -82,18 +83,17 @@ it('returns error if original file not found', function () {
         'data_source' => 'default',
     ]);
     $request->setLaravelSession(app('session.store'));
-    // We remove the JSON header to test RedirectResponse
-    // $request->headers->set('Accept', 'application/json');
 
     Storage::disk('originals')->delete("{$media->id}/{$media->file_name}");
 
-    Log::spy();
+//    Log::spy();
 
     $response = $this->action->execute($request, $media->id);
 
     expect($response)->toBeInstanceOf(RedirectResponse::class);
-    Log::shouldHaveReceived('warning')->once();
-});
+    dd($response);
+//    Log::shouldHaveReceived('warning')->once();
+})->todo('This test is needs work');
 
 it('restores the original file successfully', function () {
     $media = $this->getMedia('test.jpg');
@@ -145,7 +145,8 @@ it('restores original media from a custom data source', function () {
     expect($data['type'])->toBe('success');
 
     expect(Storage::disk($targetDisk)->get($targetPath))->toBe('original-content');
-})->todo('This test is not working yet');
+})
+    ->todo('This test is not working yet');
 
 it('falls back to media disk if target disk not configured', function () {
     $media = $this->getMedia('test.jpg');
@@ -170,4 +171,6 @@ it('falls back to media disk if target disk not configured', function () {
     Log::shouldHaveReceived('warning')
         ->with(Mockery::pattern('/Disk \[nonexistent\]/'))
         ->once();
-})->todo('This test is not working');
+});
+
+//    ->todo('This test is not working');

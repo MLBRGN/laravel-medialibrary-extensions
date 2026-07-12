@@ -33,7 +33,6 @@ it('aborts if youtube support is disabled', function () {
 });
 
 it('stores permanent thumbnail successfully (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [
@@ -74,7 +73,6 @@ it('stores permanent thumbnail successfully (JSON)', function () {
 });
 
 it('stores permanent thumbnail successfully (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
@@ -120,7 +118,6 @@ it('stores permanent thumbnail successfully (redirect)', function () {
 });
 
 it('returns error when permanent thumbnail fails to download (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $request = StoreYouTubeVideoRequest::create('/', 'POST', [

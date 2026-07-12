@@ -25,8 +25,8 @@ class PackageInfrastructure
 
             'disk' => [
                 'name' => 'mle_demo_disk',
-                'root' => 'storage/app/public/mle-demo-disk',
-                'url'  => '/storage/mle-demo-disk',
+                'root' => 'storage/app/public/mle_demo_disk',
+                'url'  => '/storage/mle_demo_disk',
             ],
 
             'migrations' => [
@@ -55,8 +55,8 @@ class PackageInfrastructure
 
             'disk' => [
                 'name' => 'mle_test_disk',
-                'root' => 'tests/Support/storage/mle-test-disk',
-                'url'  => '/storage/mle-test-disk',
+                'root' => 'tests/Support/storage/mle_test_disk',
+                'url'  => '/storage/mle_test_disk',
             ],
 
             'migrations' => [

@@ -4,6 +4,8 @@
     class="mle-component mle-theme-bootstrap-5 mle-media-manager media-manager-single" multiple="false"
     data-mle-media-manager
 >
+    <!-- hidden anchor for scrolling -->
+    <a id="test-media-modal"></a>
     <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"bootstrap-5","useXhr":true,"csrfToken":null,"collections":{"image":"images","documents":"documents"},"multiple":false,"disabled":false,"readonly":false,"selectable":false,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-single","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"disableForm":false,"totalMediaCount":0,"maxMediaCount":1,"isEmpty":true,"isAtMax":false}'>
 
         

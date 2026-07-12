@@ -213,12 +213,18 @@ it('retrieves temporary uploads using client token', function () {
     // Verify we can retrieve uploads by client token
     $uploads = TemporaryUpload::getForCurrentClient('default', $clientToken);
 
+    $uploads = TemporaryUpload::getForCurrentClient(
+        null,
+        null,
+        null,
+        $clientToken
+    );
     expect($uploads)->toHaveCount(2);
     expect($uploads->first()->client_token)->toBe($clientToken);
-})->todo('This test needs refactoring.');
+});
 
 it('retrieves temporary uploads using instance id', function () {
-    // Create a temporary upload with instance id
+    $clientToken = 'retrieve-test-client-token';
     $instanceId = 'retrieve-test-instance-id';
 
     TemporaryUpload::create([
@@ -229,6 +235,7 @@ it('retrieves temporary uploads using instance id', function () {
         'collection_name' => 'default',
         'mime_type' => 'image/jpeg',
         'size' => 123,
+        'client_token' => $clientToken,
         'instance_id' => $instanceId,
         'custom_properties' => [],
     ]);
@@ -241,22 +248,26 @@ it('retrieves temporary uploads using instance id', function () {
         'collection_name' => 'documents',
         'mime_type' => 'image/jpeg',
         'size' => 456,
+        'client_token' => $clientToken,
         'instance_id' => $instanceId,
         'custom_properties' => [],
     ]);
 
-    // Verify we can retrieve uploads by instance id
-    $uploads = TemporaryUpload::getForCurrentClient('default', null, $instanceId);
+    $uploads = TemporaryUpload::getForCurrentClient(
+        collectionName: null,
+        instanceId: $instanceId,
+        clientToken: $clientToken
+    );
 
     expect($uploads)->toHaveCount(2);
     expect($uploads->first()->instance_id)->toBe($instanceId);
-})->todo('This test needs refactoring.');
+});
 
-it('retrieves temporary uploads using session client token', function () {
-    // Set up the session with the client token
-    Session::put('medialibrary_extensions_client_token', 'session-test-token');
+it('retrieves temporary uploads using cookie client token', function () {
+    $clientToken = 'session-test-token';
 
-    // Create a temporary upload with the same client token
+    $this->withCookie('mle_client_token', $clientToken);
+
     TemporaryUpload::create([
         'disk' => 'public',
         'path' => 'uploads/session-test.jpg',
@@ -265,16 +276,16 @@ it('retrieves temporary uploads using session client token', function () {
         'collection_name' => 'default',
         'mime_type' => 'image/jpeg',
         'size' => 123,
-        'client_token' => 'session-test-token',
+        'client_token' => $clientToken,
         'custom_properties' => [],
     ]);
 
-    // Verify we can retrieve uploads by session client token
     $uploads = TemporaryUpload::getForCurrentClient('default');
 
-    expect($uploads)->toHaveCount(1);
-    expect($uploads->first()->client_token)->toBe('session-test-token');
-})->todo('This test needs refactoring.');
+    expect($uploads)->toHaveCount(1)
+        ->and($uploads->first()->client_token)
+        ->toBe($clientToken);
+})->skip('fix this test');
 
 it('handles missing client identity gracefully', function () {
     // Create a temporary upload without the client token or instance id
@@ -309,6 +320,7 @@ it('associates uploads with correct client token during upload process', functio
         'mime_type' => 'image/jpeg',
         'size' => 123,
         'client_token' => $clientToken,
+        'instance_id' => 'instance_id',
         'custom_properties' => [],
     ]);
 
@@ -319,4 +331,4 @@ it('associates uploads with correct client token during upload process', functio
     $retrieved = TemporaryUpload::getForCurrentClient('default', 'instance_id', 'default', $clientToken);
     expect($retrieved)->toHaveCount(1);
     expect($retrieved->first()->id)->toBe($temporaryUpload->id);
-})->todo('This test not working.');
+});

@@ -8,7 +8,6 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('fails when no collections provided JSON', function () {
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-123';
 
     $targetCollection = 'images';
@@ -44,7 +43,6 @@ it('fails when no collections provided JSON', function () {
 });
 
 it('fails when no collections provided', function () {
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-123';
     $targetCollection = 'images';
 
@@ -80,7 +78,6 @@ it('fails when no collections provided', function () {
 });
 
 it('returns error when no media in collection JSON', function () {
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-123';
     $targetCollection = 'images';
 
@@ -115,7 +112,6 @@ it('returns error when no media in collection JSON', function () {
 });
 
 it('returns error when no media in collection', function () {
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-123';
     $targetCollection = 'images';
 
@@ -154,7 +150,6 @@ it('can set as first in collection JSON', function () {
 
     $this->withSession([]); // boot a session in the test
 
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
@@ -219,7 +214,6 @@ it('can set as first in collection', function () {
 
     $this->withSession([]); // boot a session in the test
 
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
@@ -277,7 +271,6 @@ it('can set as first in collection with null model_id', function () {
 
     $this->withSession([]); // boot a session in the test
 
-    $baseId = 'initiator-123';
     $baseId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
@@ -297,6 +290,11 @@ it('can set as first in collection with null model_id', function () {
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'collections' => ['image' => 'blog-images'],
+//        'collections' => [
+//            'image' => [
+//                'blog-images',
+//            ],
+//        ],
         'model_type' => 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien',
         'model_id' => null,
     ]);
@@ -320,4 +318,5 @@ it('can set as first in collection with null model_id', function () {
         'type' => 'success',
         'message' => __('medialibrary-extensions::messages.medium_set_as_main'),
     ]);
-})->todo('fix this test');
+})
+    ->todo('fix this test');
