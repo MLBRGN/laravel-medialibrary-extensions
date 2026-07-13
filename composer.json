@@ -46,10 +46,10 @@
         "symfony/dom-crawler": "^7.0.0"
     },
     "repositories": [
-      {
-        "type": "vcs",
-        "url": "https://github.com/homiedopie/pest-plugin-browser"
-      }
+        {
+            "type": "vcs",
+            "url": "https://github.com/homiedopie/pest-plugin-browser"
+        }
     ],
     "suggest": {
         "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons",
@@ -89,8 +89,8 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest --exclude-group browser",
         "test-browser": [
-          "Composer\\Config::disableProcessTimeout",
-          "vendor/bin/pest --group browser"
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/pest --group browser"
         ],
         "coverage": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage"
     }

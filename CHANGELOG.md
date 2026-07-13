@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.3.13](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.12...2.3.13) (2026-07-13)
+
+
+### Bug Fixes
+
+* better validation StoreMultipleRequest.php and StoreSingleRequest.php ([219db06](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/219db06b2d5e22b1929f4ec4f2027cc987380d7b))
+* browser testing ([f91cd6c](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/f91cd6c854cf28fce02d8633a6d1072d6f58d769))
+* bug in media manager tinymce (no id) ([22ee88f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/22ee88f477f7beccb09378df8217511dd020afaf))
+* image info not showing in media lab ([3169bc3](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/3169bc3f74daf4b1e79813cf98402c88d4c10158))
+* namespace issues ([4917e2c](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/4917e2c9cf277c2cbe09c45a5754b7984deae93d))
+* nested form fix, disabled save model forms (temporarily) ([e8b5837](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e8b5837902d50769201a1f51d761c24a4202e02c))
+* temporary uploads preview modal not showing temporary uploads because of wrong instance id being used in lookup ([ca7fcbe](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/ca7fcbe5e7ef51a7963215e46018b90fd980fb47))
+
+
+### Documentation
+
+* added doc about id usage in package ([789b9fa](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/789b9fa5f7a45cfffdb8f4aaa0e016ccad819e09))
+
 ## [2.3.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.11...2.3.12) (2026-05-06)
 
 
