@@ -16,11 +16,10 @@ class Status extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public string $initiatorId,
-        public string $mediaManagerId,
-        public array $options = [],
+        array $options = [],
     ) {
         parent::__construct($id);
+        $this->options = $options;
 
         $statusKey = status_session_prefix(); // always one global key
 
@@ -28,16 +27,21 @@ class Status extends BaseComponent
         if (session()->has($statusKey)) {
             $sessionStatus = session($statusKey);
 
-            // Only attach if the initiator matches this component
-            if (($sessionStatus['media_manager_id'] ?? null) === $this->mediaManagerId) {
+            // Only attach if the initiator matches this component (base_id only)
+            if (($sessionStatus['base_id'] ?? null) === $this->id) {
                 $this->status = $sessionStatus;
             }
         }
-        $this->initializeConfig();
+        $this->resolveConfig();
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'status';
     }
 
     public function render(): View
     {
-        return $this->getPartialView('status', $this->getConfig('frontendTheme'));
+        return $this->renderView('status', $this->getConfig('theme'), true);
     }
 }

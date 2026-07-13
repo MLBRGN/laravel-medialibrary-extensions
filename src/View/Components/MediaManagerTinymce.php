@@ -5,17 +5,14 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Exception;
+use Illuminate\Config\Repository;
+use Illuminate\Foundation\Application;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 
-class MediaManagerTinymce extends BaseComponent
+class MediaManagerTinymce extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
-
-    public array $config;
 
     public bool $disableForm = false;
 
@@ -25,35 +22,23 @@ class MediaManagerTinymce extends BaseComponent
 
     protected string $youtubeUploadRoute;
 
-    // TODO not used?
     /**
-     * @var \Illuminate\Config\Repository|\Illuminate\Foundation\Application|mixed|object|null
+     * @var Repository|Application|mixed|object|null
      */
-    public string $uploadFieldName;
-
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public bool $multiple = true,
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
+        public ?string $dataSource = 'default',
     ) {
 
-        //        dd([
-        //            'disabled' => $disabled,
-        //            'readonly' => $readonly,
-        //            'selectable' => $selectable,
-        //        ]);
-
-        $id = filled($id) ? $id : null;
-        parent::__construct($id);
-
-        $this->instanceId = InstanceManager::getInstanceId($id);
-
-        $this->resolveModelOrClassName($modelOrClassName);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        $this->options = $options;
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {
@@ -64,7 +49,7 @@ class MediaManagerTinymce extends BaseComponent
 
         // throw exception when no media collection provided at all
         if (! $this->hasCollections()) {
-            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+            throw new Exception(__('medialibrary-extensions::messages.no_media_collections'));
         }
 
         // override
@@ -88,23 +73,29 @@ class MediaManagerTinymce extends BaseComponent
 
         if ($this->multiple) {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-multiple'));
-            $this->uploadFieldName = config('media-library-extensions.upload_field_name_multiple');
-            $this->id = $this->id.'-mmm';
         } else {
             $this->mediaUploadRoute = route(mle_prefix_route('media-upload-single'));
-            $this->uploadFieldName = config('media-library-extensions.upload_field_name_single');
-            $this->id = $this->id.'-mms';
         }
 
-        $this->initializeConfig([
-            'uploadFieldName' => $this->uploadFieldName,
+        $this->resolveConfig([
+            'uploadFieldName' => 'media',
             'selectable' => $selectable,
             'instanceId' => $this->instanceId,
+            'dataSource' => $this->dataSource,
         ]);
+    }
+
+    protected function domIdSuffix(): string
+    {
+        if ($this->multiple) {
+            return 'mmm';
+        } else {
+            return 'mms';
+        }
     }
 
     public function render(): View
     {
-        return $this->getView('media-manager-tinymce', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-manager-tinymce', $this->getConfig('theme'));
     }
 }

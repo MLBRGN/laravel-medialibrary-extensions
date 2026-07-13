@@ -7,48 +7,40 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ImageEditorForm extends BaseComponent
+class ImageEditorForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
-
-    //    public string $saveUpdatedMediumRoute;
-    public array $config;
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public Media|TemporaryUpload|null $singleMedium = null,
+        public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
-        public array $options,
-        public string $initiatorId,
-        public ?string $mediaManagerId = '',
+        array $options,
         public ?bool $disabled = false,
+        public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $this->dataSource);
 
-        $this->id = $this->id.'-ie-update-form';
+        $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
-
-        $saveUpdatedMediumRoute = $this->getOption('temporaryUploadMode') ?
+        $storeUpdatedMediaRoute = $this->getOption('temporaryUploadMode') ?
             route(mle_prefix_route('save-updated-temporary-upload'), $medium) :
-            route(mle_prefix_route('save-updated-medium'), $medium);
+            route(mle_prefix_route('save-updated-media'), $medium);
 
-        $this->initializeConfig([
-            //            'frontendTheme' => $this->getOption('frontendTheme', config('media-library-extensions.frontend_theme')),
-            //            'useXhr' => config('media-library-extensions.use_xhr'),
-            'saveUpdatedMediumRoute' => $saveUpdatedMediumRoute,
+        $this->resolveConfig([
+            //            'theme' => $this->getOption('theme', config('medialibrary-extensions.frontend_theme')),
+            //            'useXhr' => config('medialibrary-extensions.use_xhr'),
+            'storeUpdatedMediaRoute' => $storeUpdatedMediaRoute,
         ]);
     }
 
     public function render(): View
     {
-        return $this->getPartialView('image-editor-form', $this->getConfig('frontendTheme'));
+        return $this->renderView('image-editor-form', $this->getConfig('theme'), true);
     }
 }

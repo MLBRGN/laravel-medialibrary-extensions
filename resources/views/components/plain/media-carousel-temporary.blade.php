@@ -1,7 +1,7 @@
-<div id="{{ $id }}"
+<div id="{{ $getDomId() }}"
      {{ $attributes->class([
         'mle-component',
-        'mle-theme-'.$getConfig('frontendTheme'),
+        'mle-theme-'.$getConfig('theme'),
         'mle-media-carousel',
         'mle-media-carousel-empty' => $mediaCount === 0,
         'mle-media-carousel-plain',
@@ -9,14 +9,14 @@
         'mle-height-100'
     ])->merge() }}
     data-mle-carousel
-    data-mle-carousel-id="{{ $id }}"
+    data-mle-carousel-id="{{ $getDomId() }}"
     tabindex="-1"
-    @if(config('media-library-extensions.carousel_ride'))
-        data-mle-carousel-ride="{{ config('media-library-extensions.carousel_ride') ? 'true' : 'false' }}"
-        data-mle-carousel-ride-interval="{{ config('media-library-extensions.carousel_ride_interval') }}"
-        data-mle-carousel-ride-only-after-interaction="{{ config('media-library-extensions.carousel_ride_only_after_interaction') ? 'true' : 'false' }}"
+    @if(config('medialibrary-extensions.carousel_ride'))
+        data-mle-carousel-ride="{{ config('medialibrary-extensions.carousel_ride') ? 'true' : 'false' }}"
+        data-mle-carousel-ride-interval="{{ config('medialibrary-extensions.carousel_ride_interval') }}"
+        data-mle-carousel-ride-only-after-interaction="{{ config('medialibrary-extensions.carousel_ride_only_after_interaction') ? 'true' : 'false' }}"
     @endif
-    data-mle-carousel-effect="{{ config('media-library-extensions.carousel_fade') ? 'fade' : 'slide' }}"
+    data-mle-carousel-effect="{{ config('medialibrary-extensions.carousel_fade') ? 'fade' : 'slide' }}"
 >
     {{-- Indicators --}}
     <div
@@ -34,7 +34,7 @@
                 @if($loop->first) 
                     aria-current="true" 
                 @endif
-                aria-label="{{ __('media-library-extensions::messages.slide_to_:index', ['index' => $index + 1]) }}">
+                aria-label="{{ __('medialibrary-extensions::messages.slide_to_:index', ['index' => $index + 1]) }}">
             </button>
         @endforeach
     </div>
@@ -57,8 +57,9 @@
                     @endif
                 >
                     <x-mle-media-viewer
+                        :id="$id . '-' . $loop->index"
                         :medium="$medium"
-                        :options="$options"
+                        :options="$getOptions()"
                         :preview-mode="$previewMode"
                         :expandable-in-modal="$expandableInModal"
                     />
@@ -72,7 +73,7 @@
                 data-mle-carousel-item
             >
                 <div class="mle-media-carousel-item-container">
-                    <span class="mle-no-media">{{ __('media-library-extensions::messages.no_media') }}</span>
+                    <span class="mle-no-media">{{ __('medialibrary-extensions::messages.no_media') }}</span>
                 </div>
             </div>
         @endforelse
@@ -86,15 +87,16 @@
         ])
         type="button"
         data-mle-slide="prev"
-        title="{{ __('media-library-extensions::messages.previous') }}"
+        title="{{ __('medialibrary-extensions::messages.previous') }}"
+        data-mle-carousel-prev
     >
         <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
         <x-mle-shared-icon
-            name="{{ config('media-library-extensions.icons.prev') }}"
-            title="{{ __('media-library-extensions::messages.previous') }}"
+            name="{{ config('medialibrary-extensions.icons.prev') }}"
+            title="{{ __('medialibrary-extensions::messages.previous') }}"
         />
         </span>
-        <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.previous') }}</span>
+        <span class="mle-visually-hidden">{{ __('medialibrary-extensions::messages.previous') }}</span>
     </button>
     <button
         @class([
@@ -103,31 +105,33 @@
         ])
         type="button"
         data-mle-slide="next"
-        title="{{ __('media-library-extensions::messages.next') }}"
+        title="{{ __('medialibrary-extensions::messages.next') }}"
+        data-mle-carousel-next
     >
         <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
             <x-mle-shared-icon
-                name="{{ config('media-library-extensions.icons.next') }}"
-                title="{{ __('media-library-extensions::messages.next') }}"
+                name="{{ config('medialibrary-extensions.icons.next') }}"
+                title="{{ __('medialibrary-extensions::messages.next') }}"
             />
         </span>
-        <span class="mle-visually-hidden">{{ __('media-library-extensions::messages.next') }}</span>
+        <span class="mle-visually-hidden">{{ __('medialibrary-extensions::messages.next') }}</span>
     </button>
 </div>
 @if($expandableInModal)
     <x-mle-media-modal
         :id="$id"
         :model-or-class-name="$modelOrClassName"
-        :single-medium="$singleMedium"
+        :single-media="$singleMedia"
         :collections="$collections"
-        :options="$options"
+        :options="$getOptions()"
         title="Media carousel"/>
 @endif
 <x-mle-shared-assets
     include-css="true"
     include-js="true"
     include-carousel-js="true"
-    include-lite-youtube="{{ config('media-library-extensions.youtube_support_enabled') }}"
-    :frontend-theme="$getConfig('frontendTheme')"
+    include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
+    include-lite-youtube="{{ config('medialibrary-extensions.youtube_support_enabled') }}"
+    :theme="$getConfig('theme')"
     for="plain|media-carousel-temporary"
 />

@@ -1,13 +1,16 @@
 @if ($componentToRender)
     <div class="mle-media-preview-item-container"
+         id="{{ $getDomId() }}"
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
+         data-mle-media-preview-item
     >
         <x-mle-media-viewer
             :medium="$medium"
-            :options="$options"
+            :options="$getOptions()"
             :preview-mode="true"
             :expandable-in-modal="true"
+            :data-source="$getConfig('dataSource')"
         />
     </div>
 
@@ -16,15 +19,15 @@
             id="{{ $id }}"
             :model-or-class-name="$modelOrClassName"
             :medium="$medium"
-            :single-medium="$singleMedium"
+            :single-media="$singleMedia"
             :collections="$collections"
-            :options="$options"
-            :initiator-id="$id"
+            :options="$getOptions()"
             title="Edit Image"
+            :data-source="$getConfig('dataSource')"
         />
     @endif
 @else
     <span class="mle-unsupported">
-        {{ __('media-library-extensions::messages.non_supported_file_format') }}
+        {{ __('medialibrary-extensions::messages.non_supported_file_format') }}
     </span>
 @endif

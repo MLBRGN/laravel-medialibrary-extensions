@@ -2,7 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Support;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Manages stable instance IDs for upload components.
@@ -21,17 +21,33 @@ use Illuminate\Support\Str;
  */
 class InstanceManager
 {
-    public static function getInstanceId(string $instanceKey): string
+    protected static array $scopes = [];
+
+    public static function getInstanceId(string $id): string
     {
-        $instances = session()->get('mle_instances', []);
+        //        Log::debug('Generating instance ID for ID: '.$id);
+        // Use a deterministic ULID-like string based on the id to maintain
+        // stability across page refreshes without relying on sessions.
+        // We use SHA-1 to hash the id and then format it as a valid-looking ULID.
+        $hash = sha1($id);
 
-        if (! isset($instances[$instanceKey])) {
-            //            $instances[$instanceKey] = Str::ulid()->toBase32();
-            $instances[$instanceKey] = (string) Str::ulid();
+        return strtoupper(substr($hash, 0, 26));
+    }
 
-            session()->put('mle_instances', $instances);
-        }
+    public static function registerScope(string $instanceId, array $data): void
+    {
+        self::$scopes[$instanceId] = $data;
+    }
 
-        return $instances[$instanceKey];
+    public static function getScope(string $instanceId): ?array
+    {
+        return self::$scopes[$instanceId] ?? null;
+    }
+
+    public static function getRootDomId(string $instanceId): ?string
+    {
+        // Only support the unified Base ID going forward. Legacy keys like
+        // 'mediaManagerDomId' have been removed as part of the Base ID refactor.
+        return self::$scopes[$instanceId]['base_id'] ?? null;
     }
 }

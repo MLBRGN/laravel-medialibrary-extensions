@@ -152,26 +152,6 @@ arch('does not contain debugging statements in views', function () {
     }
 });
 
-arch('does not contain debugging statements in JavaScript files', function () {
-    $jsDirectory = realpath(__DIR__.'/../../resources/js');
-
-    $debuggingStatements = ['debugger', 'alert('];
-
-    $jsFiles = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($jsDirectory)
-    );
-
-    foreach ($jsFiles as $file) {
-        if ($file->isFile() && $file->getExtension() === 'js') {
-            $fileContents = file_get_contents($file->getRealPath());
-
-            foreach ($debuggingStatements as $statement) {
-                expect($fileContents)->not->toContain($statement);
-            }
-        }
-    }
-})->skip();
-
 arch('Does not use the redirect facade for redirecting')
     ->expect(Redirect::class)
     ->not()

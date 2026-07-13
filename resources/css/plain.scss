@@ -11,6 +11,7 @@
 @use "plain/modal_core";
 @use "plain/image-editor-modal";
 @use "plain/media-manager";
+@use "plain/alert";
 
 // dummy content to force build as separate file
 .mle-component {

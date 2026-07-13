@@ -19,18 +19,21 @@ class MaxMediaCount implements ValidationRule
 
     protected int $max;
 
-    public function __construct(HasMedia $model, array $collections, int $max)
+    protected ?string $dataSource;
+
+    public function __construct(HasMedia $model, array $collections, int $max, ?string $dataSource = 'default')
     {
         $this->model = $model;
         $this->collections = $collections;
         $this->max = $max;
+        $this->dataSource = $dataSource;
     }
 
     public function validate(string $attribute, $value, Closure $fail): void
     {
         $newCount = is_array($value) ? count($value) : 1;
 
-        $existingCount = $this->countModelMediaInCollections($this->model, $this->collections);
+        $existingCount = $this->countModelMediaInCollections($this->model, $this->collections, $this->dataSource);
 
         if (($existingCount + $newCount) > $this->max) {
             $fail($this->message());
@@ -40,10 +43,10 @@ class MaxMediaCount implements ValidationRule
     public function message(): string
     {
         if ($this->max === 1) {
-            return __('media-library-extensions::messages.only_one_medium_allowed');
+            return __('medialibrary-extensions::messages.only_one_medium_allowed');
         }
 
-        return __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+        return __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
             'items' => $this->max,
         ]);
     }
@@ -79,6 +82,6 @@ class MaxMediaCount implements ValidationRule
 //
 //    public function message(): string
 //    {
-//        return __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => $this->max]);
+//        return __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => $this->max]);
 //    }
 // }

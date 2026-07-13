@@ -68,10 +68,14 @@ trait InteractsWithMimeTypes
         // Fallback: use configured mimetypes from collections
         $allowed = collect();
 
-        foreach (['image', 'document', 'video', 'audio'] as $collection) {
-            if (method_exists($this, 'hasCollection') && $this->hasCollection($collection)) {
+        foreach ($this->collections as $type => $name) {
+            if (empty($name)) {
+                continue;
+            }
+
+            if (in_array($type, ['image', 'document', 'video', 'audio'])) {
                 $allowed = $allowed->merge(
-                    config("media-library-extensions.allowed_mimetypes.$collection", [])
+                    config("medialibrary-extensions.allowed_mimetypes.$type", [])
                 );
             }
         }

@@ -1,5 +1,5 @@
 @if ($getConfig('temporaryUploadMode'))
-    @include('media-library-extensions::components.bootstrap-5.media-carousel-temporary')
+    @include('medialibrary-extensions::components.bootstrap-5.media-carousel-temporary')
 @else
-    @include('media-library-extensions::components.bootstrap-5.media-carousel-permanent')
+    @include('medialibrary-extensions::components.bootstrap-5.media-carousel-permanent')
 @endif

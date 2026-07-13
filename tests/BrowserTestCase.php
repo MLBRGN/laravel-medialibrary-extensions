@@ -1,0 +1,452 @@
+<?php
+
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+namespace Mlbrgn\MediaLibraryExtensions\Tests;
+
+use BladeUI\Icons\BladeIconsServiceProvider;
+use Davidhsianturi\BladeBootstrapIcons\BladeBootstrapIconsServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
+use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
+use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
+use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
+use Mlbrgn\MediaLibraryExtensions\Tests\Fakes\FakeYouTubeThumbnailDownloader;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
+use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+
+/**
+ * Browser test filesystem layout.
+ *
+ * Tests/
+ * └── Support/
+ *     └── storage/
+ *         ├── media_demo/ TODO check
+ *         ├── media_originals/
+ *         └── media_temporary/
+ *
+ * Files are served through a dedicated test route:
+ *
+ * /storage/media_demo/* // TODO check
+ * /storage/media_originals/*
+ * /storage/media_temporary/*
+ *
+ * This mimics Laravel's public storage URLs without requiring
+ * a real web server, public/storage symlink, or host application.
+ *
+ * Browser test
+ * ↓
+ * MediaLibrary writes the file
+ * ↓
+ * tests/Support/storage/media_*
+ * ↓
+ * /storage/{disk}/{path}
+ * ↓
+ * response()->file()
+ * ↓
+ * browser receives actual image
+ */
+class BrowserTestCase extends Orchestra
+{
+    protected $baseUrl = 'http://medialibrary-extensions.test';
+
+    protected Blog $testModel;
+
+    protected Ufo $testModelNotExtendingHasMedia;
+
+    // large files cause timeouts in browser testing, disabled (for now)
+    protected array $fixtures = [
+        '512x512_1:1.png',
+        '640x360_16:9.png',
+        '720x1280_9:16.png',
+        '800x600_4:3.png',
+    ];
+
+    protected array $invalidMimeTypeFixtures = [
+        'invalid-config.json',
+        'invalid-mime-test.zip',
+        'invalid-image.png',
+        'invalid-readme.txt',
+    ];
+
+    protected array $tinyImageFixtures = [
+        'tiny.jpg',
+        'tiny.png',
+        'tiny.webp',
+    ];
+
+    protected static bool $migrated = false;
+
+    // runs before every test
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->migrateDatabases();
+//        $this->truncateDatabases();
+        $this->seedDatabases();
+
+        Artisan::call('vendor:publish', [
+            '--tag' => 'medialibrary-extensions-assets',
+            '--force' => true,
+        ]);
+
+        date_default_timezone_set('UTC');
+        config(['app.timezone' => 'UTC']);
+
+        Carbon::setTestNow('2025-01-01 00:00:00');
+
+        $this->testModel = Blog::create(['title' => 'Test Model']);
+        $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
+        $this->app['translator']->addNamespace(
+            'medialibrary-extensions',
+            __DIR__.'/../lang'
+        );
+
+        Route::get('/login', fn () => 'Login (dummy)')->name('login');
+
+        Config::set('medialibrary-extensions.demo_pages_enabled', false);
+        Config::set('medialibrary-extensions.debug', true);
+        Config::set('medialibrary-extensions.store_originals', true);
+
+        if (empty(config('app.key'))) {
+            $key = 'base64:'.base64_encode(random_bytes(32));
+            Config::set('app.key', $key);
+        }
+
+        $this->app->bind(
+            YouTubeThumbnailDownloader::class,
+            FakeYouTubeThumbnailDownloader::class
+        );
+
+        $this->afterApplicationCreated(function () {
+            //            $this->overrideVendorRoutes();
+        });
+    }
+
+    protected function tearDown(): void
+    {
+        // Reset Carbon's test clock
+        Carbon::setTestNow();
+
+        parent::tearDown();
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        $providers = [
+            MediaLibraryServiceProvider::class, // YouTube video download browser testing fails without these
+            MediaLibraryExtensionsServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeBootstrapIconsServiceProvider::class,
+        ];
+
+        if (class_exists(FormComponentsServiceProvider::class)) {
+            $providers[] = FormComponentsServiceProvider::class;
+        }
+
+        return $providers;
+    }
+
+    // Configure the Testbench application before booting.
+    public function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
+        // mark that we are running browser tests to allow safe demo/testing fallbacks
+        $app['config']->set('medialibrary-extensions.browser_tests', true);
+
+        PackageInfrastructure::register('demo');// use same as demo page
+
+        // TODO needed?
+        $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
+
+        // configure logging
+        $app['config']->set('logging.default', 'single');
+        $app['config']->set('logging.channels.single', [
+            'driver' => 'single',
+            'path' => $this->getLogDirectory().'/laravel.log',
+            'level' => 'debug',
+        ]);
+
+        // configure sessions
+        //        'driver' => env('SESSION_DRIVER', 'database'),
+        $app['config']->set('session.driver', 'file');
+        $app['config']->set('session.serialization', 'php');
+
+        // Load media library config (needed for tests that interact with the media library to work)
+        $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
+
+        // set the media model to use
+        $app['config']->set('media-library.media_model', Media::class);
+
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            return 'Mlbrgn\\MediaLibraryExtensions\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory';
+        });
+
+        View::addLocation(__DIR__.'/Feature/views');
+
+        // bind the public path to the test/Support/public directory
+        $app->bind('path.public', fn () => $this->getFakePublicDirectory());
+        $this->registerRoutes();
+
+    }
+
+    public function getFixtureAsFilePath(string $fileName): string
+    {
+        $path = __DIR__.'/Fixtures/'.$fileName;
+
+        return $path;
+    }
+
+    /**
+     * Browser tests run inside a package, not a full Laravel application.
+     *
+     * In a normal application, files under public/storage would be served
+     * directly by the web server (Nginx/Apache).
+     *
+     * During package browser tests there is no real public storage layer,
+     * so we expose configured filesystem disks through a dedicated route.
+     *
+     * Example:
+     *
+     * /storage/media_demo/1/image.jpg
+     *
+     * Resolves to:
+     *
+     * tests/Support/storage/media_demo/1/image.jpg
+     */
+    protected function registerRoutes(): void
+    {
+
+        Route::get('/storage/{disk}/{path}', function (string $disk, string $path) {
+            Log::info('BrowserTestCase - registerRoutes: Storage request', [
+                'url' => request()->fullUrl(),
+                'referer' => request()->headers->get('referer'),
+                'disk' => $disk,
+                'path' => $path,
+            ]);
+
+            $diskConfig = config("filesystems.disks.$disk");
+
+            if ($diskConfig === null) {
+                Log::warning('Unknown disk', [
+                    'disk' => $disk,
+                ]);
+
+                abort(404);
+            }
+
+            $root = realpath($diskConfig['root']);
+
+            Log::info('Disk config', [
+                'disk' => $disk,
+                'config' => config("filesystems.disks.$disk"),
+                'all_disks' => array_keys(config('filesystems.disks')),
+            ]);
+
+            if ($root === false) {
+                Log::warning('BrowserTestCase - registerRoutes: Storage root does not exist', [
+                    'disk' => $disk,
+                    'configured_root' => config("filesystems.disks.$disk.root"),
+                ]);
+
+                abort(404);
+            }
+
+            $file = realpath($root.'/'.$path);
+
+            if (
+                ! $file ||
+                ! str_starts_with($file, $root.DIRECTORY_SEPARATOR)
+                || ! is_file($file)
+            ) {
+                Log::warning('BrowserTestCase - registerRoutes: Storage file not found', [
+                    'disk' => $disk,
+                    'root' => $root,
+                    'path' => $path,
+                    'resolved' => $file,
+                ]);
+                abort(404);
+            }
+
+            return response()->file($file);
+        })->where('path', '.*');
+
+        Route::middleware('web')->group(function () {
+            Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
+            Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
+            Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
+
+            Route::get('/vendor/mlbrgn/{package}/{path}', function ($package, $path) {
+
+                $root = realpath(__DIR__.'/../../../..');
+
+                $map = [
+                    'laravel-medialibrary-extensions' => $root.'/packages/mlbrgn/laravel-medialibrary-extensions/dist',
+
+                    'laravel-form-components' => $root.'/packages/mlbrgn/laravel-form-components/dist',
+                ];
+
+                abort_unless(isset($map[$package]), 404);
+
+                $basePath = realpath($map[$package]);
+                abort_unless($basePath, 404);
+
+                // Normalize requested path
+                $relativePath = ltrim($path, '/');
+
+                // Build full path
+                $filePath = $basePath.'/'.$relativePath;
+
+                // Resolve real path (THIS is the key security step)
+                $realFilePath = realpath($filePath);
+
+                // Block missing files
+                abort_unless($realFilePath && file_exists($realFilePath), 404);
+
+                // CRITICAL: ensure that the file is inside the allowed base directory
+                abort_unless(str_starts_with($realFilePath, $basePath), 403);
+
+                return response()->file($realFilePath, [
+                    'Content-Type' => match (pathinfo($realFilePath, PATHINFO_EXTENSION)) {
+                        'js' => 'application/javascript',
+                        'css' => 'text/css',
+                        default => 'application/octet-stream',
+                    },
+                ]);
+
+            })->where('path', '.*');
+        });
+
+        Route::get('image-editor-translations/{locale}.json', function () {
+            return response()->json([]);
+        });
+        Route::get('favicon.ico', fn () => '')->name('mlbrgn.mle.favicon');
+    }
+
+    protected function createDirectory(string $directory): void
+    {
+
+        if (! File::isDirectory($directory)) {
+            File::makeDirectory($directory, 0755, true);
+        }
+    }
+
+    public function getLogDirectory(): string
+    {
+        return __DIR__.'/.logs';
+    }
+
+    public function getBrowserStorageDirectory(string $suffix = ''): string
+    {
+        return __DIR__.'/Support/storage'
+            .($suffix === '' ? '' : '/'.$suffix);
+    }
+
+    public function getRandomFixture(): string
+    {
+        return $this->getFixtureAsFilePath(
+            $this->fixtures[array_rand($this->fixtures)]
+        );
+    }
+
+    public function getYouTubeFixture(): string
+    {
+        return 'https://www.youtube.com/watch?v=jNQXAC9IVRw';
+    }
+
+    public function getInvalidMimeTypeFixture(): string
+    {
+        return $this->getFixtureAsFilePath(
+            $this->invalidMimeTypeFixtures[array_rand($this->invalidMimeTypeFixtures)]
+        );
+    }
+
+    public function getTinyImageFixture(): string
+    {
+        return $this->getFixtureAsFilePath(
+            $this->tinyImageFixtures[array_rand($this->tinyImageFixtures)]
+        );
+    }
+
+    protected function migrateDatabases(): void
+    {
+        if (static::$migrated) {
+            return;
+        }
+
+        Log::info('BrowserTestCase - migrateDatabases !!!!!!!!!!');
+        $this->artisan('migrate:fresh', [
+            '--database' => PackageInfrastructure::connection('demo', 'default'),
+            '--path' => realpath(__DIR__.'/database/migrations'),
+            '--realpath' => true,
+        ]);
+
+        $this->artisan('migrate:fresh', [
+            '--database' => PackageInfrastructure::connection('demo', 'alt'),
+            '--path' => realpath(__DIR__.'/../database/demo-migrations'),
+            '--realpath' => true,
+        ]);
+
+        static::$migrated = true;
+    }
+
+//    protected function truncateDatabases(): void
+//    {
+//        foreach ([
+//                     PackageInfrastructure::connection('demo', 'default'),
+//                     PackageInfrastructure::connection('demo', 'alt'),
+//                 ] as $connection) {
+//
+//            $db = \DB::connection($connection);
+//
+//            $driver = $db->getDriverName();
+//
+//            if ($driver === 'sqlite') {
+//                $db->statement('PRAGMA foreign_keys = OFF');
+//            } else {
+//                $db->statement('SET FOREIGN_KEY_CHECKS=0');
+//            }
+//
+//            foreach ($db->getDoctrineSchemaManager()->listTableNames() as $table) {
+//                $db->table($table)->truncate();
+//            }
+//
+//            if ($driver === 'sqlite') {
+//                $db->statement('PRAGMA foreign_keys = ON');
+//            } else {
+//                $db->statement('SET FOREIGN_KEY_CHECKS=1');
+//            }
+//        }
+//    }
+
+    protected function seedDatabases(): void
+    {
+        Alien::on(PackageInfrastructure::connection('demo', 'default'))
+            ->create([]);
+
+        Alien::on(PackageInfrastructure::connection('demo', 'alt'))
+            ->create([]);
+    }
+
+    protected function scrollIntoView($page, string $selector): void
+    {
+        $page->script("
+        document.querySelector('$selector')
+            ?.scrollIntoView({ block: 'center', inline: 'center' });
+    ");
+    }
+}

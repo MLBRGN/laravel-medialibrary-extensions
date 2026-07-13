@@ -2,6 +2,8 @@
  * General
  */
 
+@import 'debug';
+
 // scope css
 .mle-component {
 
@@ -77,6 +79,7 @@
 
     .mle-form-text {
         font-size:0.85rem;
+        color:var(--mlbrgn-mle-form-text-color);
     }
 
     .mle-button,
@@ -96,7 +99,7 @@
     }
 
     .mle-button.mle-button-icon,
-    .mle-button-pseudo.mle-button-icon-pseudo,
+    .mle-button-pseudo.mle-button-icon-pseudo
     {
         margin:0;
         margin-inline-start: .5rem;
@@ -138,7 +141,7 @@
     }
 
     .mle-button-pseudo.mle-button-icon-pseudo:hover:not(.mle-button-no-hover),
-    .mle-button.mle-button-icon:hover:not(.mle-button-no-hover),
+    .mle-button.mle-button-icon:hover:not(.mle-button-no-hover)
     {
         background-color: var(--mlbrgn-mle-button-alt-hover-bg-color);
         color: var(--mlbrgn-mle-button-alt-hover-fg-color);
@@ -296,6 +299,10 @@
         flex-grow:1;
     }
 
+    .mle-image-editor-placeholder {
+        padding:1rem;
+    }
+
     .mle-image-editor-form {
         display: none;
     }
@@ -403,114 +410,12 @@
         stroke-width: 1px;
     }
 
-    .mle-debug-wrapper {
-        font-family: system-ui, sans-serif;
-    }
-
-    /* Toggle button */
-    .mle-debug-toggle {
-        background: var(--mlbrgn-mle-color-primary-lighter);
-        color: var(--mlbrgn-mle-color-primary-lighter-contrast);
-        border: 1px solid var(--mlbrgn-mle-color-primary-lighter-contrast);
-        padding: 0.2rem 0.4rem;
-        font-size: 0.5rem;
-        border-radius: 0.3rem;
-        cursor: pointer;
-        margin-bottom: 0.5rem;
-    }
-
-    /* Debug wrapper */
-    .mle-debug {
-        background-color: var(--mlbrgn-mle-color-primary-lighter);
-        border: 1px solid var(--mlbrgn-mle-color-primary-lighter-contrast);
-        color: var(--mlbrgn-mle-color-primary-lighter-contrast);
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        font-size: 0.875rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    /* Headings */
-    .mle-debug h2 {
-        font-size: 1.25rem;
-        margin: 0 0 0.75rem 0;
-        width: 100%;
-        color: var(--mlbrgn-mle-color-primary);
-    }
-
-    .mle-debug .mle-debug-section h3 {
-        font-size: 1rem;
-        margin-bottom: 0.75rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-        padding-bottom: 0.25rem;
-        color: var(--mlbrgn-mle-color-primary);
-    }
-
-    /* Section layout */
-    .mle-debug .mle-debug-section {
-        flex: 1 1 300px;
-        min-width: 250px;
-        background: #fff;
-        border: 1px solid #eee;
-        padding: 1rem;
-        border-radius: 4px;
-        box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.05);
-        color: #333;
-    }
-
-    /* Lists inside sections */
-    .mle-debug ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .mle-debug li {
-        margin: 0.25rem 0;
-    }
-
-    .mle-debug .mle-debug-section code {
-        background-color: #f1f5f9;
-        padding: 0.2rem 0.4rem;
-        border-radius: 3px;
-    }
-
-    /* Error block */
-    .mle-debug .mle-debug-errors {
-        margin-top: 1.5rem;
-        border: 1px solid #f87171;
-        background: #fef2f2;
-        color: #991b1b;
-        padding: 1rem;
-        border-radius: 4px;
-        width: 100%;
-    }
-
-    .mle-debug li,
-    .mle-debug code,
-    .mle-debug strong {
-        word-break: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
-    }
-
-    .mle-debug-errors h3 {
-        color: var(--mlbrgn-mle-color-primary);
-        margin-top: 1rem;
-        font-size: 1rem;
-    }
-
-    .mle-debug-errors ul {
-        padding-left: 1.25rem;
-        color: var(--mlbrgn-mle-color-primary);
-    }
-
     // TODO make mle-hidden
-    .hidden {
-        display: none;
+    //.hidden {
+    //    display: none;
+    //}
+    .mle-hidden {
+        display:none !important;
     }
 
     .mle-img-load-failed {
@@ -531,19 +436,7 @@
         align-items: center;
     }
 
-    .mle-debug-menu {
-        position:absolute;// TODO relative?
-        display:flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        top:0;
-        left: 0;
-        background: var(--mlbrgn-mle-preview-menu-bg-color);
-        z-index:1;
-        padding:0.25rem 0.5rem 0.25rem 0;
-        border-radius: var(--mlbrgn-mle-control-border-radius);
-    }
+
 
     @keyframes spin {
         to {

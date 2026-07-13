@@ -2,7 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Spatie\MediaLibrary\HasMedia;
 
 trait ChecksMediaLimits
@@ -10,48 +10,33 @@ trait ChecksMediaLimits
     /**
      * Count total media for a model in given collections.
      */
-    protected function countModelMediaInCollections(HasMedia $model, array $collections): int
+    protected function countModelMediaInCollections(HasMedia $model, array $collections, ?string $dataSource = 'default'): int
     {
-        $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
-            ->reduce(function (int $total, string $collectionName) use ($model) {
-                $count = $model->getMedia($collectionName)->count();
-
-                return $total + $count;
-            }, 0);
-
-        return $count;
+        return app(MediaService::class)->countModelMediaInCollections($model, $collections, $dataSource);
     }
 
     /**
-     * Count total temporary uploads for current session in given collections.
+     * Count total temporary uploads for current client in given collections.
      */
-    protected function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null): int
+    protected function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): int
     {
-        $count = collect($collections)
-            ->filter(fn ($collectionName, $collectionType) => ! empty($collectionName))
-            ->reduce(function (int $total, string $collectionName) use ($instanceId) {
-                $temporaryItems = TemporaryUpload::getForCurrentSession($collectionName, $instanceId);
-
-                return $total + $temporaryItems->count();
-            }, 0);
-
-        return $count;
+        return app(MediaService::class)->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource);
     }
 
     /**
-     * Check if a model already has any media in the given collections (single-medium limit).
+     * Check if a model already has any media in the given collections (single-media limit).
      */
-    protected function modelHasAnyMedia(HasMedia $model, array $collections): bool
+    protected function modelHasAnyMedia(HasMedia $model, array $collections, ?string $dataSource = 'default'): bool
     {
-        return $this->countModelMediaInCollections($model, $collections) > 0;
+        return $this->countModelMediaInCollections($model, $collections, $dataSource) > 0;
     }
 
     /**
-     * Check if there are temporary uploads in the given collections (single-medium limit).
+     * Check if there are temporary uploads in the given collections (single-media limit).
      */
-    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null): bool
+//    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
+    protected function temporaryUploadsHaveAnyMedia(array $collections, string $instanceId = null, string $clientToken = null, ?string $dataSource = 'default'): bool
     {
-        return $this->countTemporaryUploadsInCollections($collections, $instanceId) > 0;
+        return $this->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource) > 0;
     }
 }

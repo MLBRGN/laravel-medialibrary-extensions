@@ -3,13 +3,16 @@ let statusMessageTimeoutMap = new WeakMap();
 const spinnerDelayTimeoutMap = new WeakMap();
 
 // Called when an XHR or fetch request starts.
-// Will only show spinner if request takes longer than delay
+// Will only show spinner if the request takes longer than delay
 export function xhrRequestStart(statusAreaContainer, customMessage = null) {
-    if (!statusAreaContainer) {
-        console.error("xhrRequestStart: No statusAreaContainer provided");
+    console.log('xhrRequestStart', statusAreaContainer, customMessage);
+    if (!statusAreaContainer.nodeType === Node.ELEMENT_NODE) {
+        console.log('xhrRequestStart - statusAreaContainer is not an element node', statusAreaContainer);
+        console.error("xhrStatus.js - xhrRequestStart: No statusAreaContainer provided", statusAreaContainer);
         return;
     }
-    const delay = 300; // 1 second delay before showing spinner
+    console.log('xhrRequestStart - statusAreaContainer is an element node', statusAreaContainer);
+    const delay = 300; // 1-second delay before showing the spinner
 
     clearTimeout(spinnerDelayTimeoutMap.get(statusAreaContainer));
 
@@ -24,7 +27,7 @@ export function xhrRequestStart(statusAreaContainer, customMessage = null) {
 // Hides spinner and clears any delayed show timeout.
 export function xhrRequestEnd(statusAreaContainer) {
     if (!statusAreaContainer) {
-        console.error("xhrRequestEnd: No statusAreaContainer provided");
+        console.error("xhrStatus.js - xhrRequestEnd: No statusAreaContainer provided");
         return;
     }
 
@@ -35,7 +38,7 @@ export function xhrRequestEnd(statusAreaContainer) {
 export function showStatusMessage(statusAreaContainer, data) {
 
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - showStatusMessage: no statusAreaContainer provided', statusAreaContainer);
         return;
     }
     const { type, message, message_extra: messageExtra = null } = data;
@@ -67,7 +70,7 @@ export function showStatusMessage(statusAreaContainer, data) {
 
 export function hideStatusMessage(statusAreaContainer) {
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - hideStatusMessage no statusAreaContainer provided');
         return;
     }
     const statusContainer = statusAreaContainer.querySelector('[data-mle-status-container]');
@@ -80,10 +83,10 @@ export function hideStatusMessage(statusAreaContainer) {
 
 export function showSpinner(statusAreaContainer, customMessage = null) {
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - showSpinner: no statusAreaContainer provided');
         return;
     }
-    hideStatusMessage(statusAreaContainer); // Hides the message before showing spinner
+    hideStatusMessage(statusAreaContainer); // Hides the message before showing the spinner
     const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');
     if (!spinnerContainer) {
         console.error('could not find spinner container')
@@ -100,7 +103,7 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
 
 export function hideSpinner(statusAreaContainer) {
     if (!statusAreaContainer) {
-        console.error('no statusAreaContainer provided');
+        console.error('xhrStatus.js - hideSpinner no statusAreaContainer provided');
         return;
     }
     const spinnerContainer = statusAreaContainer.querySelector('[data-mle-spinner-container]');
@@ -112,6 +115,12 @@ export function hideSpinner(statusAreaContainer) {
 }
 
 export function handleAjaxError(response, data, statusAreaContainer) {
+   console.log('handleAjaxError response ', response);
+   console.log('handleAjaxError data ', data);
+   console.log('handleAjaxError statusAreaContainer ', statusAreaContainer);
+   try {
+       console.error('XHR error status:', response?.status, 'url:', response?.url, 'message:', data?.message);
+   } catch (e) {}
     let message = trans('upload_failed');
 
     const status = response?.status || 500;
@@ -119,7 +128,7 @@ export function handleAjaxError(response, data, statusAreaContainer) {
         case 419: message = trans('csrf_token_mismatch'); break;
         case 401: message = trans('unauthenticated'); break;
         case 403: message = trans('forbidden'); break;
-        case 404: message = trans('not_found'); break;
+        case 404: message = trans('not_found') + ' Message ' + data.message; break;
         case 422:
             if (data.errors) {
                 const allErrors = Object.values(data.errors).flat();
@@ -134,10 +143,12 @@ export function handleAjaxError(response, data, statusAreaContainer) {
             break;
         case 429: message = trans('too_many_requests'); break;
         case 500:
-        case 503: message = trans('server_error'); break;
+        case 503: message = trans('server_error') + ' (' + data.message + ')'; break;
         default:
             message = data.message || message;
     }
+
+    console.log('handleAjaxError message ', message, ' data:', data);
 
     showStatusMessage(statusAreaContainer, { type: 'error', message });
 }

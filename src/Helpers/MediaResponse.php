@@ -4,61 +4,74 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Helpers;
 
-namespace Mlbrgn\MediaLibraryExtensions\Helpers;
-
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\ViewErrorBag;
+use Illuminate\Support\Facades\Log;
 
 class MediaResponse
 {
-    public static function success(Request $request, string $initiatorId, string $mediaManagerId, string $message, array $extraData = []): JsonResponse|RedirectResponse
+    public static function success(Request $request, string $baseId, string $message, array $extraData = []): JsonResponse|RedirectResponse
     {
-        return self::respond($request, $initiatorId, $mediaManagerId, 'success', $message, $extraData);
+        return self::respond($request, $baseId, 'success', $message, $extraData);
     }
 
-    public static function error(Request $request, string $initiatorId, string $mediaManagerId, string $message, array $extraData = []): JsonResponse|RedirectResponse
+    public static function error(Request $request, string $baseId, string $message, array $extraData = []): JsonResponse|RedirectResponse
     {
-        return self::respond($request, $initiatorId, $mediaManagerId, 'error', $message, $extraData, 422);
+        return self::respond($request, $baseId, 'error', $message, $extraData, 422);
     }
 
-    protected static function respond(Request $request, string $initiatorId, string $mediaManagerId, string $type, string $message, array $extraData = [], int $status = 200): JsonResponse|RedirectResponse
+    protected static function respond(Request $request, string $baseId, string $type, string $message, array $extraData = [], int $status = 200): JsonResponse|RedirectResponse
     {
+        Log::debug('MediaResponse.respond expectsJson: '.($request->expectsJson() ? 'true' : 'false'));
         if ($request->expectsJson()) {
             // camelCase for JSON (JS-friendly)
-            $base = compact('initiatorId', 'type', 'message');
+            $base = [
+                'baseId' => $baseId,
+                'type' => $type,
+                'message' => $message,
+            ];
+            $response = response()->json(array_merge($base, $extraData), $status);
 
-            return response()->json(array_merge($base, $extraData), $status);
+            // If a client token is provided, set it as a cookie so subsequent XHRs can read it
+            if (! empty($extraData['client_token']) && is_string($extraData['client_token'])) {
+                // default: 30 days
+                $minutes = 60 * 24 * 30;
+                $response->cookie('mle_client_token', $extraData['client_token'], $minutes, '/');
+            }
+
+            Log::debug('MediaResponse.json');
+            return $response;
         }
 
-        // snake_case for session (PHP convention)
+        Log::debug('MediaResponse.redirect');
+        // snake_case for response (PHP convention)
         $base = [
-            'initiator_id' => $initiatorId,
-            'media_manager_id' => $mediaManagerId,
+            'base_id' => $baseId,
             'type' => $type,
             'message' => $message,
         ];
 
-        // Add errors to Laravel's default error bag if provided
-        if (! empty($extraData['errors'])) {
-            $errors = $extraData['errors'];
+        // Take the previous URL and append "#baseId"
+        $targetUrl = url()->previous().'#'.$baseId;// had to add a hidden <a> scroll element to the media manager view, for baseId !== domId
 
-            // Convert array of errors into a MessageBag
-            $messageBag = new MessageBag($errors);
-
-            // Put it into Laravel's default error bag
-            $errorBag = session()->get('errors', new ViewErrorBag);
-            $errorBag->put('default', $messageBag);
-            session()->flash('errors', $errorBag);
-        }
-
-        // Take the previous URL and append "#initiatorId"
-        $targetUrl = url()->previous().'#'.$mediaManagerId;
-
-        return redirect()
+        Log::debug('targetUrlL '.$targetUrl);
+        $redirect = redirect()
             ->to($targetUrl)
             ->with(status_session_prefix(), $base);
+
+        // Add errors to redirect if provided
+        if (! empty($extraData['errors'])) {
+            $redirect->withErrors($extraData['errors']);
+        }
+
+        // If a client token is provided, also attach it as a cookie on redirect responses
+        if (! empty($extraData['client_token']) && is_string($extraData['client_token'])) {
+            // default: 30 days
+            $minutes = 60 * 24 * 30;
+            $redirect->withCookie(cookie('mle_client_token', $extraData['client_token'], $minutes, '/'));
+        }
+
+        return $redirect;
     }
 }

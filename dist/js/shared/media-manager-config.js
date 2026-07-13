@@ -1,1 +1,1 @@
-function e(e){let t=e.querySelector(`[data-mle-media-manager-config]`);if(!t)return null;try{return JSON.parse(t.value)}catch(t){return console.error(`Invalid JSON config for ${e.id}:`,t),null}}export{e as getMediaManagerConfig};
+import{ClientToken as e}from"./client-token.js";function t(t){let n=t.querySelector(`[data-mle-media-manager-config]`);if(!n)return null;try{let t=JSON.parse(n.value);return t.clientToken=e.get(),t}catch(e){return console.error(`Invalid JSON config for ${t.id}:`,e),null}}export{t as getMediaManagerConfig};

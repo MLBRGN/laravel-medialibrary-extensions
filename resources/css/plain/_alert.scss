@@ -1,0 +1,10 @@
+.mle-component {
+    .mle-alert {
+        background-color: var(--mlbrgn-mle-color-primary-subtle);
+        padding: 1rem;
+        border:1px solid var(--mlbrgn-mle-primary-border-subtle);
+        border-radius: 0.25rem;
+        color: var(--mlbrgn-mle-primary-text-emphasis);
+        margin-bottom: 1rem;
+    }
+}

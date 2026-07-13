@@ -21,6 +21,6 @@ class Icon extends Component
 
     public function render(): View
     {
-        return view('media-library-extensions::components.shared.icon');
+        return view('medialibrary-extensions::components.shared.icon');
     }
 }

@@ -1,4 +1,8 @@
-<div {{ $attributes->class('mle-document') }} mle-document>
+<div
+    {{ $attributes->class('mle-document') }} 
+    data-mle-document
+    id="{{ $getDomId() }}"
+>
     <div class="mle-document-preview">
         <x-mle-shared-icon
             class="mle-document-bg-icon"
@@ -21,7 +25,7 @@
                         :name="$icon['name']"
                         :title="$icon['title']"
                     />
-                    {{ __('media-library-extensions::messages.download_document') }}
+                    {{ __('medialibrary-extensions::messages.download_document') }}
                 </a>
             @else
                 <x-mle-shared-icon
@@ -32,14 +36,14 @@
             @endif
 
             @if(!$previewMode)
-                @if($medium->mime_type === 'application/pdf' && config('media-library-extensions.preview_modal_embed_pdf'))
+                @if($medium->mime_type === 'application/pdf' && config('medialibrary-extensions.preview_modal_embed_pdf'))
                     <embed src="{{ $medium->getUrl() }}" type="application/pdf"
                            width="100%" height="600px" class="mle-document-embed" />
                 @elseif(in_array($medium->mime_type, $officeMimes, true))
-                    @if(config('media-library-extensions.use_external_document_viewer') === 'google-docs')
+                    @if(config('medialibrary-extensions.use_external_document_viewer') === 'google-docs')
                         <iframe src="https://docs.google.com/gview?url={{ urlencode($medium->getUrl()) }}&embedded=true"
                                 class="mle-document-embed"></iframe>
-                    @elseif(config('media-library-extensions.use_external_document_viewer') === 'microsoft-office')
+                    @elseif(config('medialibrary-extensions.use_external_document_viewer') === 'microsoft-office')
                         <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($medium->getUrl()) }}"
                                 class="mle-document-embed"></iframe>
                     @endif

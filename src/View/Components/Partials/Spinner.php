@@ -12,21 +12,22 @@ class Spinner extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public string $initiatorId;
-
     public function __construct(
         ?string $id,
-        string $initiatorId,
-        public string $mediaManagerId,
-        public array $options = [],
+        array $options = [],
     ) {
         parent::__construct($id);
-        $this->initiatorId = $initiatorId;
-        $this->initializeConfig();
+        $this->options = $options;
+        $this->resolveConfig();
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'spinner-container';
     }
 
     public function render(): View
     {
-        return $this->getPartialView('spinner', $this->getConfig('frontendTheme'));
+        return $this->getPartialView('spinner', $this->getConfig('theme'));
     }
 }

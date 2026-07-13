@@ -5,18 +5,16 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaCollections;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaCarousel extends BaseComponent
 {
-    use InteractsWithMediaCollections;
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public Collection $media;
 
@@ -27,29 +25,54 @@ class MediaCarousel extends BaseComponent
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public ?array $collections = [],
         public bool $expandableInModal = true,
-        public array $options = [],
+        array $options = [],
         public bool $inModal = false, // TODO used anywhere?
-        public bool $previewMode = true // should the media-viewer be in preview mode (no autoplay, no document loading or not)
+        public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
+        ?string $instanceId = null,
+        public ?string $dataSource = 'default',
+        ?string $clientToken = null,
     ) {
         parent::__construct($id);
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        if ($instanceId) {
+            $this->instanceId = $instanceId;
+        }
 
-        $instanceId = ''; // todo
-        $this->media = $this->resolveMediaFromCollections($this->collections, $instanceId);
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
 
-        $this->mediaCount = $this->media->count();
-        $this->id = $this->id.'-crs';
+        $this->options = $options;
+
+        $mediaService = app(MediaService::class);
+
+        $resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+        $model = $resolvedModel->model;
 
         // merge into config
-        $this->initializeConfig();
+        $this->resolveConfig([
+            'temporaryUploadMode' => $resolvedModel->temporaryUploadMode,
+            'clientToken' => $this->clientToken,
+        ]);
+
+        $instanceId = $this->instanceId ?? $this->getConfig('instanceId');
+
+        $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource);
+
+        $this->mediaCount = $this->media->count();
+
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'crs';
     }
 
     public function render(): View
     {
-        return $this->getView('media-carousel', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-carousel', $this->getConfig('theme'));
     }
 }

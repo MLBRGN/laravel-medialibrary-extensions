@@ -1,0 +1,250 @@
+.mle-debug-wrapper {
+    --mlbrgn-mle-debug-bg: blue;
+    --mlbrgn-mle-debug-fg: blue;
+    --mlbrgn-mle-debug-border: blue;
+    font-family: system-ui, sans-serif;
+}
+
+.mle-debug-menu {
+    position:absolute;// TODO relative?
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    top:0;
+    left: 0;
+    background: var(--mlbrgn-mle-preview-menu-bg-color);
+    z-index:1;
+    padding:0.25rem 0.5rem 0.25rem 0;
+    border-radius: var(--mlbrgn-mle-control-border-radius);
+}
+
+/* Toggle button */
+.mle-debug-toggle {
+    background: var(--mlbrgn-mle-color-primary-lighter);
+    color: var(--mlbrgn-mle-color-primary-lighter-contrast);
+    border: 1px solid var(--mlbrgn-mle-color-primary-lighter-contrast);
+    padding: 0.2rem 0.4rem;
+    font-size: 0.5rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+/* Debug wrapper */
+.mle-debug {
+    background-color: var(--mlbrgn-mle-color-primary-lighter);
+    border: 1px solid var(--mlbrgn-mle-color-primary-lighter-contrast);
+    color: var(--mlbrgn-mle-color-primary-lighter-contrast);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+//.mle-debug {
+//    display: flex;
+//    flex-direction: column;
+//    gap: 1rem;
+//}
+
+/* Headings */
+.mle-debug h2 {
+    font-size: 1.25rem;
+    margin: 0 0 0.75rem 0;
+    width: 100%;
+    color: var(--mlbrgn-mle-color-primary);
+}
+
+.mle-debug-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mle-debug-table tr:not(:last-child) {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.mle-debug-table th {
+    width: 240px;
+    text-align: left;
+    vertical-align: top;
+    opacity: .7;
+    padding: .5rem;
+    font-weight: 600;
+}
+
+.mle-debug-table td {
+    padding: .5rem;
+    word-break: break-word;
+}
+.mle-debug pre {
+    overflow-x: auto;
+    padding: 1rem;
+    border-radius: .5rem;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: .8rem;
+    line-height: 1.5;
+}
+//.mle-debug .mle-debug-section h3 {
+//    font-size: 1rem;
+//    margin-bottom: 0.75rem;
+//    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+//    padding-bottom: 0.25rem;
+//    color: var(--mlbrgn-mle-color-primary);
+//}
+
+/* Section layout */
+//.mle-debug .mle-debug-section {
+//    flex: 1 1 300px;
+//    min-width: 250px;
+//    background: #fff;
+//    border: 1px solid #eee;
+//    padding: 1rem;
+//    border-radius: 4px;
+//    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.05);
+//    color: #333;
+//}
+
+/* Lists inside sections */
+.mle-debug ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mle-debug li {
+    margin: 0.25rem 0;
+}
+
+//.mle-debug .mle-debug-section code {
+//    background-color: #f1f5f9;
+//    padding: 0.2rem 0.4rem;
+//    border-radius: 3px;
+//}
+
+/* Error block */
+.mle-debug .mle-debug-errors {
+    margin-top: 1.5rem;
+    border: 1px solid #f87171;
+    background: #fef2f2;
+    color: #991b1b;
+    padding: 1rem;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.mle-debug li,
+.mle-debug code,
+.mle-debug strong {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.mle-debug-errors h3 {
+    color: var(--mlbrgn-mle-color-primary);
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.mle-debug-errors ul {
+    padding-left: 1.25rem;
+    color: var(--mlbrgn-mle-color-primary);
+}
+
+.mle-debug-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mle-debug-table th {
+    width: 240px;
+    text-align: left;
+    vertical-align: top;
+    opacity: .7;
+    padding: .35rem .5rem;
+}
+
+.mle-debug-table td {
+    padding: .35rem .5rem;
+    word-break: break-word;
+}
+
+//.mle-debug-section {
+//    margin-bottom: 1.5rem;
+//    padding: 1rem;
+//    border: 1px solid #ddd;
+//    border-radius: .5rem;
+//}
+
+.mle-debug-section {
+    flex: 1 1 320px;
+    min-width: 280px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    border-radius: .5rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    color: #333;
+}
+
+.mle-debug-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+.mle-debug-badges span {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    padding: .25rem .5rem;
+    border-radius: 999px;
+    font-size: .75rem;
+}
+
+.mle-debug details summary {
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.mle-debug details[open] summary {
+    margin-bottom: 1rem;
+}
+
+.mle-debug-components-list {
+    margin-top: 10px;
+}
+
+.mle-debug-component-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+
+    summary {
+        font-weight: bold;
+        cursor: pointer;
+    }
+}
+
+.mle-debug-component-data {
+    padding: 10px;
+    background: #f9f9f9;
+    font-size: 12px;
+    color:black;
+
+    pre {
+        background: #eee;
+        padding: 5px;
+        overflow-x: auto;
+        color:black;
+    }
+}

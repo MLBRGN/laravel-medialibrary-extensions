@@ -3,12 +3,13 @@
         id="{{ $id }}"
         :model-or-class-name="$modelOrClassName"
         :collections="$collections"
-        :options="$options"
+        :options="$getOptions()"
         :multiple="$multiple"
         :selectable="true"
         :readonly="false"
         :disabled="false"
-        :instance-id="$getConfig('instanceId')"
+        :instance-id="$instanceId"
+        :data-source="$dataSource"
     />
 </div>
 <x-mle-shared-assets
@@ -16,6 +17,6 @@
     include-js="true"
     include-tinymce-custom-file-picker-js="true"
     include-tinymce-custom-file-picker-iframe-js="true"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :theme="$getConfig('theme')"
     for="plain|media-manager-tinymce"
 />

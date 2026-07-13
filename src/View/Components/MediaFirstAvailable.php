@@ -7,13 +7,12 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Exception;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaFirstAvailable extends BaseComponent
+// TODO dataSource?
+class MediaFirstAvailable extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public ?Media $medium = null;
 
@@ -24,18 +23,18 @@ class MediaFirstAvailable extends BaseComponent
     public bool $expandableInModal = false;
 
     public function __construct(
-        public string $id,
+        ?string $id,
         public mixed $modelOrClassName,
         public ?array $collections = [],
-        public array $options = [],
-        public bool $previewMode = false // should the media-viewer be in preview mode (no autoplay, no document loading or not)
+        array $options = [],
+        public bool $previewMode = false, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
+        public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id ?: null);
-
-        $this->resolveModelOrClassName($modelOrClassName);
+        parent::__construct($id ?: null, $this->modelOrClassName, $this->dataSource);
+        $this->options = $options;
 
         if (! $this->hasCollections()) {
-            throw new Exception(__('media-library-extensions::messages.no_media_collections'));
+            throw new Exception(__('medialibrary-extensions::messages.no_media_collections'));
         }
 
         if ($this->temporaryUploadMode) {
@@ -51,11 +50,15 @@ class MediaFirstAvailable extends BaseComponent
         $this->mediumType = getMediaType($this->medium);
         $this->componentToRender = $this->resolveComponentForMedium($this->medium);
 
-        $this->initializeConfig();
+        $this->resolveConfig();
+    }
+
+    protected function domIdSuffix(): string {
+        return 'media-first-available';
     }
 
     public function render(): View
     {
-        return view('media-library-extensions::components.media-first-available');
+        return $this->renderView('', null, false, 'medialibrary-extensions::components.media-first-available');
     }
 }

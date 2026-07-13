@@ -1,12 +1,12 @@
 <?php
 
+/** @noinspection PhpMissingParentCallCommonInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 class SetMediumAsFirstRequest extends MediaManagerRequest
 {
-
     public function authorize(): bool
     {
         return $this->authorizeMediaEdit();
@@ -16,14 +16,14 @@ class SetMediumAsFirstRequest extends MediaManagerRequest
     {
         return [
             'model_type' => 'required|string',
-            'model_id' => 'required|string',
+            'model_id' => 'nullable',
             'target_media_collection' => ['required', 'string'],
             'medium_id' => 'required|string',
-            'single_medium_id' => ['nullable'],
-            'initiator_id' => ['required', 'string'],
-            'media_manager_id' => ['required', 'string'],
+            'single_media_id' => ['nullable'],
+            'base_id' => ['required', 'string'],
             'collections' => ['required', 'array', 'min:1'],
             'collections.*' => ['nullable', 'string'],
+            'data_source' => ['nullable', 'string'],
         ];
     }
 }

@@ -18,7 +18,9 @@ class MediaLab extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
 
-    public string $mediaManagerLabPreviewUpdateRoute = '';
+    public string $mediaLabPreviewBaseUpdateRoute = '';
+
+    public string $mediaLabPreviewOriginalUpdateRoute = '';
 
     public ?Model $model = null;
 
@@ -26,36 +28,50 @@ class MediaLab extends BaseComponent
 
     public ?int $modelId = null;
 
+    public ?string $modelOrClassName = null;
+
     public function __construct(
         ?string $id,
-        public Media|TemporaryUpload|null $medium,
-        public array $options = [],
+        public Media|TemporaryUpload|null $media,
+        array $options = [],
+        public ?string $dataSource = 'default'
     ) {
-        $id = filled($id) ? $id : 'mle-media-lab-'.uniqid();
+        $this->options = $options;
 
         parent::__construct($id);
 
-        $this->model = $medium->model;
+        $this->model = $media?->model;
+        if (! $this->model) {
+            throw new \Exception('MediaLab component requires a media or temporary upload');
+        }
         $this->modelType = $this->model->getMorphClass();
         $this->modelId = $this->model->getKey();
+        $this->modelOrClassName = $this->modelType;
 
         // overrides
-        $this->options['showDestroyButton'] = false;
+        $this->options['showDestroyButton'] = false; // don't show the destroy button
         $this->options['showSetAsFirstButton'] = false;
         $this->options['showMediaEditButton'] = true;
         $this->options['showMenu'] = true;
-        $this->options['showUploadForms'] = false;
-        //        $this->options['frontendTheme'] = 'plain';
+        // Never show any upload forms inside the Media Lab previews
+        $this->options['showUploadForms'] = false; // container visibility
+        $this->options['showUploadForm'] = false; // singular file upload form
+        $this->options['showYouTubeUploadForm'] = false; // don't show YouTube upload form
 
-        $this->mediaManagerLabPreviewUpdateRoute = route(mle_prefix_route('media-manager-lab-preview-update'));
+        $this->mediaLabPreviewBaseUpdateRoute = route(mle_prefix_route('media-lab-preview-base-update'));
+        $this->mediaLabPreviewOriginalUpdateRoute = route(mle_prefix_route('media-lab-preview-original-update'));
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'lab';
     }
 
     public function render(): View
     {
-        return $this->getView('media-lab', $this->getConfig('frontendTheme'));
-
+        return $this->renderView('media-lab', $this->getConfig('theme'));
     }
 }

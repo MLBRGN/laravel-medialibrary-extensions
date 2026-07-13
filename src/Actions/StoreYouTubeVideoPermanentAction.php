@@ -23,12 +23,15 @@ class StoreYouTubeVideoPermanentAction
 
     public function execute(StoreYouTubeVideoRequest $request): RedirectResponse|JsonResponse
     {
-        if (! config('media-library-extensions.youtube_support_enabled')) {
+        if (! config('medialibrary-extensions.youtube_support_enabled')) {
             abort(403);
         }
+        $modelType = $request->model_type;
+        $modelId = $request->model_id;
+        $dataSource = $request->input('data_source', 'default');
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        // Strict: only accept base_id from the request
+        $baseId = (string) $request->input('base_id');
 
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
@@ -38,17 +41,16 @@ class StoreYouTubeVideoPermanentAction
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.no_media_collections')
+                $baseId,
+                __('medialibrary-extensions::messages.no_media_collections')
             );
         }
 
-        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
+        //        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
+        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
         $model->load(['media' => fn ($q) => $q->whereIn('collection_name', $collections)]);
-        $field = config('media-library-extensions.upload_field_name_youtube');
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
+        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
         if (! $multiple) {
             $maxItemsInCollection = 1;
         }
@@ -57,32 +59,31 @@ class StoreYouTubeVideoPermanentAction
 
         if ($currentMediaCount >= $maxItemsInCollection) {
             $message = $maxItemsInCollection === 1
-                ? __('media-library-extensions::messages.only_one_medium_allowed')
-                : __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                ? __('medialibrary-extensions::messages.only_one_medium_allowed')
+                : __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection,
                 ]);
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
+                $baseId,
                 $message
             );
         }
 
-        if ($request->filled($field)) {
+        if ($request->filled('youtube_url')) {
             $thumbnail = $this->youTubeService->uploadThumbnailFromUrl(
                 model: $model,
-                youtubeUrl: $request->input($field),
-                collection: $collection
+                youtubeUrl: $request->input('youtube_url'),
+                collection: $collection,
+                dataSource: $dataSource
             );
 
             if (! $thumbnail) {
                 return MediaResponse::error(
                     $request,
-                    $initiatorId,
-                    $mediaManagerId,
-                    __('media-library-extensions::messages.youtube_thumbnail_download_failed')
+                    $baseId,
+                    __('medialibrary-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
 
@@ -91,15 +92,13 @@ class StoreYouTubeVideoPermanentAction
 
             return MediaResponse::success(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.youtube_video_uploaded'));
+                $baseId,
+                __('medialibrary-extensions::messages.youtube_video_uploaded'));
         }
 
         return MediaResponse::error(
             $request,
-            $initiatorId,
-            $mediaManagerId,
-            __('media-library-extensions::messages.upload_no_youtube_url'));
+            $baseId,
+            __('medialibrary-extensions::messages.upload_no_youtube_url'));
     }
 }

@@ -4,7 +4,7 @@ import '@/js/plain/modal-core';
 const editors = new WeakMap(); // modal => editor instance
 
 function initializeImageEditor(config) {
-    console.log('initializeImageEditor config', config)
+    // console.log('initializeImageEditor config', config)
     const imageEditor = config.imageEditorInstance;
 
     if (!imageEditor) {
@@ -15,13 +15,14 @@ function initializeImageEditor(config) {
     const {
         name,
         path,
-        initiatorId,
+        baseId,
         requiredAspectRatio,
         minDimensions,
         maxDimensions,
     } = config;
 
-    imageEditor.setImage(name, path, initiatorId);
+    // Base ID is the single source of truth for scoping/identity
+    imageEditor.setImage(name, path, baseId);
     const imageEditorConfig = {
         debug: false,
         rotateDegreesStep: 90,
@@ -55,11 +56,21 @@ function initializeImageEditor(config) {
 }
 
 function initializeImageEditorModal(modal) {
-    if (modal.dataset.mleImageEditorInitialized) return;
+    // console.log('initializeImageEditorModal', modal);
+    // console.log('modal is initialized', modal.dataset.mleImageEditorInitialized)
+    // console.log('modal is initialized', modal.getAttribute('data-mle-image-editor-initialized'))
+    if (modal.dataset.mleImageEditorInitialized === 'true') {
+        // console.log('modal already initialized, skipping')
+        return;
+    } else {
+        // console.log('modal not initialized, initializing')
+    }
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
 
+    // console.log('placeholder', placeholder)
     const onOpen = () => {
+        // console.log('onOpen', modal, editors.has(modal));
         if (editors.has(modal)) return;
 
         let config = {};
@@ -77,31 +88,40 @@ function initializeImageEditorModal(modal) {
         const forcedAspectRatio = modal.getAttribute('data-mle-medium-forced-aspect-ratio') ?? '16:9';
         const minDimensions = parseDimensions(modal.getAttribute('data-mle-medium-minimal-dimensions'), { width: 800, height: 600 });
         const maxDimensions = parseDimensions(modal.getAttribute('data-mle-medium-maximal-dimensions'), { width: 7040, height: 3960 });
-        const initiatorId = config.initiatorId;
+        // Prefer baseId from config; fall back to data-base-id on the modal
+        const baseId = config.baseId
+            ?? modal.getAttribute('data-base-id');
+
+        const mountEditor = () => {
+            placeholder.innerHTML = '';
+
+            const editor = document.createElement('image-editor');
+            editor.id = 'my-image-editor';
+
+            editor.addEventListener('imageEditorReady', (e) => {
+                initializeImageEditor({
+                    imageEditorInstance: e.detail.imageEditorInstance,
+                    name: displayName,
+                    path: mediumPath,
+                    baseId,
+                    requiredAspectRatio: forcedAspectRatio,
+                    minDimensions,
+                    maxDimensions,
+                });
+            }, { once: true });
+
+            placeholder.appendChild(editor);
+            // console.log('editors.set called', modal, editor)
+            editors.set(modal, editor);
+        };
 
         if (!customElements.get('image-editor')) {
-            console.warn('<image-editor> custom element is not registered.');
+            console.warn('<image-editor> custom element is not registered yet. Waiting…');
+            customElements.whenDefined('image-editor').then(mountEditor);
             return;
         }
 
-        placeholder.innerHTML = '';
-        const editor = document.createElement('image-editor');
-        editor.id = 'my-image-editor';
-
-        editor.addEventListener('imageEditorReady', (e) => {
-            initializeImageEditor({
-                imageEditorInstance: e.detail.imageEditorInstance,
-                name: displayName,
-                path: mediumPath,
-                initiatorId,
-                requiredAspectRatio: forcedAspectRatio,
-                minDimensions,
-                maxDimensions,
-            });
-        }, { once: true });
-
-        placeholder.appendChild(editor);
-        editors.set(modal, editor);
+        mountEditor();
     };
 
     const onClose = () => {
@@ -113,8 +133,10 @@ function initializeImageEditorModal(modal) {
         placeholder.innerHTML = '';
     };
 
+    // console.log('just before setupModalBase')
     setupModalBase(modal, onClose, onOpen);
     modal.dataset.mleImageEditorInitialized = 'true';
+    // console.log('set modal initialized to true')
 }
 
 function parseDimensions(dimensionString, fallback) {
@@ -141,6 +163,7 @@ document.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeIma
 
 // Reinitialize after media previews are refreshed
 document.addEventListener('mediaManagerPreviewsUpdated', e => {
+    // console.log('reinitialize image editor modals for media manager', e);
     const mediaManager = e.detail.mediaManager;
     mediaManager.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);
 });
@@ -153,18 +176,33 @@ document.addEventListener('imageEditorModalCloseRequest', e => {
 
 // observe dynamic models, e.g. added later on by javascript, for example in media lab when refreshing previews
 const observeDynamicModals = () => {
+    console.log('observeDynamicModals: observing dynamic modals')
+    // console.log('observeDynamicModals')
     const observer = new MutationObserver(mutations => {
+
+        console.log('observeDynamicModals: mutations', mutations)
         for (const mutation of mutations) {
             for (const node of mutation.addedNodes) {
-                if (!(node instanceof HTMLElement)) continue;
+                const isElement = node instanceof Element; // HTMLElement, SVGElement, etc.
+                const isFragment = node instanceof DocumentFragment;
+                if (!isElement && !isFragment) {
+                    continue;
+                }
 
-                // Direct modal element
-                if (node.matches('[data-mle-image-editor-modal]')) {
+                console.log('observeDynamicModals: mutation added node', node)
+
+                // If the added node itself is the modal element
+                if (isElement && node.matches?.('[data-mle-image-editor-modal]')) {
+                    console.log('observeDynamicModals: found image editor modal to initialize (direct)')
                     initializeImageEditorModal(node);
                 }
 
-                // Nested modals inside appended fragments
-                node.querySelectorAll?.('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);
+                // Look inside the added node (Element or DocumentFragment) for any nested modals
+                node.querySelectorAll?.('[data-mle-image-editor-modal]')
+                    .forEach((modal) => {
+                        console.log('observeDynamicModals: found nested image editor modal to initialize', modal)
+                        initializeImageEditorModal(modal);
+                    });
             }
         }
     });
@@ -174,3 +212,5 @@ const observeDynamicModals = () => {
 
 // Start watching
 observeDynamicModals();
+
+// document.querySelectorAll('[data-mle-image-editor-modal]').forEach(initializeImageEditorModal);

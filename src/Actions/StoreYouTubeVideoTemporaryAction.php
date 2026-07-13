@@ -8,12 +8,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreYouTubeVideoTemporaryAction
 {
+    // TODO use MediaService::countTemporaryUploadsInCollections() or countMediaInCollections()
     use ChecksMediaLimits;
 
     public function __construct(
@@ -23,18 +26,19 @@ class StoreYouTubeVideoTemporaryAction
 
     public function execute(StoreYouTubeVideoRequest $request): RedirectResponse|JsonResponse
     {
-        if (! config('media-library-extensions.youtube_support_enabled')) {
+        if (! config('medialibrary-extensions.youtube_support_enabled')) {
             abort(403);
         }
+        $dataSource = $request->input('data_source', 'default');
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        // Strict: only accept base_id; derive instance ID server-side
+        $baseId = (string) $request->input('base_id');
+        $instanceId = InstanceManager::getInstanceId($baseId);
 
         $collection = $request->youtube_collection;
-        $field = config('media-library-extensions.upload_field_name_youtube');
         $multiple = $request->boolean('multiple');
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
+        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
         if (! $multiple) {
             $maxItemsInCollection = 1;
         }
@@ -44,55 +48,62 @@ class StoreYouTubeVideoTemporaryAction
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.no_media_collections')
+                $baseId,
+                __('medialibrary-extensions::messages.no_media_collections')
             );
         }
 
-        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections);
+        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections, $instanceId, null, $dataSource);
         $nextPriority = $temporaryUploadsInCollections;
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
             $message = $maxItemsInCollection === 1
-                ? __('media-library-extensions::messages.only_one_medium_allowed')
-                : __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                ? __('medialibrary-extensions::messages.only_one_medium_allowed')
+                : __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection,
                 ]);
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
+                $baseId,
                 $message
             );
         }
 
-        if ($request->filled($field)) {
-
+        if ($request->filled('youtube_url')) {
             $tempUpload = $this->youTubeService->storeTemporaryThumbnailFromRequest($request);
 
             if (! $tempUpload) {
                 return MediaResponse::error(
                     $request,
-                    $initiatorId,
-                    $mediaManagerId,
-                    __('media-library-extensions::messages.youtube_thumbnail_download_failed')
+                    $baseId,
+                    __('medialibrary-extensions::messages.youtube_thumbnail_download_failed')
                 );
             }
+
+            if ($dataSource) {
+                $connection = app(DataSourceResolver::class)->resolveConnection($dataSource);
+                $tempUpload->setConnection($connection);
+            }
+
+            $tempUpload->instance_id = $instanceId;
             $tempUpload->setCustomProperty('priority', $nextPriority);
             $tempUpload->save();
 
             return MediaResponse::success(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.youtube_video_uploaded')
+                $baseId,
+                __('medialibrary-extensions::messages.youtube_video_uploaded'),
+                [
+                    // ensure client token persistence for subsequent preview fetches
+                    'client_token' => $tempUpload->client_token ?? null,
+                ]
             );
         }
 
-        return MediaResponse::error($request,
-            $initiatorId,
-            $mediaManagerId,
-            __('media-library-extensions::messages.upload_no_youtube_url'));
+        return MediaResponse::error(
+            $request,
+            $baseId,
+            __('medialibrary-extensions::messages.upload_no_youtube_url')
+        );
     }
 }

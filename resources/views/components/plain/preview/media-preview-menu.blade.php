@@ -1,25 +1,28 @@
-<div class="mle-media-preview-menu">
+<div class="mle-media-preview-menu" 
+     id="{{ $getDomId() }}"
+>
     <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
-            <span class="mle-button-pseudo mle-button-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent"
-                title="{{ __('media-library-extensions::messages.set-as-main') }}"
-            >
+            <span class="mle-button-pseudo mle-button-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent">
                 {{ $medium->getCustomProperty('priority') + 1 }}
             </span>
         @endif
 
         @if($selectable)
-            <label class="mle-button-pseudo mle-button-icon-pseudo mle-checkbox-wrapper">
+            <label 
+                class="mle-button-pseudo mle-button-icon-pseudo mle-checkbox-wrapper"
+                data-mle-media-select-wrapper>
                 <input
-                    type="{{ config('media-library-extensions.single_select') ? 'radio' : 'checkbox' }}"
+                    type="{{ config('medialibrary-extensions.single_select') ? 'radio' : 'checkbox' }}"
                     name="selected_media"
                     class="mle-media-select-checkbox"
                     data-url="{{ $medium->getUrl() }}"
                     data-alt="{{ $medium->name }}"
                     data-mle-media-select-checkbox
+                    data-test="media-select"
                 >
                 <span class="mle-media-select-indicator"
-                  title="{{ __('media-library-extensions::messages.select') }}"
+                  title="{{ __('medialibrary-extensions::messages.select') }}"
                 />
             </label>
         @endif
@@ -32,27 +35,41 @@
                     type="button"
                     class="mle-button mle-button-icon"
                     data-mle-modal-trigger="#{{$id}}-iem-{{$medium->id}}"
-                    title="{{ __('media-library-extensions::messages.edit') }}"
+                    title="{{ __('medialibrary-extensions::messages.edit') }}"
+                    data-mle-media-edit-button
                     @disabled($disabled)
                 >
                     <x-mle-shared-icon
-                        name="{{ config('media-library-extensions.icons.edit') }}"
-                        title="{{ __('media-library-extensions::messages.edit') }}"
+                        name="{{ config('medialibrary-extensions.icons.edit') }}"
+                        title="{{ __('medialibrary-extensions::messages.edit') }}"
                     />
                 </button>
             @endif
         @endif
 
         @if($getConfig('showSetAsFirstButton'))
-            @if($medium->getCustomProperty('priority') === 0)
+            @if(isset($multiple) && $multiple === false)
                 <button type="button"
                         class="mle-button mle-button-icon"
-                        title="{{ __('media-library-extensions::messages.set-as-main') }}"
+                        title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
+                        data-mle-media-set-as-first-button
                         disabled
                 >
                     <x-mle-shared-icon
-                        name="{{ config('media-library-extensions.icons.set-as-main') }}"
-                        title="{{ __('media-library-extensions::messages.medium_set_as_main') }}"
+                        name="{{ config('medialibrary-extensions.icons.set-as-main') }}"
+                        title="{{ __('medialibrary-extensions::messages.medium_set_as_main') }}"
+                    />
+                </button>
+            @elseif($medium->getCustomProperty('priority') === 0)
+                <button type="button"
+                        class="mle-button mle-button-icon"
+                        title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
+                        data-mle-media-set-as-first-button
+                        disabled
+                >
+                    <x-mle-shared-icon
+                        name="{{ config('medialibrary-extensions.icons.set-as-main') }}"
+                        title="{{ __('medialibrary-extensions::messages.medium_set_as_main') }}"
                     />
                 </button>
             @else
@@ -60,11 +77,13 @@
                     :id="$id"
                     :model-or-class-name="$modelOrClassName"
                     :medium="$medium"
-                    :single-medium="$singleMedium"
+                    :single-media="$singleMedia"
                     :collections="$collections"
-                    :options="$options"
+                    :options="$getOptions()"
                     :disabled="$disabled"
                     :instance-id="$instanceId"
+                    :data-source="$getConfig('dataSource')"
+                    :client-token="$clientToken"
                 />
             @endif
         @endif
@@ -74,11 +93,13 @@
                 :id="$id"
                 :model-or-class-name="$modelOrClassName"
                 :medium="$medium"
-                :single-medium="$singleMedium"
+                :single-media="$singleMedia"
                 :collections="$collections"
-                :options="$options"
+                :options="$getOptions()"
                 :disabled="$disabled"
                 :instance-id="$instanceId"
+                :data-source="$getConfig('dataSource')"
+                :client-token="$clientToken"
             />
         @endif
         

@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 abstract class StoreRequest extends MediaManagerRequest
 {
@@ -20,6 +21,7 @@ abstract class StoreRequest extends MediaManagerRequest
 
     public function rules(): array
     {
+
         return [];
     }
 
@@ -37,6 +39,7 @@ abstract class StoreRequest extends MediaManagerRequest
                         $resolvedClass = Relation::getMorphedModel($value) ?? $value;
                     }
 
+                    // check if the object has HasMediaExtended as one of its parents or implements it
                     if (
                         ! is_subclass_of($resolvedClass, HasMediaExtended::class)
                     ) {
@@ -64,7 +67,11 @@ abstract class StoreRequest extends MediaManagerRequest
         int $maxItems
     ): ?ValidationRule {
 
-        if (!$this->isTemporaryUpload()) {
+        $dataSource = $this->input('data_source');
+        $clientToken = $this->input('client_token');
+
+        if (! $this->isTemporaryUpload()) {
+
             $model = $this->resolveModel();
 
             if (! $model) {
@@ -74,14 +81,20 @@ abstract class StoreRequest extends MediaManagerRequest
             return new MaxMediaCount(
                 $model,
                 $collections,
-                $maxItems
+                $maxItems,
+                $dataSource
             );
         }
+
+        $baseId = (string) $this->input('base_id');
+        $derivedInstanceId = InstanceManager::getInstanceId($baseId);
 
         return new MaxTemporaryUploadCount(
             $collections,
             $maxItems,
-            $this->input('instance_id')
+            $derivedInstanceId,
+            $dataSource,
+            $clientToken
         );
     }
 }

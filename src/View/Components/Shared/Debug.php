@@ -5,18 +5,21 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Shared;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel;
+use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Debug extends Component
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public bool $iconExists = false;
 
@@ -26,29 +29,46 @@ class Debug extends Component
 
     public string $id;
 
+    public string $modelType;
+    public ?int $modelId;
+    public bool $temporaryUploadMode;
+    public ?Model $model;
+
+    private ResolvedModel $resolvedModel;
+
     public function __construct(
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public array $config = [],
-        public array $options = [],
+        array $config = [],
+        array $options = [],
+        public ?string $dataSource = 'default',
     ) {
 
+        $this->config = $config;
+        $this->options = $options;
         $this->id = uniqid();
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        $mediaService = app(MediaService::class);
+
+        $this->resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+
+        $this->model = $this->resolvedModel->model;
+        $this->modelType = $this->resolvedModel->modelType;
+        $this->modelId = $this->resolvedModel->modelId;
+        $this->temporaryUploadMode = $this->resolvedModel->temporaryUploadMode;
 
         $this->iconExists = collect(Blade::getClassComponentAliases())
             ->keys()
-            ->contains(config('media-library-extensions.icons.delete'));
+            ->contains(config('medialibrary-extensions.icons.delete'));
 
         if (! $this->iconExists) {
-            $this->errors[] = __('media-library-extensions::messages.no_blade_ui_kit_icon_package_detected_download_at_:link', [
+            $this->errors[] = __('medialibrary-extensions::messages.no_blade_ui_kit_icon_package_detected_download_at_:link', [
                 'link' => '<a href="https://github.com/driesvints/blade-icons" target="_blank">Blade UI Kit icon package</a>',
             ]);
         }
 
         // Optional: guard against model being null to avoid exception
-        if ($this->model) {
-            $this->collections = Media::where('model_type', $this->model->getMorphClass())
+        if ($this->resolvedModel->model) {
+            $this->collections = Media::where('model_type', $this->resolvedModel->model->getMorphClass())
                 ->get()
                 ->pluck('collection_name')
                 ->unique();
@@ -57,13 +77,16 @@ class Debug extends Component
         }
     }
 
+    public function getComponents(): array
+    {
+        return DebugManager::getRegisteredComponents($this->getConfig('id'));
+    }
+
     /**
      * Recursively sanitize a config array so nested objects are replaced by class name placeholders.
      */
-    public function getSanitizedConfig(?array $array = null): array
+    public function getSanitizedConfig(array $array): array
     {
-        $array ??= $this->config;
-
         // Sort keys alphabetically
         ksort($array);
 
@@ -80,8 +103,89 @@ class Debug extends Component
         }, $array);
     }
 
+    public function getCollectionDebugData(): Collection
+    {
+        // Determine the active database details for the resolved model (if any)
+        $connectionName = null;
+        $databaseName = null;
+
+        if ($this->resolvedModel->model) {
+            try {
+                $connectionName = $this->resolvedModel->model->getConnectionName()
+                    ?: $this->resolvedModel->model->getConnection()->getName();
+            } catch (\Throwable $e) {
+                $connectionName = null;
+            }
+
+            try {
+                $databaseName = $this->resolvedModel->model->getConnection()->getDatabaseName();
+            } catch (\Throwable $e) {
+                $databaseName = null;
+            }
+        }
+
+        $dataSource = $this->dataSource; // passed into the component
+
+        return collect(['image', 'document', 'video', 'audio', 'youtube'])
+            ->map(function ($type) use ($dataSource, $connectionName, $databaseName) {
+                $collectionName = $this->getConfig('collections')[$type] ?? null;
+
+                $count = ($this->resolvedModel->model && $collectionName)
+                    ? $this->resolvedModel->model->getMedia($collectionName)->count()
+                    : 0;
+
+                return [
+                    'type' => $type,
+                    'collection' => is_array($collectionName) ? implode(', ', $collectionName) : ($collectionName ?? 'n/a'),
+                    'count' => $count,
+                    'data_source' => $dataSource,
+                    'database' => $databaseName ?? 'n/a',
+                    'connection' => $connectionName ?? 'n/a',
+                ];
+            });
+    }
+
+    /**
+     * Return a concise set of the most important component properties for debugging.
+     * This mirrors what the frontend component receives from its config/options.
+     *
+     * @return array{
+     *     clientToken: mixed,
+     *     collections: array<string, mixed>|null,
+     *     dataSource: string|null,
+     *     id: string|null,
+     *     instanceId: string|null,
+     *     isAtMax: bool|null,
+     *     isEmpty: bool|null,
+     *     maxMediaCount: int|null,
+     *     theme: string|null,
+     *     totalMediaCount: int|null,
+     *     useXhr: bool|null
+     * }
+     */
+    public function getMainComponentProperties(): array
+    {
+        // Prefer values coming from the component config; fall back to known alternatives
+        $props = [
+            'clientToken' => $this->getConfig('clientToken'),
+            'collections' => $this->getConfig('collections') ?? null,
+            'dataSource' => $this->getConfig('dataSource') ?? $this->dataSource,
+            'id' => $this->getConfig('id'), // logical component id
+            'instanceId' => $this->getConfig('instanceId'),
+            'isAtMax' => $this->getConfig('isAtMax'),
+            'isEmpty' => $this->getConfig('isEmpty'),
+            'maxMediaCount' => $this->getConfig('maxMediaCount'),
+            'theme' => $this->getConfig('theme'),
+            'totalMediaCount' => $this->getConfig('totalMediaCount'),
+            'useXhr' => $this->getConfig('useXhr') ?? $this->getConfig('use_xhr'),
+        ];
+
+        // Sanitize nested complex values for safe debug output
+        return $this->getSanitizedConfig($props);
+    }
+
     public function render(): View
     {
-        return view('media-library-extensions::components.shared.debug');
+        return view('medialibrary-extensions::components.shared.debug');
     }
 }

@@ -9,7 +9,6 @@ use Illuminate\Validation\Rule;
 
 class GetMediaManagerTinyMceRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -18,13 +17,14 @@ class GetMediaManagerTinyMceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'media_manager_id' => ['required', 'string'],
+            'base_id' => ['required', 'string'],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
             'collections' => ['required', 'string'], // json
             'options' => ['required', 'string'], // json
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],
             'multiple' => ['required', Rule::in(['true', 'false'])],
+            'data_source' => ['nullable', 'string'],
         ];
     }
 
@@ -38,8 +38,8 @@ class GetMediaManagerTinyMceRequest extends FormRequest
 
         if ($wantsHtml) {
             // Return an HTML response so TinyMCE doesn't render raw JSON
-            $html = view('media-library-extensions::components.shared.tinymce-error', [
-                'message' => __('media-library-extensions::messages.invalid_configuration'),
+            $html = view('medialibrary-extensions::components.shared.tinymce-error', [
+                'message' => __('medialibrary-extensions::messages.invalid_configuration'),
                 'errors' => $errors,
             ])->render();
 

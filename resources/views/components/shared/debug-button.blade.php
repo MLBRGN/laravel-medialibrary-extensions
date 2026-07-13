@@ -1,13 +1,13 @@
 <button type="button"
         {{ $attributes->class([
             'mle-button mle-button-icon',
-            'btn btn-primary' => config('media-library-extensions.frontend_theme') === 'bootstrap-5'
+            'btn btn-primary' => config('medialibrary-extensions.frontend_theme') === 'bootstrap-5'
         ]) }}
-        title="{{ __('media-library-extensions::messages.debug') }}"
+        title="{{ __('medialibrary-extensions::messages.debug') }}"
         data-mle-action="debugger-toggle"
 >
     <x-mle-shared-icon
-            name="{{ config('media-library-extensions.icons.bug') }}"
-            title="{{ __('media-library-extensions::messages.debug') }}"
+            name="{{ config('medialibrary-extensions.icons.bug') }}"
+            title="{{ __('medialibrary-extensions::messages.debug') }}"
     />
 </button>

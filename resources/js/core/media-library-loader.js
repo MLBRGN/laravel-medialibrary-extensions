@@ -4,84 +4,109 @@ import {
     mergeConfigs,
 } from './asset-loader-core';
 
-const loader = createAssetLoader('media', {
-    basePath: '/vendor/mlbrgn/media-library-extensions'
-});
+/**
+ * Shared bootstrapper for all MLBRGN asset bundles
+ */
+function bootAssets({ selector, namespace, runner }) {
+   // console.log('mlb bootAssets')
+    const configs = collectConfigs(selector);
+    const manifest = mergeConfigs(configs);
+
+    if (!manifest) return;
+
+    const loader = createAssetLoader(namespace, {
+        basePath: manifest.assetBasePath,
+    });
+
+    runner(loader, manifest);
+}
+
+/* =========================================================
+ * MEDIA LIBRARY EXTENSIONS
+ * ========================================================= */
 
 function loadMediaAssets(loader, manifest) {
-    const {theme, assets, translations, debug} = manifest;
-    const {loadScript, loadStyle} = loader;
+    const { assets = {}, theme, translations = {}, debug, imageEditorTranslationsPath } = manifest;
+    const { loadScript, loadStyle } = loader;
 
-    // expose translations safely
+    // console.log('assets to load: ', assets)
     window.mediaLibraryTranslations = {
         ...(window.mediaLibraryTranslations ?? {}),
         ...translations,
     };
 
-    try {
-        if (assets.css) {
-            loadStyle(`css/${theme}.css`);
-        }
+    if (imageEditorTranslationsPath) {
+        window.imageEditorTranslationsPath = imageEditorTranslationsPath;
+    }
 
-        if (assets.js) {
-            loadScript(`js/${theme}.js`);
-        }
+    const tasks = [];
 
-        if (assets.carousel && theme === 'plain') {
-            loadScript(`js/plain/media-carousel.js`);
-        }
+    if (assets.css) {
+        tasks.push(loadStyle(`css/${theme}.css`));
+    }
 
-        if (assets.tinymceIframe) {
-            loadScript(
-                `js/shared/tinymce-custom-file-picker-iframe.js`
+    if (assets.js) {
+        tasks.push(loadScript(`js/${theme}.js`));
+    }
+
+    if (assets.carousel && theme === 'plain') {
+        tasks.push(loadScript(`js/plain/media-carousel.js`));
+    }
+
+    if (assets.tinymceIframe) {
+        tasks.push(loadScript(`js/shared/tinymce-custom-file-picker-iframe.js`));
+    }
+
+    if (assets.imageEditorModal) {
+        tasks.push(loadScript(`js/${theme}/modal-image-editor.js`));
+    }
+
+    if (assets.mediaModal) {
+        tasks.push(loadScript(`js/${theme}/modal-media.js`));
+    }
+
+    if (assets.imageEditor) {
+        tasks.push(loadScript(`js/shared/image-editor-listener.js`));
+    }
+
+    if (assets.mediaManagerSubmitter) {
+        tasks.push(loadScript(`js/shared/media-manager-submitter.js`));
+    }
+
+    if (assets.mediaLabSubmitter) {
+        tasks.push(loadScript(`js/shared/media-lab-submitter.js`));
+    }
+
+    if (assets.debugToggle || debug) {
+        tasks.push(loadScript(`js/shared/debug-toggle-listener.js`));
+    }
+
+    if (assets.liteYoutube) {
+        tasks.push(loadScript(`js/shared/lite-youtube.js`));
+
+        if (!window.YT) {
+            tasks.push(
+                loadScript('https://www.youtube.com/iframe_api', {
+                    type: 'text/javascript',
+                })
             );
         }
-
-        if (assets.imageEditorModal) {
-            loadScript(`js/${theme}/modal-image-editor.js`);
-        }
-
-        if (assets.mediaModal) {
-            loadScript(`js/${theme}/modal-media.js`);
-        }
-
-        if (assets.imageEditor) {
-            loadScript(`js/shared/image-editor-listener.js`);
-        }
-
-        if (assets.mediaManagerSubmitter) {
-            loadScript(`js/shared/media-manager-submitter.js`);
-        }
-
-        if (assets.mediaManagerLabSubmitter) {
-            loadScript(`js/shared/media-manager-lab-submitter.js`);
-        }
-
-        if (assets.liteYoutube) {
-            loadScript(`js/shared/lite-youtube.js`);
-
-            if (!window.YT) {
-                loadScript(
-                    'https://www.youtube.com/iframe_api',
-                    { type: 'text/javascript' }
-                );
-            }
-        }
-
-        if (debug) {
-            console.log('[media] assets loaded', manifest);
-        }
-    } catch (e) {
-        console.error('[media] asset loading failed', e);
     }
+
+    // console.log('assets to load: ', tasks)
+    Promise.allSettled(tasks).then(() => {
+        if (debug) {
+            console.debug('[media] assets loaded', manifest);
+        }
+    });
 }
 
-// Boot
-const configs = collectConfigs('.mlbrgn-medialibrary-config');
-const manifest = mergeConfigs(configs);
-console.log('mle configs', configs)
-console.log('mle manifest', manifest)
+/* =========================================================
+ * BOOTSTRAP ENTRIES
+ * ========================================================= */
 
-if (manifest) {
-    loadMediaAssets(loader, manifest);
-}
+bootAssets({
+    selector: '.mlbrgn-medialibrary-config',
+    namespace: 'media',
+    runner: loadMediaAssets,
+});

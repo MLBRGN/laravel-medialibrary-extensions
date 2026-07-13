@@ -9,7 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvide
 
 class InstallMediaLibraryExtensions extends Command
 {
-    protected $signature = 'media-library-extensions:install {--force : Overwrite any existing files}';
+    protected $signature = 'medialibrary-extensions:install {--force : Overwrite any existing files}';
 
     protected $description = 'Install the media library extensions (publishes required assets and installs npm package).';
 
@@ -21,24 +21,24 @@ class InstallMediaLibraryExtensions extends Command
 
     public function handle(): int
     {
-        $force = $this->option('force');
-
-        if (! $force) {
-            $force = $this->confirm('Some files may already exist. Do you want to overwrite them?', false);
-        }
+//        $force = $this->option('force');
+//
+//        if (! $force) {
+//            $force = $this->confirm('Some files may already exist. Do you want to overwrite them?', false);
+//        }
 
         // Publish required assets (CSS/JS)
         $this->publishWithMessage(
-            'assets',
-            public_path('vendor/medialibrary-extensions'),
-            $force
+            config('medialibrary-extensions.namespace').'-assets',
+            public_path('vendor/mlbrgn/medialibrary-extensions'),
+            true
         );
 
         // Publish config
         $this->publishWithMessage(
-            'config',
-            public_path('vendor/medialibrary-extensions'),
-            $force
+            config('medialibrary-extensions.namespace').'-config',
+            config_path('medialibrary-extensions.php'),
+            true
         );
 
         // show outro
@@ -72,7 +72,7 @@ class InstallMediaLibraryExtensions extends Command
         $this->comment('----------------------------------------------');
         $this->info('');
         $this->comment('  npm install');
-        $this->comment('  npm install @mlbrgn/media-library-extensions');
+        $this->comment('  npm install @mlbrgn/medialibrary-extensions');
         $this->comment('  npm run build');
         $this->info('');
 

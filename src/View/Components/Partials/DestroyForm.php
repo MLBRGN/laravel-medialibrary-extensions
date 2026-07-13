@@ -6,61 +6,72 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class DestroyForm extends BaseComponent
+class DestroyForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
-    public ?string $mediaManagerId = '';
-
-    public array $config;
-
-    public string $mediumDestroyRoute;
+    public string $mediaDestroyRoute;
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
-        public Media|TemporaryUpload|null $singleMedium = null,
+        public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
-        public array $options = [],
+        array $options = [],
         public ?bool $disabled = false,
-        public ?string $instanceId = null,
+        public string $instanceId = '',
+        public ?string $dataSource = 'default',
+        ?string $clientToken = null,
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        // Ensure instanceId is derived from the Base ID
+        if (empty($this->instanceId)) {
+            $this->instanceId = InstanceManager::getInstanceId($this->id);
+        }
 
-        $this->mediaManagerId = $id;
-        $this->id = $this->id.'-destroy-form-'.$this->medium->id;
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
+
+        $this->options = $options;
+
+        if ($this->medium instanceof Media && is_null($this->modelId)) {
+            $this->modelId = $this->medium->model_id;
+        }
 
         if ($this->temporaryUploadMode) {
-            $mediumDestroyRoute = route(
-                mle_prefix_route('temporary-upload-destroy'),
-                ['temporaryUpload' => $medium->id] // 👈 exact match to route parameter
+            $mediaDestroyRoute = route(
+                mle_prefix_route('destroy-temporary-upload'),
+                ['temporaryUploadId' => $medium->id]
             );
         } else {
-            $mediumDestroyRoute = route(
-                mle_prefix_route('medium-destroy'),
-                ['media' => $medium->id]
+            $mediaDestroyRoute = route(
+                mle_prefix_route('destroy-media'),
+                ['mediaId' => $medium->id]
             );
         }
 
-        $this->mediumDestroyRoute = $mediumDestroyRoute;
+        $this->mediaDestroyRoute = $mediaDestroyRoute;
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
-        //        dump($this->config);
-        $this->setConfig('routes.mediumDestroy', $this->mediumDestroyRoute);
+        $this->setConfig('routes.mediaDestroy', $this->mediaDestroyRoute);
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'destroy-form-'.$this->medium->id;
     }
 
     public function render(): View
     {
-        return $this->getPartialView('destroy-form', $this->getConfig('frontendTheme'));
+        return $this->renderView('destroy-form', $this->getConfig('theme'), true);
     }
 }

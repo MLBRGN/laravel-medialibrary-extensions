@@ -18,18 +18,33 @@ class MediaViewer extends BaseComponent
     public function __construct(
         ?string $id,
         public Media|TemporaryUpload|null $medium,
-        public array $options = [],
+        array $options = [],
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
-        public bool $expandableInModal = false // can this medium be opened in a modal when clicking it
+        public bool $expandableInModal = false, // can this medium be opened in a modal when clicking it
+        public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
+        $this->options = $options;
 
         $this->mediumType = getMediaType($this->medium);
         $this->componentToRender = $this->resolveComponentForMedium($this->medium);
+
+        $this->resolveConfig();
+
+        $this->addConfigDefaults([
+            'previewMode' => $this->previewMode,
+            'expandableInModal' => $this->expandableInModal,
+            'mediumType' => $this->mediumType,
+        ]);
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'media-viewer';
     }
 
     public function render(): View
     {
-        return $this->getView('media-viewer', $this->getConfig('frontendTheme'));
+        return $this->renderView('media-viewer', $this->getConfig('theme'));
     }
 }

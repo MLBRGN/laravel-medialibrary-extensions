@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Media library custom file picker</title>
+        <title>{{ __('medialibrary-extensions::messages.custom_file_picker') }}</title>
         @php
             $nonce = mlbrgn_csp_nonce();
         @endphp
@@ -13,7 +13,7 @@
             if (!window.imageEditorLoaded) {
                 const script = document.createElement('script');
                 script.type = 'module';
-                script.src = "{{ asset('vendor/mlbrgn/media-library-extensions/js/image-editor.js') }}";
+                script.src = "{{ asset(config('medialibrary-extensions.asset_path') . '/js/image-editor.js') }}";
                 document.head.appendChild(script);
                 window.imageEditorLoaded = true;
 
@@ -23,11 +23,16 @@
     </head>
     <body>
         <div class="mle-component">
-            <button type="button" id="insert-selected" class="mle-button mle-button-submit">
-                {{ __('media-library-extensions::messages.insert_selected_medium') }}
+            <button type="button" id="insert-selected" class="mle-button mle-button-submit" data-mle-insert-selected>
+                {{ __('medialibrary-extensions::messages.insert_selected_medium') }}
             </button>
         </div>
         <div class="mle-component mle-media-manager-tinymce">
+            @php
+                $id = isset($id) && $id !== ''
+                    ? (string) $id
+                    : 'mle-tinymce-'.\Illuminate\Support\Str::uuid()->toString();
+            @endphp
             <x-mle-media-manager-tinymce
                 id="{{ $id }}"
                 :model-or-class-name="$modelOrClassName"
@@ -37,6 +42,7 @@
                 :disabled="false"
                 :readonly="false"
                 :selectable="true"
+                :data-source="$dataSource ?? 'default'"
             />
         </div>
     </body>

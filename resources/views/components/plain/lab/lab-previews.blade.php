@@ -1,12 +1,17 @@
-<div class="mle-media-preview-grid" 
+<div class="mle-media-preview-grid mle-lab-previews" 
      data-mle-media-preview-grid
+     id="{{ $getDomId() }}"
 >
     <x-mle-lab-preview-original 
-        :medium="$medium"
-        :options="$options"
+        :id="$id"
+        :media="$media"
+        :options="$getOptions()"
+        :data-source="$dataSource"
     />
     <x-mle-lab-preview-base 
-        :medium="$medium"
-        :options="$options"
+        :id="$id"
+        :media="$media"
+        :options="$getOptions()"
+        :data-source="$dataSource"
     />
 </div>

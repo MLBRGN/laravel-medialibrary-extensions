@@ -17,7 +17,7 @@ class StoreYouTubeVideoAction
 
     public function execute(StoreYouTubeVideoRequest $request): RedirectResponse|JsonResponse
     {
-        if (! config('media-library-extensions.youtube_support_enabled')) {
+        if (! config('medialibrary-extensions.youtube_support_enabled')) {
             abort(403);
         }
 

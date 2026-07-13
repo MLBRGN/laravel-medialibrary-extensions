@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
+use Mockery\LegacyMockInterface;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-// class TestCase extends BaseTestCase
 class TestCase extends Orchestra
 {
     protected $baseUrl = 'http://medialibrary-extensions.test';
@@ -38,9 +39,6 @@ class TestCase extends Orchestra
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
 
-        // Run package migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
         Carbon::setTestNow('2025-01-01 00:00:00');
 
         $this->testModel = Blog::create(['title' => 'Test Model']);
@@ -52,19 +50,13 @@ class TestCase extends Orchestra
 
         Route::get('/login', fn () => 'Login (dummy)')->name('login');
 
-        Config::set('media-library-extensions.demo_pages_enabled', false);
-        Config::set('media-library-extensions.store_originals', true);
+        Config::set('medialibrary-extensions.demo_pages_enabled', false);
+        Config::set('medialibrary-extensions.store_originals', true);
 
         if (empty(config('app.key'))) {
             $key = 'base64:'.base64_encode(random_bytes(32));
             Config::set('app.key', $key);
         }
-        //
-        //        $this->app->singleton(IconsManifest::class, function () {
-        //            return new IconsManifest(storage_path('framework/blade-icons.php'));
-        //        });
-        // Use a persistent session driver
-        //        Config::set('session.driver', 'file');
     }
 
     protected function tearDown(): void
@@ -77,9 +69,15 @@ class TestCase extends Orchestra
 
     protected function getPackageProviders($app): array
     {
-        return [
+        $providers = [
             MediaLibraryExtensionsServiceProvider::class,
         ];
+
+        if (class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class)) {
+            $providers[] = \Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class;
+        }
+
+        return $providers;
     }
 
     public function registerTestRoute($uri, ?callable $post = null): self
@@ -99,13 +97,21 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
 
+        PackageInfrastructure::register('test');
+
         $this->createDirectory($this->getTempDirectory());
         $this->createDirectory($this->getMediaDirectory());
         $this->createDirectory($this->getTemporaryUploadsDirectory());
+        $this->createDirectory($this->getLogDirectory());
 
         $this->refreshTestFiles();
 
-        $app['config']->set('app.key', 'base64:BOiGLFUC+84Du2o8GYos0kGJaj4zGX9M9BkLsAj04Ik=');
+        $app['config']->set('logging.default', 'single');
+        $app['config']->set('logging.channels.single', [
+            'driver' => 'single',
+            'path' => $this->getLogDirectory().'/laravel.log',
+            'level' => 'debug',
+        ]);
         $app['config']->set('session.serialization', 'php');
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
@@ -117,52 +123,109 @@ class TestCase extends Orchestra
         // Load media library config (needed for tests that interact with the media library to work)
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
-        // configure database
-        config()->set('database.default', 'sqlite');
-        config()->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
-
         // configure filesystem
-        config()->set('filesystems.disks.public', [
-            'driver' => 'local',
-            'root' => $this->getMediaDirectory(),
-            'url' => '/media',
-        ]);
+//        config()->set('filesystems.disks.public', [
+//            'driver' => 'local',
+//            'root' => $this->getMediaDirectory(),
+//            'url' => '/media',
+//        ]);
+//
+//        config()->set('filesystems.disks.media', [
+//            'driver' => 'local',
+//            'root' => $this->getMediaDirectory(),
+//            'url' => '/media',
+//        ]);
 
         $app->bind('path.public', fn () => $this->getTempDirectory());
 
         $app['config']->set('media-library.media_model', Media::class);
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
+    }
+
+//    protected function defineDatabaseMigrations(): void
+//    {
+////        $this->artisan('migrate:fresh', [
+////            '--database' => 'mle_test_host_app',// connection to use
+////            '--path' => realpath(__DIR__ . '/database/migrations'),
+////            '--realpath' => true,
+////        ]);
+////
+////        $this->artisan('migrate:fresh', [
+////            '--database' => 'mle_test_demo',// connection to use
+////            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
+////            '--realpath' => true,
+////        ]);
+//
+//    }
+
+//    protected function migrateConnection(
+//        string $connection,
+//        array $paths
+//    ): void {
+//
+//        dump('migrating '.$connection);
+//        $this->artisan('migrate:fresh', [
+//            '--database' => $connection,
+//        ]);
+//
+//        foreach ($paths as $path) {
+//            dump('path: '.base_path($path));
+//            $this->artisan('migrate', [
+//                '--database' => $connection,
+//                '--path' => base_path($path),
+//                '--realpath' => true,
+//            ]);
+//        }
+//    }
+
+    protected function migrateConnection(
+        string $connection,
+        string $path
+    ): void {
+        $this->artisan('migrate:fresh', [
+            '--database' => $connection,
+            '--path' => realpath($path),
+            '--realpath' => true,
         ]);
     }
-
     protected function defineDatabaseMigrations(): void
     {
-        // also loads migrations from the service provider!!!
-        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        PackageInfrastructure::register('test');
+
+        $this->migrateConnection(
+            PackageInfrastructure::connection('test'),
+            realpath(__DIR__ . '/database/migrations')
+        );
+
+        $this->migrateConnection(
+            PackageInfrastructure::connection('test', 'alt'),
+            realpath(__DIR__ . '/database/migrations')
+        );
+
+//        PackageInfrastructure::register('test');
+//
+//        foreach (
+//            PackageInfrastructure::connections('test')
+//            as $name => $connection
+//        ) {
+//
+//            $this->migrateConnection(
+//                $connection,
+//                PackageInfrastructure::migrationPaths('test', $name)
+//            );
+//        }
     }
 
-    //    protected function createDirectory($directory): void
-    //    {
-    //        if (File::isDirectory($directory)) {
-    //            File::deleteDirectory($directory);
-    //        }
-    //        File::makeDirectory($directory);
-    //    }
     protected function createDirectory(string $directory): void
     {
         if (File::isDirectory($directory)) {
             File::deleteDirectory($directory);
         }
         File::makeDirectory($directory, 0755, true);
+    }
+
+    public function getLogDirectory(): string
+    {
+        return __DIR__.'/.logs';
     }
 
     public function getTempDirectory(string $suffix = ''): string
@@ -202,6 +265,13 @@ class TestCase extends Orchestra
         );
     }
 
+    public function getFixtureAsFilePath(string $fileName): string
+    {
+        $path = __DIR__.'/Fixtures/'.$fileName;
+
+        return $path;
+    }
+
     protected function getUploadedFile(
         string $name = 'test.jpg',
         int $sizeInKb = 10,
@@ -237,11 +307,6 @@ class TestCase extends Orchestra
      */
     protected function createTemporaryUpload(array $attributes = []): TemporaryUpload
     {
-        //        dump([
-        //            'helper_session' => session()->getId(),
-        //            'request_session' => optional(request()->session())->getId(),
-        //        ]);
-
         $disk = $attributes['disk'] ?? 'public';
 
         $defaults = [
@@ -252,7 +317,7 @@ class TestCase extends Orchestra
             'collection_name' => 'default',
             'mime_type' => 'image/jpeg',
             'size' => 123,
-            'session_id' => session()->getId(),
+            'client_token' => config('medialibrary-extensions.test_client_token'),
             'custom_properties' => [],
             'order_column' => null,
             'user_id' => null,
@@ -302,7 +367,7 @@ class TestCase extends Orchestra
             'file_name' => $fileName,
             'collection_name' => 'test',
             'custom_properties' => ['image_collection' => 'images'],
-            'session_id' => session()->getId(),
+            'client_token' => config('medialibrary-extensions.test_client_token'),
         ];
 
         return TemporaryUpload::create(array_merge($defaults, $overrides));
@@ -320,20 +385,6 @@ class TestCase extends Orchestra
 
         return $target;
     }
-
-    //    public function getTestImagePath(string $fileName = 'test.jpg'): string
-    //    {
-    //
-    //        $source = __DIR__.'/Support/files/'.$fileName;
-    // //        dump($source);
-    // //        dump($fileName);
-    //        $target = $this->getFixtureUploadedFile($fileName);
-    //
-    //        File::ensureDirectoryExists(dirname($target));
-    //        File::copy($source, $target);
-    //
-    //        return $target;
-    //    }
 
     public function getModelWithMedia(array $types = ['image' => 1]): Model
     {
@@ -470,7 +521,7 @@ class TestCase extends Orchestra
      * @param  array  $customProperties  Extra custom_properties
      * @param  array  $generatedConversions  Conversion map (e.g. ['thumb' => true])
      * @param  bool  $mock  Return a Mockery mock instead of a real model
-     * @return \Spatie\MediaLibrary\MediaCollections\Models\Media|\Mockery\LegacyMockInterface
+     * @return Media|LegacyMockInterface
      */
     public function getMedium(
         ?string $fileName = 'test.jpg',
@@ -522,7 +573,7 @@ class TestCase extends Orchestra
         File::ensureDirectoryExists(dirname($target));
         File::copy($source, $target);
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var Media $media */
         $media = $model
             ->addMedia($target)
             ->preservingOriginal()
@@ -564,5 +615,22 @@ class TestCase extends Orchestra
             'html' => $filename,      // original filename with invisible chars
             'disk' => $safeFilename,  // sanitized filename for storage
         ];
+    }
+
+    function sanitizeHtmlSnapshot(string $html): string
+    {
+        $html = str_replace(
+            config('app.url'),
+            '<APP_URL>',
+            $html
+        );
+
+        $html = preg_replace(
+            '/01[A-Z0-9]{24}/',
+            '<ULID>',
+            $html
+        );
+
+        return $html;
     }
 }

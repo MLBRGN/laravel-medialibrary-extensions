@@ -4,25 +4,35 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Audio extends Component
+class Audio extends BaseComponent
 {
-    public string $id;
+    use InteractsWithOptionsAndConfig;
 
     public function __construct(
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
-        public array $options = [],
+        array $options = [],
+        ?string $id = null,
     ) {
-        $this->id = 'mle-audio-'.$medium->id;
+        parent::__construct($id);
+
+        $this->options = $options;
+
+        $this->resolveConfig();
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'audio';
     }
 
     public function render(): View
     {
-        return view('media-library-extensions::components.audio');
+        return $this->renderView('', null, false, 'medialibrary-extensions::components.audio');
     }
 }

@@ -1,16 +1,16 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => route(mle_prefix_route('media-upload-youtube')),
+        'action' => route(mle_prefix_route('media-upload-youtube'))  . '#' . $id,
         'method' => 'POST',
         'data-mle-form'
     ]"
     :div-attributes="[
         'data-mle-xhr-form' => $getConfig('useXhr'), 
-        'id' => $id.'-youtube-upload-form'
     ]"
     method="post"
     class="mle-media-manager-youtube-upload-form"
+    id="{{ $getDomId() }}"
 >
     <input 
         type="hidden" 
@@ -18,8 +18,8 @@
         value="{{ $getConfig('temporaryUploadMode') ? 'true' : 'false' }}">
     <input
         type="hidden"
-        name="single_medium_id"
-        value="{{ $singleMedium?->id || null}}">
+        name="single_media_id"
+        value="{{ $singleMedia?->id || null}}">
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
@@ -42,27 +42,28 @@
         value="{{ $modelId }}">
     <input
         type="hidden"
-        name="initiator_id"
+        name="base_id"
         value="{{ $id }}">
     <input
         type="hidden"
-        name="instance_id"
-        value="{{ $getConfig('instanceId') ?? '' }}">
-    <input
-        type="hidden"
-        name="media_manager_id"
-        value="{{ $mediaManagerId }}">
+        name="client_token"
+        value="{{ $clientToken }}">
     <input
         type="hidden"
         name="multiple"
         value="{{ $multiple ? 'true' : 'false' }}">
+    <input type="hidden"
+           name="data_source"
+           value="{{ $getConfig('dataSource') }}">
     <label 
         for="{{ $id }}-youtube-url" 
         class="mle-label">
-        YouTube Video URL
+        {{ __('medialibrary-extensions::messages.youtube_video_url') }}
     </label>
     <input
         id="{{ $id }}-youtube-url"
+        data-test="youtube-input-{{ $id }}"
+        data-mle-youtube-input
         type="url" 
         name="youtube_url" 
         class="mle-input" 
@@ -73,9 +74,11 @@
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-upload-button"
         data-mle-action="upload-youtube-medium"
+{{--        data-test="youtube-upload-button-{{ $id }}"--}}
+        data-mle-youtube-upload-button
         @disabled($disabled)
     >
-        {{ __('media-library-extensions::messages.add_youtube_video') }}
+        {{ __('medialibrary-extensions::messages.add_youtube_video') }}
     </button>
 </x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
@@ -83,7 +86,7 @@
         include-css="true" 
         include-js="true" 
         include-media-manager-submitter="true" 
-        :frontend-theme="$getConfig('frontendTheme')"
+        :theme="$getConfig('theme')"
         for="plain|youtube-upload-form"
     />
 @endif

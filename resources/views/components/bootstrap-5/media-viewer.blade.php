@@ -2,7 +2,7 @@
     <x-dynamic-component
         :component="$componentToRender"
         :medium="$medium"
-        :options="$options"
+        :options="$getOptions()"
         :preview-mode="$previewMode"
         draggable="{{ isMediaType($medium, 'image') ? 'false' : null }}"
         {{ $attributes->class([
@@ -10,5 +10,6 @@
             'mle-image-responsive' => isMediaType($medium, 'image'),
             'mle-cursor-zoom-in' => $expandableInModal
         ]) }}
+        id="{{ $getDomId() }}"
     />
 @endif

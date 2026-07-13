@@ -4,14 +4,16 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Illuminate\View\Component;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
-class ImageResponsive extends Component
+class ImageResponsive extends BaseComponent
 {
+    use InteractsWithOptionsAndConfig;
+
     protected array $generatedConversions = [];
 
     public function __construct(
@@ -23,12 +25,17 @@ class ImageResponsive extends Component
         public bool $lazy = true,
         public string $alt = '',
         public bool $originalOnly = false,
-        public array $options = [],
+        array $options = [],
         public ?string $placeholder = null,
     ) {
+        $id = 'mle-image-responsive-'.($this->medium?->id ?? 'no-medium');
+        parent::__construct($id);
+        $this->options = $options;
         if ($this->medium) {
             $this->generatedConversions = $this->medium->generated_conversions ?? [];
         }
+
+        $this->resolveConfig();
     }
 
     public function hasGeneratedConversion(): bool
@@ -69,9 +76,13 @@ class ImageResponsive extends Component
             $separator = str_contains($url, '?') ? '&' : '?';
 
             return "{$url}{$separator}v={$timestamp}";
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return $url;
         }
+    }
+
+    protected function domIdSuffix(): string {
+        return 'image-responsive';
     }
 
     public function render(): View
@@ -83,7 +94,7 @@ class ImageResponsive extends Component
         $srcset = '';
 
         $this->placeholder ??= asset(
-            'vendor/mlbrgn/media-library-extensions/images/fallback.png'
+            config('medialibrary-extensions.asset_path').'/images/fallback.png'
         );
         try {
             if ($this->medium) {
@@ -103,7 +114,7 @@ class ImageResponsive extends Component
                 : '';
         }
 
-        return view('media-library-extensions::components.image-responsive', [
+        return $this->renderView('', null, false, 'medialibrary-extensions::components.image-responsive', [
             'hasGeneratedConversion' => $hasConversion,
             'useConversion' => $useConversion,
             'url' => $url,

@@ -1,33 +1,34 @@
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => $multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single')),
+        'action' => ($multiple ? route(mle_prefix_route('media-upload-multiple')) : route(mle_prefix_route('media-upload-single'))) . '#' . $id,
         'method' => 'POST',
         'enctype' => 'multipart/form-data',
         'data-mle-form'
     ]"
     :div-attributes="[
         'data-mle-xhr-form' => $getConfig('useXhr'), 
-        'id' => $id.'-media-upload-form'
     ]"
     method="post"
     class="mle-media-manager-upload-form"
+    id="{{ $getDomId() }}"
 >
-    <label for="{{ $id }}-media-input" class="mle-label">Bestanden</label>
+    <label for="{{ $id }}-media-input" class="mle-label">{{ __('medialibrary-extensions::messages.files') }}</label>
     <input
         id="{{ $id }}-media-input"
+        data-mle-media-input
         accept="{{ $getConfig('allowedMimeTypes') }}"
         type="file"
         class="mle-input mle-form-control mle-custom-file-input"
         @if($multiple)
-            name="{{ $getConfig('uploadFieldName') }}[]"
+            name="media[]"
             multiple
         @else
-            name="{{$getConfig('uploadFieldName') }}"
+            name="media"
         @endif
         @disabled($disabled)
         >
-    <span class="mle-form-text">{{ __('media-library-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
+    <span class="mle-form-text">{{ __('medialibrary-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
@@ -38,8 +39,8 @@
     @endforeach
     <input
         type="hidden"
-        name="single_medium_id"
-        value="{{ $singleMedium?->id || null }}">
+        name="single_media_id"
+        value="{{ $singleMedia?->id || null }}">
     <input 
         type="hidden" 
         name="temporary_upload_mode" 
@@ -54,25 +55,25 @@
         value="{{ $modelId }}">
     <input
         type="hidden"
-        name="initiator_id"
+        name="base_id"
         value="{{ $id }}">
     <input
         type="hidden"
-        name="instance_id"
-        value="{{ $getConfig('instanceId') ?? '' }}">
-    <input
-        type="hidden"
-        name="media_manager_id"
-        value="{{ $mediaManagerId }}">
+        name="client_token"
+        value="{{ $clientToken }}">
+    <input type="hidden"
+           name="data_source"
+           value="{{ $getConfig('dataSource') }}">
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-upload-button"
         data-mle-action="upload-media"
+        data-mle-media-upload-button
         @disabled($disabled)
     >
         {{ $multiple
-         ? __('media-library-extensions::messages.upload_media')
-         : __('media-library-extensions::messages.upload_medium') }}
+         ? __('medialibrary-extensions::messages.upload_media')
+         : __('medialibrary-extensions::messages.upload_medium') }}
     </button>
 </x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
@@ -80,7 +81,7 @@
         include-css="true" 
         include-js="true" 
         include-media-manager-submitter="true" 
-        :frontend-theme="$getConfig('frontendTheme')"
+        :theme="$getConfig('theme')"
         for="plain|upload-form"
     />
 @endif

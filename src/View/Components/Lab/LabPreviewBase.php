@@ -8,6 +8,8 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
  * Edit media and restore original if needed
  */
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
@@ -23,29 +25,35 @@ class LabPreviewBase extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public Media|TemporaryUpload|null $medium,
-        public array $options = []
+        public Media|TemporaryUpload|null $media,
+        array $options = [],
+        public ?string $dataSource = 'default'
     ) {
         parent::__construct($id);
+        $this->options = $options;
 
-        $this->initializeConfig();
+        $this->resolveConfig();
 
-        if ($this->medium instanceof Media) {
-            $parentModel = $this->medium->model;
+        if ($this->media instanceof Media) {
+            $parentModel = $this->media->model;
 
             if (method_exists($parentModel, 'getRequiredMediaAspectRatio')) {
-                $this->requiredAspectRatio = $parentModel->getRequiredMediaAspectRatio($this->medium);
+                $this->requiredAspectRatio = $parentModel->getRequiredMediaAspectRatio($this->media);
             }
 
             if (method_exists($parentModel, 'getImageInfo')) {
-                $this->imageInfo = $medium->model->getBaseImageInfo($medium, $this->requiredAspectRatio);
+                $this->imageInfo = $media->model->getBaseImageInfo($media, $this->requiredAspectRatio);
             }
         }
     }
 
-    public function render()
+    protected function domIdSuffix(): string
     {
-        return $this->getView('lab.lab-preview-base', $this->getConfig('frontendTheme'));
+        return 'base';
+    }
 
+    public function render(): View
+    {
+        return $this->renderView('lab.lab-preview-base', $this->getConfig('theme'));
     }
 }

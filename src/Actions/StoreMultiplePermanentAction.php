@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultiplePermanentAction
@@ -19,24 +20,30 @@ class StoreMultiplePermanentAction
 
     public function __construct(
         protected MediaService $mediaService,
+        protected UploadPreparerService $uploadPreparerService,
     ) {}
 
     public function execute(StoreMultipleRequest $request): RedirectResponse|JsonResponse
     {
-        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
+        $modelType = $request->model_type;
+        $modelId = $request->model_id;
 
-        $initiatorId = $request->initiator_id;
-        $mediaManagerId = $request->media_manager_id; // non-xhr needs media-manager-id, xhr relies on initiatorId
+        $dataSource = $request->input('data_source', 'default');
 
-        $field = config('media-library-extensions.upload_field_name_multiple');
-        $files = $request->file($field);
+        try {
+            $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+        $baseId = (string) $request->input('base_id');
+
+        $files = $request->file('media', []);
 
         if (empty($files)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.upload_no_files')
+                $baseId,
+                __('medialibrary-extensions::messages.upload_no_files')
             );
         }
 
@@ -45,92 +52,89 @@ class StoreMultiplePermanentAction
         if (empty($collections)) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.no_media_collections')
+                $baseId,
+                __('medialibrary-extensions::messages.no_media_collections')
             );
         }
 
-        $maxItemsInCollection = config('media-library-extensions.max_items_in_shared_media_collections');
-        $mediaInCollections = $this->countModelMediaInCollections($model, $collections);
+        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
+        $mediaInCollections = $this->countModelMediaInCollections($model, $collections, $dataSource);
         $nextPriority = $mediaInCollections;
 
         if ($mediaInCollections >= $maxItemsInCollection) {
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                $baseId,
+                __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
                     'items' => $maxItemsInCollection,
                 ])
             );
         }
 
         $successCount = 0;
-        $maxUploadSize = (int) config('media-library-extensions.max_upload_size');
         $failedUploadFIleNames = [];
         $errorMessages = [];
 
-        // Check file sizes before proceeding
-        foreach ($files as $key => $file) {
-            if ($file->getSize() > $maxUploadSize) {
-                $failedUploadFIleNames[] = $file->getClientOriginalName();
-                $errorMessages[] = __(
-                    'media-library-extensions::messages.file_too_large',
-                    [
-                        'file' => $file->getClientOriginalName(),
-                        'max' => number_format($maxUploadSize / 1024 / 1024, 2).' MB',
-                    ]
-                );
-                // Remove it from list so it’s not processed further
-                unset($files[$key]);
-            }
-        }
+        // Delegate validation & mapping to service
+        $result = $this->uploadPreparerService->prepareMultipleUploads($files, $collections);
 
-        if (empty($files)) {
+        $preparedUploads = $result['prepared'];
+        $failedUploadFIleNames = array_merge($failedUploadFIleNames, $result['failedFilenames']);
+        $errorMessages = array_merge($errorMessages, $result['errors']);
+
+        if (empty($preparedUploads)) {
+            $message = __('medialibrary-extensions::messages.upload_failed');
+            if (! empty($errorMessages)) {
+                $message .= ' '.implode(' ', $errorMessages);
+            }
+
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
-                __('media-library-extensions::messages.no_valid_files_provided').' '.implode(' ', $errorMessages)
+                $baseId,
+                $message
             );
         }
 
-        foreach ($files as $file) {
-            $collectionType = $this->mediaService->determineCollectionType($file);
-            $collectionName = $collections[$collectionType] ?? null;
-
-            if (is_null($collectionType) || is_null($collectionName)) {
-                $failedUploadFIleNames[] = $file->getClientOriginalName();
-                $errorMessages[] = __(
-                    'media-library-extensions::messages.invalid_or_missing_collection',
-                    ['file' => $file->getClientOriginalName()]
-                );
-
-                continue;
-            }
-
+        foreach ($preparedUploads as $prepared) {
             try {
-                $model->addMedia($file)
+                Log::info('Adding media', [
+                    'collection' => $prepared->collectionName,
+                    'default_disk' => config('media-library.disk_name'),
+                ]);
+
+                $media = $model->addMedia($prepared->file)
                     ->withCustomProperties([
                         'priority' => $nextPriority,
                     ])
-                    ->toMediaCollection($collectionName);
+                    ->toMediaCollection($prepared->collectionName);
+
+                Log::info('StoreMultiplePermanentAction - execute: Stored media', [
+                    'disk' => $media->disk,
+                    'conversions_disk' => $media->conversions_disk,
+                    'path' => $media->getPath(),
+                    'url' => $media->getUrl(),
+                    'preview_url' => $media->hasGeneratedConversion('preview')
+                        ? $media->getUrl('preview')
+                        : null,
+                ]);
                 $nextPriority++;
                 $successCount++;
             } catch (Exception $e) {
                 Log::error($e);
-                $failedUploadFIleNames[] = $file->getClientOriginalName();
+                $failedUploadFIleNames[] = $prepared->originalName;
                 $errorMessages[] = __(
-                    'media-library-extensions::messages.something_went_wrong',
-                    ['file' => $file->getClientOriginalName()]
+                    'medialibrary-extensions::messages.could_not_save_media',
+                    [
+                        'file' => $prepared->originalName,
+                        'message' => $e->getMessage(),
+                    ]
                 );
                 $errorMessages[] = $e->getMessage();
             }
         }
 
         if ($successCount === 0) {
-            $message = __('media-library-extensions::messages.upload_failed');
+            $message = __('medialibrary-extensions::messages.upload_failed');
 
             if (! empty($errorMessages)) {
                 $message .= ' '.implode(' ', $errorMessages);
@@ -138,23 +142,29 @@ class StoreMultiplePermanentAction
 
             return MediaResponse::error(
                 $request,
-                $initiatorId,
-                $mediaManagerId,
+                $baseId,
                 $message
             );
         }
 
-        $message = __('media-library-extensions::messages.upload_success');
+        Log::withContext([
+            'base_id' => $baseId,
+        ]);
+
+        Log::info('{success_count} uploads successful', [
+            'success_count' => $successCount,
+        ]);
+
+        $message = __('medialibrary-extensions::messages.upload_success');
         if (! empty($failedUploadFIleNames)) {
-            $message .= ' '.__('media-library-extensions::messages.some_uploads_failed', [
+            $message .= ' '.__('medialibrary-extensions::messages.some_uploads_failed', [
                 'files' => implode(', ', $failedUploadFIleNames),
             ]);
         }
 
         return MediaResponse::success(
             $request,
-            $initiatorId,
-            $mediaManagerId,
+            $baseId,
             $message
         );
     }

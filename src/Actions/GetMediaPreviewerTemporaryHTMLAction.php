@@ -8,14 +8,17 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 
 class GetMediaPreviewerTemporaryHTMLAction
 {
+    public ?bool $temporaryUploadMode = true;
+
     public function __construct(
         protected MediaService $mediaService
     ) {}
@@ -25,19 +28,51 @@ class GetMediaPreviewerTemporaryHTMLAction
      */
     public function execute(GetMediaManagerPreviewerHTMLRequest $request): JsonResponse|Response
     {
-        $initiatorId = $request->input('initiator_id');
-        $instanceId = $request->input('instance_id');
+        $dataSource = $request->input('data_source', 'default');
+        // Strict: only Base ID is accepted; legacy keys are intentionally ignored by validation
+        $baseId = (string) $request->input('base_id');
+        // Derive instance ID server-side from Base ID
+        $instanceId = InstanceManager::getInstanceId($baseId);
         $modelType = $request->input('model_type');
         // no modelId
-        $singleMediumId = $request->input('single_medium_id');
-        $singleMediumId = ($singleMediumId !== 'null' && $singleMediumId !== null && $singleMediumId !== '') ? (int) $singleMediumId : null;
+        $singleMediaId = $request->input('single_medium_id');
+        $singleMediaId = ($singleMediaId !== 'null' && $singleMediaId !== null && $singleMediaId !== '') ? (int) $singleMediaId : null;
         $multiple = $request->boolean('multiple');
         $disabled = $request->boolean('disabled');
         $readonly = $request->boolean('readonly');
         $selectable = $request->boolean('selectable');
+        $theme = $request->input('theme');
+        $clientToken = $request->input('client_token') ?? $request->cookie('mle_client_token');
 
         $options = json_decode($request->input('options'), true) ?? [];
+        if ($request->has('temporary_upload_mode')) {
+            $this->temporaryUploadMode = $request->boolean('temporary_upload_mode');
+            $options['temporaryUploadMode'] = $this->temporaryUploadMode;
+        } else {
+            $options['temporaryUploadMode'] = true;
+            $this->temporaryUploadMode = true;
+        }
+
+        if ($theme) {
+            $options['theme'] = $theme;
+        }
+
         $collections = json_decode($request->input('collections'), true) ?? [];
+
+        if (! $clientToken) {
+            Log::warning('GetMediaPreviewerTemporaryHTMLAction.missing_client_token', [
+                'base_id' => $baseId,
+                'derived_instance_id' => $instanceId,
+                'data_source' => $dataSource,
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No client token found',
+                'html' => '',
+                'mediaCount' => 0,
+            ], 403);
+        }
         $model = new $modelType;
 
         $collections = collect($collections)
@@ -45,47 +80,70 @@ class GetMediaPreviewerTemporaryHTMLAction
             ->values()
             ->all();
 
-        $singleMedium = null;
+        $singleMedia = null;
         $totalMediaCount = 0;
 
-        // counting media
-        if ($singleMediumId !== null) {
-            // have to query the model, don't use Media directly (this uses wrong db for demo pages)
-            $singleMedium = $model->media()->findOrFail($singleMediumId);
+        if ($singleMediaId !== null) {
+            $singleMedia = $this->mediaService->findTemporaryUpload($singleMediaId, $dataSource);
 
-            if ($singleMedium) {
+            if ($singleMedia) {
                 $totalMediaCount = 1;
             } else {
-                throw new Exception(__('media-library-extensions::messages.medium_not_found'));
+                throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
             }
-
         } else {
-            // Count all media in collections
-            foreach ($collections as $collectionName) {
-                $totalMediaCount += TemporaryUpload::getForCurrentSession($collectionName, $instanceId)->count();
-            }
+            $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
+                $collections,
+                $instanceId,
+                $clientToken,
+                $dataSource
+            );
         }
 
+        // Determine max and flags
+        $maxMediaCount = $multiple
+            ? (int) config('medialibrary-extensions.max_items_in_shared_media_collections', 10)
+            : 1;
+        $isAtMax = $totalMediaCount >= $maxMediaCount;
+
         $component = new MediaPreviews(
-            id: $initiatorId,
+            id: $baseId,
             modelOrClassName: $modelType,
             collections: $collections,
             options: $options,
-            singleMedium: $singleMedium,
+            singleMedia: $singleMedia,
             multiple: $multiple,
             disabled: $disabled,
             readonly: $readonly,
             selectable: $selectable,
             instanceId: $instanceId,
+            dataSource: $dataSource,
+            clientToken: $clientToken,
         );
 
         $html = Blade::renderComponent($component);
+        $debugHtml = null;
+
+        if (config('medialibrary-extensions.debug') && $request->boolean('include_debug')) {
+            $debugComponent = new Debug(
+                modelOrClassName: $modelType,
+                config: $component->getConfig(),
+                options: $options,
+            );
+
+            $debugHtml = Blade::renderComponent($debugComponent);
+        }
 
         return response()->json([
             'html' => $html,
+            'debugHtml' => $debugHtml,
             'mediaCount' => $totalMediaCount,
+            'maxMediaCount' => $maxMediaCount,
+            'isAtMax' => $isAtMax,
             'success' => true,
-            'target' => $initiatorId, // TODO contains old id, but this is probably what i want
+            'instanceId' => $instanceId,
+            'dataSource' => $dataSource,
+            'target' => $baseId,
         ]);
     }
 }

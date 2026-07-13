@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Mlbrgn\MediaLibraryExtensions\Helpers\DemoHelper;
-use Mlbrgn\MediaLibraryExtensions\Tests\Database\Factories\TemporaryUploadFactory;
+use Mlbrgn\MediaLibraryExtensions\Database\Factories\TemporaryUploadFactory;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 
-class TemporaryUpload extends Model
+class TemporaryUpload extends Model implements HasMediaExtended
 {
+    use InteractsWithMediaExtended;
+
     public static function newFactory()
     {
         return TemporaryUploadFactory::new();
@@ -28,7 +32,7 @@ class TemporaryUpload extends Model
         'collection_name',
         'mime_type',
         'size',
-        'session_id',
+        'client_token',
         'user_id',
         'instance_id',
         'custom_properties',
@@ -42,53 +46,50 @@ class TemporaryUpload extends Model
     // used when serializing
     protected $appends = ['url'];
 
-    // null = default connection
-    public function getConnectionName()
+    public function scopeForDataSource($query, ?string $dataSource = 'default')
     {
-        if (config('media-library-extensions.demo_pages_enabled') && DemoHelper::isRequestFromDemoPage()) {
-            return config('media-library-extensions.demo_database_name');
+        if ($dataSource) {
+            $connection = app(DataSourceResolver::class)
+                ->resolveConnection($dataSource);
+
+            $query->getQuery()->connection = app('db')->connection($connection);
+            $query->getModel()->setConnection($connection);
         }
 
-        return parent::getConnectionName();
+        return $query;
     }
 
-    //    public static function forCurrentSession($collectionName = null): Collection
-    //    {
-    //        return self::where('session_id', session()->getId())
-    //            ->when(! is_null($collectionName), function ($query) use ($collectionName) {
-    //                return $query->where('collection_name', $collectionName);
-    //            })
-    //            ->orderBy('order_column', 'asc')
-    //            ->get();
-    //    }
-
-    public function scopeForCurrentSession($query, ?string $collectionName = null, ?string $instanceId = null)
+    public function scopeForCurrentClient($query, mixed $collectionName = null, ?string $instanceId = null, ?string $clientToken = null)
     {
-        Log::info('scopeForCurrentSession instanceId '.$instanceId);
-        $query->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
-            ->unless($instanceId, fn ($q) => $q->where('session_id', session()->getId()))
-            ->when($collectionName, fn ($q) => $q->where('collection_name', $collectionName))
+        $clientToken = $clientToken ?: (request()->input('client_token') ?: request()->cookie('mle_client_token'));
+
+        // TODO needed?
+        if (! $clientToken && app()->runningUnitTests()) {
+            // We use a stable fallback for unit tests to avoid breaking them
+            // when no explicit token is provided.
+            $clientToken = config('medialibrary-extensions.test_client_token');
+        }
+
+        if (! $clientToken) {
+            // If no token is provided, we return no results to prevent cross-visitor leakage
+            return $query->whereRaw('1 = 0');
+        }
+
+        $query
+            ->where('client_token', $clientToken)
+            ->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
+            ->when(! is_null($collectionName), fn ($q) => $q->where('collection_name', $collectionName))
             ->orderBy('order_column', 'asc');
 
-        return $query->get();
+        return $query;
     }
-    //    public function scopeForCurrentSession($query, ?string $collectionName = null, ?string $instanceId = null)
-    //    {
-    //        $instanceId = $instanceId ?? request()->input('instance_id');
-    //
-    //        $query->when($instanceId, fn($q) => $q->where('instance_id', $instanceId))
-    //            ->unless($instanceId, fn($q) => $q->where('session_id', session()->getId()))
-    //            ->when($collectionName, fn($q) => $q->where('collection_name', $collectionName))
-    //            ->orderBy('order_column', 'asc');
-    //
-    //        return $query->get();
-    //    }
 
-    public static function getForCurrentSession(?string $collectionName = null, ?string $instanceId = null): Collection
+    public static function getForCurrentClient(mixed $collectionName = null, ?string $instanceId = null, ?string $dataSource = 'default', ?string $clientToken = null): Collection
     {
-        Log::info('getForCurrentSession instanceId '.$instanceId);
-
-        return static::forCurrentSession($collectionName, $instanceId); // ->get();
+        return static::query()
+            ->forDataSource($dataSource)
+            ->forCurrentClient($collectionName, $instanceId, $clientToken)
+            ->get();
     }
 
     public function getUrlAttribute(): string

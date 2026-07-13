@@ -5,15 +5,20 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Throwable;
 
 abstract class MediaManagerRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -50,19 +55,32 @@ abstract class MediaManagerRequest extends FormRequest
             return null;
         }
 
+        $mediaService = app(MediaService::class);
         $modelClass = $this->resolveModelClass();
+        $modelId = $this->input('model_id');
+        $dataSource = $this->input('data_source') ?? 'default';
 
-        if (
-            ! $modelClass
-            || ! $this->filled('model_id')
-        ) {
-            return null;
+        try {
+            $model = $mediaService->resolveModelById($modelClass, $modelId, $dataSource);
+        } catch (ModelNotFoundException $e) {
+            Log::error('Failed to resolve media model.', [
+                'exception' => $e,
+                'model_type' => $this->input('model_type'),
+                'model_id' => $this->input('model_id'),
+                'data_source' => $this->input('data_source'),
+            ]);
+
+            $this->abortWithMediaError(
+                __('medialibrary-extensions::messages.model_not_found'),
+                404
+            );
         }
-
-        $model = $modelClass::find($this->input('model_id'));
-
-        if (! $model instanceof HasMediaExtended) {
-            return null;
+        catch (QueryException $e) {
+            Log::error($e->getMessage());
+            $this->abortWithMediaError(
+                __('medialibrary-extensions::messages.database_query_error'),
+                500
+            );
         }
 
         return $model;
@@ -103,6 +121,7 @@ abstract class MediaManagerRequest extends FormRequest
             return false;
         }
 
+//        dd('f');
         if (! $this->requestedCollectionsAreAllowed()) {
             return false;
         }
@@ -206,6 +225,7 @@ abstract class MediaManagerRequest extends FormRequest
         foreach ($collections as $key => $value) {
             if (is_string($value)) {
                 $names[] = $value;
+
                 continue;
             }
 
@@ -234,39 +254,100 @@ abstract class MediaManagerRequest extends FormRequest
     }
 
     /**
-     * Override the redirect URL to include the media manager ID.
+     * Override the redirect URL to include the Base ID.
      */
     protected function getRedirectUrl(): string
     {
         $url = parent::getRedirectUrl();
+        $baseId = $this->input('base_id');
 
-        if ($this->has('media_manager_id')) {
-            $url .= '#'.$this->input('media_manager_id');
+        if ($baseId) {
+            $url .= '#'.$baseId;
         }
 
         return $url;
     }
 
+//    protected function failedValidation(Validator $validator)
+//    {
+//        $request = $this; // the FormRequest itself
+//        $baseId = $request->input('base_id') ?? 'unknown';
+//        $errors = $validator->errors();
+//
+//        $response = MediaResponse::error(
+//            $request,
+//            $baseId,
+//            $errors->first(),
+//            ['errors' => $errors->messages()]
+//        );
+//
+//        // Force 422 for JSON responses
+//        if ($request->expectsJson()) {
+//            $response->setStatusCode(422);
+//        }
+//
+//        throw new ValidationException($validator, $response);
+//    }
+
     protected function failedValidation(Validator $validator)
     {
-        $request = $this; // the FormRequest itself
-        $initiatorId = $request->input('initiator_id') ?? 'unknown';
-        $mediaManagerId = $request->input('media_manager_id') ?? 'unknown';
         $errors = $validator->errors();
 
         $response = MediaResponse::error(
-            $request,
-            $initiatorId,
-            $mediaManagerId,
+            $this,
+            $this->input('base_id') ?? 'unknown',
             $errors->first(),
-            ['errors' => $errors->messages()]
+            [
+                'errors' => $errors->messages(),
+            ]
         );
 
-        // Force 422 for JSON responses
-        if ($request->expectsJson()) {
-            $response->setStatusCode(422);
-        }
+        $response->setStatusCode(422);
 
         throw new ValidationException($validator, $response);
+    }
+
+//    public function prepareForValidation(): void
+//    {
+//        if (
+//            $this->input('data_source') === 'null'
+//            || $this->input('data_source') === 'undefined'
+//        ) {
+//            $this->merge(['data_source' => 'default']);
+//        }
+//    }
+
+    public function prepareForValidation(): void
+    {
+        $dataSource = $this->input('data_source');
+
+        if (
+            $dataSource === null ||
+            (is_string($dataSource) && trim($dataSource) === '') ||
+            $dataSource === 'null' ||
+            $dataSource === 'undefined'
+        ) {
+            $this->merge([
+                'data_source' => 'default',
+            ]);
+        }
+    }
+
+    protected function passedValidation(): void
+    {
+        //
+    }
+
+    protected function abortWithMediaError(string $message, int $status): never
+    {
+        $response = MediaResponse::error(
+            $this,
+            $this->input('base_id') ?? 'unknown',
+            $message,
+        );
+
+        $response->setStatusCode($status);
+
+        throw new HttpResponseException($response);
     }
 }

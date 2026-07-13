@@ -4,31 +4,40 @@ import {
     xhrRequestEnd,
     showStatusMessage
 } from "@/js/shared/xhrStatus";
+import { getMediaManagerConfig } from "@/js/shared/media-manager-config";
+import { updateMediaLabBase, updateMediaLabOriginal } from "@/js/shared/media-lab-previews-refresher";
 
 document.addEventListener('onImageSave', (e) => {
     // console.log('onImageSave:', e.detail, e);
+    // Fire-and-forget; internal flow handles its own async
+    console.log('image-editor-listener.js - onImageSave called')
     updateMedia(e.detail);
 });
 
 document.addEventListener('onCanvasStatusMessage', (e) => {
-    console.log('onCanvasStatusMessage:', e.detail);
+    // console.log('onCanvasStatusMessage:', e.detail);
 });
 
 document.addEventListener('onCloseImageEditor', (e) => {
     const imageEditor = e.detail.imageEditorInstance;
     const modal = imageEditor.closest('[data-mle-image-editor-modal]');
-    const initiatorId = imageEditor.getAttribute('data-mle-initiator-id');
-    const initiator = document.querySelector('#' + initiatorId);
+    // Always anchor events to the nearest media manager container
+    const mediaManager = modal?.closest('[data-mle-media-manager]');
+    if (!mediaManager) {
+        console.warn('Media Manager element not found on close');
+        return;
+    }
 
-    initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+    mediaManager.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
         bubbles: true,
         composed: true,
         detail: {'modal': modal}
     }));
 });
 
-const updateMedia = (detail) => {
+const updateMedia = async (detail) => {
 
+    console.log('image-editor-listener.js - updateMedia called')
     const modal = detail.imageEditorInstance.closest('[data-mle-image-editor-modal]');
     const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
     if (!configInput) return;
@@ -37,14 +46,12 @@ const updateMedia = (detail) => {
 
     try {
         config = JSON.parse(configInput.value);
-        console.log(config);
     } catch (e) {
         console.error('Invalid JSON config');
     }
 
     const useXhr = config.useXhr;
 
-    // console.log('config', config);
     if (!useXhr) {
         const file = detail.file;
         const form = modal.querySelector('[data-mle-image-editor-update-form]');
@@ -61,104 +68,154 @@ const updateMedia = (detail) => {
         return
     }
 
-    const initiator = document.querySelector('#' + config.initiatorId);
+    // Resolve the media manager context directly from the modal
+    const mediaManager = modal.closest('[data-mle-media-manager]');
 
-    console.log('initiator', initiator);
+    let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
+
     const localStatusAreaContainer = resolveStatusAreaContainer(modal);
-    let parentStatusAreaContainer = resolveStatusAreaContainer(initiator);// initiator = media manager
-    const mediaLab = initiator.closest('[data-mle-media-manager-lab]');
+    let parentStatusAreaContainer = resolveStatusAreaContainer(mediaManager);
+    //const mediaLab = mediaManager.closest('[data-mle-media-lab]');
 
-    if (mediaLab) {
-        parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
-    }
-
-    console.log('localStatusAreaContainer', localStatusAreaContainer);
-    console.log('parentStatusAreaContainer', parentStatusAreaContainer);
+    // TODO other solution?
+    //if (mediaLab) {
+      //  parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
+    //}
 
     if (!localStatusAreaContainer) {
-        console.log('statusAreaContainer not found', localStatusAreaContainer);
+        console.warn('statusAreaContainer not found', localStatusAreaContainer);
         return;
     }
     xhrRequestStart(localStatusAreaContainer);
 
     // console.log('collections', config.collections);
-    const file = detail.file;
+    let file = detail.file;
     const formData = new FormData();
     const mediumId = config.mediumId ?? null;
     const modelType = config.modelType;
     const modelId = config.modelId ?? '';
-    const initiatorId = config.initiatorId;
-    const instanceId = config.instanceId;
+    // instanceId is derived server-side from base_id; do not send from client
+    const dataSource = config.dataSource;
+    const baseId = modal.getAttribute('data-base-id') || config.id;
 
-    formData.append('initiator_id', initiatorId);
-    formData.append('instance_id', instanceId);
-    formData.append('media_manager_id', config.mediaManagerId ?? '');
+    console.log('image-editor-listener.js - mediumId: ', mediumId);
+
+    formData.append('base_id', baseId);
     formData.append('model_type', modelType);
     formData.append('model_id', modelId );
-    formData.append('single_medium_id', config.singleMedium?.id ?? null);// TODO keep both?
+    formData.append('single_media_id', config.singleMedia?.id ?? null);// TODO keep both?
     formData.append('medium_id', mediumId);// TODO keep both?
     // formData.append('collections', JSON.stringify(config.collections));
     formData.append('options', JSON.stringify(config.options));
     formData.append('collection', config.collection);
     formData.append('temporary_upload_mode', config.temporaryUploadMode);
     formData.append('file', file); // 'media' must match Laravel's expected field
+    formData.append('data_source', dataSource); // 'media' must match Laravel's expected field
+
+    // Inject current persistent client token
+    if (config.clientToken) {
+        formData.append('client_token', config.clientToken);
+    }
+
     Object.entries(config.collections).forEach(([key, value]) => {
         formData.append(`collections[${key}]`, value);
     });
 
-    fetch(config.saveUpdatedMediumRoute, {
+    fetch(config.storeUpdatedMediaRoute, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': config.csrfToken,
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
         },
         body: formData,
+        credentials: 'same-origin', // ensure session cookies are sent in browser tests
         cache: 'no-store', // prevents using or storing cache
     })
     .then(async response => {
-        const json = await response.json();
-        if (!response.ok) {
-            handleAjaxError(response, json, localStatusAreaContainer);// note localStatusArea when errors occur!
-            throw new Error('Update of medium failed');// stops the chain, goes to .catch
+        let data = {};
+
+        try {
+            data = await response.json();
+        } catch (e) {
+            console.warn('Response is not JSON');
+
+            try {
+                data = {
+                    message: await response.clone().text()
+                };
+            } catch {
+                data = {
+                    message: 'Unable to read response body'
+                };
+            }
         }
 
-        return json;
+        if (!response.ok) {
+            handleAjaxError(response, data, localStatusAreaContainer);// note localStatusArea when errors occur!
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        return data;
     })
-    .then(json => {
+    .then(async json => {
 
         // console.log('fire events imageEditorModalCloseRequest and refreshRequest and onImageUpdated');
-        initiator.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+        mediaManager.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
             bubbles: true,
             composed: true,
             detail: {'modal': modal}
         }));
 
-        showStatusMessage(parentStatusAreaContainer, {
+        showStatusMessage(mediaManagerStatusContainer, {
            type: 'success',
            message: trans('medium_replaced'),
         });
 
-        initiator.dispatchEvent(new CustomEvent('refreshRequest', {
+        mediaManager.dispatchEvent(new CustomEvent('refreshRequest', {
             bubbles: true,
             composed: true,
             detail: {
-                'singleMediumId': json.singleMediumId ?? null,
+                'singleMediaId': json.singleMediaId ?? null,
             }
         }));
 
+        const oldMediumId = mediumId;
         const newMediumId = json.newMediumId;
-        console.log('newMediumId', newMediumId);
-        // Notify listeners that the previews were updated
-        document.dispatchEvent(new CustomEvent('imageUpdated', {
-            bubbles: false,
+
+        // Proactively refresh both Base and Original previews to avoid races
+        // (particularly visible in the plain theme if the user clicks Restore immediately)
+        try {
+            const mediaLab = mediaManager.closest('[data-mle-media-lab]') || mediaManager;
+            const refreshConfig = getMediaManagerConfig(mediaLab);
+
+            // Ensure these complete before continuing so action buttons reference the new medium id
+            await updateMediaLabBase(mediaLab, refreshConfig, newMediumId, { sourceEvent: 'imageUpdated' });
+            await updateMediaLabOriginal(mediaLab, refreshConfig, newMediumId, { sourceEvent: 'imageUpdated' });
+        } catch (e) {
+            // Non-fatal; fallback to event-based listeners
+            console.warn('image-editor-listener: failed to eagerly refresh previews after update', e);
+        }
+
+        // Still emit the event for any external listeners
+        mediaManager.dispatchEvent(new CustomEvent('imageUpdated', {
+            bubbles: true,
             detail: {
-                mediumId: newMediumId,
+                oldMediumId: oldMediumId,
+                newMediumId: newMediumId,
                 modelType: modelType,
                 modelId: modelId,
-                initiatorId: initiatorId,
+                baseId: baseId,
             }
         }));
-    }).finally(() => {
+    }).
+    catch(error => {
+        showStatusMessage(localStatusAreaContainer, {
+            type: 'error',
+            message: trans('update_failed'),
+        });
+    }).
+    finally(() => {
         xhrRequestEnd(localStatusAreaContainer);
     });
 }

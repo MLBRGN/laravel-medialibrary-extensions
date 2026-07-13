@@ -2,18 +2,16 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaPreviews extends BaseComponent
+class MediaPreviews extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public Collection $media;
 
@@ -21,31 +19,50 @@ class MediaPreviews extends BaseComponent
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
-        public array $options = [],
-        public Media|TemporaryUpload|null $singleMedium = null, // when provided, skip collection lookups and use this medium
+        array $options = [],
+        public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public bool $multiple = false,
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
-        public ?string $instanceId = null,
+        public string $instanceId = '',
+        public ?string $dataSource = 'default',
+        ?string $clientToken = null,
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
 
-        $this->resolveModelOrClassName($modelOrClassName);
+        // Priority:
+        // 1. Explicitly passed $instanceId (e.g. from XHR or tests)
+        // 2. Derive from $id (baseId)
+        if (! empty($instanceId)) {
+            $this->instanceId = $instanceId;
+        }
+
+        if ($clientToken) {
+            $this->clientToken = $clientToken;
+        }
+
+        $this->options = $options;
+
+        if (isset($options['temporaryUploadMode'])) {
+            $this->temporaryUploadMode = (bool) $options['temporaryUploadMode'];
+        }
 
         $this->media = collect();
 
         // CASE 1: If a single medium is provided, use only that.
-        if ($this->singleMedium instanceof Media || $this->singleMedium instanceof TemporaryUpload) {
-            $this->media->push($this->singleMedium);
+        if ($this->singleMedia instanceof Media || $this->singleMedia instanceof TemporaryUpload) {
+            $this->media->push($this->singleMedia);
         } else {
-            $this->media = collect($collections)
+            $this->media = collect($this->collections)
                 ->filter(fn ($collectionName
                 ) => ! is_null($collectionName) && $collectionName !== '') // remove null or empty
-                ->flatMap(function (?string $collectionName, string $collectionType) use ($instanceId) {
+                ->flatMap(function (?string $collectionName, string $collectionType) use ($dataSource) {
                     if ($this->temporaryUploadMode) {
                         if (! empty($collectionName)) {
-                            return TemporaryUpload::forCurrentSession($collectionName, $instanceId);
+                            $temps = TemporaryUpload::getForCurrentClient($collectionName, $this->instanceId, $dataSource, $this->clientToken);
+
+                            return $temps;
                         }
                     }
 
@@ -59,32 +76,37 @@ class MediaPreviews extends BaseComponent
                 ->values();
         }
 
-        // TODO use Collection or MediaCollection?
-        // $this->mediaItems = MediaCollection::make($allMedia);
-        // $this->media = $this->mediaItems;
-        // $this->mediaCount = $this->mediaItems->count();
+        $this->resolveConfig([
+            'temporaryUploadMode' => $this->temporaryUploadMode,
+        ]);
 
-        // merge into config
-        $this->initializeConfig();
+        // sync configuration with current state
+        $this->syncConfigOverrides();
+    }
 
-        // TODO is there a neater way to do this?
-        // options are passed to components, config is reinitialized for each component.
+    protected function syncConfigOverrides(): void
+    {
         // override hide media menu when nothing to see inside menu
-        // since i use config have to do this after config has been initialized
         if (
             $this->getConfig('showDestroyButton') === false &&
             $this->getConfig('showSetAsFirstButton') === false &&
             $this->getConfig('showMediaEditButton') === false
-
         ) {
-            $this->options['showMenu'] = false;
-            $this->config['showMenu'] = false;
+            $this->setOption('showMenu', false);
         }
 
+        $this->resolveConfig([
+            'temporaryUploadMode' => $this->temporaryUploadMode,
+        ]);
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'media-previews';
     }
 
     public function render(): View
     {
-        return $this->getView('preview.media-previews', $this->getConfig('frontendTheme'));
+        return $this->renderView('preview.media-previews', $this->getConfig('theme'));
     }
 }

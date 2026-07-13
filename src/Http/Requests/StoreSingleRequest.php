@@ -5,13 +5,12 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig;
 
 class StoreSingleRequest extends StoreRequest
 {
     public function rules(): array
     {
-        $uploadFieldName = config('media-library-extensions.upload_field_name_single');
-
         $collections = $this->array('collections');
 
         $uploadRules = [
@@ -19,9 +18,16 @@ class StoreSingleRequest extends StoreRequest
             'file',
         ];
 
+        if ($maxSize = config('medialibrary-extensions.max_upload_size')) {
+            $uploadRules[] = 'max:'.$maxSize / 1024;
+        }
+
         if ($rule = $this->uploadLimitRule($collections, 1)) {
             $uploadRules[] = $rule;
         }
+
+        // Enforce image dimension limits from config when the uploaded file is an image.
+        $uploadRules[] = new ImageDimensionsWithinConfig();
 
         return array_merge(
             $this->modelRules(),
@@ -35,12 +41,21 @@ class StoreSingleRequest extends StoreRequest
                 'collections' => ['required', 'array', 'min:1'],
                 'collections.*' => ['nullable', 'string'],
 
-                $uploadFieldName => $uploadRules,
+                'media' => $uploadRules,
 
-                'initiator_id' => ['required', 'string'],
-                'media_manager_id' => ['required', 'string'],
-                'instance_id' => ['nullable', 'string', 'max:64'],
+                'base_id' => ['required', 'string'],
+                // client-provided instance IDs are not allowed; always derived from base_id
+                'instance_id' => ['prohibited'],
+                'data_source' => [
+                    Rule::requiredIf(fn () => $this->input('temporary_upload_mode') === 'true'),
+                    'string',
+                ],
             ]
         );
+    }
+
+    protected function withValidator(\Illuminate\Validation\Validator $validator): void
+    {
+        // No legacy identifier checks remain; clients must send only base_id. Instance IDs are prohibited via rules().
     }
 }

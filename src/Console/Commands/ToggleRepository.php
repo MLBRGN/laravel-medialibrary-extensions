@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
 
 class ToggleRepository extends Command
 {
-    protected $signature = 'media-library-extensions:toggle-repository {--force : Skip confirmation prompts}';
+    protected $signature = 'medialibrary-extensions:toggle-repository {--force : Skip confirmation prompts}';
 
     protected $description = 'Toggle between local and Packagist repositories for development packages. Manages symlinks, composer require versions, and runs composer update.';
 
@@ -28,19 +28,19 @@ class ToggleRepository extends Command
 
     protected const VENDOR_PATH = 'vendor';
 
-    protected const VIEWS_PATH = 'views/vendor/laravel-media-library-extensions';
+    protected const VIEWS_PATH = 'views/vendor/medialibrary-extensions';
 
     protected const PUBLISH_PROVIDER = 'Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider';
 
-    protected const ASSETS_PUBLISH_TAG = 'media-library-extensions-assets';
+    protected const ASSETS_PUBLISH_TAG = 'medialibrary-extensions-assets';
 
     // ------------------ Packages ------------------
     protected array $packages = [
         'mlbrgn/laravel-medialibrary-extensions' => [
             'path' => './packages/mlbrgn/laravel-medialibrary-extensions',
-            'symlink' => 'mlbrgn/media-library-extensions',
+            'symlink' => 'mlbrgn/medialibrary-extensions',
             'local_env_key' => 'MLE_USING_LOCAL_PACKAGE',
-            'git' => 'git@github.com:MLBRGN/laravel-medialibrary-extensions.git',
+            'git' => 'git@github.com:MLBRGN/medialibrary-extensions.git',
         ],
         // Add more packages here if needed
     ];
@@ -202,6 +202,12 @@ class ToggleRepository extends Command
         $this->call('vendor:publish', [
             '--provider' => self::PUBLISH_PROVIDER,
             '--tag' => self::ASSETS_PUBLISH_TAG,
+            '--force' => true,
+        ]);
+
+        $this->call('vendor:publish', [
+            '--provider' => self::PUBLISH_PROVIDER,
+            '--tag' => 'medialibrary-extensions-views',
             '--force' => true,
         ]);
     }

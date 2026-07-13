@@ -10,7 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 
 class RemoveExpiredTemporaryUploads extends Command
 {
-    protected $signature = 'media-library-extensions:remove-expired-temporary-uploads';
+    protected $signature = 'medialibrary-extensions:remove-expired-temporary-uploads';
 
     protected $description = 'Deletes orphaned temporary uploads older than the session lifetime.';
 

@@ -6,31 +6,35 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
-use Mlbrgn\MediaLibraryExtensions\Traits\ResolveModelOrClassName;
-use Mlbrgn\MediaLibraryExtensions\View\Components\BaseComponent;
+use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class LabPreview extends BaseComponent
+// TODO dataSource?
+class LabPreview extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
-    use ResolveModelOrClassName;
 
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
-        public Media $medium,
+        public Media $media,
         public string $title,
-        public array $options = []
+        array $options = [],
+        public ?string $dataSource = 'default',
     ) {
-        $id = filled($id) ? $id : null;
-        parent::__construct($id);
+        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        $this->options = $options;
 
-        $this->resolveModelOrClassName($modelOrClassName);
-        $this->initializeConfig();
+        $this->resolveConfig();
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'lab-preview';
     }
 
     public function render(): View
     {
-        return $this->getView('lab.lab-preview', $this->getConfig('frontendTheme'));
+        return $this->renderView('lab.lab-preview', $this->getConfig('theme'));
     }
 }

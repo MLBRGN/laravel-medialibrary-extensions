@@ -1,0 +1,145 @@
+<?php
+
+namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
+
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
+use Mockery;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+beforeEach(function () {
+    Config::set('medialibrary-extensions.default_youtube_params', [
+        'autoplay' => 1,
+        'mute' => 1,
+        'loop' => 0,
+        'controls' => 0,
+        'modestbranding' => 1,
+        'playsinline' => 1,
+        'rel' => 0,
+        'enablejsapi' => 1,
+        'cc_load_policy' => 1,
+        'cc_lang_pref' => 'en',
+        'iv_load_policy' => 3,
+        'hl' => 'en',
+        'fs' => 1,
+    ]);
+});
+
+function createMockMedia($youtubeId = 'testid'): Media
+{
+    $media = Mockery::mock(Media::class);
+
+    $media->shouldReceive('getCustomProperty')
+        ->with('youtube-id')
+        ->andReturn($youtubeId);
+
+    $media->shouldReceive('getAttribute')
+        ->with('id')
+        ->andReturn(123);
+
+    return $media;
+}
+
+function parseYouTubeParams(VideoYouTube $component): array
+{
+    parse_str($component->youTubeParamsAsString, $params);
+
+    return $params;
+}
+
+it('builds default YouTube query string correctly', function () {
+    $component = new VideoYouTube(
+        medium: createMockMedia(),
+        previewMode: true
+    );
+
+    $params = parseYouTubeParams($component);
+
+    expect($params)->toMatchArray([
+        'autoplay' => '1',
+        'mute' => '1',
+        'loop' => '0',
+        'controls' => '0',
+        'modestbranding' => '1',
+        'playsinline' => '1',
+        'rel' => '0',
+        'enablejsapi' => '1',
+        'cc_load_policy' => '1',
+        'cc_lang_pref' => 'en',
+        'iv_load_policy' => '3',
+        'hl' => 'en',
+        'fs' => '1',
+    ]);
+});
+
+it('overrides default params with custom ones', function () {
+    $component = new VideoYouTube(
+        medium: createMockMedia(),
+        previewMode: false,
+        youtubeParams: ['autoplay' => 0, 'mute' => 0, 'fs' => 0]
+    );
+
+    $params = parseYouTubeParams($component);
+
+    expect($params['autoplay'])->toBe('0')
+        ->and($params['mute'])->toBe('0')
+        ->and($params['fs'])->toBe('0')
+        ->and($params['controls'])->toBe('0'); // default preserved
+});
+
+it('sets component properties correctly', function () {
+    $media = createMockMedia('my-youtube-id');
+
+    $component = new VideoYouTube(
+        medium: $media,
+        previewMode: false,
+        options: [
+            'theme' => 'custom',
+        ]);
+
+    expect($component->medium)->toBe($media)
+        ->and($component->previewMode)->toBeFalse()
+        ->and($component->youtubeId)->toBe('my-youtube-id')
+        ->and($component->youTubeParamsAsString)->toBeString()
+        ->and($component->getConfig('theme'))->toBe('custom');
+});
+
+it('returns correct view on render', function () {
+    $component = new VideoYouTube(createMockMedia());
+
+    $view = $component->render();
+
+    expect($view)->toBeInstanceOf(View::class)
+        ->and($view->name())->toBe('medialibrary-extensions::components.video-youtube');
+});
+
+it('renders view and matches snapshot', function () {
+    $component = new VideoYouTube(createMockMedia());
+
+    $view = $component->render();
+
+    expect($view)->toBeInstanceOf(View::class)
+        ->and($view->name())->toBe('medialibrary-extensions::components.video-youtube');
+});
+
+it('renders view', function () {
+    $medium = $this->getMediaModelWithMedia(['audio' => 1]);
+    $html = Blade::render('<x-mle-video-youtube
+                                    id="test-video"
+                                    :medium="$medium"
+                                    :options="$options"
+                                    preview="true"
+                                />
+', [
+        'medium' => $medium,
+        'options' => [
+            'theme' => 'custom',
+        ],
+    ]);
+
+    expect($html)->toContain($medium->id);
+    // todo test theme
+    expect($html)->toMatchSnapshot();
+})->todo('how to create dummy youtube medium?');

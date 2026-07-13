@@ -2,12 +2,13 @@ document.querySelectorAll(".mle-component img").forEach(img => {
     const replaceImageWithFallback = (img) => {
         const div = document.createElement('div');
         div.className = 'mle-img-load-failed';
-        div.innerHTML = 'Image loading / decoding failed'
+        // div.innerHTML = 'Image loading / decoding failed'
+        div.innerHTML = trans('image_load_failed');
         img.parentNode.replaceChild(div, img);
     }
     // img.addEventListener("error", imageFallbackListener, { once: true });
     img.addEventListener("error", () => {
-        // console.log('could not load image')
+        console.log('could not load image (error), falling back', 'image src: ', img.src)
         replaceImageWithFallback(img);
     });
 
@@ -26,3 +27,8 @@ document.querySelectorAll(".mle-component img").forEach(img => {
         replaceImageWithFallback(img);
     }
 });
+
+function trans (key) {
+    return window.mediaLibraryTranslations?.[key] || key;
+}
+

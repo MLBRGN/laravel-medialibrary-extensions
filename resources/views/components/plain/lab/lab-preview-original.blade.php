@@ -1,12 +1,13 @@
 <x-mle-lab-preview
     class="mle-media-lab-preview-original"
-    title="{{ __('media-library-extensions::messages.original') }}"
-    :model-or-class-name="$medium->model"
+    title="{{ __('medialibrary-extensions::messages.original') }}"
+    :model-or-class-name="$media->model"
     data-mle-media-lab-preview-original
-    :options="$options"
+    :options="$getOptions()"
+    id="{{ $getDomId() }}"
 >
-    @if(method_exists($medium->model, 'getArchivedOriginalUrlFor'))
-        <img src="{{ $medium->model->getArchivedOriginalUrlFor($medium) }}"
+    @if(method_exists($media->model, 'getArchivedOriginalUrlFor'))
+        <img src="{{ $media->model->getArchivedOriginalUrlFor($media) }}"
              alt=""
              class="mle-image-responsive"
         >
@@ -19,27 +20,30 @@
     </x-slot>
 
     <x-slot name="menuEnd">
-        <x-mle-partial-medium-restore-form
-            :model-or-class-name="$medium->model"
-            :medium="$medium"
-            :options="$options"
+        <x-mle-partial-media-restore-form
+            :id="$id"
+            :model-or-class-name="$media->model"
+            :media="$media"
+            :options="$getOptions()"
+            :data-source="$dataSource"
         />
     </x-slot>
     <x-slot name="imageInfo">
         <div class="mle-info-panel">
             <div class="mle-info-row mle-info-header">
                 <div>&nbsp;</div>
-                <div>{{ __('media-library-extensions::messages.dimensions') }}</div>
-                <div>{{ __('media-library-extensions::messages.ratio') }}</div>
+                <div>{{ __('medialibrary-extensions::messages.dimensions') }}</div>
+                <div>{{ __('medialibrary-extensions::messages.ratio') }}</div>
             </div>
 
             <div class="mle-info-row">
                 <div>&nbsp;</div>
-                @if($imageInfo['filled'])
-                    <div>{{ $imageInfo['dimensions'] ?? '?' }}</div>
-                    <div>{{ $imageInfo['approx_label'] ?? '?' }}</div>
+                @php($info = $imageInfo ?? [])
+                @if(($info['filled'] ?? false) === true)
+                    <div>{{ $info['dimensions'] ?? '?' }}</div>
+                    <div>{{ $info['approx_label'] ?? ($info['fraction'] ?? '?') }}</div>
                 @else
-                    <div>{{ __('media-library-extensions::messages.no_original_saved') }}</div>
+                    <div>{{ __('medialibrary-extensions::messages.no_original_saved') }}</div>
                     <div>&nbsp;</div>
                 @endif
             </div>

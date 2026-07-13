@@ -14,18 +14,22 @@ class StatusArea extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public string $initiatorId,
-        public string $mediaManagerId,
-        public array $options = [],
-        public ?string $instanceId = null,
+        array $options = [],
     ) {
         parent::__construct($id);
-        $this->initializeConfig();
 
+        $this->options = $options;
+        $this->resolveConfig();
+
+    }
+
+    protected function domIdSuffix(): string
+    {
+        return 'status-area';
     }
 
     public function render(): View
     {
-        return $this->getPartialView('status-area', $this->getConfig('frontendTheme'));
+        return $this->getPartialView('status-area', $this->getConfig('theme'));
     }
 }

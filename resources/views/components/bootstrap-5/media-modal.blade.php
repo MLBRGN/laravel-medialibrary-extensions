@@ -1,13 +1,13 @@
 <div
     {{ $attributes->class([
         'mle-component',
-        'mle-theme-'. $getConfig('frontendTheme'),
+        'mle-theme-'. $getConfig('theme'),
         'mle-media-modal',
         'mle-modal',
         'modal',
         'fade',
         ])->merge() }}
-    id="{{ $id }}"
+    id="{{ $getDomId() }}"
     tabindex="-1"
     @if($title)
         aria-labelledby="{{ $id }}-title"
@@ -17,12 +17,13 @@
     @endif
     data-mle-modal
     data-mle-media-modal
+    
     {{-- no aria-hidden!, role gets added by bs --}}
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
             @if($title)
-                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $getDomId() }}-title">{{ $title }}</h1>
             @endif
             <div class="mle-modal-body mle-media-modal-body modal-body p-0">
                 <button
@@ -30,24 +31,29 @@
                     class="mle-modal-close-button mle-media-modal-close-button"
                     data-mle-modal-close
                     data-bs-dismiss="modal"
-                    aria-label="Sluit"
-                    title="{{ __('media-library-extensions::messages.close') }}">
+                    aria-label="{{ __('medialibrary-extensions::messages.close') }}"
+                    title="{{ __('medialibrary-extensions::messages.close') }}"
+                >
                     <x-mle-shared-icon
-                        name="{{ config('media-library-extensions.icons.close') }}"
-                        title="{{ __('media-library-extensions::messages.close') }}"
+                        name="{{ config('medialibrary-extensions.icons.close') }}"
+                        title="{{ __('medialibrary-extensions::messages.close') }}"
                     />
                 </button>
                 {{-- important set expandableInModal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
                     class="mle-width-100 mle-height-100"
-                    id="{{ $id }}"
+                    id="{{ $getDomId() }}" {{-- append to media modal id (by using $getDomId()) here, otherwise id clash --}}
                     :model-or-class-name="$modelOrClassName"
-                    :single-medium="$singleMedium"
+                    :single-media="$singleMedia"
                     :expandable-in-modal="false"
                     :collections="$collections"
-                    :options="$options"
+                    :options="$getOptions()"
                     :in-modal="true"
                     :preview-mode="false"
+                    :instance-id="$instanceId"
+                    :data-source="$dataSource"
+                    :client-token="$clientToken"
+                    :theme="$getConfig('theme')"
                 />
             </div>
         </div>
@@ -57,7 +63,7 @@
     include-css="true" 
     include-js="true"
     include-media-modal-js="true"
-    :frontend-theme="$getConfig('frontendTheme')"
+    :theme="$getConfig('theme')"
     for="bootstrap-5|media-modal"
 />
 

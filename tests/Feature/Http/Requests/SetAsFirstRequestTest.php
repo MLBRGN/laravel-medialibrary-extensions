@@ -1,0 +1,51 @@
+<?php
+
+use Illuminate\Support\Facades\Validator;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
+
+beforeEach(function () {
+    $this->request = new SetMediumAsFirstRequest;
+});
+
+it('passes validation with required fields and at least one collection', function () {
+    $data = [
+        'model_type' => 'App\\Models\\User',
+        'model_id' => '1',
+        'target_media_collection' => 'images',
+        'medium_id' => '123',
+        'base_id' => 'user123',
+        'collections' => ['image' => 'images'],
+    ];
+
+    $validator = Validator::make($data, $this->request->rules());
+
+    expect($validator->passes())->toBeTrue();
+});
+
+it('fails validation when no collections are provided', function () {
+    $data = [
+        'model_type' => 'App\\Models\\User',
+        'model_id' => '1',
+        'target_media_collection' => 'images',
+        'medium_id' => '123',
+        'base_id' => 'user123',
+        // collections intentionally missing
+    ];
+
+    $validator = Validator::make($data, $this->request->rules());
+
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->has('collections'))->toBeTrue();
+});
+
+it('fails validation when required fields are missing', function () {
+    $data = [];
+
+    $validator = Validator::make($data, $this->request->rules());
+
+    expect($validator->fails())->toBeTrue();
+    expect($validator->errors()->has('model_type'))->toBeTrue();
+    expect($validator->errors()->has('target_media_collection'))->toBeTrue();
+    expect($validator->errors()->has('medium_id'))->toBeTrue();
+    expect($validator->errors()->has('base_id'))->toBeTrue();
+});

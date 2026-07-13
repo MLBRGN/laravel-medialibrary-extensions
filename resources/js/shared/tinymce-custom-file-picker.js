@@ -7,7 +7,7 @@ window.mleFilePicker = (callback, value, meta) => {
 
         const temporaryUploadMode = textarea.getAttribute('data-mle-model-id') === '';
 
-        const mediaManagerId = textarea.getAttribute('data-mle-media-manager-id') || 'media-manager';
+        const baseId = textarea.getAttribute('data-base-id') || 'media-manager';
         const modelType = textarea.getAttribute('data-mle-model-type') ?? '';
         const modelId = textarea.getAttribute('data-mle-model-id');
         let multipleAttr = textarea.getAttribute('data-mle-multiple');
@@ -31,12 +31,12 @@ window.mleFilePicker = (callback, value, meta) => {
             model_type: modelType,
             model_id: modelId,
             multiple: multiple,
-            media_manager_id: mediaManagerId,
+            base_id: baseId,
             collections: JSON.stringify(collections),
             temporary_upload_mode: temporaryUploadMode,
             options: JSON.stringify({
                 temporaryUploadMode: temporaryUploadMode,
-                frontendTheme: 'plain',
+                theme: 'plain',
             })
         };
 

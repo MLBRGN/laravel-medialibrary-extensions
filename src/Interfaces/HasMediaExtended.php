@@ -7,7 +7,8 @@ namespace Mlbrgn\MediaLibraryExtensions\Interfaces;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Spatie\MediaLibrary\HasMedia;
 
-interface HasMediaExtended extends HasMedia {
+interface HasMediaExtended extends HasMedia
+{
     public static function allowsMediaUploads(): bool;
 
     public function allowsMediaUploadFrom(?Authenticatable $user): bool;
@@ -21,5 +22,4 @@ interface HasMediaExtended extends HasMedia {
     public static function allowsMediaEdits(): bool;
 
     public function allowsMediaEditsFrom(?Authenticatable $user): bool;
-
 }

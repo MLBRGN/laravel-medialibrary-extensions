@@ -23,24 +23,34 @@
     "require": {
         "php": "^8.1 || ^8.2 || ^8.3",
         "ext-fileinfo": "*",
+        "ext-gd": "*",
         "blade-ui-kit/blade-icons": "^1.8",
         "davidhsianturi/blade-bootstrap-icons": "^2.1",
         "illuminate/support": "^10 || ^11 || ^12 || ^13",
-        "spatie/laravel-medialibrary": "^11.0"
+        "spatie/laravel-medialibrary": "^11.0",
+        "intervention/image": "^3.0",
+        "intervention/image-laravel": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.0.0",
         "larastan/larastan": "^3.8.0",
         "laravel/pint": "^1.22",
+        "mlbrgn/laravel-form-components": "^1.0",
         "orchestra/testbench": "^10.0.0",
         "orchestra/testbench-browser-kit": "^10.0.0",
         "pestphp/pest": "^4.0.0",
+        "pestphp/pest-plugin-browser": "dev-fix/multipart-form-parser",
         "pestphp/pest-plugin-drift": "^4.0.0",
         "pestphp/pest-plugin-type-coverage": "^4.0.0",
         "spatie/laravel-translatable": "^6.0.0",
-        "symfony/dom-crawler": "^7.0.0",
-        "ext-gd": "*"
+        "symfony/dom-crawler": "^7.0.0"
     },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/homiedopie/pest-plugin-browser"
+      }
+    ],
     "suggest": {
         "blade-ui-kit/blade-heroicons": "Optional: SVG icons from Heroicons",
         "mlbrgn/imageeditor": "Required for the image editor UI (install via npm or yarn).",
@@ -77,7 +87,11 @@
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
+        "test": "vendor/bin/pest --exclude-group browser",
+        "test-browser": [
+          "Composer\\Config::disableProcessTimeout",
+          "vendor/bin/pest --group browser"
+        ],
         "coverage": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage"
     }
 }

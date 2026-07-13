@@ -1,0 +1,107 @@
+<?php
+
+dataset('authenticated_post_routes', [
+    'single upload' => fn () => config('medialibrary-extensions.route_prefix').'-media-upload-single',
+    'multiple upload' => fn () => config('medialibrary-extensions.route_prefix').'-media-upload-multiple',
+    'youtube upload' => fn () => config('medialibrary-extensions.route_prefix').'-media-upload-youtube',
+    'save update medium' => fn () => config('medialibrary-extensions.route_prefix').'-save-updated-media',
+    'save updated temporary upload' => fn () => config('medialibrary-extensions.route_prefix').'-save-updated-temporary-upload',
+]);
+
+dataset('authenticated_delete_routes', [
+    'medium destroy' => fn () => config('medialibrary-extensions.route_prefix').'-destroy-media',
+    'temporary upload destroy' => fn () => config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload',
+]);
+
+dataset('authenticated_put_routes', [
+    'set as first' => fn () => config('medialibrary-extensions.route_prefix').'-set-as-first',
+    'temporary upload set as first' => fn () => config('medialibrary-extensions.route_prefix').'-temporary-upload-set-as-first',
+]);
+
+dataset('authenticated_get_routes', [
+    'preview update' => fn () => config('medialibrary-extensions.route_prefix').'-media-manager-preview-update',
+]);
+
+it('cannot send post requests to routes when not authenticated', function ($routeName) {
+    // Arrange: model + media
+    $model = $this->getTestBlogModel();
+    $media = $model->addMedia($this->getFixtureUploadedFile('test.png'))
+        ->preservingOriginal()
+        ->withCustomProperties(['priority' => 3])
+        ->toMediaCollection('images');
+
+    // Payload as JS FormData equivalent
+    $payload = [
+        'base_id' => 'foo',
+        'collections' => ['images'],
+    ];
+
+    // Act
+    $response = $this->postJson(route($routeName, $media), $payload);
+
+    // Assert
+    $response->assertStatus(401);
+})->with('authenticated_post_routes');
+
+it('cannot send delete requests to routes when not authenticated', function ($routeName) {
+    // Arrange: model + media
+    $model = $this->getTestBlogModel();
+    $media = $model->addMedia($this->getFixtureUploadedFile('test.png'))
+        ->preservingOriginal()
+        ->withCustomProperties(['priority' => 3])
+        ->toMediaCollection('images');
+
+    // Payload as JS FormData equivalent
+    $payload = [
+        'base_id' => 'foo',
+        'collections' => ['images'],
+    ];
+
+    // Act
+    $response = $this->deleteJson(route($routeName, $media), $payload);
+
+    // Assert
+    $response->assertStatus(401);
+})->with('authenticated_delete_routes');
+
+it('cannot send put requests to routes when not authenticated', function ($routeName) {
+    // Arrange: model + media
+    $model = $this->getTestBlogModel();
+    $media = $model->addMedia($this->getFixtureUploadedFile('test.png'))
+        ->preservingOriginal()
+        ->withCustomProperties(['priority' => 3])
+        ->toMediaCollection('images');
+
+    // Payload as JS FormData equivalent
+    $payload = [
+        'base_id' => 'foo',
+        'collections' => ['images'],
+    ];
+
+    // Act
+    $response = $this->putJson(route($routeName, $media), $payload);
+
+    // Assert
+    $response->assertStatus(401);
+})->with('authenticated_put_routes');
+
+it('cannot send get requests to routes when not authenticated', function ($routeName) {
+    // Arrange: model + media
+    $model = $this->getTestBlogModel();
+    $media = $model->addMedia($this->getFixtureUploadedFile('test.png'))
+        ->preservingOriginal()
+        ->withCustomProperties(['priority' => 3])
+        ->toMediaCollection('images');
+
+    // Payload as JS FormData equivalent
+    $payload = [
+        'base_id' => 'foo',
+        'collections' => ['images'],
+    ];
+
+    // Act
+    $response = $this->getJson(route($routeName, $media), $payload);
+
+    // Assert
+    $response->assertStatus(401);
+})->with('authenticated_get_routes');

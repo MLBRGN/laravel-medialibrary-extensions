@@ -85,7 +85,7 @@ const initializeMediaModal = function (modal) {
         if (slideTo !== '0') return;
 
         const firstSlide = carousel.querySelector('[data-mle-carousel-item]:first-child');
-        console.log('firstSlide', firstSlide);
+        // console.log('firstSlide', firstSlide);
         if (!firstSlide) return;
 
         const nativeMediaPlayerId = setupNativeMedia(firstSlide);
@@ -204,7 +204,7 @@ const initializeMediaModal = function (modal) {
     }
 
     function stopAllMediaPlayBack() {
-        console.log('stopAllMediaPlayBack');
+        // console.log('stopAllMediaPlayBack');
         Object.keys(ytlPlayers).forEach((playerId) => controlYouTubePlayback(playerId, 'stopVideo'));
         Object.keys(nativeMediaPlayers).forEach(id => controlNativeMedia(id, 'pause'));
     }

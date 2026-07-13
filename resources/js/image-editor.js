@@ -1,2 +1,2 @@
-import {ImageEditor} from '@mlbrgn/media-library-extensions'
-ImageEditor.translationsPath = '/js/vendor/image-editor/lang';
+import {ImageEditor} from '@mlbrgn/media-library-extensions-image-editor'
+ImageEditor.translationsPath = window.imageEditorTranslationsPath || '/js/vendor/image-editor/lang/';
