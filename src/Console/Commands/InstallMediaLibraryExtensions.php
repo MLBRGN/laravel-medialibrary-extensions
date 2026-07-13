@@ -65,16 +65,5 @@ class InstallMediaLibraryExtensions extends Command
     protected function outroSuccess(): void
     {
         $this->info('Media Library Extensions installed successfully.');
-        $this->info('');
-        $this->comment('----------------------------------------------');
-        $this->comment('NOTE: For the "image editor" to work');
-        $this->comment('run the following commands in your own project');
-        $this->comment('----------------------------------------------');
-        $this->info('');
-        $this->comment('  npm install');
-        $this->comment('  npm install @mlbrgn/media-library-extensions');
-        $this->comment('  npm run build');
-        $this->info('');
-
     }
 }

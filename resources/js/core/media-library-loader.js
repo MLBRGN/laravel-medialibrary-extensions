@@ -5,7 +5,7 @@ import {
 } from './asset-loader-core';
 
 const loader = createAssetLoader('media', {
-    basePath: '/vendor/mlbrgn/media-library-extensions'
+    basePath: '/vendor/mlbrgn/laravel-medialibrary-extensions'
 });
 
 function loadMediaAssets(loader, manifest) {

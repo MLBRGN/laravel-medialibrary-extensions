@@ -1,4 +1,4 @@
-# Media library extensions
+# Laravel Media Library Extensions
 
 This package adds functionality toMedia Library package by Spatie:
 
@@ -7,14 +7,12 @@ This package adds functionality toMedia Library package by Spatie:
 
 ## Requirements
 
-This package assumes that spatie/laravel-medialibrary is installed 
+This package assumes that [spatie/laravel-medialibrary is installed](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup)
 and its default migration has been run to create the media table.
 
-for the image editor to work the NPM package "@mlbrgn/media-library-extensions" needs to be installed.
+## Installation
 
-## Install
-
-1) Install the laravel package:
+1) Install the package using:
 
 ```shell
   composer require mlbrgn/laravel-medialibrary-extensions
@@ -23,34 +21,23 @@ for the image editor to work the NPM package "@mlbrgn/media-library-extensions" 
 2) Run install command
 
 ```shell
-  php artisan media-library-extensions:install
+  php artisan medialibrary-extensions:install
 ```
 
-3) add @import "media-library-extensions" to your app.js (or similar)
+You can configure the path to the translations the Image Editor, provided by this package, uses by adding the following to your app.js (or similar).
 
 ```js
-import {ImageEditor} from '@mlbrgn/media-library-extensions'
-```
-
-you can optionally set the path to the translations you want to use, but make sure
-the translations live in the path you specified.
-
-NOTE: Don't forget to run "npm run build" for the image editor to be built!
-
-```js
-
 ImageEditor.translationsPath = '/js/vendor/image-editor/lang';
 ```
 
-The install command will publish assets, config, translation, views, and a policy.
-Also it will install the required @mlbrgn/media-library-extensions package
+The install command will publish the needed assets, config, translation, views, and a policy.
 
-### Manual install (without the install command)
+### Manual install (without using the install command)
 
-You can also manually install by installing the @mlbrgn/media-library-extensions package
+You can also manually install by installing the @mlbrgn/laravel-medialibrary-extensions package
 
 ```shell
-  npm install @mlbrgn/media-library-extensions
+  npm install @mlbrgn/laravel-medialibrary-extensions
 ```
 
 And publish the required assets
@@ -58,27 +45,11 @@ And publish the required assets
 ```shell
 php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="assets"
 ````
-add @import for "media-library-extensions" to your app.js (or similar)
 
-```js
-import {ImageEditor} from '@mlbrgn/media-library-extensions'
-```
+## Themes
 
-you can optionally set the path to the translations you want to use, but make sure
-the translations live in the path you specified.
-
-NOTE: Don't forget to run "npm run build" for the imageeditor to be built!
-
-
-```js
-
-ImageEditor.translationsPath = '/js/vendor/image-editor/lang';
-```
-
-## Theme
-
-The default themes are:
-- plain
+The provided themes are:
+- plain (vanilla css and js)
 - bootstrap-5
 
 ## Publishing
@@ -99,27 +70,24 @@ to publish all assets:
 to publish a single tag (group of assets):
 
 ```shell
-php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="config"
-````
-
-## Icons
-
-For icons to work, you will have to install a Blade UIKit/Blade-icons package.
-
-The package is configured to use Bootstrap icons by default. To display them properly install
-
-```shell
-   composer require davidhsianturi/blade-bootstrap-icons
-```
-You can override the icons in the published configuration file of this package and install another Blade UIKit/Blade-icons package
-
-```shell
 php artisan vendor:publish --tag=media-library-extensions-config
 php artisan vendor:publish --tag=media-library-extensions-views
 php artisan vendor:publish --tag=media-library-extensions-assets
 php artisan vendor:publish --tag=media-library-extensions-policy
 php artisan vendor:publish --tag=media-library-extensions-translations
 ```
+
+## Icons
+
+For icons to work, you will have to install a Blade UI Kit package.
+
+The package is configured to use the [Blade Bootstrap Icons](https://github.com/davidhsianturi/blade-bootstrap-icons) by default. To display them properly install
+
+```shell
+   composer require davidhsianturi/blade-bootstrap-icons
+```
+
+You can override the icons in the published configuration file of this package and install another Blade UIKit/Blade-icons package
 
 ## Testing
 

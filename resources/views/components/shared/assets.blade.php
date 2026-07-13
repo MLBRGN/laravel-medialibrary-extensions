@@ -15,7 +15,7 @@
 @once
     <script
         type="module"
-        src="{{ asset('vendor/mlbrgn/media-library-extensions/js/core/media-library-loader.js') }}"
+        src="{{ asset('vendor/mlbrgn/laravel-medialibrary-extensions/js/core/media-library-loader.js') }}"
         @isset($nonce) nonce="{{ $nonce }}" @endisset
     ></script>
 @endonce
