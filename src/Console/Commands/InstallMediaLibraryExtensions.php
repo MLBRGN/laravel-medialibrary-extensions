@@ -9,7 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvide
 
 class InstallMediaLibraryExtensions extends Command
 {
-    protected $signature = 'media-library-extensions:install {--force : Overwrite any existing files}';
+    protected $signature = 'medialibrary-extensions:install {--force : Overwrite any existing files}';
 
     protected $description = 'Install the media library extensions (publishes required assets and installs npm package).';
 

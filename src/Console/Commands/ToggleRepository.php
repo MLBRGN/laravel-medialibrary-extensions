@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
 
 class ToggleRepository extends Command
 {
-    protected $signature = 'media-library-extensions:toggle-repository {--force : Skip confirmation prompts}';
+    protected $signature = 'medialibrary-extensions:toggle-repository {--force : Skip confirmation prompts}';
 
     protected $description = 'Toggle between local and Packagist repositories for development packages. Manages symlinks, composer require versions, and runs composer update.';
 

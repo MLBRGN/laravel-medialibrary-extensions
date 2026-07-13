@@ -10,7 +10,7 @@ use Throwable;
 
 class ResetMediaLibraryExtensions extends Command
 {
-    protected $signature = 'media-library-extensions:reset
+    protected $signature = 'medialibrary-extensions:reset
                             {--force : Skip confirmation prompt}';
 
     protected $description = 'Completely clears Spatie Media Library data and files for all configured media disks.';
