@@ -6,6 +6,7 @@
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Pest\Browser\Api\AwaitableWebpage;
 
 beforeEach(function () {
@@ -532,6 +533,17 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
+//    $connection = DataSourceResolver::resolve('demo', 'default');
+    $connection = PackageInfrastructure::connection('demo', 'default');
+
+    expect(
+        DB::connection($connection)->table('media')->count()
+    )->toBe(0);
+
+    expect(
+        DB::connection($connection)->table('mle_temporary_uploads')->count()
+    )->toBe(0);
+
     //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
@@ -635,7 +647,6 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         $currentDeleteButtonSelector =
             $gridSelector.
             ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
-        dump('pressing delete button: '.$currentDeleteButtonSelector);
         $page->pressAndWaitFor($currentDeleteButtonSelector, $waitTime);
             if (!$xhr) {
                 $page->wait($waitTime);

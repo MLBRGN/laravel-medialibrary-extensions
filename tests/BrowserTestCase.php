@@ -88,7 +88,7 @@ class BrowserTestCase extends Orchestra
         'tiny.webp',
     ];
 
-    protected static bool $migrated = false;
+//    protected static bool $migrated = false;
 
     // runs before every test
     protected function setUp(): void
@@ -384,9 +384,9 @@ class BrowserTestCase extends Orchestra
 
     protected function migrateDatabases(): void
     {
-        if (static::$migrated) {
-            return;
-        }
+//        if (static::$migrated) {
+//            return;
+//        }
 
         Log::info('BrowserTestCase - migrateDatabases !!!!!!!!!!');
         $this->artisan('migrate:fresh', [
@@ -401,7 +401,7 @@ class BrowserTestCase extends Orchestra
             '--realpath' => true,
         ]);
 
-        static::$migrated = true;
+//        static::$migrated = true;
     }
 
 //    protected function truncateDatabases(): void
