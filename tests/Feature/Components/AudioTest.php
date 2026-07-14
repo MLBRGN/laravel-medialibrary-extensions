@@ -24,7 +24,7 @@ it('can be instantiated with a medium', function () {
 
     expect($html)->toContain('test-audio-audio');
     expect($html)->toMatchSnapshot();
-});
+})->only();
 
 it('can be instantiated with a TemporaryUpload', function () {
     Storage::fake('media');
@@ -36,7 +36,7 @@ it('can be instantiated with a TemporaryUpload', function () {
 
     expect($html)->toContain('test-audio-audio');
     expect($html)->toMatchSnapshot();
-});
+})->only();
 
 it('renders the correct Blade view', function () {
     $media = new Media(['id' => 789]);

@@ -1,7 +1,7 @@
 <div 
     {{ $attributes->class('mle-video') }}
     id="{{ $getDomId() }}"
-    data-mle-video
+    data-mle-video-container
 >
     <div class="mle-video-preview">
         <div class="mle-video-info">

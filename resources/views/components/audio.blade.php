@@ -1,6 +1,7 @@
 <div 
     {{ $attributes->class('mle-audio') }}
     id="{{ $getDomId() }}"
+    data-mle-audio-container
 >
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
