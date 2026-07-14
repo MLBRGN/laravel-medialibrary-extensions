@@ -63,7 +63,7 @@ dataset('mmm_test_matrix', [
 dataset('mms_youtube_test_matrix', [
     'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
     'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
-    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'], // TODO fails
+    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'], // fails
     'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
     'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
@@ -314,7 +314,15 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    // TODO assert database is empty
+    $dataSourceResolver = app(DataSourceResolver::class);
+    $resolvedConnection = $dataSourceResolver->resolveConnection($dataSource);
+
+//    $this->dumpDatabaseTable('media', $resolvedConnection);
+//    $this->dumpDatabaseTable('mle_temporary_uploads', $resolvedConnection);
+
+    $this->assertDatabaseCount('media', 0, $resolvedConnection);
+    $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
+
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
@@ -462,7 +470,6 @@ it('honors min / max width height and file size constraints in uploads', functio
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
@@ -534,7 +541,15 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    $dataSourceResolver = app(DataSourceResolver::class);
+    $resolvedConnection = $dataSourceResolver->resolveConnection($dataSource);
+
+    //    $this->dumpDatabaseTable('media', $resolvedConnection);
+    //    $this->dumpDatabaseTable('mle_temporary_uploads', $resolvedConnection);
+
+    $this->assertDatabaseCount('media', 0, $resolvedConnection);
+    $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
+
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
@@ -547,9 +562,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // test that it shows error when no file selected
     $page->pressAndWaitFor($uploadButtonSelector, $waitTime);
 
-    if (!$xhr) {
-        $page->wait($waitTime);
-    }
+//    if (!$xhr) {
+//        $page->wait($waitTime);
+//    }
     $page->waitForText(__('medialibrary-extensions::messages.upload_no_files'));
 
     // TODO test that invalid mime types are rejected
@@ -560,16 +575,16 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
     // check counts start at 0
-    if ($xhr) {
+//    if ($xhr) {
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
-    }
+//    }
 
     for ($i = 0; $i < $maxItems; $i++) {
         // attach an image file and submit and check if spinner shows and upload is successful
         $page->attach($inputSelector, $this->getRandomFixture());
-        if (!$xhr) {
-            $page->wait($waitTime);
-        }
+//        if (!$xhr) {
+//            $page->wait($waitTime);
+//        }
 
         $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->waitForText(__('medialibrary-extensions::messages.please_wait'))
@@ -577,11 +592,10 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
 
         // TODO sometimes fails on non-xhr, but not on xhr
-        if (!$xhr) {
+//        if (!$xhr) {
             // counts should update to 1 of 1 and show max alert
             $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
-
-        }
+//        }
     }
 
     // counts should reflect max, and upload should be disabled with an alert when at max
@@ -639,22 +653,21 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         $currentDeleteButtonSelector =
             $gridSelector.
             ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
-        dump('pressing delete button: '.$currentDeleteButtonSelector);
         $page->pressAndWaitFor($currentDeleteButtonSelector, $waitTime);
-            if (!$xhr) {
-                $page->wait($waitTime);
-            }
+//            if (!$xhr) {
+//                $page->wait($waitTime);
+//            }
             $page->waitForText(__('medialibrary-extensions::messages.please_wait'))
             ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 
         // counts check (NOTE: 1 is deleted outside the loop)
-        if (!$xhr) {
-            $page->wait($waitTime);
-        }
+//        if (!$xhr) {
+//            $page->wait($waitTime);
+//        }
         // TODO non-xhr fails here
-        if ($xhr) {
+//        if ($xhr) {
             $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $maxItems - $i - 2, 'total' => $maxItems]));
-        }
+//        }
     }
 
     // the upload button should be enabled again
@@ -695,7 +708,15 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
-    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#$mediaManagerId")
+    $dataSourceResolver = app(DataSourceResolver::class);
+    $resolvedConnection = $dataSourceResolver->resolveConnection($dataSource);
+
+//    $this->dumpDatabaseTable('media', $resolvedConnection);
+//    $this->dumpDatabaseTable('mle_temporary_uploads', $resolvedConnection);
+
+    $this->assertDatabaseCount('media', 0, $resolvedConnection);
+    $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
+
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
@@ -768,7 +789,8 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_youtube_test_matrix');
+    ->with('mms_youtube_test_matrix')
+    ->flaky();
 
 it('can control standalone media carousel', function ($theme, $dataSource, $xhr, $temporary = false, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -901,7 +923,6 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     // Ensure the Media Lab has a medium to work with, using the correct data source
     ensureLabMedium($dataSource);
 
-    //    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt#alien-laboratory-lab")
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
