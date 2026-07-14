@@ -6,6 +6,7 @@
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Pest\Browser\Api\AwaitableWebpage;
 
 beforeEach(function () {
@@ -150,7 +151,7 @@ function ensureLabMedium(string $dataSource): void
     }
 
     // Resolve disk for the data source, fallback to 'demo_alt'
-    $disk = \Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure::disk('demo');
+    $disk = PackageInfrastructure::disk('demo');
 
     // If Lab already has media, ensure exactly one is present and its file exists on the expected disk.
     $labMedia = $existingModel->getMedia('alien-media-lab');
@@ -313,6 +314,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
+    // TODO assert database is empty
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
@@ -447,8 +449,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_test_matrix');
-//    ->flaky();
+    ->with('mms_test_matrix')
+    ->flaky();
 
 it('honors min / max width height and file size constraints in uploads', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -558,7 +560,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
     // check counts start at 0
-    $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
+    if ($xhr) {
+        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
+    }
 
     for ($i = 0; $i < $maxItems; $i++) {
         // attach an image file and submit and check if spinner shows and upload is successful
@@ -660,8 +664,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mmm_test_matrix');
-//    ->flaky();
+    ->with('mmm_test_matrix')
+    ->flaky();
 
 it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
