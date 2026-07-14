@@ -28,6 +28,8 @@
         @endif
         @disabled($disabled)
         >
+    <span class="mle-form-text form-text">{{ __('medialibrary-extensions::messages.supported_dimensions_:supported_dimensions', ['supported_dimensions' => $getFileRequirementsSummary() ]) }}</span>
+    <br>
     <span class="mle-form-text">{{ __('medialibrary-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))

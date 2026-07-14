@@ -43,6 +43,7 @@ return [
     'watch_on_youtube' => 'Watch on YouTube',
     'play_video' => 'Play video',
     'supported_file_formats_:supported_formats' => 'Supported file formats: :supported_formats.',
+    'supported_dimensions_:supported_dimensions' => 'Supported dimensions: :supported_dimensions.',
     'non_supported_file_format' => 'Non-supported file format',
     'no_permission' => 'No permission.',
     'unknown_file_mimetype' => 'Unknown file type.',

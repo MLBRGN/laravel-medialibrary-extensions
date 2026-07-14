@@ -185,11 +185,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Max Upload Size (in kilobytes)
+    | Max Upload Size (in bytes)
     |--------------------------------------------------------------------------
     |
-    | Define the maximum allowed upload size
-    | Example: 16,384 KB = 16 MB
+    | Define the maximum allowed upload size.
+    | Example: 16 * 1024 * 1024 = 16 MB
     |
     */
 

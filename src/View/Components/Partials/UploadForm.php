@@ -18,6 +18,8 @@ class UploadForm extends BaseMediaComponent
     use InteractsWithMimeTypes;
     use InteractsWithOptionsAndConfig;
 
+    protected array $fileRequirements = [];
+
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
@@ -51,6 +53,14 @@ class UploadForm extends BaseMediaComponent
             ...$mimeData,
         ]);
 
+        $this->fileRequirements = [
+            'max_file_size' => config('medialibrary-extensions.max_upload_size'),
+            'max_width' => config('medialibrary-extensions.max_image_width'),
+            'max_height' => config('medialibrary-extensions.max_image_height'),
+            'min_width' => config('medialibrary-extensions.min_image_width'),
+            'min_height' => config('medialibrary-extensions.min_image_height'),
+        ];
+
         $this->totalMediaCount = $this->mediaService->countMediaInCollections(
             $this->resolvedModel,
             $this->collections,
@@ -64,6 +74,47 @@ class UploadForm extends BaseMediaComponent
     {
         return 'upload-form';
     }
+
+    public function getFileRequirementsSummary(): string
+    {
+        $requirements = [];
+
+        if ($this->fileRequirements['max_file_size']) {
+            $requirements[] = sprintf(
+                'Maximum file size: %s',
+                mle_human_filesize($this->fileRequirements['max_file_size'])
+            );
+        }
+
+        if ($this->fileRequirements['max_width'] || $this->fileRequirements['max_height']) {
+            $requirements[] = sprintf(
+                'Maximum dimensions: %s × %s px',
+                $this->fileRequirements['max_width'] ?? '∞',
+                $this->fileRequirements['max_height'] ?? '∞'
+            );
+        }
+
+        if ($this->fileRequirements['min_width'] || $this->fileRequirements['min_height']) {
+            $requirements[] = sprintf(
+                'Minimum dimensions: %s × %s px',
+                $this->fileRequirements['min_width'] ?? 0,
+                $this->fileRequirements['min_height'] ?? 0
+            );
+        }
+
+        return implode("\n", $requirements);
+    }
+
+//    protected function formatBytes(int $bytes)
+//    {
+//        if ($bytes > 1024 * 1024) {
+//            return round($bytes / 1024 / 1024, 2).' MB';
+//        } elseif ($bytes > 1024) {
+//            return round($bytes / 1024, 2).' KB';
+//        }
+//
+//        return $bytes . ' B';
+//    }
 
     public function render(): View
     {

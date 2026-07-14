@@ -19,7 +19,7 @@ class StoreSingleRequest extends StoreRequest
         ];
 
         if ($maxSize = config('medialibrary-extensions.max_upload_size')) {
-            $uploadRules[] = 'max:'.$maxSize / 1024;
+            $uploadRules[] = 'max:'.$maxSize / 1024;// max upload size in kilobytes
         }
 
         if ($rule = $this->uploadLimitRule($collections, 1)) {
