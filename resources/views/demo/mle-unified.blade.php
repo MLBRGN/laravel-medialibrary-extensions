@@ -328,11 +328,11 @@
                 id="alien-carousel"
                 :model-or-class-name="$model"
                 :collections="[
-                    'image' => 'alien-multiple-images', 
-                    'document' =>'alien-multiple-documents', 
-                    'youtube' =>'alien-multiple-youtube-videos', 
-                    'video' =>'alien-multiple-videos', 
-                    'audio' =>'alien-multiple-audios',
+                    'image' => ['alien-multiple-images', 'alien-single-image'], 
+                    'document' => ['alien-multiple-documents', 'alien-single-document'], 
+                    'youtube' => ['alien-multiple-youtube-videos', 'alien-single-youtube-video'], 
+                    'video' => ['alien-multiple-videos', 'alien-single-video'], 
+                    'audio' => ['alien-multiple-audios', 'alien-single-audio'],
                 ]"
                 :options="[
                     'theme' => $theme, 
