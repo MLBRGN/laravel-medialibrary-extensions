@@ -414,7 +414,6 @@ class MediaService
         ?string $clientToken,
         ?string $dataSource,
     ): Collection {
-        dump('resolveTemporaryMedia: $collections ' . json_encode($collections));
         return $this->collectionNames($collections)
             ->flatMap(fn (string $collection) => TemporaryUpload::getForCurrentClient(
                 $collection,
@@ -422,6 +421,21 @@ class MediaService
                 $dataSource,
                 $clientToken,
             ));
+    }
+
+    public function getTemporaryUploadsSorted(
+        array|string|null $collections = null,
+        ?string $instanceId = null,
+        ?string $clientToken = null,
+        ?string $dataSource = 'default',
+    ): Collection {
+        return TemporaryUpload::getForCurrentClient(
+            $collections,
+            $instanceId,
+            $dataSource,
+            $clientToken,
+        )->sortBy(fn ($upload) => $upload->getCustomProperty('priority', PHP_INT_MAX))
+            ->values();
     }
 
     private function collectionNames(array $collections): Collection

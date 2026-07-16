@@ -69,9 +69,9 @@
 </x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
     <x-mle-shared-assets 
-        include-css="true" 
-        include-js="true" 
-        include-media-manager-submitter="true" 
+        :include-css="true" 
+        :include-js="true" 
+        :include-media-manager-submitter="true" 
         :theme="$getConfig('theme')"
         for="plain|image-editor-form"
     />

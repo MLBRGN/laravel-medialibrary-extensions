@@ -82,7 +82,11 @@ class PackageInfrastructure
 
         self::registerConnections($profile);
         self::registerDisk($profile);
-        self::setDefaultConnection($profile);
+
+        // only force default for test profile (or when unit tests are running)
+        if ($profile === 'test' || app()->runningUnitTests()) {
+            self::setDefaultConnection($profile);
+        }
 
         config()->set('session.driver', 'file');
         config()->set('session.files', storage_path('framework/sessions'));
@@ -130,10 +134,13 @@ class PackageInfrastructure
 
     protected static function setDefaultConnection(string $profile): void
     {
-        config()->set(
-            'database.default',
-            self::connection($profile)
-        );
+        // TODO i don't ever want to set the default connection! this has effects on the whole app!
+//        if (!app()->runningInConsole()) {
+            config()->set(
+                'database.default',
+                self::connection($profile)
+            );
+//        }
     }
 
     protected static function ensureDatabaseFile(string $path): void

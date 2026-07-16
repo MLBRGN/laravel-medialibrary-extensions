@@ -58,9 +58,9 @@
     </div>
 </div>
 <x-mle-shared-assets 
-    include-css="true" 
-    include-js="true"
-    include-media-modal-js="true"
+    :include-css="true" 
+    :include-js="true"
+    :include-media-modal-js="true"
     :theme="$getConfig('theme')"
     for="plain|media-modal"
 />

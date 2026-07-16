@@ -13,10 +13,10 @@
     />
 </div>
 <x-mle-shared-assets
-    include-css="true"
-    include-js="true"
-    include-tinymce-custom-file-picker-js="true"
-    include-tinymce-custom-file-picker-iframe-js="true"
+    :include-css="true"
+    :include-js="true"
+    :include-tinymce-custom-file-picker-js="true"
+    :include-tinymce-custom-file-picker-iframe-js="true"
     :theme="$getConfig('theme')"
     for="plain|media-manager-tinymce"
 />

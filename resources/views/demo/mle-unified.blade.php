@@ -267,63 +267,13 @@
 {{--                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>--}}
 {{--                </form>--}}
         @endif
-
-{{--        @push('scripts')--}}
-{{--            <script>--}}
-{{--                (function () {--}}
-{{--                    function readCookie(name) {--}}
-{{--                        const nameEQ = name + '=';--}}
-{{--                        const ca = document.cookie.split(';');--}}
-{{--                        for (let i = 0; i < ca.length; i++) {--}}
-{{--                            let c = ca[i];--}}
-{{--                            while (c.charAt(0) === ' ') c = c.substring(1, c.length);--}}
-{{--                            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);--}}
-{{--                        }--}}
-{{--                        return null;--}}
-{{--                    }--}}
-
-{{--                    function syncClientTokenHiddenInputs(token) {--}}
-{{--                        if (!token) { return; }--}}
-{{--                        document.querySelectorAll('input[data-mle-client-token]')--}}
-{{--                            .forEach(function (el) { el.value = token; });--}}
-{{--                    }--}}
-
-{{--                    function ensureTokenOnSubmit() {--}}
-{{--                        const forms = document.querySelectorAll('form');--}}
-{{--                        forms.forEach(function (form) {--}}
-{{--                            // Only wire demo forms that include a client token hidden input--}}
-{{--                            if (!form.querySelector('input[data-mle-client-token]')) { return; }--}}
-{{--                            form.addEventListener('submit', function () {--}}
-{{--                                const token = readCookie('mle_client_token');--}}
-{{--                                syncClientTokenHiddenInputs(token);--}}
-{{--                            }, { capture: true });--}}
-{{--                        });--}}
-{{--                    }--}}
-
-{{--                    // Initial sync from cookie on page load--}}
-{{--                    const cookieToken = readCookie('mle_client_token');--}}
-{{--                    if (cookieToken) {--}}
-{{--                        syncClientTokenHiddenInputs(cookieToken);--}}
-{{--                    }--}}
-
-{{--                    // Also listen for component updates that may carry a client token--}}
-{{--                    document.addEventListener('mediaManagerPreviewsUpdated', function (e) {--}}
-{{--                        // Some dispatchers include detail with config; fall back to cookie if absent--}}
-{{--                        const token = (e && e.detail && e.detail.clientToken) || readCookie('mle_client_token');--}}
-{{--                        syncClientTokenHiddenInputs(token);--}}
-{{--                    }, true);--}}
-
-{{--                    // Ensure token is written right before submitting demo forms--}}
-{{--                    ensureTokenOnSubmit();--}}
-{{--                })();--}}
-{{--            </script>--}}
-{{--        @endpush--}}
-        
     
         @if($showMediaCarousel)
             <h2>Media Carousel</h2>
             <p>{{ __('medialibrary-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
-           
+            <p>only shows temporary uploads for media manager multiple</p>
+        
+            <button id="carouselRefreshButton" type="button" class="btn btn-primary mb-3">Refresh carousel</button>
             <x-mle-media-carousel
                 id="alien-carousel"
                 :model-or-class-name="$model"
@@ -338,6 +288,8 @@
                     'theme' => $theme, 
                     'dataSource' => $dataSource
                 ]"
+                :data-source="$dataSource"
+                :instance-id="null"
             />
         @endif
     
@@ -424,6 +376,12 @@
             crossorigin="anonymous"
         ></script>
     @endif
+    
+    <script type="module">
+        document.getElementById('carouselRefreshButton').addEventListener('click', () => {
+            alert('refreshing carousel');
+        });
+    </script>
     @stack('scripts')
     </body>
 </html>

@@ -136,11 +136,11 @@
         title="Media carousel"/>
 @endif
 <x-mle-shared-assets
-    include-css="true"
-    include-js="true"
-    include-carousel-js="true"
-    include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
-    include-lite-youtube="{{ config('medialibrary-extensions.youtube_support_enabled') }}"
+    :include-css="true"
+    :include-js="true"
+    :include-carousel-js="true"
+    :include-debug-toggle-js="config('medialibrary-extensions.debug')"
+    :include-lite-youtube="config('medialibrary-extensions.youtube_support_enabled')"
     :theme="$getConfig('theme')"
     for="bootstrap-5|media-carousel-temporary"
 />

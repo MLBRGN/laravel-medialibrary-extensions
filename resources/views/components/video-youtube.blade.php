@@ -62,9 +62,9 @@
     </div>
 @endif
 <x-mle-shared-assets 
-    include-css="true" 
-    include-js="false" 
-    include-lite-youtube="true" 
+    :include-css="true" 
+    :include-js="false" 
+    :include-lite-youtube="true" 
     :theme="$getConfig('theme')"
     for="shared|video-youtube"
 />

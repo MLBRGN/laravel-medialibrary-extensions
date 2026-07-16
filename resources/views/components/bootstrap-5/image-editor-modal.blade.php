@@ -70,11 +70,11 @@
         </div>
     </div>
 </div>
-<x-mle-shared-assets 
-    include-css="true" 
-    include-js="true"
-    include-image-editor-js="true"
-    include-image-editor-modal-js="true"
+<x-mle-shared-assets
+    :include-css="true"
+    :include-js="true"
+    :include-image-editor-js="true"
+    :include-image-editor-modal-js="true"
     :theme="$getConfig('theme')"
     for="bootstrap-5|image-editor-model"
 />

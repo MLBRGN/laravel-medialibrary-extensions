@@ -3,6 +3,7 @@
 
 const globalLoadedScripts = new Set();
 const globalLoadedStyles = new Set();
+const globallyEnsured = new Set(); // absolute URLs already ensured (scripts/styles)
 
 /**
  * Create a package-scoped loader
@@ -41,6 +42,81 @@ export function createAssetLoader(namespace, {
         }
 
         return `${basePath}/${path}`;
+    }
+
+    /**
+     * Ensure a script exists (idempotent, de-duped globally and per-loader)
+     */
+    function ensureScript(src, { type = 'module', async = false } = {}) {
+        const fullSrc = resolveUrl(src);
+        const key = `${namespace}:${fullSrc}`;
+        const globalKey = fullSrc;
+
+        if (globallyEnsured.has(globalKey) || document.querySelector(`script[src="${CSS.escape(fullSrc)}"]`)) {
+            // track in loader scope too for consistency
+            loadedScripts.add(key);
+            if (globalDedup) globalLoadedScripts.add(globalKey);
+            return Promise.resolve();
+        }
+
+        // if loadScript already scheduled this asset, skip
+        if (loadedScripts.has(key) || (globalDedup && globalLoadedScripts.has(globalKey))) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = fullSrc;
+            script.type = type;
+            script.async = async;
+            script.onload = () => {
+                globallyEnsured.add(globalKey);
+                loadedScripts.add(key);
+                if (globalDedup) globalLoadedScripts.add(globalKey);
+                resolve();
+            };
+            script.onerror = (e) => {
+                console && console.warn && console.warn('[mlbrgn] Failed to load script', fullSrc, e);
+                reject(e);
+            };
+            document.head.appendChild(script);
+        });
+    }
+
+    /**
+     * Ensure a stylesheet exists (idempotent, de-duped globally and per-loader)
+     */
+    function ensureStyle(href) {
+        const fullHref = resolveUrl(href);
+        const key = `${namespace}:${fullHref}`;
+        const globalKey = fullHref;
+
+        if (globallyEnsured.has(globalKey) || document.querySelector(`link[rel="stylesheet"][href="${CSS.escape(fullHref)}"]`)) {
+            loadedStyles.add(key);
+            if (globalDedup) globalLoadedStyles.add(globalKey);
+            return Promise.resolve();
+        }
+
+        if (loadedStyles.has(key) || (globalDedup && globalLoadedStyles.has(globalKey))) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = fullHref;
+            link.onload = () => {
+                globallyEnsured.add(globalKey);
+                loadedStyles.add(key);
+                if (globalDedup) globalLoadedStyles.add(globalKey);
+                resolve();
+            };
+            link.onerror = (e) => {
+                console && console.warn && console.warn('[mlbrgn] Failed to load style', fullHref, e);
+                reject(e);
+            };
+            document.head.appendChild(link);
+        });
     }
 
     function loadScript(src, { type = 'module', async = false } = {}) {
@@ -92,8 +168,45 @@ export function createAssetLoader(namespace, {
 
     return {
         loadScript,
-        loadStyle
+        loadStyle,
+        ensureScript,
+        ensureStyle,
+        resolveUrl
     };
+}
+
+/**
+ * Global, basePath-agnostic helpers for lazy, on-demand loading by absolute URL.
+ * These are safe to call multiple times and will not duplicate tags.
+ */
+export function ensureScript(src, { type = 'module', async = true } = {}) {
+    const url = new URL(src, document.baseURI).toString();
+    if (globallyEnsured.has(url) || document.querySelector(`script[src="${CSS.escape(url)}"]`)) {
+        globallyEnsured.add(url);
+        return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = url; s.type = type; s.async = async;
+        s.onload = () => { globallyEnsured.add(url); resolve(); };
+        s.onerror = (e) => { console && console.warn && console.warn('[mlbrgn] Failed to load script', url, e); reject(e); };
+        document.head.appendChild(s);
+    });
+}
+
+export function ensureStyle(href) {
+    const url = new URL(href, document.baseURI).toString();
+    if (globallyEnsured.has(url) || document.querySelector(`link[rel="stylesheet"][href="${CSS.escape(url)}"]`)) {
+        globallyEnsured.add(url);
+        return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+        const l = document.createElement('link');
+        l.rel = 'stylesheet'; l.href = url;
+        l.onload = () => { globallyEnsured.add(url); resolve(); };
+        l.onerror = (e) => { console && console.warn && console.warn('[mlbrgn] Failed to load stylesheet', url, e); reject(e); };
+        document.head.appendChild(l);
+    });
 }
 
 /**

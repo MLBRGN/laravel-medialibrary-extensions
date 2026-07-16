@@ -4,6 +4,7 @@
 
 @if(!empty($assetConfig))
     <script
+        id="{{ $assetConfig['for'] }}"
         type="application/json"
         class="mlbrgn-medialibrary-config"
         @isset($nonce) nonce="{{ $nonce }}" @endisset

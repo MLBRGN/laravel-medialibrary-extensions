@@ -121,9 +121,9 @@
     />
 </div>
     <x-mle-shared-assets
-        include-css="true"
-        include-js="true"
-        include-debug-toggle-js="{{ config('medialibrary-extensions.debug') }}"
+        :include-css="true"
+        :include-js="true"
+        :include-debug-toggle-js="config('medialibrary-extensions.debug')"
         :theme="$getConfig('theme')"
         for="bootstrap-5|media-manager"
     />

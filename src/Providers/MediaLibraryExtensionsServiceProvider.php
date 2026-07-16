@@ -165,9 +165,13 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                     __DIR__.'/../../resources/views' => resource_path('views/vendor/'.$this->namespace()),
                 ], $this->namespace().'-views');
 
+                // Publish built assets to the configured public asset path so
+                // HTTP requests to /vendor/mlbrgn/laravel-medialibrary-extensions/... resolve.
+                $assetBase = trim(config('medialibrary-extensions.asset_path', 'vendor/'.$this->vendor.'/'.$this->packageName), '/');
+
                 $this->publishes([
-                    __DIR__.'/../../dist/css' => public_path('vendor/'.$this->vendor.'/'.$this->namespace().'/css'),
-                    __DIR__.'/../../dist/js' => public_path('vendor/'.$this->vendor.'/'.$this->namespace().'/js'),
+                    __DIR__.'/../../dist/css' => public_path($assetBase.'/css'),
+                    __DIR__.'/../../dist/js' => public_path($assetBase.'/js'),
                 ], $this->namespace().'-assets');
 
                 $this->publishes([
@@ -176,7 +180,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 ], $this->namespace().'-translations');
 
                 $this->publishes([
-                    __DIR__.'/../../resources/images' => public_path('vendor/'.$this->vendor.'/'.$this->namespace().'/images'),
+                    __DIR__.'/../../resources/images' => public_path($assetBase.'/images'),
 
                 ], $this->namespace().'-images');
 

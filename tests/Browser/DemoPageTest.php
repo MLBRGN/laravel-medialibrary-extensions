@@ -537,6 +537,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
     $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
     $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
+    $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
@@ -552,6 +553,15 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
+
+    // check that image editor custom element is registered
+    expect(
+        $page->script("customElements.get('image-editor') !== undefined")
+    )->toBeTrue();
+
+    expect(
+        $page->script("document.querySelector('script[src*=\"modal-image-editor.js\"]') !== null")
+    )->toBeTrue();
 
     $this->scrollIntoView($page, $mediaManagerId);
 
@@ -614,10 +624,14 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertPresent($gridSelector)
 
         // assert grid has the media container
-        ->assertPresent($firstMediaPreviewContainer)
+        ->assertPresent($firstMediaPreviewContainer);
+
+//    $page->debug();
+
+//    $page->assertNoConsoleLogs();
 
         // check that the media item's menu has the expected buttons and state
-        ->assertButtonEnabled($editButtonSelector)
+        $page->assertButtonEnabled($editButtonSelector)
         ->assertButtonDisabled($setAsFirstButtonSelector)
         ->assertButtonEnabled($deleteButtonSelector)
 
@@ -638,7 +652,17 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // check image editor modal can be opened and closed
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
         ->assertPresent($imageEditorModalSelector)
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
+
+    // check saving edited image in the image editor
+    $page->pressAndWaitFor($editButtonSelector, $waitTime)
+        ->assertPresent($imageEditorModalSelector)
+        ->assertVisible($imageEditorModalSelector)
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
+        ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
+        ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
+        ->assertMissing($imageEditorModalSelector);
 
     // delete one media and validate counts/alerts/form state
     $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
@@ -819,6 +843,11 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $waitTimeXhr : $waitTImeNonXhr;
 
+    $dataSourceResolver = app(DataSourceResolver::class);
+    $resolvedConnection = $dataSourceResolver->resolveConnection($dataSource);
+
+    $this->assertDatabaseCount('media', 0, $resolvedConnection);
+
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
@@ -835,6 +864,10 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
             ->pressAndWaitFor($mmmPermanentUploadButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+//        $this->dumpDatabaseTable('media', $resolvedConnection);
+        $this->assertDatabaseCount('media', 2, $resolvedConnection);
+
     } else {
         $this->scrollIntoView($page, $mmmTemporaryId);
 
@@ -846,12 +879,21 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
             ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+
+        $this->assertDatabaseCount('mle_temporary_uploads', 2, $resolvedConnection);
     }
 
     // 2. Refresh the page to see them in Carousel
     $page->refresh();
 
     $this->scrollIntoView($page, $carouselId);
+
+    // check that media still exists after refresh
+    if (! $temporary) {
+        $this->assertDatabaseCount('media', 2, $resolvedConnection);
+    } else {
+        $this->assertDatabaseCount('mle_temporary_uploads', 2, $resolvedConnection);
+    }
 
     $page->assertPresent($carouselId)
         ->assertPresent($carouselId)
