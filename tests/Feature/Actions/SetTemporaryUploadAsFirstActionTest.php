@@ -274,14 +274,21 @@ it('can set as first in collection with null model_id', function () {
     $baseId = 'media-manager-123';
     $targetCollection = 'blog-images';
 
+    $clientToken = (string) Str::ulid();
+    $instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId);
+
     $media1 = $this->getTemporaryUpload('temp1.jpg', [
         'collection_name' => $targetCollection,
         'custom_properties' => [],
+        'client_token' => $clientToken,
+        'instance_id' => $instanceId,
     ]);
 
     $media2 = $this->getTemporaryUpload('temp2.jpg', [
         'collection_name' => $targetCollection,
         'custom_properties' => [],
+        'client_token' => $clientToken,
+        'instance_id' => $instanceId,
     ]);
 
     // Create request object
@@ -290,6 +297,8 @@ it('can set as first in collection with null model_id', function () {
         'target_media_collection' => $targetCollection,
         'medium_id' => $media1->id,
         'collections' => ['image' => 'blog-images'],
+        'temporary_upload_mode' => 'true',
+        'client_token' => $clientToken,
 //        'collections' => [
 //            'image' => [
 //                'blog-images',
@@ -318,5 +327,4 @@ it('can set as first in collection with null model_id', function () {
         'type' => 'success',
         'message' => __('medialibrary-extensions::messages.medium_set_as_main'),
     ]);
-})
-    ->todo('fix this test');
+});

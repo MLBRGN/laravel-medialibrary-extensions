@@ -22,26 +22,18 @@ function bootAssets({ selector, namespace, runner }) {
         basePath: manifest.assetBasePath,
     });
 
-    runner(loader, manifest);
-
-    // Ensure the custom element <image-editor> is registered early so tests/UI
-    // can detect it immediately, even when the modal bundle loads later on-demand.
-    try {
-        if (typeof window !== 'undefined' && 'customElements' in window) {
-            if (!window.customElements.get('image-editor')) {
-                // This lightweight shared listener is responsible for defining the
-                // <image-editor> custom element. It is safe and idempotent to load.
-                loader.loadScript('js/shared/image-editor-listener.js');
-            }
-        }
-    } catch (e) {
-        // Ignore failures here; the lazy loader/observer below can still load it later.
-    }
-
-    // Expose globals for optional lazy loading and debugging
+    // Expose globals for optional lazy loading and debugging as early as possible
+    // so that even if the runner throws, downstream code (requireMediaAssets, observer)
+    // can still resolve absolute URLs correctly.
     window.mleTheme = manifest.theme;
     window.mleAssetBase = manifest.assetBasePath;
     window.mleDebug = !!manifest.debug;
+
+    // Run the package-specific asset loader
+    runner(loader, manifest);
+
+    // Lazy strategy: do not eagerly register <image-editor> here.
+    // The listener will be loaded on-demand via requireMediaAssets() or the observer.
 
     // Optional: observe DOM for newly injected configs or feature markers
     try {
@@ -73,10 +65,7 @@ function loadMediaAssets(loader, manifest) {
 
     const tasks = [];
 
-    // Always ensure the shared image editor listener is present so the
-    // <image-editor> custom element is registered early. This is idempotent
-    // and light-weight; loading it even when the editor UI isn't used is safe.
-    tasks.push(loadScript('js/shared/image-editor-listener.js'));
+    // Lazy strategy: do not preload the shared image editor listener here.
 
     // Also preload the theme-specific modal controller so opening the image
     // editor modal can initialize immediately without race conditions.
@@ -113,7 +102,10 @@ function loadMediaAssets(loader, manifest) {
     }
 
     if (assets.imageEditor) {
-        tasks.push(loadScript(`js/shared/image-editor-listener.js`));
+        // Ensure the shared listener only when explicitly requested by config.
+        // Use absolute URL + global ensure to avoid duplicates across loaders.
+        const url = loader.resolveUrl('js/shared/image-editor-listener.js');
+        tasks.push(coreEnsureScript(url));
     }
 
     if (assets.mediaManagerSubmitter) {
@@ -162,7 +154,7 @@ bootAssets({
  */
 export async function requireMediaAssets(keys = []) {
     const theme = window.mleTheme;
-    const base = window.mleAssetBase;
+    const base = getMleAssetBase();
     const debug = !!window.mleDebug;
 
     const path = (p) => new URL(p, base).toString();
@@ -240,5 +232,64 @@ function observeDomForMle({ selector, loader, manifest }) {
         timer = setTimeout(handle, 80);
     });
 
-    obs.observe(document.body, { childList: true, subtree: true });
+    // obs.observe(document.body, { childList: true, subtree: true });
 }
+
+// Robustly resolve the asset base path on-demand
+function getMleAssetBase() {
+    // 1) Prefer the global set during boot
+    let base = typeof window !== 'undefined' ? window.mleAssetBase : null;
+
+    // 2) If missing, try the global JSON config block
+    if (!base) {
+        try {
+            const el = document.getElementById('mle-global');
+            if (el && el.textContent) {
+                const cfg = JSON.parse(el.textContent.trim());
+                if (cfg && cfg.assetBasePath) {
+                    base = cfg.assetBasePath;
+                }
+            }
+        } catch (_) { /* noop */ }
+    }
+
+    // 3) If still missing, derive from the loader script tag URL
+    if (!base) {
+        try {
+            const s = document.querySelector('script[src*="/js/core/media-library-loader.js"]');
+            if (s && s.src) {
+                const u = new URL(s.src, document.baseURI);
+                const parts = u.pathname.split('/');
+                const jsIdx = parts.lastIndexOf('js');
+                if (jsIdx > 0) {
+                    const baseParts = parts.slice(0, jsIdx); // path up to the package root
+                    const root = new URL('/', u.origin);
+                    root.pathname = baseParts.join('/').replace(/\/$/, '');
+                    base = root.toString().replace(/\/$/, '');
+                }
+            }
+        } catch (_) { /* noop */ }
+    }
+
+    // 4) Normalize short form '/vendor/mlbrgn' to include the package
+    try {
+        if (base) {
+            const u = new URL(base, document.baseURI);
+            const pathname = u.pathname.replace(/\/$/, '');
+            if (pathname === '/vendor/mlbrgn') {
+                u.pathname = '/vendor/mlbrgn/laravel-medialibrary-extensions';
+                base = u.toString().replace(/\/$/, '');
+            }
+        }
+    } catch (_) { /* noop */ }
+
+    return base || '/vendor/mlbrgn/laravel-medialibrary-extensions';
+}
+
+/*
+To debug use following snippet in console:
+console.table([...document.querySelectorAll('.mlbrgn-medialibrary-config')].map((el,i)=>{
+  const c = JSON.parse(el.textContent.trim());
+  return {i, id: el.id, for: c.for, base: c.assetBasePath||null, theme: c.theme||null, assets: c.assets}
+}));
+*/

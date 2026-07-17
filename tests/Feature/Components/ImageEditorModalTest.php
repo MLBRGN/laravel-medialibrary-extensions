@@ -60,7 +60,7 @@ it('renders image editor modal component (temporary media)', function () {
                     initiator-id="blog-images"
                     :medium="$medium"
                     :model-or-class-name="$modelClass"
-                    :collections: [\'image\' => \'images\'],
+                    :collections="[\'image\' => \'images\']"
                     :options="$options"
                 />', [
         'modelClass' => $model->getMorphClass(),
@@ -68,13 +68,21 @@ it('renders image editor modal component (temporary media)', function () {
         'options' => $options,
     ]);
 
+    // Normalize unstable tokens for snapshot stability
+    $html = preg_replace('/("clientToken":")(.*?)(")/i', '$1<token>$3', $html);
+    $html = preg_replace('/("instanceId":")(.*?)(")/i', '$1<instance>$3', $html);
+
     expect($html)
+        ->toContain('data-mle-image-editor-modal')
         ->toContain('id="blog-images-iem-'.$medium->id.'"')
         ->toContain((string) $medium->id)
         ->toContain('My title')
-        ->and($html)->toMatchSnapshot();
+        ->toContain('id="config-blog-images"')
+        ->toContain('"collections":{"image":"images"}')
+        ->toContain('"instanceId":"<instance>"')
+        ->toContain('"clientToken":"<token>"');
 
-})->todo();
+});
 
 it('constructs with model and sets properties', function () {
     $model = $this->getModelWithMedia();

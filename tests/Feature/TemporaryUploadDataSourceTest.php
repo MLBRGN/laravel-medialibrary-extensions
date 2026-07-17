@@ -14,12 +14,22 @@ use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 it('preserves data source during temporary upload reordering and refresh', function () {
     $this->withSession([]);
-    $dataSource = 'demo';
+    // Use explicit test alias understood by DataSourceResolver
+    $dataSource = 'test_alt';
     $targetCollection = 'blog-images';
     $baseId = 'test-media-manager';
     $instanceId = InstanceManager::getInstanceId($baseId);
+    $connectionName = PackageInfrastructure::connection('test', 'alt');
 
-    // 1. Create temporary uploads on the demo connection
+    // Ensure a usable 'media' disk for this test environment
+    config()->set('filesystems.disks.media', [
+        'driver' => 'local',
+        'root' => storage_path('app'),
+        'url' => '/storage',
+        'visibility' => 'public',
+    ]);
+
+    // 1. Create temporary uploads on the chosen test connection
     $media1 = new TemporaryUpload([
         'disk' => 'media',
         'path' => 'uploads/temp1.jpg',
@@ -32,7 +42,7 @@ it('preserves data source during temporary upload reordering and refresh', funct
         'client_token' => session()->getId(),
         'custom_properties' => ['priority' => 1],
     ]);
-    $media1->setConnection(PackageInfrastructure::connection('test', 'alt'));
+    $media1->setConnection($connectionName);
     $media1->save();
 
     $media2 = new TemporaryUpload([
@@ -47,7 +57,7 @@ it('preserves data source during temporary upload reordering and refresh', funct
         'client_token' => session()->getId(),
         'custom_properties' => ['priority' => 2],
     ]);
-    $media2->setConnection(PackageInfrastructure::connection('test', 'alt'));
+    $media2->setConnection($connectionName);
     $media2->save();
 
     // Verify they are in the correct database and NOT in the default one
@@ -117,4 +127,4 @@ it('preserves data source during temporary upload reordering and refresh', funct
     // The media IDs should be present in the HTML
     expect($data['html'])->toContain('temp1.jpg');
     expect($data['html'])->toContain('temp2.jpg');
-})->todo('refactor this test');
+});

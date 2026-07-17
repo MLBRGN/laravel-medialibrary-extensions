@@ -256,7 +256,7 @@ it('returns error if max media count is exceeded (redirect)', function () {
     $file3 = UploadedFile::fake()->image('photo3.jpg');
     $file4 = UploadedFile::fake()->image('photo4.jpg');
 
-    $response = $this->withoutMiddleware(Authenticate::class)->post(
+    $response = $this->withoutMiddleware(Authenticate::class)->postJson(
         route(config('medialibrary-extensions.route_prefix').'-media-upload-multiple'),
         [
             'model_type' => $model->getMorphClass(),
@@ -268,13 +268,13 @@ it('returns error if max media count is exceeded (redirect)', function () {
         ]
     );
 
-    $response->assertStatus(302);
+    $response->assertStatus(422);
 
-    // Assert validation error is flashed to session
-    $response->assertSessionHasErrors([
-        'media' => __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_items_in_shared_media_collections')]),
-    ]);
-})->todo('fix this test');
+    $responseData = $response->json();
+    expect($responseData['message'])->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_items_in_shared_media_collections')]))
+        ->and($responseData['errors']['media'][0])
+        ->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_items_in_shared_media_collections')]));
+});
 
 it('returns error if file exceeds max upload size (JSON)', function () {
     $baseId = 'initiator-456';
@@ -326,7 +326,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
 
     $response = $this
         ->withoutMiddleware(Authenticate::class)
-        ->post(
+        ->postJson(
             route(config('medialibrary-extensions.route_prefix').'-media-upload-multiple'),
             [
                 'model_type' => $model->getMorphClass(),
@@ -339,14 +339,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
             ]
         );
 
-    $response->assertStatus(302);
-
-    //    dd(session('errors')->toArray());
-    $response->assertSessionHasErrors([
-        'media.0',
-    ]);
-    //    dd($response->getContent());
-    //    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
-    //        return str_contains($message, 'must not be greater than 100 kilobytes');
-    //    });
-})->todo('fix this test');
+    $response->assertStatus(422);
+    expect($response->json('message'))
+        ->toContain('must not be greater than 100 kilobytes');
+});

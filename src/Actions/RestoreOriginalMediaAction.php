@@ -55,7 +55,7 @@ class RestoreOriginalMediaAction
             return MediaResponse::error(
                 $request,
                 $baseId,
-                __('media-library-extensions::messages.no_original_saved')
+                __('medialibrary-extensions::messages.no_original_saved')
             );
 //            return back()->with('error', 'Original file not found.');
         }

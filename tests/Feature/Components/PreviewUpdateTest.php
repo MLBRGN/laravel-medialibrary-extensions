@@ -36,7 +36,7 @@ it('confirms the MediaPreviews component correctly retrieves temporary uploads w
     expect($component->media)->toHaveCount(1);
     expect($component->media->first()->id)->toBe($tempUpload->id);
     expect($component->media->first())->toBeInstanceOf(TemporaryUpload::class);
-})->todo('fix this test');
+});
 
 it('correctly handles the flatMap logic in MediaPreviews for temporary uploads', function () {
     $clientToken = (string) Str::ulid();
@@ -67,7 +67,7 @@ it('correctly handles the flatMap logic in MediaPreviews for temporary uploads',
     $collectionNames = $component->media->pluck('collection_name')->toArray();
     expect($collectionNames)->toContain('images');
     expect($collectionNames)->toContain('documents');
-})->todo('fix this test');
+});
 
 it('does not retrieve temporary uploads from other clients', function () {
     $clientToken = (string) Str::ulid();

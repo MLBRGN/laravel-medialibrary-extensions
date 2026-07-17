@@ -32,7 +32,10 @@ it('MediaService resolveModelById uses the resolved connection', function () {
     $service = app(MediaService::class);
 
     // We create the blogs table on the media_demo connection manually for this test
-    Schema::connection('mle_test_demo')->create('blogs', function ($table) {
+    $connection = PackageInfrastructure::connection('test', 'alt');
+    // Ensure idempotent setup across repeated runs
+    Schema::connection($connection)->dropIfExists('blogs');
+    Schema::connection($connection)->create('blogs', function ($table) {
         $table->id();
         $table->string('title');
         $table->timestamps();
@@ -40,14 +43,15 @@ it('MediaService resolveModelById uses the resolved connection', function () {
 
     // We create a model on the media_demo connection
     $blog = new Blog;
-    $blog->setConnection('mle_test_demo');
+    $blog->setConnection($connection);
     $blog->title = 'Demo Blog';
     $blog->save();
 
-    $found = $service->resolveModelById(Blog::class, $blog->id, 'demo');
+    // Use a valid, explicit data source key understood by the resolver
+    $found = $service->resolveModelById(Blog::class, $blog->id, 'test_alt');
 
-    expect($found->getConnectionName())->toBe('mle_demo')// TODO don't know how to handle separate test db yet
+    expect($found->getConnectionName())->toBe($connection)
         ->and($found->id)->toBe($blog->id);
 
-    Schema::connection('mle_test_demo')->dropIfExists('blogs');
-})->todo('refactor this test');
+    Schema::connection($connection)->dropIfExists('blogs');
+});

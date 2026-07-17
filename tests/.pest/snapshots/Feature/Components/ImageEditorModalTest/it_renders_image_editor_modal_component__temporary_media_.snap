@@ -1,0 +1,137 @@
+<div
+    class="mle-component mle-theme- mle-image-editor-modal mle-modal modal fade" initiator-id="blog-images"
+    id="blog-images-iem-1"
+    tabindex="-1"
+            aria-labelledby="blog-images-title"
+        data-mle-theme=""
+    data-mle-modal
+    data-mle-image-editor-modal
+    data-base-id="blog-images"
+    data-mle-medium-display-name="test.jpg"
+    data-mle-medium-path="/storage/1/test.jpg"
+    data-mle-medium-forced-aspect-ratio="4:3"
+    data-mle-medium-minimal-dimensions="320x160"
+    data-mle-medium-maximal-dimensions="7040x3960"
+
+
+>
+    <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">
+        <div class="mle-modal-content mle-image-editor-modal-content modal-content justify-content-center">
+                            <h1 class="mle-modal-title mle-visually-hidden" id="blog-images-iem-1-title">My title</h1>
+                        <div
+    class="mle-status-area"
+    data-mle-status-area-container
+    id="blog-images-status-area"
+>
+    <div
+    class="mle-spinner-container alert alert-info"
+    data-mle-spinner-container
+    id="blog-images-spinner-container"
+>
+    <div class="mle-spinner"></div>
+    <span class="mle-spinner-text"
+        data-mle-spinner-text
+    >Please wait.</span>
+</div>
+    <div
+    class="mle-status-container mle-flex-grow visible"
+    data-mle-status-container
+    data-mle-status-timeout="4000"
+    id="blog-images-status"
+>
+    <div class="mle-status-message alert alert-dismissible"
+        data-mle-status-message
+        data-mle-base-classes="mle-status-message alert alert-dismissible visible"
+        data-mle-success-classes="alert-success"
+        data-mle-error-classes="alert-danger"
+    >
+            </div>
+    </div>
+</div>            <div class="mle-modal-body modal-body p-0">
+                <button
+                    type="button"
+                    class="mle-modal-close-button"
+                    data-mle-modal-close
+                    data-bs-dismiss="modal"
+                    aria-label="Sluit"
+                    title="Close">
+                    <span
+        role="img"
+        aria-label="Close"
+        title="Close">?</span>
+                </button>
+                <input id="config-blog-images" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"media","theme":null,"useXhr":true,"csrfToken":null,"id":"blog-images","baseId":"blog-images","modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"mediumId":1,"collection":"image_collection","storeUpdatedMediaRoute":"http:\/\/localhost\/mlbrgn-mle\/media-manager\/1\/save-updated-temporary-upload","collections":{"image":"images"},"dataSource":"default","disabled":false,"instanceId":"<instance>","clientToken":"<token>"}'>
+
+                <div class="mle-image-editor" data-mle-image-editor-placeholder></div>
+
+                <!-- used as fallback when not using XHR -->
+<div class="mle-conditional-form mle-image-editor-form" data-mle-xhr-form="data-mle-xhr-form" id="blog-images" data-xhr-method="post">
+        <input type="hidden"
+           name="medium_id"
+           value="1">
+    <input
+        type="hidden"
+        name="single_media_id"
+        value="">
+    <input type="hidden"
+           name="model_type"
+           value="Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog">
+    <input type="hidden"
+           name="model_id"
+           value="">
+    <input type="hidden"
+           name="base_id"
+           value="blog-images">
+    <input type="hidden"
+           name="temporary_upload_mode"
+           value="true">
+    <input type="hidden"
+           name="collection"
+           value="image_collection">
+    <input type="file"
+           name="file"
+           data-mle-image-editor-update-form-file
+           hidden
+           aria-label="Upload image"
+    >
+    <input type="hidden"
+           name="data_source"
+           value="default">
+                        <input
+                type="hidden"
+                name="collections[image]"
+                value="images">
+                <button
+        type="button"
+        class="mle-button mle-button-submit mle-button-icon btn btn-primary"
+        title="Setup as main."
+        data-mle-action="set-as-first"
+            >
+        <span
+        role="img"
+        aria-label="Setup as main."
+        title="Setup as main.">?</span>
+    </button>
+    </div>
+    <script
+        id="bootstrap-5|image-editor-form"
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":true,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":false},"for":"bootstrap-5|image-editor-form","theme":"bootstrap-5","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","media_counts":":current of :total"}}</script>
+
+    <script
+        type="module"
+        src="http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions/js/core/media-library-loader.js"
+            ></script>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script
+        id="bootstrap-5|image-editor-model-temporary-upload"
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":true,"mediaModal":false,"imageEditor":true,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":false},"for":"bootstrap-5|image-editor-model-temporary-upload","theme":"bootstrap-5","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","media_counts":":current of :total"}}</script>
+
+

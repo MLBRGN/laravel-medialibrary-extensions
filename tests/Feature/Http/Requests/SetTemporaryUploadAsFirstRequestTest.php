@@ -55,7 +55,7 @@ it('fails authorization if temporary_upload_mode is false and model is missing',
     $this->request->merge($data);
 
     expect($this->request->authorize())->toBeFalse();
-})->todo('fix this test');
+});
 
 it('fails authorization if collections are not allowed', function () {
     // We need a model that actually restricts collections

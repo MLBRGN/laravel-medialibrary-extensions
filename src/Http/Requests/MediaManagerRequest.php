@@ -63,24 +63,28 @@ abstract class MediaManagerRequest extends FormRequest
         try {
             $model = $mediaService->resolveModelById($modelClass, $modelId, $dataSource);
         } catch (ModelNotFoundException $e) {
-            Log::error('Failed to resolve media model.', [
+            // During authorization checks we want to gracefully return `null`
+            // so that `authorize*` methods can respond with `false` instead of
+            // throwing a 404. We still log the failure for observability.
+            Log::warning('Failed to resolve media model during request processing.', [
                 'exception' => $e,
                 'model_type' => $this->input('model_type'),
                 'model_id' => $this->input('model_id'),
                 'data_source' => $this->input('data_source'),
             ]);
 
-            $this->abortWithMediaError(
-                __('medialibrary-extensions::messages.model_not_found'),
-                404
-            );
+            return null;
         }
         catch (QueryException $e) {
-            Log::error($e->getMessage());
-            $this->abortWithMediaError(
-                __('medialibrary-extensions::messages.database_query_error'),
-                500
-            );
+            // Same as above: return `null` to let callers decide how to react
+            // (e.g., authorization should return false). We log for debugging.
+            Log::error('Database query error while resolving media model: '.$e->getMessage(), [
+                'model_type' => $this->input('model_type'),
+                'model_id' => $this->input('model_id'),
+                'data_source' => $this->input('data_source'),
+            ]);
+
+            return null;
         }
 
         return $model;

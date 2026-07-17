@@ -115,13 +115,16 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
 
 it('renders the correct partial view', function () {
     $model = $this->getTestBlogModel();
-    $theme = 'custom';
+    $theme = 'bootstrap-5';
     $expectedView = "medialibrary-extensions::components.$theme.partial.youtube-upload-form";
+
+    $mockView = Mockery::mock(ViewInstance::class);
+    $mockView->shouldReceive('with')->andReturnSelf();
 
     ViewFacade::shouldReceive('make')
         ->with($expectedView, [], [])
         ->once()
-        ->andReturn(Mockery::mock(ViewInstance::class));
+        ->andReturn($mockView);
 
     $component = new YouTubeUploadForm(
         id: 'yt-comp',
@@ -135,6 +138,7 @@ it('renders the correct partial view', function () {
             'audio' => 'audios',
         ],
         options: [
+            'theme' => $theme,
             'allowedMimeTypes' => '',
             'multiple' => false,
             'showDestroyButton' => false,
@@ -146,4 +150,4 @@ it('renders the correct partial view', function () {
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(ViewInstance::class);
-})->todo();
+});

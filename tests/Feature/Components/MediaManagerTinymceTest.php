@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 
 it('throws exception when no media collections provided', function () {
@@ -129,6 +130,9 @@ it('calls correct view with configured frontend theme bootstrap-5', function () 
 });
 
 it('correctly sets data_source when provided', function () {
+    // Map custom-source to a valid test connection so the resolver is satisfied
+    config()->set('medialibrary-extensions.data_sources.custom-source.connection', PackageInfrastructure::connection('test', 'alt'));
+
     $model = $this->getTestBlogModel();
     $component = new MediaManagerTinymce(
         id: 'ds1',
@@ -138,4 +142,4 @@ it('correctly sets data_source when provided', function () {
     );
 
     expect($component->getConfig('dataSource'))->toBe('custom-source');
-})->todo('fix this test: Data source [custom-source] has no connection configured.');
+});

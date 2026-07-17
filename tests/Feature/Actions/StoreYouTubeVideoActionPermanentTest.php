@@ -211,7 +211,7 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
     $this->mediaService
         ->shouldReceive('resolveModelById')
         ->once()
-        ->with(get_class($model), $model->getKey(), null)
+        ->with(get_class($model), $model->getKey(), 'default')
         ->andReturn($model);
 
     $fakeMedia = Mockery::mock(Media::class)->makePartial();
@@ -231,7 +231,7 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
             'type' => 'success',
             'message' => __('medialibrary-extensions::messages.youtube_video_uploaded'),
         ]);
-})->todo('Test fails with No matching handler found for Mockery_14_Mlbrgn_MediaLibraryExtensions_Services_MediaService');
+});
 
 it('uploads youtube thumbnail to model successfully (redirect)', function () {
     $baseId = 'initiator-456';
@@ -253,7 +253,7 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
     $this->mediaService
         ->shouldReceive('resolveModelById')
         ->once()
-        ->with(get_class($model), $model->getKey(), null)
+        ->with(get_class($model), $model->getKey(), 'default')
         ->andReturn($model);
 
     $fakeMedia = Mockery::mock(Media::class)->makePartial();
@@ -277,7 +277,7 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
     expect($sessionData['base_id'])->toBe($baseId);
     expect($sessionData['type'])->toBe('success');
     expect($sessionData['message'])->toBe(__('medialibrary-extensions::messages.youtube_video_uploaded'));
-})->todo('Test fails with No matching handler found for Mockery_14_Mlbrgn_MediaLibraryExtensions_Services_MediaService');
+});
 
 it('returns error when no youtube url provided for direct upload (JSON)', function () {
     $baseId = 'initiator-456';
