@@ -25,7 +25,7 @@ dataset('mms_test_matrix', [
     'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
     'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
     'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
-    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],// sometimes times out
+    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'], // sometimes times out
 
     'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
     'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
@@ -41,12 +41,12 @@ dataset('mms_test_matrix', [
 dataset('mmm_test_matrix', [
     'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
     'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
-    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],// fails (no files uploaded? when not the first test)
-    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],// fails (no files uploaded? when not the first test)
+    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'], // fails (no files uploaded? when not the first test)
+    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'], // fails (no files uploaded? when not the first test)
 
     'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
     'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
-    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],// fails invalid mimetyoe shown counts not matching
+    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'], // fails invalid mimetyoe shown counts not matching
     'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
 
     'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
@@ -115,14 +115,14 @@ dataset('media_carousel_test_matrix',
         'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, false],
         'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, false],
 
-//        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, true],// fails
-//        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, true],// fails
+        //        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, true],// fails
+        //        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, true],// fails
 
-        'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, false],// fails
+        'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, false], // fails
         'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, false],
 
-//        'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, true],// fails
-//        'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, true],// fails
+        //        'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, true],// fails
+        //        'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, true],// fails
     ]);
 
 /**
@@ -317,8 +317,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $dataSourceResolver = app(DataSourceResolver::class);
     $resolvedConnection = $dataSourceResolver->resolveConnection($dataSource);
 
-//    $this->dumpDatabaseTable('media', $resolvedConnection);
-//    $this->dumpDatabaseTable('mle_temporary_uploads', $resolvedConnection);
+    //    $this->dumpDatabaseTable('media', $resolvedConnection);
+    //    $this->dumpDatabaseTable('mle_temporary_uploads', $resolvedConnection);
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
     $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
@@ -457,8 +457,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mms_test_matrix')
-    ->flaky();
+    ->with('mms_test_matrix');
+//    ->flaky();
 
 it('honors min / max width height and file size constraints in uploads', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {
 
@@ -572,9 +572,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // test that it shows error when no file selected
     $page->pressAndWaitFor($uploadButtonSelector, $waitTime);
 
-//    if (!$xhr) {
-//        $page->wait($waitTime);
-//    }
+    //    if (!$xhr) {
+    //        $page->wait($waitTime);
+    //    }
     $page->waitForText(__('medialibrary-extensions::messages.upload_no_files'));
 
     // TODO test that invalid mime types are rejected
@@ -585,27 +585,26 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
     // check counts start at 0
-//    if ($xhr) {
-        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
-//    }
+    //    if ($xhr) {
+    $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
+    //    }
 
     for ($i = 0; $i < $maxItems; $i++) {
         // attach an image file and submit and check if spinner shows and upload is successful
         $page->attach($inputSelector, $this->getRandomFixture());
-//        if (!$xhr) {
-//            $page->wait($waitTime);
-//        }
+        //        if (!$xhr) {
+        //            $page->wait($waitTime);
+        //        }
 
         $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
-
+            ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
         // TODO sometimes fails on non-xhr, but not on xhr
-//        if (!$xhr) {
-            // counts should update to 1 of 1 and show max alert
-            $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
-//        }
+        //        if (!$xhr) {
+        // counts should update to 1 of 1 and show max alert
+        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
+        //        }
     }
 
     // counts should reflect max, and upload should be disabled with an alert when at max
@@ -626,16 +625,16 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         // assert grid has the media container
         ->assertPresent($firstMediaPreviewContainer);
 
-//    $page->debug();
+    //    $page->debug();
 
-//    $page->assertNoConsoleLogs();
+    //    $page->assertNoConsoleLogs();
 
-        // check that the media item's menu has the expected buttons and state
-        $page->assertButtonEnabled($editButtonSelector)
+    // check that the media item's menu has the expected buttons and state
+    $page->assertButtonEnabled($editButtonSelector)
         ->assertButtonDisabled($setAsFirstButtonSelector)
         ->assertButtonEnabled($deleteButtonSelector)
 
-        // check media modal opening and presence of expected elements
+    // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
 
@@ -646,7 +645,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertPresent($mediaModalCarouselIndicatorSelector)
         ->assertPresent($mediaModalCarouselItemSelector)
 
-        // check that media modal can be closed
+    // check that media modal can be closed
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
 
     // check image editor modal can be opened and closed
@@ -678,20 +677,20 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
             $gridSelector.
             ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
         $page->pressAndWaitFor($currentDeleteButtonSelector, $waitTime);
-//            if (!$xhr) {
-//                $page->wait($waitTime);
-//            }
-            $page->waitForText(__('medialibrary-extensions::messages.please_wait'))
+        //            if (!$xhr) {
+        //                $page->wait($waitTime);
+        //            }
+        $page->waitForText(__('medialibrary-extensions::messages.please_wait'))
             ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
 
         // counts check (NOTE: 1 is deleted outside the loop)
-//        if (!$xhr) {
-//            $page->wait($waitTime);
-//        }
+        //        if (!$xhr) {
+        //            $page->wait($waitTime);
+        //        }
         // TODO non-xhr fails here
-//        if ($xhr) {
-            $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $maxItems - $i - 2, 'total' => $maxItems]));
-//        }
+        //        if ($xhr) {
+        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $maxItems - $i - 2, 'total' => $maxItems]));
+        //        }
     }
 
     // the upload button should be enabled again
@@ -735,8 +734,8 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $dataSourceResolver = app(DataSourceResolver::class);
     $resolvedConnection = $dataSourceResolver->resolveConnection($dataSource);
 
-//    $this->dumpDatabaseTable('media', $resolvedConnection);
-//    $this->dumpDatabaseTable('mle_temporary_uploads', $resolvedConnection);
+    //    $this->dumpDatabaseTable('media', $resolvedConnection);
+    //    $this->dumpDatabaseTable('mle_temporary_uploads', $resolvedConnection);
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
     $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
@@ -865,7 +864,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
             ->pressAndWaitFor($mmmPermanentUploadButtonSelector, $waitTime)
             ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
-//        $this->dumpDatabaseTable('media', $resolvedConnection);
+        //        $this->dumpDatabaseTable('media', $resolvedConnection);
         $this->assertDatabaseCount('media', 2, $resolvedConnection);
 
     } else {
@@ -1203,12 +1202,12 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
 })->group('browser')
     ->with('media_html_editor_matrix');
 
-it('promotes temporary uploads to permanent media on form submit', function () use ($waitTimeXhr) {
+it('promotes temporary uploads to permanent media on form submit', function () {
     $theme = 'bootstrap-5';
     $dataSource = 'demo_default';
     $xhr = true;
     $xhrInt = 1;
-//    $waitTime = $waitTimeXhr;
+    //    $waitTime = $waitTimeXhr;
     $waitTime = 1;
 
     $mmmTemporaryId = '#alien-multiple-temporary-mmm';
@@ -1242,13 +1241,13 @@ it('promotes temporary uploads to permanent media on form submit', function () u
         ->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
 })->group('browser')->todo();
 
-it('promotes multiple temporary uploads to permanent media on form submit (MMM temporary)', function () use ($waitTimeXhr) {
+it('promotes multiple temporary uploads to permanent media on form submit (MMM temporary)', function () {
     // Allow multiple items in the shared collection for this test
     Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
     $theme = 'bootstrap-5';
     $dataSource = 'demo_default';
     $xhrInt = 1;
-//    $waitTime = $waitTimeXhr;
+    //    $waitTime = $waitTimeXhr;
     $waitTime = 1;
 
     $mmmTemporaryId = '#alien-multiple-temporary-mmm';
