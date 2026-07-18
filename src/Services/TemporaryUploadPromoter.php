@@ -317,18 +317,31 @@ class TemporaryUploadPromoter
     ): string {
         $filenamePattern = preg_quote($filename, '#');
 
-        // Match relative or absolute URLs pointing to media_temporary
-        $pattern = '#(?:'.preg_quote($temporaryDiskUrl, '#').'|)(/storage/media_temporary/.*?)'.$filenamePattern.'#iu';
+        // Be robust: consume any optional scheme+host (including protocol-relative)
+        // before the temporary path so we don't leave the original host in place and
+        // end up with duplicated hosts after replacement.
+        // Examples matched:
+        //  - /storage/media_temporary/.../file.png
+        //  - http://127.0.0.1:8000/storage/media_temporary/.../file.png
+        //  - //localhost/storage/media_temporary/.../file.png
+        $hostPattern = '(?:(?:https?:)?\/\/[^"\'"<>\s]+)?';
+        $tempBasePattern = '\/storage\/media_temporary\/[^"\')>\s]*?';
+        $pattern = '#'.$hostPattern.$tempBasePattern.$filenamePattern.'#iu';
 
         $newHtml = preg_replace($pattern, $mediaUrl, $html);
 
-        if ($newHtml !== $html) {
-            Log::warning('TemporaryUploadPromoter - temporary URL replaced in HTML', [
-                'old_url_pattern' => $pattern,
-                'new_url' => $mediaUrl,
+        if ($newHtml !== null && $newHtml !== $html) {
+            Log::debug('TemporaryUploadPromoter: temporary URL(s) replaced in HTML', [
+                'pattern' => $pattern,
+                'replacement' => $mediaUrl,
             ]);
+
+            // Final guard: if any accidental duplicated scheme+host remains (e.g.,
+            // http://hosthttp://host/...), collapse it by keeping the rightmost occurrence.
+            // This is defensive and should normally be a no-op thanks to the host-consuming regex above.
+            $newHtml = preg_replace('#(https?:\/\/[^\s"\'"<>]+)(https?:\/\/)#iu', '$1', $newHtml);
         }
 
-        return $newHtml;
+        return $newHtml ?? $html;
     }
 }

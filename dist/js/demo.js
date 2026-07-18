@@ -1,0 +1,1 @@
+var e=document.querySelector(`carouselRefreshButton`),t=()=>{alert(`refreshing carousel`)};e.addEventListener(`click`,()=>{t()});
