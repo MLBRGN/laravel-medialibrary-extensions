@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.15](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.14...2.3.15) (2026-07-19)
+
+
+### Bug Fixes
+
+* all tests passing ([aa12876](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/aa1287631e5c5a50268485bf6c8979de0bf795bc))
+
 ## [2.3.14](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.13...2.3.14) (2026-07-19)
 
 
