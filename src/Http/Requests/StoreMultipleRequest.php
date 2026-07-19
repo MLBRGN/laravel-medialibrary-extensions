@@ -41,7 +41,7 @@ class StoreMultipleRequest extends StoreRequest
                 'media.*' => [
                     'nullable',
                     'file',
-                    'max:'.(config('medialibrary-extensions.max_upload_size') / 1024),
+                    'max:'.(config('medialibrary-extensions.max_upload_size') / 1024), // max upload size in kilobytes
                     new \Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig(),
                 ],
 

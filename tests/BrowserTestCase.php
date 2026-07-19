@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -88,7 +89,7 @@ class BrowserTestCase extends Orchestra
         'tiny.webp',
     ];
 
-    protected static bool $migrated = false;
+//    protected static bool $migrated = false;
 
     // runs before every test
     protected function setUp(): void
@@ -199,6 +200,7 @@ class BrowserTestCase extends Orchestra
         View::addLocation(__DIR__.'/Feature/views');
 
         // bind the public path to the test/Support/public directory
+        // TODO getFakePublicDirectory() is not a method
         $app->bind('path.public', fn () => $this->getFakePublicDirectory());
         $this->registerRoutes();
 
@@ -384,9 +386,9 @@ class BrowserTestCase extends Orchestra
 
     protected function migrateDatabases(): void
     {
-        if (static::$migrated) {
-            return;
-        }
+//        if (static::$migrated) {
+//            return;
+//        }
 
         Log::info('BrowserTestCase - migrateDatabases !!!!!!!!!!');
         $this->artisan('migrate:fresh', [
@@ -401,7 +403,7 @@ class BrowserTestCase extends Orchestra
             '--realpath' => true,
         ]);
 
-        static::$migrated = true;
+//        static::$migrated = true;
     }
 
 //    protected function truncateDatabases(): void
@@ -448,5 +450,21 @@ class BrowserTestCase extends Orchestra
         document.querySelector('$selector')
             ?.scrollIntoView({ block: 'center', inline: 'center' });
     ");
+    }
+
+    /*
+     * Debugging helpers
+     */
+
+    protected function dumpDatabaseTable(string $table, ?string $connection = null): void
+    {
+        $connection ??= config('database.default');
+
+        dump([
+            'connection' => $connection,
+            'table' => $table,
+            'count' => DB::connection($connection)->table($table)->count(),
+            'rows' => DB::connection($connection)->table($table)->get(),
+        ]);
     }
 }

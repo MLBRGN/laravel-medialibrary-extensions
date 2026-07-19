@@ -90,25 +90,6 @@ class DemoController extends Controller
         // Prefer a specifically prepared Lab medium; otherwise reuse existing uploads
         $media = $model->getMedia('alien-media-lab')->first();
 
-        // Create one demo image so the Lab can render
-        if ($media === null && config('medialibrary-extensions.demo_pages_enabled')) {
-            $demoImage = __DIR__.'/../../../resources/demo/demo_small.jpeg';
-
-            if (file_exists($demoImage)) {
-                try {
-                    $model
-                        ->addMedia($demoImage)
-                        ->preservingOriginal()
-                        ->toMediaCollection('alien-media-lab', PackageInfrastructure::disk('demo'));
-                } catch (Exception $e) {
-                    Log::warning('Failed to add demo image to media collection: '.$e->getMessage());
-                }
-
-                $model->load('media');
-                $media = $model->getMedia('alien-media-lab')->first();
-            }
-        }
-
         // Quick media count log for verification in tests
         try {
             Log::info('DemoController@index: media counts after (re)load', [

@@ -12,11 +12,11 @@
         :data-source="$dataSource"
     />
 </div>
-<x-mle-shared-assets
-    include-css="true"
-    include-js="true"
-    include-tinymce-custom-file-picker-js="true"
-    include-tinymce-custom-file-picker-iframe-js="true"
+<x-mle-shared-assets 
+    :include-css="true" 
+    :include-js="true" 
+    :include-tinymce-custom-file-picker-js="true"
+    :include-tinymce-custom-file-picker-iframe-js="true"
     :theme="$getConfig('theme')"
     for="plain|media-manager-tinymce"
 />

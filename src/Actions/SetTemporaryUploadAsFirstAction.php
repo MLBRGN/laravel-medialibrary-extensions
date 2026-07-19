@@ -57,11 +57,18 @@ class SetTemporaryUploadAsFirstAction
 
         $clientToken = $request->input('client_token') ?: $request->cookie('mle_client_token');
 
-        $mediaItems = TemporaryUpload::query()
-            ->forDataSource($dataSource)
-            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
-            ->when(! empty($collectionNames), fn ($query) => $query->whereIn('collection_name', $collectionNames))
-            ->get();
+//        $mediaItems = TemporaryUpload::query()
+//            ->forDataSource($dataSource)
+//            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
+//            ->when(! empty($collectionNames), fn ($query) => $query->whereIn('collection_name', $collectionNames))
+//            ->get();
+
+        $mediaItems = TemporaryUpload::getForCurrentClient(
+            $collections,
+            $instanceId,
+            $dataSource,
+            $clientToken,
+        );
 
         if ($mediaItems->isEmpty()) {
             Log::warning('SetTemporaryUploadAsFirstAction.no_items_for_scope', [

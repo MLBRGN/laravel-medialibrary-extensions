@@ -91,7 +91,6 @@ it('renders the destroy-form view (bootstrap-5)', function () {
 
 it('renders the destroy form with temporary upload', function () {
     $temporaryUpload = new TemporaryUpload([
-        'id' => 1,
         'uuid' => 'test-uuid',
         'file_name' => 'test.jpg',
         'collection_name' => 'temp-uploads',
@@ -99,6 +98,9 @@ it('renders the destroy form with temporary upload', function () {
         'mime_type' => 'image/jpeg',
         'custom_properties' => [],
     ]);
+
+    // Explicitly set the primary key since it's guarded and not fillable
+    $temporaryUpload->setAttribute('id', 1);
 
     $component = new DestroyForm(
         id: 'delete-temp-upload-btn',
@@ -112,4 +114,4 @@ it('renders the destroy form with temporary upload', function () {
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class);
-})->todo();
+});

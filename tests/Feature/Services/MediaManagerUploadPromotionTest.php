@@ -16,6 +16,8 @@ use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 beforeEach(function () {
     config()->set('media-library.responsive_images.width_calculator', FileSizeOptimizedWidthCalculator::class);
     config()->set('media-library.responsive_images.tiny_placeholder_generator', Blurred::class);
+    // Avoid rendering placeholderSvg view (Spatie provider not loaded in these unit tests)
+    config()->set('media-library.responsive_images.use_tiny_placeholders', false);
 
     $this->temporaryDisk = config('medialibrary-extensions.media_disks.temporary');
     $this->demoDisk = PackageInfrastructure::disk('demo');
@@ -49,11 +51,18 @@ beforeEach(function () {
             }
         }
     );
+    // Bind a no-op ResponsiveImageGenerator with correct constructor dependencies
     app()->singleton(
         ResponsiveImageGenerator::class,
-        fn () => new class(FileSizeOptimizedWidthCalculator::class, app(TinyPlaceholderGenerator::class)) extends ResponsiveImageGenerator
-        {
-            public function generateResponsiveImages(Media $media): void {}
+        function () {
+            $filesystem = app(\Spatie\MediaLibrary\MediaCollections\Filesystem::class);
+            $widthCalculator = app(WidthCalculator::class);
+            $tiny = app(TinyPlaceholderGenerator::class);
+
+            return new class($filesystem, $widthCalculator, $tiny) extends ResponsiveImageGenerator
+            {
+                public function generateResponsiveImages(Media $media): void {}
+            };
         }
     );
 
@@ -103,7 +112,7 @@ it('promotes single temporary upload on model creation using request context (de
     expect($media)->not->toBeNull();
     expect($media->file_name)->toBe($fileName);
     expect(Storage::disk('public')->exists($media->id.'/'.$fileName))->toBeTrue();
-})->todo();
+});
 
 it('promotes multiple temporary uploads on model creation (default connection)', function () {
     config()->set('media-library.generate_responsive_images', false);
@@ -121,7 +130,8 @@ it('promotes multiple temporary uploads on model creation (default connection)',
             'path' => "temp/{$fileName}",
             'name' => "file-{$i}",
             'file_name' => $fileName,
-            'collection_name' => 'blog-main',
+            // use a multi-file collection for this test
+            'collection_name' => 'blog-extra',
             'client_token' => $clientToken,
             'instance_id' => $instanceId,
             'size' => 100,
@@ -140,15 +150,18 @@ it('promotes multiple temporary uploads on model creation (default connection)',
 
     // 4. Assertions
     expect(TemporaryUpload::count())->toBe(0);
-    expect($blog->getMedia('blog-main')->count())->toBe(3);
+    expect($blog->getMedia('blog-extra')->count())->toBe(3);
 
-    $mediaItems = $blog->getMedia('blog-main')->sortBy('order_column');
+    $mediaItems = $blog->getMedia('blog-extra')->sortBy('order_column');
     expect($mediaItems->first()->file_name)->toBe('file-1.jpg');
     expect($mediaItems->last()->file_name)->toBe('file-3.jpg');
-})->todo();
+});
 
 it('promotes temporary uploads on alternative connection (Alien model)', function () {
     config()->set('media-library.generate_responsive_images', false);
+
+    // Resolve the alternative test connection via PackageInfrastructure
+    $altConnection = PackageInfrastructure::connection('test', 'alt');
 
     $clientToken = 'test-token-alien';
     $instanceId = 'INSTANCE-ALIEN';
@@ -157,7 +170,7 @@ it('promotes temporary uploads on alternative connection (Alien model)', functio
 
     // 1. Create temporary upload on the alt connection
     Storage::disk($this->temporaryDisk)->put('temp/'.$fileName, file_get_contents($demoImage));
-    TemporaryUpload::on('mle_test_demo')->create([
+    TemporaryUpload::on($altConnection)->create([
         'disk' => $this->temporaryDisk,
         'path' => 'temp/'.$fileName,
         'name' => 'alien',
@@ -168,26 +181,28 @@ it('promotes temporary uploads on alternative connection (Alien model)', functio
         'size' => 123,
     ]);
 
-    // 2. Simulate request context
+    // 2. Simulate request context and ensure promoter targets the alt data source
+    // In the test profile, the alt connection maps to the 'test_alt' data source key
     request()->merge([
         'client_token' => $clientToken,
         'instance_id' => $instanceId,
+        'data_source' => 'test_alt',
     ]);
 
     // 3. Create model on alt connection
-    $alien = (new Alien)->setConnection('mle_test_demo');
+    $alien = (new Alien)->setConnection($altConnection);
     $alien->save();
 
     // 4. Assertions
-    expect(TemporaryUpload::on('mle_test_demo')->count())->toBe(0);
-    expect(Media::on('mle_test_demo')->count())->toBe(1);
+    expect(TemporaryUpload::on($altConnection)->count())->toBe(0);
+    expect(Media::on($altConnection)->count())->toBe(1);
 
     $media = $alien->getFirstMedia('alien-single-image');
     expect($media)->not->toBeNull();
-    expect($media->getConnectionName())->toBe('mle_test_demo');
+    expect($media->getConnectionName())->toBe($altConnection);
     expect($media->disk)->toBe($this->demoDisk);
     expect(Storage::disk($this->demoDisk)->exists($media->id.'/'.$fileName))->toBeTrue();
-})->todo();
+});
 
 it('promotes using MediaUploadContext when request context is missing', function () {
     config()->set('media-library.generate_responsive_images', false);
@@ -222,4 +237,4 @@ it('promotes using MediaUploadContext when request context is missing', function
     // 5. Assertions
     expect(TemporaryUpload::count())->toBe(0);
     expect($blog->getMedia('blog-main')->count())->toBe(1);
-})->todo();
+});

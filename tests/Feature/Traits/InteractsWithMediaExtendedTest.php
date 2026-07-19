@@ -164,7 +164,7 @@ it('replaces temporary urls in html editor fields', function () {
     $model->htmlEditorFields = ['content'];
 
     // The "content" field contains an image referencing the temporary upload URL
-    $model->content = '<p><img src="'.$upload->getUrl().'"></p>';
+    $model->content = '<p><img src="' . $upload->getUrl() . '"></p>';
 
     // Act: save the model — this should trigger conversion from temporary → permanent
     $model->save();
@@ -180,8 +180,9 @@ it('replaces temporary urls in html editor fields', function () {
     expect($media)->not->toBeNull()
         ->and($model->content)->toContain($media->getUrl())
         ->and(TemporaryUpload::count())->toBe(0)
-        ->and(Storage::disk('media')->exists($media->getPath()))->toBeTrue();
-})->todo();
+        // Use filesystem check on absolute path for reliability across adapters
+        ->and(file_exists($media->getPath()))->toBeTrue();
+});
 
 it('logs info when model does not yet exist', function () {
     Log::spy();
@@ -202,10 +203,10 @@ it('logs info when model does not yet exist', function () {
         $listener('eloquent.created: '.Blog::class, [$model]);
     }
 
-//    Log::shouldHaveReceived('info')
-//        ->withArgs(fn ($msg) => str_contains($msg, 'does not exist'))
-//        ->atLeast()->once();
-})->skip();
+    Log::shouldHaveReceived('warning')
+        ->withArgs(fn ($msg) => str_contains($msg, 'does not exist'))
+        ->atLeast()->once();
+});
 
 // it('calculates proper aspect ratio conversions', function () {
 //    $media = Mockery::mock(Spatie\MediaLibrary\MediaCollections\Models\Media::class);

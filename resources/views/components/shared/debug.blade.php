@@ -5,14 +5,7 @@
             id="{{ $id }}-debug-content"
             data-mle-debug
         >
-            <div class="mle-debug-header">
-                <h2>📦 Media Library Extensions Debug</h2>
-
-                <div class="mle-debug-badges">
-                    <span>Theme: {{ $getConfig('theme') }}</span>
-                    <span>DB: {{ DB::getDatabaseName() }}</span>
-                </div>
-            </div>
+            <h2>📦 Media Library Extensions Debug</h2>
 
             {{-- ========================================================= --}}
             {{-- HEALTH / WARNINGS --}}

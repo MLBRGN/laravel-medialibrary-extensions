@@ -242,7 +242,8 @@ it('returns error if file exceeds max upload size (JSON)', function () {
     $model->save(); // must be persisted for media attachment
 
     // Configure: allow the normal collection limit but a small max file size
-    Config::set('medialibrary-extensions.route_middleware', []);
+    // Use 'web' middleware to enable session and redirect behavior for validation errors
+    Config::set('medialibrary-extensions.route_middleware', ['web']);
     Config::set('medialibrary-extensions.max_upload_size', 1024 * 100); // 100 KB
 
     // Create a fake image that exceeds that size (Laravel adds ~1KB per "KB" argument)
@@ -282,7 +283,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
 
     $response = $this
         ->withoutMiddleware(Authenticate::class)
-        ->post(
+        ->postJson(
             route(config('medialibrary-extensions.route_prefix').'-media-upload-single'),
             [
                 'model_type' => $model->getMorphClass(),
@@ -294,9 +295,7 @@ it('returns error if file exceeds max upload size (redirect)', function () {
             ]
         );
 
-    $response->assertStatus(302);
-
-    $response->assertSessionHas('laravel-medialibrary-extensions.status.message', function ($message) {
-        return str_contains($message, 'must not be greater than 100 kilobytes');
-    });
-})->todo('fix this test');
+    $response->assertStatus(422);
+    expect($response->json('message'))
+        ->toContain('must not be greater than 100 kilobytes');
+});

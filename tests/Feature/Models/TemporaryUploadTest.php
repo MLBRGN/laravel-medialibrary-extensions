@@ -52,8 +52,7 @@ it('filters by collection name when provided', function () {
         'collection_name' => 'documents',
     ]);
 
-    $instanceId = '';
-    $uploads = TemporaryUpload::forCurrentClient('images', $instanceId)->get();
+    $uploads = TemporaryUpload::getForCurrentClient('images', null, null, $clientToken);
 
     expect($uploads)->toHaveCount(1)
         ->and($uploads->first()->collection_name)
@@ -92,6 +91,7 @@ it('returns all session uploads when collectionName is an empty string', functio
         'collection_name' => '',
         'instance_id' => 'test',
     ]);
+
     TemporaryUpload::newFactory()->create([
         'client_token' => $clientToken,
         'collection_name' => 'images',
@@ -101,8 +101,8 @@ it('returns all session uploads when collectionName is an empty string', functio
     $instanceId = null;
 
     // Passing '' should NOT skip the where clause (should match collection_name = '')
-    $uploads = TemporaryUpload::forCurrentClient('', $instanceId)->get();
-
+//    $uploads = TemporaryUpload::forCurrentClient('', $instanceId)->get();
+    $uploads = TemporaryUpload::getForCurrentClient('', 'test', null, $clientToken);
     expect($uploads)->toHaveCount(1)
         ->and($uploads->first()->collection_name)->toBe('');
 });
@@ -124,11 +124,6 @@ it('returns all session uploads when collectionName is null', function () {
 it('can handle different database connections using forDataSource scope', function () {
     $clientToken = 'test-token-'.(string) Str::ulid();
     request()->merge(['client_token' => $clientToken]);
-
-    // Configure a mock data source
-//    config()->set('medialibrary-extensions.data_sources.demo', [
-//        'connection' => 'mle_test_demo',
-//    ]);
 
     // Create on default connection
     TemporaryUpload::newFactory()->create([
@@ -254,9 +249,10 @@ it('retrieves temporary uploads using instance id', function () {
     ]);
 
     $uploads = TemporaryUpload::getForCurrentClient(
-        collectionName: null,
-        instanceId: $instanceId,
-        clientToken: $clientToken
+         null,
+        $instanceId,
+        'default',
+        $clientToken
     );
 
     expect($uploads)->toHaveCount(2);

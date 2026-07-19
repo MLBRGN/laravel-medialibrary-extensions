@@ -3,6 +3,26 @@
 
 const globalLoadedScripts = new Set();
 const globalLoadedStyles = new Set();
+const globallyEnsured = new Set(); // absolute URLs already ensured (scripts/styles)
+
+// Normalize any MLBRGN vendor URL that accidentally omits the
+// `/laravel-medialibrary-extensions` package segment.
+function normalizeMlbrgnUrlString(urlString) {
+    return urlString;
+    try {
+        const u = new URL(urlString, document.baseURI);
+        const path = u.pathname.replace(/\/$/, '');
+        // If someone built a URL like /vendor/mlbrgn/js/... or /vendor/mlbrgn/css/...
+        // rewrite it to the package-qualified path.
+        if (path.startsWith('/vendor/mlbrgn/js') || path.startsWith('/vendor/mlbrgn/css')) {
+            u.pathname = path.replace('/vendor/mlbrgn/', '/vendor/mlbrgn/laravel-medialibrary-extensions/');
+            return u.toString();
+        }
+        return u.toString();
+    } catch {
+        return urlString;
+    }
+}
 
 /**
  * Create a package-scoped loader
@@ -37,10 +57,85 @@ export function createAssetLoader(namespace, {
 
     function resolveUrl(path) {
         if (/^(https?:)?\/\//.test(path)) {
-            return path;
+            return normalizeMlbrgnUrlString(path);
         }
 
-        return `${basePath}/${path}`;
+        return normalizeMlbrgnUrlString(`${basePath}/${path}`);
+    }
+
+    /**
+     * Ensure a script exists (idempotent, de-duped globally and per-loader)
+     */
+    function ensureScript(src, { type = 'module', async = false } = {}) {
+        const fullSrc = resolveUrl(src);
+        const key = `${namespace}:${fullSrc}`;
+        const globalKey = fullSrc;
+
+        if (globallyEnsured.has(globalKey) || document.querySelector(`script[src="${CSS.escape(fullSrc)}"]`)) {
+            // track in loader scope too for consistency
+            loadedScripts.add(key);
+            if (globalDedup) globalLoadedScripts.add(globalKey);
+            return Promise.resolve();
+        }
+
+        // if loadScript already scheduled this asset, skip
+        if (loadedScripts.has(key) || (globalDedup && globalLoadedScripts.has(globalKey))) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = fullSrc;
+            script.type = type;
+            script.async = async;
+            script.onload = () => {
+                globallyEnsured.add(globalKey);
+                loadedScripts.add(key);
+                if (globalDedup) globalLoadedScripts.add(globalKey);
+                resolve();
+            };
+            script.onerror = (e) => {
+                console && console.warn && console.warn('[mlbrgn] Failed to load script', fullSrc, e);
+                reject(e);
+            };
+            document.head.appendChild(script);
+        });
+    }
+
+    /**
+     * Ensure a stylesheet exists (idempotent, de-duped globally and per-loader)
+     */
+    function ensureStyle(href) {
+        const fullHref = resolveUrl(href);
+        const key = `${namespace}:${fullHref}`;
+        const globalKey = fullHref;
+
+        if (globallyEnsured.has(globalKey) || document.querySelector(`link[rel="stylesheet"][href="${CSS.escape(fullHref)}"]`)) {
+            loadedStyles.add(key);
+            if (globalDedup) globalLoadedStyles.add(globalKey);
+            return Promise.resolve();
+        }
+
+        if (loadedStyles.has(key) || (globalDedup && globalLoadedStyles.has(globalKey))) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = fullHref;
+            link.onload = () => {
+                globallyEnsured.add(globalKey);
+                loadedStyles.add(key);
+                if (globalDedup) globalLoadedStyles.add(globalKey);
+                resolve();
+            };
+            link.onerror = (e) => {
+                console && console.warn && console.warn('[mlbrgn] Failed to load style', fullHref, e);
+                reject(e);
+            };
+            document.head.appendChild(link);
+        });
     }
 
     function loadScript(src, { type = 'module', async = false } = {}) {
@@ -92,8 +187,45 @@ export function createAssetLoader(namespace, {
 
     return {
         loadScript,
-        loadStyle
+        loadStyle,
+        ensureScript,
+        ensureStyle,
+        resolveUrl
     };
+}
+
+/**
+ * Global, basePath-agnostic helpers for lazy, on-demand loading by absolute URL.
+ * These are safe to call multiple times and will not duplicate tags.
+ */
+export function ensureScript(src, { type = 'module', async = true } = {}) {
+    const url = normalizeMlbrgnUrlString(src);
+    if (globallyEnsured.has(url) || document.querySelector(`script[src="${CSS.escape(url)}"]`)) {
+        globallyEnsured.add(url);
+        return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = url; s.type = type; s.async = async;
+        s.onload = () => { globallyEnsured.add(url); resolve(); };
+        s.onerror = (e) => { console && console.warn && console.warn('[mlbrgn] Failed to load script', url, e); reject(e); };
+        document.head.appendChild(s);
+    });
+}
+
+export function ensureStyle(href) {
+    const url = normalizeMlbrgnUrlString(href);
+    if (globallyEnsured.has(url) || document.querySelector(`link[rel="stylesheet"][href="${CSS.escape(url)}"]`)) {
+        globallyEnsured.add(url);
+        return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+        const l = document.createElement('link');
+        l.rel = 'stylesheet'; l.href = url;
+        l.onload = () => { globallyEnsured.add(url); resolve(); };
+        l.onerror = (e) => { console && console.warn && console.warn('[mlbrgn] Failed to load stylesheet', url, e); reject(e); };
+        document.head.appendChild(l);
+    });
 }
 
 /**
@@ -143,6 +275,41 @@ export function mergeConfigs(configs) {
     const themes = new Set(configs.map(c => c.theme).filter(Boolean));
     if (themes.size > 1) {
         console.warn('[mlbrgn] Multiple themes detected:', [...themes]);
+    }
+
+    // Defensive normalization for assetBasePath
+    try {
+        // 1) If the first block forgot the package suffix and only provided '/vendor/mlbrgn', fix it.
+        if (typeof merged.assetBasePath === 'string') {
+            const url = new URL(merged.assetBasePath, document.baseURI);
+            // Normalize to no trailing slash for checks
+            const pathname = url.pathname.replace(/\/$/, '');
+            if (pathname === '/vendor/mlbrgn') {
+                url.pathname = '/vendor/mlbrgn/laravel-medialibrary-extensions';
+                merged.assetBasePath = url.toString().replace(/\/$/, '');
+                console.warn('[mlbrgn] Corrected short assetBasePath to', merged.assetBasePath);
+            }
+        }
+
+        // 2) If no assetBasePath at all, derive from the loader script tag src
+        if (!merged.assetBasePath) {
+            const script = document.querySelector('script[src*="/js/core/media-library-loader.js"]');
+            if (script && script.src) {
+                const u = new URL(script.src, document.baseURI);
+                // Strip everything after '/js/...'
+                const parts = u.pathname.split('/');
+                const jsIdx = parts.lastIndexOf('js');
+                if (jsIdx > 0) {
+                    const baseParts = parts.slice(0, jsIdx); // up to '/.../js'
+                    const baseUrl = new URL('/', u.origin);
+                    baseUrl.pathname = baseParts.join('/').replace(/\/$/, '');
+                    merged.assetBasePath = baseUrl.toString().replace(/\/$/, '');
+                    console.warn('[mlbrgn] Derived assetBasePath from loader script:', merged.assetBasePath);
+                }
+            }
+        }
+    } catch (e) {
+        // Non-fatal; leave as-is
     }
 
     return merged;

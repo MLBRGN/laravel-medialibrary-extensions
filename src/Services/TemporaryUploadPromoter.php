@@ -17,7 +17,8 @@ class TemporaryUploadPromoter
         $instanceId = $instanceId ?: request()->input('instance_id');
 
         if (! $clientToken && app()->runningUnitTests()) {
-            $clientToken = config('medialibrary-extensions.test_client_token');
+            // Try session ID first (tests commonly use this), then configured fallback
+            $clientToken = session()->getId() ?: config('medialibrary-extensions.test_client_token');
         }
 
         if (! $clientToken) {
@@ -123,6 +124,7 @@ class TemporaryUploadPromoter
 
             $temporaryDisk = $temporaryUpload->disk;
             $temporaryDiskUrl = rtrim(Storage::disk($temporaryDisk)->url(''), '/');
+            $temporaryFullUrl = Storage::disk($temporaryDisk)->url($temporaryUpload->path);
 
             $fieldChanges = 0;
             foreach ($model->getHtmlEditorFields() as $field) {
@@ -135,6 +137,7 @@ class TemporaryUploadPromoter
                 $newHtml = $this->replaceTemporaryUrlsInHtml(
                     $html,
                     $temporaryDiskUrl,
+                    $temporaryFullUrl,
                     $media->getUrl(),
                     $temporaryUpload->file_name
                 );
@@ -312,36 +315,32 @@ class TemporaryUploadPromoter
     protected function replaceTemporaryUrlsInHtml(
         string $html,
         string $temporaryDiskUrl,
+        string $temporaryFullUrl,
         string $mediaUrl,
         string $filename
     ): string {
-        $filenamePattern = preg_quote($filename, '#');
+        // 1) Replace exact full temporary URL first
+        $newHtml = str_replace($temporaryFullUrl, $mediaUrl, $html);
 
-        // Be robust: consume any optional scheme+host (including protocol-relative)
-        // before the temporary path so we don't leave the original host in place and
-        // end up with duplicated hosts after replacement.
-        // Examples matched:
-        //  - /storage/media_temporary/.../file.png
-        //  - http://127.0.0.1:8000/storage/media_temporary/.../file.png
-        //  - //localhost/storage/media_temporary/.../file.png
-        $hostPattern = '(?:(?:https?:)?\/\/[^"\'"<>\s]+)?';
-        $tempBasePattern = '\/storage\/media_temporary\/[^"\')>\s]*?';
-        $pattern = '#'.$hostPattern.$tempBasePattern.$filenamePattern.'#iu';
-
-        $newHtml = preg_replace($pattern, $mediaUrl, $html);
-
-        if ($newHtml !== null && $newHtml !== $html) {
-            Log::debug('TemporaryUploadPromoter: temporary URL(s) replaced in HTML', [
-                'pattern' => $pattern,
-                'replacement' => $mediaUrl,
-            ]);
-
-            // Final guard: if any accidental duplicated scheme+host remains (e.g.,
-            // http://hosthttp://host/...), collapse it by keeping the rightmost occurrence.
-            // This is defensive and should normally be a no-op thanks to the host-consuming regex above.
-            $newHtml = preg_replace('#(https?:\/\/[^\s"\'"<>]+)(https?:\/\/)#iu', '$1', $newHtml);
+        // 2) Also replace the path-only version (relative URL)
+        $path = parse_url($temporaryFullUrl, PHP_URL_PATH) ?: '';
+        if ($path !== '') {
+            $newHtml = str_replace($path, $mediaUrl, $newHtml);
         }
 
-        return $newHtml ?? $html;
+        // 3) Fallback regex: any URL on the same temporary disk base ending with the filename
+        $filenamePattern = preg_quote($filename, '#');
+        $diskBasePattern = preg_quote(rtrim($temporaryDiskUrl, '/'), '#');
+        $pattern = '#(?:'.$diskBasePattern.'|)(/[^"\']*?)'.$filenamePattern.'#iu';
+        $newHtml = preg_replace($pattern, $mediaUrl, $newHtml);
+
+        if ($newHtml !== $html) {
+            Log::debug('TemporaryUploadPromoter: temporary URL(s) replaced in HTML', [
+                'pattern' => $pattern,
+                'media_url' => $mediaUrl,
+            ]);
+        }
+
+        return $newHtml;
     }
 }

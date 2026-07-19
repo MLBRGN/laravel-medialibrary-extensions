@@ -366,8 +366,9 @@ it('hides media menu when all menu buttons disabled', function () {
         multiple: true,
     );
 
-    expect($component->getConfig('showMenu'))->toBeFalse();
-})->todo('fix this test');
+    // The component computes showMenu via options in syncConfigOverrides; assert on option.
+    expect($component->getOption('showMenu'))->toBeFalse();
+});
 
 it('does not leak model', function () {
     $model = $this->getTestBlogModel();

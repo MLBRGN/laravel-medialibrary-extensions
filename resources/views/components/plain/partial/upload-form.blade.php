@@ -28,6 +28,8 @@
         @endif
         @disabled($disabled)
         >
+    <span class="mle-form-text form-text">{{ __('medialibrary-extensions::messages.supported_dimensions_:supported_dimensions', ['supported_dimensions' => $getFileRequirementsSummary() ]) }}</span>
+    <br>
     <span class="mle-form-text">{{ __('medialibrary-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
@@ -78,9 +80,9 @@
 </x-mle-shared-conditional-form>
 @if($getConfig('useXhr'))
     <x-mle-shared-assets 
-        include-css="true" 
-        include-js="true" 
-        include-media-manager-submitter="true" 
+        :include-css="true" 
+        :include-js="true" 
+        :include-media-manager-submitter="true" 
         :theme="$getConfig('theme')"
         for="plain|upload-form"
     />

@@ -171,9 +171,9 @@ class MediaManager extends BaseMediaComponent
 
         // override hide media menu when nothing to see inside menu
         if (
-            $this->getConfig('showDestroyButton') === false &&
-            $this->getConfig('showSetAsFirstButton') === false &&
-            $this->getConfig('showMediaEditButton') === false
+            ($this->getOption('showDestroyButton', $this->getConfig('showDestroyButton')) === false) &&
+            ($this->getOption('showSetAsFirstButton', $this->getConfig('showSetAsFirstButton')) === false) &&
+            ($this->getOption('showMediaEditButton', $this->getConfig('showMediaEditButton')) === false)
         ) {
             $this->setOption('showMenu', false);
         }

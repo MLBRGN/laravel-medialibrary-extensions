@@ -27,6 +27,8 @@ class Assets extends Component
         // Default theme from config
         $this->theme ??= config('medialibrary-extensions.frontend_theme', 'plain');
 
+//        Log::info('For: ' .$this->for . ' ' . ($this->includeImageEditorModalJs ? 'Yes' : 'No'));
+
         // Build the configuration array passed to the loader.js file
         $this->assetConfig = [
             'assets' => [
@@ -84,6 +86,12 @@ class Assets extends Component
                 ]),
                 ],
         ];
+
+//        Log::info('Asset component', [
+//            'for' => $this->for,
+//            'includeImageEditorModalJs' => $this->includeImageEditorModalJs,
+//            'assetConfig' => $this->assetConfig,
+//        ]);
     }
 
     public function render(): View

@@ -62,10 +62,10 @@
     </div>
 </div>
 <x-mle-shared-assets 
-    include-css="true" 
-    include-js="true"
-    include-image-editor-js="true"
-    include-image-editor-modal-js="true"
+    :include-css="true" 
+    :include-js="true"
+    :include-image-editor-js="true"
+    :include-image-editor-modal-js="true"
     :theme="$getConfig('theme')"
     for="plain|image-editor-model-temporary-upload"
 />

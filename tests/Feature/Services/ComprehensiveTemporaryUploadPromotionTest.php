@@ -12,12 +12,19 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 beforeEach(function () {
     $this->temporaryDisk = config('medialibrary-extensions.media_disks.temporary');
     $this->demoDisk = PackageInfrastructure::disk('demo');
+    $this->altConnection = PackageInfrastructure::connection('test', 'alt');
 
     config()->set("filesystems.disks.{$this->demoDisk}", [
         'driver' => 'local',
         'root' => $this->getTempDirectory($this->demoDisk),
     ]);
 
+    // Ensure the data source resolver can map the alt test data source
+    config()->set('medialibrary-extensions.data_sources.test_alt.connection', $this->altConnection);
+
+    // Ensure all disks used by the promoter are safely faked for tests
+    Storage::fake($this->temporaryDisk);
+    Storage::fake('public');
     Storage::fake($this->demoDisk);
 });
 
@@ -38,9 +45,9 @@ it('comprehensively promotes temporary uploads on the correct connection and dis
         'size' => 123,
     ]);
 
-    // 2. Setup alt promotion scenario (mle_test_demo)
-    // Alien exists on mle_test_demo in TestCase migrations.
-    $altPost = (new Alien)->setConnection('mle_test_demo');
+    // 2. Setup alt promotion scenario (alt test connection)
+    // Alien exists on the alt test connection in TestCase migrations.
+    $altPost = (new Alien)->setConnection($this->altConnection);
     $altPost->save();
 
     $altToken = 'token-alt';
@@ -50,7 +57,7 @@ it('comprehensively promotes temporary uploads on the correct connection and dis
     Storage::disk($altTempDisk)->put($altFilename, 'alt content');
 
     // We must manually insert into alt connection for the temp upload
-    TemporaryUpload::on('mle_test_demo')->create([
+    TemporaryUpload::on($this->altConnection)->create([
         'disk' => $altTempDisk,
         'path' => $altFilename,
         'name' => 'alt',
@@ -77,12 +84,12 @@ it('comprehensively promotes temporary uploads on the correct connection and dis
     app(TemporaryUploadPromoter::class)->promoteAllForModel($altPost, null, $altToken);
 
     // Verify alt promotion
-    expect(TemporaryUpload::on('mle_test_demo')->count())->toBe(0);
-    expect(Media::on('mle_test_demo')->count())->toBe(1);
+    expect(TemporaryUpload::on($this->altConnection)->count())->toBe(0);
+    expect(Media::on($this->altConnection)->count())->toBe(1);
 
     $altMedia = $altPost->getFirstMedia('alien-single-image');
     expect($altMedia)->not->toBeNull();
-    expect($altMedia->getConnectionName())->toBe('mle_test_demo');
+    expect($altMedia->getConnectionName())->toBe($this->altConnection);
     // Alien model uses 'media_demo' disk in its collection definition,
     // but in tests faked disks usually have the same name as the config value.
     $alienDisk = PackageInfrastructure::disk('demo');
@@ -90,10 +97,10 @@ it('comprehensively promotes temporary uploads on the correct connection and dis
 
     expect(Storage::disk($alienDisk)->exists($altMedia->id.'/'.$altFilename))->toBeTrue();
     expect(Storage::disk($altTempDisk)->exists($altFilename))->toBeFalse();
-})->todo('This test is not working yet');
+});
 
 it('verifies that media table on alt connection is populated correctly', function () {
-    $altPost = (new Alien)->setConnection('mle_test_demo');
+    $altPost = (new Alien)->setConnection($this->altConnection);
     $altPost->save();
 
     $altToken = 'token-alt-2';
@@ -102,7 +109,7 @@ it('verifies that media table on alt connection is populated correctly', functio
 
     Storage::disk($altTempDisk)->put($altFilename, 'alt content 2');
 
-    TemporaryUpload::on('mle_test_demo')->create([
+    TemporaryUpload::on($this->altConnection)->create([
         'disk' => $altTempDisk,
         'path' => $altFilename,
         'name' => 'alt2',
@@ -115,11 +122,11 @@ it('verifies that media table on alt connection is populated correctly', functio
     app(TemporaryUploadPromoter::class)->promoteAllForModel($altPost, null, $altToken);
 
     // Check alt media table directly
-    $mediaCount = DB::connection('mle_test_demo')->table('media')->count();
+    $mediaCount = DB::connection($this->altConnection)->table('media')->count();
     expect($mediaCount)->toBe(1);
 
-    $mediaRecord = DB::connection('mle_test_demo')->table('media')->first();
+    $mediaRecord = DB::connection($this->altConnection)->table('media')->first();
     expect($mediaRecord->file_name)->toBe($altFilename);
     expect((string) $mediaRecord->model_id)->toBe((string) $altPost->id);
     expect($mediaRecord->model_type)->toBe($altPost->getMorphClass());
-})->todo('This test is not working yet');
+});

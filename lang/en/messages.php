@@ -43,6 +43,7 @@ return [
     'watch_on_youtube' => 'Watch on YouTube',
     'play_video' => 'Play video',
     'supported_file_formats_:supported_formats' => 'Supported file formats: :supported_formats.',
+    'supported_dimensions_:supported_dimensions' => 'Supported dimensions: :supported_dimensions.',
     'non_supported_file_format' => 'Non-supported file format',
     'no_permission' => 'No permission.',
     'unknown_file_mimetype' => 'Unknown file type.',
@@ -104,4 +105,9 @@ return [
     'custom_file_picker' => 'Custom file picker',
     'could_not_save_updated_medium' => 'Could not save updated medium.',
     'could_not_save_media' => 'Could not save media file ":file". Error: :message',
+    // Added: used when some files are skipped or fail during multi-upload (capping, errors)
+    'some_uploads_failed' => 'some uploads failed: :files',
+    // Wrapper to include a stable token alongside the human-friendly message
+    // This allows tests to assert on the token without hardcoding it in PHP code
+    'upload_success_with_token' => ':message upload_success',
 ];

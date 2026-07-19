@@ -12,5 +12,6 @@ uses(
 )->in('Browser');
 
 pest()->browser()->headed()->timeout(10000);
+// pest()->browser()->timeout(10000);
 // pest()->browser()->inFirefox();
 // pest()->browser()->inSafari();

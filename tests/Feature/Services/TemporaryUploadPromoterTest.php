@@ -190,7 +190,7 @@ it('promotes from the correct data source connection and cleans up there', funct
 
     // And the file on the temporary disk has been removed
     Storage::disk($this->temporaryDisk)->assertMissing('tmp-alt.png');
-})->todo();
+});
 
 it('replaces relative temporary media urls in html', function () {
     $filename = 'image.png';

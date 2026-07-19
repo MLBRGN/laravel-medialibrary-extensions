@@ -123,59 +123,10 @@ class TestCase extends Orchestra
         // Load media library config (needed for tests that interact with the media library to work)
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');
 
-        // configure filesystem
-//        config()->set('filesystems.disks.public', [
-//            'driver' => 'local',
-//            'root' => $this->getMediaDirectory(),
-//            'url' => '/media',
-//        ]);
-//
-//        config()->set('filesystems.disks.media', [
-//            'driver' => 'local',
-//            'root' => $this->getMediaDirectory(),
-//            'url' => '/media',
-//        ]);
-
         $app->bind('path.public', fn () => $this->getTempDirectory());
 
-        $app['config']->set('media-library.media_model', Media::class);
+        $app['config']->set('media-library.media_model', \Spatie\MediaLibrary\MediaCollections\Models\Media::class);
     }
-
-//    protected function defineDatabaseMigrations(): void
-//    {
-////        $this->artisan('migrate:fresh', [
-////            '--database' => 'mle_test_host_app',// connection to use
-////            '--path' => realpath(__DIR__ . '/database/migrations'),
-////            '--realpath' => true,
-////        ]);
-////
-////        $this->artisan('migrate:fresh', [
-////            '--database' => 'mle_test_demo',// connection to use
-////            '--path' => realpath(__DIR__ . '/../database/demo-migrations'),
-////            '--realpath' => true,
-////        ]);
-//
-//    }
-
-//    protected function migrateConnection(
-//        string $connection,
-//        array $paths
-//    ): void {
-//
-//        dump('migrating '.$connection);
-//        $this->artisan('migrate:fresh', [
-//            '--database' => $connection,
-//        ]);
-//
-//        foreach ($paths as $path) {
-//            dump('path: '.base_path($path));
-//            $this->artisan('migrate', [
-//                '--database' => $connection,
-//                '--path' => base_path($path),
-//                '--realpath' => true,
-//            ]);
-//        }
-//    }
 
     protected function migrateConnection(
         string $connection,
@@ -201,18 +152,6 @@ class TestCase extends Orchestra
             realpath(__DIR__ . '/database/migrations')
         );
 
-//        PackageInfrastructure::register('test');
-//
-//        foreach (
-//            PackageInfrastructure::connections('test')
-//            as $name => $connection
-//        ) {
-//
-//            $this->migrateConnection(
-//                $connection,
-//                PackageInfrastructure::migrationPaths('test', $name)
-//            );
-//        }
     }
 
     protected function createDirectory(string $directory): void
@@ -242,11 +181,6 @@ class TestCase extends Orchestra
     {
         return __DIR__.'/Support/tmp/uploads';
     }
-
-    //    public function getFixtureUploadedFile($fileName): string
-    //    {
-    //        return $this->getTempDirectory('uploads/'.$fileName);
-    //    }
 
     public function getFixtureUploadedFile(string $fileName): UploadedFile
     {

@@ -1,6 +1,6 @@
 <div
     {{ $attributes->class('mle-document') }} 
-    data-mle-document
+    data-mle-document-container
     id="{{ $getDomId() }}"
 >
     <div class="mle-document-preview">

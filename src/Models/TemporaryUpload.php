@@ -6,7 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Database\Factories\TemporaryUploadFactory;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
@@ -59,36 +58,70 @@ class TemporaryUpload extends Model implements HasMediaExtended
         return $query;
     }
 
-    public function scopeForCurrentClient($query, mixed $collectionName = null, ?string $instanceId = null, ?string $clientToken = null)
-    {
-        $clientToken = $clientToken ?: (request()->input('client_token') ?: request()->cookie('mle_client_token'));
+    public function scopeForCurrentClient(
+        $query,
+        ?string $clientToken = null
+    ) {
+        $clientToken ??= request()->input('client_token')
+            ?: request()->cookie('mle_client_token');
 
-        // TODO needed?
         if (! $clientToken && app()->runningUnitTests()) {
-            // We use a stable fallback for unit tests to avoid breaking them
-            // when no explicit token is provided.
             $clientToken = config('medialibrary-extensions.test_client_token');
         }
 
         if (! $clientToken) {
-            // If no token is provided, we return no results to prevent cross-visitor leakage
             return $query->whereRaw('1 = 0');
         }
 
-        $query
+        return $query
             ->where('client_token', $clientToken)
-            ->when($instanceId, fn ($q) => $q->where('instance_id', $instanceId))
-            ->when(! is_null($collectionName), fn ($q) => $q->where('collection_name', $collectionName))
-            ->orderBy('order_column', 'asc');
-
-        return $query;
+            ->orderBy('order_column');
     }
 
-    public static function getForCurrentClient(mixed $collectionName = null, ?string $instanceId = null, ?string $dataSource = 'default', ?string $clientToken = null): Collection
-    {
-        return static::query()
+    public function scopeForInstance(
+        $query,
+        ?string $instanceId
+    ) {
+        return $instanceId
+            ? $query->where('instance_id', $instanceId)
+            : $query;
+    }
+
+    public function scopeForCollection(
+        $query,
+        mixed $collectionName
+    ) {
+        return is_null($collectionName)
+            ? $query
+            : $query->where('collection_name', $collectionName);
+    }
+
+    public function scopeForCollections(
+        $query,
+        array $collectionNames
+    ) {
+        return $query->whereIn('collection_name', $collectionNames);
+    }
+
+    public static function getForCurrentClient(
+        string|array|null $collectionNames = null,
+        ?string $instanceId = null,
+        ?string $dataSource = 'default',
+        ?string $clientToken = null,
+    ): Collection {
+        $query = static::query()
             ->forDataSource($dataSource)
-            ->forCurrentClient($collectionName, $instanceId, $clientToken)
+            ->forCurrentClient($clientToken)
+            ->forInstance($instanceId);
+
+        if (is_array($collectionNames)) {
+            return $query
+                ->forCollections($collectionNames)
+                ->get();
+        }
+
+        return $query
+            ->forCollection($collectionNames)
             ->get();
     }
 

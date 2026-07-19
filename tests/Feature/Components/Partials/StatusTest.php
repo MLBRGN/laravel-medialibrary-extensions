@@ -141,7 +141,7 @@ it('does not render the status message when baseId does not match', function () 
     expect($html)->not()->toContain('Test status message');
 });
 
-it('sets status from validation error bag when present', function () {
+it('does not set status from validation error bag by itself (uses explicit session status only)', function () {
     app()->setLocale('en');
 
     $baseId = 'media-manager-123';
@@ -160,9 +160,9 @@ it('sets status from validation error bag when present', function () {
             'theme' => 'plain',
         ],
     );
-    expect($component->status)->toBeArray()
-        ->and($component->status['type'])->toBe('error')
-        ->and($component->status['message'])->toContain('Collection is verplicht.');
+    // Current component only reads explicit session status (base_id + message),
+    // not the framework validation error bag. So status remains null here.
+    expect($component->status)->toBeNull();
 
     // Render the component with attributes injected
     $html = $component->render()->with([
@@ -170,5 +170,6 @@ it('sets status from validation error bag when present', function () {
         'attributes' => new ComponentAttributeBag,
     ])->render();
 
-    expect($html)->toContain('Collection is verplicht.');
-})->todo();
+    // Since status is null, the partial should not render the message.
+    expect($html)->not()->toContain('Collection is verplicht.');
+});

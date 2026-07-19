@@ -114,7 +114,7 @@
                                      >
                     <div
     class="mle-document mle-media-preview-item" draggable="" 
-    data-mle-document
+    data-mle-document-container
     id="test-media-modal-mod-2-media-viewer-document"
 >
     <div class="mle-document-preview">
@@ -153,7 +153,7 @@
                     <div 
     class="mle-video mle-media-preview-item" draggable=""
     id="test-media-modal-mod-3-media-viewer-video"
-    data-mle-video
+    data-mle-video-container
 >
     <div class="mle-video-preview">
         <div class="mle-video-info">
@@ -161,6 +161,7 @@
                 test.mp4
             </p>
         </div>
+        
         <video id="test-media-modal-mod-3-media-viewer-video" controls preload="metadata" data-mle-video>
             <source src="/storage/5/test.mp4" type="video/mp4">
             medialibrary-extensions::messages.your_browser_does_not_support_the_video_element
@@ -178,6 +179,7 @@
                     <div 
     class="mle-audio mle-media-preview-item" draggable=""
     id="test-media-modal-mod-4-media-viewer-audio"
+    data-mle-audio-container
 >
     <div class="mle-audio-preview">
         <div class="mle-audio-info">
@@ -185,6 +187,7 @@
                 test.mp3
             </p>
         </div>
+
         <audio id="test-media-modal-mod-4-media-viewer-audio" controls data-mle-audio>
             <source src="/storage/4/test.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
@@ -227,23 +230,79 @@
     </button>
 </div>
 <script
+        id="mle-global"
         type="application/json"
         class="mlbrgn-medialibrary-config"
-            >{"assets":{"css":true,"js":true,"carousel":true,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":true},"for":"plain|media-carousel-permanent","theme":"plain","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","media_counts":":current of :total"}}</script>
+            >{"for":"global","theme":"plain","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","media_counts":":current of :total"},"assets":[]}</script>
+
+
+
+    <script
+        id="plain|media-carousel-permanent"
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"css":true,"js":true,"carousel":true,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":true},"for":"plain|media-carousel-permanent","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","media_counts":":current of :total"}}</script>
+
 
     <script
         type="module"
         src="http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions/js/core/media-library-loader.js"
             ></script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
         </div>
     </div>
 </div>
 <script
+        id="plain|media-modal"
         type="application/json"
         class="mlbrgn-medialibrary-config"
-            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":true,"imageEditor":false,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":false},"for":"plain|media-modal","theme":"plain","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","media_counts":":current of :total"}}</script>
+            >{"assets":{"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":true,"imageEditor":false,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":false},"for":"plain|media-modal","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","media_counts":":current of :total"}}</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

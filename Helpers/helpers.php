@@ -16,16 +16,35 @@ if (! function_exists('mle_human_mimetype_label')) {
     }
 }
 
+//if (! function_exists('mle_human_filesize')) {
+//    function mle_human_filesize(?int $bytes, int $decimals = 2): string
+//    {
+//        if ($bytes === null) {
+//            return __('medialibrary-extensions::messages.unknown_file_size');
+//        }
+//        $size = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+//        $factor = floor((strlen((string) $bytes) - 1) / 3);
+//
+//        return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)).' '.$size[$factor];
+//    }
+//}
+
 if (! function_exists('mle_human_filesize')) {
     function mle_human_filesize(?int $bytes, int $decimals = 2): string
     {
         if ($bytes === null) {
             return __('medialibrary-extensions::messages.unknown_file_size');
         }
-        $size = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-        $factor = floor((strlen((string) $bytes) - 1) / 3);
 
-        return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)).' '.$size[$factor];
+        if ($bytes === 0) {
+            return '0 B';
+        }
+
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+        $factor = floor(log($bytes, 1024));
+
+        return round($bytes / (1024 ** $factor), $decimals).' '.$units[$factor];
     }
 }
 

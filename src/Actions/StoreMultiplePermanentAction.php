@@ -95,6 +95,24 @@ class StoreMultiplePermanentAction
             );
         }
 
+        // Enforce remaining capacity: only process up to the remaining slots; mark overflow as failed.
+        $remaining = max(0, $maxItemsInCollection - $mediaInCollections);
+        if ($remaining <= 0) {
+            return MediaResponse::error(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                    'items' => $maxItemsInCollection,
+                ])
+            );
+        }
+
+        $overflowPrepared = [];
+        if (count($preparedUploads) > $remaining) {
+            $overflowPrepared = array_slice($preparedUploads, $remaining);
+            $preparedUploads = array_slice($preparedUploads, 0, $remaining);
+        }
+
         foreach ($preparedUploads as $prepared) {
             try {
                 Log::info('Adding media', [
@@ -133,6 +151,15 @@ class StoreMultiplePermanentAction
             }
         }
 
+        // Append overflow info, if any
+        if (! empty($overflowPrepared)) {
+            $skipped = array_map(fn ($u) => $u->originalName, $overflowPrepared);
+            $failedUploadFIleNames = array_merge($failedUploadFIleNames, $skipped);
+            $errorMessages[] = __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                'items' => $maxItemsInCollection,
+            ]);
+        }
+
         if ($successCount === 0) {
             $message = __('medialibrary-extensions::messages.upload_failed');
 
@@ -159,6 +186,10 @@ class StoreMultiplePermanentAction
         if (! empty($failedUploadFIleNames)) {
             $message .= ' '.__('medialibrary-extensions::messages.some_uploads_failed', [
                 'files' => implode(', ', $failedUploadFIleNames),
+            ]);
+            // Only append the stable token when some uploads were skipped/failed (partial success)
+            $message = __('medialibrary-extensions::messages.upload_success_with_token', [
+                'message' => $message,
             ]);
         }
 

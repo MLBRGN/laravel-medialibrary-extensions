@@ -3,6 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
@@ -304,61 +305,143 @@ class MediaService
 //        return MediaCollection::make($media);
 //    }
 
+//    public function resolveMediaFromCollections(
+//        ?Model $model,
+//        array $collections,
+//               $instanceId,
+//               $clientToken,
+//               $dataSource
+//    ): MediaCollection {
+//
+//        // CASE A: TEMPORARY MODE (NO MODEL)
+//        if (! $model instanceof Model) {
+//            $media = collect($collections)
+//                ->filter(fn ($collectionName) => ! empty($collectionName))
+//                ->flatMap(function ($collectionNames) use ($clientToken, $instanceId, $dataSource) {
+//
+//                    $collectionNames = is_array($collectionNames)
+//                        ? $collectionNames
+//                        : [$collectionNames];
+//
+//                    return collect($collectionNames)
+//                        ->flatMap(function ($collectionName) use ($clientToken, $instanceId, $dataSource) {
+//                            return TemporaryUpload::getForCurrentClient(
+//                                $collectionName,
+//                                $instanceId,
+//                                $dataSource,
+//                                $clientToken,
+//                            );
+//                        });
+//                })
+//                ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+//                ->values();
+//
+//            return MediaCollection::make($media);
+//        }
+//
+//        // CASE B: PERMANENT MEDIA (MODEL EXISTS)
+//        $modelConnection = $model->getConnectionName();
+//
+//        $media = collect($collections)
+//            ->filter(fn ($collectionName) => ! empty($collectionName))
+//            ->flatMap(function ($collectionNames) use ($model, $modelConnection) {
+//
+//                $collectionNames = is_array($collectionNames)
+//                    ? $collectionNames
+//                    : [$collectionNames];
+//
+//                return collect($collectionNames)
+//                    ->flatMap(function ($collectionName) use ($model, $modelConnection) {
+//                        return $model
+//                            ->setConnection($modelConnection)
+//                            ->getMedia($collectionName);
+//                    });
+//            })
+//            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+//            ->values();
+//
+//        return MediaCollection::make($media);
+//    }
     public function resolveMediaFromCollections(
         ?Model $model,
         array $collections,
-               $instanceId,
-               $clientToken,
-               $dataSource
+        ?string $instanceId,
+        ?string $clientToken,
+        ?string $dataSource,
+        bool $includeTemporaryUploads = false,
     ): MediaCollection {
+        $media = collect();
 
-        // CASE A: TEMPORARY MODE (NO MODEL)
-        if (! $model instanceof Model) {
-            $media = collect($collections)
-                ->filter(fn ($collectionName) => ! empty($collectionName))
-                ->flatMap(function ($collectionNames) use ($clientToken, $instanceId, $dataSource) {
-
-                    $collectionNames = is_array($collectionNames)
-                        ? $collectionNames
-                        : [$collectionNames];
-
-                    return collect($collectionNames)
-                        ->flatMap(function ($collectionName) use ($clientToken, $instanceId, $dataSource) {
-                            return TemporaryUpload::getForCurrentClient(
-                                $collectionName,
-                                $instanceId,
-                                $dataSource,
-                                $clientToken,
-                            );
-                        });
-                })
-                ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
-                ->values();
-
-            return MediaCollection::make($media);
+        if ($model instanceof Model) {
+            $media = $media->merge(
+                $this->resolvePermanentMedia($model, $collections)
+            );
         }
 
-        // CASE B: PERMANENT MEDIA (MODEL EXISTS)
-        $modelConnection = $model->getConnectionName();
+        if ($includeTemporaryUploads) {
+            $media = $media->merge(
+                $this->resolveTemporaryMedia(
+                    $collections,
+                    $instanceId,
+                    $clientToken,
+                    $dataSource,
+                )
+            );
+        }
 
-        $media = collect($collections)
-            ->filter(fn ($collectionName) => ! empty($collectionName))
-            ->flatMap(function ($collectionNames) use ($model, $modelConnection) {
+        return MediaCollection::make(
+            $media
+                ->sortBy(fn ($media) => $media->getCustomProperty('priority', PHP_INT_MAX))
+                ->values()
+        );
+    }
 
-                $collectionNames = is_array($collectionNames)
-                    ? $collectionNames
-                    : [$collectionNames];
+    private function resolvePermanentMedia(
+        Model $model,
+        array $collections,
+    ): Collection {
+        $connection = $model->getConnectionName();
 
-                return collect($collectionNames)
-                    ->flatMap(function ($collectionName) use ($model, $modelConnection) {
-                        return $model
-                            ->setConnection($modelConnection)
-                            ->getMedia($collectionName);
-                    });
-            })
-            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX))
+        return $this->collectionNames($collections)
+            ->flatMap(fn (string $collection) => $model
+                ->setConnection($connection)
+                ->getMedia($collection));
+    }
+
+    private function resolveTemporaryMedia(
+        array $collections,
+        ?string $instanceId,
+        ?string $clientToken,
+        ?string $dataSource,
+    ): Collection {
+        return $this->collectionNames($collections)
+            ->flatMap(fn (string $collection) => TemporaryUpload::getForCurrentClient(
+                $collection,
+                $instanceId,
+                $dataSource,
+                $clientToken,
+            ));
+    }
+
+    public function getTemporaryUploadsSorted(
+        array|string|null $collections = null,
+        ?string $instanceId = null,
+        ?string $clientToken = null,
+        ?string $dataSource = 'default',
+    ): Collection {
+        return TemporaryUpload::getForCurrentClient(
+            $collections,
+            $instanceId,
+            $dataSource,
+            $clientToken,
+        )->sortBy(fn ($upload) => $upload->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
+    }
 
-        return MediaCollection::make($media);
+    private function collectionNames(array $collections): Collection
+    {
+        return collect($collections)
+            ->filter()
+            ->flatMap(fn ($names) => is_array($names) ? $names : [$names]);
     }
 }

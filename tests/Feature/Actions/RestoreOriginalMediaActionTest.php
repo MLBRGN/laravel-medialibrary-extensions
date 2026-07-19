@@ -83,17 +83,22 @@ it('returns error if original file not found', function () {
         'data_source' => 'default',
     ]);
     $request->setLaravelSession(app('session.store'));
+    $request->headers->set('Accept', 'application/json');
 
-    Storage::disk('originals')->delete("{$media->id}/{$media->file_name}");
-
-//    Log::spy();
+    $originalsDisk = config('medialibrary-extensions.media_disks.originals');
+    $originalPath = "{$media->id}/{$media->file_name}";
+    // Ensure the helper created the original, then remove it to simulate missing original
+    expect(Storage::disk($originalsDisk)->exists($originalPath))->toBeTrue();
+    Storage::disk($originalsDisk)->delete($originalPath);
+    expect(Storage::disk($originalsDisk)->exists($originalPath))->toBeFalse();
 
     $response = $this->action->execute($request, $media->id);
 
-    expect($response)->toBeInstanceOf(RedirectResponse::class);
-    dd($response);
-//    Log::shouldHaveReceived('warning')->once();
-})->todo('This test is needs work');
+    expect($response)->toBeInstanceOf(JsonResponse::class);
+    $data = $response->getData(true);
+    expect($data['type'])->toBe('error');
+    expect($data['message'])->toBe(__('medialibrary-extensions::messages.no_original_saved'));
+});
 
 it('restores the original file successfully', function () {
     $media = $this->getMedia('test.jpg');
@@ -118,7 +123,8 @@ it('restores the original file successfully', function () {
 it('restores original media from a custom data source', function () {
     $model = $this->getTestBlogModel();
     $demoModel = $model->replicate();
-    $demoModel->setConnection('media_demo');
+    $altConnection = PackageInfrastructure::connection('test', 'alt');
+    $demoModel->setConnection($altConnection);
     $demoModel->save();
 
     $file = UploadedFile::fake()->image('original.jpg');
@@ -133,7 +139,7 @@ it('restores original media from a custom data source', function () {
     Storage::disk($targetDisk)->put($targetPath, 'modified content');
 
     $request = RestoreOriginalMediumRequest::create('/restore', 'POST', [
-        'data_source' => $this->dataSource,
+        'data_source' => 'test_alt',
     ]);
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
@@ -145,8 +151,7 @@ it('restores original media from a custom data source', function () {
     expect($data['type'])->toBe('success');
 
     expect(Storage::disk($targetDisk)->get($targetPath))->toBe('original-content');
-})
-    ->todo('This test is not working yet');
+});
 
 it('falls back to media disk if target disk not configured', function () {
     $media = $this->getMedia('test.jpg');

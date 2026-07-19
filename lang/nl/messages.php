@@ -44,6 +44,7 @@ return [
     'watch_on_youtube' => 'Bekijk op YouTube.',
     'play_video' => 'Video afspelen',
     'supported_file_formats_:supported_formats' => 'Ondersteunde bestandsformaten: :supported_formats.',
+    'supported_dimensions_:supported_dimensions' => 'Ondersteunde afmetingen: :supported_dimensions.',
     'non_supported_file_format' => 'Niet ondersteund bestandsformaat',
     'no_permission' => 'Geen permissie.',
     'unknown_file_mimetype' => 'Onbekend bestandstype.',

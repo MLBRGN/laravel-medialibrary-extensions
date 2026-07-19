@@ -118,8 +118,6 @@ class YouTubeService
         $contents = file_get_contents($filePath);
 
         Storage::disk($disk)->put($fullPath, $contents);
-//        $mimeType = Storage::disk($disk)->mimeType($fullPath);
-//        $size = Storage::disk($disk)->size($fullPath);
         $size = strlen($contents);
         $mimeType = 'image/jpeg';
 //        unlink($filePath); // TODO

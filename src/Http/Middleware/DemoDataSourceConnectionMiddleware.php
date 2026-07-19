@@ -26,6 +26,12 @@ class DemoDataSourceConnectionMiddleware
 
         $previous = DB::getDefaultConnection();
 
+        // TODO look at this:
+//        DB::setDefaultConnection($target);
+//        DB::purge($previous);
+//        DB::reconnect($target);
+
+        // TODO look at this code
         Config::set('database.default', $target);
         DB::setDefaultConnection($target);
 

@@ -29,6 +29,7 @@ class SetupDemoCommand extends Command
     // short form aliases
     protected $aliases = [
         'mle:demo-setup',
+        'mle:setup-demo'
     ];
 
     public function handle(): int
