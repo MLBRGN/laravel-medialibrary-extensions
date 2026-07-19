@@ -17,7 +17,8 @@ class TemporaryUploadPromoter
         $instanceId = $instanceId ?: request()->input('instance_id');
 
         if (! $clientToken && app()->runningUnitTests()) {
-            $clientToken = config('medialibrary-extensions.test_client_token');
+            // Try session ID first (tests commonly use this), then configured fallback
+            $clientToken = session()->getId() ?: config('medialibrary-extensions.test_client_token');
         }
 
         if (! $clientToken) {
@@ -123,6 +124,7 @@ class TemporaryUploadPromoter
 
             $temporaryDisk = $temporaryUpload->disk;
             $temporaryDiskUrl = rtrim(Storage::disk($temporaryDisk)->url(''), '/');
+            $temporaryFullUrl = Storage::disk($temporaryDisk)->url($temporaryUpload->path);
 
             $fieldChanges = 0;
             foreach ($model->getHtmlEditorFields() as $field) {
@@ -135,6 +137,7 @@ class TemporaryUploadPromoter
                 $newHtml = $this->replaceTemporaryUrlsInHtml(
                     $html,
                     $temporaryDiskUrl,
+                    $temporaryFullUrl,
                     $media->getUrl(),
                     $temporaryUpload->file_name
                 );
@@ -312,20 +315,29 @@ class TemporaryUploadPromoter
     protected function replaceTemporaryUrlsInHtml(
         string $html,
         string $temporaryDiskUrl,
+        string $temporaryFullUrl,
         string $mediaUrl,
         string $filename
     ): string {
+        // 1) Replace exact full temporary URL first
+        $newHtml = str_replace($temporaryFullUrl, $mediaUrl, $html);
+
+        // 2) Also replace the path-only version (relative URL)
+        $path = parse_url($temporaryFullUrl, PHP_URL_PATH) ?: '';
+        if ($path !== '') {
+            $newHtml = str_replace($path, $mediaUrl, $newHtml);
+        }
+
+        // 3) Fallback regex: any URL on the same temporary disk base ending with the filename
         $filenamePattern = preg_quote($filename, '#');
-
-        // Match relative or absolute URLs pointing to media_temporary
-        $pattern = '#(?:'.preg_quote($temporaryDiskUrl, '#').'|)(/storage/media_temporary/.*?)'.$filenamePattern.'#iu';
-
-        $newHtml = preg_replace($pattern, $mediaUrl, $html);
+        $diskBasePattern = preg_quote(rtrim($temporaryDiskUrl, '/'), '#');
+        $pattern = '#(?:'.$diskBasePattern.'|)(/[^"\']*?)'.$filenamePattern.'#iu';
+        $newHtml = preg_replace($pattern, $mediaUrl, $newHtml);
 
         if ($newHtml !== $html) {
-            Log::warning('TemporaryUploadPromoter - temporary URL replaced in HTML', [
-                'old_url_pattern' => $pattern,
-                'new_url' => $mediaUrl,
+            Log::debug('TemporaryUploadPromoter: temporary URL(s) replaced in HTML', [
+                'pattern' => $pattern,
+                'media_url' => $mediaUrl,
             ]);
         }
 
