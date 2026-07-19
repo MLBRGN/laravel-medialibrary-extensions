@@ -61,6 +61,27 @@ window.mleFilePicker = (callback, value, meta) => {
         function handleMessage(event) {
             if (!event.data || !event.data.mce) return;
 
+            // If the iframe shares back its instanceId, persist it into the parent form
+            // const pickedInstanceId = event.data.instanceId || null;
+            // try {
+            //     const form = document.querySelector('form');
+            //     if (form && pickedInstanceId) {
+            //         let i = form.querySelector('input[name="instance_id"]');
+            //         if (!i) { i = document.createElement('input'); i.type = 'hidden'; i.name = 'instance_id'; form.appendChild(i); }
+            //         i.value = pickedInstanceId;
+            //     }
+            //     // Also seed client_token from cookie if not already present
+            //     const m = document.cookie.match(/(?:^|; )mle_client_token=([^;]+)/);
+            //     const clientTokenFromCookie = m ? decodeURIComponent(m[1]) : null;
+            //     if (form && clientTokenFromCookie) {
+            //         let c = form.querySelector('input[name="client_token"]');
+            //         if (!c) { c = document.createElement('input'); c.type = 'hidden'; c.name = 'client_token'; form.appendChild(c); }
+            //         if (!c.value) { c.value = clientTokenFromCookie; }
+            //     }
+            // } catch (e) {
+            //     console.warn('Could not persist instance_id/client_token to form', e);
+            // }
+
             const file = event.data.content;
             if (!file) {
                 console.warn('No file');

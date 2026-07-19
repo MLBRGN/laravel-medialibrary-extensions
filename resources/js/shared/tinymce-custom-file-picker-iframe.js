@@ -1,4 +1,7 @@
 // this script is loaded within the tinymce iframe
+// It notifies the parent TinyMCE window about the selected file
+// and also provides the Media Manager instanceId so the parent
+// form can submit it for correct temporary upload promotion.
 const insertSelectedButton = document.getElementById('insert-selected');
 insertSelectedButton.addEventListener('click', () => {
     // TinyMCE injects a global `tinymce` object in the iframe window
@@ -33,9 +36,23 @@ insertSelectedButton.addEventListener('click', () => {
     // Close the popup if needed
     window.close();
 
+    // Try to resolve the instanceId from the Media Manager config input
+    // let instanceId = null;
+    // try {
+    //     const configEl = document.querySelector('.mle-media-manager-config');
+    //     if (configEl && configEl.value) {
+    //         const cfg = JSON.parse(configEl.value);
+    //         instanceId = cfg.instanceId || null;
+    //     }
+    // } catch (e) {
+    //     // ignore
+    // }
+
     // TinyMCE will catch this in onMessage
     window.parent.postMessage({
         mce: true,
+        // type: 'mle:picker:insert',
+        // instanceId: instanceId,
         content: file
     }, '*'); // use '*' for now
 
