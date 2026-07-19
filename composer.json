@@ -90,7 +90,7 @@
         "test": "vendor/bin/pest --exclude-group browser",
         "test-browser": [
             "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/pest --group browser"
+            "XDEBUG_MODE=off vendor/bin/pest --group browser"
         ],
         "coverage": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage"
     }

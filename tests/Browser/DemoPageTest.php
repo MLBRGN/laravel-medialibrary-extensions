@@ -14,7 +14,7 @@ beforeEach(function () {
 });
 
 $waitTimeXhr = .1;
-$waitTImeNonXhr = 1; // non-xhr tests are slower, setting it to lower than 1 may cause too many failures
+$waitTImeNonXhr = .5; // non-xhr tests are slower, setting it to lower than 1 may cause too many failures
 
 dataset('mms_test_matrix', [
     'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
@@ -112,8 +112,8 @@ dataset('media_html_editor_matrix', [
 
 dataset('media_carousel_test_matrix',
     [
-//        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, false],
-//        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, false],
+        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, false],
+        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, false],
 
         //        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, true],// fails
         //        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, true],// fails
@@ -352,7 +352,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->waitForText(__('medialibrary-extensions::messages.upload_success'));
 
     // counts should update to 1 of 1 and show max alert
-    $page->wait(0.3)
+    $page->wait($waitTime)
         ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 1, 'total' => 1]));
 
     $page->assertPresent($maxReachedAlertSelector);
@@ -1218,12 +1218,12 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $firstItemSelectSelector = $firstMediaPreviewContainer.' [data-mle-media-select-wrapper]';
         $page->assertPresent($firstItemSelectSelector);
         $page->click($firstItemSelectSelector);
-        $page->wait(.5);
+        $page->wait($waitTime);
 
         // click insert selected media
         $insertSelectedButtonSelector = '[data-mle-insert-selected]';
         $page->pressAndWaitFor($insertSelectedButtonSelector, $waitTime);
-        $page->wait(.5);
+        $page->wait($waitTime);
 
         // TODO modal opening not working in test
         //            ->assertVisible($mediaModalSelector)
@@ -1248,7 +1248,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
     });
 
     $page->pressAndWaitFor($saveButtonSelector, $waitTime);
-    $page->wait(.5);
+    $page->wait($waitTime);
 
     $tinyMceIframeSelector = '.tox-edit-area__iframe';
     $page->assertPresent($tinyMceIframeSelector);
@@ -1291,13 +1291,13 @@ it('promotes temporary uploads to permanent media on form submit', function () {
     // 2. Submit the form to create the model and promote media
     // We need to click the specific "Save model" button for the MMM form
     $page->press($mmmTemporaryId.' ~ button[type="submit"]')
-        ->wait(1)
+        ->wait($waitTime)
         ->assertPathIs('/mle-demo')
-        ->wait(1);
+        ->wait($waitTime);
 
     // 3. Verify it appears in the permanent MMM
     $this->scrollIntoView($page, $mmmPermanentId);
-    $page->wait(1)
+    $page->wait($waitTime)
         ->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
 })->group('browser')->todo();
 
@@ -1334,9 +1334,9 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
     // 2. Submit the specific MMM form's save button to create the model and promote media
     // Use pressAndWaitFor to allow time for the POST + redirect to complete before asserting the path.
     $page->pressAndWaitFor($mmmTemporaryId.' ~ button[type="submit"]', $waitTime)
-        ->wait(0.6)
+        ->wait($waitTime)
         ->assertPathIs('/mle-demo')
-        ->wait(1);
+        ->wait($waitTime);
 
     // 3. Verify at least two items appear in the permanent MMM grid
     $this->scrollIntoView($page, $mmmPermanentId);

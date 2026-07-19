@@ -11,10 +11,10 @@ use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
  */
 class TemporaryUploadPromoterTestProxy extends TemporaryUploadPromoter
 {
-    public function publicReplaceTemporaryUrlsInHtml(string $html, string $temporaryDiskUrl, string $mediaUrl, string $filename): string
+    public function publicReplaceTemporaryUrlsInHtml(string $html, string $temporaryDiskUrl, string $temporaryFullUrl, string $mediaUrl, string $filename): string
     {
         // call the protected method from the parent
-        return $this->replaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $mediaUrl, $filename);
+        return $this->replaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $temporaryFullUrl, $mediaUrl, $filename);
     }
 }
 
@@ -31,7 +31,9 @@ it('replaces absolute temporary URLs with a single absolute media URL (no double
         <p>Some text after</p>
     HTML;
 
-    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $mediaUrl, $filename);
+    $temporaryFullUrl = "http://127.0.0.1:8000/storage/media_temporary/abc123/{$filename}";
+
+    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $temporaryFullUrl, $mediaUrl, $filename);
 
     expect($result)->toContain($mediaUrl)
         ->and($result)->not->toContain('http://127.0.0.1:8000http://127.0.0.1:8000');
@@ -46,7 +48,10 @@ it('replaces relative temporary URLs too', function (): void {
 
     $html = '<img src="/storage/media_temporary/tmp/xyz/picture.png" />';
 
-    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $mediaUrl, $filename);
+    // Build a full URL only to extract the path in the implementation
+    $temporaryFullUrl = 'http://localhost/storage/media_temporary/tmp/xyz/picture.png';
+
+    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $temporaryFullUrl, $mediaUrl, $filename);
 
     expect($result)->toContain($mediaUrl)
         ->and($result)->not->toContain('/storage/media_temporary/');
@@ -62,7 +67,9 @@ it('only replaces occurrences that end with the target filename', function (): v
     $html = '<img src="/storage/media_temporary/a/final.jpg" />'.
             '<img src="/storage/media_temporary/a/other.jpg" />';
 
-    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $mediaUrl, $filename);
+    $temporaryFullUrl = 'http://test/storage/media_temporary/a/final.jpg';
+
+    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $temporaryFullUrl, $mediaUrl, $filename);
 
     // first image replaced, second remains temporary because filename differs
     expect($result)->toContain('<img src="'.$mediaUrl.'" />')
@@ -83,7 +90,9 @@ it('consumes protocol-relative or mismatched hosts to avoid double-host after re
     ];
 
     foreach ($cases as $html) {
-        $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $mediaUrl, $filename);
+        // Use a representative full URL; path portion is what matters for mixed cases
+        $temporaryFullUrl = 'http://127.0.0.1:8000/storage/media_temporary/xyz/dino.png';
+        $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $temporaryFullUrl, $mediaUrl, $filename);
 
         expect($result)->toContain($mediaUrl)
             ->and($result)->not->toContain('http://127.0.0.1:8000http://127.0.0.1:8000');
@@ -99,7 +108,9 @@ it('replaces urls inside srcset without creating double hosts', function (): voi
 
     $html = '<img srcset="/storage/media_temporary/a/photo.jpg 1x, http://127.0.0.1:8000/storage/media_temporary/a/photo.jpg 2x" />';
 
-    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $mediaUrl, $filename);
+    $temporaryFullUrl = 'http://127.0.0.1:8000/storage/media_temporary/a/photo.jpg';
+
+    $result = $proxy->publicReplaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $temporaryFullUrl, $mediaUrl, $filename);
 
     expect($result)->not->toContain('media_temporary')
         ->and($result)->toContain($mediaUrl)
