@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.3.14](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.13...2.3.14) (2026-07-19)
+
+
+### Bug Fixes
+
+* added comment ([9065375](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/9065375b6fc5e6277997480c0ddd8cd854c81357))
+* browser tests fixes, added empty database checks at start of tests. ([d2205fd](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/d2205fd8d11144be794a1a1c7db93354e3e0fca6))
+* carousel fixes ([e544f27](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e544f270cd919fb93d15966940d1f318eb501bec))
+* carousel plain animations ([3227467](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/3227467d58df4e72bf456c4dd79128094fdb4d02))
+* commented out changes ([b4c9418](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b4c9418e9a41f4c998ccf49f9ca7a45bc486d8bb))
+* duplicate url segments in temporary upload promotion ([da19eb3](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/da19eb3799cf68e4d579d4c30b72ebdfa981e7a1))
+* eager loading image editor listener in media managers ([65005a2](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/65005a2ba673c98b854718efddea1ef407f9400b))
+* fixes ([bd17542](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/bd1754234c4abc537a0431f5658e04ccd4b18e16))
+* media-library-loader.js and asset-loader-core.js ([a5af658](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a5af658a9ed1223ad1c5215bb4b3058ba9cf2544))
+* pinnen playwright to     "playwright": "1.60.0", 1.61.0 gives "localPaths are not allowed when the client is not local" ([b72c76b](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b72c76bd0bb6bf3630ce7d58357ec4298ddaf991))
+* temporary upload refactor, solved nasty bug that didn't load assets once the page was already loaded but new components needed assets that were not yet loaded, now observing dom, all tests passing, pest and pest browser tests ([3b59201](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/3b5920164ae1658077a72f454d3e68a1e8e2d7d6))
+* temporary upload refactor, solved nasty bug that didn't load assets once the page was already loaded but new components needed assets that were not yet loaded, now observing dom, all tests passing, pest and pest browser tests ([dcca2f9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/dcca2f90f41f0d0b1d0fd64cba195007e33575af))
+* updated dist files ([4bb0ce4](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/4bb0ce47079f5298cf6d229558c7e6551e771403))
+
 ## [2.3.13](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.12...2.3.13) (2026-07-13)
 
 
