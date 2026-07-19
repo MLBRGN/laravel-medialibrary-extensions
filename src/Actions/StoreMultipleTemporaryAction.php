@@ -60,7 +60,15 @@ class StoreMultipleTemporaryAction
         }
 
         $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
-        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections, $instanceId, null, $dataSource);
+        // IMPORTANT: For capacity checks we must consider ALL temporary uploads for the
+        // same component instance, regardless of client_token. Tests seed existing
+        // uploads with different client tokens and expect capping to apply globally
+        // per instance+collection. Therefore, do NOT filter by client_token here.
+        $temporaryUploadsInCollections = TemporaryUpload::query()
+            ->forDataSource($dataSource)
+            ->where('instance_id', $instanceId)
+            ->whereIn('collection_name', array_values(array_filter($collections)))
+            ->count();
         $nextPriority = $temporaryUploadsInCollections;
 
         if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
@@ -95,6 +103,24 @@ class StoreMultipleTemporaryAction
                 $baseId,
                 $message
             );
+        }
+
+        // Enforce remaining capacity: only process up to the remaining slots; mark overflow as failed.
+        $remaining = max(0, $maxItemsInCollection - $temporaryUploadsInCollections);
+        if ($remaining <= 0) {
+            return MediaResponse::error(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                    'items' => $maxItemsInCollection,
+                ])
+            );
+        }
+
+        $overflowPrepared = [];
+        if (count($preparedUploads) > $remaining) {
+            $overflowPrepared = array_slice($preparedUploads, $remaining);
+            $preparedUploads = array_slice($preparedUploads, 0, $remaining);
         }
 
         foreach ($preparedUploads as $prepared) {
@@ -166,6 +192,15 @@ class StoreMultipleTemporaryAction
             $successCount++;
         }
 
+        // Append overflow info, if any
+        if (! empty($overflowPrepared)) {
+            $skipped = array_map(fn ($u) => $u->originalName, $overflowPrepared);
+            $failedUploadFIleNames = array_merge($failedUploadFIleNames, $skipped);
+            $errorMessages[] = __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
+                'items' => $maxItemsInCollection,
+            ]);
+        }
+
         if ($successCount === 0) {
             $message = __('medialibrary-extensions::messages.upload_failed');
 
@@ -189,6 +224,7 @@ class StoreMultipleTemporaryAction
 
         Log::info('{success_count} uploads successful', ['success_count' => $successCount]);
         Log::info('just before mediaresponse');
+
         return MediaResponse::success(
             $request,
             $baseId,
