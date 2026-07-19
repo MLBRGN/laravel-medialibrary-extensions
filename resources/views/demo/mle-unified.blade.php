@@ -275,7 +275,7 @@
             <p>{{ __('medialibrary-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>
             <p>only shows temporary uploads for media manager multiple</p>
         
-            <button id="carouselRefreshButton" type="button" class="btn btn-primary mb-3">Refresh carousel</button>
+            <button id="carouselRefreshButton" type="button" class="mle-demo-btn mle-demo-btn-primary mb-3">Refresh carousel</button>
             <x-mle-media-carousel
                 id="alien-carousel"
                 :model-or-class-name="$model"

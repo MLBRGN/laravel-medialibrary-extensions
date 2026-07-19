@@ -23,17 +23,25 @@ function initializeMediaModal(modal) {
         const modalId = modal.id;
 
         const autoPlay = modal.hasAttribute('data-mle-autoplay');
-        if (!autoPlay) return;
-
         const carousel = modal.querySelector('[data-mle-carousel]');
         if (!carousel) return;
 
         const firstSlide = carousel.querySelector('[data-mle-carousel-item]:first-child');
         if (!firstSlide) return;
 
-        // TODO need the slideTo index to know if i should start playing
+        // Determine which slide to open on
         const slideTo = parseInt(trigger.getAttribute('data-mle-slide-to') || '0', 10);
 
+        // Ensure the carousel is positioned on the correct slide instantly (no animation)
+        const controller = getCarouselController(carousel);
+        if (controller) {
+            // skipAnimation=true, skipFireEvent=true to avoid initial jank
+            controller.goToSlide(slideTo, true, true);
+        }
+
+        if (!autoPlay) return;
+
+        // Autoplay only when starting on the first slide
         if (slideTo === 0) {
             const nativeMediaPlayerId = setupNativeMedia(firstSlide);
             controlNativeMedia(nativeMediaPlayerId, 'play');

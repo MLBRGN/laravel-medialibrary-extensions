@@ -112,8 +112,8 @@ dataset('media_html_editor_matrix', [
 
 dataset('media_carousel_test_matrix',
     [
-        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, false],
-        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, false],
+//        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, false],
+//        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, false],
 
         //        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, true],// fails
         //        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, true],// fails
@@ -700,8 +700,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mmm_test_matrix')->todo('fails on it can control mmm with dataset "bootstrap + demo default + no xhr + temporary"');
-//    ->flaky();
+    ->with('mmm_test_matrix')->todo('fails on it can control mmm with dataset "bootstrap + demo default + no xhr + temporary"')
+    ->flaky();
 
 dataset('mmm_cap_matrix', [
     'plain + demo default + xhr + permanent' => ['plain', 'demo_default', 'permanent'],

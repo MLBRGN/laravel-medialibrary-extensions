@@ -115,12 +115,16 @@
     .mle-media-carousel-item {
         width:100%;
         height:100%;
+        // Help headless Chrome paint animations reliably
+        //will-change: transform, opacity;
+        //backface-visibility: hidden;
+        //transform: translateZ(0);
     }
 
-    .mle-media-carousel[data-mle-carousel-effect="slide"]:not(.temp-no-animation):not(.no-animation) {
+    &.mle-media-carousel[data-mle-carousel-effect="slide"]:not(.temp-no-animation):not(.no-animation) {
 
         .mle-media-carousel-item {
-            transition: transform 0.6s ease, opacity 0.6s ease;
+            transition: transform 0.6s ease-in-out;
             position: absolute;
             top: 0;
             left: 0;
@@ -137,52 +141,55 @@
             z-index: 1;
         }
 
-        /* Animations */
         .mle-slide-in-from-right {
             transform: translateX(100%);
-            animation: slideInRight 0.6s forwards;
+            animation: slideInRight 0.6s ease-in-out forwards;
+            opacity: 1;
+            z-index: 2;
         }
 
         .mle-slide-out-to-left {
-            animation: slideOutLeft 0.6s forwards;
+            animation: slideOutLeft 0.6s ease-in-out forwards;
+            z-index: 1;
         }
 
         .mle-slide-in-from-left {
             transform: translateX(-100%);
-            animation: slideInLeft 0.6s forwards;
+            animation: slideInLeft 0.6s ease-in-out forwards;
+            opacity: 1;
+            z-index: 2;
         }
 
         .mle-slide-out-to-right {
-            animation: slideOutRight 0.6s forwards;
+            animation: slideOutRight 0.6s ease-in-out forwards;
+            z-index: 1;
         }
 
-        .mle-media-carousel-inner {
-            transition: transform 0.5s ease-in-out;
-            will-change: transform;
-        }
+        // Note: the keyframe-based slide animations below act on slide items directly.
+        // The inner wrapper does not need a transform transition.
 
         @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
 
         @keyframes slideOutLeft {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(-100%); opacity: 0; }
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
         }
 
         @keyframes slideInLeft {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
         }
 
         @keyframes slideOutRight {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
+            from { transform: translateX(0); }
+            to { transform: translateX(100%); }
         }
     }
 
-    .media-carousel[data-mle-carousel-effect="fade"]:not(.temp-no-animation):not(.no-animation) {
+    &.mle-media-carousel[data-mle-carousel-effect="fade"]:not(.temp-no-animation):not(.no-animation) {
 
         .mle-media-carousel-inner {
             display:block;
@@ -207,12 +214,33 @@
             animation: none;
         }
 
+        .mle-fade-in {
+            z-index: 1; // visually above the current slide during cross-fade
+            animation: fadeIn 0.5s forwards;
+            pointer-events: none; // interactions only after commit
+        }
+
+        .mle-fade-out {
+            z-index: 1; // ensure it stays on top while fading out if needed
+            animation: fadeOut 0.5s forwards;
+            pointer-events: none;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
             }
             to {
                 opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
             }
         }
     }
