@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.16](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.15...2.3.16) (2026-07-20)
+
+
+### Bug Fixes
+
+* composer updated ([fbad715](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/fbad715b89a2217f0d93878199ce9324b494141c))
+* image-editor.js now loaded by media-library-loader.js ([179a718](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/179a7180eefc4ce3e4bda0b4a70bb9d32ba2b9ae))
+
 ## [2.3.15](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.14...2.3.15) (2026-07-19)
 
 
