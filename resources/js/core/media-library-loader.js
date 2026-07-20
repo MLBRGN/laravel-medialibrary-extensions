@@ -106,6 +106,8 @@ function loadMediaAssets(loader, manifest) {
         // Use absolute URL + global ensure to avoid duplicates across loaders.
         const url = loader.resolveUrl('js/shared/image-editor-listener.js');
         tasks.push(coreEnsureScript(url));
+        const imageEditorUrl = loader.resolveUrl('js/image-editor.js');
+        tasks.push(coreEnsureScript(imageEditorUrl));
     }
 
     if (assets.mediaManagerSubmitter) {

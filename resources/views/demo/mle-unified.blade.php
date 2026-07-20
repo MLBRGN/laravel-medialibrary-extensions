@@ -114,18 +114,6 @@
         @php
             $nonce = mlbrgn_csp_nonce();
         @endphp
-        <script
-            type="module"
-            @isset($nonce) nonce="{{ $nonce }}" @endisset
-        >
-            if (!window.imageEditorLoaded) {
-                const script = document.createElement('script');
-                script.type = 'module';
-                script.src = "{{ asset(config('medialibrary-extensions.asset_path') . '/js/image-editor.js') }}";
-                document.head.appendChild(script);
-                window.imageEditorLoaded = true;
-            }
-        </script>
         {{-- for form components loader to work it needs config to be set --}}
         <script class="mlbrgn-form-components-config" type="application/json">
             {

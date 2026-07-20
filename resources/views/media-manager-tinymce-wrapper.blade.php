@@ -6,20 +6,6 @@
         @php
             $nonce = mlbrgn_csp_nonce();
         @endphp
-        <script 
-            type="module" 
-            @isset($nonce) nonce="{{ $nonce }}" @endisset
-        >
-            if (!window.imageEditorLoaded) {
-                const script = document.createElement('script');
-                script.type = 'module';
-                script.src = "{{ asset(config('medialibrary-extensions.asset_path') . '/js/image-editor.js') }}";
-                document.head.appendChild(script);
-                window.imageEditorLoaded = true;
-
-                console.log('imageEditorLoaded');
-            }
-        </script>
     </head>
     <body>
         <div class="mle-component">
