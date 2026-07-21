@@ -64,7 +64,7 @@ class SetTemporaryUploadAsFirstAction
 //            ->get();
 
         $mediaItems = TemporaryUpload::getForCurrentClient(
-            $collections,
+            $collectionNames,
             $instanceId,
             $dataSource,
             $clientToken,
@@ -96,6 +96,19 @@ class SetTemporaryUploadAsFirstAction
                 $request,
                 $baseId,
                 __('medialibrary-extensions::messages.medium_not_found'),
+            );
+        }
+
+        // Security: ensure the target belongs to current client + instance + allowed collections
+        $targetInScope = $targetMedia->client_token === $clientToken
+            && $targetMedia->instance_id === $instanceId
+            && (empty($collectionNames) || in_array($targetMedia->collection_name, $collectionNames, true));
+
+        if (! $targetInScope) {
+            return MediaResponse::forbidden(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.not_authorized'),
             );
         }
 

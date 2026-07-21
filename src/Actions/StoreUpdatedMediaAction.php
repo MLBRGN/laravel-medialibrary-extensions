@@ -81,6 +81,23 @@ class StoreUpdatedMediaAction
                     throw new Exception("Temporary upload with ID {$mediaId} not found.");
                 }
 
+                // Enforce scoping for temporary uploads
+                $clientToken = $request->input('client_token')
+                    ?: $request->cookie('mle_client_token');
+                $instanceId = app(\Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::class)
+                    ::getInstanceId($baseId);
+
+                $belongsToClient = $existingMedia->client_token === $clientToken;
+                $belongsToInstance = $existingMedia->instance_id === $instanceId;
+
+                if (! $belongsToClient || ! $belongsToInstance) {
+                    return MediaResponse::forbidden(
+                        $request,
+                        $baseId,
+                        __('medialibrary-extensions::messages.not_authorized')
+                    );
+                }
+
                 $newMedia = $this->mediaReplacement->replaceTemporaryUpload($existingMedia, $file);
             }
 

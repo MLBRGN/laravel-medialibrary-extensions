@@ -31,6 +31,30 @@ class DestroyTemporaryUploadAction
             $dataSource
         );
 
+        if (! $temporaryUpload) {
+            return MediaResponse::error(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.medium_not_found'),
+            );
+        }
+
+        // Enforce scoping: the temp upload must belong to the current client + instance
+        $clientToken = $request->input('client_token')
+            ?: $request->cookie('mle_client_token');
+        $instanceId = InstanceManager::getInstanceId($baseId);
+
+        $belongsToClient = $temporaryUpload->client_token === $clientToken;
+        $belongsToInstance = $temporaryUpload->instance_id === $instanceId;
+
+        if (! $belongsToClient || ! $belongsToInstance) {
+            return MediaResponse::forbidden(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.not_authorized'),
+            );
+        }
+
         // Delete the medium
         $temporaryUpload->delete();
 
