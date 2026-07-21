@@ -7,6 +7,7 @@ return [
     'invalid_or_missing_collection' => 'Ongeldige / missende collectie.',
     'an_exception_occurred' => 'Er heeft zich een exceptie voorgedaan.',
     'upload_failed' => 'Upload mislukt.',
+    "unable_to_read_response_body" => 'Kon body van response niet lezen',
     'some_uploads_failed' => 'Sommige uploads mislukt.',
     'upload_no_files' => 'Geen bestanden geüpload.',
     'upload_no_file' => 'Geen bestand geüpload.',

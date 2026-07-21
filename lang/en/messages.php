@@ -7,6 +7,7 @@ return [
     'invalid_or_missing_collection' => 'Invalid or missing collection.',
     'an_exception_occurred' => 'An exceptie occurred.',
     'upload_failed' => 'Upload failed.',
+    "unable_to_read_response_body" => 'Unable to read response body',
     'upload_no_files' => 'No files uploaded.',
     'upload_no_file' => 'No file uploaded.',
     'upload_no_youtube_url' => 'Geen YouTube URL.',

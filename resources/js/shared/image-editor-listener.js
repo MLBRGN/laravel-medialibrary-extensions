@@ -146,7 +146,9 @@ const updateMedia = async (detail) => {
                 };
             } catch {
                 data = {
-                    message: 'Unable to read response body'
+
+                    message: trans('unable_to_read_response_body')
+                    // message: 'Unable to read response body'
                 };
             }
         }
@@ -210,6 +212,7 @@ const updateMedia = async (detail) => {
         }));
     }).
     catch(error => {
+        // TODO show real message if possible
         showStatusMessage(localStatusAreaContainer, {
             type: 'error',
             message: trans('update_failed'),

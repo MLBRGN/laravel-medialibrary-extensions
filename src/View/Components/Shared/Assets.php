@@ -79,6 +79,9 @@ class Assets extends Component
 
                 'upload_disabled_max_items_reached' => __('medialibrary-extensions::messages.upload_disabled_max_items_reached'),
 
+                'upload_failed' => __('medialibrary-extensions::messages.upload_failed'),
+
+                "unable_to_read_response_body" => __('medialibrary-extensions::messages.unable_to_read_response_body'),
                 // Template for media counts used by JS; placeholders are replaced client-side
                 'media_counts' => __('medialibrary-extensions::messages.media_counts', [
                     'current' => ':current',
