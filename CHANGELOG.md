@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.19](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.18...2.3.19) (2026-07-21)
+
+
+### Bug Fixes
+
+* added translations ([73eb13f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/73eb13fee62c37b10045946f4308f0b5a5896c61))
+
 ## [2.3.18](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.17...2.3.18) (2026-07-21)
 
 
