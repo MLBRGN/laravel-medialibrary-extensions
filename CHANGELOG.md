@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.21](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.20...2.3.21) (2026-07-21)
+
+
+### Bug Fixes
+
+* security hardening ([7a523d2](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/7a523d2e83cd991b9dbc8188b22028fc1341bd28))
+* security hardening ([8508b8f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8508b8f1eb3f5c327186dedc0efb87acebf2823b))
+
 ## [2.3.20](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.19...2.3.20) (2026-07-21)
 
 
