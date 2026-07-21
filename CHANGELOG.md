@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.17](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.16...2.3.17) (2026-07-21)
+
+
+### Bug Fixes
+
+* authorization and media collection check alerted ([2d24c7a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/2d24c7ab8b518c539a04247444561dc32722b88a))
+
 ## [2.3.16](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.15...2.3.16) (2026-07-20)
 
 
