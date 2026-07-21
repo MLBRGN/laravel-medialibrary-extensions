@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Validator;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
 class DestroyRequest extends MediaManagerRequest
@@ -36,8 +37,15 @@ class DestroyRequest extends MediaManagerRequest
             // so `model_id` must be allowed to be absent. For persisted media it is required.
             'model_id' => ['required_unless:temporary_upload_mode,true', 'string'],
             'single_media_id' => ['nullable'],
-            // Collections are required by contract; at least one valid collection must be provided.
-            'collections' => ['required', 'array', 'min:1'],
+            'collections' => [
+                'required',
+                'array',
+                'min:1',
+                // TODO look at this
+//                new AllowedMediaCollections(
+//                    $this->mediaModel(),
+//                )
+            ],
             'collections.*' => ['nullable', 'string'],
             'data_source' => ['nullable', 'string'],
         ];

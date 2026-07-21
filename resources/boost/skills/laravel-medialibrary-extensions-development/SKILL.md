@@ -99,7 +99,7 @@ Control media actions directly on your models:
 
 ```php
 public static function allowsMediaUploads(): bool { return true; }
-public function allowsMediaUploadFrom(?Authenticatable $user): bool { return true; }
+public function allowsMediaUploadFrom(?Authenticatable $user, HasMediaExtended $model): bool { return true; }
 public function allowedMediaCollections(): array { return []; }
 ```
 

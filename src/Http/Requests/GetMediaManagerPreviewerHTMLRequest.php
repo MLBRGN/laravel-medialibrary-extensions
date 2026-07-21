@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaManagerPreviewerHTMLRequest extends MediaManagerRequest
@@ -24,7 +25,14 @@ class GetMediaManagerPreviewerHTMLRequest extends MediaManagerRequest
             'single_media_id' => ['nullable'],
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],
             'base_id' => ['required', 'string'],
-            'collections' => ['required', 'string'], // json
+            'collections' => [
+                'required',
+                'string',
+                // TODO look at this
+//                new AllowedMediaCollections(
+//                    $this->mediaModel(),
+//                )
+            ], // json
             //            'options' => ['required', 'string'], // json
             'selectable' => ['required', 'string', Rule::in(['true', 'false'])],
             'multiple' => ['required', 'string', Rule::in(['true', 'false'])],

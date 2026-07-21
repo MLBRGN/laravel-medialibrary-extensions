@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
 class StoreUpdatedMediaRequest extends MediaManagerRequest
@@ -22,7 +23,6 @@ class StoreUpdatedMediaRequest extends MediaManagerRequest
     {
         return [
             'base_id' => ['required', 'string'],
-            'base_id' => ['required', 'string'],
             'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => 'required|string',
             'model_id' => ['required_if:temporary_upload_mode,false'],
@@ -30,7 +30,14 @@ class StoreUpdatedMediaRequest extends MediaManagerRequest
             'single_media_id' => ['nullable'],
             'collection' => 'required|string',
             'file' => 'required|file',
-            'collections' => ['nullable', 'array'],
+            'collections' => [
+                'nullable',
+                'array',
+                // TODO look at this
+//                new AllowedMediaCollections(
+//                    $this->mediaModel(),
+//                )
+            ],
             'collections.*' => ['nullable', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],
             'data_source' => ['nullable', 'string'],

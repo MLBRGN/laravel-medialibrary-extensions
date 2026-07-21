@@ -5,6 +5,8 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
+
 class SetMediumAsFirstRequest extends MediaManagerRequest
 {
     public function authorize(): bool
@@ -21,7 +23,15 @@ class SetMediumAsFirstRequest extends MediaManagerRequest
             'medium_id' => 'required|string',
             'single_media_id' => ['nullable'],
             'base_id' => ['required', 'string'],
-            'collections' => ['required', 'array', 'min:1'],
+            'collections' => [
+                'required',
+                'array',
+                'min:1',
+                // TODO look at this
+//                new AllowedMediaCollections(
+//                    $this->mediaModel(),
+//                )
+            ],
             'collections.*' => ['nullable', 'string'],
             'data_source' => ['nullable', 'string'],
         ];

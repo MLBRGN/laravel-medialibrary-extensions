@@ -89,17 +89,17 @@ class Alien extends Model implements HasMediaExtended
         return [];
     }
 
-    public function allowsMediaUploadFrom(?Authenticatable $user): bool
+    public function allowsMediaUploadFrom(?Authenticatable $user, HasMediaExtended $model): bool
     {
         return true;
     }
 
-    public function allowsMediaDeletesFrom(?Authenticatable $user): bool
+    public function allowsMediaDeletesFrom(?Authenticatable $user, HasMediaExtended $model): bool
     {
         return true;
     }
 
-    public function allowsMediaEditsFrom(?Authenticatable $user): bool
+    public function allowsMediaEditsFrom(?Authenticatable $user, HasMediaExtended $model): bool
     {
         return true;
     }

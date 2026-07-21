@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 
 class GetMediaManagerTinyMceRequest extends FormRequest
 {
@@ -20,7 +21,14 @@ class GetMediaManagerTinyMceRequest extends FormRequest
             'base_id' => ['required', 'string'],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
-            'collections' => ['required', 'string'], // json
+            'collections' => [
+                'required',
+                'string',
+                // TODO look at this
+//                new AllowedMediaCollections(
+//                    $this->mediaModel(),
+//                )
+            ], // json
             'options' => ['required', 'string'], // json
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],
             'multiple' => ['required', Rule::in(['true', 'false'])],

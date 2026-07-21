@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
@@ -28,6 +29,12 @@ trait InteractsWithMediaExtended
     /** Whether this model should store archived originals */
     protected bool $storeOriginals = true;
     //    public array $htmlEditorFields = [];
+
+    protected const ACTION_MAP = [
+        'upload' => 'allowsMediaUploads',
+        'edit'   => 'allowsMediaEdits',
+        'delete' => 'allowsMediaDeletes',
+    ];
 
     /** Used by Spatie when registering conversions on the instance */
     public bool $registerMediaConversionsUsingModelInstance = true;
@@ -536,27 +543,24 @@ trait InteractsWithMediaExtended
         return $this->htmlEditorFields ?? [];
     }
 
-    public static function allowsMediaUploads(): bool
-    {
-        return true;
-    }
-
-    public function allowsMediaUploadFrom(?Authenticatable $user): bool
-    {
-        return true;
-    }
-
+    /*
+      * Declares which media capabilities this model supports.
+      *
+      * These methods describe the model itself, not the current user.
+      * They are typically used to determine whether media features
+      * (buttons, routes, actions, etc.) should be available at all.
+      */
     public function allowedMediaCollections(): array
     {
         return [];
     }
 
-    public static function allowsMediaDeletes(): bool
+    public static function allowsMediaUploads(): bool
     {
         return true;
     }
 
-    public function allowsMediaDeletesFrom(?Authenticatable $user): bool
+    public static function allowsMediaDeletes(): bool
     {
         return true;
     }
@@ -566,9 +570,38 @@ trait InteractsWithMediaExtended
         return true;
     }
 
-    public function allowsMediaEditsFrom(?Authenticatable $user): bool
-    {
-        return true;
+    /*
+     * Determines whether the given user is authorized to perform
+     * the specified media action on this model.
+     *
+     * Authorization is resolved in the following order:
+     * 1. The model must support the requested action
+     *    (allowsMediaUploads(), allowsMediaEdits(), etc.).
+     * 2. If a Laravel policy exists for this model, it is used.
+     * 3. If no policy exists, authorization is granted by default.
+     */
+    public function canPerformMediaAction(
+        string $ability,
+        ?Authenticatable $user = null
+    ): bool {
+        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
+
+        if (! $supportsMethod) {
+            return false;
+        }
+
+        if (! static::$supportsMethod()) {
+            return false;
+        }
+
+        $policy = Gate::getPolicyFor($this);
+
+        if (! $policy) {
+            return true;
+        }
+
+        return Gate::forUser($user)
+            ->allows($ability.'Media', $this);
     }
 
     public static function isMediaUploadable(): bool

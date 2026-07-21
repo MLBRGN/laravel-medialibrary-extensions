@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Validator;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Traits\ValidatesCollections;
 
 class DestroyTemporaryUploadRequest extends MediaManagerRequest
@@ -21,7 +22,15 @@ class DestroyTemporaryUploadRequest extends MediaManagerRequest
         return [
             'base_id' => ['required', 'string'],
             'single_media_id' => ['nullable'],
-            'collections' => ['required', 'array', 'min:1'],
+            'collections' => [
+                'required',
+                'array',
+                'min:1',
+                // TODO look at this
+//                new AllowedMediaCollections(
+//                    $this->mediaModel(),
+//                )
+            ],
             'collections.*' => ['nullable', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],
             'data_source' => ['nullable', 'string'],

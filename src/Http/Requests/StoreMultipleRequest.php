@@ -5,6 +5,8 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
+use Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig;
 
 class StoreMultipleRequest extends StoreRequest
 {
@@ -33,7 +35,14 @@ class StoreMultipleRequest extends StoreRequest
                     Rule::in(['true', 'false']),
                 ],
 
-                'collections' => ['required', 'array', 'min:1'],
+                'collections' => [
+                    'required',
+                    'array',
+                    'min:1',
+                    new AllowedMediaCollections(
+                        $this->mediaModel(),
+                    ),
+                ],
                 'collections.*' => ['nullable', 'string'],
 
                 'media' => $uploadRules,
@@ -42,7 +51,7 @@ class StoreMultipleRequest extends StoreRequest
                     'nullable',
                     'file',
                     'max:'.(config('medialibrary-extensions.max_upload_size') / 1024), // max upload size in kilobytes
-                    new \Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig(),
+                    new ImageDimensionsWithinConfig(),
                 ],
 
                 'base_id' => ['required', 'string'],

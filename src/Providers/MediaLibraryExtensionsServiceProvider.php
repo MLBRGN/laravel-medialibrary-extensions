@@ -21,7 +21,6 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\SetupDemoCommand;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
-use Mlbrgn\MediaLibraryExtensions\Policies\MediaPolicy;
 use Mlbrgn\MediaLibraryExtensions\Services\DefaultYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
@@ -183,10 +182,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                     __DIR__.'/../../resources/images' => public_path($assetBase.'/images'),
 
                 ], $this->namespace().'-images');
-
-                $this->publishes([
-                    __DIR__.'/../../stubs/MediaPolicy.stub' => app_path('Policies/MediaPolicy.php'),
-                ], $this->namespace().'-policy');
             }
 
         }
@@ -242,7 +237,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-partial-status', Status::class);
         Blade::component($this->packageNameShort.'-partial-spinner', Spinner::class);
 
-        $this->registerPolicy();
         $this->addToAbout();
 
         // Merge your overrides
@@ -302,20 +296,6 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                     config("filesystems.disks.$name", [])
                 )
             );
-        }
-    }
-
-    protected function registerPolicy(): void
-    {
-        $appPolicy = 'App\\Policies\\MediaPolicy';
-        $appPolicyPath = app_path('Policies/MediaPolicy.php');
-
-        if (file_exists($appPolicyPath) && class_exists($appPolicy)) {
-            // Host app has published and defined the policy class
-            Gate::policy(Media::class, $appPolicy);
-        } else {
-            // Use package’s fallback policy
-            Gate::policy(Media::class, MediaPolicy::class);
         }
     }
 

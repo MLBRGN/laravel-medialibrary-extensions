@@ -146,7 +146,7 @@ public static function allowsMediaUploads(): bool { return true; }
 
 ### Instance Authorization
 ```php
-public function allowsMediaUploadFrom(?Authenticatable $user): bool
+public function allowsMediaUploadFrom(?Authenticatable $user, HasMediaExtended $model): bool
 {
     return $user && $user->isAdmin();
 }

@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig;
 
 class StoreSingleRequest extends StoreRequest
@@ -38,7 +39,20 @@ class StoreSingleRequest extends StoreRequest
                     Rule::in(['true', 'false']),
                 ],
 
-                'collections' => ['required', 'array', 'min:1'],
+                'collections' => [
+                    'required',
+                    'array',
+                    'min:1',
+                    new AllowedMediaCollections(
+                        $this->mediaModel(),
+                    ),
+//                    new AllowedMediaCollections(
+//                        model: $this->resolveModel(),
+//                        modelClass: $this->resolveModelClass(),
+//                        temporaryUpload: $this->isTemporaryUpload(),
+////                        requestedCollections: $this->requestedCollectionNames(),
+//                    ),
+                ],
                 'collections.*' => ['nullable', 'string'],
 
                 'media' => $uploadRules,

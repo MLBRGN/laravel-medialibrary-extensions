@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Rules\YouTubeUrl;
 
 class StoreYouTubeVideoRequest extends StoreRequest
@@ -17,7 +18,15 @@ class StoreYouTubeVideoRequest extends StoreRequest
             'temporary_upload_mode' => ['required', 'string', Rule::in(['true', 'false'])],
             'model_type' => ['required', 'string'],
             'model_id' => ['required_if:temporary_upload_mode,false'],
-            'collections' => ['required', 'array', 'min:1'],
+            'collections' => [
+                'required',
+                'array',
+                'min:1',
+                // TODO look at this
+//                new AllowedMediaCollections(
+//                    $this->mediaModel(),
+//                )
+            ],
             'collections.*' => ['nullable', 'string'],
             'youtube_url' => ['nullable', 'url', new YouTubeUrl],
             'base_id' => ['required', 'string'],

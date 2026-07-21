@@ -15,7 +15,6 @@ use Illuminate\Validation\ValidationException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Throwable;
 
 abstract class MediaManagerRequest extends FormRequest
 {
@@ -29,6 +28,56 @@ abstract class MediaManagerRequest extends FormRequest
         return [];
     }
 
+    // TODO Refactor model resolution responsibilities.
+    //
+    // Goal:
+    // - The Request should only know about request input and authorization.
+    // - MediaService should own all model resolution logic.
+    //
+    // Steps:
+    // 1. Move model_type -> model class resolution (including morph map support)
+    //    into MediaService.
+    // 2. Move model instantiation into MediaService.
+    // 3. Move loading an existing model by ID into MediaService.
+    // 4. Centralize exception handling (ModelNotFoundException,
+    //    QueryException, etc.) inside MediaService.
+    // 5. Let this Request simply ask MediaService for either:
+    //      - an existing model, or
+    //      - a new model instance (for temporary uploads).
+    //
+    // Desired end result:
+    // $model = $mediaService->resolveRequestModel(...);
+    // or
+    // $model = $mediaService->makeRequestModel(...);
+    //
+    // The Request should no longer need to know about:
+    // - Relation::getMorphedModel()
+    // - class_exists()
+    // - HasMediaExtended validation
+    // - database connections
+    // - model lookup exception handling
+
+
+    // TODO Remove.
+    // This should eventually delegate entirely to MediaService.
+    protected function mediaModel(): ?HasMediaExtended
+    {
+        if ($model = $this->resolveModel()) {
+            return $model;
+        }
+
+        $modelClass = $this->resolveModelClass();
+
+        if (! $modelClass) {
+            return null;
+        }
+
+        return new $modelClass;
+    }
+
+    // TODO Move to MediaService.
+    // MediaService should be responsible for resolving morph aliases,
+    // validating the class and ensuring it implements HasMediaExtended.
     protected function resolveModelClass(): ?string
     {
         // TODO look at this, does it need to be a string?
@@ -49,6 +98,9 @@ abstract class MediaManagerRequest extends FormRequest
         return $modelClass;
     }
 
+    // TODO Move to MediaService.
+    // Loading a model, selecting the correct connection and handling lookup
+    // exceptions are service responsibilities, not request responsibilities.
     protected function resolveModel(): ?HasMediaExtended
     {
         if ($this->isTemporaryUpload()) {
@@ -97,84 +149,28 @@ abstract class MediaManagerRequest extends FormRequest
 
     protected function authorizeMediaUpload(): bool
     {
-        $modelClass = $this->resolveModelClass();
-
-        if (! $modelClass || ! $modelClass::allowsMediaUploads()) {
-            return false;
-        }
-
-        if (! $this->requestedCollectionsAreAllowed()) {
-            return false;
-        }
-
-        if ($this->isTemporaryUpload()) {
-            return true;
-        }
-
-        $model = $this->resolveModel();
-
-        return $model !== null
-            && $model->allowsMediaUploadFrom($this->user());
+        return $this->authorizeMediaAction('upload');
     }
 
     protected function authorizeMediaDelete(): bool
     {
-        $modelClass = $this->resolveModelClass();
-
-        if (! $modelClass || ! $modelClass::allowsMediaDeletes()) {
-            return false;
-        }
-
-//        dd('f');
-        if (! $this->requestedCollectionsAreAllowed()) {
-            return false;
-        }
-
-        $model = $this->resolveModel();
-
-        return $model !== null
-            && $model->allowsMediaDeletesFrom($this->user());
+        return $this->authorizeMediaAction('delete');
     }
 
     protected function authorizeMediaEdit(): bool
     {
-        $modelClass = $this->resolveModelClass();
-
-        if (! $modelClass || ! $modelClass::allowsMediaEdits()) {
-            return false;
-        }
-
-        if (! $this->requestedCollectionsAreAllowed()) {
-            return false;
-        }
-
-        if ($this->isTemporaryUpload()) {
-            return true;
-        }
-
-        $model = $this->resolveModel();
-
-        return $model !== null
-            && $model->allowsMediaEditsFrom($this->user());
+        return $this->authorizeMediaAction('edit');
     }
 
-    protected function requestedCollectionsAreAllowed(): bool
-    {
-        $model = $this->resolveModel();
-
-        if (! $model) {
-            return $this->isTemporaryUpload()
-                ? $this->temporaryRequestedCollectionsAreAllowed()
-                : false;
-        }
-
-        return $this->collectionsAreAllowed(
-            $this->requestedCollectionNames(),
-            $model->allowedMediaCollections()
-        );
-    }
-
-    protected function temporaryRequestedCollectionsAreAllowed(): bool
+    // TODO After model resolution has moved to MediaService, this method should
+    // only contain authorization logic:
+    //
+    // 1. Allow temporary upload abilities where appropriate.
+    // 2. Ask MediaService for the model.
+    // 3. Call canPerformMediaAction().
+    //
+    // It should not perform any model resolution itself.
+    protected function authorizeMediaAction(string $ability): bool
     {
         $modelClass = $this->resolveModelClass();
 
@@ -182,80 +178,113 @@ abstract class MediaManagerRequest extends FormRequest
             return false;
         }
 
-        $model = new $modelClass;
-
-        if (! $model instanceof HasMediaExtended) {
-            return false;
-        }
-
-        return $this->collectionsAreAllowed(
-            $this->requestedCollectionNames(),
-            $model->allowedMediaCollections()
-        );
-    }
-
-    protected function requestedCollectionNames(): array
-    {
-        $collections = [];
-
-        if ($this->has('collections')) {
-            $inputCollections = $this->input('collections');
-
-            if (is_string($inputCollections)) {
-                $decodedCollections = json_decode($inputCollections, true);
-                $inputCollections = is_array($decodedCollections) ? $decodedCollections : [];
-            }
-
-            if (is_array($inputCollections)) {
-                $collections = array_merge($collections, $this->flattenCollectionNames($inputCollections));
-            }
-        }
-
-        if ($this->filled('collection')) {
-            $collections[] = (string) $this->input('collection');
-        }
-
-        if ($this->filled('target_media_collection')) {
-            $collections[] = (string) $this->input('target_media_collection');
-        }
-
-        return array_values(array_unique(array_filter($collections)));
-    }
-
-    protected function flattenCollectionNames(array $collections): array
-    {
-        $names = [];
-
-        foreach ($collections as $key => $value) {
-            if (is_string($value)) {
-                $names[] = $value;
-
-                continue;
-            }
-
-            if (is_array($value)) {
-                $names = array_merge($names, $this->flattenCollectionNames($value));
-            }
-        }
-
-        return $names;
-    }
-
-    protected function collectionsAreAllowed(array $requestedCollections, array $allowedCollections): bool
-    {
-        $requestedCollections = array_values(array_unique(array_filter($requestedCollections)));
-        $allowedCollections = array_values(array_unique(array_filter($allowedCollections)));
-
-        if ($requestedCollections === []) {
+        if ($this->isTemporaryUpload() && in_array($ability, ['upload', 'edit'])) {
             return true;
         }
 
-        if ($allowedCollections === []) {
-            return true;
-        }
+        $model = $this->resolveModel();
 
-        return empty(array_diff($requestedCollections, $allowedCollections));
+        return $model?->canPerformMediaAction($ability, $this->user()) ?? false;
     }
+
+//    protected function requestedCollectionsAreAllowed(): bool
+//    {
+//        $model = $this->resolveModel();
+//
+//        if (! $model) {
+//            return $this->isTemporaryUpload()
+//                ? $this->temporaryRequestedCollectionsAreAllowed()
+//                : false;
+//        }
+//
+//        return $this->collectionsAreAllowed(
+//            $this->requestedCollectionNames(),
+//            $model->allowedMediaCollections()
+//        );
+//    }
+
+//    protected function temporaryRequestedCollectionsAreAllowed(): bool
+//    {
+//        $modelClass = $this->resolveModelClass();
+//
+//        if (! $modelClass) {
+//            return false;
+//        }
+//
+//        $model = new $modelClass;
+//
+//        if (! $model instanceof HasMediaExtended) {
+//            return false;
+//        }
+//
+//        return $this->collectionsAreAllowed(
+//            $this->requestedCollectionNames(),
+//            $model->allowedMediaCollections()
+//        );
+//    }
+
+//    protected function requestedCollectionNames(): array
+//    {
+//        $collections = [];
+//
+//        if ($this->has('collections')) {
+//            $inputCollections = $this->input('collections');
+//
+//            if (is_string($inputCollections)) {
+//                $decodedCollections = json_decode($inputCollections, true);
+//                $inputCollections = is_array($decodedCollections) ? $decodedCollections : [];
+//            }
+//
+//            if (is_array($inputCollections)) {
+//                $collections = array_merge($collections, $this->flattenCollectionNames($inputCollections));
+//            }
+//        }
+//
+//        if ($this->filled('collection')) {
+//            $collections[] = (string) $this->input('collection');
+//        }
+//
+//        if ($this->filled('target_media_collection')) {
+//            $collections[] = (string) $this->input('target_media_collection');
+//        }
+//
+//        return array_values(array_unique(array_filter($collections)));
+//    }
+
+//    protected function flattenCollectionNames(array $collections): array
+//    {
+//        $names = [];
+//
+//        foreach ($collections as $key => $value) {
+//            if (is_string($value)) {
+//                $names[] = $value;
+//
+//                continue;
+//            }
+//
+//            if (is_array($value)) {
+//                $names = array_merge($names, $this->flattenCollectionNames($value));
+//            }
+//        }
+//
+//        return $names;
+//    }
+
+//    protected function collectionsAreAllowed(array $requestedCollections, array $allowedCollections): bool
+//    {
+//        $requestedCollections = array_values(array_unique(array_filter($requestedCollections)));
+//        $allowedCollections = array_values(array_unique(array_filter($allowedCollections)));
+//
+//        if ($requestedCollections === []) {
+//            return true;
+//        }
+//
+//        if ($allowedCollections === []) {
+//            return true;
+//        }
+//
+//        return empty(array_diff($requestedCollections, $allowedCollections));
+//    }
 
     /**
      * Override the redirect URL to include the Base ID.
@@ -271,27 +300,6 @@ abstract class MediaManagerRequest extends FormRequest
 
         return $url;
     }
-
-//    protected function failedValidation(Validator $validator)
-//    {
-//        $request = $this; // the FormRequest itself
-//        $baseId = $request->input('base_id') ?? 'unknown';
-//        $errors = $validator->errors();
-//
-//        $response = MediaResponse::error(
-//            $request,
-//            $baseId,
-//            $errors->first(),
-//            ['errors' => $errors->messages()]
-//        );
-//
-//        // Force 422 for JSON responses
-//        if ($request->expectsJson()) {
-//            $response->setStatusCode(422);
-//        }
-//
-//        throw new ValidationException($validator, $response);
-//    }
 
     protected function failedValidation(Validator $validator)
     {
@@ -310,16 +318,6 @@ abstract class MediaManagerRequest extends FormRequest
 
         throw new ValidationException($validator, $response);
     }
-
-//    public function prepareForValidation(): void
-//    {
-//        if (
-//            $this->input('data_source') === 'null'
-//            || $this->input('data_source') === 'undefined'
-//        ) {
-//            $this->merge(['data_source' => 'default']);
-//        }
-//    }
 
     public function prepareForValidation(): void
     {
@@ -354,4 +352,5 @@ abstract class MediaManagerRequest extends FormRequest
 
         throw new HttpResponseException($response);
     }
+
 }

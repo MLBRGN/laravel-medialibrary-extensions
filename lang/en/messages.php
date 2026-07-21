@@ -110,4 +110,5 @@ return [
     // Wrapper to include a stable token alongside the human-friendly message
     // This allows tests to assert on the token without hardcoding it in PHP code
     'upload_success_with_token' => ':message upload_success',
+    'selected_media_collection_not_allowed' => 'The selected media collection is not allowed',
 ];

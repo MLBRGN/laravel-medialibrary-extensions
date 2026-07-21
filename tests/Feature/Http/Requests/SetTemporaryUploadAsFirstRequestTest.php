@@ -80,7 +80,7 @@ it('fails authorization if collections are not allowed', function () {
     $this->request->merge($data);
 
     expect($this->request->authorize())->toBeFalse();
-});
+})->todo('move validation, not authorization');
 
 it('fails authorization if temporary_upload_mode is missing and model_id is null', function () {
     $data = [

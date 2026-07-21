@@ -106,4 +106,5 @@ return [
     'custom_file_picker' => 'Aangepaste file picker',
     'could_not_save_updated_medium' => 'Kon gewijzigde medium niet opslaan.',
     'could_not_save_media' => 'Kon media niet opslaan ":file". Fout: :message',
+    'selected_media_collection_not_allowed' => 'De geselecteerde media collectie is niet toegestaan.',
 ];

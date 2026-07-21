@@ -24,6 +24,64 @@ class MediaManager extends BaseMediaComponent
 
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
+    // modelOrClassName is the model that will eventually hold the media
+    // Persistent mode — you have an existing model instance.
+    // Temporary mode — you only know which model type will eventually own the media.
+    // TODO refactor $modelOrClassName to modelReference?
+
+    /*
+     * TODO
+     * The important part is what happens immediately after.
+
+Instead of storing modelOrClassName and passing it around everywhere, normalize it once.
+
+public ResolvedModel $resolvedModel;
+
+public function __construct(
+    public Model|string $modelOrClassName,
+    ...
+) {
+    $this->resolvedModel = $this->mediaService
+        ->resolveModelOrClassName(
+            $modelOrClassName,
+            $this->dataSource
+        );
+}
+    Now the rest of the component never touches modelOrClassName again.
+
+    TODO rename resolvedModel to MediaTarget
+     A MediaTarget can naturally represent
+
+    existing model
+    future model
+    model class
+    temporary upload mode
+
+    I'd also simplify ResolvedModel
+
+Right now it contains
+
+model
+modelType
+modelId
+temporaryUploadMode
+
+which means some properties are null depending on the state.
+
+I would almost give it behavior:
+
+$target->isTemporary();
+
+$target->hasModel();
+
+$target->model();
+
+$target->modelClass();
+
+$target->modelId();
+
+Then callers don't care whether the original input was
+     */
     public function __construct(
         ?string $id,
         public mixed $modelOrClassName,

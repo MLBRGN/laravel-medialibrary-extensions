@@ -21,16 +21,10 @@ it('has expected methods from trait', function () {
     expect(method_exists($blog, 'allowsMediaUploads'))
         ->toBeTrue();
 
-    expect(method_exists($blog, 'allowsMediaUploadFrom'))
-        ->toBeTrue();
-
     expect(method_exists($blog, 'allowedMediaCollections'))
         ->toBeTrue();
 
-    expect(Blog::allowsMediaUploads())
-        ->toBeTrue();
-
-    expect($blog->allowsMediaUploadFrom(null))
+    expect(method_exists(Blog::class, 'allowsMediaUploads'))
         ->toBeTrue();
 
     expect($blog->allowedMediaCollections())

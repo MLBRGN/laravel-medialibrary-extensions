@@ -8,7 +8,7 @@ class CollectionRestrictedBlog extends Blog
 {
     public function allowedMediaCollections(): array
     {
-        return ['allowed-collection'];
+        return ['allowed-collection', 'another-allowed-collection'];
     }
 
     public function getTable()
