@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.18](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.17...2.3.18) (2026-07-21)
+
+
+### Bug Fixes
+
+* when policy exists, but method does not, by default allow action (update, delete, edit media) ([701b68a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/701b68a3de2856712c3828f79488175c22b4e66a))
+
 ## [2.3.17](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.16...2.3.17) (2026-07-21)
 
 
