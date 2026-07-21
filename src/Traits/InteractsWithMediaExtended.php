@@ -600,10 +600,16 @@ trait InteractsWithMediaExtended
             return true;
         }
 
-        return Gate::forUser($user)
-            ->allows($ability.'Media', $this);
-    }
+        $policyMethod = $ability.'Media';
 
+        // if policy exists, but does not have the method, allow it
+        if (! method_exists($policy, $policyMethod)) {
+            return true;
+        }
+
+        return Gate::forUser($user)
+            ->allows($policyMethod, $this);
+    }
     public static function isMediaUploadable(): bool
     {
         return static::allowsMediaUploads();
