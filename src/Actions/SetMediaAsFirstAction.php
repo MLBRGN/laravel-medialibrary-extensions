@@ -32,6 +32,15 @@ class SetMediaAsFirstAction
 
         $collections = $request->array('collections');
 
+        // Ownership: target medium must belong to the resolved model first (prevent tampering)
+        if (! $targetMedia || ! $targetMedia->model || ! $targetMedia->model->is($model)) {
+            return MediaResponse::forbidden(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.not_authorized')
+            );
+        }
+
         // Flatten all media across the given collections
         $mediaItems = collect($collections)
             ->flatMap(fn ($collection) => $model->getMedia($collection));
@@ -42,6 +51,17 @@ class SetMediaAsFirstAction
                 $baseId,
                 __('medialibrary-extensions::messages.no_media_collections'),
             );
+        }
+
+        if ($collections && $collections !== []) {
+            $allowedIds = $mediaItems->pluck('id')->all();
+            if (! in_array($mediumId, $allowedIds, true)) {
+                return MediaResponse::error(
+                    $request,
+                    $baseId,
+                    __('medialibrary-extensions::messages.medium_not_found'),
+                );
+            }
         }
 
         // Sort by current priority

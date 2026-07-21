@@ -46,6 +46,20 @@ class RestoreOriginalMediaAction
             );
         }
 
+        // Enforce ownership when a model context is provided
+        $modelType = $request->input('model_type');
+        $modelId = $request->input('model_id');
+        if ($modelType !== null && $modelId !== null) {
+            $authorizedModel = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+            if (! $authorizedModel || ! $media->model || ! $media->model->is($authorizedModel)) {
+                return MediaResponse::forbidden(
+                    $request,
+                    $baseId,
+                    __('medialibrary-extensions::messages.not_authorized')
+                );
+            }
+        }
+
         $originalsDisk = config('medialibrary-extensions.media_disks.originals');
         $originalPath = "{$media->id}/{$media->file_name}";
 

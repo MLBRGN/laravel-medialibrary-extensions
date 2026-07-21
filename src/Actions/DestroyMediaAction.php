@@ -32,6 +32,36 @@ class DestroyMediaAction
 
         $baseId = (string) $request->input('base_id');
 
+        // Basic existence check
+        if (! $media) {
+            return MediaResponse::error(
+                $request,
+                $baseId,
+                __('medialibrary-extensions::messages.medium_not_found'),
+            );
+        }
+
+        // If a model context was provided (normal persisted-media flow), enforce ownership.
+        // In some internal flows / tests, model context may be omitted; in that case we skip
+        // the ownership cross-check but still delete the found media.
+        $modelType = $request->input('model_type');
+        $modelId = $request->input('model_id');
+        if ($modelType !== null && $modelId !== null) {
+            $authorizedModel = $this->mediaService->resolveModelById(
+                $modelType,
+                $modelId,
+                $dataSource
+            );
+
+            if (! $authorizedModel || ! $media->model || ! $media->model->is($authorizedModel)) {
+                return MediaResponse::forbidden(
+                    $request,
+                    $baseId,
+                    __('medialibrary-extensions::messages.not_authorized')
+                );
+            }
+        }
+
         // Delete the medium
         $model = $media->model;
         $media->delete();

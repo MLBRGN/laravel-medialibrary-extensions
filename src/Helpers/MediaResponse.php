@@ -21,6 +21,11 @@ class MediaResponse
         return self::respond($request, $baseId, 'error', $message, $extraData, 422);
     }
 
+    public static function forbidden(Request $request, string $baseId, string $message, array $extraData = []): JsonResponse|RedirectResponse
+    {
+        return self::respond($request, $baseId, 'error', $message, $extraData, 403);
+    }
+
     protected static function respond(Request $request, string $baseId, string $type, string $message, array $extraData = [], int $status = 200): JsonResponse|RedirectResponse
     {
         Log::debug('MediaResponse.respond expectsJson: '.($request->expectsJson() ? 'true' : 'false'));

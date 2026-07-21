@@ -47,6 +47,20 @@ class StoreUpdatedMediaAction
             if (! $temporaryUploadMode) {
                 $existingMedia = $this->mediaService->findMedium($mediaId, $dataSource);
                 if ($existingMedia) {
+                    // Ensure the medium actually belongs to the authorized model resolved by the request
+                    $authorizedModel = $this->mediaService->resolveModelById(
+                        $request->input('model_type'),
+                        $request->input('model_id'),
+                        $dataSource
+                    );
+                    if (! $authorizedModel || ! $existingMedia->model || ! $existingMedia->model->is($authorizedModel)) {
+                        return MediaResponse::forbidden(
+                            $request,
+                            $baseId,
+                            __('medialibrary-extensions::messages.not_authorized')
+                        );
+                    }
+
                     // store the updated medium and remove the old one
                     $newMedia = $this->mediaReplacement->replaceMedium($existingMedia, $file);
                 } else {
