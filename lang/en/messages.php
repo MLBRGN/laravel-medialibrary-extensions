@@ -67,6 +67,7 @@ return [
     'download_document' => 'Download document',
     'something_went_wrong' => 'Something went wrong.',
     'medium_not_found' => 'Medium not found.',
+    'could_not_load_file_picker' => 'Could not load file picker.',
     'class_does_not_exist' => 'Class ":class_name" does not exist.',
     'class_must_implement' => 'Class must implement ":class_name"',
     'insert_selected_medium' => 'Insert Selected Medium',

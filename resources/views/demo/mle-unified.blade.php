@@ -351,6 +351,7 @@
                         :data-mle-collections="json_encode([
                             'image' => 'alien-media-html-editor',
                         ])"
+                        data-mle-data-source="{{ $dataSource }}"
                     />
                 </x-form-form>
             @else

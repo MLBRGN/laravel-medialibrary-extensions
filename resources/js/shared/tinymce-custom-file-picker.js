@@ -12,7 +12,7 @@ window.mleFilePicker = (callback, value, meta) => {
         const modelId = textarea.getAttribute('data-mle-model-id');
         let multipleAttr = textarea.getAttribute('data-mle-multiple');
         const multiple = multipleAttr === null || multipleAttr === 'true' || multipleAttr === '';
-
+        const dataSource = textarea.getAttribute('data-mle-data-source') ?? 'default';
         let collections = {};
 
         try {
@@ -37,7 +37,8 @@ window.mleFilePicker = (callback, value, meta) => {
             options: JSON.stringify({
                 temporaryUploadMode: temporaryUploadMode,
                 theme: 'plain',
-            })
+            }),
+            data_source: dataSource,
         };
 
         const url = new URL('/mlbrgn-mle/media-manager-tinymce', window.location.origin);

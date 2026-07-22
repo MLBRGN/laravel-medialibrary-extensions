@@ -24,23 +24,26 @@ class GetMediaManagerTinyMcePermanentAction
         $multiple = $request->boolean('multiple');
         $collections = json_decode(request()->string('collections'), true);
         $options = json_decode(request()->string('options'), true);
-        $dataSource = $request->input('data_source', 'default');
+        $dataSource = $request->input('data_source', 'default');// TODO in demo should be demo_default
 
         $model = null;
-        if ($modelType && $modelId) {
-            $model = $modelType::find($modelId);
-        }
 
-        if (!$model) {
-            return view('medialibrary-extensions::errors.error', [
+        if ($modelType && $modelId) {
+            try {
+                $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+            } catch (\Exception $e) {
+                return view('medialibrary-extensions::errors.error', [
                     'title' => __('medialibrary-extensions::messages.something_went_wrong'),
-                    'message' => __('medialibrary-extensions::messages.medium_not_found'),
+                    'message' => __('medialibrary-extensions::messages.medium_not_found') . ' ' . __('medialibrary-extensions::messages.could_not_load_file_picker'),
                     'details' => [
                         'Model' => $modelType,
                         'ID' => $modelId,
+                        'dataSource' => $dataSource,
                     ],
                 ]);
+            }
         }
+
         $modelOrClassName = $model ?? $modelType;
 
         return view('medialibrary-extensions::media-manager-tinymce-wrapper', [

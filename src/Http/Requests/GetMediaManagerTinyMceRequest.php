@@ -36,27 +36,25 @@ class GetMediaManagerTinyMceRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): void
     {
-        $errors = $validator->errors()->all();
-
-        // Determine if this request expects HTML (TinyMCE iframe)
         $acceptHeader = $this->header('Accept', '');
         $wantsHtml = str_contains($acceptHeader, 'text/html');
 
         if ($wantsHtml) {
-            // Return an HTML response so TinyMCE doesn't render raw JSON
-            $html = view('medialibrary-extensions::components.shared.tinymce-error', [
-                'message' => __('medialibrary-extensions::messages.invalid_configuration'),
-                'errors' => $errors,
-            ])->render();
-
             throw new HttpResponseException(
-                response($html, 422)
+                response()->view(
+                    'medialibrary-extensions::errors.error',
+                    [
+                        'title' => __('medialibrary-extensions::messages.validation_error'),
+                        'message' => __('medialibrary-extensions::messages.invalid_configuration'),
+                        'errors' => $validator->errors()->all(),
+                    ],
+                    422
+                )
             );
         }
 
-        // Fallback: return JSON for API or AJAX calls
         throw new HttpResponseException(
             response()->json([
                 'success' => false,

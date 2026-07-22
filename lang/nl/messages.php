@@ -68,6 +68,7 @@ return [
     'download_document' => 'Download document',
     'something_went_wrong' => 'Er is iets misgegaan.',
     'medium_not_found' => 'Medium niet gevonden.',
+    'could_not_load_file_picker' => 'Could not load file picker.',
     'class_does_not_exist' => 'Class ":class_name" bestaat niet.',
     'class_must_implement' => 'Class moet ":class_name" implementeren.',
     'insert_selected_medium' => 'Voeg het geselecteerde medium in',
