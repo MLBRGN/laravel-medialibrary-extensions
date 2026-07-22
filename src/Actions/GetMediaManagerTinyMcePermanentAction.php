@@ -4,6 +4,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
@@ -27,7 +28,18 @@ class GetMediaManagerTinyMcePermanentAction
 
         $model = null;
         if ($modelType && $modelId) {
-            $model = $modelType::findOrFail($modelId);
+            $model = $modelType::find($modelId);
+        }
+
+        if (!$model) {
+            return view('medialibrary-extensions::errors.error', [
+                    'title' => __('medialibrary-extensions::messages.something_went_wrong'),
+                    'message' => __('medialibrary-extensions::messages.medium_not_found'),
+                    'details' => [
+                        'Model' => $modelType,
+                        'ID' => $modelId,
+                    ],
+                ]);
         }
         $modelOrClassName = $model ?? $modelType;
 

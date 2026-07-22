@@ -75,46 +75,66 @@ class UploadForm extends BaseMediaComponent
         return 'upload-form';
     }
 
-    public function getFileRequirementsSummary(): string
+    public function getSupportedFilesSummary(): string
     {
-        $requirements = [];
+        $parts = [];
 
-        if ($this->fileRequirements['max_file_size']) {
-            $requirements[] = sprintf(
-                'Maximum file size: %s',
-                mle_human_filesize($this->fileRequirements['max_file_size'])
-            );
+        if ($formats = $this->getConfig('allowedMimeTypesHuman')) {
+            $parts[] = $formats;
         }
 
-        if ($this->fileRequirements['max_width'] || $this->fileRequirements['max_height']) {
-            $requirements[] = sprintf(
-                'Maximum dimensions: %s × %s px',
-                $this->fileRequirements['max_width'] ?? '∞',
-                $this->fileRequirements['max_height'] ?? '∞'
-            );
+        if ($size = $this->getMaximumFileSize()) {
+            $parts[] = __('medialibrary-extensions::messages.up_to_size', [
+                'size' => $size,
+            ]);
         }
 
-        if ($this->fileRequirements['min_width'] || $this->fileRequirements['min_height']) {
-            $requirements[] = sprintf(
-                'Minimum dimensions: %s × %s px',
-                $this->fileRequirements['min_width'] ?? 0,
-                $this->fileRequirements['min_height'] ?? 0
-            );
+        if ($dimensions = $this->getDimensionSummary()) {
+            $parts[] = $dimensions;
         }
 
-        return implode("\n", $requirements);
+        return implode(' • ', $parts);
     }
 
-//    protected function formatBytes(int $bytes)
-//    {
-//        if ($bytes > 1024 * 1024) {
-//            return round($bytes / 1024 / 1024, 2).' MB';
-//        } elseif ($bytes > 1024) {
-//            return round($bytes / 1024, 2).' KB';
-//        }
-//
-//        return $bytes . ' B';
-//    }
+    protected function getMaximumFileSize(): ?string
+    {
+        return $this->fileRequirements['max_file_size']
+            ? mle_human_filesize($this->fileRequirements['max_file_size'])
+            : null;
+    }
+
+    protected function getDimensionSummary(): ?string
+    {
+        $minWidth  = $this->fileRequirements['min_width'];
+        $minHeight = $this->fileRequirements['min_height'];
+        $maxWidth  = $this->fileRequirements['max_width'];
+        $maxHeight = $this->fileRequirements['max_height'];
+
+        if ($minWidth && $minHeight && $maxWidth && $maxHeight) {
+            return __('medialibrary-extensions::messages.dimension_range', [
+                'min_width' => $minWidth,
+                'min_height' => $minHeight,
+                'max_width' => $maxWidth,
+                'max_height' => $maxHeight,
+            ]);
+        }
+
+        if ($maxWidth || $maxHeight) {
+            return __('medialibrary-extensions::messages.up_to_dimensions', [
+                'width' => $maxWidth ?? '∞',
+                'height' => $maxHeight ?? '∞',
+            ]);
+        }
+
+        if ($minWidth || $minHeight) {
+            return __('medialibrary-extensions::messages.at_least_dimensions', [
+                'width' => $minWidth ?? 0,
+                'height' => $minHeight ?? 0,
+            ]);
+        }
+
+        return null;
+    }
 
     public function render(): View
     {

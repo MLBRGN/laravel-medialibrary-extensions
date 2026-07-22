@@ -90,6 +90,9 @@ trait InteractsWithMimeTypes
     {
         return collect($allowedMimeTypes)
             ->map(fn ($mime) => mle_human_mimetype_label($mime))
+            ->filter()
+            ->unique()
+            ->values()
             ->join(', ');
     }
 

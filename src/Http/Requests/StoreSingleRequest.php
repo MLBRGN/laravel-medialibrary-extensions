@@ -68,6 +68,17 @@ class StoreSingleRequest extends StoreRequest
         );
     }
 
+    public function messages(): array
+    {
+        $maxBytes = config('medialibrary-extensions.max_upload_size');
+
+        return [
+            'media.max' => __('medialibrary-extensions::validation.media_max', [
+                'max' => mle_human_filesize($maxBytes),
+            ]),
+        ];
+    }
+
     protected function withValidator(\Illuminate\Validation\Validator $validator): void
     {
         // No legacy identifier checks remain; clients must send only base_id. Instance IDs are prohibited via rules().

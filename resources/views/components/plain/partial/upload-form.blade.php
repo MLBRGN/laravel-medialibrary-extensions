@@ -13,7 +13,7 @@
     class="mle-media-manager-upload-form"
     id="{{ $getDomId() }}"
 >
-    <label for="{{ $id }}-media-input" class="mle-label">{{ __('medialibrary-extensions::messages.files') }}</label>
+    <label for="{{ $id }}-media-input" class="mle-label">{{ __('medialibrary-extensions::messages.upload') }}</label>
     <input
         id="{{ $id }}-media-input"
         data-mle-media-input
@@ -28,9 +28,12 @@
         @endif
         @disabled($disabled)
         >
-    <span class="mle-form-text form-text">{{ __('medialibrary-extensions::messages.supported_dimensions_:supported_dimensions', ['supported_dimensions' => $getFileRequirementsSummary() ]) }}</span>
+        <span class="mle-form-text form-text">
+            {{ __('medialibrary-extensions::messages.supported_files', [
+                'summary' => $getSupportedFilesSummary(),
+            ]) }}
+        </span>
     <br>
-    <span class="mle-form-text">{{ __('medialibrary-extensions::messages.supported_file_formats_:supported_formats', ['supported_formats' => $getConfig('allowedMimeTypesHuman')]) }}</span>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
