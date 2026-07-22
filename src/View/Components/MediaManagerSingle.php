@@ -11,7 +11,10 @@ class MediaManagerSingle extends MediaManager
 {
     public function __construct(
         ?string $id,
-        mixed $modelOrClassName,
+        // New preferred API: modelReference (camelCase => model-reference in Blade)
+        mixed $modelReference = null,
+        // Backward compatibility: modelOrClassName still accepted
+        mixed $modelOrClassName = null,
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         array $collections = [],
         array $options = [],
@@ -25,6 +28,7 @@ class MediaManagerSingle extends MediaManager
 
         parent::__construct(
             id: $id,
+            modelReference: $modelReference ?? $modelOrClassName,
             modelOrClassName: $modelOrClassName,
             singleMedia: $singleMedia,
             collections: $collections,

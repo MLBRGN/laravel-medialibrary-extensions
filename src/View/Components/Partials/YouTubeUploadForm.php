@@ -19,7 +19,9 @@ class YouTubeUploadForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or its class name
+        // New preferred prop; legacy supported via sync below
+        public mixed $modelReference = null,
+        public mixed $modelOrClassName = null,// either a model that implements HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
@@ -30,7 +32,14 @@ class YouTubeUploadForm extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        // Normalize both props for downstream blades
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
+        parent::__construct($id, $this->modelReference, $this->modelOrClassName, $dataSource);
 
         if (empty($instanceId)) {
             $this->instanceId = InstanceManager::getInstanceId($this->id);

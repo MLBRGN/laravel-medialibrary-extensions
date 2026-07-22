@@ -16,7 +16,9 @@ class ImageEditorForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        // New preferred prop; legacy supported for BC
+        public mixed $modelReference = null,
+        public mixed $modelOrClassName = null,// either a model that implements HasMedia or its class name
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
@@ -24,7 +26,14 @@ class ImageEditorForm extends BaseMediaComponent
         public ?bool $disabled = false,
         public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id, $this->modelOrClassName, $this->dataSource);
+        // Normalize both props
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
+        parent::__construct($id, $this->modelReference, $this->modelOrClassName, $this->dataSource);
 
         $this->options = $options;
 

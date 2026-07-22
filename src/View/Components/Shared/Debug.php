@@ -37,7 +37,9 @@ class Debug extends Component
     private ResolvedModel $resolvedModel;
 
     public function __construct(
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        // New preferred prop; legacy supported via sync below
+        public mixed $modelReference = null,
+        public mixed $modelOrClassName = null,// either a model that implements HasMedia or it's class name
         array $config = [],
         array $options = [],
         public ?string $dataSource = 'default',
@@ -48,8 +50,14 @@ class Debug extends Component
         $this->id = uniqid();
 
         $mediaService = app(MediaService::class);
+        // Normalize props for BC
+        $effectiveRef = $this->modelReference ?? $this->modelOrClassName;
+        if ($effectiveRef === null) {
+            // Preserve legacy behavior: missing model context is a programmer error
+            throw new \TypeError('model-or-class-name must be either a HasMedia model or a string representing the model class');
+        }
 
-        $this->resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+        $this->resolvedModel = $mediaService->resolveModelOrClassName($effectiveRef, $dataSource);
 
         $this->model = $this->resolvedModel->model;
         $this->modelType = $this->resolvedModel->modelType;

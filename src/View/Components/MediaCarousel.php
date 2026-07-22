@@ -24,7 +24,9 @@ class MediaCarousel extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,
+        // New preferred prop; legacy supported via sync below
+        public mixed $modelReference = null,
+        public mixed $modelOrClassName = null,
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public ?array $collections = [],
         public bool $expandableInModal = true,
@@ -35,6 +37,13 @@ class MediaCarousel extends BaseComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
+        // Normalize for BC
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
         parent::__construct($id);
 
         if ($instanceId) {
@@ -49,7 +58,7 @@ class MediaCarousel extends BaseComponent
 
         $mediaService = app(MediaService::class);
 
-        $resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+        $resolvedModel = $mediaService->resolveModelOrClassName($this->modelOrClassName, $dataSource);
         $model = $resolvedModel->model;
 
         // merge into config

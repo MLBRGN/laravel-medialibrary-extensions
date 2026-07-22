@@ -1,7 +1,7 @@
 <div class="mle-component mle-media-manager-tinymce">
     <x-mle-media-manager
         id="{{ $id }}"
-        :model-or-class-name="$modelOrClassName"
+        :model-reference="$modelReference"
         :collections="$collections"
         :options="$getOptions()"
         :multiple="$multiple"

@@ -6,6 +6,7 @@ use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 beforeEach(function () {
     // Fake the default public disk used by temp uploads in tests
@@ -23,6 +24,7 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     $baseId = 'media-manager-456';
     $dataSource = 'test_alt';
     $connection = $this->altConnection;
+    $clientToken = 'test-session-alt';
 
     // 1. Create an initial temporary upload on the custom connection
     // Seed the old file on disk and DB
@@ -36,7 +38,8 @@ it('correctly replaces a temporary upload on a custom data source', function () 
         'collection_name' => 'test',
         'mime_type' => 'image/jpeg',
         'size' => 123,
-        'client_token' => session()->getId(),
+        'client_token' => $clientToken,
+        'instance_id' => InstanceManager::getInstanceId($baseId),
         'custom_properties' => [],
     ]);
     $existingUpload->setConnection($connection);
@@ -64,6 +67,7 @@ it('correctly replaces a temporary upload on a custom data source', function () 
         'temporary_upload_mode' => 'true',
         'base_id' => $baseId,
         'data_source' => $dataSource,
+        'client_token' => $clientToken,
     ], [], ['file' => $newFile]);
 
     $request->headers->set('Accept', 'application/json');

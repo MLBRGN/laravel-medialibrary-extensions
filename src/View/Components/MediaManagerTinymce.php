@@ -27,7 +27,10 @@ class MediaManagerTinymce extends BaseMediaComponent
      */
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        // New preferred prop name (camelCase => model-reference in Blade)
+        public mixed $modelReference = null,
+        // Backward compatible legacy prop
+        public mixed $modelOrClassName = null, // either a model that implements HasMedia or its class name
         public array $collections = [],
         array $options = [],
         public bool $multiple = true,
@@ -37,7 +40,14 @@ class MediaManagerTinymce extends BaseMediaComponent
         public ?string $dataSource = 'default',
     ) {
 
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        // Normalize: prefer new prop; keep both in sync for views
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
+        parent::__construct($id, $this->modelReference, $this->modelOrClassName, $dataSource);
         $this->options = $options;
 
         // override: enforce disabled / readonly

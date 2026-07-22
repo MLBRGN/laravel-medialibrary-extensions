@@ -84,7 +84,10 @@ Then callers don't care whether the original input was
      */
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,
+        // New preferred API: modelReference (camelCase => model-reference in Blade)
+        public mixed $modelReference = null,
+        // Backward compatibility: modelOrClassName still accepted
+        public mixed $modelOrClassName = null,
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
@@ -94,8 +97,25 @@ Then callers don't care whether the original input was
         public bool $selectable = false,
         public ?string $dataSource = 'default',
     ) {
+        // Normalize: prefer the new prop when provided; keep both in sync for views
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
 
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $this->modelOrClassName, $dataSource);
+
+        // Defensive sync: if the base resolved a concrete model but the legacy
+        // $modelOrClassName property is still null (e.g. due to attribute name
+        // mismatches during Blade binding), set it here so downstream counting
+        // and mode detection behave as permanent mode.
+        if ($this->model !== null && $this->modelOrClassName === null) {
+            // Keep both props in sync so nested blades that bind modelReference
+            // continue to operate in permanent mode.
+            $this->modelOrClassName = $this->model;
+            $this->modelReference = $this->modelOrClassName;
+        }
 
         $this->options = $options;
 

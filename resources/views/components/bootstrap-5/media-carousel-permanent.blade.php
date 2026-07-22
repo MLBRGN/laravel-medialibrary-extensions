@@ -130,7 +130,7 @@
 @if($expandableInModal)
     <x-mle-media-modal
         :id="$id"
-        :model-or-class-name="$modelOrClassName"
+        :model-reference="$modelReference"
         :single-media="$singleMedia"
         :collections="$collections"
         :options="$getOptions()"

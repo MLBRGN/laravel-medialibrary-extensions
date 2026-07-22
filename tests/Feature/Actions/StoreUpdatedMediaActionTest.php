@@ -83,9 +83,12 @@ it('replaces a permanent medium (redirect)', function () {
 });
 
 it('replaces a temporary upload (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
-    $existingUpload = $this->getTemporaryUpload('old_temp_file.jpg');
+    $clientToken = 'test-session-temp-json';
+    $existingUpload = $this->getTemporaryUpload('old_temp_file.jpg', [
+        'client_token' => $clientToken,
+        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+    ]);
     $file = UploadedFile::fake()->image('new_temp_file.jpg');
 
     $request = StoreUpdatedMediaRequest::create('/', 'POST', [
@@ -95,6 +98,7 @@ it('replaces a temporary upload (JSON)', function () {
         'temporary_upload_mode' => 'true',
         'base_id' => $baseId,
         'model_type' => get_class($this->getTestBlogModel()),
+        'client_token' => $clientToken,
     ], [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session')->driver());

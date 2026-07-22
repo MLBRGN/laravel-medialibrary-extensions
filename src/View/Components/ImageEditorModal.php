@@ -23,16 +23,26 @@ class ImageEditorModal extends BaseMediaComponent
 
     public function __construct(
         string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        // Legacy/BC: keep modelOrClassName in original position
+        public mixed $modelOrClassName = null, // either a model implementing HasMedia or its class name
         public Media|TemporaryUpload $medium,
-        public Media|TemporaryUpload|null $singleMedia,
+        public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections,
         array $options,
-        public string $title = 'no title',// TODO do i want this?
+        public string $title = 'no title', // optional title
         public bool $disabled = false,
         public ?string $dataSource = 'default',
+        // New preferred prop (placed at end to preserve BC with named/positional args)
+        public mixed $modelReference = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        // Normalize both props for downstream blades
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
+        parent::__construct($id, $this->modelReference, $this->modelOrClassName, $dataSource);
 
         $this->options = $options;
 

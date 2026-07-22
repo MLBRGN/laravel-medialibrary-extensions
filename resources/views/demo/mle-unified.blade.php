@@ -149,7 +149,7 @@
             <h2>Media Manager Single</h2>
             <x-mle-media-manager-single
                 id="alien-single-permanent"
-                :model-or-class-name="$model"
+                :model-reference="$model"
                 :collections="[
                                 'image' => 'alien-single-image', 
                                 'document' =>'alien-single-document', 
@@ -171,7 +171,7 @@
 
                 <x-mle-media-manager-single
                     id="alien-single-temporary"
-                    model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+                    model-reference="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
                     :collections="[
                                     'image' => 'alien-single-image',
                                     'document' =>'alien-single-document',
@@ -202,7 +202,7 @@
             <h2>Media Manager Multiple</h2>
             <x-mle-media-manager-multiple
                 id="alien-multiple-permanent"
-                :model-or-class-name="$model"
+                :model-reference="$model"
                 :collections="[
                     'image' => 'alien-multiple-images', 
                     'document' =>'alien-multiple-documents', 
@@ -229,7 +229,7 @@
 
                 <x-mle-media-manager-multiple
                     id="alien-multiple-temporary"
-                    model-or-class-name="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+                    model-reference="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
                     :collections="[
                         'image' => 'alien-multiple-images', 
                         'document' =>'alien-multiple-documents', 
@@ -266,7 +266,7 @@
             <button id="carouselRefreshButton" type="button" class="mle-demo-btn mle-demo-btn-primary mb-3">Refresh carousel</button>
             <x-mle-media-carousel
                 id="alien-carousel"
-                :model-or-class-name="$model"
+                :model-reference="$model"
                 :collections="[
                     'image' => ['alien-multiple-images', 'alien-single-image'], 
                     'document' => ['alien-multiple-documents', 'alien-single-document'], 
@@ -310,7 +310,7 @@
             <div class="mle-demo-media-first-available-container">
                 <x-mle-first-available
                     id="media-first-available"
-                    :model-or-class-name="$model"
+                    :model-reference="$model"
                     :collections="[
                         'image' => 'alien-single-image',
                         'document' => 'alien-single-document',

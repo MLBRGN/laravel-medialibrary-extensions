@@ -10,7 +10,10 @@ class MediaManagerMultiple extends MediaManager
 {
     public function __construct(
         ?string $id,
-        mixed $modelOrClassName,
+        // Preferred new prop (camelCase => model-reference in Blade)
+        mixed $modelReference = null,
+        // Backward-compatible legacy prop
+        mixed $modelOrClassName = null,
         array $collections = [],
         array $options = [],
         bool $multiple = true,
@@ -19,8 +22,16 @@ class MediaManagerMultiple extends MediaManager
         bool $selectable = false,
         public ?string $dataSource = 'default',
     ) {
+        // Normalize: prefer new prop; keep both in sync
+        if ($modelReference !== null) {
+            $modelOrClassName = $modelReference;
+        } elseif ($modelOrClassName !== null) {
+            $modelReference = $modelOrClassName;
+        }
+
         parent::__construct(
             id: $id,
+            modelReference: $modelReference,
             modelOrClassName: $modelOrClassName,
             singleMedia: null,// always null
             collections: $collections,

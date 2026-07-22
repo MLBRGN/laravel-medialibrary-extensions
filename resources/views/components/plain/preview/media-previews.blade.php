@@ -15,7 +15,7 @@
             :options="$getOptions()"
             :collections="$collections"
             :single-media="$singleMedia"
-            :model-or-class-name="$modelOrClassName"
+            :model-reference="$modelReference"
             :loop-index="$loop->index"
             :selectable="$selectable"
             :disabled="$disabled"
@@ -27,7 +27,7 @@
         />
         <x-mle-media-modal
             :id="$id"
-            :model-or-class-name="$modelOrClassName"
+            :model-reference="$modelReference"
             :single-media="$singleMedia"
             :collections="$collections"
             :video-auto-play="true"
@@ -41,7 +41,7 @@
             <x-mle-media-preview-menu
                 :id="$id"
                 :medium="$medium"
-                :model-or-class-name="$modelOrClassName"
+                :model-reference="$modelReference"
                 :collections="$collections"
                 :single-media="$singleMedia"
                 :options="$getOptions()"
@@ -50,7 +50,6 @@
                 :multiple="$multiple"
                 :instance-id="$instanceId"
                 :data-source="$getConfig('dataSource')"
-                :client-token="$clientToken"
             />
         @endif
     </div>

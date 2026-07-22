@@ -83,38 +83,52 @@ class MediaService
     //
     // The current name is also difficult to understand because "resolve"
     // and "orClassName" describe different concerns.
-    public function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource): ResolvedModel
+    /**
+     * Normalize a model reference (Model instance or FQCN/morph alias) into a ResolvedModel.
+     *
+     * Preferred new API. Existing callers should migrate from resolveModelOrClassName().
+     */
+    public function resolveModelReference(Model|string $modelReference, ?string $dataSource): ResolvedModel
     {
-        if ($modelOrClassName instanceof HasMediaExtended) {
+        if ($modelReference instanceof HasMediaExtended) {
             return new ResolvedModel(
-                model: $modelOrClassName->setConnection($this->resolver->resolveConnection($dataSource)),
-                modelType: $modelOrClassName->getMorphClass(),
-                modelId: $modelOrClassName->getKey(),
+                model: $modelReference->setConnection($this->resolver->resolveConnection($dataSource)),
+                modelType: $modelReference->getMorphClass(),
+                modelId: $modelReference->getKey(),
                 temporaryUploadMode: false
             );
-        } elseif (is_string($modelOrClassName)) {
-            if (!class_exists($modelOrClassName)) {
+        } elseif (is_string($modelReference)) {
+            if (!class_exists($modelReference)) {
                 throw new InvalidArgumentException(__('medialibrary-extensions::messages.class_not_found', [
-                    'class' => $modelOrClassName,
+                    'class' => $modelReference,
                 ]));
             }
 
-            if (!is_subclass_of($modelOrClassName, HasMediaExtended::class)) {
+            if (!is_subclass_of($modelReference, HasMediaExtended::class)) {
                 throw new UnexpectedValueException(__('medialibrary-extensions::messages.must_implement_has_media', [
-                    'class' => $modelOrClassName,
+                    'class' => $modelReference,
                     'interface' => HasMediaExtended::class,
                 ]));
             }
 
             return new ResolvedModel(
                 model: null,
-                modelType: $modelOrClassName,
+                modelType: $modelReference,
                 modelId: null,
                 temporaryUploadMode: true
             );
-        } else {
-            throw new \TypeError('model-or-class-name must be either a HasMedia model or a string representing the model class');
         }
+
+        // Backward-compatible error message expected by existing tests
+        throw new \TypeError('model-or-class-name must be either a HasMedia model or a string representing the model class');
+    }
+
+    /**
+     * @deprecated Use resolveModelReference() instead. Will be removed in a future major release.
+     */
+    public function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource): ResolvedModel
+    {
+        return $this->resolveModelReference($modelOrClassName, $dataSource);
     }
 
     // TODO Rename.
@@ -138,11 +152,23 @@ class MediaService
         ?string $dataSource
     ): object
     {
+        // Backward-compatible wrapper.
+        return $this->makeModel($modelClass, $dataSource);
+    }
 
-        $connection = $this->resolver
-            ->resolveConnection($dataSource);
+    /**
+     * Instantiate a model (from FQCN or an existing instance's class) and assign the resolved connection.
+     */
+    public function makeModel(Model|string $reference, ?string $dataSource): object
+    {
+        $connection = $this->resolver->resolveConnection($dataSource);
 
-        $model = new $modelClass;
+        if ($reference instanceof Model) {
+            $model = $reference->newInstance();
+        } else {
+            $model = new $reference;
+        }
+
         $model->setConnection($connection);
 
         return $model;
@@ -189,14 +215,29 @@ class MediaService
             }
         }
 
-        $model = new $modelClass;
+        $model = $this->makeModel($modelClass, $dataSource);
 
-        $connection = $this->resolver->resolveConnection($dataSource);
-
+        /** @var Model $model */
         return $model
-            ->setConnection($connection)
             ->newQuery()
             ->findOrFail($id);
+    }
+
+    /**
+     * Find an existing model record based on a model reference (FQCN or Model) and id.
+     */
+    public function findModel(
+        Model|string|null $reference,
+        string|int|null   $id,
+        ?string           $dataSource,
+        bool              $validateExtended = true
+    ): ?object
+    {
+        if ($reference instanceof Model) {
+            $reference = get_class($reference);
+        }
+
+        return $this->resolveModelById($reference, $id, $dataSource, $validateExtended);
     }
 
     /*

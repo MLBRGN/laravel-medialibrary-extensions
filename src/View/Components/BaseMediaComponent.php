@@ -30,7 +30,10 @@ abstract class BaseMediaComponent extends BaseComponent
 
     public function __construct(
         ?string $id = null,
-        mixed $modelOrClassName,
+        // New preferred API: modelReference (camelCase => model-reference in Blade)
+        public mixed $modelReference = null,
+        // Backward compatibility: modelOrClassName still accepted
+        public mixed $modelOrClassName = null,
         public ?string $dataSource = 'default'
     )
     {
@@ -38,15 +41,36 @@ abstract class BaseMediaComponent extends BaseComponent
 
         $this->mediaService = app(MediaService::class);
 
-        $this->resolveModel($modelOrClassName, $dataSource);
+        // Normalize: prefer the new prop when provided; keep both in sync
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
+        // Resolve using the first non-null reference
+        $reference = $this->modelOrClassName ?? $this->modelReference;
+        $this->resolveModel($reference, $dataSource);
     }
 
     protected function resolveModel(mixed $modelOrClassName, ?string $dataSource = 'default'): void
     {
-        $this->resolvedModel = $this->mediaService->resolveModelOrClassName(
-            $modelOrClassName,
-            $dataSource
-        );
+        // If no model reference provided, default to temporary-upload mode with
+        // an empty ResolvedModel to keep views operational (some demo/test
+        // blades render managers without binding a model reference).
+        if ($modelOrClassName === null) {
+            $this->resolvedModel = new ResolvedModel(
+                model: null,
+                modelType: '',
+                modelId: null,
+                temporaryUploadMode: true,
+            );
+        } else {
+            $this->resolvedModel = $this->mediaService->resolveModelOrClassName(
+                $modelOrClassName,
+                $dataSource
+            );
+        }
 
         $this->setResolvedModelProperties($this->resolvedModel);
     }

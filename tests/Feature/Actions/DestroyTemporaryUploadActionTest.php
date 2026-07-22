@@ -85,6 +85,7 @@ it('deletes the temporary upload and returns JSON', function () {
     $user = $this->getUser();
     $baseId = 'initiator-123';
     $imageCollectionName = 'images';
+    $clientToken = 'test-session-id-json';
 
     $temporaryUpload = TemporaryUpload::create([
         'collection_name' => $imageCollectionName,
@@ -95,7 +96,7 @@ it('deletes the temporary upload and returns JSON', function () {
         'file_name' => 'test.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'client_token' => session()->getId(),
+        'client_token' => $clientToken,
         'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
@@ -104,13 +105,14 @@ it('deletes the temporary upload and returns JSON', function () {
     // Call your route
     $route = route(mle_prefix_route('destroy-temporary-upload'), $temporaryUpload);
     $response = $this
-        ->withCookie('mle_client_token', session()->getId())
+        ->withCookie('mle_client_token', $clientToken)
         ->actingAs($user)
         ->deleteJson(
             $route,
             [
                 'base_id' => $baseId,
                 'collections' => ['image' => 'images'],
+                'client_token' => $clientToken,
             ]
         );
 
@@ -128,6 +130,7 @@ it('deletes the temporary upload and returns redirect', function () {
     $user = $this->getUser();
     $baseId = 'initiator-123';
     $collections = ['image' => 'images'];
+    $clientToken = 'test-session-id-redirect';
 
     // Create a temporary upload
     $temporaryUpload = TemporaryUpload::create([
@@ -139,18 +142,21 @@ it('deletes the temporary upload and returns redirect', function () {
         'file_name' => 'test.png',
         'mime_type' => 'image/png',
         'size' => 123,
-        'client_token' => session()->getId(),
+        'client_token' => $clientToken,
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     $this->assertDatabaseHas('mle_temporary_uploads', ['file_name' => $temporaryUpload->file_name]);
 
     // Call your route
     $route = route(mle_prefix_route('destroy-temporary-upload'), $temporaryUpload);
-    $response = $this->actingAs($user)->delete(
+    $response = $this->withCookie('mle_client_token', $clientToken)
+        ->actingAs($user)->delete(
         $route,
         [
             'base_id' => $baseId,
             'collections' => $collections,
+            'client_token' => $clientToken,
         ]
     );
 
@@ -247,8 +253,10 @@ it('reorders all temporary uploads on delete with dummy session id', function ()
 });
 
 it('deletes the temporary upload via action execute (JSON)', function () {
+    $baseId = 'initiator-123';
     $temporaryUpload = $this->getTemporaryUpload('temp.jpg', [
         'client_token' => session()->getId(),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     expect(TemporaryUpload::find($temporaryUpload->id))->not()->toBeNull();
@@ -264,9 +272,10 @@ it('deletes the temporary upload via action execute (JSON)', function () {
     );
     $request->merge([
         'temporaryUploadId' => $temporaryUpload->id,
-        'base_id' => 'initiator-123',
+        'base_id' => $baseId,
         'image_collection' => 'images',
         'collections' => ['image' => 'images'],
+        'client_token' => session()->getId(),
     ]);
 
     // Force expectsJson = true
@@ -280,15 +289,17 @@ it('deletes the temporary upload via action execute (JSON)', function () {
     expect(TemporaryUpload::find($temporaryUpload->id))->toBeNull();
     expect($response)->toBeInstanceOf(JsonResponse::class);
     expect($response->getData(true))->toMatchArray([
-        'baseId' => 'initiator-123',
+        'baseId' => $baseId,
         'type' => 'success',
         'message' => __('medialibrary-extensions::messages.medium_removed'),
     ]);
 });
 
 it('deletes the temporary upload via action execute (Redirect)', function () {
+    $baseId = 'initiator-456';
     $temporaryUpload = $this->getTemporaryUpload('temp.jpg', [
         'client_token' => session()->getId(),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     expect(TemporaryUpload::find($temporaryUpload->id))->not()->toBeNull();
@@ -296,9 +307,10 @@ it('deletes the temporary upload via action execute (Redirect)', function () {
     $request = DestroyTemporaryUploadRequest::create('/dummy-url', 'DELETE');
     $request->merge([
         'temporaryUploadId' => $temporaryUpload->id,
-        'base_id' => 'initiator-456',
+        'base_id' => $baseId,
         'image_collection' => 'images',
         'collections' => ['image' => 'images'],
+        'client_token' => session()->getId(),
     ]);
 
     $action = app(DestroyTemporaryUploadAction::class);

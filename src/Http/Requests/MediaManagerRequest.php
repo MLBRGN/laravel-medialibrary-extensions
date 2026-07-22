@@ -72,30 +72,40 @@ abstract class MediaManagerRequest extends FormRequest
             return null;
         }
 
-        return new $modelClass;
+        // Delegate instantiation and connection assignment to MediaService
+        $mediaService = app(MediaService::class);
+        $dataSource = $this->input('data_source') ?? 'default';
+
+        /** @var HasMediaExtended $instance */
+        $instance = $mediaService->makeModel($modelClass, $dataSource);
+
+        return $instance;
     }
 
-    // TODO Move to MediaService.
-    // MediaService should be responsible for resolving morph aliases,
-    // validating the class and ensuring it implements HasMediaExtended.
+    // Delegates model class resolution to MediaService to keep a single source
+    // of truth for morph map expansion and interface validation.
     protected function resolveModelClass(): ?string
     {
-        // TODO look at this, does it need to be a string?
-        $modelClass = (string) $this->string('model_type')->trim();
+        $mediaService = app(MediaService::class);
+        $dataSource = $this->input('data_source') ?? 'default';
 
-        if (class_exists(Relation::class)) {
-            $modelClass = Relation::getMorphedModel($modelClass) ?? $modelClass;
-        }
+        $inputType = (string) $this->string('model_type')->trim();
 
-        if (! class_exists($modelClass)) {
+        try {
+            $resolved = $mediaService->resolveModelReference($inputType, $dataSource);
+
+            return $resolved->modelType;
+        } catch (\Throwable $e) {
+            // Swallow and return null so callers can decide on 403/422 behavior
+            // while we keep logs for debugging.
+            Log::warning('Failed to resolve model class from request.', [
+                'exception' => $e->getMessage(),
+                'model_type' => $inputType,
+                'data_source' => $dataSource,
+            ]);
+
             return null;
         }
-
-        if (! is_subclass_of($modelClass, HasMediaExtended::class)) {
-            return null;
-        }
-
-        return $modelClass;
     }
 
     // TODO Move to MediaService.
@@ -113,7 +123,8 @@ abstract class MediaManagerRequest extends FormRequest
         $dataSource = $this->input('data_source') ?? 'default';
 
         try {
-            $model = $mediaService->resolveModelById($modelClass, $modelId, $dataSource);
+            // Use the new API name while preserving behavior
+            $model = $mediaService->findModel($modelClass, $modelId, $dataSource);
         } catch (ModelNotFoundException $e) {
             // During authorization checks we want to gracefully return `null`
             // so that `authorize*` methods can respond with `false` instead of

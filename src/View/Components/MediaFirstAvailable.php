@@ -24,13 +24,22 @@ class MediaFirstAvailable extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,
+        // Legacy/BC: keep modelOrClassName first, preferred modelReference appended at end
+        public mixed $modelOrClassName = null,
         public ?array $collections = [],
         array $options = [],
         public bool $previewMode = false, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
-        public ?string $dataSource = 'default'
+        public ?string $dataSource = 'default',
+        public mixed $modelReference = null,
     ) {
-        parent::__construct($id ?: null, $this->modelOrClassName, $this->dataSource);
+        // Normalize both props for downstream logic
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
+        parent::__construct($id ?: null, $this->modelReference, $this->modelOrClassName, $this->dataSource);
         $this->options = $options;
 
         if (! $this->hasCollections()) {

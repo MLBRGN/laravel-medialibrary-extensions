@@ -19,7 +19,8 @@ class DestroyForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        // Legacy/BC: keep modelOrClassName first, preferred modelReference appended at end
+        public mixed $modelOrClassName = null,
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
@@ -28,8 +29,16 @@ class DestroyForm extends BaseMediaComponent
         public string $instanceId = '',
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
+        public mixed $modelReference = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        // Normalize both props for downstream blades
+        if ($this->modelReference !== null) {
+            $this->modelOrClassName = $this->modelReference;
+        } elseif ($this->modelOrClassName !== null) {
+            $this->modelReference = $this->modelOrClassName;
+        }
+
+        parent::__construct($id, $this->modelReference, $this->modelOrClassName, $dataSource);
 
         // Ensure instanceId is derived from the Base ID
         if (empty($this->instanceId)) {
