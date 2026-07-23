@@ -23,6 +23,8 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     $baseId = 'media-manager-456';
     $dataSource = 'test_alt';
     $connection = $this->altConnection;
+    $clientToken = 'test-client-token-456';
+    $instanceId = 'test-instance-id-456';
 
     // 1. Create an initial temporary upload on the custom connection
     // Seed the old file on disk and DB
@@ -36,7 +38,8 @@ it('correctly replaces a temporary upload on a custom data source', function () 
         'collection_name' => 'test',
         'mime_type' => 'image/jpeg',
         'size' => 123,
-        'client_token' => session()->getId(),
+        'client_token' => $clientToken,
+        'instance_id' => $instanceId,
         'custom_properties' => [],
     ]);
     $existingUpload->setConnection($connection);
@@ -57,14 +60,17 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     // 2. Prepare the request
     $newFile = UploadedFile::fake()->image('new.jpg');
 
-    $request = StoreUpdatedMediaRequest::create('/mlbrgn-mle/media/update', 'POST', [
+    $payload = [
         'medium_id' => $oldId,
         'collection' => 'test',
         'collections' => ['image' => 'test'],
         'temporary_upload_mode' => 'true',
         'base_id' => $baseId,
         'data_source' => $dataSource,
-    ], [], ['file' => $newFile]);
+        'client_token' => $clientToken,
+        'instance_id' => $instanceId,
+    ];
+    $request = StoreUpdatedMediaRequest::create('/mlbrgn-mle/media/update', 'POST', $payload, [], ['file' => $newFile]);
 
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session')->driver());
@@ -72,6 +78,7 @@ it('correctly replaces a temporary upload on a custom data source', function () 
     // 3. Execute the action
     $action = app(StoreUpdatedMediaAction::class);
     $response = $action->execute($request);
+
     // 4. Assertions
     expect($response->getStatusCode())->toBe(200);
     $data = $response->getData(true);

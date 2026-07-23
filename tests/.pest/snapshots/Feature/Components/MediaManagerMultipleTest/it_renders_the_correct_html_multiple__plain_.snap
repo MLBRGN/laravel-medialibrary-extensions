@@ -17,7 +17,7 @@
                 </span>
                                                                     
                                     <div class="mle-conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-upload-form" data-xhr-method="post">
-        <label for="test-media-modal-media-input" class="mle-label">Files</label>
+        <label for="test-media-modal-media-input" class="mle-label">Upload</label>
     <input
         id="test-media-modal-media-input"
         data-mle-media-input
@@ -27,11 +27,10 @@
                     name="media[]"
             multiple
                         >
-    <span class="mle-form-text form-text">Supported dimensions: Maximum file size: 16 MB
-Maximum dimensions: 7040 × 3960 px
-Minimum dimensions: 320 × 160 px.</span>
+        <span class="mle-form-text form-text">
+            Supported files: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF • up to 16 MB • 320×160–7040×3960 px.
+        </span>
     <br>
-    <span class="mle-form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
                         <input
                 type="hidden"
                 name="collections[image]"

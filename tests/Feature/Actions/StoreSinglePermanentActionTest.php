@@ -267,7 +267,7 @@ it('returns error if file exceeds max upload size (JSON)', function () {
 
     $responseData = $response->json();
 
-    expect($responseData['message'])->toContain('must not be greater than 100 kilobytes');
+    expect($responseData['message'])->toContain((__('medialibrary-extensions::validation.media_max', ['max' => '100 KB'])));
 });
 
 it('returns error if file exceeds max upload size (redirect)', function () {
@@ -297,5 +297,5 @@ it('returns error if file exceeds max upload size (redirect)', function () {
 
     $response->assertStatus(422);
     expect($response->json('message'))
-        ->toContain('must not be greater than 100 kilobytes');
+        ->toContain(__('medialibrary-extensions::validation.media_max', ['max' => '100 KB']));
 });

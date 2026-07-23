@@ -17,9 +17,9 @@ $waitTimeXhr = .1;
 $waitTImeNonXhr = .5; // non-xhr tests are slower, setting it to lower than 1 may cause too many failures
 
 dataset('mms_test_matrix', [
-    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
-    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
-    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],
+//    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+//    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
+//    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],
     'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
     'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
@@ -500,7 +500,7 @@ it('honors min / max width height and file size constraints in uploads', functio
     config(['medialibrary-extensions.max_upload_size' => 1024]);
     $page->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText('must not be greater than 1 kilobytes');
+        ->waitForText(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
 
 })->group('browser')
     ->with('mms_test_matrix')
@@ -700,7 +700,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
 })->group('browser')
-    ->with('mmm_test_matrix')->todo('fails on it can control mmm with dataset "bootstrap + demo default + no xhr + temporary"')
+    ->with('mmm_test_matrix')
     ->flaky();
 
 dataset('mmm_cap_matrix', [

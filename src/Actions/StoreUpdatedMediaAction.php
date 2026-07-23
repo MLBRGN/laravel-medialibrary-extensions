@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaReplacement;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreUpdatedMediaAction
 {
@@ -84,7 +85,7 @@ class StoreUpdatedMediaAction
                 // Enforce scoping for temporary uploads
                 $clientToken = $request->input('client_token')
                     ?: $request->cookie('mle_client_token');
-                $instanceId = app(\Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::class)
+                $instanceId = $request->input('instance_id') ?: app(InstanceManager::class)
                     ::getInstanceId($baseId);
 
                 $belongsToClient = $existingMedia->client_token === $clientToken;

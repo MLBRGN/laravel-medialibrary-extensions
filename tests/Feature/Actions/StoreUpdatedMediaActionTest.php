@@ -83,19 +83,29 @@ it('replaces a permanent medium (redirect)', function () {
 });
 
 it('replaces a temporary upload (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
-    $existingUpload = $this->getTemporaryUpload('old_temp_file.jpg');
+    $clientToken = 'client-token';
+    $instanceId = 'instance-id';
+
+    $existingUpload = $this->getTemporaryUpload('old_temp_file.jpg',
+    [
+        'client_token' => $clientToken,
+        'instance_id' => $instanceId,
+    ]);
     $file = UploadedFile::fake()->image('new_temp_file.jpg');
 
-    $request = StoreUpdatedMediaRequest::create('/', 'POST', [
+    $payload = [
         'medium_id' => $existingUpload->id,
         'collection' => 'temp-images',
         'collections' => ['image' => 'temp-images'],
         'temporary_upload_mode' => 'true',
         'base_id' => $baseId,
         'model_type' => get_class($this->getTestBlogModel()),
-    ], [], ['file' => $file]);
+        'client_token' => $clientToken,
+        'instance_id' => $instanceId,
+    ];
+
+    $request = StoreUpdatedMediaRequest::create('/', 'POST', $payload, [], ['file' => $file]);
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session')->driver());
 
@@ -156,7 +166,6 @@ it('stores validation errors in initiator-specific error bag when not using XHR'
 });
 
 it('preserves the priority custom property when replacing a permanent medium', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->image('new.jpg');
 

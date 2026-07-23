@@ -29,6 +29,12 @@
            name="model_id"
            value="{{ $modelId }}">
     <input type="hidden"
+           name="client_token"
+           value="{{ $clientToken }}">
+    <input type="hidden"
+           name="instance_id"
+           value="{{ $instanceId }}">
+    <input type="hidden"
            name="base_id"
            value="{{ $id }}">
     <input type="hidden"

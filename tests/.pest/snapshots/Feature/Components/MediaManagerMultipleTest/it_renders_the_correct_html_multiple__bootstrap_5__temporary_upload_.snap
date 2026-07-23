@@ -22,21 +22,19 @@
                                 
             
                                     <div class="mle-conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-upload-form" data-xhr-method="post">
-        <label for="test-media-modal-media-input" class="mle-label form-label">Files</label>
+        <label for="test-media-modal-media-input" class="mle-label form-label">Upload</label>
     <input
         id="test-media-modal-media-input"
         data-mle-media-input
         accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/heic, image/avif"
         type="file"
-        class="mle-input mle-form-control form-control"
+        class="mle-input mle-form-control form-control mb-2"
                     name="media[]"
             multiple
                         >
-    <span class="mle-form-text form-text">Supported dimensions: Maximum file size: 16 MB
-Maximum dimensions: 7040 × 3960 px
-Minimum dimensions: 320 × 160 px.</span>
-    <br>
-    <span class="mle-form-text form-text">Supported file formats: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF.</span>
+        <span class="mle-form-text form-text">
+            Supported files: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF • up to 16 MB • 320×160–7040×3960 px.
+        </span>
                         <input
                 type="hidden"
                 name="collections[image]"

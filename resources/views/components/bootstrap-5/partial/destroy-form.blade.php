@@ -31,6 +31,12 @@
        name="model_id"
        value="{{ $modelId }}">
     <input type="hidden"
+           name="client_token"
+           value="{{ $clientToken }}">
+    <input type="hidden"
+           name="instance_id"
+           value="{{ $instanceId }}">
+    <input type="hidden"
        name="temporary_upload_mode"
        value="{{ $temporaryUploadMode ? 'true' : 'false' }}">
     <input type="hidden"

@@ -42,7 +42,7 @@ class DestroyTemporaryUploadAction
         // Enforce scoping: the temp upload must belong to the current client + instance
         $clientToken = $request->input('client_token')
             ?: $request->cookie('mle_client_token');
-        $instanceId = InstanceManager::getInstanceId($baseId);
+        $instanceId = $request->input('instance_id') ?: InstanceManager::getInstanceId($baseId);
 
         $belongsToClient = $temporaryUpload->client_token === $clientToken;
         $belongsToInstance = $temporaryUpload->instance_id === $instanceId;
