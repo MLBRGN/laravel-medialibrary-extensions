@@ -16,7 +16,6 @@ function initializeMediaModal(modal) {
     setupModalBase(modal);
 
     modal.addEventListener('mleModalOpened', (e) => {
-        console.error('modal opened')
         const trigger = e.detail.trigger;
         if (!trigger) return;
         const modal = e.detail.modal;
@@ -241,7 +240,6 @@ document.querySelectorAll('[data-mle-media-modal]').forEach(initializeMediaModal
 
 // reinit on update of previews
 document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
-    console.error('plain/modal-media.js: mediaManagerPreviewsUpdated called');
     ytlPlayers = {};
     nativeMediaPlayers = {};
     const mediaManager = e.detail.mediaManager;
