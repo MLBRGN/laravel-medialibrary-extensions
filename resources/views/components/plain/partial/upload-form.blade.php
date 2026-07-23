@@ -33,6 +33,15 @@
                 'summary' => $getSupportedFilesSummary(),
             ]) }}
         </span>
+        @if(app()->isLocal() || app()->environment('testing'))
+            @if ($isLimitedByServerConfiguration())
+                <div class="alert alert-warning small mt-2">
+                    {{ __('medialibrary-extensions::messages.server_upload_limit_warning', [
+                        'size' => $getServerUploadLimit(),
+                    ]) }}
+                </div>
+            @endif
+        @endif
     <br>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))

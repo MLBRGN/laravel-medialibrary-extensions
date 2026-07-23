@@ -13,28 +13,11 @@ use Mlbrgn\MediaLibraryExtensions\Tests\Feature\Support\DeniedEditBlog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Feature\Support\DeniedUploadBlog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\User;
+use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\TestBlogPolicy;
 
 beforeEach(function () {
     Session::start();
 });
-
-class TestBlogPolicy
-{
-    public function uploadMedia(?User $user, Blog $blog): bool
-    {
-        return $user?->id === 1;
-    }
-
-    public function editMedia(?User $user, Blog $blog): bool
-    {
-        return $user?->id === 1;
-    }
-
-    public function deleteMedia(?User $user, Blog $blog): bool
-    {
-        return $user?->id === 1;
-    }
-}
 
 it('allows media actions when no policy exists', function () {
     $blog = Blog::create(['title' => 'Test']);

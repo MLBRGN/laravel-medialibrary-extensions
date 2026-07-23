@@ -146,3 +146,42 @@ if (! function_exists('mlbrgn_csp_nonce')) {
             : $resolver;
     }
 }
+
+
+/**
+ * Converts a PHP ini size value (e.g. "128M", "2G", "512K") to bytes.
+ * A value of "0" indicates no limit and is returned as 0.
+ */
+if (! function_exists('mle_ini_to_bytes')) {
+    function mle_ini_to_bytes(?string $value): int
+    {
+        if ($value === null || $value === '') {
+            return 0;
+        }
+
+        $value = trim($value);
+        $unit = strtolower(substr($value, -1));
+        $number = (float)$value;
+
+        return match ($unit) {
+            'g' => (int)($number * 1024 ** 3),
+            'm' => (int)($number * 1024 ** 2),
+            'k' => (int)($number * 1024),
+            default => (int)$number,
+        };
+    }
+}
+
+if (! function_exists('mle_server_upload_limit')) {
+    function mle_server_upload_limit(): ?int
+    {
+        $upload = mle_ini_to_bytes(ini_get('upload_max_filesize'));
+        $post = mle_ini_to_bytes(ini_get('post_max_size'));
+
+        if ($upload === 0 || $post === 0) {
+            return null;
+        }
+
+        return min($upload, $post);
+    }
+}

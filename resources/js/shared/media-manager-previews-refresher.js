@@ -102,7 +102,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
                 if (debugWrapper) {
                     debugWrapper.outerHTML = data.debugHtml;
 
-                    // Re-apply visibility state if it was hidden
+                    // Re-apply the visibility state if it was hidden
                     const newDebugPanel = mediaManager.querySelector('[data-mle-debug]');
                     if (newDebugPanel && isHidden) {
                         newDebugPanel.classList.add('hidden', 'mle-hidden');
@@ -115,7 +115,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
 
         // Handle disabling/enabling of forms and alert visibility
         if (data.mediaCount !== undefined && data.mediaCount !== null) {
-            // If component provided an explicit per-instance max, compute locally against that value
+            // If the component provided an explicit per-instance max, compute locally against that value
             // and ignore potentially conflicting server-provided isAtMax (which uses global config).
             const isAtMax = hasExplicitPerInstanceMax
                 ? (data.mediaCount >= maxCount)
@@ -164,9 +164,10 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
             }
         }
 
+        console.log('media-manager-previews-refresher.js - updatePreviews - dispatch event')
         // Notify listeners that the previews were updated
         mediaManager.dispatchEvent(new CustomEvent('mediaManagerPreviewsUpdated', {
-            bubbles: false,
+            bubbles: true,
             detail: {
                 mediaManager: mediaManager,
                 previewGrid: previewGrid

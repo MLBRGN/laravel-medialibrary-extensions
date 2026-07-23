@@ -4,19 +4,8 @@ declare(strict_types=1);
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit;
 
-use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
 
-/**
- * We expose the protected replacement method for unit testing via a tiny test subclass.
- */
-class TemporaryUploadPromoterTestProxy extends TemporaryUploadPromoter
-{
-    public function publicReplaceTemporaryUrlsInHtml(string $html, string $temporaryDiskUrl, string $temporaryFullUrl, string $mediaUrl, string $filename): string
-    {
-        // call the protected method from the parent
-        return $this->replaceTemporaryUrlsInHtml($html, $temporaryDiskUrl, $temporaryFullUrl, $mediaUrl, $filename);
-    }
-}
+use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\TemporaryUploadPromoterTestProxy;
 
 it('replaces absolute temporary URLs with a single absolute media URL (no double host)', function (): void {
     $proxy = new TemporaryUploadPromoterTestProxy;
@@ -42,7 +31,7 @@ it('replaces absolute temporary URLs with a single absolute media URL (no double
 it('replaces relative temporary URLs too', function (): void {
     $proxy = new TemporaryUploadPromoterTestProxy;
 
-    $temporaryDiskUrl = 'http://localhost'; // value is ignored for relative match branch
+    $temporaryDiskUrl = 'http://localhost'; // value is ignored for the relative match branch
     $mediaUrl = '/storage/42/picture.png';
     $filename = 'picture.png';
 

@@ -249,3 +249,51 @@ it('sets model properties correctly when given a string model class name', funct
         ->and($view)->toBeInstanceOf(View::class)
         ->and($view->name())->toContain('upload-form');
 });
+
+it('does not show a server upload limit warning when the configured limit is within the php limit', function () {
+    config()->set('medialibrary-extensions.max_upload_size', 5 * 1024 * 1024);
+
+    ini_set('upload_max_filesize', '10M');
+    ini_set('post_max_size', '10M');
+
+    $view = $this->blade('
+        <x-mle::partials.upload-form
+            :model-or-class-name="\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class"
+        />
+    ');
+
+    $view->assertDontSee(__('medialibrary-extensions::messages.server_upload_limit_warning'));
+})->todo('This test is not working yet');
+
+it('shows a server upload limit warning when php limits are lower than the configured limit', function () {
+    config()->set('medialibrary-extensions.max_upload_size', 100 * 1024 * 1024);
+
+    ini_set('upload_max_filesize', '20M');
+    ini_set('post_max_size', '20M');
+
+    $view = $this->blade('
+        <x-mle::partials.upload-form
+            :model-or-class-name="\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class"
+        />
+    ');
+
+    $view->assertSee('20 MB');
+    $view->assertSee(__('medialibrary-extensions::messages.server_upload_limit_warning', [
+        'size' => '20 MB',
+    ]));
+})->todo('This test is not working yet');
+
+it('uses the smallest of the configured and php upload limits', function () {
+    config()->set('medialibrary-extensions.max_upload_size', 50 * 1024 * 1024);
+
+    ini_set('upload_max_filesize', '20M');
+    ini_set('post_max_size', '100M');
+
+    $component = app(\Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm::class, [
+        'id' => 'upload',
+        'modelOrClassName' => \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class,
+    ]);
+
+    expect(invade($component)->getMaximumFileSize())
+        ->toBe('20 MB');
+})->todo('This test is not working yet');

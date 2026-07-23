@@ -53,8 +53,19 @@ class UploadForm extends BaseMediaComponent
             ...$mimeData,
         ]);
 
+        $configured = config('medialibrary-extensions.max_upload_size');
+        $server = mle_server_upload_limit();
+
+        // TODO move the warning out of this component (or only emit it in local environments)
+        if ($configured > $server) {
+            logger()->warning(
+                'The configured max_upload_size exceeds PHP upload_max_filesize/post_max_size. The effective upload limit is '.mle_human_filesize($server).'.'
+            );
+        }
+
         $this->fileRequirements = [
-            'max_file_size' => config('medialibrary-extensions.max_upload_size'),
+            'configured_max_file_size' => $configured,
+            'server_max_file_size' => $server,
             'max_width' => config('medialibrary-extensions.max_image_width'),
             'max_height' => config('medialibrary-extensions.max_image_height'),
             'min_width' => config('medialibrary-extensions.min_image_width'),
@@ -96,11 +107,32 @@ class UploadForm extends BaseMediaComponent
         return implode(' • ', $parts);
     }
 
+//    protected function getMaximumFileSize(): ?string
+//    {
+//        return $this->fileRequirements['max_file_size']
+//            ? mle_human_filesize($this->fileRequirements['max_file_size'])
+//            : null;
+//    }
+
+    public function isLimitedByServerConfiguration(): bool
+    {
+        return $this->fileRequirements['server_max_file_size']
+            < $this->fileRequirements['configured_max_file_size'];
+    }
+
+    public function getServerUploadLimit(): string
+    {
+        return mle_human_filesize(
+            $this->fileRequirements['server_max_file_size']
+        );
+    }
+
     protected function getMaximumFileSize(): ?string
     {
-        return $this->fileRequirements['max_file_size']
-            ? mle_human_filesize($this->fileRequirements['max_file_size'])
-            : null;
+        $configured = $this->fileRequirements['configured_max_file_size'];
+        $server = $this->fileRequirements['server_max_file_size'];
+
+        return mle_human_filesize(min($configured, $server));
     }
 
     protected function getDimensionSummary(): ?string

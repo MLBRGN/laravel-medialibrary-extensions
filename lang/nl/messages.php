@@ -114,4 +114,5 @@ return [
     'dimension_range' => ':min_width×:min_height–:max_width×:max_height px',
     'up_to_dimensions' => 'up to :width×:height px',
     'at_least_dimensions' => 'at least :width×:height px',
+    'server_upload_limit_warning' => 'De server beperkt uploads momenteel tot :size. Verhoog de PHP-instellingen `upload_max_filesize` en `post_max_size` als je grotere uploads wilt toestaan.',
 ];

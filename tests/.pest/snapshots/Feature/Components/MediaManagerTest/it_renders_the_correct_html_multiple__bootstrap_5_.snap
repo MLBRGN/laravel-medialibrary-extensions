@@ -35,7 +35,7 @@
         <span class="mle-form-text form-text">
             Supported files: JPEG, PNG • up to 16 MB • 320×160–7040×3960 px.
         </span>
-                        <input
+                                        <input
                 type="hidden"
                 name="collections[image]"
                 value="blog-images">
