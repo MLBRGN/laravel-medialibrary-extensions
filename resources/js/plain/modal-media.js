@@ -1,10 +1,7 @@
 import {
-    initModalEvents,
-    registerModalEventHandler,
-    reinitModalEvents,
-    setupModalBase
+    registerModalEventHandler, registerModalInitializer,
+    setupModalLifecycle
 } from './modal-core';
-// import '@/js/plain/_modal-core'
 
 import { getCarouselController } from '@/js/plain/media-carousel';
 
@@ -12,8 +9,15 @@ let ytlPlayers = {}; // key: youtubeId, value: YT.Player instance
 let nativeMediaPlayers = {};// store native media players (audio / video)
 
 function initializeMediaModal(modal) {
+
+    if (modal.dataset.mleMediaModalInitialized === 'true') {
+        return;
+    }
+
+    modal.dataset.mleMediaModalInitialized = 'true';
+
     const carousel = modal.querySelector('[data-mle-carousel]');
-    setupModalBase(modal);
+    setupModalLifecycle(modal);
 
     modal.addEventListener('mleModalOpened', (e) => {
         const trigger = e.detail.trigger;
@@ -35,7 +39,7 @@ function initializeMediaModal(modal) {
         // Ensure the carousel is positioned on the correct slide instantly (no animation)
         const controller = getCarouselController(carousel);
         if (controller) {
-            // skipAnimation=true, skipFireEvent=true to avoid initial jank
+            // skipAnimation=true, skipFireEvent=true to avoid an initial jank
             controller.goToSlide(slideTo, true, true);
         }
 
@@ -74,7 +78,7 @@ function initializeMediaModal(modal) {
 
         let nativeMediaPlayerId = null;
 
-        // audio an video use the medium id,
+        // audio and video use the medium id,
         // so on refresh just overwrite the nativeMediaPlayer registration
         if (audio) {
             nativeMediaPlayerId = audio.id;
@@ -102,12 +106,6 @@ function initializeMediaModal(modal) {
         const nativeMediaPlayerId = setupNativeMedia(currentSlide);
         controlNativeMedia(nativeMediaPlayerId, 'play');
 
-        // const audio = currentSlide.querySelector('[data-mle-audio]');
-        // const video = currentSlide.querySelector('[data-mle-video]');
-        //
-
-        // audio?.play().catch(err => console.warn('Audio autoplay failed:', err));
-        // video?.play().catch(err => console.warn('Video autoplay failed:', err));
         const ytContainer = currentSlide.querySelector('[data-mle-youtube-video]');
 
         if (ytContainer) {
@@ -165,10 +163,6 @@ function initializeMediaModal(modal) {
         Object.keys(nativeMediaPlayers).forEach(id => controlNativeMedia(id, 'pause'));
     }
 
-}
-
-function initMediaModalEvents() {
-    initModalEvents(); // base modal interaction
 }
 
 function mediaModalKeydownHandler(e) {
@@ -234,19 +228,13 @@ registerModalEventHandler('keydown', mediaModalKeydownHandler);
 // global, custom event
 document.addEventListener('liteYoutubeIframeLoaded', liteYoutubeHandler);
 
-// initial init
-initMediaModalEvents();
-document.querySelectorAll('[data-mle-media-modal]').forEach(initializeMediaModal);
-
 // reinit on update of previews
 document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
-    ytlPlayers = {};
-    nativeMediaPlayers = {};
-    const mediaManager = e.detail.mediaManager;
-
-    reinitModalEvents();
-    registerModalEventHandler('click', mediaModalClickHandler);
-    registerModalEventHandler('keydown', mediaModalKeydownHandler);
-
-    mediaManager.querySelectorAll('[data-mle-media-modal]').forEach(initializeMediaModal);
+    ytlPlayers = {};// TODO needed?
+    nativeMediaPlayers = {}; // TODO needed?
 });
+
+registerModalInitializer(
+    '[data-mle-media-modal]',
+    initializeMediaModal
+);

@@ -18,6 +18,7 @@
     :include-image-editor-js="true"
     :include-tinymce-custom-file-picker-js="true"
     :include-tinymce-custom-file-picker-iframe-js="true"
+    :include-media-modal-js="true"
     :theme="$getConfig('theme')"
     for="plain|media-manager-tinymce"
 />

@@ -10,8 +10,8 @@ import {
  * Shared bootstrapper for all MLBRGN asset bundles
  */
 function bootAssets({ selector, namespace, runner }) {
-    console.log('mlb selector: ', selector)
-    console.log('number of configs found: ', document.querySelectorAll(selector).length)
+    // console.log('mlb selector: ', selector)
+    // console.log('number of configs found: ', document.querySelectorAll(selector).length)
 
     const configs = collectConfigs(selector);
     const manifest = mergeConfigs(configs);

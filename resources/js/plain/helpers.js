@@ -7,6 +7,8 @@ export function fireEvent(eventName, element, detail) {
 }
 
 export function trapFocus(modal) {
+    modal._previousFocusedElement = document.activeElement;
+
     const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
     const getFocusableElements = () =>
@@ -50,4 +52,12 @@ export function releaseFocus(modal) {
         modal.removeEventListener('keydown', modal._trapFocusHandler);
         delete modal._trapFocusHandler;
     }
+
+    const previous = modal._previousFocusedElement;
+
+    if (previous instanceof HTMLElement && previous.isConnected) {
+        previous.focus();
+    }
+
+    delete modal._previousFocusedElement;
 }

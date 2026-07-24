@@ -1,6 +1,5 @@
 // Functionality implemented with assistance from AI (ChatGPT)
 import { fireEvent } from '@/js/plain/helpers';
-import { registerModalEventHandler, reinitModalEvents } from "@/js/plain/modal-core";
 
 const carousels = new Map();
 
@@ -9,7 +8,7 @@ export function getCarouselController(element) {
 }
 
 export function initCarousel(carousel) {
-    // Remove existing controller if it exists (for reinit)
+    // Remove the existing controller if it exists (for reinit)
     if (carousels.has(carousel)) {
         carousels.get(carousel).pause();
         carousels.delete(carousel);
@@ -125,7 +124,7 @@ export function initCarousel(carousel) {
             // Safety timeout fallback (slightly above CSS duration)
             fallbackTimer = setTimeout(endOnce, 700);
         } else if (effect === 'fade') {
-            // Cross-fade: bring next slide to front visually while keeping logical state until end
+            // Cross-fade: bring the next slide to the front visually while keeping the logical state until the end
             nextSlide.classList.add('mle-fade-in');
             currentSlide.classList.add('mle-fade-out');
             void nextSlide.offsetWidth; // force reflow

@@ -338,18 +338,18 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // test that it shows error when no file selected
     $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.upload_no_files'))
+        ->assertSee(__('medialibrary-extensions::messages.upload_no_files'))
 
         // test that invalid mime types are rejected
         ->attach($inputSelector, $this->getInvalidMimeTypeFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
+        ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
 
         // attach an image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // counts should update to 1 of 1 and show max alert
     $page->wait($waitTime)
@@ -432,7 +432,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertMissing($imageEditorModalSelector);
 
     // TODO fails with dataset "plain + demo default + no xhr + permanent"
-    //        ->waitForText(__('medialibrary-extensions::messages.medium_replaced'));
+    //        ->assertSee(__('medialibrary-extensions::messages.medium_replaced'));
 
     // check canceling image editing in the image editor
     // TODO image editor modal was not closed after canceling
@@ -444,8 +444,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // check delete media works
     $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+        ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
 
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
@@ -487,20 +487,20 @@ it('honors min / max width height and file size constraints in uploads', functio
     // NOTE saw this test failing when running in full test with Expected to see text [The image is too small (16x16). Minimum required is 320x160.] on the page initially with the url [http://127.0.0.1:64169/mle-demo?theme=plain&data_source=default&use_xhr=0], but it was not found or not visible. A screenshot of the page has been saved to [Tests/Browser/Screenshots/it_honors_min___max_width_height_and_file_size_constraints_in_uploads].
     $page->attach($inputSelector, $this->getTinyImageFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
+        ->assertSee(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
 
     // test that an image that is too large is rejected
     config(['medialibrary-extensions.max_image_width' => 15]);
     config(['medialibrary-extensions.max_image_height' => 15]);
     $page->attach($inputSelector, $this->getTinyImageFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => config('medialibrary-extensions.max_image_width'), 'max_height' => config('medialibrary-extensions.max_image_height')]));
+        ->assertSee(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => config('medialibrary-extensions.max_image_width'), 'max_height' => config('medialibrary-extensions.max_image_height')]));
 
     // test that too large images (file size) are rejected
     config(['medialibrary-extensions.max_upload_size' => 1024]);
     $page->attach($inputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
+        ->assertSee(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
 
 })->group('browser')
     ->with('mms_test_matrix')
@@ -572,39 +572,26 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // test that it shows error when no file selected
     $page->pressAndWaitFor($uploadButtonSelector, $waitTime);
 
-    //    if (!$xhr) {
-    //        $page->wait($waitTime);
-    //    }
-    $page->waitForText(__('medialibrary-extensions::messages.upload_no_files'));
+    $page->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
-    // TODO test that invalid mime types are rejected
+    // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+        ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
     $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
-    // check counts start at 0
-    //    if ($xhr) {
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
-    //    }
 
     for ($i = 0; $i < $maxItems; $i++) {
         // attach an image file and submit and check if spinner shows and upload is successful
         $page->attach($inputSelector, $this->getRandomFixture());
-        //        if (!$xhr) {
-        //            $page->wait($waitTime);
-        //        }
-
         $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+            ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
-        // TODO sometimes fails on non-xhr, but not on xhr
-        //        if (!$xhr) {
         // counts should update to 1 of 1 and show max alert
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
-        //        }
     }
 
     // counts should reflect max, and upload should be disabled with an alert when at max
@@ -624,10 +611,6 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
         // assert grid has the media container
         ->assertPresent($firstMediaPreviewContainer);
-
-    //    $page->debug();
-
-    //    $page->assertNoConsoleLogs();
 
     // check that the media item's menu has the expected buttons and state
     $page->assertButtonEnabled($editButtonSelector)
@@ -665,8 +648,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // delete one media and validate counts/alerts/form state
     $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.medium_removed'))
+        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+        ->assertSee(__('medialibrary-extensions::messages.medium_removed'))
         ->assertMissing($maxReachedAlertSelector)
         ->assertButtonEnabled($uploadButtonSelector);
 
@@ -680,8 +663,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         //            if (!$xhr) {
         //                $page->wait($waitTime);
         //            }
-        $page->waitForText(__('medialibrary-extensions::messages.please_wait'))
-            ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+        $page->assertSee(__('medialibrary-extensions::messages.please_wait'))
+            ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
 
         // counts check (NOTE: 1 is deleted outside the loop)
         //        if (!$xhr) {
@@ -812,15 +795,15 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
 
         // test that it shows an error when no YouTube url entered
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.upload_no_youtube_url'))
+        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+        ->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'))
 
         // enter youtube url
         ->type($inputSelector, $this->getYouTubeFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-        ->waitForText(__('medialibrary-extensions::messages.youtube_video_uploaded'))
-//        ->waitForText(__('medialibrary-extensions::messages.youtube_thumbnail_download_failed'))
+        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+        ->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'))
+//        ->assertSee(__('medialibrary-extensions::messages.youtube_thumbnail_download_failed'))
 
         // assert that the image is visible in the preview
         ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
@@ -860,11 +843,11 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
 
         // check delete media works
         ->pressAndWaitFor($deleteButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'));
+        ->assertSee(__('medialibrary-extensions::messages.please_wait'));
 
     // TODO non-xhr does not show delete message
     if ($xhr) {
-        $page->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+        $page->assertSee(__('medialibrary-extensions::messages.medium_removed'));
     }
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
@@ -918,11 +901,11 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         // 1. Upload two images via MMM
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
             ->pressAndWaitFor($mmmPermanentUploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
             ->pressAndWaitFor($mmmPermanentUploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         //        $this->dumpDatabaseTable('media', $resolvedConnection);
         $this->assertDatabaseCount('media', 2, $resolvedConnection);
@@ -933,11 +916,11 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         // 1. Upload two images via MMM
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
             ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
             ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $this->assertDatabaseCount('mle_temporary_uploads', 2, $resolvedConnection);
     }
@@ -1037,7 +1020,7 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->assertPresent($imageEditorModalSaveButtonSelector)
         ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
 
-//        ->waitForText(__('medialibrary-extensions::messages.please_wait'))
+//        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
         ->assertMissing($imageEditorModalSelector)
 
         // After save, ensure Base and Original reference the same new medium id
@@ -1064,9 +1047,9 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         // 4. Test restore original (only if not temporary, and the demo page uses permanent here)
         ->assertPresent($restoreButtonSelector)
         ->pressAndWaitFor($restoreButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.please_wait'));
+        ->assertSee(__('medialibrary-extensions::messages.please_wait'));
 
-    $page->waitForText(__('medialibrary-extensions::messages.restored_original'));
+    $page->assertSee(__('medialibrary-extensions::messages.restored_original'));
 
 })->group('browser')
     ->with('media_lab_test_matrix');
@@ -1150,31 +1133,46 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
 
         $page->assertPresent($inputSelector)
-
+            ->assertPresent($uploadButtonSelector)
             // assert that the upload button is initially enabled
             ->assertButtonEnabled($uploadButtonSelector);
 
         // test that it shows error when no file selected
         $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_no_files'));
+            ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
         // test that invalid mime types are rejected
         $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
             ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+            ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
         $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
         $maxItems = 3;
 
-        // check counts start at 0
-        //        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
+        // assert that the upload button is initially enabled
+/*        $page->assertPresent($inputSelector)
+            ->assertButtonEnabled($uploadButtonSelector);
+
+        // test that it shows error when no file selected
+        $page->pressAndWaitFor($uploadButtonSelector, $waitTime);
+
+        $page->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
+
+        // test that invalid mime types are rejected
+        $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
+            ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+            ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));*/
+
+        $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
+
+        $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
 
         for ($i = 0; $i < $maxItems; $i++) {
             // attach an image file and submit and check if spinner shows and upload is successful
             $page->attach($inputSelector, $this->getRandomFixture())
                 ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-                ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-                ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+                ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+                ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
             // counts should update to 1 of 1 and show max alert
             //            $page->wait(0.3)
@@ -1211,8 +1209,21 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
 
         // delete one media and validate counts/alerts/form state
         $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
-            ->waitForText(__('medialibrary-extensions::messages.please_wait'))
-            ->waitForText(__('medialibrary-extensions::messages.medium_removed'));
+            ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+            ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
+
+
+        // check that image editor custom element is registered
+        expect(
+            $page->script("customElements.get('image-editor') !== undefined")
+        )->toBeTrue();
+
+        expect(
+            $page->script("document.querySelector('script[src*=\"modal-image-editor.js\"]') !== null")
+        )->toBeTrue();
+
+        // TODO TEST modal and image editor
+
 
         // select the first item
         $firstItemSelectSelector = $firstMediaPreviewContainer.' [data-mle-media-select-wrapper]';
@@ -1286,7 +1297,7 @@ it('promotes temporary uploads to permanent media on form submit', function () {
     // 1. Upload an image to temporary MMM
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 2. Submit the form to create the model and promote media
     // We need to click the specific "Save model" button for the MMM form
@@ -1325,11 +1336,11 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
     // 1. Upload two images to temporary MMM
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
         ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
-        ->waitForText(__('medialibrary-extensions::messages.upload_success'));
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 2. Submit the specific MMM form's save button to create the model and promote media
     // Use pressAndWaitFor to allow time for the POST + redirect to complete before asserting the path.

@@ -2,6 +2,15 @@
 import { fireEvent, trapFocus, releaseFocus } from '@/js/plain/helpers';
 
 let listenersBound = false;
+const modalInitializers = new Map();
+let observerStarted = false;
+
+export function registerModalInitializer(selector, initializer) {
+    modalInitializers.set(selector, initializer);
+
+    document.querySelectorAll(selector)
+        .forEach(initializer);
+}
 
 // Event Handler Registry
 const eventHandlers = new Map();
@@ -29,12 +38,13 @@ function eventDispatcher(type, e) {
 }
 
 export function closeModal(modal, originalEvent) {
+    releaseFocus(modal);
+
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
     // document.body.style.overflow = 'initial';
     document.body.style.overflow = '';
 
-    releaseFocus(modal);
     fireEvent('mleModalClosed', modal, {
         modal: modal,  originalEvent: originalEvent
     });
@@ -59,10 +69,9 @@ export function openModal(modalId, trigger, originalEvent) {
     });
 }
 
-export function setupModalBase(modal, onClose = () => {}, onOpen = () => {}) {
+export function setupModalLifecycle(modal, onClose = () => {}, onOpen = () => {}) {
     modal.addEventListener('mleModalOpened', onOpen);
     modal.addEventListener('mleModalClosed', onClose);
-    // console.log('setupModalBase', modal);
 }
 
 function defaultClickHandler(e) {
@@ -94,7 +103,7 @@ function defaultKeydownHandler(e) {
     }
 }
 
-export function initModalEvents() {
+function initModalEvents() {
     if (!listenersBound) {
         document.addEventListener('click', e => eventDispatcher('click', e));
         document.addEventListener('keydown', e => eventDispatcher('keydown', e));
@@ -106,9 +115,40 @@ export function initModalEvents() {
     registerModalEventHandler('keydown', defaultKeydownHandler);
 }
 
-export function reinitModalEvents() {
-    eventHandlers.clear();// clear only registered handlers
-    initModalEvents();// but don’t re-bind the DOM listeners
+function initModalObserver() {
+    if (observerStarted) {
+        return;
+    }
+
+    observerStarted = true;
+
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            for (const node of mutation.addedNodes) {
+
+                if (!(node instanceof Element || node instanceof DocumentFragment)) {
+                    continue;
+                }
+
+                for (const [selector, initializer] of modalInitializers) {
+
+                    if (node instanceof Element && node.matches(selector)) {
+                        initializer(node);
+                    }
+
+                    node.querySelectorAll?.(selector).forEach(initializer);
+                }
+            }
+        }
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+    });
 }
+
+initModalEvents();
+initModalObserver();
 
 
