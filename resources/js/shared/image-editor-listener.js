@@ -121,6 +121,8 @@ const updateMedia = async (detail) => {
         formData.append(`collections[${key}]`, value);
     });
 
+    let handledError = false;
+
     fetch(config.storeUpdatedMediaRoute, {
         method: 'POST',
         headers: {
@@ -154,8 +156,22 @@ const updateMedia = async (detail) => {
         }
 
         if (!response.ok) {
-            handleAjaxError(response, data, localStatusAreaContainer);// note localStatusArea when errors occur!
-            throw new Error(`HTTP ${response.status}`);
+            handledError = true;
+
+            const message = handleAjaxError(
+                response,
+                data,
+                localStatusAreaContainer
+            );
+
+            throw new Error(message);
+
+            // throw new Error(`HTTP ${response.status}`);
+            // throw new Error(
+            //     data.message ||
+            //     data.error ||
+            //     `HTTP ${response.status}`
+            // );
         }
 
         return data;
@@ -212,11 +228,18 @@ const updateMedia = async (detail) => {
         }));
     }).
     catch(error => {
-        // TODO show real message if possible
-        showStatusMessage(localStatusAreaContainer, {
-            type: 'error',
-            message: trans('update_failed'),
-        });
+        console.error('image-editor-listener.js - error:', error);
+
+        // Laravel validation errors → shown by handleAjaxError
+        // CSRF/auth/server errors → shown by handleAjaxError
+        // Network failure → shown by catch
+        // JavaScript bugs → shown by catch
+        if (!handledError) {
+            showStatusMessage(localStatusAreaContainer, {
+                type: 'error',
+                message: error.message || trans('update_failed'),
+            });
+        }
     }).
     finally(() => {
         xhrRequestEnd(localStatusAreaContainer);

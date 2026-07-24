@@ -96,7 +96,9 @@ export function showSpinner(statusAreaContainer, customMessage = null) {
     if (customMessage) {
         // Find the spinner text span or create it if missing
         let textEl = spinnerContainer.querySelector('[data-mle-spinner-text]');
-        textEl.textContent = message;
+        if (textEl) {
+            textEl.textContent = customMessage;
+        }
     }
     spinnerContainer.classList.add('active');
 }
@@ -118,39 +120,76 @@ export function handleAjaxError(response, data, statusAreaContainer) {
    console.log('handleAjaxError response ', response);
    console.log('handleAjaxError data ', data);
    console.log('handleAjaxError statusAreaContainer ', statusAreaContainer);
-   try {
-       console.error('XHR error status:', response?.status, 'url:', response?.url, 'message:', data?.message);
-   } catch (e) {}
+
+    try {
+        console.error(
+            'XHR error status:',
+            response?.status,
+            'url:',
+            response?.url,
+            'message:',
+            data?.message
+        );
+    } catch (e) {}
+
     let message = trans('upload_failed');
 
     const status = response?.status || 500;
+
     switch (status) {
-        case 419: message = trans('csrf_token_mismatch'); break;
-        case 401: message = trans('unauthenticated'); break;
-        case 403: message = trans('forbidden'); break;
-        case 404: message = trans('not_found') + ' Message ' + data.message; break;
+        case 419:
+            message = trans('csrf_token_mismatch');
+            break;
+
+        case 401:
+            message = trans('unauthenticated');
+            break;
+
+        case 403:
+            message = trans('forbidden');
+            break;
+
+        case 404:
+            message = trans('not_found') + ' Message ' + data.message;
+            break;
+
         case 422:
             if (data.errors) {
                 const allErrors = Object.values(data.errors).flat();
+
                 showStatusMessage(statusAreaContainer, {
                     type: 'error',
                     message: allErrors[0],
                     message_extra: allErrors.slice(1).join('\n')
                 });
-                return;
+
+                return allErrors[0];
             }
+
             message = data.message || trans('validation_failed');
             break;
-        case 429: message = trans('too_many_requests'); break;
+
+        case 429:
+            message = trans('too_many_requests');
+            break;
+
         case 500:
-        case 503: message = trans('server_error') + ' (' + data.message + ')'; break;
+        case 503:
+            message = trans('server_error');// don't show details
+            console.error(response.status, data);
+            break;
+
         default:
-            message = data.message || message;
+            console.error(response.status, data);
+
     }
 
-    console.log('handleAjaxError message ', message, ' data:', data);
+    showStatusMessage(statusAreaContainer, {
+        type: 'error',
+        message
+    });
 
-    showStatusMessage(statusAreaContainer, { type: 'error', message });
+    return message;
 }
 
 export function trans(key) {

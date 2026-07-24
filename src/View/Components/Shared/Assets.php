@@ -51,6 +51,7 @@ class Assets extends Component
             ),
             'imageEditorTranslationsPath' => config('medialibrary-extensions.image_editor_translations_path', '/image-editor-translations/'),
 
+            // TODO don't think this is the right place for trnslations
             // Translation strings (CSP-safe: no inline script)
             'translations' => [
                 'csrf_token_mismatch' => __('medialibrary-extensions::http.csrf_token_mismatch'),
@@ -80,6 +81,8 @@ class Assets extends Component
                 'upload_disabled_max_items_reached' => __('medialibrary-extensions::messages.upload_disabled_max_items_reached'),
 
                 'upload_failed' => __('medialibrary-extensions::messages.upload_failed'),
+
+                'update_failed' => __('medialibrary-extensions::messages.could_not_save_updated_medium'),
 
                 "unable_to_read_response_body" => __('medialibrary-extensions::messages.unable_to_read_response_body'),
 

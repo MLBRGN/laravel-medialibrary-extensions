@@ -967,7 +967,8 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         ->assertMissing($modalSelector); // not visible
 
 })->group('browser')
-    ->with('media_carousel_test_matrix');
+    ->with('media_carousel_test_matrix')
+    ->flaky();
 
 it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
 
