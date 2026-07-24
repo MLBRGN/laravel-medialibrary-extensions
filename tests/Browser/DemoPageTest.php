@@ -590,7 +590,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
             ->assertSee(__('medialibrary-extensions::messages.please_wait'))
             ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
-        // counts should update to 1 of 1 and show max alert
+        // counts should update
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
     }
 
@@ -621,7 +621,6 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
         ->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
 
-//    ->assertVisible(mediaModalSelector)
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
@@ -829,7 +828,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
         ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
-//    ->assertVisible(mediaModalSelector)
+
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
@@ -1057,7 +1056,8 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 
 it('can control html editor\'s custom file picker', function ($theme, $dataSource, $xhr, $uploadMedia = false) use ($waitTimeXhr, $waitTImeNonXhr) {
 
-    //    config(['app.url' => 'http://127.0.0.1:53665']);
+    // keep small to speed up test and make intent clear
+    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 2);
 
     $imageButton = '[data-mce-name="image"]';
     $saveButtonSelector = '[data-mce-name="Save"]';
@@ -1131,6 +1131,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         // for image editor modal testing
         $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
         $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+        $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
         $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
 
         $page->assertPresent($inputSelector)
@@ -1148,23 +1149,6 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
         $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
-        $maxItems = 3;
-
-        // assert that the upload button is initially enabled
-/*        $page->assertPresent($inputSelector)
-            ->assertButtonEnabled($uploadButtonSelector);
-
-        // test that it shows error when no file selected
-        $page->pressAndWaitFor($uploadButtonSelector, $waitTime);
-
-        $page->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
-
-        // test that invalid mime types are rejected
-        $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
-            ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-            ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));*/
-
-        $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
 
@@ -1175,23 +1159,15 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
                 ->assertSee(__('medialibrary-extensions::messages.please_wait'))
                 ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
-            // counts should update to 1 of 1 and show max alert
-            //            $page->wait(0.3)
-            //                ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
-
+            // counts should update
+            $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
         }
 
         // counts should reflect max, and upload should be disabled with an alert when at max
-        //        $page->assertPresent($maxReachedAlertSelector);
+        $page->assertPresent($maxReachedAlertSelector);
 
         // assert that the image is visible in the preview
         $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
-
-//         TODO fix: assert that the upload button is disabled after uploading maxItems
-//            ->assertButtonDisabled($uploadButtonSelector)
-
-            // TODO assert that the image is visible in the preview
-            //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
             // assert grid is present
             ->assertPresent($gridSelector)
@@ -1204,9 +1180,38 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             ->assertButtonDisabled($setAsFirstButtonSelector)
             ->assertButtonEnabled($deleteButtonSelector);
 
-        // check media modal opening and presence of expected elements
-        //            $page->assertPresent($mediaPreviewImageSelector)
-        //            ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime);
+        // check that the media item's menu has the expected buttons and state
+        $page->assertButtonEnabled($editButtonSelector)
+            ->assertButtonDisabled($setAsFirstButtonSelector)
+            ->assertButtonEnabled($deleteButtonSelector)
+
+            // check media modal opening and presence of expected elements
+            ->assertPresent($mediaPreviewImageSelector)
+            ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
+
+            ->assertPresent($mediaModalSelector)
+            ->assertPresent($mediaModalCloseButtonSelector)
+            ->assertPresent($mediaModalCarouselSelector)
+            ->assertPresent($mediaModalCarouselIndicatorSelector)
+            ->assertPresent($mediaModalCarouselItemSelector)
+
+            // check that media modal can be closed
+            ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
+
+        // check image editor modal can be opened and closed
+        $page->pressAndWaitFor($editButtonSelector, $waitTime)
+            ->assertPresent($imageEditorModalSelector)
+            ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
+            ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
+
+        // check saving edited image in the image editor
+        $page->pressAndWaitFor($editButtonSelector, $waitTime)
+            ->assertPresent($imageEditorModalSelector)
+            ->assertVisible($imageEditorModalSelector)
+            ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
+            ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
+            ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
+            ->assertMissing($imageEditorModalSelector);
 
         // delete one media and validate counts/alerts/form state
         $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
@@ -1223,9 +1228,6 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             $page->script("document.querySelector('script[src*=\"modal-image-editor.js\"]') !== null")
         )->toBeTrue();
 
-        // TODO TEST modal and image editor
-
-
         // select the first item
         $firstItemSelectSelector = $firstMediaPreviewContainer.' [data-mle-media-select-wrapper]';
         $page->assertPresent($firstItemSelectSelector);
@@ -1236,26 +1238,6 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $insertSelectedButtonSelector = '[data-mle-insert-selected]';
         $page->pressAndWaitFor($insertSelectedButtonSelector, $waitTime);
         $page->wait($waitTime);
-
-        // TODO modal opening not working in test
-        //            ->assertVisible($mediaModalSelector)
-        //            ->assertPresent($mediaModalSelector)
-        //            ->assertPresent($mediaModalCloseButtonSelector)
-        //            ->assertPresent($mediaModalCarouselSelector)
-        //            ->assertPresent($mediaModalCarouselIndicatorSelector)
-        //            ->assertPresent($mediaModalCarouselItemSelector);
-
-        // check that media modal can be closed
-        //            ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
-
-        // TODO check image editor modal can be opened and closed
-        //        $page->pressAndWaitFor($editButtonSelector, $waitTime)
-        //            ->assertPresent($imageEditorModalSelector)
-        //            ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
-
-        //        $page->assertMissing($maxReachedAlertSelector);
-
-        //        $page->assertButtonEnabled($uploadButtonSelector);
 
     });
 

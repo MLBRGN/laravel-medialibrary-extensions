@@ -35,6 +35,7 @@ class Debug extends Component
     public ?Model $model;
 
     private ResolvedModel $resolvedModel;
+    private bool $enabled;
 
     public function __construct(
         public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
@@ -42,6 +43,13 @@ class Debug extends Component
         array $options = [],
         public ?string $dataSource = 'default',
     ) {
+
+        $this->enabled = config('medialibrary-extensions.debug')
+            && ! app()->environment('production');
+
+        if (! $this->enabled) {
+            return;
+        }
 
         $this->config = $config;
         $this->options = $options;

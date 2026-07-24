@@ -11,7 +11,7 @@
 >
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
 
-    @if(config('medialibrary-extensions.debug'))
+    @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))
         <div class="mle-component mle-debug-menu">
             <x-mle-shared-debug-button/>
             <x-mle-shared-local-package-icon />
@@ -108,12 +108,14 @@
 
     {{ $component_end ?? '' }}
 
-    <x-mle-shared-debug
-        :model-or-class-name="$modelOrClassName"
-        :config="$getConfig()"
-        :options="$getOptions()"
-        :data-source="$dataSource"
-    />
+    @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))
+        <x-mle-shared-debug
+            :model-or-class-name="$modelOrClassName"
+            :config="$getConfig()"
+            :options="$getOptions()"
+            :data-source="$dataSource"
+        />
+    @endif
 </div>
     <x-mle-shared-assets
         :include-css="true"
