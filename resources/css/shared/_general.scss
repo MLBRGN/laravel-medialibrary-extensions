@@ -464,3 +464,18 @@
     width:100%;
     height:100%;
 }
+
+.mle-no-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    color: #b6bcc4;
+}
+
+.mle-no-media-icon {
+    width: 50%;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+}
