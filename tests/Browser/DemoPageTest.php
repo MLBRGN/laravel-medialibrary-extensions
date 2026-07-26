@@ -340,8 +340,6 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
-//    $page->debug();
-
         // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
