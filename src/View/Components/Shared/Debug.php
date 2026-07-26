@@ -44,13 +44,6 @@ class Debug extends Component
         public ?string $dataSource = 'default',
     ) {
 
-        $this->enabled = config('medialibrary-extensions.debug')
-            && ! app()->environment('production');
-
-        if (! $this->enabled) {
-            return;
-        }
-
         $this->config = $config;
         $this->options = $options;
         $this->id = uniqid();
@@ -194,6 +187,20 @@ class Debug extends Component
 
     public function render(): View
     {
+
+        $this->enabled = config('medialibrary-extensions.debug')
+            && ! app()->environment('production');
+
+        if (! $this->enabled) {
+            return view('medialibrary-extensions::errors.error',
+                [
+                    'title' => __('medialibrary-extensions::messages.debug_cannot_be_rendered'),
+                    'message' => __('medialibrary-extensions::messages.debug_cannot_be_rendered'),
+                    'errors' => [],
+                ]);
+
+        }
+
         return view('medialibrary-extensions::components.shared.debug');
     }
 }

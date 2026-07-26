@@ -151,7 +151,7 @@ export function initCarousel(carousel) {
             void carousel.offsetWidth; // force reflow
         }
 
-        updateCarousel(normalizedIndex, direction, skipFireEvent, /* suppressAnimation */ skipAnimation === true);
+        updateCarousel(normalizedIndex, direction, skipFireEvent, skipAnimation === true);
 
         if (skipAnimation) {
             carousel.classList.remove('temp-no-animation');

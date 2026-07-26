@@ -119,4 +119,5 @@ return [
     'up_to_dimensions' => 'up to :width×:height px',
     'at_least_dimensions' => 'at least :width×:height px',
     'server_upload_limit_warning' => 'The server is currently limiting uploads to :size. Increase PHP\'s upload_max_filesize and post_max_size settings if you want to allow larger uploads.',
+    'debug_cannot_be_rendered' => 'Debugging cannot be rendered',
 ];
