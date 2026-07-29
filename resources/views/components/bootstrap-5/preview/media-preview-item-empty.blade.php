@@ -5,6 +5,6 @@
 >
     <span class="mle-no-media">
          @include('medialibrary-extensions::components.shared.no-media-icon')
-        {{ __('medialibrary-extensions::messages.no_media') }}
+        <p>{{ __('medialibrary-extensions::messages.no_media') }}</p>
     </span>
 </div>
