@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.3.21](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.20...2.3.21) (2026-07-29)
+
+
+### Bug Fixes
+
+* added icon for preview item empty ([566a6d8](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/566a6d829cd7dd6ab24af44c09080bfacf4e89a2))
+* better error handling xhrStatus.js and image-editor-listener.js ([654b0b0](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/654b0b023d30eb82ce30166e7a52c562eb82ff16))
+* bug in Debug.php now rendering error page just in time ([730690e](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/730690edd55ccc20ff9c774a3b7e858cb98d955a))
+* debug only when not in production ([18a4ad8](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/18a4ad8f7c8c19cbc338941c2c9d3ff48d7a1ed6))
+* new svg icon for no media item, removed commented out code added code to eventually support loading bootstrap without a CDN. ([44bc0fe](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/44bc0fec2d8330f2049e60deb1de3e26d71e628e))
+* passing client token and instance id discovered by failing tests. ([75a96f3](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/75a96f34d02c788ba3987b0cd5f89445338ec1c8))
+* position of status looked wrong ([5fe2028](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/5fe20287f52b839a393ab0167300b849d16293d5))
+* removed console.warns and console.errors ([1e3b17f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/1e3b17f6084dce6f5022383f15409409ca64cd6e))
+* security hardening ([7a523d2](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/7a523d2e83cd991b9dbc8188b22028fc1341bd28))
+* security hardening ([8508b8f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8508b8f1eb3f5c327186dedc0efb87acebf2823b))
+* tests and tinymce modal was not initializing media modals after refresh because previews updated event did not bubble ([f40f5e5](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/f40f5e5436f00ca87cc27bbb07ee9a281489c449))
+
 ## [2.3.20](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.19...2.3.20) (2026-07-21)
 
 
