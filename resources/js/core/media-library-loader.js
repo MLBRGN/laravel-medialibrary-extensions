@@ -79,6 +79,16 @@ function loadMediaAssets(loader, manifest) {
         tasks.push(loadScript(`js/${theme}.js`));
     }
 
+    // if (assets.bootstrapCss) {
+    //     tasks.push(loadStyle('css/bootstrap-5/bootstrap.css'));
+    // }
+    //
+    // if (assets.bootstrapJs) {
+    //     tasks.push(loadScript('js/bootstrap-5/bootstrap.bundle.min.js', {
+    //         type: 'text/javascript',
+    //     }));
+    // }
+
     if (assets.carousel && theme === 'plain') {
         tasks.push(loadScript(`js/plain/media-carousel.js`));
     }

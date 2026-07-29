@@ -32,6 +32,8 @@ class Assets extends Component
         // Build the configuration array passed to the loader.js file
         $this->assetConfig = [
             'assets' => [
+                'bootstrapCss' => $this->theme === 'bootstrap-5',
+                'bootstrapJs'  => $this->theme === 'bootstrap-5',
                 'css' => $this->includeCss,
                 'js' => $this->includeJs,
                 'carousel' => $this->includeCarouselJs,
