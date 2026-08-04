@@ -83,32 +83,32 @@ class MediaService
     //
     // The current name is also difficult to understand because "resolve"
     // and "orClassName" describe different concerns.
-    public function resolveModelOrClassName(Model|string $modelOrClassName, ?string $dataSource): ResolvedModel
+    public function resolveModelOrClassName(Model|string $modelReference, ?string $dataSource): ResolvedModel
     {
-        if ($modelOrClassName instanceof HasMediaExtended) {
+        if ($modelReference instanceof HasMediaExtended) {
             return new ResolvedModel(
-                model: $modelOrClassName->setConnection($this->resolver->resolveConnection($dataSource)),
-                modelType: $modelOrClassName->getMorphClass(),
-                modelId: $modelOrClassName->getKey(),
+                model: $modelReference->setConnection($this->resolver->resolveConnection($dataSource)),
+                modelType: $modelReference->getMorphClass(),
+                modelId: $modelReference->getKey(),
                 temporaryUploadMode: false
             );
-        } elseif (is_string($modelOrClassName)) {
-            if (!class_exists($modelOrClassName)) {
+        } elseif (is_string($modelReference)) {
+            if (!class_exists($modelReference)) {
                 throw new InvalidArgumentException(__('medialibrary-extensions::messages.class_not_found', [
-                    'class' => $modelOrClassName,
+                    'class' => $modelReference,
                 ]));
             }
 
-            if (!is_subclass_of($modelOrClassName, HasMediaExtended::class)) {
+            if (!is_subclass_of($modelReference, HasMediaExtended::class)) {
                 throw new UnexpectedValueException(__('medialibrary-extensions::messages.must_implement_has_media', [
-                    'class' => $modelOrClassName,
+                    'class' => $modelReference,
                     'interface' => HasMediaExtended::class,
                 ]));
             }
 
             return new ResolvedModel(
                 model: null,
-                modelType: $modelOrClassName,
+                modelType: $modelReference,
                 modelId: null,
                 temporaryUploadMode: true
             );
@@ -491,12 +491,13 @@ class MediaService
             ->flatMap(fn($names) => is_array($names) ? $names : [$names]);
     }
 
-    public function resolveRequestModel(
-        string $modelType,
-        string|int|null $modelId,
-        bool $temporaryUploadMode,
-        ?string $dataSource,
-    ): ?HasMediaExtended {
-
-    }
+//    public function resolveRequestModel(
+//        string $modelType,
+//        string|int|null $modelId,
+//        bool $temporaryUploadMode,
+//        ?string $dataSource,
+//    ): ?HasMediaExtended {
+//
+//        return null;
+//    }
 }
