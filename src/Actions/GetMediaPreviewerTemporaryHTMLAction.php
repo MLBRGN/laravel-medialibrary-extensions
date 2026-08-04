@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
@@ -92,7 +93,8 @@ class GetMediaPreviewerTemporaryHTMLAction
                 throw new Exception(__('medialibrary-extensions::messages.medium_not_found'));
             }
         } else {
-            $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
+            $mediaCounter = app(MediaCounter::class);
+            $totalMediaCount = $mediaCounter->countTemporaryUploadsInCollections(
                 $collections,
                 $instanceId,
                 $clientToken,

@@ -11,6 +11,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaRetriever;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
@@ -96,7 +97,8 @@ class DestroyTemporaryUploadAction
 //            ->get()
 //            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
-        $temporaryUploads = $this->mediaService->getTemporaryUploadsSorted(
+        $mediaRetriever = app(MediaRetriever::class);
+        $temporaryUploads = $mediaRetriever->getTemporaryUploadsSorted(
             collections: $collections,
             instanceId: $instanceId,
             clientToken: $clientToken,

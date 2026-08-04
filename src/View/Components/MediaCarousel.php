@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaRetriever;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -49,7 +50,7 @@ class MediaCarousel extends BaseComponent
 
         $mediaService = app(MediaService::class);
 
-        $resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+        $resolvedModel = $mediaService->resolveModelReference($modelOrClassName, $dataSource);
         $model = $resolvedModel->model;
 
         // merge into config
@@ -58,7 +59,8 @@ class MediaCarousel extends BaseComponent
             'clientToken' => $this->clientToken,
         ]);
 
-        $this->media = $mediaService->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource, true);
+        $mediaRetriever = app(MediaRetriever::class);
+        $this->media = $mediaRetriever->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource, true);
 
         $this->mediaCount = $this->media->count();
 

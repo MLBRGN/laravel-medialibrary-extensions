@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -42,7 +43,7 @@ public function __construct(
     ...
 ) {
     $this->resolvedModel = $this->mediaService
-        ->resolveModelOrClassName(
+        ->resolveModelReference(
             $modelOrClassName,
             $this->dataSource
         );
@@ -148,11 +149,13 @@ Then callers don't care whether the original input was
 
             // CASE 2: Permanent mode (model instance provided)
             if ($this->modelOrClassName instanceof HasMedia) {
-                $totalMediaCount = $this->mediaService->countModelMediaInCollections($this->modelOrClassName, $effectiveCollections, $this->dataSource);
+                $mediaCounter = app(MediaCounter::class);
+                $totalMediaCount = $mediaCounter->countModelMediaInCollections($this->modelOrClassName, $effectiveCollections, $this->dataSource);
             }
             // CASE 3: Temporary mode (class name string provided)
             elseif (is_string($this->modelOrClassName)) {
-                $totalMediaCount = $this->mediaService->countTemporaryUploadsInCollections(
+                $mediaCounter = app(MediaCounter::class);
+                $totalMediaCount = $mediaCounter->countTemporaryUploadsInCollections(
                     $effectiveCollections,
                     $this->instanceId,
                     $this->clientToken,

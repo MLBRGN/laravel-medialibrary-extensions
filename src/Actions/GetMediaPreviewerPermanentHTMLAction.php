@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
@@ -72,7 +73,8 @@ class GetMediaPreviewerPermanentHTMLAction
             }
 
         } else {
-            $totalMediaCount = $this->mediaService->countModelMediaInCollections($model, $collections, $dataSource);
+            $mediaCounter = app(MediaCounter::class);
+            $totalMediaCount = $mediaCounter->countModelMediaInCollections($model, $collections, $dataSource);
         }
 
         // Determine max and flags

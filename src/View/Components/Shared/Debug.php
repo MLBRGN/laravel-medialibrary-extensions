@@ -50,7 +50,7 @@ class Debug extends Component
 
         $mediaService = app(MediaService::class);
 
-        $this->resolvedModel = $mediaService->resolveModelOrClassName($modelOrClassName, $dataSource);
+        $this->resolvedModel = $mediaService->resolveModelReference($modelOrClassName, $dataSource);
 
         $this->model = $this->resolvedModel->model;
         $this->modelType = $this->resolvedModel->modelType;

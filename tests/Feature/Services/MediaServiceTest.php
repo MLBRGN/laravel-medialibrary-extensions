@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCollectionService;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
@@ -51,8 +52,8 @@ it('returns image collection if mime type is in image list', function () {
     //    request()->merge(['image_collection' => 'images']);
     request()->merge(['collections' => ['image' => 'images']]);
 
-    $service = app(MediaService::class);
-    $collectionType = $service->determineCollectionType($file);
+    $mediaCollectionService = app(MediaCollectionService::class);
+    $collectionType = $mediaCollectionService->determineCollectionType($file);
 
     expect($collectionType)->toBe('image');
 });
@@ -62,8 +63,8 @@ it('returns document collection if mime type is in document list', function () {
     //    request()->merge(['document_collection' => 'docs']);
     request()->merge(['collections' => ['document' => 'document_collections']]);
 
-    $service = app(MediaService::class);
-    $collectionType = $service->determineCollectionType($file);
+    $mediaCollectionService = app(MediaCollectionService::class);
+    $collectionType = $mediaCollectionService->determineCollectionType($file);
 
     expect($collectionType)->toBe('document');
 });
@@ -71,8 +72,8 @@ it('returns document collection if mime type is in document list', function () {
 it('returns null if mime type is not supported', function () {
     $file = UploadedFile::fake()->create('file.txt', 10, 'text/plain');
 
-    $service = app(MediaService::class);
-    $collection = $service->determineCollectionType($file);
+    $mediaCollectionService = app(MediaCollectionService::class);
+    $collection = $mediaCollectionService->determineCollectionType($file);
 
     expect($collection)->toBeNull();
 });
@@ -81,7 +82,7 @@ it('resolves an actual HasMedia model instance', function () {
     $model = $this->getTestBlogModel();
 
     $service = app(MediaService::class);
-    $resolvedModel = $service->resolveModelOrClassName($model, 'default');
+    $resolvedModel = $service->resolveModelReference($model, 'default');
 
     expect($resolvedModel->model)->toBe($model);
     expect($resolvedModel->modelType)->toBe($model->getMorphClass());
@@ -93,7 +94,7 @@ it('resolves a class name string that implements HasMedia', function () {
     $model = $this->getTestBlogModel();
 
     $service = app(MediaService::class);
-    $resolvedModel = $service->resolveModelOrClassName($model->getMorphClass(), 'default');
+    $resolvedModel = $service->resolveModelReference($model->getMorphClass(), 'default');
 
     expect($resolvedModel->model)->toBeNull();
     expect($resolvedModel->modelType)->toBe($model->getMorphClass());
@@ -103,15 +104,15 @@ it('resolves a class name string that implements HasMedia', function () {
 
 it('throws InvalidArgumentException for non-existing class name', function () {
     $service = app(MediaService::class);
-    $service->resolveModelOrClassName('NonExistentClass', 'default');
+    $service->resolveModelReference('NonExistentClass', 'default');
 })->throws(InvalidArgumentException::class);
 
 it('throws UnexpectedValueException if class does not implement HasMedia', function () {
     $service = app(MediaService::class);
-    $service->resolveModelOrClassName(stdClass::class, 'default');
+    $service->resolveModelReference(stdClass::class, 'default');
 })->throws(UnexpectedValueException::class);
 
 it('throws TypeError for invalid type', function () {
     $service = app(MediaService::class);
-    $service->resolveModelOrClassName(123, 'default');
+    $service->resolveModelReference(123, 'default');
 })->throws(InvalidArgumentException::class);

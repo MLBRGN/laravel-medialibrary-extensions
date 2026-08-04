@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
@@ -55,7 +56,8 @@ class YouTubeUploadForm extends BaseMediaComponent
             'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
         ]);
 
-        $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+        $mediaCounter = app(MediaCounter::class);
+        $this->totalMediaCount = $mediaCounter->countMediaInCollections(
             $this->resolvedModel,
             $this->collections,
             $this->instanceId,

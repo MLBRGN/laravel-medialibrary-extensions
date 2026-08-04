@@ -141,7 +141,7 @@ This makes the class much easier to navigate.
 Current names:
 
 ```
-resolveModelOrClassName()
+resolveModelReference()
 make()
 resolveModelById()
 ```

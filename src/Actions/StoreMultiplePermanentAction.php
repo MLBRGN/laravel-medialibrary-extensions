@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
@@ -58,7 +59,8 @@ class StoreMultiplePermanentAction
         }
 
         $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
-        $mediaInCollections = $this->countModelMediaInCollections($model, $collections, $dataSource);
+        $mediaCounter = app(MediaCounter::class);
+        $mediaInCollections = $mediaCounter->countModelMediaInCollections($model, $collections, $dataSource);
         $nextPriority = $mediaInCollections;
 
         if ($mediaInCollections >= $maxItemsInCollection) {

@@ -43,7 +43,7 @@ abstract class BaseMediaComponent extends BaseComponent
 
     protected function resolveModel(mixed $modelOrClassName, ?string $dataSource = 'default'): void
     {
-        $this->resolvedModel = $this->mediaService->resolveModelOrClassName(
+        $this->resolvedModel = $this->mediaService->resolveModelReference(
             $modelOrClassName,
             $dataSource
         );

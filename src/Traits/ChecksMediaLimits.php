@@ -2,7 +2,7 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
 
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Spatie\MediaLibrary\HasMedia;
 
 trait ChecksMediaLimits
@@ -12,7 +12,8 @@ trait ChecksMediaLimits
      */
     protected function countModelMediaInCollections(HasMedia $model, array $collections, ?string $dataSource = 'default'): int
     {
-        return app(MediaService::class)->countModelMediaInCollections($model, $collections, $dataSource);
+        $mediaCounter = app(MediaCounter::class);
+        return $mediaCounter->countModelMediaInCollections($model, $collections, $dataSource);
     }
 
     /**
@@ -20,7 +21,9 @@ trait ChecksMediaLimits
      */
     protected function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): int
     {
-        return app(MediaService::class)->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource);
+        $mediaCounter = app(MediaCounter::class);
+
+        return $mediaCounter->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource);
     }
 
     /**
@@ -28,6 +31,8 @@ trait ChecksMediaLimits
      */
     protected function modelHasAnyMedia(HasMedia $model, array $collections, ?string $dataSource = 'default'): bool
     {
+        $mediaCounter = app(MediaCounter::class);
+
         return $this->countModelMediaInCollections($model, $collections, $dataSource) > 0;
     }
 
@@ -37,6 +42,7 @@ trait ChecksMediaLimits
 //    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
     protected function temporaryUploadsHaveAnyMedia(array $collections, string $instanceId = null, string $clientToken = null, ?string $dataSource = 'default'): bool
     {
+        $mediaCounter = app(MediaCounter::class);
         return $this->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource) > 0;
     }
 }

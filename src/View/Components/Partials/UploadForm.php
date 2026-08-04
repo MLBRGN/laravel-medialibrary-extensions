@@ -6,6 +6,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMimeTypes;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
@@ -72,7 +73,8 @@ class UploadForm extends BaseMediaComponent
             'min_height' => config('medialibrary-extensions.min_image_height'),
         ];
 
-        $this->totalMediaCount = $this->mediaService->countMediaInCollections(
+        $mediaCounter = app(MediaCounter::class);
+        $this->totalMediaCount = $mediaCounter->countMediaInCollections(
             $this->resolvedModel,
             $this->collections,
             $this->instanceId,
