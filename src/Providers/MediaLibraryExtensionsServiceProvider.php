@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Authorization\DefaultMediaActionsAuthorizer;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\InstallMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\RemoveExpiredTemporaryUploads;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ResetMediaLibraryExtensions;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\SetupDemoCommand;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\MediaActionsAuthorizer;
 use Mlbrgn\MediaLibraryExtensions\Services\DefaultYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
@@ -107,6 +109,10 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         // singleton to remember media upload context (used by InteractsWithMediaExtended to promote temporary uploads to permanent)
         $this->app->singleton(MediaUploadContext::class);
 
+        $this->app->singleton(
+            MediaActionsAuthorizer::class,
+            DefaultMediaActionsAuthorizer::class,
+        );
         $this->setupDisks();
 
         if (config('medialibrary-extensions.demo_pages_enabled')) {

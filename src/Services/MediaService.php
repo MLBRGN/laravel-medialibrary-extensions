@@ -490,4 +490,13 @@ class MediaService
             ->filter()
             ->flatMap(fn($names) => is_array($names) ? $names : [$names]);
     }
+
+    public function resolveRequestModel(
+        string $modelType,
+        string|int|null $modelId,
+        bool $temporaryUploadMode,
+        ?string $dataSource,
+    ): ?HasMediaExtended {
+
+    }
 }

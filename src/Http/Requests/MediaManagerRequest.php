@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\MediaActionsAuthorizer;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 abstract class MediaManagerRequest extends FormRequest
@@ -27,6 +28,12 @@ abstract class MediaManagerRequest extends FormRequest
     {
         return [];
     }
+
+    protected const array ACTION_MAP = [
+        'upload' => 'allowsMediaUploads',
+        'edit'   => 'allowsMediaEdits',
+        'delete' => 'allowsMediaDeletes',
+    ];
 
     // TODO Refactor model resolution responsibilities.
     //
@@ -184,9 +191,39 @@ abstract class MediaManagerRequest extends FormRequest
 
         $model = $this->resolveModel();
 
-        return $model?->canPerformMediaAction($ability, $this->user()) ?? false;
+        if (! $model) {
+            return false;
+        }
+
+        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
+
+        if (! $supportsMethod) {
+            return false;
+        }
+
+        if (! $model::$supportsMethod()) {
+            return false;
+        }
+
+        return app(MediaActionsAuthorizer::class)
+            ->allows(
+                $ability,
+                $this->user(),
+                $model,
+            );
+
+//        return $model?->canPerformMediaAction($ability, $this->user()) ?? false;
     }
 
+//    protected function actionSupportMethod(string $action): ?string
+//    {
+//        return match ($action) {
+//            'upload' => 'allowsMediaUploads',
+//            'edit' => 'allowsMediaEdits',
+//            'delete' => 'allowsMediaDeletes',
+//            default => null,
+//        };
+//    }
 //    protected function requestedCollectionsAreAllowed(): bool
 //    {
 //        $model = $this->resolveModel();

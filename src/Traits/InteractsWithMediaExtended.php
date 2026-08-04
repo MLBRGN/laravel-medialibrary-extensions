@@ -580,36 +580,37 @@ trait InteractsWithMediaExtended
      * 2. If a Laravel policy exists for this model, it is used.
      * 3. If no policy exists, authorization is granted by default.
      */
-    public function canPerformMediaAction(
-        string $ability,
-        ?Authenticatable $user = null
-    ): bool {
-        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
+//    public function canPerformMediaAction(
+//        string $ability,
+//        ?Authenticatable $user = null
+//    ): bool {
+//        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
+//
+//        if (! $supportsMethod) {
+//            return false;
+//        }
+//
+//        if (! static::$supportsMethod()) {
+//            return false;
+//        }
+//
+//        $policy = Gate::getPolicyFor($this);
+//
+//        if (! $policy) {
+//            return true;
+//        }
+//
+//        $policyMethod = $ability.'Media';
+//
+//        // if policy exists, but does not have the method, allow it
+//        if (! method_exists($policy, $policyMethod)) {
+//            return true;
+//        }
+//
+//        return Gate::forUser($user)
+//            ->allows($policyMethod, $this);
+//    }
 
-        if (! $supportsMethod) {
-            return false;
-        }
-
-        if (! static::$supportsMethod()) {
-            return false;
-        }
-
-        $policy = Gate::getPolicyFor($this);
-
-        if (! $policy) {
-            return true;
-        }
-
-        $policyMethod = $ability.'Media';
-
-        // if policy exists, but does not have the method, allow it
-        if (! method_exists($policy, $policyMethod)) {
-            return true;
-        }
-
-        return Gate::forUser($user)
-            ->allows($policyMethod, $this);
-    }
     public static function isMediaUploadable(): bool
     {
         return static::allowsMediaUploads();
