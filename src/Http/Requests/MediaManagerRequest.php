@@ -6,7 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -16,7 +15,6 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\MediaActionsAuthorizer;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 abstract class MediaManagerRequest extends FormRequest
 {
@@ -126,13 +124,13 @@ abstract class MediaManagerRequest extends FormRequest
             return null;
         }
 
-        $mediaService = app(MediaService::class);
+        $mediaModelResolver = app(MediaModelResolver::class);
         $modelClass = $this->resolveModelClass();
         $modelId = $this->input('model_id');
         $dataSource = $this->input('data_source') ?? 'default';
 
         try {
-            $model = $mediaService->resolveModelById($modelClass, $modelId, $dataSource);
+            $model = $mediaModelResolver->resolveModelById($modelClass, $modelId, $dataSource);
         } catch (ModelNotFoundException $e) {
             // During authorization checks we want to gracefully return `null`
             // so that `authorize*` methods can respond with `false` instead of

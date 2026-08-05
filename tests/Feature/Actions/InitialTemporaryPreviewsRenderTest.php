@@ -9,8 +9,7 @@ use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 beforeEach(function () {
-    $this->mediaService = app(MediaService::class);
-    $this->action = new GetMediaPreviewerTemporaryHTMLAction($this->mediaService);
+    $this->action = app(GetMediaPreviewerTemporaryHTMLAction::class);
 });
 
 it('finds temporary uploads on initial render using cookie client_token and derived instance_id', function () {

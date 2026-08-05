@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoPermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -14,9 +14,9 @@ beforeEach(function () {
     Storage::fake('public');
     Config::set('medialibrary-extensions.youtube_support_enabled', true);
 
-    $this->mediaService = Mockery::mock(MediaService::class);
+    $this->mediaModelResolver = Mockery::mock(MediaModelResolver::class);
     $this->youTubeService = Mockery::mock(YouTubeService::class);
-    $this->action = new StoreYouTubeVideoPermanentAction($this->mediaService, $this->youTubeService);
+    $this->action = new StoreYouTubeVideoPermanentAction($this->mediaModelResolver, $this->youTubeService);
 });
 
 it('aborts if youtube support is disabled', function () {
@@ -51,7 +51,7 @@ it('stores permanent thumbnail successfully (JSON)', function () {
     $fakeMedia->shouldReceive('setCustomProperty')->once()->with('priority', 0);
     $fakeMedia->shouldReceive('save')->once()->andReturnSelf();
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
@@ -93,7 +93,7 @@ it('stores permanent thumbnail successfully (redirect)', function () {
     $fakeMedia->shouldReceive('setCustomProperty')->once()->with('priority', 0);
     $fakeMedia->shouldReceive('save')->once()->andReturnSelf();
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
@@ -132,7 +132,7 @@ it('returns error when permanent thumbnail fails to download (JSON)', function (
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
@@ -168,7 +168,7 @@ it('returns error when permanent thumbnail fails to download (redirect)', functi
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
@@ -208,7 +208,7 @@ it('uploads youtube thumbnail to model successfully (JSON)', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->with(get_class($model), $model->getKey(), 'default')
@@ -250,7 +250,7 @@ it('uploads youtube thumbnail to model successfully (redirect)', function () {
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->with(get_class($model), $model->getKey(), 'default')
@@ -295,7 +295,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);
@@ -326,7 +326,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     $request->headers->remove('Accept');
     $request->setLaravelSession(app('session')->driver());
 
-    $this->mediaService
+    $this->mediaModelResolver
         ->shouldReceive('resolveModelById')
         ->once()
         ->andReturn($model);

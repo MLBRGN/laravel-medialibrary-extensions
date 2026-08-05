@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\RestoreOriginalMediumRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Throwable;
 
 class RestoreOriginalMediaAction
 {
     public function __construct(
-        protected MediaService $mediaService,
+        protected MediaModelResolver $mediaModelResolver
     ) {}
 
     public function execute(
@@ -28,7 +28,7 @@ class RestoreOriginalMediaAction
         $baseId = (string) ($request->input('base_id') ?? '');
 
         try {
-            $media = $this->mediaService->findMedium($id, $dataSource);
+            $media = $this->mediaModelResolver->findMedium($id, $dataSource);
         } catch (Throwable $e) {
             return MediaResponse::error(
                 $request,
@@ -50,7 +50,7 @@ class RestoreOriginalMediaAction
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         if ($modelType !== null && $modelId !== null) {
-            $authorizedModel = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+            $authorizedModel = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
             if (! $authorizedModel || ! $media->model || ! $media->model->is($authorizedModel)) {
                 return MediaResponse::forbidden(
                     $request,

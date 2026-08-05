@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\UploadException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
@@ -18,7 +18,7 @@ class StoreSinglePermanentAction
     use ChecksMediaLimits;
 
     public function __construct(
-        protected MediaService $mediaService,
+        protected MediaModelResolver $mediaModelResolver,
         protected UploadPreparerService $uploadPreparerService,
     ) {}
 
@@ -36,7 +36,7 @@ class StoreSinglePermanentAction
 
             $dataSource = $request->input('data_source', 'default');
 
-            $model = $this->mediaService->resolveModelById(
+            $model = $this->mediaModelResolver->resolveModelById(
                 $modelType,
                 $modelId,
                 $dataSource

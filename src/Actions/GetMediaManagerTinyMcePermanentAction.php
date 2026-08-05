@@ -4,15 +4,14 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Actions;
 
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerTinyMceRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 
 class GetMediaManagerTinyMcePermanentAction
 {
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver,
     ) {}
 
     public function execute(GetMediaManagerTinyMceRequest $request): View
@@ -30,7 +29,7 @@ class GetMediaManagerTinyMcePermanentAction
 
         if ($modelType && $modelId) {
             try {
-                $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+                $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
             } catch (\Exception $e) {
                 return view('medialibrary-extensions::errors.error', [
                     'title' => __('medialibrary-extensions::messages.something_went_wrong'),

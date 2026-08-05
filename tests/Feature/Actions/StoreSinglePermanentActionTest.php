@@ -20,19 +20,11 @@ beforeEach(function () {
     $this->uploadFieldNameSingle =
         config('medialibrary-extensions.upload_field_name');
 
-    $this->mediaService = app(MediaService::class);
-    $this->uploadPreparer = app(UploadPreparerService::class);
-
-    $this->action = new StoreSinglePermanentAction(
-        $this->mediaService,
-        $this->uploadPreparer
-    );
+    $this->action = app(StoreSinglePermanentAction::class);
 });
 
 it('stores file (json)', function () {
-    $baseId = 'media-manager-123';
     $file1 = UploadedFile::fake()->image('photo1.jpg');
-    $model = $this->getTestBlogModel();
 
     $request = StoreSingleRequest::create('/upload', 'POST', [
         'model_type' => get_class($this->model),

@@ -4,12 +4,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerTemporaryHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 
 beforeEach(function () {
-    $this->mediaService = app(MediaService::class);
-    $this->action = new GetMediaPreviewerTemporaryHTMLAction($this->mediaService);
+    $this->action = app(GetMediaPreviewerTemporaryHTMLAction::class);
 });
 
 it('renders temporary media preview HTML and returns JSON response', function () {

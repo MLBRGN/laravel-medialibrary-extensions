@@ -83,8 +83,7 @@ it('preserves data source during temporary upload reordering and refresh', funct
     $setAsFirstRequest->setLaravelSession(app('session')->driver());
 
     // CRITICAL: We don't set the connection here anymore, the Action should handle it!
-    $mediaService = app(MediaService::class);
-    $setAsFirstAction = new SetTemporaryUploadAsFirstAction($mediaService);
+    $setAsFirstAction = app(SetTemporaryUploadAsFirstAction::class);
     $response = $setAsFirstAction->execute($setAsFirstRequest);
 
     expect($response->status())->toBe(302); // Redirect back
@@ -113,7 +112,7 @@ it('preserves data source during temporary upload reordering and refresh', funct
     ]);
     $refreshRequest->setLaravelSession(app('session')->driver());
 
-    $refreshAction = new GetMediaPreviewerTemporaryHTMLAction($mediaService);
+    $refreshAction = app(GetMediaPreviewerTemporaryHTMLAction::class);
     $refreshResponse = $refreshAction->execute($refreshRequest);
 
     expect($refreshResponse->status())->toBe(200);

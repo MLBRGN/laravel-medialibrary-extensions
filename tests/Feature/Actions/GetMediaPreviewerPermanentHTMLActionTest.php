@@ -3,11 +3,9 @@
 use Illuminate\Http\JsonResponse;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerPermanentHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 beforeEach(function () {
-    $this->mediaService = app(MediaService::class);
-    $this->action = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
+    $this->action = app(GetMediaPreviewerPermanentHTMLAction::class);
 });
 
 it('renders media preview HTML (without media) and returns JSON response', function () {

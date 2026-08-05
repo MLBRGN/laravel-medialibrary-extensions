@@ -9,16 +9,15 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyTemporaryUploadRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaRetriever;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class DestroyTemporaryUploadAction
 {
     public function __construct(
-        public MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver,
     ) {}
 
     public function execute(
@@ -27,7 +26,7 @@ class DestroyTemporaryUploadAction
         $dataSource = $request->input('data_source', 'default');
         $baseId = (string) $request->input('base_id');
 
-        $temporaryUpload = $this->mediaService->findTemporaryUpload(
+        $temporaryUpload = $this->mediaModelResolver->findTemporaryUpload(
             $request->input('temporaryUploadId') ?: $request->route('temporaryUploadId'),
             $dataSource
         );

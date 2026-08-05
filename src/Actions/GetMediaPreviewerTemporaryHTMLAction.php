@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
@@ -21,7 +22,7 @@ class GetMediaPreviewerTemporaryHTMLAction
     public ?bool $temporaryUploadMode = true;
 
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver
     ) {}
 
     /**
@@ -85,7 +86,7 @@ class GetMediaPreviewerTemporaryHTMLAction
         $totalMediaCount = 0;
 
         if ($singleMediaId !== null) {
-            $singleMedia = $this->mediaService->findTemporaryUpload($singleMediaId, $dataSource);
+            $singleMedia = $this->mediaModelResolver->findTemporaryUpload($singleMediaId, $dataSource);
 
             if ($singleMedia) {
                 $totalMediaCount = 1;

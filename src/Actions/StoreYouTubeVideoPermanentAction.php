@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
@@ -17,7 +17,7 @@ class StoreYouTubeVideoPermanentAction
     use ChecksMediaLimits;
 
     public function __construct(
-        protected MediaService $mediaService,
+        protected MediaModelResolver $mediaModelResolver,
         protected YouTubeService $youTubeService
     ) {}
 
@@ -46,8 +46,7 @@ class StoreYouTubeVideoPermanentAction
             );
         }
 
-        //        $model = $this->mediaService->resolveModel($request->model_type, $request->model_id);
-        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+        $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
         $model->load(['media' => fn ($q) => $q->whereIn('collection_name', $collections)]);
 
         $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');

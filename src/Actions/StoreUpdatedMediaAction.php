@@ -10,16 +10,16 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaReplacement;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreUpdatedMediaAction
 {
 
     public function __construct(
-        protected MediaService $mediaService,
-        protected MediaReplacement $mediaReplacement
+        protected MediaModelResolver $mediaModelResolver,
+        protected MediaReplacement $mediaReplacement,
     ) {}
 
     public function execute(StoreUpdatedMediaRequest $request): JsonResponse|RedirectResponse
@@ -46,10 +46,10 @@ class StoreUpdatedMediaAction
         try {
             // Handle Permanent Media
             if (! $temporaryUploadMode) {
-                $existingMedia = $this->mediaService->findMedium($mediaId, $dataSource);
+                $existingMedia = $this->mediaModelResolver->findMedium($mediaId, $dataSource);
                 if ($existingMedia) {
                     // Ensure the medium actually belongs to the authorized model resolved by the request
-                    $authorizedModel = $this->mediaService->resolveModelById(
+                    $authorizedModel = $this->mediaModelResolver->resolveModelById(
                         $request->input('model_type'),
                         $request->input('model_id'),
                         $dataSource
@@ -76,7 +76,7 @@ class StoreUpdatedMediaAction
 
             // Handle Temporary Uploads
             else {
-                $existingMedia = $this->mediaService->findTemporaryUpload($mediaId, $dataSource);
+                $existingMedia = $this->mediaModelResolver->findTemporaryUpload($mediaId, $dataSource);
 
                 if (! $existingMedia) {
                     throw new Exception("Temporary upload with ID {$mediaId} not found.");

@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerPermanentHTMLAction;
@@ -21,23 +20,11 @@ beforeEach(function () {
 
     $this->mediaService = app(MediaService::class);
     $this->storeUpdatedMediaAction = app(StoreUpdatedMediaAction::class);
-    $this->getPermanentPreviewAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
+    $this->getPermanentPreviewAction = app(GetMediaPreviewerPermanentHTMLAction::class);
 
     $this->baseId = 'media-manager-datasource';
     $this->dataSource = 'test_default';
     $this->model = $this->getTestBlogModel();
-
-    // Re-register the media_demo connection to ensure it's in config
-    //    $demoDatabasePath = __DIR__.'/../Support/demo.sqlite';
-    //    config()->set('database.connections.media_demo', [
-    //        'driver' => 'sqlite',
-    //        'database' => $demoDatabasePath,
-    //        'prefix' => '',
-    //    ]);
-
-    //    config()->set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
-    //
-    //    DB::purge('media_demo');
 
     // Ensure blogs table exists on demo connection
     if (! Schema::connection($testDemoConnection)->hasTable('blogs')) {

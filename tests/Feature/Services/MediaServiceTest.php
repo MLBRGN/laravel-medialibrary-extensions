@@ -5,41 +5,38 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
-use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaCollectionService;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 it('resolves an existing model instance', function () {
     $model = $this->getTestBlogModel();
-    $service = app(MediaService::class);
+    $mediaModelResolver = app(MediaModelResolver::class);
 
-    $resolved = $service->resolveModelById(Blog::class, $model->id, 'default');
+    $resolved = $mediaModelResolver->resolveModelById(Blog::class, $model->id, 'default');
 
     expect($resolved)->toBeInstanceOf(Blog::class)
         ->and($resolved->id)->toBe($model->id);
 });
 
 it('throws 400 if model class does not exist', function () {
-    $service = app(MediaService::class);
-
-    $service->resolveModelById('NonExistentClass', '1', 'default');
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $mediaModelResolver->resolveModelById('NonExistentClass', '1', 'default');
 })->throws(InvalidModelTypeException::class);
 
 it('throws ModelNotFoundException if id not found', function () {
-    $service = app(MediaService::class);
-
-    $service->resolveModelById(Blog::class, '999', 'default');
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $mediaModelResolver->resolveModelById(Blog::class, '999', 'default');
 })->throws(ModelNotFoundException::class);
 
 it('throws exception if model does not implement HasMediaExtended', function () {
-    $service = app(MediaService::class);
+    $mediaModelResolver = app(MediaModelResolver::class);
 
     // Simple anonymous class doesn't implement HasMediaExtended
     $class = new class extends Model {};
     $className = get_class($class);
 
-    $service->resolveModelById($className, 1, 'default');
+    $mediaModelResolver->resolveModelById($className, 1, 'default');
 })->throws(InvalidModelTypeException::class, 'must implement Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended');
 
 beforeEach(function () {
@@ -81,8 +78,8 @@ it('returns null if mime type is not supported', function () {
 it('resolves an actual HasMedia model instance', function () {
     $model = $this->getTestBlogModel();
 
-    $service = app(MediaService::class);
-    $resolvedModel = $service->resolveModelReference($model, 'default');
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $resolvedModel = $mediaModelResolver->resolveModelReference($model, 'default');
 
     expect($resolvedModel->model)->toBe($model);
     expect($resolvedModel->modelType)->toBe($model->getMorphClass());
@@ -93,8 +90,8 @@ it('resolves an actual HasMedia model instance', function () {
 it('resolves a class name string that implements HasMedia', function () {
     $model = $this->getTestBlogModel();
 
-    $service = app(MediaService::class);
-    $resolvedModel = $service->resolveModelReference($model->getMorphClass(), 'default');
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $resolvedModel = $mediaModelResolver->resolveModelReference($model->getMorphClass(), 'default');
 
     expect($resolvedModel->model)->toBeNull();
     expect($resolvedModel->modelType)->toBe($model->getMorphClass());
@@ -103,16 +100,16 @@ it('resolves a class name string that implements HasMedia', function () {
 });
 
 it('throws InvalidArgumentException for non-existing class name', function () {
-    $service = app(MediaService::class);
-    $service->resolveModelReference('NonExistentClass', 'default');
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $mediaModelResolver->resolveModelReference('NonExistentClass', 'default');
 })->throws(InvalidArgumentException::class);
 
 it('throws UnexpectedValueException if class does not implement HasMedia', function () {
-    $service = app(MediaService::class);
-    $service->resolveModelReference(stdClass::class, 'default');
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $mediaModelResolver->resolveModelReference(stdClass::class, 'default');
 })->throws(UnexpectedValueException::class);
 
 it('throws TypeError for invalid type', function () {
-    $service = app(MediaService::class);
-    $service->resolveModelReference(123, 'default');
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $mediaModelResolver->resolveModelReference(123, 'default');
 })->throws(InvalidArgumentException::class);

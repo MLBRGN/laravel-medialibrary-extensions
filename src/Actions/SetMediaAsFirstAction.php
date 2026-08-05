@@ -9,12 +9,12 @@ use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetMediumAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 
 class SetMediaAsFirstAction
 {
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver,
     ) {}
 
     public function execute(SetMediumAsFirstRequest $request): JsonResponse|RedirectResponse
@@ -26,9 +26,9 @@ class SetMediaAsFirstAction
 
         $baseId = (string) $request->input('base_id');
 
-        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+        $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
         $mediumId = (int) $request->medium_id;
-        $targetMedia = $this->mediaService->findMedium($mediumId, $dataSource);
+        $targetMedia = $this->mediaModelResolver->findMedium($mediumId, $dataSource);
 
         $collections = $request->array('collections');
 

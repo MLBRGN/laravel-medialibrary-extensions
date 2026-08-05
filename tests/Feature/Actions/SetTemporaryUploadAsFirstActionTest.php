@@ -24,8 +24,7 @@ it('fails when no collections provided JSON', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = app(MediaService::class);
-    $action = new SetTemporaryUploadAsFirstAction($mediaService);
+    $action = app(SetTemporaryUploadAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -57,8 +56,7 @@ it('fails when no collections provided', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = app(MediaService::class);
-    $action = new SetTemporaryUploadAsFirstAction($mediaService);
+    $action = app(SetTemporaryUploadAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -94,8 +92,7 @@ it('returns error when no media in collection JSON', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = app(MediaService::class);
-    $action = new SetTemporaryUploadAsFirstAction($mediaService);
+    $action = app(SetTemporaryUploadAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -126,8 +123,7 @@ it('returns error when no media in collection', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = app(MediaService::class);
-    $action = new SetTemporaryUploadAsFirstAction($mediaService);
+    $action = app(SetTemporaryUploadAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -183,8 +179,7 @@ it('can set as first in collection JSON', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = app(MediaService::class);
-    $action = new SetTemporaryUploadAsFirstAction($mediaService);
+    $action = app(SetTemporaryUploadAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -246,8 +241,7 @@ it('can set as first in collection', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = app(MediaService::class);
-    $action = new SetTemporaryUploadAsFirstAction($mediaService);
+    $action = app(SetTemporaryUploadAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -312,8 +306,7 @@ it('can set as first in collection with null model_id', function () {
     // Attach session manually
     $request->setLaravelSession(app('session')->driver());
 
-    $mediaService = app(MediaService::class);
-    $action = new SetTemporaryUploadAsFirstAction($mediaService);
+    $action = app(SetTemporaryUploadAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);

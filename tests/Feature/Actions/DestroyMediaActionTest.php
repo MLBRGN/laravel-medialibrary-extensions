@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Mlbrgn\MediaLibraryExtensions\Actions\DestroyMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -176,10 +176,10 @@ it('deletes a medium and reorders priorities via action execute (JSON)', functio
         ->toHaveKey('message')
         ->toMatchArray(['baseId' => 'foo']);
 
-    $mediaService = app(MediaService::class);
+    $mediaModelResolver = app(MediaModelResolver::class);
     // The deleted medium should be gone
     try {
-        $mediaService->resolveModelById(Media::class, $first->id, 'default');
+        $mediaModelResolver->resolveModelById(Media::class, $first->id, 'default');
         $this->fail('The medium should have been deleted');
     } catch (ModelNotFoundException $e) {
         // Expected

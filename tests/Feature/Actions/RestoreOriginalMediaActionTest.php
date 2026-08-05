@@ -17,47 +17,11 @@ use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 beforeEach(function () {
     $this->mediaService = app(MediaService::class);
-    $this->action = new RestoreOriginalMediaAction($this->mediaService);
-
-//    PackageInfrastructure::connection('testbench', 'default');
-//    config()->set('medialibrary-extensions.media_disks.originals', 'originals');
-//    config()->set('filesystems.disks.originals', [
-//        'driver' => 'local',
-//        'root' => storage_path('app/public/media_originals'),
-//        'visibility' => 'private',
-//    ]);
-//    config()->set('filesystems.disks.public', [
-//        'driver' => 'local',
-//        'root' => storage_path('app/public'),
-//        'visibility' => 'public',
-//    ]);
-//    config()->set('filesystems.disks.media', [
-//        'driver' => 'local',
-//        'root' => storage_path('app/public/media'),
-//        'visibility' => 'public',
-//    ]);
+    $this->action = app(RestoreOriginalMediaAction::class);
 
     Storage::fake('public');
     Storage::fake('media');
     Storage::fake('originals');
-
-    // Setup for data_source tests
-//    $demoDatabasePath = __DIR__.'/../../Support/demo.sqlite';
-//    config()->set('database.connections.media_demo', [
-//        'driver' => 'sqlite',
-//        'database' => $demoDatabasePath,
-//        'prefix' => '',
-//    ]);
-//    config()->set('medialibrary-extensions.data_sources.default.connection', 'testbench');
-//    config()->set('medialibrary-extensions.data_sources.demo.connection', 'media_demo');
-//    DB::purge('media_demo');
-//    if (! Schema::connection('media_demo')->hasTable('blogs')) {
-//        Schema::connection('media_demo')->create('blogs', function (Blueprint $table) {
-//            $table->id();
-//            $table->string('title');
-//            $table->timestamps();
-//        });
-//    }
 });
 
 it('returns error if media not found', function () {

@@ -5,10 +5,8 @@ use Illuminate\Support\Facades\Schema;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 
 it('DataSourceResolver throws wehn invalid dataSource provided', function () {
     Config::set('database.default', 'testbench');
@@ -32,7 +30,7 @@ it('MediaService instantiateTemporaryUpload uses the resolved connection', funct
 });
 
 it('MediaService resolveModelById uses the resolved connection', function () {
-    $service = app(MediaService::class);
+    $mediaModelResolver = app(MediaModelResolver::class);
 
     // We create the blogs table on the media_demo connection manually for this test
     $connection = PackageInfrastructure::connection('test', 'alt');
@@ -51,7 +49,7 @@ it('MediaService resolveModelById uses the resolved connection', function () {
     $blog->save();
 
     // Use a valid, explicit data source key understood by the resolver
-    $found = $service->resolveModelById(Blog::class, $blog->id, 'test_alt');
+    $found = $mediaModelResolver->resolveModelById(Blog::class, $blog->id, 'test_alt');
 
     expect($found->getConnectionName())->toBe($connection)
         ->and($found->id)->toBe($blog->id);

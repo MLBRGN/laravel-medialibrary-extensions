@@ -8,19 +8,17 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaPreviewerPermanentHTMLAction
 {
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver
     ) {}
 
     /**
@@ -51,7 +49,9 @@ class GetMediaPreviewerPermanentHTMLAction
         }
 
         $collections = json_decode($request->input('collections'), true) ?? [];
-        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+
+
+        $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))

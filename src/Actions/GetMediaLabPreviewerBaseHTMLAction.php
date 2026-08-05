@@ -9,17 +9,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
-use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaLabPreviewerBaseHTMLRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewBase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GetMediaLabPreviewerBaseHTMLAction
 {
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver,
     ) {}
 
     /**
@@ -40,7 +38,7 @@ class GetMediaLabPreviewerBaseHTMLAction
             $options['theme'] = $theme;
         }
 
-        $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+        $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
 
         // have to query the model, don't use Media directly (this uses wrong db for demo pages)
         $medium = $model->media()->find($mediumId);

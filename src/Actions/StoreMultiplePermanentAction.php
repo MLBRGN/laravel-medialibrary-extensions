@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
@@ -20,7 +20,7 @@ class StoreMultiplePermanentAction
     use ChecksMediaLimits;
 
     public function __construct(
-        protected MediaService $mediaService,
+        protected MediaModelResolver $mediaModelResolver,
         protected UploadPreparerService $uploadPreparerService,
     ) {}
 
@@ -32,7 +32,7 @@ class StoreMultiplePermanentAction
         $dataSource = $request->input('data_source', 'default');
 
         try {
-            $model = $this->mediaService->resolveModelById($modelType, $modelId, $dataSource);
+            $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

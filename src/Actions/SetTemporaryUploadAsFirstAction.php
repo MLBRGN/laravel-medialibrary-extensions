@@ -11,13 +11,14 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class SetTemporaryUploadAsFirstAction
 {
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver,
     ) {}
 
     public function execute(SetTemporaryUploadAsFirstRequest $request): JsonResponse|RedirectResponse
@@ -85,7 +86,7 @@ class SetTemporaryUploadAsFirstAction
             );
         }
 
-        $targetMedia = $this->mediaService->findTemporaryUpload($mediumId, $dataSource);
+        $targetMedia = $this->mediaModelResolver->findTemporaryUpload($mediumId, $dataSource);
 
         if (! $targetMedia) {
             Log::warning('SetTemporaryUploadAsFirstAction.target_not_found', [

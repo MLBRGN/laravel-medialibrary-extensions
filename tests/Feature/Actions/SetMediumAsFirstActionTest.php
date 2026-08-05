@@ -29,8 +29,7 @@ it('fails when no collections provided JSON', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
-    $action = new SetMediaAsFirstAction($mediaService);
+    $action = app(SetMediaAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -69,8 +68,7 @@ it('fails when no collections provided', function () {
         'medium_id' => $media1->id,
     ]);
 
-    $mediaService = app(MediaService::class);
-    $action = new SetMediaAsFirstAction($mediaService);
+    $action = app(SetMediaAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -113,8 +111,7 @@ it('returns error when no media in collection JSON', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
-    $action = new SetMediaAsFirstAction($mediaService);
+    $action = app(SetMediaAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -154,8 +151,7 @@ it('returns error when no media in collection', function () {
         'collections' => ['image' => 'blog-non-existing-collection'],
     ]);
 
-    $mediaService = app(MediaService::class);
-    $action = new SetMediaAsFirstAction($mediaService);
+    $action = app(SetMediaAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -199,8 +195,7 @@ it('can set as first in collection JSON', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
-    $action = new SetMediaAsFirstAction($mediaService);
+    $action = app(SetMediaAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);
@@ -244,8 +239,7 @@ it('can set as first in collection', function () {
         'collections' => ['image' => 'blog-images'],
     ]);
 
-    $mediaService = app(MediaService::class);
-    $action = new SetMediaAsFirstAction($mediaService);
+    $action = app(SetMediaAsFirstAction::class);
 
     // Call the action's execute method
     $response = $action->execute($request);

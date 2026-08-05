@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\DestroyRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 
 class DestroyMediaAction
 {
     public function __construct(
-        public MediaService $mediaService
+        protected MediaModelResolver $mediaModelResolver
     ) {}
 
     public function execute(
@@ -25,7 +24,7 @@ class DestroyMediaAction
     ): JsonResponse|RedirectResponse {
         $dataSource = $request->input('data_source', 'default');
 
-        $media = $this->mediaService->findMedium(
+        $media = $this->mediaModelResolver->findMedium(
             $request->input('mediaId') ?: $request->route('mediaId'),
             $dataSource
         );
@@ -47,7 +46,7 @@ class DestroyMediaAction
         $modelType = $request->input('model_type');
         $modelId = $request->input('model_id');
         if ($modelType !== null && $modelId !== null) {
-            $authorizedModel = $this->mediaService->resolveModelById(
+            $authorizedModel = $this->mediaModelResolver->resolveModelById(
                 $modelType,
                 $modelId,
                 $dataSource
