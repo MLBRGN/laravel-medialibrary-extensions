@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ViewErrorBag;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 beforeEach(function () {
     Storage::fake('tmp');

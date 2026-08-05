@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultiplePermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('stores multiple valid files (json)', function () {
     $baseId = 'media-manager-123';
@@ -31,7 +30,6 @@ it('stores multiple valid files (json)', function () {
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
@@ -61,7 +59,6 @@ it('fails upload when no collections (json)', function () {
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
@@ -89,7 +86,6 @@ it('stores multiple valid files (redirect)', function () {
     ]);
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
@@ -119,7 +115,6 @@ it('fails upload when no collections (redirect)', function () {
     ]);
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
@@ -146,7 +141,6 @@ it('returns error if no files are given (JSON)', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
@@ -171,7 +165,6 @@ it('returns error if no files are given (redirect)', function () {
 
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
@@ -203,7 +196,6 @@ it('returns error if upload fails (JSON)', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 
@@ -229,7 +221,6 @@ it('returns error if upload fails (redirect)', function () {
     ]);
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultiplePermanentAction::class);
     $response = $action->execute($request);
 

@@ -8,7 +8,6 @@ use Mlbrgn\MediaLibraryExtensions\Actions\GetMediaPreviewerPermanentHTMLAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreUpdatedMediaAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreUpdatedMediaRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 beforeEach(function () {
@@ -18,7 +17,6 @@ beforeEach(function () {
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));
     Storage::fake('public');
 
-    $this->mediaService = app(MediaService::class);
     $this->storeUpdatedMediaAction = app(StoreUpdatedMediaAction::class);
     $this->getPermanentPreviewAction = app(GetMediaPreviewerPermanentHTMLAction::class);
 

@@ -10,8 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Component;
 use Illuminate\View\View;
-use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel;
 use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
@@ -48,9 +47,9 @@ class Debug extends Component
         $this->options = $options;
         $this->id = uniqid();
 
-        $mediaService = app(MediaService::class);
+        $mediaModelResolver = app(MediaModelResolver::class);
 
-        $this->resolvedModel = $mediaService->resolveModelReference($modelOrClassName, $dataSource);
+        $this->resolvedModel = $mediaModelResolver->resolveModelReference($modelOrClassName, $dataSource);
 
         $this->model = $this->resolvedModel->model;
         $this->modelType = $this->resolvedModel->modelType;

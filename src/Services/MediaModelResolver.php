@@ -190,4 +190,13 @@ class MediaModelResolver
         return $modelType;
     }
 
+//    public function resolveRequestModel(
+//        string $modelType,
+//        string|int|null $modelId,
+//        bool $temporaryUploadMode,
+//        ?string $dataSource,
+//    ): ?HasMediaExtended {
+//
+//        return null;
+//    }
 }

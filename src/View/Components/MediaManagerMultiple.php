@@ -4,8 +4,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-
 class MediaManagerMultiple extends MediaManager
 {
     public function __construct(

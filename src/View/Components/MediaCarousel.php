@@ -5,11 +5,10 @@
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaRetriever;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -48,9 +47,9 @@ class MediaCarousel extends BaseComponent
 
         $this->options = $options;
 
-        $mediaService = app(MediaService::class);
+        $mediaModelResolver = app(MediaModelResolver::class);
 
-        $resolvedModel = $mediaService->resolveModelReference($modelOrClassName, $dataSource);
+        $resolvedModel = $mediaModelResolver->resolveModelReference($modelOrClassName, $dataSource);
         $model = $resolvedModel->model;
 
         // merge into config

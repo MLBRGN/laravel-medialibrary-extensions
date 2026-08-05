@@ -10,7 +10,7 @@ use Illuminate\Http\UploadedFile;
 class UploadPreparerService
 {
     public function __construct(
-        protected MediaService $mediaService
+        protected MediaCollectionService $mediaCollectionService
     ) {}
 
     public function prepareSingleUpload(
@@ -43,8 +43,7 @@ class UploadPreparerService
             );
         }
 
-        $mediaCollectionService = app(MediaCollectionService::class);
-        $collectionType = $mediaCollectionService
+        $collectionType = $this->mediaCollectionService
             ->determineCollectionType($file);
 
         if (! $collectionType) {
@@ -108,9 +107,8 @@ class UploadPreparerService
                 continue;
             }
 
-            $mediaCollectionService = app(MediaCollectionService::class);
             // Determine type
-            $collectionType = $mediaCollectionService->determineCollectionType($file);
+            $collectionType = $this->mediaCollectionService->determineCollectionType($file);
             if (! $collectionType) {
                 $failed[] = $file->getClientOriginalName();
                 $errors[] = __('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype', [

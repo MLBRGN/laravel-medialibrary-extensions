@@ -11,9 +11,7 @@ use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\UploadException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
@@ -25,7 +23,6 @@ class StoreSingleTemporaryAction
     use ChecksMediaLimits;
 
     public function __construct(
-        protected MediaService $mediaService,
         protected MediaModelResolver $mediaModelResolver,
         protected UploadPreparerService $uploadPreparerService,
     ) {}

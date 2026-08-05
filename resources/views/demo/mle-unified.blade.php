@@ -290,9 +290,6 @@
     
         @if ($showMediaLab)
             <h2>Media Lab</h2>
-            @php
-                $mediaService = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaService::class);
-            @endphp
             @isset($media)
                 <x-mle-media-lab
                     id="alien-laboratory"

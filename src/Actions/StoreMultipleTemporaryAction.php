@@ -14,7 +14,6 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
@@ -25,7 +24,6 @@ class StoreMultipleTemporaryAction
     use ChecksMediaLimits;
 
     public function __construct(
-        protected MediaService $mediaService,
         protected MediaModelResolver $mediaModelResolver,
         protected UploadPreparerService $uploadPreparerService,
     ) {}

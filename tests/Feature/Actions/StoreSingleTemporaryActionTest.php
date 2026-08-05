@@ -6,8 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
-use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 
 beforeEach(function () {
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));

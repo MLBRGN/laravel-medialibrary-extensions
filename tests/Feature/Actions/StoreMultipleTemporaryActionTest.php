@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreMultipleTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 it('stores multiple valid files (json)', function () {
     $baseId = 'media-manager-123';
