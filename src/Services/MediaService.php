@@ -20,15 +20,6 @@ class MediaService
        return $this->mediaModelResolver->resolveModelReference($modelReference, $dataSource);
     }
 
-    public function make(
-        string  $modelClass,
-        ?string $dataSource
-    ): HasMediaExtended
-    {
-      return $this->mediaModelResolver->make($modelClass, $dataSource);
-    }
-
-
     public function resolveModelById(
         ?string         $modelClass,
         string|int|null $id,

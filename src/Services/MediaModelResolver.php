@@ -3,6 +3,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use InvalidArgumentException;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
@@ -31,25 +32,8 @@ class MediaModelResolver
     // - loading models from the database
     // - assigning database connections
     //
-    // After refactoring, Requests and Rules should no longer perform any model
+    //  TODO After refactoring, Requests and Rules should no longer perform any model
     // resolution themselves.
-
-    // TODO Review this API.
-    //
-    // The current method mixes two concepts:
-    //
-    // - an existing model instance
-    // - a model class name
-    //
-    // Consider splitting into explicit methods, for example:
-    //
-    // resolveModel(...)
-    // makeModel(...)
-    //
-    // or introducing a dedicated RequestModelResolver.
-    //
-    // The current name is also difficult to understand because "resolve"
-    // and "orClassName" describe different concerns.
     public function resolveModelReference(Model|string $modelReference, ?string $dataSource): ResolvedModel
     {
         if ($modelReference instanceof HasMediaExtended) {
@@ -84,24 +68,7 @@ class MediaModelResolver
         }
     }
 
-    // TODO Rename.
-    //
-    // "make()" is too generic.
-    //
-    // This method actually:
-    //
-    // - instantiates a model
-    // - assigns the correct database connection
-    //
-    // Possible names:
-    //
-    // makeModel()
-    // instantiateModel()
-    // createModelInstance()
-    //
-    // It should probably return HasMediaExtended instead of object.
-    public function make(
-        string  $modelClass,
+    public function instantiateTemporaryUpload(
         ?string $dataSource
     ): HasMediaExtended
     {
@@ -109,7 +76,7 @@ class MediaModelResolver
         $connection = $this->dataSourceResolver
             ->resolveConnection($dataSource);
 
-        $model = new $modelClass;
+        $model = new TemporaryUpload;
         $model->setConnection($connection);
 
         return $model;
@@ -204,6 +171,23 @@ class MediaModelResolver
             $id,
             $dataSource
         );
+    }
+
+    public function resolveModelClass(string $modelType): ?string
+    {
+        if (class_exists(Relation::class)) {
+            $modelType = Relation::getMorphedModel($modelType) ?? $modelType;
+        }
+
+        if (! class_exists($modelType)) {
+            return null;
+        }
+
+        if (! is_subclass_of($modelType, HasMediaExtended::class)) {
+            return null;
+        }
+
+        return $modelType;
     }
 
 }

@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
@@ -21,10 +23,11 @@ it('DataSourceResolver resolves demo connection when dataSource is demo', functi
     expect($resolver->resolveConnection('test_alt'))->toBe(PackageInfrastructure::connection('test', 'alt'));
 });
 
-it('MediaService make uses the resolved connection', function () {
-    $mediaService = app(MediaService::class);
-    $model = $mediaService->make(Blog::class, 'test_alt');
+it('MediaService instantiateTemporaryUpload uses the resolved connection', function () {
+    $mediaModelResolver = app(MediaModelResolver::class);
+    $model = $mediaModelResolver->instantiateTemporaryUpload('test_alt');
 
+    expect($model)->toBeInstanceOf(TemporaryUpload::class);
     expect($model->getConnectionName())->toBe(PackageInfrastructure::connection('test', 'alt'));
 });
 

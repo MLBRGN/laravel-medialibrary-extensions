@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Exceptions\UploadException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
@@ -25,6 +26,7 @@ class StoreSingleTemporaryAction
 
     public function __construct(
         protected MediaService $mediaService,
+        protected MediaModelResolver $mediaModelResolver,
         protected UploadPreparerService $uploadPreparerService,
     ) {}
 
@@ -91,7 +93,7 @@ class StoreSingleTemporaryAction
             ? Auth::id()
             : null;
 
-        $temporaryUpload = $this->mediaService->make(TemporaryUpload::class, $dataSource);
+        $temporaryUpload = $this->mediaModelResolver->instantiateTemporaryUpload($dataSource);
 
         $temporaryUpload->fill([
             'disk' => $disk,

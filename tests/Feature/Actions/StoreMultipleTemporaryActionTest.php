@@ -27,7 +27,6 @@ it('stores multiple valid files (json)', function () {
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
@@ -57,7 +56,6 @@ it('stores multiple valid files (redirect)', function () {
     ]);
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
@@ -87,7 +85,6 @@ it('returns error if no files are given (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
@@ -101,7 +98,6 @@ it('returns error if no files are given (JSON)', function () {
 });
 
 it('returns error if no files are given (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
 
@@ -115,7 +111,6 @@ it('returns error if no files are given (redirect)', function () {
 
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
@@ -133,7 +128,6 @@ it('returns error if no files are given (redirect)', function () {
 });
 
 it('returns error if file has invalid mimetype (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
@@ -151,7 +145,6 @@ it('returns error if file has invalid mimetype (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
@@ -163,7 +156,6 @@ it('returns error if file has invalid mimetype (JSON)', function () {
 });
 
 it('returns error if file has invalid mimetype (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $file = UploadedFile::fake()->create('file.exe', 100, 'application/octet-stream');
     $model = $this->getTestBlogModel();
@@ -180,7 +172,6 @@ it('returns error if file has invalid mimetype (redirect)', function () {
     ]);
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
     $action = app(StoreMultipleTemporaryAction::class);
     $response = $action->execute($request);
 
@@ -198,7 +189,6 @@ it('returns error if file has invalid mimetype (redirect)', function () {
 });
 
 it('returns error if max media count is exceeded (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
@@ -238,7 +228,6 @@ it('returns error if max media count is exceeded (JSON)', function () {
 });
 
 it('returns error if max media count is exceeded (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
@@ -277,7 +266,6 @@ it('returns error if max media count is exceeded (redirect)', function () {
 });
 
 it('returns error if file exceeds max upload size (JSON)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment
@@ -312,7 +300,6 @@ it('returns error if file exceeds max upload size (JSON)', function () {
 });
 
 it('returns error if file exceeds max upload size (redirect)', function () {
-    $baseId = 'initiator-456';
     $baseId = 'media-manager-123';
     $model = $this->getTestBlogModel();
     $model->save(); // must be persisted for media attachment

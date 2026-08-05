@@ -34,9 +34,7 @@ it('stores file and returns JSON success', function () {
         'media' => $file,
     ]);
 
-    $mediaService = app(MediaService::class);
-    $uploadPreparer = new UploadPreparerService($mediaService);
-    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+    $action = app(StoreSingleTemporaryAction::class);
 
     $request->setLaravelSession(app('session.store'));
     $request->headers->set('Accept', 'application/json');
@@ -65,9 +63,7 @@ it('stores file and returns redirect success', function () {
         'media' => $file,
     ]);
 
-    $mediaService = app(MediaService::class);
-    $uploadPreparer = new UploadPreparerService($mediaService);
-    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+    $action = app(StoreSingleTemporaryAction::class);
 
     $request->setLaravelSession(app('session.store'));
 
@@ -96,10 +92,7 @@ it('returns error if no file is given (JSON)', function () {
     ]);
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
-    $uploadPreparer = new UploadPreparerService($mediaService);
-    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
-
+    $action = app(StoreSingleTemporaryAction::class);
     $response = $action->execute($request);
 
     expect($response)->toBeInstanceOf(JsonResponse::class)
@@ -122,9 +115,7 @@ it('returns error if no file is given (redirect)', function () {
 
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
-    $uploadPreparer = new UploadPreparerService($mediaService);
-    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+    $action = app(StoreSingleTemporaryAction::class);
 
     $response = $action->execute($request);
 
@@ -156,9 +147,7 @@ it('returns error if file has invalid mimetype (JSON)', function () {
 
     $request->headers->set('Accept', 'application/json');
 
-    $mediaService = app(MediaService::class);
-    $uploadPreparer = new UploadPreparerService($mediaService);
-    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+    $action = app(StoreSingleTemporaryAction::class);
 
     $response = $action->execute($request);
 
@@ -184,9 +173,7 @@ it('returns error if file has invalid mimetype (redirect)', function () {
 
     $request->setLaravelSession(app('session.store'));
 
-    $mediaService = app(MediaService::class);
-    $uploadPreparer = new UploadPreparerService($mediaService);
-    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+    $action = app(StoreSingleTemporaryAction::class);
 
     $response = $action->execute($request);
 

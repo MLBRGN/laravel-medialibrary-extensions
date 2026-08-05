@@ -23,13 +23,18 @@ beforeEach(function () {
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));
     Storage::fake('public');
 
-    $this->mediaService = app(MediaService::class);
-    $this->uploadPreparer = app(UploadPreparerService::class);
+//    $this->mediaService = app(MediaService::class);
+//    $this->uploadPreparer = app(UploadPreparerService::class);
 
-    $this->storePermanentAction = new StoreSinglePermanentAction($this->mediaService, $this->uploadPreparer);
-    $this->storeTemporaryAction = new StoreSingleTemporaryAction($this->mediaService, $this->uploadPreparer);
-    $this->getPermanentPreviewAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
-    $this->getTemporaryPreviewAction = new GetMediaPreviewerTemporaryHTMLAction($this->mediaService);
+//    $this->storePermanentAction = new StoreSinglePermanentAction($this->mediaService, $this->uploadPreparer);
+//    $this->storeTemporaryAction = new StoreSingleTemporaryAction($this->mediaService, $this->uploadPreparer);
+//    $this->getMediaPreviewerPermanentHTMLAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
+//    $this->getTemporaryPreviewAction = new GetMediaPreviewerTemporaryHTMLAction($this->mediaService);
+
+    $this->storePermanentAction = app(StoreSinglePermanentAction::class);
+    $this->storeTemporaryAction = app(StoreSingleTemporaryAction::class);
+    $this->getMediaPreviewerPermanentHTMLAction = app(GetMediaPreviewerPermanentHTMLAction::class);
+    $this->getMediaPreviewerTemporaryHTMLAction = app(GetMediaPreviewerTemporaryHTMLAction::class);
 
     $this->baseId = 'media-manager-123';
     $this->model = $this->getTestBlogModel();
@@ -67,7 +72,7 @@ it('loads previews successfully after a permanent single upload', function () {
         'readonly' => 'false',
     ]);
 
-    $previewResponse = $this->getPermanentPreviewAction->execute($previewRequest);
+    $previewResponse = $this->getMediaPreviewerPermanentHTMLAction->execute($previewRequest);
 
     $data = $previewResponse->getData(true);
     expect($data['success'])->toBeTrue();
@@ -113,7 +118,7 @@ it('loads previews successfully after a permanent multiple upload', function () 
         'readonly' => 'false',
     ]);
 
-    $previewResponse = $this->getPermanentPreviewAction->execute($previewRequest);
+    $previewResponse = $this->getMediaPreviewerPermanentHTMLAction->execute($previewRequest);
 
     $data = $previewResponse->getData(true);
     expect($data['success'])->toBeTrue();
@@ -157,7 +162,7 @@ it('loads previews successfully after a temporary single upload', function () {
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 
-    $previewResponse = $this->getTemporaryPreviewAction->execute($previewRequest);
+    $previewResponse = $this->getMediaPreviewerTemporaryHTMLAction->execute($previewRequest);
 
     $data = $previewResponse->getData(true);
     expect($data['success'])->toBeTrue();
@@ -204,7 +209,7 @@ it('loads previews successfully after a temporary multiple upload', function () 
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 
-    $previewResponse = $this->getTemporaryPreviewAction->execute($previewRequest);
+    $previewResponse = $this->getMediaPreviewerTemporaryHTMLAction->execute($previewRequest);
 
     $data = $previewResponse->getData(true);
     expect($data['success'])->toBeTrue();
@@ -237,7 +242,7 @@ it('loads previews successfully after a permanent YouTube upload', function () {
     $uploadRequest->setLaravelSession(app('session.store'));
     $uploadRequest->headers->set('Accept', 'application/json');
 
-    $action = new StoreYouTubeVideoPermanentAction($this->mediaService, $youtubeService);
+    $action = app(StoreYouTubeVideoPermanentAction::class);
     $uploadResponse = $action->execute($uploadRequest);
     expect($uploadResponse->status())->toBe(200);
 
@@ -250,7 +255,7 @@ it('loads previews successfully after a permanent YouTube upload', function () {
         'options' => json_encode(['theme' => 'bootstrap-5']),
     ]);
 
-    $previewResponse = $this->getPermanentPreviewAction->execute($previewRequest);
+    $previewResponse = $this->getMediaPreviewerPermanentHTMLAction->execute($previewRequest);
 
     $data = $previewResponse->getData(true);
     // fwrite(STDERR, $data['html'] . PHP_EOL);
@@ -294,7 +299,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
     $uploadRequest->setLaravelSession(app('session.store'));
     $uploadRequest->headers->set('Accept', 'application/json');
 
-    $action = new StoreYouTubeVideoTemporaryAction($this->mediaService, $youtubeService);
+    $action = app(StoreYouTubeVideoTemporaryAction::class);
     $uploadResponse = $action->execute($uploadRequest);
     expect($uploadResponse->status())->toBe(200);
 
@@ -310,7 +315,7 @@ it('loads previews successfully after a temporary YouTube upload', function () {
     ]);
     $previewRequest->setLaravelSession($uploadRequest->session());
 
-    $previewResponse = $this->getTemporaryPreviewAction->execute($previewRequest);
+    $previewResponse = $this->getMediaPreviewerTemporaryHTMLAction->execute($previewRequest);
 
     $data = $previewResponse->getData(true);
     expect($data['success'])->toBeTrue();

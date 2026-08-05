@@ -15,6 +15,7 @@ use Illuminate\Validation\ValidationException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\MediaActionsAuthorizer;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaService;
 
 abstract class MediaManagerRequest extends FormRequest
@@ -69,40 +70,51 @@ abstract class MediaManagerRequest extends FormRequest
     // This should eventually delegate entirely to MediaService.
     protected function mediaModel(): ?HasMediaExtended
     {
+        // return model if any
         if ($model = $this->resolveModel()) {
             return $model;
         }
 
-        $modelClass = $this->resolveModelClass();
-
-        if (! $modelClass) {
-            return null;
+        // return the model class name otherwise
+        if ($modelClass = $this->resolveModelClass()) {
+            return new $modelClass;
         }
 
-        return new $modelClass;
+        // return null, if both not found
+        return null;
     }
 
     // TODO Move to MediaService.
     // MediaService should be responsible for resolving morph aliases,
     // validating the class and ensuring it implements HasMediaExtended.
+//    protected function resolveModelClass(): ?string
+//    {
+//        // TODO look at this, does it need to be a string?
+//        $modelClass = (string) $this->string('model_type')->trim();
+//
+//        if (class_exists(Relation::class)) {
+//            $modelClass = Relation::getMorphedModel($modelClass) ?? $modelClass;
+//        }
+//
+//        if (! class_exists($modelClass)) {
+//            return null;
+//        }
+//
+//        if (! is_subclass_of($modelClass, HasMediaExtended::class)) {
+//            return null;
+//        }
+//
+//        return $modelClass;
+//    }
+
     protected function resolveModelClass(): ?string
     {
-        // TODO look at this, does it need to be a string?
-        $modelClass = (string) $this->string('model_type')->trim();
 
-        if (class_exists(Relation::class)) {
-            $modelClass = Relation::getMorphedModel($modelClass) ?? $modelClass;
-        }
+        return app(MediaModelResolver::class)
+            ->resolveModelClass(
+                $this->input('model_type')
+            );
 
-        if (! class_exists($modelClass)) {
-            return null;
-        }
-
-        if (! is_subclass_of($modelClass, HasMediaExtended::class)) {
-            return null;
-        }
-
-        return $modelClass;
     }
 
     // TODO Move to MediaService.
