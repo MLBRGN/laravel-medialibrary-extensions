@@ -75,7 +75,7 @@
             @else
                 <x-mle-partial-set-as-first-form
                     :id="$id"
-                    :model-or-class-name="$modelOrClassName"
+                    :model-reference="$modelReference"
                     :medium="$medium"
                     :single-media="$singleMedia"
                     :collections="$collections"
@@ -91,7 +91,7 @@
         @if($getConfig('showDestroyButton'))
             <x-mle-partial-destroy-form
                 :id="$id"
-                :model-or-class-name="$modelOrClassName"
+                :model-reference="$modelReference"
                 :medium="$medium"
                 :single-media="$singleMedia"
                 :collections="$collections"

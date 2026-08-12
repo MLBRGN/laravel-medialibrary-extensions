@@ -50,7 +50,7 @@ Media managers handle file uploads, deletions, and selection.
 - `<x-mle-media-manager-tinymce />`: Integration for the TinyMCE editor.
 
 **Common Props:**
-- `modelOrClassName`: The model instance or class name (for create forms).
+- `modelReference`: The model instance or class name (for create forms).
 - `collections`: Array of media collections to manage (e.g., `['images']`).
 - `multiple`: Boolean, allow multiple files.
 - `readonly`: Boolean, disable all actions.

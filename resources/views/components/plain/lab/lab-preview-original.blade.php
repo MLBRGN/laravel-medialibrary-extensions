@@ -1,7 +1,7 @@
 <x-mle-lab-preview
     class="mle-media-lab-preview-original"
     title="{{ __('medialibrary-extensions::messages.original') }}"
-    :model-or-class-name="$media->model"
+    :model-reference="$media->model"
     data-mle-media-lab-preview-original
     :options="$getOptions()"
     id="{{ $getDomId() }}"
@@ -22,7 +22,7 @@
     <x-slot name="menuEnd">
         <x-mle-partial-media-restore-form
             :id="$id"
-            :model-or-class-name="$media->model"
+            :model-reference="$media->model"
             :media="$media"
             :options="$getOptions()"
             :data-source="$dataSource"

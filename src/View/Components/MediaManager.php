@@ -25,14 +25,14 @@ class MediaManager extends BaseMediaComponent
 
     protected string $youtubeUploadRoute; // route to upload a YouTube video using XHR
 
-    // modelOrClassName is the model that will eventually hold the media
+    // modelReference is the model that will eventually hold the media
     // Persistent mode — you have an existing model instance.
     // Temporary mode — you only know which model type will eventually own the media.
-    // TODO refactor $modelOrClassName to modelReference?
+    // TODO refactor $modelReference to modelReference?
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,
+        public mixed $modelReference,
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
@@ -43,7 +43,7 @@ class MediaManager extends BaseMediaComponent
         public ?string $dataSource = 'default',
     ) {
 
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
 
         $this->options = $options;
 
@@ -95,12 +95,12 @@ class MediaManager extends BaseMediaComponent
             $effectiveCollections = $this->collections;
 
             // CASE 2: Permanent mode (model instance provided)
-            if ($this->modelOrClassName instanceof HasMedia) {
+            if ($this->modelReference instanceof HasMedia) {
                 $mediaCounter = app(MediaCounter::class);
-                $totalMediaCount = $mediaCounter->countModelMediaInCollections($this->modelOrClassName, $effectiveCollections, $this->dataSource);
+                $totalMediaCount = $mediaCounter->countModelMediaInCollections($this->modelReference, $effectiveCollections, $this->dataSource);
             }
             // CASE 3: Temporary mode (class name string provided)
-            elseif (is_string($this->modelOrClassName)) {
+            elseif (is_string($this->modelReference)) {
                 $mediaCounter = app(MediaCounter::class);
                 $totalMediaCount = $mediaCounter->countTemporaryUploadsInCollections(
                     $effectiveCollections,

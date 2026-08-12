@@ -1,6 +1,5 @@
 <?php
 
-
 use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
 use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
@@ -16,7 +15,7 @@ it('registers components under the correct scope in media manager', function () 
 
     $component = new MediaManager(
         id: 'test-mm',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images'],
         multiple: true
     );
@@ -54,7 +53,7 @@ it('retrieves components for a specific scope in debug component', function () {
     DebugManager::register('sub-1', 'SubComp', [], []);
 
     $debugComp = new Debug(
-        modelOrClassName: $model,
+        modelReference: $model,
         config: ['id' => $actualId]
     );
 
@@ -77,7 +76,7 @@ it('reproduces the zero registered components issue if ids do not match', functi
     DebugManager::popScope();
 
     $debugComp = new Debug(
-        modelOrClassName: $model,
+        modelReference: $model,
         config: ['id' => 'different-id']
     );
 
@@ -85,17 +84,17 @@ it('reproduces the zero registered components issue if ids do not match', functi
         ->toBeEmpty();
 });
 //
-//namespace Mlbrgn\MediaLibraryExtensions\Tests\Feature;
+// namespace Mlbrgn\MediaLibraryExtensions\Tests\Feature;
 //
-//use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
-//use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
-//use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
-//use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
+// use Mlbrgn\MediaLibraryExtensions\Support\DebugManager;
+// use Mlbrgn\MediaLibraryExtensions\Tests\TestCase;
+// use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
+// use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 //
-//require_once __DIR__.'/../TestCase.php';
+// require_once __DIR__.'/../TestCase.php';
 //
-//class DebugManagerScopingTest extends TestCase
-//{
+// class DebugManagerScopingTest extends TestCase
+// {
 //    protected function setUp(): void
 //    {
 //        parent::setUp();
@@ -109,7 +108,7 @@ it('reproduces the zero registered components issue if ids do not match', functi
 //
 //        $component = new MediaManager(
 //            id: 'test-mm',
-//            modelOrClassName: $model,
+//            modelReference: $model,
 //            collections: ['image' => 'images'],
 //            multiple: true
 //        );
@@ -119,7 +118,7 @@ it('reproduces the zero registered components issue if ids do not match', functi
 //
 //        // 1. Check registration during constructor (no scope pushed yet)
 //        $globalComponents = DebugManager::getRegisteredComponents('global');
-////        dd($globalComponents);
+// //        dd($globalComponents);
 //        $this->assertArrayHasKey($actualId, $globalComponents);
 //        $this->assertEquals('MediaManager', $globalComponents[$actualId]['name']);
 //
@@ -149,7 +148,7 @@ it('reproduces the zero registered components issue if ids do not match', functi
 //        DebugManager::register('sub-1', 'SubComp', [], []);
 //
 //        // Debug component is instantiated
-//        $debugComp = new Debug(modelOrClassName: $model, config: ['id' => $actualId]);
+//        $debugComp = new Debug(modelReference: $model, config: ['id' => $actualId]);
 //
 //        // Check if Debug component sees the sub-component
 //        $registered = $debugComp->getComponents();
@@ -169,8 +168,8 @@ it('reproduces the zero registered components issue if ids do not match', functi
 //        DebugManager::popScope();
 //
 //        // Debug component looking for 'different-id'
-//        $debugComp = new Debug(modelOrClassName: $model, config: ['id' => 'different-id']);
+//        $debugComp = new Debug(modelReference: $model, config: ['id' => 'different-id']);
 //
 //        $this->assertEmpty($debugComp->getComponents());
 //    }
-//}
+// }

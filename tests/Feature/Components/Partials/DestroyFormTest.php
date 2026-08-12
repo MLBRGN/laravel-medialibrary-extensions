@@ -12,7 +12,7 @@ it('initializes with given properties', function () {
 
     $component = new DestroyForm(
         id: $id,
-        modelOrClassName: $model,
+        modelReference: $model,
         medium: $medium,
         options: [
             'theme' => 'bootstrap-5',
@@ -36,7 +36,7 @@ it('initializes with given properties without useXhr', function () {
 
     $component = new DestroyForm(
         id: 'delete-456',
-        modelOrClassName: $model,
+        modelReference: $model,
         medium: $medium,
         options: [
             'theme' => 'plain',
@@ -57,7 +57,7 @@ it('renders the destroy-form view (plain)', function () {
 
     $component = new DestroyForm(
         id: 'delete-btn',
-        modelOrClassName: $model,
+        modelReference: $model,
         medium: $medium,
         options: [
             'theme' => 'plain',
@@ -76,7 +76,7 @@ it('renders the destroy-form view (bootstrap-5)', function () {
 
     $component = new DestroyForm(
         id: 'delete-btn',
-        modelOrClassName: $model,
+        modelReference: $model,
         medium: $medium,
         options: [
             'theme' => 'bootstrap-5',
@@ -104,7 +104,7 @@ it('renders the destroy form with temporary upload', function () {
 
     $component = new DestroyForm(
         id: 'delete-temp-upload-btn',
-        modelOrClassName: Blog::class,
+        modelReference: Blog::class,
         medium: $temporaryUpload,
         collections: [],
         options: [],

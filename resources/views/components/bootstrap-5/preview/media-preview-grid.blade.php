@@ -5,7 +5,7 @@
 >
     <x-mle-media-previews
         :id="$id"
-        :model-or-class-name="$modelOrClassName"
+        :model-reference="$modelReference"
         :collections="$collections"
         :single-media="$singleMedia"
         :options="$getOptions()"

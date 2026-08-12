@@ -29,15 +29,19 @@ class Debug extends Component
     public string $id;
 
     public string $modelType;
+
     public ?int $modelId;
+
     public bool $temporaryUploadMode;
+
     public ?Model $model;
 
     private ResolvedModel $resolvedModel;
+
     private bool $enabled;
 
     public function __construct(
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
         array $config = [],
         array $options = [],
         public ?string $dataSource = 'default',
@@ -49,7 +53,7 @@ class Debug extends Component
 
         $mediaModelResolver = app(MediaModelResolver::class);
 
-        $this->resolvedModel = $mediaModelResolver->resolveModelReference($modelOrClassName, $dataSource);
+        $this->resolvedModel = $mediaModelResolver->resolveModelReference($modelReference, $dataSource);
 
         $this->model = $this->resolvedModel->model;
         $this->modelType = $this->resolvedModel->modelType;

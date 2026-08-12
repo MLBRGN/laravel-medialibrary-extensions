@@ -20,7 +20,7 @@ class YouTubeUploadForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or its class name
+        public mixed $modelReference,// either a modal that implements HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
@@ -31,7 +31,7 @@ class YouTubeUploadForm extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
 
         if (empty($instanceId)) {
             $this->instanceId = InstanceManager::getInstanceId($this->id);

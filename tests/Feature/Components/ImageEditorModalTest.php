@@ -26,7 +26,7 @@ it('renders image editor modal component (permanent media)', function () {
 
     $html = Blade::render('<x-mle-image-editor-modal
                     id="blog-images"
-                    :model-or-class-name="$modelClass"
+                    :model-reference="$modelClass"
                     :medium="$medium"
                     :collections="$collections"
                     :options="$options"
@@ -59,7 +59,7 @@ it('renders image editor modal component (temporary media)', function () {
                     title="My title"
                     initiator-id="blog-images"
                     :medium="$medium"
-                    :model-or-class-name="$modelClass"
+                    :model-reference="$modelClass"
                     :collections="[\'image\' => \'images\']"
                     :options="$options"
                 />', [
@@ -91,7 +91,7 @@ it('constructs with model and sets properties', function () {
 
     $component = new ImageEditorModal(
         id: 'uploader-0',
-        modelOrClassName: $model,
+        modelReference: $model,
         medium: $medium,
         singleMedia: null,
         collections: ['image' => 'images'],
@@ -116,7 +116,7 @@ it('constructs with model class name string for temporary upload', function () {
 
     $component = new ImageEditorModal(
         id: 'uploader-1',
-        modelOrClassName: $model->getMorphClass(),
+        modelReference: $model->getMorphClass(),
         medium: $medium,
         singleMedia: null,// TODO if i don't pass this test fails
         collections: ['image' => 'images'],
@@ -132,16 +132,16 @@ it('constructs with model class name string for temporary upload', function () {
         ->and($component->render())->toBeInstanceOf(View::class);
 });
 
-it('throws when modelOrClassName is null', function () {
+it('throws when modelReference is null', function () {
     $this->expectException(\TypeError::class);
-    //    $this->expectExceptionMessage('model-or-class-name attribute must be set');
+    //    $this->expectExceptionMessage('model-reference attribute must be set');
 
     $model = $this->getModelWithMedia();
     $medium = $model->getFirstMedia('image_collection');
 
     new ImageEditorModal(
         id: 'uploader-2',
-        modelOrClassName: null,
+        modelReference: null,
         medium: $medium,
         collections: ['image' => 'images'],
         options: [],
@@ -149,12 +149,12 @@ it('throws when modelOrClassName is null', function () {
     );
 });
 
-it('throws when modelOrClassName is an invalid type', function () {
+it('throws when modelReference is an invalid type', function () {
     $this->expectException(\InvalidArgumentException::class);
     $this->expectExceptionMessage('does not exist');
 
-//    $this->expectException(\TypeError::class);
-//    $this->expectExceptionMessage('HasMediaExtended|string');
+    //    $this->expectException(\TypeError::class);
+    //    $this->expectExceptionMessage('HasMediaExtended|string');
 
     $model = $this->getTestModelNotExtendingHasMedia();
     $medium = new Media([
@@ -164,7 +164,7 @@ it('throws when modelOrClassName is an invalid type', function () {
 
     new ImageEditorModal(
         id: 'uploader-3',
-        modelOrClassName: $model,
+        modelReference: $model,
         medium: $medium, // Invalid type
         singleMedia: null,
         collections: ['image' => 'images'],
@@ -173,9 +173,9 @@ it('throws when modelOrClassName is an invalid type', function () {
     );
 });
 
-it('throws when modelOrClassName is an class name', function () {
+it('throws when modelReference is an class name', function () {
     $this->expectException(UnexpectedValueException::class);
-    //    $this->expectExceptionMessage('model-or-class-name must be either a HasMedia model or a string representing the model class');
+    //    $this->expectExceptionMessage('model-reference must be either a HasMedia model or a string representing the model class');
 
     $model = $this->getTestModelNotExtendingHasMedia();
     $medium = new Media([
@@ -185,7 +185,7 @@ it('throws when modelOrClassName is an class name', function () {
 
     new ImageEditorModal(
         id: 'uploader-3',
-        modelOrClassName: $model->getMorphClass(), // Invalid type
+        modelReference: $model->getMorphClass(), // Invalid type
         medium: $medium,
         singleMedia: null,
         collections: ['image' => 'images'],

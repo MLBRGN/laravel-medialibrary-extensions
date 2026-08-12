@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
@@ -19,7 +18,7 @@ beforeEach(function () {
     Storage::fake('media_demo');
 });
 
-it('can render the demo pge', function () {
+it('can render the demo page', function () {
 
     $user = $this->getUser();
     $route = route('mle-demo');
@@ -44,7 +43,7 @@ it('can render the demo pge', function () {
         ->toBeNull();
 });
 
-//it('uses the plain theme when requested', function () {
+// it('uses the plain theme when requested', function () {
 //    $user = $this->getUser();
 //    $route = route('mle-demo');
 //
@@ -65,9 +64,9 @@ it('can render the demo pge', function () {
 //        ->not()
 //        ->toBeNull();
 //
-//});
+// });
 
-//it('uses existing Alien if present', function () {
+// it('uses existing Alien if present', function () {
 //    $existingAlien = Alien::on('mle_test_demo')->create();
 //
 //    $response = (new DemoController)->index(
@@ -77,9 +76,9 @@ it('can render the demo pge', function () {
 //    $model = $response->getData()['model'];
 //
 //    expect($model->id)->toBe($existingAlien->id);
-//});
+// });
 //
-//it('creates model if none exists', function () {
+// it('creates model if none exists', function () {
 //    expect(Alien::on('mle_test_demo')->count())->toBe(0);
 //
 //    (new DemoController)->index(
@@ -87,9 +86,9 @@ it('can render the demo pge', function () {
 //    );
 //
 //    expect(Alien::on('mle_test_demo')->count())->toBe(1);
-//});
+// });
 //
-//it('applies use_xhr from request', function () {
+// it('applies use_xhr from request', function () {
 //    $response = (new DemoController)->index(
 //        Request::create('/demo', 'GET', [
 //            'use_xhr' => false,
@@ -99,4 +98,4 @@ it('can render the demo pge', function () {
 //    expect(config('medialibrary-extensions.use_xhr'))->toBeFalse();
 //
 //    expect($response->getData()['useXhr'])->toBeFalse();
-//});
+// });

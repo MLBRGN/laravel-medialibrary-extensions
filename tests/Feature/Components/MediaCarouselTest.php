@@ -14,7 +14,7 @@ it('initializes correctly with a single media collection', function () {
 
     $component = new MediaCarousel(
         id: 'carousel-id',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image_collection']
     );
     expect($component->mediaCount)->toBe(1)
@@ -27,7 +27,7 @@ it('initializes correctly with multiple media collections', function () {
 
     $component = new MediaCarousel(
         id: 'carousel-id',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image_collection', 'audio_collection'],
         options: [
             'theme' => 'plain',
@@ -42,7 +42,7 @@ it('falls back to empty media collection when no model is provided', function ()
     $model = $this->getTestBlogModel();
 
     $component = new MediaCarousel(
-        modelOrClassName: $model,
+        modelReference: $model,
         id: 'carousel-empty'
     );
 
@@ -55,7 +55,7 @@ it('uses provided frontend theme if given', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaCarousel(
         id: 'custom-theme',
-        modelOrClassName: $model,
+        modelReference: $model,
         options: [
             'theme' => 'tailwind',
         ]
@@ -69,11 +69,11 @@ it('renders view and matches snapshot', function () {
     $collections = ['images', 'documents'];
 
     $html = Blade::render('<x-mle-media-carousel
-                    :model-or-class-name="$modelOrClassName"
+                    :model-reference="$modelReference"
                     id="media-carousel"
                     :collections="$collections"
                 />', [
-        'modelOrClassName' => $model,
+        'modelReference' => $model,
         'collections' => $collections,
     ]);
 

@@ -9,7 +9,7 @@
    
     <x-mle-media-manager-single
         id="{{ $id }}"
-        :model-or-class-name="$media->model"
+        :model-reference="$media->model"
         :collections="['image' => $media->collection_name]"
         :options="$getOptions()"
         :single-media="$media"

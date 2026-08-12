@@ -40,7 +40,7 @@ it('renders temporary media preview HTML and returns JSON response', function ()
         ->once()
         ->withArgs(function (MediaPreviews $component) use ($baseId, $requestData, $theme) {
             expect($component->id)->toBe($baseId);
-            expect($component->modelOrClassName)->toBe($requestData['model_type']);
+            expect($component->modelReference)->toBe($requestData['model_type']);
             expect($component->getConfig('theme'))->toBe($theme);
             expect($component->getConfig('showDestroyButton'))->toBeTrue();
             expect($component->getConfig('showSetAsFirstButton'))->toBeFalse();

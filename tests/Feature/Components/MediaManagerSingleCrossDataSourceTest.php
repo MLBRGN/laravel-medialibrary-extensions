@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerSingle;
 
 it('keeps single temporary manager enabled on demo when default has an upload in another collection', function () {
@@ -36,7 +37,7 @@ it('keeps single temporary manager enabled on demo when default has an upload in
     // Note: BaseComponent derives instanceId from logical id; we must use the same $baseId
     $component = new MediaManagerSingle(
         id: $baseId,
-        modelOrClassName: \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class,
+        modelReference: Blog::class,
         singleMedia: null,
         collections: $collections,
         options: [],
@@ -81,7 +82,7 @@ it('does not block uploads across different instanceIds for the same clientToken
 
     $componentB = new MediaManagerSingle(
         id: $baseIdB,
-        modelOrClassName: \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class,
+        modelReference: Blog::class,
         collections: $collections,
         options: [],
         disabled: false,
@@ -120,7 +121,7 @@ it('does not block uploads across different clientTokens for the same instanceId
 
     $component = new MediaManagerSingle(
         id: $baseId,
-        modelOrClassName: \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class,
+        modelReference: Blog::class,
         collections: $collections,
         options: [],
         disabled: false,

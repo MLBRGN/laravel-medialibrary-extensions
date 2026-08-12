@@ -16,13 +16,13 @@ class LabPreview extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
         public Media $media,
         public string $title,
         array $options = [],
         public ?string $dataSource = 'default',
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
         $this->options = $options;
 
         $this->resolveConfig();

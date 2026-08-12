@@ -11,7 +11,7 @@ class MediaManagerSingle extends MediaManager
 {
     public function __construct(
         ?string $id,
-        mixed $modelOrClassName,
+        mixed $modelReference,
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         array $collections = [],
         array $options = [],
@@ -25,7 +25,7 @@ class MediaManagerSingle extends MediaManager
 
         parent::__construct(
             id: $id,
-            modelOrClassName: $modelOrClassName,
+            modelReference: $modelReference,
             singleMedia: $singleMedia,
             collections: $collections,
             options: $options,

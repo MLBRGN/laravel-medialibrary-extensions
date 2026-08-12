@@ -15,7 +15,7 @@ it('initializes correctly with model instance', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerPreview(
         id: 'blog-1',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: [
             'image' => 'images',
         ],
@@ -39,7 +39,7 @@ it('accepts a HasMedia model instance and sets properties accordingly', function
 
     $component = new MediaManagerPreview(
         id: 'test',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: [
             'image' => 'images',
             'document' => 'docs',
@@ -59,7 +59,7 @@ it('accepts a string model class name and sets temporaryUpload to true', functio
 
     $component = new MediaManagerPreview(
         id: 'mediaManagerPreviewTest',
-        modelOrClassName: $model->getMorphClass()
+        modelReference: $model->getMorphClass()
     );
 
     expect($component->model)->toBeNull()
@@ -68,16 +68,16 @@ it('accepts a string model class name and sets temporaryUpload to true', functio
         ->and($component->temporaryUploadMode)->toBeTrue();
 });
 
-it('throws exception if modelOrClassName is invalid type', function () {
-    new MediaManagerPreview(modelOrClassName: 12345);
-})->throws(Exception::class, 'model-or-class-name must be either a HasMedia model or a string representing the model class')->todo();
+it('throws exception if modelReference is invalid type', function () {
+    new MediaManagerPreview(modelReference: 12345);
+})->throws(Exception::class, 'model-reference must be either a HasMedia model or a string representing the model class')->todo();
 
 it('sets showMenu to true if showDestroyButton, showOrder or showSetAsFirstButton or showMediaEditButton are true', function () {
     $model = $this->getTestBlogModel();
     foreach ([['showDestroyButton' => true], ['showOrder' => true], ['showSetAsFirstButton' => true]] as $flags) {
         $component = new MediaManagerPreview(
             id: 'mediaManagerPreviewTest',
-            modelOrClassName: $model,
+            modelReference: $model,
             options: [
                 'showDestroyButton' => $flags['showDestroyButton'] ?? false,
                 'showSetAsFirstButton' => $flags['showSetAsFirstButton'] ?? false,
@@ -98,7 +98,7 @@ it('hides media menu when all menu buttons disabled', function () {
 
     $component = new MediaManagerPreview(
         id: 'test-hide-menu',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'blog-images'],
         options: [
             'showDestroyButton' => false,
@@ -121,7 +121,7 @@ it('merges media from model collections correctly', function () {
 
     $component = new MediaManagerPreview(
         id: 'mediaManagerPreviewTest',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: [
             'image' => 'image_collection',
             'document' => 'document_collection',
@@ -149,7 +149,7 @@ it('merges temporary uploads when temporaryUploads is true', function () {
 
     $component = new MediaManagerPreview(
         id: 'mediaManagerPreviewTest',
-        modelOrClassName: 'App\Models\DummyClass',
+        modelReference: 'App\Models\DummyClass',
         collections: [
             'image' => 'images',
             'document' => 'documents',
@@ -170,7 +170,7 @@ it('returns the correct view', function () {
 
     $component = new MediaManagerPreview(
         id: 'mediaManagerPreviewTest',
-        modelOrClassName: $model
+        modelReference: $model
     );
 
     $view = $component->render();
@@ -182,7 +182,7 @@ it('returns the correct view', function () {
 it('returns the correct view when only class name provided', function () {
     $component = new MediaManagerPreview(
         id: 'mediaManagerPreviewTest',
-        modelOrClassName: Blog::class,
+        modelReference: Blog::class,
     );
 
     $view = $component->render();
@@ -208,12 +208,12 @@ it('renders view and matches snapshot (plain)', function () {
     $html = Blade::render(
         '<x-mle-media-manager-preview
                     id="test-media-modal"
-                    :model-or-class-name="$modelOrClassName"
+                    :model-reference="$modelReference"
 //                    image_collection="images"
                     :options="$options"
                 />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
             'options' => [
                 'theme' => 'plain',
             ],
@@ -233,12 +233,12 @@ it('renders view and matches snapshot (bootstrap-5)', function () {
     $html = Blade::render(
         '<x-mle-media-manager-preview
                     id="test-media-modal"
-                    :model-or-class-name="$modelOrClassName"
+                    :model-reference="$modelReference"
 //                    image_collection="images"
                     :options="$options"
                 />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
             'options' => [
                 'theme' => 'bootstrap-5',
             ],

@@ -15,7 +15,7 @@ class MediaModal extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,
+        public mixed $modelReference,
         public ?array $collections,
         public ?string $title,// TODO do i want this?
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
@@ -25,7 +25,7 @@ class MediaModal extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
 
         if ($instanceId) {
             $this->instanceId = $instanceId;

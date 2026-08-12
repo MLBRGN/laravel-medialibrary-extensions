@@ -23,7 +23,7 @@ class UploadForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a model implementing HasMedia or its class name
+        public mixed $modelReference,// either a model implementing HasMedia or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
         array $options = [],
@@ -34,7 +34,7 @@ class UploadForm extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
 
         $this->options = $options;
 
@@ -109,12 +109,12 @@ class UploadForm extends BaseMediaComponent
         return implode(' • ', $parts);
     }
 
-//    protected function getMaximumFileSize(): ?string
-//    {
-//        return $this->fileRequirements['max_file_size']
-//            ? mle_human_filesize($this->fileRequirements['max_file_size'])
-//            : null;
-//    }
+    //    protected function getMaximumFileSize(): ?string
+    //    {
+    //        return $this->fileRequirements['max_file_size']
+    //            ? mle_human_filesize($this->fileRequirements['max_file_size'])
+    //            : null;
+    //    }
 
     public function isLimitedByServerConfiguration(): bool
     {
@@ -139,9 +139,9 @@ class UploadForm extends BaseMediaComponent
 
     protected function getDimensionSummary(): ?string
     {
-        $minWidth  = $this->fileRequirements['min_width'];
+        $minWidth = $this->fileRequirements['min_width'];
         $minHeight = $this->fileRequirements['min_height'];
-        $maxWidth  = $this->fileRequirements['max_width'];
+        $maxWidth = $this->fileRequirements['max_width'];
         $maxHeight = $this->fileRequirements['max_height'];
 
         if ($minWidth && $minHeight && $maxWidth && $maxHeight) {

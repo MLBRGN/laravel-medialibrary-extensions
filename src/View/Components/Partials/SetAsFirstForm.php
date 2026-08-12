@@ -21,7 +21,7 @@ class SetAsFirstForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
@@ -30,7 +30,7 @@ class SetAsFirstForm extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
 
         // Ensure instanceId is derived from the Base ID
         $this->instanceId = InstanceManager::getInstanceId($this->id);

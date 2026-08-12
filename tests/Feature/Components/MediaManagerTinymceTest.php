@@ -7,7 +7,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerTinymce;
 it('throws exception when no media collections provided', function () {
     expect(fn () => new MediaManagerTinymce(
         id: 'test1',
-        modelOrClassName: stdClass::class,
+        modelReference: stdClass::class,
         collections: []
     ))->toThrow(Exception::class);
 });
@@ -16,7 +16,7 @@ it('sets correct upload routes and field names for single upload', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerTinymce(
         id: 'abc',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images'],
         options: [
         ],
@@ -35,7 +35,7 @@ it('sets correct upload routes and field names for multiple upload', function ()
 
     $component = new MediaManagerTinymce(
         id: 'abc',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images'],
         options: [
         ],
@@ -53,7 +53,7 @@ it('disables upload-related options when readonly or disabled', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerTinymce(
         id: 'x1',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images'],
         readonly: true
     );
@@ -69,7 +69,7 @@ it('disables YouTube upload when no youtube collection exists', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerTinymce(
         id: 'yt1',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images']
     );
 
@@ -80,7 +80,7 @@ it('calls correct view with configured frontend theme plain', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerTinymce(
         id: 'yt1',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images'],
         options: [
             'theme' => 'plain',
@@ -105,7 +105,7 @@ it('calls correct view with configured frontend theme bootstrap-5', function () 
     $model = $this->getTestBlogModel();
     $component = new MediaManagerTinymce(
         id: 'yt1',
-        modelOrClassName: $model->getMorphClass(),
+        modelReference: $model->getMorphClass(),
         collections: ['image' => 'images'],
         options: [
             'theme' => 'bootstrap-5',
@@ -136,7 +136,7 @@ it('correctly sets data_source when provided', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerTinymce(
         id: 'ds1',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images'],
         dataSource: 'custom-source'
     );

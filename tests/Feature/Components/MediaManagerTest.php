@@ -24,7 +24,7 @@ it('renders media manager component', function () {
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
             id="blog"
-            :model-or-class-name="$model"
+            :model-reference="$model"
             :collections="[
                 'image' => 'blog-images',
                 'youtube-collection' => 'blog-youtube',
@@ -58,7 +58,7 @@ it('appends correct id suffix based on multiple flag', function () {
     // multiple = true → should append "-mmm"
     $componentMultiple = new MediaManager(
         id: 'my-media',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'blog-images'],
         multiple: true,
     );
@@ -66,7 +66,7 @@ it('appends correct id suffix based on multiple flag', function () {
     // multiple = false → should append "-mms"
     $componentSingle = new MediaManager(
         id: 'my-media',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'blog-images'],
         multiple: false,
     );
@@ -80,7 +80,7 @@ it('initializes without temporary upload when a eloquent model is provided', fun
     $model = Blog::create(['title' => 'test']);
     $component = new MediaManager(
         id: 'test-media-manager',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'blog-main'],
         options: [
             'showDestroyButton' => true,
@@ -106,7 +106,7 @@ it('initializes with temporary upload when only model class name provided', func
     $model = $this->getModelWithMedia(['image' => 2, 'document' => '1', 'audio' => 1, 'video' => 1]);
     $component = new MediaManager(
         id: 'test-media-manager',
-        modelOrClassName: $model->getMorphClass(),
+        modelReference: $model->getMorphClass(),
         collections: ['image' => 'blog-main'],
         options: [
             'showDestroyButton' => true,
@@ -135,13 +135,13 @@ it('renders the correct html multiple (plain)', function () {
     $html = Blade::render(
         '<x-mle-media-manager
         id="test-media-modal"
-        :model-or-class-name="$modelOrClassName"
+        :model-reference="$modelReference"
         :collections="$collections"
         :options="$options"
         multiple="true"
     />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
             'collections' => [
                 'image' => 'blog-images',
                 'youtube' => 'blog-youtube',
@@ -172,13 +172,13 @@ it('renders the correct html multiple (bootstrap-5)', function () {
     $html = Blade::render(
         '<x-mle-media-manager
         id="test-media-modal"
-        :model-or-class-name="$modelOrClassName"
+        :model-reference="$modelReference"
         :collections="$collections"
         :options="$options"
         multiple="true"
     />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
             'collections' => [
                 'image' => 'blog-images',
                 'youtube' => 'blog-youtube',
@@ -209,13 +209,13 @@ it('renders the correct html single (plain)', function () {
     $html = Blade::render(
         '<x-mle-media-manager
         id="test-media-modal"
-        :model-or-class-name="$modelOrClassName"
+        :model-reference="$modelReference"
         :collections="$collections"
         :options="$options"
         multiple="false"
     />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
             'collections' => [
                 'image' => 'blog-images',
                 'youtube' => 'blog-youtube',
@@ -246,13 +246,13 @@ it('renders the correct html single (bootstrap-5)', function () {
     $html = Blade::render(
         '<x-mle-media-manager
         id="test-media-modal"
-        :model-or-class-name="$modelOrClassName"
+        :model-reference="$modelReference"
         :collections="$collections"
         :options="$options"
         multiple="false"
     />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
             'collections' => [
                 'image' => 'blog-images',
                 'youtube' => 'blog-youtube',
@@ -277,24 +277,24 @@ it('renders the correct html single (bootstrap-5)', function () {
 });
 
 it('throws if given class string does not exist', function () {
-    $modelOrClassName = 'NonExistent\Model';
+    $modelReference = 'NonExistent\Model';
     expect(fn () => new MediaManager(
         id: 'test-media-manager',
-        modelOrClassName: $modelOrClassName,
+        modelReference: $modelReference,
         collections: ['image' => 'blog-main'],
     ))->toThrow(\InvalidArgumentException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
-        'class_name' => $modelOrClassName,
+        'class_name' => $modelReference,
     ]));
 });
 
 it('throws if given class string does not implement HasMediaExtended', function () {
-    $modelOrClassName = \stdClass::class;
+    $modelReference = \stdClass::class;
     expect(fn () => new MediaManager(
         id: 'test-media-manager',
-        modelOrClassName: $modelOrClassName,
+        modelReference: $modelReference,
         collections: ['image' => 'blog-main'],
     ))->toThrow(\UnexpectedValueException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
-        'class' => $modelOrClassName,
+        'class' => $modelReference,
         'interface' => HasMediaExtended::class,
     ]));
 });
@@ -304,7 +304,7 @@ it('disables showSetAsFirstButton when multiple is false', function () {
 
     $component = new MediaManager(
         id: 'test-single',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'blog-images'],
         options: ['showSetAsFirstButton' => true],
         multiple: false,
@@ -318,7 +318,7 @@ it('throws exception when no collections provided', function () {
 
     expect(fn () => new MediaManager(
         id: 'test-empty-collections',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: [],
     ))->toThrow(Exception::class, __('medialibrary-extensions::messages.no_media_collections'));
 });
@@ -328,7 +328,7 @@ it('disables upload form when no uploadable collections exist', function () {
 
     $component = new MediaManager(
         id: 'test-no-uploadables',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['youtube' => 'blog-youtube'], // only YouTube
         options: ['showUploadForm' => true],
         multiple: true,
@@ -342,7 +342,7 @@ it('disables YouTube upload form when youtube collection missing', function () {
 
     $component = new MediaManager(
         id: 'test-no-youtube',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'blog-images'],
         options: ['showYouTubeUploadForm' => true],
         multiple: true,
@@ -356,7 +356,7 @@ it('hides media menu when all menu buttons disabled', function () {
 
     $component = new MediaManager(
         id: 'test-hide-menu',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'blog-images'],
         options: [
             'showDestroyButton' => false,
@@ -374,7 +374,7 @@ it('does not leak model', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManager(
         id: 'abc',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'images'],
         options: [
         ],
@@ -384,7 +384,7 @@ it('does not leak model', function () {
     expect($component->getConfig())
         ->not->toHaveKeys([
             'model',
-            'modelOrClassName',
+            'modelReference',
             'singleMedia',
         ]);
 });

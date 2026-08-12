@@ -15,7 +15,7 @@ class MediaPreviewGrid extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
@@ -27,7 +27,7 @@ class MediaPreviewGrid extends BaseMediaComponent
         public ?string $dataSource = 'default',
         ?string $clientToken = null,
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
 
         // Ensure instanceId is derived from the Base ID
         if (empty($instanceId)) {

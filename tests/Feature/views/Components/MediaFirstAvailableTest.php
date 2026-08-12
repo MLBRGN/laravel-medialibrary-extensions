@@ -10,7 +10,7 @@ it('initializes with a HasMedia model and finds the first medium', function () {
 
     $component = new MediaFirstAvailable(
         id: 'media-first-available',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image' => 'image_collection', 'video' => 'video_collection'],
         options: []
     );

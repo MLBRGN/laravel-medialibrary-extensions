@@ -16,7 +16,7 @@ function fakeBladeIconAlias(string $alias): void
 it('renders the debug view with model', function () {
     Config::set('medialibrary-extensions.debug', true);
     $model = $this->getModelWithMedia();
-    $component = new Debug(modelOrClassName: $model);
+    $component = new Debug(modelReference: $model);
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
@@ -26,7 +26,7 @@ it('renders the debug view with model', function () {
 it('renders the debug view with model class name', function () {
     Config::set('medialibrary-extensions.debug', true);
     $model = $this->getModelWithMedia();
-    $component = new Debug(modelOrClassName: $model->getMorphClass());
+    $component = new Debug(modelReference: $model->getMorphClass());
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
@@ -36,7 +36,7 @@ it('renders the debug view with model class name', function () {
 it('throws when given invalid class name', function () {
     Config::set('medialibrary-extensions.debug', true);
     $this->expectException(InvalidArgumentException::class);
-    $component = new Debug(modelOrClassName: 'fakeClass');
+    $component = new Debug(modelReference: 'fakeClass');
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
@@ -45,11 +45,11 @@ it('throws when given invalid class name', function () {
 
 it('throws when given model that does not extend HasMedia interface', function () {
     Config::set('medialibrary-extensions.debug', true);
-//    $this->expectException(TypeError::class);
+    //    $this->expectException(TypeError::class);
     // TOODO what exception to expect?
     $this->expectException(InvalidArgumentException::class);
     $model = $this->getTestModelNotExtendingHasMedia();
-    $component = new Debug(modelOrClassName: $model);
+    $component = new Debug(modelReference: $model);
     $view = $component->render();
 
     expect($view)->toBeInstanceOf(View::class)
@@ -64,7 +64,7 @@ it('detects when the Blade UI icon alias exists', function () {
 
     fakeBladeIconAlias('trash');
 
-    $component = new Debug(modelOrClassName: $model);
+    $component = new Debug(modelReference: $model);
 
     expect($component->iconExists)->toBeTrue()
         ->and($component->errors)->toBeEmpty();
@@ -76,7 +76,7 @@ it('detects when the Blade UI icon alias is missing', function () {
 
     config(['medialibrary-extensions.icons.delete' => 'missing-icon']);
 
-    $component = new Debug(modelOrClassName: $model);
+    $component = new Debug(modelReference: $model);
 
     expect($component->iconExists)->toBeFalse()
         ->and($component->errors)->toHaveCount(1)
@@ -90,7 +90,7 @@ it('populates media collections from a model', function () {
     $model->addMedia($testImage)
         ->toMediaCollection('test-collection');
 
-    $component = new Debug(modelOrClassName: $model);
+    $component = new Debug(modelReference: $model);
 
     expect($component->collections)->toContain('test-collection')
         ->and($component->collections)->toHaveCount(1);
@@ -99,7 +99,7 @@ it('populates media collections from a model', function () {
 it('handles temporary upload (null model) gracefully', function () {
     Config::set('medialibrary-extensions.debug', true);
     $this->expectException(TypeError::class);
-    $component = new Debug(modelOrClassName: null);
+    $component = new Debug(modelReference: null);
 
     expect($component->collections)->toBeInstanceOf(Collection::class)
         ->and($component->collections)->toBeEmpty();

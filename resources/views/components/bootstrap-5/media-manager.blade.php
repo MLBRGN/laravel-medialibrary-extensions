@@ -53,7 +53,7 @@
                 @if($getConfig('showUploadForm'))
                     <x-mle-partial-upload-form
                         :id="$id"
-                        :model-or-class-name="$modelOrClassName"
+                        :model-reference="$modelReference"
                         :single-media="$singleMedia"
                         :collections="$collections"
                         :options="$getOptions()"
@@ -70,7 +70,7 @@
                 <x-mle-partial-youtube-upload-form
                         class="mt-3"
                         :id="$id"
-                        :model-or-class-name="$modelOrClassName"
+                        :model-reference="$modelReference"
                         :single-media="$singleMedia"
                         :collections="$collections"
                         :options="$getOptions()"
@@ -96,7 +96,7 @@
 
             <x-mle-media-preview-grid
                 :id="$id"
-                :model-or-class-name="$modelOrClassName"
+                :model-reference="$modelReference"
                 :single-media="$singleMedia"
                 :collections="$collections"
                 :options="$getOptions()"
@@ -115,7 +115,7 @@
 
     @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))
         <x-mle-shared-debug
-            :model-or-class-name="$modelOrClassName"
+            :model-reference="$modelReference"
             :config="$getConfig()"
             :options="$getOptions()"
             :data-source="$dataSource"

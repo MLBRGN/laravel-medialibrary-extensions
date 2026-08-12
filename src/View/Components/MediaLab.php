@@ -28,7 +28,7 @@ class MediaLab extends BaseComponent
 
     public ?int $modelId = null;
 
-    public ?string $modelOrClassName = null;
+    public ?string $modelReference = null;
 
     public function __construct(
         ?string $id,
@@ -46,7 +46,7 @@ class MediaLab extends BaseComponent
         }
         $this->modelType = $this->model->getMorphClass();
         $this->modelId = $this->model->getKey();
-        $this->modelOrClassName = $this->modelType;
+        $this->modelReference = $this->modelType;
 
         // overrides
         $this->options['showDestroyButton'] = false; // don't show the destroy button

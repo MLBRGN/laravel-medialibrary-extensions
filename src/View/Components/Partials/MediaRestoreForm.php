@@ -20,7 +20,7 @@ class MediaRestoreForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $media,
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],
@@ -28,7 +28,7 @@ class MediaRestoreForm extends BaseMediaComponent
         public ?bool $disabled = false,
         public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id, $this->modelOrClassName, $this->dataSource);
+        parent::__construct($id, $this->modelReference, $this->dataSource);
 
         $this->options = $options;
 

@@ -11,7 +11,7 @@ it('appends -mod to the id', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaModal(
         id: 'media1',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['images'],
         title: 'ID Test'
     );
@@ -23,7 +23,7 @@ it('returns the correct view on render', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaModal(
         id: 'test-media-modal',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['images'],
         title: 'Render Test'
     );
@@ -39,7 +39,7 @@ it('renders the correct Blade view (bootstrap-5)', function () {
     $theme = 'bootstrap-5';
     $component = new MediaModal(
         id: 'test-media-modal',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image_collection'],
         title: 'Render Test',
         options: [
@@ -56,7 +56,7 @@ it('renders the correct Blade view (plain)', function () {
     $theme = 'plain';
     $component = new MediaModal(
         id: 'test-media-modal',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: ['image_collection'],
         title: 'Render Test',
         options: [
@@ -74,7 +74,7 @@ it('renders the correct html multiple collections (plain)', function () {
     $html = Blade::render(
         '<x-mle-media-modal
                     id="test-media-modal"
-                    :model-or-class-name="$model"
+                    :model-reference="$model"
                     :collections="$collections"
                     title="test"
                     :options="$options"
@@ -103,7 +103,7 @@ it('renders the correct html multiple collections (bootstrap-5)', function () {
     $html = Blade::render(
         '<x-mle-media-modal
                     id="test-media-modal"
-                    :model-or-class-name="$model"
+                    :model-reference="$model"
                     :collections="$collections"
                     title="test"
                     :options="$options"
@@ -132,7 +132,7 @@ it('renders the correct html single collection (plain)', function () {
     $html = Blade::render(
         '<x-mle-media-modal
                 id="test-media-modal"
-                :model-or-class-name="$model"
+                :model-reference="$model"
                 :collections="$collections"
                 title="test"
                 :options="$options"
@@ -155,7 +155,7 @@ it('renders the correct html single collection (bootstrap-5)', function () {
     $html = Blade::render(
         '<x-mle-media-modal
                     id="test-media-modal"
-                    :model-or-class-name="$model"
+                    :model-reference="$model"
                     :collections="$collections"
                     title="test"
                     :options="$options"
@@ -177,7 +177,7 @@ it('sets temporary upload mode when given a class string', function () {
 
     $component = new MediaModal(
         id: 'test-media-modal',
-        modelOrClassName: $model->getMorphClass(),
+        modelReference: $model->getMorphClass(),
         collections: ['images'],
         title: 'Temp Upload'
     );
@@ -188,26 +188,26 @@ it('sets temporary upload mode when given a class string', function () {
 });
 
 it('throws if given class string does not exist', function () {
-    $modelOrClassName = 'NonExistent\Model';
+    $modelReference = 'NonExistent\Model';
     expect(fn () => new MediaModal(
         id: 'test-media-modal',
-        modelOrClassName: $modelOrClassName,
+        modelReference: $modelReference,
         collections: null,
         title: 'Invalid'
     ))->toThrow(\InvalidArgumentException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
-        'class_name' => $modelOrClassName,
+        'class_name' => $modelReference,
     ]));
 });
 
 it('throws if given class string does not implement HasMediaExtended', function () {
-    $modelOrClassName = \stdClass::class;
+    $modelReference = \stdClass::class;
     expect(fn () => new MediaModal(
         id: 'test-media-modal',
-        modelOrClassName: $modelOrClassName,
+        modelReference: $modelReference,
         collections: null,
         title: 'Invalid'
     ))->toThrow(\UnexpectedValueException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
-        'class' => $modelOrClassName,
+        'class' => $modelReference,
         'interface' => HasMediaExtended::class,
     ]));
 });

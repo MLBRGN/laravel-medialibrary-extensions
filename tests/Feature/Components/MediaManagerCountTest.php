@@ -14,12 +14,12 @@ it('exposes total media count for a single manager', function () {
     $html = Blade::render(
         '<x-mle-media-manager
             :id="\'mgr\'"
-            :model-or-class-name="$modelOrClassName"
+            :model-reference="$modelReference"
             :collections="[\'image\' => \'image_collection\']"
             :multiple="false"
         />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
         ]
     );
 

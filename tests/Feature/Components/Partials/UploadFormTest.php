@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 
 it('throws translated exception if invalid class name is provided', closure: function () {
     $component = new UploadForm(
         id: 'upload1',
-        modelOrClassName: 'someDummyClassName',
+        modelReference: 'someDummyClassName',
         singleMedia: null,
         collections: [
             'image' => 'images',
@@ -34,7 +35,7 @@ it('throws exception if given a model that does not implement HasMedia', functio
 
     $component = new UploadForm(
         id: 'upload-invalid-class',
-        modelOrClassName: $model,
+        modelReference: $model,
         singleMedia: null,
         collections: [
             'image' => 'images',
@@ -58,7 +59,7 @@ it('honors frontend theme', function () {
 
     $component = new UploadForm(
         id: 'upload-invalid-class',
-        modelOrClassName: $model,
+        modelReference: $model,
         singleMedia: null,
         collections: [
             'image' => 'images',
@@ -79,7 +80,7 @@ it('uses allowedMimeTypes from config if allowedMimeTypes not provided', functio
     $mimeTypesString = '';
     $component = new UploadForm(
         id: 'upload-empty-mime',
-        modelOrClassName: $model,
+        modelReference: $model,
         singleMedia: null,
         collections: [
             'image' => 'images',
@@ -106,7 +107,7 @@ it('sets allowedMimeTypes and allowedMimeTypesHuman from options', function () {
     $mimeTypesString = 'image/png, image/jpeg';
     $component = new UploadForm(
         id: 'upload-empty-mime',
-        modelOrClassName: $model,
+        modelReference: $model,
         singleMedia: null,
         collections: [
             'image' => 'images',
@@ -133,7 +134,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
 
     $component = new UploadForm(
         id: 'upload3',
-        modelOrClassName: $model,
+        modelReference: $model,
         singleMedia: null,
         collections: [
             'image' => 'images',
@@ -179,7 +180,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
 //
 //    $component = new UploadForm(
 //        id: 'upload3',
-//        modelOrClassName: $model,
+//        modelReference: $model,
 //        medium: null,
 //        collections: [
 //            'image' => 'images',
@@ -214,7 +215,7 @@ it('sets model properties correctly when given a string model class name', funct
     $model = $this->getTestBlogModel();
     $component = new UploadForm(
         id: 'upload4',
-        modelOrClassName: $model->getMorphClass(),
+        modelReference: $model->getMorphClass(),
         singleMedia: null,
         collections: [
             'image' => 'images',
@@ -258,7 +259,7 @@ it('does not show a server upload limit warning when the configured limit is wit
 
     $view = $this->blade('
         <x-mle::partials.upload-form
-            :model-or-class-name="\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class"
+            :model-reference="\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class"
         />
     ');
 
@@ -273,7 +274,7 @@ it('shows a server upload limit warning when php limits are lower than the confi
 
     $view = $this->blade('
         <x-mle::partials.upload-form
-            :model-or-class-name="\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class"
+            :model-reference="\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class"
         />
     ');
 
@@ -289,9 +290,9 @@ it('uses the smallest of the configured and php upload limits', function () {
     ini_set('upload_max_filesize', '20M');
     ini_set('post_max_size', '100M');
 
-    $component = app(\Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm::class, [
+    $component = app(UploadForm::class, [
         'id' => 'upload',
-        'modelOrClassName' => \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class,
+        'modelReference' => Blog::class,
     ]);
 
     expect(invade($component)->getMaximumFileSize())

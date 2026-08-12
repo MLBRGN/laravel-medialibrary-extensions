@@ -20,7 +20,7 @@ it('initializes correctly with model instance', function () {
     $model = $this->getTestBlogModel();
     $component = new MediaManagerSingle(
         id: 'blog-1',
-        modelOrClassName: $model,
+        modelReference: $model,
         collections: [
             'image' => 'images',
         ],
@@ -43,7 +43,7 @@ it('initializes correctly with model instance', function () {
 it('initializes correctly with model class name', function () {
     $component = new MediaManagerSingle(
         id: 'blog-1',
-        modelOrClassName: Blog::class,
+        modelReference: Blog::class,
         collections: [
             'youtube' => 'videos',
         ],
@@ -66,7 +66,7 @@ it('defaults optional values when omitted', function () {
     Config::set('medialibrary-extensions.frontend_theme', 'bootstrap-5');
     $component = new MediaManagerSingle(
         id: 'blog-1',
-        modelOrClassName: $className,
+        modelReference: $className,
         collections: [
             'image' => 'blog-images',
         ],
@@ -96,13 +96,13 @@ it('renders the correct html single (plain)', function () {
     $html = Blade::render(
         '<x-mle-media-manager-single
                 id="test-media-modal"
-                :model-or-class-name="$modelOrClassName"
+                :model-reference="$modelReference"
                 :collections="[\'image\' => \'images\', \'documents\' => \'documents\']"
                 :options="$options"
                 multiple="false"
                 />',
         [
-            'modelOrClassName' => $model,
+            'modelReference' => $model,
             'options' => [
                 'theme' => 'bootstrap-5',
             ],
@@ -118,13 +118,13 @@ it('renders the correct html single (bootstrap-5, temporary upload)', function (
     $html = Blade::render(
         '<x-mle-media-manager-single
                 id="test-media-modal"
-                :model-or-class-name="$modelOrClassName"
+                :model-reference="$modelReference"
                 :collections="[\'image\' => \'images\']"
                 :options="$options"
                 multiple="false"
                 />',
         [
-            'modelOrClassName' => $model->getMorphClass(),
+            'modelReference' => $model->getMorphClass(),
             'options' => [
                 'theme' => 'bootstrap-5',
             ],

@@ -23,7 +23,7 @@ class ImageEditorModal extends BaseMediaComponent
 
     public function __construct(
         string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference = null,// either a modal that implements HasMedia or it's class name
         public Media|TemporaryUpload $medium,
         public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
@@ -32,7 +32,15 @@ class ImageEditorModal extends BaseMediaComponent
         public bool $disabled = false,
         public ?string $dataSource = 'default',
     ) {
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        if ($this->modelReference === null && $this->medium instanceof Media) {
+            $this->modelReference = $this->medium->model;
+        }
+
+        if ($this->modelReference === null && $this->medium instanceof TemporaryUpload) {
+            $this->modelReference = $this->medium->model_type;
+        }
+
+        parent::__construct($id, $this->modelReference, $dataSource);
 
         $this->options = $options;
 

@@ -110,7 +110,7 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         $component = new MediaPreviews(
             id: $baseId,
-            modelOrClassName: $modelType,
+            modelReference: $modelType,
             collections: $collections,
             options: $options,
             singleMedia: $singleMedia,
@@ -128,7 +128,7 @@ class GetMediaPreviewerTemporaryHTMLAction
 
         if (config('medialibrary-extensions.debug') && $request->boolean('include_debug')) {
             $debugComponent = new Debug(
-                modelOrClassName: $modelType,
+                modelReference: $modelType,
                 config: $component->getConfig(),
                 options: $options,
             );

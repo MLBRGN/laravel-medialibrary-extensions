@@ -57,7 +57,7 @@
 
                 <x-mle-partial-image-editor-form
                     id="{{ $getDomId() }}"
-                    :model-or-class-name="$modelOrClassName"
+                    :model-reference="$modelReference"
                     :medium="$medium"
                     :single-media="$singleMedia"
                     :collections="$collections"

@@ -24,13 +24,13 @@ class MediaFirstAvailable extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,
+        public mixed $modelReference,
         public ?array $collections = [],
         array $options = [],
         public bool $previewMode = false, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
         public ?string $dataSource = 'default'
     ) {
-        parent::__construct($id ?: null, $this->modelOrClassName, $this->dataSource);
+        parent::__construct($id ?: null, $this->modelReference, $this->dataSource);
         $this->options = $options;
 
         if (! $this->hasCollections()) {
@@ -53,7 +53,8 @@ class MediaFirstAvailable extends BaseMediaComponent
         $this->resolveConfig();
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'media-first-available';
     }
 

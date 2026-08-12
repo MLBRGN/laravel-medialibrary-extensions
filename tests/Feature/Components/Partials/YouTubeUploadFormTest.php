@@ -11,7 +11,7 @@ it('initializes with a HasMedia model', function () {
 
     $component = new YouTubeUploadForm(
         id: 'component-yt',
-        modelOrClassName: $model,
+        modelReference: $model,
         singleMedia: null,
         collections: [
             'image' => null,
@@ -42,7 +42,7 @@ it('initializes with a model class string', function () {
     $model = $this->getTestBlogModel();
     $component = new YouTubeUploadForm(
         id: 'component-yt',
-        modelOrClassName: $model->getMorphClass(),
+        modelReference: $model->getMorphClass(),
         singleMedia: null,
         collections: [
             'image' => null,
@@ -67,10 +67,10 @@ it('initializes with a model class string', function () {
         ->and($component->getConfig('useXhr'))->toBeTrue();
 });
 
-it('throws if modelOrClassName is non existing class name', function () {
+it('throws if modelReference is non existing class name', function () {
     new YouTubeUploadForm(
         id: 'comp',
-        modelOrClassName: 'someDummyClassName',
+        modelReference: 'someDummyClassName',
         singleMedia: null,
         collections: [
             'image' => null,
@@ -87,14 +87,14 @@ it('throws if modelOrClassName is non existing class name', function () {
             'useXhr' => null,
         ]
     );
-})->throws(\InvalidArgumentException::class);
+})->throws(InvalidArgumentException::class);
 
-it('throws if modelOrClassName class does not extend HasMedia', function () {
+it('throws if modelReference class does not extend HasMedia', function () {
     $model = $this->getTestModelNotExtendingHasMedia();
 
     new YouTubeUploadForm(
         id: 'comp',
-        modelOrClassName: $model,
+        modelReference: $model,
         singleMedia: null,
         collections: [
             'image' => null,
@@ -128,7 +128,7 @@ it('renders the correct partial view', function () {
 
     $component = new YouTubeUploadForm(
         id: 'yt-comp',
-        modelOrClassName: $model->getMorphClass(),
+        modelReference: $model->getMorphClass(),
         singleMedia: null,
         collections: [
             'image' => null,

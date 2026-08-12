@@ -4,12 +4,15 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Application;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel;
-use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseMediaComponent extends BaseComponent
 {
+    public mixed $modelReference = null;
+
     public ?Model $model = null;
 
     public ?string $modelType = null;
@@ -22,31 +25,33 @@ abstract class BaseMediaComponent extends BaseComponent
 
     public int $totalMediaCount = 0;
 
-    protected int $maxMediaCount = 1;// don't use in views directly, use $getConfig('maxMediaCount') instead'
+    protected int $maxMediaCount = 1; // don't use in views directly, use $getConfig('maxMediaCount') instead'
 
     public ResolvedModel $resolvedModel;
-    /**
-     * @var \Illuminate\Foundation\Application|mixed|MediaModelResolver|object
-     */
 
+    /**
+     * @var Application|mixed|MediaModelResolver|object
+     */
     public function __construct(
-        ?string $id = null,
-        mixed $modelOrClassName,
+        ?string $id,
+        mixed $modelReference,
         public ?string $dataSource = 'default'
-    )
-    {
+    ) {
         parent::__construct($id);
 
-//        $this->mediaService = app(MediaService::class);
+        //        $this->mediaService = app(MediaService::class);
         $this->mediaModelResolver = app(MediaModelResolver::class);
 
-        $this->resolveModel($modelOrClassName, $dataSource);
+        $this->modelReference = $modelReference;
+
+        $this->resolveModel($modelReference, $dataSource);
     }
 
-    protected function resolveModel(mixed $modelOrClassName, ?string $dataSource = 'default'): void
+    protected function resolveModel(mixed $modelReference, ?string $dataSource = 'default'): void
     {
+
         $this->resolvedModel = $this->mediaModelResolver->resolveModelReference(
-            $modelOrClassName,
+            $modelReference,
             $dataSource
         );
 
@@ -60,5 +65,4 @@ abstract class BaseMediaComponent extends BaseComponent
         $this->modelId = $resolvedModel->modelId;
         $this->temporaryUploadMode = $resolvedModel->temporaryUploadMode;
     }
-
 }

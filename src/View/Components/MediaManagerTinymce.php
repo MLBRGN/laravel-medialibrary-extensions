@@ -27,7 +27,7 @@ class MediaManagerTinymce extends BaseMediaComponent
      */
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
         public array $collections = [],
         array $options = [],
         public bool $multiple = true,
@@ -37,7 +37,7 @@ class MediaManagerTinymce extends BaseMediaComponent
         public ?string $dataSource = 'default',
     ) {
 
-        parent::__construct($id, $this->modelOrClassName, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource);
         $this->options = $options;
 
         // override: enforce disabled / readonly

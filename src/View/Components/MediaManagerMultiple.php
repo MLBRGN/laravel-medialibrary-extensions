@@ -8,7 +8,7 @@ class MediaManagerMultiple extends MediaManager
 {
     public function __construct(
         ?string $id,
-        mixed $modelOrClassName,
+        mixed $modelReference,
         array $collections = [],
         array $options = [],
         bool $multiple = true,
@@ -19,7 +19,7 @@ class MediaManagerMultiple extends MediaManager
     ) {
         parent::__construct(
             id: $id,
-            modelOrClassName: $modelOrClassName,
+            modelReference: $modelReference,
             singleMedia: null,// always null
             collections: $collections,
             options: $options,

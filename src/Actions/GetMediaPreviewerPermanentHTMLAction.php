@@ -50,7 +50,6 @@ class GetMediaPreviewerPermanentHTMLAction
 
         $collections = json_decode($request->input('collections'), true) ?? [];
 
-
         $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
 
         $collections = collect($collections)
@@ -85,7 +84,7 @@ class GetMediaPreviewerPermanentHTMLAction
 
         $component = new MediaPreviews(
             id: $baseId,
-            modelOrClassName: $model,
+            modelReference: $model,
             collections: $collections,
             options: $options,
             singleMedia: $singleMedia,
@@ -102,7 +101,7 @@ class GetMediaPreviewerPermanentHTMLAction
 
         if (config('medialibrary-extensions.debug') && $request->boolean('include_debug')) {
             $debugComponent = new Debug(
-                modelOrClassName: $model,
+                modelReference: $model,
                 config: $component->getConfig(),
                 options: $options,
             );

@@ -21,7 +21,7 @@
             @endphp
             <x-mle-media-manager-tinymce
                 id="{{ $id }}"
-                :model-or-class-name="$modelOrClassName"
+                :model-reference="$modelReference"
                 :collections="$collections"
                 :options="$options"
                 :multiple="$multiple"

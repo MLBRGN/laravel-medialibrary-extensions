@@ -27,11 +27,11 @@ class GetMediaManagerTinyMceTemporaryAction
         if ($modelType && $modelId) {
             $model = $modelType::findOrFail($modelId);
         }
-        $modelOrClassName = $model ?? $modelType;
+        $modelReference = $model ?? $modelType;
 
         return view('medialibrary-extensions::media-manager-tinymce-wrapper', [
             'id' => $id,
-            'modelOrClassName' => $modelOrClassName,
+            'modelReference' => $modelReference,
             'multiple' => $multiple,
             'collections' => $collections,
             'options' => $options,

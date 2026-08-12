@@ -24,7 +24,7 @@ class MediaCarousel extends BaseComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelOrClassName,
+        public mixed $modelReference,
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public ?array $collections = [],
         public bool $expandableInModal = true,
@@ -49,7 +49,7 @@ class MediaCarousel extends BaseComponent
 
         $mediaModelResolver = app(MediaModelResolver::class);
 
-        $resolvedModel = $mediaModelResolver->resolveModelReference($modelOrClassName, $dataSource);
+        $resolvedModel = $mediaModelResolver->resolveModelReference($modelReference, $dataSource);
         $model = $resolvedModel->model;
 
         // merge into config

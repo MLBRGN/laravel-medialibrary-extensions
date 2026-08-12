@@ -13,29 +13,35 @@ The current implementation mixes several concepts:
 - assigning database connections
 - determining temporary upload mode
 
-These responsibilities are currently spread across Blade components, Form Requests and MediaService.
+These responsibilities are currently spread across Blade components, Form Requests and a service class.
 
-The goal is to make **MediaService the single place responsible for model resolution**.
+The goal is to make **MediaModelResolver the single place responsible for model resolution**.
 
 ---
 
-# 1. Rename `modelOrClassName` to `modelReference`
+## Current status (implementation snapshot)
 
-The public API currently exposes:
+The package now includes a dedicated resolver service: `Mlbrgn\\MediaLibraryExtensions\\Services\\MediaModelResolver` that centralizes core responsibilities:
 
-```php
-public Model|string $modelOrClassName;
-```
+- Resolve model type (class or morph alias) to a concrete class: `resolveModelClass()`
+- Normalize a model instance or class string into a single shape: `resolveModelReference()` which returns a `ResolvedModel`
+- Resolve request-provided inputs safely: `resolveRequestModel()` (guards invalid input and logs issues)
+- Find existing records by id with proper connection: `resolveModelById()`, `resolveMediumById()`, `findMedium()`, `findTemporaryUpload()`
+- Instantiate temporary uploads with the resolved connection: `instantiateTemporaryUpload()`
 
-This name describes the PHP type instead of the concept.
+Connection selection is delegated to `DataSourceResolver`, ensuring all lookups/instantiations use the correct database connection.
 
-A better name is:
+`MediaManagerRequest` already delegates most model resolution to `MediaModelResolver`; it can be further simplified to only parse input, authorize, and validate.
+
+# 1. ✅ Rename `modelOrClassName` to `modelReference` (completed)
+
+The public API now exposes:
 
 ```php
 public Model|string $modelReference;
 ```
 
-because both values represent the same thing:
+This name is concept-focused because both values represent the same thing:
 
 - an existing model
 - or a reference to the model that will eventually own the uploaded media.
@@ -50,9 +56,14 @@ Example:
 
 This makes the public API easier to understand without exposing implementation details.
 
+Step 1 status:
+
+- `modelOrClassName` / `$modelOrClassName` were replaced by `modelReference` / `$modelReference`
+- Blade usage uses the kebab-case attribute `model-reference`
+
 ---
 
-# 2. Move all model resolution into MediaService
+# 2. Move all model resolution into MediaModelResolver
 
 Currently model resolution is split across several places.
 
@@ -89,80 +100,71 @@ It should no longer know about:
 - database connections
 - model lookup exceptions
 
-Instead it should simply ask MediaService.
+Instead it should simply ask `MediaModelResolver`.
 
 Example:
 
 ```php
-$model = $mediaService->resolveRequestModel(...);
+// Prefer delegating to the resolver
+$model = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver::class)
+    ->resolveRequestModel(
+        modelType: $request->input('model_type'),
+        modelId: $request->input('model_id'),
+        dataSource: $request->input('data_source') ?? 'default',
+    );
 ```
 
 or
 
 ```php
-$model = $mediaService->makeRequestModel(...);
+// For temporary uploads, instantiate with the correct connection
+$temporaryUpload = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver::class)
+    ->instantiateTemporaryUpload(
+        dataSource: $request->input('data_source') ?? 'default'
+    );
 ```
 
 ---
 
-# 4. Clarify MediaService responsibilities
+# 4. Clarify MediaModelResolver responsibilities
 
-MediaService currently mixes several unrelated responsibilities.
+MediaModelResolver currently groups related responsibilities used throughout the package.
 
 Suggested sections:
 
 ```
 Model Resolution
 ----------------
-resolveModelReference()
-makeModel()
-findModel()
+resolveModelClass($modelType)
+resolveModelReference($modelReference|HasMediaExtended, $dataSource): ResolvedModel
+resolveRequestModel($modelType, $modelId, $dataSource): ?HasMediaExtended
+resolveModelById($modelClass, $id, $dataSource): ?HasMediaExtended
 
-Media Retrieval
----------------
-resolveMedia()
+Media/Upload Retrieval
+----------------------
+resolveMediumById($modelClass, $id, $dataSource): Media|TemporaryUpload|null
+findMedium($id, $dataSource): ?Media
+findTemporaryUpload($id, $dataSource): ?TemporaryUpload
 
-Media Counting
---------------
-countMedia()
-
-Utilities
----------
-determineCollectionType()
-collectionNames()
+Instantiation
+-------------
+instantiateTemporaryUpload($dataSource): TemporaryUpload
 ```
 
 This makes the class much easier to navigate.
 
 ---
 
-# 5. Improve method names
-
-Current names:
-
-```
-resolveModelReference()
-make()
-resolveModelById()
-```
-
-are difficult to understand because they overlap.
-
-Suggested names:
-
-```
-resolveModelReference()
-makeModel()
-findModel()
-```
-
-These describe three distinct operations.
+# 5. Public surface and naming (current)
 
 | Method | Responsibility |
 |---------|----------------|
-| resolveModelReference() | Normalize a model reference into an internal representation |
-| makeModel() | Instantiate a model without loading it |
-| findModel() | Load an existing model from the database |
+| resolveModelClass() | Resolve morph alias or class string to a concrete model class implementing `HasMediaExtended` |
+| resolveModelReference() | Normalize a model or class reference into a `ResolvedModel` and set `temporaryUploadMode` accordingly |
+| resolveRequestModel() | Safely resolve a model from request inputs, returning `null` when invalid or not found (and logging) |
+| resolveModelById() | Load an existing model by id applying the correct connection |
+| resolveMediumById()/findMedium()/findTemporaryUpload() | Load media or temporary uploads by id with connection handling |
+| instantiateTemporaryUpload() | Create a `TemporaryUpload` instance with the resolved connection |
 
 ---
 
@@ -220,7 +222,7 @@ if (is_string($modelReference)) {
 }
 ```
 
-The goal is to centralize these decisions inside MediaService.
+The goal is to centralize these decisions inside MediaModelResolver.
 
 Callers should no longer care whether they received:
 
@@ -238,15 +240,15 @@ The package should eventually have a very small public API for model handling.
 Example:
 
 ```
+resolveModelClass()
+
 resolveModelReference()
 
-makeModel()
+resolveRequestModel()
 
-findModel()
+resolveModelById()
 
-resolveMedia()
-
-countMedia()
+resolveMediumById()/findMedium()/findTemporaryUpload()
 ```
 
 Everything else should become implementation details.
@@ -257,7 +259,7 @@ Everything else should become implementation details.
 
 - Smaller Request classes
 - Cleaner Blade components
-- One place responsible for model resolution
+- One place responsible for model resolution (MediaModelResolver)
 - Less duplicated validation
 - Less duplicated connection handling
 - More descriptive method names

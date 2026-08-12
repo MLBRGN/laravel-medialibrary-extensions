@@ -10,7 +10,7 @@ beforeEach(function () {
     {
         use InteractsWithMimeTypes, InteractsWithOptionsAndConfig;
 
-        public string $modelOrClassName = 'TestModel';
+        public string $modelReference = 'TestModel';
 
         public array $requiredOptions = ['foo', 'bar'];
 
@@ -82,7 +82,7 @@ it('initializes config with defaults and merges options/properties', function ()
 
     $this->class->callInitializeConfig([
         'uploadFieldName' => 'customField',
-        'modelOrClassName' => 'TestModel',
+        'modelReference' => 'TestModel',
     ]);
 
     // defaults override check
@@ -93,7 +93,7 @@ it('initializes config with defaults and merges options/properties', function ()
     expect($this->class->getConfig('temporaryUploadMode'))->toBeTrue();
 
     // property merge check
-    expect($this->class->getConfig('modelOrClassName'))->toBe('TestModel');
+    expect($this->class->getConfig('modelReference'))->toBe('TestModel');
 });
 
 it('can get, set, merge, and add config values', function () {

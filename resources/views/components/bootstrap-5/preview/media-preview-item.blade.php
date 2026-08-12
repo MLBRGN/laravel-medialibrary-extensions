@@ -19,7 +19,7 @@
     @if ($mediumType === 'image')
         <x-mle-image-editor-modal
             id="{{ $id }}"
-            :model-or-class-name="$modelOrClassName"
+            :model-reference="$modelReference"
             :medium="$medium"
             :single-media="$singleMedia"
             :collections="$collections"

@@ -29,7 +29,7 @@ trait InteractsWithOptionsAndConfig
     // are added to the config array
 
     // NOTE don't leak:
-    // no 'modelOrClassName',
+    // no 'modelReference',
     // no 'medium',
     // no 'singleMedia',
     // no 'model',
