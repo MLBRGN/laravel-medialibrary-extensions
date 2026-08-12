@@ -45,7 +45,9 @@ it('throws when given invalid class name', function () {
 
 it('throws when given model that does not extend HasMedia interface', function () {
     Config::set('medialibrary-extensions.debug', true);
-    $this->expectException(TypeError::class);
+//    $this->expectException(TypeError::class);
+    // TOODO what exception to expect?
+    $this->expectException(InvalidArgumentException::class);
     $model = $this->getTestModelNotExtendingHasMedia();
     $component = new Debug(modelOrClassName: $model);
     $view = $component->render();

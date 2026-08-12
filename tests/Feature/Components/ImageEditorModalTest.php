@@ -150,8 +150,11 @@ it('throws when modelOrClassName is null', function () {
 });
 
 it('throws when modelOrClassName is an invalid type', function () {
-    $this->expectException(\TypeError::class);
-    $this->expectExceptionMessage('model-or-class-name must be either a HasMedia model or a string representing the model class');
+    $this->expectException(\InvalidArgumentException::class);
+    $this->expectExceptionMessage('does not exist');
+
+//    $this->expectException(\TypeError::class);
+//    $this->expectExceptionMessage('HasMediaExtended|string');
 
     $model = $this->getTestModelNotExtendingHasMedia();
     $medium = new Media([

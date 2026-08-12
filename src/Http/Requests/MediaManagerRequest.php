@@ -11,10 +11,12 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\MediaActionsAuthorizer;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
+use UnexpectedValueException;
 
 abstract class MediaManagerRequest extends FormRequest
 {
@@ -38,23 +40,23 @@ abstract class MediaManagerRequest extends FormRequest
     //
     // Goal:
     // - The Request should only know about request input and authorization.
-    // - MediaService should own all model resolution logic.
+    // - MediaModelResolver should own all model resolution logic.
     //
     // Steps:
     // 1. Move model_type -> model class resolution (including morph map support)
-    //    into MediaService.
-    // 2. Move model instantiation into MediaService.
-    // 3. Move loading an existing model by ID into MediaService.
+    //    into MediaModelResolver.
+    // 2. Move model instantiation into MediaModelResolver.
+    // 3. Move loading an existing model by ID into MediaModelResolver.
     // 4. Centralize exception handling (ModelNotFoundException,
-    //    QueryException, etc.) inside MediaService.
-    // 5. Let this Request simply ask MediaService for either:
+    //    QueryException, etc.) inside MediaModelResolver.
+    // 5. Let this Request simply ask MediaModelResolver for either:
     //      - an existing model, or
     //      - a new model instance (for temporary uploads).
     //
     // Desired end result:
-    // $model = $mediaService->resolveRequestModel(...);
+    // $model = $MediaModelResolver->resolveRequestModel(...);
     // or
-    // $model = $mediaService->makeRequestModel(...);
+    // $model = $MediaModelResolver->makeRequestModel(...);
     //
     // The Request should no longer need to know about:
     // - Relation::getMorphedModel()
@@ -65,7 +67,7 @@ abstract class MediaManagerRequest extends FormRequest
 
 
     // TODO Remove.
-    // This should eventually delegate entirely to MediaService.
+    // This should eventually delegate entirely to MediaModelResolver.
     protected function mediaModel(): ?HasMediaExtended
     {
         // return model if any
@@ -82,81 +84,32 @@ abstract class MediaManagerRequest extends FormRequest
         return null;
     }
 
-    // TODO Move to MediaService.
-    // MediaService should be responsible for resolving morph aliases,
-    // validating the class and ensuring it implements HasMediaExtended.
-//    protected function resolveModelClass(): ?string
-//    {
-//        // TODO look at this, does it need to be a string?
-//        $modelClass = (string) $this->string('model_type')->trim();
-//
-//        if (class_exists(Relation::class)) {
-//            $modelClass = Relation::getMorphedModel($modelClass) ?? $modelClass;
-//        }
-//
-//        if (! class_exists($modelClass)) {
-//            return null;
-//        }
-//
-//        if (! is_subclass_of($modelClass, HasMediaExtended::class)) {
-//            return null;
-//        }
-//
-//        return $modelClass;
-//    }
-
     protected function resolveModelClass(): ?string
     {
-
-        return app(MediaModelResolver::class)
-            ->resolveModelClass(
-                $this->input('model_type')
-            );
+        try {
+            return app(MediaModelResolver::class)
+                ->resolveModelClass($this->input('model_type'));
+        } catch (InvalidArgumentException|UnexpectedValueException) {
+            return null;
+        }
 
     }
 
-    // TODO Move to MediaService.
-    // Loading a model, selecting the correct connection and handling lookup
-    // exceptions are service responsibilities, not request responsibilities.
     protected function resolveModel(): ?HasMediaExtended
     {
         if ($this->isTemporaryUpload()) {
             return null;
         }
 
-        $mediaModelResolver = app(MediaModelResolver::class);
-        $modelClass = $this->resolveModelClass();
+        $modelType = $this->input('model_type');
         $modelId = $this->input('model_id');
         $dataSource = $this->input('data_source') ?? 'default';
 
-        try {
-            $model = $mediaModelResolver->resolveModelById($modelClass, $modelId, $dataSource);
-        } catch (ModelNotFoundException $e) {
-            // During authorization checks we want to gracefully return `null`
-            // so that `authorize*` methods can respond with `false` instead of
-            // throwing a 404. We still log the failure for observability.
-            Log::warning('Failed to resolve media model during request processing.', [
-                'exception' => $e,
-                'model_type' => $this->input('model_type'),
-                'model_id' => $this->input('model_id'),
-                'data_source' => $this->input('data_source'),
-            ]);
-
-            return null;
-        }
-        catch (QueryException $e) {
-            // Same as above: return `null` to let callers decide how to react
-            // (e.g., authorization should return false). We log for debugging.
-            Log::error('Database query error while resolving media model: '.$e->getMessage(), [
-                'model_type' => $this->input('model_type'),
-                'model_id' => $this->input('model_id'),
-                'data_source' => $this->input('data_source'),
-            ]);
-
-            return null;
-        }
-
-        return $model;
+        return app(MediaModelResolver::class)->resolveRequestModel(
+            modelType: $modelType,
+            modelId: $modelId,
+            dataSource: $dataSource,
+        );
     }
 
     protected function isTemporaryUpload(): bool
@@ -179,11 +132,11 @@ abstract class MediaManagerRequest extends FormRequest
         return $this->authorizeMediaAction('edit');
     }
 
-    // TODO After model resolution has moved to MediaService, this method should
+    // TODO After model resolution has moved to MediaModelResolver, this method should
     // only contain authorization logic:
     //
     // 1. Allow temporary upload abilities where appropriate.
-    // 2. Ask MediaService for the model.
+    // 2. Ask MediaModelResolver for the model.
     // 3. Call canPerformMediaAction().
     //
     // It should not perform any model resolution itself.
@@ -211,7 +164,8 @@ abstract class MediaManagerRequest extends FormRequest
             return false;
         }
 
-        if (! $model::$supportsMethod()) {
+        if (! $model::{$supportsMethod}()) {
+//        if (! $model::$supportsMethod()) {
             return false;
         }
 
@@ -272,11 +226,6 @@ abstract class MediaManagerRequest extends FormRequest
                 'data_source' => 'default',
             ]);
         }
-    }
-
-    protected function passedValidation(): void
-    {
-        //
     }
 
     protected function abortWithMediaError(string $message, int $status): never

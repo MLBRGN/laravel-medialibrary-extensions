@@ -48,7 +48,7 @@ it('throws exception if given a model that does not implement HasMedia', functio
 
     $component->render();
     // });
-})->throws(TypeError::class);
+})->throws(InvalidArgumentException::class);
 
 it('honors frontend theme', function () {
     Config::set('medialibrary-extensions.frontend_theme', 'default-theme');

@@ -116,4 +116,5 @@ return [
     'at_least_dimensions' => 'at least :width×:height px',
     'server_upload_limit_warning' => 'De server beperkt uploads momenteel tot :size. Verhoog de PHP-instellingen `upload_max_filesize` en `post_max_size` als je grotere uploads wilt toestaan.',
     'debug_cannot_be_rendered' => 'Debugpagina kan niet worden getoond.',
+    'at_least_one_collection_is_required' => 'Tenminste 1 collectie is verplicht.',
 ];

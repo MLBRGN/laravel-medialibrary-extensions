@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Request;
 use Mlbrgn\MediaLibraryExtensions\Rules\AtLeastOneCollection;
+use Illuminate\Support\Facades\Validator;
 
 beforeEach(function () {
     $this->rule = new AtLeastOneCollection;
 });
 
 it('fails when no collections are provided', function () {
-    // TODO
     Request::swap(new Illuminate\Http\Request([
         'image_collection' => null,
         'document_collection' => null,
@@ -17,17 +17,17 @@ it('fails when no collections are provided', function () {
         'youtube_collection' => null,
     ]));
 
-    $failed = null;
+    $validator = Validator::make(
+        ['collections' => []],
+        ['collections' => [new AtLeastOneCollection]]
+    );
 
-    $this->rule->validate('collections', [], function ($message) use (&$failed) {
-        $failed = $message;
-    });
-
-    expect($failed)->toBe('At least one collection is required.');
+    expect($validator->fails())->toBeTrue()
+        ->and($validator->errors()->first('collections'))
+        ->toBe(__('medialibrary-extensions::messages.at_least_one_collection_is_required'));
 });
 
 it('passes when at least one collection is present', function () {
-    // TODO
     $testCases = [
         ['image_collection' => ['file1']],
         ['document_collection' => ['file1']],
@@ -43,12 +43,11 @@ it('passes when at least one collection is present', function () {
     foreach ($testCases as $case) {
         Request::swap(new Illuminate\Http\Request($case));
 
-        $failed = false;
+        $validator = Validator::make(
+            ['collections' => []],
+            ['collections' => [new AtLeastOneCollection]]
+        );
 
-        $this->rule->validate('collections', [], function ($message) use (&$failed) {
-            $failed = true;
-        });
-
-        expect($failed)->toBeFalse();
+        expect($validator->passes())->toBeTrue();
     }
 });

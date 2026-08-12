@@ -21,7 +21,7 @@ class AtLeastOneCollection implements ValidationRule
         ]);
 
         if (collect($collections)->filter()->isEmpty()) {
-            $fail('At least one collection is required.');
+            $fail('medialibrary-extensions::messages.at_least_one_collection_is_required')->translate();
         }
     }
 }

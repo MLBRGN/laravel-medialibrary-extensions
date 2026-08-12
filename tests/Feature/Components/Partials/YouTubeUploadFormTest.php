@@ -87,7 +87,7 @@ it('throws if modelOrClassName is non existing class name', function () {
             'useXhr' => null,
         ]
     );
-})->throws(Exception::class);
+})->throws(\InvalidArgumentException::class);
 
 it('throws if modelOrClassName class does not extend HasMedia', function () {
     $model = $this->getTestModelNotExtendingHasMedia();
@@ -111,7 +111,7 @@ it('throws if modelOrClassName class does not extend HasMedia', function () {
             'useXhr' => null,
         ]
     );
-})->throws(TypeError::class);
+})->throws(InvalidArgumentException::class);
 
 it('renders the correct partial view', function () {
     $model = $this->getTestBlogModel();
