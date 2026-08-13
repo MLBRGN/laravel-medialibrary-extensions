@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig;
 
@@ -13,6 +14,7 @@ class StoreSingleRequest extends StoreRequest
     public function rules(): array
     {
         $collections = $this->array('collections');
+        $validationModel = $this->resolveValidationModel();
 
         $uploadRules = [
             'nullable',
@@ -20,7 +22,7 @@ class StoreSingleRequest extends StoreRequest
         ];
 
         if ($maxSize = config('medialibrary-extensions.max_upload_size')) {
-            $uploadRules[] = 'max:'.$maxSize / 1024;// max upload size in kilobytes
+            $uploadRules[] = 'max:'.$maxSize / 1024; // max upload size in kilobytes
         }
 
         if ($rule = $this->uploadLimitRule($collections, 1)) {
@@ -28,9 +30,9 @@ class StoreSingleRequest extends StoreRequest
         }
 
         // Enforce image dimension limits from config when the uploaded file is an image.
-        $uploadRules[] = new ImageDimensionsWithinConfig();
+        $uploadRules[] = new ImageDimensionsWithinConfig;
 
-        return array_merge(
+        $rules = array_merge(
             $this->modelRules(),
             [
                 'temporary_upload_mode' => [
@@ -43,15 +45,6 @@ class StoreSingleRequest extends StoreRequest
                     'required',
                     'array',
                     'min:1',
-                    new AllowedMediaCollections(
-                        $this->mediaModel(),
-                    ),
-//                    new AllowedMediaCollections(
-//                        model: $this->resolveModel(),
-//                        modelClass: $this->resolveModelClass(),
-//                        temporaryUpload: $this->isTemporaryUpload(),
-////                        requestedCollections: $this->requestedCollectionNames(),
-//                    ),
                 ],
                 'collections.*' => ['nullable', 'string'],
 
@@ -66,6 +59,12 @@ class StoreSingleRequest extends StoreRequest
                 ],
             ]
         );
+
+        if ($validationModel) {
+            $rules['collections'][] = new AllowedMediaCollections($validationModel);
+        }
+
+        return $rules;
     }
 
     public function messages(): array
@@ -79,7 +78,7 @@ class StoreSingleRequest extends StoreRequest
         ];
     }
 
-    protected function withValidator(\Illuminate\Validation\Validator $validator): void
+    protected function withValidator(Validator $validator): void
     {
         // No legacy identifier checks remain; clients must send only base_id. Instance IDs are prohibited via rules().
     }

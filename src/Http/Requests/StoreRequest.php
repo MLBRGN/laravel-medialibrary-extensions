@@ -5,9 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Validation\Rule;
-use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
@@ -27,22 +25,14 @@ abstract class StoreRequest extends MediaManagerRequest
 
     protected function modelRules(): array
     {
-        $model = $this->resolveModel();
+        $model = $this->resolveRequestModel();
 
         return [
             'model_type' => [
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
-                    $resolvedClass = $value;
-                    if (class_exists(Relation::class)) {
-                        $resolvedClass = Relation::getMorphedModel($value) ?? $value;
-                    }
-
-                    // check if the object has HasMediaExtended as one of its parents or implements it
-                    if (
-                        ! is_subclass_of($resolvedClass, HasMediaExtended::class)
-                    ) {
+                    if (! $this->resolveModelClassFromInput()) {
                         $fail('The selected model type is invalid.');
                     }
                 },
@@ -72,7 +62,7 @@ abstract class StoreRequest extends MediaManagerRequest
 
         if (! $this->isTemporaryUpload()) {
 
-            $model = $this->resolveModel();
+            $model = $this->resolveRequestModel();
 
             if (! $model) {
                 return null;

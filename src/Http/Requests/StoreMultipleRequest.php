@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Rules\ImageDimensionsWithinConfig;
 
@@ -13,6 +14,7 @@ class StoreMultipleRequest extends StoreRequest
     public function rules(): array
     {
         $collections = $this->array('collections');
+        $validationModel = $this->resolveValidationModel();
 
         $uploadRules = [
             'nullable',
@@ -26,7 +28,7 @@ class StoreMultipleRequest extends StoreRequest
             $uploadRules[] = $rule;
         }
 
-        return array_merge(
+        $rules = array_merge(
             $this->modelRules(),
             [
                 'temporary_upload_mode' => [
@@ -39,9 +41,6 @@ class StoreMultipleRequest extends StoreRequest
                     'required',
                     'array',
                     'min:1',
-                    new AllowedMediaCollections(
-                        $this->mediaModel(),
-                    ),
                 ],
                 'collections.*' => ['nullable', 'string'],
 
@@ -51,7 +50,7 @@ class StoreMultipleRequest extends StoreRequest
                     'nullable',
                     'file',
                     'max:'.(config('medialibrary-extensions.max_upload_size') / 1024), // max upload size in kilobytes
-                    new ImageDimensionsWithinConfig(),
+                    new ImageDimensionsWithinConfig,
                 ],
 
                 'base_id' => ['required', 'string'],
@@ -63,9 +62,15 @@ class StoreMultipleRequest extends StoreRequest
                 ],
             ]
         );
+
+        if ($validationModel) {
+            $rules['collections'][] = new AllowedMediaCollections($validationModel);
+        }
+
+        return $rules;
     }
 
-    protected function withValidator(\Illuminate\Validation\Validator $validator): void
+    protected function withValidator(Validator $validator): void
     {
         // No legacy identifier checks remain; clients must send only base_id. Instance IDs are prohibited via rules().
     }
