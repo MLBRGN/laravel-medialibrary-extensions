@@ -13,6 +13,7 @@ beforeEach(function () {
 
     // Other test configuration
     Config::set('medialibrary-extensions.frontend_theme', 'plain');
+    Config::set('medialibrary-extensions.max_upload_size', 8 * 1024 * 1024);
 });
 
 it('initializes correctly with model instance', function () {

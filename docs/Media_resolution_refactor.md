@@ -78,9 +78,9 @@ Step 1 status:
 
 ---
 
-# 3. Remaining work: simplify `MediaManagerRequest`
+# 3. ✅ `MediaManagerRequest` simplified (completed)
 
-Most model resolution is already delegated to `MediaModelResolver`, but `MediaManagerRequest` still contains transitional methods (`mediaModel()`, `resolveModelClass()`, and `resolveModel()`) and TODO notes.
+`MediaManagerRequest` now delegates model resolution to `MediaModelResolver` and focuses on request concerns.
 
 The Request should only be responsible for:
 
@@ -88,7 +88,11 @@ The Request should only be responsible for:
 - authorization
 - validation
 
-The Request should delegate model retrieval/instantiation directly to `MediaModelResolver` and drop duplicated fallback logic.
+Current state:
+
+- Request model loading delegates through `resolveRequestModel()`
+- Validation model/class resolution delegates through resolver-backed helpers
+- Authorization flow gates invalid model input early and avoids request-side morph/class fallback duplication
 
 Example target usage:
 
@@ -112,7 +116,7 @@ $temporaryUpload = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolve
 
 ---
 
-# 4. Remove duplicated model setup
+# 4. Remaining work: remove duplicated model setup
 
 Model setup (class validation, connection assignment, and lookup path) should remain centralized in `MediaModelResolver`.
 
@@ -120,7 +124,7 @@ Any duplicate model setup in callers should be removed.
 
 ---
 
-# 5. Reduce branching throughout the package
+# 5. Remaining work: reduce branching throughout the package
 
 Many places currently check:
 

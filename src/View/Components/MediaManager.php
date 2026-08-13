@@ -94,13 +94,13 @@ class MediaManager extends BaseMediaComponent
             // collections to enforce shared limits consistently.
             $effectiveCollections = $this->collections;
 
-            // CASE 2: Permanent mode (model instance provided)
-            if ($this->modelReference instanceof HasMedia) {
+            // CASE 2: Permanent mode
+            if (! $this->temporaryUploadMode && $this->model instanceof HasMedia) {
                 $mediaCounter = app(MediaCounter::class);
-                $totalMediaCount = $mediaCounter->countModelMediaInCollections($this->modelReference, $effectiveCollections, $this->dataSource);
+                $totalMediaCount = $mediaCounter->countModelMediaInCollections($this->model, $effectiveCollections, $this->dataSource);
             }
-            // CASE 3: Temporary mode (class name string provided)
-            elseif (is_string($this->modelReference)) {
+            // CASE 3: Temporary mode
+            elseif ($this->temporaryUploadMode) {
                 $mediaCounter = app(MediaCounter::class);
                 $totalMediaCount = $mediaCounter->countTemporaryUploadsInCollections(
                     $effectiveCollections,

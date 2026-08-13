@@ -16,6 +16,7 @@ beforeEach(function () {
     Config::set('medialibrary-extensions.frontend_theme', 'bootstrap-5');
     Config::set('medialibrary-extensions.use_xhr', true);
     Config::set('medialibrary-extensions.upload_field_name', 'media');
+    Config::set('medialibrary-extensions.max_upload_size', 8 * 1024 * 1024);
 });
 
 it('renders media manager component', function () {

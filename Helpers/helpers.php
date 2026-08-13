@@ -16,7 +16,7 @@ if (! function_exists('mle_human_mimetype_label')) {
     }
 }
 
-//if (! function_exists('mle_human_filesize')) {
+// if (! function_exists('mle_human_filesize')) {
 //    function mle_human_filesize(?int $bytes, int $decimals = 2): string
 //    {
 //        if ($bytes === null) {
@@ -27,7 +27,7 @@ if (! function_exists('mle_human_mimetype_label')) {
 //
 //        return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)).' '.$size[$factor];
 //    }
-//}
+// }
 
 if (! function_exists('mle_human_filesize')) {
     function mle_human_filesize(?int $bytes, int $decimals = 2): string
@@ -147,7 +147,6 @@ if (! function_exists('mlbrgn_csp_nonce')) {
     }
 }
 
-
 /**
  * Converts a PHP ini size value (e.g. "128M", "2G", "512K") to bytes.
  * A value of "0" indicates no limit and is returned as 0.
@@ -161,13 +160,13 @@ if (! function_exists('mle_ini_to_bytes')) {
 
         $value = trim($value);
         $unit = strtolower(substr($value, -1));
-        $number = (float)$value;
+        $number = (float) $value;
 
         return match ($unit) {
-            'g' => (int)($number * 1024 ** 3),
-            'm' => (int)($number * 1024 ** 2),
-            'k' => (int)($number * 1024),
-            default => (int)$number,
+            'g' => (int) ($number * 1024 ** 3),
+            'm' => (int) ($number * 1024 ** 2),
+            'k' => (int) ($number * 1024),
+            default => (int) $number,
         };
     }
 }

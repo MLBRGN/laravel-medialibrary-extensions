@@ -30,10 +30,7 @@
         <span class="mle-form-text form-text">
             Supported files: JPEG, PNG • up to 8 MB • 320×160–7040×3960 px.
         </span>
-                                    <div class="alert alert-warning small mt-2">
-                    The server is currently limiting uploads to 8 MB. Increase PHP&#039;s upload_max_filesize and post_max_size settings if you want to allow larger uploads.
-                </div>
-                        <br>
+                                <br>
                         <input
                 type="hidden"
                 name="collections[image]"

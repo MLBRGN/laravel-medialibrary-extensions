@@ -101,7 +101,7 @@ return [
 
     'media_disks' => [
         'originals' => 'media_originals',
-//        'demo' => 'media_demo',
+        //        'demo' => 'media_demo',
         'temporary' => 'media_temporary',
     ],
 
