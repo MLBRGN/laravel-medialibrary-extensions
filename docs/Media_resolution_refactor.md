@@ -63,99 +63,9 @@ Step 1 status:
 
 ---
 
-# 2. Move all model resolution into MediaModelResolver
+# 2. ✅ Public surface and naming aligned (completed)
 
-Currently model resolution is split across several places.
-
-MediaManagerRequest currently:
-
-- resolves morph aliases
-- validates model classes
-- resolves models
-- catches lookup exceptions
-
-MediaService also:
-
-- creates models
-- resolves models
-- validates model classes
-
-These responsibilities should live in one place.
-
----
-
-# 3. MediaManagerRequest should become simple
-
-The Request should only be responsible for:
-
-- reading request input
-- authorization
-- validation
-
-It should no longer know about:
-
-- Relation::getMorphedModel()
-- class_exists()
-- HasMediaExtended validation
-- database connections
-- model lookup exceptions
-
-Instead it should simply ask `MediaModelResolver`.
-
-Example:
-
-```php
-// Prefer delegating to the resolver
-$model = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver::class)
-    ->resolveRequestModel(
-        modelType: $request->input('model_type'),
-        modelId: $request->input('model_id'),
-        dataSource: $request->input('data_source') ?? 'default',
-    );
-```
-
-or
-
-```php
-// For temporary uploads, instantiate with the correct connection
-$temporaryUpload = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver::class)
-    ->instantiateTemporaryUpload(
-        dataSource: $request->input('data_source') ?? 'default'
-    );
-```
-
----
-
-# 4. Clarify MediaModelResolver responsibilities
-
-MediaModelResolver currently groups related responsibilities used throughout the package.
-
-Suggested sections:
-
-```
-Model Resolution
-----------------
-resolveModelClass($modelType)
-resolveModelReference($modelReference|HasMediaExtended, $dataSource): ResolvedModel
-resolveRequestModel($modelType, $modelId, $dataSource): ?HasMediaExtended
-resolveModelById($modelClass, $id, $dataSource): ?HasMediaExtended
-
-Media/Upload Retrieval
-----------------------
-resolveMediumById($modelClass, $id, $dataSource): Media|TemporaryUpload|null
-findMedium($id, $dataSource): ?Media
-findTemporaryUpload($id, $dataSource): ?TemporaryUpload
-
-Instantiation
--------------
-instantiateTemporaryUpload($dataSource): TemporaryUpload
-```
-
-This makes the class much easier to navigate.
-
----
-
-# 5. Public surface and naming (current)
+`MediaModelResolver` now exposes a coherent public surface for model/media resolution.
 
 | Method | Responsibility |
 |---------|----------------|
@@ -168,47 +78,49 @@ This makes the class much easier to navigate.
 
 ---
 
-# 6. Remove duplicated model setup
+# 3. Remaining work: simplify `MediaManagerRequest`
 
-Both `make()` and `resolveModelById()` currently:
+Most model resolution is already delegated to `MediaModelResolver`, but `MediaManagerRequest` still contains transitional methods (`mediaModel()`, `resolveModelClass()`, and `resolveModel()`) and TODO notes.
 
-- validate the model class
-- instantiate the model
-- assign the database connection
+The Request should only be responsible for:
 
-This setup should exist only once.
+- reading request input
+- authorization
+- validation
 
-Example:
+The Request should delegate model retrieval/instantiation directly to `MediaModelResolver` and drop duplicated fallback logic.
 
+Example target usage:
+
+```php
+$model = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver::class)
+    ->resolveRequestModel(
+        modelType: $request->input('model_type'),
+        modelId: $request->input('model_id'),
+        dataSource: $request->input('data_source') ?? 'default',
+    );
 ```
-makeModel()
-↓
 
-instantiate model
-assign connection
+or
 
-↓
-
-return model
-```
-
-Then:
-
-```
-findModel()
-
-↓
-
-makeModel()
-
-↓
-
-findOrFail()
+```php
+$temporaryUpload = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver::class)
+    ->instantiateTemporaryUpload(
+        dataSource: $request->input('data_source') ?? 'default'
+    );
 ```
 
 ---
 
-# 7. Reduce branching throughout the package
+# 4. Remove duplicated model setup
+
+Model setup (class validation, connection assignment, and lookup path) should remain centralized in `MediaModelResolver`.
+
+Any duplicate model setup in callers should be removed.
+
+---
+
+# 5. Reduce branching throughout the package
 
 Many places currently check:
 
@@ -233,7 +145,7 @@ They should simply request the operation they need.
 
 ---
 
-# 8. Long-term goal
+# 6. Long-term goal
 
 The package should eventually have a very small public API for model handling.
 
