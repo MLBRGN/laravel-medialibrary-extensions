@@ -1,6 +1,6 @@
 # Laravel Media Library Extensions
 
-This package adds functionality toMedia Library package by Spatie:
+This package adds functionality to the Media Library package by Spatie:
 
 - Providing a view to upload multiple media
 - Providing a view to upload single media
@@ -43,8 +43,8 @@ You can also manually install by installing the @mlbrgn/laravel-medialibrary-ext
 And publish the required assets
 
 ```shell
-php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="assets"
-````
+php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="medialibrary-extensions-assets"
+```
 
 ## Themes
 
@@ -61,20 +61,20 @@ Several assets can be published:
 - policy
 - translations
 
-to publish all assets:
+to publish all package assets:
 
 ```shell
-  php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="media-library-extensions-config"
+php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider"
 ```
 
 to publish a single tag (group of assets):
 
 ```shell
-php artisan vendor:publish --tag=media-library-extensions-config
-php artisan vendor:publish --tag=media-library-extensions-views
-php artisan vendor:publish --tag=media-library-extensions-assets
-php artisan vendor:publish --tag=media-library-extensions-policy
-php artisan vendor:publish --tag=media-library-extensions-translations
+php artisan vendor:publish --tag=medialibrary-extensions-config
+php artisan vendor:publish --tag=medialibrary-extensions-views
+php artisan vendor:publish --tag=medialibrary-extensions-assets
+php artisan vendor:publish --tag=medialibrary-extensions-images
+php artisan vendor:publish --tag=medialibrary-extensions-translations
 ```
 
 ## Icons
@@ -92,3 +92,9 @@ You can override the icons in the published configuration file of this package a
 ## Testing
 
 This package uses [Pest PHP](https://pestphp.com/) for testing. For more information on how to write tests for this package, see the [TESTING.md](TESTING.md) guide.
+
+If snapshot output changes intentionally, update snapshots with:
+
+```bash
+composer test -- --update-snapshots
+```

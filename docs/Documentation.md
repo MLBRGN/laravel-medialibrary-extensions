@@ -26,11 +26,10 @@ To use the extended features, your models must implement `HasMediaExtended` and 
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithMediaExtended;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Post extends Model implements HasMediaExtended
 {
-    use InteractsWithMedia, InteractsWithMediaExtended;
+    use InteractsWithMediaExtended;
 }
 ```
 
@@ -50,7 +49,7 @@ Media managers handle file uploads, deletions, and selection.
 - `<x-mle-media-manager-tinymce />`: Integration for the TinyMCE editor.
 
 **Common Props:**
-- `modelReference`: The model instance or class name (for create forms).
+- `model-reference` (Blade attribute) / `modelReference` (constructor prop): The model instance or class name (for create forms).
 - `collections`: Array of media collections to manage (e.g., `['images']`).
 - `multiple`: Boolean, allow multiple files.
 - `readonly`: Boolean, disable all actions.
@@ -124,13 +123,11 @@ app(SetMediaAsFirstAction::class)->execute($media);
 ### Multi-Database (Data Sources)
 Scope media and temporary uploads to different database connections.
 ```php
-// In config/media-library-extensions.php
-'data_sources' => [
-    'tenant_1' => ['connection' => 'tenant_db'],
-],
-
-// Usage
+// Runtime usage
 TemporaryUpload::forDataSource('tenant_1')->get();
+
+// In requests/components, pass the same data source key
+// e.g. data_source=tenant_1
 ```
 
 ---

@@ -31,7 +31,7 @@ The package now includes a dedicated resolver service: `Mlbrgn\\MediaLibraryExte
 
 Connection selection is delegated to `DataSourceResolver`, ensuring all lookups/instantiations use the correct database connection.
 
-`MediaManagerRequest` already delegates most model resolution to `MediaModelResolver`; it can be further simplified to only parse input, authorize, and validate.
+`MediaManagerRequest` now delegates model resolution to `MediaModelResolver` and focuses on input parsing, authorization, and validation.
 
 # 1. ✅ Rename `modelOrClassName` to `modelReference` (completed)
 
@@ -116,15 +116,19 @@ $temporaryUpload = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolve
 
 ---
 
-# 4. Remaining work: remove duplicated model setup
+# 4. ✅ Duplicated model setup removed (completed)
 
-Model setup (class validation, connection assignment, and lookup path) should remain centralized in `MediaModelResolver`.
+Model setup (class validation, connection assignment, and lookup path) is now centralized in `MediaModelResolver`.
 
-Any duplicate model setup in callers should be removed.
+Current state:
+
+- Request-side model class validation delegates through resolver-backed helpers
+- Validation model resolution avoids caller-side class/morph fallback duplication
+- Connection-aware lookups/instantiation stay in resolver methods
 
 ---
 
-# 5. Remaining work: reduce branching throughout the package
+# 5. ✅ Model-type branching reduced in callers (completed)
 
 Many places currently check:
 
@@ -138,7 +142,7 @@ if (is_string($modelReference)) {
 }
 ```
 
-The goal is to centralize these decisions inside MediaModelResolver.
+This model-type decision is now centralized in `MediaModelResolver` for the main request/component flows.
 
 Callers should no longer care whether they received:
 
@@ -147,27 +151,35 @@ Callers should no longer care whether they received:
 
 They should simply request the operation they need.
 
+Current state:
+
+- Callers rely on resolved model state (`model`, `modelType`, `temporaryUploadMode`) instead of branching on raw `modelReference` input type
+- Remaining branching in components is behavior-oriented (temporary vs permanent mode), not class-vs-instance resolution logic
+
 ---
 
-# 6. Long-term goal
+# 6. ✅ Long-term API reduction applied (completed)
 
-The package should eventually have a very small public API for model handling.
+The model-resolution contract is now intentionally small and caller-facing flows use resolver entry points instead of ad-hoc class-or-instance checks.
 
-Example:
+Current public surface used by request/action/component flows:
 
 ```
 resolveModelClass()
-
 resolveModelReference()
-
 resolveRequestModel()
-
 resolveModelById()
-
-resolveMediumById()/findMedium()/findTemporaryUpload()
+resolveMediumById()
+findMedium()
+findTemporaryUpload()
+instantiateTemporaryUpload()
 ```
 
-Everything else should become implementation details.
+Current state:
+
+- `MediaModelResolver::findById()` is internal (`private`) and no longer part of the public contract
+- Request classes and actions delegate model/media loading through resolver methods instead of duplicating lookup/setup logic
+- Temporary/permanent behavior branching remains where needed, but model input type resolution is centralized in the resolver
 
 ---
 

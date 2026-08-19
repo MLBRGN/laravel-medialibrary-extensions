@@ -18,6 +18,12 @@ To run all tests:
 composer test
 ```
 
+If snapshot output changes intentionally, update snapshots with:
+
+```bash
+composer test -- --update-snapshots
+```
+
 To run a specific test suite:
 
 ```bash
