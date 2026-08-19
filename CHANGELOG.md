@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.22](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.21...2.3.22) (2026-07-29)
+
+
+### Bug Fixes
+
+* updated css ([f83cdf4](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/f83cdf4e36e5b82011372c32867644426e10185d))
+
 ## [2.3.21](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.20...2.3.21) (2026-07-29)
 
 
