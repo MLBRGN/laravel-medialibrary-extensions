@@ -20,7 +20,7 @@ class MediaRestoreForm extends BaseMediaComponent
 
     public function __construct(
         ?string $id,
-        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMediaExtended or it's class name
         public Media|TemporaryUpload $media,
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],

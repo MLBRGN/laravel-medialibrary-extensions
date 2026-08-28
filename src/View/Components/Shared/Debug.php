@@ -41,7 +41,7 @@ class Debug extends Component
     private bool $enabled;
 
     public function __construct(
-        public mixed $modelReference,// either a modal that implements HasMedia or it's class name
+        public mixed $modelReference,// either a modal that implements HasMediaExtended or it's class name
         array $config = [],
         array $options = [],
         public ?string $dataSource = 'default',
