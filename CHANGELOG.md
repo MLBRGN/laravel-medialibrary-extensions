@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.4.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.22...2.4.0) (2026-08-28)
+
+
+### Features
+
+* trigger minor release for previous breaking changes ([5b90d23](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/5b90d23ab7d5011b54c81d18424e6bf53599d737))
+
+
+### Bug Fixes
+
+* refactored authorization ([be14a5e](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/be14a5e3f2f616507c167ff6f1bfde4146d8ad9a))
+* updated dependencies ([b6d26ae](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b6d26aed63b8ed813b1717de27d42692d4ca93bf))
+
+
+### Documentation
+
+* updated documentation ([479d416](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/479d416fd87af8405a6ebdd143d50430671d6009))
+* updated media_resolution_refactor ([1c2190a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/1c2190a69d0bb0cdef6401f4fbb696260b4fda37))
+
 ## [2.3.22](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.21...2.3.22) (2026-07-29)
 
 
