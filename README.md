@@ -91,7 +91,7 @@ You can override the icons in the published configuration file of this package a
 
 ## Testing
 
-This package uses [Pest PHP](https://pestphp.com/) for testing. For more information on how to write tests for this package, see the [TESTING.md](TESTING.md) guide.
+This package uses [Pest PHP](https://pestphp.com/) for testing. For more information on how to write tests for this package, see the [TESTING.md](TESTING.md) guide. 
 
 If snapshot output changes intentionally, update snapshots with:
 
