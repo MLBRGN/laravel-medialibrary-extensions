@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.1...2.4.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* no more "chunks" folder in dist folder ([a89e810](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a89e810f46c7d8f2167ffa21897f16cb0128f703))
+
 ## [2.4.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.0...2.4.1) (2026-08-30)
 
 
