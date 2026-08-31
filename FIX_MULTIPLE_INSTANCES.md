@@ -36,4 +36,5 @@ The fix enables support for multiple `instance_id` values throughout the promoti
 
 #### Recommendations
 *   Ensure that any custom themes or components also adopt the `mle_instance_ids[]` hidden input pattern if they are used in forms alongside other media managers.
+*   **Nesting in Forms**: It is safe to nest `MediaManager` components within another `<form>` as long as `useXhr` is set to `true` (default). This ensures the component renders as a `<div>`. If XHR is disabled, nesting will produce invalid HTML (nested `<form>` tags) and cause unpredictable browser behavior.
 *   The `TemporaryUploadPromoter` remains backward compatible with the single `instance_id` parameter for simple implementations.
