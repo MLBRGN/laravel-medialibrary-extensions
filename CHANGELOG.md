@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.0...2.4.1) (2026-08-30)
+
+
+### Bug Fixes
+
+* corrected comments ([e2ccd2f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/e2ccd2f2a0aa3a0c785060a539834cbae3b3b038))
+* translated untranslated strings in nl messages ([b330c3a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b330c3af0ed3a91905ac6538bdcebd0584f429d5))
+
 ## [2.4.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.3.22...2.4.0) (2026-08-28)
 
 
