@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 use Mlbrgn\MediaLibraryExtensions\Rules\AllowedMediaCollections;
 use Mlbrgn\MediaLibraryExtensions\Rules\YouTubeUrl;
 
@@ -23,9 +24,9 @@ class StoreYouTubeVideoRequest extends StoreRequest
                 'array',
                 'min:1',
                 // TODO look at this
-//                new AllowedMediaCollections(
-//                    $this->mediaModel(),
-//                )
+                //                new AllowedMediaCollections(
+                //                    $this->mediaModel(),
+                //                )
             ],
             'collections.*' => ['nullable', 'string'],
             'youtube_url' => ['nullable', 'url', new YouTubeUrl],
@@ -38,7 +39,7 @@ class StoreYouTubeVideoRequest extends StoreRequest
         ];
     }
 
-    protected function withValidator(\Illuminate\Validation\Validator $validator): void
+    protected function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
             // Reject legacy identifier keys if present (keep check for instance_id only)

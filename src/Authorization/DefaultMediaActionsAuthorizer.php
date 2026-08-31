@@ -1,4 +1,5 @@
 <?php
+
 namespace Mlbrgn\MediaLibraryExtensions\Authorization;
 
 use Illuminate\Contracts\Auth\Authenticatable;

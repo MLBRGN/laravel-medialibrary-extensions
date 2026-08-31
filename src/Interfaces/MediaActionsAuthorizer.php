@@ -4,7 +4,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Interfaces;
 
 use Illuminate\Auth\Access\Response;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 
 interface MediaActionsAuthorizer
 {
@@ -19,9 +18,9 @@ interface MediaActionsAuthorizer
     // return Response::deny('Only the profile owner may upload media.');
     // or
     // return $response->allowed();
-//    public function authorize(
-//        string $action,
-//        ?Authenticatable $user,
-//        HasMediaExtended $model,
-//    ): Response;
+    //    public function authorize(
+    //        string $action,
+    //        ?Authenticatable $user,
+    //        HasMediaExtended $model,
+    //    ): Response;
 }

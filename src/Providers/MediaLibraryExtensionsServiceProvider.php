@@ -7,11 +7,8 @@ namespace Mlbrgn\MediaLibraryExtensions\Providers;
 use BladeUI\Icons\Factory;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\AboutCommand;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -23,9 +20,10 @@ use Mlbrgn\MediaLibraryExtensions\Console\Commands\SetupDemoCommand;
 use Mlbrgn\MediaLibraryExtensions\Console\Commands\ToggleRepository;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\MediaActionsAuthorizer;
+use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Services\DefaultYouTubeThumbnailDownloader;
-use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
@@ -68,7 +66,6 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Video;
 use Mlbrgn\MediaLibraryExtensions\View\Components\VideoYouTube;
 use RuntimeException;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
 
 /**
  * Service provider for the Media Library Extensions package.
@@ -150,7 +147,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 InstallMediaLibraryExtensions::class,
                 ToggleRepository::class,
                 RemoveExpiredTemporaryUploads::class,
-                SetupDemoCommand::class
+                SetupDemoCommand::class,
             ]);
 
             // NOTE: not yet implemented
@@ -252,22 +249,22 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         $this->checkBladeUIKitIconSet();
     }
 
-//    protected function registerDemoDatabaseConnections(): void
-//    {
-//        config()->set(
-//            'database.connections.'.PackageInfrastructure::connection(),
-//            PackageInfrastructure::connectionConfig(
-//                PackageInfrastructure::databasePath($this->packageNameShort)
-//            )
-//        );
-//
-//        config()->set(
-//            'database.connections.'.PackageInfrastructure::hostConnection(),
-//            PackageInfrastructure::connectionConfig(
-//                PackageInfrastructure::databasePath($this->packageNameShort, true)
-//            )
-//        );
-//    }
+    //    protected function registerDemoDatabaseConnections(): void
+    //    {
+    //        config()->set(
+    //            'database.connections.'.PackageInfrastructure::connection(),
+    //            PackageInfrastructure::connectionConfig(
+    //                PackageInfrastructure::databasePath($this->packageNameShort)
+    //            )
+    //        );
+    //
+    //        config()->set(
+    //            'database.connections.'.PackageInfrastructure::hostConnection(),
+    //            PackageInfrastructure::connectionConfig(
+    //                PackageInfrastructure::databasePath($this->packageNameShort, true)
+    //            )
+    //        );
+    //    }
 
     public function setupDisks(): void
     {
@@ -286,12 +283,12 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         }
 
         // Demo disk only for demo pages
-//        if (config('medialibrary-extensions.demo_pages_enabled')) {
-//            config()->set(
-//                'filesystems.disks.'.PackageInfrastructure::disk(),
-//                PackageInfrastructure::diskConfig($this->packageNameShort)
-//            );
-//        }
+        //        if (config('medialibrary-extensions.demo_pages_enabled')) {
+        //            config()->set(
+        //                'filesystems.disks.'.PackageInfrastructure::disk(),
+        //                PackageInfrastructure::diskConfig($this->packageNameShort)
+        //            );
+        //        }
 
         // Register each one only if not already defined by the host app
         foreach ($disksToRegister as $name => $diskConfig) {
@@ -320,8 +317,8 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
     {
         $extraScripts = config('form-components.html_editor_tinymce_global_config.extra_scripts', []);
         $extraScripts[] =
-            '/' . trim(config('medialibrary-extensions.asset_path'), '/')
-            . '/js/shared/tinymce-custom-file-picker.js';
+            '/'.trim(config('medialibrary-extensions.asset_path'), '/')
+            .'/js/shared/tinymce-custom-file-picker.js';
         $overrides = [
             'html_editor_tinymce_global_config.file_picker_callback' => 'mleFilePicker',
             'html_editor_tinymce_global_config.extra_scripts' => $extraScripts,

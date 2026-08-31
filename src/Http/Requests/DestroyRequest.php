@@ -42,9 +42,9 @@ class DestroyRequest extends MediaManagerRequest
                 'array',
                 'min:1',
                 // TODO look at this
-//                new AllowedMediaCollections(
-//                    $this->mediaModel(),
-//                )
+                //                new AllowedMediaCollections(
+                //                    $this->mediaModel(),
+                //                )
             ],
             'collections.*' => ['nullable', 'string'],
             'data_source' => ['nullable', 'string'],

@@ -33,4 +33,3 @@ class AllowedMediaCollections implements ValidationRule
         }
     }
 }
-

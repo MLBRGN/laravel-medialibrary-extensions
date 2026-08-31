@@ -29,9 +29,9 @@ class GetMediaManagerPreviewerHTMLRequest extends MediaManagerRequest
                 'required',
                 'string',
                 // TODO look at this
-//                new AllowedMediaCollections(
-//                    $this->mediaModel(),
-//                )
+                //                new AllowedMediaCollections(
+                //                    $this->mediaModel(),
+                //                )
             ], // json
             //            'options' => ['required', 'string'], // json
             'selectable' => ['required', 'string', Rule::in(['true', 'false'])],

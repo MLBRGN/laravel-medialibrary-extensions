@@ -2,10 +2,10 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
+use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Data\PreparedUpload;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\UploadException;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
-use Illuminate\Http\UploadedFile;
 
 class UploadPreparerService
 {
@@ -74,8 +74,8 @@ class UploadPreparerService
     /**
      * Prepare multiple uploads using the same validation and mapping rules as single uploads.
      *
-     * @param UploadedFile[] $files
-     * @param array<string, string> $collections
+     * @param  UploadedFile[]  $files
+     * @param  array<string, string>  $collections
      * @return array{prepared: PreparedUpload[], errors: list<string>, failedFilenames: list<string>}
      */
     public function prepareMultipleUploads(array $files, array $collections): array
@@ -104,6 +104,7 @@ class UploadPreparerService
                     'file' => $file->getClientOriginalName(),
                     'max' => $maxUploadSize,
                 ]);
+
                 continue;
             }
 
@@ -114,6 +115,7 @@ class UploadPreparerService
                 $errors[] = __('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype', [
                     'file' => $file->getClientOriginalName(),
                 ]);
+
                 continue;
             }
 
@@ -124,6 +126,7 @@ class UploadPreparerService
                 $errors[] = __('medialibrary-extensions::messages.invalid_or_missing_collection', [
                     'file' => $file->getClientOriginalName(),
                 ]);
+
                 continue;
             }
 

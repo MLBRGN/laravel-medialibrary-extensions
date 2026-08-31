@@ -29,7 +29,7 @@ class DestroyMediaAction
             $dataSource
         );
 
-//        dd($media);
+        //        dd($media);
         $baseId = (string) $request->input('base_id');
 
         // Basic existence check

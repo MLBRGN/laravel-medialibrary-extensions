@@ -2,8 +2,6 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Support;
 
-use Illuminate\Support\Facades\Log;
-
 class DebugManager
 {
     protected static array $components = [];
@@ -19,6 +17,7 @@ class DebugManager
     {
         if ($id === null) {
             array_pop(static::$scopeStack);
+
             return;
         }
 

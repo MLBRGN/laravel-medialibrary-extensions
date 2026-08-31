@@ -77,6 +77,7 @@ class DestroyTemporaryUploadAction
 
         if (empty($collections)) {
             Log::warning('No valid collections provided for reorderAllMedia.');
+
             return;
         }
 
@@ -88,13 +89,13 @@ class DestroyTemporaryUploadAction
         $baseId = (string) $request->input('base_id');
         $instanceId = InstanceManager::getInstanceId($baseId);
 
-//        $temporaryUploads = TemporaryUpload::getForCurrentClient($collections, $instanceId, $dataSource, $clientToken);
-//        $temporaryUploads = TemporaryUpload::query()
-//            ->forDataSource($dataSource)
-//            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
-//            ->whereIn('collection_name', $collections)
-//            ->get()
-//            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
+        //        $temporaryUploads = TemporaryUpload::getForCurrentClient($collections, $instanceId, $dataSource, $clientToken);
+        //        $temporaryUploads = TemporaryUpload::query()
+        //            ->forDataSource($dataSource)
+        //            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
+        //            ->whereIn('collection_name', $collections)
+        //            ->get()
+        //            ->sortBy(fn ($m) => $m->getCustomProperty('priority', PHP_INT_MAX));
 
         $mediaRetriever = app(MediaRetriever::class);
         $temporaryUploads = $mediaRetriever->getTemporaryUploadsSorted(

@@ -4,7 +4,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Support;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ClientContext
@@ -65,5 +64,4 @@ class ClientContext
 
         return $token;
     }
-
 }

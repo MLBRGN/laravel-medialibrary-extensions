@@ -39,6 +39,7 @@ class RestoreOriginalMediaAction
 
         if (! $media) {
             Log::warning('RestoreOriginalMediaAction - execute: media not found');
+
             return MediaResponse::error(
                 $request,
                 $baseId,
@@ -71,7 +72,7 @@ class RestoreOriginalMediaAction
                 $baseId,
                 __('medialibrary-extensions::messages.no_original_saved')
             );
-//            return back()->with('error', 'Original file not found.');
+            //            return back()->with('error', 'Original file not found.');
         }
 
         try {

@@ -12,7 +12,6 @@ use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\demo\StoreAlienRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
-use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 class DemoController extends Controller
 {
@@ -83,8 +82,8 @@ class DemoController extends Controller
             $resolvedConnection = null;
         }
 
-//        $requestedId = $request->query('id');
-//        dd($dataSource);
+        //        $requestedId = $request->query('id');
+        //        dd($dataSource);
         $model = $this->getDemoModel($dataSource);
 
         // Prefer a specifically prepared Lab medium; otherwise reuse existing uploads
@@ -206,7 +205,7 @@ class DemoController extends Controller
         return redirect()->route('mle-demo', $redirectParams);
     }
 
-//    protected function getDemoModel(?string $dataSource = 'default', ?int $id = null): Alien
+    //    protected function getDemoModel(?string $dataSource = 'default', ?int $id = null): Alien
     protected function getDemoModel(?string $dataSource = 'default'): Alien
     {
         $model = new Alien;
@@ -218,11 +217,11 @@ class DemoController extends Controller
 
         $query = $model->newQuery()->with('media');
 
-//        if ($id !== null) {
-//            $existingModel = $query->find($id);
-//        } else {
-            $existingModel = $query->first();
-//        }
+        //        if ($id !== null) {
+        //            $existingModel = $query->find($id);
+        //        } else {
+        $existingModel = $query->first();
+        //        }
 
         if (! $existingModel) {
             throw new Exception('no Alien model found');

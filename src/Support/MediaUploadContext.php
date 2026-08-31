@@ -1,4 +1,5 @@
 <?php
+
 namespace Mlbrgn\MediaLibraryExtensions\Support;
 
 class MediaUploadContext

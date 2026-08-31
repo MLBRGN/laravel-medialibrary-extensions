@@ -6,9 +6,7 @@ class MediaCollectionService
 {
     public function __construct(
         protected DataSourceResolver $dataSourceResolver,
-    )
-    {
-    }
+    ) {}
 
     public function determineCollectionType($file): ?string
     {
@@ -32,5 +30,4 @@ class MediaCollectionService
 
         return null;
     }
-
 }

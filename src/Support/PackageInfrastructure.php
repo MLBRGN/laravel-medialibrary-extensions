@@ -8,25 +8,24 @@ use Illuminate\Support\Facades\File;
 // Registers connections/databases/disks.
 class PackageInfrastructure
 {
-
     protected const PROFILES = [
 
         'demo' => [
 
             'connections' => [
                 'default' => 'mle_demo_default',
-                'alt'     => 'mle_demo_alt',
+                'alt' => 'mle_demo_alt',
             ],
 
             'databases' => [
                 'default' => 'mle-demo-default.sqlite',
-                'alt'     => 'mle-demo-alt.sqlite',
+                'alt' => 'mle-demo-alt.sqlite',
             ],
 
             'disk' => [
                 'name' => 'mle_demo_disk',
                 'root' => 'storage/app/public/mle_demo_disk',
-                'url'  => '/storage/mle_demo_disk',
+                'url' => '/storage/mle_demo_disk',
             ],
 
             'migrations' => [
@@ -45,18 +44,18 @@ class PackageInfrastructure
 
             'connections' => [
                 'default' => 'mle_test_default',
-                'alt'     => 'mle_test_alt',
+                'alt' => 'mle_test_alt',
             ],
 
             'databases' => [
                 'default' => 'mle-test-default.sqlite',
-                'alt'     => 'mle-test-alt.sqlite',
+                'alt' => 'mle-test-alt.sqlite',
             ],
 
             'disk' => [
                 'name' => 'mle_test_disk',
                 'root' => 'tests/Support/storage/mle_test_disk',
-                'url'  => '/storage/mle_test_disk',
+                'url' => '/storage/mle_test_disk',
             ],
 
             'migrations' => [
@@ -135,12 +134,12 @@ class PackageInfrastructure
     protected static function setDefaultConnection(string $profile): void
     {
         // TODO i don't ever want to set the default connection! this has effects on the whole app!
-//        if (!app()->runningInConsole()) {
-            config()->set(
-                'database.default',
-                self::connection($profile)
-            );
-//        }
+        //        if (!app()->runningInConsole()) {
+        config()->set(
+            'database.default',
+            self::connection($profile)
+        );
+        //        }
     }
 
     protected static function ensureDatabaseFile(string $path): void
@@ -159,11 +158,9 @@ class PackageInfrastructure
 
         return match ($profile) {
 
-            'demo' =>
-            storage_path("app/medialibrary-extensions/demo/{$filename}"),
+            'demo' => storage_path("app/medialibrary-extensions/demo/{$filename}"),
 
-            'test' =>
-            base_path("tests/database/{$filename}"),
+            'test' => base_path("tests/database/{$filename}"),
 
         };
     }
@@ -175,12 +172,10 @@ class PackageInfrastructure
         return self::PROFILES[$profile]['connections'][$name];
     }
 
-
     public static function disk(string $profile): string
     {
         return self::PROFILES[$profile]['disk']['name'];
     }
-
 
     public static function enabled(): bool
     {
@@ -216,90 +211,90 @@ class PackageInfrastructure
         );
     }
 
-//
-//    public static function registerEverything(): void {
-//
-//    }
-//
-//    public static function ensureDatabaseFiles(): void {
-//
-//    }
-//
-//    public static function registerDemoInfrastructure(): void {
-//
-//    }
-//
-//    public static function registerTestInfrastructure(): void {
-//
-//    }
-//
-//    public static function connection(): void {
-//
-//    }
-//
-//    public static function disk(): void {
-//
-//    }
-//
-//    public static function databasePath(): void {
-//
-//    }
-//
-//    public static function enabled(): bool
-//    {
-//        return (bool) config('medialibrary-extensions.demo_pages_enabled');
-//    }
+    //
+    //    public static function registerEverything(): void {
+    //
+    //    }
+    //
+    //    public static function ensureDatabaseFiles(): void {
+    //
+    //    }
+    //
+    //    public static function registerDemoInfrastructure(): void {
+    //
+    //    }
+    //
+    //    public static function registerTestInfrastructure(): void {
+    //
+    //    }
+    //
+    //    public static function connection(): void {
+    //
+    //    }
+    //
+    //    public static function disk(): void {
+    //
+    //    }
+    //
+    //    public static function databasePath(): void {
+    //
+    //    }
+    //
+    //    public static function enabled(): bool
+    //    {
+    //        return (bool) config('medialibrary-extensions.demo_pages_enabled');
+    //    }
 
-//    public static function disk(): string
-//    {
-//        return app()->environment('testing')
-//            ? self::TEST_DISK
-//            : self::DEMO_DISK;
-//    }
-//
-//    public static function databasePath(
-//        string $packageShortName,
-//        bool   $host = false
-//    ): string
-//    {
-//        $suffix = $host
-//            ? 'demo-host-app.sqlite'
-//            : 'demo.sqlite';
-//
-//        if (app()->environment('testing')) {
-//            $suffix = $host
-//                ? 'test-host-app.sqlite'
-//                : 'test-demo.sqlite';
-//        }
-//
-//        return storage_path(
-//            "app/{$packageShortName}/demo/{$packageShortName}-{$suffix}"
-//        );
-//    }
-//
-//    public static function connectionConfig(string $database): array
-//    {
-//        return [
-//            'driver' => 'sqlite',
-//            'database' => $database,
-//            'prefix' => '',
-//            'foreign_key_constraints' => true,
-//        ];
-//    }
-//
-//    public static function diskConfig(string $packageShortName): array
-//    {
-//        return [
-//            'driver' => 'local',
-//            'root' => app()->environment('testing')
-//                ? base_path("tests/Support/storage/{$packageShortName}")
-//                : storage_path("app/public/{$packageShortName}/demo-media"),
-//
-//            'url' => app()->environment('testing')
-//                ? "/storage/{$packageShortName}"
-//                : asset("storage/{$packageShortName}/demo-media"),
-//
-//            'visibility' => 'public',
-//        ];
-//    }
+    //    public static function disk(): string
+    //    {
+    //        return app()->environment('testing')
+    //            ? self::TEST_DISK
+    //            : self::DEMO_DISK;
+    //    }
+    //
+    //    public static function databasePath(
+    //        string $packageShortName,
+    //        bool   $host = false
+    //    ): string
+    //    {
+    //        $suffix = $host
+    //            ? 'demo-host-app.sqlite'
+    //            : 'demo.sqlite';
+    //
+    //        if (app()->environment('testing')) {
+    //            $suffix = $host
+    //                ? 'test-host-app.sqlite'
+    //                : 'test-demo.sqlite';
+    //        }
+    //
+    //        return storage_path(
+    //            "app/{$packageShortName}/demo/{$packageShortName}-{$suffix}"
+    //        );
+    //    }
+    //
+    //    public static function connectionConfig(string $database): array
+    //    {
+    //        return [
+    //            'driver' => 'sqlite',
+    //            'database' => $database,
+    //            'prefix' => '',
+    //            'foreign_key_constraints' => true,
+    //        ];
+    //    }
+    //
+    //    public static function diskConfig(string $packageShortName): array
+    //    {
+    //        return [
+    //            'driver' => 'local',
+    //            'root' => app()->environment('testing')
+    //                ? base_path("tests/Support/storage/{$packageShortName}")
+    //                : storage_path("app/public/{$packageShortName}/demo-media"),
+    //
+    //            'url' => app()->environment('testing')
+    //                ? "/storage/{$packageShortName}"
+    //                : asset("storage/{$packageShortName}/demo-media"),
+    //
+    //            'visibility' => 'public',
+    //        ];
+    //    }
 }

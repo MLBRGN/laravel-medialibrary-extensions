@@ -23,13 +23,12 @@ class Alien extends Model implements HasMediaExtended
 
     public function registerMediaCollections(): void
     {
-//        Log::info('Registered media collections', [
-//            'collections' => collect($this->mediaCollections)
-//                ->pluck('name')
-//                ->values()
-//                ->toArray(),
-//        ]);
-
+        //        Log::info('Registered media collections', [
+        //            'collections' => collect($this->mediaCollections)
+        //                ->pluck('name')
+        //                ->values()
+        //                ->toArray(),
+        //        ]);
 
         $this
             ->addMediaCollection('alien-single-image')

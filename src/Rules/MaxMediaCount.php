@@ -34,8 +34,7 @@ class MaxMediaCount implements ValidationRule
         string $attribute,
         mixed $value,
         Closure $fail
-    ): void
-    {
+    ): void {
         $newCount = is_array($value) ? count($value) : 1;
 
         $existingCount = $this->countModelMediaInCollections($this->model, $this->collections, $this->dataSource);

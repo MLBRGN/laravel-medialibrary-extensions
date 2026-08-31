@@ -8,7 +8,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Lab;
  * Edit media and restore original if needed
  */
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;

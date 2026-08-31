@@ -27,9 +27,9 @@ class DestroyTemporaryUploadRequest extends MediaManagerRequest
                 'array',
                 'min:1',
                 // TODO look at this
-//                new AllowedMediaCollections(
-//                    $this->mediaModel(),
-//                )
+                //                new AllowedMediaCollections(
+                //                    $this->mediaModel(),
+                //                )
             ],
             'collections.*' => ['nullable', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],

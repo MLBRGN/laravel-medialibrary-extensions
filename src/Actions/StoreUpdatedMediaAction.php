@@ -16,7 +16,6 @@ use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreUpdatedMediaAction
 {
-
     public function __construct(
         protected MediaModelResolver $mediaModelResolver,
         protected MediaReplacement $mediaReplacement,
@@ -66,6 +65,7 @@ class StoreUpdatedMediaAction
                     $newMedia = $this->mediaReplacement->replaceMedium($existingMedia, $file);
                 } else {
                     Log::warning("Medium with ID {$mediaId} not found.");
+
                     return MediaResponse::error(
                         $request,
                         $baseId,
@@ -85,8 +85,7 @@ class StoreUpdatedMediaAction
                 // Enforce scoping for temporary uploads
                 $clientToken = $request->input('client_token')
                     ?: $request->cookie('mle_client_token');
-                $instanceId = $request->input('instance_id') ?: app(InstanceManager::class)
-                    ::getInstanceId($baseId);
+                $instanceId = $request->input('instance_id') ?: app(InstanceManager::class)::getInstanceId($baseId);
 
                 $belongsToClient = $existingMedia->client_token === $clientToken;
                 $belongsToInstance = $existingMedia->instance_id === $instanceId;

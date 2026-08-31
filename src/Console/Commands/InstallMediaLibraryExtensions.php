@@ -21,11 +21,11 @@ class InstallMediaLibraryExtensions extends Command
 
     public function handle(): int
     {
-//        $force = $this->option('force');
-//
-//        if (! $force) {
-//            $force = $this->confirm('Some files may already exist. Do you want to overwrite them?', false);
-//        }
+        //        $force = $this->option('force');
+        //
+        //        if (! $force) {
+        //            $force = $this->confirm('Some files may already exist. Do you want to overwrite them?', false);
+        //        }
 
         // Publish required assets (CSS/JS)
         $this->publishWithMessage(

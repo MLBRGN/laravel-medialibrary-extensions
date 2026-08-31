@@ -15,7 +15,6 @@ use Intervention\Image\ImageManager;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\TemporaryUploadPromoter;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -32,7 +31,7 @@ trait InteractsWithMediaExtended
 
     protected const ACTION_MAP = [
         'upload' => 'allowsMediaUploads',
-        'edit'   => 'allowsMediaEdits',
+        'edit' => 'allowsMediaEdits',
         'delete' => 'allowsMediaDeletes',
     ];
 
@@ -89,7 +88,7 @@ trait InteractsWithMediaExtended
                 'model_id' => $model->getKey(),
             ]);
 
-            $instanceId = request()->input('instance_id');
+            $instanceId = request()->input('mle_instance_ids') ?: request()->input('instance_id');
             $clientToken = request()->input('client_token') ?: request()->cookie('mle_client_token');
 
             $requestedDataSource = request()->input('data_source');
@@ -141,7 +140,7 @@ trait InteractsWithMediaExtended
                 'model_class' => get_class($model),
                 'model_id' => $model->getKey(),
             ]);
-            $instanceId = request()->input('instance_id');
+            $instanceId = request()->input('mle_instance_ids') ?: request()->input('instance_id');
             $clientToken = request()->input('client_token');
 
             if (! $instanceId && ! $clientToken && app()->bound(MediaUploadContext::class)) {
@@ -580,36 +579,36 @@ trait InteractsWithMediaExtended
      * 2. If a Laravel policy exists for this model, it is used.
      * 3. If no policy exists, authorization is granted by default.
      */
-//    public function canPerformMediaAction(
-//        string $ability,
-//        ?Authenticatable $user = null
-//    ): bool {
-//        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
-//
-//        if (! $supportsMethod) {
-//            return false;
-//        }
-//
-//        if (! static::$supportsMethod()) {
-//            return false;
-//        }
-//
-//        $policy = Gate::getPolicyFor($this);
-//
-//        if (! $policy) {
-//            return true;
-//        }
-//
-//        $policyMethod = $ability.'Media';
-//
-//        // if policy exists, but does not have the method, allow it
-//        if (! method_exists($policy, $policyMethod)) {
-//            return true;
-//        }
-//
-//        return Gate::forUser($user)
-//            ->allows($policyMethod, $this);
-//    }
+    //    public function canPerformMediaAction(
+    //        string $ability,
+    //        ?Authenticatable $user = null
+    //    ): bool {
+    //        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
+    //
+    //        if (! $supportsMethod) {
+    //            return false;
+    //        }
+    //
+    //        if (! static::$supportsMethod()) {
+    //            return false;
+    //        }
+    //
+    //        $policy = Gate::getPolicyFor($this);
+    //
+    //        if (! $policy) {
+    //            return true;
+    //        }
+    //
+    //        $policyMethod = $ability.'Media';
+    //
+    //        // if policy exists, but does not have the method, allow it
+    //        if (! method_exists($policy, $policyMethod)) {
+    //            return true;
+    //        }
+    //
+    //        return Gate::forUser($user)
+    //            ->allows($policyMethod, $this);
+    //    }
 
     public static function isMediaUploadable(): bool
     {

@@ -25,9 +25,9 @@ class GetMediaManagerTinyMceRequest extends FormRequest
                 'required',
                 'string',
                 // TODO look at this
-//                new AllowedMediaCollections(
-//                    $this->mediaModel(),
-//                )
+                //                new AllowedMediaCollections(
+                //                    $this->mediaModel(),
+                //                )
             ], // json
             'options' => ['required', 'string'], // json
             'temporary_upload_mode' => ['required', Rule::in(['true', 'false'])],

@@ -5,7 +5,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Actions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Exceptions\UploadException;
@@ -13,9 +12,9 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class StoreSingleTemporaryAction
 {

@@ -81,7 +81,8 @@ class ImageResponsive extends BaseComponent
         }
     }
 
-    protected function domIdSuffix(): string {
+    protected function domIdSuffix(): string
+    {
         return 'image-responsive';
     }
 

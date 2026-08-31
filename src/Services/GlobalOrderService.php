@@ -11,10 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class GlobalOrderService
 {
-    public function __construct()
-    {
-    }
-
+    public function __construct() {}
 
     /**
      * Assign or preserve a global sequential order across all media.
@@ -53,5 +50,4 @@ class GlobalOrderService
             ->selectRaw("MAX(CAST(JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.global_order')) AS UNSIGNED)) as max_order")
             ->value('max_order');
     }
-
 }

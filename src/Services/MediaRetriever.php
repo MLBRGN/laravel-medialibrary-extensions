@@ -11,19 +11,16 @@ class MediaRetriever
 {
     public function __construct(
         protected DataSourceResolver $dataSourceResolver,
-    )
-    {
-    }
+    ) {}
 
     public function resolveMediaFromCollections(
-        ?Model  $model,
-        array   $collections,
+        ?Model $model,
+        array $collections,
         ?string $instanceId,
         ?string $clientToken,
         ?string $dataSource,
-        bool    $includeTemporaryUploads = false,
-    ): MediaCollection
-    {
+        bool $includeTemporaryUploads = false,
+    ): MediaCollection {
         $media = collect();
 
         if ($model instanceof Model) {
@@ -45,7 +42,7 @@ class MediaRetriever
 
         return MediaCollection::make(
             $media
-                ->sortBy(fn($media) => $media->getCustomProperty('priority', PHP_INT_MAX))
+                ->sortBy(fn ($media) => $media->getCustomProperty('priority', PHP_INT_MAX))
                 ->values()
         );
     }
@@ -53,25 +50,23 @@ class MediaRetriever
     private function resolvePermanentMedia(
         Model $model,
         array $collections,
-    ): Collection
-    {
+    ): Collection {
         $connection = $model->getConnectionName();
 
         return $this->collectionNames($collections)
-            ->flatMap(fn(string $collection) => $model
+            ->flatMap(fn (string $collection) => $model
                 ->setConnection($connection)
                 ->getMedia($collection));
     }
 
     private function resolveTemporaryMedia(
-        array   $collections,
+        array $collections,
         ?string $instanceId,
         ?string $clientToken,
         ?string $dataSource,
-    ): Collection
-    {
+    ): Collection {
         return $this->collectionNames($collections)
-            ->flatMap(fn(string $collection) => TemporaryUpload::getForCurrentClient(
+            ->flatMap(fn (string $collection) => TemporaryUpload::getForCurrentClient(
                 $collection,
                 $instanceId,
                 $dataSource,
@@ -81,17 +76,16 @@ class MediaRetriever
 
     public function getTemporaryUploadsSorted(
         array|string|null $collections = null,
-        ?string           $instanceId = null,
-        ?string           $clientToken = null,
-        ?string           $dataSource = 'default',
-    ): Collection
-    {
+        ?string $instanceId = null,
+        ?string $clientToken = null,
+        ?string $dataSource = 'default',
+    ): Collection {
         return TemporaryUpload::getForCurrentClient(
             $collections,
             $instanceId,
             $dataSource,
             $clientToken,
-        )->sortBy(fn($upload) => $upload->getCustomProperty('priority', PHP_INT_MAX))
+        )->sortBy(fn ($upload) => $upload->getCustomProperty('priority', PHP_INT_MAX))
             ->values();
     }
 
@@ -102,6 +96,6 @@ class MediaRetriever
     {
         return collect($collections)
             ->filter()
-            ->flatMap(fn($names) => is_array($names) ? $names : [$names]);
+            ->flatMap(fn ($names) => is_array($names) ? $names : [$names]);
     }
 }

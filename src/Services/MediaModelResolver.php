@@ -18,9 +18,7 @@ class MediaModelResolver
 {
     public function __construct(
         protected DataSourceResolver $dataSourceResolver,
-    )
-    {
-    }
+    ) {}
 
     public function resolveModelReference(HasMediaExtended|string $modelReference, ?string $dataSource): ResolvedModel
     {
@@ -57,13 +55,12 @@ class MediaModelResolver
         ?string $modelClass,
         string|int|null $id,
         ?string $dataSource,
-    ): Media|TemporaryUpload|null
-    {
+    ): Media|TemporaryUpload|null {
         if ($modelClass === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
             return null;
         }
 
-        if (!class_exists($modelClass)) {
+        if (! class_exists($modelClass)) {
             throw InvalidModelTypeException::for($modelClass);
         }
 
@@ -82,17 +79,16 @@ class MediaModelResolver
         ?string $modelClass,
         string|int|null $id,
         ?string $dataSource,
-    ): ?HasMediaExtended
-    {
+    ): ?HasMediaExtended {
         if ($modelClass === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
             return null;
         }
 
-        if (!class_exists($modelClass)) {
+        if (! class_exists($modelClass)) {
             throw InvalidModelTypeException::for($modelClass);
         }
 
-        if (!is_subclass_of($modelClass, HasMediaExtended::class)) {
+        if (! is_subclass_of($modelClass, HasMediaExtended::class)) {
             throw InvalidModelTypeException::missingInterface($modelClass);
         }
 
@@ -100,13 +96,11 @@ class MediaModelResolver
         return $this->findById($modelClass, $id, $dataSource);
     }
 
-
     private function findById(
         string $modelClass,
         string|int $id,
         ?string $dataSource,
-    ): Model
-    {
+    ): Model {
         $model = new $modelClass;
 
         return $model
@@ -118,9 +112,8 @@ class MediaModelResolver
     // Use this method to find a medium by its ID.
     public function findMedium(
         string|int $id,
-        ?string    $dataSource
-    ): ?Media
-    {
+        ?string $dataSource
+    ): ?Media {
         return $this->resolveMediumById(
             config('media-library.media_model'),
             $id,
@@ -131,9 +124,8 @@ class MediaModelResolver
     // Use this method to find a temporary upload by its ID.
     public function findTemporaryUpload(
         string|int $id,
-        ?string    $dataSource
-    ): ?TemporaryUpload
-    {
+        ?string $dataSource
+    ): ?TemporaryUpload {
         return $this->resolveMediumById(
             TemporaryUpload::class,
             $id,

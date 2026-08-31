@@ -11,10 +11,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TemporaryUploadPromoter
 {
-    public function promoteAllForModel(Model $model, ?string $instanceId = null, ?string $clientToken = null): void
+    public function promoteAllForModel(Model $model, string|array|null $instanceId = null, ?string $clientToken = null): void
     {
         $clientToken = $clientToken ?: (request()->input('client_token') ?: request()->cookie('mle_client_token'));
-        $instanceId = $instanceId ?: request()->input('instance_id');
+        $instanceId = $instanceId ?: (request()->input('mle_instance_ids') ?: request()->input('instance_id'));
 
         if (! $clientToken && app()->runningUnitTests()) {
             // Try session ID first (tests commonly use this), then configured fallback
@@ -46,7 +46,11 @@ class TemporaryUploadPromoter
             ->where('client_token', $clientToken);
 
         if ($instanceId) {
-            $query->where('instance_id', $instanceId);
+            if (is_array($instanceId)) {
+                $query->whereIn('instance_id', $instanceId);
+            } else {
+                $query->where('instance_id', $instanceId);
+            }
         }
 
         Log::debug('TemporaryUploadPromoter: query parameters prepared', [
@@ -76,8 +80,13 @@ class TemporaryUploadPromoter
                 ]);
 
                 $fallbackQuery = TemporaryUpload::query()
-                    ->forDataSource($dataSource)
-                    ->where('instance_id', $instanceId);
+                    ->forDataSource($dataSource);
+
+                if (is_array($instanceId)) {
+                    $fallbackQuery->whereIn('instance_id', $instanceId);
+                } else {
+                    $fallbackQuery->where('instance_id', $instanceId);
+                }
 
                 $temporaryUploads = $fallbackQuery->get();
 

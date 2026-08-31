@@ -13,6 +13,7 @@ trait ChecksMediaLimits
     protected function countModelMediaInCollections(HasMedia $model, array $collections, ?string $dataSource = 'default'): int
     {
         $mediaCounter = app(MediaCounter::class);
+
         return $mediaCounter->countModelMediaInCollections($model, $collections, $dataSource);
     }
 
@@ -39,10 +40,11 @@ trait ChecksMediaLimits
     /**
      * Check if there are temporary uploads in the given collections (single-media limit).
      */
-//    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
-    protected function temporaryUploadsHaveAnyMedia(array $collections, string $instanceId = null, string $clientToken = null, ?string $dataSource = 'default'): bool
+    //    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
+    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
     {
         $mediaCounter = app(MediaCounter::class);
+
         return $this->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource) > 0;
     }
 }

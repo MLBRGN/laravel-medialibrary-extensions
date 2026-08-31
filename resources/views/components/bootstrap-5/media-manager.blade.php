@@ -13,6 +13,7 @@
     <!-- hidden anchor for scrolling -->
     <a id="{{ $id }}"></a>
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
+    <input type="hidden" name="mle_instance_ids[]" value="{{ $instanceId }}">
 
     @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))
         <div class="mle-component mle-debug-menu">

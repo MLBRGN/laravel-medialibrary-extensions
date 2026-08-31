@@ -52,6 +52,7 @@ class ImageDimensionsWithinConfig implements ValidationRule
                 'width' => $width,
                 'height' => $height,
             ]));
+
             return;
         }
 

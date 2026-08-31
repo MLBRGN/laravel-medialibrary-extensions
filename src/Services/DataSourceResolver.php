@@ -7,7 +7,6 @@ use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 
 class DataSourceResolver
 {
-
     public function resolveConnection(string $dataSource): string
     {
         // 1) First honor dynamic mappings from configuration to support test/demo overrides
@@ -19,11 +18,11 @@ class DataSourceResolver
 
         // 2) Backward-compatible fallbacks for well-known aliases used across the package
         return match ($dataSource) {
-            'default'      => config('database.default'),
+            'default' => config('database.default'),
             'demo_default' => PackageInfrastructure::connection('demo', 'default'),
-            'demo_alt'     => PackageInfrastructure::connection('demo', 'alt'),
+            'demo_alt' => PackageInfrastructure::connection('demo', 'alt'),
             'test_default' => PackageInfrastructure::connection('test', 'default'),
-            'test_alt'     => PackageInfrastructure::connection('test', 'alt'),
+            'test_alt' => PackageInfrastructure::connection('test', 'alt'),
 
             default => throw new InvalidArgumentException("Invalid data source [$dataSource]"),
         };

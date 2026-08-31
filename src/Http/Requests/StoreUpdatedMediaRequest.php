@@ -34,9 +34,9 @@ class StoreUpdatedMediaRequest extends MediaManagerRequest
                 'nullable',
                 'array',
                 // TODO look at this
-//                new AllowedMediaCollections(
-//                    $this->mediaModel(),
-//                )
+                //                new AllowedMediaCollections(
+                //                    $this->mediaModel(),
+                //                )
             ],
             'collections.*' => ['nullable', 'string'],
             'instance_id' => ['nullable', 'string', 'max:64'],

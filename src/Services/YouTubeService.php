@@ -39,36 +39,36 @@ class YouTubeService
             $modelInstance->setConnection($connection);
         }
 
-//        try {
-            $filePath = $this->thumbnailDownloader->download($videoId);
+        //        try {
+        $filePath = $this->thumbnailDownloader->download($videoId);
 
-            if (! $filePath) {
-                return null;
-            }
+        if (! $filePath) {
+            return null;
+        }
 
-            return $modelInstance
-                ->addMedia($filePath)
-                ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
-                ->withCustomProperties([
-                    'youtube-url' => $youtubeUrl,
-                    'youtube-id' => $videoId,
-                ])
-                ->toMediaCollection($collection);
-//            return $modelInstance
-//                ->addMediaFromUrl($thumbnailUrl)
-//                ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
-//                ->withCustomProperties([
-//                    'youtube-url' => $youtubeUrl,
-//                    'youtube-id' => $videoId,
-//                ])
-//                ->toMediaCollection($collection);
-//        } catch (\Exception $e) {
-//            Log::error('YouTube thumbnail failed', [
-//                'message' => $e->getMessage(),
-//                'trace' => $e->getTraceAsString(),
-//            ]);
-//            return null;
-//        }
+        return $modelInstance
+            ->addMedia($filePath)
+            ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
+            ->withCustomProperties([
+                'youtube-url' => $youtubeUrl,
+                'youtube-id' => $videoId,
+            ])
+            ->toMediaCollection($collection);
+        //            return $modelInstance
+        //                ->addMediaFromUrl($thumbnailUrl)
+        //                ->usingFileName('youtube-thumbnail-'.($customId ?? $videoId).'.jpg')
+        //                ->withCustomProperties([
+        //                    'youtube-url' => $youtubeUrl,
+        //                    'youtube-id' => $videoId,
+        //                ])
+        //                ->toMediaCollection($collection);
+        //        } catch (\Exception $e) {
+        //            Log::error('YouTube thumbnail failed', [
+        //                'message' => $e->getMessage(),
+        //                'trace' => $e->getTraceAsString(),
+        //            ]);
+        //            return null;
+        //        }
     }
 
     public function storeTemporaryThumbnailFromRequest(StoreYouTubeVideoRequest $request): ?TemporaryUpload
@@ -120,7 +120,7 @@ class YouTubeService
         Storage::disk($disk)->put($fullPath, $contents);
         $size = strlen($contents);
         $mimeType = 'image/jpeg';
-//        unlink($filePath); // TODO
+        //        unlink($filePath); // TODO
 
         $temporaryUploadModel = new TemporaryUpload;
         $connection = $this->dataSourceResolver->resolveConnection($dataSource);

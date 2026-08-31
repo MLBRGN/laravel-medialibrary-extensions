@@ -10,9 +10,7 @@ class MediaCounter
 {
     public function __construct(
         protected DataSourceResolver $dataSourceResolver,
-    )
-    {
-    }
+    ) {}
 
     // -------------------------------------------------------------------------
     // MEDIA COUNTING
@@ -36,7 +34,7 @@ class MediaCounter
         }
 
         $count = collect($collections)
-            ->filter(fn($collectionName) => !empty($collectionName))
+            ->filter(fn ($collectionName) => ! empty($collectionName))
             ->reduce(function (int $total, string $collectionName) use ($model) {
                 $count = $model->getMedia($collectionName)->count();
 
@@ -49,10 +47,10 @@ class MediaCounter
     /**
      * Count total temporary uploads for the current client and component instance in given collections.
      */
-    public function countTemporaryUploadsInCollections(array $collections, string $instanceId = null, string $clientToken = null, string $dataSource = null): int
+    public function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = null): int
     {
         $collections = collect($collections)
-            ->filter(fn($collectionName) => !empty($collectionName))
+            ->filter(fn ($collectionName) => ! empty($collectionName))
             ->values();
 
         $total = 0;
@@ -61,24 +59,24 @@ class MediaCounter
             $items = TemporaryUpload::getForCurrentClient($collectionName, $instanceId, $dataSource, $clientToken);
             $c = $items->count();
 
-//            Log::debug('mle.countTemporaryUploadsInCollections.per_collection', [
-//                'collection' => $collectionName,
-//                'count' => $c,
-//                'instanceId' => $instanceId,
-//                'dataSource' => $dataSource,
-//                'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
-//            ]);
+            //            Log::debug('mle.countTemporaryUploadsInCollections.per_collection', [
+            //                'collection' => $collectionName,
+            //                'count' => $c,
+            //                'instanceId' => $instanceId,
+            //                'dataSource' => $dataSource,
+            //                'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
+            //            ]);
 
             $total += $c;
         }
 
-//        Log::debug('mle.countTemporaryUploadsInCollections.total', [
-//            'total' => $total,
-//            'collections' => $collections->all(),
-//            'instanceId' => $instanceId,
-//            'dataSource' => $dataSource,
-//            'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
-//        ]);
+        //        Log::debug('mle.countTemporaryUploadsInCollections.total', [
+        //            'total' => $total,
+        //            'collections' => $collections->all(),
+        //            'instanceId' => $instanceId,
+        //            'dataSource' => $dataSource,
+        //            'clientToken' => $clientToken ? substr($clientToken, 0, 4).'…'.substr($clientToken, -4) : null,
+        //        ]);
 
         return $total;
     }
@@ -93,13 +91,12 @@ class MediaCounter
     // The lower-level methods should become implementation details.
     public function countMediaInCollections(
         ResolvedModel $resolvedModel,
-        array         $collections,
-        ?string       $instanceId = null,
-        ?string       $clientToken = null,
-        ?string       $dataSource = null,
-    ): int
-    {
-        if (!$resolvedModel->temporaryUploadMode) {
+        array $collections,
+        ?string $instanceId = null,
+        ?string $clientToken = null,
+        ?string $dataSource = null,
+    ): int {
+        if (! $resolvedModel->temporaryUploadMode) {
             return $this->countModelMediaInCollections(
                 $resolvedModel->model,
                 $collections,
@@ -130,7 +127,7 @@ class MediaCounter
     /**
      * Check if there are temporary uploads in the given collections (single-media limit).
      */
-    public function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource): bool
+    public function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId, ?string $clientToken, ?string $dataSource): bool
     {
         return $this->countTemporaryUploadsInCollections($collections, $instanceId, $clientToken, $dataSource) > 0;
     }

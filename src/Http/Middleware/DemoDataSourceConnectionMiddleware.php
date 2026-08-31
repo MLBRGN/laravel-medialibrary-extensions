@@ -14,7 +14,6 @@ class DemoDataSourceConnectionMiddleware
     public function handle($request, Closure $next)
     {
         throw new Exception('DEPRECATED?');
-
         $dataSource = $request->input('data_source')
             ?? $request->query('data_source')
             ?? 'default';
@@ -27,9 +26,9 @@ class DemoDataSourceConnectionMiddleware
         $previous = DB::getDefaultConnection();
 
         // TODO look at this:
-//        DB::setDefaultConnection($target);
-//        DB::purge($previous);
-//        DB::reconnect($target);
+        //        DB::setDefaultConnection($target);
+        //        DB::purge($previous);
+        //        DB::reconnect($target);
 
         // TODO look at this code
         Config::set('database.default', $target);

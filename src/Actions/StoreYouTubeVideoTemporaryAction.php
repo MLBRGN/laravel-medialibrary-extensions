@@ -10,8 +10,8 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
-use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreYouTubeVideoTemporaryAction
 {

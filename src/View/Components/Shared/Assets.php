@@ -27,13 +27,13 @@ class Assets extends Component
         // Default theme from config
         $this->theme ??= config('medialibrary-extensions.frontend_theme', 'plain');
 
-//        Log::info('For: ' .$this->for . ' ' . ($this->includeImageEditorModalJs ? 'Yes' : 'No'));
+        //        Log::info('For: ' .$this->for . ' ' . ($this->includeImageEditorModalJs ? 'Yes' : 'No'));
 
         // Build the configuration array passed to the loader.js file
         $this->assetConfig = [
             'assets' => [
                 'bootstrapCss' => $this->theme === 'bootstrap-5',
-                'bootstrapJs'  => $this->theme === 'bootstrap-5',
+                'bootstrapJs' => $this->theme === 'bootstrap-5',
                 'css' => $this->includeCss,
                 'js' => $this->includeJs,
                 'carousel' => $this->includeCarouselJs,
@@ -86,7 +86,7 @@ class Assets extends Component
 
                 'update_failed' => __('medialibrary-extensions::messages.could_not_save_updated_medium'),
 
-                "unable_to_read_response_body" => __('medialibrary-extensions::messages.unable_to_read_response_body'),
+                'unable_to_read_response_body' => __('medialibrary-extensions::messages.unable_to_read_response_body'),
 
                 // Template for media counts used by JS; placeholders are replaced client-side
                 'media_counts' => __('medialibrary-extensions::messages.media_counts', [
@@ -96,11 +96,11 @@ class Assets extends Component
             ],
         ];
 
-//        Log::info('Asset component', [
-//            'for' => $this->for,
-//            'includeImageEditorModalJs' => $this->includeImageEditorModalJs,
-//            'assetConfig' => $this->assetConfig,
-//        ]);
+        //        Log::info('Asset component', [
+        //            'for' => $this->for,
+        //            'includeImageEditorModalJs' => $this->includeImageEditorModalJs,
+        //            'assetConfig' => $this->assetConfig,
+        //        ]);
     }
 
     public function render(): View

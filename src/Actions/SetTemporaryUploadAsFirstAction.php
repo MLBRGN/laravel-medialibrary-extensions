@@ -44,6 +44,7 @@ class SetTemporaryUploadAsFirstAction
             if (is_string($name) && str_ends_with($name, '-audios')) {
                 return substr($name, 0, -1); // drop trailing 's'
             }
+
             return $name;
         }, $collectionNames))));
 
@@ -57,11 +58,11 @@ class SetTemporaryUploadAsFirstAction
 
         $clientToken = $request->input('client_token') ?: $request->cookie('mle_client_token');
 
-//        $mediaItems = TemporaryUpload::query()
-//            ->forDataSource($dataSource)
-//            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
-//            ->when(! empty($collectionNames), fn ($query) => $query->whereIn('collection_name', $collectionNames))
-//            ->get();
+        //        $mediaItems = TemporaryUpload::query()
+        //            ->forDataSource($dataSource)
+        //            ->forCurrentClient(instanceId: $instanceId, clientToken: $clientToken)
+        //            ->when(! empty($collectionNames), fn ($query) => $query->whereIn('collection_name', $collectionNames))
+        //            ->get();
 
         $mediaItems = TemporaryUpload::getForCurrentClient(
             $collectionNames,
@@ -78,6 +79,7 @@ class SetTemporaryUploadAsFirstAction
                 'data_source' => $dataSource,
                 'collections' => $collectionNames,
             ]);
+
             return MediaResponse::error(
                 $request,
                 $baseId,
@@ -92,6 +94,7 @@ class SetTemporaryUploadAsFirstAction
                 'medium_id' => $mediumId,
                 'data_source' => $dataSource,
             ]);
+
             return MediaResponse::error(
                 $request,
                 $baseId,

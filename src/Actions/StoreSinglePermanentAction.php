@@ -72,7 +72,7 @@ class StoreSinglePermanentAction
 
         } catch (Exception $e) {
 
-            Log::error('StoreSinglePermanentAction - execute: ' . $e->getMessage());
+            Log::error('StoreSinglePermanentAction - execute: '.$e->getMessage());
 
             return MediaResponse::error(
                 $request,

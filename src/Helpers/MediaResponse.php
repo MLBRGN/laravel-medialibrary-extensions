@@ -46,6 +46,7 @@ class MediaResponse
             }
 
             Log::debug('MediaResponse.json');
+
             return $response;
         }
 
@@ -58,7 +59,7 @@ class MediaResponse
         ];
 
         // Take the previous URL and append "#baseId"
-        $targetUrl = url()->previous().'#'.$baseId;// had to add a hidden <a> scroll element to the media manager view, for baseId !== domId
+        $targetUrl = url()->previous().'#'.$baseId; // had to add a hidden <a> scroll element to the media manager view, for baseId !== domId
 
         Log::debug('targetUrlL '.$targetUrl);
         $redirect = redirect()

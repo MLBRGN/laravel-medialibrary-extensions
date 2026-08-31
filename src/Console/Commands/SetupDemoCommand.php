@@ -29,7 +29,7 @@ class SetupDemoCommand extends Command
     // short form aliases
     protected $aliases = [
         'mle:demo-setup',
-        'mle:setup-demo'
+        'mle:setup-demo',
     ];
 
     public function handle(): int
@@ -79,68 +79,68 @@ class SetupDemoCommand extends Command
 
         return self::SUCCESS;
     }
-//    public function handle(): int
-//    {
-//        $this->info('Media Library Extensions - preparing demo databases...');
-//
-//        PackageInfrastructure::register('demo');
-//        // Resolve connection names and database file paths
-//
-//        $demoConnection = PackageInfrastructure::connection();
-//        $hostConnection = PackageInfrastructure::hostConnection();
-//
-////        $demoConnection = MediaLibraryExtensionsServiceProvider::DEMO_CONNECTION;
-////        $hostSandboxConnection = MediaLibraryExtensionsServiceProvider::DEMO_HOST_APP_CONNECTION;
-//        //        $demoConnection = config('medialibrary-extensions.demo_connection', 'media_demo');
-////        $hostSandboxConnection = config('medialibrary-extensions.demo_host_app_connection', 'media_demo_host_app');
-//        $demoDbPath = (string) Config::get("database.connections.{$demoConnection}.database");
-//        $hostDbPath = (string) Config::get("database.connections.{$hostConnection}.database");
-//
-//        // Ensure files exist for SQLite connections to prevent connection exceptions
-//        $this->ensureSqliteFileExists($demoDbPath, $demoConnection);
-//        $this->ensureSqliteFileExists($hostDbPath, $hostConnection);
-//
-//        $this->info('Media Library Extensions - migrating demo database tables with demo specific migrations.');
-//        $this->call('migrate:fresh', [
-//            '--database' => $demoConnection,
-//            '--path' => realpath(self::DEMO_MIGRATIONS_PATH),
-//            '--realpath' => true,
-//            '--force' => true,
-//        ]);
-//
-//        $this->info('Media Library Extensions - migrating demo-host-sandbox database with app migrations.');
-//        $this->call('migrate:fresh', [
-//            '--database' => $hostConnection,
-//            '--force' => true,
-//        ]);
-//
-//        $this->info('Media Library Extensions - migrating demo-host-sandbox database tables with demo specific migrations.');
-//        $this->call('migrate', [
-//            '--database' => $hostConnection,
-//            '--path' => realpath(self::DEMO_HOST_APP_MIGRATIONS_PATH),
-//            '--realpath' => true,
-//            '--force' => true,
-//        ]);
-//
-//        // The following migration step is not required for the demo setup anymore.
-//        // Keeping it here commented for reference in case you need to bring in host-app
-//        // specific migrations in the future.
-//        // $this->info('Media Library Extensions - adding Alien table to host app database (skipped).');
-//        // $this->call('migrate', [
-//        //     '--path' => realpath(self::HOST_APP_MIGRATIONS_PATH),
-//        //     '--realpath' => true,
-//        //     '--force' => true,
-//        // ]);
-//
-//        // Seed a single Alien model in both demo databases so the demo page
-//        // can consistently use the first record without creating a new one on refresh.
-//        $this->seedSingleAlienIfMissing($demoConnection);
-//        $this->seedSingleAlienIfMissing($hostConnection);
-//
-//        $this->outroSuccess();
-//
-//        return self::SUCCESS;
-//    }
+    //    public function handle(): int
+    //    {
+    //        $this->info('Media Library Extensions - preparing demo databases...');
+    //
+    //        PackageInfrastructure::register('demo');
+    //        // Resolve connection names and database file paths
+    //
+    //        $demoConnection = PackageInfrastructure::connection();
+    //        $hostConnection = PackageInfrastructure::hostConnection();
+    //
+    // //        $demoConnection = MediaLibraryExtensionsServiceProvider::DEMO_CONNECTION;
+    // //        $hostSandboxConnection = MediaLibraryExtensionsServiceProvider::DEMO_HOST_APP_CONNECTION;
+    //        //        $demoConnection = config('medialibrary-extensions.demo_connection', 'media_demo');
+    // //        $hostSandboxConnection = config('medialibrary-extensions.demo_host_app_connection', 'media_demo_host_app');
+    //        $demoDbPath = (string) Config::get("database.connections.{$demoConnection}.database");
+    //        $hostDbPath = (string) Config::get("database.connections.{$hostConnection}.database");
+    //
+    //        // Ensure files exist for SQLite connections to prevent connection exceptions
+    //        $this->ensureSqliteFileExists($demoDbPath, $demoConnection);
+    //        $this->ensureSqliteFileExists($hostDbPath, $hostConnection);
+    //
+    //        $this->info('Media Library Extensions - migrating demo database tables with demo specific migrations.');
+    //        $this->call('migrate:fresh', [
+    //            '--database' => $demoConnection,
+    //            '--path' => realpath(self::DEMO_MIGRATIONS_PATH),
+    //            '--realpath' => true,
+    //            '--force' => true,
+    //        ]);
+    //
+    //        $this->info('Media Library Extensions - migrating demo-host-sandbox database with app migrations.');
+    //        $this->call('migrate:fresh', [
+    //            '--database' => $hostConnection,
+    //            '--force' => true,
+    //        ]);
+    //
+    //        $this->info('Media Library Extensions - migrating demo-host-sandbox database tables with demo specific migrations.');
+    //        $this->call('migrate', [
+    //            '--database' => $hostConnection,
+    //            '--path' => realpath(self::DEMO_HOST_APP_MIGRATIONS_PATH),
+    //            '--realpath' => true,
+    //            '--force' => true,
+    //        ]);
+    //
+    //        // The following migration step is not required for the demo setup anymore.
+    //        // Keeping it here commented for reference in case you need to bring in host-app
+    //        // specific migrations in the future.
+    //        // $this->info('Media Library Extensions - adding Alien table to host app database (skipped).');
+    //        // $this->call('migrate', [
+    //        //     '--path' => realpath(self::HOST_APP_MIGRATIONS_PATH),
+    //        //     '--realpath' => true,
+    //        //     '--force' => true,
+    //        // ]);
+    //
+    //        // Seed a single Alien model in both demo databases so the demo page
+    //        // can consistently use the first record without creating a new one on refresh.
+    //        $this->seedSingleAlienIfMissing($demoConnection);
+    //        $this->seedSingleAlienIfMissing($hostConnection);
+    //
+    //        $this->outroSuccess();
+    //
+    //        return self::SUCCESS;
+    //    }
 
     /**
      * Ensure an SQLite database file exists for the given connection path.
@@ -177,7 +177,7 @@ class SetupDemoCommand extends Command
     protected function seedSingleAlienIfMissing(string $connection): void
     {
         try {
-            $alien = new Alien();
+            $alien = new Alien;
             $alien->setConnection($connection);
 
             $count = $alien->newQuery()->count();
