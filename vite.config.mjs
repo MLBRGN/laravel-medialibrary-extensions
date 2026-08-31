@@ -92,7 +92,7 @@ export default defineConfig({
                 entryFileNames: '[name].js',
 
                 // Put chunks in their own folder
-                chunkFileNames: 'chunks/[name].js',
+                chunkFileNames: 'js/chunks/[name].js',
 
                 // Preserve asset paths
                 assetFileNames: '[name][extname]',
