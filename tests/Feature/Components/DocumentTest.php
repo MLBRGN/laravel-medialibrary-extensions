@@ -12,6 +12,7 @@ it('initializes correctly and sets id', function () {
     $media = $this->getMediaModelWithMedia(['audio' => 1]);
 
     $component = new Document(
+        'test-document',
         $media
     );
 
@@ -74,7 +75,7 @@ it('renders the correct view with given properties', function () {
     ]);
     $media->exists = true;
 
-    $component = new Document($media, false, [], 'Alternative Text');
+    $component = new Document('test-document', $media, false, [], 'Alternative Text');
 
     expect($component->medium)->toBe($media);
     expect($component->alt)->toBe('Alternative Text');
@@ -88,7 +89,7 @@ it('uses default alt text if none is provided', function () {
     ]);
     $media->exists = false;
 
-    $component = new Document($media);
+    $component = new Document('test-document', $media);
 
     expect($component->alt)->toBe('');
     expect($component->medium)->toBe($media);

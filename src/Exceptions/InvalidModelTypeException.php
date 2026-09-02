@@ -9,14 +9,19 @@ class InvalidModelTypeException extends Exception
     public static function for(string $modelClass): self
     {
         return new self(
-            "Invalid model type: {$modelClass}"
+            __('medialibrary-extensions::messages.class_does_not_exist', [
+                'class_name' => $modelClass,
+            ])
         );
     }
 
     public static function missingInterface(string $modelClass): self
     {
         return new self(
-            "Model {$modelClass} must implement Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended"
+            __('medialibrary-extensions::messages.must_implement_has_media', [
+                'class' => $modelClass,
+                'interface' => 'Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended',
+            ])
         );
     }
 

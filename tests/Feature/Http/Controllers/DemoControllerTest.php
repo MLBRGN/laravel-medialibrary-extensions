@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
@@ -11,6 +13,16 @@ beforeEach(function () {
     config()->set('medialibrary-extensions.demo_pages_enabled', true);
 
     PackageInfrastructure::register('demo');
+    Artisan::call('migrate:fresh', [
+        '--database' => PackageInfrastructure::connection('demo', 'default'),
+        '--path' => 'database/demo-migrations',
+        '--realpath' => false,
+    ]);
+    Artisan::call('migrate:fresh', [
+        '--database' => PackageInfrastructure::connection('demo', 'alt'),
+        '--path' => 'database/demo-migrations',
+        '--realpath' => false,
+    ]);
 
     Storage::fake('public');
     Storage::fake('media');

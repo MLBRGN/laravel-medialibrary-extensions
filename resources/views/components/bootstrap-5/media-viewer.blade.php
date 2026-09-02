@@ -1,5 +1,6 @@
 @if ($componentToRender)
     <x-dynamic-component
+        :id="$id"
         :component="$componentToRender"
         :medium="$medium"
         :options="$getOptions()"

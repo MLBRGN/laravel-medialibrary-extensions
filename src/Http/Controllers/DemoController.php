@@ -84,7 +84,7 @@ class DemoController extends Controller
 
         //        $requestedId = $request->query('id');
         //        dd($dataSource);
-        $model = $this->getDemoModel($dataSource);
+        $model = $this->getDemoModel($dataSource, $request->query('id'));
 
         // Prefer a specifically prepared Lab medium; otherwise reuse existing uploads
         $media = $model->getMedia('alien-media-lab')->first();
@@ -205,8 +205,7 @@ class DemoController extends Controller
         return redirect()->route('mle-demo', $redirectParams);
     }
 
-    //    protected function getDemoModel(?string $dataSource = 'default', ?int $id = null): Alien
-    protected function getDemoModel(?string $dataSource = 'default'): Alien
+    protected function getDemoModel(?string $dataSource = 'default', mixed $id = null): Alien
     {
         $model = new Alien;
 
@@ -217,11 +216,11 @@ class DemoController extends Controller
 
         $query = $model->newQuery()->with('media');
 
-        //        if ($id !== null) {
-        //            $existingModel = $query->find($id);
-        //        } else {
-        $existingModel = $query->first();
-        //        }
+        if (filled($id)) {
+            $existingModel = $query->find($id);
+        } else {
+            $existingModel = $query->first();
+        }
 
         if (! $existingModel) {
             throw new Exception('no Alien model found');

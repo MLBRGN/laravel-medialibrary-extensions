@@ -30,8 +30,15 @@ class Blog extends Model implements HasMediaExtended
             ->singleFile();
 
         $this
-            ->addMediaCollection('blog-extra');
+            ->addMediaCollection('blog-gallery');
 
+        $this
+            ->addMediaCollection('blog-youtube')
+            ->singleFile();
+
+        $this
+            ->addMediaCollection('blog-lab')
+            ->singleFile();
     }
 
     public function registerMediaConversions(?Media $media = null): void
@@ -39,7 +46,9 @@ class Blog extends Model implements HasMediaExtended
         if ($media) {
             $this->addResponsive16x9Conversion($media, [
                 'blog-main',
-                'blog-extra',
+                'blog-gallery',
+                'blog-youtube',
+                'blog-lab',
             ]);
         }
     }

@@ -65,6 +65,27 @@ class TemporaryUploadPromoter
             'count' => $temporaryUploads->count(),
         ]);
 
+        // Wildcard Fallback: If we have an instanceId but found nothing, try finding ALL
+        // uploads for this client_token regardless of their instanceId. This handles
+        // cases where IDs might mismatch but the session is clearly the same.
+        if ($temporaryUploads->isEmpty() && $instanceId) {
+            Log::info('TemporaryUploadPromoter: no matches by client_token + instance_id; retrying by client_token only (wildcard fallback)', [
+                'data_source' => $dataSource,
+                'client_token' => $clientToken,
+            ]);
+
+            $temporaryUploads = TemporaryUpload::query()
+                ->forDataSource($dataSource)
+                ->where('client_token', $clientToken)
+                ->get();
+
+            if ($temporaryUploads->isNotEmpty()) {
+                Log::info('TemporaryUploadPromoter: wildcard fallback found uploads', [
+                    'count' => $temporaryUploads->count(),
+                ]);
+            }
+        }
+
         // Demo/browser-tests often cannot persist the same client_token from the XHR upload
         // to the final form POST. If nothing matched on token+instance, try a safe fallback:
         // search by instance_id only on the same data source. Guard this to demo/testing.

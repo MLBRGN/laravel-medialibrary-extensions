@@ -184,7 +184,7 @@ it('sets temporary upload mode when given a class string', function () {
 
     expect($component->temporaryUploadMode)->toBeTrue()
         ->and($component->model)->toBeNull()
-        ->and($component->modelType)->toBe($model->getMorphClass());
+        ->and($component->modelType)->toBe(get_class($model));
 });
 
 it('throws if given class string does not exist', function () {

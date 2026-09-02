@@ -16,7 +16,7 @@ class MediaPreviews extends BaseMediaComponent
     public Collection $media;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,// either a modal that implements HasMediaExtended or it's class name
         public array $collections = [],
         array $options = [],

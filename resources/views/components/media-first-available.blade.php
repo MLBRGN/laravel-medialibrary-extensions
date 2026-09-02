@@ -4,6 +4,7 @@
         id="{{ $getDomId() }}"
     >
         <x-mle-media-viewer
+            :id="$id"
             :medium="$medium"
             :options="$getOptions()"
             :preview-mode="$previewMode"

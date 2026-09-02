@@ -31,7 +31,7 @@ it('initializes with a HasMedia model', function () {
     );
 
     expect($component->model)->toBe($model)
-        ->and($component->modelType)->toBe($model->getMorphClass())
+        ->and($component->modelType)->toBe(get_class($model))
         ->and($component->modelId)->toBe($model->getKey());
     //        ->and($component->mediaPresent)->toBeFalse();
     //        ->and($component->mediaUploadRoute)->toBe('/fake-upload-route')
@@ -61,7 +61,7 @@ it('initializes with a model class string', function () {
     );
 
     expect($component->model)->toBeNull()
-        ->and($component->modelType)->toBe($model->getMorphClass())
+        ->and($component->modelType)->toBe(get_class($model))
         ->and($component->modelId)->toBeNull()
 //        ->and($component->mediaPresent)->toBeFalse()
         ->and($component->getConfig('useXhr'))->toBeTrue();

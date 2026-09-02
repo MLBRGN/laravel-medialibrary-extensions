@@ -6,8 +6,8 @@
 >
     <!-- hidden anchor for scrolling -->
     <a id="test-media-modal"></a>
-    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"media","theme":"bootstrap-5","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"images"},"disabled":false,"readonly":false,"selectable":false,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"disableForm":false}'>
-    <input type="hidden" name="mle_instance_ids[]" value="E3642AD197F92C6D1BF5D78226">
+    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":true,"uploadFieldName":"media","theme":"bootstrap-5","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"images"},"disabled":false,"readonly":false,"selectable":false,"modelType":"Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog","modelId":null,"id":"test-media-modal","instanceId":"test-media-modal","clientToken":"<ULID>","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"disableForm":false}'>
+    <input type="hidden" name="mle_instance_ids[]" value="test-media-modal">
 
         
     
@@ -103,7 +103,7 @@
         
         <div class="mle-media-manager-previews">
             <div 
-    class="mle-status-area" instance-id="E3642AD197F92C6D1BF5D78226" 
+    class="mle-status-area" instance-id="test-media-modal" 
     data-mle-status-area-container 
     id="test-media-modal-status-area"
 >
@@ -140,7 +140,7 @@
     <div 
     class="mle-component mle-media-preview-container mle-media-manager-no-media"
      data-mle-media-preview-container
-    id="<ULID>-media-preview-item-empty"
+    id="test-media-modal-media-preview-item-empty"
 >
     <span class="mle-no-media">
          <svg id="Laag_2" data-name="Laag 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74.93 74.93">

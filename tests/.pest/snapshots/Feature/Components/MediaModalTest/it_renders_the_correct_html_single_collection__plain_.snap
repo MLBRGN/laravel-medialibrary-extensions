@@ -63,12 +63,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-0-media-viewer"
+        class="mle-media-preview-item mle-image-responsive" draggable="false"
         src="/storage/1/test.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
-        id="mle-image-responsive-1-image-responsive"
+        id="test-media-modal-mod-0-media-viewer-image-responsive"
     >
                 </div>
             </div>
@@ -79,12 +79,12 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <img
-        class="mle-media-preview-item mle-image-responsive" draggable="false" id="test-media-modal-mod-1-media-viewer"
+        class="mle-media-preview-item mle-image-responsive" draggable="false"
         src="/storage/2/test2.jpg"
                         alt=""
          loading="lazy"         data-mle-image
         data-mle-media-preview-image
-        id="mle-image-responsive-2-image-responsive"
+        id="test-media-modal-mod-1-media-viewer-image-responsive"
     >
                 </div>
             </div>

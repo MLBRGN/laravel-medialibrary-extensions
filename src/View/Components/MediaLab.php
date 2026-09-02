@@ -31,7 +31,7 @@ class MediaLab extends BaseComponent
     public ?string $modelReference = null;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public Media|TemporaryUpload|null $media,
         array $options = [],
         public ?string $dataSource = 'default'

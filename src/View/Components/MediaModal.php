@@ -14,7 +14,7 @@ class MediaModal extends BaseMediaComponent
     use InteractsWithOptionsAndConfig;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,
         public ?array $collections,
         public ?string $title,// TODO do i want this?

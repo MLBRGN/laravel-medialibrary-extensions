@@ -51,6 +51,7 @@ function parseYouTubeParams(VideoYouTube $component): array
 
 it('builds default YouTube query string correctly', function () {
     $component = new VideoYouTube(
+        id: 'test-id',
         medium: createMockMedia(),
         previewMode: true
     );
@@ -76,6 +77,7 @@ it('builds default YouTube query string correctly', function () {
 
 it('overrides default params with custom ones', function () {
     $component = new VideoYouTube(
+        id: 'test-id',
         medium: createMockMedia(),
         previewMode: false,
         youtubeParams: ['autoplay' => 0, 'mute' => 0, 'fs' => 0]
@@ -93,6 +95,7 @@ it('sets component properties correctly', function () {
     $media = createMockMedia('my-youtube-id');
 
     $component = new VideoYouTube(
+        id: 'test-id',
         medium: $media,
         previewMode: false,
         options: [
@@ -107,7 +110,7 @@ it('sets component properties correctly', function () {
 });
 
 it('returns correct view on render', function () {
-    $component = new VideoYouTube(createMockMedia());
+    $component = new VideoYouTube('test-id', createMockMedia());
 
     $view = $component->render();
 
@@ -116,7 +119,7 @@ it('returns correct view on render', function () {
 });
 
 it('renders view and matches snapshot', function () {
-    $component = new VideoYouTube(createMockMedia());
+    $component = new VideoYouTube('test-id', createMockMedia());
 
     $view = $component->render();
 

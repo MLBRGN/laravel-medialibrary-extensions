@@ -19,7 +19,7 @@ class YouTubeUploadForm extends BaseMediaComponent
     public ?string $modelType = null;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,// either a modal that implements HasMediaExtended or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],

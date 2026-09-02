@@ -74,7 +74,9 @@ class GetMediaPreviewerTemporaryHTMLAction
                 'mediaCount' => 0,
             ], 403);
         }
-        $model = new $modelType;
+
+        $modelClass = $this->mediaModelResolver->resolveModelClass($modelType);
+        $model = new $modelClass;
 
         $collections = collect($collections)
             ->filter(fn ($collection) => ! empty($collection))

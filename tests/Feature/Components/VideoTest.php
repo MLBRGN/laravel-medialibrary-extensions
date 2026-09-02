@@ -9,6 +9,7 @@ it('initializes correctly and sets id', function () {
     $medium = $this->getMediaModelWithMedia(['audio' => 1]);
 
     $component = new Video(
+        'test-video',
         $medium
     );
 
@@ -39,7 +40,7 @@ it('can be instantiated with a TemporaryUpload and match snapshot', function () 
 
 it('renders the correct Blade view', function () {
     $media = new Media(['id' => 303]);
-    $component = new Video($media);
+    $component = new Video('test-video', $media);
 
     $view = $component->render();
     expect($view->name())->toBe('medialibrary-extensions::components.video');

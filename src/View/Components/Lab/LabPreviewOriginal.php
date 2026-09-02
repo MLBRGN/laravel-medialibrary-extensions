@@ -21,7 +21,7 @@ class LabPreviewOriginal extends BaseComponent
     public ?array $imageInfo = null;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public Media|TemporaryUpload|null $media,
         array $options = [],
         public ?string $dataSource = 'default'

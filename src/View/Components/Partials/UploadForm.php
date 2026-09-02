@@ -22,7 +22,7 @@ class UploadForm extends BaseMediaComponent
     protected array $fileRequirements = [];
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,// either a model implementing HasMediaExtended or its class name
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],

@@ -11,7 +11,7 @@ class MediaPreviewItemEmpty extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public function __construct(
-        ?string $id,
+        string $id,
         array $options = [],
         public ?string $dataSource = 'default',
     ) {

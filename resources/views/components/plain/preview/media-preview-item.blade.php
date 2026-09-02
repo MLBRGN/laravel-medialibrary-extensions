@@ -6,6 +6,7 @@
          data-mle-media-preview-item
     >
         <x-mle-media-viewer
+            :id="$id"
             :medium="$medium"
             :options="$getOptions()"
             :preview-mode="true"

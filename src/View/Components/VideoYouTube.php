@@ -18,12 +18,12 @@ class VideoYouTube extends BaseComponent
     public string $youtubeId = '';
 
     public function __construct(
+        string $id,
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         public ?array $youtubeParams = [],
         array $options = [],
         public ?bool $multiple = true,// TODO what is this used for?
-        ?string $id = null,
     ) {
         parent::__construct($id);
 

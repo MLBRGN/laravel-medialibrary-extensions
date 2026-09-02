@@ -192,15 +192,15 @@
                     :data-source="$dataSource"
                     
                 />
-{{--                <form action="{{ route('store-alien') }}" method="post">--}}
-{{--                    @csrf--}}
-{{--                    <input type="hidden" name="name" value="dummy">--}}
-{{--                    <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-single-temporary') }}">--}}
-{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
-{{--                    <input type="hidden" name="client_token" value="" data-mle-client-token>--}}
-{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
-{{--                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>--}}
-{{--                </form>--}}
+                <form action="{{ route('store-alien') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="name" value="dummy">
+                    <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-single-temporary') }}">
+                    <input type="hidden" name="data_source" value="{{ $dataSource }}">
+                    <input type="hidden" name="client_token" value="" data-mle-client-token>
+                    <input type="hidden" name="data_source" value="{{ $dataSource }}">
+                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>
+                </form>
         @endif
 
         @if ($showMmmPermanent)
@@ -252,15 +252,15 @@
                     ]"
                     :data-source="$dataSource"
                 />
-{{--                <form action="{{ route('store-alien') }}" method="post">--}}
-{{--                    @csrf--}}
-{{--                    <input type="hidden" name="name" value="dummy">--}}
-{{--                    <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-multiple-temporary') }}">--}}
-{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
-{{--                    <input type="hidden" name="client_token" value="" data-mle-client-token>--}}
-{{--                    <input type="hidden" name="data_source" value="{{ $dataSource }}">--}}
-{{--                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>--}}
-{{--                </form>--}}
+                <form action="{{ route('store-alien') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="name" value="dummy">
+                    <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-multiple-temporary') }}">
+                    <input type="hidden" name="data_source" value="{{ $dataSource }}">
+                    <input type="hidden" name="client_token" value="" data-mle-client-token>
+                    <input type="hidden" name="data_source" value="{{ $dataSource }}">
+                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>
+                </form>
         @endif
     
         @if($showMediaCarousel)
@@ -339,6 +339,7 @@
                     <x-form-html-editor
                         name="content"
                         label="Content *"
+                        data-base-id="media-manager"
                         :tinymce-config="[]"
                         :extra-form-data="[
                                         'model_type' => $model->getMorphClass(),

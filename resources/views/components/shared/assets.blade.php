@@ -13,6 +13,7 @@
         'for' => 'global',
         'theme' => $assetConfig['theme'] ?? config('medialibrary-extensions.frontend_theme', 'plain'),
         'assetBasePath' => asset(config('medialibrary-extensions.asset_path')),
+        'imageEditorTranslationsPath' => $assetConfig['imageEditorTranslationsPath'] ?? config('medialibrary-extensions.image_editor_translations_path', '/image-editor-translations/'),
         // Keep global translations here if you want them available immediately
         'translations' => $assetConfig['translations'] ?? [],
         'assets' => [], // no assets at global level

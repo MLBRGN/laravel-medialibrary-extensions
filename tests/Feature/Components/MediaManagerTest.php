@@ -124,7 +124,7 @@ it('initializes with temporary upload when only model class name provided', func
     );
 
     expect($component->model)->toBeNull()
-        ->and($component->modelType)->toBe($model->getMorphClass())
+        ->and($component->modelType)->toBe(get_class($model))
         ->and($component->modelId)->toBeNull()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
         ->and($component->getConfig('routes.mediaUpload'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')));

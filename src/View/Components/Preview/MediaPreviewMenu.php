@@ -14,7 +14,7 @@ class MediaPreviewMenu extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,// either a modal that implements HasMediaExtended or it's class name
         public $medium,
         public array $collections = [],

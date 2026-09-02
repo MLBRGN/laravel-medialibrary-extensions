@@ -13,7 +13,7 @@ class Spinner extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public function __construct(
-        ?string $id,
+        string $id,
         array $options = [],
     ) {
         parent::__construct($id);

@@ -14,10 +14,10 @@ class Video extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public function __construct(
+        string $id,
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         array $options = [],
-        ?string $id = null,
     ) {
         parent::__construct($id);
 

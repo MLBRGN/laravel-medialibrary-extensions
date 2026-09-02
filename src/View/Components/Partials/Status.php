@@ -15,7 +15,7 @@ class Status extends BaseComponent
     public ?array $status = null;
 
     public function __construct(
-        ?string $id,
+        string $id,
         array $options = [],
     ) {
         parent::__construct($id);

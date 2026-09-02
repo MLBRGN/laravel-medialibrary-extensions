@@ -16,7 +16,7 @@ class MediaViewer extends BaseComponent
     public ?string $componentToRender;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public Media|TemporaryUpload|null $medium,
         array $options = [],
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)

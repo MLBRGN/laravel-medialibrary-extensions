@@ -31,11 +31,11 @@ class Document extends BaseComponent
     ];
 
     public function __construct(
+        string $id,
         public Media|TemporaryUpload $medium,
         public bool $previewMode = true,
         array $options = [],
         public string $alt = '',
-        ?string $id = null,
     ) {
         parent::__construct($id);
 

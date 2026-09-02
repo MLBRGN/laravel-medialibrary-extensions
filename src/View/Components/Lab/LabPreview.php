@@ -15,7 +15,7 @@ class LabPreview extends BaseMediaComponent
     use InteractsWithOptionsAndConfig;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,// either a modal that implements HasMedia or it's class name
         public Media $media,
         public string $title,

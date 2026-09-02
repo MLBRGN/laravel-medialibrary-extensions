@@ -31,7 +31,7 @@ class MediaManager extends BaseMediaComponent
     // TODO refactor $modelReference to modelReference?
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,
         public Media|TemporaryUpload|null $singleMedia = null,
         public array $collections = [],

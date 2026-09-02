@@ -7,7 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 class MediaManagerMultiple extends MediaManager
 {
     public function __construct(
-        ?string $id,
+        string $id,
         mixed $modelReference,
         array $collections = [],
         array $options = [],

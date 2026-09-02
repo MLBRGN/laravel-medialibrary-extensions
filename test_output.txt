@@ -1,0 +1,128 @@
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Browser\DemoPageTest[39m
+  [32;1m✓[39;22m[90m [39m[90mit can control media lab with dataset "bootstrap + demo default + x[39m[90m…[39m [90m2.72s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mit can control media lab with dataset "bootstrap + demo default +[39m[90m… [39m [90m12.67s[39m  
+  [31m────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Browser\DemoPageTest[22m [90m>[39m it can control media lab with datase…   
+[39;1m  Expected to see text [Restored original.] on the page initially with the url [http://127.0.0.1:55384/mle-demo?theme=bootstrap-5&data_source=demo_default&use_xhr=0], but it was not found or not visible. A screenshot of the page has been saved to [Tests/Browser/Screenshots/it_can_control_media_lab].
+
+The following console logs were found:
+- mfc createAssetLoader
+- mfc configs [object Object],[object Object],[object Object]
+- mfc manifest [object Object]
+- form:/vendor/mlbrgn/laravel-form-components/css/index.css loaded
+- mfc: loadScript  /vendor/mlbrgn/laravel-form-components/js/index.js
+- form:/vendor/mlbrgn/laravel-form-components/css/form-validation.css loaded
+- mfc: loadScript  /vendor/mlbrgn/laravel-form-components/js/form-validation.js
+- setupBootstrapClientSideValidation
+- forms [object NodeList]
+- form:/vendor/mlbrgn/laravel-form-components/css/tinymce-content.css loaded
+- mfc: loadScript  /vendor/mlbrgn/laravel-form-components/js/html-editor.js
+
+The following exception was thrown by the HTTP server:
+Symfony\Component\HttpKernel\Exception\NotFoundHttpException: The route js/vendor/image-editor/lang/nl.json could not be found.
+
+Stack trace:
+#0 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php(184): Illuminate\Routing\AbstractRouteCollection->handleMatchedRoute(Object(Illuminate\Http\Request), NULL)
+#1 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Routing/Router.php(777): Illuminate\Routing\RouteCollection->match(Object(Illuminate\Http\Request))
+#2 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Routing/Router.php(764): Illuminate\Routing\Router->findRoute(Object(Illuminate\Http\Request))
+#3 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Routing/Router.php(753): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#4 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#5 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(180): Illuminate\Foundation\Http\Kernel->{closure:Illuminate\Foundation\Http\Kernel::dispatchToRouter():197}(Object(Illuminate\Http\Request))
+#6 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->{closure:Illuminate\Pipeline\Pipeline::prepareDestination():178}(Object(Illuminate\Http\Request))
+#7 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#8 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull->handle(Object(Illuminate\Http\Request), Object(Closure))
+#9 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#10 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(51): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#11 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Foundation\Http\Middleware\TrimStrings->handle(Object(Illuminate\Http\Request), Object(Closure))
+#12 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php(27): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#13 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
+#14 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(109): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#15 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance->handle(Object(Illuminate\Http\Request), Object(Closure))
+#16 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(74): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#17 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Http\Middleware\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))
+#18 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(58): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#19 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Http\Middleware\TrustProxies->handle(Object(Illuminate\Http\Request), Object(Closure))
+#20 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php(22): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#21 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks->handle(Object(Illuminate\Http\Request), Object(Closure))
+#22 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php(26): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#23 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(219): Illuminate\Http\Middleware\ValidatePathEncoding->handle(Object(Illuminate\Http\Request), Object(Closure))
+#24 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(137): Illuminate\Pipeline\Pipeline->{closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195}(Object(Illuminate\Http\Request))
+#25 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#26 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#27 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Drivers/LaravelHttpServer.php(320): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#28 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/RequestHandler/ClosureRequestHandler.php(22): Pest\Browser\Drivers\LaravelHttpServer->handleRequest(Object(Amp\Http\Server\Request))
+#29 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/Middleware/CompressionMiddleware.php(57): Amp\Http\Server\RequestHandler\ClosureRequestHandler->handleRequest(Object(Amp\Http\Server\Request))
+#30 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/Middleware/Internal/MiddlewareRequestHandler.php(27): Amp\Http\Server\Middleware\CompressionMiddleware->handleRequest(Object(Amp\Http\Server\Request), Object(Amp\Http\Server\RequestHandler\ClosureRequestHandler))
+#31 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/Middleware/ConcurrencyLimitingMiddleware.php(41): Amp\Http\Server\Middleware\Internal\MiddlewareRequestHandler->handleRequest(Object(Amp\Http\Server\Request))
+#32 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/Middleware/Internal/MiddlewareRequestHandler.php(27): Amp\Http\Server\Middleware\ConcurrencyLimitingMiddleware->handleRequest(Object(Amp\Http\Server\Request), Object(Amp\Http\Server\Middleware\Internal\MiddlewareRequestHandler))
+#33 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/Middleware/AllowedMethodsMiddleware.php(60): Amp\Http\Server\Middleware\Internal\MiddlewareRequestHandler->handleRequest(Object(Amp\Http\Server\Request))
+#34 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/Middleware/Internal/MiddlewareRequestHandler.php(27): Amp\Http\Server\Middleware\AllowedMethodsMiddleware->handleRequest(Object(Amp\Http\Server\Request), Object(Amp\Http\Server\Middleware\Internal\MiddlewareRequestHandler))
+#35 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/http-server/src/Driver/Internal/AbstractHttpDriver.php(57): Amp\Http\Server\Middleware\Internal\MiddlewareRequestHandler->handleRequest(Object(Amp\Http\Server\Request))
+#36 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/amp/src/functions.php(33): Amp\Http\Server\Driver\Internal\AbstractHttpDriver->handleRequest(Object(Amp\Http\Server\Request))
+#37 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/AbstractDriver.php(453): {closure:Amp\async():23}(NULL, NULL, Array)
+#38 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/AbstractDriver.php(648): Revolt\EventLoop\Internal\AbstractDriver->invokeMicrotasks()
+#39 [internal function]: Revolt\EventLoop\Internal\AbstractDriver->{closure:Revolt\EventLoop\Internal\AbstractDriver::createCallbackFiber():593}()
+#40 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/DriverSuspension.php(65): Fiber->resume(NULL)
+#41 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/AbstractDriver.php(453): Revolt\EventLoop\Internal\DriverSuspension::{closure:Revolt\EventLoop\Internal\DriverSuspension::resume():62}()
+#42 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/AbstractDriver.php(648): Revolt\EventLoop\Internal\AbstractDriver->invokeMicrotasks()
+#43 [internal function]: Revolt\EventLoop\Internal\AbstractDriver->{closure:Revolt\EventLoop\Internal\AbstractDriver::createCallbackFiber():593}()
+#44 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/AbstractDriver.php(530): Fiber->start()
+#45 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/AbstractDriver.php(586): Revolt\EventLoop\Internal\AbstractDriver->invokeCallbacks()
+#46 [internal function]: Revolt\EventLoop\Internal\AbstractDriver->{closure:Revolt\EventLoop\Internal\AbstractDriver::createLoopFiber():566}()
+#47 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/AbstractDriver.php(96): Fiber->resume()
+#48 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/revolt/event-loop/src/EventLoop/Internal/DriverSuspension.php(119): Revolt\EventLoop\Internal\AbstractDriver->{closure:Revolt\EventLoop\Internal\AbstractDriver::__construct():90}()
+#49 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/pipeline/src/Internal/QueueState.php(128): Revolt\EventLoop\Internal\DriverSuspension->suspend()
+#50 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/pipeline/src/Internal/ConcurrentQueueIterator.php(31): Amp\Pipeline\Internal\QueueState->continue(NULL)
+#51 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/websocket/src/Rfc6455Client.php(92): Amp\Pipeline\Internal\ConcurrentQueueIterator->continue(NULL)
+#52 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/amphp/websocket-client/src/Rfc6455Connection.php(44): Amp\Websocket\Rfc6455Client->receive(NULL)
+#53 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Playwright/Client.php(136): Amp\Websocket\Client\Rfc6455Connection->receive()
+#54 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Playwright/Client.php(90): Pest\Browser\Playwright\Client->fetch(Object(Amp\Websocket\Client\Rfc6455Connection))
+#55 [internal function]: Pest\Browser\Playwright\Client->execute('frame@2a21a8dd3...', 'click', Array)
+#56 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Playwright/Concerns/InteractsWithPlaywright.php(123): iterator_to_array(Object(Generator))
+#57 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Playwright/Locator.php(137): Pest\Browser\Playwright\Locator->processVoidResponse(Object(Generator))
+#58 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Api/Concerns/InteractsWithElements.php(19): Pest\Browser\Playwright\Locator->click()
+#59 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Api/Concerns/InteractsWithElements.php(193): Pest\Browser\Api\Webpage->click('#alien-laborato...')
+#60 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Api/Concerns/InteractsWithElements.php(201): Pest\Browser\Api\Webpage->press('#alien-laborato...')
+#61 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Api/AwaitableWebpage.php(55): Pest\Browser\Api\Webpage->pressAndWaitFor('#alien-laborato...', 0.2)
+#62 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Playwright/Playwright.php(230): Pest\Browser\Api\AwaitableWebpage->{closure:Pest\Browser\Api\AwaitableWebpage::__call():55}()
+#63 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Execution.php(149): Pest\Browser\Playwright\Playwright::usingTimeout(1000, Object(Closure))
+#64 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest-plugin-browser/src/Api/AwaitableWebpage.php(53): Pest\Browser\Execution->waitForExpectation(Object(Closure))
+#65 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/tests/Browser/DemoPageTest.php(1018): Pest\Browser\Api\AwaitableWebpage->__call('pressAndWaitFor', Array)
+#66 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/src/Factories/TestCaseMethodFactory.php(177): P\Tests\Browser\DemoPageTest->{closure:/Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/tests/Browser/DemoPageTest.php:973}('bootstrap-5', 'demo_default', false)
+#67 [internal function]: P\Tests\Browser\DemoPageTest->{closure:Pest\Factories\TestCaseMethodFactory::getClosure():167}('bootstrap-5', 'demo_default', false)
+#68 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/src/Concerns/Testable.php(514): call_user_func_array(Object(Closure), Array)
+#69 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/src/Support/ExceptionTrace.php(26): P\Tests\Browser\DemoPageTest->{closure:Pest\Concerns\Testable::__callClosure():514}()
+#70 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/src/Concerns/Testable.php(514): Pest\Support\ExceptionTrace::ensure(Object(Closure))
+#71 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/src/Concerns/Testable.php(336): P\Tests\Browser\DemoPageTest->__callClosure(Object(Closure), Array)
+#72 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/src/Factories/TestCaseFactory.php(179) : eval()'d code(196): P\Tests\Browser\DemoPageTest->__runTest(Object(Closure), 'bootstrap-5', 'demo_default', false)
+#73 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/Framework/TestCase.php(1318): P\Tests\Browser\DemoPageTest->__pest_evaluable_it_can_control_media_lab('bootstrap-5', 'demo_default', false)
+#74 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/Framework/TestCase.php(1355): PHPUnit\Framework\TestCase->invokeTestMethod('__pest_evaluabl...', Array)
+#75 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/Framework/TestCase.php(521): PHPUnit\Framework\TestCase->runTest()
+#76 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/Framework/TestRunner/TestRunner.php(99): PHPUnit\Framework\TestCase->runBare()
+#77 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/Framework/TestCase.php(361): PHPUnit\Framework\TestRunner->run(Object(P\Tests\Browser\DemoPageTest))
+#78 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/Framework/TestSuite.php(374): PHPUnit\Framework\TestCase->run()
+#79 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/Framework/TestSuite.php(374): PHPUnit\Framework\TestSuite->run()
+#80 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(64): PHPUnit\Framework\TestSuite->run()
+#81 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/phpunit/phpunit/src/TextUI/Application.php(229): PHPUnit\TextUI\TestRunner->run(Object(PHPUnit\TextUI\Configuration\Configuration), Object(PHPUnit\Runner\ResultCache\DefaultResultCache), Object(PHPUnit\Framework\TestSuite))
+#82 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/src/Kernel.php(103): PHPUnit\TextUI\Application->run(Array)
+#83 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/bin/pest(196): Pest\Kernel->handle(Array, Array)
+#84 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/bin/pest(204): {closure:/Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/pestphp/pest/bin/pest:19}()
+#85 /Users/evertjangarretsen/PhpstormProjects/mlbrgn-laravel-packages/packages/mlbrgn/laravel-medialibrary-extensions/vendor/bin/pest(119): include('/Users/evertjan...')
+#86 {main}[39;22m
+
+  at [32mtests/Browser/DemoPageTest.php[39m:[32m1053[39m
+    1049▕         ->assertPresent($restoreButtonSelector)
+    1050▕         ->pressAndWaitFor($restoreButtonSelector, $waitTime)
+    1051▕         ->assertSee(__('medialibrary-extensions::messages.please_wait'));
+    1052▕ 
+  ➜ 1053▕     $page->assertSee(__('medialibrary-extensions::messages.restored_original'));
+    1054▕ 
+    1055▕ })->group('browser')
+    1056▕     ->with('media_lab_test_matrix');
+    1057▕
+
+
+  [90mTests:[39m    [31;1m1 failed[39;22m[90m,[39m[39m [39m[32;1m1 passed[39;22m[90m,[39m[39m [2m6 pending[22m[39m[90m (23 assertions)[39m
+  [90mDuration:[39m [39m15.74s[39m
+

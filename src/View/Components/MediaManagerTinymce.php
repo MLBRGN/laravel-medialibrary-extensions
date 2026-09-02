@@ -26,7 +26,7 @@ class MediaManagerTinymce extends BaseMediaComponent
      * @var Repository|Application|mixed|object|null
      */
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,// either a modal that implements HasMediaExtended or it's class name
         public array $collections = [],
         array $options = [],

@@ -9,6 +9,7 @@ it('initializes correctly and uses correct suffix', function () {
     $medium = $this->getMediaModelWithMedia(['audio' => 1]);
 
     $component = new Audio(
+        'test-audio',
         $medium
     );
 
@@ -44,7 +45,7 @@ it('can be instantiated with a TemporaryUpload', function () {
 
 it('renders the correct Blade view', function () {
     $media = new Media(['id' => 789]);
-    $component = new Audio($media);
+    $component = new Audio('test-audio', $media);
 
     $view = $component->render();
     expect($view->name())->toBe('medialibrary-extensions::components.audio');

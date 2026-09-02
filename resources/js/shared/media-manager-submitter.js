@@ -127,6 +127,7 @@ function getRouteFromAction(action, target, config) {
         'upload-youtube-medium': config.routes.youtubeUpload,
         'destroy-medium': target?.dataset?.mleRoute,
         'set-as-first': target?.dataset?.mleRoute,
+        'medium-restore': target?.dataset?.mleRoute,
     };
 
     return routes[action] || null;

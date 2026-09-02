@@ -82,7 +82,7 @@ it('resolves an actual HasMedia model instance', function () {
     $resolvedModel = $mediaModelResolver->resolveModelReference($model, 'default');
 
     expect($resolvedModel->model)->toBe($model);
-    expect($resolvedModel->modelType)->toBe($model->getMorphClass());
+    expect($resolvedModel->modelType)->toBe(get_class($model));
     expect($resolvedModel->modelId)->toBe($model->getKey());
     expect($resolvedModel->temporaryUploadMode)->toBeFalse();
 });
@@ -94,7 +94,7 @@ it('resolves a class name string that implements HasMedia', function () {
     $resolvedModel = $mediaModelResolver->resolveModelReference($model->getMorphClass(), 'default');
 
     expect($resolvedModel->model)->toBeNull();
-    expect($resolvedModel->modelType)->toBe($model->getMorphClass());
+    expect($resolvedModel->modelType)->toBe(get_class($model));
     expect($resolvedModel->modelId)->toBeNull();
     expect($resolvedModel->temporaryUploadMode)->toBeTrue();
 });

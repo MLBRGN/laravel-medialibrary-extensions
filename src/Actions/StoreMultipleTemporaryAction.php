@@ -133,15 +133,12 @@ class StoreMultipleTemporaryAction
                 ?? $request->cookie('mle_client_token')
                 ?? (string) Str::ulid();
 
-            //            Storage::disk($disk)->putFileAs($directory, $prepared->file, $safeFilename);
-
-            // Store file
-            $path = Storage::disk($disk)->putFileAs(
-                $directory,
-                $prepared->file,
-                $safeFilename
-            );
-            $temporaryUpload = $this->mediaModelResolver->instantiateTemporaryUpload($dataSource);
+        // Store file with a unique name to avoid collisions when multiple files with the same name are uploaded.
+        $path = Storage::disk($disk)->putFile(
+            $directory,
+            $prepared->file
+        );
+        $temporaryUpload = $this->mediaModelResolver->instantiateTemporaryUpload($dataSource);
 
             // Diagnostics: log upload context and resolved connection before persisting
             try {

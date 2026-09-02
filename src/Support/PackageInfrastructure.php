@@ -89,6 +89,16 @@ class PackageInfrastructure
 
         config()->set('session.driver', 'file');
         config()->set('session.files', storage_path('framework/sessions'));
+
+        config()->set('medialibrary-extensions.models.blog', 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog');
+        config()->set('medialibrary-extensions.models.alien', 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien');
+
+        if (class_exists(\Illuminate\Database\Eloquent\Relations\Relation::class)) {
+            \Illuminate\Database\Eloquent\Relations\Relation::morphMap([
+                'blog' => 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog',
+                'alien' => 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien',
+            ]);
+        }
     }
 
     protected static function registerConnections(string $profile): void

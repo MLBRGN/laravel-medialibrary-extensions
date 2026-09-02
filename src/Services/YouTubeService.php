@@ -114,7 +114,8 @@ class YouTubeService
         }
 
         $filename = sanitizeFilename("youtube-{$videoId}.jpg");
-        $fullPath = "{$basePath}/{$filename}";
+        $uniqueFilename = Str::uuid().'.jpg';
+        $fullPath = "{$basePath}/{$uniqueFilename}";
         $contents = file_get_contents($filePath);
 
         Storage::disk($disk)->put($fullPath, $contents);

@@ -53,5 +53,5 @@
         @endif
     </div>
 @empty
-    <x-mle-media-preview-item-empty />
+    <x-mle-media-preview-item-empty :id="$id" />
 @endforelse

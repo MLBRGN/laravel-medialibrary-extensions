@@ -33,7 +33,7 @@ abstract class BaseMediaComponent extends BaseComponent
      * @var Application|mixed|MediaModelResolver|object
      */
     public function __construct(
-        ?string $id,
+        string $id,
         mixed $modelReference,
         public ?string $dataSource = 'default'
     ) {

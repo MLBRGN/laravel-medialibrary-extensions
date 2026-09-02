@@ -159,7 +159,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
     // Assert: model binding
     expect($component->model)
         ->toBe($model)
-        ->and($component->modelType)->toBe($model->getMorphClass())
+        ->and($component->modelType)->toBe(get_class($model))
         ->and($component->modelId)->toBe($model->getKey());
 
     // Assert: config resolution (mime types, theme, xhr usage)
@@ -241,7 +241,7 @@ it('sets model properties correctly when given a string model class name', funct
     $allowedMimeTypesHuman = $component->getConfig('allowedMimeTypesHuman');
 
     expect($component->model)->toBeNull()
-        ->and($component->modelType)->toBe($model->getMorphClass())
+        ->and($component->modelType)->toBe(get_class($model))
         ->and($component->modelId)->toBeNull()
         ->and($allowedMimeTypes)->toBeString()->not->toBeEmpty()
         ->and($allowedMimeTypesHuman)->toBeString()->not->toBeEmpty()

@@ -76,21 +76,15 @@ class MediaModelResolver
     }
 
     public function resolveModelById(
-        ?string $modelClass,
+        ?string $modelType,
         string|int|null $id,
         ?string $dataSource,
     ): ?HasMediaExtended {
-        if ($modelClass === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
+        if ($modelType === null || $id === null || $id === '' || (is_int($id) && $id <= 0)) {
             return null;
         }
 
-        if (! class_exists($modelClass)) {
-            throw InvalidModelTypeException::for($modelClass);
-        }
-
-        if (! is_subclass_of($modelClass, HasMediaExtended::class)) {
-            throw InvalidModelTypeException::missingInterface($modelClass);
-        }
+        $modelClass = $this->resolveModelClass($modelType);
 
         /** @var HasMediaExtended */
         return $this->findById($modelClass, $id, $dataSource);

@@ -79,10 +79,10 @@ class StoreSingleTemporaryAction
             '-'
         ).'.'.$prepared->file->getClientOriginalExtension();
 
-        $path = Storage::disk($disk)->putFileAs(
+        // Store file with a unique name to avoid collisions.
+        $path = Storage::disk($disk)->putFile(
             $directory,
-            $prepared->file,
-            $safeFilename
+            $prepared->file
         );
 
         $userId = Auth::check()

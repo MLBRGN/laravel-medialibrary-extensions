@@ -37,22 +37,22 @@ insertSelectedButton.addEventListener('click', () => {
     window.close();
 
     // Try to resolve the instanceId from the Media Manager config input
-    // let instanceId = null;
-    // try {
-    //     const configEl = document.querySelector('.mle-media-manager-config');
-    //     if (configEl && configEl.value) {
-    //         const cfg = JSON.parse(configEl.value);
-    //         instanceId = cfg.instanceId || null;
-    //     }
-    // } catch (e) {
-    //     // ignore
-    // }
+    let instanceId = null;
+    try {
+        const configEl = document.querySelector('.mle-media-manager-config');
+        if (configEl && configEl.value) {
+            const cfg = JSON.parse(configEl.value);
+            instanceId = cfg.instanceId || null;
+        }
+    } catch (e) {
+        // ignore
+    }
 
     // TinyMCE will catch this in onMessage
     window.parent.postMessage({
         mce: true,
-        // type: 'mle:picker:insert',
-        // instanceId: instanceId,
+        type: 'mle:picker:insert',
+        instanceId: instanceId,
         content: file
     }, '*'); // use '*' for now
 

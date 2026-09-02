@@ -17,6 +17,7 @@ class ImageResponsive extends BaseComponent
     protected array $generatedConversions = [];
 
     public function __construct(
+        string $id,
         public Media|TemporaryUpload|null $medium = null,
         public bool $previewMode = true,
         public string $conversion = '',
@@ -28,7 +29,6 @@ class ImageResponsive extends BaseComponent
         array $options = [],
         public ?string $placeholder = null,
     ) {
-        $id = 'mle-image-responsive-'.($this->medium?->id ?? 'no-medium');
         parent::__construct($id);
         $this->options = $options;
         if ($this->medium) {

@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class MediaManagerSingle extends MediaManager
 {
     public function __construct(
-        ?string $id,
+        string $id,
         mixed $modelReference,
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         array $collections = [],

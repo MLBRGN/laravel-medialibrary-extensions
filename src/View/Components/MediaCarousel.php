@@ -23,7 +23,7 @@ class MediaCarousel extends BaseComponent
     public string $previewerId = '';
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference,
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         public ?array $collections = [],

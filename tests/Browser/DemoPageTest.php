@@ -13,8 +13,8 @@ beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });
 
-$waitTimeXhr = 0;
-$waitTImeNonXhr = .2; // non-xhr tests are slower, setting it to lower than 1 may cause too many failures
+$waitTimeXhr = .2;
+$waitTImeNonXhr = 2; // non-xhr tests are slower, setting it to lower than 1 may cause too many failures
 
 dataset('mms_test_matrix', [
 //    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
@@ -446,6 +446,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) use ($waitT
     // TODO
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
 
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('mms_test_matrix')
     ->flaky();
@@ -492,6 +494,8 @@ it('honors min / max width height and file size constraints in uploads', functio
         ->pressAndWaitFor($uploadButtonSelector, $waitTime)
         ->assertSee(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
 
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('mms_test_matrix')
     ->flaky();
@@ -670,7 +674,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitT
 
     // TODO
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
-
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('mmm_test_matrix')
     ->flaky();
@@ -732,6 +737,8 @@ it('enforces max items cap on multiple media manager (mmm) on demo page', functi
         ->assertMissing($thirdItemSelector)
         ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 2, 'total' => 2]));
 
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('mmm_cap_matrix');
 
@@ -842,7 +849,8 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $page->assertButtonEnabled($uploadButtonSelector);
 
     //    $this->assertPreviewImageVisible($page, 'alien-single-permanent-mms');
-
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('mms_youtube_test_matrix')
     ->flaky();
@@ -966,6 +974,8 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 //        ->click($modalCloseButtonSelector)
         ->assertMissing($modalSelector); // not visible
 
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('media_carousel_test_matrix')
     ->flaky();
@@ -1052,6 +1062,8 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 
     $page->assertSee(__('medialibrary-extensions::messages.restored_original'));
 
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('media_lab_test_matrix');
 
@@ -1336,7 +1348,8 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $tinyMceBodyImgSelector = $tinyMceBodySelector.' img';
         $page->assertPresent($tinyMceBodyImgSelector);
     });
-
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
 })->group('browser')
     ->with('media_html_editor_matrix');
 
@@ -1368,7 +1381,7 @@ it('promotes temporary uploads to permanent media on form submit', function () {
 
     // 2. Submit the form to create the model and promote media
     // We need to click the specific "Save model" button for the MMM form
-    $page->press($mmmTemporaryId.' ~ button[type="submit"]')
+    $page->press($mmmTemporaryId.' ~ form button[type="submit"]')
         ->wait($waitTime)
         ->assertPathIs('/mle-demo')
         ->wait($waitTime);
@@ -1377,7 +1390,10 @@ it('promotes temporary uploads to permanent media on form submit', function () {
     $this->scrollIntoView($page, $mmmPermanentId);
     $page->wait($waitTime)
         ->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
-})->group('browser')->todo();
+
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
+})->group('browser');
 
 it('promotes multiple temporary uploads to permanent media on form submit (MMM temporary)', function () {
     // Allow multiple items in the shared collection for this test
@@ -1411,7 +1427,7 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
 
     // 2. Submit the specific MMM form's save button to create the model and promote media
     // Use pressAndWaitFor to allow time for the POST + redirect to complete before asserting the path.
-    $page->pressAndWaitFor($mmmTemporaryId.' ~ button[type="submit"]', $waitTime)
+    $page->pressAndWaitFor($mmmTemporaryId.' ~ form button[type="submit"]', $waitTime)
         ->wait($waitTime)
         ->assertPathIs('/mle-demo')
         ->wait($waitTime);
@@ -1421,4 +1437,7 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
     $page->assertPresent($mmmPermanentGridSelector);
     $page->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
     $page->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:nth-child(2) [data-mle-media-preview-item] [data-mle-media-preview-image]');
-})->group('browser')->todo();
+
+    // TODO add this everytime a page is visited?
+    $page->page()->close();
+})->group('browser');

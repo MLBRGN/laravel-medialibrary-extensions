@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Davidhsianturi\BladeBootstrapIcons\BladeBootstrapIconsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
@@ -25,6 +26,7 @@ use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Fakes\FakeYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
+use Mlbrgn\MediaLibraryExtensions\Tests\Support\Http\Controllers\BlogShowcaseController;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
@@ -62,7 +64,9 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
  */
 class BrowserTestCase extends Orchestra
 {
-    protected $baseUrl = 'http://medialibrary-extensions.test';
+    protected $baseUrl = 'http://127.0.0.1';
+
+    protected string $infrastructureProfile = 'demo';
 
     protected Blog $testModel;
 
@@ -70,10 +74,8 @@ class BrowserTestCase extends Orchestra
 
     // large files cause timeouts in browser testing, disabled (for now)
     protected array $fixtures = [
-        '512x512_1:1.png',
-        '640x360_16:9.png',
-        '720x1280_9:16.png',
-        '800x600_4:3.png',
+        'test2.jpg',
+        'test3.jpg',
     ];
 
     protected array $invalidMimeTypeFixtures = [
@@ -109,6 +111,9 @@ class BrowserTestCase extends Orchestra
         config(['app.timezone' => 'UTC']);
 
         Carbon::setTestNow('2025-01-01 00:00:00');
+
+        $this->createDirectory(storage_path('framework/sessions'));
+        $this->createDirectory(storage_path('logs'));
 
         $this->testModel = Blog::create(['title' => 'Test Model']);
         $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
@@ -165,13 +170,27 @@ class BrowserTestCase extends Orchestra
     // Configure the Testbench application before booting.
     public function getEnvironmentSetUp($app): void
     {
+        Relation::morphMap([
+            'blog' => Blog::class,
+            'alien' => Alien::class,
+        ]);
+
+        $storagePath = __DIR__.'/Support/storage';
+        $app->useStoragePath($storagePath);
+
         $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
         // mark that we are running browser tests to allow safe demo/testing fallbacks
         $app['config']->set('medialibrary-extensions.browser_tests', true);
 
-        PackageInfrastructure::register('demo');// use same as demo page
+        PackageInfrastructure::register($this->infrastructureProfile);
 
-        // TODO needed?
+        $app['config']->set('medialibrary-extensions.models.blog', Blog::class);
+        $app['config']->set('medialibrary-extensions.models.alien', Alien::class);
+
+        $app['config']->set('filesystems.disks.media_originals.root', $storagePath . '/media_originals');
+        $app['config']->set('filesystems.disks.media_temporary.root', $storagePath . '/media_temporary');
+        $app['config']->set('filesystems.disks.mle_demo_disk.root', $storagePath . '/media_demo');
+
         $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
 
         // configure logging
@@ -290,6 +309,14 @@ class BrowserTestCase extends Orchestra
         Route::middleware('web')->group(function () {
             Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
             Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
+
+            Route::get('blog-showcase', [BlogShowcaseController::class, 'index'])->name('blog-showcase');
+            Route::post('blog-showcase-update', [BlogShowcaseController::class, 'update'])->name('blog-showcase-update');
+
+            Route::post('test-simple-post', function() {
+                return response()->json(['status' => 'ok']);
+            })->name('test-simple-post');
+
             Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
 
             Route::get('/vendor/mlbrgn/{package}/{path}', function ($package, $path) {
@@ -349,7 +376,7 @@ class BrowserTestCase extends Orchestra
 
     public function getLogDirectory(): string
     {
-        return __DIR__.'/.logs';
+        return storage_path('logs');
     }
 
     public function getBrowserStorageDirectory(string $suffix = ''): string
@@ -392,13 +419,13 @@ class BrowserTestCase extends Orchestra
 
         Log::info('BrowserTestCase - migrateDatabases !!!!!!!!!!');
         $this->artisan('migrate:fresh', [
-            '--database' => PackageInfrastructure::connection('demo', 'default'),
+            '--database' => PackageInfrastructure::connection($this->infrastructureProfile, 'default'),
             '--path' => realpath(__DIR__.'/database/migrations'),
             '--realpath' => true,
         ]);
 
         $this->artisan('migrate:fresh', [
-            '--database' => PackageInfrastructure::connection('demo', 'alt'),
+            '--database' => PackageInfrastructure::connection($this->infrastructureProfile, 'alt'),
             '--path' => realpath(__DIR__.'/../database/demo-migrations'),
             '--realpath' => true,
         ]);
@@ -406,42 +433,50 @@ class BrowserTestCase extends Orchestra
 //        static::$migrated = true;
     }
 
-//    protected function truncateDatabases(): void
-//    {
-//        foreach ([
-//                     PackageInfrastructure::connection('demo', 'default'),
-//                     PackageInfrastructure::connection('demo', 'alt'),
-//                 ] as $connection) {
-//
-//            $db = \DB::connection($connection);
-//
-//            $driver = $db->getDriverName();
-//
-//            if ($driver === 'sqlite') {
-//                $db->statement('PRAGMA foreign_keys = OFF');
-//            } else {
-//                $db->statement('SET FOREIGN_KEY_CHECKS=0');
-//            }
-//
-//            foreach ($db->getDoctrineSchemaManager()->listTableNames() as $table) {
-//                $db->table($table)->truncate();
-//            }
-//
-//            if ($driver === 'sqlite') {
-//                $db->statement('PRAGMA foreign_keys = ON');
-//            } else {
-//                $db->statement('SET FOREIGN_KEY_CHECKS=1');
-//            }
-//        }
-//    }
+    protected function truncateDatabases(): void
+    {
+        foreach ([
+                     PackageInfrastructure::connection($this->infrastructureProfile, 'default'),
+                     PackageInfrastructure::connection($this->infrastructureProfile, 'alt'),
+                 ] as $connection) {
+
+            $db = \DB::connection($connection);
+
+            $driver = $db->getDriverName();
+
+            if ($driver === 'sqlite') {
+                $db->statement('PRAGMA foreign_keys = OFF');
+            } else {
+                $db->statement('SET FOREIGN_KEY_CHECKS=0');
+            }
+
+            foreach (['media', 'temporary_uploads', 'blogs', 'aliens'] as $table) {
+                if (\Schema::connection($connection)->hasTable($table)) {
+                    $db->table($table)->truncate();
+                }
+            }
+
+            if ($driver === 'sqlite') {
+                $db->statement('PRAGMA foreign_keys = ON');
+            } else {
+                $db->statement('SET FOREIGN_KEY_CHECKS=1');
+            }
+        }
+    }
 
     protected function seedDatabases(): void
     {
-        Alien::on(PackageInfrastructure::connection('demo', 'default'))
+        Alien::on(PackageInfrastructure::connection($this->infrastructureProfile, 'default'))
             ->create([]);
 
-        Alien::on(PackageInfrastructure::connection('demo', 'alt'))
+        Alien::on(PackageInfrastructure::connection($this->infrastructureProfile, 'alt'))
             ->create([]);
+
+        Blog::on(PackageInfrastructure::connection($this->infrastructureProfile, 'default'))
+            ->create([
+                'title' => 'Test Blog Post',
+                'content' => 'This is a test blog post content.',
+            ]);
     }
 
     protected function scrollIntoView($page, string $selector): void
@@ -466,5 +501,10 @@ class BrowserTestCase extends Orchestra
             'count' => DB::connection($connection)->table($table)->count(),
             'rows' => DB::connection($connection)->table($table)->get(),
         ]);
+    }
+
+    protected function getFakePublicDirectory(): string
+    {
+        return __DIR__.'/Support/public';
     }
 }

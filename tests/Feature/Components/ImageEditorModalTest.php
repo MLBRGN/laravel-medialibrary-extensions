@@ -101,10 +101,10 @@ it('constructs with model and sets properties', function () {
     );
 
     expect($component->model)->toBe($model)
-        ->and($component->modelType)->toBe($model->getMorphClass())
+        ->and($component->modelType)->toBe(get_class($model))
         ->and($component->modelId)->toBe($model->getKey())
         ->and($component->temporaryUploadMode)->toBeFalse()
-        ->and($component->getConfig('modelType'))->toBe($model->getMorphClass())
+        ->and($component->getConfig('modelType'))->toBe(get_class($model))
         ->and($component->getDomId())->toBe('uploader-0-iem-'.$medium->id)
 //        ->and($component->config['collection'])->toBe('avatars')
         ->and($component->render())->toBeInstanceOf(View::class);
@@ -125,7 +125,7 @@ it('constructs with model class name string for temporary upload', function () {
     );
 
     expect($component->model)->toBeNull()
-        ->and($component->modelType)->toBe($model->getMorphClass())
+        ->and($component->modelType)->toBe(get_class($model))
         ->and($component->temporaryUploadMode)->toBeTrue()
         ->and($component->getConfig('temporaryUploadMode'))->toBeTrue()
         ->and($component->getConfig('mediumId'))->toBe($medium->id)

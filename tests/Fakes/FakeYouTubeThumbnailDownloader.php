@@ -8,7 +8,7 @@ class FakeYouTubeThumbnailDownloader implements YouTubeThumbnailDownloader
 {
     public function download(string $youtubeId): ?string
     {
-        $source = __DIR__ . '/../Fixtures/test.jpg';
+        $source = __DIR__ . '/../Fixtures/test2.jpg';
 
         $temp = tempnam(sys_get_temp_dir(), 'yt-thumb-');
         copy($source, $temp);

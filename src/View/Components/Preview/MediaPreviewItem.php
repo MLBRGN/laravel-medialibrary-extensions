@@ -18,7 +18,7 @@ class MediaPreviewItem extends BaseComponent
     public ?string $mediumType;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public mixed $modelReference = null,// either a model that implements HasMediaExtended or its class name
         public $medium,
         public array $collections = [],

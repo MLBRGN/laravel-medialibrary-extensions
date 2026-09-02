@@ -19,7 +19,7 @@ class LabPreviews extends BaseComponent
     use InteractsWithOptionsAndConfig;
 
     public function __construct(
-        ?string $id,
+        string $id,
         public Media|TemporaryUpload|null $media,
         array $options = [],
         public ?string $dataSource = 'default'

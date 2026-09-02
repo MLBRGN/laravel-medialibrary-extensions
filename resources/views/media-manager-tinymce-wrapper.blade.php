@@ -15,9 +15,9 @@
         </div>
         <div class="mle-component mle-media-manager-tinymce">
             @php
-                $id = isset($id) && $id !== ''
+                $id = (isset($id) && $id !== '')
                     ? (string) $id
-                    : 'mle-tinymce-'.\Illuminate\Support\Str::uuid()->toString();
+                    : (request('base_id') ?: 'mle-tinymce-picker');
             @endphp
             <x-mle-media-manager-tinymce
                 id="{{ $id }}"

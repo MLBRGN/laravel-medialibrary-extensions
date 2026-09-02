@@ -8,6 +8,7 @@ it('renders with a media object', function () {
     $medium = $this->getMedium();
 
     $component = new ImageResponsive(
+        id: 'test-id',
         medium: $medium,
         conversion: 'thumb',
         sizes: '100vw',
@@ -30,6 +31,7 @@ it('falls back to alternative conversion when primary is not available', functio
     ];
 
     $component = new ImageResponsive(
+        id: 'test-id',
         medium: $medium,
         conversion: 'primary',
         conversions: ['fallback'],
@@ -53,6 +55,7 @@ it('uses original image when no conversions are available', function () {
     ];
 
     $component = new ImageResponsive(
+        id: 'test-id',
         medium: $medium,
         conversion: 'unavailable',
         conversions: ['also-unavailable'],
@@ -69,6 +72,7 @@ it('uses original image when no conversions are available', function () {
 it('handles null media gracefully', function () {
 
     $component = new ImageResponsive(
+        id: 'test-id',
         medium: null,
         sizes: '100vw'
     );
@@ -85,6 +89,7 @@ it('handles exceptions when getting media URL', function () {
     $medium->generated_conversions = ['thumb' => true];
 
     $component = new ImageResponsive(
+        id: 'test-id',
         medium: $medium,
         conversion: 'thumb',
         sizes: '100vw'
