@@ -1,13 +1,9 @@
-@php
-    $nonXhrOnSubmit = $getConfig('useXhr') ? null : "(function(el){el.setAttribute('data-mle-busy','1');var c=el.closest('[data-mle-media-manager]') || el.closest('[data-mle-media-lab]');if(!c)return;var a=c.querySelector('[data-mle-status-area-container]');if(!a)return;var m=document.createElement('div');m.setAttribute('data-mle-status-message','');m.textContent='" . e(__('medialibrary-extensions::messages.please_wait')) . "';a.innerHTML='';a.appendChild(m);})(this)";
-@endphp
-
 <x-mle-shared-conditional-form
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="[
-        'action' => route(mle_prefix_route('media-upload-youtube'))  . '#' . $id,
+        'action' => $getConfig('routes.youtubeUpload')  . '#' . $id,
         'method' => 'POST',
-        'onsubmit' => $nonXhrOnSubmit,
+        'data-mle-onsubmit-message' => !$getConfig('useXhr') ? __('medialibrary-extensions::messages.please_wait') : null,
         'data-mle-form'
     ]"
     :div-attributes="[

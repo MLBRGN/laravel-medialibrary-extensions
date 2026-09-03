@@ -162,6 +162,34 @@ bootAssets({
 });
 
 /**
+ * Global initialization for elements that need a client token (e.g. for promotion).
+ */
+function initClientTokens() {
+    // Attempt to get token from localStorage or cookie
+    let token = localStorage.getItem('mle_client_token');
+    if (!token) {
+        const match = document.cookie.match(/mle_client_token=([^;]+)/);
+        if (match) token = match[1];
+    }
+
+    if (token) {
+        document.querySelectorAll('[data-mle-client-token]').forEach((el) => {
+            if (el.tagName === 'INPUT') {
+                el.value = token;
+            } else {
+                el.setAttribute('data-mle-client-token', token);
+            }
+        });
+    }
+}
+
+// Initial run
+initClientTokens();
+
+// Also watch for newly injected tokens
+document.addEventListener('DOMContentLoaded', initClientTokens);
+
+/**
  * Expose an imperative API to require assets on-demand.
  */
 export async function requireMediaAssets(keys = []) {
@@ -297,6 +325,30 @@ function getMleAssetBase() {
 
     return base || '/vendor/mlbrgn/laravel-medialibrary-extensions';
 }
+
+/**
+ * Global submit listener for non-XHR forms that want a "Please wait" indicator.
+ */
+document.addEventListener('submit', (e) => {
+    const el = e.target;
+    if (el.hasAttribute('data-mle-form') && el.hasAttribute('data-mle-onsubmit-message')) {
+        const message = el.getAttribute('data-mle-onsubmit-message');
+        if (!message) return;
+
+        el.setAttribute('data-mle-busy', '1');
+        const c = el.closest('[data-mle-media-manager]') || el.closest('[data-mle-media-lab]');
+        if (!c) return;
+
+        const a = c.querySelector('[data-mle-status-area-container]');
+        if (!a) return;
+
+        const m = document.createElement('div');
+        m.setAttribute('data-mle-status-message', '');
+        m.textContent = message;
+        a.innerHTML = '';
+        a.appendChild(m);
+    }
+});
 
 /*
 To debug use following snippet in console:

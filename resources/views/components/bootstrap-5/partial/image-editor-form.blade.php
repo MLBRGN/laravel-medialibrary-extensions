@@ -3,7 +3,7 @@
     :use-xhr="$getConfig('useXhr')"
     :form-attributes="
     [
-        'action' => $getConfig('storeUpdatedMediaRoute'),
+        'action' => $getConfig('routes.storeUpdatedMedia'),
         'method' => 'POST',
         'data-mle-form',
         'data-mle-image-editor-update-form' => '',

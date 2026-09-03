@@ -14,6 +14,8 @@ class ImageEditorForm extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
 
+    public string $storeUpdatedMediaRoute;
+
     public function __construct(
         string $id,
         public mixed $modelReference,// either a modal that implements HasMediaExtended or it's class name
@@ -28,14 +30,13 @@ class ImageEditorForm extends BaseMediaComponent
 
         $this->options = $options;
 
-        $storeUpdatedMediaRoute = $this->getOption('temporaryUploadMode') ?
+        $this->storeUpdatedMediaRoute = $this->getOption('temporaryUploadMode') ?
             route(mle_prefix_route('save-updated-temporary-upload'), $medium) :
             route(mle_prefix_route('save-updated-media'), $medium);
 
         $this->resolveConfig([
             //            'theme' => $this->getOption('theme', config('medialibrary-extensions.frontend_theme')),
             //            'useXhr' => config('medialibrary-extensions.use_xhr'),
-            'storeUpdatedMediaRoute' => $storeUpdatedMediaRoute,
         ]);
     }
 

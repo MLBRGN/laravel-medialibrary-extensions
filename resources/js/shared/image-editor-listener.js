@@ -130,7 +130,7 @@ const updateMedia = async (detail) => {
     });
 
     let handledError = false;
-    const storeUpdatedMediaRoute = config.routes?.storeUpdatedMedia || config.storeUpdatedMediaRoute;
+    const storeUpdatedMediaRoute = config.routes?.storeUpdatedMedia;
 
     if (!storeUpdatedMediaRoute) {
         console.error('Missing storeUpdatedMediaRoute in config');

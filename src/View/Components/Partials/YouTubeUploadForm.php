@@ -18,6 +18,10 @@ class YouTubeUploadForm extends BaseMediaComponent
 
     public ?string $modelType = null;
 
+    public string $youtubeUploadRoute;
+
+    public string $mediaManagerPreviewUpdateRoute;
+
     public function __construct(
         string $id,
         public mixed $modelReference,// either a modal that implements HasMediaExtended or its class name
@@ -46,14 +50,12 @@ class YouTubeUploadForm extends BaseMediaComponent
         $this->options = $options;
 
         $youtubeCollection = $collections['youtube'] ?? null;
-        $mediaUploadRoute = route(mle_prefix_route('media-upload-youtube'));
-        $mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update')); // : route(mle_prefix_route('media-upload-single-preview'));
+        $this->youtubeUploadRoute = route(mle_prefix_route('media-upload-youtube'));
+        $this->mediaManagerPreviewUpdateRoute = route(mle_prefix_route('media-manager-preview-update'));
 
         $this->resolveConfig([
             'instanceId' => $this->instanceId,
             'youtubeCollection' => $youtubeCollection,
-            'mediaUploadRoute' => $mediaUploadRoute,
-            'mediaManagerPreviewUpdateRoute' => $mediaManagerPreviewUpdateRoute,
         ]);
 
         $mediaCounter = app(MediaCounter::class);

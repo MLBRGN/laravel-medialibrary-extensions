@@ -57,13 +57,7 @@ class SetAsFirstForm extends BaseMediaComponent
 
         $this->mediumSetAsFirstRoute = $mediumSetAsFirstRoute;
 
-        $this->resolveConfig([
-            // Expose under routes.* namespace for blade partials
-            'routes' => array_merge($this->resolveConfigRoutes(), [
-                'mediumSetAsFirst' => $this->mediumSetAsFirstRoute,
-            ]),
-            'mediumSetAsFirstRoute' => $this->mediumSetAsFirstRoute,
-        ]);
+        $this->resolveConfig([]);
     }
 
     protected function domIdSuffix(): string
