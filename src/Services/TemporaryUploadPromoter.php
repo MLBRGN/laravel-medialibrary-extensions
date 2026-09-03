@@ -65,9 +65,19 @@ class TemporaryUploadPromoter
             'count' => $temporaryUploads->count(),
         ]);
 
-        // Wildcard Fallback: If we have an instanceId but found nothing, try finding ALL
-        // uploads for this client_token regardless of their instanceId. This handles
-        // cases where IDs might mismatch but the session is clearly the same.
+        /**
+         * Wildcard Fallback: Safety net for under-specified or mismatched promotion requests.
+         *
+         * If a specific instanceId was provided but returned no results, we try a broader
+         * search using only the client_token. This handles several scenarios:
+         * 1. Multi-component forms where the developer only passed one of several instance IDs.
+         * 2. Edge cases where the deterministic instance ID might mismatch between frontend and backend.
+         * 3. Custom form implementations that provide a client_token but an incorrect or missing instance_id.
+         *
+         * Since the client_token is a unique session identifier, we trust that any remaining
+         * temporary uploads for this token belong to the user and should be promoted to the
+         * model currently being saved. This prevents data loss (orphaned uploads).
+         */
         if ($temporaryUploads->isEmpty() && $instanceId) {
             Log::info('TemporaryUploadPromoter: no matches by client_token + instance_id; retrying by client_token only (wildcard fallback)', [
                 'data_source' => $dataSource,
