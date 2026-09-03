@@ -49,7 +49,7 @@ it('renders media manager component', function () {
 
     expect($html)
         ->toContain('blog-mmm')
-        ->toContain('Mlbrgn\\MediaLibraryExtensions\\Tests\\Models\\Blog')
+        ->toContain('blog')
         ->toContain('csrf_token');
 });
 
@@ -97,7 +97,7 @@ it('initializes without temporary upload when a eloquent model is provided', fun
     );
 
     expect($component->model)->not()->toBeNull()
-        ->and($component->modelType)->toBe('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog')
+        ->and($component->modelType)->toBe('blog')
         ->and($component->modelId)->not()->toBeNull()
         ->and($component->getConfig('temporaryUploadMode'))->toBeFalse()
         ->and($component->getConfig('routes.mediaUpload'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')));
@@ -283,7 +283,7 @@ it('throws if given class string does not exist', function () {
         id: 'test-media-manager',
         modelReference: $modelReference,
         collections: ['image' => 'blog-main'],
-    ))->toThrow(\InvalidArgumentException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
+    ))->toThrow(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
         'class_name' => $modelReference,
     ]));
 });
@@ -294,9 +294,9 @@ it('throws if given class string does not implement HasMediaExtended', function 
         id: 'test-media-manager',
         modelReference: $modelReference,
         collections: ['image' => 'blog-main'],
-    ))->toThrow(\UnexpectedValueException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
+    ))->toThrow(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
         'class' => $modelReference,
-        'interface' => HasMediaExtended::class,
+        'interface' => \Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended::class,
     ]));
 });
 

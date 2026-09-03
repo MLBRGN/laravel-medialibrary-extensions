@@ -73,9 +73,28 @@ class BrowserTestCase extends Orchestra
     protected Ufo $testModelNotExtendingHasMedia;
 
     // large files cause timeouts in browser testing, disabled (for now)
-    protected array $fixtures = [
-        'test2.jpg',
-        'test3.jpg',
+    protected array $fixturesSmall = [
+        '01_100x100.jpg',
+        '02_150x150.jpg',
+        '03_200x200.jpg',
+        '04_320x240.jpg',
+        '05_480x320.jpg',
+    ];
+
+    protected array $fixturesMedium = [
+        '06_640x480.jpg',
+        '07_800x600.jpg',
+        '08_1024x768.jpg',
+        '09_1280x720.jpg',
+        '10_1280x1024.jpg',
+    ];
+
+    protected array $fixturesLarge = [
+        '11_1920x1080.jpg',
+        '12_2560x1440.jpg',
+        '13_3840x2160.jpg',
+        '14_4096x2160.jpg',
+        '15_3840x2160.jpg',
     ];
 
     protected array $invalidMimeTypeFixtures = [
@@ -179,6 +198,11 @@ class BrowserTestCase extends Orchestra
         $app->useStoragePath($storagePath);
 
         $app['config']->set('medialibrary-extensions.demo_pages_enabled', true);
+        $app['config']->set('medialibrary-extensions.min_image_width', 100);
+        $app['config']->set('medialibrary-extensions.min_image_height', 100);
+        $app['config']->set('medialibrary-extensions.max_image_width', 5000);
+        $app['config']->set('medialibrary-extensions.max_image_height', 5000);
+
         // mark that we are running browser tests to allow safe demo/testing fallbacks
         $app['config']->set('medialibrary-extensions.browser_tests', true);
 
@@ -189,7 +213,6 @@ class BrowserTestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.media_originals.root', $storagePath . '/media_originals');
         $app['config']->set('filesystems.disks.media_temporary.root', $storagePath . '/media_temporary');
-        $app['config']->set('filesystems.disks.mle_demo_disk.root', $storagePath . '/media_demo');
 
         $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
 
@@ -229,6 +252,10 @@ class BrowserTestCase extends Orchestra
     {
         $path = __DIR__.'/Fixtures/'.$fileName;
 
+        if (! file_exists($path) && file_exists(__DIR__.'/Fixtures/demo_images/'.$fileName)) {
+            $path = __DIR__.'/Fixtures/demo_images/'.$fileName;
+        }
+
         return $path;
     }
 
@@ -251,59 +278,37 @@ class BrowserTestCase extends Orchestra
      */
     protected function registerRoutes(): void
     {
-
         Route::get('/storage/{disk}/{path}', function (string $disk, string $path) {
-            Log::info('BrowserTestCase - registerRoutes: Storage request', [
-                'url' => request()->fullUrl(),
-                'referer' => request()->headers->get('referer'),
-                'disk' => $disk,
-                'path' => $path,
-            ]);
-
             $diskConfig = config("filesystems.disks.$disk");
 
             if ($diskConfig === null) {
-                Log::warning('Unknown disk', [
-                    'disk' => $disk,
-                ]);
-
                 abort(404);
             }
 
             $root = realpath($diskConfig['root']);
 
-            Log::info('Disk config', [
-                'disk' => $disk,
-                'config' => config("filesystems.disks.$disk"),
-                'all_disks' => array_keys(config('filesystems.disks')),
-            ]);
-
             if ($root === false) {
-                Log::warning('BrowserTestCase - registerRoutes: Storage root does not exist', [
-                    'disk' => $disk,
-                    'configured_root' => config("filesystems.disks.$disk.root"),
-                ]);
-
                 abort(404);
             }
 
-            $file = realpath($root.'/'.$path);
+            $file = $root.'/'.$path;
 
-            if (
-                ! $file ||
-                ! str_starts_with($file, $root.DIRECTORY_SEPARATOR)
-                || ! is_file($file)
-            ) {
-                Log::warning('BrowserTestCase - registerRoutes: Storage file not found', [
-                    'disk' => $disk,
-                    'root' => $root,
-                    'path' => $path,
-                    'resolved' => $file,
-                ]);
+            if (! file_exists($file)) {
                 abort(404);
             }
 
-            return response()->file($file);
+            $mimeType = match (pathinfo($file, PATHINFO_EXTENSION)) {
+                'webp' => 'image/webp',
+                'jpg', 'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                default => mime_content_type($file),
+            };
+
+            return response()->file($file, [
+                'Content-Type' => $mimeType,
+                'Access-Control-Allow-Origin' => '*',
+            ]);
         })->where('path', '.*');
 
         Route::middleware('web')->group(function () {
@@ -387,8 +392,18 @@ class BrowserTestCase extends Orchestra
 
     public function getRandomFixture(): string
     {
+        $rand = rand(1, 100);
+
+        if ($rand <= 90) {
+            $pool = $this->fixturesSmall;
+        } elseif ($rand <= 98) {
+            $pool = $this->fixturesMedium;
+        } else {
+            $pool = $this->fixturesLarge;
+        }
+
         return $this->getFixtureAsFilePath(
-            $this->fixtures[array_rand($this->fixtures)]
+            $pool[array_rand($pool)]
         );
     }
 

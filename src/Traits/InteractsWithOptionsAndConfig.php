@@ -66,6 +66,7 @@ trait InteractsWithOptionsAndConfig
         'mediumRestoreRoute' => 'mediumRestore',
         'mediaLabPreviewBaseUpdateRoute' => 'mediaLabPreviewBaseUpdate',
         'mediaLabPreviewOriginalUpdateRoute' => 'mediaLabPreviewOriginalUpdate',
+        'storeUpdatedMediaRoute' => 'storeUpdatedMedia',
     ];
 
     protected function getDefaultOptions(): array

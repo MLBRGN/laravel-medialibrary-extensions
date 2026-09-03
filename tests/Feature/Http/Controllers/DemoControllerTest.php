@@ -15,14 +15,18 @@ beforeEach(function () {
     PackageInfrastructure::register('demo');
     Artisan::call('migrate:fresh', [
         '--database' => PackageInfrastructure::connection('demo', 'default'),
-        '--path' => 'database/demo-migrations',
-        '--realpath' => false,
+        '--path' => realpath(__DIR__.'/../../../../database/demo-migrations'),
+        '--realpath' => true,
     ]);
     Artisan::call('migrate:fresh', [
         '--database' => PackageInfrastructure::connection('demo', 'alt'),
-        '--path' => 'database/demo-migrations',
-        '--realpath' => false,
+        '--path' => realpath(__DIR__.'/../../../../database/demo-migrations'),
+        '--realpath' => true,
     ]);
+
+    // Create models for demo pages
+    Alien::on(PackageInfrastructure::connection('demo', 'default'))->create();
+    Alien::on(PackageInfrastructure::connection('demo', 'alt'))->create();
 
     Storage::fake('public');
     Storage::fake('media');

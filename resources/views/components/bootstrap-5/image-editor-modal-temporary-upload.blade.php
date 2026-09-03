@@ -46,7 +46,7 @@
                         title="{{ __('medialibrary-extensions::messages.close') }}"
                     />
                 </button>
-                <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-image-editor-modal-config value='@json($getConfig())'>
+                <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-media-manager-config value='@json($getConfig())'>
                 {{-- instantiated when model opens, just in time --}}
                 <div class="mle-image-editor" data-mle-image-editor-placeholder></div>
 

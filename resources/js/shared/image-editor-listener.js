@@ -22,9 +22,15 @@ document.addEventListener('onCloseImageEditor', (e) => {
     const imageEditor = e.detail.imageEditorInstance;
     const modal = imageEditor.closest('[data-mle-image-editor-modal]');
     // Always anchor events to the nearest media manager container
-    const mediaManager = modal?.closest('[data-mle-media-manager]');
+    const mediaManager = resolveMediaManager(modal);
     if (!mediaManager) {
         console.warn('Media Manager element not found on close');
+        // Fallback to document dispatch to ensure modal closes even if MM is not found
+        document.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+            bubbles: true,
+            composed: true,
+            detail: {'modal': modal}
+        }));
         return;
     }
 
@@ -37,10 +43,12 @@ document.addEventListener('onCloseImageEditor', (e) => {
 
 const updateMedia = async (detail) => {
 
-    console.log('image-editor-listener.js - updateMedia called')
     const modal = detail.imageEditorInstance.closest('[data-mle-image-editor-modal]');
-    const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
-    if (!configInput) return;
+    const configInput = modal.querySelector('[data-mle-media-manager-config]');
+    if (!configInput) {
+        console.warn('image-editor-listener.js - configInput NOT FOUND');
+        return;
+    }
 
     let config = {};
 
@@ -69,7 +77,7 @@ const updateMedia = async (detail) => {
     }
 
     // Resolve the media manager context directly from the modal
-    const mediaManager = modal.closest('[data-mle-media-manager]');
+    const mediaManager = resolveMediaManager(modal);
 
     let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
 
@@ -122,8 +130,14 @@ const updateMedia = async (detail) => {
     });
 
     let handledError = false;
+    const storeUpdatedMediaRoute = config.routes?.storeUpdatedMedia || config.storeUpdatedMediaRoute;
 
-    fetch(config.storeUpdatedMediaRoute, {
+    if (!storeUpdatedMediaRoute) {
+        console.error('Missing storeUpdatedMediaRoute in config');
+        return;
+    }
+
+    fetch(storeUpdatedMediaRoute, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': config.csrfToken,
@@ -178,12 +192,21 @@ const updateMedia = async (detail) => {
     })
     .then(async json => {
 
-        // console.log('fire events imageEditorModalCloseRequest and refreshRequest and onImageUpdated');
+    // Enforce options
+    const mediaManager = resolveMediaManager(modal);
+    if (mediaManager) {
         mediaManager.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
             bubbles: true,
             composed: true,
             detail: {'modal': modal}
         }));
+    } else {
+        document.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
+            bubbles: true,
+            composed: true,
+            detail: {'modal': modal}
+        }));
+    }
 
         showStatusMessage(mediaManagerStatusContainer, {
            type: 'success',
@@ -250,6 +273,16 @@ function resolveStatusAreaContainer(startNode) {
     if (!startNode) return null;
 
     return startNode.querySelector('[data-mle-status-area-container]');
+}
+
+function resolveMediaManager(modal) {
+    if (!modal) return null;
+    const baseId = modal.getAttribute('data-base-id');
+    if (baseId) {
+        const mediaManager = document.querySelector(`[data-mle-media-manager][data-base-id="${baseId}"]`);
+        if (mediaManager) return mediaManager;
+    }
+    return modal.closest('[data-mle-media-manager]');
 }
 
 function trans (key) {

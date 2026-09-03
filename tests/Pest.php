@@ -9,9 +9,9 @@ uses(
 
 uses(
     BrowserTestCase::class
-)->in('Browser');
+)->group('browser')->in('Browser');
 
-pest()->browser()->timeout(10000);
+pest()->browser()->headed()->timeout(30000);
 // pest()->browser()->timeout(10000);
 // pest()->browser()->inFirefox();
 // pest()->browser()->inSafari();

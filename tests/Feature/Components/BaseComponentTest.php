@@ -12,5 +12,5 @@ it('initializes with provided id', function () {
     $component = new ExtendedBaseComponent('my-id');
 
     expect($component->id)->toBe('my-id');
-    expect($component->instanceId)->toBe('my-id');
+    expect($component->instanceId)->toBe(\Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('my-id'));
 });

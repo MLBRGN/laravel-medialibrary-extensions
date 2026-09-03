@@ -194,7 +194,7 @@ it('throws if given class string does not exist', function () {
         modelReference: $modelReference,
         collections: null,
         title: 'Invalid'
-    ))->toThrow(\InvalidArgumentException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
+    ))->toThrow(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
         'class_name' => $modelReference,
     ]));
 });
@@ -206,8 +206,8 @@ it('throws if given class string does not implement HasMediaExtended', function 
         modelReference: $modelReference,
         collections: null,
         title: 'Invalid'
-    ))->toThrow(\UnexpectedValueException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
+    ))->toThrow(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
         'class' => $modelReference,
-        'interface' => HasMediaExtended::class,
+        'interface' => \Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended::class,
     ]));
 });

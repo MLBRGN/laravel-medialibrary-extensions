@@ -3,7 +3,7 @@ import {getMleBootstrapInstance} from "@/js/bootstrap-5/bootstrap-resolver";
 
 const closeBootstrapModal = (modal) => {
     const bs = getMleBootstrapInstance();
-    const modalInstance = bs.Modal.getInstance(modal);
+    const modalInstance = bs.Modal.getOrCreateInstance(modal);
     modalInstance.hide();
 }
 
@@ -80,7 +80,7 @@ function initializeImageEditorModal(modal) {
 
     modal.addEventListener('show.bs.modal', function () {
         console.log('show.bs.modal', modal);
-        const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-mle-image-editor-modal-config]').value);
+        const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-mle-media-manager-config]').value);
         const mediumPath = modal.getAttribute('data-mle-medium-path');
         const displayName = modal.getAttribute('data-mle-medium-display-name');
         const forcedAspectRatio = modal.getAttribute('data-mle-medium-forced-aspect-ratio') ?? '4:3';
@@ -126,6 +126,12 @@ function initializeImageEditorModal(modal) {
         placeholder.innerHTML = '';
     });
 
+    modal.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeBootstrapModal(modal);
+        }
+    });
+
     modal.dataset.mleImageEditorInitialized = 'true';
 }
 
@@ -145,7 +151,12 @@ document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
 
 // Handle external close requests
 document.addEventListener('imageEditorModalCloseRequest', e => {
+    console.log('bootstrap-5/modal-image-editor.js - imageEditorModalCloseRequest received', e.detail);
     const modal = e.detail.modal;
+    if (!modal) {
+        console.warn('bootstrap-5/modal-image-editor.js - No modal provided in event detail');
+        return;
+    }
     closeBootstrapModal(modal);
 });
 

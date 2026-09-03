@@ -5,7 +5,7 @@ let ytlPlayers = {}; // Store YouTube-lite players
 let nativeMediaPlayers = {};// store native media players (audio / video)
 
 const initializeMediaModal = function (modal) {
-    if (modal.dataset.mleImageEditorInitialized) return;
+    if (modal.dataset.mleMediaModalInitialized) return;
 
     const bs = getMleBootstrapInstance();
     // const bs = window.bootstrap;
@@ -166,11 +166,15 @@ const initializeMediaModal = function (modal) {
             e.preventDefault();
             e.stopPropagation();
             carouselInstance.next();
+        } else if (e.key === 'Escape') {
+            const bs = getMleBootstrapInstance();
+            const modalInstance = bs.Modal.getOrCreateInstance(modal);
+            modalInstance.hide();
         }
     });
 
     // Mark as initialized
-    modal.dataset.mleImageEditorInitialized = 'true';
+    modal.dataset.mleMediaModalInitialized = 'true';
 
     function controlYouTubePlayback(playerId, action = 'playVideo', attempt = 0, maxAttempts = 10, timeOut = 200) {
         const actionsMap = {
@@ -212,6 +216,7 @@ const initializeMediaModal = function (modal) {
 
 // listen to preview updated to reinitialize functionality
 document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
+    // console.log('bootstrap-5/modal-media.js - mediaManagerPreviewsUpdated received');
     ytlPlayers = {};
     nativeMediaPlayers = {};
     const mediaManager = e.detail.mediaManager;

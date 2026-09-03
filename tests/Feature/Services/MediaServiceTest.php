@@ -82,7 +82,7 @@ it('resolves an actual HasMedia model instance', function () {
     $resolvedModel = $mediaModelResolver->resolveModelReference($model, 'default');
 
     expect($resolvedModel->model)->toBe($model);
-    expect($resolvedModel->modelType)->toBe(get_class($model));
+    expect($resolvedModel->modelType)->toBe($model->getMorphClass());
     expect($resolvedModel->modelId)->toBe($model->getKey());
     expect($resolvedModel->temporaryUploadMode)->toBeFalse();
 });
@@ -99,17 +99,17 @@ it('resolves a class name string that implements HasMedia', function () {
     expect($resolvedModel->temporaryUploadMode)->toBeTrue();
 });
 
-it('throws InvalidArgumentException for non-existing class name', function () {
+it('throws InvalidModelTypeException for non-existing class name', function () {
     $mediaModelResolver = app(MediaModelResolver::class);
     $mediaModelResolver->resolveModelReference('NonExistentClass', 'default');
-})->throws(InvalidArgumentException::class);
+})->throws(InvalidModelTypeException::class);
 
-it('throws UnexpectedValueException if class does not implement HasMedia', function () {
+it('throws InvalidModelTypeException if class does not implement HasMedia', function () {
     $mediaModelResolver = app(MediaModelResolver::class);
     $mediaModelResolver->resolveModelReference(stdClass::class, 'default');
-})->throws(UnexpectedValueException::class);
+})->throws(InvalidModelTypeException::class);
 
-it('throws TypeError for invalid type', function () {
+it('throws InvalidModelTypeException for invalid type', function () {
     $mediaModelResolver = app(MediaModelResolver::class);
     $mediaModelResolver->resolveModelReference(123, 'default');
-})->throws(InvalidArgumentException::class);
+})->throws(InvalidModelTypeException::class);

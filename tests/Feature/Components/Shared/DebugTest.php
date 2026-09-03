@@ -35,25 +35,19 @@ it('renders the debug view with model class name', function () {
 
 it('throws when given invalid class name', function () {
     Config::set('medialibrary-extensions.debug', true);
-    $this->expectException(InvalidArgumentException::class);
+    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
     $component = new Debug(modelReference: 'fakeClass');
     $view = $component->render();
-
-    expect($view)->toBeInstanceOf(View::class)
-        ->and($view->getName())->toBe('medialibrary-extensions::components.shared.debug');
 });
 
 it('throws when given model that does not extend HasMedia interface', function () {
     Config::set('medialibrary-extensions.debug', true);
     //    $this->expectException(TypeError::class);
     // TOODO what exception to expect?
-    $this->expectException(InvalidArgumentException::class);
+    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
     $model = $this->getTestModelNotExtendingHasMedia();
     $component = new Debug(modelReference: $model);
     $view = $component->render();
-
-    expect($view)->toBeInstanceOf(View::class)
-        ->and($view->getName())->toBe('medialibrary-extensions::components.shared.debug');
 });
 
 it('detects when the Blade UI icon alias exists', function () {

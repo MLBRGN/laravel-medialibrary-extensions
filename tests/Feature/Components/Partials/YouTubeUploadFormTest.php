@@ -31,7 +31,7 @@ it('initializes with a HasMedia model', function () {
     );
 
     expect($component->model)->toBe($model)
-        ->and($component->modelType)->toBe(get_class($model))
+        ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->getKey());
     //        ->and($component->mediaPresent)->toBeFalse();
     //        ->and($component->mediaUploadRoute)->toBe('/fake-upload-route')
@@ -87,7 +87,7 @@ it('throws if modelReference is non existing class name', function () {
             'useXhr' => null,
         ]
     );
-})->throws(InvalidArgumentException::class);
+})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
 
 it('throws if modelReference class does not extend HasMedia', function () {
     $model = $this->getTestModelNotExtendingHasMedia();
@@ -111,7 +111,7 @@ it('throws if modelReference class does not extend HasMedia', function () {
             'useXhr' => null,
         ]
     );
-})->throws(InvalidArgumentException::class);
+})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
 
 it('renders the correct partial view', function () {
     $model = $this->getTestBlogModel();

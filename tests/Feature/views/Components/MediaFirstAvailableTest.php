@@ -23,14 +23,14 @@ it('initializes with a HasMedia model and finds the first medium', function () {
 });
 
 it('throws an exception when given a non existing class string(temporary upload)', function () {
-    $this->expectException(Exception::class);
+    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
     //    $this->expectExceptionMessage('Temporary uploads Not implemented yet');
 
     new MediaFirstAvailable('test', 'App\\Models\\Something');
 });
 
 it('throws an exception when given an invalid type', function () {
-    $this->expectException(InvalidArgumentException::class);
+    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
     //    $this->expectExceptionMessage('Temporary uploads Not implemented yet');
 
     new MediaFirstAvailable('test-id', 1234);

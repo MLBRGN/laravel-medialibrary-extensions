@@ -130,15 +130,26 @@ class PackageInfrastructure
     {
         $disk = self::PROFILES[$profile]['disk'];
 
+        $root = $disk['root'];
+
+        // Use test-specific storage path if running tests or if explicitly requested
+        if ($profile === 'demo' && (app()->runningUnitTests() || config('medialibrary-extensions.browser_tests'))) {
+            $root = 'tests/Support/storage/media_demo';
+        }
+
         Config::set(
             "filesystems.disks.{$disk['name']}",
             [
                 'driver' => 'local',
-                'root' => base_path($disk['root']),
+                'root' => base_path($root),
                 'url' => $disk['url'],
                 'visibility' => 'public',
             ]
         );
+
+        if (! file_exists(base_path($root))) {
+            mkdir(base_path($root), 0755, true);
+        }
     }
 
     protected static function setDefaultConnection(string $profile): void

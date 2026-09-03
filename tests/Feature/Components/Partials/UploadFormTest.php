@@ -27,7 +27,7 @@ it('throws translated exception if invalid class name is provided', closure: fun
     );
 
     $component->render();
-})->throws(InvalidArgumentException::class);
+})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
 
 it('throws exception if given a model that does not implement HasMedia', function () {
     // A valid existing class, but not implementing HasMedia
@@ -49,7 +49,7 @@ it('throws exception if given a model that does not implement HasMedia', functio
 
     $component->render();
     // });
-})->throws(InvalidArgumentException::class);
+})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
 
 it('honors frontend theme', function () {
     Config::set('medialibrary-extensions.frontend_theme', 'default-theme');
@@ -159,7 +159,7 @@ it('initializes correctly when given a HasMedia model instance', function () {
     // Assert: model binding
     expect($component->model)
         ->toBe($model)
-        ->and($component->modelType)->toBe(get_class($model))
+        ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->getKey());
 
     // Assert: config resolution (mime types, theme, xhr usage)

@@ -136,20 +136,11 @@ class MediaModelResolver
         }
 
         if (! class_exists($modelType)) {
-            throw new InvalidArgumentException(
-                __('medialibrary-extensions::messages.class_not_found', [
-                    'class' => $modelType,
-                ])
-            );
+            throw InvalidModelTypeException::for($modelType);
         }
 
         if (! is_subclass_of($modelType, HasMediaExtended::class)) {
-            throw new UnexpectedValueException(
-                __('medialibrary-extensions::messages.must_implement_has_media', [
-                    'class' => $modelType,
-                    'interface' => HasMediaExtended::class,
-                ])
-            );
+            throw InvalidModelTypeException::missingInterface($modelType);
         }
 
         return $modelType;

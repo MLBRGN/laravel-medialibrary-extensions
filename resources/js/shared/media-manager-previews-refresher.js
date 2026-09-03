@@ -40,8 +40,15 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
     // Cache-busting param
     params.append('_', Date.now());
 
+    const updateRoute = config.routes?.mediaManagerPreviewUpdate;
+
+    if (!updateRoute) {
+        console.warn('Missing mediaManagerPreviewUpdate route in config', config);
+        return;
+    }
+
     try {
-        const response = await fetch(`${config.routes.mediaManagerPreviewUpdate}?${params}`, {
+        const response = await fetch(`${updateRoute}?${params}`, {
             headers: { 'Accept': 'application/json' },
             cache: 'no-store', // prevents using or storing cache
         });

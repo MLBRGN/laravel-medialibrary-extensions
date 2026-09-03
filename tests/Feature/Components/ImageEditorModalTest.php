@@ -101,10 +101,10 @@ it('constructs with model and sets properties', function () {
     );
 
     expect($component->model)->toBe($model)
-        ->and($component->modelType)->toBe(get_class($model))
+        ->and($component->modelType)->toBe($model->getMorphClass())
         ->and($component->modelId)->toBe($model->getKey())
         ->and($component->temporaryUploadMode)->toBeFalse()
-        ->and($component->getConfig('modelType'))->toBe(get_class($model))
+        ->and($component->getConfig('modelType'))->toBe($model->getMorphClass())
         ->and($component->getDomId())->toBe('uploader-0-iem-'.$medium->id)
 //        ->and($component->config['collection'])->toBe('avatars')
         ->and($component->render())->toBeInstanceOf(View::class);
@@ -150,7 +150,7 @@ it('throws when modelReference is null', function () {
 });
 
 it('throws when modelReference is an invalid type', function () {
-    $this->expectException(\InvalidArgumentException::class);
+    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
     $this->expectExceptionMessage('does not exist');
 
     //    $this->expectException(\TypeError::class);
@@ -174,8 +174,8 @@ it('throws when modelReference is an invalid type', function () {
 });
 
 it('throws when modelReference is an class name', function () {
-    $this->expectException(UnexpectedValueException::class);
-    //    $this->expectExceptionMessage('model-reference must be either a HasMedia model or a string representing the model class');
+    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+    $this->expectExceptionMessage('must implement');
 
     $model = $this->getTestModelNotExtendingHasMedia();
     $medium = new Media([

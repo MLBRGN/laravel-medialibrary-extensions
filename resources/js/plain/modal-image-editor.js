@@ -70,7 +70,7 @@ function initializeImageEditorModal(modal) {
 
         let config = {};
         try {
-            const configInput = modal.querySelector('[data-mle-image-editor-modal-config]');
+            const configInput = modal.querySelector('[data-mle-media-manager-config]');
             if (configInput) {
                 config = JSON.parse(configInput.value);
             }

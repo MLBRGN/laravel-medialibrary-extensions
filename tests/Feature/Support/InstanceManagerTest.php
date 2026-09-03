@@ -3,12 +3,13 @@
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
-it('returns the input as instance id', function () {
+it('returns a deterministic hash as instance id', function () {
     $key = 'test-component';
+    $expected = strtoupper(substr(sha1($key), 0, 26));
 
     $id = InstanceManager::getInstanceId($key);
 
-    expect($id)->toBe($key);
+    expect($id)->toBe($expected);
 });
 
 it('generates different ids for different calls', function () {

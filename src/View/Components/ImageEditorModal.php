@@ -55,7 +55,6 @@ class ImageEditorModal extends BaseMediaComponent
             'modelId' => $this->modelId,
             'mediumId' => $this->medium->id,
             'collection' => $this->medium->collection_name,
-            'storeUpdatedMediaRoute' => $this->storeUpdatedMediaRoute,
             'collections' => $this->collections,
             'dataSource' => $this->dataSource,
             // Provide CSRF directly to the modal config to make tests and SSR robust
