@@ -85,7 +85,7 @@
                 </button>
                 
                 <div id="media-carousel-mod-crs"
-     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" theme="bootstrap-5"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
         data-mle-carousel
 >
 

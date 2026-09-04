@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -26,6 +27,7 @@ use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Fakes\FakeYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
+use Mlbrgn\MediaLibraryExtensions\Tests\Support\Http\Controllers\BlogController;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\Http\Controllers\BlogShowcaseController;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -110,7 +112,7 @@ class BrowserTestCase extends Orchestra
         'tiny.webp',
     ];
 
-//    protected static bool $migrated = false;
+    protected static bool $migrated = false;
 
     // runs before every test
     protected function setUp(): void
@@ -118,7 +120,7 @@ class BrowserTestCase extends Orchestra
         parent::setUp();
 
         $this->migrateDatabases();
-//        $this->truncateDatabases();
+        $this->truncateDatabases();
         $this->seedDatabases();
 
         Artisan::call('vendor:publish', [
@@ -241,6 +243,8 @@ class BrowserTestCase extends Orchestra
 
         View::addLocation(__DIR__.'/Feature/views');
 
+        Blade::component('blogs.layout', 'blogs-layout');
+
         // bind the public path to the test/Support/public directory
         // TODO getFakePublicDirectory() is not a method
         $app->bind('path.public', fn () => $this->getFakePublicDirectory());
@@ -250,13 +254,12 @@ class BrowserTestCase extends Orchestra
 
     public function getFixtureAsFilePath(string $fileName): string
     {
-        $path = __DIR__.'/Fixtures/'.$fileName;
-
-        if (! file_exists($path) && file_exists(__DIR__.'/Fixtures/demo_images/'.$fileName)) {
-            $path = __DIR__.'/Fixtures/demo_images/'.$fileName;
+        $demoPath = __DIR__.'/Fixtures/demo_images/'.$fileName;
+        if (file_exists($demoPath)) {
+            return $demoPath;
         }
 
-        return $path;
+        return __DIR__.'/Fixtures/'.$fileName;
     }
 
     /**
@@ -317,6 +320,8 @@ class BrowserTestCase extends Orchestra
 
             Route::get('blog-showcase', [BlogShowcaseController::class, 'index'])->name('blog-showcase');
             Route::post('blog-showcase-update', [BlogShowcaseController::class, 'update'])->name('blog-showcase-update');
+
+            Route::resource('blogs', BlogController::class);
 
             Route::post('test-simple-post', function() {
                 return response()->json(['status' => 'ok']);
@@ -428,9 +433,9 @@ class BrowserTestCase extends Orchestra
 
     protected function migrateDatabases(): void
     {
-//        if (static::$migrated) {
-//            return;
-//        }
+        if (static::$migrated) {
+            return;
+        }
 
         Log::info('BrowserTestCase - migrateDatabases !!!!!!!!!!');
         $this->artisan('migrate:fresh', [
@@ -445,7 +450,7 @@ class BrowserTestCase extends Orchestra
             '--realpath' => true,
         ]);
 
-//        static::$migrated = true;
+        static::$migrated = true;
     }
 
     protected function truncateDatabases(): void
@@ -465,7 +470,7 @@ class BrowserTestCase extends Orchestra
                 $db->statement('SET FOREIGN_KEY_CHECKS=0');
             }
 
-            foreach (['media', 'temporary_uploads', 'blogs', 'aliens'] as $table) {
+            foreach (['media', 'mle_temporary_uploads', 'blogs', 'aliens'] as $table) {
                 if (\Schema::connection($connection)->hasTable($table)) {
                     $db->table($table)->truncate();
                 }

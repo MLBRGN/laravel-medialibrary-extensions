@@ -91,6 +91,14 @@ class StoreSingleTemporaryAction
 
         $temporaryUpload = $this->mediaModelResolver->instantiateTemporaryUpload($dataSource);
 
+        $modelType = (string) $request->input('model_type');
+        try {
+            $modelType = $this->mediaModelResolver->resolveModelClass($modelType);
+            $modelType = (new $modelType)->getMorphClass();
+        } catch (\Throwable) {
+            // fallback to input if resolution fails
+        }
+
         $temporaryUpload->fill([
             'disk' => $disk,
             'path' => $path,
@@ -107,8 +115,10 @@ class StoreSingleTemporaryAction
             'custom_properties' => [
                 'collections' => $prepared->collections,
                 'priority' => 0,
+                'model_type' => $modelType,
             ],
         ]);
+
         $temporaryUpload->save();
 
         app(MediaUploadContext::class)->set(

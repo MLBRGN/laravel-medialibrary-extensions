@@ -189,6 +189,20 @@ initClientTokens();
 // Also watch for newly injected tokens
 document.addEventListener('DOMContentLoaded', initClientTokens);
 
+// Also listen for token generation events (e.g. from ClientToken.get())
+document.addEventListener('mle:client-token-generated', (e) => {
+    const token = e.detail?.token;
+    if (token) {
+        document.querySelectorAll('[data-mle-client-token]').forEach((el) => {
+            if (el.tagName === 'INPUT') {
+                el.value = token;
+            } else {
+                el.setAttribute('data-mle-client-token', token);
+            }
+        });
+    }
+});
+
 /**
  * Expose an imperative API to require assets on-demand.
  */

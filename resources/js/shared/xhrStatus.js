@@ -6,7 +6,7 @@ const spinnerDelayTimeoutMap = new WeakMap();
 // Will only show spinner if the request takes longer than delay
 export function xhrRequestStart(statusAreaContainer, customMessage = null) {
     console.log('xhrRequestStart', statusAreaContainer, customMessage);
-    if (!statusAreaContainer.nodeType === Node.ELEMENT_NODE) {
+    if (statusAreaContainer.nodeType !== Node.ELEMENT_NODE) {
         console.log('xhrRequestStart - statusAreaContainer is not an element node', statusAreaContainer);
         console.error("xhrStatus.js - xhrRequestStart: No statusAreaContainer provided", statusAreaContainer);
         return;
@@ -117,9 +117,12 @@ export function hideSpinner(statusAreaContainer) {
 }
 
 export function handleAjaxError(response, data, statusAreaContainer) {
-   console.log('handleAjaxError response ', response);
-   console.log('handleAjaxError data ', data);
-   console.log('handleAjaxError statusAreaContainer ', statusAreaContainer);
+   console.error('handleAjaxError - full error data:', {
+       status: response?.status,
+       statusText: response?.statusText,
+       url: response?.url,
+       data: data
+   });
 
     try {
         console.error(

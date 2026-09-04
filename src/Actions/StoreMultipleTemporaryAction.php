@@ -123,6 +123,15 @@ class StoreMultipleTemporaryAction
             $preparedUploads = array_slice($preparedUploads, 0, $remaining);
         }
 
+        $modelTypeInput = (string) $request->input('model_type');
+        $modelType = $modelTypeInput;
+        try {
+            $modelTypeResolved = $this->mediaModelResolver->resolveModelClass($modelTypeInput);
+            $modelType = (new $modelTypeResolved)->getMorphClass();
+        } catch (\Throwable) {
+            // fallback
+        }
+
         foreach ($preparedUploads as $prepared) {
             $originalName = $prepared->originalName;
             $extension = pathinfo($originalName, PATHINFO_EXTENSION) ?: $prepared->file->getClientOriginalExtension();
@@ -170,20 +179,11 @@ class StoreMultipleTemporaryAction
                 'custom_properties' => [
                     'collections' => $prepared->collections,
                     'priority' => $nextPriority,
+                    'model_type' => $modelType,
                 ],
             ]);
 
             $temporaryUpload->save();
-
-            // Diagnostics: confirm persisted record and connection
-            Log::info('StoreMultipleTemporaryAction: temporary upload saved', [
-                'temporary_upload_id' => $temporaryUpload->getKey(),
-                'data_source' => $dataSource,
-                'resolved_connection' => method_exists($temporaryUpload, 'getConnectionName') ? $temporaryUpload->getConnectionName() : null,
-                'instance_id' => $instanceId,
-                'client_token' => $clientToken,
-                'collection' => $prepared->collectionName,
-            ]);
 
             $nextPriority++;
             $successCount++;

@@ -28,7 +28,7 @@
                 </button>
                 
                 <div id="test-media-modal-mod-crs"
-     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" theme="bootstrap-5"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
         data-mle-carousel
 >
 

@@ -13,102 +13,165 @@ beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });
 
-$waitTimeXhr = .2;
-$waitTImeNonXhr = 0.2; // non-xhr tests are slower, setting it to lower than 1 may cause too many failures
+$waitTimeXhr = 0;
+$waitTImeNonXhr = .2; // non-xhr tests are slower, setting it to lower than 1 may cause too many failures
 
-dataset('mms_test_matrix', [
-    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
-    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
-    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],
-    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
+dataset('mms_test_matrix', function () {
+    $full = [
+        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
+        'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],
+        'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
-    'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
-    'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
-    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
-    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'], // sometimes times out
+        'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
+        'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
+        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
+        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
 
-    'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
-    'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
-    'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
-    'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
+        'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
+        'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
+        'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
+        'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'],
 
-    'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
-    'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
-    'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
-    'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'], // saw this test failing when running in full test for "it honors min /...."
-]);
+        'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
+        'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
+        'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
+        'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'],
+    ];
 
-dataset('mmm_test_matrix', [
-    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
-    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
-    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'], // fails (no files uploaded? when not the first test)
-    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'], // fails (no files uploaded? when not the first test)
+    if (getenv('PEST_BROWSER_FULL')) {
+        return $full;
+    }
 
-    'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
-    'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
-    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'], // fails invalid mimetyoe shown counts not matching
-    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
+    return [
+        'bootstrap + demo default + xhr + permanent' => $full['bootstrap + demo default + xhr + permanent'],
+        'bootstrap + demo alt + no xhr + temporary' => $full['bootstrap + demo alt + no xhr + temporary'],
+        'plain + demo default + xhr + temporary' => $full['plain + demo default + xhr + temporary'],
+        'plain + demo alt + no xhr + permanent' => $full['plain + demo alt + no xhr + permanent'],
+    ];
+});
 
-    'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
-    'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
-    'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
-    'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'],
+dataset('mmm_test_matrix', function () {
+    $full = [
+        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
+        'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'],
+        'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
-    'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
-    'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
-    'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
-    'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'],
-]);
+        'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
+        'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
+        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
+        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
 
-dataset('mms_youtube_test_matrix', [
-    'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
-    'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
-    'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'], // TODO fails
-    'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
+        'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
+        'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
+        'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
+        'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'],
 
-    'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
-    'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
-    'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
-    'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
+        'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
+        'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
+        'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
+        'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'],
+    ];
 
-    'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
-    'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
-    'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
-    'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'],
+    if (getenv('PEST_BROWSER_FULL')) {
+        return $full;
+    }
 
-    'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
-    'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
-    'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
-    'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'],
-]);
+    return [
+        'bootstrap + demo default + xhr + permanent' => $full['bootstrap + demo default + xhr + permanent'],
+        'bootstrap + demo alt + no xhr + temporary' => $full['bootstrap + demo alt + no xhr + temporary'],
+        'plain + demo default + xhr + temporary' => $full['plain + demo default + xhr + temporary'],
+        'plain + demo alt + no xhr + permanent' => $full['plain + demo alt + no xhr + permanent'],
+    ];
+});
 
-dataset('media_lab_test_matrix', [
-    'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
-    'bootstrap + demo default + no xhr' => ['bootstrap-5', 'demo_default', false],
+dataset('mms_youtube_test_matrix', function () {
+    $full = [
+        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+        'bootstrap + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, 'temporary'],
+        'bootstrap + demo default + no xhr + permanent' => ['bootstrap-5', 'demo_default', false, 'permanent'], // TODO fails
+        'bootstrap + demo default + no xhr + temporary' => ['bootstrap-5', 'demo_default', false, 'temporary'],
 
-    'bootstrap + demo alt + xhr' => ['bootstrap-5', 'demo_alt', true],
-    'bootstrap + demo alt + no xhr' => ['bootstrap-5', 'demo_alt', false],
+        'bootstrap + demo alt + xhr + permanent' => ['bootstrap-5', 'demo_alt', true, 'permanent'],
+        'bootstrap + demo alt + xhr + temporary' => ['bootstrap-5', 'demo_alt', true, 'temporary'],
+        'bootstrap + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, 'permanent'],
+        'bootstrap + demo alt + no xhr + temporary' => ['bootstrap-5', 'demo_alt', false, 'temporary'],
 
-    'plain + demo default + xhr' => ['plain', 'demo_default', true],
-    'plain + demo default + no xhr' => ['plain', 'demo_default', false],
+        'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, 'permanent'],
+        'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, 'temporary'],
+        'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
+        'plain + demo default + no xhr + temporary' => ['plain', 'demo_default', false, 'temporary'],
 
-    'plain + demo alt + xhr' => ['plain', 'demo_alt', true],
-    'plain + demo alt + no xhr' => ['plain', 'demo_alt', false],
-]);
+        'plain + demo alt + xhr + permanent' => ['plain', 'demo_alt', true, 'permanent'],
+        'plain + demo alt + xhr + temporary' => ['plain', 'demo_alt', true, 'temporary'],
+        'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, 'permanent'],
+        'plain + demo alt + no xhr + temporary' => ['plain', 'demo_alt', false, 'temporary'],
+    ];
 
-dataset('media_html_editor_matrix', [
-    // for now always uses plain theme, as it is the only one that supports HTML editor
-//        'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
-//        'bootstrap + demo default + no xhr' => ['bootstrap-5', 'demo_default', false],
-//        'bootstrap + demo alt + xhr' => ['bootstrap-5', 'demo_alt', true],
-//        'bootstrap + demo alt + no xhr' => ['bootstrap-5', 'demo_alt', false],
+    if (getenv('PEST_BROWSER_FULL')) {
+        return $full;
+    }
+
+    return [
+        'bootstrap + demo default + xhr + permanent' => $full['bootstrap + demo default + xhr + permanent'],
+        'bootstrap + demo alt + no xhr + temporary' => $full['bootstrap + demo alt + no xhr + temporary'],
+        'plain + demo default + xhr + temporary' => $full['plain + demo default + xhr + temporary'],
+        'plain + demo alt + no xhr + permanent' => $full['plain + demo alt + no xhr + permanent'],
+    ];
+});
+
+dataset('media_lab_test_matrix', function () {
+    $full = [
+        'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'bootstrap + demo default + no xhr' => ['bootstrap-5', 'demo_default', false],
+
+        'bootstrap + demo alt + xhr' => ['bootstrap-5', 'demo_alt', true],
+        'bootstrap + demo alt + no xhr' => ['bootstrap-5', 'demo_alt', false],
 
         'plain + demo default + xhr' => ['plain', 'demo_default', true],
         'plain + demo default + no xhr' => ['plain', 'demo_default', false],
 
         'plain + demo alt + xhr' => ['plain', 'demo_alt', true],
         'plain + demo alt + no xhr' => ['plain', 'demo_alt', false],
-]);
+    ];
+
+    if (getenv('PEST_BROWSER_FULL')) {
+        return $full;
+    }
+
+    return [
+        'bootstrap + demo default + xhr' => $full['bootstrap + demo default + xhr'],
+        'bootstrap + demo alt + no xhr' => $full['bootstrap + demo alt + no xhr'],
+        'plain + demo default + no xhr' => $full['plain + demo default + no xhr'],
+        'plain + demo alt + xhr' => $full['plain + demo alt + xhr'],
+    ];
+});
+
+dataset('media_html_editor_matrix', function () {
+    $full = [
+        'plain + demo default + xhr' => ['plain', 'demo_default', true],
+        'plain + demo default + no xhr' => ['plain', 'demo_default', false],
+        'plain + demo alt + xhr' => ['plain', 'demo_alt', true],
+        'plain + demo alt + no xhr' => ['plain', 'demo_alt', false],
+    ];
+
+    if (getenv('PEST_BROWSER_FULL')) {
+        return $full;
+    }
+
+    return [
+        'plain + demo default + xhr' => $full['plain + demo default + xhr'],
+        'plain + demo alt + no xhr' => $full['plain + demo alt + no xhr'],
+    ];
+});
+
+dataset('validation_matrix', function () {
+    return [
+        'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],
+        'plain + demo default + no xhr + permanent' => ['plain', 'demo_default', false, 'permanent'],
+    ];
+});
 
 dataset('media_carousel_test_matrix',
     [
@@ -497,7 +560,7 @@ it('honors min / max width height and file size constraints in uploads', functio
     // TODO add this everytime a page is visited?
     $page->page()->close();
 })->group('browser')
-    ->with('mms_test_matrix')
+    ->with('validation_matrix')
     ->flaky();
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) use ($waitTimeXhr, $waitTImeNonXhr) {

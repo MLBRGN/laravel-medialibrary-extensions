@@ -83,8 +83,18 @@ class StoreYouTubeVideoTemporaryAction
                 $tempUpload->setConnection($connection);
             }
 
+            $modelTypeInput = (string) $request->input('model_type');
+            $modelType = $modelTypeInput;
+            try {
+                $modelTypeResolved = app(MediaModelResolver::class)->resolveModelClass($modelTypeInput);
+                $modelType = (new $modelTypeResolved)->getMorphClass();
+            } catch (\Throwable) {
+                // fallback
+            }
+
             $tempUpload->instance_id = $instanceId;
             $tempUpload->setCustomProperty('priority', $nextPriority);
+            $tempUpload->setCustomProperty('model_type', $modelType);
             $tempUpload->save();
 
             return MediaResponse::success(

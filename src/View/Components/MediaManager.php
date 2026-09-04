@@ -42,7 +42,6 @@ class MediaManager extends BaseMediaComponent
         public bool $selectable = false,
         public ?string $dataSource = 'default',
     ) {
-
         parent::__construct($id, $this->modelReference, $dataSource);
 
         $this->options = $options;
@@ -69,7 +68,7 @@ class MediaManager extends BaseMediaComponent
         }
 
         // override, don't show upload forms for single medium media managers
-        if (! is_null($this->singleMedia)) {
+        if (! is_null($this->singleMedia) || $this->readonly) {
             $this->setOption('showUploadForms', false);
         }
 

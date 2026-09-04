@@ -61,9 +61,34 @@ class TemporaryUploadPromoter
 
         $temporaryUploads = $query->get();
 
-        Log::info('TemporaryUploadPromoter: temporary uploads fetched', [
-            'count' => $temporaryUploads->count(),
-        ]);
+        /**
+         * Broad Scan: Collect all uploads for this session (client_token) that match
+         * the intended model type, even if they were from components outside the form.
+         */
+        if ($clientToken) {
+            $modelMorphClass = $model->getMorphClass();
+
+            // For robustness across different DBs (SQLite vs MySQL vs PGSQL),
+            // we fetch all for token and filter in PHP.
+            $allForToken = TemporaryUpload::query()
+                ->forDataSource($dataSource)
+                ->where('client_token', $clientToken)
+                ->get();
+
+            $additionalUploads = $allForToken->filter(function ($temp) use ($modelMorphClass, $temporaryUploads) {
+                // Skip if already in the list
+                if ($temporaryUploads->contains('id', $temp->id)) {
+                    return false;
+                }
+
+                // Check model_type in custom_properties
+                return $temp->getCustomProperty('model_type') === $modelMorphClass;
+            });
+
+            if ($additionalUploads->isNotEmpty()) {
+                $temporaryUploads = $temporaryUploads->merge($additionalUploads);
+            }
+        }
 
         /**
          * Wildcard Fallback: Safety net for under-specified or mismatched promotion requests.
