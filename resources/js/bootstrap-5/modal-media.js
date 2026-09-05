@@ -71,6 +71,20 @@ const initializeMediaModal = function (modal) {
 
     // when the carousel opens on the first slide and this is a YT video an audio or a video element,
     // we need to start autoplaying on modal open.
+    modal.addEventListener('show.bs.modal', (e) => {
+        const modalTrigger = e.relatedTarget;
+        if (!modalTrigger) return;
+
+        const slideTo = modalTrigger.getAttribute('data-bs-slide-to');
+        const carouselElement = modal.querySelector('[data-mle-carousel]');
+
+        if (slideTo !== null && carouselElement) {
+            const bs = getMleBootstrapInstance();
+            const carouselInstance = bs.Carousel.getOrCreateInstance(carouselElement);
+            carouselInstance.to(parseInt(slideTo, 10));
+        }
+    });
+
     modal.addEventListener('shown.bs.modal', (e) => {
         // nothing to do, return
         if (!modal.hasAttribute('data-mle-autoplay')) return;
@@ -78,11 +92,8 @@ const initializeMediaModal = function (modal) {
         const modalTrigger = e.relatedTarget;
         if (!modalTrigger) return;
 
-        const slideToElement = modalTrigger.querySelector('[data-bs-slide-to]');
-        if (!slideToElement) return;
-
-        const slideTo = slideToElement.getAttribute('data-bs-slide-to');
-        if (slideTo !== '0') return;
+        const slideTo = modalTrigger.getAttribute('data-bs-slide-to');
+        if (slideTo !== '0' && slideTo !== null) return;
 
         const firstSlide = carousel.querySelector('[data-mle-carousel-item]:first-child');
         // console.log('firstSlide', firstSlide);

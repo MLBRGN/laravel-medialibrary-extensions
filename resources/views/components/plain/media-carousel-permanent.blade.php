@@ -127,9 +127,10 @@
         :options="$getOptions()"
         title="Media carousel"/>
 @endif
-<x-mle-shared-assets 
-    :include-css="true" 
-    :include-js="true" 
+<x-mle-shared-assets
+    :include-css="true"
+    :include-js="true"
+    :include-media-modal-js="$expandableInModal"
     :include-carousel-js="true"
     :include-debug-toggle-js="config('medialibrary-extensions.debug')"
     :include-lite-youtube="config('medialibrary-extensions.youtube_support_enabled')"

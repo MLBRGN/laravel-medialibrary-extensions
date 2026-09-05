@@ -127,6 +127,7 @@
         :include-css="true"
         :include-js="true"
         :include-image-editor-js="true"
+        :include-media-modal-js="true"
         :include-debug-toggle-js="config('medialibrary-extensions.debug')"
         :theme="$getConfig('theme')"
         for="bootstrap-5|media-manager"

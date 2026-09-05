@@ -39,7 +39,9 @@ dataset('mms_test_matrix', function () {
 
 dataset('blog_crud_matrix', [
     'bootstrap + xhr' => ['bootstrap-5', true],
+    'bootstrap + no xhr' => ['bootstrap-5', false],
     'plain + xhr' => ['plain', true],
+    'plain + no xhr' => ['plain', false],
 ]);
 
 dataset('mmm_test_matrix', function () {

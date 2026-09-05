@@ -28,7 +28,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     // for media modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
     $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
-    $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
     $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
     // for modal carousel testing
@@ -134,7 +134,25 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
         ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
+        ->wait(1.0)
         ->assertMissing($imageEditorModalSelector);
+
+    // check that the carousel shows the correct image AFTER edit
+    $page->click($mediaPreviewItemSelector);
+    $page->wait(1.0);
+    $page->assertPresent($mediaModalSelector);
+    
+    $previewSrc = $page->page()->locator($mediaPreviewImageSelector)->first()->getAttribute('src');
+    $filenamePart = basename(parse_url($previewSrc, PHP_URL_PATH));
+    
+    $page->assertPresent($mediaModalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="' . $filenamePart . '"]');
+    
+    if ($theme === 'bootstrap-5') {
+        $page->keys($mediaModalSelector, 'Escape');
+    } else {
+        $page->click($mediaModalCloseButtonSelector);
+    }
+    $page->wait(0.5);
 
     // check canceling image editing in the image editor
     $page->pressAndWaitFor($editButtonSelector, $waitTime)
@@ -220,7 +238,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     // for modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
     $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
-    $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
     $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
     // for modal carousel testing

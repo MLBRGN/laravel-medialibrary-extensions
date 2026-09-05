@@ -16,8 +16,8 @@
                 <tr>
                     <td>{{ $blog->title }}</td>
                     <td>
-                        <a href="{{ route('blogs.show', ['blog' => $blog, 'theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-sm btn-info">Show</a>
-                        <a href="{{ route('blogs.edit', ['blog' => $blog, 'theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ route('blogs.show', ['blog' => $blog, 'theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-sm btn-info" id="btn-show-{{ $blog->id }}">Show</a>
+                        <a href="{{ route('blogs.edit', ['blog' => $blog, 'theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-sm btn-warning" id="btn-edit-{{ $blog->id }}">Edit</a>
                         <form action="{{ route('blogs.destroy', $blog) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')

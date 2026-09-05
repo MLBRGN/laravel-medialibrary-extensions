@@ -29,7 +29,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     // for modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
     $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
-    $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
     $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
     // for modal carousel testing
@@ -117,6 +117,31 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
     // check that media modal can be closed
         ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
+
+    // check that the carousel shows the correct images for multiple items (random check)
+    for ($i = 0; $i < 2; $i++) {
+        $randomIndex = rand(1, $maxItems);
+        $currentSelector = $gridSelector." [data-mle-media-preview-container]:nth-child({$randomIndex}) [data-mle-media-preview-item]";
+        
+        // Get the src of the preview image
+        $previewSrc = $page->page()->locator($currentSelector . ' [data-mle-media-preview-image]')->first()->getAttribute('src');
+        $filenamePart = basename(parse_url($previewSrc, PHP_URL_PATH));
+        
+        $page->click($currentSelector);
+        $page->wait(1.0);
+        $page->assertPresent($mediaModalSelector);
+        
+        // Verify active slide matches the clicked image
+        $page->assertPresent($mediaModalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="' . $filenamePart . '"]');
+        
+        // Close modal
+        if ($theme === 'bootstrap-5') {
+            $page->keys($mediaModalSelector, 'Escape');
+        } else {
+            $page->click($mediaModalCloseButtonSelector);
+        }
+        $page->wait(0.5);
+    }
 
     // check image editor modal can be opened and closed
     $page->pressAndWaitFor($editButtonSelector, $waitTime)

@@ -3,6 +3,7 @@
          id="{{ $getDomId() }}"
          data-bs-toggle="modal"
          data-bs-target="#{{ $id }}-mod"
+         data-bs-slide-to="{{ $loopIndex }}"
          data-mle-media-preview-item
     >
         <x-mle-media-viewer
@@ -11,8 +12,6 @@
             :options="$getOptions()"
             :preview-mode="true"
             :expandable-in-modal="true"
-            data-bs-target="#{{ $id }}-mod-crs"
-            data-bs-slide-to="{{ $loopIndex }}"
             :data-source="$getConfig('dataSource')"
         />
     </div>

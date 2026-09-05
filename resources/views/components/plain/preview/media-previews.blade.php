@@ -25,18 +25,6 @@
             :data-source="$getConfig('dataSource')"
             :client-token="$clientToken"
         />
-        <x-mle-media-modal
-            :id="$id"
-            :model-reference="$modelReference"
-            :single-media="$singleMedia"
-            :collections="$collections"
-            :video-auto-play="true"
-            :options="$getOptions()"
-            title="Media carousel"
-            :instance-id="$instanceId"
-            :data-source="$getConfig('dataSource')"
-            :client-token="$clientToken"
-        />
         @if($getConfig('showMenu'))
             <x-mle-media-preview-menu
                 :id="$id"
@@ -57,3 +45,18 @@
 @empty
     <x-mle-media-preview-item-empty :id="$id" />
 @endforelse
+
+@if($media->isNotEmpty())
+    <x-mle-media-modal
+        :id="$id"
+        :model-reference="$modelReference"
+        :single-media="$singleMedia"
+        :collections="$collections"
+        :video-auto-play="true"
+        :options="$getOptions()"
+        title="Media carousel"
+        :instance-id="$instanceId"
+        :data-source="$getConfig('dataSource')"
+        :client-token="$clientToken"
+    />
+@endif

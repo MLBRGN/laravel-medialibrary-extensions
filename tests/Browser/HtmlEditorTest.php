@@ -67,7 +67,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         // for modal testing
         $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
         $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
-        $mediaModalSelector = $firstMediaPreviewContainer.' [data-mle-media-modal]';
+        $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
         $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
 
         // for modal carousel testing
