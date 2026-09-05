@@ -74,6 +74,10 @@ class BrowserTestCase extends Orchestra
 
     protected Ufo $testModelNotExtendingHasMedia;
 
+    protected float $waitTimeXhr = 0.1;// @AI DO NOT CHANGE!
+
+    protected float $waitTimeNonXhr = 0.5;// @AI DO NOT CHANGE!
+
     // large files cause timeouts in browser testing, disabled (for now)
     protected array $fixturesSmall = [
         '01_100x100.jpg',
@@ -526,5 +530,89 @@ class BrowserTestCase extends Orchestra
     protected function getFakePublicDirectory(): string
     {
         return __DIR__.'/Support/public';
+    }
+
+    /**
+     * Ensure there is exactly one medium available for the Media Lab preview.
+     *
+     * Preference order:
+     *  - Reuse an existing upload from the Single manager collection ('alien-single-image') if present
+     *  - Otherwise append the demo image to the 'alien-media-lab' collection
+     *
+     * All actions are executed on the correct connection resolved from the given data source.
+     */
+    protected function ensureLabMedium(string $dataSource): void
+    {
+        /** @var Alien $model */
+        $model = new Alien;
+
+        if ($dataSource !== '') {
+            $connection = app(\Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver::class)->resolveConnection($dataSource);
+            $model->setConnection($connection);
+        }
+
+        /** @var Alien $existingModel */
+        $existingModel = $model->newQuery()->with('media')->first();
+        if (! $existingModel) {
+            $existingModel = $model->newQuery()->create();
+        }
+
+        // Resolve disk for the data source, fallback to 'demo_alt'
+        $disk = PackageInfrastructure::disk('demo');
+
+        // If Lab already has media, ensure exactly one is present and its file exists on the expected disk.
+        $labMedia = $existingModel->getMedia('alien-media-lab');
+        if (! $labMedia->isEmpty()) {
+            $current = $labMedia->first();
+
+            // When a record exists but its file was cleaned or lives on a different disk, re-create deterministically.
+            $fileExists = is_file($current->getPath());
+            $onExpectedDisk = method_exists($current, 'disk') ? ($current->disk === $disk) : true;
+
+            if ($fileExists && $onExpectedDisk) {
+                return; // Healthy state
+            }
+
+            // Self-heal: reset the collection to a single known demo image on the expected disk.
+            $existingModel->clearMediaCollection('alien-media-lab');
+
+            $demoImage = __DIR__.'/../resources/demo/demo_small.jpeg';
+            if (is_file($demoImage)) {
+                $existingModel
+                    ->addMedia($demoImage)
+                    ->preservingOriginal()
+                    ->toMediaCollection('alien-media-lab', $disk);
+            }
+
+            $existingModel->load('media');
+
+            return;
+        }
+
+        // Prefer reusing a Single upload if available
+        $single = $existingModel->getMedia('alien-single-image')->first();
+
+        if ($single && is_file($single->getPath())) {
+            $existingModel
+                ->addMedia($single->getPath())
+                ->preservingOriginal()
+                ->toMediaCollection('alien-media-lab', $disk);
+
+            $existingModel->load('media');
+
+            return;
+        }
+
+        // fallback
+        $demoImage = __DIR__.'/../resources/demo/demo_small.jpeg';
+
+        if (is_file($demoImage)) {
+            $existingModel
+                ->addMedia($demoImage)
+                ->preservingOriginal()
+                ->toMediaCollection('alien-media-lab', $disk);
+
+            $existingModel->load('media');
+        }
     }
 }

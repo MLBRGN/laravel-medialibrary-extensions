@@ -7,7 +7,7 @@ export const ClientToken = {
      * @returns {string}
      */
     get() {
-        let token = localStorage.getItem('mle_client_token');
+        let token = sessionStorage.getItem('mle_client_token');
 
         if (!token) {
             // Attempt to pick up token from cookie
@@ -25,16 +25,16 @@ export const ClientToken = {
 
         if (!token) {
             token = this.generateUlid();
-            localStorage.setItem('mle_client_token', token);
-            // Also set a long-lived cookie for server-side fallback
-            document.cookie = `mle_client_token=${token}; path=/; max-age=${60 * 60 * 24 * 365 * 10}; SameSite=Lax`;
+            sessionStorage.setItem('mle_client_token', token);
+            // Also set a session cookie for server-side fallback
+            document.cookie = `mle_client_token=${token}; path=/; SameSite=Lax`;
 
             // Sync all elements on page that might need this token
             document.dispatchEvent(new CustomEvent('mle:client-token-generated', { detail: { token } }));
         } else {
-            // Ensure it's in localStorage if it was picked up from cookie or page
-            if (localStorage.getItem('mle_client_token') !== token) {
-                localStorage.setItem('mle_client_token', token);
+            // Ensure it's in sessionStorage if it was picked up from cookie or page
+            if (sessionStorage.getItem('mle_client_token') !== token) {
+                sessionStorage.setItem('mle_client_token', token);
             }
         }
 

@@ -20,6 +20,8 @@ class MediaCarousel extends BaseComponent
 
     public int $mediaCount;
 
+    public bool $temporaryUploadMode = false;
+
     public string $previewerId = '';
 
     public function __construct(
@@ -51,15 +53,18 @@ class MediaCarousel extends BaseComponent
 
         $resolvedModel = $mediaModelResolver->resolveModelReference($modelReference, $dataSource);
         $model = $resolvedModel->model;
+        $this->temporaryUploadMode = $resolvedModel->temporaryUploadMode;
 
         // merge into config
         $this->resolveConfig([
-            'temporaryUploadMode' => $resolvedModel->temporaryUploadMode,
+            'temporaryUploadMode' => $this->temporaryUploadMode,
             'clientToken' => $this->clientToken,
         ]);
 
+        $includeTemporaryUploads = $this->getOption('includeTemporaryUploads', $this->temporaryUploadMode);
+
         $mediaRetriever = app(MediaRetriever::class);
-        $this->media = $mediaRetriever->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource, true);
+        $this->media = $mediaRetriever->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource, $includeTemporaryUploads);
 
         $this->mediaCount = $this->media->count();
 

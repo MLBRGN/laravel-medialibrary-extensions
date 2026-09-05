@@ -279,7 +279,8 @@
                 ]"
                 :options="[
                     'theme' => $theme, 
-                    'dataSource' => $dataSource
+                    'dataSource' => $dataSource,
+                    'includeTemporaryUploads' => true
                 ]"
                 :data-source="$dataSource"
                 :instance-id="null"

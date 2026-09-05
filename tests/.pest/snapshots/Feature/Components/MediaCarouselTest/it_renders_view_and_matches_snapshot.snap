@@ -1,4 +1,5 @@
 <div id="media-carousel-crs"
+     data-base-id="media-carousel"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100"
         data-mle-carousel
 >
@@ -85,6 +86,7 @@
                 </button>
                 
                 <div id="media-carousel-mod-crs"
+     data-base-id="media-carousel-mod"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
         data-mle-carousel
 >

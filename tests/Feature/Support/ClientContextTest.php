@@ -187,12 +187,9 @@ it('queues generated token cookie', function () {
 
     $token = $context->resolve();
 
-    Cookie::shouldHaveReceived('forever')
+    Cookie::shouldHaveReceived('queue')
         ->once()
         ->with('mle_client_token', $token);
-
-    Cookie::shouldHaveReceived('queue')
-        ->once();
 });
 
 it('does not regenerate when session token exists', function () {

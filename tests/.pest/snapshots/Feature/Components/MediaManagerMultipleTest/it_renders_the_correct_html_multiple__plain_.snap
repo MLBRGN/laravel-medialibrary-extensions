@@ -1,5 +1,6 @@
 <div
     id="test-media-modal-mmm"
+    data-base-id="test-media-modal"
     class="mle-component mle-theme-plain mle-media-manager media-manager-multiple"
     data-mle-media-manager
 >
@@ -12,8 +13,7 @@
     <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
         
         <div class="mle-media-manager-form ">
-            
-                <span class="mle-media-manager-media-counts mle-form-text" data-mle-media-manager-media-counts>
+                            <span class="mle-media-manager-media-counts mle-form-text" data-mle-media-manager-media-counts>
                     0 of 10    
                 </span>
                                                                     

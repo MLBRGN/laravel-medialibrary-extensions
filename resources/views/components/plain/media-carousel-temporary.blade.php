@@ -1,4 +1,5 @@
 <div id="{{ $getDomId() }}"
+     data-base-id="{{ $id }}"
      {{ $attributes->class([
         'mle-component',
         'mle-theme-'.$getConfig('theme'),

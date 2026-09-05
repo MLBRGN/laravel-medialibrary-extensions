@@ -165,17 +165,27 @@ bootAssets({
  * Global initialization for elements that need a client token (e.g. for promotion).
  */
 function initClientTokens() {
-    // Attempt to get token from localStorage or cookie
-    let token = localStorage.getItem('mle_client_token');
+    // Attempt to get token from sessionStorage or cookie
+    let token = sessionStorage.getItem('mle_client_token');
     if (!token) {
         const match = document.cookie.match(/mle_client_token=([^;]+)/);
         if (match) token = match[1];
     }
 
     if (token) {
-        document.querySelectorAll('[data-mle-client-token]').forEach((el) => {
+        document.querySelectorAll('[data-mle-client-token], [data-mle-media-manager-config]').forEach((el) => {
             if (el.tagName === 'INPUT') {
-                el.value = token;
+                if (el.hasAttribute('data-mle-media-manager-config')) {
+                    try {
+                        const config = JSON.parse(el.value || '{}');
+                        config.clientToken = token;
+                        el.value = JSON.stringify(config);
+                    } catch (e) {
+                        console.error('[mle] failed to update config with token', e);
+                    }
+                } else {
+                    el.value = token;
+                }
             } else {
                 el.setAttribute('data-mle-client-token', token);
             }
@@ -193,9 +203,19 @@ document.addEventListener('DOMContentLoaded', initClientTokens);
 document.addEventListener('mle:client-token-generated', (e) => {
     const token = e.detail?.token;
     if (token) {
-        document.querySelectorAll('[data-mle-client-token]').forEach((el) => {
+        document.querySelectorAll('[data-mle-client-token], [data-mle-media-manager-config]').forEach((el) => {
             if (el.tagName === 'INPUT') {
-                el.value = token;
+                if (el.hasAttribute('data-mle-media-manager-config')) {
+                    try {
+                        const config = JSON.parse(el.value || '{}');
+                        config.clientToken = token;
+                        el.value = JSON.stringify(config);
+                    } catch (e) {
+                        console.error('[mle] failed to update config with token', e);
+                    }
+                } else {
+                    el.value = token;
+                }
             } else {
                 el.setAttribute('data-mle-client-token', token);
             }

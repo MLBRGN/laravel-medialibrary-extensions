@@ -63,7 +63,10 @@ class TemporaryUploadPromoter
 
         /**
          * Broad Scan: Collect all uploads for this session (client_token) that match
-         * the intended model type, even if they were from components outside the form.
+         * the intended model type. Because we now use sessionStorage for client tokens,
+         * the token is isolated to the current tab, effectively defining our "work unit".
+         * This allows us to safely pick up uploads from components that might be outside
+         * the main form (e.g. sidebars or separate widgets) as long as they are for the same model.
          */
         if ($clientToken) {
             $modelMorphClass = $model->getMorphClass();
@@ -86,6 +89,11 @@ class TemporaryUploadPromoter
             });
 
             if ($additionalUploads->isNotEmpty()) {
+                Log::info('TemporaryUploadPromoter: broad scan found additional uploads for this work unit (tab)', [
+                    'count' => $additionalUploads->count(),
+                    'model_type' => $modelMorphClass,
+                    'additional_ids' => $additionalUploads->pluck('id')->toArray(),
+                ]);
                 $temporaryUploads = $temporaryUploads->merge($additionalUploads);
             }
         }
@@ -227,13 +235,19 @@ class TemporaryUploadPromoter
             $existed = Storage::disk($temporaryDisk)->exists($temporaryUpload->path);
             if ($existed) {
                 Storage::disk($temporaryDisk)->delete($temporaryUpload->path);
+                Log::debug('TemporaryUploadPromoter: physical file deleted from temporary storage', [
+                    'path' => $temporaryUpload->path,
+                    'disk' => $temporaryDisk,
+                ]);
+            } else {
+                Log::warning('TemporaryUploadPromoter: physical file missing during cleanup', [
+                    'path' => $temporaryUpload->path,
+                    'disk' => $temporaryDisk,
+                ]);
             }
 
-            Log::debug('TemporaryUploadPromoter: cleaned up temporary storage and record', [
+            Log::debug('TemporaryUploadPromoter: deleting temporary record from database', [
                 'temporary_upload_id' => $temporaryUpload->id,
-                'file_existed' => $existed,
-                'path' => $temporaryUpload->path,
-                'disk' => $temporaryDisk,
             ]);
 
             $temporaryUpload->delete();

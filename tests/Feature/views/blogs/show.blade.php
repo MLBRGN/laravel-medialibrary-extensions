@@ -29,6 +29,16 @@
         />
     </div>
 
+    <div class="mb-5">
+        <h2>Carousel Preview</h2>
+        <x-mle-media-carousel
+            id="blog-carousel-show"
+            :model-reference="$blog"
+            :collections="['image' => ['blog-main', 'blog-gallery']]"
+            :options="['theme' => $theme]"
+        />
+    </div>
+
     <div class="mt-5">
         <a href="{{ route('blogs.edit', ['blog' => $blog, 'theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-warning">Edit</a>
     </div>

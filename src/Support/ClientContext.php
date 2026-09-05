@@ -57,10 +57,8 @@ class ClientContext
             $this->request->session()->put('mle_client_token', $token);
         }
 
-        // store cookie
-        Cookie::queue(
-            Cookie::forever('mle_client_token', $token)
-        );
+        // store cookie (session-based)
+        Cookie::queue('mle_client_token', $token);
 
         return $token;
     }
