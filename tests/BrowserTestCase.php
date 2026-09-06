@@ -151,7 +151,6 @@ class BrowserTestCase extends Orchestra
 
         Route::get('/login', fn () => 'Login (dummy)')->name('login');
 
-        Config::set('medialibrary-extensions.demo_pages_enabled', false);
         Config::set('medialibrary-extensions.debug', true);
         Config::set('medialibrary-extensions.store_originals', true);
 
@@ -324,6 +323,12 @@ class BrowserTestCase extends Orchestra
         Route::middleware('web')->group(function () {
             Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
             Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
+
+            Route::get('test-client-token', function() {
+                return response()->json([
+                    'token' => app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->get()
+                ]);
+            })->name('test-client-token');
 
             Route::resource('blogs', BlogController::class);
 

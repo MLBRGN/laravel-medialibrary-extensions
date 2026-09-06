@@ -38,7 +38,7 @@ it('can create a blog using the html editor with custom file picker', function (
     // Open image dialog
     $page->press($imageButton)
         ->assertPresent($browseFilesButtonSelector);
-    
+
     // Open file picker
     $page->press($browseFilesButtonSelector)
         ->assertPresent($filePickerIframeSelector);
@@ -49,7 +49,7 @@ it('can create a blog using the html editor with custom file picker', function (
     $page->withinFrame($filePickerIframeSelector, function (AwaitableWebpage $page) use ($useXhr, $wait, &$uploadedFilename) {
         $page->page()->waitForLoadState('domcontentloaded');
         $page->assertPresent('[data-mle-media-manager]');
-        
+
         $mediaManagerSelector = '[data-mle-media-manager]';
         $inputSelector = $mediaManagerSelector.' [data-mle-media-input]';
         $uploadButtonSelector = $mediaManagerSelector.' [data-mle-media-upload-button]';
@@ -57,11 +57,11 @@ it('can create a blog using the html editor with custom file picker', function (
         $insertSelectedButtonSelector = '[data-mle-insert-selected]';
 
         $page->assertPresent($inputSelector);
-        
+
         // Upload an image
         $fixture = $this->getRandomFixture();
         $uploadedFilename = basename($fixture);
-        
+
         $page->attach($inputSelector, $fixture)
             ->press($uploadButtonSelector);
 
@@ -88,7 +88,7 @@ it('can create a blog using the html editor with custom file picker', function (
     // 6. Verify promotion and visual presence
     $blog = Blog::where('title', $title)->first();
     $this->assertNotNull($blog);
-    
+
     // Check media counts
     $this->assertCount(1, $blog->getMedia('blog-main'));
     $this->assertCount(1, $blog->getMedia('blog-content'));
@@ -96,11 +96,11 @@ it('can create a blog using the html editor with custom file picker', function (
 
     // 7. Verify Show page
     $this->assertFeaturedImageVisible($page, $featuredName);
-    
+
     // Check that the HTML content contains an image with the expected filename
     $displaySelector = '#blog-content-display';
     $page->assertPresent($displaySelector);
-    
+
     $htmlContent = $page->page()->locator($displaySelector)->innerHTML();
     $this->assertFilenameMatch($htmlContent, $uploadedFilename);
 

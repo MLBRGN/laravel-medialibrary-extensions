@@ -5,10 +5,13 @@
 
 use Illuminate\Support\Facades\Config;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Tests\Browser\Concerns\InteractsWithBlogIntegration;
 
 beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });
+
+uses(InteractsWithBlogIntegration::class);
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
@@ -184,6 +187,97 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
+
+    $page->page()->close();
+})->group('browser')
+    ->with('mmm_test_matrix')
+    ->flaky();
+
+it('can use set-as-first and carousel remains synced', function ($theme, $dataSource, $xhr, $storage) {
+    // prepare selectors
+    $mediaManagerId = '#alien-multiple-'.$storage.'-mmm';
+    $inputSelector = $mediaManagerId.' [data-mle-media-input]';
+    $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
+    $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
+
+    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
+
+    $xhrInt = $xhr ? 1 : 0;
+    $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
+
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+        ->assertNoJavaScriptErrors();
+
+    $this->scrollIntoView($page, $mediaManagerId);
+
+    // 1. Upload 3 images
+    for ($i = 0; $i < 3; $i++) {
+        $page->attach($inputSelector, $this->getRandomFixture())
+            ->press($uploadButtonSelector);
+
+        if (!$xhr) {
+            $page->wait($waitTime);
+        }
+
+        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
+    }
+
+    // 2. Refresh the page to ensure correct order/state and clean DOM
+    $page->refresh();
+    $this->scrollIntoView($page, $mediaManagerId);
+
+    // 3. Verify initial synchronization of the SECOND item
+    $secondContainer = $gridSelector.' [data-mle-media-preview-container]:nth-child(2)';
+    $secondItemPreview = $secondContainer.' [data-mle-media-preview-item]';
+    $secondItemImage = $secondItemPreview.' [data-mle-media-preview-image]';
+
+    $secondSrc = $page->page()->locator($secondItemImage)->first()->getAttribute('src');
+    $secondFilename = basename(parse_url($secondSrc, PHP_URL_PATH));
+    $secondFilenameBase = pathinfo($secondFilename, PATHINFO_FILENAME);
+
+    $page->click($secondItemPreview)
+        ->assertVisible($mediaModalSelector)
+        // Wait until the active slide matches the clicked image
+        ->assertPresent($mediaModalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
+        ->click($mediaModalCloseButtonSelector)
+        ->assertMissing($mediaModalSelector);
+
+    // 4. Set the second item as first
+    $setAsFirstButtonSelector = $secondContainer.' [data-mle-media-set-as-first-button]';
+    $page->press($setAsFirstButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.medium_set_as_main'));
+
+    // 5. Verify it is now first in the grid
+    $firstContainer = $gridSelector.' [data-mle-media-preview-container]:first-child';
+    $firstItemImage = $firstContainer.' [data-mle-media-preview-image]';
+    $newFirstSrc = $page->page()->locator($firstItemImage)->first()->getAttribute('src');
+    $this->assertFilenameMatch($newFirstSrc, $secondFilename);
+
+    // 6. Verify synchronization of the NEW first item
+    $page->click($firstContainer.' [data-mle-media-preview-item]')
+        ->assertVisible($mediaModalSelector)
+        ->assertPresent($mediaModalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
+        ->click($mediaModalCloseButtonSelector)
+        ->assertMissing($mediaModalSelector);
+
+    // 7. Verify synchronization of the NEW second item (which was the first)
+    $newSecondContainer = $gridSelector.' [data-mle-media-preview-container]:nth-child(2)';
+    $newSecondItemImage = $newSecondContainer.' [data-mle-media-preview-image]';
+    $newSecondSrc = $page->page()->locator($newSecondItemImage)->first()->getAttribute('src');
+    $newSecondFilename = basename(parse_url($newSecondSrc, PHP_URL_PATH));
+    $newSecondFilenameBase = pathinfo($newSecondFilename, PATHINFO_FILENAME);
+
+    $page->click($newSecondContainer.' [data-mle-media-preview-item]')
+        ->assertVisible($mediaModalSelector)
+        ->assertPresent($mediaModalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$newSecondFilenameBase}']")
+        ->click($mediaModalCloseButtonSelector)
+        ->assertMissing($mediaModalSelector);
 
     $page->page()->close();
 })->group('browser')

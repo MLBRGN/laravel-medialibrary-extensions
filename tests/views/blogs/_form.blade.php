@@ -5,13 +5,13 @@
     /** @var string $theme */
 @endphp
 
-<div class="mb-3">
-    <label for="title" class="form-label">Title</label>
-    <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $blog->title) }}" required>
+<div class="mle-test-form-group">
+    <label for="title" class="mle-test-label">Title</label>
+    <input type="text" name="title" id="title" class="mle-test-input" value="{{ old('title', $blog->title) }}" required>
 </div>
 
-<div class="mb-3">
-    <label for="content" class="form-label">Content</label>
+<div class="mle-test-form-group">
+    <label for="content" class="mle-test-label">Content</label>
     @if (class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
         <x-form-html-editor
             name="content"
@@ -34,12 +34,12 @@
             ])"
         />
     @else
-        <textarea name="content" id="content" class="form-control" rows="5">{{ old('content', $blog->content) }}</textarea>
+        <textarea name="content" id="content" class="mle-test-textarea" rows="5">{{ old('content', $blog->content) }}</textarea>
     @endif
 </div>
 
-<div class="mb-3">
-    <h2>Featured Image (Inside Form)</h2>
+<div class="mle-test-form-group">
+    <h2>Media manager single (Nested, collection "blog-main")</h2>
     @if($mode === 'edit')
         <x-mle-media-manager-single
             id="blog-main-inside"
@@ -59,5 +59,3 @@
     @endif
 </div>
 
-{{-- Hidden input for client token to ensure promotion works --}}
-<input type="hidden" name="client_token" value="{{ app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->get() }}" data-mle-client-token>

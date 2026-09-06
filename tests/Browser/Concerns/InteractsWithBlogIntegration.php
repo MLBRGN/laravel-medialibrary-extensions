@@ -162,6 +162,20 @@ trait InteractsWithBlogIntegration
         return $page;
     }
 
+    /**
+     * Set the item at the given position as the first one.
+     */
+    protected function setAsFirst(AwaitableWebpage|PendingAwaitablePage $page, string $containerSelector, int $position): AwaitableWebpage|PendingAwaitablePage
+    {
+        $item = "{$containerSelector} [data-mle-media-preview-container]:nth-child({$position})";
+        $btn = "{$item} [data-mle-media-set-as-first-button]";
+
+        $page->press($btn)
+            ->assertSee(__('medialibrary-extensions::messages.medium_set_as_main'));
+
+        return $page;
+    }
+
     protected function assertFilenameMatch(string $src, string $expectedFilename): void
     {
         expect($this->checkFilenameMatch($src, $expectedFilename))

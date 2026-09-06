@@ -1,13 +1,17 @@
 <x-blogs-layout :theme="$theme" :title="'Blog: ' . $blog->title">
     <h1 class="mb-5">Blog: {{ $blog->title }}</h1>
-    <a href="{{ route('blogs.index', ['theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-secondary mb-5">Back to blogs</a>
-
-    <div class="mb-5">
-        <strong>Content:</strong>
-        <div id="blog-content-display">{!! $blog->content !!}</div>
+    <div class="mle-test-nav">
+        <a href="{{ route('blogs.index', ['theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="mle-test-btn">Back to blogs</a>
     </div>
 
-    <div class="mb-5">
+    <div class="mle-test-card">
+        <div class="mle-test-form-group">
+            <label class="mle-test-label">Content:</label>
+            <div id="blog-content-display" class="mle-test-display-content">{!! $blog->content !!}</div>
+        </div>
+    </div>
+
+    <div class="mle-test-section">
         <h2>Featured Image</h2>
         <x-mle-media-manager-single
             id="blog-main-show"
@@ -18,7 +22,7 @@
         />
     </div>
 
-    <div class="mb-5">
+    <div class="mle-test-section">
         <h2>Gallery</h2>
         <x-mle-media-manager-multiple
             id="blog-gallery-show"
@@ -29,7 +33,7 @@
         />
     </div>
 
-    <div class="mb-5">
+    <div class="mle-test-section">
         <h2>Carousel Preview</h2>
         <x-mle-media-carousel
             id="blog-carousel-show"
@@ -39,7 +43,7 @@
         />
     </div>
 
-    <div class="mt-5">
-        <a href="{{ route('blogs.edit', ['blog' => $blog, 'theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-warning">Edit</a>
+    <div class="my-5">
+        <a href="{{ route('blogs.edit', ['blog' => $blog, 'theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="mle-test-btn mle-test-btn-warning" id="btn-edit-blog">Edit</a>
     </div>
 </x-blogs-layout>

@@ -91,7 +91,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     $page->assertMissing($modalSelector);
 
     // 6. Edit Flow
-    $page->click('a.btn-warning') // Edit button on show page
+    $page->click('#btn-edit-blog') // Edit button on show page
         ->assertSee('Edit blog');
 
     $newTitle = 'Human CRUD Edit ' . uniqid();
@@ -112,6 +112,53 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
         ->assertSee($newTitle);
 
     $this->assertFeaturedImageVisible($page, $newFeaturedName);
+    
+    $page->page()->close();
+})->with('blog_crud_matrix')->group('browser')->flaky();
+
+it('allows reordering gallery images during blog creation and maintains sync', function (string $theme, bool $useXhr) {
+    $title = 'Reorder Test ' . uniqid();
+    $xhrInt = $useXhr ? 1 : 0;
+    
+    // 1. Start at Create page
+    $page = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}");
+    $page->assertSee('Add a new blog');
+
+    // 2. Fill basic info
+    $this->fillBlogForm($page, $title, 'Testing reordering');
+
+    // 3. Upload 3 images to Gallery
+    $galleryNames = [];
+    $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
+    $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
+    $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
+
+    // 4. Set the 2nd image as first
+    $galleryContainer = '[data-base-id="blog-gallery-outside"]';
+    $this->setAsFirst($page, $galleryContainer, 2);
+
+    // Expected new order: [original 2nd, original 1st, original 3rd]
+    $expectedOrder = [$galleryNames[1], $galleryNames[0], $galleryNames[2]];
+
+    // 5. Save the blog
+    $page->press('#btn-save-blog')
+        ->assertSee('Blog created.')
+        ->assertSee($title);
+
+    // 6. Verify order on Show page
+    $this->assertGalleryImagesVisible($page, $expectedOrder);
+
+    // 7. Verify carousel sync on Show page for the NEW first item
+    $galleryId = 'blog-gallery-show';
+    $firstItemSelector = "[data-base-id=\"{$galleryId}\"] [data-mle-media-preview-container]:first-child [data-mle-media-preview-item]";
+    $page->click($firstItemSelector);
+
+    $modalId = "{$galleryId}-mod";
+    $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
+    
+    $page->assertPresent($modalSelector);
+    $activeItemSrc = $page->page()->locator($modalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image]')->first()->getAttribute('src');
+    $this->assertFilenameMatch($activeItemSrc, $expectedOrder[0]);
 
     $page->page()->close();
 })->with('blog_crud_matrix')->group('browser')->flaky();
