@@ -138,12 +138,22 @@ export function initCarousel(carousel) {
         }
     };
 
-    const goToSlide = (slideIndex, skipAnimation = false, skipFireEvent = false) => {
+    const goToSlide = (slideIndex, skipAnimation = false, skipFireEvent = false, explicitDirection = null) => {
         if (slideIndex === currentSlideIndex) return;
 
         const normalizedIndex = (slideIndex + slides.length) % slides.length;
         const diff = normalizedIndex - currentSlideIndex;
-        const direction = (diff + slides.length) % slides.length > slides.length / 2 ? 'left' : 'right';
+        
+        let direction = explicitDirection;
+        if (!direction) {
+            const distRight = (normalizedIndex - currentSlideIndex + slides.length) % slides.length;
+            direction = distRight > slides.length / 2 ? 'left' : 'right';
+
+            // Special case for 2 slides: follow the index order visually for indicators
+            if (slides.length === 2) {
+                direction = normalizedIndex > currentSlideIndex ? 'right' : 'left';
+            }
+        }
 
         // Add a class guard to disable CSS selectors AND pass an explicit suppress flag
         if (skipAnimation) {
@@ -163,8 +173,8 @@ export function initCarousel(carousel) {
         const distanceX = touchEndX - touchStartX;
 
         if (Math.abs(distanceX) > swipeThreshold && Math.abs(distanceX) > Math.abs(touchEndY - touchStartY)) {
-            if (distanceX < 0) goToSlide((currentSlideIndex + 1) % slides.length);
-            else goToSlide((currentSlideIndex - 1 + slides.length) % slides.length);
+            if (distanceX < 0) goToSlide((currentSlideIndex + 1) % slides.length, false, false, 'right');
+            else goToSlide((currentSlideIndex - 1 + slides.length) % slides.length, false, false, 'left');
             handleInteraction();
         }
 
@@ -173,7 +183,7 @@ export function initCarousel(carousel) {
 
     const startAutoRide = () => {
         stopAutoRide();
-        intervalId = setInterval(() => goToSlide((currentSlideIndex + 1) % slides.length), rideInterval);
+        intervalId = setInterval(() => goToSlide((currentSlideIndex + 1) % slides.length, false, false, 'right'), rideInterval);
     };
 
     const stopAutoRide = () => {
@@ -196,8 +206,8 @@ export function initCarousel(carousel) {
         handleInteraction();
     }));
 
-    prev?.addEventListener('click', () => { goToSlide((currentSlideIndex - 1 + slides.length) % slides.length); handleInteraction(); });
-    next?.addEventListener('click', () => { goToSlide((currentSlideIndex + 1) % slides.length); handleInteraction(); });
+    prev?.addEventListener('click', () => { goToSlide((currentSlideIndex - 1 + slides.length) % slides.length, false, false, 'left'); handleInteraction(); });
+    next?.addEventListener('click', () => { goToSlide((currentSlideIndex + 1) % slides.length, false, false, 'right'); handleInteraction(); });
 
     carousel.addEventListener('mouseenter', stopAutoRide);
     carousel.addEventListener('mouseleave', () => { if (ride && (!rideOnlyAfterInteraction || hasInteracted)) startAutoRide(); });
@@ -205,8 +215,8 @@ export function initCarousel(carousel) {
     carousel.addEventListener('focusout', () => { if (ride && (!rideOnlyAfterInteraction || hasInteracted)) startAutoRide(); });
 
     carousel.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide((currentSlideIndex - 1 + slides.length) % slides.length); handleInteraction(); }
-        else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide((currentSlideIndex + 1) % slides.length); handleInteraction(); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); goToSlide((currentSlideIndex - 1 + slides.length) % slides.length, false, false, 'left'); handleInteraction(); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); goToSlide((currentSlideIndex + 1) % slides.length, false, false, 'right'); handleInteraction(); }
     });
 
     carousel.addEventListener('touchstart', (e) => {
@@ -225,10 +235,10 @@ export function initCarousel(carousel) {
 
     // controller API
     const controller = {
-        goToSlide: (slideIndex, skipAnimation = false, skifFireEvent = false) => goToSlide(slideIndex, skipAnimation, skifFireEvent),
+        goToSlide: (slideIndex, skipAnimation = false, skifFireEvent = false, direction = null) => goToSlide(slideIndex, skipAnimation, skifFireEvent, direction),
         getCurrentSlideIndex: () => currentSlideIndex,
-        goToNextSlide: () => goToSlide((currentSlideIndex + 1) % slides.length),
-        goToPreviousSlide: () => goToSlide((currentSlideIndex - 1 + slides.length) % slides.length),
+        goToNextSlide: () => goToSlide((currentSlideIndex + 1) % slides.length, false, false, 'right'),
+        goToPreviousSlide: () => goToSlide((currentSlideIndex - 1 + slides.length) % slides.length, false, false, 'left'),
         pause: stopAutoRide,
         resume: startAutoRide,
     };
