@@ -40,8 +40,7 @@ it('isolates temporary uploads between browser tabs', function (string $theme, b
 
     // 5. Save Tab A
     $titleA = 'Blog Tab A ' . uniqid();
-    $pageA->type('#title', $titleA)
-        ->type('#content', 'Content A')
+    $this->fillBlogForm($pageA, $titleA, 'Content A')
         ->press('#btn-save-blog')
         ->assertSee('Blog created.');
 

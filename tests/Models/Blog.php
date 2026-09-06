@@ -19,7 +19,7 @@ class Blog extends Model implements HasMediaExtended
      *
      * @var array<int, string>
      */
-    public array $htmlEditorFields = [];
+    public array $htmlEditorFields = ['content'];
 
     protected $guarded = [];
 
@@ -39,6 +39,9 @@ class Blog extends Model implements HasMediaExtended
         $this
             ->addMediaCollection('blog-lab')
             ->singleFile();
+
+        $this
+            ->addMediaCollection('blog-content');
     }
 
     public function registerMediaConversions(?Media $media = null): void

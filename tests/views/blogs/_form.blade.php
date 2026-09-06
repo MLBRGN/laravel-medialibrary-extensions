@@ -12,7 +12,30 @@
 
 <div class="mb-3">
     <label for="content" class="form-label">Content</label>
-    <textarea name="content" id="content" class="form-control" rows="5">{{ old('content', $blog->content) }}</textarea>
+    @if (class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
+        <x-form-html-editor
+            name="content"
+            id="content"
+            label="Content"
+            data-base-id="blog-content-editor"
+            :tinymce-config="[]"
+            :extra-form-data="[
+                'model_type' => $blog->getMorphClass(),
+                'model_id' => $blog->getKey(),
+                'collection_name' => 'blog-content',
+                'collections' => ['image' => 'blog-content'],
+                'data_source' => 'default',
+            ]"
+            data-mle-model-type="{{ $blog->getMorphClass() }}"
+            data-mle-model-id="{{ $blog->getKey() }}"
+            data-mle-data-source="default"
+            :data-mle-collections="json_encode([
+                'image' => 'blog-content',
+            ])"
+        />
+    @else
+        <textarea name="content" id="content" class="form-control" rows="5">{{ old('content', $blog->content) }}</textarea>
+    @endif
 </div>
 
 <div class="mb-3">

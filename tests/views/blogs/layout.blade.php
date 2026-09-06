@@ -19,6 +19,11 @@
         section { margin-bottom: 2rem; border: 1px solid #ccc; padding: 1rem; }
         .alert-success { color: green; border: 1px solid green; padding: 10px; margin-bottom: 20px; }
     </style>
+    <script class="mlbrgn-form-components-config" type="application/json">
+        {
+          "assetBasePath": "/vendor/mlbrgn/laravel-form-components"
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -30,5 +35,6 @@
 
     {{ $slot }}
 </div>
+@stack('scripts')
 </body>
 </html>

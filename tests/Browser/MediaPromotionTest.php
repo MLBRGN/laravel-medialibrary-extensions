@@ -30,20 +30,17 @@ it('promotes temporary uploads to permanent media on form submit', function () {
 
     // 1. Upload an image to temporary MMM
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-        ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+        ->press($mmmTemporaryUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 2. Submit the form to create the model and promote media
     // We need to click the specific "Save model" button for the MMM form
     $page->press($mmmTemporaryId.' ~ form button[type="submit"]')
-        ->wait($waitTime)
-        ->assertPathIs('/mle-demo')
-        ->wait($waitTime);
+        ->assertPathIs('/mle-demo');
 
     // 3. Verify it appears in the permanent MMM
     $this->scrollIntoView($page, $mmmPermanentId);
-    $page->wait($waitTime)
-        ->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
+    $page->assertPresent($mmmPermanentGridSelector.' [data-mle-media-preview-container]:first-child [data-mle-media-preview-item] [data-mle-media-preview-image]');
 
     $page->page()->close();
 })->group('browser');
@@ -70,18 +67,16 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
 
     // 1. Upload two images to temporary MMM
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-        ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+        ->press($mmmTemporaryUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-        ->pressAndWaitFor($mmmTemporaryUploadButtonSelector, $waitTime)
+        ->press($mmmTemporaryUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 2. Submit the specific MMM form's save button to create the model and promote media
-    $page->pressAndWaitFor($mmmTemporaryId.' ~ form button[type="submit"]', $waitTime)
-        ->wait($waitTime)
-        ->assertPathIs('/mle-demo')
-        ->wait($waitTime);
+    $page->press($mmmTemporaryId.' ~ form button[type="submit"]')
+        ->assertPathIs('/mle-demo');
 
     // 3. Verify at least two items appear in the permanent MMM grid
     $this->scrollIntoView($page, $mmmPermanentId);

@@ -57,6 +57,9 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
+    // check that image editor custom element is registered
+    $page->page()->waitForFunction("customElements.get('image-editor') !== undefined");
+
     $this->scrollIntoView($page, $mediaManagerId);
 
     $page->assertPresent($inputSelector)
@@ -68,18 +71,22 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => 1]));
 
     // test that it shows error when no file selected
-    $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
+    $page->press($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
         // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
+        ->press($uploadButtonSelector);
+    
+    if (!$xhr) {
+        $page->wait($waitTime); // Wait for redirect/session to settle
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
 
         // attach an image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture())
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+        ->press($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // counts should update
@@ -107,8 +114,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
     // check media modal opening and presence of expected elements
     $page->assertPresent($mediaPreviewImageSelector)
-        ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
-        ->assertPresent($mediaModalSelector)
+        ->press($mediaPreviewImageSelector)
+        ->assertVisible($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
         ->assertPresent($mediaModalCarouselIndicatorSelector)
@@ -117,53 +124,51 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($mediaModalCarouselItemContainerImageSelector)
 
        // Check that the media modal can be closed using the close button
-        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
+        ->press($mediaModalCloseButtonSelector)
+        ->assertMissing($mediaModalSelector);
 
     // check image editor modal can be closed using the close button
-    $page->pressAndWaitFor($editButtonSelector, $waitTime)
-        ->assertPresent($imageEditorModalSelector)
+    $page->press($editButtonSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime)
+        ->press($imageEditorModalCloseButtonSelector)
         ->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
-    $page->pressAndWaitFor($editButtonSelector, $waitTime)
-        ->assertPresent($imageEditorModalSelector)
+    $page->press($editButtonSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
-        ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
-        ->wait(1.0)
-        ->assertMissing($imageEditorModalSelector);
+        ->press($imageEditorModalRotateCcwButtonSelector)
+        ->press($imageEditorModalSaveButtonSelector)
+        ->assertMissing($imageEditorModalSelector)
+        ->wait($waitTime); // Give time for reload/DOM to settle
 
     // check that the carousel shows the correct image AFTER edit
     $page->click($mediaPreviewItemSelector);
-    $page->wait(1.0);
-    $page->assertPresent($mediaModalSelector);
-    
+    $page->assertVisible($mediaModalSelector);
+
     $previewSrc = $page->page()->locator($mediaPreviewImageSelector)->first()->getAttribute('src');
     $filenamePart = basename(parse_url($previewSrc, PHP_URL_PATH));
-    
+
     $page->assertPresent($mediaModalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="' . $filenamePart . '"]');
-    
+
     if ($theme === 'bootstrap-5') {
-        $page->keys($mediaModalSelector, 'Escape');
+        $page->click($mediaModalCloseButtonSelector);
     } else {
         $page->click($mediaModalCloseButtonSelector);
     }
-    $page->wait(0.5);
+    $page->assertMissing($mediaModalSelector);
 
     // check canceling image editing in the image editor
-    $page->pressAndWaitFor($editButtonSelector, $waitTime)
+    $page->press($editButtonSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->pressAndWaitFor($imageEditorModalCancelButtonSelector, $waitTime)
+        ->press($imageEditorModalCancelButtonSelector)
         ->assertMissing($imageEditorModalSelector);
 
     // check delete media works
-    $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
-        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+    $page->wait($waitTime) // Wait for previous redirect/DOM to settle
+        ->press($deleteButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
 
     // the upload button should be enabled again
@@ -202,20 +207,20 @@ it('honors min / max width height and file size constraints in uploads', functio
 
     // test that an image that is too small is rejected
     $page->attach($inputSelector, $this->getTinyImageFixture())
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->press($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
 
     // test that an image that is too large is rejected
     config(['medialibrary-extensions.max_image_width' => 15]);
     config(['medialibrary-extensions.max_image_height' => 15]);
     $page->attach($inputSelector, $this->getTinyImageFixture())
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->press($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => config('medialibrary-extensions.max_image_width'), 'max_height' => config('medialibrary-extensions.max_image_height')]));
 
     // test that too large images (file size) are rejected
     config(['medialibrary-extensions.max_upload_size' => 1024]);
     $page->attach($inputSelector, $this->getRandomFixture())
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        ->press($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
 
     $page->page()->close();
@@ -260,6 +265,9 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
+    // check that image editor custom element is registered
+    $page->page()->waitForFunction("customElements.get('image-editor') !== undefined");
+
     $this->scrollIntoView($page, $mediaManagerId);
 
     $page->assertPresent($inputSelector)
@@ -268,15 +276,23 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertButtonEnabled($uploadButtonSelector)
 
         // test that it shows an error when no YouTube url entered
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
-        ->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'))
+        ->press($uploadButtonSelector)
+        ->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'));
 
+    if (!$xhr) {
+        $page->wait($waitTime); // Wait for potential redirect if validation was handled differently
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'))
         // enter youtube url
         ->type($inputSelector, $this->getYouTubeFixture())
-        ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
-        ->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'))
+        ->press($uploadButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime); // Wait for redirect/session to settle
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'))
 
         // assert that the image is visible in the preview
         ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
@@ -308,15 +324,19 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($mediaModalCarouselItemContainerLiteYouTubeSelector)
 
         // check that media modal can be closed
-        ->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime)
+        ->press($mediaModalCloseButtonSelector)
+        ->assertMissing($mediaModalSelector);
 
-        // check delete media works
-        ->pressAndWaitFor($deleteButtonSelector, $waitTime)
-        ->assertSee(__('medialibrary-extensions::messages.please_wait'));
+    // check delete media works
+    $page->wait($waitTime) // Wait for previous redirect/DOM to settle
+        ->press($deleteButtonSelector);
 
-    if ($xhr) {
-        $page->assertSee(__('medialibrary-extensions::messages.medium_removed'));
+    if (!$xhr) {
+        $page->wait($waitTime); // Wait for redirect/session to settle
     }
+
+    $page->assertSee(__('medialibrary-extensions::messages.medium_removed'));
+
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
 

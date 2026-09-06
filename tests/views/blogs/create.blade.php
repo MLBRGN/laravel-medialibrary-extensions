@@ -3,7 +3,7 @@
     <a href="{{ route('blogs.index', ['theme' => $theme, 'use_xhr' => $useXhr ? 1 : 0]) }}" class="btn btn-secondary mb-5">Back to blogs</a>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-12">
             <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data" class="row g-3" id="create-blog-form">
                 @csrf
                 <input type="hidden" name="theme" value="{{ $theme }}">
@@ -17,7 +17,7 @@
             </form>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-12">
             <section id="section-outside-form">
                 <h3>Outside Form Component</h3>
                 <p>This component is outside the main Blog form but can still be used for temporary uploads.</p>

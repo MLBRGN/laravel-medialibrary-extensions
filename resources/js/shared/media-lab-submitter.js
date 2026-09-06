@@ -35,7 +35,6 @@ mediaLabs.forEach(mediaLab => {
         const mediumId = target.dataset.mleMediumId;
 
         const formElement = target.closest('[data-mle-xhr-form]');
-        console.log('formElement', formElement);
         const method = formElement?.getAttribute('data-xhr-method') ?? 'post';
         const route = getRouteFromAction(action, target, config);
 
@@ -94,7 +93,7 @@ mediaLabs.forEach(mediaLab => {
                 return;
             }
 
-            updateMediaLabBase(mediaLab, config, mediumId);
+            await updateMediaLabBase(mediaLab, config, mediumId);
             showStatusMessage(statusAreaContainer, data);
 
             // Debug snippet removed

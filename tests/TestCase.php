@@ -118,7 +118,7 @@ class TestCase extends Orchestra
             return 'Mlbrgn\\MediaLibraryExtensions\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory';
         });
 
-        View::addLocation(__DIR__.'/Feature/views');
+        View::addLocation(__DIR__.'/views');
 
         // Load media library config (needed for tests that interact with the media library to work)
         $app['config']->set('media-library', require __DIR__.'/config/media-library.php');

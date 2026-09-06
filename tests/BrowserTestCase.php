@@ -28,7 +28,7 @@ use Mlbrgn\MediaLibraryExtensions\Tests\Fakes\FakeYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\Http\Controllers\BlogController;
-use Mlbrgn\MediaLibraryExtensions\Tests\Support\Http\Controllers\BlogShowcaseController;
+use Mlbrgn\MediaLibraryExtensions\Tests\Browser\Concerns\InteractsWithBlogIntegration;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
@@ -66,6 +66,8 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
  */
 class BrowserTestCase extends Orchestra
 {
+    use InteractsWithBlogIntegration;
+
     protected $baseUrl = 'http://127.0.0.1';
 
     protected string $infrastructureProfile = 'demo';
@@ -245,7 +247,7 @@ class BrowserTestCase extends Orchestra
             return 'Mlbrgn\\MediaLibraryExtensions\\Tests\\Database\\Factories\\'.class_basename($modelName).'Factory';
         });
 
-        View::addLocation(__DIR__.'/Feature/views');
+        View::addLocation(__DIR__.'/views');
 
         Blade::component('blogs.layout', 'blogs-layout');
 
@@ -321,9 +323,6 @@ class BrowserTestCase extends Orchestra
         Route::middleware('web')->group(function () {
             Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
             Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
-
-            Route::get('blog-showcase', [BlogShowcaseController::class, 'index'])->name('blog-showcase');
-            Route::post('blog-showcase-update', [BlogShowcaseController::class, 'update'])->name('blog-showcase-update');
 
             Route::resource('blogs', BlogController::class);
 

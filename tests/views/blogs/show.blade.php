@@ -4,7 +4,7 @@
 
     <div class="mb-5">
         <strong>Content:</strong>
-        <div>{{ $blog->content }}</div>
+        <div id="blog-content-display">{!! $blog->content !!}</div>
     </div>
 
     <div class="mb-5">

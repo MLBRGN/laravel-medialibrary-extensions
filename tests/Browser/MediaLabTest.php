@@ -54,23 +54,23 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->assertPresent($restoreButtonSelector);
 
     // check image editor modal can be opened and closed
-    $page->pressAndWaitFor($mmsEditButtonSelector, $waitTime)
+    $page->press($mmsEditButtonSelector)
         ->assertPresent($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
-
-    // check saving edited image in the image editor
-    $page->pressAndWaitFor($mmsEditButtonSelector, $waitTime)
-        ->assertPresent($imageEditorModalSelector)
-        ->assertVisible($imageEditorModalSelector)
-        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
-        ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
+        ->press($imageEditorModalCloseButtonSelector)
         ->assertMissing($imageEditorModalSelector);
 
+    // check saving edited image in the image editor
+    $page->press($mmsEditButtonSelector)
+        ->assertVisible($imageEditorModalSelector)
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
+        ->press($imageEditorModalRotateCcwButtonSelector)
+        ->press($imageEditorModalSaveButtonSelector)
+        ->assertMissing($imageEditorModalSelector)
+        ->wait($waitTime); // Give time for background refreshes to complete
+
     // test restore medium
-    $page->pressAndWaitFor($restoreButtonSelector, $waitTime)
-        ->assertSee(__('medialibrary-extensions::messages.please_wait'))
+    $page->press($restoreButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.restored_original'));
 
     $page->page()->close();

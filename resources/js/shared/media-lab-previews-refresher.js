@@ -7,15 +7,12 @@ import {getMediaManagerConfig} from "@/js/shared/media-manager-config";
 
 export async function updateMediaLabBase(mediaManager, config, mediumId,  detail = {}) {
 
-   console.log('media-lab-previews-refresher.js - updateMediaLabBase called, config: ', config)
     const previewsContainer = mediaManager.querySelector('[data-mle-media-lab-previews]');
     if (!previewsContainer) {
         console.warn('No previews container found');
         return;
     }
 
-    console.log('updateMediaLabBase - config ', config)
-    console.log('updateMediaLabBase - theme ', config.theme)
     const params = new URLSearchParams({
         model_type: config.modelType,
         model_id: config.modelId,
