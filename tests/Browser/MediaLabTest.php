@@ -67,7 +67,7 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->press($imageEditorModalRotateCcwButtonSelector)
         ->press($imageEditorModalSaveButtonSelector)
         ->assertMissing($imageEditorModalSelector)
-        ->wait(1.0); // Give time for multiple background refreshes to complete
+        ->wait(0.5); // Give time for multiple background refreshes to complete
 
     // test restore medium
     $page->press($restoreButtonSelector)

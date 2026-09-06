@@ -58,19 +58,19 @@ Verification will be performed by running the test suite in serial mode and prof
 
 # Delivery Steps
 
-###   Step 1: Refactor `pressAndWaitFor` to use smart assertions
+### ✓ Step 1: Refactor `pressAndWaitFor` to use smart assertions
 Search and replace all occurrences of `pressAndWaitFor($selector, $time)` with `press($selector)` in tests where it is followed by an assertion.
 
 - Target files: `MediaManagerSingleTest.php`, `ScopingAndIsolationTest.php`, `DemoPageTest.php`, `BlogIntegrationTest.php`.
 - Remove the `$time` parameter and rely on the subsequent assertion to trigger the wait.
 
-###   Step 2: Replace standalone `wait` calls with smart waiting
+### ✓ Step 2: Replace standalone `wait` calls with smart waiting
 Remove standalone `wait($seconds)` calls and ensure the following assertions cover the necessary wait time.
 
 - Target major test files: `BlogWorkflowTest.php`, `HtmlEditorTest.php`, `MediaCarouselTest.php`, `MediaLabTest.php`, `MediaManagerMultipleTest.php`, `MediaManagerSingleTest.php`.
 - Pay special attention to conditionals where `$xhr` checks are used to toggle `wait()`.
 
-###   Step 3: Validate performance gains and stability
+### ✓ Step 3: Validate performance gains and stability
 Confirm that the changes result in a faster, more stable test suite.
 
 - Run the full browser test suite using `php vendor/bin/pest --group=browser --profile`.

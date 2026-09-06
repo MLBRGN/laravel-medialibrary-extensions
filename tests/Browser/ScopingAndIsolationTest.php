@@ -31,7 +31,7 @@ it('isolates temporary uploads between browser tabs', function (string $theme, b
     $featuredGridSelector = '#blog-main-inside-mms [data-mle-media-preview-grid]';
 
     $pageA->attach($featuredInputSelector, $this->getRandomFixture())
-        ->pressAndWaitFor($featuredUploadButtonSelector, $waitTime)
+        ->press($featuredUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 4. Verify "Image A" appears in Tab A but NOT in Tab B
@@ -72,7 +72,7 @@ it('prevents temporary uploads from leaking into carousels on show pages', funct
     $featuredUploadButtonSelector = '#blog-main-inside-mms [data-mle-media-upload-button]';
 
     $pageA->attach($featuredInputSelector, $this->getRandomFixture())
-        ->pressAndWaitFor($featuredUploadButtonSelector, $waitTime)
+        ->press($featuredUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 3. Open Tab B (Show Page for existing blog)

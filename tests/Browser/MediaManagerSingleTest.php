@@ -330,7 +330,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
 
         // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
+        ->press($mediaPreviewImageSelector)
 
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)

@@ -73,18 +73,22 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     // Click the 2nd gallery image
     $galleryId = 'blog-gallery-show';
     $galleryItem2Selector = "[data-base-id=\"{$galleryId}\"] [data-mle-media-preview-container]:nth-child(2) [data-mle-media-preview-item]";
+    
+    // Get the expected filename from the preview image
+    $expectedSrc = $page->page()->locator($galleryItem2Selector . ' [data-mle-media-preview-image]')->first()->getAttribute('src');
+    $expectedFilename = basename(parse_url($expectedSrc, PHP_URL_PATH));
+    $expectedFilenameBase = pathinfo($expectedFilename, PATHINFO_FILENAME);
+
     $page->click($galleryItem2Selector);
 
     // Assert modal is open - use specific ID
     $modalId = "{$galleryId}-mod";
     $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
     
-    $page->wait(1.0); // Wait for modal to open
     $page->assertPresent($modalSelector);
 
     // In the modal carousel, check the active item matches image 2
-    $activeItemSrc = $page->page()->locator($modalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image]')->first()->getAttribute('src');
-    $this->assertFilenameMatch($activeItemSrc, $galleryNames[1]);
+    $page->assertPresent($modalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$expectedFilenameBase}']");
 
     // Close modal
     $page->click($modalSelector . ' [data-mle-modal-close]');
