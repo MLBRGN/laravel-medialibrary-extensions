@@ -143,6 +143,8 @@ dataset('media_lab_test_matrix', function () {
 
 dataset('media_html_editor_matrix', function () {
     $full = [
+        'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'bootstrap + demo default + no xhr' => ['bootstrap-5', 'demo_default', false],
         'plain + demo default + xhr' => ['plain', 'demo_default', true],
         'plain + demo default + no xhr' => ['plain', 'demo_default', false],
         'plain + demo alt + xhr' => ['plain', 'demo_alt', true],

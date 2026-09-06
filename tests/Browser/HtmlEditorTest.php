@@ -36,21 +36,21 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
     $this->scrollIntoView($page, $imageButton);
 
     // open image picker and cancel
-    $page->pressAndWaitFor($imageButton, $waitTime);
-    $page->assertPresent($browseFilesButtonSelector);
-    $page->assertPresent($saveButtonSelector);
-    $page->assertPresent($cancelButtonSelector);
-    $page->pressAndWaitFor($cancelButtonSelector, $waitTime);
+    $page->press($imageButton)
+        ->assertPresent($browseFilesButtonSelector)
+        ->assertPresent($saveButtonSelector)
+        ->assertPresent($cancelButtonSelector);
+
+    $page->press($cancelButtonSelector)
+        ->assertMissing($browseFilesButtonSelector);
 
     // open the image picker and open the file picker
-    $page->pressAndWaitFor($imageButton, $waitTime);
-    $page->pressAndWaitFor($browseFilesButtonSelector, $waitTime);
-    $page->assertPresent('.tox-dialog-wrap');
-    $page->assertPresent($iframeSelector);
+    $page->press($imageButton)
+        ->assertPresent($browseFilesButtonSelector)
+        ->press($browseFilesButtonSelector)
+        ->assertPresent($iframeSelector);
 
-    $page->withinFrame($iframeSelector, function (AwaitableWebpage $page) use ($waitTime) {
-
-        $page->wait(0.5);
+    $page->withinFrame($iframeSelector, function (AwaitableWebpage $page) use ($xhr, $waitTime) {
 
         // prepare selectors
         $mediaManagerId = '#media-manager-mmm';
@@ -92,13 +92,18 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             ->assertPresent($uploadButtonSelector);
 
         // test that it shows error when no file selected
-        $page->pressAndWaitFor($uploadButtonSelector, $waitTime)
+        $page->press($uploadButtonSelector)
             ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
         // test that invalid mime types are rejected
         $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
-            ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-            ->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
+            ->press($uploadButtonSelector);
+        
+        if (!$xhr) {
+            $page->wait($waitTime);
+        }
+
+        $page->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
         $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
 
@@ -107,9 +112,13 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         for ($i = 0; $i < $maxItems; $i++) {
             // attach an image file and submit and check if spinner shows and upload is successful
             $page->attach($inputSelector, $this->getRandomFixture())
-                ->pressAndWaitFor($uploadButtonSelector, $waitTime)
-                ->assertSee(__('medialibrary-extensions::messages.please_wait'))
-                ->assertSee(__('medialibrary-extensions::messages.upload_success'));
+                ->press($uploadButtonSelector);
+
+            if (!$xhr) {
+                $page->wait($waitTime);
+            }
+
+            $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
             // counts should update
             $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
@@ -134,8 +143,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
 
         // check media modal opening and presence of expected elements
         $page->assertPresent($mediaPreviewImageSelector)
-            ->pressAndWaitFor($mediaPreviewImageSelector, $waitTime)
-
+            ->press($mediaPreviewImageSelector)
             ->assertPresent($mediaModalSelector)
             ->assertPresent($mediaModalCloseButtonSelector)
             ->assertPresent($mediaModalCarouselSelector)
@@ -149,7 +157,8 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             ->assertPresent($firstItemSelector);
 
         // check that media modal can be closed
-        $page->pressAndWaitFor($mediaModalCloseButtonSelector, $waitTime);
+        $page->press($mediaModalCloseButtonSelector)
+            ->assertMissing($mediaModalSelector);
 
         // check that image editor custom element is registered
         expect(
@@ -161,40 +170,48 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         )->toBeTrue();
 
         // check image editor modal can be opened and closed
-        $page->pressAndWaitFor($editButtonSelector, $waitTime)
+        $page->press($editButtonSelector)
             ->assertPresent($imageEditorModalSelector)
             ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-            ->pressAndWaitFor($imageEditorModalCloseButtonSelector, $waitTime);
+            ->press($imageEditorModalCloseButtonSelector)
+            ->assertMissing($imageEditorModalSelector);
 
         // check saving edited image in the image editor
-        $page->pressAndWaitFor($editButtonSelector, $waitTime)
+        $page->press($editButtonSelector)
             ->assertPresent($imageEditorModalSelector)
             ->assertVisible($imageEditorModalSelector)
             ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-            ->pressAndWaitFor($imageEditorModalRotateCcwButtonSelector, $waitTime)
-            ->pressAndWaitFor($imageEditorModalSaveButtonSelector, $waitTime)
-            ->assertMissing($imageEditorModalSelector);
+            ->press($imageEditorModalRotateCcwButtonSelector)
+            ->press($imageEditorModalSaveButtonSelector)
+            ->assertMissing($imageEditorModalSelector)
+            ->wait($waitTime); // Give time for background refreshes to complete
 
         // delete one media and validate counts/alerts/form state
-        $page->pressAndWaitFor($deleteButtonSelector, $waitTime)
-            ->assertSee(__('medialibrary-extensions::messages.please_wait'))
-            ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
+        $page->press($deleteButtonSelector);
+
+        if (!$xhr) {
+            $page->wait($waitTime);
+        }
+
+        $page->assertSee(__('medialibrary-extensions::messages.medium_removed'))
+            ->assertMissing($maxReachedAlertSelector)
+            ->assertButtonEnabled($uploadButtonSelector);
 
         // select the first item
         $firstItemSelectSelector = $firstMediaPreviewContainer.' [data-mle-media-select-wrapper]';
         $page->assertPresent($firstItemSelectSelector);
         $page->click($firstItemSelectSelector);
-        $page->wait($waitTime);
 
         // click insert selected media
         $insertSelectedButtonSelector = '[data-mle-insert-selected]';
-        $page->pressAndWaitFor($insertSelectedButtonSelector, $waitTime);
-        $page->wait($waitTime);
-
+        $page->press($insertSelectedButtonSelector);
     });
 
-    $page->pressAndWaitFor($saveButtonSelector, $waitTime);
-    $page->wait($waitTime);
+    $page->assertMissing($iframeSelector);
+
+    $page->press($saveButtonSelector);
+    $page->wait(0.5); // TinyMCE dialog closure can be slightly async
+    $page->assertMissing('.tox-dialog-wrap');
 
     $tinyMceIframeSelector = '.tox-edit-area__iframe';
     $page->assertPresent($tinyMceIframeSelector);

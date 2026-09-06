@@ -54,10 +54,20 @@ class StoreSinglePermanentAction
                 );
             }
 
+            $customProperties = [
+                'priority' => 0,
+            ];
+
+            if (str_contains($prepared->mimeType, 'image')) {
+                $dimensions = getimagesize($prepared->file->getPathname());
+                if ($dimensions) {
+                    $customProperties['width'] = $dimensions[0];
+                    $customProperties['height'] = $dimensions[1];
+                }
+            }
+
             $model->addMedia($prepared->file)
-                ->withCustomProperties([
-                    'priority' => 0,
-                ])
+                ->withCustomProperties($customProperties)
                 ->toMediaCollection(
                     $prepared->collectionName
                 );

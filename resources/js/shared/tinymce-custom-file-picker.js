@@ -90,30 +90,35 @@ window.mleFilePicker = (callback, value, meta) => {
             }
 
             if (meta.filetype === 'image') {
-                // console.log('image', file);
-                const img = new Image();
-                img.src = file.url;
-                img.onload = () => {
-                    const width = img.naturalWidth;
-                    const height = img.naturalHeight;
-                    const data = {
-                        alt: file.alt || '',
-                        classes: '',
-                        width: width + 'px',
-                        height: height + 'px',
-                        vspace: file.vspace || '0px',
-                        hspace: file.hspace || '0px',
-                        border: file.border || '0px',
-                        borderstyle: file.borderstyle || 'none',
-                    };
+                const data = {
+                    alt: file.alt || '',
+                    classes: '',
+                    width: file.width ? file.width + 'px' : null,
+                    height: file.height ? file.height + 'px' : null,
+                    vspace: file.vspace || '0px',
+                    hspace: file.hspace || '0px',
+                    border: file.border || '0px',
+                    borderstyle: file.borderstyle || 'none',
+                };
+
+                if (data.width && data.height) {
                     callback(file.url, data);
-                };
-                img.onerror = () => {
-                    console.warn('Could not load image for dimensions');
-                    callback(file.url, {
-                        alt: file.alt || '',
-                    });
-                };
+                } else {
+                    // Fallback to pre-loading if dimensions are missing
+                    const img = new Image();
+                    img.src = file.url;
+                    img.onload = () => {
+                        data.width = img.naturalWidth + 'px';
+                        data.height = img.naturalHeight + 'px';
+                        callback(file.url, data);
+                    };
+                    img.onerror = () => {
+                        console.warn('Could not load image for dimensions');
+                        callback(file.url, {
+                            alt: file.alt || '',
+                        });
+                    };
+                }
             } else if (meta.filetype === 'media') {
                 // Logic for media files
                 callback(file.url, {

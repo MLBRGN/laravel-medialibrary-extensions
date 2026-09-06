@@ -36,18 +36,19 @@ it('can create a blog using the html editor with custom file picker', function (
     $this->scrollIntoView($page, $imageButton);
 
     // Open image dialog
-    $page->pressAndWaitFor($imageButton, $wait);
+    $page->press($imageButton)
+        ->assertPresent($browseFilesButtonSelector);
     
     // Open file picker
-    $page->pressAndWaitFor($browseFilesButtonSelector, $wait);
-    $page->assertPresent($filePickerIframeSelector);
+    $page->press($browseFilesButtonSelector)
+        ->assertPresent($filePickerIframeSelector);
 
     $uploadedFilename = '';
-    $wait = 1.0; // Use stable wait for complex editor interactions
 
     // Within the file picker iframe
-    $page->withinFrame($filePickerIframeSelector, function (AwaitableWebpage $page) use ($wait, &$uploadedFilename) {
-        $page->wait(1.0); // Wait for Media Manager to initialize inside iframe
+    $page->withinFrame($filePickerIframeSelector, function (AwaitableWebpage $page) use ($useXhr, $wait, &$uploadedFilename) {
+        $page->page()->waitForLoadState('domcontentloaded');
+        $page->assertPresent('[data-mle-media-manager]');
         
         $mediaManagerSelector = '[data-mle-media-manager]';
         $inputSelector = $mediaManagerSelector.' [data-mle-media-input]';
@@ -62,17 +63,19 @@ it('can create a blog using the html editor with custom file picker', function (
         $uploadedFilename = basename($fixture);
         
         $page->attach($inputSelector, $fixture)
-            ->pressAndWaitFor($uploadButtonSelector, $wait)
-            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->press($uploadButtonSelector);
+
+        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         // Select and Insert
         $page->click($firstItemSelectSelector)
-            ->wait($wait)
-            ->pressAndWaitFor($insertSelectedButtonSelector, $wait);
+            ->press($insertSelectedButtonSelector);
     });
 
     // Back to main page, save the TinyMCE dialog
-    $page->pressAndWaitFor($saveButtonSelector, $wait);
+    $page->assertMissing($filePickerIframeSelector)
+        ->press($saveButtonSelector)
+        ->assertMissing('.tox-dialog-wrap');
 
     // 4. Upload featured image as well (the "media manager inside the form" part)
     $featuredName = $this->uploadFeaturedImage($page, $this->getRandomFixture());

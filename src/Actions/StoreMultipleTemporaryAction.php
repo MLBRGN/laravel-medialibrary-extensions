@@ -164,6 +164,20 @@ class StoreMultipleTemporaryAction
                 // ignore logging failures
             }
 
+            $customProperties = [
+                'collections' => $prepared->collections,
+                'priority' => $nextPriority,
+                'model_type' => $modelType,
+            ];
+
+            if (str_contains($prepared->mimeType, 'image')) {
+                $dimensions = getimagesize($prepared->file->getPathname());
+                if ($dimensions) {
+                    $customProperties['width'] = $dimensions[0];
+                    $customProperties['height'] = $dimensions[1];
+                }
+            }
+
             $temporaryUpload->fill([
                 'disk' => $disk,
                 'path' => $path,
@@ -176,11 +190,7 @@ class StoreMultipleTemporaryAction
                 'client_token' => $clientToken,
                 'instance_id' => $instanceId,
                 'order_column' => $nextPriority,
-                'custom_properties' => [
-                    'collections' => $prepared->collections,
-                    'priority' => $nextPriority,
-                    'model_type' => $modelType,
-                ],
+                'custom_properties' => $customProperties,
             ]);
 
             $temporaryUpload->save();

@@ -52,6 +52,8 @@ class YouTubeService
             ->withCustomProperties([
                 'youtube-url' => $youtubeUrl,
                 'youtube-id' => $videoId,
+                'width' => 1280,
+                'height' => 720,
             ])
             ->toMediaCollection($collection);
         //            return $modelInstance
@@ -144,6 +146,8 @@ class YouTubeService
             'custom_properties' => [
                 'youtube-url' => $youtubeUrl,
                 'youtube-id' => $videoId,
+                'width' => 1280,
+                'height' => 720,
             ],
         ]);
 

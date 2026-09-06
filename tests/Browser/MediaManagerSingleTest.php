@@ -140,6 +140,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalRotateCcwButtonSelector)
         ->press($imageEditorModalSaveButtonSelector)
+        ->wait(0.5)
         ->assertMissing($imageEditorModalSelector)
         ->wait($waitTime); // Give time for reload/DOM to settle
 
@@ -164,6 +165,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalCancelButtonSelector)
+        ->wait(0.5)
         ->assertMissing($imageEditorModalSelector);
 
     // check delete media works
@@ -207,21 +209,36 @@ it('honors min / max width height and file size constraints in uploads', functio
 
     // test that an image that is too small is rejected
     $page->attach($inputSelector, $this->getTinyImageFixture())
-        ->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
+        ->press($uploadButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
 
     // test that an image that is too large is rejected
     config(['medialibrary-extensions.max_image_width' => 15]);
     config(['medialibrary-extensions.max_image_height' => 15]);
     $page->attach($inputSelector, $this->getTinyImageFixture())
-        ->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => config('medialibrary-extensions.max_image_width'), 'max_height' => config('medialibrary-extensions.max_image_height')]));
+        ->press($uploadButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => config('medialibrary-extensions.max_image_width'), 'max_height' => config('medialibrary-extensions.max_image_height')]));
 
     // test that too large images (file size) are rejected
     config(['medialibrary-extensions.max_upload_size' => 1024]);
     $page->attach($inputSelector, $this->getRandomFixture())
-        ->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
+        ->press($uploadButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
 
     $page->page()->close();
 })->group('browser')

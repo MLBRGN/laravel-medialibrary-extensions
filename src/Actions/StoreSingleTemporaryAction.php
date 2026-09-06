@@ -99,6 +99,20 @@ class StoreSingleTemporaryAction
             // fallback to input if resolution fails
         }
 
+        $customProperties = [
+            'collections' => $prepared->collections,
+            'priority' => 0,
+            'model_type' => $modelType,
+        ];
+
+        if (str_contains($prepared->mimeType, 'image')) {
+            $dimensions = getimagesize($prepared->file->getPathname());
+            if ($dimensions) {
+                $customProperties['width'] = $dimensions[0];
+                $customProperties['height'] = $dimensions[1];
+            }
+        }
+
         $temporaryUpload->fill([
             'disk' => $disk,
             'path' => $path,
@@ -112,11 +126,7 @@ class StoreSingleTemporaryAction
             //            'instance_id' => $instanceId ?: null,
             'instance_id' => $instanceId,
             'order_column' => 0,
-            'custom_properties' => [
-                'collections' => $prepared->collections,
-                'priority' => 0,
-                'model_type' => $modelType,
-            ],
+            'custom_properties' => $customProperties,
         ]);
 
         $temporaryUpload->save();

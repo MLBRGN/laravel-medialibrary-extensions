@@ -18,6 +18,8 @@
                     class="mle-media-select-checkbox"
                     data-url="{{ $medium->getUrl() }}"
                     data-alt="{{ $medium->name }}"
+                    data-width="{{ $medium->getCustomProperty('width') }}"
+                    data-height="{{ $medium->getCustomProperty('height') }}"
                     data-mle-media-select-checkbox
                     data-test="media-select"
                 >

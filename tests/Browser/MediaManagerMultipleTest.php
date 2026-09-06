@@ -85,8 +85,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     for ($i = 0; $i < $maxItems; $i++) {
         // attach an image file and submit and check if spinner shows and upload is successful
         $page->attach($inputSelector, $this->getRandomFixture())
-            ->press($uploadButtonSelector)
-            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->press($uploadButtonSelector);
+
+        if (!$xhr) {
+            $page->wait($waitTime);
+        }
+
+        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         // counts should update
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i + 1, 'total' => $maxItems]));
@@ -146,6 +151,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalCloseButtonSelector)
+        ->wait(0.5)
         ->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
@@ -154,6 +160,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalRotateCcwButtonSelector)
         ->press($imageEditorModalSaveButtonSelector)
+        ->wait(0.5)
         ->assertMissing($imageEditorModalSelector);
 
     // delete one media and validate counts/alerts/form state

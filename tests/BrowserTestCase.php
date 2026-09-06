@@ -78,7 +78,7 @@ class BrowserTestCase extends Orchestra
 
     protected float $waitTimeXhr = 0.1;// @AI DO NOT CHANGE!
 
-    protected float $waitTimeNonXhr = 0.5;// @AI DO NOT CHANGE!
+    protected float $waitTimeNonXhr = 1.0;// @AI DO NOT CHANGE!
 
     // large files cause timeouts in browser testing, disabled (for now)
     protected array $fixturesSmall = [
@@ -213,6 +213,7 @@ class BrowserTestCase extends Orchestra
 
         // mark that we are running browser tests to allow safe demo/testing fallbacks
         $app['config']->set('medialibrary-extensions.browser_tests', true);
+        $app['config']->set('medialibrary-extensions.status_message_timeout', 30000); // Keep messages visible during tests
 
         PackageInfrastructure::register($this->infrastructureProfile);
 

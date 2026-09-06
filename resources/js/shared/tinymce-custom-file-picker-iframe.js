@@ -15,6 +15,8 @@ insertSelectedButton.addEventListener('click', () => {
         .map(checkbox => ({
             url: checkbox.dataset.url,
             alt: checkbox.dataset.alt || '',
+            width: checkbox.dataset.width || null,
+            height: checkbox.dataset.height || null,
             vspace: '1rem',
             hspace: '1rem',
             border: 0,
