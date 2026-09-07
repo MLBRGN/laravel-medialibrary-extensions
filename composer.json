@@ -101,9 +101,9 @@
             "XDEBUG_MODE=off PEST_BROWSER_FULL=true vendor/bin/pest --group browser"
         ],
         "test-browser-full-headed": [
-        "Composer\\Config::disableProcessTimeout",
-        "XDEBUG_MODE=off PEST_BROWSER_FULL=true PEST_BROWSER_HEADED=true vendor/bin/pest --group browser"
-      ],
+            "Composer\\Config::disableProcessTimeout",
+            "XDEBUG_MODE=off PEST_BROWSER_FULL=true PEST_BROWSER_HEADED=true vendor/bin/pest --group browser"
+        ],
         "coverage": "XDEBUG_MODE=coverage ./vendor/bin/pest --coverage"
     }
 }
