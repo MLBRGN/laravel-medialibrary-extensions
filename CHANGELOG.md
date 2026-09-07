@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.2...2.4.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* bug when multiple instance of media manager on same page, now adding mle_instance_ids input, pint fixes ([0aad54f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/0aad54f0092d40136ed2d1eb529e345cf61bee15))
+
+
+### Documentation
+
+* updated FIx_MULTIPLE_INSTANCES.md ([f72b918](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/f72b91868f27126f173e19e887f6315eeae62f91))
+
 ## [2.4.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.1...2.4.2) (2026-08-31)
 
 
