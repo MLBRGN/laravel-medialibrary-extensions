@@ -41,20 +41,19 @@ class MediaManager extends BaseMediaComponent
         public bool $readonly = false,
         public bool $selectable = false,
         public ?string $dataSource = 'default',
-        int $minMediaCount = 0,
-        bool $required = false,
+        public bool $required = false,
         ?string $name = null,
     ) {
         parent::__construct($id, $this->modelReference, $dataSource, $name);
 
-        $this->minMediaCount = $minMediaCount;
-        $this->required = $required;
+        $this->options = $options;
+
+        $this->minMediaCount = (int) $this->getOption('minMediaCount', 0);
 
         if ($this->required && $this->minMediaCount === 0) {
             $this->minMediaCount = 1;
+            $this->setOption('minMediaCount', 1);
         }
-
-        $this->options = $options;
 
         // Enforce option: do not allow "Set as first" when not multiple
         // This aligns backend config with tests that expect the option to be false for Single managers.
@@ -138,7 +137,13 @@ class MediaManager extends BaseMediaComponent
             $this->setOption('disableForm', $this->totalMediaCount >= $maxItems);
         } else {
             $this->maxMediaCount = 1;
+            $this->setOption('maxMediaCount', 1);
             $this->setOption('disableForm', $this->totalMediaCount >= 1);
+        }
+
+        if ($this->minMediaCount > $this->maxMediaCount) {
+            $this->minMediaCount = $this->maxMediaCount;
+            $this->setOption('minMediaCount', $this->minMediaCount);
         }
 
         // Structured debug to help diagnose cross-scope counting

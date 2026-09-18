@@ -95,12 +95,7 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
             const localized = tpl.replace(':current', String(data.mediaCount))
                                  .replace(':total', String(maxCount));
 
-            // Preserving required indicator if present
-            const indicator = countsEl.querySelector('.mle-required-indicator');
             countsEl.textContent = localized;
-            if (indicator) {
-                countsEl.appendChild(indicator);
-            }
         }
 
         // Update hidden count field for form submission/validation

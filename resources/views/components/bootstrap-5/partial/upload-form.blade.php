@@ -14,7 +14,12 @@
     class="mle-media-manager-upload-form"
     id="{{ $getDomId() }}"
 >
-    <label for="{{ $id }}-media-input" class="mle-label form-label">{{ __('medialibrary-extensions::messages.upload') }}</label>
+    <label for="{{ $id }}-media-input" class="mle-label form-label">
+        {{ __('medialibrary-extensions::messages.upload') }}
+        @if($required || $getConfig('minMediaCount') > 0)
+            <span class="mle-required-indicator">*</span>
+        @endif
+    </label>
     <input
         id="{{ $id }}-media-input"
         data-mle-media-input

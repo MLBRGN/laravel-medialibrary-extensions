@@ -37,6 +37,20 @@ class UploadForm extends BaseMediaComponent
         parent::__construct($id, $this->modelReference, $dataSource);
 
         $this->options = $options;
+        
+        if ($this->multiple) {
+            $maxFromOptions = $this->getOption('maxMediaCount', null);
+            $this->maxMediaCount = (int) ($maxFromOptions ?? config('medialibrary-extensions.max_items_in_shared_media_collections', 10));
+        } else {
+            $this->maxMediaCount = 1;
+            $this->setOption('maxMediaCount', 1);
+        }
+
+        $this->minMediaCount = (int) $this->getOption('minMediaCount', 0);
+        if ($this->minMediaCount > $this->maxMediaCount) {
+            $this->minMediaCount = $this->maxMediaCount;
+            $this->setOption('minMediaCount', $this->minMediaCount);
+        }
 
         if (empty($instanceId)) {
             $this->instanceId = InstanceManager::getInstanceId($this->id);
@@ -104,6 +118,24 @@ class UploadForm extends BaseMediaComponent
 
         if ($dimensions = $this->getDimensionSummary()) {
             $parts[] = $dimensions;
+        }
+
+        $min = (int) $this->getConfig('minMediaCount');
+        $max = (int) $this->getConfig('maxMediaCount');
+        $required = (bool) $this->getConfig('required');
+
+        if ($required || $min > 0) {
+            if ($min > 1) {
+                $parts[] = __('medialibrary-extensions::messages.this_collection_requires_at_least_:items_items', ['items' => $min]);
+            } else {
+                $parts[] = $this->multiple
+                    ? __('medialibrary-extensions::messages.at_least_one_medium_required')
+                    : __('medialibrary-extensions::messages.one_medium_required');
+            }
+        }
+
+        if ($max > 1 || ($max > 0 && $this->multiple)) {
+            $parts[] = __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => $max]);
         }
 
         return implode(' • ', $parts);

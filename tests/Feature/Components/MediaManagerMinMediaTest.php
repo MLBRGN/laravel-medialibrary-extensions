@@ -17,15 +17,15 @@ it('initializes with min, required and name properties', function () {
         id: 'test-1',
         modelReference: $model,
         collections: ['image' => 'images'],
-        minMediaCount: 2,
+        options: [
+            'minMediaCount' => 2,
+        ],
+        multiple: true,
         required: true,
         name: 'gallery'
     );
 
-    expect($component->minMediaCount)->toBe(2)
-        ->and($component->required)->toBeTrue()
-        ->and($component->name)->toBe('gallery')
-        ->and($component->getConfig('minMediaCount'))->toBe(2)
+    expect($component->getConfig('minMediaCount'))->toBe(2)
         ->and($component->getConfig('required'))->toBeTrue()
         ->and($component->getConfig('name'))->toBe('gallery');
 });
@@ -36,12 +36,14 @@ it('normalizes minMediaCount to 1 when required is true and min is 0', function 
         id: 'test-1',
         modelReference: $model,
         collections: ['image' => 'images'],
-        minMediaCount: 0,
+        options: [
+            'minMediaCount' => 0,
+        ],
         required: true
     );
 
-    expect($component->minMediaCount)->toBe(1)
-        ->and($component->required)->toBeTrue();
+    expect($component->getConfig('minMediaCount'))->toBe(1)
+        ->and($component->getConfig('required'))->toBeTrue();
 });
 
 it('keeps minMediaCount at 0 when required is false and min is 0', function () {
@@ -50,12 +52,14 @@ it('keeps minMediaCount at 0 when required is false and min is 0', function () {
         id: 'test-1',
         modelReference: $model,
         collections: ['image' => 'images'],
-        minMediaCount: 0,
+        options: [
+            'minMediaCount' => 0,
+        ],
         required: false
     );
 
-    expect($component->minMediaCount)->toBe(0)
-        ->and($component->required)->toBeFalse();
+    expect($component->getConfig('minMediaCount'))->toBe(0)
+        ->and($component->getConfig('required'))->toBeFalse();
 });
 
 it('renders hidden media count input when name is provided', function () {
@@ -90,7 +94,7 @@ it('defaults name to id and renders hidden media count input when name is not pr
     expect($html)->toContain('data-mle-media-count="test-1"');
 });
 
-it('renders required indicator when required is true', function () {
+it('does not render required indicator next to media counts', function () {
     $model = Blog::create(['title' => 'test']);
     
     $html = Blade::render(<<<'BLADE'
@@ -102,21 +106,12 @@ it('renders required indicator when required is true', function () {
         />
     BLADE, ['model' => $model]);
 
-    expect($html)->toContain('<span class="mle-required-indicator">*</span>');
-});
-
-it('renders required indicator when min is greater than 0', function () {
-    $model = Blog::create(['title' => 'test']);
+    // Should NOT be inside the counts span
+    $countsSpan = preg_match('/<span[^>]*data-mle-media-manager-media-counts[^>]*>(.*?)<\/span>/s', $html, $matches) ? $matches[1] : '';
+    expect($countsSpan)->not()->toContain('mle-required-indicator');
     
-    $html = Blade::render(<<<'BLADE'
-        <x-mle-media-manager
-            id="test-1"
-            :model-reference="$model"
-            :collections="['image' => 'images']"
-            :min-media-count="2"
-        />
-    BLADE, ['model' => $model]);
-
+    // BUT should be in the label
+    expect($html)->toContain('<label for="test-1-media-input"');
     expect($html)->toContain('<span class="mle-required-indicator">*</span>');
 });
 
@@ -129,7 +124,7 @@ it('does not render required indicator when required is false and min is 0', fun
             :model-reference="$model"
             :collections="['image' => 'images']"
             :required="false"
-            :min="0"
+            :options="['minMediaCount' => 0]"
         />
     BLADE, ['model' => $model]);
 
@@ -156,4 +151,83 @@ it('renders validation errors for the given name', function () {
     expect($html)->toContain('<div class="mle-alert alert alert-danger mle-error-message" data-mle-error-alert>');
     expect($html)->toContain('The gallery field is required.');
     expect($html)->toContain('</div>');
+});
+
+it('renders required indicator in upload form label', function () {
+    $model = Blog::create(['title' => 'test']);
+    
+    $html = Blade::render(<<<'BLADE'
+        <x-mle-media-manager
+            id="test-1"
+            :model-reference="$model"
+            :collections="['image' => 'images']"
+            required
+        />
+    BLADE, ['model' => $model]);
+
+    // Check for indicator near the upload label
+    expect($html)->toContain('<label for="test-1-media-input"');
+    expect($html)->toContain('class="mle-label');
+    expect($html)->toContain('<span class="mle-required-indicator">*</span>');
+    // It should be inside the label based on my change
+    expect($html)->toMatch('/<label for="test-1-media-input"[^>]*>.*?<span class="mle-required-indicator">\*<\/span>.*?<\/label>/s');
+});
+
+it('includes requirement text in supported files summary', function () {
+    $model = Blog::create(['title' => 'test']);
+    
+    // Case 1: required (min=1)
+    $html = Blade::render(<<<'BLADE'
+        <x-mle-media-manager
+            id="test-1"
+            :model-reference="$model"
+            :collections="['image' => 'images']"
+            required
+        />
+    BLADE, ['model' => $model]);
+
+    expect($html)->toContain('One medium required');
+    expect($html)->not()->toContain('At least one medium is required');
+    expect($html)->not()->toContain('At least one medium is required.');
+
+    // Case 2: min=2
+    $html = Blade::render(<<<'BLADE'
+        <x-mle-media-manager
+            id="test-2"
+            :model-reference="$model"
+            :collections="['image' => 'images']"
+            multiple
+            :options="['minMediaCount' => 2]"
+        />
+    BLADE, ['model' => $model]);
+
+    expect($html)->toContain('This collection requires at least 2 items');
+
+    // Case 3: single manager required
+    $html = Blade::render(<<<'BLADE'
+        <x-mle-media-manager-single
+            id="test-3"
+            :model-reference="$model"
+            :collections="['image' => 'images']"
+            required
+        />
+    BLADE, ['model' => $model]);
+
+    expect($html)->toContain('One medium required');
+});
+
+it('includes max media text in supported files summary', function () {
+    $model = Blog::create(['title' => 'test']);
+    
+    $html = Blade::render(<<<'BLADE'
+        <x-mle-media-manager
+            id="test-1"
+            :model-reference="$model"
+            :collections="['image' => 'images']"
+            multiple
+            :options="['maxMediaCount' => 5]"
+        />
+    BLADE, ['model' => $model]);
+
+    expect($html)->toContain('This collection can contain up to 5 items');
 });

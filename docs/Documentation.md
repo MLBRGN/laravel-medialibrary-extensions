@@ -53,6 +53,8 @@ Media managers handle file uploads, deletions, and selection.
 - `collections`: Array of media collections to manage (e.g., `['images']`).
 - `multiple`: Boolean, allow multiple files.
 - `readonly`: Boolean, disable all actions.
+- `required`: Boolean, enforces at least one item (shortcut for `minMediaCount: 1`).
+- `name`: (string) The name of the hidden count field (defaults to `id`). Used for Laravel validation.
 - `options`: Array of UI overrides (see Configuration).
 
 ### Display Components
@@ -155,6 +157,8 @@ public function allowsMediaUploadFrom(?Authenticatable $user, HasMediaExtended $
 
 ### Configuration Options
 Pass these via the `options` prop to components:
+- `maxMediaCount`: (int) Maximum number of items allowed.
+- `minMediaCount`: (int) Minimum number of items required.
 - `showDestroyButton`: (bool) Show/hide delete icon.
 - `showSetAsFirstButton`: (bool) Show/hide "set as main" icon.
 - `useXhr`: (bool) Enable/disable AJAX uploads.
@@ -197,3 +201,59 @@ Quick facts:
 - Restore: the archived file can be copied back to the media’s actual storage location, and conversions are marked for regeneration.
 
 See the detailed guide: [Originals – storage and lifecycle](./originals.md)
+
+---
+
+## 9. Validation
+
+The package integrates with Laravel's native validation system to enforce media requirements.
+
+### Live Count Synchronization
+When a `name` is provided to a media manager, it renders a hidden input field:
+```html
+<input type="hidden" name="image" value="0" data-mle-media-count="blog-main">
+```
+This value is automatically updated via JavaScript whenever files are uploaded or deleted.
+
+### Server-Side Rules
+To securely validate requirements (ignoring the client-side hidden field and checking the database/temporary storage), use the provided rules in your `FormRequest` or controller.
+
+#### `MinMediaCount`
+Enforces a minimum number of items across permanent and temporary storage.
+
+```php
+use Mlbrgn\MediaLibraryExtensions\Rules\MinMediaCount;
+
+public function rules(): array
+{
+    return [
+        // For new models (temporary uploads)
+        'image' => [new MinMediaCount(null, ['blog-main'], 1, multiple: false)],
+        
+        // For existing models (permanent + temporary)
+        'gallery' => [new MinMediaCount($this->blog, ['images'], 3)],
+    ];
+}
+```
+
+#### `MaxMediaCount`
+Enforces a maximum number of items (permanent media only). Note that client-side limits usually prevent exceeding the max during upload, but this rule provides server-side safety.
+
+```php
+use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
+
+'images' => [new MaxMediaCount($this->blog, ['images'], 10)],
+```
+
+### Displaying Errors
+If validation fails, the component automatically displays the error message in an alert box if it's nested inside a form and the `name` matches the validation key.
+
+```blade
+<x-mle-media-manager-single
+    id="blog-main"
+    name="image"
+    required
+    :model-reference="$blog"
+    :collections="['image' => 'blog-main']"
+/>
+```

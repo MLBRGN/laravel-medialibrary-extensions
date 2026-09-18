@@ -15,8 +15,8 @@
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
     <input type="hidden" name="mle_instance_ids[]" value="{{ $instanceId }}">
     <input type="hidden" name="client_token" value="{{ $clientToken }}" data-mle-client-token>
-    @if($getConfig('name'))
-        <input type="hidden" name="{{ $getConfig('name') }}" value="{{ $totalMediaCount }}" data-mle-media-count="{{ $id }}">
+    @if($name)
+        <input type="hidden" name="{{ $name }}" value="{{ $totalMediaCount }}" data-mle-media-count="{{ $id }}">
     @endif
 
     @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))
@@ -39,12 +39,9 @@
                         'current' => $totalMediaCount,
                         'total' => $getConfig('maxMediaCount'),
                     ]) }}
-                    @if($required || $minMediaCount > 0)
-                        <span class="mle-required-indicator">*</span>
-                    @endif
                 </span>
-                @if($getConfig('name'))
-                    @error($getConfig('name'))
+                @if($name)
+                    @error($name)
                         <div class="mle-alert alert alert-danger mle-error-message" data-mle-error-alert>
                             {{ $message }}
                         </div>

@@ -16,7 +16,7 @@ it('validates minimum media requirements', function ($theme, $dataSource, $xhr, 
     $inputSelector = $mediaManagerId . ' [data-mle-media-input]';
     $uploadButtonSelector = $mediaManagerId . ' [data-mle-media-upload-button]';
     $countsSelector = $mediaManagerId . ' .mle-media-manager-media-counts';
-    $requiredIndicatorSelector = $countsSelector . ' .mle-required-indicator';
+    $requiredIndicatorSelector = $mediaManagerId . ' .mle-label .mle-required-indicator';
     $hiddenCountSelector = 'input[data-mle-media-count="alien-multiple-min-media"]';
     $submitButtonSelector = '[data-test="btn-save-min-media"]';
     $errorMessageSelector = '.mle-error-message';

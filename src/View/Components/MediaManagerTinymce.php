@@ -35,15 +35,13 @@ class MediaManagerTinymce extends BaseMediaComponent
         public bool $readonly = false,
         public bool $selectable = false,
         public ?string $dataSource = 'default',
-        public int $minMediaCount = 0,
         public bool $required = false,
         ?string $name = null,
     ) {
 
         parent::__construct($id, $this->modelReference, $dataSource, $name);
-        $this->options = $options;
-        $this->minMediaCount = $minMediaCount;
         $this->required = $required;
+        $this->options = $options;
 
         // override: enforce disabled / readonly
         if ($this->readonly || $this->disabled) {

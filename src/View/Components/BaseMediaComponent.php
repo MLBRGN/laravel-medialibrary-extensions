@@ -25,7 +25,7 @@ abstract class BaseMediaComponent extends BaseComponent
 
     public int $totalMediaCount = 0;
 
-    public int $minMediaCount = 0;
+    protected int $minMediaCount = 0;
 
     public bool $required = false;
 

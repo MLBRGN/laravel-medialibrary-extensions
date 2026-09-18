@@ -19,8 +19,7 @@ class MediaManagerSingle extends MediaManager
         bool $readonly = false,
         bool $selectable = false,
         public ?string $dataSource = 'default',
-        int $minMediaCount = 0,
-        bool $required = false,
+        public bool $required = false,
         ?string $name = null,
     ) {
         // override options
@@ -37,7 +36,6 @@ class MediaManagerSingle extends MediaManager
             readonly: $readonly,
             selectable: $selectable,
             dataSource: $dataSource,
-            minMediaCount: $minMediaCount,
             required: $required,
             name: $name,
         );

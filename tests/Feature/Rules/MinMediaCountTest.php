@@ -132,10 +132,15 @@ it('resolves instance id from request if not provided', function () {
 });
 
 it('returns the singular message when min is one', function () {
+    // Default (multiple = true)
     $rule = new MinMediaCount(null, ['images'], 1);
-
     expect($rule->message())
         ->toBe(__('medialibrary-extensions::messages.at_least_one_medium_required'));
+
+    // Single (multiple = false)
+    $ruleSingle = new MinMediaCount(null, ['images'], 1, multiple: false);
+    expect($ruleSingle->message())
+        ->toBe(__('medialibrary-extensions::messages.one_medium_required'));
 });
 
 it('returns the plural message when min is greater than one', function () {

@@ -16,8 +16,7 @@ class MediaManagerMultiple extends MediaManager
         bool $readonly = false,
         bool $selectable = false,
         public ?string $dataSource = 'default',
-        int $minMediaCount = 0,
-        bool $required = false,
+        public bool $required = false,
         ?string $name = null,
     ) {
         parent::__construct(
@@ -31,13 +30,8 @@ class MediaManagerMultiple extends MediaManager
             readonly: $readonly,
             selectable: $selectable,
             dataSource: $dataSource,
-            minMediaCount: $minMediaCount,
             required: $required,
             name: $name,
         );
-        $this->options = $options;
-
-        $this->maxMediaCount = config('medialibrary-extensions.max_items_in_shared_media_collections');
-
     }
 }

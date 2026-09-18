@@ -276,12 +276,12 @@
                         id="alien-multiple-min-media"
                         model-reference="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
                         :collections="['image' => 'alien-multiple-images']"
-                        :min-media-count="2"
                         name="alien_multiple_min_media_count"
                         :options="[
                             'theme' => $theme,
                             'dataSource' => $dataSource,
-                            'useXhr' => $useXhr
+                            'useXhr' => $useXhr,
+                            'minMediaCount' => 2
                         ]"
                         :data-source="$dataSource"
                     />

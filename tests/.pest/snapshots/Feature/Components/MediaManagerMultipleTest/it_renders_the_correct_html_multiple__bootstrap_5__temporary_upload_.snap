@@ -21,11 +21,13 @@
             
                 <span class="mle-media-manager-media-counts mle-form-text form-text" data-mle-media-manager-media-counts>
                     0 of 10
-                                    </span>
+                </span>
                                                                                     
             
                                     <div class="mle-conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-upload-form" data-xhr-method="post">
-        <label for="test-media-modal-media-input" class="mle-label form-label">Upload</label>
+        <label for="test-media-modal-media-input" class="mle-label form-label">
+        Upload
+            </label>
     <input
         id="test-media-modal-media-input"
         data-mle-media-input
@@ -36,7 +38,7 @@
             multiple
                         >
         <span class="mle-form-text form-text">
-            Supported files: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF • up to 8 MB • 320×160–7040×3960 px.
+            Supported files: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF • up to 8 MB • 320×160–7040×3960 px • This collection can contain up to 10 items
         </span>
                                         <input
                 type="hidden"
