@@ -116,5 +116,7 @@ return [
     'at_least_dimensions' => 'ten minste :width×:height px',
     'server_upload_limit_warning' => 'De server beperkt uploads momenteel tot :size. Verhoog de PHP-instellingen `upload_max_filesize` en `post_max_size` als je grotere uploads wilt toestaan.',
     'debug_cannot_be_rendered' => 'Debugpagina kan niet worden getoond.',
-    'at_least_one_collection_is_required' => 'Tenminste 1 collectie is verplicht.',
+    'at_least_one_collection_is_required' => 'Tenminste één collectie is verplicht.',
+    'at_least_one_medium_required' => 'Tenminste één medium is verplicht.',
+    'this_collection_requires_at_least_:items_items' => 'Deze collectie vereist ten minste :items items.',
 ];

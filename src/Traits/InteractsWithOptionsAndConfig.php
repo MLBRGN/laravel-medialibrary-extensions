@@ -52,9 +52,13 @@ trait InteractsWithOptionsAndConfig
         'instanceId',
         'clientToken',
         'dataSource',
-        'clientToken',
-
-        // any other properties you want in config
+        'minMediaCount',
+        'required',
+        'name',
+        'totalMediaCount',
+        'maxMediaCount',
+        'isEmpty',
+        'isAtMax',
     ];
 
     protected array $configRouteKeys = [

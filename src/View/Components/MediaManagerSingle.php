@@ -19,6 +19,9 @@ class MediaManagerSingle extends MediaManager
         bool $readonly = false,
         bool $selectable = false,
         public ?string $dataSource = 'default',
+        int $minMediaCount = 0,
+        bool $required = false,
+        ?string $name = null,
     ) {
         // override options
         $options['showOrder'] = false; // should always be false
@@ -34,6 +37,9 @@ class MediaManagerSingle extends MediaManager
             readonly: $readonly,
             selectable: $selectable,
             dataSource: $dataSource,
+            minMediaCount: $minMediaCount,
+            required: $required,
+            name: $name,
         );
         // For the dedicated Single component, keep the "Set as first" button available in config.
         // Blades already ensure it is disabled visually for singles.

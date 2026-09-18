@@ -25,6 +25,12 @@ abstract class BaseMediaComponent extends BaseComponent
 
     public int $totalMediaCount = 0;
 
+    public int $minMediaCount = 0;
+
+    public bool $required = false;
+
+    public ?string $name = null;
+
     protected int $maxMediaCount = 1; // don't use in views directly, use $getConfig('maxMediaCount') instead'
 
     public ResolvedModel $resolvedModel;
@@ -35,9 +41,12 @@ abstract class BaseMediaComponent extends BaseComponent
     public function __construct(
         string $id,
         mixed $modelReference,
-        public ?string $dataSource = 'default'
+        public ?string $dataSource = 'default',
+        ?string $name = null,
     ) {
         parent::__construct($id);
+
+        $this->name = $name ?? $id;
 
         //        $this->mediaService = app(MediaService::class);
         $this->mediaModelResolver = app(MediaModelResolver::class);

@@ -120,5 +120,7 @@ return [
     'at_least_dimensions' => 'at least :width×:height px',
     'server_upload_limit_warning' => 'The server is currently limiting uploads to :size. Increase PHP\'s upload_max_filesize and post_max_size settings if you want to allow larger uploads.',
     'debug_cannot_be_rendered' => 'Debugging cannot be rendered',
-    'at_least_one_collection_is_required' => 'At least one Collection is required',
+    'at_least_one_collection_is_required' => 'At least one Collection is required.',
+    'at_least_one_medium_required' => 'At least one medium is required.',
+    'this_collection_requires_at_least_:items_items' => 'This collection requires at least :items items.',
 ];

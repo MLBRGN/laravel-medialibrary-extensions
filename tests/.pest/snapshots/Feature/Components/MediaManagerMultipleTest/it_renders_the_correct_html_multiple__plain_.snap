@@ -4,10 +4,11 @@
     class="mle-component mle-theme-plain mle-media-manager media-manager-multiple"
     data-mle-media-manager
 >
-    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"plain","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"images"},"disabled":false,"readonly":false,"selectable":false,"modelType":"blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"disableForm":false}'>
+    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"plain","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"minMediaCount":0,"required":false,"name":"test-media-modal","isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"images"},"disabled":false,"readonly":false,"selectable":false,"modelType":"blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"disableForm":false}'>
     <input type="hidden" name="mle_instance_ids[]" value="E3642AD197F92C6D1BF5D78226">
     <input type="hidden" name="client_token" value="<ULID>" data-mle-client-token>
-
+            <input type="hidden" name="test-media-modal" value="0" data-mle-media-count="test-media-modal">
+    
         
     
 
@@ -15,9 +16,9 @@
         
         <div class="mle-media-manager-form ">
                             <span class="mle-media-manager-media-counts mle-form-text" data-mle-media-manager-media-counts>
-                    0 of 10    
-                </span>
-                                                                    
+                    0 of 10
+                                    </span>
+                                                                                                                        
                                     <div class="mle-conditional-form mle-media-manager-upload-form" data-mle-xhr-form="data-mle-xhr-form" id="test-media-modal-upload-form" data-xhr-method="post">
         <label for="test-media-modal-media-input" class="mle-label">Upload</label>
     <input

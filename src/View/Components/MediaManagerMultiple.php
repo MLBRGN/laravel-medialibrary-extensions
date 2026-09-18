@@ -16,6 +16,9 @@ class MediaManagerMultiple extends MediaManager
         bool $readonly = false,
         bool $selectable = false,
         public ?string $dataSource = 'default',
+        int $minMediaCount = 0,
+        bool $required = false,
+        ?string $name = null,
     ) {
         parent::__construct(
             id: $id,
@@ -28,6 +31,9 @@ class MediaManagerMultiple extends MediaManager
             readonly: $readonly,
             selectable: $selectable,
             dataSource: $dataSource,
+            minMediaCount: $minMediaCount,
+            required: $required,
+            name: $name,
         );
         $this->options = $options;
 

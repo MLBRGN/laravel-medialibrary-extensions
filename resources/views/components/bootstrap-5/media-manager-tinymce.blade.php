@@ -10,6 +10,9 @@
         :disabled="false"
         :instance-id="$instanceId"
         :data-source="$dataSource"
+        :min-media-count="$minMediaCount"
+        :required="$required"
+        :name="$name"
     />
 </div>
 <x-mle-shared-assets

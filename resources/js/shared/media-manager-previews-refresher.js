@@ -94,7 +94,21 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
             const tpl = trans('media_counts') || ':current / :total';
             const localized = tpl.replace(':current', String(data.mediaCount))
                                  .replace(':total', String(maxCount));
+
+            // Preserving required indicator if present
+            const indicator = countsEl.querySelector('.mle-required-indicator');
             countsEl.textContent = localized;
+            if (indicator) {
+                countsEl.appendChild(indicator);
+            }
+        }
+
+        // Update hidden count field for form submission/validation
+        if (typeof data.mediaCount !== 'undefined') {
+            const hiddenCountInput = mediaManager.querySelector(`input[data-mle-media-count="${config.id}"]`);
+            if (hiddenCountInput) {
+                hiddenCountInput.value = data.mediaCount;
+            }
         }
 
         // Update debug panel if present
@@ -177,7 +191,8 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
             bubbles: true,
             detail: {
                 mediaManager: mediaManager,
-                previewGrid: previewGrid
+                previewGrid: previewGrid,
+                mediaCount: data.mediaCount
             }
         }));
 

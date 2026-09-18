@@ -41,8 +41,18 @@ class MediaManager extends BaseMediaComponent
         public bool $readonly = false,
         public bool $selectable = false,
         public ?string $dataSource = 'default',
+        int $minMediaCount = 0,
+        bool $required = false,
+        ?string $name = null,
     ) {
-        parent::__construct($id, $this->modelReference, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource, $name);
+
+        $this->minMediaCount = $minMediaCount;
+        $this->required = $required;
+
+        if ($this->required && $this->minMediaCount === 0) {
+            $this->minMediaCount = 1;
+        }
 
         $this->options = $options;
 
@@ -148,6 +158,9 @@ class MediaManager extends BaseMediaComponent
         $this->resolveConfig([
             'totalMediaCount' => $this->totalMediaCount,
             'maxMediaCount' => $this->maxMediaCount,
+            'minMediaCount' => $this->minMediaCount,
+            'required' => $this->required,
+            'name' => $this->name,
             'isEmpty' => $this->totalMediaCount === 0,
             'isAtMax' => $this->totalMediaCount >= $this->maxMediaCount,
             'multiple' => (bool) $this->multiple,
@@ -158,6 +171,9 @@ class MediaManager extends BaseMediaComponent
         // their own $getConfig() after resolveConfig merges options -> config.
         $this->setOption('totalMediaCount', $this->totalMediaCount);
         $this->setOption('maxMediaCount', $this->maxMediaCount);
+        $this->setOption('minMediaCount', $this->minMediaCount);
+        $this->setOption('required', $this->required);
+        $this->setOption('name', $this->name);
         $this->setOption('isEmpty', $this->totalMediaCount === 0);
         $this->setOption('isAtMax', $this->totalMediaCount >= $this->maxMediaCount);
         $this->setOption('multiple', (bool) $this->multiple);

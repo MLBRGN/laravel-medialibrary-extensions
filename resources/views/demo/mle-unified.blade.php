@@ -10,6 +10,7 @@
     $showMediaLab = true;
     $showMediaFirstAvailable = true;
     $showFormCustomFilePicker = true;
+    $showMmmMinMedia = true;
     
 //    $showMmsPermanent = true;
 //    $showMmsTemporary = true;
@@ -261,6 +262,35 @@
                 </form>
         @endif
     
+        @if($showMmmMinMedia)
+            <div id="min-media-section">
+                <h2>Media Manager Multiple (Min 2 Required)</h2>
+                <form action="{{ route('store-alien', ['theme' => $theme, 'data_source' => $dataSource, 'use_xhr' => $useXhr]) }}" method="post" id="form-alien-multiple-min-media">
+                    @csrf
+                    <input type="hidden" name="name" value="dummy">
+                    <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-multiple-min-media') }}">
+                    <input type="hidden" name="data_source" value="{{ $dataSource }}">
+                    <input type="hidden" name="client_token" value="" data-mle-client-token>
+
+                    <x-mle-media-manager-multiple
+                        id="alien-multiple-min-media"
+                        model-reference="Mlbrgn\MediaLibraryExtensions\Models\demo\Alien"
+                        :collections="['image' => 'alien-multiple-images']"
+                        :min-media-count="2"
+                        name="alien_multiple_min_media_count"
+                        :options="[
+                            'theme' => $theme,
+                            'dataSource' => $dataSource,
+                            'useXhr' => $useXhr
+                        ]"
+                        :data-source="$dataSource"
+                    />
+
+                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-save-min-media">Save model</button>
+                </form>
+            </div>
+        @endif
+
         @if($showMediaCarousel)
             <h2>Media Carousel</h2>
             <p>{{ __('medialibrary-extensions::messages.note_carousel_only_updates_on_refresh_of_page') }}</p>

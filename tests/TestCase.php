@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ViewErrorBag;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
@@ -40,6 +41,8 @@ class TestCase extends Orchestra
         config(['app.timezone' => 'UTC']);
 
         Carbon::setTestNow('2025-01-01 00:00:00');
+
+        View::share('errors', new ViewErrorBag());
 
         $this->testModel = Blog::create(['title' => 'Test Model']);
         $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
