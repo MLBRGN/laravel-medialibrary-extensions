@@ -29,7 +29,7 @@ it('returns only uploads for the current session', function () {
     ]);
 
     $instanceId = null;
-    $uploads = TemporaryUpload::forCurrentClient(null, $instanceId)->get();
+    $uploads = TemporaryUpload::getForCurrentClient(null, $instanceId);
 
     expect($uploads)->toHaveCount(2)
         ->and($uploads->pluck('collection_name')->all())
@@ -76,7 +76,7 @@ it('does not return media when empty collection name provided', function () {
     ]);
 
     $instanceId = '';
-    $uploads = TemporaryUpload::forCurrentClient('', $instanceId)->get();
+    $uploads = TemporaryUpload::getForCurrentClient('', $instanceId, null, $clientToken);
 
     // Since we now check !is_null($collectionName), '' is NOT null, so it will filter by collection_name = ''
     expect($uploads)->toHaveCount(0);
@@ -116,7 +116,7 @@ it('returns all session uploads when collectionName is null', function () {
 
     $instanceId = '';
 
-    $uploads = TemporaryUpload::forCurrentClient(null, $instanceId)->get();
+    $uploads = TemporaryUpload::getForCurrentClient(null, $instanceId);
 
     expect($uploads)->toHaveCount(2);
 });

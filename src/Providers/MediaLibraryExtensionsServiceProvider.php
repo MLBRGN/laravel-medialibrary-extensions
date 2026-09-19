@@ -119,6 +119,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if ($this->app->environment('testing')) {
+            $this->bootTestSupport();
+        }
 
         if (! Schema::hasTable('media')) {
             Log::warning('MediaLibraryExtensionsServiceProvider - ['.$this->packageName.'] The "media" table is missing. Did you run the Spatie Media Library migration?');
@@ -419,5 +422,22 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         Log::error($message);
         throw new RuntimeException($message);
+    }
+
+    private function bootTestSupport(): void
+    {
+        $router = $this->app['router'];
+        
+        // This is necessary because Orchestra Browser tests run the server in a separate process
+        // and we need a way to sync config changes from the test process to the server.
+        $router->aliasMiddleware('mle_test_config', \Mlbrgn\MediaLibraryExtensions\Tests\Support\Middleware\MleTestConfigMiddleware::class);
+        $router->pushMiddlewareToGroup('web', 'mle_test_config');
+
+        // Ensure the middleware is also applied to our package routes
+        $currentMiddleware = config('medialibrary-extensions.route_middleware', ['web', 'auth']);
+        if (!in_array('mle_test_config', $currentMiddleware)) {
+            $currentMiddleware[] = 'mle_test_config';
+            config(['medialibrary-extensions.route_middleware' => $currentMiddleware]);
+        }
     }
 }

@@ -124,7 +124,7 @@ class UploadForm extends BaseMediaComponent
         $max = (int) $this->getConfig('maxMediaCount');
         $required = (bool) $this->getConfig('required');
 
-        if ($required || $min > 0) {
+        if (($required || $min > 0) && $this->totalMediaCount < $min) {
             if ($min > 1) {
                 $parts[] = __('medialibrary-extensions::messages.this_collection_requires_at_least_:items_items', ['items' => $min]);
             } else {

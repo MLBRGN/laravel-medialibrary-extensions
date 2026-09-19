@@ -70,20 +70,50 @@ class MinMediaCount implements ValidationRule
         // Instead, we count the actual media in the database and temporary storage.
         $count = 0;
 
+        // Resolve context
+        $clientToken = $this->clientToken ?: app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->resolve();
+        $dataSource = $this->dataSource ?: 'default';
+        if ($dataSource === 'default' && request()->has('data_source')) {
+            $dataSource = request()->input('data_source');
+        }
+
         // 1. Count permanent media on the model
         if ($this->model) {
-            $count += $this->countModelMediaInCollections($this->model, $this->collections, $this->dataSource);
+            $count += $this->countModelMediaInCollections($this->model, $this->collections, $dataSource);
         }
 
         // 2. Count temporary uploads
-        $instanceId = $this->instanceId ?? request()->input('instance_id');
+        // Prioritize mle_instance_ids array from component registrations
+        $instanceId = $this->instanceId ?: array_unique(array_filter(array_merge(
+            (array) request()->input('mle_instance_ids', []),
+            (array) request()->input('instance_id', [])
+        )));
 
         $count += $this->countTemporaryUploadsInCollections(
             $this->collections,
             $instanceId,
-            $this->clientToken,
-            $this->dataSource
+            $clientToken,
+            $dataSource
         );
+
+        // 3. Fallback: check _mle_cnt_{id} if count is still 0
+        // (This aligns validation with what the user sees in the component)
+        if ($count === 0) {
+            $lookFor = (array) $instanceId;
+
+            if (! empty($lookFor)) {
+                foreach ($lookFor as $id) {
+                    if (request()->has('_mle_cnt_' . $id)) {
+                        $count += (int) request()->input('_mle_cnt_' . $id);
+                    }
+                }
+            }
+
+            // Final fallback: check the attribute itself if it's a numeric string
+            if ($count === 0 && is_string($value) && is_numeric($value)) {
+                $count = (int) $value;
+            }
+        }
 
         if ($count < $this->min) {
             $fail($this->message());

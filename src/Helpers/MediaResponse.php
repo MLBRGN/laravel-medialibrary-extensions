@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 class MediaResponse
 {
@@ -28,6 +29,11 @@ class MediaResponse
 
     protected static function respond(Request $request, string $baseId, string $type, string $message, array $extraData = [], int $status = 200): JsonResponse|RedirectResponse
     {
+        // Always ensure instanceId is present for scoped status messages
+        if (!isset($extraData['instanceId'])) {
+            $extraData['instanceId'] = InstanceManager::getInstanceId($baseId);
+        }
+
         if ($request->expectsJson()) {
             // camelCase for JSON (JS-friendly)
             $base = [
@@ -59,7 +65,7 @@ class MediaResponse
 
         $redirect = redirect()
             ->to($targetUrl)
-            ->with(status_session_prefix(), $base);
+            ->with(status_session_prefix(), array_merge($base, $extraData));
 
         // Add errors to redirect if provided
         if (! empty($extraData['errors'])) {

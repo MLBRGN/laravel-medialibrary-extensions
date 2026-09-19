@@ -18,12 +18,14 @@ it('isolates temporary uploads between browser tabs', function (string $theme, b
     $waitTime = .5;
 
     // 1. Open Tab A (Create Blog)
-    $pageA = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}")
-        ->assertSee('Add a new blog');
+    $pageA = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($pageA);
+    $pageA->assertSee('Add a new blog');
 
     // 2. Open Tab B (Create Blog)
-    $pageB = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}")
-        ->assertSee('Add a new blog');
+    $pageB = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($pageB);
+    $pageB->assertSee('Add a new blog');
 
     // 3. Upload "Image A" in Tab A
     $featuredInputSelector = '#blog-main-inside-mms [data-mle-media-input]';
@@ -31,7 +33,7 @@ it('isolates temporary uploads between browser tabs', function (string $theme, b
     $featuredGridSelector = '#blog-main-inside-mms [data-mle-media-preview-grid]';
 
     $pageA->attach($featuredInputSelector, $this->getRandomFixture())
-        ->press($featuredUploadButtonSelector)
+        ->click($featuredUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 4. Verify "Image A" appears in Tab A but NOT in Tab B
@@ -41,7 +43,7 @@ it('isolates temporary uploads between browser tabs', function (string $theme, b
     // 5. Save Tab A
     $titleA = 'Blog Tab A ' . uniqid();
     $this->fillBlogForm($pageA, $titleA, 'Content A')
-        ->press('#btn-save-blog')
+        ->click('#btn-save-blog')
         ->assertSee('Blog created.');
 
     // 6. Verify Tab B still has its own state (empty)
@@ -55,7 +57,7 @@ it('isolates temporary uploads between browser tabs', function (string $theme, b
 
     $pageA->page()->close();
     $pageB->page()->close();
-})->with('isolation_matrix')->group('browser')->flaky();
+})->with('isolation_matrix')->group('browser');
 
 it('prevents temporary uploads from leaking into carousels on show pages', function (string $theme, bool $useXhr) {
     $xhrInt = $useXhr ? 1 : 0;
@@ -65,19 +67,21 @@ it('prevents temporary uploads from leaking into carousels on show pages', funct
     $blog = Blog::create(['title' => 'Existing Blog', 'content' => 'Content']);
 
     // 2. Open Tab A (Create Blog) and upload an image (temporary)
-    $pageA = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}")
-        ->assertSee('Add a new blog');
+    $pageA = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($pageA);
+    $pageA->assertSee('Add a new blog');
 
     $featuredInputSelector = '#blog-main-inside-mms [data-mle-media-input]';
     $featuredUploadButtonSelector = '#blog-main-inside-mms [data-mle-media-upload-button]';
 
     $pageA->attach($featuredInputSelector, $this->getRandomFixture())
-        ->press($featuredUploadButtonSelector)
+        ->click($featuredUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 3. Open Tab B (Show Page for existing blog)
-    $pageB = $this->visit("/blogs/{$blog->id}?theme={$theme}&use_xhr={$xhrInt}")
-        ->assertSee('Existing Blog');
+    $pageB = $this->visit("/blogs/{$blog->id}?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($pageB);
+    $pageB->assertSee('Existing Blog');
 
     // 4. Assert that the Carousel on the "Show" page does NOT show the unsaved image from the "Create" page
     // (Carousel uses includeTemporaryUploads = false by default now)
@@ -87,4 +91,4 @@ it('prevents temporary uploads from leaking into carousels on show pages', funct
 
     $pageA->page()->close();
     $pageB->page()->close();
-})->with('isolation_matrix')->group('browser')->flaky();
+})->with('isolation_matrix')->group('browser');

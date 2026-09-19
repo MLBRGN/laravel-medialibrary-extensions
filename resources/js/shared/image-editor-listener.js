@@ -19,12 +19,20 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 });
 
 document.addEventListener('onCloseImageEditor', (e) => {
-    const imageEditor = e.detail.imageEditorInstance;
+    // detail.imageEditorInstance is the preferred way to get the editor instance
+    const imageEditor = e.detail?.imageEditorInstance;
+    if (!imageEditor) {
+        return;
+    }
+    
     const modal = imageEditor.closest('[data-mle-image-editor-modal]');
+    if (!modal) {
+        return;
+    }
+    
     // Always anchor events to the nearest media manager container
     const mediaManager = resolveMediaManager(modal);
     if (!mediaManager) {
-        console.warn('Media Manager element not found on close');
         // Fallback to document dispatch to ensure modal closes even if MM is not found
         document.dispatchEvent(new CustomEvent('imageEditorModalCloseRequest', {
             bubbles: true,

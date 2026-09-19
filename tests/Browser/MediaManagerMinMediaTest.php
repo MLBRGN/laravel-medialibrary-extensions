@@ -37,7 +37,7 @@ it('validates minimum media requirements', function ($theme, $dataSource, $xhr, 
     $page->assertValue($hiddenCountSelector, '0');
 
     // 3. Attempt to submit with 0 items - should fail validation
-    $page->press($submitButtonSelector);
+    $page->click($submitButtonSelector);
     
     if (!$xhr) {
         $page->wait($waitTime);
@@ -47,7 +47,7 @@ it('validates minimum media requirements', function ($theme, $dataSource, $xhr, 
 
     // 4. Upload 1 item
     $page->attach($inputSelector, $this->getRandomFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
 
     if (!$xhr) {
         $page->wait($waitTime);
@@ -62,7 +62,7 @@ it('validates minimum media requirements', function ($theme, $dataSource, $xhr, 
     $page->assertPresent($requiredIndicatorSelector);
 
     // 7. Attempt to submit with 1 item - should still fail validation
-    $page->press($submitButtonSelector);
+    $page->click($submitButtonSelector);
     
     if (!$xhr) {
         $page->wait($waitTime);
@@ -72,7 +72,7 @@ it('validates minimum media requirements', function ($theme, $dataSource, $xhr, 
 
     // 8. Upload 2nd item
     $page->attach($inputSelector, $this->getRandomFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
 
     if (!$xhr) {
         $page->wait($waitTime);
@@ -84,7 +84,7 @@ it('validates minimum media requirements', function ($theme, $dataSource, $xhr, 
     $page->assertValue($hiddenCountSelector, '2');
 
     // 10. Submit with 2 items - should succeed
-    $page->press($submitButtonSelector);
+    $page->click($submitButtonSelector);
     
     if (!$xhr) {
         $page->wait($waitTime);

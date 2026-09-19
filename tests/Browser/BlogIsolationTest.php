@@ -38,7 +38,7 @@ it('handles abandoned temporary uploads in the same tab session', function (stri
     $this->assertDatabaseCount('mle_temporary_uploads', 2);
 
     // 4. Submit the form
-    $page->press('#btn-save-blog')
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.');
 
     $blog = Blog::where('title', $title)->first();
@@ -53,7 +53,7 @@ it('handles abandoned temporary uploads in the same tab session', function (stri
     $this->assertDatabaseCount('mle_temporary_uploads', 0);
 
     $page->page()->close();
-})->with('blog_crud_matrix')->group('browser')->flaky();
+})->with('blog_crud_matrix')->group('browser');
 
 it('does not leak media between different blogs on their show pages', function (string $theme, bool $useXhr) {
     // 1. Create Blog A with 1 image
@@ -64,7 +64,10 @@ it('does not leak media between different blogs on their show pages', function (
 
     // 2. Create Blog B with 1 image
     $blogB = Blog::create(['title' => 'Blog B', 'content' => 'Content B']);
-    $fixtureB = $this->getRandomFixture();
+    $fixtureB = $this->getFixtureAsFilePath('test2.jpg');
+    if (basename($fixtureB) === $fixtureAName) {
+        $fixtureB = $this->getFixtureAsFilePath('test3.jpg');
+    }
     $fixtureBName = basename($fixtureB);
     $blogB->addMedia($fixtureB)->preservingOriginal()->toMediaCollection('blog-main');
 
@@ -85,4 +88,4 @@ it('does not leak media between different blogs on their show pages', function (
         ->not->toContain($fixtureBName);
 
     $page->page()->close();
-})->with('blog_crud_matrix')->group('browser')->flaky();
+})->with('blog_crud_matrix')->group('browser');

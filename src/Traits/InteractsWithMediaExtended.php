@@ -89,7 +89,7 @@ trait InteractsWithMediaExtended
             ]);
 
             $instanceId = request()->input('mle_instance_ids') ?: request()->input('instance_id');
-            $clientToken = request()->input('client_token') ?: request()->cookie('mle_client_token');
+            $clientToken = app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->resolve();
 
             $requestedDataSource = request()->input('data_source');
             $connectionName = method_exists($model, 'getConnectionName')
@@ -141,7 +141,7 @@ trait InteractsWithMediaExtended
                 'model_id' => $model->getKey(),
             ]);
             $instanceId = request()->input('mle_instance_ids') ?: request()->input('instance_id');
-            $clientToken = request()->input('client_token');
+            $clientToken = app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->resolve();
 
             if (! $instanceId && ! $clientToken && app()->bound(MediaUploadContext::class)) {
                 $context = app(MediaUploadContext::class);

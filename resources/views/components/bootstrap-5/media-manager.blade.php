@@ -14,9 +14,9 @@
     <a id="{{ $id }}"></a>
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
     <input type="hidden" name="mle_instance_ids[]" value="{{ $instanceId }}">
-    <input type="hidden" name="client_token" value="{{ $clientToken }}" data-mle-client-token>
+    <input type="hidden" name="_mle_token" value="{{ $clientToken }}" data-mle-client-token>
     @if($name)
-        <input type="hidden" name="{{ $name }}" value="{{ $totalMediaCount }}" data-mle-media-count="{{ $id }}">
+        <input type="hidden" name="_mle_cnt_{{ $id }}" value="{{ $totalMediaCount }}" data-mle-media-count="{{ $id }}">
     @endif
 
     @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))

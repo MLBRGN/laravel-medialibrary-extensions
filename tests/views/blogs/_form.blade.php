@@ -7,7 +7,10 @@
 
 <div class="mle-test-form-group">
     <label for="title" class="mle-test-label">Title</label>
-    <input type="text" name="title" id="title" class="mle-test-input" value="{{ old('title', $blog->title) }}" required>
+    <input type="text" name="title" id="title" class="mle-test-input" value="{{ old('title', $blog->title) }}">
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 </div>
 
 <div class="mle-test-form-group">
@@ -43,6 +46,8 @@
     @if($mode === 'edit')
         <x-mle-media-manager-single
             id="blog-main-inside"
+            name="featured_image"
+            required
             :model-reference="$blog"
             :collections="['image' => 'blog-main']"
             :options="['use_xhr' => $useXhr, 'theme' => $theme]"
@@ -51,6 +56,8 @@
     @else
         <x-mle-media-manager-single
             id="blog-main-inside"
+            name="featured_image"
+            required
             :model-reference="$blog->getMorphClass()"
             :collections="['image' => 'blog-main']"
             :options="['use_xhr' => $useXhr, 'temporaryUploadMode' => true, 'theme' => $theme]"

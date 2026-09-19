@@ -34,7 +34,7 @@
         @endif
         @disabled($disabled)
         >
-        <span class="mle-form-text form-text">
+        <span class="mle-form-text form-text" data-mle-supported-files-summary>
             {{ __('medialibrary-extensions::messages.supported_files', [
                 'summary' => $getSupportedFilesSummary(),
             ]) }}

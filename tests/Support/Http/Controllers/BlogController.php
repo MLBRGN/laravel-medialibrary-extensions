@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Rules\MinMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 class BlogController extends Controller
@@ -40,13 +41,19 @@ class BlogController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Handle client_token for promotion
-        $clientTokenFromInput = (string) ($request->input('client_token') ?? '');
+        $clientTokenFromInput = (string) ($request->input('_mle_token') ?? ($request->input('mle_client_token') ?? ''));
         $clientTokenFromCookie = (string) ($request->cookie('mle_client_token') ?? '');
         $effectiveClientToken = $clientTokenFromInput !== '' ? $clientTokenFromInput : $clientTokenFromCookie;
 
-        if ($effectiveClientToken !== '' && $request->input('client_token') !== $effectiveClientToken) {
-            $request->merge(['client_token' => $effectiveClientToken]);
+        if ($effectiveClientToken !== '' && $request->input('_mle_token') !== $effectiveClientToken) {
+            $request->merge(['_mle_token' => $effectiveClientToken]);
         }
+
+        $request->validate([
+            'title' => 'required',
+            'featured_image' => ['required', new MinMediaCount(Blog::class, ['blog-main'], 1, multiple: false)],
+            'gallery' => ['required', new MinMediaCount(Blog::class, ['blog-gallery'], 2, multiple: true)],
+        ]);
 
         $blog = Blog::create($request->only('title', 'content'));
 
@@ -69,13 +76,19 @@ class BlogController extends Controller
     public function update(Blog $blog, Request $request): RedirectResponse
     {
         // Handle client_token for promotion
-        $clientTokenFromInput = (string) ($request->input('client_token') ?? '');
+        $clientTokenFromInput = (string) ($request->input('_mle_token') ?? ($request->input('mle_client_token') ?? ''));
         $clientTokenFromCookie = (string) ($request->cookie('mle_client_token') ?? '');
         $effectiveClientToken = $clientTokenFromInput !== '' ? $clientTokenFromInput : $clientTokenFromCookie;
 
-        if ($effectiveClientToken !== '' && $request->input('client_token') !== $effectiveClientToken) {
-            $request->merge(['client_token' => $effectiveClientToken]);
+        if ($effectiveClientToken !== '' && $request->input('_mle_token') !== $effectiveClientToken) {
+            $request->merge(['_mle_token' => $effectiveClientToken]);
         }
+
+        $request->validate([
+            'title' => 'required',
+            'featured_image' => ['required', new MinMediaCount($blog, ['blog-main'], 1, multiple: false)],
+            'gallery' => ['required', new MinMediaCount($blog, ['blog-gallery'], 2, multiple: true)],
+        ]);
 
         $blog->update($request->only('title', 'content'));
 

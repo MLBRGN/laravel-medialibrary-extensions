@@ -35,13 +35,21 @@ trait InteractsWithBlogIntegration
         $input = "{$container} [data-mle-media-input]";
         $button = "{$container} [data-mle-media-upload-button]";
 
+        $this->waitForMLE($page);
         $this->scrollIntoView($page, $container);
         
         $filename = basename($fixture);
         
         $page->attach($input, $fixture)
-            ->press($button)
-            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->click($button);
+
+        // If not using XHR, wait for the page to reload
+        $xhr = $page->script("document.querySelector('[data-mle-xhr-form]') !== null");
+        if (!$xhr) {
+            $this->waitForMLE($page);
+        }
+
+        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         return $filename;
     }
@@ -55,13 +63,21 @@ trait InteractsWithBlogIntegration
         $input = "{$container} [data-mle-media-input]";
         $button = "{$container} [data-mle-media-upload-button]";
 
+        $this->waitForMLE($page);
         $this->scrollIntoView($page, $container);
 
         $filename = basename($fixture);
 
         $page->attach($input, $fixture)
-            ->press($button)
-            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->click($button);
+
+        // If not using XHR, wait for the page to reload
+        $xhr = $page->script("document.querySelector('[data-mle-xhr-form]') !== null");
+        if (!$xhr) {
+            $this->waitForMLE($page);
+        }
+
+        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         return $filename;
     }
@@ -170,7 +186,7 @@ trait InteractsWithBlogIntegration
         $item = "{$containerSelector} [data-mle-media-preview-container]:nth-child({$position})";
         $btn = "{$item} [data-mle-media-set-as-first-button]";
 
-        $page->press($btn)
+        $page->click($btn)
             ->assertSee(__('medialibrary-extensions::messages.medium_set_as_main'));
 
         return $page;

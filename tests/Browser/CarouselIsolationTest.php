@@ -15,6 +15,7 @@ it('does not show temporary uploads in carousels by default when model is perman
     
     // 2. Visit Blog Create page and upload a temporary image
     $page = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->assertSee('Add a new blog');
     
     // We use a specific ID from the create form for a temporary upload
@@ -45,6 +46,7 @@ it('shows temporary uploads in carousels when explicitly configured', function (
     // 1. Visit demo page
     // The demo carousel is configured with 'includeTemporaryUploads' => true
     $page = $this->visit("/mle-demo?theme={$theme}&data_source=demo_default&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     
     // 2. Upload a temporary image to MMM (alien-gallery)
     $mmmId = '#alien-multiple-temporary-mmm';
@@ -56,7 +58,7 @@ it('shows temporary uploads in carousels when explicitly configured', function (
     
     $this->scrollIntoView($page, $mmmId);
     $page->attach($input, $fixture)
-        ->press($btn)
+        ->click($btn)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
         
     // 3. Refresh to update carousel (or check if it's there)

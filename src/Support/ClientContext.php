@@ -23,10 +23,11 @@ class ClientContext
         // Client token is a unique identifier for a client (browser)
         // Not that security-sensitive, used for identifying temporary uploads in conjunction with instanceId
 
-        // 1. request input
+        // 1. request input (try prefixed first, then legacy)
         // Browser tests can consistently inject the token into every request, avoiding dependence on sessions or queued cookies,
-        if ($token = $this->request->input('client_token')) {
-            return $token;
+        $token = $this->request->input('_mle_token') ?: ($this->request->input('mle_client_token') ?: $this->request->input('client_token'));
+        if ($token) {
+            return is_array($token) ? ($token[0] ?? '') : $token;
         }
 
         // 2. request attribute (best / middleware-provided)

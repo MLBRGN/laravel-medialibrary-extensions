@@ -37,7 +37,7 @@
                     name="media[]"
             multiple
                         >
-        <span class="mle-form-text form-text">
+        <span class="mle-form-text form-text" data-mle-supported-files-summary>
             Supported files: JPEG, PNG • up to 8 MB • 320×160–7040×3960 px • This collection can contain up to 10 items
         </span>
                                         <input
@@ -226,7 +226,7 @@
     >Please wait.</span>
 </div>
     <div 
-    class="mle-status-container mle-flex-grow visible" 
+    class="mle-status-container mle-flex-grow " 
     data-mle-status-container 
     data-mle-status-timeout="4000"
     id="test-media-modal-status"

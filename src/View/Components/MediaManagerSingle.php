@@ -9,6 +9,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaManagerSingle extends MediaManager
 {
+    protected ?string $domIdSuffix = 'mms';
+
     public function __construct(
         string $id,
         mixed $modelReference,

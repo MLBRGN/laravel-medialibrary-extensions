@@ -14,6 +14,7 @@ it('can create a blog with featured image inside and gallery outside form', func
     $wait = $useXhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
     $page = $this->visit("/blogs?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->click('#btn-create-new')
         ->assertSee('Add a new blog');
 
@@ -27,7 +28,8 @@ it('can create a blog with featured image inside and gallery outside form', func
     $galleryName = $this->uploadToGallery($page, $this->getRandomFixture());
 
     // 4. Submit the main Blog form
-    $page->press('#btn-save-blog')
+    $this->waitForMLE($page);
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 
@@ -54,6 +56,7 @@ it('can edit a blog and manage media', function (string $theme, bool $useXhr) {
     $wait = $useXhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
     $page = $this->visit("/blogs?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->click("#btn-edit-{$blog->id}")
         ->assertSee('Edit blog');
 
@@ -63,7 +66,8 @@ it('can edit a blog and manage media', function (string $theme, bool $useXhr) {
     $featuredName = $this->uploadFeaturedImage($page, $this->getRandomFixture());
 
     // 2. Submit the form
-    $page->press('#btn-update-blog')
+    $this->waitForMLE($page);
+    $page->click('#btn-update-blog')
         ->assertSee('Blog updated.')
         ->assertSee($newTitle);
 
@@ -89,6 +93,7 @@ it('can view blog with readonly media managers', function (string $theme, bool $
     $xhrInt = $useXhr ? 1 : 0;
 
     $page = $this->visit("/blogs?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->click("#btn-show-{$blog->id}")
         ->assertSee('View Test Blog')
         ->assertSee('Featured Image')
@@ -97,12 +102,12 @@ it('can view blog with readonly media managers', function (string $theme, bool $
     // Verify media components are present but readonly (no upload button)
     $page->assertPresent('[data-base-id="blog-main-show"]')
         ->assertMissing('[data-base-id="blog-main-show"] [data-mle-media-upload-button]');
-    
+
     $this->assertFeaturedImageVisible($page, 'test2.jpg');
 
     $page->assertPresent('[data-base-id="blog-gallery-show"]')
         ->assertMissing('[data-base-id="blog-gallery-show"] [data-mle-media-upload-button]');
-    
+
     $this->assertGalleryImagesVisible($page, ['test3.jpg']);
 
     $page->page()->close();

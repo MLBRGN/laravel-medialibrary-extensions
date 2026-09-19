@@ -138,9 +138,12 @@ class StoreMultipleTemporaryAction
             $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-').'.'.$extension;
 
             $directory = "{$basePath}";
-            $clientToken = $request->input('client_token')
-                ?? $request->cookie('mle_client_token')
-                ?? (string) Str::ulid();
+            $clientToken = $request->input('client_token');
+            if (is_array($clientToken)) {
+                $clientToken = $clientToken[0] ?? null;
+            }
+            $clientToken ??= $request->cookie('mle_client_token');
+            $clientToken ??= (string) Str::ulid();
 
         // Store file with a unique name to avoid collisions when multiple files with the same name are uploaded.
         $path = Storage::disk($disk)->putFile(

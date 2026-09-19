@@ -57,8 +57,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
-    // check that image editor custom element is registered
-    $page->page()->waitForFunction("customElements.get('image-editor') !== undefined");
+    $this->waitForMLE($page);
 
     $this->scrollIntoView($page, $mediaManagerId);
 
@@ -71,23 +70,28 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => 1]));
 
     // test that it shows error when no file selected
-    $page->press($uploadButtonSelector)
+    $page->click($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
         // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
     
     if (!$xhr) {
-        $page->wait($waitTime); // Wait for redirect/session to settle
+        $this->waitForMLE($page);
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'))
 
         // attach an image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture())
-        ->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
+        ->click($uploadButtonSelector);
+
+    if (!$xhr) {
+        $this->waitForMLE($page);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // counts should update
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 1, 'total' => 1]));
@@ -114,7 +118,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
     // check media modal opening and presence of expected elements
     $page->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector)
+        ->click($mediaPreviewImageSelector)
         ->assertVisible($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
@@ -124,22 +128,26 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($mediaModalCarouselItemContainerImageSelector)
 
        // Check that the media modal can be closed using the close button
-        ->press($mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector)
         ->assertMissing($mediaModalSelector);
 
     // check image editor modal can be closed using the close button
-    $page->press($editButtonSelector)
+    $page->click($editButtonSelector)
         ->assertVisible($imageEditorModalSelector)
+        ->wait(0.5) // Wait for show animation to finish
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector)
-        ->assertMissing($imageEditorModalSelector);
+        ->click($imageEditorModalCloseButtonSelector);
+
+    $this->waitForHidden($page, $imageEditorModalSelector);
+
+    $page->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
-    $page->press($editButtonSelector)
+    $page->click($editButtonSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalRotateCcwButtonSelector)
-        ->press($imageEditorModalSaveButtonSelector)
+        ->click($imageEditorModalRotateCcwButtonSelector)
+        ->click($imageEditorModalSaveButtonSelector)
         ->wait(0.5)
         ->assertMissing($imageEditorModalSelector)
         ->wait($waitTime); // Give time for reload/DOM to settle
@@ -161,17 +169,25 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->assertMissing($mediaModalSelector);
 
     // check canceling image editing in the image editor
-    $page->press($editButtonSelector)
+    $page->click($editButtonSelector)
         ->assertVisible($imageEditorModalSelector)
+        ->wait(0.5) // Wait for show animation to finish
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCancelButtonSelector)
-        ->wait(0.5)
-        ->assertMissing($imageEditorModalSelector);
+        ->click($imageEditorModalCancelButtonSelector);
+
+    $this->waitForHidden($page, $imageEditorModalSelector);
+
+    $page->assertMissing($imageEditorModalSelector);
 
     // check delete media works
     $page->wait($waitTime) // Wait for previous redirect/DOM to settle
-        ->press($deleteButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
+        ->click($deleteButtonSelector);
+
+    if (!$xhr) {
+        $this->waitForMLE($page);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.medium_removed'));
 
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
@@ -181,8 +197,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
     $page->page()->close();
 })->group('browser')
-    ->with('mms_test_matrix')
-    ->flaky();
+    ->with('mms_test_matrix');
 
 it('honors min / max width height and file size constraints in uploads', function ($theme, $dataSource, $xhr, $storage) {
 
@@ -197,6 +212,8 @@ it('honors min / max width height and file size constraints in uploads', functio
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
+    $this->waitForMLE($page);
+
     $this->scrollIntoView($page, $mediaManagerId);
 
     $page->assertPresent($inputSelector)
@@ -204,46 +221,54 @@ it('honors min / max width height and file size constraints in uploads', functio
         // assert that the upload button is initially enabled
         ->assertButtonEnabled($uploadButtonSelector);
 
-    config(['medialibrary-extensions.max_image_width' => 1500]);
-    config(['medialibrary-extensions.max_image_height' => 1500]);
+    $this->setMleConfig($page, [
+        'max_image_width' => 1500,
+        'max_image_height' => 1500,
+        'min_image_width' => 100,
+        'min_image_height' => 100,
+    ]);
 
     // test that an image that is too small is rejected
     $page->attach($inputSelector, $this->getTinyImageFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime);
+        $this->waitForMLE($page);
     }
 
-    $page->assertSee(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => config('medialibrary-extensions.min_image_width'), 'min_height' => config('medialibrary-extensions.min_image_height')]));
+    $page->assertSee(__('medialibrary-extensions::messages.image_too_small', ['width' => 16, 'height' => 16, 'min_width' => 100, 'min_height' => 100]));
 
     // test that an image that is too large is rejected
-    config(['medialibrary-extensions.max_image_width' => 15]);
-    config(['medialibrary-extensions.max_image_height' => 15]);
+    $this->setMleConfig($page, [
+        'max_image_width' => 15,
+        'max_image_height' => 15,
+        'min_image_width' => 10,
+        'min_image_height' => 10,
+    ]);
     $page->attach($inputSelector, $this->getTinyImageFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime);
+        $this->waitForMLE($page);
     }
 
-    $page->assertSee(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => config('medialibrary-extensions.max_image_width'), 'max_height' => config('medialibrary-extensions.max_image_height')]));
+    $page->assertSee(__('medialibrary-extensions::messages.image_too_large', ['width' => 16, 'height' => 16, 'max_width' => 15, 'max_height' => 15]));
 
     // test that too large images (file size) are rejected
-    config(['medialibrary-extensions.max_upload_size' => 1024]);
+    $this->setMleConfig($page, ['max_upload_size' => 1024]);
     $page->attach($inputSelector, $this->getRandomFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime);
+        $this->waitForMLE($page);
     }
 
-    $page->assertSee(__('medialibrary-extensions::validation.media_max', ['max' => mle_human_filesize(config('medialibrary-extensions.max_upload_size'))]));
+    $page->assertSee(__('medialibrary-extensions::validation.media_max', ['max' => '1 KB']));
 
     $page->page()->close();
 })->group('browser')
     ->with('validation_matrix')
-    ->flaky();
+    ;
 
 it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $storage) {
 
@@ -282,8 +307,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
-    // check that image editor custom element is registered
-    $page->page()->waitForFunction("customElements.get('image-editor') !== undefined");
+    $this->waitForMLE($page);
 
     $this->scrollIntoView($page, $mediaManagerId);
 
@@ -293,7 +317,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertButtonEnabled($uploadButtonSelector)
 
         // test that it shows an error when no YouTube url entered
-        ->press($uploadButtonSelector)
+        ->click($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'));
 
     if (!$xhr) {
@@ -303,10 +327,10 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $page->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'))
         // enter youtube url
         ->type($inputSelector, $this->getYouTubeFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime); // Wait for redirect/session to settle
+        $this->waitForMLE($page);
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'))
@@ -330,7 +354,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
 
         // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector)
+        ->click($mediaPreviewImageSelector)
 
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
@@ -341,15 +365,15 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($mediaModalCarouselItemContainerLiteYouTubeSelector)
 
         // check that media modal can be closed
-        ->press($mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector)
         ->assertMissing($mediaModalSelector);
 
     // check delete media works
     $page->wait($waitTime) // Wait for previous redirect/DOM to settle
-        ->press($deleteButtonSelector);
+        ->click($deleteButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime); // Wait for redirect/session to settle
+        $this->waitForMLE($page);
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.medium_removed'));
@@ -360,4 +384,4 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $page->page()->close();
 })->group('browser')
     ->with('mms_youtube_test_matrix')
-    ->flaky();
+    ;

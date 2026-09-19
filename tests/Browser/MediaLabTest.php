@@ -44,6 +44,8 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->assertNoJavaScriptErrors()
         ->assertDontSee('Media lab not showing, no media.');
 
+    $this->waitForMLE($page);
+
     $this->scrollIntoView($page, $labId);
 
     $page->assertPresent($labId)
@@ -54,26 +56,26 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->assertPresent($restoreButtonSelector);
 
     // check image editor modal can be opened and closed
-    $page->press($mmsEditButtonSelector)
+    $page->click($mmsEditButtonSelector)
         ->assertPresent($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector)
+        ->click($imageEditorModalCloseButtonSelector)
         ->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
-    $page->press($mmsEditButtonSelector)
+    $page->click($mmsEditButtonSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalRotateCcwButtonSelector)
-        ->press($imageEditorModalSaveButtonSelector)
+        ->click($imageEditorModalRotateCcwButtonSelector)
+        ->click($imageEditorModalSaveButtonSelector)
         ->assertMissing($imageEditorModalSelector)
         ->wait(0.5); // Give time for multiple background refreshes to complete
 
     // test restore medium
-    $page->press($restoreButtonSelector)
+    $page->click($restoreButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.restored_original'));
 
     $page->page()->close();
 })->group('browser')
     ->with('media_lab_test_matrix')
-    ->flaky();
+    ;

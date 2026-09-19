@@ -13,7 +13,14 @@ class TemporaryUploadPromoter
 {
     public function promoteAllForModel(Model $model, string|array|null $instanceId = null, ?string $clientToken = null): void
     {
-        $clientToken = $clientToken ?: (request()->input('client_token') ?: request()->cookie('mle_client_token'));
+        if (!$clientToken) {
+            $clientToken = request()->input('client_token');
+            if (is_array($clientToken)) {
+                $clientToken = $clientToken[0] ?? null;
+            }
+            $clientToken ??= request()->cookie('mle_client_token');
+        }
+
         $instanceId = $instanceId ?: (request()->input('mle_instance_ids') ?: request()->input('instance_id'));
 
         if (! $clientToken && app()->runningUnitTests()) {

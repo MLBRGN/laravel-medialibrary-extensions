@@ -36,7 +36,7 @@
         class="mle-input mle-form-control form-control mb-2"
                     name="media"
                         >
-        <span class="mle-form-text form-text">
+        <span class="mle-form-text form-text" data-mle-supported-files-summary>
             Supported files: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF • up to 8 MB • 320×160–7040×3960 px
         </span>
                                         <input
@@ -121,7 +121,7 @@
     >Please wait.</span>
 </div>
     <div 
-    class="mle-status-container mle-flex-grow visible" 
+    class="mle-status-container mle-flex-grow " 
     data-mle-status-container 
     data-mle-status-timeout="4000"
     id="test-media-modal-status"

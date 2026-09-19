@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Http\Requests\GetMediaManagerPreviewerHTMLRequ
 use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Preview\MediaPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 
@@ -97,6 +98,25 @@ class GetMediaPreviewerPermanentHTMLAction
         );
 
         $html = Blade::renderComponent($component);
+
+        // Also refresh the upload form summary
+        $uploadFormComponent = new UploadForm(
+            id: $baseId,
+            modelReference: $model,
+            collections: $collections,
+            options: $options,
+            singleMedia: $singleMedia,
+            multiple: $multiple,
+            disabled: $disabled,
+            readonly: $readonly,
+            instanceId: $instanceId,
+            dataSource: $dataSource,
+        );
+
+        $summaryHtml = __('medialibrary-extensions::messages.supported_files', [
+            'summary' => $uploadFormComponent->getSupportedFilesSummary(),
+        ]);
+
         $debugHtml = null;
 
         if (config('medialibrary-extensions.debug') && $request->boolean('include_debug')) {
@@ -111,6 +131,7 @@ class GetMediaPreviewerPermanentHTMLAction
 
         return response()->json([
             'html' => $html,
+            'summaryHtml' => $summaryHtml,
             'debugHtml' => $debugHtml,
             'mediaCount' => $totalMediaCount,
             'maxMediaCount' => $maxMediaCount,

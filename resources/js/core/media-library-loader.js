@@ -145,6 +145,7 @@ function loadMediaAssets(loader, manifest) {
     }
 
     Promise.allSettled(tasks).then(() => {
+        window.mleAssetsLoaded = true;
         if (debug) {
             console.debug('[media] assets loaded', manifest);
         }

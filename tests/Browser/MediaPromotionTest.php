@@ -30,12 +30,12 @@ it('promotes temporary uploads to permanent media on form submit', function () {
 
     // 1. Upload an image to temporary MMM
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-        ->press($mmmTemporaryUploadButtonSelector)
+        ->click($mmmTemporaryUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 2. Submit the form to create the model and promote media
     // We need to click the specific "Save model" button for the MMM form
-    $page->press($mmmTemporaryId.' ~ form button[type="submit"]')
+    $page->click($mmmTemporaryId.' ~ form button[type="submit"]')
         ->assertPathIs('/mle-demo');
 
     // 3. Verify it appears in the permanent MMM
@@ -67,15 +67,15 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
 
     // 1. Upload two images to temporary MMM
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-        ->press($mmmTemporaryUploadButtonSelector)
+        ->click($mmmTemporaryUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-        ->press($mmmTemporaryUploadButtonSelector)
+        ->click($mmmTemporaryUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 2. Submit the specific MMM form's save button to create the model and promote media
-    $page->press($mmmTemporaryId.' ~ form button[type="submit"]')
+    $page->click($mmmTemporaryId.' ~ form button[type="submit"]')
         ->assertPathIs('/mle-demo');
 
     // 3. Verify at least two items appear in the permanent MMM grid

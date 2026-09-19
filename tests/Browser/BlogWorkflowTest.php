@@ -13,14 +13,12 @@ it('simulates a human workflow: index -> create -> upload -> show', function (st
 
     // 1. Start at the index page and go to Create
     $page = $this->visit("/blogs?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->assertSee('All Blogs')
         ->click('#btn-create-new')
         ->assertSee('Add a new blog');
 
-    // 2. Fill out the form
-    $this->fillBlogForm($page, $title, 'Blog content by human');
-
-    // 3. Add medium to media manager (Featured Image - Single)
+    // 2. Add medium to media manager (Featured Image - Single)
     $featuredName = $this->uploadFeaturedImage($page, $this->getRandomFixture());
 
     // 4. Add 2 media to Gallery (Multiple)
@@ -29,7 +27,9 @@ it('simulates a human workflow: index -> create -> upload -> show', function (st
     $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
 
     // 5. Submit the form
-    $page->press('#btn-save-blog')
+    $this->fillBlogForm($page, $title, 'Blog content by human');
+    $this->waitForMLE($page);
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 
@@ -48,20 +48,22 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
 
     // 1. Start at the index page and go to Create
     $page = $this->visit("/blogs?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->click('#btn-create-new')
         ->assertSee('Add a new blog');
 
-    // 2. Fill out the form and upload media
-    $this->fillBlogForm($page, $title, 'Full lifecycle test content');
-
+    // 2. Upload media
     $featuredName = $this->uploadFeaturedImage($page, $this->getRandomFixture());
-    
+
     $galleryNames = [];
     $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
     $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
 
+    // 2. Fill out the form
+    $this->fillBlogForm($page, $title, 'Full lifecycle test content');
+
     // 3. Submit the form
-    $page->press('#btn-save-blog')
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 
@@ -73,7 +75,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     // Click the 2nd gallery image
     $galleryId = 'blog-gallery-show';
     $galleryItem2Selector = "[data-base-id=\"{$galleryId}\"] [data-mle-media-preview-container]:nth-child(2) [data-mle-media-preview-item]";
-    
+
     // Get the expected filename from the preview image
     $expectedSrc = $page->page()->locator($galleryItem2Selector . ' [data-mle-media-preview-image]')->first()->getAttribute('src');
     $expectedFilename = basename(parse_url($expectedSrc, PHP_URL_PATH));
@@ -84,7 +86,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     // Assert modal is open - use specific ID
     $modalId = "{$galleryId}-mod";
     $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
-    
+
     $page->assertPresent($modalSelector);
 
     // In the modal carousel, check the active item matches image 2
@@ -111,21 +113,22 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     $newFeaturedName = $this->uploadFeaturedImage($page, $this->getRandomFixture());
 
     // 7. Save and verify
-    $page->press('#btn-update-blog')
+    $page->click('#btn-update-blog')
         ->assertSee('Blog updated.')
         ->assertSee($newTitle);
 
     $this->assertFeaturedImageVisible($page, $newFeaturedName);
-    
+
     $page->page()->close();
 })->with('blog_crud_matrix')->group('browser')->flaky();
 
 it('allows reordering gallery images during blog creation and maintains sync', function (string $theme, bool $useXhr) {
     $title = 'Reorder Test ' . uniqid();
     $xhrInt = $useXhr ? 1 : 0;
-    
+
     // 1. Start at Create page
     $page = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->assertSee('Add a new blog');
 
     // 2. Fill basic info
@@ -145,7 +148,7 @@ it('allows reordering gallery images during blog creation and maintains sync', f
     $expectedOrder = [$galleryNames[1], $galleryNames[0], $galleryNames[2]];
 
     // 5. Save the blog
-    $page->press('#btn-save-blog')
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 
@@ -159,7 +162,7 @@ it('allows reordering gallery images during blog creation and maintains sync', f
 
     $modalId = "{$galleryId}-mod";
     $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
-    
+
     $page->assertPresent($modalSelector);
     $activeItemSrc = $page->page()->locator($modalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image]')->first()->getAttribute('src');
     $this->assertFilenameMatch($activeItemSrc, $expectedOrder[0]);

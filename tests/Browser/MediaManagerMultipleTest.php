@@ -58,8 +58,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
-    // check that image editor custom element is registered
-    $page->page()->waitForFunction("customElements.get('image-editor') !== undefined");
+    $this->waitForMLE($page);
 
     $this->scrollIntoView($page, $mediaManagerId);
 
@@ -68,15 +67,15 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertButtonEnabled($uploadButtonSelector);
 
     // test that it shows error when no file selected
-    $page->press($uploadButtonSelector)
+    $page->click($uploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
     // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
-        ->press($uploadButtonSelector);
+        ->click($uploadButtonSelector);
     
     if (!$xhr) {
-        $page->wait($waitTime); // Wait for redirect/session to settle
+        $this->waitForMLE($page);
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
@@ -88,10 +87,10 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     for ($i = 0; $i < $maxItems; $i++) {
         // attach an image file and submit and check if spinner shows and upload is successful
         $page->attach($inputSelector, $this->getRandomFixture())
-            ->press($uploadButtonSelector);
+            ->click($uploadButtonSelector);
 
         if (!$xhr) {
-            $page->wait($waitTime);
+            $this->waitForMLE($page);
         }
 
         $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
@@ -116,7 +115,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
     // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector)
+        ->click($mediaPreviewImageSelector)
 
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
@@ -125,7 +124,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($mediaModalCarouselItemSelector)
 
     // check that media modal can be closed
-        ->press($mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector)
         ->assertMissing($mediaModalSelector);
 
     // check that the carousel shows the correct images for multiple items (random check)
@@ -150,25 +149,25 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     }
 
     // check image editor modal can be opened and closed
-    $page->press($editButtonSelector)
+    $page->click($editButtonSelector)
         ->assertPresent($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector)
+        ->click($imageEditorModalCloseButtonSelector)
         ->wait(0.5)
         ->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
-    $page->press($editButtonSelector)
+    $page->click($editButtonSelector)
         ->assertVisible($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalRotateCcwButtonSelector)
-        ->press($imageEditorModalSaveButtonSelector)
+        ->click($imageEditorModalRotateCcwButtonSelector)
+        ->click($imageEditorModalSaveButtonSelector)
         ->wait(0.5)
         ->assertMissing($imageEditorModalSelector);
 
     // delete one media and validate counts/alerts/form state
     $page->wait($waitTime) // Wait for previous redirect/DOM to settle
-        ->press($deleteButtonSelector)
+        ->click($deleteButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.medium_removed'))
         ->assertMissing($maxReachedAlertSelector)
         ->assertButtonEnabled($uploadButtonSelector);
@@ -179,7 +178,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         $currentDeleteButtonSelector =
             $gridSelector.
             ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
-        $page->press($currentDeleteButtonSelector)
+        $page->click($currentDeleteButtonSelector)
             ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
 
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $maxItems - $i - 2, 'total' => $maxItems]));
@@ -191,7 +190,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $page->page()->close();
 })->group('browser')
     ->with('mmm_test_matrix')
-    ->flaky();
+    ;
 
 it('can use set-as-first and carousel remains synced', function ($theme, $dataSource, $xhr, $storage) {
     // prepare selectors
@@ -209,15 +208,17 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
+    $this->waitForMLE($page);
+
     $this->scrollIntoView($page, $mediaManagerId);
 
     // 1. Upload 3 images
     for ($i = 0; $i < 3; $i++) {
         $page->attach($inputSelector, $this->getRandomFixture())
-            ->press($uploadButtonSelector);
+            ->click($uploadButtonSelector);
 
         if (!$xhr) {
-            $page->wait($waitTime);
+            $this->waitForMLE($page);
         }
 
         $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
@@ -245,10 +246,10 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
 
     // 4. Set the second item as first
     $setAsFirstButtonSelector = $secondContainer.' [data-mle-media-set-as-first-button]';
-    $page->press($setAsFirstButtonSelector);
+    $page->click($setAsFirstButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime);
+        $this->waitForMLE($page);
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.medium_set_as_main'));
@@ -282,7 +283,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $page->page()->close();
 })->group('browser')
     ->with('mmm_test_matrix')
-    ->flaky();
+    ;
 
 it('enforces max items cap on multiple media manager (mmm) on demo page', function ($theme, $dataSource, $storage) {
 
@@ -301,6 +302,8 @@ it('enforces max items cap on multiple media manager (mmm) on demo page', functi
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
+    $this->waitForMLE($page);
+
     $this->scrollIntoView($page, $mediaManagerId);
 
     // initial state (avoid assuming starting count; just ensure controls are present)
@@ -312,7 +315,7 @@ it('enforces max items cap on multiple media manager (mmm) on demo page', functi
     $maxItems = 2; // Fixed for this test context
     for ($i = 1; $i <= $maxItems; $i++) {
         $page->attach($inputSelector, $this->getRandomFixture())
-            ->press($uploadButtonSelector)
+            ->click($uploadButtonSelector)
             // Wait for counts to update which indicates upload finished and JS processed it
             ->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $i, 'total' => $maxItems]));
     }

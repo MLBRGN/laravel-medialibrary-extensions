@@ -43,6 +43,8 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
+    $this->waitForMLE($page);
+
     $this->scrollIntoView($page, $carouselId);
 
     if (! $temporary) {
@@ -50,7 +52,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // 1. Upload two images via MMM
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
-            ->press($mmmPermanentUploadButtonSelector);
+            ->click($mmmPermanentUploadButtonSelector);
         
         if (!$xhr) {
             $page->wait($waitTime);
@@ -58,7 +60,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
-            ->press($mmmPermanentUploadButtonSelector);
+            ->click($mmmPermanentUploadButtonSelector);
 
         if (!$xhr) {
             $page->wait($waitTime);
@@ -72,7 +74,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // 1. Upload two images via MMM
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-            ->press($mmmTemporaryUploadButtonSelector);
+            ->click($mmmTemporaryUploadButtonSelector);
 
         if (!$xhr) {
             $page->wait($waitTime);
@@ -80,7 +82,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-            ->press($mmmTemporaryUploadButtonSelector);
+            ->click($mmmTemporaryUploadButtonSelector);
 
         if (!$xhr) {
             $page->wait($waitTime);
@@ -143,4 +145,4 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     $page->page()->close();
 })->group('browser')
     ->with('media_carousel_test_matrix')
-    ->flaky();
+    ;

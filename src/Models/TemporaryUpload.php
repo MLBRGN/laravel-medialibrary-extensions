@@ -62,11 +62,8 @@ class TemporaryUpload extends Model implements HasMediaExtended
         $query,
         ?string $clientToken = null
     ) {
-        $clientToken ??= request()->input('client_token')
-            ?: request()->cookie('mle_client_token');
-
-        if (! $clientToken && app()->runningUnitTests()) {
-            $clientToken = config('medialibrary-extensions.test_client_token');
+        if (!$clientToken) {
+            $clientToken = app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->resolve();
         }
 
         if (! $clientToken) {
@@ -80,11 +77,17 @@ class TemporaryUpload extends Model implements HasMediaExtended
 
     public function scopeForInstance(
         $query,
-        ?string $instanceId
+        string|array|null $instanceId
     ) {
-        return $instanceId
-            ? $query->where('instance_id', $instanceId)
-            : $query;
+        if (! $instanceId) {
+            return $query;
+        }
+
+        if (is_array($instanceId)) {
+            return $query->whereIn('instance_id', $instanceId);
+        }
+
+        return $query->where('instance_id', $instanceId);
     }
 
     public function scopeForCollection(
@@ -105,7 +108,7 @@ class TemporaryUpload extends Model implements HasMediaExtended
 
     public static function getForCurrentClient(
         string|array|null $collectionNames = null,
-        ?string $instanceId = null,
+        string|array|null $instanceId = null,
         ?string $dataSource = 'default',
         ?string $clientToken = null,
     ): Collection {

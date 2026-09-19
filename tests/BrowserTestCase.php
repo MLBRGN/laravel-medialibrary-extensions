@@ -30,6 +30,8 @@ use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\Http\Controllers\BlogController;
 use Mlbrgn\MediaLibraryExtensions\Tests\Browser\Concerns\InteractsWithBlogIntegration;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Pest\Browser\Api\AwaitableWebpage;
+use Pest\Browser\Api\PendingAwaitablePage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 
@@ -120,6 +122,8 @@ class BrowserTestCase extends Orchestra
 
     protected static bool $migrated = false;
 
+    protected static bool $assetsPublished = false;
+
     // runs before every test
     protected function setUp(): void
     {
@@ -129,10 +133,13 @@ class BrowserTestCase extends Orchestra
         $this->truncateDatabases();
         $this->seedDatabases();
 
-        Artisan::call('vendor:publish', [
-            '--tag' => 'medialibrary-extensions-assets',
-            '--force' => true,
-        ]);
+        if (!static::$assetsPublished) {
+            Artisan::call('vendor:publish', [
+                '--tag' => 'medialibrary-extensions-assets',
+                '--force' => true,
+            ]);
+            static::$assetsPublished = true;
+        }
 
         date_default_timezone_set('UTC');
         config(['app.timezone' => 'UTC']);
@@ -320,7 +327,14 @@ class BrowserTestCase extends Orchestra
             ]);
         })->where('path', '.*');
 
-        Route::middleware('web')->group(function () {
+        Route::middleware(['web', 'mle_test_config'])->group(function () {
+            Route::post('test-set-config', function(\Illuminate\Http\Request $request) {
+                $overrides = session('mle_config_overrides', []);
+                $newOverrides = $request->input('config', []);
+                session(['mle_config_overrides' => array_merge($overrides, $newOverrides)]);
+                session()->save();
+                return response()->json(['status' => 'ok']);
+            })->name('test-set-config');
             Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
             Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
 
@@ -506,6 +520,56 @@ class BrowserTestCase extends Orchestra
                 'title' => 'Test Blog Post',
                 'content' => 'This is a test blog post content.',
             ]);
+    }
+
+    protected function setMleConfig(AwaitableWebpage|PendingAwaitablePage $page, array $config): AwaitableWebpage|PendingAwaitablePage
+    {
+        $page->page()->evaluate("async (data) => {
+            await fetch('/test-set-config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name=\"csrf-token\"]')?.content
+                },
+                body: JSON.stringify({config: data})
+            });
+        }", $config);
+
+        // Give server a moment to settle session
+        $page->wait(0.2);
+
+        return $page;
+    }
+
+    protected function waitForMLE(AwaitableWebpage|PendingAwaitablePage $page): AwaitableWebpage|PendingAwaitablePage
+    {
+        // Wait for Bootstrap if we are using bootstrap-5 theme
+        $page->page()->waitForFunction("
+            const theme = new URLSearchParams(window.location.search).get('theme');
+            if (theme === 'bootstrap-5') {
+                return typeof bootstrap !== 'undefined';
+            }
+            return true;
+        ");
+
+        // Wait for the loader to be present and then wait for custom elements or a signal that MLE assets are loaded.
+        // Since loader is a module and loads assets dynamically, we wait for the configs to be processed.
+        $page->page()->waitForFunction("document.querySelectorAll('.mlbrgn-medialibrary-config').length > 0");
+        
+        // Wait for the core loader to have initialized the global window object
+        $page->page()->waitForFunction("window.mleAssetBase !== undefined");
+
+        // Wait for all assets to be loaded by the loader
+        $page->page()->waitForFunction("window.mleAssetsLoaded === true");
+
+        return $page;
+    }
+
+    protected function waitForHidden(AwaitableWebpage|PendingAwaitablePage $page, string $selector): AwaitableWebpage|PendingAwaitablePage
+    {
+        $page->page()->waitForSelector($selector, ['state' => 'hidden']);
+
+        return $page;
     }
 
     protected function scrollIntoView($page, string $selector): void

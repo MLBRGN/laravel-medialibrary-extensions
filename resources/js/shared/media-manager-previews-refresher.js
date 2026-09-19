@@ -80,6 +80,14 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
 
         previewGrid.innerHTML = data.html;
 
+        // Update summary text if provided
+        if (data.summaryHtml) {
+            const summaryEl = mediaManager.querySelector('[data-mle-supported-files-summary]');
+            if (summaryEl) {
+                summaryEl.innerHTML = data.summaryHtml;
+            }
+        }
+
         // Update counts in the upload section header
         const formContainer = mediaManager.querySelector('.mle-media-manager-form');
         const countsEl = formContainer?.querySelector('.mle-media-manager-media-counts');
@@ -131,6 +139,12 @@ export async function updatePreviews(mediaManager, config, detail = {}) {
 
         // Handle disabling/enabling of forms and alert visibility
         if (data.mediaCount !== undefined && data.mediaCount !== null) {
+            // Clear previous validation errors when state changes via XHR
+            const errorAlert = formContainer?.querySelector('[data-mle-error-alert]');
+            if (errorAlert) {
+                errorAlert.remove();
+            }
+
             // If the component provided an explicit per-instance max, compute locally against that value
             // and ignore potentially conflicting server-provided isAtMax (which uses global config).
             const isAtMax = hasExplicitPerInstanceMax

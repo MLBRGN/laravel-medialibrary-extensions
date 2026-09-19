@@ -12,6 +12,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\MediaActionsAuthorizer;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Throwable;
 
 abstract class MediaManagerRequest extends FormRequest

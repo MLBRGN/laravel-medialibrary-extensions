@@ -36,9 +36,12 @@ class StoreSingleTemporaryAction
         $baseId = (string) $request->input('base_id');
         $instanceId = InstanceManager::getInstanceId($baseId);
 
-        $clientToken = $request->input('client_token')
-            ?? $request->cookie('mle_client_token')
-            ?? (string) Str::ulid();
+        $clientToken = $request->input('client_token');
+        if (is_array($clientToken)) {
+            $clientToken = $clientToken[0] ?? null;
+        }
+        $clientToken ??= $request->cookie('mle_client_token');
+        $clientToken ??= (string) Str::ulid();
 
         try {
 

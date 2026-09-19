@@ -20,7 +20,7 @@ trait ChecksMediaLimits
     /**
      * Count total temporary uploads for current client in given collections.
      */
-    protected function countTemporaryUploadsInCollections(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): int
+    protected function countTemporaryUploadsInCollections(array $collections, string|array|null $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): int
     {
         $mediaCounter = app(MediaCounter::class);
 
@@ -40,8 +40,7 @@ trait ChecksMediaLimits
     /**
      * Check if there are temporary uploads in the given collections (single-media limit).
      */
-    //    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
-    protected function temporaryUploadsHaveAnyMedia(array $collections, ?string $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
+    protected function temporaryUploadsHaveAnyMedia(array $collections, string|array|null $instanceId = null, ?string $clientToken = null, ?string $dataSource = 'default'): bool
     {
         $mediaCounter = app(MediaCounter::class);
 

@@ -20,6 +20,7 @@ it('can create a blog using the html editor with custom file picker', function (
 
     // 1. Visit index and click create
     $page = $this->visit("/blogs?theme={$theme}&use_xhr={$xhrInt}");
+    $this->waitForMLE($page);
     $page->click('#btn-create-new')
         ->assertSee('Add a new blog');
 
@@ -36,11 +37,11 @@ it('can create a blog using the html editor with custom file picker', function (
     $this->scrollIntoView($page, $imageButton);
 
     // Open image dialog
-    $page->press($imageButton)
+    $page->click($imageButton)
         ->assertPresent($browseFilesButtonSelector);
 
     // Open file picker
-    $page->press($browseFilesButtonSelector)
+    $page->click($browseFilesButtonSelector)
         ->assertPresent($filePickerIframeSelector);
 
     $uploadedFilename = '';
@@ -63,25 +64,25 @@ it('can create a blog using the html editor with custom file picker', function (
         $uploadedFilename = basename($fixture);
 
         $page->attach($inputSelector, $fixture)
-            ->press($uploadButtonSelector);
+            ->click($uploadButtonSelector);
 
         $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         // Select and Insert
         $page->click($firstItemSelectSelector)
-            ->press($insertSelectedButtonSelector);
+            ->click($insertSelectedButtonSelector);
     });
 
     // Back to main page, save the TinyMCE dialog
     $page->assertMissing($filePickerIframeSelector)
-        ->press($saveButtonSelector)
+        ->click($saveButtonSelector)
         ->assertMissing('.tox-dialog-wrap');
 
     // 4. Upload featured image as well (the "media manager inside the form" part)
     $featuredName = $this->uploadFeaturedImage($page, $this->getRandomFixture());
 
     // 5. Submit the form
-    $page->press('#btn-save-blog')
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 

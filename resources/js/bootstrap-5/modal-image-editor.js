@@ -5,6 +5,13 @@ const closeBootstrapModal = (modal) => {
     const bs = getMleBootstrapInstance();
     const modalInstance = bs.Modal.getOrCreateInstance(modal);
     modalInstance.hide();
+    
+    // Safety: if it's still visible after a short delay (e.g. race condition with show animation), try again
+    setTimeout(() => {
+        if (modal.classList.contains('show')) {
+            modalInstance.hide();
+        }
+    }, 500);
 }
 
 function initializeImageEditor(config) {
@@ -151,10 +158,8 @@ document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
 
 // Handle external close requests
 document.addEventListener('imageEditorModalCloseRequest', e => {
-    console.log('bootstrap-5/modal-image-editor.js - imageEditorModalCloseRequest received', e.detail);
     const modal = e.detail.modal;
     if (!modal) {
-        console.warn('bootstrap-5/modal-image-editor.js - No modal provided in event detail');
         return;
     }
     closeBootstrapModal(modal);
