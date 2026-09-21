@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.4](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.3...2.4.4) (2026-09-07)
+
+
+### Bug Fixes
+
+* merged fixes ([82abf5a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/82abf5a5c144f7752c2194d1a50dbc01f16a5892))
+
 ## [2.4.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.2...2.4.3) (2026-08-31)
 
 
