@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.4...2.5.0) (2026-09-21)
+
+
+### Features
+
+* added required functionality ([afe0786](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/afe07862becd62f583d621dbf35303f2e82e4b22))
+
+
+### Bug Fixes
+
+* added expandableInModal to MediaFirstAvailable component ([1587c1f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/1587c1fd8c43c66bb3be623cd96ce07ecc7cf4e7))
+* minimum media / required fixes ([723d296](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/723d296bbb754ec59f368a03664e04e7498cdac2))
+
 ## [2.4.4](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.3...2.4.4) (2026-09-07)
 
 
