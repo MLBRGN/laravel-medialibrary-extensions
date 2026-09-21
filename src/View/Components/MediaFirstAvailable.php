@@ -20,15 +20,14 @@ class MediaFirstAvailable extends BaseMediaComponent
 
     public ?string $mediumType;
 
-    public bool $expandableInModal = false;
-
     public function __construct(
         string $id,
         public mixed $modelReference,
         public ?array $collections = [],
         array $options = [],
         public bool $previewMode = false, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
-        public ?string $dataSource = 'default'
+        public ?string $dataSource = 'default',
+        public bool $expandableInModal = false
     ) {
         parent::__construct($id, $this->modelReference, $this->dataSource);
         $this->options = $options;
