@@ -322,6 +322,7 @@ class BrowserTestCase extends Orchestra
 
         Route::middleware('web')->group(function () {
             Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
+            Route::post('mle-demo-isolation', [DemoController::class, 'submitIsolation'])->name('mle-demo-isolation-submit');
             Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
 
             Route::get('test-client-token', function() {

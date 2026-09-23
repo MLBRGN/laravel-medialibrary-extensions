@@ -26,12 +26,15 @@ abstract class BaseComponent extends Component
     /** Identity of the client, used for scoping temporary uploads, together with instanceId */
     public string $clientToken;
 
+    public string $isolationFormId;
+
     public function __construct(
         ?string $id = null,
     ) {
         $this->id = filled($id) ? $id : (string) Str::ulid();
         $this->instanceId = InstanceManager::getInstanceId($this->id);
         $this->clientToken = app(ClientContext::class)->get();
+        $this->isolationFormId = 'mle-isolated-' . $this->id;
     }
 
     // can be overridden in child classes
@@ -60,6 +63,7 @@ abstract class BaseComponent extends Component
         $data['id'] = $this->id;
         $data['getDomId'] = fn () => $this->getDomId();
         $data['instanceId'] = $this->instanceId;
+        $data['isolationFormId'] = $this->isolationFormId;
 
         if ($customView) {
             $view = view($customView, $data);

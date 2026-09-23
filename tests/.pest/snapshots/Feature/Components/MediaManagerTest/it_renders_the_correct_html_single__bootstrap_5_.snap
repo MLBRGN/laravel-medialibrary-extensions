@@ -6,10 +6,11 @@
 >
     <!-- hidden anchor for scrolling -->
     <a id="test-media-modal"></a>
-    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"bootstrap-5","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"minMediaCount":0,"required":false,"name":"test-media-modal","isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"disabled":false,"readonly":false,"selectable":false,"modelType":"blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"allowedMimeTypes":"image\/jpeg, image\/png","disableForm":false}'>
-    <input type="hidden" name="mle_instance_ids[]" value="E3642AD197F92C6D1BF5D78226">
-    <input type="hidden" name="client_token" value="<ULID>" data-mle-client-token>
-            <input type="hidden" name="test-media-modal" value="0" data-mle-media-count="test-media-modal">
+    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"bootstrap-5","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"minMediaCount":0,"required":false,"name":"test-media-modal","isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"disabled":false,"readonly":false,"selectable":false,"modelType":"blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","isolationFormId":"mle-isolated-test-media-modal","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"allowedMimeTypes":"image\/jpeg, image\/png","disableForm":false}'>
+    <input type="hidden" name="mle_instance_ids[]" value="E3642AD197F92C6D1BF5D78226" form="mle-isolated-test-media-modal">
+    <input type="hidden" name="client_token" value="<ULID>" data-mle-client-token form="mle-isolated-test-media-modal">
+            <input type="hidden" name="mle_instance_map[test-media-modal]" value="E3642AD197F92C6D1BF5D78226">
+        <input type="hidden" name="test-media-modal" value="0" data-mle-media-count="test-media-modal">
     
         
     
@@ -36,63 +37,77 @@
         class="mle-input mle-form-control form-control mb-2"
                     name="media[]"
             multiple
-                        >
+                        form="mle-isolated-test-media-modal"
+        >
         <span class="mle-form-text form-text">
             Supported files: JPEG, PNG • up to 8 MB • 320×160–7040×3960 px • This collection can contain up to 10 items
         </span>
                                         <input
                 type="hidden"
                 name="collections[image]"
-                value="blog-images">
+                value="blog-images"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[youtube]"
-                value="blog-youtube">
+                value="blog-youtube"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[document]"
-                value="blog-documents">
+                value="blog-documents"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[video]"
-                value="blog-videos">
+                value="blog-videos"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[audio]"
-                value="blog-audio">
+                value="blog-audio"
+                form="mle-isolated-test-media-modal">
                 <input
         type="hidden"
         name="single_media_id"
-        value="">
+        value=""
+        form="mle-isolated-test-media-modal">
     <input 
         type="hidden" 
         name="temporary_upload_mode" 
-        value="false">
+        value="false"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="model_type"
-        value="blog">
+        value="blog"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="model_id"
-        value="1">
+        value="1"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="base_id"
-        value="test-media-modal">
+        value="test-media-modal"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="client_token"
-        value="<ULID>">
+        value="<ULID>"
+        form="mle-isolated-test-media-modal">
     <input type="hidden"
            name="data_source"
-           value="default">
+           value="default"
+           form="mle-isolated-test-media-modal">
     <button
         type="button"
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-mle-action="upload-media"
         data-mle-media-upload-button
-            >
+                form="mle-isolated-test-media-modal"
+    >
         Upload media
     </button>
     </div>
@@ -121,58 +136,72 @@
         <input 
         type="hidden" 
         name="temporary_upload_mode" 
-        value="false">
+        value="false"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="single_media_id"
-        value="">
+        value=""
+        form="mle-isolated-test-media-modal">
                         <input
                 type="hidden"
                 name="collections[image]"
-                value="blog-images">
+                value="blog-images"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[youtube]"
-                value="blog-youtube">
+                value="blog-youtube"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[document]"
-                value="blog-documents">
+                value="blog-documents"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[video]"
-                value="blog-videos">
+                value="blog-videos"
+                form="mle-isolated-test-media-modal">
                                 <input
                 type="hidden"
                 name="collections[audio]"
-                value="blog-audio">
+                value="blog-audio"
+                form="mle-isolated-test-media-modal">
                 <input
         type="hidden"
         name="youtube_collection"
-        value="blog-youtube">
+        value="blog-youtube"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="model_type"
-        value="blog">
+        value="blog"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="model_id"
-        value="1">
+        value="1"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="base_id"
-        value="test-media-modal">
+        value="test-media-modal"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="client_token"
-        value="<ULID>">
+        value="<ULID>"
+        form="mle-isolated-test-media-modal">
     <input
         type="hidden"
         name="multiple"
-        value="true">
+        value="true"
+        form="mle-isolated-test-media-modal">
     <input type="hidden"
            name="data_source"
-           value="default">
+           value="default"
+           form="mle-isolated-test-media-modal">
     <label 
         for="test-media-modal-youtube-upload-form-youtube-url" 
         class="mle-label">
@@ -186,14 +215,16 @@
         name="youtube_url" 
         class="mle-input mle-form-control form-control" 
         placeholder="https://www.youtube.com/watch?v=..."
-            >
+                form="mle-isolated-test-media-modal"
+    >
     <button
         type="button"
         class="mle-button mle-button-submit btn btn-primary d-block"
         data-mle-action="upload-youtube-medium"
 
         data-mle-youtube-upload-button
-            >
+                form="mle-isolated-test-media-modal"
+    >
         Add YouTube-video
     </button>
     </div>

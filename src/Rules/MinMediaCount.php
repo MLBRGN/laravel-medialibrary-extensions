@@ -66,8 +66,8 @@ class MinMediaCount implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // We do NOT trust the $value (which is the client-side count).
-        // Instead, we count the actual media in the database and temporary storage.
+        // We do NOT trust the $value if it's a simple count (client-side).
+        // If it's an array, it's likely a standard Laravel file upload or similar, so we count it.
         $count = 0;
 
         // 1. Count permanent media on the model
@@ -75,8 +75,18 @@ class MinMediaCount implements ValidationRule
             $count += $this->countModelMediaInCollections($this->model, $this->collections, $this->dataSource);
         }
 
-        // 2. Count temporary uploads
-        $instanceId = $this->instanceId ?? request()->input('instance_id');
+        // 2. Add count from $value if it's an array or a single non-numeric value
+        // (to support standard Laravel validation and direct uploads)
+        if (is_array($value)) {
+            $count += count($value);
+        } elseif (filled($value) && ! is_numeric($value)) {
+            $count += 1;
+        }
+
+        // 3. Count temporary uploads
+        $instanceId = $this->instanceId
+            ?? request()->input("mle_instance_map.{$attribute}")
+            ?? request()->input('instance_id');
 
         $count += $this->countTemporaryUploadsInCollections(
             $this->collections,

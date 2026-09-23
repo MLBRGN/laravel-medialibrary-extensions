@@ -32,3 +32,13 @@ export function getFormData(formElement) {
     // });
     return formData;
 }
+
+export function ensureIsolationForm(isolationFormId) {
+    if (!isolationFormId) return;
+    if (document.getElementById(isolationFormId)) return;
+
+    const dummyForm = document.createElement('form');
+    dummyForm.id = isolationFormId;
+    dummyForm.style.display = 'none';
+    document.body.appendChild(dummyForm);
+}

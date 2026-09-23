@@ -33,6 +33,7 @@
             name="media"
         @endif
         @disabled($disabled)
+        form="{{ $isolationFormId }}"
         >
         <span class="mle-form-text form-text">
             {{ __('medialibrary-extensions::messages.supported_files', [
@@ -54,42 +55,51 @@
             <input
                 type="hidden"
                 name="collections[{{ $collectionType }}]"
-                value="{{ $collectionName }}">
+                value="{{ $collectionName }}"
+                form="{{ $isolationFormId }}">
         @endif
     @endforeach
     <input
         type="hidden"
         name="single_media_id"
-        value="{{ $singleMedia?->id || null }}">
+        value="{{ $singleMedia?->id || null }}"
+        form="{{ $isolationFormId }}">
     <input 
         type="hidden" 
         name="temporary_upload_mode" 
-        value="{{ $temporaryUploadMode ? 'true' : 'false' }}">
+        value="{{ $temporaryUploadMode ? 'true' : 'false' }}"
+        form="{{ $isolationFormId }}">
     <input
         type="hidden"
         name="model_type"
-        value="{{ $modelType }}">
+        value="{{ $modelType }}"
+        form="{{ $isolationFormId }}">
     <input
         type="hidden"
         name="model_id"
-        value="{{ $modelId }}">
+        value="{{ $modelId }}"
+        form="{{ $isolationFormId }}">
     <input
         type="hidden"
         name="base_id"
-        value="{{ $id }}">
+        value="{{ $id }}"
+        form="{{ $isolationFormId }}">
     <input
         type="hidden"
         name="client_token"
-        value="{{ $clientToken }}">
+        value="{{ $clientToken }}"
+        form="{{ $isolationFormId }}">
     <input type="hidden"
            name="data_source"
-           value="{{ $getConfig('dataSource') }}">
+           value="{{ $getConfig('dataSource') }}"
+           form="{{ $isolationFormId }}">
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
         class="mle-button mle-button-submit mle-upload-button"
         data-mle-action="upload-media"
         data-mle-media-upload-button
         @disabled($disabled)
+        form="{{ $isolationFormId }}"
     >
         {{ $multiple
          ? __('medialibrary-extensions::messages.upload_media')

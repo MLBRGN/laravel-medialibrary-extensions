@@ -20,6 +20,7 @@
                     data-alt="{{ $medium->name }}"
                     data-mle-media-select-checkbox
                     data-test="media-select"
+                    form="{{ $isolationFormId }}"
                 >
                 <span class="mle-media-select-indicator"
                   title="{{ __('medialibrary-extensions::messages.select') }}"

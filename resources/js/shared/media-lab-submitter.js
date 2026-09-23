@@ -7,12 +7,17 @@ import {
 } from './xhrStatus';
 
 import {updateMediaLabBase} from './media-lab-previews-refresher'
-import { getFormData } from './form';
+import { getFormData, ensureIsolationForm } from './form';
 import { getMediaManagerConfig } from './media-manager-config';
 
 const mediaLabs = document.querySelectorAll('[data-mle-media-lab]');
 
 mediaLabs.forEach(mediaLab => {
+
+    const config = getMediaManagerConfig(mediaLab);
+    if (config) {
+        ensureIsolationForm(config.isolationFormId);
+    }
 
     const statusAreaContainer = mediaLab.querySelector('[data-mle-status-area-container]')
 

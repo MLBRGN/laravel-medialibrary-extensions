@@ -16,34 +16,43 @@
 >
     <input type="hidden"
         name="base_id"
-        value="{{ $id }}">
+        value="{{ $id }}"
+        form="{{ $isolationFormId }}">
     <input type="hidden"
         name="single_media_id"
-        value="{{ $singleMedia?->id || null }}">
+        value="{{ $singleMedia?->id || null }}"
+        form="{{ $isolationFormId }}">
     <input type="hidden"
        name="model_type"
-       value="{{ $modelType }}">
+       value="{{ $modelType }}"
+       form="{{ $isolationFormId }}">
     <input type="hidden"
        name="model_id"
-       value="{{ $modelId }}">
+       value="{{ $modelId }}"
+       form="{{ $isolationFormId }}">
     <input type="hidden"
            name="client_token"
-           value="{{ $clientToken }}">
+           value="{{ $clientToken }}"
+           form="{{ $isolationFormId }}">
     <input type="hidden"
            name="instance_id"
-           value="{{ $instanceId }}">
+           value="{{ $instanceId }}"
+           form="{{ $isolationFormId }}">
     <input type="hidden"
        name="temporary_upload_mode"
-       value="{{ $temporaryUploadMode ? 'true' : 'false' }}">
+       value="{{ $temporaryUploadMode ? 'true' : 'false' }}"
+       form="{{ $isolationFormId }}">
     <input type="hidden"
            name="data_source"
-           value="{{ $getConfig('dataSource') }}">
+           value="{{ $getConfig('dataSource') }}"
+           form="{{ $isolationFormId }}">
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
                 type="hidden"
                 name="collections[{{ $collectionType }}]"
-                value="{{ $collectionName }}">
+                value="{{ $collectionName }}"
+                form="{{ $isolationFormId }}">
         @endif
     @endforeach
     <button
@@ -54,6 +63,7 @@
         data-mle-route="{{ $getConfig('routes.mediaDestroy') }}"
         data-mle-media-delete-button
         @disabled($disabled)
+        form="{{ $isolationFormId }}"
     >
         <x-mle-shared-icon
             name="{{ config('medialibrary-extensions.icons.delete') }}"

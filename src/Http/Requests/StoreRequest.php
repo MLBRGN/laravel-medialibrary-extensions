@@ -72,6 +72,7 @@ abstract class StoreRequest extends MediaManagerRequest
                 $model,
                 $collections,
                 $maxItems,
+                null,
                 $dataSource
             );
         }

@@ -7,12 +7,17 @@ import {
 } from './xhrStatus';
 
 import { updatePreviews } from './media-manager-previews-refresher'
-import { getFormData } from './form';
+import { getFormData, ensureIsolationForm } from './form';
 import { getMediaManagerConfig } from './media-manager-config';
 
 const mediaManagers = document.querySelectorAll('[data-mle-media-manager]');
 
 mediaManagers.forEach(mediaManager => {
+
+    const config = getMediaManagerConfig(mediaManager);
+    if (config) {
+        ensureIsolationForm(config.isolationFormId);
+    }
 
     // console.log('mediaManager', mediaManager);
     const statusAreaContainer = mediaManager.querySelector('[data-mle-status-area-container]')

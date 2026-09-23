@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\demo\StoreAlienRequest;
+use Mlbrgn\MediaLibraryExtensions\Http\Requests\demo\StoreIsolationRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 
@@ -21,6 +22,10 @@ class DemoController extends Controller
             config('medialibrary-extensions.demo_pages_enabled'),
             404
         );
+
+        if ($request->query('isolation_test')) {
+            return $this->isolationTest($request);
+        }
 
         // Ensure the demo page URL always carries an explicit data_source to keep
         // the DB context consistent across refreshes and redirects.
@@ -203,6 +208,45 @@ class DemoController extends Controller
         }
 
         return redirect()->route('mle-demo', $redirectParams);
+    }
+
+    public function isolationTest(Request $request): View
+    {
+        $theme = $request->query('theme', config('medialibrary-extensions.frontend_theme', 'bootstrap-5'));
+        $useXhr = $request->boolean('use_xhr', config('medialibrary-extensions.use_xhr', true));
+        $dataSource = $request->query('data_source', 'demo_default');
+
+        config([
+            'medialibrary-extensions.frontend_theme' => $theme,
+            'medialibrary-extensions.use_xhr' => $useXhr,
+        ]);
+
+        $model = $this->getDemoModel($dataSource, $request->query('id'));
+        $media = $model->getMedia('alien-media-lab')->first() ?: $model->getMedia('alien-multiple-images')->first();
+
+        return view('medialibrary-extensions::demo.mle-isolation', [
+            'model' => $model,
+            'media' => $media,
+            'dataSource' => $dataSource,
+            'theme' => $theme,
+            'useXhr' => $useXhr,
+        ]);
+    }
+
+    public function submitIsolation(Request $request): RedirectResponse
+    {
+        try {
+            app(StoreIsolationRequest::class);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        }
+
+        $data = $request->all();
+        
+        // Remove sensitive or irrelevant fields for display
+        unset($data['_token']);
+
+        return redirect()->back()->with('submitted_data', $data);
     }
 
     protected function getDemoModel(?string $dataSource = 'default', mixed $id = null): Alien

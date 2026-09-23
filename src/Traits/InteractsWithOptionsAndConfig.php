@@ -51,6 +51,7 @@ trait InteractsWithOptionsAndConfig
         'domId',
         'instanceId',
         'clientToken',
+        'isolationFormId',
         'dataSource',
         'minMediaCount',
         'required',
