@@ -197,13 +197,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Max items in collection
+    | Default max size of media collection
     |--------------------------------------------------------------------------
     |
-    | The maximum items in a single media collection
+    | The default maximum number of items in a media collection
     |
     */
-    'max_items_in_shared_media_collections' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_ITEMS_IN_SHARED_MEDIA_COLLECTIONS', 10),
+    'max_media_count' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_MEDIA_COUNT', 10),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default min size of media collection
+    |--------------------------------------------------------------------------
+    |
+    | The default minimum number of items in a media collection
+    | Note to enforce this, you need to add a validation rule to your model
+    | Probably better to set this per component instance
+    |
+    */
+    'min_media_count' => env('MEDIA_LIBRARY_EXTENSIONS_MIN_MEDIA_COUNT', 0),
 
     /*
     |--------------------------------------------------------------------------

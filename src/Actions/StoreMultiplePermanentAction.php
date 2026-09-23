@@ -58,17 +58,17 @@ class StoreMultiplePermanentAction
             );
         }
 
-        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
+        $maxMediaCount = config('medialibrary-extensions.max_media_count');
         $mediaCounter = app(MediaCounter::class);
         $mediaInCollections = $mediaCounter->countModelMediaInCollections($model, $collections, $dataSource);
         $nextPriority = $mediaInCollections;
 
-        if ($mediaInCollections >= $maxItemsInCollection) {
+        if ($mediaInCollections >= $maxMediaCount) {
             return MediaResponse::error(
                 $request,
                 $baseId,
                 __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                    'items' => $maxItemsInCollection,
+                    'items' => $maxMediaCount,
                 ])
             );
         }
@@ -98,13 +98,13 @@ class StoreMultiplePermanentAction
         }
 
         // Enforce remaining capacity: only process up to the remaining slots; mark overflow as failed.
-        $remaining = max(0, $maxItemsInCollection - $mediaInCollections);
+        $remaining = max(0, $maxMediaCount - $mediaInCollections);
         if ($remaining <= 0) {
             return MediaResponse::error(
                 $request,
                 $baseId,
                 __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                    'items' => $maxItemsInCollection,
+                    'items' => $maxMediaCount,
                 ])
             );
         }
@@ -158,7 +158,7 @@ class StoreMultiplePermanentAction
             $skipped = array_map(fn ($u) => $u->originalName, $overflowPrepared);
             $failedUploadFIleNames = array_merge($failedUploadFIleNames, $skipped);
             $errorMessages[] = __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                'items' => $maxItemsInCollection,
+                'items' => $maxMediaCount,
             ]);
         }
 

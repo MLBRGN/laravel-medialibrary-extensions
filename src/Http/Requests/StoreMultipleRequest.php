@@ -23,7 +23,7 @@ class StoreMultipleRequest extends StoreRequest
 
         if ($rule = $this->uploadLimitRule(
             $collections,
-            config('medialibrary-extensions.max_items_in_shared_media_collections')
+            config('medialibrary-extensions.max_media_count')
         )) {
             $uploadRules[] = $rule;
         }

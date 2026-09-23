@@ -37,10 +37,10 @@ class UploadForm extends BaseMediaComponent
         parent::__construct($id, $this->modelReference, $dataSource);
 
         $this->options = $options;
-        
+
         if ($this->multiple) {
-            $maxFromOptions = $this->getOption('maxMediaCount', null);
-            $this->maxMediaCount = (int) ($maxFromOptions ?? config('medialibrary-extensions.max_items_in_shared_media_collections', 10));
+            $maxMediaCountFromOptions = $this->getOption('maxMediaCount', null);
+            $this->maxMediaCount = (int) ($maxMediaCountFromOptions ?? config('medialibrary-extensions.max_media_count', 10));
         } else {
             $this->maxMediaCount = 1;
             $this->setOption('maxMediaCount', 1);

@@ -47,7 +47,7 @@ it('promotes temporary uploads to permanent media on form submit', function () {
 
 it('promotes multiple temporary uploads to permanent media on form submit (MMM temporary)', function () {
     // Allow multiple items in the shared collection for this test
-    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
+    Config::set('medialibrary-extensions.max_media_count', 3);
     $theme = 'bootstrap-5';
     $dataSource = 'demo_default';
     $xhrInt = 1;

@@ -15,7 +15,7 @@ uses(InteractsWithBlogIntegration::class);
 
 it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
-    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 3);
+    Config::set('medialibrary-extensions.max_media_count', 3);
 
     // prepare selectors
     $mediaManagerId = '#alien-multiple-'.$storage.'-mmm';
@@ -74,14 +74,14 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
         ->press($uploadButtonSelector);
-    
+
     if (!$xhr) {
         $page->wait($waitTime); // Wait for redirect/session to settle
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
-    $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
+    $maxItems = config('medialibrary-extensions.max_media_count');
 
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
 
@@ -287,7 +287,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
 it('enforces max items cap on multiple media manager (mmm) on demo page', function ($theme, $dataSource, $storage) {
 
     // keep small to speed up test and make intent clear
-    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 2);
+    Config::set('medialibrary-extensions.max_media_count', 2);
 
     $mediaManagerId = '#alien-multiple-'.$storage.'-mmm';
     $inputSelector = $mediaManagerId.' [data-mle-media-input]';

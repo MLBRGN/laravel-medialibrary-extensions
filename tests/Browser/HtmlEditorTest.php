@@ -14,7 +14,7 @@ beforeEach(function () {
 it('can control html editor\'s custom file picker', function ($theme, $dataSource, $xhr, $uploadMedia = false) {
 
     // keep small to speed up test and make intent clear
-    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 2);
+    Config::set('medialibrary-extensions.max_media_count', 2);
 
     $imageButton = '[data-mce-name="image"]';
     $saveButtonSelector = '[data-mce-name="Save"]';
@@ -98,14 +98,14 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         // test that invalid mime types are rejected
         $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
             ->press($uploadButtonSelector);
-        
+
         if (!$xhr) {
             $page->wait($waitTime);
         }
 
         $page->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
 
-        $maxItems = config('medialibrary-extensions.max_items_in_shared_media_collections');
+        $maxItems = config('medialibrary-extensions.max_media_count');
 
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => $maxItems]));
 

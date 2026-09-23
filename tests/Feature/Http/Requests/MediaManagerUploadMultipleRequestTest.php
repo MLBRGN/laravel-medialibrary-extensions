@@ -8,7 +8,7 @@ use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
 beforeEach(function () {
     // Mock config values
     config()->set('medialibrary-extensions.upload_field_name_multiple', 'uploads');
-    config()->set('medialibrary-extensions.max_items_in_shared_media_collections', 10);
+    config()->set('medialibrary-extensions.max_media_count', 10);
     config()->set('medialibrary-extensions.allowed_mimetypes', [
         ['image/jpeg', 'image/png'],
         ['video/mp4'],

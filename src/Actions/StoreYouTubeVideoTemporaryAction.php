@@ -36,9 +36,9 @@ class StoreYouTubeVideoTemporaryAction
         $collection = $request->youtube_collection;
         $multiple = $request->boolean('multiple');
 
-        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
+        $maxMediaCount = config('medialibrary-extensions.max_media_count');
         if (! $multiple) {
-            $maxItemsInCollection = 1;
+            $maxMediaCount = 1;
         }
 
         $collections = $request->array('collections');
@@ -53,11 +53,11 @@ class StoreYouTubeVideoTemporaryAction
 
         $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections, $instanceId, null, $dataSource);
         $nextPriority = $temporaryUploadsInCollections;
-        if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
-            $message = $maxItemsInCollection === 1
+        if ($temporaryUploadsInCollections >= $maxMediaCount) {
+            $message = $maxMediaCount === 1
                 ? __('medialibrary-extensions::messages.only_one_medium_allowed')
                 : __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                    'items' => $maxItemsInCollection,
+                    'items' => $maxMediaCount,
                 ]);
 
             return MediaResponse::error(

@@ -49,18 +49,18 @@ class StoreYouTubeVideoPermanentAction
         $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
         $model->load(['media' => fn ($q) => $q->whereIn('collection_name', $collections)]);
 
-        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
+        $maxMediaCount = config('medialibrary-extensions.max_media_count');
         if (! $multiple) {
-            $maxItemsInCollection = 1;
+            $maxMediaCount = 1;
         }
         $currentMediaCount = $this->countModelMediaInCollections($model, $collections);
         $nextPriority = $currentMediaCount;
 
-        if ($currentMediaCount >= $maxItemsInCollection) {
-            $message = $maxItemsInCollection === 1
+        if ($currentMediaCount >= $maxMediaCount) {
+            $message = $maxMediaCount === 1
                 ? __('medialibrary-extensions::messages.only_one_medium_allowed')
                 : __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                    'items' => $maxItemsInCollection,
+                    'items' => $maxMediaCount,
                 ]);
 
             return MediaResponse::error(

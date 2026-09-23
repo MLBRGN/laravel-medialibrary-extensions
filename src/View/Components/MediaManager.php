@@ -129,12 +129,12 @@ class MediaManager extends BaseMediaComponent
             // then fall back to the global config. This allows demo pages (or
             // specific component instances) to tighten the limit without
             // changing global settings.
-            $maxFromOptions = $this->getOption('maxMediaCount', null);
-            $maxItems = (int) ($maxFromOptions ?? config('medialibrary-extensions.max_items_in_shared_media_collections', 10));
+            $maxMediaCountFromOptions = $this->getOption('maxMediaCount', null);
+            $maxMediaCount = (int) ($maxMediaCountFromOptions ?? config('medialibrary-extensions.max_media_count', 10));
 
             // Persist the final max used by this instance
-            $this->maxMediaCount = $maxItems;
-            $this->setOption('disableForm', $this->totalMediaCount >= $maxItems);
+            $this->maxMediaCount = $maxMediaCount;
+            $this->setOption('disableForm', $this->totalMediaCount >= $maxMediaCount);
         } else {
             $this->maxMediaCount = 1;
             $this->setOption('maxMediaCount', 1);

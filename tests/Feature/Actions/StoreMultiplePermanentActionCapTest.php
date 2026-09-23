@@ -24,7 +24,7 @@ class StoreMultiplePermanentActionCapTest extends TestCase
 
     public function test_it_caps_multiple_permanent_uploads_to_remaining_slots(): void
     {
-        config()->set('medialibrary-extensions.max_items_in_shared_media_collections', 10);
+        config()->set('medialibrary-extensions.max_media_count', 10);
 
         $post = Post::factory()->create();
 

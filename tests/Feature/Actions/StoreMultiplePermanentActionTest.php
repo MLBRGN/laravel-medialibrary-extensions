@@ -248,7 +248,7 @@ it('returns error if max media count is exceeded (JSON)', function () {
 
     // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
     Config::set('medialibrary-extensions.route_middleware', []);
-    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 2);
+    Config::set('medialibrary-extensions.max_media_count', 2);
 
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
@@ -272,8 +272,8 @@ it('returns error if max media count is exceeded (JSON)', function () {
 
     $responseData = $response->json();
 
-    expect($responseData['message'])->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_items_in_shared_media_collections')]));
-    expect($responseData['errors']['media'][0])->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_items_in_shared_media_collections')]));
+    expect($responseData['message'])->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_media_count')]));
+    expect($responseData['errors']['media'][0])->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_media_count')]));
 });
 
 it('returns error if max media count is exceeded (redirect)', function () {
@@ -287,7 +287,7 @@ it('returns error if max media count is exceeded (redirect)', function () {
 
     // Max = 2, but existing = 1 and adding 4 new => total = 5 > 2
     Config::set('medialibrary-extensions.route_middleware', []);
-    Config::set('medialibrary-extensions.max_items_in_shared_media_collections', 2);
+    Config::set('medialibrary-extensions.max_media_count', 2);
 
     $file1 = UploadedFile::fake()->image('photo1.jpg');
     $file2 = UploadedFile::fake()->image('photo2.jpg');
@@ -310,9 +310,9 @@ it('returns error if max media count is exceeded (redirect)', function () {
     $response->assertJsonValidationErrors(['media']);
 
     $responseData = $response->json();
-    expect($responseData['message'])->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_items_in_shared_media_collections')]))
+    expect($responseData['message'])->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_media_count')]))
         ->and($responseData['errors']['media'][0])
-        ->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_items_in_shared_media_collections')]));
+        ->toBe(__('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', ['items' => config('medialibrary-extensions.max_media_count')]));
 });
 
 it('returns error if file exceeds max upload size (JSON)', function () {

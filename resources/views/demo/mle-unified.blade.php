@@ -221,7 +221,8 @@
                     'dataSource' => $dataSource, 
                     'useXhr' => $useXhr,
                     // Respect global/demo-configured cap so tests and runtime stay in sync
-                    'maxMediaCount' => config('medialibrary-extensions.max_items_in_shared_media_collections')
+                    'maxMediaCount' => config('medialibrary-extensions.max_media_count'),
+                    'minMediaCount' => config('medialibrary-extensions.min_media_count')
 
                 ]"
                 :data-source="$dataSource"
@@ -248,7 +249,7 @@
                         'dataSource' => $dataSource, 
                         'useXhr' => $useXhr,
                         // Respect global/demo-configured cap so tests and runtime stay in sync
-                        'maxMediaCount' => config('medialibrary-extensions.max_items_in_shared_media_collections')
+                        'maxMediaCount' => config('medialibrary-extensions.max_media_count')
                     ]"
                     :data-source="$dataSource"
                 />

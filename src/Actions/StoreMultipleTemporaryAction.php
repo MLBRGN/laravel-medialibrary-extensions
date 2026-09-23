@@ -59,7 +59,7 @@ class StoreMultipleTemporaryAction
             );
         }
 
-        $maxItemsInCollection = config('medialibrary-extensions.max_items_in_shared_media_collections');
+        $maxMediaCount = config('medialibrary-extensions.max_media_count');
         // IMPORTANT: For capacity checks we must consider ALL temporary uploads for the
         // same component instance, regardless of client_token. Tests seed existing
         // uploads with different client tokens and expect capping to apply globally
@@ -71,12 +71,12 @@ class StoreMultipleTemporaryAction
             ->count();
         $nextPriority = $temporaryUploadsInCollections;
 
-        if ($temporaryUploadsInCollections >= $maxItemsInCollection) {
+        if ($temporaryUploadsInCollections >= $maxMediaCount) {
             return MediaResponse::error(
                 $request,
                 $baseId,
                 __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                    'items' => $maxItemsInCollection,
+                    'items' => $maxMediaCount,
                 ])
             );
         }
@@ -106,13 +106,13 @@ class StoreMultipleTemporaryAction
         }
 
         // Enforce remaining capacity: only process up to the remaining slots; mark overflow as failed.
-        $remaining = max(0, $maxItemsInCollection - $temporaryUploadsInCollections);
+        $remaining = max(0, $maxMediaCount - $temporaryUploadsInCollections);
         if ($remaining <= 0) {
             return MediaResponse::error(
                 $request,
                 $baseId,
                 __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                    'items' => $maxItemsInCollection,
+                    'items' => $maxMediaCount,
                 ])
             );
         }
@@ -204,7 +204,7 @@ class StoreMultipleTemporaryAction
             $skipped = array_map(fn ($u) => $u->originalName, $overflowPrepared);
             $failedUploadFIleNames = array_merge($failedUploadFIleNames, $skipped);
             $errorMessages[] = __('medialibrary-extensions::messages.this_collection_can_contain_up_to_:items_items', [
-                'items' => $maxItemsInCollection,
+                'items' => $maxMediaCount,
             ]);
         }
 

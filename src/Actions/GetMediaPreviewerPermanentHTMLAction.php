@@ -77,9 +77,11 @@ class GetMediaPreviewerPermanentHTMLAction
         }
 
         // Determine max and flags
-        $maxMediaCount = $multiple
-            ? (int) config('medialibrary-extensions.max_items_in_shared_media_collections', 10)
-            : 1;
+        $maxMediaCount = 1;
+
+        if ($multiple) {
+            $maxMediaCount = (int) config('medialibrary-extensions.max_media_count', 10);
+        }
         $isAtMax = $totalMediaCount >= $maxMediaCount;
 
         $component = new MediaPreviews(
