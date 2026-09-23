@@ -10,9 +10,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
-use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultiplePermanentAction
@@ -59,8 +59,13 @@ class StoreMultiplePermanentAction
         }
 
         $maxMediaCount = config('medialibrary-extensions.max_media_count');
-        $mediaCounter = app(MediaCounter::class);
-        $mediaInCollections = $mediaCounter->countModelMediaInCollections($model, $collections, $dataSource);
+        $mediaInCollections = $this->getEffectiveMediaCount(
+            collections: $collections,
+            model: $model,
+            instanceId: InstanceManager::getInstanceId($baseId),
+            dataSource: $dataSource,
+            ignoreClientToken: true
+        );
         $nextPriority = $mediaInCollections;
 
         if ($mediaInCollections >= $maxMediaCount) {

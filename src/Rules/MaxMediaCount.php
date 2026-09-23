@@ -5,26 +5,11 @@
 namespace Mlbrgn\MediaLibraryExtensions\Rules;
 
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
-use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
-use Spatie\MediaLibrary\HasMedia;
 
-class MaxMediaCount implements ValidationRule
+class MaxMediaCount extends AbstractMediaCountRule
 {
-    use ChecksMediaLimits;
-
-    protected ?HasMedia $model;
-
-    protected array $collections;
-
     protected int $max;
-
-    protected ?string $instanceId;
-
-    protected ?string $clientToken;
-
-    protected ?string $dataSource;
 
     /**
      * Create a new rule instance.
@@ -44,12 +29,9 @@ class MaxMediaCount implements ValidationRule
         ?string $dataSource = 'default',
         ?string $clientToken = null
     ) {
-        $this->model = $model instanceof HasMedia ? $model : null;
-        $this->collections = $collections;
+        parent::__construct($model, $collections, $instanceId, $dataSource, $clientToken);
+
         $this->max = $max;
-        $this->instanceId = $instanceId;
-        $this->dataSource = $dataSource;
-        $this->clientToken = $clientToken;
     }
 
     /**
@@ -61,34 +43,7 @@ class MaxMediaCount implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // We do NOT trust the $value if it's a simple count (client-side).
-        // If it's an array, it's likely a standard Laravel file upload or similar, so we count it.
-        $count = 0;
-
-        // 1. Count permanent media on the model
-        if ($this->model) {
-            $count += $this->countModelMediaInCollections($this->model, $this->collections, $this->dataSource);
-        }
-
-        // 2. Add count from $value if it's an array or a single non-numeric value
-        // (to support standard Laravel validation and direct uploads)
-        if (is_array($value)) {
-            $count += count($value);
-        } elseif (filled($value) && ! is_numeric($value)) {
-            $count += 1;
-        }
-
-        // 3. Count temporary uploads (MLE usage)
-        $instanceId = $this->instanceId
-            ?? request()->input("mle_instance_map.{$attribute}")
-            ?? request()->input('instance_id');
-
-        $count += $this->countTemporaryUploadsInCollections(
-            $this->collections,
-            $instanceId,
-            $this->clientToken,
-            $this->dataSource
-        );
+        $count = $this->getEffectiveCount($attribute, $value);
 
         if ($count > $this->max) {
             $fail($this->message());

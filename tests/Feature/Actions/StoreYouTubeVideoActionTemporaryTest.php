@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -48,7 +49,7 @@ it('stores temporary thumbnail successfully (JSON)', function () {
     $request->headers->set('Accept', 'application/json');
 
     $youTubeService = Mockery::mock(YouTubeService::class);
-    $action = new StoreYouTubeVideoTemporaryAction($youTubeService);
+    $action = new StoreYouTubeVideoTemporaryAction(app(MediaModelResolver::class), $youTubeService);
 
     $youTubeService->shouldReceive('storeTemporaryThumbnailFromRequest')
         ->once()
@@ -82,7 +83,7 @@ it('stores temporary thumbnail successfully (redirect)', function () {
     $tempUpload = $this->getTemporaryUpload();
 
     $youTubeService = Mockery::mock(YouTubeService::class);
-    $action = new StoreYouTubeVideoTemporaryAction($youTubeService);
+    $action = new StoreYouTubeVideoTemporaryAction(app(MediaModelResolver::class), $youTubeService);
 
     $youTubeService->shouldReceive('storeTemporaryThumbnailFromRequest')
         ->once()
@@ -114,7 +115,7 @@ it('returns error when temporary thumbnail fails to download (JSON)', function (
     $request->headers->set('Accept', 'application/json');
 
     $this->youTubeService = Mockery::mock(YouTubeService::class);
-    $this->action = new StoreYouTubeVideoTemporaryAction($this->youTubeService);
+    $this->action = new StoreYouTubeVideoTemporaryAction(app(MediaModelResolver::class), $this->youTubeService);
 
     $this->youTubeService
         ->shouldReceive('storeTemporaryThumbnailFromRequest')
@@ -144,7 +145,7 @@ it('returns error when temporary thumbnail fails to download (redirect)', functi
     $request->setLaravelSession(app('session')->driver());
 
     $this->youTubeService = Mockery::mock(YouTubeService::class);
-    $this->action = new StoreYouTubeVideoTemporaryAction($this->youTubeService);
+    $this->action = new StoreYouTubeVideoTemporaryAction(app(MediaModelResolver::class), $this->youTubeService);
 
     $this->youTubeService
         ->shouldReceive('storeTemporaryThumbnailFromRequest')
@@ -181,7 +182,7 @@ it('returns error when no youtube url provided for direct upload (JSON)', functi
     $request->headers->set('Accept', 'application/json');
 
     $youTubeService = app(YouTubeService::class);
-    $action = new StoreYouTubeVideoTemporaryAction($youTubeService);
+    $action = new StoreYouTubeVideoTemporaryAction(app(MediaModelResolver::class), $youTubeService);
 
     $response = $action->execute($request);
     expect($response->getData(true))
@@ -210,7 +211,7 @@ it('returns error when no youtube url provided for direct upload (redirect)', fu
     $request->setLaravelSession(app('session')->driver());
 
     $youTubeService = app(YouTubeService::class);
-    $action = new StoreYouTubeVideoTemporaryAction($youTubeService);
+    $action = new StoreYouTubeVideoTemporaryAction(app(MediaModelResolver::class), $youTubeService);
 
     $response = $action->execute($request);
 

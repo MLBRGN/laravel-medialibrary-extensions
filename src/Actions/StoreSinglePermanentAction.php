@@ -11,6 +11,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreSinglePermanentAction
@@ -42,11 +43,13 @@ class StoreSinglePermanentAction
                 $dataSource
             );
 
-            if ($this->modelHasAnyMedia(
-                $model,
-                $prepared->collections,
-                $dataSource
-            )) {
+            if ($this->getEffectiveMediaCount(
+                collections: $prepared->collections,
+                model: $model,
+                instanceId: InstanceManager::getInstanceId($baseId),
+                dataSource: $dataSource,
+                ignoreClientToken: true
+            ) > 0) {
                 return MediaResponse::error(
                     $request,
                     $baseId,

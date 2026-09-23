@@ -18,7 +18,6 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreSingleTemporaryAction
 {
-    // TODO use MediaService::countTemporaryUploadsInCollections() or countMediaInCollections()
     use ChecksMediaLimits;
 
     public function __construct(
@@ -54,12 +53,12 @@ class StoreSingleTemporaryAction
             );
         }
 
-        if ($this->temporaryUploadsHaveAnyMedia(
-            $prepared->collections,
-            $instanceId,
-            $clientToken,
-            $dataSource
-        )) {
+        if ($this->getEffectiveMediaCount(
+            collections: $prepared->collections,
+            instanceId: $instanceId,
+            dataSource: $dataSource,
+            ignoreClientToken: true
+        ) > 0) {
             return MediaResponse::error(
                 $request,
                 $baseId,

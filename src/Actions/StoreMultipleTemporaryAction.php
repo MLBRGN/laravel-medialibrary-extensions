@@ -20,7 +20,6 @@ use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreMultipleTemporaryAction
 {
-    // TODO use MediaService::countTemporaryUploadsInCollections() or countMediaInCollections()
     use ChecksMediaLimits;
 
     public function __construct(
@@ -60,15 +59,12 @@ class StoreMultipleTemporaryAction
         }
 
         $maxMediaCount = config('medialibrary-extensions.max_media_count');
-        // IMPORTANT: For capacity checks we must consider ALL temporary uploads for the
-        // same component instance, regardless of client_token. Tests seed existing
-        // uploads with different client tokens and expect capping to apply globally
-        // per instance+collection. Therefore, do NOT filter by client_token here.
-        $temporaryUploadsInCollections = TemporaryUpload::query()
-            ->forDataSource($dataSource)
-            ->where('instance_id', $instanceId)
-            ->whereIn('collection_name', array_values(array_filter($collections)))
-            ->count();
+        $temporaryUploadsInCollections = $this->getEffectiveMediaCount(
+            collections: $collections,
+            instanceId: $instanceId,
+            dataSource: $dataSource,
+            ignoreClientToken: true
+        );
         $nextPriority = $temporaryUploadsInCollections;
 
         if ($temporaryUploadsInCollections >= $maxMediaCount) {

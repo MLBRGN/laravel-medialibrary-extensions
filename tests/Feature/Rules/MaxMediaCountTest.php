@@ -6,6 +6,9 @@ use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 
 beforeEach(function () {
     $this->model = mock(HasMediaExtended::class);
+    $this->model->shouldReceive('setConnection')->andReturnSelf();
+    $this->model->shouldReceive('getMorphClass')->andReturn('TestModel');
+    $this->model->shouldReceive('getKey')->andReturn(1);
 });
 
 it('passes when adding fewer than or equal to the allowed max', function () {

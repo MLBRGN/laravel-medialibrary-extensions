@@ -9,16 +9,17 @@ use Illuminate\Http\RedirectResponse;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreYouTubeVideoTemporaryAction
 {
-    // TODO use MediaService::countTemporaryUploadsInCollections() or countMediaInCollections()
     use ChecksMediaLimits;
 
     public function __construct(
+        protected MediaModelResolver $mediaModelResolver,
         protected YouTubeService $youTubeService
     ) {}
 
@@ -51,7 +52,12 @@ class StoreYouTubeVideoTemporaryAction
             );
         }
 
-        $temporaryUploadsInCollections = $this->countTemporaryUploadsInCollections($collections, $instanceId, null, $dataSource);
+        $temporaryUploadsInCollections = $this->getEffectiveMediaCount(
+            collections: $collections,
+            instanceId: $instanceId,
+            dataSource: $dataSource,
+            ignoreClientToken: true
+        );
         $nextPriority = $temporaryUploadsInCollections;
         if ($temporaryUploadsInCollections >= $maxMediaCount) {
             $message = $maxMediaCount === 1
@@ -86,7 +92,7 @@ class StoreYouTubeVideoTemporaryAction
             $modelTypeInput = (string) $request->input('model_type');
             $modelType = $modelTypeInput;
             try {
-                $modelTypeResolved = app(MediaModelResolver::class)->resolveModelClass($modelTypeInput);
+                $modelTypeResolved = $this->mediaModelResolver->resolveModelClass($modelTypeInput);
                 $modelType = (new $modelTypeResolved)->getMorphClass();
             } catch (\Throwable) {
                 // fallback

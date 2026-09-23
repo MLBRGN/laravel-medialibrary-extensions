@@ -120,4 +120,5 @@ return [
     'at_least_one_medium_required' => 'Tenminste één medium is verplicht',
     'one_medium_required' => 'Eén medium verplicht',
     'this_collection_requires_at_least_:items_items' => 'Deze collectie vereist ten minste :items items',
+    'this_collection_must_contain_exactly_:items_items' => 'Deze collectie moet precies :items items bevatten',
 ];

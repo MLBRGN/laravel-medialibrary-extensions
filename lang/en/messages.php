@@ -124,4 +124,5 @@ return [
     'at_least_one_medium_required' => 'At least one medium is required',
     'one_medium_required' => 'One medium required',
     'this_collection_requires_at_least_:items_items' => 'This collection requires at least :items items',
+    'this_collection_must_contain_exactly_:items_items' => 'This collection must contain exactly :items items',
 ];

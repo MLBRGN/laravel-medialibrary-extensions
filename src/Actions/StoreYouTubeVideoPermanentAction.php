@@ -10,6 +10,7 @@ use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 class StoreYouTubeVideoPermanentAction
@@ -47,13 +48,18 @@ class StoreYouTubeVideoPermanentAction
         }
 
         $model = $this->mediaModelResolver->resolveModelById($modelType, $modelId, $dataSource);
-        $model->load(['media' => fn ($q) => $q->whereIn('collection_name', $collections)]);
 
         $maxMediaCount = config('medialibrary-extensions.max_media_count');
         if (! $multiple) {
             $maxMediaCount = 1;
         }
-        $currentMediaCount = $this->countModelMediaInCollections($model, $collections);
+        $currentMediaCount = $this->getEffectiveMediaCount(
+            collections: $collections,
+            model: $model,
+            instanceId: InstanceManager::getInstanceId($baseId),
+            dataSource: $dataSource,
+            ignoreClientToken: true
+        );
         $nextPriority = $currentMediaCount;
 
         if ($currentMediaCount >= $maxMediaCount) {
