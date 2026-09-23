@@ -18,58 +18,62 @@
     <input type="hidden"
            name="medium_id"
            value="{{ $medium->id }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input
         type="hidden"
         name="single_media_id"
         value="{{ $singleMedia?->id || null }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
            name="model_type"
            value="{{ $modelType }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="model_id"
            value="{{ $modelId }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="client_token"
            value="{{ $clientToken }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="instance_id"
            value="{{ $instanceId }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="base_id"
            value="{{ $id }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="temporary_upload_mode"
            value="{{ $temporaryUploadMode ? 'true' : 'false' }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="collection"
            value="{{ $medium->collection_name }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="file"
            name="file"
            data-mle-image-editor-update-form-file
            hidden
            aria-label="Upload image"
-           form="{{ $isolationFormId }}"
+           @mleFormIsolation
     >
+    <input type="hidden"
+           name="_token"
+           value="{{ csrf_token() }}"
+           @mleFormIsolation>
     <input type="hidden"
            name="data_source"
            value="{{ $getConfig('dataSource') }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
                 type="hidden"
                 name="collections[{{ $collectionType }}]"
                 value="{{ $collectionName }}"
-                form="{{ $isolationFormId }}">
+                @mleFormIsolation>
         @endif
     @endforeach
     <button
@@ -78,7 +82,10 @@
         title="{{ __('medialibrary-extensions::messages.setup_as_main') }}"
         data-mle-action="set-as-first"
         @disabled($disabled)
-        form="{{ $isolationFormId }}"
+        @mleFormIsolation
+        formaction="{{ $getConfig('routes.storeUpdatedMedia') }}"
+        formmethod="POST"
+        formenctype="multipart/form-data"
     >
         <x-mle-shared-icon
             name="{{ config('medialibrary-extensions.icons.setup_as_main') }}"

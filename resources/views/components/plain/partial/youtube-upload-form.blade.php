@@ -17,55 +17,60 @@
         type="hidden" 
         name="temporary_upload_mode" 
         value="{{ $getConfig('temporaryUploadMode') ? 'true' : 'false' }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
+    <input
+        type="hidden"
+        name="_token"
+        value="{{ csrf_token() }}"
+        @mleFormIsolation>
     <input
         type="hidden"
         name="single_media_id"
         value="{{ $singleMedia?->id || null}}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
             <input
                 type="hidden"
                 name="collections[{{ $collectionType }}]"
                 value="{{ $collectionName }}"
-                form="{{ $isolationFormId }}">
+                @mleFormIsolation>
         @endif
     @endforeach
     <input
         type="hidden"
         name="youtube_collection"
         value="{{ $getConfig('youtubeCollection') }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input
         type="hidden"
         name="model_type"
         value="{{ $modelType }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input
         type="hidden"
         name="model_id"
         value="{{ $modelId }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input
         type="hidden"
         name="base_id"
         value="{{ $id }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input
         type="hidden"
         name="client_token"
         value="{{ $clientToken }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input
         type="hidden"
         name="multiple"
         value="{{ $multiple ? 'true' : 'false' }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
            name="data_source"
            value="{{ $getConfig('dataSource') }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <label 
         for="{{ $id }}-youtube-url" 
         class="mle-label">
@@ -80,7 +85,7 @@
         class="mle-input" 
         placeholder="https://www.youtube.com/watch?v=..."
         @disabled($disabled)
-        form="{{ $isolationFormId }}"
+        @mleFormIsolation
     >
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
@@ -89,7 +94,9 @@
 {{--        data-test="youtube-upload-button-{{ $id }}"--}}
         data-mle-youtube-upload-button
         @disabled($disabled)
-        form="{{ $isolationFormId }}"
+        @mleFormIsolation
+        formaction="{{ $getConfig('routes.youtubeUpload') . '#' . $id }}"
+        formmethod="POST"
     >
         {{ __('medialibrary-extensions::messages.add_youtube_video') }}
     </button>

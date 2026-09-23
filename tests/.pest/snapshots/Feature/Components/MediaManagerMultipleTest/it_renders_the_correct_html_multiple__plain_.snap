@@ -5,8 +5,8 @@
     data-mle-media-manager
 >
     <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":false,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":false,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"plain","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"minMediaCount":0,"required":false,"name":"test-media-modal","isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"images"},"disabled":false,"readonly":false,"selectable":false,"modelType":"blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","isolationFormId":"mle-isolated-test-media-modal","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"disableForm":false}'>
-    <input type="hidden" name="mle_instance_ids[]" value="E3642AD197F92C6D1BF5D78226" form="mle-isolated-test-media-modal">
-    <input type="hidden" name="client_token" value="<ULID>" data-mle-client-token form="mle-isolated-test-media-modal">
+    <input type="hidden" name="mle_instance_ids[]" value="E3642AD197F92C6D1BF5D78226"  form="mle-isolated-test-media-modal" >
+    <input type="hidden" name="client_token" value="<ULID>" data-mle-client-token  form="mle-isolated-test-media-modal" >
             <input type="hidden" name="mle_instance_map[test-media-modal]" value="E3642AD197F92C6D1BF5D78226">
         <input type="hidden" name="test-media-modal" value="0" data-mle-media-count="test-media-modal">
     
@@ -32,8 +32,7 @@
         class="mle-input mle-form-control mle-custom-file-input"
                     name="media[]"
             multiple
-                        form="mle-isolated-test-media-modal"
-        >
+                         form="mle-isolated-test-media-modal"         >
         <span class="mle-form-text form-text">
             Supported files: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF • up to 8 MB • 320×160–7040×3960 px • This collection can contain up to 10 items
         </span>
@@ -42,47 +41,54 @@
                 type="hidden"
                 name="collections[image]"
                 value="images"
-                form="mle-isolated-test-media-modal">
+                 form="mle-isolated-test-media-modal" >
                 <input
+        type="hidden"
+        name="_token"
+        value=""
+         form="mle-isolated-test-media-modal" >
+    <input
         type="hidden"
         name="single_media_id"
         value=""
-        form="mle-isolated-test-media-modal">
+         form="mle-isolated-test-media-modal" >
     <input 
         type="hidden" 
         name="temporary_upload_mode" 
         value="false"
-        form="mle-isolated-test-media-modal">
+         form="mle-isolated-test-media-modal" >
     <input
         type="hidden"
         name="model_type"
         value="blog"
-        form="mle-isolated-test-media-modal">
+         form="mle-isolated-test-media-modal" >
     <input
         type="hidden"
         name="model_id"
         value="1"
-        form="mle-isolated-test-media-modal">
+         form="mle-isolated-test-media-modal" >
     <input
         type="hidden"
         name="base_id"
         value="test-media-modal"
-        form="mle-isolated-test-media-modal">
+         form="mle-isolated-test-media-modal" >
     <input
         type="hidden"
         name="client_token"
         value="<ULID>"
-        form="mle-isolated-test-media-modal">
+         form="mle-isolated-test-media-modal" >
     <input type="hidden"
            name="data_source"
            value="default"
-           form="mle-isolated-test-media-modal">
+            form="mle-isolated-test-media-modal" >
     <button
         type="button"
         class="mle-button mle-button-submit mle-upload-button"
         data-mle-action="upload-media"
         data-mle-media-upload-button
-                form="mle-isolated-test-media-modal"
+                 form="mle-isolated-test-media-modal"         formaction="<APP_URL>/mlbrgn-mle/media-manager-upload-multiple#test-media-modal"
+        formmethod="POST"
+        formenctype="multipart/form-data"
     >
         Upload media
     </button>

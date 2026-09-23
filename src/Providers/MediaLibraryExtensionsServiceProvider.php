@@ -247,6 +247,14 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
         $this->registerCleanupScheduler();
         $this->checkBladeUIKitIconSet();
+        $this->registerBladeDirectives();
+    }
+
+    protected function registerBladeDirectives(): void
+    {
+        Blade::directive('mleFormIsolation', function () {
+            return '<?php if(isset($getConfig) && $getConfig("useXhr")): ?> form="<?php echo e($isolationFormId); ?>" <?php endif; ?>';
+        });
     }
 
     //    protected function registerDemoDatabaseConnections(): void

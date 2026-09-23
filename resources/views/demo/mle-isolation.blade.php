@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>MLE Isolation Test</title>
     @if($theme === 'bootstrap-5')
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        @if(app()->environment('testing'))
+            <link href="/vendor/mlbrgn/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        @else
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        @endif
     @endif
 </head>
 <body>
@@ -91,7 +95,11 @@
 </div>
 
 @if($theme === 'bootstrap-5')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    @if(app()->environment('testing'))
+        <script src="/vendor/mlbrgn/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @else
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    @endif
 @endif
 @stack('scripts')
 </body>

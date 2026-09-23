@@ -15,39 +15,47 @@
     <input type="hidden"
         name="base_id"
         value="{{ $id }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
         name="client_token"
         value="{{ $getConfig('clientToken') }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
         name="medium_id"
         value="{{ $medium->id }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
         name="single_media_id"
         value="{{ $singleMedia?->id || null }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
         name="target_media_collection"
         value="{{ $targetMediaCollection }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
         name="model_type"
         value="{{ $modelType }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
         name="model_id"
         value="{{ $modelId }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
     <input type="hidden"
         name="temporary_upload_mode"
         value="{{ $temporaryUploadMode ? 'true' : 'false' }}"
-        form="{{ $isolationFormId }}">
+        @mleFormIsolation>
+    <input type="hidden"
+        name="_token"
+        value="{{ csrf_token() }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="_method"
+        value="PUT"
+        @mleFormIsolation>
     <input type="hidden"
            name="data_source"
            value="{{ $getConfig('dataSource') }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     
     @foreach($collections as $collectionType => $collectionName)
         @if (!empty($collectionName))
@@ -55,7 +63,7 @@
                 type="hidden"
                 name="collections[{{ $collectionType }}]"
                 value="{{ $collectionName }}"
-                form="{{ $isolationFormId }}">
+                @mleFormIsolation>
         @endif
     @endforeach
     <button
@@ -66,7 +74,9 @@
         data-mle-route="{{ $getConfig('routes.mediumSetAsFirst') }}"
         data-mle-media-set-as-first-button
         @disabled($disabled)
-        form="{{ $isolationFormId }}"
+        @mleFormIsolation
+        formaction="{{ $getConfig('routes.mediumSetAsFirst') . '#' . $id }}"
+        formmethod="POST"
     >
         <x-mle-shared-icon
             name="{{ config('medialibrary-extensions.icons.setup_as_main') }}"
@@ -78,7 +88,7 @@
     <x-mle-shared-assets 
         :include-css="true" 
         :include-js="true" 
-        :include-media-manager-submitter="true" 
+        :include-media-manager-submitter="true"
         :theme="$getConfig('theme')"
         for="plain|set-as-first-form"
     />

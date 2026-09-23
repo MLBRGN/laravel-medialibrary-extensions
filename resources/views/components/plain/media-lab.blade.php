@@ -7,7 +7,7 @@
     data-mle-media-lab
 >
     <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
-    <input type="hidden" name="client_token" value="{{ $clientToken }}" data-mle-client-token form="{{ $isolationFormId }}">
+    <input type="hidden" name="client_token" value="{{ $clientToken }}" data-mle-client-token @mleFormIsolation>
     @if($name)
         <input type="hidden" name="mle_instance_map[{{ $name }}]" value="{{ $instanceId }}">
     @endif

@@ -87,7 +87,7 @@
                 
                 <div id="media-carousel-mod-crs"
      data-base-id="media-carousel-mod"
-     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100"
+     class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100 mle-width-100 mle-height-100" theme="bootstrap-5"
         data-mle-carousel
 >
 

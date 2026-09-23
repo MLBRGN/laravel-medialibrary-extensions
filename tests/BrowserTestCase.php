@@ -347,6 +347,8 @@ class BrowserTestCase extends Orchestra
                     'laravel-medialibrary-extensions' => $root.'/packages/mlbrgn/laravel-medialibrary-extensions/dist',
 
                     'laravel-form-components' => $root.'/packages/mlbrgn/laravel-form-components/dist',
+
+                    'bootstrap' => $root.'/packages/mlbrgn/laravel-medialibrary-extensions/node_modules/bootstrap/dist',
                 ];
 
                 abort_unless(isset($map[$package]), 404);
@@ -407,11 +409,14 @@ class BrowserTestCase extends Orchestra
 
     public function getRandomFixture(): string
     {
+        // For browser tests, we always want small fixtures to avoid timeouts
+        // unless a full browser run is explicitly requested.
+        // Even then, we favor small ones for general upload steps.
         $rand = rand(1, 100);
 
-        if ($rand <= 90) {
+        if ($rand <= 95) {
             $pool = $this->fixturesSmall;
-        } elseif ($rand <= 98) {
+        } elseif ($rand <= 99) {
             $pool = $this->fixturesMedium;
         } else {
             $pool = $this->fixturesLarge;

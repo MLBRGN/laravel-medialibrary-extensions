@@ -140,5 +140,5 @@ Create and run browser tests to verify multi-instance behavior and isolation.
 - Verify XHR functionality remains intact.
 - Verify graceful degradation with JavaScript disabled.
 
-### * Step 5: Update / Follow-up
+### ✓ Step 5: Update / Follow-up
 when i run composer test-browser-full-headed some tests are slow and some test seem to be failing, can you fix that?

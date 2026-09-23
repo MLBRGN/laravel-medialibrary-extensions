@@ -17,30 +17,34 @@
     <input type="hidden"
            name="medium_id"
            value="{{ $media->id }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="model_type"
            value="{{ $modelType }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="model_id"
            value="{{ $modelId }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <input type="hidden"
            name="base_id"
            value="{{ $id }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
 {{--    <input type="hidden"--}}
 {{--           name="collection"--}}
 {{--           value="{{ $medium->collection_name }}">--}}
     <input type="hidden"
            name="temporary_upload_mode"
            value="{{ $temporaryUploadMode ? 'true' : 'false' }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
+    <input type="hidden"
+           name="_token"
+           value="{{ csrf_token() }}"
+           @mleFormIsolation>
     <input type="hidden"
            name="data_source"
            value="{{ $getConfig('dataSource') }}"
-           form="{{ $isolationFormId }}">
+           @mleFormIsolation>
     <button
         type="submit"
         class="mle-button mle-button-submit mle-button-icon"
@@ -48,7 +52,9 @@
         data-mle-action="medium-restore"
         data-mle-route="{{ $getConfig('routes.mediumRestore') }}"
         data-mle-medium-id="{{ $media->id }}"
-        form="{{ $isolationFormId }}"
+        @mleFormIsolation
+        formaction="{{ $getConfig('routes.mediumRestore') . '#' . $id }}"
+        formmethod="POST"
     >
         <x-mle-shared-icon
             name="{{ config('medialibrary-extensions.icons.restore') }}"

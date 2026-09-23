@@ -22,7 +22,7 @@
                     data-height="{{ $medium->getCustomProperty('height') }}"
                     data-mle-media-select-checkbox
                     data-test="media-select"
-                    form="{{ $isolationFormId }}"
+                    @mleFormIsolation
                 >
                 <span class="mle-media-select-indicator"
                   title="{{ __('medialibrary-extensions::messages.select') }}"
