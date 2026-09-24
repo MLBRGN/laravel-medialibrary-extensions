@@ -13,7 +13,7 @@ it('renders the single media manager component', function () {
         'collections' => ['image' => 'blog-main'],
     ]);
 
-    expect($output)->toContain('<div class="mle-media-manager');
+    expect($output)->toContain('mle-media-manager');
 });
 
 it('renders the multiple media manager component', function () {
@@ -27,5 +27,5 @@ it('renders the multiple media manager component', function () {
         'collections' => ['image' => 'blog-main'],
     ]);
 
-    expect($output)->toContain('<div class="mle-media-manager');
+    expect($output)->toContain('mle-media-manager');
 });

@@ -25,6 +25,12 @@ class MediaViewer extends BaseComponent
         public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
+        $this->configKeys = array_merge($this->configKeys, [
+            'previewMode',
+            'expandableInModal',
+            'modalId',
+            'mediumType',
+        ]);
         $this->options = $options;
 
         $this->mediumType = getMediaType($this->medium);

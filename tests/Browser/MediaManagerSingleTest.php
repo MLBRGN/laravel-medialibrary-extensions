@@ -114,7 +114,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
     // check media modal opening and presence of expected elements
     $page->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector)
+        ->click($mediaPreviewImageSelector)
         ->assertVisible($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
@@ -309,10 +309,11 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         $page->wait($waitTime); // Wait for redirect/session to settle
     }
 
-    $page->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'))
+    $page->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'));
+    
+    $this->scrollIntoView($page, $mediaManagerId);
 
-        // assert that the image is visible in the preview
-        ->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
+    $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
 
         // assert that the upload button is disabled after upload (single media)
         ->assertButtonDisabled($uploadButtonSelector)
@@ -330,7 +331,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
 
         // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector)
+        ->click($mediaPreviewImageSelector)
 
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)

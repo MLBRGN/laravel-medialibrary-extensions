@@ -114,7 +114,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div
-    class="mle-document mle-media-preview-item" draggable="" 
+    class="mle-document" draggable="" 
     data-mle-document-container
     id="test-media-modal-mod-2-media-viewer-document"
 >
@@ -152,7 +152,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-video mle-media-preview-item" draggable=""
+    class="mle-video" draggable=""
     id="test-media-modal-mod-3-media-viewer-video"
     data-mle-video-container
 >
@@ -178,7 +178,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-audio mle-media-preview-item" draggable=""
+    class="mle-audio" draggable=""
     id="test-media-modal-mod-4-media-viewer-audio"
     data-mle-audio-container
 >

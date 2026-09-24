@@ -123,7 +123,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div
-    class="mle-document mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="2" 
+    class="mle-document" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="2" 
     data-mle-document-container
     id="test-media-modal-mod-2-media-viewer-document"
 >
@@ -161,7 +161,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-video mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="3"
+    class="mle-video" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="3"
     id="test-media-modal-mod-3-media-viewer-video"
     data-mle-video-container
 >
@@ -187,7 +187,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-audio mle-media-preview-item" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="4"
+    class="mle-audio" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="4"
     id="test-media-modal-mod-4-media-viewer-audio"
     data-mle-audio-container
 >

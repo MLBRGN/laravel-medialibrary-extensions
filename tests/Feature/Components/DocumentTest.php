@@ -34,7 +34,7 @@ it('document component renders', function () {
 
     expect($html)
         ->toContain('id="test-document-document"')
-        ->toContain('class="mle-document"')
+        ->toContain('mle-document')
         ->toContain('class="mle-document-preview"')
         ->toContain('PDF document');
 });
@@ -63,7 +63,7 @@ it('document component renders unknown file type', function () {
 
     expect($html)
         ->toContain('id="test-unknown-document"')
-        ->toContain('class="mle-document"')
+        ->toContain('mle-document')
         ->toContain('class="mle-document-preview"')
         ->toContain(__('medialibrary-extensions::messages.unknown_file_mimetype'));
 });

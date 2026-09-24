@@ -143,7 +143,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
 
         // check media modal opening and presence of expected elements
         $page->assertPresent($mediaPreviewImageSelector)
-            ->press($mediaPreviewImageSelector)
+            ->click($mediaPreviewImageSelector)
             ->assertPresent($mediaModalSelector)
             ->assertPresent($mediaModalCloseButtonSelector)
             ->assertPresent($mediaModalCarouselSelector)

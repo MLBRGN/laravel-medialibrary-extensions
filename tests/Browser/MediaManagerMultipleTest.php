@@ -116,7 +116,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
     // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector)
+        ->click($mediaPreviewImageSelector)
 
         ->assertPresent($mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)

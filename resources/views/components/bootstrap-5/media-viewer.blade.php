@@ -7,7 +7,7 @@
         :preview-mode="$previewMode"
         draggable="{{ isMediaType($medium, 'image') ? 'false' : null }}"
         {{ $attributes->class([
-            'mle-media-preview-item',
+            'mle-media-preview-item' => isMediaType($medium, 'image'),
             'mle-image-responsive' => isMediaType($medium, 'image'),
             'mle-cursor-zoom-in' => $expandableInModal
         ])->merge([

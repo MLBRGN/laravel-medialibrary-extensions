@@ -63,8 +63,12 @@ class MediaCarousel extends BaseComponent
 
         $includeTemporaryUploads = $this->getOption('includeTemporaryUploads', $this->temporaryUploadMode);
 
-        $mediaRetriever = app(MediaRetriever::class);
-        $this->media = $mediaRetriever->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource, $includeTemporaryUploads);
+        if ($this->singleMedia) {
+            $this->media = collect([$this->singleMedia]);
+        } else {
+            $mediaRetriever = app(MediaRetriever::class);
+            $this->media = $mediaRetriever->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource, $includeTemporaryUploads);
+        }
 
         $this->mediaCount = $this->media->count();
 

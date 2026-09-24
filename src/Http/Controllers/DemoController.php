@@ -31,17 +31,7 @@ class DemoController extends Controller
         // the DB context consistent across refreshes and redirects.
         // Default to 'default' (host-app sandbox) when not provided.
         if ($request->query('data_source') === null) {
-            $redirectParams = [
-                'data_source' => 'demo_default',
-            ];
-
-            // Preserve other demo UI context if present
-            if ($request->has('theme')) {
-                $redirectParams['theme'] = $request->query('theme');
-            }
-            if ($request->has('use_xhr')) {
-                $redirectParams['use_xhr'] = $request->query('use_xhr');
-            }
+            $redirectParams = array_merge($request->query(), ['data_source' => 'demo_default']);
 
             Log::info('DemoController@index: missing data_source, redirecting with default', [
                 'from_url' => $request->fullUrl(),
