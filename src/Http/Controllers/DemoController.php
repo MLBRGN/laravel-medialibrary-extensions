@@ -74,25 +74,23 @@ class DemoController extends Controller
         // Log the incoming context for diagnostics
         try {
             $resolvedConnection = app(DataSourceResolver::class)->resolveConnection($dataSource);
-            Log::info('DemoController@index: rendering demo page', [
-                'data_source' => $dataSource,
-                'resolved_connection' => $resolvedConnection,
-                'query' => $request->query(),
-            ]);
+            
+            // Ensure all model queries (including Spatie Media) use the resolved demo connection by default
+            if ($resolvedConnection) {
+                config(['database.default' => $resolvedConnection]);
+                app('db')->setDefaultConnection($resolvedConnection);
+            }
         } catch (\Throwable $e) {
             Log::warning('DemoController@index: failed to resolve connection', [
                 'data_source' => $dataSource,
                 'error' => $e->getMessage(),
             ]);
-            $resolvedConnection = null;
         }
 
-        //        $requestedId = $request->query('id');
-        //        dd($dataSource);
         $model = $this->getDemoModel($dataSource, $request->query('id'));
 
         // Prefer a specifically prepared Lab medium; otherwise reuse existing uploads
-        $media = $model->getMedia('alien-media-lab')->first();
+        $media = $model->getMedia('alien-media-lab')->first() ?: $model->media->first();
 
         // Quick media count log for verification in tests
         try {
@@ -101,6 +99,7 @@ class DemoController extends Controller
                 'resolved_connection' => $resolvedConnection,
                 'counts' => [
                     'alien-multiple-images' => $model->getMedia('alien-multiple-images')->count(),
+                    'total' => $model->getMedia()->count(),
                 ],
             ]);
         } catch (\Throwable $e) {
@@ -157,11 +156,10 @@ class DemoController extends Controller
             $resolvedForStore = app(DataSourceResolver::class)->resolveConnection($dataSourceForStore);
             if (! empty($resolvedForStore)) {
                 $alien->setConnection($resolvedForStore);
+                // Ensure media model also uses the same connection
+                config(['database.default' => $resolvedForStore]);
+                app('db')->setDefaultConnection($resolvedForStore);
             }
-            \Log::info('DemoController@store: setting model connection before save', [
-                'data_source' => $dataSourceForStore,
-                'resolved_connection' => $resolvedForStore ?? null,
-            ]);
         } catch (\Throwable $e) {
             \Log::warning('DemoController@store: failed to set connection explicitly, falling back to default', [
                 'error' => $e->getMessage(),
@@ -169,23 +167,6 @@ class DemoController extends Controller
         }
 
         $alien->save();
-
-        // Diagnostic: confirm request context and active connection after middleware
-        try {
-            $dataSource = $request->input('data_source', $request->query('data_source', 'default'));
-            $resolvedConnection = app(DataSourceResolver::class)->resolveConnection($dataSource);
-            Log::info('DemoController@store: model saved, about to redirect', [
-                'model_id' => $alien->id,
-                'data_source' => $dataSource,
-                'resolved_connection' => $resolvedConnection,
-                'route' => optional($request->route())->getName(),
-                'url' => $request->fullUrl(),
-            ]);
-        } catch (\Throwable $e) {
-            Log::warning('DemoController@store: failed to log context', [
-                'error' => $e->getMessage(),
-            ]);
-        }
 
         // Preserve demo context on redirect so the index picks the same data source and options.
         $redirectParams = [
@@ -221,8 +202,14 @@ class DemoController extends Controller
             'medialibrary-extensions.use_xhr' => $useXhr,
         ]);
 
+        $resolvedConnection = app(DataSourceResolver::class)->resolveConnection($dataSource);
+        if ($resolvedConnection) {
+            config(['database.default' => $resolvedConnection]);
+            app('db')->setDefaultConnection($resolvedConnection);
+        }
+
         $model = $this->getDemoModel($dataSource, $request->query('id'));
-        $media = $model->getMedia('alien-media-lab')->first() ?: $model->getMedia('alien-multiple-images')->first();
+        $media = $model->getMedia('alien-media-lab')->first() ?: $model->media->first();
 
         return view('medialibrary-extensions::demo.mle-isolation', [
             'model' => $model,

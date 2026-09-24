@@ -21,6 +21,7 @@ class MediaViewer extends BaseComponent
         array $options = [],
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
         public bool $expandableInModal = false, // can this medium be opened in a modal when clicking it
+        public ?string $modalId = null, // optional modal id to trigger when expandableInModal is true
         public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
@@ -34,6 +35,7 @@ class MediaViewer extends BaseComponent
         $this->addConfigDefaults([
             'previewMode' => $this->previewMode,
             'expandableInModal' => $this->expandableInModal,
+            'modalId' => $this->modalId,
             'mediumType' => $this->mediumType,
         ]);
     }

@@ -11,6 +11,7 @@
     $showMediaFirstAvailable = true;
     $showFormCustomFilePicker = true;
     $showMmmMinMedia = true;
+    $showMediaViewer = true;
     
 //    $showMmsPermanent = true;
 //    $showMmsTemporary = true;
@@ -336,7 +337,7 @@
                     :data-source="$dataSource"
                 />
             @else
-                Media lab not showing, no media.
+                <p>Media lab not showing, no media available. Upload something using the Media Managers above first.</p>
             @endisset
         @endif
     
@@ -353,7 +354,7 @@
                         'document' => 'alien-single-document',
                         'youtube' => 'alien-single-youtube-video',
                         'video' => 'alien-single-video',
-                        'audio' => 'alien-single-audio',
+                        'audio' => 'audio',
                     ]"
                     :options="[
                         'dataSource' => $dataSource,
@@ -361,6 +362,38 @@
                     class="mle-width-100 mle-height-100"
                 />
             </div>
+        @endif
+
+        @if ($showMediaViewer)
+            <h2>Media Viewer (Standalone)</h2>
+            @isset($media)
+                <div style="max-width: 300px;">
+                    <x-mle-media-viewer
+                        id="standalone-viewer"
+                        :medium="$media"
+                        :expandable-in-modal="true"
+                        modal-id="standalone-viewer-mod"
+                        :options="[
+                            'theme' => $theme,
+                            'dataSource' => $dataSource,
+                        ]"
+                        :data-source="$dataSource"
+                    />
+                </div>
+                <x-mle-media-modal
+                    id="standalone-viewer"
+                    :model-reference="$model"
+                    :single-media="$media"
+                    :collections="[]"
+                    :options="[
+                        'theme' => $theme,
+                        'dataSource' => $dataSource,
+                    ]"
+                    :data-source="$dataSource"
+                />
+            @else
+                <p>No media available for standalone viewer. Upload something using the Media Managers above first.</p>
+            @endisset
         @endif
         
         @if($showFormCustomFilePicker)

@@ -10,6 +10,8 @@
             'mle-media-preview-item',
             'mle-image-responsive' => isMediaType($medium, 'image'),
             'mle-cursor-zoom-in' => $expandableInModal
+        ])->merge([
+            'data-mle-modal-trigger' => $expandableInModal && $modalId ? '#' . $modalId : null,
         ]) }}
         id="{{ $getDomId() }}"
     />
