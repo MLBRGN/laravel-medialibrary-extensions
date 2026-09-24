@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.5.0...2.5.1) (2026-09-24)
+
+
+### Bug Fixes
+
+* max and min media count. form isolation ([65b0924](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/65b09247a23cdb1567eb6f4708b8be59cb518e15))
+
 ## [2.6.0] (2026-09-24)
 
 ### Features
