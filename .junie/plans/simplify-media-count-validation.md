@@ -165,3 +165,11 @@ Update all `Store...Action` classes to use `MediaCounter::getEffectiveMediaCount
 
 ### ✓ Step 5: Update / Follow-up
 MediaCounterTest should use pest too, not phpunit
+
+### ✓ Step 6: Update documentation
+Update `docs/Documentation.md`, `FIX_MULTIPLE_INSTANCES.md`, `docs/id-system.md`, `CHANGELOG.md`, and design docs to reflect implemented changes.
+- Document `MediaCount` fluent API.
+- Correct `MaxMediaCount` and `MinMediaCount` descriptions.
+- Document `mle_instance_map` and form isolation.
+- Update `CHANGELOG.md` with new features.
+- Mark design docs as historical/implemented.

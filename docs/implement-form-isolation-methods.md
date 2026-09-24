@@ -1,8 +1,11 @@
 ---
 sessionId: session-260923-143846-1tvl
+status: historical
 ---
 
-# Requirements
+# [Historical Design] Requirements
+
+*Note: This document contains a comparison of design alternatives. The package ultimately implemented a variation of **Method 3 (HTML5 Form Attribute)** with automated JavaScript-managed isolation forms.*
 
 ### Overview & Goals
 The goal is to provide a way to isolate Media Library Extensions (MLE) components when they are nested inside a parent `<form>`. Currently, internal MLE inputs (like tokens, instance IDs, and file inputs) are submitted with the parent form, which can cause backend validation errors or unexpected data in the main application request.

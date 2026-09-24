@@ -218,32 +218,78 @@ This value is automatically updated via JavaScript whenever files are uploaded o
 ### Server-Side Rules
 To securely validate requirements (ignoring the client-side hidden field and checking the database/temporary storage), use the provided rules in your `FormRequest` or controller.
 
-#### `MinMediaCount`
-Enforces a minimum number of items across permanent and temporary storage.
+#### `MediaCount` (Recommended)
+A unified rule with a fluent API to handle minimum, maximum, and exact counts. It automatically resolves the "effective" media count by summing permanent media on the model, temporary uploads for the current instance/client, and any direct uploads in the request.
 
 ```php
-use Mlbrgn\MediaLibraryExtensions\Rules\MinMediaCount;
+use Mlbrgn\MediaLibraryExtensions\Rules\MediaCount;
 
 public function rules(): array
 {
     return [
-        // For new models (temporary uploads)
-        'image' => [new MinMediaCount(null, ['blog-main'], 1, multiple: false)],
-        
-        // For existing models (permanent + temporary)
-        'gallery' => [new MinMediaCount($this->blog, ['images'], 3)],
+        'gallery' => [
+            (new MediaCount($this->blog, ['images']))
+                ->min(1)
+                ->max(5)
+        ],
+        'profile' => [
+            (new MediaCount($this->user, ['avatar']))
+                ->exactly(1)
+        ]
     ];
 }
 ```
 
+Methods:
+- `min(int $value)`: Minimum items required.
+- `max(int $value)`: Maximum items allowed.
+- `exactly(int $value)`: Exact number of items required.
+- `multiple(bool $value)`: Use plural or singular error messages (defaults to `true`).
+
+#### `MinMediaCount`
+Enforces a minimum number of items. This is a thin wrapper around `MediaCount` for backward compatibility.
+
+```php
+use Mlbrgn\MediaLibraryExtensions\Rules\MinMediaCount;
+
+// For existing models (permanent + temporary)
+'gallery' => [new MinMediaCount($this->blog, ['images'], 3)],
+```
+
 #### `MaxMediaCount`
-Enforces a maximum number of items (permanent media only). Note that client-side limits usually prevent exceeding the max during upload, but this rule provides server-side safety.
+Enforces a maximum number of items. This now counts both permanent media AND temporary uploads to prevent exceeding capacity during a session.
 
 ```php
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 
 'images' => [new MaxMediaCount($this->blog, ['images'], 10)],
 ```
+
+#### `MaxTemporaryUploadCount`
+A specialized rule that enforces a maximum count of **only** temporary uploads for a specific instance, ignoring permanent media.
+
+```php
+use Mlbrgn\MediaLibraryExtensions\Rules\MaxTemporaryUploadCount;
+
+'images' => [new MaxTemporaryUploadCount(10, collections: ['images'])],
+```
+
+### Authoritative Counting & `mle_instance_map`
+The hidden field named by the component (e.g., `gallery`) sends a "client-side hint" of the current count. For security, the server-side rules **do not trust** this numeric value. Instead, they perform an authoritative count from the database.
+
+To correctly associate a form field with its temporary uploads when multiple managers are on the same page, the components automatically include an `mle_instance_map`.
+
+**Form Submission Example:**
+- `_token`: `...`
+- `gallery`: `2` (client-side hint)
+- `mle_instance_map[gallery]`: `C2E036E7...` (the actual `instanceId`)
+
+The validation rules use this map to resolve the correct `instanceId` and count only the relevant temporary uploads.
+
+### Form Isolation
+When multiple media managers are used in a single form, the package automatically isolates their internal XHR fields (like client tokens and instance IDs) to prevent them from "leaking" into your parent form's submission. 
+
+Internal fields are moved to an isolated hidden form in the DOM using the HTML `form` attribute, while the validation metadata (`mle_instance_map`) remains in the parent form. This ensures that `request()->all()` in your controller stays clean and contains only the data you expect.
 
 ### Displaying Errors
 If validation fails, the component automatically displays the error message in an alert box if it's nested inside a form and the `name` matches the validation key.

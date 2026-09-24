@@ -1,8 +1,9 @@
 ---
 sessionId: session-260923-200604-1pqy
+status: implemented
 ---
 
-# Requirements
+# [Implemented] Requirements
 
 ### Overview & Goals
 The goal is to automatically isolate Media Library Extensions (MLE) components when they are nested inside a parent `<form>`. By default, internal MLE inputs (like tokens, instance IDs, and file inputs) will be redirected to a hidden dummy form using the HTML `form` attribute. 

@@ -76,6 +76,15 @@ The instance ID represents a temporary upload scope.
 
 Temporary uploads are scoped by `clientToken + instanceId`.
 
+### Recovery during Form Submission
+When a form is submitted, the server needs to know which `instanceId` belongs to which form field. The components automatically emit an `mle_instance_map` hidden field:
+
+```html
+<input type="hidden" name="mle_instance_map[gallery]" value="abc123">
+```
+
+Validation rules use this map to recover the correct `instanceId` for the attribute being validated, ensuring that temporary uploads from one manager are not counted for another.
+
 ### Rules
 
 * Generated once during construction.

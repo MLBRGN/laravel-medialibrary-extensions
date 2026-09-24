@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.6.0] (2026-09-24)
+
+### Features
+- **Unified Validation**: Introduced `MediaCount` rule with a fluent API (`min`, `max`, `exactly`).
+- **Shared Counting**: Consolidated counting logic into `MediaCounter::getEffectiveMediaCount()`, used consistently by rules and store actions.
+- **Form Isolation**: Implemented automatic isolation of internal XHR fields into a separate form context using the HTML `form` attribute.
+- **Multi-Manager Support**: Introduced `mle_instance_map` for targeted validation when multiple media managers are used in a single form.
+- **Improved Capping**: Store actions now enforce global per-instance capacity limits by ignoring client tokens when counting temporary uploads.
+
+### Refactoring
+- Refactored `MinMediaCount`, `MaxMediaCount`, and `MaxTemporaryUploadCount` to share a common base class.
+- Converted `MediaCounterTest` to Pest.
+
 ## [2.5.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.4.4...2.5.0) (2026-09-21)
 
 
