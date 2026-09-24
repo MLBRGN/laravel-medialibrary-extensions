@@ -346,6 +346,7 @@
             <div class="mle-demo-media-first-available-container">
                 <x-mle-first-available
                     id="media-first-available"
+                    :expandable-in-modal="true"
                     :model-reference="$model"
                     :collections="[
                         'image' => 'alien-single-image',

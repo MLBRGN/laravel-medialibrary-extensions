@@ -93,3 +93,50 @@ it('renders expected HTML for a document medium', function () {
     expect($html)->toContain('<div class="mle-document-preview">')
         ->toContain(' test.pdf');
 });
+
+it('does not render modal attributes or component by default', function () {
+    $model = $this->getModelWithMedia(['image' => 1]);
+
+    $html = Blade::renderComponent(new MediaFirstAvailable(
+        'test-default',
+        $model,
+        ['image' => 'image_collection']
+    ));
+
+    expect($html)->not->toContain('data-bs-toggle="modal"')
+        ->not->toContain('data-bs-target="#test-default-mod"')
+        ->not->toContain('mle-media-modal');
+});
+
+it('renders modal attributes and component when expandableInModal is true', function () {
+    $model = $this->getModelWithMedia(['image' => 1]);
+
+    $html = Blade::renderComponent(new MediaFirstAvailable(
+        id: 'test-modal',
+        modelReference: $model,
+        collections: ['image' => 'image_collection'],
+        expandableInModal: true
+    ));
+
+    expect($html)->toContain('data-bs-toggle="modal"')
+        ->toContain('data-bs-target="#test-modal-mod"')
+        ->toContain('mle-media-modal')
+        ->toContain('modal fade')
+        ->toContain('id="test-modal-mod"');
+});
+
+it('does not render modal attributes or component when no media is found even if expandableInModal is true', function () {
+    $model = $this->getModelWithMedia(['image' => 0]); // Empty model
+
+    $html = Blade::renderComponent(new MediaFirstAvailable(
+        id: 'test-no-media',
+        modelReference: $model,
+        collections: ['image' => 'image_collection'],
+        expandableInModal: true
+    ));
+
+    expect($html)->not->toContain('data-bs-toggle="modal"')
+        ->not->toContain('data-bs-target="#test-no-media-mod"')
+        ->not->toContain('mle-media-modal')
+        ->toContain('mle-media-placeholder');
+});
