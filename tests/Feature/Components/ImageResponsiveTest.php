@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 
 it('renders with a media object', function () {
@@ -103,25 +104,22 @@ it('handles exceptions when getting media URL', function () {
 
 it('can be initialized with modal properties', function () {
     $medium = $this->getMedium();
-    $model = new \Mlbrgn\MediaLibraryExtensions\Models\demo\Alien();
 
     $component = new ImageResponsive(
         id: 'test-id',
         medium: $medium,
         expandableInModal: true,
-        modelReference: $model,
-        collections: ['images'],
-        dataSource: 'default'
     );
 
     expect($component->expandableInModal)->toBeTrue();
-    expect($component->modelReference)->toBe($model);
-    expect($component->collections)->toBe(['images']);
-    expect($component->dataSource)->toBe('default');
+    // modelReference is auto-resolved from medium, which in getMedium() is attached to $this->testModel (Blog)
+    $reflection = new ReflectionProperty($component, 'modelReference');
+    $reflection->setAccessible(true);
+    expect($reflection->getValue($component)->is($medium->model))->toBeTrue();
 
     $html = \Illuminate\Support\Facades\Blade::render(
-        '<x-mle-image-responsive :id="$id" :medium="$medium" :expandable-in-modal="true" :model-reference="$model" :collections="[\'images\']" data-source="default" />',
-        ['id' => 'test-id', 'medium' => $medium, 'model' => $model]
+        '<x-mle-image-responsive :id="$id" :medium="$medium" :expandable-in-modal="true" />',
+        ['id' => 'test-id', 'medium' => $medium]
     );
 
     expect($html)->toContain('data-bs-toggle="modal"');
@@ -143,8 +141,12 @@ it('automatically resolves modelReference from medium if not provided', function
         // modelReference is omitted
     );
 
-    expect($component->modelReference)->not->toBeNull();
-    expect($component->modelReference->is($expectedModel))->toBeTrue();
+    $reflection = new ReflectionProperty($component, 'modelReference');
+    $reflection->setAccessible(true);
+    $modelReference = $reflection->getValue($component);
+    
+    expect($modelReference)->not->toBeNull();
+    expect($modelReference->is($expectedModel))->toBeTrue();
 });
 
 it('automatically resolves modelReference for TemporaryUpload', function () {
@@ -156,5 +158,46 @@ it('automatically resolves modelReference for TemporaryUpload', function () {
         expandableInModal: true,
     );
 
-    expect($component->modelReference)->toBe(\Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::class);
+    $reflection = new ReflectionProperty($component, 'modelReference');
+    $reflection->setAccessible(true);
+    expect($reflection->getValue($component))->toBe(\Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::class);
+});
+
+it('uses explicit placeholder when medium is null', function () {
+    PackageInfrastructure::register('demo');
+    $model = new \Mlbrgn\MediaLibraryExtensions\Models\demo\Alien();
+
+    // alien-empty-collection has a fallback configured in Alien model
+    $expectedFallbackUrl = $model->getFirstMediaUrl('alien-empty-collection');
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+        placeholder: $expectedFallbackUrl
+    );
+
+    $component->render();
+    expect($component->placeholder)->toBe($expectedFallbackUrl);
+});
+
+it('does not crash when legacy array attributes are passed', function () {
+    $medium = $this->getMedium();
+
+    $html = \Illuminate\Support\Facades\Blade::render(
+        '<x-mle-image-responsive 
+            :id="$id" 
+            :medium="$medium" 
+            :collections="[\'legacy\', \'array\']" 
+            :data-source="\'legacy-string\'"
+            :model-reference="$model"
+        />',
+        [
+            'id' => 'test-id', 
+            'medium' => $medium,
+            'model' => $medium->model
+        ]
+    );
+
+    expect($html)->toContain('mle-image-responsive');
+    expect($html)->not->toContain('collections="');
 });

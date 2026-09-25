@@ -409,13 +409,24 @@
                         :medium="$media"
                         class="w-50"
                         :expandable-in-modal="true"
-                        :collections="['alien-single-image']"
-                        :data-source="$dataSource"
                     />
                 </div>
             @else
                 <p>No media available for image responsive. Upload something using the Media Managers above first.</p>
             @endisset
+        @endif
+
+        @if ($showImageResponsive)
+            <h2>Image Responsive (placeholder / fallback)</h2>
+            <div style="max-width: 300px;">
+                <x-mle-image-responsive
+                    id="image-responsive-fallback"
+                    :medium="null"
+                    class="w-50"
+                    :expandable-in-modal="true"
+                    :placeholder="$model->getFirstMediaUrl('alien-empty-collection')"
+                />
+            </div>
         @endif
         
         @if($showFormCustomFilePicker)

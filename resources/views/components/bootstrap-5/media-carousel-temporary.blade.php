@@ -66,7 +66,7 @@
                         :options="$getOptions()"
                         :preview-mode="$previewMode"
                         :expandable-in-modal="$expandableInModal"
-                        data-bs-target="#{{ $id }}-mod-crs"
+                        data-bs-target="#{{ $getDomId() }}"
                         data-bs-slide-to="{{ $loop->index }}"
                     />
                 </div>

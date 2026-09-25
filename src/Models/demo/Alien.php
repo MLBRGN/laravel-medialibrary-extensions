@@ -76,6 +76,13 @@ class Alien extends Model implements HasMediaExtended
         $this
             ->addMediaCollection('alien-media-html-editor')
             ->useDisk(PackageInfrastructure::disk('demo'));
+
+        $this
+            ->addMediaCollection('alien-empty-collection')
+            ->useDisk(PackageInfrastructure::disk('demo'))
+            ->useFallbackPath(realpath(__DIR__.'/../../../resources/images/fallback.png'))
+            ->useFallbackUrl(asset(config('medialibrary-extensions.asset_path').'/images/fallback.png'))
+            ->singleFile();
     }
 
     public static function allowsMediaUploads(): bool

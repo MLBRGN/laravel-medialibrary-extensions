@@ -184,6 +184,16 @@ class SetupDemoCommand extends Command
             if ($count === 0) {
                 $created = $alien->newQuery()->create();
                 $this->line(" - Seeded Alien id={$created->getKey()} on connection '{$connection}'");
+
+                // Seed a default demo image to the Media Lab collection so the demo page
+                // is immediately functional and visually complete.
+                $demoImage = realpath(__DIR__.'/../../../resources/demo/demo_small.jpeg');
+                if ($demoImage && file_exists($demoImage)) {
+                    $created->addMedia($demoImage)
+                        ->preservingOriginal()
+                        ->toMediaCollection('alien-media-lab', PackageInfrastructure::disk('demo'));
+                    $this->line("   - Seeded demo image to 'alien-media-lab' collection");
+                }
             } else {
                 $this->line(" - Alien records already present on connection '{$connection}' (count={$count})");
             }

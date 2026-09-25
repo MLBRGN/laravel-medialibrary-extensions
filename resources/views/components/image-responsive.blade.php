@@ -1,12 +1,12 @@
 <div class="mle-component mle-theme-{{ $getConfig('theme') }}">
     @if ($url)
         <img
-            {{ $attributes->class([
+            {{ $attributes->except(['collections', 'dataSource', 'modelReference', 'model-reference', 'data-source'])->class([
                 'mle-image-responsive',
-                'mle-cursor-zoom-in' => $expandableInModal
+                'mle-cursor-zoom-in' => $expandableInModal && $modelReference
             ])->merge([
-                'data-bs-toggle' => $expandableInModal ? 'modal' : null,
-                'data-bs-target' => $expandableInModal ? '#' . $id . '-mod' : null,
+                'data-bs-toggle' => ($expandableInModal && $modelReference) ? 'modal' : null,
+                'data-bs-target' => ($expandableInModal && $modelReference) ? '#' . $id . '-mod' : null,
             ]) }}
             src="{{ $url ?: $placeholder }}"
             @if ($srcset) srcset="{{ $srcset }}" @endif
@@ -19,7 +19,7 @@
         >
     @else
         <img
-            {{ $attributes->class(['mle-image-responsive'])->merge(['class' => '']) }}
+            {{ $attributes->except(['collections', 'dataSource', 'modelReference', 'model-reference', 'data-source'])->class(['mle-image-responsive'])->merge(['class' => '']) }}
             src="{{ $placeholder }}"
             alt="Missing image"
             class="mle-opacity-50"
@@ -30,7 +30,7 @@
     @endif
 </div>
 
-@if($expandableInModal)
+@if($expandableInModal && $modelReference)
     <x-mle-media-modal
         :id="$id"
         :model-reference="$modelReference"

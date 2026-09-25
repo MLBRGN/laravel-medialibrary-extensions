@@ -16,6 +16,10 @@ class ImageResponsive extends BaseComponent
 
     protected array $generatedConversions = [];
 
+    public mixed $modelReference = null;
+    public ?array $collections = [];
+    public ?string $dataSource = 'default';
+
     public function __construct(
         string $id,
         public Media|TemporaryUpload|null $medium = null,
@@ -29,28 +33,30 @@ class ImageResponsive extends BaseComponent
         array $options = [],
         public ?string $placeholder = null,
         public bool $expandableInModal = false,
-        public mixed $modelReference = null,
-        public ?array $collections = [],
-        public ?string $dataSource = 'default',
+        $collections = null,
+        $dataSource = null,
+        $modelReference = null,
     ) {
         parent::__construct($id);
         $this->options = $options;
+        $this->collections = $collections ?? [];
+        $this->dataSource = $dataSource ?? 'default';
+        $this->modelReference = $modelReference;
 
         $this->configKeys = array_merge($this->configKeys, [
             'previewMode',
             'expandableInModal',
-            'modelReference',
-            'collections',
-            'dataSource',
             'instanceId',
             'clientToken',
+            'collections',
+            'dataSource',
         ]);
 
         if ($this->medium) {
             $this->generatedConversions = $this->medium->generated_conversions ?? [];
         }
 
-        if ($this->expandableInModal && $this->modelReference === null && $this->medium) {
+        if ($this->expandableInModal && $this->medium && $this->modelReference === null) {
             if ($this->medium instanceof Media) {
                 $this->modelReference = $this->medium->model;
             } elseif ($this->medium instanceof TemporaryUpload) {
@@ -120,6 +126,33 @@ class ImageResponsive extends BaseComponent
         $this->placeholder ??= asset(
             config('medialibrary-extensions.asset_path').'/images/fallback.png'
         );
+
+        $modelReference = $this->modelReference;
+        $collections = $this->collections;
+        $dataSource = $this->dataSource;
+
+        if ($this->attributes) {
+            $modelReference = $this->attributes->get('model-reference') ?? $this->attributes->get('modelReference') ?? $modelReference;
+            $collections = $this->attributes->get('collections') ?? $this->attributes->get('collections') ?? $collections;
+            $dataSource = $this->attributes->get('data-source') ?? $this->attributes->get('dataSource') ?? $dataSource;
+        }
+
+        if ($this->expandableInModal && !$modelReference && $this->medium) {
+            if ($this->medium instanceof Media) {
+                try {
+                    $modelReference = app(\Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver::class)->resolveModelById(
+                        $this->medium->model_type,
+                        $this->medium->model_id,
+                        $dataSource
+                    );
+                } catch (\Throwable) {
+                    $modelReference = $this->medium->model;
+                }
+            } elseif ($this->medium instanceof TemporaryUpload) {
+                $modelReference = TemporaryUpload::class;
+            }
+        }
+
         try {
             if ($this->medium) {
                 $rawUrl = $hasConversion
@@ -138,11 +171,17 @@ class ImageResponsive extends BaseComponent
                 : '';
         }
 
+        $this->config['collections'] = is_array($collections) ? $collections : [$collections];
+        $this->config['dataSource'] = $dataSource;
+
         return $this->renderView('', null, false, 'medialibrary-extensions::components.image-responsive', [
             'hasGeneratedConversion' => $hasConversion,
             'useConversion' => $useConversion,
             'url' => $url,
             'srcset' => $srcset,
+            'modelReference' => $modelReference,
+            'collections' => $this->config['collections'],
+            'dataSource' => $dataSource,
         ]);
     }
 }
