@@ -100,3 +100,31 @@ it('handles exceptions when getting media URL', function () {
     expect($view)->toBeInstanceOf(View::class);
     expect($component->hasGeneratedConversion())->toBeTrue();
 });
+
+it('can be initialized with modal properties', function () {
+    $medium = $this->getMedium();
+    $model = new \Mlbrgn\MediaLibraryExtensions\Models\demo\Alien();
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: $medium,
+        expandableInModal: true,
+        modelReference: $model,
+        collections: ['images'],
+        dataSource: 'default'
+    );
+
+    expect($component->expandableInModal)->toBeTrue();
+    expect($component->modelReference)->toBe($model);
+    expect($component->collections)->toBe(['images']);
+    expect($component->dataSource)->toBe('default');
+
+    $html = \Illuminate\Support\Facades\Blade::render(
+        '<x-mle-image-responsive :id="$id" :medium="$medium" :expandable-in-modal="true" :model-reference="$model" :collections="[\'images\']" data-source="default" />',
+        ['id' => 'test-id', 'medium' => $medium, 'model' => $model]
+    );
+
+    expect($html)->toContain('data-bs-toggle="modal"');
+    expect($html)->toContain('data-bs-target="#test-id-mod"');
+    expect($html)->toContain('mle-media-modal');
+});

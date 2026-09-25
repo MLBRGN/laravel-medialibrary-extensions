@@ -12,6 +12,7 @@
     $showFormCustomFilePicker = true;
     $showMmmMinMedia = true;
     $showMediaViewer = true;
+    $showImageResponsive = true;
     
 //    $showMmsPermanent = true;
 //    $showMmsTemporary = true;
@@ -396,6 +397,24 @@
                 />
             @else
                 <p>No media available for standalone viewer. Upload something using the Media Managers above first.</p>
+            @endisset
+        @endif
+
+        @if ($showImageResponsive)
+            <h2>Image Responsive</h2>
+            @isset($media)
+                <div style="max-width: 300px;">
+                    <x-mle-image-responsive
+                        id="image-responsive"
+                        :medium="$media"
+                        :expandable-in-modal="true"
+                        :model-reference="$model"
+                        :collections="['alien-single-image']"
+                        :data-source="$dataSource"
+                    />
+                </div>
+            @else
+                <p>No media available for image responsive. Upload something using the Media Managers above first.</p>
             @endisset
         @endif
         

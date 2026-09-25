@@ -1,6 +1,9 @@
 @if ($url)
     <img
-        {{ $attributes->merge(['class' => '']) }}
+        {{ $attributes->class(['mle-cursor-zoom-in' => $expandableInModal])->merge([
+            'data-bs-toggle' => $expandableInModal ? 'modal' : null,
+            'data-bs-target' => $expandableInModal ? '#' . $id . '-mod' : null,
+        ]) }}
         src="{{ $url ?: $placeholder }}"
         @if ($srcset) srcset="{{ $srcset }}" @endif
         @if ($srcset && $sizes) sizes="{{ $sizes }}" @endif
@@ -19,4 +22,17 @@
         data-mle-image
         data-mle-media-preview-image
     >
+@endif
+
+@if($expandableInModal)
+    <x-mle-media-modal
+        :id="$id"
+        :model-reference="$modelReference"
+        :single-media="$medium"
+        :collections="$collections"
+        :options="$getOptions()"
+        :data-source="$dataSource"
+        :instance-id="$instanceId"
+        :client-token="$clientToken"
+    />
 @endif

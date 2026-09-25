@@ -28,6 +28,10 @@ class ImageResponsive extends BaseComponent
         public bool $originalOnly = false,
         array $options = [],
         public ?string $placeholder = null,
+        public bool $expandableInModal = false,
+        public mixed $modelReference = null,
+        public ?array $collections = [],
+        public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
         $this->options = $options;
