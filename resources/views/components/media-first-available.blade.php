@@ -3,8 +3,12 @@
         class="mle-component mle-media-first-available"
         id="{{ $getDomId() }}"
         @if($expandableInModal)
-            data-bs-toggle="modal"
-            data-bs-target="#{{ $id }}-mod"
+            @if($getConfig('theme') === 'bootstrap-5')
+                data-bs-toggle="modal"
+                data-bs-target="#{{ $id }}-mod"
+            @elseif($getConfig('theme') === 'plain')
+                data-mle-modal-trigger="#{{ $id }}-mod"
+            @endif
         @endif
     >
         <x-mle-media-viewer

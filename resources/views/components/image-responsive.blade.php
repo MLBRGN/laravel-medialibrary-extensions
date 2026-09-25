@@ -5,8 +5,9 @@
                 'mle-image-responsive',
                 'mle-cursor-zoom-in' => $expandableInModal
             ])->merge([
-                'data-bs-toggle' => $expandableInModal ? 'modal' : null,
-                'data-bs-target' => $expandableInModal ? '#' . $id . '-mod' : null,
+                'data-bs-toggle' => ($expandableInModal && $getConfig('theme') === 'bootstrap-5') ? 'modal' : null,
+                'data-bs-target' => ($expandableInModal && $getConfig('theme') === 'bootstrap-5') ? '#' . $id . '-mod' : null,
+                'data-mle-modal-trigger' => ($expandableInModal && $getConfig('theme') === 'plain') ? '#' . $id . '-mod' : null,
             ]) }}
             src="{{ $url ?: $placeholder }}"
             @if ($srcset) srcset="{{ $srcset }}" @endif

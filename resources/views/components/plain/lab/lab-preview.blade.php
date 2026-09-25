@@ -12,8 +12,7 @@
          data-mle-media-preview-container=""
     >
         <div class="mle-media-preview-item-container"
-             data-bs-toggle="modal"
-             data-bs-target="#alien-multiple-mmm-mod"
+             data-mle-modal-trigger="#alien-multiple-mmm-mod"
         >
             {{ $slot }}
         </div>

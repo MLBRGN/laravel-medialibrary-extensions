@@ -73,6 +73,7 @@ it('can display media in media first available component', function ($theme, $da
 })->group('browser')
     ->with([
         'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'plain + demo default + xhr' => ['plain', 'demo_default', true],
     ]);
 
 it('respects collection order priority in media first available component', function ($theme, $dataSource) {
@@ -110,4 +111,5 @@ it('respects collection order priority in media first available component', func
 })->group('browser')
     ->with([
         'bootstrap + demo default' => ['bootstrap-5', 'demo_default'],
+        'plain + demo default' => ['plain', 'demo_default'],
     ]);

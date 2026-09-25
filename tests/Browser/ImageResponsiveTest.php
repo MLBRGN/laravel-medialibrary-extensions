@@ -64,4 +64,5 @@ it('can display media in image responsive component and expand in modal', functi
 })->group('browser')
     ->with([
         'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'plain + demo default + xhr' => ['plain', 'demo_default', true],
     ]);
