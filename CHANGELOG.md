@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.6.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.5.1...2.6.0) (2026-09-25)
+
+
+### Features
+
+* image responsive now supports expandable in modal ([1f719c1](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/1f719c19dc2d317496f0ab84eeec4c69b31858ff))
+* media viewer changes, changed way media lab gets images in demo page ([b6ebe9d](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/b6ebe9d1443c689ba20ab1c666473cc8280b0d21))
+* media viewer now standalone and added tests, changed way media lab looks for image in demo page ([402facb](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/402facb1f9092efb6d7a56bdff2ef87be5b44bbc))
+* optionally show modal for media firts available. ([7f6863c](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/7f6863c82d8afd0e45731a125c28d4b287ef75e8))
+
 ## [2.5.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.5.0...2.5.1) (2026-09-24)
 
 
