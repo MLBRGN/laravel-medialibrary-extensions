@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.6.0...2.6.1) (2026-09-25)
+
+
+### Bug Fixes
+
+* image responsive now shows magnifying glass icon when expandable in modal, no need to add the argument model-reference to the image-responsive component ([4961079](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/4961079e220d4a78d9b376020256c197f3191cb9))
+
 ## [2.6.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.5.1...2.6.0) (2026-09-25)
 
 
