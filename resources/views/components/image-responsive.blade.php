@@ -1,28 +1,34 @@
-@if ($url)
-    <img
-        {{ $attributes->class(['mle-cursor-zoom-in' => $expandableInModal])->merge([
-            'data-bs-toggle' => $expandableInModal ? 'modal' : null,
-            'data-bs-target' => $expandableInModal ? '#' . $id . '-mod' : null,
-        ]) }}
-        src="{{ $url ?: $placeholder }}"
-        @if ($srcset) srcset="{{ $srcset }}" @endif
-        @if ($srcset && $sizes) sizes="{{ $sizes }}" @endif
-        alt="{{ $alt }}"
-        @if ($lazy) loading="lazy" @endif
-        data-mle-image
-        data-mle-media-preview-image
-        id="{{ $getDomId() }}"
-    >
-@else
-    <img
-        {{ $attributes->merge(['class' => '']) }}
-        src="{{ $placeholder }}"
-        alt="Missing image"
-        class="mle-opacity-50"
-        data-mle-image
-        data-mle-media-preview-image
-    >
-@endif
+<div class="mle-component mle-theme-{{ $getConfig('theme') }}">
+    @if ($url)
+        <img
+            {{ $attributes->class([
+                'mle-image-responsive',
+                'mle-cursor-zoom-in' => $expandableInModal
+            ])->merge([
+                'data-bs-toggle' => $expandableInModal ? 'modal' : null,
+                'data-bs-target' => $expandableInModal ? '#' . $id . '-mod' : null,
+            ]) }}
+            src="{{ $url ?: $placeholder }}"
+            @if ($srcset) srcset="{{ $srcset }}" @endif
+            @if ($srcset && $sizes) sizes="{{ $sizes }}" @endif
+            alt="{{ $alt }}"
+            @if ($lazy) loading="lazy" @endif
+            data-mle-image
+            data-mle-media-preview-image
+            id="{{ $getDomId() }}"
+        >
+    @else
+        <img
+            {{ $attributes->class(['mle-image-responsive'])->merge(['class' => '']) }}
+            src="{{ $placeholder }}"
+            alt="Missing image"
+            class="mle-opacity-50"
+            data-mle-image
+            data-mle-media-preview-image
+            id="{{ $getDomId() }}"
+        >
+    @endif
+</div>
 
 @if($expandableInModal)
     <x-mle-media-modal

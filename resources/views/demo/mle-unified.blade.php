@@ -407,8 +407,8 @@
                     <x-mle-image-responsive
                         id="image-responsive"
                         :medium="$media"
+                        class="w-50"
                         :expandable-in-modal="true"
-                        :model-reference="$model"
                         :collections="['alien-single-image']"
                         :data-source="$dataSource"
                     />

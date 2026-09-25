@@ -35,8 +35,27 @@ class ImageResponsive extends BaseComponent
     ) {
         parent::__construct($id);
         $this->options = $options;
+
+        $this->configKeys = array_merge($this->configKeys, [
+            'previewMode',
+            'expandableInModal',
+            'modelReference',
+            'collections',
+            'dataSource',
+            'instanceId',
+            'clientToken',
+        ]);
+
         if ($this->medium) {
             $this->generatedConversions = $this->medium->generated_conversions ?? [];
+        }
+
+        if ($this->expandableInModal && $this->modelReference === null && $this->medium) {
+            if ($this->medium instanceof Media) {
+                $this->modelReference = $this->medium->model;
+            } elseif ($this->medium instanceof TemporaryUpload) {
+                $this->modelReference = TemporaryUpload::class;
+            }
         }
 
         $this->resolveConfig();

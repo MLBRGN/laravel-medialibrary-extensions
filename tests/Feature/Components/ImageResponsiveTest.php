@@ -127,4 +127,34 @@ it('can be initialized with modal properties', function () {
     expect($html)->toContain('data-bs-toggle="modal"');
     expect($html)->toContain('data-bs-target="#test-id-mod"');
     expect($html)->toContain('mle-media-modal');
+    expect($html)->toContain('mle-component');
+    expect($html)->toContain('mle-theme-bootstrap-5');
+});
+
+it('automatically resolves modelReference from medium if not provided', function () {
+    $medium = $this->getMedium();
+    // In getMedium(), it is attached to $this->testModel (Blog)
+    $expectedModel = $medium->model;
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: $medium,
+        expandableInModal: true,
+        // modelReference is omitted
+    );
+
+    expect($component->modelReference)->not->toBeNull();
+    expect($component->modelReference->is($expectedModel))->toBeTrue();
+});
+
+it('automatically resolves modelReference for TemporaryUpload', function () {
+    $tempUpload = new \Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload();
+    
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: $tempUpload,
+        expandableInModal: true,
+    );
+
+    expect($component->modelReference)->toBe(\Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::class);
 });
