@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.6.1...2.6.2) (2026-09-25)
+
+
+### Bug Fixes
+
+* plain theme modal opening ([fba8443](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/fba8443dec774be017652e72fc98744a83b1f8ab))
+
 ## [2.6.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.6.0...2.6.1) (2026-09-25)
 
 
