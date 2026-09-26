@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.7.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.6.1...2.7.0) (2026-09-26)
+
+
+### Features
+
+* added media gallery component ([25d67ff](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/25d67ffc801f2788f2b39c1dedb9d3f7467fc066))
+
+
+### Bug Fixes
+
+* plain theme modal opening ([fba8443](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/fba8443dec774be017652e72fc98744a83b1f8ab))
+
 ## [2.6.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.6.0...2.6.1) (2026-09-25)
 
 
