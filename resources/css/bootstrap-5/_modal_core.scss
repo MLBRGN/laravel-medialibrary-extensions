@@ -4,7 +4,6 @@
 
 .mle-component.mle-theme-bootstrap-5 {
 
-    outline:10px solid orange;
     &.mle-modal {
         --modal-padding:20px;
 
@@ -17,7 +16,6 @@
         max-width:calc(100% - (2 * var(--modal-padding)));
         max-height:calc(100% - (2 * var(--modal-padding)));
         border-radius:.5em;
-        outline:10px solid hotpink;
     }
 
     .mle-modal-body {
@@ -40,7 +38,6 @@
         border: 0;
         box-sizing:border-box;
         overflow:hidden;
-        outline:10px solid hotpink;
         border-radius:0 !important;
     }
 
