@@ -30,7 +30,7 @@ You can configure the path to the translations the Image Editor, provided by thi
 ImageEditor.translationsPath = '/js/vendor/image-editor/lang';
 ```
 
-The install command will publish the needed assets, config, translation, views, and a policy.
+The install command will publish the needed assets (CSS, JS, and images) and the config file.
 
 ### Manual install (without using the install command)
 
@@ -40,7 +40,7 @@ You can also manually install by installing the @mlbrgn/laravel-medialibrary-ext
   npm install @mlbrgn/laravel-medialibrary-extensions
 ```
 
-And publish the required assets
+And publish the required assets (CSS, JS, and images)
 
 ```shell
 php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider" --tag="medialibrary-extensions-assets"
@@ -56,12 +56,11 @@ The provided themes are:
 
 Several assets can be published:
 - config
+- assets (CSS, JS, and images)
 - views
-- assets
-- policy
 - translations
 
-to publish all package assets:
+to publish all package assets (including views):
 
 ```shell
 php artisan vendor:publish --provider="Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider"

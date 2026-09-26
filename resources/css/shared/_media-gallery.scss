@@ -40,6 +40,10 @@
             &[data-mle-slide-to] {
                 cursor: pointer;
 
+                &.mle-cursor-zoom-in {
+                    cursor: zoom-in;
+                }
+
                 &:hover {
                     opacity: 0.85;
                     transition: opacity 0.2s ease-in-out;

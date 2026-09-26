@@ -27,10 +27,10 @@ class InstallMediaLibraryExtensions extends Command
         //            $force = $this->confirm('Some files may already exist. Do you want to overwrite them?', false);
         //        }
 
-        // Publish required assets (CSS/JS)
+        // Publish required assets (CSS/JS/Images)
         $this->publishWithMessage(
             config('medialibrary-extensions.namespace').'-assets',
-            public_path('vendor/mlbrgn/medialibrary-extensions'),
+            public_path(config('medialibrary-extensions.asset_path')),
             true
         );
 

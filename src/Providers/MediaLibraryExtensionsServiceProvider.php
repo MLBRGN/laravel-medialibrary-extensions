@@ -175,6 +175,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
                 $this->publishes([
                     __DIR__.'/../../dist/css' => public_path($assetBase.'/css'),
                     __DIR__.'/../../dist/js' => public_path($assetBase.'/js'),
+                    __DIR__.'/../../resources/images' => public_path($assetBase.'/images'),
                 ], $this->namespace().'-assets');
 
                 $this->publishes([
@@ -182,9 +183,9 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
 
                 ], $this->namespace().'-translations');
 
+                // also keep the separate images tag for backward compatibility
                 $this->publishes([
                     __DIR__.'/../../resources/images' => public_path($assetBase.'/images'),
-
                 ], $this->namespace().'-images');
             }
 
