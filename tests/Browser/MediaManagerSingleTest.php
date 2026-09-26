@@ -71,8 +71,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => 1]));
 
     // test that it shows error when no file selected
-    $page->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
+    $page->press($uploadButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
         // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
@@ -86,8 +91,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
         // attach an image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture())
-        ->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
+        ->press($uploadButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // counts should update
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 1, 'total' => 1]));
@@ -125,14 +135,15 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
        // Check that the media modal can be closed using the close button
         ->press($mediaModalCloseButtonSelector)
+        ->wait(0.5)
         ->assertMissing($mediaModalSelector);
 
-    // check image editor modal can be closed using the close button
     $page->press($editButtonSelector)
-        ->assertVisible($imageEditorModalSelector)
-        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector)
-        ->assertMissing($imageEditorModalSelector);
+    ->assertVisible($imageEditorModalSelector)
+    ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
+    ->click($imageEditorModalCloseButtonSelector)
+    ->wait(1.0)
+    ->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
     $page->press($editButtonSelector)
@@ -158,7 +169,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     } else {
         $page->click($mediaModalCloseButtonSelector);
     }
-    $page->assertMissing($mediaModalSelector);
+    $page->wait(0.5)
+        ->assertMissing($mediaModalSelector);
 
     // check canceling image editing in the image editor
     $page->press($editButtonSelector)
@@ -170,8 +182,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
     // check delete media works
     $page->wait($waitTime) // Wait for previous redirect/DOM to settle
-        ->press($deleteButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
+        ->press($deleteButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.medium_removed'));
 
     // the upload button should be enabled again
     $page->assertButtonEnabled($uploadButtonSelector);
@@ -293,11 +310,10 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertButtonEnabled($uploadButtonSelector)
 
         // test that it shows an error when no YouTube url entered
-        ->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'));
+        ->press($uploadButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime); // Wait for potential redirect if validation was handled differently
+        $page->wait($waitTime);
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.upload_no_youtube_url'))
@@ -306,7 +322,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->press($uploadButtonSelector);
 
     if (!$xhr) {
-        $page->wait($waitTime); // Wait for redirect/session to settle
+        $page->wait($waitTime);
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'));

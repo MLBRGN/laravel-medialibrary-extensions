@@ -1,6 +1,6 @@
 @if ($medium)
     <div 
-        class="mle-component mle-media-first-available"
+        class="mle-component mle-media-first-available {{ $expandableInModal ? 'mle-cursor-zoom-in' : '' }}"
         id="{{ $getDomId() }}"
         @if($expandableInModal)
             @if($getConfig('theme') === 'bootstrap-5')
@@ -16,7 +16,7 @@
             :medium="$medium"
             :options="$getOptions()"
             :preview-mode="$previewMode"
-            :expandable-in-modal="$expandableInModal"
+            :expandable-in-modal="false"
             :data-source="$dataSource"
         />
     </div>

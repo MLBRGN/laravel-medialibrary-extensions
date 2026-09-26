@@ -1,5 +1,5 @@
 @if ($componentToRender)
-    <div class="mle-media-preview-item-container"
+    <div class="mle-media-preview-item-container mle-cursor-zoom-in"
          id="{{ $getDomId() }}"
          data-mle-modal-trigger="#{{$id}}-mod"
          data-mle-slide-to="{{ $loopIndex }}"
@@ -10,7 +10,7 @@
             :medium="$medium"
             :options="$getOptions()"
             :preview-mode="true"
-            :expandable-in-modal="true"
+            :expandable-in-modal="false"
             :data-source="$getConfig('dataSource')"
         />
     </div>

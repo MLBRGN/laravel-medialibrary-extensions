@@ -13,6 +13,7 @@
     $showMmmMinMedia = true;
     $showMediaViewer = true;
     $showImageResponsive = true;
+    $showMediaGallery = true;
     
 //    $showMmsPermanent = true;
 //    $showMmsTemporary = true;
@@ -418,6 +419,28 @@
             @endisset
         @endif
         
+        @if ($showMediaGallery)
+            <h2>Media Gallery</h2>
+            <x-mle-media-gallery
+                id="alien-gallery"
+                :model-reference="$model"
+                :collections="[
+                    'alien-multiple-images',
+                    'alien-single-image',
+                    'alien-multiple-videos',
+                    'alien-single-video'
+                ]"
+                layout="grid"
+                :columns="3"
+                gap="1rem"
+                :options="[
+                    'theme' => $theme,
+                    'dataSource' => $dataSource,
+                ]"
+                :data-source="$dataSource"
+            />
+        @endif
+
         @if($showFormCustomFilePicker)
             @if ((app()->environment('local') || app()->environment('testing')) && class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class))
                 <h2 class="my-5">Mlbrgn Form components custom file picker integration</h2>

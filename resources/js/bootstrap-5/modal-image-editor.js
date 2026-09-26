@@ -78,8 +78,9 @@ function initializeImageEditorModal(modal) {
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
 
-    modal.addEventListener('show.bs.modal', function () {
-        console.log('show.bs.modal', modal);
+    modal.addEventListener('show.bs.modal', function (event) {
+        if (event.target !== modal) return;
+        // console.log('show.bs.modal', modal.id);
         const imageEditorModalConfig = JSON.parse(modal.querySelector('[data-mle-media-manager-config]').value);
         const mediumPath = modal.getAttribute('data-mle-medium-path');
         const displayName = modal.getAttribute('data-mle-medium-display-name');
@@ -122,7 +123,9 @@ function initializeImageEditorModal(modal) {
         mountEditor();
     });
 
-    modal.addEventListener('hidden.bs.modal', function () {
+    modal.addEventListener('hidden.bs.modal', function (event) {
+        if (event.target !== modal) return;
+        // console.log('hidden.bs.modal', modal.id);
         placeholder.innerHTML = '';
     });
 

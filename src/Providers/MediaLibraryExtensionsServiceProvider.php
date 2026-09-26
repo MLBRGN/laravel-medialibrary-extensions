@@ -34,6 +34,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewOriginal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviews;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaCarousel;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaFirstAvailable;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaGallery;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaLab;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManagerMultiple;
@@ -196,6 +197,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-manager-multiple', MediaManagerMultiple::class);
         Blade::component($this->packageNameShort.'-media-manager-tinymce', MediaManagerTinymce::class);
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
+        Blade::component($this->packageNameShort.'-media-gallery', MediaGallery::class);
         Blade::component($this->packageNameShort.'-media-viewer', MediaViewer::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);

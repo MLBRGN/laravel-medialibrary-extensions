@@ -68,8 +68,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertButtonEnabled($uploadButtonSelector);
 
     // test that it shows error when no file selected
-    $page->press($uploadButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
+    $page->press($uploadButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.upload_no_files'));
 
     // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
@@ -125,7 +130,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($mediaModalCarouselItemSelector)
 
     // check that media modal can be closed
-        ->press($mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector)
+        ->wait(1.0)
         ->assertMissing($mediaModalSelector);
 
     // check that the carousel shows the correct images for multiple items (random check)
@@ -144,17 +150,18 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         // Verify active slide matches the clicked image
         $page->assertPresent($mediaModalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="' . $filenamePart . '"]');
 
-        // Close modal
-        $page->click($mediaModalCloseButtonSelector);
-        $page->assertMissing($mediaModalSelector);
+    // Close modal
+        $page->click($mediaModalCloseButtonSelector)
+            ->wait(1.0)
+            ->assertMissing($mediaModalSelector);
     }
 
     // check image editor modal can be opened and closed
     $page->press($editButtonSelector)
         ->assertPresent($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector)
-        ->wait(0.5)
+        ->click($imageEditorModalCloseButtonSelector)
+        ->wait(1.0)
         ->assertMissing($imageEditorModalSelector);
 
     // check saving edited image in the image editor
@@ -163,13 +170,18 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalRotateCcwButtonSelector)
         ->press($imageEditorModalSaveButtonSelector)
-        ->wait(0.5)
+        ->wait(1.0)
         ->assertMissing($imageEditorModalSelector);
 
     // delete one media and validate counts/alerts/form state
     $page->wait($waitTime) // Wait for previous redirect/DOM to settle
-        ->press($deleteButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.medium_removed'))
+        ->press($deleteButtonSelector);
+
+    if (!$xhr) {
+        $page->wait($waitTime);
+    }
+
+    $page->assertSee(__('medialibrary-extensions::messages.medium_removed'))
         ->assertMissing($maxReachedAlertSelector)
         ->assertButtonEnabled($uploadButtonSelector);
 
@@ -179,8 +191,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         $currentDeleteButtonSelector =
             $gridSelector.
             ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
-        $page->press($currentDeleteButtonSelector)
-            ->assertSee(__('medialibrary-extensions::messages.medium_removed'));
+        $page->press($currentDeleteButtonSelector);
+
+        if (!$xhr) {
+            $page->wait($waitTime);
+        }
+
+        $page->assertSee(__('medialibrary-extensions::messages.medium_removed'));
 
         $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => $maxItems - $i - 2, 'total' => $maxItems]));
     }

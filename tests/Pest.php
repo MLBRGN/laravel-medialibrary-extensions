@@ -11,7 +11,7 @@ uses(
     BrowserTestCase::class
 )->group('browser')->in('Browser');
 
-pest()->browser()->timeout(30000);
+pest()->browser()->timeout(5000);// @ai: do not change the timeout value
 
 if (getenv('PEST_BROWSER_HEADED')) {
     pest()->browser()->headed();
