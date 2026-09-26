@@ -1,6 +1,6 @@
 @if ($medium)
     <div 
-        class="mle-component mle-media-first-available {{ $expandableInModal ? 'mle-cursor-zoom-in' : '' }}"
+        class="mle-component mle-media-first-available mle-media-responsive {{ $expandableInModal ? 'mle-cursor-zoom-in' : '' }}"
         id="{{ $getDomId() }}"
         @if($expandableInModal)
             @if($getConfig('theme') === 'bootstrap-5')
@@ -33,7 +33,7 @@
         />
     @endif
 @else
-    <div class="mle-component mle-media-placeholder"
+    <div class="mle-component mle-media-placeholder mle-media-responsive"
          id="{{ $getDomId() }}"
     >
         <span>{{ __('medialibrary-extensions::messages.no_medium') }}</span>

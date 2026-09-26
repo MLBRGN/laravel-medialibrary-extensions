@@ -9,6 +9,7 @@
         {{ $attributes->class([
             'mle-media-preview-item' => isMediaType($medium, 'image'),
             'mle-image-responsive' => isMediaType($medium, 'image'),
+            'mle-media-responsive' => isMediaType($medium, 'image'),
             'mle-cursor-zoom-in' => $expandableInModal
         ])->merge([
             'data-mle-modal-trigger' => $expandableInModal && $modalId ? '#' . $modalId : null,

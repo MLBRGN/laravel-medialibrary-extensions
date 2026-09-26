@@ -91,7 +91,7 @@ function initializeImageEditorModal(modal) {
             placeholder.innerHTML = '';
 
             const editor = document.createElement('image-editor');
-            editor.id = 'my-image-editor';
+            editor.id = 'mle-image-editor';
 
             editor.addEventListener('imageEditorReady', (e) => {
                 initializeImageEditor({

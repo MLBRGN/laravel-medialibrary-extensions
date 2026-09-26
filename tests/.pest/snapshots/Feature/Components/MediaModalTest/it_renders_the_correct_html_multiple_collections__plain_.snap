@@ -81,9 +81,9 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-component mle-theme-plain">
+                    <div class="mle-component mle-theme-plain mle-image-responsive mle-media-responsive">
             <img
-            class="mle-image-responsive mle-media-preview-item mle-image-responsive" draggable="false"
+            class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false"
             src="/storage/1/test.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
@@ -100,9 +100,9 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-component mle-theme-plain">
+                    <div class="mle-component mle-theme-plain mle-image-responsive mle-media-responsive">
             <img
-            class="mle-image-responsive mle-media-preview-item mle-image-responsive" draggable="false"
+            class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false"
             src="/storage/2/test2.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
@@ -120,7 +120,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div
-    class="mle-document" draggable="" 
+    class="mle-document mle-component mle-media-responsive" draggable="" 
     data-mle-document-container
     id="test-media-modal-mod-2-media-viewer-document"
 >

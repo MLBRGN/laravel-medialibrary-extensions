@@ -90,9 +90,9 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-component mle-theme-bootstrap-5">
+                    <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-mod-crs" class="mle-image-responsive mle-media-preview-item mle-image-responsive" draggable="false" data-bs-slide-to="0"
+            data-bs-target="#test-media-modal-mod-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="0"
             src="/storage/1/test.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
@@ -109,9 +109,9 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div class="mle-component mle-theme-bootstrap-5">
+                    <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-mod-crs" class="mle-image-responsive mle-media-preview-item mle-image-responsive" draggable="false" data-bs-slide-to="1"
+            data-bs-target="#test-media-modal-mod-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="1"
             src="/storage/2/test2.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
@@ -129,7 +129,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div
-    class="mle-document" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="2" 
+    class="mle-document mle-component mle-media-responsive" draggable="" data-bs-target="#test-media-modal-mod-mod-crs" data-bs-slide-to="2" 
     data-mle-document-container
     id="test-media-modal-mod-2-media-viewer-document"
 >

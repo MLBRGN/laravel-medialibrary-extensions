@@ -162,7 +162,7 @@
      data-mle-media-preview-container
     id="test-media-modal-media-preview-item-empty"
 >
-    <span class="mle-no-media">
+    <span class="mle-no-media mle-media-responsive">
          <svg id="Laag_2" data-name="Laag 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74.93 74.93">
     <defs>
         <style>

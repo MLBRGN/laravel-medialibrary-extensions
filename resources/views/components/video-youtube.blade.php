@@ -1,14 +1,14 @@
 @php use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload; @endphp
 @if ($previewMode)
     <div 
-        {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive']) }}
+        {{ $attributes->merge(['class' => 'mle-youtube-video mle-video-responsive mle-media-responsive']) }}
         data-mle-media-preview-image
         id="{{ $getDomId() }}"
     >
         @if($medium instanceof TemporaryUpload)
             <img
                 src="{{ $medium->getUrl() }}"
-                class="mle-youtube-video mle-video-responsive mle-cursor-zoom-in"
+                class="mle-youtube-video mle-video-responsive mle-media-responsive mle-cursor-zoom-in"
                 alt="{{ $medium->name }}"
                 draggable="false"
             >
@@ -16,7 +16,7 @@
             {{ 
                 $medium->img()
                 ->lazy()
-                ->attributes(['class' => 'mle-image-responsive']) 
+                ->attributes(['class' => 'mle-image-responsive mle-media-responsive']) 
             }}
         @endif
         <x-mle-shared-icon
@@ -41,7 +41,7 @@
                 target="_blank"
                 tabindex="-1"
             >
-                <div class="mle-youtube-video mle-video-responsive">
+                <div class="mle-youtube-video mle-video-responsive mle-media-responsive">
                     <x-mle-shared-icon
                         class="mle-icon-container-youtube-play-button"
                         name="{{ config('medialibrary-extensions.icons.play_video') }}"

@@ -3,6 +3,22 @@
     .mle-media-preview-container {
         max-width: 400px;
         user-select:none;
+
+        .mle-media-responsive.mle-component,
+        .mle-medium-responsive.mle-component {
+            object-fit: contain;
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            height: auto;
+
+            .mle-media-responsive,
+            .mle-medium-responsive {
+                object-fit: contain;
+                aspect-ratio: 1 / 1;
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 
     .mle-media-preview-grid {

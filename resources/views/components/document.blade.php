@@ -1,5 +1,5 @@
 <div
-    {{ $attributes->class('mle-document') }} 
+    {{ $attributes->class(['mle-document', 'mle-component', 'mle-media-responsive']) }} 
     data-mle-document-container
     id="{{ $getDomId() }}"
 >

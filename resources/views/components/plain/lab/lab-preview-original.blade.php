@@ -9,7 +9,7 @@
     @if(method_exists($media->model, 'getArchivedOriginalUrlFor'))
         <img src="{{ $media->model->getArchivedOriginalUrlFor($media) }}"
              alt=""
-             class="mle-image-responsive"
+             class="mle-image-responsive mle-media-responsive"
         >
     @else
         Geen origineel opgeslagen

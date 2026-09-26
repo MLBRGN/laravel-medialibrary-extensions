@@ -1,8 +1,9 @@
-<div class="mle-component mle-theme-{{ $getConfig('theme') }} mle-image-responsive">
+<div class="mle-component mle-theme-{{ $getConfig('theme') }} mle-image-responsive mle-media-responsive">
     @if ($url)
         <img
             {{ $attributes->class([
                 'mle-image-responsive',
+                'mle-media-responsive',
                 'mle-cursor-zoom-in' => $expandableInModal
             ])->merge([
                 'data-bs-toggle' => ($expandableInModal && $getConfig('theme') === 'bootstrap-5') ? 'modal' : null,
@@ -20,7 +21,7 @@
         >
     @else
         <img
-            {{ $attributes->class(['mle-image-responsive'])->merge(['class' => '']) }}
+            {{ $attributes->class(['mle-image-responsive', 'mle-media-responsive'])->merge(['class' => '']) }}
             src="{{ $placeholder }}"
             alt="Missing image"
             class="mle-opacity-50"

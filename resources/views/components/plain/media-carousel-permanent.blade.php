@@ -74,7 +74,7 @@
                 data-mle-carousel-item
             >
                 <div class="mle-media-carousel-item-container">
-                    <span class="mle-no-media">{{ __('medialibrary-extensions::messages.no_media') }}</span>
+                    <span class="mle-no-media mle-media-responsive">{{ __('medialibrary-extensions::messages.no_media') }}</span>
                 </div>
             </div>
         @endforelse

@@ -3,7 +3,7 @@
      data-mle-media-preview-container
     id="{{ $getDomId() }}"
 >
-    <span class="mle-no-media">
+    <span class="mle-no-media mle-media-responsive">
          @include('medialibrary-extensions::components.shared.no-media-icon')
         {{ __('medialibrary-extensions::messages.no_media') }}
     </span>

@@ -17,7 +17,7 @@
                 data-mle-carousel-item
             >
                 <div class="mle-media-carousel-item-container">
-                    <span class="mle-no-media">No media.</span>
+                    <span class="mle-no-media mle-media-responsive">No media.</span>
                 </div>
             </div>
             </div>
@@ -104,7 +104,7 @@
                 data-mle-carousel-item
             >
                 <div class="mle-media-carousel-item-container">
-                    <span class="mle-no-media">No media.</span>
+                    <span class="mle-no-media mle-media-responsive">No media.</span>
                 </div>
             </div>
             </div>

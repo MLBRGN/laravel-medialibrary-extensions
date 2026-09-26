@@ -32,7 +32,9 @@ it('handles abandoned temporary uploads in the same tab session', function (stri
     // 3. Upload a new image to the SAME gallery and submit
     $this->fillBlogForm($page, $title, 'Blog content');
 
-    $galleryName2 = $this->uploadToGallery($page, $this->getRandomFixture());
+    do {
+        $galleryName2 = $this->uploadToGallery($page, $this->getRandomFixture());
+    } while ($galleryName2 === $galleryName1);
 
     // Verify we now have 2 temporary uploads (abandoned one + new one)
     $this->assertDatabaseCount('mle_temporary_uploads', 2);
@@ -64,7 +66,9 @@ it('does not leak media between different blogs on their show pages', function (
 
     // 2. Create Blog B with 1 image
     $blogB = Blog::create(['title' => 'Blog B', 'content' => 'Content B']);
-    $fixtureB = $this->getRandomFixture();
+    do {
+        $fixtureB = $this->getRandomFixture();
+    } while ($fixtureB === $fixtureA);
     $fixtureBName = basename($fixtureB);
     $blogB->addMedia($fixtureB)->preservingOriginal()->toMediaCollection('blog-main');
 
