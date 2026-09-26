@@ -1,4 +1,4 @@
-<div class="mle-component mle-theme-{{ $getConfig('theme') }}">
+<div class="mle-component mle-theme-{{ $getConfig('theme') }} mle-image-responsive">
     @if ($url)
         <img
             {{ $attributes->class([
