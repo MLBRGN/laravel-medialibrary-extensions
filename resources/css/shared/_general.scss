@@ -27,14 +27,14 @@
     }
 
     .mle-video-responsive  {
-        width:100%;
-        height:100%;
-        object-fit:contain;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
     }
 
     .mle-image-responsive {
-        width: 100%;
-        height: 100%;
+        max-width: 100%;
+        height: auto;
         object-fit: contain;
     }
 
@@ -59,8 +59,8 @@
     }
 
     .mle-document {
-        width:100%;
-        height:100%;
+        max-width: 100%;
+        height: auto;
         background-color:#ccc;
         aspect-ratio:1;
         display:flex;
@@ -69,14 +69,15 @@
     }
 
     .mle-no-media {
-        width:100%;
-        height:100%;
+        max-width: 100%;
+        height: auto;
         background-color:#ccc;
         display:flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color:var(--mlbrgn-mle-container-fg-color);
+        gap: .75rem;
+        color: var(--mlbrgn-mle-container-fg-color);
     }
 
     .mle-no-media svg {
@@ -438,11 +439,33 @@
     &.mle-media-placeholder {
         background-color:var(--mlbrgn-mle-container-bg-dark);
         color:var(--mlbrgn-mle-container-fg-color);
-        width:100%;
+        max-width: 100%;
+        height: auto;
         aspect-ratio: 16/9;
         display:flex;
         justify-content: center;
         align-items: center;
+    }
+
+    // Media components wrap their content in .mle-component
+    // when nested in other components we want it to be 100% and cover
+    .mle-component {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+
+        .mle-image-responsive,
+        .mle-video-responsive,
+        .mle-document,
+        .mle-no-media,
+        .mle-media-placeholder {
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            height: 100%;
+        }
     }
 
 
@@ -469,18 +492,10 @@
 }
 
 .mle-media-first-available {
-    width:100%;
-    height:100%;
+    max-width: 100%;
+    height: auto;
 }
 
-.mle-no-media {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: .75rem;
-    color: #b6bcc4;
-}
 
 .mle-no-media-icon {
     width: 50%;
