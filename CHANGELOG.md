@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.8.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.7.0...2.8.0) (2026-09-26)
+
+
+### Features
+
+* added class image-responsive to standalon image-responsive view so that it shows as 100% w and h ([092fce9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/092fce9cea312a38c93a95f89be36160bd617d21))
+
+
+### Bug Fixes
+
+* image-responsive not 100% width and height by default ([1f0f72a](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/1f0f72a2765f5721dd8e47809fb38213b09ceda2))
+
 ## [2.7.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.6.1...2.7.0) (2026-09-26)
 
 
