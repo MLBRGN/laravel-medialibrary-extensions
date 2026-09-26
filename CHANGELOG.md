@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.1...2.8.2) (2026-09-26)
+
+
+### Bug Fixes
+
+* css fixes ([be082ab](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/be082ab4c2008595710bbac441df00dad34ba2eb))
+
 ## [2.8.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.0...2.8.1) (2026-09-26)
 
 
