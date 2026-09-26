@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.0...2.8.1) (2026-09-26)
+
+
+### Bug Fixes
+
+* removed leftover debug css statements ([f7ea2e0](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/f7ea2e02f343220791925619255f19b245b3db78))
+
 ## [2.8.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.7.0...2.8.0) (2026-09-26)
 
 
