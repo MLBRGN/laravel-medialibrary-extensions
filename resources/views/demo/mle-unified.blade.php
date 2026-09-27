@@ -11,7 +11,6 @@
     $showMediaFirstAvailable = true;
     $showFormCustomFilePicker = true;
     $showMmmMinMedia = true;
-    $showMediaViewer = true;
     $showImageResponsive = true;
     $showMediaGallery = true;
     
@@ -370,40 +369,6 @@
             </div>
         @endif
 
-        @if ($showMediaViewer)
-            <h2>Media Viewer (Standalone)</h2>
-            @isset($media)
-                @php
-                    $expandable = request()->query('viewer_expandable', '1') !== '0';
-                @endphp
-                <div style="max-width: 300px;" class="mle-component mle-theme-{{ $theme }}">
-                    <x-mle-media-viewer
-                        id="standalone-viewer"
-                        :medium="$media"
-                        :expandable-in-modal="$expandable"
-                        modal-id="standalone-viewer-mod"
-                        :options="[
-                            'theme' => $theme,
-                            'dataSource' => $dataSource,
-                        ]"
-                        :data-source="$dataSource"
-                    />
-                </div>
-                <x-mle-media-modal
-                    id="standalone-viewer"
-                    :model-reference="$model"
-                    :single-media="$media"
-                    :collections="[]"
-                    :options="[
-                        'theme' => $theme,
-                        'dataSource' => $dataSource,
-                    ]"
-                    :data-source="$dataSource"
-                />
-            @else
-                <p>No media available for standalone viewer. Upload something using the Media Managers above first.</p>
-            @endisset
-        @endif
 
         @if ($showImageResponsive)
             <h2>Image Responsive</h2>
