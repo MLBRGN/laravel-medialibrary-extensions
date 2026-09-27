@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.5](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.4...2.8.5) (2026-09-27)
+
+
+### Bug Fixes
+
+* now items in media gallery can have item-class, to style items. ([3224088](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/322408899c9c5b7be1ea76df6dfb6d71c6c920aa))
+
 ## [2.8.4](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.3...2.8.4) (2026-09-27)
 
 
