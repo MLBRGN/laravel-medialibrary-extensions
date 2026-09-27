@@ -8,7 +8,7 @@ class ResolvedModel
 {
     public function __construct(
         public ?HasMediaExtended $model,
-        public string $modelType,
+        public ?string $modelType,
         public ?int $modelId,
         public bool $temporaryUploadMode,
     ) {}

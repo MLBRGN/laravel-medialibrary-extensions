@@ -211,3 +211,15 @@ it('throws if given class string does not implement HasMediaExtended', function 
         'interface' => \Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended::class,
     ]));
 });
+
+it('does not throw when modelReference is null', function () {
+    $component = new MediaModal(
+        id: 'test-media-modal',
+        modelReference: null,
+        collections: ['images'],
+        title: 'Null Test'
+    );
+
+    expect($component->model)->toBeNull()
+        ->and($component->modelType)->toBeNull();
+});

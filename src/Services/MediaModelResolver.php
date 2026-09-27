@@ -20,8 +20,17 @@ class MediaModelResolver
         protected DataSourceResolver $dataSourceResolver,
     ) {}
 
-    public function resolveModelReference(HasMediaExtended|string $modelReference, ?string $dataSource): ResolvedModel
+    public function resolveModelReference(HasMediaExtended|string|null $modelReference, ?string $dataSource): ResolvedModel
     {
+        if ($modelReference === null) {
+            return new ResolvedModel(
+                model: null,
+                modelType: null,
+                modelId: null,
+                temporaryUploadMode: false
+            );
+        }
+
         if ($modelReference instanceof HasMediaExtended) {
             return new ResolvedModel(
                 model: $modelReference->setConnection(

@@ -158,3 +158,20 @@ it('automatically resolves modelReference for TemporaryUpload', function () {
 
     expect($component->modelReference)->toBe(\Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::class);
 });
+
+it('does not crash when medium is null and expandableInModal is true', function () {
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+        expandableInModal: true,
+    );
+
+    expect($component->expandableInModal)->toBeFalse();
+
+    $html = \Illuminate\Support\Facades\Blade::render(
+        '<x-mle-image-responsive id="test-id" :medium="null" :expandable-in-modal="true" />'
+    );
+
+    expect($html)->not->toContain('data-bs-toggle="modal"');
+    expect($html)->not->toContain('mle-media-modal');
+});

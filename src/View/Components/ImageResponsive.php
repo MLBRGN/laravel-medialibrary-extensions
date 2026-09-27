@@ -50,6 +50,10 @@ class ImageResponsive extends BaseComponent
             $this->generatedConversions = $this->medium->generated_conversions ?? [];
         }
 
+        if ($this->expandableInModal && $this->medium === null && $this->modelReference === null) {
+            $this->expandableInModal = false;
+        }
+
         if ($this->expandableInModal && $this->modelReference === null && $this->medium) {
             if ($this->medium instanceof Media) {
                 $this->modelReference = $this->medium->model;
