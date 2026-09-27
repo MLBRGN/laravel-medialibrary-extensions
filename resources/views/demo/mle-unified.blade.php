@@ -122,6 +122,10 @@
                 overflow: hidden;
                 border: 1px solid #eee;
             }
+            
+            .mle-demo-image-responsive-container {
+                max-width: 50vw;
+            }
         </style>
 {{--        <link rel="icon" type="image/x-icon" href="{{ route('mlbrgn.mle.favicon') }}">--}}
         @php
@@ -404,7 +408,7 @@
         @if ($showImageResponsive)
             <h2>Image Responsive</h2>
             @isset($media)
-                <div style="max-width: 300px;">
+                <div class="mle-demo-image-responsive-container">
                     <x-mle-image-responsive
                         id="image-responsive"
                         :medium="$media"
@@ -419,26 +423,11 @@
             @endisset
 
             <h3>Image Responsive (Null medium reproduction)</h3>
-            <p>This component should render a fallback image and NOT crash even though <code>:expandable-in-modal="true"</code> is set. It is NOT expandable because no <code>:model-reference</code> is provided.</p>
-            <div style="max-width: 300px;" class="mb-4">
+            <p>Should show fallback image, because image cannot be loaded</p>
+            <div class="mle-demo-image-responsive-container mb-4">
                 <x-mle-image-responsive
                     id="image-responsive-null"
                     :medium="null"
-                    class="w-50"
-                    :expandable-in-modal="true"
-                    :collections="['alien-single-image']"
-                    :data-source="$dataSource"
-                />
-            </div>
-
-            <h3>Image Responsive (Placeholder with modal)</h3>
-            <p>This component renders a custom placeholder image and IS expandable because a <code>:model-reference</code> is provided.</p>
-            <div style="max-width: 300px;">
-                <x-mle-image-responsive
-                    id="image-responsive-placeholder"
-                    :medium="null"
-                    :model-reference="$model"
-                    placeholder="https://via.placeholder.com/300x200?text=Placeholder+Image"
                     class="w-50"
                     :expandable-in-modal="true"
                     :collections="['alien-single-image']"

@@ -1,10 +1,11 @@
 document.querySelectorAll(".mle-component img").forEach(img => {
     const replaceImageWithFallback = (img) => {
-        const div = document.createElement('div');
-        div.className = 'mle-img-load-failed';
-        // div.innerHTML = 'Image loading / decoding failed'
-        div.innerHTML = trans('image_load_failed');
-        img.parentNode.replaceChild(div, img);
+        if (img.dataset.mleFallbackApplied) return;
+        img.dataset.mleFallbackApplied = 'true';
+
+        const fallbackUrl = (window.mleAssetBase || '/vendor/mlbrgn/laravel-medialibrary-extensions') + '/images/fallback.png';
+        img.onerror = null;
+        img.src = fallbackUrl;
     }
     // img.addEventListener("error", imageFallbackListener, { once: true });
     img.addEventListener("error", () => {
