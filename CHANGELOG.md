@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.2...2.8.3) (2026-09-26)
+
+
+### Bug Fixes
+
+* publish removed default views publish, fixed issue where magnifying glass was not showing for media gallery items that can be opened in modal. ([ef90b0f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/ef90b0fb646d8068f6914e987eb819411d9113ca))
+
 ## [2.8.2](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.1...2.8.2) (2026-09-26)
 
 
