@@ -10,7 +10,7 @@
     data-mle-media-gallery
 >
     @foreach($media as $medium)
-        <div class="mle-media-gallery-item {{ $expandable ? 'mle-cursor-zoom-in' : '' }}"
+        <div class="mle-media-gallery-item {{ $itemClass }} {{ $expandable ? 'mle-cursor-zoom-in' : '' }}"
              @if($expandable)
              data-bs-toggle="modal"
              data-bs-target="#{{ $id }}-mod"

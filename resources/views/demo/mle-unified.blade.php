@@ -465,6 +465,7 @@
                     'theme' => $theme,
                     'dataSource' => $dataSource,
                 ]"
+                item-class="example-item-class"
                 :data-source="$dataSource"
             />
         @endif

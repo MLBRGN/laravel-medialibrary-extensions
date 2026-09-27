@@ -26,6 +26,7 @@ class MediaGallery extends BaseMediaComponent
      * @param  int  $columns  Number of columns for grid layout.
      * @param  string  $gap  CSS gap value (e.g., '1rem', '10px').
      * @param  bool  $expandable  Whether to enable modal expansion on click.
+     * @param  string  $itemClass  Additional CSS classes for gallery items.
      * @param  array  $options  Additional options for configuration.
      * @param  string|null  $dataSource  The data source for the model.
      */
@@ -37,6 +38,7 @@ class MediaGallery extends BaseMediaComponent
         public int $columns = 3,
         public string $gap = '1rem',
         public bool $expandable = true,
+        public string $itemClass = '',
         array $options = [],
         public ?string $dataSource = 'default',
     ) {
@@ -48,6 +50,7 @@ class MediaGallery extends BaseMediaComponent
             'columns',
             'gap',
             'expandable',
+            'itemClass',
         ]);
 
         $this->options = $options;

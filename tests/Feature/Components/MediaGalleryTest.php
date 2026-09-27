@@ -100,3 +100,14 @@ it('verifies modal duplication concern', function () {
     // We expect 1. If duplicated by children, it would be more.
     expect($count)->toBe(1);
 });
+
+it('applies custom item classes', function () {
+    $this->model->addMedia($this->getTestFilePath('test.jpg'))->preservingOriginal()->toMediaCollection('images');
+
+    $view = $this->blade(
+        '<x-mle-media-gallery id="my-gallery" :model-reference="$model" :collections="[\'images\']" item-class="custom-item-class" />',
+        ['model' => $this->model]
+    );
+
+    $view->assertSee('mle-media-gallery-item custom-item-class');
+});
