@@ -41,7 +41,7 @@
                 </button>
                 {{-- important set expandableInModal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
-                    class="mle-width-100 mle-height-100"
+{{--                    class="mle-width-100 mle-height-100"--}}
                     id="{{ $getDomId() }}" {{-- append to media modal id (by using $getDomId()) here, otherwise id clash --}}
                     :model-reference="$modelReference"
                     :single-media="$singleMedia"
