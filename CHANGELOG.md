@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.4](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.3...2.8.4) (2026-09-27)
+
+
+### Bug Fixes
+
+* image responsive can handle null medium and disable modal ([123d5e1](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/123d5e1ea3e4d34f7509ed2b69b34ef43c6ca696))
+
 ## [2.8.3](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.2...2.8.3) (2026-09-26)
 
 
