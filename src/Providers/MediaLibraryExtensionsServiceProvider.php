@@ -25,6 +25,7 @@ use Mlbrgn\MediaLibraryExtensions\Services\DefaultYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
+use Mlbrgn\MediaLibraryExtensions\View\Components\CollectionImage;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
@@ -201,6 +202,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-gallery', MediaGallery::class);
         Blade::component($this->packageNameShort.'-media-viewer', MediaViewer::class);
         Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
+        Blade::component($this->packageNameShort.'-collection-image', CollectionImage::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-first-available', MediaFirstAvailable::class);
         Blade::component($this->packageNameShort.'-document', Document::class);

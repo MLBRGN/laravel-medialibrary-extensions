@@ -1,25 +1,23 @@
 <?php
 
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
 namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithResponsiveImages;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
-class ImageResponsive extends BaseComponent
+class CollectionImage extends BaseMediaComponent
 {
     use InteractsWithOptionsAndConfig;
     use InteractsWithResponsiveImages;
 
     public function __construct(
         string $id,
-        public Media|TemporaryUpload|null $medium = null,
+        mixed $modelReference,
+        public string $collection = 'default',
         public bool $previewMode = true,
         public string $conversion = '',
         public array $conversions = [],
@@ -30,48 +28,47 @@ class ImageResponsive extends BaseComponent
         array $options = [],
         public ?string $placeholder = null,
         public bool $expandableInModal = false,
-        public mixed $modelReference = null,
-        public ?array $collections = [],
         public ?string $dataSource = 'default',
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $modelReference, $dataSource);
         $this->options = $options;
 
         $this->configKeys = array_merge($this->configKeys, [
             'previewMode',
             'expandableInModal',
             'modelReference',
-            'collections',
+            'collection',
             'dataSource',
             'instanceId',
             'clientToken',
         ]);
 
-        if ($this->expandableInModal && $this->medium === null && $this->modelReference === null) {
+        if ($this->expandableInModal && $this->model === null) {
             $this->expandableInModal = false;
-        }
-
-        if ($this->expandableInModal && $this->modelReference === null && $this->medium) {
-            if ($this->medium instanceof Media) {
-                $this->modelReference = $this->medium->model;
-            } elseif ($this->medium instanceof TemporaryUpload) {
-                $this->modelReference = TemporaryUpload::class;
-            }
         }
 
         $this->resolveConfig();
     }
 
+    protected function resolveModel(mixed $modelReference, ?string $dataSource = 'default'): void
+    {
+        try {
+            parent::resolveModel($modelReference, $dataSource);
+        } catch (\Throwable) {
+            $this->resolvedModel = new \Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel(
+                model: null,
+                modelType: null,
+                modelId: null,
+                temporaryUploadMode: false
+            );
+            $this->setResolvedModelProperties($this->resolvedModel);
+        }
+    }
+
     protected function getMedium(): Media|TemporaryUpload|null
     {
-        if ($this->medium) {
-            return $this->medium;
-        }
-
-        if (is_object($this->modelReference) && $this->modelReference instanceof HasMedia) {
-            $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
-
-            return $this->medium = $this->modelReference->getFirstMedia($collection);
+        if ($this->model) {
+            return $this->model->getFirstMedia($this->collection);
         }
 
         return null;
@@ -79,7 +76,7 @@ class ImageResponsive extends BaseComponent
 
     protected function domIdSuffix(): string
     {
-        return 'image-responsive';
+        return 'collection-image';
     }
 
     public function render(): View
@@ -114,16 +111,17 @@ class ImageResponsive extends BaseComponent
         }
 
         if (empty($url)) {
-            $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
-            $this->placeholder = $this->resolvePlaceholder($collection);
+            $this->placeholder = $this->resolvePlaceholder($this->collection);
         }
 
-        return $this->renderView('', null, false, 'medialibrary-extensions::components.image-responsive', [
+        return $this->renderView('', null, false, 'medialibrary-extensions::components.collection-image', [
             'hasGeneratedConversion' => $hasConversion,
             'useConversion' => $useConversion,
             'url' => $url,
             'srcset' => $srcset,
             'placeholder' => $this->placeholder,
+            'medium' => $this->getMedium(),
+            'collections' => [$this->collection],
         ]);
     }
 }
