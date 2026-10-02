@@ -144,7 +144,7 @@ class ImageResponsive extends BaseComponent
             if (empty($this->placeholder)) {
                 if ($this->medium === null && is_object($this->modelReference) && $this->modelReference instanceof HasMedia) {
                     $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
-                    $this->placeholder = $this->modelReference->getFallbackUrl($collection);
+                    $this->placeholder = $this->modelReference->getFallbackMediaUrl($collection);
                 }
             }
 

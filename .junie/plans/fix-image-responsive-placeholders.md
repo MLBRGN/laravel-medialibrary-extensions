@@ -7,9 +7,12 @@ sessionId: session-261001-233746-1avj
 ### Overview & Goals
 The goal is to improve the placeholder logic in the `ImageResponsive` component. Currently, it uses a hardcoded fallback that is difficult to customize. The new implementation will allow for a multi-level fallback strategy:
 1.  **Provided Attribute**: Use the `placeholder` attribute passed to the component.
-2.  **Model Fallback**: Use the model's `getFallbackUrl()` if no media is available.
+2.  **Model Fallback**: Use the model's `getFallbackMediaUrl()` if no media is available.
 3.  **Global Configuration**: Use a new `placeholder_url` option in the package configuration.
 4.  **No Fallback**: If none of the above are available, the component should render nothing (specifically avoiding any default "no media" icons).
+
+### Test Blind Spot (Post-Implementation Learning)
+The initial implementation used `getFallbackUrl()`, which is not a method in Spatie Media Library (the correct method is `getFallbackMediaUrl()`). This error was not caught by tests because the tests used `Mockery::mock(\Spatie\MediaLibrary\HasMedia::class)` and explicitly told it to expect `getFallbackUrl()`. Since the component called the same wrong method name as the mock was set up for, the test passed despite the code being incorrect for real models.
 
 ### Scope
 - **In Scope**:
@@ -41,7 +44,7 @@ Update the `render()` method to resolve the placeholder:
 2. Implement prioritized resolution:
    - If `$url` is empty:
      - Check if `$this->placeholder` is already set (from constructor/attribute).
-     - If not, and `$this->medium` is null, and `$this->modelReference` implements `HasMedia`, use `$this->modelReference->getFallbackUrl()`.
+     - If not, and `$this->medium` is null, and `$this->modelReference` implements `HasMedia`, use `$this->modelReference->getFallbackMediaUrl()`.
      - If still null, use `config('medialibrary-extensions.placeholder_url')`.
 
 #### ImageResponsive View (`resources/views/components/image-responsive.blade.php`)
@@ -64,20 +67,21 @@ graph TD
     B -- No --> D{Attribute placeholder exists?}
     D -- Yes --> E[Render Image with Attribute Placeholder]
     D -- No --> F{Model fallback exists?}
-    F -- Yes --> G[Render Image with Model Fallback]
+    F -- Yes --> G[Render Image with Model Fallback (getFallbackMediaUrl)]
     F -- No --> H{Config placeholder exists?}
     H -- Yes --> I[Render Image with Config Placeholder]
     H -- No --> J[Render Nothing]
 ```
 
 ### Risks
-- **Model Instance**: `modelReference` might be a class name instead of an instance in some cases (e.g., `TemporaryUpload`). The code must check if it's an instance of `HasMedia` before calling `getFallbackUrl()`.
-- **Spatie Media Library Version**: Different versions might have slight differences in `getFallbackUrl()`. The implementation will assume the standard Spatie interface.
+ - **Model Instance**: `modelReference` might be a class name instead of an instance in some cases (e.g., `TemporaryUpload`). The code must check if it's an instance of `HasMedia` before calling `getFallbackMediaUrl()`.
+- **Spatie Media Library Version**: Different versions might have slight differences in `getFallbackMediaUrl()`. The implementation will assume the standard Spatie interface.
+- **Mock Accuracy**: Tests using mocks must be careful to use the actual method names from the Spatie API.
 
 # Testing
 
 ### Validation Approach
-Verification will be done via automated feature tests and manual inspection of the rendered HTML.
+Verification will be done via automated feature tests and manual inspection of the rendered HTML. To prevent future regressions, tests should use real Eloquent models that implement `HasMedia` where possible, or mocks must be strictly verified against the Spatie interface.
 
 ### Key Scenarios
 1.  **Attribute Priority**: Pass a `placeholder` attribute and verify it's used even if a config or model fallback exists.
@@ -100,7 +104,7 @@ Update the `render()` method in `src/View/Components/ImageResponsive.php` to han
 - Remove the hardcoded default placeholder setting (`asset(...)`).
 - Implement the fallback logic:
     - If `medium` is null and `placeholder` is not set:
-        - Attempt to get the fallback URL from `modelReference` (if it implements `HasMedia`) using the first collection from `collections`.
+        - Attempt to get the fallback URL from `modelReference` (if it implements `HasMedia`) using the first collection from `collections` via `getFallbackMediaUrl()`.
     - If `placeholder` is still null, use `config('medialibrary-extensions.placeholder_url')`.
 - Ensure the placeholder is resolved only if the primary `url` is empty.
 

@@ -335,8 +335,8 @@ class BrowserTestCase extends Orchestra
                 $model = \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::first();
                 
                 // For model fallback test
-                $mockModel = \Mockery::mock(\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class . '[getFallbackUrl]');
-                $mockModel->shouldReceive('getFallbackUrl')->andReturn('/images/model-fallback.jpg');
+                $mockModel = \Mockery::mock(\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class . '[getFallbackMediaUrl]');
+                $mockModel->shouldReceive('getFallbackMediaUrl')->andReturn('/images/model-fallback.jpg');
                 $mockModel->exists = true;
 
                 // We can't easily pass the mock through Blade::render if it's not a real model in the DB for some components,
@@ -349,7 +349,7 @@ class BrowserTestCase extends Orchestra
                     <div id="model-placeholder">
                         @php
                             $modelWithFallback = \Mockery::mock(\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class)->makePartial();
-                            $modelWithFallback->shouldReceive("getFallbackUrl")->andReturn("/images/model-fallback.jpg");
+                            $modelWithFallback->shouldReceive("getFallbackMediaUrl")->andReturn("/images/model-fallback.jpg");
                         @endphp
                         <x-mle-image-responsive id="model-id" :medium="null" :model-reference="$modelWithFallback" />
                     </div>

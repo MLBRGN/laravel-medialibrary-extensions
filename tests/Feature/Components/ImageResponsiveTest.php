@@ -1,7 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
+use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
+use Spatie\MediaLibrary\HasMedia;
 
 it('renders with a media object', function () {
 
@@ -103,7 +107,7 @@ it('handles exceptions when getting media URL', function () {
 
 it('can be initialized with modal properties', function () {
     $medium = $this->getMedium();
-    $model = new \Mlbrgn\MediaLibraryExtensions\Models\demo\Alien();
+    $model = new Alien;
 
     $component = new ImageResponsive(
         id: 'test-id',
@@ -119,7 +123,7 @@ it('can be initialized with modal properties', function () {
     expect($component->collections)->toBe(['images']);
     expect($component->dataSource)->toBe('default');
 
-    $html = \Illuminate\Support\Facades\Blade::render(
+    $html = Blade::render(
         '<x-mle-image-responsive :id="$id" :medium="$medium" :expandable-in-modal="true" :model-reference="$model" :collections="[\'images\']" data-source="default" />',
         ['id' => 'test-id', 'medium' => $medium, 'model' => $model]
     );
@@ -148,15 +152,15 @@ it('automatically resolves modelReference from medium if not provided', function
 });
 
 it('automatically resolves modelReference for TemporaryUpload', function () {
-    $tempUpload = new \Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload();
-    
+    $tempUpload = new TemporaryUpload;
+
     $component = new ImageResponsive(
         id: 'test-id',
         medium: $tempUpload,
         expandableInModal: true,
     );
 
-    expect($component->modelReference)->toBe(\Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::class);
+    expect($component->modelReference)->toBe(TemporaryUpload::class);
 });
 
 it('does not crash when medium is null and expandableInModal is true', function () {
@@ -168,7 +172,7 @@ it('does not crash when medium is null and expandableInModal is true', function 
 
     expect($component->expandableInModal)->toBeFalse();
 
-    $html = \Illuminate\Support\Facades\Blade::render(
+    $html = Blade::render(
         '<x-mle-image-responsive id="test-id" :medium="null" :expandable-in-modal="true" />'
     );
 
@@ -186,15 +190,15 @@ it('uses provided placeholder attribute', function () {
     $view = $component->render();
     expect($view->placeholder)->toBe('https://example.com/placeholder.jpg');
 
-    $html = \Illuminate\Support\Facades\Blade::render(
+    $html = Blade::render(
         '<x-mle-image-responsive id="test-id" :medium="null" placeholder="https://example.com/attr-placeholder.jpg" />'
     );
     expect($html)->toContain('src="https://example.com/attr-placeholder.jpg"');
 });
 
 it('uses model fallback when medium is null', function () {
-    $model = Mockery::mock(\Spatie\MediaLibrary\HasMedia::class);
-    $model->shouldReceive('getFallbackUrl')->with('custom-collection')->andReturn('https://example.com/fallback-custom-collection.jpg');
+    $model = Mockery::mock(HasMedia::class);
+    $model->shouldReceive('getFallbackMediaUrl')->with('custom-collection')->andReturn('https://example.com/fallback-custom-collection.jpg');
 
     $component = new ImageResponsive(
         id: 'test-id',
@@ -205,6 +209,24 @@ it('uses model fallback when medium is null', function () {
 
     $view = $component->render();
     expect($view->placeholder)->toBe('https://example.com/fallback-custom-collection.jpg');
+});
+
+it('uses real model fallback when medium is null', function () {
+    $model = new Alien;
+    // We don't need to actually attach media, just test that the method is called.
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+        modelReference: $model,
+        collections: ['alien-single-image']
+    );
+
+    $view = $component->render();
+    // It should not throw BadMethodCallException
+    // Since no fallback URL is defined in Alien, it returns '',
+    // which then falls back to config('medialibrary-extensions.placeholder_url') which is null in tests.
+    expect($view->placeholder)->toBeNull();
 });
 
 it('uses config fallback when no other options are available', function () {
@@ -230,7 +252,7 @@ it('renders nothing when all fallbacks are null', function () {
     $view = $component->render();
     expect($view->placeholder)->toBeNull();
 
-    $html = \Illuminate\Support\Facades\Blade::render(
+    $html = Blade::render(
         '<x-mle-image-responsive id="test-id" :medium="null" />'
     );
 
@@ -253,7 +275,7 @@ it('uses media URL and ignores placeholder when media is present', function () {
     expect($view->url)->not->toBeEmpty();
     expect($view->placeholder)->toBe('https://example.com/placeholder.jpg');
 
-    $html = \Illuminate\Support\Facades\Blade::render(
+    $html = Blade::render(
         '<x-mle-image-responsive id="test-id" :medium="$medium" placeholder="https://example.com/placeholder.jpg" />',
         ['medium' => $medium]
     );
@@ -266,7 +288,7 @@ it('skips model fallback when modelReference is a class name', function () {
     $component = new ImageResponsive(
         id: 'test-id',
         medium: null,
-        modelReference: \Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::class,
+        modelReference: TemporaryUpload::class,
     );
 
     $view = $component->render();
