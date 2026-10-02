@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.8...2.8.9) (2026-10-02)
+
+
+### Bug Fixes
+
+* added collection-image component ([7d2e578](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/7d2e57863118a00c853e88aa932ba8df030455a2))
+
 ## [2.8.8](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.7...2.8.8) (2026-10-02)
 
 
