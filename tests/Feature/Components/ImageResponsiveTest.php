@@ -6,6 +6,7 @@ use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('renders with a media object', function () {
 
@@ -198,7 +199,9 @@ it('uses provided placeholder attribute', function () {
 
 it('uses model fallback when medium is null', function () {
     $model = Mockery::mock(HasMedia::class);
-    $model->shouldReceive('getFallbackMediaUrl')->with('custom-collection')->andReturn('https://example.com/fallback-custom-collection.jpg');
+    $model->shouldReceive('getFirstMedia')->andReturn(null);
+    $model->shouldReceive('registerMediaCollections');
+    $model->shouldReceive('getFallbackMediaUrl')->with('custom-collection', '')->andReturn('https://example.com/fallback-custom-collection.jpg');
 
     $component = new ImageResponsive(
         id: 'test-id',
@@ -211,10 +214,35 @@ it('uses model fallback when medium is null', function () {
     expect($view->placeholder)->toBe('https://example.com/fallback-custom-collection.jpg');
 });
 
+it('resolves medium from modelReference and collections if not provided', function () {
+    $model = Mockery::mock(HasMedia::class);
+    $model->shouldReceive('registerMediaCollections');
+    $model->shouldReceive('getFallbackMediaUrl')->andReturn('');
+    $media = Mockery::mock(Media::class)->makePartial();
+    $media->generated_conversions = ['thumb' => true];
+    $media->shouldReceive('getUrl')->with('thumb')->andReturn('https://example.com/media-thumb.jpg');
+    $media->shouldReceive('getSrcset')->with('thumb')->andReturn('https://example.com/media-thumb.jpg 1x');
+
+    $model->shouldReceive('getFirstMedia')->with('images')->andReturn($media);
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+        modelReference: $model,
+        collections: ['images'],
+        conversion: 'thumb'
+    );
+
+    $view = $component->render();
+    expect($view->url)->toContain('https://example.com/media-thumb.jpg');
+    expect($view->srcset)->toBe('https://example.com/media-thumb.jpg 1x');
+});
+
 it('uses real model fallback when medium is null', function () {
     $model = new Alien;
     // We don't need to actually attach media, just test that the method is called.
 
+    // Test default fallback
     $component = new ImageResponsive(
         id: 'test-id',
         medium: null,
@@ -223,10 +251,18 @@ it('uses real model fallback when medium is null', function () {
     );
 
     $view = $component->render();
-    // It should not throw BadMethodCallException
-    // Since no fallback URL is defined in Alien, it returns '',
-    // which then falls back to config('medialibrary-extensions.placeholder_url') which is null in tests.
-    expect($view->placeholder)->toBeNull();
+    expect($view->placeholder)->toBe('/images/alien-fallback.jpg');
+
+    // Test conversion fallback
+    $componentThumb = new ImageResponsive(
+        id: 'test-id-thumb',
+        medium: null,
+        modelReference: $model,
+        collections: ['alien-single-image'],
+        conversion: 'thumb'
+    );
+    $viewThumb = $componentThumb->render();
+    expect($viewThumb->placeholder)->toBe('/images/alien-fallback-thumb.jpg');
 });
 
 it('uses config fallback when no other options are available', function () {

@@ -68,32 +68,53 @@ class ImageResponsive extends BaseComponent
 
     public function hasGeneratedConversion(): bool
     {
-        if (! $this->medium || $this->originalOnly) {
+        $medium = $this->getMedium();
+        $conversions = $medium ? ($medium->generated_conversions ?? []) : [];
+
+        if (! $medium || $this->originalOnly) {
             return false;
         }
 
         $conversion = $this->getUseConversion();
 
-        return $conversion !== '' && isset($this->generatedConversions[$conversion]);
+        return $conversion !== '' && isset($conversions[$conversion]);
     }
 
     public function getUseConversion(): string
     {
-        if (! $this->medium || $this->originalOnly) {
+        $medium = $this->getMedium();
+        $conversions = $medium ? ($medium->generated_conversions ?? []) : [];
+
+        if (! $medium || $this->originalOnly) {
             return '';
         }
 
-        if (! empty($this->conversion) && ($this->generatedConversions[$this->conversion] ?? false)) {
+        if (! empty($this->conversion) && ($conversions[$this->conversion] ?? false)) {
             return $this->conversion;
         }
 
         foreach ($this->conversions as $conversionName) {
-            if ($this->generatedConversions[$conversionName] ?? false) {
+            if ($conversions[$conversionName] ?? false) {
                 return $conversionName;
             }
         }
 
         return '';
+    }
+
+    protected function getMedium(): Media|TemporaryUpload|null
+    {
+        if ($this->medium) {
+            return $this->medium;
+        }
+
+        if (is_object($this->modelReference) && $this->modelReference instanceof HasMedia) {
+            $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
+
+            return $this->medium = $this->modelReference->getFirstMedia($collection);
+        }
+
+        return null;
     }
 
     protected function buildCacheBustedUrl(string $url): string
@@ -114,37 +135,62 @@ class ImageResponsive extends BaseComponent
         return 'image-responsive';
     }
 
+    public function getFallbackConversion(): string
+    {
+        if ($this->medium) {
+            return $this->getUseConversion();
+        }
+
+        if (! empty($this->conversion)) {
+            return $this->conversion;
+        }
+
+        if (! empty($this->conversions)) {
+            return $this->conversions[0];
+        }
+
+        return '';
+    }
+
     public function render(): View
     {
-        $hasConversion = $this->hasGeneratedConversion();
-        $useConversion = $this->getUseConversion();
-
         $url = '';
         $srcset = '';
+        $hasConversion = false;
+        $useConversion = '';
 
         try {
-            if ($this->medium) {
+            $medium = $this->getMedium();
+
+            if ($medium) {
+                $hasConversion = $this->hasGeneratedConversion();
+                $useConversion = $this->getUseConversion();
+
                 $rawUrl = $hasConversion
-                    ? $this->medium->getUrl($useConversion)
-                    : $this->medium->getUrl();
+                    ? $medium->getUrl($useConversion)
+                    : $medium->getUrl();
 
                 $url = $this->buildCacheBustedUrl($rawUrl);
 
                 $srcset = $hasConversion
-                    ? $this->medium->getSrcset($useConversion)
+                    ? $medium->getSrcset($useConversion)
                     : '';
             }
         } catch (Throwable) {
-            $url = ($this->medium && method_exists($this->medium, 'getUrl'))
-                ? $this->medium->getUrl()
+            $medium = $this->getMedium();
+            $url = ($medium && method_exists($medium, 'getUrl'))
+                ? $medium->getUrl()
                 : '';
         }
 
         if (empty($url)) {
             if (empty($this->placeholder)) {
-                if ($this->medium === null && is_object($this->modelReference) && $this->modelReference instanceof HasMedia) {
+                if (is_object($this->modelReference) && $this->modelReference instanceof HasMedia) {
                     $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
-                    $this->placeholder = $this->modelReference->getFallbackMediaUrl($collection);
+                    if (method_exists($this->modelReference, 'registerMediaCollections')) {
+                        $this->modelReference->registerMediaCollections();
+                    }
+                    $this->placeholder = $this->modelReference->getFallbackMediaUrl($collection, $this->getFallbackConversion());
                 }
             }
 

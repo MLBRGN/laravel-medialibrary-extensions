@@ -33,6 +33,8 @@ class Alien extends Model implements HasMediaExtended
         $this
             ->addMediaCollection('alien-single-image')
             ->singleFile()
+            ->useFallbackUrl('/images/alien-fallback.jpg')
+            ->useFallbackUrl('/images/alien-fallback-thumb.jpg', 'thumb')
             ->useDisk(PackageInfrastructure::disk('demo'));
 
         $this
