@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.7](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.6...2.8.7) (2026-10-02)
+
+
+### Bug Fixes
+
+* image responsive placeholder lookup bug fix ([77af001](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/77af00154b893e96e4bb448fd6a1c9ff30137292))
+
 ## [2.8.6](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.5...2.8.6) (2026-10-02)
 
 
