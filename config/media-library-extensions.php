@@ -532,7 +532,7 @@ return [
     */
 
     'component_map' => [
-        'image' => 'mle-image-responsive',
+        'image' => 'mle-media-responsive',
         'video' => 'mle-video',
         'audio' => 'mle-audio',
         'document' => 'mle-document',

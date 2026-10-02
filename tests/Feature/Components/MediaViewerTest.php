@@ -13,7 +13,7 @@ it('initializes correctly', function () {
     );
 
     expect($component->mediumType)->toBe('image')
-        ->and($component->componentToRender)->toBe('mle-image-responsive')
+        ->and($component->componentToRender)->toBe('mle-media-responsive')
         ->and($component->getDomId())->toBe('viewer-id-media-viewer');
 });
 
@@ -30,7 +30,7 @@ it('resolves different media types correctly', function ($mimeType, $expectedTyp
     expect($component->mediumType)->toBe($expectedType)
         ->and($component->componentToRender)->toBe($expectedComponent);
 })->with([
-    ['image/jpeg', 'image', 'mle-image-responsive'],
+    ['image/jpeg', 'image', 'mle-media-responsive'],
     ['video/mp4', 'video', 'mle-video'],
     ['audio/mpeg', 'audio', 'mle-audio'],
     ['application/msword', 'document', 'mle-document'],
@@ -46,5 +46,5 @@ it('renders correctly', function () {
     );
 
     expect($html)->toContain('data-mle-image')
-        ->and($html)->toContain('id="viewer-media-viewer-image-responsive"');
+        ->and($html)->toContain('id="viewer-media-viewer-media-responsive"');
 });

@@ -48,7 +48,7 @@ class MediaPreviewItem extends BaseComponent
             'document' => 'mle-document',
             'video' => 'mle-video',
             'audio' => 'mle-audio',
-            'image' => 'mle-image-responsive',
+            'image' => 'mle-media-responsive',
         ];
 
         $this->mediumType = getMediaType($medium);

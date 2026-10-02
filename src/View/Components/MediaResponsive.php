@@ -12,10 +12,14 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
-class ImageResponsive extends BaseComponent
+class MediaResponsive extends BaseComponent
 {
     use InteractsWithOptionsAndConfig;
     use InteractsWithResponsiveImages;
+
+    public mixed $modelReference = null;
+
+    public ?array $collections = [];
 
     public function __construct(
         string $id,
@@ -30,33 +34,34 @@ class ImageResponsive extends BaseComponent
         array $options = [],
         public ?string $placeholder = null,
         public bool $expandableInModal = false,
-        public mixed $modelReference = null,
-        public ?array $collections = [],
         public ?string $dataSource = 'default',
     ) {
         parent::__construct($id);
         $this->options = $options;
+        
+        $this->modelReference = null;
+        $this->collections = [];
+
+        if ($this->medium instanceof Media) {
+            $this->modelReference = $this->medium->model;
+            $this->collections = [$this->medium->collection_name];
+        } elseif ($this->medium instanceof TemporaryUpload) {
+            $this->modelReference = TemporaryUpload::class;
+            $this->collections = [$this->medium->collection_name];
+        }
 
         $this->configKeys = array_merge($this->configKeys, [
             'previewMode',
             'expandableInModal',
-            'modelReference',
-            'collections',
             'dataSource',
             'instanceId',
             'clientToken',
+            'modelReference',
+            'collections',
         ]);
 
-        if ($this->expandableInModal && $this->medium === null && $this->modelReference === null) {
+        if ($this->expandableInModal && $this->medium === null) {
             $this->expandableInModal = false;
-        }
-
-        if ($this->expandableInModal && $this->modelReference === null && $this->medium) {
-            if ($this->medium instanceof Media) {
-                $this->modelReference = $this->medium->model;
-            } elseif ($this->medium instanceof TemporaryUpload) {
-                $this->modelReference = TemporaryUpload::class;
-            }
         }
 
         $this->resolveConfig();
@@ -64,22 +69,12 @@ class ImageResponsive extends BaseComponent
 
     protected function getMedium(): Media|TemporaryUpload|null
     {
-        if ($this->medium) {
-            return $this->medium;
-        }
-
-        if (is_object($this->modelReference) && $this->modelReference instanceof HasMedia) {
-            $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
-
-            return $this->medium = $this->modelReference->getFirstMedia($collection);
-        }
-
-        return null;
+        return $this->medium;
     }
 
     protected function domIdSuffix(): string
     {
-        return 'image-responsive';
+        return 'media-responsive';
     }
 
     public function render(): View
@@ -114,11 +109,10 @@ class ImageResponsive extends BaseComponent
         }
 
         if (empty($url)) {
-            $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
-            $this->placeholder = $this->resolvePlaceholder($collection);
+            $this->placeholder = $this->resolvePlaceholder();
         }
 
-        return $this->renderView('', null, false, 'medialibrary-extensions::components.image-responsive', [
+        return $this->renderView('', null, false, 'medialibrary-extensions::components.media-responsive', [
             'hasGeneratedConversion' => $hasConversion,
             'useConversion' => $useConversion,
             'url' => $url,

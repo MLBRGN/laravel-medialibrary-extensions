@@ -340,26 +340,26 @@ class BrowserTestCase extends Orchestra
                 $mockModel->exists = true;
 
                 // We can't easily pass the mock through Blade::render if it's not a real model in the DB for some components,
-                // but ImageResponsive just needs it to implement HasMedia.
+                // but MediaResponsive just needs it to implement HasMedia.
 
                 return Blade::render('
                     <div id="attribute-placeholder">
-                        <x-mle-image-responsive id="attr-id" :medium="null" placeholder="/images/attr-placeholder.jpg" />
+                        <x-mle-media-responsive id="attr-id" :medium="null" placeholder="/images/attr-placeholder.jpg" />
                     </div>
                     <div id="model-placeholder">
                         @php
                             $modelWithFallback = \Mockery::mock(\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class)->makePartial();
                             $modelWithFallback->shouldReceive("getFallbackMediaUrl")->andReturn("/images/model-fallback.jpg");
                         @endphp
-                        <x-mle-image-responsive id="model-id" :medium="null" :model-reference="$modelWithFallback" />
+                        <x-mle-collection-image id="model-id" :model-reference="$modelWithFallback" collection="default" />
                     </div>
                     <div id="config-placeholder">
                         @php config(["medialibrary-extensions.placeholder_url" => "/images/config-placeholder.jpg"]); @endphp
-                        <x-mle-image-responsive id="config-id" :medium="null" />
+                        <x-mle-media-responsive id="config-id" :medium="null" />
                     </div>
                     <div id="null-placeholder">
                         @php config(["medialibrary-extensions.placeholder_url" => null]); @endphp
-                        <x-mle-image-responsive id="null-id" :medium="null" />
+                        <x-mle-media-responsive id="null-id" :medium="null" />
                     </div>
                 ', ['model' => $model]);
             })->name('test-placeholders');

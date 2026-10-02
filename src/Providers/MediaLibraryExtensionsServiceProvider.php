@@ -28,7 +28,7 @@ use Mlbrgn\MediaLibraryExtensions\View\Components\Audio;
 use Mlbrgn\MediaLibraryExtensions\View\Components\CollectionImage;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Document;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
-use Mlbrgn\MediaLibraryExtensions\View\Components\ImageResponsive;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaResponsive;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreview;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewBase;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Lab\LabPreviewOriginal;
@@ -201,7 +201,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-modal', MediaModal::class);
         Blade::component($this->packageNameShort.'-media-gallery', MediaGallery::class);
         Blade::component($this->packageNameShort.'-media-viewer', MediaViewer::class);
-        Blade::component($this->packageNameShort.'-image-responsive', ImageResponsive::class);
+        Blade::component($this->packageNameShort.'-media-responsive', MediaResponsive::class);
         Blade::component($this->packageNameShort.'-collection-image', CollectionImage::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-first-available', MediaFirstAvailable::class);

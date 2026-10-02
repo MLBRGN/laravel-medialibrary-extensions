@@ -11,7 +11,8 @@
     $showMediaFirstAvailable = true;
     $showFormCustomFilePicker = true;
     $showMmmMinMedia = true;
-    $showImageResponsive = true;
+    $showMediaResponsive = true;
+    $showCollectionImage = true;
     $showMediaGallery = true;
     
 //    $showMmsPermanent = true;
@@ -122,7 +123,7 @@
                 border: 1px solid #eee;
             }
             
-            .mle-demo-image-responsive-container {
+            .mle-demo-media-responsive-container {
                 max-width: 50vw;
             }
         </style>
@@ -370,32 +371,44 @@
         @endif
 
 
-        @if ($showImageResponsive)
-            <h2>Image Responsive</h2>
+        @if ($showMediaResponsive)
+            <h2>Media Responsive</h2>
             @isset($media)
-                <div class="mle-demo-image-responsive-container">
-                    <x-mle-image-responsive
-                        id="image-responsive"
+                <div class="mle-demo-media-responsive-container">
+                    <x-mle-media-responsive
+                        id="media-responsive"
                         :medium="$media"
                         class="w-50"
                         :expandable-in-modal="true"
-                        :collections="['alien-single-image']"
                         :data-source="$dataSource"
                     />
                 </div>
             @else
-                <p>No media available for image responsive. Upload something using the Media Managers above first.</p>
+                <p>No media available for media responsive. Upload something using the Media Managers above first.</p>
             @endisset
 
-            <h3>Image Responsive (Null medium reproduction)</h3>
+            <h3>Media Responsive (Null medium reproduction)</h3>
             <p>Should show fallback image, because image cannot be loaded</p>
-            <div class="mle-demo-image-responsive-container mb-4">
-                <x-mle-image-responsive
-                    id="image-responsive-null"
+            <div class="mle-demo-media-responsive-container mb-4">
+                <x-mle-media-responsive
+                    id="media-responsive-null"
                     :medium="null"
                     class="w-50"
                     :expandable-in-modal="true"
-                    :collections="['alien-single-image']"
+                    :data-source="$dataSource"
+                />
+            </div>
+        @endif
+
+        @if ($showCollectionImage)
+            <h2>Collection Image</h2>
+            <div class="mle-demo-media-responsive-container mb-4">
+                <x-mle-collection-image
+                    id="collection-image"
+                    :model-reference="$model"
+                    collection="alien-single-image"
+                    class="w-50"
+                    :expandable-in-modal="true"
                     :data-source="$dataSource"
                 />
             </div>

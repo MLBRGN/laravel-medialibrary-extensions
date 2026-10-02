@@ -62,6 +62,7 @@ Media managers handle file uploads, deletions, and selection.
 - `<x-mle-media-carousel />`: A responsive carousel supporting images and videos.
 - `<x-mle-media-viewer />`: A modal-based viewer for full-screen media inspection.
 - `<x-mle-image-responsive />`: Generates responsive `<img>` tags with conversions.
+- `<x-mle-collection-image />`: Displays the first image from a model's specific collection as a responsive image.
 - `<x-mle-video-youtube />`: Responsive YouTube embed.
 
 ### Advanced Components

@@ -9,11 +9,11 @@ beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });
 
-it('can display media in image responsive component and expand in modal', function ($theme, $dataSource, $xhr) {
-    // Selectors for Image Responsive
-    $imageResponsiveDomId = 'image-responsive-image-responsive';
-    $imageResponsiveId = '#' . $imageResponsiveDomId;
-    $viewerSelector = $imageResponsiveId . '[data-mle-media-preview-image]';
+it('can display media in media responsive component and expand in modal', function ($theme, $dataSource, $xhr) {
+    // Selectors for Media Responsive
+    $mediaResponsiveDomId = 'media-responsive-media-responsive';
+    $mediaResponsiveId = '#' . $mediaResponsiveDomId;
+    $viewerSelector = $mediaResponsiveId . '[data-mle-media-preview-image]';
     
     // Selectors for Media Manager Single
     $mmsId = '#alien-single-permanent-mms';
@@ -21,7 +21,7 @@ it('can display media in image responsive component and expand in modal', functi
     $mmsUploadButtonSelector = $mmsId . ' [data-mle-media-upload-button]';
 
     // Modal selectors
-    $modalId = '#image-responsive-mod';
+    $modalId = '#media-responsive-mod';
     $modalSelector = $modalId . '[data-mle-media-modal]';
     $modalCloseButtonSelector = $modalSelector . ' [data-mle-modal-close]';
 
@@ -47,15 +47,15 @@ it('can display media in image responsive component and expand in modal', functi
     $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
     $this->assertDatabaseCount('media', 1, $resolvedConnection);
 
-    // 2. Refresh page to see the media in Image Responsive component
+    // 2. Refresh page to see the media in Media Responsive component
     $page->refresh();
-    $this->scrollIntoView($page, $imageResponsiveId);
+    $this->scrollIntoView($page, $mediaResponsiveId);
 
     // 3. Check media is visible
     $page->assertPresent($viewerSelector);
 
     // 4. Test modal expansion
-    $page->click($imageResponsiveId)
+    $page->click($mediaResponsiveId)
         ->assertVisible($modalSelector)
         ->click($modalCloseButtonSelector)
         ->assertMissing($modalSelector);
