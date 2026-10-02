@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.8.6](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.5...2.8.6) (2026-10-02)
+
+
+### Bug Fixes
+
+* image reponsive placeholder lookup refactor ([16652f0](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/16652f09645dd3b71af5130f75a855a81031aca9))
+* now showing fallback image when image loading / decoding fails ([dad3121](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/dad3121ae040162173cb7fd62b8ae83dd16b2234))
+* removed MediaViewer from demo page, not standalone, also removed tests ([a8fcfdf](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a8fcfdf327cee3c3f94f84ec39c917080dad2df4))
+* reoved duplicate mle-width-100 and mle-height-100 from media-modal.blade.php bootstrap-5 ([eee41c9](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/eee41c9a9b965199291b1f08af50357cf809b0ab))
+
 ## [2.8.5](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.4...2.8.5) (2026-09-27)
 
 
