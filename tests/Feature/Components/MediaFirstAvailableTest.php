@@ -86,6 +86,9 @@ it('renders expected HTML for an audio medium', function () {
 
 it('renders expected HTML for a document medium', function () {
     $model = $this->getModelWithMedia(['document' => 1]);
+    $medium = $model->getFirstMedia('document_collection');
+    $medium->mime_type = 'application/msword';
+    $medium->save();
 
     $html = Blade::renderComponent(new MediaFirstAvailable(
         'doc123',
@@ -93,7 +96,7 @@ it('renders expected HTML for a document medium', function () {
         ['document' => 'document_collection']
     ));
     expect($html)->toContain('<div class="mle-document-preview">')
-        ->toContain(' test.pdf');
+        ->toContain(' test.doc');
 });
 
 it('does not render modal attributes or component by default', function () {

@@ -48,6 +48,17 @@ return [
 
     /*
       |--------------------------------------------------------------------------
+      | Placeholder URL
+      |--------------------------------------------------------------------------
+      |
+      | Global fallback URL for images when no media or other fallback is available.
+      |
+      */
+
+    'placeholder_url' => env('MEDIA_LIBRARY_EXTENSIONS_PLACEHOLDER_URL', null),
+
+    /*
+      |--------------------------------------------------------------------------
       | Image Editor Translations Path
       |--------------------------------------------------------------------------
       |

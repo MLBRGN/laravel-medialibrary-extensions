@@ -331,6 +331,39 @@ class BrowserTestCase extends Orchestra
                 ]);
             })->name('test-client-token');
 
+            Route::get('test-placeholders', function(\Illuminate\Http\Request $request) {
+                $model = \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::first();
+                
+                // For model fallback test
+                $mockModel = \Mockery::mock(\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class . '[getFallbackUrl]');
+                $mockModel->shouldReceive('getFallbackUrl')->andReturn('/images/model-fallback.jpg');
+                $mockModel->exists = true;
+
+                // We can't easily pass the mock through Blade::render if it's not a real model in the DB for some components,
+                // but ImageResponsive just needs it to implement HasMedia.
+
+                return Blade::render('
+                    <div id="attribute-placeholder">
+                        <x-mle-image-responsive id="attr-id" :medium="null" placeholder="/images/attr-placeholder.jpg" />
+                    </div>
+                    <div id="model-placeholder">
+                        @php
+                            $modelWithFallback = \Mockery::mock(\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class)->makePartial();
+                            $modelWithFallback->shouldReceive("getFallbackUrl")->andReturn("/images/model-fallback.jpg");
+                        @endphp
+                        <x-mle-image-responsive id="model-id" :medium="null" :model-reference="$modelWithFallback" />
+                    </div>
+                    <div id="config-placeholder">
+                        @php config(["medialibrary-extensions.placeholder_url" => "/images/config-placeholder.jpg"]); @endphp
+                        <x-mle-image-responsive id="config-id" :medium="null" />
+                    </div>
+                    <div id="null-placeholder">
+                        @php config(["medialibrary-extensions.placeholder_url" => null]); @endphp
+                        <x-mle-image-responsive id="null-id" :medium="null" />
+                    </div>
+                ', ['model' => $model]);
+            })->name('test-placeholders');
+
             Route::resource('blogs', BlogController::class);
 
             Route::post('test-simple-post', function() {

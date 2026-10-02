@@ -175,3 +175,101 @@ it('does not crash when medium is null and expandableInModal is true', function 
     expect($html)->not->toContain('data-bs-toggle="modal"');
     expect($html)->not->toContain('mle-media-modal');
 });
+
+it('uses provided placeholder attribute', function () {
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+        placeholder: 'https://example.com/placeholder.jpg'
+    );
+
+    $view = $component->render();
+    expect($view->placeholder)->toBe('https://example.com/placeholder.jpg');
+
+    $html = \Illuminate\Support\Facades\Blade::render(
+        '<x-mle-image-responsive id="test-id" :medium="null" placeholder="https://example.com/attr-placeholder.jpg" />'
+    );
+    expect($html)->toContain('src="https://example.com/attr-placeholder.jpg"');
+});
+
+it('uses model fallback when medium is null', function () {
+    $model = Mockery::mock(\Spatie\MediaLibrary\HasMedia::class);
+    $model->shouldReceive('getFallbackUrl')->with('custom-collection')->andReturn('https://example.com/fallback-custom-collection.jpg');
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+        modelReference: $model,
+        collections: ['custom-collection']
+    );
+
+    $view = $component->render();
+    expect($view->placeholder)->toBe('https://example.com/fallback-custom-collection.jpg');
+});
+
+it('uses config fallback when no other options are available', function () {
+    config(['medialibrary-extensions.placeholder_url' => 'https://example.com/config-placeholder.jpg']);
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+    );
+
+    $view = $component->render();
+    expect($view->placeholder)->toBe('https://example.com/config-placeholder.jpg');
+});
+
+it('renders nothing when all fallbacks are null', function () {
+    config(['medialibrary-extensions.placeholder_url' => null]);
+
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+    );
+
+    $view = $component->render();
+    expect($view->placeholder)->toBeNull();
+
+    $html = \Illuminate\Support\Facades\Blade::render(
+        '<x-mle-image-responsive id="test-id" :medium="null" />'
+    );
+
+    // The container div should be there but empty of img tag
+    expect($html)->toContain('mle-image-responsive');
+    expect($html)->not->toContain('<img');
+    // Specifically verify it doesn't contain the no-media-icon (SVG)
+    expect($html)->not->toContain('<svg');
+});
+
+it('uses media URL and ignores placeholder when media is present', function () {
+    $medium = $this->getMedium();
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: $medium,
+        placeholder: 'https://example.com/placeholder.jpg'
+    );
+
+    $view = $component->render();
+    expect($view->url)->not->toBeEmpty();
+    expect($view->placeholder)->toBe('https://example.com/placeholder.jpg');
+
+    $html = \Illuminate\Support\Facades\Blade::render(
+        '<x-mle-image-responsive id="test-id" :medium="$medium" placeholder="https://example.com/placeholder.jpg" />',
+        ['medium' => $medium]
+    );
+
+    expect($html)->toContain('test.jpg');
+    expect($html)->not->toContain('src="https://example.com/placeholder.jpg"');
+});
+
+it('skips model fallback when modelReference is a class name', function () {
+    $component = new ImageResponsive(
+        id: 'test-id',
+        medium: null,
+        modelReference: \Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload::class,
+    );
+
+    $view = $component->render();
+    // It should skip the model fallback because modelReference is a string, not an object implementing HasMedia
+    expect($view->placeholder)->toBe(config('medialibrary-extensions.placeholder_url'));
+});

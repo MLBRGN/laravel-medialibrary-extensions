@@ -7,6 +7,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
@@ -121,9 +122,6 @@ class ImageResponsive extends BaseComponent
         $url = '';
         $srcset = '';
 
-        $this->placeholder ??= asset(
-            config('medialibrary-extensions.asset_path').'/images/fallback.png'
-        );
         try {
             if ($this->medium) {
                 $rawUrl = $hasConversion
@@ -142,11 +140,25 @@ class ImageResponsive extends BaseComponent
                 : '';
         }
 
+        if (empty($url)) {
+            if (empty($this->placeholder)) {
+                if ($this->medium === null && is_object($this->modelReference) && $this->modelReference instanceof HasMedia) {
+                    $collection = ! empty($this->collections) ? $this->collections[0] : 'default';
+                    $this->placeholder = $this->modelReference->getFallbackUrl($collection);
+                }
+            }
+
+            if (empty($this->placeholder)) {
+                $this->placeholder = config('medialibrary-extensions.placeholder_url');
+            }
+        }
+
         return $this->renderView('', null, false, 'medialibrary-extensions::components.image-responsive', [
             'hasGeneratedConversion' => $hasConversion,
             'useConversion' => $useConversion,
             'url' => $url,
             'srcset' => $srcset,
+            'placeholder' => $this->placeholder,
         ]);
     }
 }

@@ -193,7 +193,6 @@ return [
         Image::class,
         Webp::class,
         Avif::class,
-        Pdf::class,
         Svg::class,
         Video::class,
     ],

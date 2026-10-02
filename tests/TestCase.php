@@ -330,7 +330,7 @@ class TestCase extends Orchestra
             'image' => ['test.jpg', 'test2.jpg', 'test3.jpg', 'test.png', 'test2.png', 'test3.png'],
             'video' => ['test.mp4'],
             'audio' => ['test.mp3'],
-            'document' => ['test.pdf'],
+            'document' => ['test.doc'],
         ];
 
         $collectionMap = [
@@ -395,7 +395,7 @@ class TestCase extends Orchestra
             'image' => ['test.jpg', 'test2.jpg', 'test3.jpg', 'test.png', 'test2.png', 'test3.png'],
             'video' => ['test.mp4'],
             'audio' => ['test.mp3'],
-            'document' => ['test.pdf'],
+            'document' => ['test.doc'],
         ];
 
         $collectionMap = [

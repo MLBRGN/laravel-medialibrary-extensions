@@ -119,37 +119,7 @@
             >
                 <div class="mle-media-carousel-item-container"
                                      >
-                    <div
-    class="mle-document mle-component mle-media-responsive" draggable="" 
-    data-mle-document-container
-    id="test-media-modal-mod-2-media-viewer-document"
->
-    <div class="mle-document-preview">
-        <span 
-        role="img" 
-        aria-label="PDF document." 
-        title="PDF document.">?</span>
-        <div class="mle-document-info">
-            <p>
-                test.pdf
-            </p>
-            <p>
-                1 KB
-            </p>
-
-            
-                            <a href="/storage/3/test.pdf" target="_blank" class="mle-document-link" data-mle-document-link>
-                    <span 
-        role="img" 
-        aria-label="PDF document." 
-        title="PDF document.">?</span>
-                    Download document
-                </a>
-            
-                                                </div>
-    </div>
-</div>
-                </div>
+                                    </div>
             </div>
                     <div
                 class="mle-media-carousel-item"

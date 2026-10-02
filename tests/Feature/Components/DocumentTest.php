@@ -23,6 +23,8 @@ it('document component renders', function () {
     Storage::fake('media');
 
     $medium = $this->getMediaModelWithMedia(['document' => 1]);
+    $medium->mime_type = 'application/msword';
+    $medium->save();
 
     $html = Blade::render('<x-mle-document
                     id="test-document"
@@ -36,7 +38,7 @@ it('document component renders', function () {
         ->toContain('id="test-document-document"')
         ->toContain('mle-document')
         ->toContain('class="mle-document-preview"')
-        ->toContain('PDF document');
+        ->toContain('Word document');
 });
 
 it('document component renders unknown file type', function () {
@@ -71,7 +73,7 @@ it('document component renders unknown file type', function () {
 it('renders the correct view with given properties', function () {
     // Use a real Media instance instead of a pure mock
     $media = new Media([
-        'mime_type' => 'application/pdf',
+        'mime_type' => 'application/msword',
     ]);
     $media->exists = true;
 

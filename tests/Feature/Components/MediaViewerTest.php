@@ -33,7 +33,7 @@ it('resolves different media types correctly', function ($mimeType, $expectedTyp
     ['image/jpeg', 'image', 'mle-image-responsive'],
     ['video/mp4', 'video', 'mle-video'],
     ['audio/mpeg', 'audio', 'mle-audio'],
-    ['application/pdf', 'document', 'mle-document'],
+    ['application/msword', 'document', 'mle-document'],
 ]);
 
 it('renders correctly', function () {

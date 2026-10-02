@@ -50,8 +50,8 @@ it('correctly handles the flatMap logic in MediaPreviews for temporary uploads',
     ]);
 
     TemporaryUpload::create([
-        'disk' => 'public', 'path' => 'temp/2.pdf', 'name' => '2', 'file_name' => '2.pdf',
-        'collection_name' => 'documents', 'mime_type' => 'application/pdf', 'size' => 200,
+        'disk' => 'public', 'path' => 'temp/2.doc', 'name' => '2', 'file_name' => '2.doc',
+        'collection_name' => 'documents', 'mime_type' => 'application/msword', 'size' => 200,
         'client_token' => $clientToken, 'instance_id' => 'inst-1',
     ]);
 

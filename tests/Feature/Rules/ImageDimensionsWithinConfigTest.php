@@ -147,9 +147,9 @@ it('passes when the uploaded file is invalid', function () {
 
 it('passes when the uploaded file is not an image', function () {
     $file = UploadedFile::fake()->create(
-        'document.pdf',
+        'document.doc',
         100,
-        'application/pdf',
+        'application/msword',
     );
 
     $validator = Validator::make(

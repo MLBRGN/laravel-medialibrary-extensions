@@ -87,7 +87,7 @@ it('respects collection order priority in media first available component', func
     $model = Alien::on($resolvedConnection)->first();
     
     // Add a document first (lower priority in demo: 'document' => 'alien-single-document')
-    $model->addMedia($this->getFixtureAsFilePath('dummy.pdf'))
+    $model->addMedia($this->getFixtureAsFilePath('dummy.doc'))
         ->preservingOriginal()
         ->toMediaCollection('alien-single-document');
         

@@ -21,7 +21,7 @@ it('finds temporary uploads on initial render using cookie client_token and deri
     // Seed two temporary uploads across collections for this instance and client
     foreach ([
         ['collection' => 'images', 'name' => 'photo-a.jpg'],
-        ['collection' => 'documents', 'name' => 'doc-a.pdf'],
+        ['collection' => 'documents', 'name' => 'doc-a.doc'],
     ] as $i => $seed) {
         TemporaryUpload::query()->create([
             'disk' => config('medialibrary-extensions.media_disks.temporary'),
@@ -29,7 +29,7 @@ it('finds temporary uploads on initial render using cookie client_token and deri
             'name' => $seed['name'],
             'file_name' => $seed['name'],
             'collection_name' => $seed['collection'],
-            'mime_type' => $seed['collection'] === 'images' ? 'image/jpeg' : 'application/pdf',
+            'mime_type' => $seed['collection'] === 'images' ? 'image/jpeg' : 'application/msword',
             'size' => 123 + $i,
             'user_id' => null,
             'client_token' => $clientToken,

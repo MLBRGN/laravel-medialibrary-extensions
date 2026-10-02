@@ -41,7 +41,7 @@ it('throws exception if model does not implement HasMediaExtended', function () 
 
 beforeEach(function () {
     Config::set('medialibrary-extensions.allowed_mimetypes.image', ['image/jpeg', 'image/png']);
-    Config::set('medialibrary-extensions.allowed_mimetypes.document', ['application/pdf']);
+    Config::set('medialibrary-extensions.allowed_mimetypes.document', ['application/msword']);
 });
 
 it('returns image collection if mime type is in image list', function () {
@@ -56,7 +56,7 @@ it('returns image collection if mime type is in image list', function () {
 });
 
 it('returns document collection if mime type is in document list', function () {
-    $file = UploadedFile::fake()->create('file.pdf', 100, 'application/pdf');
+    $file = UploadedFile::fake()->create('file.doc', 100, 'application/msword');
     //    request()->merge(['document_collection' => 'docs']);
     request()->merge(['collections' => ['document' => 'document_collections']]);
 

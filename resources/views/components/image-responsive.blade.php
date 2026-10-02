@@ -10,7 +10,7 @@
                 'data-bs-target' => ($expandableInModal && $getConfig('theme') === 'bootstrap-5') ? '#' . $id . '-mod' : null,
                 'data-mle-modal-trigger' => ($expandableInModal && $getConfig('theme') === 'plain') ? '#' . $id . '-mod' : null,
             ]) }}
-            src="{{ $url ?: $placeholder }}"
+            src="{{ $url }}"
             @if ($srcset) srcset="{{ $srcset }}" @endif
             @if ($srcset && $sizes) sizes="{{ $sizes }}" @endif
             alt="{{ $alt }}"
@@ -19,7 +19,7 @@
             data-mle-media-preview-image
             id="{{ $getDomId() }}"
         >
-    @else
+    @elseif ($placeholder)
         <img
             {{ $attributes->class(['mle-image-responsive', 'mle-media-responsive'])->merge(['class' => '']) }}
             src="{{ $placeholder }}"
