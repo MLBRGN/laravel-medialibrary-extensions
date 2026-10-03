@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.11](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.10...2.8.11) (2026-10-03)
+
+
+### Bug Fixes
+
+* crash because of mle-image-responsive use instead of mle-media-responsive component ([33dabfb](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/33dabfbfda0f8171f33aae3c409910389df59e60))
+
 ## [2.8.10](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.9...2.8.10) (2026-10-03)
 
 
