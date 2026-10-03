@@ -2,9 +2,11 @@
 
 ## [2.8.10](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.9...2.8.10) (2026-10-03)
 
+
 ### Bug Fixes
 
-* Added `mle-image-responsive` component alias for backward compatibility with older configuration files.
+* refactor of image-responsive to media-responsive component ([8a85142](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8a851420af348591ea9118df64fa0f3a98d8ead7))
+* test performance and stability fixes [ai assisted], bug fixes modal closing [ai assisted] ([95a06cf](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/95a06cf128ee76a50a3c69dab011d7ec5174d0ed))
 
 ## [2.8.9](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.8...2.8.9) (2026-10-02)
 
