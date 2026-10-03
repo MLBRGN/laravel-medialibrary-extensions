@@ -33,18 +33,14 @@ it('can display media in media responsive component and expand in modal', functi
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-permanent,responsive")
         ->assertNoJavaScriptErrors();
 
     // 1. Upload an image via MMS
     $this->scrollIntoView($page, $mmsId);
     $page->attach($mmsInputSelector, $this->getRandomFixture())
-        ->press($mmsUploadButtonSelector);
-    
-    if (!$xhr) {
-        $page->wait($waitTime);
-    }
-    $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
+        ->press($mmsUploadButtonSelector)
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
     $this->assertDatabaseCount('media', 1, $resolvedConnection);
 
     // 2. Refresh page to see the media in Media Responsive component

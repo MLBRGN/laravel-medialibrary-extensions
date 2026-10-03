@@ -10,7 +10,7 @@ it('opens the media modal from the carousel and initializes the inner carousel (
     Config::set('medialibrary-extensions.frontend_theme', 'bootstrap-5');
 
     // Visit demo page. The demo blade includes Media Carousel by default.
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&data_source=demo_default&use_xhr=1')
+    $page = $this->visit('/mle-demo?theme=bootstrap-5&data_source=demo_default&use_xhr=1&section=carousel')
         ->assertNoJavaScriptErrors()
         ->assertSee('Media Carousel');
 

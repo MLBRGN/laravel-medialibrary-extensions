@@ -6,6 +6,9 @@ import {
 } from './modal-core';
 import '@/js/plain/modal-core';
 
+if (window.mlePlainImageEditorModalInitialized) return;
+window.mlePlainImageEditorModalInitialized = true;
+
 const editors = new WeakMap(); // modal => editor instance
 
 function initializeImageEditor(config) {
@@ -63,6 +66,7 @@ function initializeImageEditorModal(modal) {
     if (modal.dataset.mleImageEditorInitialized === 'true') {
         return;
     }
+    modal.dataset.mleImageEditorInitialized = 'true';
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
 
     const onOpen = () => {
@@ -128,7 +132,6 @@ function initializeImageEditorModal(modal) {
     };
 
     setupModalLifecycle(modal, onClose, onOpen);
-    modal.dataset.mleImageEditorInitialized = 'true';
 }
 
 function parseDimensions(dimensionString, fallback) {

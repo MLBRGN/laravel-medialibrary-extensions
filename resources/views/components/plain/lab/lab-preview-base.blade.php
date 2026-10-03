@@ -8,7 +8,7 @@
     </div>
    
     <x-mle-media-manager-single
-        id="{{ $id }}"
+        id="{{ $id }}-nested"
         :model-reference="$media->model"
         :collections="['image' => $media->collection_name]"
         :options="$getOptions()"

@@ -1,10 +1,33 @@
 // noinspection JSUnresolvedReference
 import {getMleBootstrapInstance} from "@/js/bootstrap-5/bootstrap-resolver";
 
+if (window.mleImageEditorModalInitialized) return;
+window.mleImageEditorModalInitialized = true;
+
 const closeBootstrapModal = (modal) => {
+    // try to find a close button that uses data-bs-dismiss="modal" first
+    // as it's more reliable in some environments than the JS API
+    const closeButton = modal.querySelector('[data-bs-dismiss="modal"]');
+    if (closeButton) {
+        closeButton.click();
+    }
+
     const bs = getMleBootstrapInstance();
     const modalInstance = bs.Modal.getOrCreateInstance(modal);
     modalInstance.hide();
+
+    // Safety fallback for tests/race conditions: if it's still visible after a tiny tick, force it.
+    // We use a small timeout to allow Bootstrap's native event cycle a chance to run first.
+    setTimeout(() => {
+        if (modal.classList.contains('show')) {
+            // console.warn('Forcing modal closed after hide() failed');
+            modal.classList.remove('show');
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+        }
+    }, 10);
 }
 
 function initializeImageEditor(config) {
@@ -72,9 +95,9 @@ function initializeImageEditorModal(modal) {
     if (modal.dataset.mleImageEditorInitialized === 'true') {
         // console.log('modal already initialized, skipping')
         return;
-    } else {
-        // console.log('modal not initialized, initializing')
     }
+
+    modal.dataset.mleImageEditorInitialized = 'true';
 
     const placeholder = modal.querySelector('[data-mle-image-editor-placeholder]');
 
@@ -134,8 +157,6 @@ function initializeImageEditorModal(modal) {
             closeBootstrapModal(modal);
         }
     });
-
-    modal.dataset.mleImageEditorInitialized = 'true';
 }
 
 function parseDimensions(dimensionString, fallback) {
@@ -143,14 +164,6 @@ function parseDimensions(dimensionString, fallback) {
     const [w, h] = dimensionString.split(/[x:]/).map(Number);
     return { width: w || fallback.width, height: h || fallback.height };
 }
-
-// listen to preview updated to reinitialize functionality
-document.addEventListener('mediaManagerPreviewsUpdated', (e) => {
-    const mediaManager = e.detail.mediaManager;
-    mediaManager.querySelectorAll('[data-mle-image-editor-modal]')
-        .forEach(initializeImageEditorModal);
-    // console.log('reinitialize image editor modals for media manager', mediaManager);
-});
 
 // Handle external close requests
 document.addEventListener('imageEditorModalCloseRequest', e => {

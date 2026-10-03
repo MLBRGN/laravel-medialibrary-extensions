@@ -4,6 +4,7 @@
 const globalLoadedScripts = new Set();
 const globalLoadedStyles = new Set();
 const globallyEnsured = new Set(); // absolute URLs already ensured (scripts/styles)
+const globalLoading = new Map(); // track currently loading promises to prevent race conditions
 
 // Normalize any MLBRGN vendor URL that accidentally omits the
 // `/laravel-medialibrary-extensions` package segment.
@@ -78,28 +79,39 @@ export function createAssetLoader(namespace, {
             return Promise.resolve();
         }
 
+        // if already loading, return existing promise
+        if (globalLoading.has(globalKey)) {
+            return globalLoading.get(globalKey);
+        }
+
         // if loadScript already scheduled this asset, skip
         if (loadedScripts.has(key) || (globalDedup && globalLoadedScripts.has(globalKey))) {
             return Promise.resolve();
         }
 
-        return new Promise((resolve, reject) => {
+        const promise = new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = fullSrc;
             script.type = type;
             script.async = async;
             script.onload = () => {
+                globalLoading.delete(globalKey);
                 globallyEnsured.add(globalKey);
                 loadedScripts.add(key);
                 if (globalDedup) globalLoadedScripts.add(globalKey);
                 resolve();
             };
             script.onerror = (e) => {
+                globalLoading.delete(globalKey);
                 console && console.warn && console.warn('[mlbrgn] Failed to load script', fullSrc, e);
                 reject(e);
             };
             document.head.appendChild(script);
         });
+
+        globalLoading.set(globalKey, promise);
+
+        return promise;
     }
 
     /**
@@ -116,26 +128,37 @@ export function createAssetLoader(namespace, {
             return Promise.resolve();
         }
 
+        // if already loading, return existing promise
+        if (globalLoading.has(globalKey)) {
+            return globalLoading.get(globalKey);
+        }
+
         if (loadedStyles.has(key) || (globalDedup && globalLoadedStyles.has(globalKey))) {
             return Promise.resolve();
         }
 
-        return new Promise((resolve, reject) => {
+        const promise = new Promise((resolve, reject) => {
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = fullHref;
             link.onload = () => {
+                globalLoading.delete(globalKey);
                 globallyEnsured.add(globalKey);
                 loadedStyles.add(key);
                 if (globalDedup) globalLoadedStyles.add(globalKey);
                 resolve();
             };
             link.onerror = (e) => {
+                globalLoading.delete(globalKey);
                 console && console.warn && console.warn('[mlbrgn] Failed to load style', fullHref, e);
                 reject(e);
             };
             document.head.appendChild(link);
         });
+
+        globalLoading.set(globalKey, promise);
+
+        return promise;
     }
 
     function loadScript(src, { type = 'module', async = false } = {}) {

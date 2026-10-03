@@ -67,8 +67,7 @@ function loadMediaAssets(loader, manifest) {
 
     // Lazy strategy: do not preload the shared image editor listener here.
 
-    // Also preload the theme-specific modal controller so opening the image
-    // editor modal can initialize immediately without race conditions.
+    // pre-fetch theme-specific modal controller
     tasks.push(loadScript(`js/${theme}/modal-image-editor.js`));
 
     if (assets.css) {
@@ -79,29 +78,12 @@ function loadMediaAssets(loader, manifest) {
         tasks.push(loadScript(`js/${theme}.js`));
     }
 
-    // if (assets.bootstrapCss) {
-    //     tasks.push(loadStyle('css/bootstrap-5/bootstrap.css'));
-    // }
-    //
-    // if (assets.bootstrapJs) {
-    //     tasks.push(loadScript('js/bootstrap-5/bootstrap.bundle.min.js', {
-    //         type: 'text/javascript',
-    //     }));
-    // }
-
     if (assets.carousel && theme === 'plain') {
         tasks.push(loadScript(`js/plain/media-carousel.js`));
     }
 
     if (assets.tinymceIframe) {
         tasks.push(loadScript(`js/shared/tinymce-custom-file-picker-iframe.js`));
-    }
-
-    if (assets.imageEditorModal) {
-        if (debug) console.debug('[mle] loading image editor modal');
-        tasks.push(loadScript(`js/${theme}/modal-image-editor.js`));
-    } else {
-        if (debug) console.debug('[mle] not loading image editor modal');
     }
 
     if (assets.mediaModal) {

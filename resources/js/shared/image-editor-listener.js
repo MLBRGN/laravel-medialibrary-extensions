@@ -10,7 +10,6 @@ import { updateMediaLabBase, updateMediaLabOriginal } from "@/js/shared/media-la
 document.addEventListener('onImageSave', (e) => {
     // console.log('onImageSave:', e.detail, e);
     // Fire-and-forget; internal flow handles its own async
-    console.log('image-editor-listener.js - onImageSave called')
     updateMedia(e.detail);
 });
 
@@ -20,6 +19,10 @@ document.addEventListener('onCanvasStatusMessage', (e) => {
 
 document.addEventListener('onCloseImageEditor', (e) => {
     const imageEditor = e.detail.imageEditorInstance;
+    if (!imageEditor || typeof imageEditor.closest !== 'function') {
+        console.warn('image-editor-listener.js - onCloseImageEditor: imageEditorInstance is not a DOM element', e.detail);
+        return;
+    }
     const modal = imageEditor.closest('[data-mle-image-editor-modal]');
     // Always anchor events to the nearest media manager container
     const mediaManager = resolveMediaManager(modal);
@@ -42,8 +45,12 @@ document.addEventListener('onCloseImageEditor', (e) => {
 });
 
 const updateMedia = async (detail) => {
-
-    const modal = detail.imageEditorInstance.closest('[data-mle-image-editor-modal]');
+    const imageEditor = detail.imageEditorInstance;
+    if (!imageEditor || typeof imageEditor.closest !== 'function') {
+        console.warn('image-editor-listener.js - updateMedia: imageEditorInstance is not a DOM element', detail);
+        return;
+    }
+    const modal = imageEditor.closest('[data-mle-image-editor-modal]');
     const configInput = modal.querySelector('[data-mle-media-manager-config]');
     if (!configInput) {
         console.warn('image-editor-listener.js - configInput NOT FOUND');
@@ -79,16 +86,11 @@ const updateMedia = async (detail) => {
     // Resolve the media manager context directly from the modal
     const mediaManager = resolveMediaManager(modal);
 
-    let mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
-
     const localStatusAreaContainer = resolveStatusAreaContainer(modal);
-    let parentStatusAreaContainer = resolveStatusAreaContainer(mediaManager);
-    //const mediaLab = mediaManager.closest('[data-mle-media-lab]');
+    const mediaManagerStatusContainer = resolveStatusAreaContainer(mediaManager);
 
-    // TODO other solution?
-    //if (mediaLab) {
-      //  parentStatusAreaContainer  = resolveStatusAreaContainer(mediaLab);
-    //}
+    const mediaLab = mediaManager.closest('[data-mle-media-lab]');
+    const targetStatusContainer = (mediaLab && resolveStatusAreaContainer(mediaLab)) || mediaManagerStatusContainer;
 
     if (!localStatusAreaContainer) {
         console.warn('statusAreaContainer not found', localStatusAreaContainer);
@@ -105,8 +107,6 @@ const updateMedia = async (detail) => {
     // instanceId is derived server-side from base_id; do not send from client
     const dataSource = config.dataSource;
     const baseId = modal.getAttribute('data-base-id') || config.id;
-
-    console.log('image-editor-listener.js - mediumId: ', mediumId);
 
     formData.append('base_id', baseId);
     formData.append('model_type', modelType);
@@ -208,7 +208,7 @@ const updateMedia = async (detail) => {
         }));
     }
 
-        showStatusMessage(mediaManagerStatusContainer, {
+        showStatusMessage(targetStatusContainer, {
            type: 'success',
            message: trans('medium_replaced'),
         });

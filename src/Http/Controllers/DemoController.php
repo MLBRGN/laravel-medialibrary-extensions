@@ -82,6 +82,9 @@ class DemoController extends Controller
         // Prefer a specifically prepared Lab medium; otherwise reuse existing uploads
         $media = $model->getMedia('alien-media-lab')->first() ?: $model->media->first();
 
+        $section = $request->query('section');
+        $sections = $section ? explode(',', $section) : [];
+
         // Quick media count log for verification in tests
         try {
             Log::info('DemoController@index: media counts after (re)load', [
@@ -91,6 +94,7 @@ class DemoController extends Controller
                     'alien-multiple-images' => $model->getMedia('alien-multiple-images')->count(),
                     'total' => $model->getMedia()->count(),
                 ],
+                'sections' => $sections,
             ]);
         } catch (\Throwable $e) {
             Log::warning('DemoController@index: media count failed', [
@@ -104,6 +108,7 @@ class DemoController extends Controller
             'dataSource' => $dataSource,
             'theme' => $theme,
             'useXhr' => $useXhr,
+            'sections' => $sections,
         ]);
     }
 

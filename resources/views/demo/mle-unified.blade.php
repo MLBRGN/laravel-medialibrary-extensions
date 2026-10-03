@@ -1,29 +1,21 @@
 @php
     /** @noinspection ALL */
     use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
-    
-    $showMmsPermanent = true;
-    $showMmsTemporary = true;
-    $showMmmPermanent = true;
-    $showMmmTemporary = true;
-    $showMediaCarousel = true;
-    $showMediaLab = true;
-    $showMediaFirstAvailable = true;
-    $showFormCustomFilePicker = true;
-    $showMmmMinMedia = true;
-    $showMediaResponsive = true;
-    $showCollectionImage = true;
-    $showMediaGallery = true;
-    
-//    $showMmsPermanent = true;
-//    $showMmsTemporary = true;
-//    $showMmmPermanent = false;
-//    $showMmmTemporary = false;
-//    $showMediaCarousel = false;
-//    $showMediaLab = false;
-//    $showMediaFirstAvailable = false;
-//    $showFormCustomFilePicker = false;
 
+    $sections ??= [];
+    
+    $showMmsPermanent = empty($sections) || in_array('mms-permanent', $sections);
+    $showMmsTemporary = empty($sections) || in_array('mms-temporary', $sections);
+    $showMmmPermanent = empty($sections) || in_array('mmm-permanent', $sections);
+    $showMmmTemporary = empty($sections) || in_array('mmm-temporary', $sections);
+    $showMediaCarousel = empty($sections) || in_array('carousel', $sections);
+    $showMediaLab = empty($sections) || in_array('lab', $sections);
+    $showMediaFirstAvailable = empty($sections) || in_array('first-available', $sections);
+    $showFormCustomFilePicker = empty($sections) || in_array('file-picker', $sections);
+    $showMmmMinMedia = empty($sections) || in_array('mmm-min-media', $sections);
+    $showMediaResponsive = empty($sections) || in_array('responsive', $sections);
+    $showCollectionImage = empty($sections) || in_array('collection-image', $sections);
+    $showMediaGallery = empty($sections) || in_array('gallery', $sections);
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +35,12 @@
             @endif
         @endif
         <style>
+            @if(app()->environment('testing'))
+            .modal.fade, .fade {
+                transition: none !important;
+                animation: none !important;
+            }
+            @endif
             html {
                 scroll-behavior: auto !important;/* override bootstrap, annoying in browser tests */
             }
@@ -485,11 +483,13 @@
         @endif
     @endif
     
+    @if($showMediaCarousel)
     <script type="module">
         document.getElementById('carouselRefreshButton').addEventListener('click', () => {
             alert('refreshing carousel');
         });
     </script>
+    @endif
     @stack('scripts')
     </body>
 </html>

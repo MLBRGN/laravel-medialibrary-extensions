@@ -100,7 +100,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             ->press($uploadButtonSelector);
 
         if (!$xhr) {
-            $page->wait($waitTime);
+            $page->waitForEvent('load');
         }
 
         $page->assertSee(__('medialibrary-extensions::messages.upload_failed_due_to_invalid_mimetype'));
@@ -115,7 +115,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
                 ->press($uploadButtonSelector);
 
             if (!$xhr) {
-                $page->wait($waitTime);
+                $page->waitForEvent('load');
             }
 
             $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
@@ -190,7 +190,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $page->press($deleteButtonSelector);
 
         if (!$xhr) {
-            $page->wait($waitTime);
+            $page->waitForEvent('load');
         }
 
         $page->assertSee(__('medialibrary-extensions::messages.medium_removed'))

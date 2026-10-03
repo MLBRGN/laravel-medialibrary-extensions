@@ -77,8 +77,22 @@ class BrowserTestCase extends Orchestra
     protected Ufo $testModelNotExtendingHasMedia;
 
     protected float $waitTimeXhr = 0.1;// @AI DO NOT CHANGE!
-
+    
     protected float $waitTimeNonXhr = 1.0;// @AI DO NOT CHANGE!
+
+    public function waitForVisible($page, string $selector)
+    {
+        \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertVisible($selector), 10000);
+
+        return $page;
+    }
+
+    public function waitForMissing($page, string $selector)
+    {
+        \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertMissing($selector), 10000);
+
+        return $page;
+    }
 
     // large files cause timeouts in browser testing, disabled (for now)
     protected array $fixturesSmall = [
@@ -330,6 +344,14 @@ class BrowserTestCase extends Orchestra
                     'token' => app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->get()
                 ]);
             })->name('test-client-token');
+
+            Route::get('images/alien-fallback.jpg', function() {
+                return response()->file(realpath(__DIR__ . '/Fixtures/demo.jpg'));
+            });
+
+            Route::get('images/alien-fallback-thumb.jpg', function() {
+                return response()->file(realpath(__DIR__ . '/Fixtures/demo.jpg'));
+            });
 
             Route::get('test-placeholders', function(\Illuminate\Http\Request $request) {
                 $model = \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::first();

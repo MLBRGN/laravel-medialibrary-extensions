@@ -13,6 +13,7 @@ window.mleFilePicker = (callback, value, meta) => {
         let multipleAttr = textarea.getAttribute('data-mle-multiple');
         const multiple = multipleAttr === null || multipleAttr === 'true' || multipleAttr === '';
         const dataSource = textarea.getAttribute('data-mle-data-source') ?? 'default';
+        const useXhr = textarea.getAttribute('data-mle-use-xhr') === '1';
         let collections = {};
 
         try {
@@ -37,6 +38,7 @@ window.mleFilePicker = (callback, value, meta) => {
             options: JSON.stringify({
                 temporaryUploadMode: temporaryUploadMode,
                 theme: 'plain',
+                useXhr: useXhr,
             }),
             data_source: dataSource,
         };

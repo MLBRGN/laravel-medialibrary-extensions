@@ -40,7 +40,7 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     // Ensure the Media Lab has a medium to work with, using the correct data source
     $this->ensureLabMedium($dataSource);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=lab")
         ->assertNoJavaScriptErrors()
         ->assertDontSee('Media lab not showing, no media.');
 
@@ -54,24 +54,26 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->assertPresent($restoreButtonSelector);
 
     // check image editor modal can be opened and closed
-    $page->press($mmsEditButtonSelector)
-        ->assertPresent($imageEditorModalSelector)
+    $page->press($mmsEditButtonSelector);
+    $this->waitForVisible($page, $imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector)
-        ->assertMissing($imageEditorModalSelector);
+        ->press($imageEditorModalCloseButtonSelector);
+    $this->waitForMissing($page, $imageEditorModalSelector);
 
     // check saving edited image in the image editor
-    $page->press($mmsEditButtonSelector)
-        ->assertVisible($imageEditorModalSelector)
+    $page->press($mmsEditButtonSelector);
+    $this->waitForVisible($page, $imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalRotateCcwButtonSelector)
-        ->press($imageEditorModalSaveButtonSelector)
-        ->assertMissing($imageEditorModalSelector)
-        ->wait(0.5); // Give time for multiple background refreshes to complete
+        ->press($imageEditorModalSaveButtonSelector);
+    $this->waitForMissing($page, $imageEditorModalSelector);
+    
+    // Wait for the success message to appear on the page
+    \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertSee(__('medialibrary-extensions::messages.medium_replaced')), 10000);
 
     // test restore medium
-    $page->press($restoreButtonSelector)
-        ->assertSee(__('medialibrary-extensions::messages.restored_original'));
+    $page->press($restoreButtonSelector);
+    \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertSee(__('medialibrary-extensions::messages.restored_original')), 10000);
 
     $page->page()->close();
 })->group('browser')

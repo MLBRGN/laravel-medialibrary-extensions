@@ -26,3 +26,4 @@
 /tests/database/mle-browser-tests.sqlite
 /tests/database/mle-browser-tests-host-app.sqlite
 /tests/database/mle-tests-host-app.sqlite
+/dist/js/chunks/rolldown-runtime.js

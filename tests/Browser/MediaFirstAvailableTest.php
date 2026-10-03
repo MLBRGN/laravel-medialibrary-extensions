@@ -35,7 +35,7 @@ it('can display media in media first available component', function ($theme, $da
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-permanent,first-available")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $firstAvailableId);
@@ -47,12 +47,8 @@ it('can display media in media first available component', function ($theme, $da
     // 2. Upload an image via MMS
     $this->scrollIntoView($page, $mmsId);
     $page->attach($mmsInputSelector, $this->getRandomFixture())
-        ->press($mmsUploadButtonSelector);
-    
-    if (!$xhr) {
-        $page->wait($waitTime);
-    }
-    $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
+        ->press($mmsUploadButtonSelector)
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
     $this->assertDatabaseCount('media', 1, $resolvedConnection);
 
     // 3. Refresh page to see the media in First Available component
@@ -99,7 +95,7 @@ it('respects collection order priority in media first available component', func
     $this->assertDatabaseCount('media', 2, $resolvedConnection);
 
     // 2. Visit the page
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&section=first-available")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $firstAvailableId);

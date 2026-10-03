@@ -56,7 +56,7 @@
                 </div>
 
                 <x-mle-partial-image-editor-form
-                    id="{{ $getDomId() }}"
+                    id="{{ $id }}"
                     :model-reference="$modelReference"
                     :medium="$medium"
                     :single-media="$singleMedia"

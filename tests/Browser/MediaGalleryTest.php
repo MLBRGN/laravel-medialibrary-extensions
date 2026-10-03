@@ -24,29 +24,18 @@ it('can interact with the media gallery', function ($theme, $dataSource, $xhr) {
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-permanent,gallery")
         ->assertNoJavaScriptErrors();
 
     // 1. Upload media (at least two items to test slide targeting)
     $this->scrollIntoView($page, $mmmId);
     $page->attach($mmmInputSelector, $this->getFixtureAsFilePath('01_100x100.jpg'))
-        ->press($mmmUploadButtonSelector);
-    
-    if ($xhr) {
-        $page->waitForText(__('medialibrary-extensions::messages.upload_success'));
-    } else {
-        $page->wait($waitTime);
-        $this->scrollIntoView($page, $mmmId);
-    }
+        ->press($mmmUploadButtonSelector)
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     $page->attach($mmmInputSelector, $this->getFixtureAsFilePath('02_150x150.jpg'))
-        ->press($mmmUploadButtonSelector);
-
-    if ($xhr) {
-        $page->waitForText(__('medialibrary-extensions::messages.upload_success'));
-    } else {
-        $page->wait($waitTime);
-    }
+        ->press($mmmUploadButtonSelector)
+        ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 2. Refresh to see in gallery
     $page->refresh();

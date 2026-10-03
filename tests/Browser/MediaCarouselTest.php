@@ -40,7 +40,8 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $section = $temporary ? 'mmm-temporary,carousel' : 'mmm-permanent,carousel';
+    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=$section")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $carouselId);
@@ -50,20 +51,12 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // 1. Upload two images via MMM
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
-            ->press($mmmPermanentUploadButtonSelector);
-        
-        if (!$xhr) {
-            $page->wait($waitTime);
-        }
-        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->press($mmmPermanentUploadButtonSelector)
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
-            ->press($mmmPermanentUploadButtonSelector);
-
-        if (!$xhr) {
-            $page->wait($waitTime);
-        }
-        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->press($mmmPermanentUploadButtonSelector)
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $this->assertDatabaseCount('media', 2, $resolvedConnection);
 
@@ -72,20 +65,12 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // 1. Upload two images via MMM
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-            ->press($mmmTemporaryUploadButtonSelector);
-
-        if (!$xhr) {
-            $page->wait($waitTime);
-        }
-        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->press($mmmTemporaryUploadButtonSelector)
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-            ->press($mmmTemporaryUploadButtonSelector);
-
-        if (!$xhr) {
-            $page->wait($waitTime);
-        }
-        $page->assertSee(__('medialibrary-extensions::messages.upload_success'));
+            ->press($mmmTemporaryUploadButtonSelector)
+            ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $this->assertDatabaseCount('mle_temporary_uploads', 2, $resolvedConnection);
     }
