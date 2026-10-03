@@ -202,6 +202,7 @@ class MediaLibraryExtensionsServiceProvider extends ServiceProvider
         Blade::component($this->packageNameShort.'-media-gallery', MediaGallery::class);
         Blade::component($this->packageNameShort.'-media-viewer', MediaViewer::class);
         Blade::component($this->packageNameShort.'-media-responsive', MediaResponsive::class);
+        Blade::component($this->packageNameShort.'-image-responsive', MediaResponsive::class);
         Blade::component($this->packageNameShort.'-collection-image', CollectionImage::class);
         Blade::component($this->packageNameShort.'-video-youtube', VideoYouTube::class);
         Blade::component($this->packageNameShort.'-first-available', MediaFirstAvailable::class);

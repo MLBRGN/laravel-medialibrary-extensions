@@ -231,3 +231,15 @@ it('uses media URL and ignores placeholder when media is present', function () {
     expect($html)->toContain('test.jpg');
     expect($html)->not->toContain('src="https://example.com/placeholder.jpg"');
 });
+
+it('can render using the legacy mle-image-responsive name', function () {
+    $medium = $this->getMedium();
+
+    $html = Blade::render(
+        '<x-mle-image-responsive id="test-id" :medium="$medium" />',
+        ['medium' => $medium]
+    );
+
+    expect($html)->toContain('mle-media-responsive')
+        ->and($html)->toContain('data-mle-image');
+});
