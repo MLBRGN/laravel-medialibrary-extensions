@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaViewer;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -19,7 +20,7 @@ it('initializes correctly', function () {
 
 it('resolves different media types correctly', function ($mimeType, $expectedType, $expectedComponent) {
     // Create a fake media object
-    $medium = new Media();
+    $medium = new Media;
     $medium->mime_type = $mimeType;
 
     $component = new MediaViewer(
@@ -40,7 +41,7 @@ it('renders correctly', function () {
     $model = $this->getModelWithMedia(['image' => 1]);
     $medium = $model->getFirstMedia('image_collection');
 
-    $html = \Illuminate\Support\Facades\Blade::render(
+    $html = Blade::render(
         '<x-mle-media-viewer id="viewer" :medium="$medium" />',
         ['medium' => $medium]
     );

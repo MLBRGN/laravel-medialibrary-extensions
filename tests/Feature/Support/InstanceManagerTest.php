@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 it('returns a deterministic hash as instance id', function () {

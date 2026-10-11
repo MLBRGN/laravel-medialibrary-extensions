@@ -5,9 +5,9 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
 use Mlbrgn\MediaLibraryExtensions\View\Components\ImageEditorModal;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use UnexpectedValueException;
 
 beforeEach(function () {
     Route::macro('mle_prefix_route', fn ($name) => "mle.$name");
@@ -150,7 +150,7 @@ it('throws when modelReference is null', function () {
 });
 
 it('throws when modelReference is an invalid type', function () {
-    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+    $this->expectException(InvalidModelTypeException::class);
     $this->expectExceptionMessage('does not exist');
 
     //    $this->expectException(\TypeError::class);
@@ -174,7 +174,7 @@ it('throws when modelReference is an invalid type', function () {
 });
 
 it('throws when modelReference is an class name', function () {
-    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+    $this->expectException(InvalidModelTypeException::class);
     $this->expectExceptionMessage('must implement');
 
     $model = $this->getTestModelNotExtendingHasMedia();

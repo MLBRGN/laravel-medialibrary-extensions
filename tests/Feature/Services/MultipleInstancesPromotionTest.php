@@ -15,7 +15,7 @@ beforeEach(function () {
     session()->start();
 
     // Test model table
-    if (!Schema::hasTable('test_posts')) {
+    if (! Schema::hasTable('test_posts')) {
         Schema::create('test_posts', function (Blueprint $table) {
             $table->id();
             $table->text('content')->nullable();
@@ -54,14 +54,14 @@ it('promotes media from multiple instance IDs provided as an array', function ()
     app(TemporaryUploadPromoter::class)->promoteAllForModel($post, $instanceIds, $clientToken);
 
     $post->refresh();
-    
+
     // Verify both media are attached
     expect($post->getMedia()->count())->toBe(2);
     expect($post->getMedia()->pluck('file_name')->toArray())->toContain('file1.png', 'file2.png');
 
     // Verify both temporary records are gone
     expect(TemporaryUpload::count())->toBe(0);
-    
+
     // Verify files are gone from temp disk
     Storage::disk($this->temporaryDisk)->assertMissing('file1.png');
     Storage::disk($this->temporaryDisk)->assertMissing('file2.png');
@@ -69,7 +69,7 @@ it('promotes media from multiple instance IDs provided as an array', function ()
 
 it('only promotes media from the specified instance IDs in the array', function () {
     $clientToken = (string) Str::ulid();
-    
+
     $temp1 = $this->createTemporaryUpload([
         'disk' => $this->temporaryDisk,
         'path' => 'file1.png',
@@ -92,7 +92,7 @@ it('only promotes media from the specified instance IDs in the array', function 
     app(TemporaryUploadPromoter::class)->promoteAllForModel($post, ['instance-1'], $clientToken);
 
     $post->refresh();
-    
+
     // Verify only file1 is attached
     expect($post->getMedia()->count())->toBe(1);
     expect($post->getMedia()->first()->file_name)->toBe('file1.png');
@@ -100,7 +100,7 @@ it('only promotes media from the specified instance IDs in the array', function 
     // Verify temp2 still exists, temp1 is gone
     expect(TemporaryUpload::count())->toBe(1);
     expect(TemporaryUpload::first()->instance_id)->toBe('instance-2');
-    
+
     // Verify file1 is gone, file2 remains
     Storage::disk($this->temporaryDisk)->assertMissing('file1.png');
     Storage::disk($this->temporaryDisk)->assertExists('file2.png');
@@ -138,7 +138,7 @@ it('promotes multiple instances from request input mle_instance_ids', function (
     app(TemporaryUploadPromoter::class)->promoteAllForModel($post);
 
     $post->refresh();
-    
+
     expect($post->getMedia()->count())->toBe(2);
     expect(TemporaryUpload::count())->toBe(0);
 });
@@ -173,7 +173,7 @@ it('promotes multiple instances automatically via InteractsWithMediaExtended tra
     $post = TestPost::create(['content' => 'Auto Promotion Test']);
 
     $post->refresh();
-    
+
     expect($post->getMedia()->count())->toBe(2);
     expect($post->getMedia()->pluck('file_name')->toArray())->toContain('x.png', 'y.png');
     expect(TemporaryUpload::count())->toBe(0);

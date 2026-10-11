@@ -251,6 +251,6 @@ it('returns error if file exceeds max upload size (redirect)', function () {
     $response->assertStatus(422);
 
     $response->assertSessionHasErrors([
-        'media' => (__('medialibrary-extensions::validation.media_max', ['max' => '100 KB']))
+        'media' => (__('medialibrary-extensions::validation.media_max', ['max' => '100 KB'])),
     ]);
 });

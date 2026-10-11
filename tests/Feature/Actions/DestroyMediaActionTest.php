@@ -33,7 +33,7 @@ it('deletes the medium and returns JSON', function () {
         'collections' => ['image' => 'images'],
         'model_type' => $model->getMorphClass(),
         'model_id' => (string) $model->getKey(),
-//        'data_source' => 'default',
+        //        'data_source' => 'default',
     ]);
 
     $response->assertStatus(200)
@@ -120,7 +120,7 @@ it('reorders all media on delete', function () {
             'collections' => $collections,
             'model_type' => $model->getMorphClass(),
             'model_id' => (string) $model->getKey(),
-//            'data_source' => 'default',
+            //            'data_source' => 'default',
         ]);
 
     $response->assertRedirect();

@@ -29,7 +29,7 @@ class BlogController extends Controller
 
     public function create(Request $request): View
     {
-        $blog = new Blog();
+        $blog = new Blog;
         $mode = 'create';
         $theme = $request->query('theme', 'bootstrap-5');
         $useXhr = $request->boolean('use_xhr', true);

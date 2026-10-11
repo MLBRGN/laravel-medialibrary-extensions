@@ -18,7 +18,7 @@ trait InteractsWithBlogIntegration
         $isTinyMce = $page->script("typeof tinymce !== 'undefined' && tinymce.get('content') !== null");
 
         if ($isTinyMce) {
-            $page->script("tinymce.get('content').setContent(" . json_encode($content) . ");");
+            $page->script("tinymce.get('content').setContent(".json_encode($content).');');
         } else {
             $page->type('#content', $content);
         }
@@ -36,9 +36,9 @@ trait InteractsWithBlogIntegration
         $button = "{$container} [data-mle-media-upload-button]";
 
         $this->scrollIntoView($page, $container);
-        
+
         $filename = basename($fixture);
-        
+
         $page->attach($input, $fixture)
             ->press($button)
             ->assertSee(__('medialibrary-extensions::messages.upload_success'));
@@ -89,11 +89,11 @@ trait InteractsWithBlogIntegration
     protected function assertGalleryCount(AwaitableWebpage|PendingAwaitablePage $page, int $count): AwaitableWebpage|PendingAwaitablePage
     {
         $container = '[data-base-id="blog-gallery-show"]';
-        
+
         if ($count > 0) {
             $page->assertPresent("{$container} [data-mle-media-preview-container]:nth-child({$count}) [data-mle-media-preview-item]");
         }
-        
+
         $next = $count + 1;
         $page->assertMissing("{$container} [data-mle-media-preview-container]:nth-child({$next})");
 
@@ -106,13 +106,13 @@ trait InteractsWithBlogIntegration
     protected function assertGalleryImagesVisible(AwaitableWebpage|PendingAwaitablePage $page, array $filenames): AwaitableWebpage|PendingAwaitablePage
     {
         $container = '[data-base-id="blog-gallery-show"]';
-        
+
         $this->assertGalleryCount($page, count($filenames));
 
         foreach ($filenames as $index => $filename) {
             $pos = $index + 1;
             $src = $page->page()->locator("{$container} [data-mle-media-preview-container]:nth-child({$pos}) [data-mle-media-preview-image]")->first()->getAttribute('src');
-            
+
             $found = false;
             foreach ($filenames as $name) {
                 if ($this->checkFilenameMatch($src, $name)) {
@@ -135,11 +135,11 @@ trait InteractsWithBlogIntegration
         $count = count($filenames);
 
         $page->assertPresent($container);
-        
+
         if ($count > 0) {
             $page->assertPresent("{$container} [data-mle-carousel-item]:nth-child({$count})");
         }
-        
+
         $next = $count + 1;
         $page->assertMissing("{$container} [data-mle-carousel-item]:nth-child({$next})");
 
@@ -188,8 +188,8 @@ trait InteractsWithBlogIntegration
         $ext = pathinfo($expectedFilename, PATHINFO_EXTENSION);
 
         // Match either underscore or hyphen in the base name
-        $pattern = strtr(preg_quote($base), ['_' => '[_-]', '-' => '[_-]']) . '\.' . preg_quote($ext);
+        $pattern = strtr(preg_quote($base), ['_' => '[_-]', '-' => '[_-]']).'\.'.preg_quote($ext);
 
-        return (bool) preg_match('/' . $pattern . '/', $src);
+        return (bool) preg_match('/'.$pattern.'/', $src);
     }
 }

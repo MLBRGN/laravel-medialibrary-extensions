@@ -1,30 +1,32 @@
 <?php
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
 use Mlbrgn\MediaLibraryExtensions\Database\Factories\TemporaryUploadFactory;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MinMediaCount;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\ExtendedBaseComponent;
 
 it('includes isolationFormId in render data', function () {
     $component = new ExtendedBaseComponent('my-component-id');
     // Using a partial that we know exists in the plain theme
     $view = $component->renderView('upload-form', theme: 'plain', isPartial: true);
-    
+
     expect($view->getData()['isolationFormId'])->toBe('mle-isolated-my-component-id');
 });
 
 it('renders form attribute and mle_instance_map in media-manager', function () {
     $id = 'my-manager';
     $name = 'gallery';
-    
-    $html = \Illuminate\Support\Facades\Blade::render(
+
+    $html = Blade::render(
         '<x-mle-media-manager :id="$id" :model-reference="$model" :name="$name" :collections="$collections" />',
         [
             'id' => $id,
-            'model' => \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class,
+            'model' => Blog::class,
             'name' => $name,
-            'collections' => ['blog-gallery' => 'blog-gallery']
+            'collections' => ['blog-gallery' => 'blog-gallery'],
         ]
     );
 
@@ -35,13 +37,13 @@ it('renders form attribute and mle_instance_map in media-manager', function () {
 
 it('renders form attribute in upload-form partial', function () {
     $id = 'my-manager';
-    
-    $html = \Illuminate\Support\Facades\Blade::render(
+
+    $html = Blade::render(
         '<x-mle-partial-upload-form :id="$id" :model-reference="$model" :collections="$collections" />',
         [
             'id' => $id,
-            'model' => \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class,
-            'collections' => ['blog-gallery' => 'blog-gallery']
+            'model' => Blog::class,
+            'collections' => ['blog-gallery' => 'blog-gallery'],
         ]
     );
 
@@ -51,11 +53,11 @@ it('renders form attribute in upload-form partial', function () {
 it('renders form attribute and mle_instance_map in media-lab', function () {
     $id = 'my-lab';
     $name = 'lab-field';
-    
+
     // Create a real medium for the lab
     $media = $this->getMedium();
-    
-    $html = \Illuminate\Support\Facades\Blade::render(
+
+    $html = Blade::render(
         '<x-mle-media-lab :id="$id" :name="$name" :media="$media" />',
         [
             'id' => $id,

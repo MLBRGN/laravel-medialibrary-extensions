@@ -2,6 +2,7 @@
 
 use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
 
 it('can count effective media', function () {
     config(['medialibrary-extensions.test_client_token' => 'mle-test-token-12345']);
@@ -90,8 +91,9 @@ it('supports different data sources', function () {
 it('allows the trait to count effective media', function () {
     config(['medialibrary-extensions.test_client_token' => 'mle-test-token-12345']);
 
-    $class = new class {
-        use \Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
+    $class = new class
+    {
+        use ChecksMediaLimits;
 
         public function getCount($collections, $model, $instanceId)
         {

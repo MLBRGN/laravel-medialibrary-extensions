@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit;
 
-
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\TemporaryUploadPromoterTestProxy;
 
 it('replaces absolute temporary URLs with a single absolute media URL (no double host)', function (): void {

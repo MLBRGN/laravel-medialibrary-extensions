@@ -1,13 +1,12 @@
 <?php
 
 /** @noinspection InvalidDatasetNameCaseInspection */
-
 beforeEach(function () {
     config(['media-library.disk_name' => 'mle_demo_disk']);
 });
 
 it('simulates a human workflow: index -> create -> upload -> show', function (string $theme, bool $useXhr) {
-    $title = 'Human Flow Test ' . uniqid();
+    $title = 'Human Flow Test '.uniqid();
     $xhrInt = $useXhr ? 1 : 0;
     $wait = $useXhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
@@ -42,7 +41,7 @@ it('simulates a human workflow: index -> create -> upload -> show', function (st
 })->with('blog_crud_matrix')->group('browser')->flaky();
 
 it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit -> show', function (string $theme, bool $useXhr) {
-    $title = 'Human CRUD Test ' . uniqid();
+    $title = 'Human CRUD Test '.uniqid();
     $xhrInt = $useXhr ? 1 : 0;
     $wait = $useXhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
@@ -55,7 +54,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     $this->fillBlogForm($page, $title, 'Full lifecycle test content');
 
     $featuredName = $this->uploadFeaturedImage($page, $this->getRandomFixture());
-    
+
     $galleryNames = [];
     $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
     $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
@@ -73,9 +72,9 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     // Click the 2nd gallery image
     $galleryId = 'blog-gallery-show';
     $galleryItem2Selector = "[data-base-id=\"{$galleryId}\"] [data-mle-media-preview-container]:nth-child(2) [data-mle-media-preview-item]";
-    
+
     // Get the expected filename from the preview image
-    $expectedSrc = $page->page()->locator($galleryItem2Selector . ' [data-mle-media-preview-image]')->first()->getAttribute('src');
+    $expectedSrc = $page->page()->locator($galleryItem2Selector.' [data-mle-media-preview-image]')->first()->getAttribute('src');
     $expectedFilename = basename(parse_url($expectedSrc, PHP_URL_PATH));
     $expectedFilenameBase = pathinfo($expectedFilename, PATHINFO_FILENAME);
 
@@ -84,21 +83,21 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     // Assert modal is open - use specific ID
     $modalId = "{$galleryId}-mod";
     $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
-    
+
     $page->assertPresent($modalSelector);
 
     // In the modal carousel, check the active item matches image 2
-    $page->assertPresent($modalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$expectedFilenameBase}']");
+    $page->assertPresent($modalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$expectedFilenameBase}']");
 
     // Close modal
-    $page->click($modalSelector . ' [data-mle-modal-close]');
+    $page->click($modalSelector.' [data-mle-modal-close]');
     $page->assertMissing($modalSelector);
 
     // 6. Edit Flow
     $page->click('#btn-edit-blog') // Edit button on show page
         ->assertSee('Edit blog');
 
-    $newTitle = 'Human CRUD Edit ' . uniqid();
+    $newTitle = 'Human CRUD Edit '.uniqid();
     $page->type('#title', $newTitle);
 
     // Delete featured image
@@ -116,14 +115,14 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
         ->assertSee($newTitle);
 
     $this->assertFeaturedImageVisible($page, $newFeaturedName);
-    
+
     $page->page()->close();
 })->with('blog_crud_matrix')->group('browser')->flaky();
 
 it('allows reordering gallery images during blog creation and maintains sync', function (string $theme, bool $useXhr) {
-    $title = 'Reorder Test ' . uniqid();
+    $title = 'Reorder Test '.uniqid();
     $xhrInt = $useXhr ? 1 : 0;
-    
+
     // 1. Start at Create page
     $page = $this->visit("/blogs/create?theme={$theme}&use_xhr={$xhrInt}");
     $page->assertSee('Add a new blog');
@@ -159,9 +158,9 @@ it('allows reordering gallery images during blog creation and maintains sync', f
 
     $modalId = "{$galleryId}-mod";
     $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
-    
+
     $page->assertPresent($modalSelector);
-    $activeItemSrc = $page->page()->locator($modalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image]')->first()->getAttribute('src');
+    $activeItemSrc = $page->page()->locator($modalSelector.' [data-mle-carousel-item].active [data-mle-media-preview-image]')->first()->getAttribute('src');
     $this->assertFilenameMatch($activeItemSrc, $expectedOrder[0]);
 
     $page->page()->close();

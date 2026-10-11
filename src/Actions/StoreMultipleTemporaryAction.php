@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Helpers\MediaResponse;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreMultipleRequest;
-use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaModelResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\UploadPreparerService;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
@@ -138,12 +137,12 @@ class StoreMultipleTemporaryAction
                 ?? $request->cookie('mle_client_token')
                 ?? (string) Str::ulid();
 
-        // Store file with a unique name to avoid collisions when multiple files with the same name are uploaded.
-        $path = Storage::disk($disk)->putFile(
-            $directory,
-            $prepared->file
-        );
-        $temporaryUpload = $this->mediaModelResolver->instantiateTemporaryUpload($dataSource);
+            // Store file with a unique name to avoid collisions when multiple files with the same name are uploaded.
+            $path = Storage::disk($disk)->putFile(
+                $directory,
+                $prepared->file
+            );
+            $temporaryUpload = $this->mediaModelResolver->instantiateTemporaryUpload($dataSource);
 
             // Diagnostics: log upload context and resolved connection before persisting
             try {

@@ -31,7 +31,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
     $deleteButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-delete-button]';
 
-    $statusMessageSelector = $mediaManagerId . ' .mle-media-manager-previews > .mle-status-area [data-mle-status-message]';
+    $statusMessageSelector = $mediaManagerId.' .mle-media-manager-previews > .mle-status-area [data-mle-status-message]';
 
     // for modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
@@ -72,13 +72,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertButtonEnabled($uploadButtonSelector);
 
     // test that it shows error when no file selected
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($uploadButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -87,13 +87,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture());
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($uploadButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -107,13 +107,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         // attach an image file and submit and check if spinner shows and upload is successful
         $page->attach($inputSelector, $this->getRandomFixture());
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
         }
 
         $page->press($uploadButtonSelector);
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->waitForEvent('load');
         }
 
@@ -157,7 +157,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         $currentSelector = $gridSelector." [data-mle-media-preview-container]:nth-child({$randomIndex}) [data-mle-media-preview-item]";
 
         // Get the src of the preview image
-        $previewSrc = $page->page()->locator($currentSelector . ' [data-mle-media-preview-image]')->first()->getAttribute('src');
+        $previewSrc = $page->page()->locator($currentSelector.' [data-mle-media-preview-image]')->first()->getAttribute('src');
         $filenamePart = basename(parse_url($previewSrc, PHP_URL_PATH));
 
         $page->press($currentSelector);
@@ -165,9 +165,9 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         $this->waitForVisible($page, $mediaModalSelector);
 
         // Verify active slide matches the clicked image
-        $page->assertPresent($mediaModalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="' . $filenamePart . '"]');
+        $page->assertPresent($mediaModalSelector.' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="'.$filenamePart.'"]');
 
-    // Close modal
+        // Close modal
         $page->press($mediaModalCloseButtonSelector);
         $this->waitForMissing($page, $mediaModalSelector);
     }
@@ -185,13 +185,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalRotateCcwButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($imageEditorModalSaveButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -199,13 +199,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertSee(__('medialibrary-extensions::messages.medium_replaced'));
 
     // delete one media and validate counts/alerts/form state
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($deleteButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -220,13 +220,13 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
             $gridSelector.
             ' [data-mle-media-preview-container]:first-child [data-mle-media-delete-button]';
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
         }
 
         $page->press($currentDeleteButtonSelector);
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->waitForEvent('load');
         }
 
@@ -266,13 +266,13 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     for ($i = 0; $i < 3; $i++) {
         $page->attach($inputSelector, $this->getRandomFixture());
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
         }
 
         $page->press($uploadButtonSelector);
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->waitForEvent('load');
         }
 
@@ -295,20 +295,20 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $page->press($secondItemPreview);
     $this->waitForVisible($page, $mediaModalSelector)
         // Wait until the active slide matches the clicked image
-        ->assertPresent($mediaModalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
+        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
         ->press($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     // 4. Set the second item as first
     $setAsFirstButtonSelector = $secondContainer.' [data-mle-media-set-as-first-button]';
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($setAsFirstButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -323,7 +323,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     // 6. Verify synchronization of the NEW first item
     $page->press($firstContainer.' [data-mle-media-preview-item]');
     $this->waitForVisible($page, $mediaModalSelector)
-        ->assertPresent($mediaModalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
+        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
         ->press($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
@@ -336,7 +336,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
 
     $page->press($newSecondContainer.' [data-mle-media-preview-item]');
     $this->waitForVisible($page, $mediaModalSelector)
-        ->assertPresent($mediaModalSelector . " [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$newSecondFilenameBase}']")
+        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$newSecondFilenameBase}']")
         ->press($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 

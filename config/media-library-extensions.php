@@ -216,7 +216,6 @@ return [
     */
     'max_media_count' => env('MEDIA_LIBRARY_EXTENSIONS_MAX_MEDIA_COUNT', 10),
 
-
     /*
     |--------------------------------------------------------------------------
     | Default min size of media collection

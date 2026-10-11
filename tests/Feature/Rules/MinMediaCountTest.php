@@ -100,7 +100,7 @@ it('resolves instance id from request if not provided', function () {
     $clientToken = 'test-client';
     $instanceId = 'instance-123';
     $otherInstanceId = 'instance-456';
-    
+
     request()->merge([
         'client_token' => $clientToken,
         'instance_id' => $instanceId,
@@ -113,7 +113,7 @@ it('resolves instance id from request if not provided', function () {
         ->state(['instance_id' => $instanceId])
         ->count(2)
         ->create();
-        
+
     // Create 1 upload for a different instance (should be ignored)
     TemporaryUploadFactory::new()
         ->forCollection('images')
@@ -127,7 +127,7 @@ it('resolves instance id from request if not provided', function () {
 
     // Should pass because we have exactly 2 for instance-123
     expect($validator->passes())->toBeTrue();
-    
+
     // If we required 3, it should fail (proving the other instance was ignored)
     $rule3 = new MinMediaCount(null, ['images'], 3);
     $validator3 = Validator::make(['gallery' => 2], ['gallery' => [$rule3]]);

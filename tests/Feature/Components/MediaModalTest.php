@@ -4,6 +4,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Tests\Unit\View\Components;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\View\Components\MediaModal;
 
@@ -194,7 +195,7 @@ it('throws if given class string does not exist', function () {
         modelReference: $modelReference,
         collections: null,
         title: 'Invalid'
-    ))->toThrow(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
+    ))->toThrow(InvalidModelTypeException::class, __('medialibrary-extensions::messages.class_does_not_exist', [
         'class_name' => $modelReference,
     ]));
 });
@@ -206,9 +207,9 @@ it('throws if given class string does not implement HasMediaExtended', function 
         modelReference: $modelReference,
         collections: null,
         title: 'Invalid'
-    ))->toThrow(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
+    ))->toThrow(InvalidModelTypeException::class, __('medialibrary-extensions::messages.must_implement_has_media', [
         'class' => $modelReference,
-        'interface' => \Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended::class,
+        'interface' => HasMediaExtended::class,
     ]));
 });
 

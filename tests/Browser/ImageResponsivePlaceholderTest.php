@@ -1,9 +1,8 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Tests\Browser;
-
-use Mlbrgn\MediaLibraryExtensions\Tests\BrowserTestCase;
 
 it('verifies all placeholder scenarios in the browser', function () {
     $this->visit('/test-placeholders')

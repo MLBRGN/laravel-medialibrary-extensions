@@ -12,7 +12,7 @@ it('DataSourceResolver throws wehn invalid dataSource provided', function () {
     Config::set('database.default', 'testbench');
     $resolver = new DataSourceResolver;
 
-    expect(fn () => $resolver->resolveConnection('defa'))->toThrow(\InvalidArgumentException::class);
+    expect(fn () => $resolver->resolveConnection('defa'))->toThrow(InvalidArgumentException::class);
 });
 
 it('DataSourceResolver resolves demo connection when dataSource is demo', function () {

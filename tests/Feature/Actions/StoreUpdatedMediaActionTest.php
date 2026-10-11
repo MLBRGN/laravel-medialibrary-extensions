@@ -87,10 +87,10 @@ it('replaces a temporary upload (JSON)', function () {
     $instanceId = 'instance-id';
 
     $existingUpload = $this->getTemporaryUpload('old_temp_file.jpg',
-    [
-        'client_token' => $clientToken,
-        'instance_id' => $instanceId,
-    ]);
+        [
+            'client_token' => $clientToken,
+            'instance_id' => $instanceId,
+        ]);
     $file = UploadedFile::fake()->image('new_temp_file.jpg');
 
     $payload = [
@@ -227,7 +227,7 @@ it('handles existing medium is not found', function () {
 
     $model = $this->getTestBlogModel();
     $file = $this->getFixtureUploadedFile('test.jpg');
-//    $file = UploadedFile::fake()->image('new.jpg');
+    //    $file = UploadedFile::fake()->image('new.jpg');
 
     $request = StoreUpdatedMediaRequest::create('/', 'POST', [
         'model_type' => get_class($model),

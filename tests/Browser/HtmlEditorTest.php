@@ -4,7 +4,6 @@
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use Illuminate\Support\Facades\Config;
-use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Pest\Browser\Api\AwaitableWebpage;
 
 beforeEach(function () {
@@ -99,7 +98,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         $page->attach($inputSelector, $this->getInvalidMimeTypeFixture())
             ->press($uploadButtonSelector);
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->waitForEvent('load');
         }
 
@@ -114,7 +113,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
             $page->attach($inputSelector, $this->getRandomFixture())
                 ->press($uploadButtonSelector);
 
-            if (!$xhr) {
+            if (! $xhr) {
                 $page->waitForEvent('load');
             }
 
@@ -189,7 +188,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
         // delete one media and validate counts/alerts/form state
         $page->press($deleteButtonSelector);
 
-        if (!$xhr) {
+        if (! $xhr) {
             $page->waitForEvent('load');
         }
 

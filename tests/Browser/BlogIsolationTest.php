@@ -3,13 +3,12 @@
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 /** @noinspection InvalidDatasetNameCaseInspection */
-
 beforeEach(function () {
     config(['media-library.disk_name' => 'mle_demo_disk']);
 });
 
 it('handles abandoned temporary uploads in the same tab session', function (string $theme, bool $useXhr) {
-    $title = 'Abandoned Test ' . uniqid();
+    $title = 'Abandoned Test '.uniqid();
     $xhrInt = $useXhr ? 1 : 0;
 
     // 1. Visit index and click create
@@ -83,7 +82,7 @@ it('does not leak media between different blogs on their show pages', function (
     $container = '[data-base-id="blog-main-show"]';
     $page->assertPresent("{$container} [data-mle-media-preview-item]")
         ->assertMissing("{$container} [data-mle-media-preview-container]:nth-child(2)");
-    
+
     $src = $page->page()->locator("{$container} [data-mle-media-preview-image]")->first()->getAttribute('src');
     expect($src)->toContain($fixtureAName)
         ->not->toContain($fixtureBName);

@@ -122,7 +122,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         // test modal expansion if applicable (default is true)
         ->click($secondItemSelector)
         ->assertVisible($modalSelector)
-        ->click($modalSelector . ' [data-mle-modal-close]')
+        ->click($modalSelector.' [data-mle-modal-close]')
         ->assertMissing($modalSelector); // not visible
 
     $page->page()->close();

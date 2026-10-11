@@ -12,18 +12,18 @@ beforeEach(function () {
 it('can display media in media responsive component and expand in modal', function ($theme, $dataSource, $xhr) {
     // Selectors for Media Responsive
     $mediaResponsiveDomId = 'media-responsive-media-responsive';
-    $mediaResponsiveId = '#' . $mediaResponsiveDomId;
-    $viewerSelector = $mediaResponsiveId . '[data-mle-media-preview-image]';
-    
+    $mediaResponsiveId = '#'.$mediaResponsiveDomId;
+    $viewerSelector = $mediaResponsiveId.'[data-mle-media-preview-image]';
+
     // Selectors for Media Manager Single
     $mmsId = '#alien-single-permanent-mms';
-    $mmsInputSelector = $mmsId . ' [data-mle-media-input]';
-    $mmsUploadButtonSelector = $mmsId . ' [data-mle-media-upload-button]';
+    $mmsInputSelector = $mmsId.' [data-mle-media-input]';
+    $mmsUploadButtonSelector = $mmsId.' [data-mle-media-upload-button]';
 
     // Modal selectors
     $modalId = '#media-responsive-mod';
-    $modalSelector = $modalId . '[data-mle-media-modal]';
-    $modalCloseButtonSelector = $modalSelector . ' [data-mle-modal-close]';
+    $modalSelector = $modalId.'[data-mle-media-modal]';
+    $modalCloseButtonSelector = $modalSelector.' [data-mle-modal-close]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;

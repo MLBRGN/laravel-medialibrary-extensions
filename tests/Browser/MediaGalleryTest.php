@@ -9,12 +9,12 @@ beforeEach(function () {
 it('can interact with the media gallery', function ($theme, $dataSource, $xhr) {
     $galleryId = '#alien-gallery-gal';
     $modalId = '#alien-gallery-mod';
-    $modalSelector = $modalId . '[data-mle-media-modal]';
-    
+    $modalSelector = $modalId.'[data-mle-media-modal]';
+
     // Using alien-multiple-permanent-mmm to upload media
     $mmmId = '#alien-multiple-permanent-mmm';
-    $mmmInputSelector = $mmmId . ' [data-mle-media-input]';
-    $mmmUploadButtonSelector = $mmmId . ' [data-mle-media-upload-button]';
+    $mmmInputSelector = $mmmId.' [data-mle-media-input]';
+    $mmmUploadButtonSelector = $mmmId.' [data-mle-media-upload-button]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
@@ -41,18 +41,18 @@ it('can interact with the media gallery', function ($theme, $dataSource, $xhr) {
     $page->refresh();
 
     $this->scrollIntoView($page, $galleryId);
-    
+
     $page->assertPresent($galleryId)
-        ->assertPresent($galleryId . ' .mle-media-gallery-item')
-        ->assertPresent($galleryId . ' .mle-image-responsive');
+        ->assertPresent($galleryId.' .mle-media-gallery-item')
+        ->assertPresent($galleryId.' .mle-image-responsive');
 
     // 3. Test modal expansion and slide targeting
     // Click the second gallery item
-    $page->click($galleryId . ' .mle-media-gallery-item:nth-child(2)')
+    $page->click($galleryId.' .mle-media-gallery-item:nth-child(2)')
         ->assertVisible($modalSelector)
         // Verify the second carousel item is active (slide targeting)
-        ->assertPresent($modalId . ' .mle-media-carousel-item:nth-child(2).active')
-        ->click($modalSelector . ' [data-mle-modal-close]')
+        ->assertPresent($modalId.' .mle-media-carousel-item:nth-child(2).active')
+        ->click($modalSelector.' [data-mle-modal-close]')
         ->assertMissing($modalSelector);
 
     $page->page()->close();

@@ -1,7 +1,6 @@
 <?php
 
 /** @noinspection InvalidDatasetNameCaseInspection */
-
 dataset('mms_test_matrix', function () {
     $full = [
         'bootstrap + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, 'permanent'],

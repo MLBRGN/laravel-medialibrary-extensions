@@ -1,14 +1,14 @@
 <?php
 
-use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Mlbrgn\MediaLibraryExtensions\View\Components\MediaManager;
 
 beforeEach(function () {
-    View::share('errors', new ViewErrorBag());
+    View::share('errors', new ViewErrorBag);
 });
 
 it('initializes with min, required and name properties', function () {
@@ -64,7 +64,7 @@ it('keeps minMediaCount at 0 when required is false and min is 0', function () {
 
 it('renders hidden media count input when name is provided', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
             id="test-1"
@@ -81,7 +81,7 @@ it('renders hidden media count input when name is provided', function () {
 
 it('defaults name to id and renders hidden media count input when name is not provided', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
             id="test-1"
@@ -96,7 +96,7 @@ it('defaults name to id and renders hidden media count input when name is not pr
 
 it('does not render required indicator next to media counts', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
             id="test-1"
@@ -109,7 +109,7 @@ it('does not render required indicator next to media counts', function () {
     // Should NOT be inside the counts span
     $countsSpan = preg_match('/<span[^>]*data-mle-media-manager-media-counts[^>]*>(.*?)<\/span>/s', $html, $matches) ? $matches[1] : '';
     expect($countsSpan)->not()->toContain('mle-required-indicator');
-    
+
     // BUT should be in the label
     expect($html)->toContain('<label for="test-1-media-input"');
     expect($html)->toContain('<span class="mle-required-indicator">*</span>');
@@ -117,7 +117,7 @@ it('does not render required indicator next to media counts', function () {
 
 it('does not render required indicator when required is false and min is 0', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
             id="test-1"
@@ -133,9 +133,9 @@ it('does not render required indicator when required is false and min is 0', fun
 
 it('renders validation errors for the given name', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     // Simulate validation error
-    $errors = new ViewErrorBag();
+    $errors = new ViewErrorBag;
     $errors->put('default', new MessageBag(['gallery' => ['The gallery field is required.']]));
     View::share('errors', $errors);
 
@@ -155,7 +155,7 @@ it('renders validation errors for the given name', function () {
 
 it('renders required indicator in upload form label', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
             id="test-1"
@@ -175,7 +175,7 @@ it('renders required indicator in upload form label', function () {
 
 it('includes requirement text in supported files summary', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     // Case 1: required (min=1)
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
@@ -218,7 +218,7 @@ it('includes requirement text in supported files summary', function () {
 
 it('includes max media text in supported files summary', function () {
     $model = Blog::create(['title' => 'test']);
-    
+
     $html = Blade::render(<<<'BLADE'
         <x-mle-media-manager
             id="test-1"

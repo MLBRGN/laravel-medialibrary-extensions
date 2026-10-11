@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Routes;
@@ -6,7 +7,6 @@ namespace Mlbrgn\MediaLibraryExtensions\Routes;
 use Illuminate\Support\Facades\Route;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
-
 
 Route::group([
     'middleware' => array_merge(

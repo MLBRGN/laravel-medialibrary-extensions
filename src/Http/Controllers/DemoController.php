@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\demo\StoreAlienRequest;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\demo\StoreIsolationRequest;
@@ -64,7 +65,7 @@ class DemoController extends Controller
         // Log the incoming context for diagnostics
         try {
             $resolvedConnection = app(DataSourceResolver::class)->resolveConnection($dataSource);
-            
+
             // Ensure all model queries (including Spatie Media) use the resolved demo connection by default
             if ($resolvedConnection) {
                 config(['database.default' => $resolvedConnection]);
@@ -219,12 +220,12 @@ class DemoController extends Controller
     {
         try {
             app(StoreIsolationRequest::class);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->validator)->withInput();
         }
 
         $data = $request->all();
-        
+
         // Remove sensitive or irrelevant fields for display
         unset($data['_token']);
 

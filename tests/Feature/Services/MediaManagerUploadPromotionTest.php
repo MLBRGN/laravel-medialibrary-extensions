@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Support\MediaUploadContext;
+use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred;
@@ -55,7 +56,7 @@ beforeEach(function () {
     app()->singleton(
         ResponsiveImageGenerator::class,
         function () {
-            $filesystem = app(\Spatie\MediaLibrary\MediaCollections\Filesystem::class);
+            $filesystem = app(Filesystem::class);
             $widthCalculator = app(WidthCalculator::class);
             $tiny = app(TinyPlaceholderGenerator::class);
 

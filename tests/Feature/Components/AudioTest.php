@@ -19,7 +19,7 @@ it('initializes correctly and uses correct suffix', function () {
 it('can be instantiated with a medium', function () {
     $medium = $this->getMediaModelWithMedia(['audio' => 1]);
 
-//    TODO somehow test fails when not adding test="test"
+    //    TODO somehow test fails when not adding test="test"
     // probably due to
     // Laravel's component attribute injection only works with constructor parameters that exist on the concrete component class. It does not care that the parent class has an $id parameter.
     $html = Blade::render('<x-mle-audio id="test-audio" :medium="$medium" test="test"/>', [
@@ -34,7 +34,7 @@ it('can be instantiated with a TemporaryUpload', function () {
     Storage::fake('media');
     $temporaryUpload = $this->getTemporaryUpload();
 
-//    TODO somehow test fails when not adding test="test"
+    //    TODO somehow test fails when not adding test="test"
     $html = Blade::render('<x-mle-audio id="test-audio" :medium="$medium" test="test" />', [
         'medium' => $temporaryUpload,
     ]);

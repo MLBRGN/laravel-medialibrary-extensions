@@ -4,7 +4,6 @@
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use Illuminate\Support\Facades\Config;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);

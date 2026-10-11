@@ -4,6 +4,7 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithResponsiveImages;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -54,8 +55,8 @@ class CollectionImage extends BaseMediaComponent
     {
         try {
             parent::resolveModel($modelReference, $dataSource);
-        } catch (\Throwable) {
-            $this->resolvedModel = new \Mlbrgn\MediaLibraryExtensions\Services\ResolvedModel(
+        } catch (Throwable) {
+            $this->resolvedModel = new ResolvedModel(
                 model: null,
                 modelType: null,
                 modelId: null,

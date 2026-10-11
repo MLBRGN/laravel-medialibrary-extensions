@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Http\Request;
 use Illuminate\Session\ArraySessionHandler;
 use Illuminate\Session\Store;
@@ -13,12 +12,11 @@ beforeEach(function () {
 });
 
 function makeRequest(
-    array  $input = [],
-    array  $cookies = [],
+    array $input = [],
+    array $cookies = [],
     ?array $attributes = null,
     ?array $sessionData = null,
-): Request
-{
+): Request {
     $request = Request::create('/', 'GET', $input, $cookies);
 
     if ($attributes) {

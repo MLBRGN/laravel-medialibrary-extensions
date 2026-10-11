@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreSingleTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreSingleRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
+use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 
 beforeEach(function () {
@@ -42,9 +42,9 @@ it('attaches temporary media on non created model, and stores medium on model cr
     $request->headers->set('Accept', 'application/json');
     app()->instance('request', $request);
 
-//    $mediaService = app(MediaService::class);
-//    $uploadPreparer = app(UploadPreparerService::class);
-//    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
+    //    $mediaService = app(MediaService::class);
+    //    $uploadPreparer = app(UploadPreparerService::class);
+    //    $action = new StoreSingleTemporaryAction($mediaService, $uploadPreparer);
     $action = app(StoreSingleTemporaryAction::class);
     $response = $action->execute($request);
 
@@ -61,7 +61,7 @@ it('attaches temporary media on non created model, and stores medium on model cr
 
     $temporaryMedium = TemporaryUpload::getForCurrentClient('images', $instanceId, 'default', $clientToken);
 
-//    dump($temporaryMedium->toArray());
+    //    dump($temporaryMedium->toArray());
     expect($temporaryMedium)->not()->toBeNull()
         ->and(TemporaryUpload::count())->toBe(1);
 
@@ -122,8 +122,8 @@ it('returns error when no collection provided', function () {
 
 it('logs error when safeAddMedia fails', function () {
     $model = $this->getTestBlogModel();
-//    $model = Mockery::mock(Blog::class)->makePartial();
-//    $model->shouldReceive('addMediaFromDisk')->andThrow(new Exception('Test failure'));
+    //    $model = Mockery::mock(Blog::class)->makePartial();
+    //    $model->shouldReceive('addMediaFromDisk')->andThrow(new Exception('Test failure'));
 
     $refMethod = new ReflectionMethod($model, 'safeAddMedia');
     $refMethod->setAccessible(true);
@@ -162,7 +162,7 @@ it('replaces temporary urls in html editor fields', function () {
     $model->htmlEditorFields = ['content'];
 
     // The "content" field contains an image referencing the temporary upload URL
-    $model->content = '<p><img src="' . $upload->getUrl() . '"></p>';
+    $model->content = '<p><img src="'.$upload->getUrl().'"></p>';
 
     // Act: save the model — this should trigger conversion from temporary → permanent
     $model->save();

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Request;
-use Mlbrgn\MediaLibraryExtensions\Rules\AtLeastOneCollection;
 use Illuminate\Support\Facades\Validator;
+use Mlbrgn\MediaLibraryExtensions\Rules\AtLeastOneCollection;
 
 beforeEach(function () {
     $this->rule = new AtLeastOneCollection;

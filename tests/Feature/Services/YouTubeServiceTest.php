@@ -5,13 +5,11 @@ use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
 use Mlbrgn\MediaLibraryExtensions\Services\YouTubeService;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 beforeEach(function () {
     $this->dataSourceResolver = new DataSourceResolver;
-//    $this->youTubeThumbnailDownloader
-//    $this->service = new YouTubeService($this->dataSourceResolver);
+    //    $this->youTubeThumbnailDownloader
+    //    $this->service = new YouTubeService($this->dataSourceResolver);
 
     $this->service = app(YouTubeService::class);
 

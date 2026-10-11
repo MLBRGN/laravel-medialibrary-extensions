@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\UploadForm;
 
@@ -27,7 +28,7 @@ it('throws translated exception if invalid class name is provided', closure: fun
     );
 
     $component->render();
-})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+})->throws(InvalidModelTypeException::class);
 
 it('throws exception if given a model that does not implement HasMedia', function () {
     // A valid existing class, but not implementing HasMedia
@@ -49,7 +50,7 @@ it('throws exception if given a model that does not implement HasMedia', functio
 
     $component->render();
     // });
-})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+})->throws(InvalidModelTypeException::class);
 
 it('honors frontend theme', function () {
     Config::set('medialibrary-extensions.frontend_theme', 'default-theme');

@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 it('blocks replacing a medium that belongs to another model (body tampering)', function () {

@@ -2,7 +2,6 @@
 
 /** @noinspection InvalidDatasetNameCaseInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
-
 beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });

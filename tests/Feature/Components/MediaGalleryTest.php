@@ -1,8 +1,6 @@
 <?php
 
 use Mlbrgn\MediaLibraryExtensions\Tests\TestSupport\Models\Post;
-use Mlbrgn\MediaLibraryExtensions\View\Components\MediaGallery;
-use Illuminate\Support\Facades\Blade;
 
 beforeEach(function () {
     $this->model = Post::create(['title' => 'Test Post']);
@@ -96,7 +94,7 @@ it('verifies modal duplication concern', function () {
     // Count occurrences of the modal container precisely
     $html = (string) $view;
     $count = substr_count($html, 'data-mle-media-modal');
-    
+
     // We expect 1. If duplicated by children, it would be more.
     expect($count)->toBe(1);
 });

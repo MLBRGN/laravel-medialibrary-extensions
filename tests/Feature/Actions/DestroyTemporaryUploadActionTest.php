@@ -30,9 +30,9 @@ it('returns error response when no collections provided (JSON)', function () {
     // Call your route with an empty payload to trigger 422
     $response = $this->withCookie('mle_client_token', session()->getId())
         ->actingAs($user)->deleteJson(
-        route(config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload', $upload),
-        ['base_id' => $baseId]
-    );
+            route(config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload', $upload),
+            ['base_id' => $baseId]
+        );
 
     $response->assertStatus(422)
         ->assertJson([
@@ -60,15 +60,14 @@ it('returns error response when no collections provided (Redirect)', function ()
         'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
-
     $response = $this->withCookie('mle_client_token', session()->getId())
         ->actingAs($user)->delete(
-        route(config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload', $upload),
-        ['base_id' => $baseId]
-    );
+            route(config('medialibrary-extensions.route_prefix').'-destroy-temporary-upload', $upload),
+            ['base_id' => $baseId]
+        );
 
     $response->assertStatus(422);
-//    $response->assertRedirect();
+    //    $response->assertRedirect();
 
     $flashKey = config('medialibrary-extensions.status_session_prefix');
     $flashData = $response->getSession()->get($flashKey);
@@ -160,7 +159,7 @@ it('deletes the temporary upload and returns redirect', function () {
             'base_id' => $baseId,
             'collections' => $collections,
             'client_token' => $clientToken,
-            'instance_id' => $instanceId,]
+            'instance_id' => $instanceId, ]
     );
 
     $response->assertRedirect();

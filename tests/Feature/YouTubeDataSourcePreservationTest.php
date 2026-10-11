@@ -1,14 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoPermanentAction;
 use Mlbrgn\MediaLibraryExtensions\Actions\StoreYouTubeVideoTemporaryAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\StoreYouTubeVideoRequest;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
-use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 it('stores a youtube video temporary on a custom data source', function () {
     $dataSource = 'test_default';

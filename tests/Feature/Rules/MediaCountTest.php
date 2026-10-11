@@ -81,7 +81,7 @@ it('fails when max requirement is not met', function () {
 it('resolves instance id from mle_instance_map', function () {
     $clientToken = 'test-client';
     $instanceId = 'instance-123';
-    
+
     request()->merge([
         'client_token' => $clientToken,
         'mle_instance_map' => [
@@ -113,12 +113,12 @@ it('respects multiple(false) for min message', function () {
 
 it('respects multiple(false) for max message', function () {
     $rule = (new MediaCount($this->model, ['images']))->max(1)->multiple(false);
-    
+
     $this->model
         ->shouldReceive('getMedia')
         ->with('images')
         ->andReturn(collect(['e1', 'e2']));
-        
+
     $validator = Validator::make(['gallery' => 2], ['gallery' => [$rule]]);
 
     expect($validator->fails())->toBeTrue()

@@ -87,6 +87,28 @@
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
+        "test:validate-composer": "composer validate --strict",
+        "test:security-composer": "composer audit",
+        "test:security-npm": "npm audit --audit-level=moderate",
+        "test:lint": "vendor/bin/pint --test",
+        "test:types": "vendor/bin/pest --type-coverage --min=80",
+        "test:larastan": "vendor/bin/phpstan analyse || true",
+        "test:pest": "vendor/bin/pest --exclude-group browser",
+        "test-ci-checks": [
+            "@test:validate-composer",
+            "@test:security-composer",
+            "@test:security-npm",
+            "@test:lint",
+            "@test:types",
+            "@test:larastan"
+        ],
+        "test-ci-tests": [
+            "@test:pest"
+        ],
+        "test-ci": [
+            "@test-ci-checks",
+            "@test-ci-tests"
+        ],
         "test": "vendor/bin/pest --exclude-group browser",
         "test-browser": [
             "Composer\\Config::disableProcessTimeout",

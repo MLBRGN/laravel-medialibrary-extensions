@@ -3,9 +3,9 @@
 namespace Mlbrgn\MediaLibraryExtensions\Http\Requests\demo;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Rules\MaxMediaCount;
 use Mlbrgn\MediaLibraryExtensions\Rules\MinMediaCount;
-use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 
 class StoreIsolationRequest extends FormRequest
 {
@@ -27,7 +27,7 @@ class StoreIsolationRequest extends FormRequest
                     1,
                     null,
                     $dataSource
-                )
+                ),
             ],
             'manager_b_count' => [
                 'required',
@@ -37,7 +37,7 @@ class StoreIsolationRequest extends FormRequest
                     2,
                     null,
                     $dataSource
-                )
+                ),
             ],
         ];
     }

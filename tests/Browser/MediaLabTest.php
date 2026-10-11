@@ -3,7 +3,7 @@
 /** @noinspection InvalidDatasetNameCaseInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Pest\Browser\Execution;
 
 beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
@@ -67,13 +67,13 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
         ->press($imageEditorModalRotateCcwButtonSelector)
         ->press($imageEditorModalSaveButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
-    
+
     // Wait for the success message to appear on the page
-    \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertSee(__('medialibrary-extensions::messages.medium_replaced')), 10000);
+    Execution::instance()->waitForExpectation(fn () => $page->assertSee(__('medialibrary-extensions::messages.medium_replaced')), 10000);
 
     // test restore medium
     $page->press($restoreButtonSelector);
-    \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertSee(__('medialibrary-extensions::messages.restored_original')), 10000);
+    Execution::instance()->waitForExpectation(fn () => $page->assertSee(__('medialibrary-extensions::messages.restored_original')), 10000);
 
     $page->page()->close();
 })->group('browser')

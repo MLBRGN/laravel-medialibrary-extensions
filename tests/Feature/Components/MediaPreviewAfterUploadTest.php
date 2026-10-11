@@ -21,13 +21,13 @@ beforeEach(function () {
     Storage::fake(config('medialibrary-extensions.media_disks.temporary'));
     Storage::fake('public');
 
-//    $this->mediaService = app(MediaService::class);
-//    $this->uploadPreparer = app(UploadPreparerService::class);
+    //    $this->mediaService = app(MediaService::class);
+    //    $this->uploadPreparer = app(UploadPreparerService::class);
 
-//    $this->storePermanentAction = new StoreSinglePermanentAction($this->mediaService, $this->uploadPreparer);
-//    $this->storeTemporaryAction = new StoreSingleTemporaryAction($this->mediaService, $this->uploadPreparer);
-//    $this->getMediaPreviewerPermanentHTMLAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
-//    $this->getTemporaryPreviewAction = new GetMediaPreviewerTemporaryHTMLAction($this->mediaService);
+    //    $this->storePermanentAction = new StoreSinglePermanentAction($this->mediaService, $this->uploadPreparer);
+    //    $this->storeTemporaryAction = new StoreSingleTemporaryAction($this->mediaService, $this->uploadPreparer);
+    //    $this->getMediaPreviewerPermanentHTMLAction = new GetMediaPreviewerPermanentHTMLAction($this->mediaService);
+    //    $this->getTemporaryPreviewAction = new GetMediaPreviewerTemporaryHTMLAction($this->mediaService);
 
     $this->storePermanentAction = app(StoreSinglePermanentAction::class);
     $this->storeTemporaryAction = app(StoreSingleTemporaryAction::class);

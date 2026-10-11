@@ -5,6 +5,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Mlbrgn\MediaLibraryExtensions\Actions\SetTemporaryUploadAsFirstAction;
 use Mlbrgn\MediaLibraryExtensions\Http\Requests\SetTemporaryUploadAsFirstRequest;
+use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 
 it('fails when no collections provided JSON', function () {
     $baseId = 'media-manager-123';
@@ -153,14 +154,14 @@ it('can set as first in collection JSON', function () {
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     $media2 = $this->getTemporaryUpload('temp2.jpg', [
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     // Create request object
@@ -216,14 +217,14 @@ it('can set as first in collection', function () {
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     $media2 = $this->getTemporaryUpload('temp2.jpg', [
         'collection_name' => $targetCollection,
         'custom_properties' => [],
         'client_token' => $clientToken,
-        'instance_id' => \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId),
+        'instance_id' => InstanceManager::getInstanceId($baseId),
     ]);
 
     // Create request object
@@ -268,7 +269,7 @@ it('can set as first in collection with null model_id', function () {
     $targetCollection = 'blog-images';
 
     $clientToken = (string) Str::ulid();
-    $instanceId = \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId($baseId);
+    $instanceId = InstanceManager::getInstanceId($baseId);
 
     $media1 = $this->getTemporaryUpload('temp1.jpg', [
         'collection_name' => $targetCollection,
@@ -292,11 +293,11 @@ it('can set as first in collection with null model_id', function () {
         'collections' => ['image' => 'blog-images'],
         'temporary_upload_mode' => 'true',
         'client_token' => $clientToken,
-//        'collections' => [
-//            'image' => [
-//                'blog-images',
-//            ],
-//        ],
+        //        'collections' => [
+        //            'image' => [
+        //                'blog-images',
+        //            ],
+        //        ],
         'model_type' => 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien',
         'model_id' => null,
     ]);

@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     // Images
     'jpeg' => 'JPEG',
@@ -35,7 +34,7 @@ return [
     'audio_wav' => 'WAV',
     'audio_webm' => 'WebM',
 ];
-//return [
+// return [
 //    'jpeg' => 'JPEG',
 //    'png' => 'PNG',
 //    'gif' => 'GIF',
@@ -64,4 +63,4 @@ return [
 //    'audio_ogg' => 'OGG audio',
 //    'audio_wav' => 'WAV audio',
 //    'audio_webm' => 'WebM audio',
-//];
+// ];

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\View as ViewInstance;
+use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\YouTubeUploadForm;
 
 it('initializes with a HasMedia model', function () {
@@ -87,7 +88,7 @@ it('throws if modelReference is non existing class name', function () {
             'useXhr' => null,
         ]
     );
-})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+})->throws(InvalidModelTypeException::class);
 
 it('throws if modelReference class does not extend HasMedia', function () {
     $model = $this->getTestModelNotExtendingHasMedia();
@@ -111,7 +112,7 @@ it('throws if modelReference class does not extend HasMedia', function () {
             'useXhr' => null,
         ]
     );
-})->throws(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+})->throws(InvalidModelTypeException::class);
 
 it('renders the correct partial view', function () {
     $model = $this->getTestBlogModel();

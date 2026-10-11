@@ -12,7 +12,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 it('replaces a medium and returns newMediumId while deleting the old one', function () {
 
-
     $user = $this->getUser();
 
     /** @var Blog $model */

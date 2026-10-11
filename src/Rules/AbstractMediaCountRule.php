@@ -2,11 +2,9 @@
 
 namespace Mlbrgn\MediaLibraryExtensions\Rules;
 
-use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 use Mlbrgn\MediaLibraryExtensions\Traits\ChecksMediaLimits;
-use Spatie\MediaLibrary\HasMedia;
 
 abstract class AbstractMediaCountRule implements ValidationRule
 {
@@ -27,11 +25,11 @@ abstract class AbstractMediaCountRule implements ValidationRule
     /**
      * Create a new rule instance.
      *
-     * @param HasMediaExtended|string|null $model The model instance or model class name.
-     * @param array $collections The media collections to check.
-     * @param string|null $instanceId The component instance ID (optional).
-     * @param string|null $dataSource The data source to use (optional).
-     * @param string|null $clientToken The client token (optional).
+     * @param  HasMediaExtended|string|null  $model  The model instance or model class name.
+     * @param  array  $collections  The media collections to check.
+     * @param  string|null  $instanceId  The component instance ID (optional).
+     * @param  string|null  $dataSource  The data source to use (optional).
+     * @param  string|null  $clientToken  The client token (optional).
      */
     public function __construct(
         HasMediaExtended|string|null $model,

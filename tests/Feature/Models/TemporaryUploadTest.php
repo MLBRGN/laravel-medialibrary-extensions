@@ -101,7 +101,7 @@ it('returns all session uploads when collectionName is an empty string', functio
     $instanceId = null;
 
     // Passing '' should NOT skip the where clause (should match collection_name = '')
-//    $uploads = TemporaryUpload::forCurrentClient('', $instanceId)->get();
+    //    $uploads = TemporaryUpload::forCurrentClient('', $instanceId)->get();
     $uploads = TemporaryUpload::getForCurrentClient('', 'test', null, $clientToken);
     expect($uploads)->toHaveCount(1)
         ->and($uploads->first()->collection_name)->toBe('');
@@ -249,7 +249,7 @@ it('retrieves temporary uploads using instance id', function () {
     ]);
 
     $uploads = TemporaryUpload::getForCurrentClient(
-         null,
+        null,
         $instanceId,
         'default',
         $clientToken

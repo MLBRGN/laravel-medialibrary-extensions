@@ -1,20 +1,20 @@
 <?php
 
+use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Pest\Browser\Api\AwaitableWebpage;
 
 /** @noinspection InvalidDatasetNameCaseInspection */
-
 beforeEach(function () {
     config(['media-library.disk_name' => 'mle_demo_disk']);
 });
 
 it('can create a blog using the html editor with custom file picker', function (string $theme, bool $useXhr) {
-    if (!class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class)) {
+    if (! class_exists(FormComponentsServiceProvider::class)) {
         $this->markTestSkipped('Mlbrgn Form Components not installed.');
     }
 
-    $title = 'HTML Editor Test ' . uniqid();
+    $title = 'HTML Editor Test '.uniqid();
     $xhrInt = $useXhr ? 1 : 0;
     $wait = $useXhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
@@ -46,7 +46,7 @@ it('can create a blog using the html editor with custom file picker', function (
     $uploadedFilename = '';
 
     // Within the file picker iframe
-    $page->withinFrame($filePickerIframeSelector, function (AwaitableWebpage $page) use ($useXhr, $wait, &$uploadedFilename) {
+    $page->withinFrame($filePickerIframeSelector, function (AwaitableWebpage $page) use (&$uploadedFilename) {
         $page->page()->waitForLoadState('domcontentloaded');
         $page->assertPresent('[data-mle-media-manager]');
 

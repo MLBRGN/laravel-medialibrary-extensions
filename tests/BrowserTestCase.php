@@ -8,6 +8,7 @@ use BladeUI\Icons\BladeIconsServiceProvider;
 use Davidhsianturi\BladeBootstrapIcons\BladeBootstrapIconsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Blade;
@@ -23,13 +24,16 @@ use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
+use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Mlbrgn\MediaLibraryExtensions\Support\ClientContext;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
+use Mlbrgn\MediaLibraryExtensions\Tests\Browser\Concerns\InteractsWithBlogIntegration;
 use Mlbrgn\MediaLibraryExtensions\Tests\Fakes\FakeYouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Ufo;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\Http\Controllers\BlogController;
-use Mlbrgn\MediaLibraryExtensions\Tests\Browser\Concerns\InteractsWithBlogIntegration;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Pest\Browser\Execution;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 
@@ -76,20 +80,20 @@ class BrowserTestCase extends Orchestra
 
     protected Ufo $testModelNotExtendingHasMedia;
 
-    protected float $waitTimeXhr = 0.1;// @AI DO NOT CHANGE!
-    
-    protected float $waitTimeNonXhr = 1.0;// @AI DO NOT CHANGE!
+    protected float $waitTimeXhr = 0.1; // @AI DO NOT CHANGE!
+
+    protected float $waitTimeNonXhr = 1.0; // @AI DO NOT CHANGE!
 
     public function waitForVisible($page, string $selector)
     {
-        \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertVisible($selector), 10000);
+        Execution::instance()->waitForExpectation(fn () => $page->assertVisible($selector), 10000);
 
         return $page;
     }
 
     public function waitForMissing($page, string $selector)
     {
-        \Pest\Browser\Execution::instance()->waitForExpectation(fn () => $page->assertMissing($selector), 10000);
+        Execution::instance()->waitForExpectation(fn () => $page->assertMissing($selector), 10000);
 
         return $page;
     }
@@ -233,8 +237,8 @@ class BrowserTestCase extends Orchestra
         $app['config']->set('medialibrary-extensions.models.blog', Blog::class);
         $app['config']->set('medialibrary-extensions.models.alien', Alien::class);
 
-        $app['config']->set('filesystems.disks.media_originals.root', $storagePath . '/media_originals');
-        $app['config']->set('filesystems.disks.media_temporary.root', $storagePath . '/media_temporary');
+        $app['config']->set('filesystems.disks.media_originals.root', $storagePath.'/media_originals');
+        $app['config']->set('filesystems.disks.media_temporary.root', $storagePath.'/media_temporary');
 
         $app['config']->set('medialibrary-extensions.route_middleware', ['web', MlbrgnClientTokenMiddleware::class]);
 
@@ -339,25 +343,25 @@ class BrowserTestCase extends Orchestra
             Route::post('mle-demo-isolation', [DemoController::class, 'submitIsolation'])->name('mle-demo-isolation-submit');
             Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
 
-            Route::get('test-client-token', function() {
+            Route::get('test-client-token', function () {
                 return response()->json([
-                    'token' => app(\Mlbrgn\MediaLibraryExtensions\Support\ClientContext::class)->get()
+                    'token' => app(ClientContext::class)->get(),
                 ]);
             })->name('test-client-token');
 
-            Route::get('images/alien-fallback.jpg', function() {
-                return response()->file(realpath(__DIR__ . '/Fixtures/demo.jpg'));
+            Route::get('images/alien-fallback.jpg', function () {
+                return response()->file(realpath(__DIR__.'/Fixtures/demo.jpg'));
             });
 
-            Route::get('images/alien-fallback-thumb.jpg', function() {
-                return response()->file(realpath(__DIR__ . '/Fixtures/demo.jpg'));
+            Route::get('images/alien-fallback-thumb.jpg', function () {
+                return response()->file(realpath(__DIR__.'/Fixtures/demo.jpg'));
             });
 
-            Route::get('test-placeholders', function(\Illuminate\Http\Request $request) {
-                $model = \Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::first();
-                
+            Route::get('test-placeholders', function (Request $request) {
+                $model = Blog::first();
+
                 // For model fallback test
-                $mockModel = \Mockery::mock(\Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog::class . '[getFallbackMediaUrl]');
+                $mockModel = \Mockery::mock(Blog::class.'[getFallbackMediaUrl]');
                 $mockModel->shouldReceive('getFallbackMediaUrl')->andReturn('/images/model-fallback.jpg');
                 $mockModel->exists = true;
 
@@ -388,7 +392,7 @@ class BrowserTestCase extends Orchestra
 
             Route::resource('blogs', BlogController::class);
 
-            Route::post('test-simple-post', function() {
+            Route::post('test-simple-post', function () {
                 return response()->json(['status' => 'ok']);
             })->name('test-simple-post');
 
@@ -526,9 +530,9 @@ class BrowserTestCase extends Orchestra
     protected function truncateDatabases(): void
     {
         foreach ([
-                     PackageInfrastructure::connection($this->infrastructureProfile, 'default'),
-                     PackageInfrastructure::connection($this->infrastructureProfile, 'alt'),
-                 ] as $connection) {
+            PackageInfrastructure::connection($this->infrastructureProfile, 'default'),
+            PackageInfrastructure::connection($this->infrastructureProfile, 'alt'),
+        ] as $connection) {
 
             $db = \DB::connection($connection);
 
@@ -613,7 +617,7 @@ class BrowserTestCase extends Orchestra
         $model = new Alien;
 
         if ($dataSource !== '') {
-            $connection = app(\Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver::class)->resolveConnection($dataSource);
+            $connection = app(DataSourceResolver::class)->resolveConnection($dataSource);
             $model->setConnection($connection);
         }
 

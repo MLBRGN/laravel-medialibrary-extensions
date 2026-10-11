@@ -4,6 +4,7 @@
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
+use Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException;
 use Mlbrgn\MediaLibraryExtensions\Tests\Support\classes\FakeBladeIconComponent;
 use Mlbrgn\MediaLibraryExtensions\View\Components\Shared\Debug;
 
@@ -35,7 +36,7 @@ it('renders the debug view with model class name', function () {
 
 it('throws when given invalid class name', function () {
     Config::set('medialibrary-extensions.debug', true);
-    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+    $this->expectException(InvalidModelTypeException::class);
     $component = new Debug(modelReference: 'fakeClass');
     $view = $component->render();
 });
@@ -44,7 +45,7 @@ it('throws when given model that does not extend HasMedia interface', function (
     Config::set('medialibrary-extensions.debug', true);
     //    $this->expectException(TypeError::class);
     // TOODO what exception to expect?
-    $this->expectException(\Mlbrgn\MediaLibraryExtensions\Exceptions\InvalidModelTypeException::class);
+    $this->expectException(InvalidModelTypeException::class);
     $model = $this->getTestModelNotExtendingHasMedia();
     $component = new Debug(modelReference: $model);
     $view = $component->render();

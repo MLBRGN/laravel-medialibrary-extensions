@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ViewErrorBag;
+use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Providers\MediaLibraryExtensionsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Support\PackageInfrastructure;
@@ -42,7 +43,7 @@ class TestCase extends Orchestra
 
         Carbon::setTestNow('2025-01-01 00:00:00');
 
-        View::share('errors', new ViewErrorBag());
+        View::share('errors', new ViewErrorBag);
 
         $this->testModel = Blog::create(['title' => 'Test Model']);
         $this->testModelNotExtendingHasMedia = Ufo::create(['title' => 'Test Model']);
@@ -76,8 +77,8 @@ class TestCase extends Orchestra
             MediaLibraryExtensionsServiceProvider::class,
         ];
 
-        if (class_exists(\Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class)) {
-            $providers[] = \Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider::class;
+        if (class_exists(FormComponentsServiceProvider::class)) {
+            $providers[] = FormComponentsServiceProvider::class;
         }
 
         return $providers;
@@ -128,7 +129,7 @@ class TestCase extends Orchestra
 
         $app->bind('path.public', fn () => $this->getTempDirectory());
 
-        $app['config']->set('media-library.media_model', \Spatie\MediaLibrary\MediaCollections\Models\Media::class);
+        $app['config']->set('media-library.media_model', Media::class);
     }
 
     protected function migrateConnection(
@@ -141,18 +142,19 @@ class TestCase extends Orchestra
             '--realpath' => true,
         ]);
     }
+
     protected function defineDatabaseMigrations(): void
     {
         PackageInfrastructure::register('test');
 
         $this->migrateConnection(
             PackageInfrastructure::connection('test'),
-            realpath(__DIR__ . '/database/migrations')
+            realpath(__DIR__.'/database/migrations')
         );
 
         $this->migrateConnection(
             PackageInfrastructure::connection('test', 'alt'),
-            realpath(__DIR__ . '/database/migrations')
+            realpath(__DIR__.'/database/migrations')
         );
 
     }
@@ -554,7 +556,7 @@ class TestCase extends Orchestra
         ];
     }
 
-    function sanitizeHtmlSnapshot(string $html): string
+    public function sanitizeHtmlSnapshot(string $html): string
     {
         $html = str_replace(
             config('app.url'),

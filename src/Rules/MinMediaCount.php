@@ -5,6 +5,7 @@
 namespace Mlbrgn\MediaLibraryExtensions\Rules;
 
 use Closure;
+use Illuminate\Translation\PotentiallyTranslatedString;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\HasMediaExtended;
 
 class MinMediaCount extends AbstractMediaCountRule
@@ -14,13 +15,13 @@ class MinMediaCount extends AbstractMediaCountRule
     /**
      * Create a new rule instance.
      *
-     * @param HasMediaExtended|string|null $model The model instance or model class name.
-     * @param array $collections The media collections to check.
-     * @param int $min The minimum number of media items required.
-     * @param string|null $instanceId The component instance ID (optional).
-     * @param string|null $dataSource The data source to use (optional).
-     * @param string|null $clientToken The client token (optional).
-     * @param bool $multiple Whether this is for a multiple media manager (optional, defaults to true).
+     * @param  HasMediaExtended|string|null  $model  The model instance or model class name.
+     * @param  array  $collections  The media collections to check.
+     * @param  int  $min  The minimum number of media items required.
+     * @param  string|null  $instanceId  The component instance ID (optional).
+     * @param  string|null  $dataSource  The data source to use (optional).
+     * @param  string|null  $clientToken  The client token (optional).
+     * @param  bool  $multiple  Whether this is for a multiple media manager (optional, defaults to true).
      */
     public function __construct(
         HasMediaExtended|string|null $model,
@@ -40,9 +41,7 @@ class MinMediaCount extends AbstractMediaCountRule
     /**
      * Run the validation rule.
      *
-     * @param string $attribute
-     * @param mixed $value
-     * @param Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

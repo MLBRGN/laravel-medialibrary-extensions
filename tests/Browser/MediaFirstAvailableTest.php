@@ -13,19 +13,19 @@ beforeEach(function () {
 it('can display media in media first available component', function ($theme, $dataSource, $xhr) {
     // Selectors for Media First Available
     $firstAvailableDomId = 'media-first-available-media-first-available';
-    $firstAvailableId = '#' . $firstAvailableDomId;
-    $placeholderSelector = $firstAvailableId . '.mle-media-placeholder';
-    $viewerSelector = $firstAvailableId . ' [data-mle-media-preview-image]';
-    
+    $firstAvailableId = '#'.$firstAvailableDomId;
+    $placeholderSelector = $firstAvailableId.'.mle-media-placeholder';
+    $viewerSelector = $firstAvailableId.' [data-mle-media-preview-image]';
+
     // Selectors for Media Manager Single
     $mmsId = '#alien-single-permanent-mms';
-    $mmsInputSelector = $mmsId . ' [data-mle-media-input]';
-    $mmsUploadButtonSelector = $mmsId . ' [data-mle-media-upload-button]';
+    $mmsInputSelector = $mmsId.' [data-mle-media-input]';
+    $mmsUploadButtonSelector = $mmsId.' [data-mle-media-upload-button]';
 
     // Modal selectors
     $modalId = '#media-first-available-mod';
-    $modalSelector = $modalId . '[data-mle-media-modal]';
-    $modalCloseButtonSelector = $modalSelector . ' [data-mle-modal-close]';
+    $modalSelector = $modalId.'[data-mle-media-modal]';
+    $modalCloseButtonSelector = $modalSelector.' [data-mle-modal-close]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
@@ -74,19 +74,19 @@ it('can display media in media first available component', function ($theme, $da
 
 it('respects collection order priority in media first available component', function ($theme, $dataSource) {
     $firstAvailableId = '#media-first-available-media-first-available';
-    $viewerSelector = $firstAvailableId . ' [data-mle-media-preview-image]';
+    $viewerSelector = $firstAvailableId.' [data-mle-media-preview-image]';
 
     $dataSourceResolver = app(DataSourceResolver::class);
     $resolvedConnection = $dataSourceResolver->resolveConnection($dataSource);
 
     // 1. Seed media directly into the database
     $model = Alien::on($resolvedConnection)->first();
-    
+
     // Add a document first (lower priority in demo: 'document' => 'alien-single-document')
     $model->addMedia($this->getFixtureAsFilePath('dummy.doc'))
         ->preservingOriginal()
         ->toMediaCollection('alien-single-document');
-        
+
     // Add an image second (higher priority in demo: 'image' => 'alien-single-image')
     $model->addMedia($this->getRandomFixture())
         ->preservingOriginal()
@@ -99,10 +99,10 @@ it('respects collection order priority in media first available component', func
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $firstAvailableId);
-    
+
     // 3. It should show the image because 'image' collection comes before 'document' in the demo configuration
     $page->assertPresent($viewerSelector);
-    
+
     $page->page()->close();
 })->group('browser')
     ->with([

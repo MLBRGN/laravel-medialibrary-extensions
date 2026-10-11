@@ -3,13 +3,12 @@
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 /** @noinspection InvalidDatasetNameCaseInspection */
-
 beforeEach(function () {
     config(['media-library.disk_name' => 'mle_demo_disk']);
 });
 
 it('can create a blog with featured image inside and gallery outside form', function (string $theme, bool $useXhr) {
-    $title = 'CRUD Create Test ' . uniqid();
+    $title = 'CRUD Create Test '.uniqid();
     $xhrInt = $useXhr ? 1 : 0;
     $wait = $useXhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
@@ -49,7 +48,7 @@ it('can create a blog with featured image inside and gallery outside form', func
 
 it('can edit a blog and manage media', function (string $theme, bool $useXhr) {
     $blog = Blog::create(['title' => 'Initial CRUD Blog', 'content' => 'Content']);
-    $newTitle = 'Updated CRUD Blog ' . uniqid();
+    $newTitle = 'Updated CRUD Blog '.uniqid();
     $xhrInt = $useXhr ? 1 : 0;
     $wait = $useXhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
@@ -97,12 +96,12 @@ it('can view blog with readonly media managers', function (string $theme, bool $
     // Verify media components are present but readonly (no upload button)
     $page->assertPresent('[data-base-id="blog-main-show"]')
         ->assertMissing('[data-base-id="blog-main-show"] [data-mle-media-upload-button]');
-    
+
     $this->assertFeaturedImageVisible($page, 'test2.jpg');
 
     $page->assertPresent('[data-base-id="blog-gallery-show"]')
         ->assertMissing('[data-base-id="blog-gallery-show"] [data-mle-media-upload-button]');
-    
+
     $this->assertGalleryImagesVisible($page, ['test3.jpg']);
 
     $page->page()->close();

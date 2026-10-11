@@ -34,7 +34,7 @@ abstract class BaseComponent extends Component
         $this->id = filled($id) ? $id : (string) Str::ulid();
         $this->instanceId = InstanceManager::getInstanceId($this->id);
         $this->clientToken = app(ClientContext::class)->get();
-        $this->isolationFormId = 'mle-isolated-' . $this->id;
+        $this->isolationFormId = 'mle-isolated-'.$this->id;
     }
 
     // can be overridden in child classes

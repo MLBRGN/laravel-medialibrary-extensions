@@ -27,7 +27,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
     $deleteButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-delete-button]';
 
-    $statusMessageSelector = $mediaManagerId . ' .mle-media-manager-previews > .mle-status-area [data-mle-status-message]';
+    $statusMessageSelector = $mediaManagerId.' .mle-media-manager-previews > .mle-status-area [data-mle-status-message]';
 
     // for media modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
@@ -75,13 +75,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->assertSeeIn($countsSelector, __('medialibrary-extensions::messages.media_counts', ['current' => 0, 'total' => 1]));
 
     // test that it shows error when no file selected
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($uploadButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -90,13 +90,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     // test that invalid mime types are rejected
     $page->attach($inputSelector, $this->getInvalidMimeTypeFixture());
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($uploadButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -105,13 +105,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         // attach an image file and submit and check if spinner shows and upload is successful
         ->attach($inputSelector, $this->getRandomFixture());
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($uploadButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -151,14 +151,14 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($mediaModalCarouselItemContainerSelector)
         ->assertPresent($mediaModalCarouselItemContainerImageSelector);
 
-       // Check that the media modal can be closed using the close button
+    // Check that the media modal can be closed using the close button
     $page->press($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     $page->press($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
-    ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-    ->press($imageEditorModalCloseButtonSelector);
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
+        ->press($imageEditorModalCloseButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
 
     // check saving edited image in the image editor
@@ -167,13 +167,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalRotateCcwButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($imageEditorModalSaveButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -187,7 +187,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $previewSrc = $page->page()->locator($mediaPreviewImageSelector)->first()->getAttribute('src');
     $filenamePart = basename(parse_url($previewSrc, PHP_URL_PATH));
 
-    $page->assertPresent($mediaModalSelector . ' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="' . $filenamePart . '"]');
+    $page->assertPresent($mediaModalSelector.' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="'.$filenamePart.'"]');
 
     $page->press($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
@@ -200,13 +200,13 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $this->waitForMissing($page, $imageEditorModalSelector);
 
     // check delete media works
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($deleteButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -319,13 +319,13 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertButtonEnabled($uploadButtonSelector);
 
     // test that it shows an error when no YouTube url entered
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($uploadButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
@@ -334,18 +334,18 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     // enter youtube url
     $page->type($inputSelector, $this->getYouTubeFixture());
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($uploadButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 
     $page->assertSee(__('medialibrary-extensions::messages.youtube_video_uploaded'));
-    
+
     $this->scrollIntoView($page, $mediaManagerId);
 
     $page->assertPresent($gridSelector.' [data-mle-media-preview-item]:first-child')
@@ -368,7 +368,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($mediaPreviewImageSelector)
         ->press($mediaPreviewImageSelector);
 
-        $this->waitForVisible($page, $mediaModalSelector)
+    $this->waitForVisible($page, $mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
         ->assertPresent($mediaModalCarouselIndicatorSelector)
@@ -376,18 +376,18 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($mediaModalCarouselItemContainerSelector)
         ->assertPresent($mediaModalCarouselItemContainerLiteYouTubeSelector);
 
-        // check that media modal can be closed
-        $page->press($mediaModalCloseButtonSelector);
-        $this->waitForMissing($page, $mediaModalSelector);
+    // check that media modal can be closed
+    $page->press($mediaModalCloseButtonSelector);
+    $this->waitForMissing($page, $mediaModalSelector);
 
     // check delete media works
-    if (!$xhr) {
+    if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
     $page->press($deleteButtonSelector);
 
-    if (!$xhr) {
+    if (! $xhr) {
         $page->waitForEvent('load');
     }
 

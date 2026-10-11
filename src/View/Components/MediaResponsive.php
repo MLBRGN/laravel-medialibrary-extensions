@@ -8,7 +8,6 @@ use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithResponsiveImages;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
@@ -38,7 +37,7 @@ class MediaResponsive extends BaseComponent
     ) {
         parent::__construct($id);
         $this->options = $options;
-        
+
         $this->modelReference = null;
         $this->collections = [];
 

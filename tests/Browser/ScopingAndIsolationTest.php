@@ -3,7 +3,6 @@
 use Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog;
 
 /** @noinspection InvalidDatasetNameCaseInspection */
-
 beforeEach(function () {
     config(['media-library.disk_name' => 'mle_demo_disk']);
 });
@@ -35,18 +34,18 @@ it('isolates temporary uploads between browser tabs', function (string $theme, b
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
     // 4. Verify "Image A" appears in Tab A but NOT in Tab B
-    $pageA->assertPresent($featuredGridSelector . ' [data-mle-media-preview-item]');
-    $pageB->assertMissing($featuredGridSelector . ' [data-mle-media-preview-item]');
+    $pageA->assertPresent($featuredGridSelector.' [data-mle-media-preview-item]');
+    $pageB->assertMissing($featuredGridSelector.' [data-mle-media-preview-item]');
 
     // 5. Save Tab A
-    $titleA = 'Blog Tab A ' . uniqid();
+    $titleA = 'Blog Tab A '.uniqid();
     $this->fillBlogForm($pageA, $titleA, 'Content A')
         ->press('#btn-save-blog')
         ->assertSee('Blog created.');
 
     // 6. Verify Tab B still has its own state (empty)
     $pageB->assertSee('Add a new blog')
-        ->assertMissing($featuredGridSelector . ' [data-mle-media-preview-item]');
+        ->assertMissing($featuredGridSelector.' [data-mle-media-preview-item]');
 
     // 7. Verify Tab A has media permanently attached
     $blogA = Blog::where('title', $titleA)->first();
