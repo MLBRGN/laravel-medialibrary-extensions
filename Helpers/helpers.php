@@ -174,6 +174,10 @@ if (! function_exists('mle_ini_to_bytes')) {
 if (! function_exists('mle_server_upload_limit')) {
     function mle_server_upload_limit(): ?int
     {
+        if ($override = config('medialibrary-extensions.server_upload_limit')) {
+            return $override;
+        }
+
         $upload = mle_ini_to_bytes(ini_get('upload_max_filesize'));
         $post = mle_ini_to_bytes(ini_get('post_max_size'));
 

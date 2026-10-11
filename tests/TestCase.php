@@ -56,6 +56,7 @@ class TestCase extends Orchestra
 
         Config::set('medialibrary-extensions.demo_pages_enabled', false);
         Config::set('medialibrary-extensions.store_originals', true);
+        Config::set('medialibrary-extensions.server_upload_limit', 128 * 1024 * 1024);
 
         if (empty(config('app.key'))) {
             $key = 'base64:'.base64_encode(random_bytes(32));

@@ -130,3 +130,29 @@ it('renders the correct html multiple (bootstrap-5, temporary upload)', function
     $html = $this->sanitizeHtmlSnapshot($html);
     expect($html)->toMatchSnapshot();
 });
+
+it('renders a warning when the server upload limit is lower than the configured limit', function () {
+    Config::set('medialibrary-extensions.max_upload_size', 8 * 1024 * 1024); // 8MB
+    Config::set('medialibrary-extensions.server_upload_limit', 2 * 1024 * 1024); // 2MB
+
+    $model = Blog::create(['title' => 'test']);
+
+    $html = Blade::render(
+        '<x-mle-media-manager-multiple
+                    id="test-media-warning"
+                    :model-reference="$modelReference"
+                    :collections="[\'image\' => \'images\']"
+                    :options="$options"
+                    multiple="true"
+                />',
+        [
+            'modelReference' => $model,
+            'options' => [
+                'theme' => 'plain',
+            ],
+        ]
+    );
+
+    expect($html)->toContain('The server is currently limiting uploads to 2 MB')
+        ->and($html)->toContain('Supported files: JPEG, PNG, GIF, BMP, WebP, HEIC, AVIF • up to 2 MB');
+});
