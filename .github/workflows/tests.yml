@@ -1,4 +1,4 @@
-name: Pest tests
+name: Tests
 
 on:
   push:
@@ -11,17 +11,13 @@ on:
 
 jobs:
   test:
-    name: Run tests
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mariadb:10.5
-        ports:
-          - 3306:3306
-        env:
-          MARIADB_DATABASE: activerendwerk_test
-          MARIADB_USER: root
-          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.4, 8.3]
+
+    name: P${{ matrix.php }}
 
     steps:
       - name: Checkout code
@@ -30,15 +26,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
-          extensions: dom, json, pdo
+          php-version: ${{ matrix.php }}
+          extensions: dom, json, pdo, sqlite, gd, fileinfo
           coverage: none
 
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v3
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
@@ -48,23 +44,17 @@ jobs:
 
       - name: Generated JS and CSS cache
         id: js-and-css-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: public/build/**
+          path: dist/**
           key: ${{ runner.os }}-js-and-css-${{ hashFiles('**/package-lock.json', '**/resources/{.js,scss}') }}
 
       - name: Generate front-end files
         if: steps.js-and-css-cache.outputs.cache-hit != 'true'
         run: npm run build
 
-#      - name: Prepare Laravel environment
-#        run: |
-#          cp .env.github .env
-#          php artisan key:generate
-#          php artisan migrate --force
-#          php artisan passport:keys
-
       - name: Run tests
         env:
-          APP_URL: "http://activerendwerk.test"
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
         run: vendor/bin/pest
