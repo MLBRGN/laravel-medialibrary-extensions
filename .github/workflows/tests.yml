@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -31,12 +31,12 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install Node dependencies
@@ -44,7 +44,7 @@ jobs:
 
       - name: Generated JS and CSS cache
         id: js-and-css-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: dist/**
           key: ${{ runner.os }}-js-and-css-${{ hashFiles('**/package-lock.json', '**/resources/{.js,scss}') }}
