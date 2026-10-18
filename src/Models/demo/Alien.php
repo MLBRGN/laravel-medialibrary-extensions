@@ -19,6 +19,11 @@ class Alien extends Model implements HasMediaExtended
 
     protected $guarded = [];
 
+    public function getMorphClass()
+    {
+        return 'mle_alien';
+    }
+
     // protected $connection = 'media_demo';
 
     public function registerMediaCollections(): void

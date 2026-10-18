@@ -95,10 +95,20 @@ class PackageInfrastructure
         config()->set('medialibrary-extensions.models.alien', 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien');
 
         if (class_exists(Relation::class)) {
-            Relation::morphMap([
-                'blog' => 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog',
-                'alien' => 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien',
-            ]);
+            $existing = Relation::morphMap();
+
+            // Use unique prefixes for demo models to avoid collisions with host apps
+            $demoMap = [
+                'mle_blog' => 'Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog',
+                'mle_alien' => 'Mlbrgn\MediaLibraryExtensions\Models\demo\Alien',
+            ];
+
+            // Only register if the alias isn't already taken (extra safety)
+            $filteredMap = array_filter($demoMap, fn ($class, $alias) => ! isset($existing[$alias]), ARRAY_FILTER_USE_BOTH);
+
+            if (! empty($filteredMap)) {
+                Relation::morphMap($filteredMap);
+            }
         }
     }
 

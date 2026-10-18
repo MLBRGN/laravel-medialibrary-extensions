@@ -4,7 +4,7 @@
     class="mle-component mle-theme-plain mle-media-manager media-manager-multiple"
     data-mle-media-manager
 >
-    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"plain","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"minMediaCount":0,"required":false,"name":"test-media-modal","isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"disabled":false,"readonly":false,"selectable":false,"modelType":"blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","isolationFormId":"mle-isolated-test-media-modal","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"allowedMimeTypes":"image\/jpeg, image\/png","disableForm":false}'>
+    <input id="config-test-media-modal" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='{"showDestroyButton":true,"showMediaEditButton":true,"showMenu":true,"showOrder":true,"showSetAsFirstButton":true,"showUploadForm":true,"showYouTubeUploadForm":true,"showUploadForms":true,"temporaryUploadMode":false,"uploadFieldName":"media","theme":"plain","useXhr":true,"csrfToken":null,"totalMediaCount":0,"maxMediaCount":10,"minMediaCount":0,"required":false,"name":"test-media-modal","isEmpty":true,"isAtMax":false,"multiple":true,"collections":{"image":"blog-images","youtube":"blog-youtube","document":"blog-documents","video":"blog-videos","audio":"blog-audio"},"disabled":false,"readonly":false,"selectable":false,"modelType":"mle_blog","modelId":1,"id":"test-media-modal","instanceId":"E3642AD197F92C6D1BF5D78226","clientToken":"<ULID>","isolationFormId":"mle-isolated-test-media-modal","dataSource":"default","routes":{"mediaUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-multiple","mediaManagerPreviewUpdate":"http:\/\/localhost\/mlbrgn-mle\/media-manager-preview-update","youtubeUpload":"http:\/\/localhost\/mlbrgn-mle\/media-manager-upload-youtube"},"allowedMimeTypes":"image\/jpeg, image\/png","disableForm":false}'>
     <input type="hidden" name="mle_instance_ids[]" value="E3642AD197F92C6D1BF5D78226"  form="mle-isolated-test-media-modal" >
     <input type="hidden" name="client_token" value="<ULID>" data-mle-client-token  form="mle-isolated-test-media-modal" >
             <input type="hidden" name="mle_instance_map[test-media-modal]" value="E3642AD197F92C6D1BF5D78226">
@@ -80,7 +80,7 @@
     <input
         type="hidden"
         name="model_type"
-        value="blog"
+        value="mle_blog"
          form="mle-isolated-test-media-modal" >
     <input
         type="hidden"
@@ -183,7 +183,7 @@
     <input
         type="hidden"
         name="model_type"
-        value="blog"
+        value="mle_blog"
          form="mle-isolated-test-media-modal" >
     <input
         type="hidden"

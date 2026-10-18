@@ -98,7 +98,7 @@ it('initializes without temporary upload when a eloquent model is provided', fun
     );
 
     expect($component->model)->not()->toBeNull()
-        ->and($component->modelType)->toBe('blog')
+        ->and($component->modelType)->toBe('mle_blog')
         ->and($component->modelId)->not()->toBeNull()
         ->and($component->getConfig('temporaryUploadMode'))->toBeFalse()
         ->and($component->getConfig('routes.mediaUpload'))->toBe(URL::route(mle_prefix_route('media-upload-multiple')));

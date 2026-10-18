@@ -215,8 +215,8 @@ class BrowserTestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
         Relation::morphMap([
-            'blog' => Blog::class,
-            'alien' => Alien::class,
+            'mle_blog' => Blog::class,
+            'mle_alien' => Alien::class,
         ]);
 
         $storagePath = __DIR__.'/Support/storage';

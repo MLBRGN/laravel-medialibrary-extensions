@@ -23,6 +23,11 @@ class Blog extends Model implements HasMediaExtended
 
     protected $guarded = [];
 
+    public function getMorphClass()
+    {
+        return 'mle_blog';
+    }
+
     public function registerMediaCollections(): void
     {
         $this
