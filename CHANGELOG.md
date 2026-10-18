@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.11...2.8.12) (2026-10-18)
+
+
+### Bug Fixes
+
+* prevent morph map collisions with host application models ([5822996](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/5822996c38de4a3c4896d66a72e62869d8b19676))
+
 ## [2.8.11](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.10...2.8.11) (2026-10-03)
 
 
