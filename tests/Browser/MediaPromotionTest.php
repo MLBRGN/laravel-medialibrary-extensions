@@ -22,7 +22,7 @@ it('promotes temporary uploads to permanent media on form submit', function () {
     $mmmPermanentId = '#alien-multiple-permanent-mmm';
     $mmmPermanentGridSelector = $mmmPermanentId.' [data-mle-media-preview-grid]';
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $mmmTemporaryId);
@@ -35,7 +35,7 @@ it('promotes temporary uploads to permanent media on form submit', function () {
     // 2. Submit the form to create the model and promote media
     // We need to click the specific "Save model" button for the MMM form
     $page->press($mmmTemporaryId.' ~ form button[type="submit"]')
-        ->assertPathIs('/mle-demo');
+        ->assertPathIs('/mlbrgn-mle/mle-demo');
 
     // 3. Verify it appears in the permanent MMM
     $this->scrollIntoView($page, $mmmPermanentId);
@@ -59,7 +59,7 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
     $mmmPermanentId = '#alien-multiple-permanent-mmm';
     $mmmPermanentGridSelector = $mmmPermanentId.' [data-mle-media-preview-grid]';
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $mmmTemporaryId);
@@ -75,7 +75,7 @@ it('promotes multiple temporary uploads to permanent media on form submit (MMM t
 
     // 2. Submit the specific MMM form's save button to create the model and promote media
     $page->press($mmmTemporaryId.' ~ form button[type="submit"]')
-        ->assertPathIs('/mle-demo');
+        ->assertPathIs('/mlbrgn-mle/mle-demo');
 
     // 3. Verify at least two items appear in the permanent MMM grid
     $this->scrollIntoView($page, $mmmPermanentId);

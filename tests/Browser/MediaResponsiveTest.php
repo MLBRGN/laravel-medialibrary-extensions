@@ -33,7 +33,7 @@ it('can display media in media responsive component and expand in modal', functi
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-permanent,responsive")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-permanent,responsive")
         ->assertNoJavaScriptErrors();
 
     // 1. Upload an image via MMS

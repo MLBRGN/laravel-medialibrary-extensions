@@ -339,9 +339,13 @@ class BrowserTestCase extends Orchestra
         })->where('path', '.*');
 
         Route::middleware('web')->group(function () {
-            Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
-            Route::post('mle-demo-isolation', [DemoController::class, 'submitIsolation'])->name('mle-demo-isolation-submit');
-            Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
+            Route::prefix('mlbrgn-mle')->group(function () {
+                Route::get('mle-demo', [DemoController::class, 'index'])->name('mle-demo');
+                Route::post('mle-demo-isolation', [DemoController::class, 'submitIsolation'])->name('mle-demo-isolation-submit');
+                Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
+                Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
+                Route::get('media-manager-tinymce', [\Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController::class, 'tinyMce'])->name('mlbrgn.mle.media-manager-tinymce');
+            });
 
             Route::get('test-client-token', function () {
                 return response()->json([
@@ -395,8 +399,6 @@ class BrowserTestCase extends Orchestra
             Route::post('test-simple-post', function () {
                 return response()->json(['status' => 'ok']);
             })->name('test-simple-post');
-
-            Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
 
             Route::get('/vendor/mlbrgn/{package}/{path}', function ($package, $path) {
 

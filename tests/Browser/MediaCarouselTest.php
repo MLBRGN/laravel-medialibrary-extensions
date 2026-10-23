@@ -41,7 +41,7 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
     $section = $temporary ? 'mmm-temporary,carousel' : 'mmm-permanent,carousel';
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=$section")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=$section")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $carouselId);

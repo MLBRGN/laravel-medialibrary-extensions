@@ -43,7 +43,7 @@ it('shows temporary uploads in carousels when explicitly configured', function (
 
     // 1. Visit demo page
     // The demo carousel is configured with 'includeTemporaryUploads' => true
-    $page = $this->visit("/mle-demo?theme={$theme}&data_source=demo_default&use_xhr={$xhrInt}");
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme={$theme}&data_source=demo_default&use_xhr={$xhrInt}");
 
     // 2. Upload a temporary image to MMM (alien-gallery)
     $mmmId = '#alien-multiple-temporary-mmm';

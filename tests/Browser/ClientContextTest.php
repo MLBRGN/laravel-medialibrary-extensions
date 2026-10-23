@@ -27,7 +27,7 @@ it('persists client_token in session/cookies and reuses it', function () {
 
 it('maintains stable instance_ids across page refreshes', function () {
     // 1. Visit demo page with explicit data_source to avoid redirects
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&data_source=demo_default');
+    $page = $this->visit('/mlbrgn-mle/mle-demo?theme=bootstrap-5&data_source=demo_default');
 
     // 2. Get instance_id of a specific component from its config
     $selector = '#config-alien-single-permanent';
@@ -55,7 +55,7 @@ it('maintains stable instance_ids across page refreshes', function () {
 
 it('assigns unique instance_ids to different components on the same page', function () {
     // 1. Visit demo page
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&data_source=demo_default');
+    $page = $this->visit('/mlbrgn-mle/mle-demo?theme=bootstrap-5&data_source=demo_default');
 
     // 2. Get instance_ids of two different components
     $sel1 = '#config-alien-single-permanent';

@@ -58,7 +58,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
     $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-$storage")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-$storage")
         ->assertNoJavaScriptErrors();
 
     // check that image editor custom element is registered
@@ -234,7 +234,7 @@ it('honors min / max width height and file size constraints in uploads', functio
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-$storage")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-$storage")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $mediaManagerId);
@@ -305,7 +305,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
     $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-$storage")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-$storage")
         ->assertNoJavaScriptErrors();
 
     // check that image editor custom element is registered

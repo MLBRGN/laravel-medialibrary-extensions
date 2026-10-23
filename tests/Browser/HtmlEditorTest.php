@@ -26,7 +26,7 @@ it('can control html editor\'s custom file picker', function ($theme, $dataSourc
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
     $page->assertSee('Mlbrgn Form components custom file picker integration');

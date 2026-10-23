@@ -35,7 +35,7 @@ it('can display media in media first available component', function ($theme, $da
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-permanent,first-available")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mms-permanent,first-available")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $firstAvailableId);
@@ -95,7 +95,7 @@ it('respects collection order priority in media first available component', func
     $this->assertDatabaseCount('media', 2, $resolvedConnection);
 
     // 2. Visit the page
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&section=first-available")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&section=first-available")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $firstAvailableId);

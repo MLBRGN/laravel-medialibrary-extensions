@@ -40,7 +40,7 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     // Ensure the Media Lab has a medium to work with, using the correct data source
     $this->ensureLabMedium($dataSource);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=lab")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=lab")
         ->assertNoJavaScriptErrors()
         ->assertDontSee('Media lab not showing, no media.');
 

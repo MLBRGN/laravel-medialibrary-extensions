@@ -8,7 +8,7 @@ beforeEach(function () {
 
 it('loads required assets', function () {
 
-    $this->visit('/mle-demo')
+    $this->visit('/mlbrgn-mle/mle-demo')
         ->assertNoJavaScriptErrors();
 
     $laravelMedialibraryExtensions = 'laravel-medialibrary-extensions';
@@ -43,7 +43,7 @@ it('loads required assets', function () {
 
 it('can visit demo page switch theme, XHR and DataSource', function () {
 
-    $page = $this->visit('/mle-demo?theme=bootstrap-5&data_source=default&use_xhr=0')
+    $page = $this->visit('/mlbrgn-mle/mle-demo?theme=bootstrap-5&data_source=default&use_xhr=0')
         ->assertNoJavaScriptErrors()
 
         // Theme switching

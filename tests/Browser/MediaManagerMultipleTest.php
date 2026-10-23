@@ -59,7 +59,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
     $this->assertDatabaseCount('mle_temporary_uploads', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-$storage")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-$storage")
         ->assertNoJavaScriptErrors();
 
     // check that image editor custom element is registered
@@ -257,7 +257,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-$storage")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-$storage")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $mediaManagerId);
@@ -359,7 +359,7 @@ it('enforces max items cap on multiple media manager (mmm) on demo page', functi
     $xhrInt = 1; // focused on XHR for stability
     $waitTime = $this->waitTimeXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-$storage")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-$storage")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $mediaManagerId);

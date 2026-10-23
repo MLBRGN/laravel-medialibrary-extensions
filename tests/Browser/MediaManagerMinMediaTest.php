@@ -24,7 +24,7 @@ it('validates minimum media requirements', function ($theme, $dataSource, $xhr, 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-min-media")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-min-media")
         ->assertNoJavaScriptErrors();
 
     $this->scrollIntoView($page, $mediaManagerId);

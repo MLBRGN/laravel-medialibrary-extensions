@@ -14,7 +14,7 @@ it('verifies multi-manager isolation and validation', function ($theme, $dataSou
     $this->ensureLabMedium($dataSource);
 
     // Visit isolation test page
-    $page = $this->visit("/mle-demo?isolation_test=1&theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?isolation_test=1&theme=$theme&data_source=$dataSource&use_xhr=$xhrInt")
         ->assertNoJavaScriptErrors();
 
     // 1. Verify all components are present
@@ -94,7 +94,7 @@ it('renders the form attribute for isolation expecting XHR mode', function () {
     // We test this at the HTTP level to ensure the Blade templates correctly
     // apply the 'form' attribute even when we are in XHR mode (which is required for isolation).
 
-    $response = $this->get('/mle-demo?isolation_test=1&theme=plain&use_xhr=1');
+    $response = $this->get('/mlbrgn-mle/mle-demo?isolation_test=1&theme=plain&use_xhr=1');
     $response->assertStatus(200);
 
     $isolationIdA = 'mle-isolated-manager-a';

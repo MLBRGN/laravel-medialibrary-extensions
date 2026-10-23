@@ -24,7 +24,7 @@ it('can interact with the media gallery', function ($theme, $dataSource, $xhr) {
 
     $this->assertDatabaseCount('media', 0, $resolvedConnection);
 
-    $page = $this->visit("/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-permanent,gallery")
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme=$theme&data_source=$dataSource&use_xhr=$xhrInt&section=mmm-permanent,gallery")
         ->assertNoJavaScriptErrors();
 
     // 1. Upload media (at least two items to test slide targeting)
