@@ -60,7 +60,7 @@
     @endforeach
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
-        class="mle-button mle-button-submit mle-button-icon btn btn-primary"
+        class="mle-button mle-button-submit btn-icon btn-sm btn btn-primary"
         title="{{ __('medialibrary-extensions::messages.setup_as_main') }}"
         data-mle-action="set-as-first"
         data-mle-route="{{ $getConfig('routes.mediumSetAsFirst') }}"

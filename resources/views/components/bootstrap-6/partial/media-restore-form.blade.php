@@ -47,7 +47,7 @@
            @mleFormIsolation>
     <button
         type="submit"
-        class="mle-button mle-button-submit btn-icon btn-solid theme-primary"
+        class="mle-button mle-button-submit btn-icon btn-sm btn btn-primary"
         title="{{ __('medialibrary-extensions::messages.restore_original') }}"
         data-mle-action="medium-restore"
         data-mle-route="{{ $getConfig('routes.mediumRestore') }}"

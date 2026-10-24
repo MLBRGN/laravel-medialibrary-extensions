@@ -87,8 +87,8 @@
         color:var(--mlbrgn-mle-form-text-color);
     }
 
-    .mle-button,
-    .mle-button-pseudo {
+    .mle-button:not(.btn-icon):not(.mle-button-icon),
+    .mle-button-pseudo:not(.btn-icon-pseudo):not(.mle-button-icon-pseudo) {
         padding: 0.5rem 1rem;
         font-size: 1rem;
         font-weight: 400;
@@ -104,7 +104,9 @@
     }
 
     .mle-button.mle-button-icon,
-    .mle-button-pseudo.mle-button-icon-pseudo
+    .mle-button.btn-icon,
+    .mle-button-pseudo.mle-button-icon-pseudo,
+    .mle-button-pseudo.btn-icon-pseudo
     {
         margin:0;
         margin-inline-start: .5rem;
@@ -119,26 +121,33 @@
     }
 
     .mle-button.mle-button-icon.mle-button-no-border,
-    .mle-button-pseudo.mle-button-icon-pseudo.mle-button-no-border
+    .mle-button.btn-icon.mle-button-no-border,
+    .mle-button-pseudo.mle-button-icon-pseudo.mle-button-no-border,
+    .mle-button-pseudo.btn-icon-pseudo.mle-button-no-border
     {
         border:none;
     }
 
     .mle-button.mle-button-icon.mle-button-transparent,
-    .mle-button-pseudo.mle-button-icon-pseudo.mle-button-transparent
+    .mle-button.btn-icon.mle-button-transparent,
+    .mle-button-pseudo.mle-button-icon-pseudo.mle-button-transparent,
+    .mle-button-pseudo.btn-icon-pseudo.mle-button-transparent
     {
         background:none;
         color:inherit;
     }
 
     .mle-button-pseudo {
-        &.mle-button-icon-pseudo {
-            &.mle-button-icon-pseudo-valid {
+        &.mle-button-icon-pseudo,
+        &.btn-icon-pseudo {
+            &.mle-button-icon-pseudo-valid,
+            &.btn-icon-pseudo-valid {
                 background-color: var(--mlbrgn-mle-button-valid-bg-color);
                 color: var(--mlbrgn-mle-button-valid-fg-color);
             }
 
-            &.mle-button-icon-pseudo-invalid {
+            &.mle-button-icon-pseudo-invalid,
+            &.btn-icon-pseudo-invalid {
                 background-color: var(--mlbrgn-mle-button-invalid-bg-color);
                 color: var(--mlbrgn-mle-button-invalid-fg-color);
             }
@@ -146,7 +155,9 @@
     }
 
     .mle-button-pseudo.mle-button-icon-pseudo:hover:not(.mle-button-no-hover),
-    .mle-button.mle-button-icon:hover:not(.mle-button-no-hover)
+    .mle-button-pseudo.btn-icon-pseudo:hover:not(.mle-button-no-hover),
+    .mle-button.mle-button-icon:hover:not(.mle-button-no-hover),
+    .mle-button.btn-icon:hover:not(.mle-button-no-hover)
     {
         background-color: var(--mlbrgn-mle-button-alt-hover-bg-color);
         color: var(--mlbrgn-mle-button-alt-hover-fg-color);

@@ -19,12 +19,22 @@ const closeBootstrapDialog = (dialog) => {
     // Safety fallback for tests/race conditions: if it's still visible after a tiny tick, force it.
     // We use a small timeout to allow Bootstrap's native event cycle a chance to run first.
     setTimeout(() => {
-        if (dialog.classList.contains('show')) {
+        if (dialog.classList.contains('show') || dialog.hasAttribute('open')) {
             // console.warn('Forcing dialog closed after hide() failed');
             dialog.classList.remove('show');
             dialog.style.display = 'none';
+            if (typeof dialog.close === 'function') {
+                try {
+                    dialog.close();
+                } catch (e) {
+                    // console.warn('dialog.close() failed', e);
+                }
+            }
             document.body.classList.remove('dialog-open');
-            const backdrop = document.querySelector('.dialog-backdrop');
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            const backdrop = document.querySelector('.dialog-backdrop, .modal-backdrop');
             if (backdrop) backdrop.remove();
         }
     }, 10);
@@ -166,11 +176,11 @@ function parseDimensions(dimensionString, fallback) {
 }
 
 // Handle external close requests
-document.addEventListener('imageEditorDialogCloseRequest', e => {
-    console.log('bootstrap-6/dialog-image-editor.js - imageEditorDialogCloseRequest received', e.detail);
-    const dialog = e.detail.dialog;
+document.addEventListener('imageEditorModalCloseRequest', e => {
+    console.log('bootstrap-6/modal-image-editor.js - imageEditorModalCloseRequest received', e.detail);
+    const dialog = e.detail.modal || e.detail.dialog;
     if (!dialog) {
-        console.warn('bootstrap-6/dialog-image-editor.js - No dialog provided in event detail');
+        console.warn('bootstrap-6/modal-image-editor.js - No dialog provided in event detail');
         return;
     }
     closeBootstrapDialog(dialog);

@@ -4,6 +4,42 @@ import {getMleBootstrapInstance} from "@/js/bootstrap-6/bootstrap-resolver";
 let ytlPlayers = {}; // Store YouTube-lite players
 let nativeMediaPlayers = {};// store native media players (audio / video)
 
+const closeBootstrapDialog = (dialog) => {
+    // try to find a close button that uses data-bs-dismiss="dialog" first
+    // as it's more reliable in some environments than the JS API
+    const closeButton = dialog.querySelector('[data-bs-dismiss="dialog"]');
+    if (closeButton) {
+        closeButton.click();
+    }
+
+    const bs = getMleBootstrapInstance();
+    const dialogInstance = bs.Dialog.getOrCreateInstance(dialog);
+    dialogInstance.hide();
+
+    // Safety fallback for tests/race conditions: if it's still visible after a tiny tick, force it.
+    // We use a small timeout to allow Bootstrap's native event cycle a chance to run first.
+    setTimeout(() => {
+        if (dialog.classList.contains('show') || dialog.hasAttribute('open')) {
+            // console.warn('Forcing dialog closed after hide() failed');
+            dialog.classList.remove('show');
+            dialog.style.display = 'none';
+            if (typeof dialog.close === 'function') {
+                try {
+                    dialog.close();
+                } catch (e) {
+                    // console.warn('dialog.close() failed', e);
+                }
+            }
+            document.body.classList.remove('dialog-open');
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            const backdrop = document.querySelector('.dialog-backdrop, .modal-backdrop');
+            if (backdrop) backdrop.remove();
+        }
+    }, 10);
+}
+
 const initializeMediaModal = function (modal) {
     if (modal.dataset.mleMediaModalInitialized) return;
 
@@ -66,8 +102,8 @@ const initializeMediaModal = function (modal) {
 
     // when the carousel opens on the first slide and this is a YT video an audio or a video element,
     // we need to start autoplaying on modal open.
-    modal.addEventListener('show.bs.dialog', (e) => {
-        const modalTrigger = e.relatedTarget;
+    modal.addEventListener('shown.bs.dialog', (e) => {
+        const modalTrigger = e.detail?.relatedTarget || e.relatedTarget;
         if (!modalTrigger) return;
 
         const slideTo = modalTrigger.getAttribute('data-bs-slide-to');
@@ -76,6 +112,7 @@ const initializeMediaModal = function (modal) {
         if (slideTo !== null && carouselElement) {
             const bs = getMleBootstrapInstance();
             const carouselInstance = bs.Carousel.getOrCreateInstance(carouselElement);
+            // No need for timeout here as dialog is already shown
             carouselInstance.to(parseInt(slideTo, 10));
         }
     });
@@ -84,7 +121,7 @@ const initializeMediaModal = function (modal) {
         // nothing to do, return
         if (!modal.hasAttribute('data-mle-autoplay')) return;
 
-        const modalTrigger = e.relatedTarget;
+        const modalTrigger = e.detail?.relatedTarget || e.relatedTarget;
         if (!modalTrigger) return;
 
         const slideTo = modalTrigger.getAttribute('data-bs-slide-to');
@@ -174,9 +211,7 @@ const initializeMediaModal = function (modal) {
             e.stopPropagation();
             carouselInstance.next();
         } else if (e.key === 'Escape') {
-            const bs = getMleBootstrapInstance();
-            const dialogInstance = bs.Dialog.getOrCreateInstance(modal);
-            dialogInstance.hide();
+            closeBootstrapDialog(modal);
         }
     });
 

@@ -39,7 +39,7 @@ it('can display media in media responsive component and expand in modal', functi
     // 1. Upload an image via MMS
     $this->scrollIntoView($page, $mmsId);
     $page->attach($mmsInputSelector, $this->getRandomFixture())
-        ->press($mmsUploadButtonSelector)
+        ->click($mmsUploadButtonSelector)
         ->assertSee(__('medialibrary-extensions::messages.upload_success'));
     $this->assertDatabaseCount('media', 1, $resolvedConnection);
 
@@ -51,10 +51,10 @@ it('can display media in media responsive component and expand in modal', functi
     $page->assertPresent($viewerSelector);
 
     // 4. Test modal expansion
-    $page->click($mediaResponsiveId)
-        ->assertPresent($modalSelector)
-        ->click($modalCloseButtonSelector)
-        ->assertMissing($modalSelector);
+    $page->click($mediaResponsiveId);
+    $this->waitForVisible($page, $modalSelector)
+        ->click($modalCloseButtonSelector);
+    $this->waitForMissing($page, $modalSelector);
 
     $page->page()->close();
 })->group('browser')

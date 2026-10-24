@@ -58,3 +58,13 @@ document.addEventListener('click', (event) => {
         }
     }
 });
+
+// Global cleanup for scroll lock
+document.addEventListener('hidden.bs.dialog', () => {
+    // Only unlock if no other dialogs are open
+    if (document.querySelectorAll('dialog[open]').length === 0) {
+        document.body.classList.remove('dialog-open', 'modal-open');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+    }
+});

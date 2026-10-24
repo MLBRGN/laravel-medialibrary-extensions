@@ -32,8 +32,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     // for media modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
     $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
-    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
-    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
+    $mediaModalSelector = $this->getModalSelector($theme, '', $mediaManagerId.' [data-mle-media-modal]');
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' '.$this->getModalCloseSelector($theme);
 
     // for modal carousel testing
     $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
@@ -43,8 +43,8 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $mediaModalCarouselItemContainerImageSelector = $mediaModalCarouselItemContainerSelector.' img';
 
     // for image editor modal testing
-    $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
-    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalSelector = $this->getModalSelector($theme, '', $firstMediaPreviewContainer.' [data-mle-image-editor-modal]');
+    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' '.$this->getModalCloseSelector($theme);
     $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' >> [data-click-action="save"]';
     $imageEditorModalCancelButtonSelector = $imageEditorModalSelector.' >> [data-click-action="cancel"]';
     $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
@@ -79,7 +79,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($uploadButtonSelector);
+    $page->click($uploadButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -94,7 +94,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($uploadButtonSelector);
+    $page->click($uploadButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -109,7 +109,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($uploadButtonSelector);
+    $page->click($uploadButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -142,7 +142,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
     // check media modal opening and presence of expected elements
     $page->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector);
+        ->click($mediaPreviewImageSelector);
     $this->waitForVisible($page, $mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)
@@ -152,26 +152,30 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($mediaModalCarouselItemContainerImageSelector);
 
     // Check that the media modal can be closed using the close button
-    $page->press($mediaModalCloseButtonSelector);
+    $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
-    $page->press($editButtonSelector);
+    $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
-        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector);
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
+    
+    $this->waitForVisible($page, $imageEditorModalCloseButtonSelector)
+        ->click($imageEditorModalCloseButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
 
     // check saving edited image in the image editor
-    $page->press($editButtonSelector);
+    $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
-        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalRotateCcwButtonSelector);
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
+    
+    $page->click($imageEditorModalRotateCcwButtonSelector);
 
     if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($imageEditorModalSaveButtonSelector);
+    $page->click($imageEditorModalSaveButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -181,7 +185,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertSee(__('medialibrary-extensions::messages.medium_replaced'));
 
     // check that the carousel shows the correct image AFTER edit
-    $page->press($mediaPreviewItemSelector);
+    $page->click($mediaPreviewItemSelector);
     $this->waitForVisible($page, $mediaModalSelector);
 
     $previewSrc = $page->page()->locator($mediaPreviewImageSelector)->first()->getAttribute('src');
@@ -189,14 +193,17 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
 
     $page->assertPresent($mediaModalSelector.' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="'.$filenamePart.'"]');
 
-    $page->press($mediaModalCloseButtonSelector);
+    $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     // check canceling image editing in the image editor
-    $page->press($editButtonSelector);
+    $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
-        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCancelButtonSelector);
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
+    
+    $this->waitForVisible($page, $imageEditorModalCancelButtonSelector)
+        ->click($imageEditorModalCancelButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
 
     // check delete media works
@@ -204,7 +211,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($deleteButtonSelector);
+    $page->click($deleteButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -283,11 +290,11 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
     $setAsFirstButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-set-as-first-button]';
     $deleteButtonSelector = $firstMediaPreviewContainer.' [data-mle-media-delete-button]';
 
-    // for modal testing
+    // for media modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
     $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
-    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
-    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
+    $mediaModalSelector = $this->getModalSelector($theme, '', $mediaManagerId.' [data-mle-media-modal]');
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' '.$this->getModalCloseSelector($theme);
 
     // for modal carousel testing
     $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
@@ -323,7 +330,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($uploadButtonSelector);
+    $page->click($uploadButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -338,7 +345,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($uploadButtonSelector);
+    $page->click($uploadButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -366,7 +373,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
 
         // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector);
+        ->click($mediaPreviewImageSelector);
 
     $this->waitForVisible($page, $mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
@@ -377,7 +384,8 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         ->assertPresent($mediaModalCarouselItemContainerLiteYouTubeSelector);
 
     // check that media modal can be closed
-    $page->press($mediaModalCloseButtonSelector);
+    $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     // check delete media works
@@ -385,7 +393,7 @@ it('can upload YouTube video single', function ($theme, $dataSource, $xhr, $stor
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($deleteButtonSelector);
+    $page->click($deleteButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');

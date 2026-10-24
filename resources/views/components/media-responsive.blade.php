@@ -6,8 +6,8 @@
                 'mle-media-responsive',
                 'mle-cursor-zoom-in' => $expandableInModal
             ])->merge([
-                'data-bs-toggle' => ($expandableInModal && $getConfig('theme') === 'bootstrap-5') ? 'modal' : null,
-                'data-bs-target' => ($expandableInModal && $getConfig('theme') === 'bootstrap-5') ? '#' . $id . '-mod' : null,
+                'data-bs-toggle' => ($expandableInModal && $getConfig('theme') === 'bootstrap-6') ? 'dialog' : (($expandableInModal && $getConfig('theme') === 'bootstrap-5') ? 'modal' : null),
+                'data-bs-target' => ($expandableInModal && ($getConfig('theme') === 'bootstrap-5' || $getConfig('theme') === 'bootstrap-6')) ? '#' . $id . '-mod' : null,
                 'data-mle-modal-trigger' => ($expandableInModal && $getConfig('theme') === 'plain') ? '#' . $id . '-mod' : null,
             ]) }}
             src="{{ $url }}"

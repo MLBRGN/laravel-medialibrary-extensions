@@ -3,14 +3,14 @@
 >
     <div class="mle-media-preview-menu-start">
         @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
-            <span class="mle-button-pseudo mle-button-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent">
+            <span class="mle-button-pseudo btn-icon-pseudo btn-sm mle-button-no-border mle-button-no-hover mle-button-transparent">
                 {{ $medium->getCustomProperty('priority') + 1 }}
             </span>
         @endif
 
         @if($selectable)
             <label 
-                class="mle-button-pseudo mle-button-icon-pseudo mle-checkbox-wrapper"
+                class="mle-button-pseudo btn-icon-pseudo btn-sm mle-checkbox-wrapper"
                 data-mle-media-select-wrapper>
                 <input
                     type="{{ config('medialibrary-extensions.single_select') ? 'radio' : 'checkbox' }}"
@@ -34,7 +34,7 @@
             @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                 <button
                     type="button"
-                    class="mle-button mle-button-icon btn btn-primary"
+                    class="mle-button btn-icon btn-sm btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#{{ $id }}-iem-{{ $medium->id }}"
                     title="{{ __('medialibrary-extensions::messages.edit') }}"
@@ -52,7 +52,7 @@
         @if($getConfig('showSetAsFirstButton'))
             @if(isset($multiple) && $multiple === false)
                 <button type="button"
-                        class="mle-button mle-button-icon btn btn-primary"
+                        class="mle-button btn-icon btn-sm btn btn-primary"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
                         data-mle-media-set-as-first-button
                         disabled
@@ -64,7 +64,7 @@
                 </button>
             @elseif($medium->getCustomProperty('priority') === 0)
                 <button type="button"
-                        class="mle-button mle-button-icon btn btn-primary"
+                        class="mle-button btn-icon btn-sm btn btn-primary"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
                         data-mle-media-set-as-first-button
                         disabled

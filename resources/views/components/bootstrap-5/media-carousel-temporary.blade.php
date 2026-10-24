@@ -67,8 +67,6 @@
                         :options="$getOptions()"
                         :preview-mode="$previewMode"
                         :expandable-in-modal="false"
-                        data-bs-target="#{{ $id }}-mod-crs"
-                        data-bs-slide-to="{{ $loop->index }}"
                     />
                 </div>
             </div>

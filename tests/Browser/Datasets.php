@@ -216,10 +216,13 @@ dataset('validation_matrix', function () {
 dataset('media_carousel_test_matrix',
     [
         'bootstrap 5 + demo default + xhr + permanent' => ['bootstrap-5', 'demo_default', true, false],
+        'bootstrap 5 + demo default + xhr + temporary' => ['bootstrap-5', 'demo_default', true, true],
         'bootstrap 5 + demo alt + no xhr + permanent' => ['bootstrap-5', 'demo_alt', false, false],
         'bootstrap 6 + demo default + xhr + permanent' => ['bootstrap-6', 'demo_default', true, false],
+        'bootstrap 6 + demo default + xhr + temporary' => ['bootstrap-6', 'demo_default', true, true],
         'bootstrap 6 + demo alt + no xhr + permanent' => ['bootstrap-6', 'demo_alt', false, false],
         'plain + demo default + xhr + permanent' => ['plain', 'demo_default', true, false],
+        'plain + demo default + xhr + temporary' => ['plain', 'demo_default', true, true],
         'plain + demo alt + no xhr + permanent' => ['plain', 'demo_alt', false, false],
     ]);
 

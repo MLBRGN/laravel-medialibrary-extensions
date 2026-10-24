@@ -28,7 +28,7 @@ it('simulates a human workflow: index -> create -> upload -> show', function (st
     $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
 
     // 5. Submit the form
-    $page->press('#btn-save-blog')
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 
@@ -60,7 +60,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     $galleryNames[] = $this->uploadToGallery($page, $this->getRandomFixture());
 
     // 3. Submit the form
-    $page->press('#btn-save-blog')
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 
@@ -84,14 +84,14 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     $modalId = "{$galleryId}-mod";
     $modalSelector = $this->getModalSelector($theme, $modalId);
 
-    $page->assertPresent($modalSelector);
+    $this->waitForVisible($page, $modalSelector);
 
     // In the modal carousel, check the active item matches image 2
     $page->assertPresent($modalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$expectedFilenameBase}']");
 
     // Close modal
     $page->click($modalSelector.' '.$this->getModalCloseSelector($theme));
-    $page->assertMissing($modalSelector);
+    $this->waitForMissing($page, $modalSelector);
 
     // 6. Edit Flow
     $page->click('#btn-edit-blog') // Edit button on show page
@@ -110,7 +110,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     $newFeaturedName = $this->uploadFeaturedImage($page, $this->getRandomFixture());
 
     // 7. Save and verify
-    $page->press('#btn-update-blog')
+    $page->click('#btn-update-blog')
         ->assertSee('Blog updated.')
         ->assertSee($newTitle);
 
@@ -144,7 +144,7 @@ it('allows reordering gallery images during blog creation and maintains sync', f
     $expectedOrder = [$galleryNames[1], $galleryNames[0], $galleryNames[2]];
 
     // 5. Save the blog
-    $page->press('#btn-save-blog')
+    $page->click('#btn-save-blog')
         ->assertSee('Blog created.')
         ->assertSee($title);
 

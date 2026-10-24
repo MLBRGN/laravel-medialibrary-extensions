@@ -99,6 +99,13 @@ class BrowserTestCase extends Orchestra
         return $page;
     }
 
+    public function wait($page, int $milliseconds)
+    {
+        usleep($milliseconds * 1000);
+
+        return $page;
+    }
+
     public function getModalSelector(string $theme, string $id, ?string $selector = null): string
     {
         $base = $selector ?: "#{$id}";

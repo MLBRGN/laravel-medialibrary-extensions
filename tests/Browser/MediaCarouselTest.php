@@ -26,7 +26,9 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     $nextButtonSelector = $carouselId.' [data-mle-carousel-next]';
     $prevButtonSelector = $carouselId.' [data-mle-carousel-prev]';
     $firstItemSelector = $carouselId.' [data-mle-carousel-item]:first-child';
+    $firstItemTriggerSelector = $firstItemSelector.' .mle-media-carousel-item-container';
     $secondItemSelector = $carouselId.' [data-mle-carousel-item]:nth-child(2)';
+    $secondItemTriggerSelector = $secondItemSelector.' .mle-media-carousel-item-container';
 
     // modal selectors
     $modalBaseId = 'alien-carousel-mod';
@@ -57,11 +59,11 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // 1. Upload two images via MMM
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
-            ->press($mmmPermanentUploadButtonSelector)
+            ->click($mmmPermanentUploadButtonSelector)
             ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmPermanentInputSelector, $this->getRandomFixture())
-            ->press($mmmPermanentUploadButtonSelector)
+            ->click($mmmPermanentUploadButtonSelector)
             ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $this->assertDatabaseCount('media', 2, $resolvedConnection);
@@ -71,11 +73,11 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // 1. Upload two images via MMM
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-            ->press($mmmTemporaryUploadButtonSelector)
+            ->click($mmmTemporaryUploadButtonSelector)
             ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $page->attach($mmmTemporaryInputSelector, $this->getRandomFixture())
-            ->press($mmmTemporaryUploadButtonSelector)
+            ->click($mmmTemporaryUploadButtonSelector)
             ->assertSee(__('medialibrary-extensions::messages.upload_success'));
 
         $this->assertDatabaseCount('mle_temporary_uploads', 2, $resolvedConnection);
@@ -125,21 +127,24 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         ->assertAttributeContains($secondItemSelector, 'class', 'active')
         ->assertAttributeDoesntContain($firstItemSelector, 'class', 'active')
 
-        // test modal expansion if applicable (default is true)
-        ->click($secondItemSelector)
+        ->click($secondItemTriggerSelector)
         ->assertPresent($modalSelector)
-        ->assertPresent($innerCarouselId)
-        // Assert it opened on the second slide
-        ->assertAttributeContains($innerSecondItemSelector, 'class', 'active')
-        ->assertAttributeDoesntContain($innerFirstItemSelector, 'class', 'active')
+        ->assertPresent($innerCarouselId);
+    
+    // In Bootstrap 6, the active class might be updated asynchronously via scroll-snap tracking.
+    // For other themes, it's usually set via JS synchronously or after a transition.
+    // We use waitForExpectation as a more robust check that the correct slide is actually shown.
+    \Pest\Browser\Execution::instance()->waitForExpectation(fn() => $page->assertAttributeContains($innerSecondItemSelector, 'class', 'active'), 10000);
 
+    $page->assertAttributeDoesntContain($innerFirstItemSelector, 'class', 'active')
         // click next in modal (wrap around since only 2 items)
         ->click($innerNextButtonSelector)
         ->assertAttributeContains($innerFirstItemSelector, 'class', 'active')
-        ->assertAttributeDoesntContain($innerSecondItemSelector, 'class', 'active')
+        ->assertAttributeDoesntContain($innerSecondItemSelector, 'class', 'active');
+    
+    $this->wait($page, 250); // wait for transition
 
-        // click prev in modal
-        ->click($innerPrevButtonSelector)
+    $page->click($innerPrevButtonSelector)
         ->assertAttributeContains($innerSecondItemSelector, 'class', 'active')
         ->assertAttributeDoesntContain($innerFirstItemSelector, 'class', 'active')
 

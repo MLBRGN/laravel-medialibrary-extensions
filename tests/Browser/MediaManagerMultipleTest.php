@@ -36,7 +36,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     // for modal testing
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
     $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
-    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
+    $mediaModalSelector = $this->getModalSelector($theme, '', $mediaManagerId.' [data-mle-media-modal]');
     $mediaModalCloseButtonSelector = $mediaModalSelector.' '.$this->getModalCloseSelector($theme);
 
     // for modal carousel testing
@@ -45,7 +45,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $mediaModalCarouselItemSelector = $mediaModalCarouselSelector.' [data-mle-carousel-item]';
 
     // for image editor modal testing
-    $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
+    $imageEditorModalSelector = $this->getModalSelector($theme, '', $firstMediaPreviewContainer.' [data-mle-image-editor-modal]');
     $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' '.$this->getModalCloseSelector($theme);
     $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' >> [data-click-action="save"]';
     $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
@@ -139,7 +139,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
     // check media modal opening and presence of expected elements
         ->assertPresent($mediaPreviewImageSelector)
-        ->press($mediaPreviewImageSelector);
+        ->click($mediaPreviewImageSelector);
 
     $this->waitForVisible($page, $mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
@@ -148,7 +148,8 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         ->assertPresent($mediaModalCarouselItemSelector);
 
     // check that media modal can be closed
-    $page->press($mediaModalCloseButtonSelector);
+    $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     // check that the carousel shows the correct images for multiple items (random check)
@@ -160,7 +161,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         $previewSrc = $page->page()->locator($currentSelector.' [data-mle-media-preview-image]')->first()->getAttribute('src');
         $filenamePart = basename(parse_url($previewSrc, PHP_URL_PATH));
 
-        $page->press($currentSelector);
+        $page->click($currentSelector);
         // Wait for modal to become visible
         $this->waitForVisible($page, $mediaModalSelector);
 
@@ -168,28 +169,32 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         $page->assertPresent($mediaModalSelector.' [data-mle-carousel-item].active [data-mle-media-preview-image][src*="'.$filenamePart.'"]');
 
         // Close modal
-        $page->press($mediaModalCloseButtonSelector);
+        $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+            ->click($mediaModalCloseButtonSelector);
         $this->waitForMissing($page, $mediaModalSelector);
     }
 
     // check image editor modal can be opened and closed
-    $page->press($editButtonSelector);
+    $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
-        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalCloseButtonSelector);
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
+    
+    $this->waitForVisible($page, $imageEditorModalCloseButtonSelector)
+        ->click($imageEditorModalCloseButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
 
     // check saving edited image in the image editor
-    $page->press($editButtonSelector);
+    $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
-        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
-        ->press($imageEditorModalRotateCcwButtonSelector);
+        ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
+    
+    $page->click($imageEditorModalRotateCcwButtonSelector);
 
     if (! $xhr) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($imageEditorModalSaveButtonSelector);
+    $page->click($imageEditorModalSaveButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -203,7 +208,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($deleteButtonSelector);
+    $page->click($deleteButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -224,7 +229,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
             $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
         }
 
-        $page->press($currentDeleteButtonSelector);
+        $page->click($currentDeleteButtonSelector);
 
         if (! $xhr) {
             $page->waitForEvent('load');
@@ -251,8 +256,8 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $uploadButtonSelector = $mediaManagerId.' [data-mle-media-upload-button]';
     $gridSelector = $mediaManagerId.' [data-mle-media-preview-grid]';
 
-    $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
-    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
+    $mediaModalSelector = $this->getModalSelector($theme, '', $mediaManagerId.' [data-mle-media-modal]');
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' '.$this->getModalCloseSelector($theme);
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
@@ -270,7 +275,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
             $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
         }
 
-        $page->press($uploadButtonSelector);
+        $page->click($uploadButtonSelector);
 
         if (! $xhr) {
             $page->waitForEvent('load');
@@ -292,11 +297,13 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $secondFilename = basename(parse_url($secondSrc, PHP_URL_PATH));
     $secondFilenameBase = pathinfo($secondFilename, PATHINFO_FILENAME);
 
-    $page->press($secondItemPreview);
+    $page->click($secondItemPreview);
     $this->waitForVisible($page, $mediaModalSelector)
         // Wait until the active slide matches the clicked image
-        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
-        ->press($mediaModalCloseButtonSelector);
+        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']");
+    
+    $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     // 4. Set the second item as first
@@ -306,7 +313,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
         $page->script('document.querySelectorAll("[data-mle-status-message]").forEach(el => el.remove())');
     }
 
-    $page->press($setAsFirstButtonSelector);
+    $page->click($setAsFirstButtonSelector);
 
     if (! $xhr) {
         $page->waitForEvent('load');
@@ -321,10 +328,12 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $this->assertFilenameMatch($newFirstSrc, $secondFilename);
 
     // 6. Verify synchronization of the NEW first item
-    $page->press($firstContainer.' [data-mle-media-preview-item]');
+    $page->click($firstContainer.' [data-mle-media-preview-item]');
     $this->waitForVisible($page, $mediaModalSelector)
-        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']")
-        ->press($mediaModalCloseButtonSelector);
+        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']");
+    
+    $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     // 7. Verify synchronization of the NEW second item (which was the first)
@@ -334,10 +343,12 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $newSecondFilename = basename(parse_url($newSecondSrc, PHP_URL_PATH));
     $newSecondFilenameBase = pathinfo($newSecondFilename, PATHINFO_FILENAME);
 
-    $page->press($newSecondContainer.' [data-mle-media-preview-item]');
+    $page->click($newSecondContainer.' [data-mle-media-preview-item]');
     $this->waitForVisible($page, $mediaModalSelector)
-        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$newSecondFilenameBase}']")
-        ->press($mediaModalCloseButtonSelector);
+        ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$newSecondFilenameBase}']");
+    
+    $this->waitForVisible($page, $mediaModalCloseButtonSelector)
+        ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
 
     $page->page()->close();

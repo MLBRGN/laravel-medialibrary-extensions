@@ -13,6 +13,7 @@
     @endif
     data-mle-theme="{{$getConfig('theme')}}"
     data-mle-dialog
+    data-mle-image-editor-dialog
     data-mle-image-editor-modal
     data-mle-medium-display-name="{{ media_display_name($medium) }}"
     data-mle-medium-path="{{ $medium->getUrl() }}"

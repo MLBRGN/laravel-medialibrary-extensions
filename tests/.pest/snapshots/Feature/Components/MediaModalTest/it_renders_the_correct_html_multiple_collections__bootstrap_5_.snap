@@ -92,7 +92,7 @@
                                      >
                     <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="0"
+            class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false"
             src="/storage/1/test.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
@@ -111,7 +111,7 @@
                                      >
                     <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="1"
+            class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false"
             src="/storage/2/test2.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
@@ -137,7 +137,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-video" draggable="" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="3"
+    class="mle-video" draggable=""
     id="test-media-modal-3-media-viewer-video"
     data-mle-video-container
 >
@@ -163,7 +163,7 @@
                 <div class="mle-media-carousel-item-container"
                                      >
                     <div 
-    class="mle-audio" draggable="" data-bs-target="#test-media-modal-mod-crs" data-bs-slide-to="4"
+    class="mle-audio" draggable=""
     id="test-media-modal-4-media-viewer-audio"
     data-mle-audio-container
 >

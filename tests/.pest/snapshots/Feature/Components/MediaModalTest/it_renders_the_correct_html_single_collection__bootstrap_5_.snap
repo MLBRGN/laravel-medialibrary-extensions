@@ -68,7 +68,7 @@
                                      >
                     <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="0"
+            class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false"
             src="/storage/1/test.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
@@ -87,7 +87,7 @@
                                      >
                     <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="1"
+            class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false"
             src="/storage/2/test2.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
