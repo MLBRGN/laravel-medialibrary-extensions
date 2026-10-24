@@ -43,8 +43,10 @@ class MediaManager extends BaseMediaComponent
         public ?string $dataSource = 'default',
         public bool $required = false,
         ?string $name = null,
+        ?string $instanceId = '___DEFAULT___',
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id, $this->modelReference, $dataSource, $name);
+        parent::__construct($id, $this->modelReference, $dataSource, $name, $instanceId, $clientToken);
 
         $this->options = $options;
 

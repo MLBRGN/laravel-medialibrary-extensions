@@ -21,19 +21,12 @@ class MediaModal extends BaseMediaComponent
         public Media|TemporaryUpload|null $singleMedia = null, // when provided, skip collection lookups and use this medium
         array $options = [],
         public bool $videoAutoPlay = true,
-        string $instanceId = '',
+        ?string $instanceId = '___DEFAULT___',
         public ?string $dataSource = 'default',
-        ?string $clientToken = null,
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id, $this->modelReference, $dataSource);
+        parent::__construct($id, $this->modelReference, $dataSource, null, $instanceId, $clientToken);
 
-        if ($instanceId) {
-            $this->instanceId = $instanceId;
-        }
-
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
         $this->options = $options;
 
         // merge into config

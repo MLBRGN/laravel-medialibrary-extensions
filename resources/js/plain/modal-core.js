@@ -75,11 +75,10 @@ export function setupModalLifecycle(modal, onClose = () => {}, onOpen = () => {}
 }
 
 function defaultClickHandler(e) {
-    e.stopPropagation();
-
     const target = e.target;
     const trigger = target.closest('[data-mle-modal-trigger]');
     if (trigger) {
+        e.stopPropagation();
         e.preventDefault();
         const modalId = trigger.getAttribute('data-mle-modal-trigger');
         openModal(modalId, trigger, e);
@@ -88,13 +87,17 @@ function defaultClickHandler(e) {
 
     const closeBtn = target.closest('[data-mle-modal-close]');
     if (closeBtn) {
+        e.stopPropagation();
         const modal = closeBtn.closest('[data-mle-modal]');
         if (modal) closeModal(modal, e);
         return;
     }
 
     const modal = target.closest('[data-mle-modal]');
-    if (modal && target === modal) closeModal(modal, e);
+    if (modal && target === modal) {
+        e.stopPropagation();
+        closeModal(modal, e);
+    }
 }
 
 function defaultKeydownHandler(e) {

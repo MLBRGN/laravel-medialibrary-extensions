@@ -17,7 +17,7 @@ it('opens the media modal from the carousel and initializes the inner carousel',
     // Best-effort: click refresh if the control exists; otherwise continue.
     // Using a short wait for selector, but not failing if absent.
     try {
-        $page->waitFor('#carouselRefreshButton', 250);
+        $this->waitForVisible($page, '#carouselRefreshButton');
         $page->click('#carouselRefreshButton');
     } catch (Throwable $e) {
         // ignore if not present
@@ -25,7 +25,7 @@ it('opens the media modal from the carousel and initializes the inner carousel',
 
     // Try to select the second indicator if available; ignore if not found.
     try {
-        $page->waitFor('[data-mle-carousel] [data-mle-carousel-indicators] [data-mle-carousel-indicator]:nth-child(2)', 250);
+        $this->waitForVisible($page, '[data-mle-carousel] [data-mle-carousel-indicators] [data-mle-carousel-indicator]:nth-child(2)');
         $page->click('[data-mle-carousel] [data-mle-carousel-indicators] [data-mle-carousel-indicator]:nth-child(2)');
     } catch (Throwable $e) {
         // ignore if there's only one item

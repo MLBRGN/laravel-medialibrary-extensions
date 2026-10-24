@@ -27,7 +27,7 @@
                 </button>
                 
                 <div id="test-media-modal-mod-crs"
-     data-base-id="test-media-modal-mod"
+     data-base-id="test-media-modal"
      class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" theme="plain"
     data-mle-carousel
     data-mle-carousel-id="test-media-modal-mod-crs"
@@ -70,7 +70,7 @@
                                     alt=""
              loading="lazy"             data-mle-image
             data-mle-media-preview-image
-            id="test-media-modal-mod-0-media-viewer-media-responsive"
+            id="test-media-modal-0-media-viewer-media-responsive"
         >
     </div>
 
@@ -89,7 +89,7 @@
                                     alt=""
              loading="lazy"             data-mle-image
             data-mle-media-preview-image
-            id="test-media-modal-mod-1-media-viewer-media-responsive"
+            id="test-media-modal-1-media-viewer-media-responsive"
         >
     </div>
 

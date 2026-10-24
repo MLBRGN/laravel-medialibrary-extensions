@@ -58,6 +58,7 @@
                      @if($expandableInModal)
                          data-bs-toggle="modal"
                          data-bs-target="#{{$id}}-mod"
+                         data-bs-slide-to="{{ $loop->index }}"
                     @endif
                 >
                     <x-mle-media-viewer
@@ -65,7 +66,7 @@
                         :medium="$medium"
                         :options="$getOptions()"
                         :preview-mode="$previewMode"
-                        :expandable-in-modal="$expandableInModal"
+                        :expandable-in-modal="false"
                         data-bs-target="#{{ $id }}-mod-crs"
                         data-bs-slide-to="{{ $loop->index }}"
                     />
@@ -134,6 +135,8 @@
         :single-media="$singleMedia"
         :collections="$collections"
         :options="$getOptions()"
+        :instance-id="$instanceId"
+        :client-token="$clientToken"
         title="Media carousel"/>
 @endif
 <x-mle-shared-assets

@@ -37,7 +37,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $mediaPreviewItemSelector = $firstMediaPreviewContainer.' [data-mle-media-preview-item]';
     $mediaPreviewImageSelector = $mediaPreviewItemSelector.' [data-mle-media-preview-image]';
     $mediaModalSelector = $mediaManagerId.' [data-mle-media-modal]';
-    $mediaModalCloseButtonSelector = $mediaModalSelector.' [data-mle-modal-close]';
+    $mediaModalCloseButtonSelector = $mediaModalSelector.' '.$this->getModalCloseSelector($theme);
 
     // for modal carousel testing
     $mediaModalCarouselSelector = $mediaModalSelector.' [data-mle-carousel]';
@@ -46,7 +46,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
 
     // for image editor modal testing
     $imageEditorModalSelector = $firstMediaPreviewContainer.' [data-mle-image-editor-modal]';
-    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' '.$this->getModalCloseSelector($theme);
     $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' >> [data-click-action="save"]';
     $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
 
