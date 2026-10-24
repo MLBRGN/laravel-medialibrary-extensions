@@ -1,0 +1,146 @@
+<div
+    id="{{ $getDomId() }}"
+    data-base-id="{{ $id }}"
+    {{ $attributes->class([
+        'mle-component',
+        'mle-theme-'.$getConfig('theme'),
+        'mle-media-manager',
+        'media-manager-multiple' => $multiple,
+        'media-manager-single' => !$multiple,
+    ])->merge() }}
+    data-mle-media-manager
+>
+    <!-- hidden anchor for scrolling -->
+    <a id="{{ $id }}"></a>
+    <input id="config-{{ $id }}" type="hidden" class="mle-media-manager-config" data-mle-media-manager-config value='@json($getConfig())'>
+    <input type="hidden" name="mle_instance_ids[]" value="{{ $instanceId }}" @mleFormIsolation>
+    <input type="hidden" name="client_token" value="{{ $clientToken }}" data-mle-client-token @mleFormIsolation>
+    @if($name)
+        <input type="hidden" name="mle_instance_map[{{ $name }}]" value="{{ $instanceId }}">
+        <input type="hidden" name="{{ $name }}" value="{{ $totalMediaCount }}" data-mle-media-count="{{ $id }}">
+    @endif
+
+    @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))
+        <div class="mle-component mle-debug-menu">
+            <x-mle-shared-debug-button/>
+            <x-mle-shared-local-package-icon />
+        </div>
+    @endif
+    
+    {{ $component_start ?? '' }}
+
+    <div class="mle-media-manager-layout" data-mle-mle-media-manager-layout>
+        {{-- Upload form section --}}
+        <div class="mle-media-manager-form {{ $getConfig('showUploadForms') ? '' : 'mle-media-manager-form-hidden' }}">
+           
+            @if($getConfig('showUploadForms'))
+{{--                <span class="mle-media-manager-media-counts" data-mle-media-manager-media-counts>{{ $totalMediaCount }} / {{ $getConfig('maxMediaCount') }}</span>--}}
+                <span class="mle-media-manager-media-counts mle-form-text form-text" data-mle-media-manager-media-counts>
+                    {{ __('medialibrary-extensions::messages.media_counts', [
+                        'current' => $totalMediaCount,
+                        'total' => $getConfig('maxMediaCount'),
+                    ]) }}
+                </span>
+                @if($name)
+                    @error($name)
+                        <div class="mle-alert alert alert-danger mle-error-message" data-mle-error-alert>
+                            {{ $message }}
+                        </div>
+                    @enderror
+                @endif
+                @if(($totalMediaCount >= $getConfig('maxMediaCount')) || ($multiple && $getConfig('disableForm')))
+                    <div class="mle-alert alert alert-primary" data-mle-max-reached-alert>
+                        @if(!$multiple)
+                        {{ __('medialibrary-extensions::messages.upload_disabled_only_one_medium_allowed') }}
+                        @elseif($multiple)
+                        {{ __('medialibrary-extensions::messages.upload_disabled_max_items_reached') }}
+                        @endif
+                    </div>
+                @elseif($getConfig('disableForm'))
+                        <div class="mle-alert alert alert-primary" data-mle-disabled-alert>
+                            {{ __('medialibrary-extensions::messages.disabled') }}
+                        </div>
+                @endif
+                {{ $form_start ?? '' }}
+            
+                @if($getConfig('showUploadForm'))
+                    <x-mle-partial-upload-form
+                        :id="$id"
+                        :model-reference="$modelReference"
+                        :single-media="$singleMedia"
+                        :collections="$collections"
+                        :options="$getOptions()"
+                        :multiple="$multiple"
+                        :disabled="$disabled || $getConfig('disableForm')"
+                        :readonly="$readonly"
+                        :instance-id="$instanceId"
+                        :data-source="$dataSource"
+                        :client-token="$clientToken"
+                    />
+                @endif
+
+                @if($getConfig('showYouTubeUploadForm'))
+                <x-mle-partial-youtube-upload-form
+                        class="mt-3"
+                        :id="$id"
+                        :model-reference="$modelReference"
+                        :single-media="$singleMedia"
+                        :collections="$collections"
+                        :options="$getOptions()"
+                        :disabled="$disabled || $getConfig('disableForm')"
+                        :readonly="$readonly"
+                        :multiple="$multiple"
+                        :instance-id="$instanceId"
+                        :data-source="$dataSource"
+                        :client-token="$clientToken"
+                    />
+                @endif
+            @endif
+            {{ $form_end ?? '' }}
+        </div>
+
+        {{-- Preview section --}}
+        <div class="mle-media-manager-previews">
+            <x-mle-partial-status-area
+                :id="$id"
+                :options="$getOptions()"
+                :instance-id="$instanceId"
+            />
+
+            <x-mle-media-preview-grid
+                :id="$id"
+                :model-reference="$modelReference"
+                :single-media="$singleMedia"
+                :collections="$collections"
+                :options="$getOptions()"
+                :selectable="$selectable"
+                :disabled="$disabled"
+                :readonly="$readonly"
+                :multiple="$multiple"
+                :instance-id="$instanceId"
+                :data-source="$dataSource"
+                :client-token="$clientToken"
+            />
+        </div>
+    </div>
+
+    {{ $component_end ?? '' }}
+
+    @if (config('medialibrary-extensions.debug') && ! app()->environment('production'))
+        <x-mle-shared-debug
+            :model-reference="$modelReference"
+            :config="$getConfig()"
+            :options="$getOptions()"
+            :data-source="$dataSource"
+        />
+    @endif
+</div>
+    <x-mle-shared-assets
+        :include-css="true"
+        :include-js="true"
+        :include-image-editor-js="true"
+        :include-media-modal-js="true"
+        :include-debug-toggle-js="config('medialibrary-extensions.debug')"
+        :theme="$getConfig('theme')"
+        for="bootstrap-6|media-manager"
+    />

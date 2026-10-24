@@ -26,8 +26,9 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     $mmsEditButtonSelector = $mmsSelector.' [data-mle-media-edit-button]';
 
     // selectors for image editor
-    $imageEditorModalSelector = $labBaseSelector.' [data-mle-image-editor-modal]';
-    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalBaseSelector = $labBaseSelector.' [data-mle-image-editor-modal]';
+    $imageEditorModalSelector = $this->getModalSelector($theme, '', $imageEditorModalBaseSelector);
+    $imageEditorModalCloseButtonSelector = $imageEditorModalBaseSelector.' '.$this->getModalCloseSelector($theme);
     $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
     $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
 
@@ -55,14 +56,14 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
 
     // check image editor modal can be opened and closed
     $page->press($mmsEditButtonSelector);
-    $this->waitForVisible($page, $imageEditorModalSelector)
+    $page->waitFor($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalCloseButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
 
     // check saving edited image in the image editor
     $page->press($mmsEditButtonSelector);
-    $this->waitForVisible($page, $imageEditorModalSelector)
+    $page->waitFor($imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'))
         ->press($imageEditorModalRotateCcwButtonSelector)
         ->press($imageEditorModalSaveButtonSelector);

@@ -25,7 +25,7 @@ class MorphMapCollisionTest extends TestCase
         // 3. Verify that 'blog' is STILL 'App\Models\Blog' and NOT overridden
         // Note: The package should now use 'mle_blog' instead of 'blog'
         $this->assertEquals('App\Models\Blog', Relation::getMorphedModel('blog'), "The 'blog' morph map entry was overridden by the package!");
-        
+
         // 4. Verify that 'mle_blog' is registered
         $this->assertEquals('Mlbrgn\MediaLibraryExtensions\Tests\Models\Blog', Relation::getMorphedModel('mle_blog'));
         $this->assertEquals('Mlbrgn\MediaLibraryExtensions\Models\demo\Alien', Relation::getMorphedModel('mle_alien'));

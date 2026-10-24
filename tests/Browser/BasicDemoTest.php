@@ -27,6 +27,12 @@ it('loads required assets', function () {
     $this->get("/vendor/mlbrgn/{$laravelMedialibraryExtensions}/js/bootstrap-5.js")
         ->assertSuccessful();
 
+    $this->get("/vendor/mlbrgn/{$laravelMedialibraryExtensions}/css/bootstrap-6.css")
+        ->assertSuccessful();
+
+    $this->get("/vendor/mlbrgn/{$laravelMedialibraryExtensions}/js/bootstrap-6.js")
+        ->assertSuccessful();
+
     // Verify image editor
     $this->get("/vendor/mlbrgn/{$laravelMedialibraryExtensions}/js/image-editor.js")
         ->assertSuccessful();
@@ -49,6 +55,8 @@ it('can visit demo page switch theme, XHR and DataSource', function () {
         // Theme switching
         ->click('@btn-theme-plain')
         ->assertQueryStringHas('theme', 'plain')
+        ->click('@btn-theme-bootstrap-6')
+        ->assertQueryStringHas('theme', 'bootstrap-6')
         ->click('@btn-theme-bootstrap-5')
         ->assertQueryStringHas('theme', 'bootstrap-5')
 

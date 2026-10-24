@@ -6,11 +6,11 @@ beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
 });
 
-it('opens the media modal from the carousel and initializes the inner carousel (bootstrap-5, demo_default)', function () {
-    Config::set('medialibrary-extensions.frontend_theme', 'bootstrap-5');
+it('opens the media modal from the carousel and initializes the inner carousel', function (string $theme) {
+    Config::set('medialibrary-extensions.frontend_theme', $theme);
 
     // Visit demo page. The demo blade includes Media Carousel by default.
-    $page = $this->visit('/mlbrgn-mle/mle-demo?theme=bootstrap-5&data_source=demo_default&use_xhr=1&section=carousel')
+    $page = $this->visit("/mlbrgn-mle/mle-demo?theme={$theme}&data_source=demo_default&use_xhr=1&section=carousel")
         ->assertNoJavaScriptErrors()
         ->assertSee('Media Carousel');
 
@@ -36,9 +36,11 @@ it('opens the media modal from the carousel and initializes the inner carousel (
     $page->click('#alien-carousel-crs .mle-media-carousel-item.active .mle-media-carousel-item-container');
 
     // Assert modal becomes visible and its internal carousel is present.
-    $page->assertPresent('[data-mle-media-modal]')
-        ->assertPresent('[data-mle-media-modal] [data-mle-carousel]');
+    $modalSelector = $this->getModalSelector($theme, 'alien-carousel-mod');
+
+    $page->assertPresent($modalSelector)
+        ->assertPresent($modalSelector.' [data-mle-carousel]');
 
     // Ensure at least one slide is rendered inside the modal.
-    $page->assertPresent('[data-mle-media-modal] [data-mle-carousel] [data-mle-carousel-item]');
-})->group('browser');
+    $page->assertPresent($modalSelector.' [data-mle-carousel] [data-mle-carousel-item]');
+})->with(['bootstrap-5', 'bootstrap-6'])->group('browser');

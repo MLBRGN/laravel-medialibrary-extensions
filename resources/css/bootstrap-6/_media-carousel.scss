@@ -1,0 +1,100 @@
+/*
+ * Media carousel
+ */
+@use '../mixins/carousel-controls' as carousel;
+
+// TODO why is this needed / wherefore is it used
+@media (hover: none) {
+    .mle-media-carousel-control-prev:hover,
+    .mle-media-carousel-control-next:hover {
+        background-color: transparent;
+    }
+}
+
+.mle-component.mle-theme-bootstrap-6 {
+
+    &.mle-media-carousel {
+        --carousel-indicator-width: 12px;
+        --carousel-indicator-height: 12px;
+        --carousel-indicator-active-bg: var(--bs-primary, #0d6efd); // fallback to Bootstrap's primary
+        --carousel-indicator-hit-area-height: 6px;
+        --carousel-indicator-active-opacity: 0.8;
+        --carousel-indicator-spacer: 6px;
+
+        --carousel-control-color-stop-1: #ffffff;
+        --carousel-control-color-stop-2: #cccccc;
+        --carousel-control-color-stop-3: #999999;
+        --carousel-control-color-stroke: #333333;
+
+        @include carousel.carousel-controls;
+
+        width:100%;
+        // 20260618 changed to 100% so that no media is displayed full height
+        //height:fit-content;
+
+        height:100%;
+        aspect-ratio: 16/9;
+        overflow:hidden;
+        background-color: var(--mlbrgn-mle-container-bg-light);
+        border:0;
+    }
+
+    &.mle-media-carousel-empty {
+        aspect-ratio: 16/1;
+    }
+
+    .mle-media-carousel-inner {
+        border-image-width:0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .mle-media-carousel-item {
+        width:100%;
+        height:100%;
+    }
+
+    /* override bs icons in previous and next */
+    .mle-media-carousel-control-prev,
+    .mle-media-carousel-control-next {
+        position: absolute;
+        top: 50%;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        z-index: 10;
+        cursor: pointer;
+        color: black;
+    }
+
+    .mle-media-carousel-control-prev-icon svg,
+    .mle-media-carousel-control-next-icon svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .mle-media-carousel-control-prev-icon,
+    .mle-media-carousel-control-next-icon {
+        background-image:none;
+    }
+
+    .mle-media-carousel-item-container {
+        width:100%;
+        height:100%;
+    }
+
+    .image {
+        cursor: zoom-in;
+    }
+
+    .image-zoomed {
+        cursor: default;
+    }
+
+    .image,
+    .image-zoomed {
+        height:100%;
+        width:100%;
+        object-fit:contain;
+    }
+}

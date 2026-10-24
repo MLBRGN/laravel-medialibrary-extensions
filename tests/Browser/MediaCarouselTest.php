@@ -29,8 +29,8 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     $secondItemSelector = $carouselId.' [data-mle-carousel-item]:nth-child(2)';
 
     // modal selectors
-    $modalId = '#alien-carousel-mod';
-    $modalSelector = $modalId.'[data-mle-media-modal]';
+    $modalBaseId = 'alien-carousel-mod';
+    $modalSelector = $this->getModalSelector($theme, $modalBaseId);
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
@@ -121,8 +121,8 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // test modal expansion if applicable (default is true)
         ->click($secondItemSelector)
-        ->assertVisible($modalSelector)
-        ->click($modalSelector.' [data-mle-modal-close]')
+        ->assertPresent($modalSelector)
+        ->click($modalSelector.' '.$this->getModalCloseSelector($theme))
         ->assertMissing($modalSelector); // not visible
 
     $page->page()->close();

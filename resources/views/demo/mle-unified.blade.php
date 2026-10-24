@@ -22,21 +22,31 @@
     <head>
         <meta charset="UTF-8">
         <title>Laravel Media Library Extensions Component tests</title>
-        @if($theme === 'bootstrap-5')
+        @if($theme === 'bootstrap-5' || $theme === 'bootstrap-6')
 {{--            TODO requires internet connection!--}}
             @if(app()->environment('testing'))
                 <link href="/vendor/mlbrgn/bootstrap/css/bootstrap.min.css" rel="stylesheet">
             @else
-                <link
-                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-                    rel="stylesheet"
-                    crossorigin="anonymous"
-                >
+                @if($theme === 'bootstrap-5')
+                    <link
+                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+                        rel="stylesheet"
+                        crossorigin="anonymous"
+                    >
+                @else
+                    {{-- Bootstrap 6 placeholder/CDN --}}
+                    <link
+                        href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+                        rel="stylesheet"
+                        integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe"
+                        crossorigin="anonymous"
+                    >
+                @endif
             @endif
         @endif
         <style>
             @if(app()->environment('testing'))
-            .modal.fade, .fade {
+            .modal.fade, .fade, dialog, .dialog {
                 transition: none !important;
                 animation: none !important;
             }
@@ -143,6 +153,7 @@
         <div class="mle-demo-controls">
             <div class="mle-demo-controls-group">
                 <span class="mle-demo-controls-label">Theme:</span>
+                <a href="{{ request()->fullUrlWithQuery(['theme' => 'bootstrap-6']) }}" class="mle-demo-btn {{ $theme === 'bootstrap-6' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-6">Bootstrap 6</a>
                 <a href="{{ request()->fullUrlWithQuery(['theme' => 'bootstrap-5']) }}" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Bootstrap 5</a>
                 <a href="{{ request()->fullUrlWithQuery(['theme' => 'plain']) }}" class="mle-demo-btn {{ $theme === 'plain' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-plain">Plain</a>
             </div>
@@ -208,7 +219,7 @@
                     <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-single-temporary') }}">
                     <input type="hidden" name="data_source" value="{{ $dataSource }}">
                     <input type="hidden" name="client_token" value="" data-mle-client-token>
-                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>
+                    <button type="submit" class="mle-demo-btn {{ ($theme === 'bootstrap-5' || $theme === 'bootstrap-6') ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-promote-single">Save model (and promote temporary media)</button>
                 </form>
         @endif
 
@@ -268,7 +279,7 @@
                     <input type="hidden" name="instance_id" value="{{ \Mlbrgn\MediaLibraryExtensions\Support\InstanceManager::getInstanceId('alien-multiple-temporary') }}">
                     <input type="hidden" name="data_source" value="{{ $dataSource }}">
                     <input type="hidden" name="client_token" value="" data-mle-client-token>
-                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-theme-bootstrap-5">Save model (and promote temporary media)</button>
+                    <button type="submit" class="mle-demo-btn {{ ($theme === 'bootstrap-5' || $theme === 'bootstrap-6') ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-promote-multiple">Save model (and promote temporary media)</button>
                 </form>
         @endif
     
@@ -296,7 +307,7 @@
                         :data-source="$dataSource"
                     />
 
-                    <button type="submit" class="mle-demo-btn {{ $theme === 'bootstrap-5' ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-save-min-media">Save model</button>
+                    <button type="submit" class="mle-demo-btn {{ ($theme === 'bootstrap-5' || $theme === 'bootstrap-6') ? 'mle-demo-btn-primary' : 'mle-demo-btn-outline' }}" data-test="btn-save-min-media">Save model</button>
                 </form>
             </div>
         @endif
@@ -471,15 +482,25 @@
         
     </div>
     
-    @if($theme === 'bootstrap-5')
+    @if($theme === 'bootstrap-5' || $theme === 'bootstrap-6')
         {{--            TODO requires internet connection!--}}
         @if(app()->environment('testing'))
             <script src="/vendor/mlbrgn/bootstrap/js/bootstrap.bundle.min.js"></script>
         @else
-            <script
-                src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-                crossorigin="anonymous"
-            ></script>
+            @if($theme === 'bootstrap-5')
+                <script
+                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                    crossorigin="anonymous"
+                ></script>
+            @else
+                {{-- Bootstrap 6 placeholder/CDN --}}
+                <script
+                    type="module"
+                    src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL"
+                    crossorigin="anonymous"
+                ></script>
+            @endif
         @endif
     @endif
     
