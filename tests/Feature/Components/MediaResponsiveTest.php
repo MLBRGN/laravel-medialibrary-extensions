@@ -231,4 +231,3 @@ it('uses media URL and ignores placeholder when media is present', function () {
     expect($html)->toContain('test.jpg');
     expect($html)->not->toContain('src="https://example.com/placeholder.jpg"');
 });
-

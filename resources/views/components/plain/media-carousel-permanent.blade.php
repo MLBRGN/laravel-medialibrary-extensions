@@ -62,7 +62,7 @@
                         :medium="$medium"
                         :options="$getOptions()"
                         :preview-mode="$previewMode"
-                        :expandable-in-modal="$expandableInModal"
+                        :expandable-in-modal="false"
                     />
                 </div>
             </div>

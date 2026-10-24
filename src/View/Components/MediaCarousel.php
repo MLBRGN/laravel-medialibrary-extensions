@@ -68,7 +68,7 @@ class MediaCarousel extends BaseComponent
 
     protected function domIdSuffix(): string
     {
-        return 'crs';
+        return $this->inModal ? 'mod-crs' : 'crs';
     }
 
     public function render(): View

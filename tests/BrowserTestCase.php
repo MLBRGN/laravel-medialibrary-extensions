@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Mlbrgn\LaravelFormComponents\Providers\FormComponentsServiceProvider;
 use Mlbrgn\MediaLibraryExtensions\Http\Controllers\DemoController;
+use Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController;
 use Mlbrgn\MediaLibraryExtensions\Http\Middleware\MlbrgnClientTokenMiddleware;
 use Mlbrgn\MediaLibraryExtensions\Interfaces\YouTubeThumbnailDownloader;
 use Mlbrgn\MediaLibraryExtensions\Models\demo\Alien;
@@ -96,6 +97,22 @@ class BrowserTestCase extends Orchestra
         Execution::instance()->waitForExpectation(fn () => $page->assertMissing($selector), 10000);
 
         return $page;
+    }
+
+    public function getModalSelector(string $theme, string $id, ?string $selector = null): string
+    {
+        $base = $selector ?: "#{$id}";
+
+        return match ($theme) {
+            'bootstrap-6' => "{$base}[open]",
+            'bootstrap-5' => "{$base}.show",
+            default => "{$base}.active",
+        };
+    }
+
+    public function getModalCloseSelector(string $theme): string
+    {
+        return $theme === 'bootstrap-6' ? '[data-mle-dialog-close]' : '[data-mle-modal-close]';
     }
 
     // large files cause timeouts in browser testing, disabled (for now)
@@ -344,7 +361,7 @@ class BrowserTestCase extends Orchestra
                 Route::post('mle-demo-isolation', [DemoController::class, 'submitIsolation'])->name('mle-demo-isolation-submit');
                 Route::post('mle-demo-alien', [DemoController::class, 'store'])->name('store-alien');
                 Route::get('mle-theme-switch', fn () => redirect()->back())->name('mlbrgn.mle.theme-switch');
-                Route::get('media-manager-tinymce', [\Mlbrgn\MediaLibraryExtensions\Http\Controllers\MediaManagerController::class, 'tinyMce'])->name('mlbrgn.mle.media-manager-tinymce');
+                Route::get('media-manager-tinymce', [MediaManagerController::class, 'tinyMce'])->name('mlbrgn.mle.media-manager-tinymce');
             });
 
             Route::get('test-client-token', function () {

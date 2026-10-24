@@ -1,0 +1,33 @@
+<div
+    {{ $attributes->merge([ 'class' => 'mle-media-lab-preview' ]) }}
+>
+    <div class="mle-media-lab-title">
+        {{ $title }}
+    </div>
+    <div @class(['
+        mle-component', 
+        'mle-theme-'.$getConfig('theme'), 
+        'mle-media-preview-container'
+    ])
+         data-mle-media-preview-container=""
+    >
+        <div class="mle-media-preview-item-container"
+             data-bs-toggle="dialog"
+             data-bs-target="#alien-multiple-mmm-mod"
+        >
+            {{ $slot }}
+        </div>
+    
+        <div class="mle-media-preview-menu" data-test="media-preview-menu">
+            <div class="mle-media-preview-menu-start">
+                {{ $menuStart ?? '' }}
+            </div>
+            <div class="mle-media-preview-menu-end">
+                {{ $menuEnd ?? '' }}
+            </div>
+        </div>
+    </div>
+    <div class="mle-media-lab-info">
+        {{ $imageInfo ?? '' }}
+    </div>
+</div>

@@ -3,7 +3,10 @@
         class="mle-component mle-media-first-available mle-media-responsive {{ $expandableInModal ? 'mle-cursor-zoom-in' : '' }}"
         id="{{ $getDomId() }}"
         @if($expandableInModal)
-            @if($getConfig('theme') === 'bootstrap-5')
+            @if($getConfig('theme') === 'bootstrap-6')
+                data-bs-toggle="dialog"
+                data-bs-target="#{{ $id }}-mod"
+            @elseif($getConfig('theme') === 'bootstrap-5')
                 data-bs-toggle="modal"
                 data-bs-target="#{{ $id }}-mod"
             @elseif($getConfig('theme') === 'plain')

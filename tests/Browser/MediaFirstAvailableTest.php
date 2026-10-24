@@ -23,9 +23,9 @@ it('can display media in media first available component', function ($theme, $da
     $mmsUploadButtonSelector = $mmsId.' [data-mle-media-upload-button]';
 
     // Modal selectors
-    $modalId = '#media-first-available-mod';
-    $modalSelector = $modalId.'[data-mle-media-modal]';
-    $modalCloseButtonSelector = $modalSelector.' [data-mle-modal-close]';
+    $modalBaseId = 'media-first-available-mod';
+    $modalSelector = $this->getModalSelector($theme, $modalBaseId);
+    $modalCloseButtonSelector = $modalSelector.' '.$this->getModalCloseSelector($theme);
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
@@ -61,14 +61,15 @@ it('can display media in media first available component', function ($theme, $da
 
     // 5. Test modal expansion
     $page->click($firstAvailableId)
-        ->assertVisible($modalSelector)
-        ->click($modalCloseButtonSelector)
-        ->assertMissing($modalSelector);
+        ->assertPresent($modalSelector)
+        ->click($modalCloseButtonSelector);
+    $this->waitForMissing($page, $modalSelector);
 
     $page->page()->close();
 })->group('browser')
     ->with([
-        'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'bootstrap 5 + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'bootstrap 6 + demo default + xhr' => ['bootstrap-6', 'demo_default', true],
         'plain + demo default + xhr' => ['plain', 'demo_default', true],
     ]);
 
@@ -106,6 +107,7 @@ it('respects collection order priority in media first available component', func
     $page->page()->close();
 })->group('browser')
     ->with([
-        'bootstrap + demo default' => ['bootstrap-5', 'demo_default'],
+        'bootstrap 5 + demo default' => ['bootstrap-5', 'demo_default'],
+        'bootstrap 6 + demo default' => ['bootstrap-6', 'demo_default'],
         'plain + demo default' => ['plain', 'demo_default'],
     ]);

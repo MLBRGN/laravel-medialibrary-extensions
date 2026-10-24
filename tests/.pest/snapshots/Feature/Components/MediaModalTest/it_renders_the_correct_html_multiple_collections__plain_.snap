@@ -27,7 +27,7 @@
                 </button>
                 
                 <div id="test-media-modal-mod-crs"
-     data-base-id="test-media-modal-mod"
+     data-base-id="test-media-modal"
      class="mle-component mle-theme-plain mle-media-carousel mle-media-carousel-plain mle-width-100 mle-height-100 mle-width-100 mle-height-100" theme="plain"
     data-mle-carousel
     data-mle-carousel-id="test-media-modal-mod-crs"
@@ -88,7 +88,7 @@
                                     alt=""
              loading="lazy"             data-mle-image
             data-mle-media-preview-image
-            id="test-media-modal-mod-0-media-viewer-media-responsive"
+            id="test-media-modal-0-media-viewer-media-responsive"
         >
     </div>
 
@@ -107,7 +107,7 @@
                                     alt=""
              loading="lazy"             data-mle-image
             data-mle-media-preview-image
-            id="test-media-modal-mod-1-media-viewer-media-responsive"
+            id="test-media-modal-1-media-viewer-media-responsive"
         >
     </div>
 
@@ -129,7 +129,7 @@
                                      >
                     <div 
     class="mle-video" draggable=""
-    id="test-media-modal-mod-3-media-viewer-video"
+    id="test-media-modal-3-media-viewer-video"
     data-mle-video-container
 >
     <div class="mle-video-preview">
@@ -139,7 +139,7 @@
             </p>
         </div>
         
-        <video id="test-media-modal-mod-3-media-viewer-video" controls preload="metadata" data-mle-video>
+        <video id="test-media-modal-3-media-viewer-video" controls preload="metadata" data-mle-video>
             <source src="/storage/5/test.mp4" type="video/mp4">
             medialibrary-extensions::messages.your_browser_does_not_support_the_video_element
         </video>
@@ -155,7 +155,7 @@
                                      >
                     <div 
     class="mle-audio" draggable=""
-    id="test-media-modal-mod-4-media-viewer-audio"
+    id="test-media-modal-4-media-viewer-audio"
     data-mle-audio-container
 >
     <div class="mle-audio-preview">
@@ -165,7 +165,7 @@
             </p>
         </div>
 
-        <audio id="test-media-modal-mod-4-media-viewer-audio" controls data-mle-audio>
+        <audio id="test-media-modal-4-media-viewer-audio" controls data-mle-audio>
             <source src="/storage/4/test.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>

@@ -1,0 +1,85 @@
+<x-mle-shared-conditional-form
+    :use-xhr="$getConfig('useXhr')"
+    :form-attributes="[
+        'action' => $getConfig('routes.mediumSetAsFirst') . '#' . $id,
+        'method' => 'POST',
+        'data-mle-form'
+    ]"
+    :div-attributes="[
+        'data-mle-xhr-form' => $getConfig('useXhr'), 
+    ]"
+    method="put"
+    class="mle-set-as-first-form"
+    id="{{ $getDomId() }}"
+>
+    <input type="hidden"
+        name="base_id"
+        value="{{ $id }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="client_token"
+        value="{{ $getConfig('clientToken') }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="medium_id"
+        value="{{ $medium->id }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="single_media_id"
+        value="{{ $singleMedia?->id || null }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="target_media_collection"
+        value="{{ $targetMediaCollection }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="model_type"
+        value="{{ $modelType }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="model_id"
+        value="{{ $modelId }}"
+        @mleFormIsolation>
+    <input type="hidden"
+        name="temporary_upload_mode"
+        value="{{ $temporaryUploadMode ? 'true' : 'false' }}"
+        @mleFormIsolation>
+    <input type="hidden"
+           name="data_source"
+           value="{{ $getConfig('dataSource') }}"
+           @mleFormIsolation>
+    
+    @foreach($collections as $collectionType => $collectionName)
+        @if (!empty($collectionName))
+            <input
+                type="hidden"
+                name="collections[{{ $collectionType }}]"
+                value="{{ $collectionName }}"
+                @mleFormIsolation>
+        @endif
+    @endforeach
+    <button
+        type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
+        class="mle-button mle-button-submit btn-icon btn-solid theme-primary"
+        title="{{ __('medialibrary-extensions::messages.setup_as_main') }}"
+        data-mle-action="set-as-first"
+        data-mle-route="{{ $getConfig('routes.mediumSetAsFirst') }}"
+        data-mle-media-set-as-first-button
+        @disabled($disabled)
+        @mleFormIsolation
+    >
+        <x-mle-shared-icon
+            name="{{ config('medialibrary-extensions.icons.setup_as_main') }}"
+            title="{{ __('medialibrary-extensions::messages.setup_as_main') }}"
+        />
+    </button>
+</x-mle-shared-conditional-form>
+@if($getConfig('useXhr'))
+    <x-mle-shared-assets 
+        :include-css="true" 
+        :include-js="true" 
+        :include-media-manager-submitter="true"
+        :theme="$getConfig('theme')"
+        for="bootstrap-6|set-as-first-form"
+    />
+@endif

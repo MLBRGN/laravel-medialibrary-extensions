@@ -1,0 +1,107 @@
+<div class="mle-media-preview-menu" 
+     id="{{ $getDomId() }}"
+>
+    <div class="mle-media-preview-menu-start">
+        @if($getConfig('showOrder') && $medium->hasCustomProperty('priority'))
+            <span class="mle-button-pseudo btn-icon-pseudo mle-button-no-border mle-button-no-hover mle-button-transparent">
+                {{ $medium->getCustomProperty('priority') + 1 }}
+            </span>
+        @endif
+
+        @if($selectable)
+            <label 
+                class="mle-button-pseudo btn-icon-pseudo mle-checkbox-wrapper"
+                data-mle-media-select-wrapper>
+                <input
+                    type="{{ config('medialibrary-extensions.single_select') ? 'radio' : 'checkbox' }}"
+                    name="selected_media"
+                    class="mle-media-select-checkbox"
+                    data-url="{{ $medium->getUrl() }}"
+                    data-alt="{{ $medium->name }}"
+                    data-mle-media-select-checkbox
+                    data-test="media-select"
+                    @mleFormIsolation
+                >
+                <span class="mle-media-select-indicator"
+                  title="{{ __('medialibrary-extensions::messages.select') }}"
+                />
+            </label>
+        @endif
+    </div>
+
+    <div class="mle-media-preview-menu-end" data-test="media-preview-menu-end-{{ $id }}">
+        @if($getConfig('showMediaEditButton'))
+            @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
+                <button
+                    type="button"
+                    class="mle-button btn-icon btn-solid theme-primary"
+                    data-bs-toggle="dialog"
+                    data-bs-target="#{{ $id }}-iem-{{ $medium->id }}"
+                    title="{{ __('medialibrary-extensions::messages.edit') }}"
+                    data-mle-media-edit-button
+                    @disabled($disabled)
+                >
+                    <x-mle-shared-icon
+                        name="{{ config('medialibrary-extensions.icons.edit') }}"
+                        title="{{ __('medialibrary-extensions::messages.edit') }}"
+                    />
+                </button>
+            @endif
+        @endif
+
+        @if($getConfig('showSetAsFirstButton'))
+            @if(isset($multiple) && $multiple === false)
+                <button type="button"
+                        class="mle-button btn-icon btn-solid theme-primary"
+                        title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
+                        data-mle-media-set-as-first-button
+                        disabled
+                >
+                    <x-mle-shared-icon
+                        name="{{ config('medialibrary-extensions.icons.set-as-main') }}"
+                        title="{{ __('medialibrary-extensions::messages.medium_set_as_main') }}"
+                    />
+                </button>
+            @elseif($medium->getCustomProperty('priority') === 0)
+                <button type="button"
+                        class="mle-button btn-icon btn-solid theme-primary"
+                        title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
+                        data-mle-media-set-as-first-button
+                        disabled
+                >
+                    <x-mle-shared-icon
+                        name="{{ config('medialibrary-extensions.icons.set-as-main') }}"
+                        title="{{ __('medialibrary-extensions::messages.medium_set_as_main') }}"
+                    />
+                </button>
+            @else
+                <x-mle-partial-set-as-first-form
+                    :id="$id"
+                    :model-reference="$modelReference"
+                    :medium="$medium"
+                    :single-media="$singleMedia"
+                    :collections="$collections"
+                    :options="$getOptions()"
+                    :disabled="$disabled"
+                    :instance-id="$instanceId"
+                    :data-source="$getConfig('dataSource')"
+                />
+            @endif
+        @endif
+
+        @if($getConfig('showDestroyButton'))
+            <x-mle-partial-destroy-form
+                :id="$id"
+                :model-reference="$modelReference"
+                :medium="$medium"
+                :single-media="$singleMedia"
+                :collections="$collections"
+                :options="$getOptions()"
+                :disabled="$disabled"
+                :instance-id="$instanceId"
+                :data-source="$getConfig('dataSource')"
+            />
+        @endif
+        
+    </div>
+</div>

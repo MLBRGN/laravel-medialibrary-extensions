@@ -26,8 +26,9 @@ it('can control media lab', function ($theme, $dataSource, $xhr, $uploadMedia = 
     $mmsEditButtonSelector = $mmsSelector.' [data-mle-media-edit-button]';
 
     // selectors for image editor
-    $imageEditorModalSelector = $labBaseSelector.' [data-mle-image-editor-modal]';
-    $imageEditorModalCloseButtonSelector = $imageEditorModalSelector.' [data-mle-modal-close]';
+    $imageEditorModalBaseSelector = $labBaseSelector.' [data-mle-image-editor-modal]';
+    $imageEditorModalSelector = $this->getModalSelector($theme, '', $imageEditorModalBaseSelector);
+    $imageEditorModalCloseButtonSelector = $imageEditorModalBaseSelector.' '.$this->getModalCloseSelector($theme);
     $imageEditorModalRotateCcwButtonSelector = $imageEditorModalSelector.' [data-click-action="rotateCcw"]';
     $imageEditorModalSaveButtonSelector = $imageEditorModalSelector.' [data-click-action="save"]';
 

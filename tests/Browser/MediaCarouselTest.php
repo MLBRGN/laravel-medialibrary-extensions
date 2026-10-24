@@ -29,8 +29,14 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
     $secondItemSelector = $carouselId.' [data-mle-carousel-item]:nth-child(2)';
 
     // modal selectors
-    $modalId = '#alien-carousel-mod';
-    $modalSelector = $modalId.'[data-mle-media-modal]';
+    $modalBaseId = 'alien-carousel-mod';
+    $modalSelector = $this->getModalSelector($theme, $modalBaseId);
+
+    $innerCarouselId = '#alien-carousel-mod-crs';
+    $innerFirstItemSelector = $innerCarouselId.' [data-mle-carousel-item]:first-child';
+    $innerSecondItemSelector = $innerCarouselId.' [data-mle-carousel-item]:nth-child(2)';
+    $innerNextButtonSelector = $innerCarouselId.' [data-mle-carousel-next]';
+    $innerPrevButtonSelector = $innerCarouselId.' [data-mle-carousel-prev]';
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
@@ -121,8 +127,23 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
 
         // test modal expansion if applicable (default is true)
         ->click($secondItemSelector)
-        ->assertVisible($modalSelector)
-        ->click($modalSelector.' [data-mle-modal-close]')
+        ->assertPresent($modalSelector)
+        ->assertPresent($innerCarouselId)
+        // Assert it opened on the second slide
+        ->assertAttributeContains($innerSecondItemSelector, 'class', 'active')
+        ->assertAttributeDoesntContain($innerFirstItemSelector, 'class', 'active')
+
+        // click next in modal (wrap around since only 2 items)
+        ->click($innerNextButtonSelector)
+        ->assertAttributeContains($innerFirstItemSelector, 'class', 'active')
+        ->assertAttributeDoesntContain($innerSecondItemSelector, 'class', 'active')
+
+        // click prev in modal
+        ->click($innerPrevButtonSelector)
+        ->assertAttributeContains($innerSecondItemSelector, 'class', 'active')
+        ->assertAttributeDoesntContain($innerFirstItemSelector, 'class', 'active')
+
+        ->click($modalSelector.' '.$this->getModalCloseSelector($theme))
         ->assertMissing($modalSelector); // not visible
 
     $page->page()->close();

@@ -21,9 +21,9 @@ it('can display media in media responsive component and expand in modal', functi
     $mmsUploadButtonSelector = $mmsId.' [data-mle-media-upload-button]';
 
     // Modal selectors
-    $modalId = '#media-responsive-mod';
-    $modalSelector = $modalId.'[data-mle-media-modal]';
-    $modalCloseButtonSelector = $modalSelector.' [data-mle-modal-close]';
+    $modalBaseId = 'media-responsive-mod';
+    $modalSelector = $this->getModalSelector($theme, $modalBaseId);
+    $modalCloseButtonSelector = $modalSelector.' '.$this->getModalCloseSelector($theme);
 
     $xhrInt = $xhr ? 1 : 0;
     $waitTime = $xhr ? $this->waitTimeXhr : $this->waitTimeNonXhr;
@@ -52,13 +52,14 @@ it('can display media in media responsive component and expand in modal', functi
 
     // 4. Test modal expansion
     $page->click($mediaResponsiveId)
-        ->assertVisible($modalSelector)
+        ->assertPresent($modalSelector)
         ->click($modalCloseButtonSelector)
         ->assertMissing($modalSelector);
 
     $page->page()->close();
 })->group('browser')
     ->with([
-        'bootstrap + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'bootstrap 5 + demo default + xhr' => ['bootstrap-5', 'demo_default', true],
+        'bootstrap 6 + demo default + xhr' => ['bootstrap-6', 'demo_default', true],
         'plain + demo default + xhr' => ['plain', 'demo_default', true],
     ]);

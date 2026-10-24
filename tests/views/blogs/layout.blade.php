@@ -5,14 +5,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Blog Integration - {{ $title ?? 'Test' }}</title>
-        @if(($theme ?? 'bootstrap-5') === 'bootstrap-5')
-            <link
-                href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-                rel="stylesheet"
-                crossorigin="anonymous"
-            >
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-            <script>window.bootstrap = bootstrap;</script>
+        @if(($theme ?? 'bootstrap-5') === 'bootstrap-5' || ($theme ?? '') === 'bootstrap-6')
+            @if(app()->environment('testing'))
+                <link href="/vendor/mlbrgn/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+                <script src="/vendor/mlbrgn/bootstrap/js/bootstrap.bundle.min.js"></script>
+            @else
+                @if(($theme ?? 'bootstrap-5') === 'bootstrap-5')
+                    <link
+                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+                        rel="stylesheet"
+                        crossorigin="anonymous"
+                    >
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+                @else
+                    <link
+                        href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
+                        rel="stylesheet"
+                        integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe"
+                        crossorigin="anonymous"
+                    >
+                    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+                @endif
+            @endif
+            <script>window.bootstrap = window.bootstrap || bootstrap;</script>
         @endif
         <style>
             html { 

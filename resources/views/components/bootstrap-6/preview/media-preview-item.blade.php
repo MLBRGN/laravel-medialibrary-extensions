@@ -1,0 +1,35 @@
+@if ($componentToRender)
+    <div class="mle-media-preview-item-container mle-cursor-zoom-in"
+         id="{{ $getDomId() }}"
+         data-bs-toggle="dialog"
+         data-bs-target="#{{ $id }}-mod"
+         data-bs-slide-to="{{ $loopIndex }}"
+         data-mle-media-preview-item
+    >
+        <x-mle-media-viewer
+            :id="$id"
+            :medium="$medium"
+            :options="$getOptions()"
+            :preview-mode="true"
+            :expandable-in-modal="false"
+            :data-source="$getConfig('dataSource')"
+        />
+    </div>
+
+    @if ($mediumType === 'image')
+        <x-mle-image-editor-modal
+            id="{{ $id }}"
+            :model-reference="$modelReference"
+            :medium="$medium"
+            :single-media="$singleMedia"
+            :collections="$collections"
+            :options="$getOptions()"
+            title="Edit Image"
+            :data-source="$getConfig('dataSource')"
+        />
+    @endif
+@else
+    <span class="mle-unsupported">
+        {{ __('medialibrary-extensions::messages.non_supported_file_format') }}
+    </span>
+@endif

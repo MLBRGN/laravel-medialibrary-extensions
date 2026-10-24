@@ -1,0 +1,23 @@
+@use "shared/css-variables";
+@use "bootstrap-6/media-carousel";
+
+@use "shared/general";
+@use "shared/media-carousel" as sharedCarousel;
+@use "shared/media-manager" as sharedManager;
+@use "shared/media-lab" as sharedMediaLab;
+@use "shared/media-gallery";
+@use "shared/lite-youtube";
+
+@use "bootstrap-6/mle";
+@use "bootstrap-6/modal_core";
+@use "bootstrap-6/image-editor-modal";
+@use "bootstrap-6/media-manager";
+
+// dummy content to force build as separate file
+.mle-component {
+    .bootstrap-6 {
+        body {
+            outline: none;
+        }
+    }
+}

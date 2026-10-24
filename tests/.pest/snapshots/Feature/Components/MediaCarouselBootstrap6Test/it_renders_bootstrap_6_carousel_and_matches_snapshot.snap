@@ -1,0 +1,178 @@
+<div id="media-carousel-bs6-crs"
+     data-base-id="media-carousel-bs6"
+     class="mle-component mle-theme-bootstrap-6 mle-media-carousel media-carousel mle-media-carousel-empty carousel carousel-overlay slide mle-width-100 mle-height-100"
+        data-mle-carousel
+>
+
+    
+    <div
+        class="mle-media-carousel-indicators carousel-indicators mle-display-none"
+        data-mle-carousel-indicators
+    >
+            </div>
+
+    
+    <div class="mle-media-carousel-inner carousel-inner">
+                    <div class="mle-media-carousel-item active"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container">
+                    <span class="mle-no-media mle-media-responsive">No media.</span>
+                </div>
+            </div>
+            </div>
+
+    
+    <button
+        class="mle-media-carousel-control-prev carousel-control-prev disabled"
+        type="button"
+        data-bs-target="#media-carousel-bs6-crs" 
+        data-bs-slide="prev" 
+        title="Previous"
+        data-mle-carousel-prev
+    >
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
+        <span 
+        role="img" 
+        aria-label="Previous" 
+        title="Previous">?</span>
+        </span>
+        <span class="mle-visually-hidden">Previous</span>
+    </button>
+    <button
+        class="mle-media-carousel-control-next carousel-control-next disabled"
+        type="button"
+        data-bs-target="#media-carousel-bs6-crs"
+        data-bs-slide="next"
+        title="Next"
+        data-mle-carousel-next
+    >
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
+            <span 
+        role="img" 
+        aria-label="Next" 
+        title="Next">?</span>
+        </span>
+        <span class="mle-visually-hidden">Next</span>
+    </button>
+</div>
+    <dialog
+    class="mle-component mle-theme-bootstrap-6 mle-media-modal mle-dialog dialog"
+    id="media-carousel-bs6-mod"
+            aria-labelledby="media-carousel-bs6-title"
+                data-mle-autoplay=""
+        data-mle-dialog
+    data-mle-media-modal
+>
+    <div class="mle-media-modal-body mle-dialog-body dialog-body p-0">
+        <button
+            type="button"
+            class="mle-dialog-close-button mle-media-modal-close-button"
+            data-mle-dialog-close
+            data-bs-dismiss="dialog"
+            aria-label="Close"
+            title="Close"
+        >
+            <span 
+        role="img" 
+        aria-label="Close" 
+        title="Close">?</span>
+        </button>
+        
+        <div id="media-carousel-bs6-mod-crs"
+     data-base-id="media-carousel-bs6"
+     class="mle-component mle-theme-bootstrap-6 mle-media-carousel media-carousel mle-media-carousel-empty carousel carousel-overlay slide mle-width-100 mle-height-100" theme="bootstrap-6"
+        data-mle-carousel
+>
+
+    
+    <div
+        class="mle-media-carousel-indicators carousel-indicators mle-display-none"
+        data-mle-carousel-indicators
+    >
+            </div>
+
+    
+    <div class="mle-media-carousel-inner carousel-inner">
+                    <div class="mle-media-carousel-item active"
+                data-mle-carousel-item
+            >
+                <div class="mle-media-carousel-item-container">
+                    <span class="mle-no-media mle-media-responsive">No media.</span>
+                </div>
+            </div>
+            </div>
+
+    
+    <button
+        class="mle-media-carousel-control-prev carousel-control-prev disabled"
+        type="button"
+        data-bs-target="#media-carousel-bs6-mod-crs" 
+        data-bs-slide="prev" 
+        title="Previous"
+        data-mle-carousel-prev
+    >
+        <span class="mle-media-carousel-control-prev-icon" aria-hidden="true">
+        <span 
+        role="img" 
+        aria-label="Previous" 
+        title="Previous">?</span>
+        </span>
+        <span class="mle-visually-hidden">Previous</span>
+    </button>
+    <button
+        class="mle-media-carousel-control-next carousel-control-next disabled"
+        type="button"
+        data-bs-target="#media-carousel-bs6-mod-crs"
+        data-bs-slide="next"
+        title="Next"
+        data-mle-carousel-next
+    >
+        <span class="mle-media-carousel-control-next-icon" aria-hidden="true">
+            <span 
+        role="img" 
+        aria-label="Next" 
+        title="Next">?</span>
+        </span>
+        <span class="mle-visually-hidden">Next</span>
+    </button>
+</div>
+<script
+        id="mle-global"
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"for":"global","theme":"bootstrap-6","assetBasePath":"http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","upload_failed":"Upload failed.","update_failed":"Could not save updated medium.","unable_to_read_response_body":"Unable to read response body","media_counts":":current of :total"},"assets":[]}</script>
+
+
+
+    <script
+        id="bootstrap-6|media-carousel-permanent"
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"bootstrapCss":true,"bootstrapJs":true,"css":true,"js":true,"carousel":true,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":false,"imageEditor":false,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":true},"for":"bootstrap-6|media-carousel-permanent","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","upload_failed":"Upload failed.","update_failed":"Could not save updated medium.","unable_to_read_response_body":"Unable to read response body","media_counts":":current of :total"}}</script>
+
+
+    <script
+        type="module"
+        src="http://localhost/vendor/mlbrgn/laravel-medialibrary-extensions/js/core/media-library-loader.js"
+            ></script>
+
+    </div>
+</dialog>
+<script
+        id="bootstrap-6|media-modal"
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"bootstrapCss":true,"bootstrapJs":true,"css":true,"js":true,"carousel":false,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":true,"imageEditor":false,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":false},"for":"bootstrap-6|media-modal","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","upload_failed":"Upload failed.","update_failed":"Could not save updated medium.","unable_to_read_response_body":"Unable to read response body","media_counts":":current of :total"}}</script>
+
+
+
+
+<script
+        id="bootstrap-6|media-carousel-permanent"
+        type="application/json"
+        class="mlbrgn-medialibrary-config"
+            >{"assets":{"bootstrapCss":true,"bootstrapJs":true,"css":true,"js":true,"carousel":true,"tinymceIframe":false,"imageEditorModal":false,"mediaModal":true,"imageEditor":false,"mediaManagerSubmitter":false,"mediaLabSubmitter":false,"debugToggle":false,"liteYoutube":true},"for":"bootstrap-6|media-carousel-permanent","imageEditorTranslationsPath":"/image-editor-translations/","translations":{"csrf_token_mismatch":"Your session has expired. Please refresh the page to login again.","unauthenticated":"Please log in to continue.","forbidden":"You’re not allowed to perform this action.","not_found":"We couldn’t find what you were looking for.","validation_failed":"Please check the form for errors.","too_many_requests":"You’re sending requests too quickly. Try again in a moment.","server_error":"Something went wrong. Please try again later.","unknown_error":"Unknown error.","medium_replaced":"Medium replaced.","medium_replacement_failed":"Medium replacement failed.","image_load_failed":"Image loading / decoding failed","upload_disabled_only_one_medium_allowed":"Uploading disabled, only one medium allowed.","upload_disabled_max_items_reached":"Uploading disabled, maximum number of items reached.","upload_failed":"Upload failed.","update_failed":"Could not save updated medium.","unable_to_read_response_body":"Unable to read response body","media_counts":":current of :total"}}</script>
+
+
+

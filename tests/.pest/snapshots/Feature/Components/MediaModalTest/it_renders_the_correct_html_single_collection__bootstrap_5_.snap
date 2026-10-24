@@ -28,7 +28,7 @@
                 </button>
                 
                 <div id="test-media-modal-mod-crs"
-     data-base-id="test-media-modal-mod"
+     data-base-id="test-media-modal"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel carousel slide mle-width-100 mle-height-100" theme="bootstrap-5"
         data-mle-carousel
 >
@@ -68,12 +68,12 @@
                                      >
                     <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="0"
+            data-bs-target="#test-media-modal-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="0"
             src="/storage/1/test.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
             data-mle-media-preview-image
-            id="test-media-modal-mod-0-media-viewer-media-responsive"
+            id="test-media-modal-0-media-viewer-media-responsive"
         >
     </div>
 
@@ -87,12 +87,12 @@
                                      >
                     <div class="mle-component mle-theme-bootstrap-5 mle-image-responsive mle-media-responsive">
             <img
-            data-bs-target="#test-media-modal-mod-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="1"
+            data-bs-target="#test-media-modal-mod-crs" class="mle-image-responsive mle-media-responsive mle-media-preview-item mle-image-responsive mle-media-responsive" draggable="false" data-bs-slide-to="1"
             src="/storage/2/test2.jpg"
                                     alt=""
              loading="lazy"             data-mle-image
             data-mle-media-preview-image
-            id="test-media-modal-mod-1-media-viewer-media-responsive"
+            id="test-media-modal-1-media-viewer-media-responsive"
         >
     </div>
 

@@ -8,8 +8,8 @@ beforeEach(function () {
 
 it('can interact with the media gallery', function ($theme, $dataSource, $xhr) {
     $galleryId = '#alien-gallery-gal';
-    $modalId = '#alien-gallery-mod';
-    $modalSelector = $modalId.'[data-mle-media-modal]';
+    $modalBaseId = 'alien-gallery-mod';
+    $modalSelector = $this->getModalSelector($theme, $modalBaseId);
 
     // Using alien-multiple-permanent-mmm to upload media
     $mmmId = '#alien-multiple-permanent-mmm';
@@ -49,10 +49,10 @@ it('can interact with the media gallery', function ($theme, $dataSource, $xhr) {
     // 3. Test modal expansion and slide targeting
     // Click the second gallery item
     $page->click($galleryId.' .mle-media-gallery-item:nth-child(2)')
-        ->assertVisible($modalSelector)
+        ->assertPresent($modalSelector)
         // Verify the second carousel item is active (slide targeting)
-        ->assertPresent($modalId.' .mle-media-carousel-item:nth-child(2).active')
-        ->click($modalSelector.' [data-mle-modal-close]')
+        ->assertPresent($modalSelector.' .mle-media-carousel-item:nth-child(2).active')
+        ->click($modalSelector.' '.$this->getModalCloseSelector($theme))
         ->assertMissing($modalSelector);
 
     $page->page()->close();

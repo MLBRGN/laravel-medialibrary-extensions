@@ -82,7 +82,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
 
     // Assert modal is open - use specific ID
     $modalId = "{$galleryId}-mod";
-    $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
+    $modalSelector = $this->getModalSelector($theme, $modalId);
 
     $page->assertPresent($modalSelector);
 
@@ -90,7 +90,7 @@ it('simulates a full human CRUD lifecycle: create -> show -> modal check -> edit
     $page->assertPresent($modalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$expectedFilenameBase}']");
 
     // Close modal
-    $page->click($modalSelector.' [data-mle-modal-close]');
+    $page->click($modalSelector.' '.$this->getModalCloseSelector($theme));
     $page->assertMissing($modalSelector);
 
     // 6. Edit Flow
@@ -157,7 +157,7 @@ it('allows reordering gallery images during blog creation and maintains sync', f
     $page->click($firstItemSelector);
 
     $modalId = "{$galleryId}-mod";
-    $modalSelector = $theme === 'bootstrap-5' ? "#{$modalId}.show" : "#{$modalId}.active";
+    $modalSelector = $this->getModalSelector($theme, $modalId);
 
     $page->assertPresent($modalSelector);
     $activeItemSrc = $page->page()->locator($modalSelector.' [data-mle-carousel-item].active [data-mle-media-preview-image]')->first()->getAttribute('src');

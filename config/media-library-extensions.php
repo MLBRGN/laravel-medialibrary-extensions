@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'supported_frontend_themes' => ['plain', 'bootstrap-5'],
+    'supported_frontend_themes' => ['plain', 'bootstrap-5', 'bootstrap-6'],
 
     /*
     |--------------------------------------------------------------------------
