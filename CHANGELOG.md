@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.12...2.9.0) (2026-10-24)
+
+
+### Features
+
+* add bootstrap-6 initial support ([a40742f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a40742fd134ebe2059f271e43f3831258b7b7d97))
+
 ## [2.8.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.11...2.8.12) (2026-10-18)
 
 
