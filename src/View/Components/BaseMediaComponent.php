@@ -43,8 +43,10 @@ abstract class BaseMediaComponent extends BaseComponent
         mixed $modelReference,
         public ?string $dataSource = 'default',
         ?string $name = null,
+        ?string $instanceId = '___DEFAULT___',
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id);
+        parent::__construct($id, $instanceId, $clientToken);
 
         $this->name = $name ?? $id;
 

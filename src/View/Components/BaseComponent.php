@@ -21,19 +21,28 @@ abstract class BaseComponent extends Component
     public readonly string $id; // never to be modified
 
     /** identify the instance of a component (more than one can be on same page), also used for scoping temporary uploads, together with clientToken */
-    public string $instanceId;
+    public ?string $instanceId;
 
     /** Identity of the client, used for scoping temporary uploads, together with instanceId */
-    public string $clientToken;
+    public ?string $clientToken;
 
     public string $isolationFormId;
 
     public function __construct(
         ?string $id = null,
+        ?string $instanceId = '___DEFAULT___',
+        ?string $clientToken = '___DEFAULT___',
     ) {
         $this->id = filled($id) ? $id : (string) Str::ulid();
-        $this->instanceId = InstanceManager::getInstanceId($this->id);
-        $this->clientToken = app(ClientContext::class)->get();
+
+        $this->instanceId = ($instanceId === '___DEFAULT___')
+            ? InstanceManager::getInstanceId($this->id)
+            : $instanceId;
+
+        $this->clientToken = ($clientToken === '___DEFAULT___')
+            ? app(ClientContext::class)->get()
+            : $clientToken;
+
         $this->isolationFormId = 'mle-isolated-'.$this->id;
     }
 

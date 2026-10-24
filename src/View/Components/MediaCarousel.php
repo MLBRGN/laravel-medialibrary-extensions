@@ -33,19 +33,11 @@ class MediaCarousel extends BaseComponent
         array $options = [],
         public bool $inModal = false, // TODO used anywhere?
         public bool $previewMode = true, // should the media-viewer be in preview mode (no autoplay, no document loading or not)
-        ?string $instanceId = null,
+        ?string $instanceId = '___DEFAULT___',
         public ?string $dataSource = 'default',
-        ?string $clientToken = null,
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id);
-
-        if ($instanceId) {
-            $this->instanceId = $instanceId;
-        }
-
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+        parent::__construct($id, $instanceId, $clientToken);
 
         $this->options = $options;
 
@@ -67,7 +59,7 @@ class MediaCarousel extends BaseComponent
             $this->media = collect([$this->singleMedia]);
         } else {
             $mediaRetriever = app(MediaRetriever::class);
-            $this->media = $mediaRetriever->resolveMediaFromCollections($model, $this->collections, $instanceId, $this->clientToken, $dataSource, $includeTemporaryUploads);
+            $this->media = $mediaRetriever->resolveMediaFromCollections($model, $this->collections, $this->instanceId, $this->clientToken, $dataSource, $includeTemporaryUploads);
         }
 
         $this->mediaCount = $this->media->count();

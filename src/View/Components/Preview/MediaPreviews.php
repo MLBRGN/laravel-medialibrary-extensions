@@ -25,22 +25,11 @@ class MediaPreviews extends BaseMediaComponent
         public bool $disabled = false,
         public bool $readonly = false,
         public bool $selectable = false,
-        public string $instanceId = '',
+        ?string $instanceId = '___DEFAULT___',
         public ?string $dataSource = 'default',
-        ?string $clientToken = null,
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id, $this->modelReference, $dataSource);
-
-        // Priority:
-        // 1. Explicitly passed $instanceId (e.g. from XHR or tests)
-        // 2. Derive from $id (baseId)
-        if (! empty($instanceId)) {
-            $this->instanceId = $instanceId;
-        }
-
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+        parent::__construct($id, $this->modelReference, $dataSource, null, $instanceId, $clientToken);
 
         $this->options = $options;
 

@@ -7,7 +7,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
 use Mlbrgn\MediaLibraryExtensions\Services\MediaCounter;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -31,21 +30,11 @@ class YouTubeUploadForm extends BaseMediaComponent
         public bool $multiple = false,
         public ?bool $readonly = false,
         public ?bool $disabled = false,
-        public string $instanceId = '',
+        ?string $instanceId = '___DEFAULT___',
         public ?string $dataSource = 'default',
-        ?string $clientToken = null,
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id, $this->modelReference, $dataSource);
-
-        if (empty($instanceId)) {
-            $this->instanceId = InstanceManager::getInstanceId($this->id);
-        } else {
-            $this->instanceId = $instanceId;
-        }
-
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+        parent::__construct($id, $this->modelReference, $dataSource, null, $instanceId, $clientToken);
 
         $this->options = $options;
 

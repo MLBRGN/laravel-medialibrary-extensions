@@ -6,7 +6,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Partials;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -25,20 +24,11 @@ class DestroyForm extends BaseMediaComponent
         public array $collections = [],
         array $options = [],
         public ?bool $disabled = false,
-        public string $instanceId = '',
+        ?string $instanceId = '___DEFAULT___',
         public ?string $dataSource = 'default',
-        ?string $clientToken = null,
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id, $this->modelReference, $dataSource);
-
-        // Ensure instanceId is derived from the Base ID
-        if (empty($this->instanceId)) {
-            $this->instanceId = InstanceManager::getInstanceId($this->id);
-        }
-
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+        parent::__construct($id, $this->modelReference, $dataSource, null, $instanceId, $clientToken);
 
         $this->options = $options;
 

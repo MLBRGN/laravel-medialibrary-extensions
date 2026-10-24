@@ -134,6 +134,8 @@
         :single-media="$singleMedia"
         :collections="$collections"
         :options="$getOptions()"
+        :instance-id="$instanceId"
+        :client-token="$clientToken"
         title="Media carousel"/>
 @endif
 <x-mle-shared-assets

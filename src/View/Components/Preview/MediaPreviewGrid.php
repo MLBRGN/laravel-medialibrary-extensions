@@ -4,7 +4,6 @@ namespace Mlbrgn\MediaLibraryExtensions\View\Components\Preview;
 
 use Illuminate\View\View;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
-use Mlbrgn\MediaLibraryExtensions\Support\InstanceManager;
 use Mlbrgn\MediaLibraryExtensions\Traits\InteractsWithOptionsAndConfig;
 use Mlbrgn\MediaLibraryExtensions\View\Components\BaseMediaComponent;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -23,22 +22,11 @@ class MediaPreviewGrid extends BaseMediaComponent
         public bool $selectable = false,
         public bool $readonly = false,
         public bool $multiple = false,
-        public string $instanceId = '',
+        ?string $instanceId = '___DEFAULT___',
         public ?string $dataSource = 'default',
-        ?string $clientToken = null,
+        ?string $clientToken = '___DEFAULT___',
     ) {
-        parent::__construct($id, $this->modelReference, $dataSource);
-
-        // Ensure instanceId is derived from the Base ID
-        if (empty($instanceId)) {
-            $this->instanceId = InstanceManager::getInstanceId($this->id);
-        } else {
-            $this->instanceId = $instanceId;
-        }
-
-        if ($clientToken) {
-            $this->clientToken = $clientToken;
-        }
+        parent::__construct($id, $this->modelReference, $dataSource, null, $instanceId, $clientToken);
 
         $this->options = $options;
 
