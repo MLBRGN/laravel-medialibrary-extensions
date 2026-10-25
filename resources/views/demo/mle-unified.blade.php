@@ -55,9 +55,19 @@
                 scroll-behavior: auto !important;/* override bootstrap, annoying in browser tests */
             }
             
+            :root {
+                --mle-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                --bs-body-font-family: var(--mle-font-family);
+                --bs-font-sans-serif: var(--mle-font-family);
+            }
+
             body {
-                font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                font-family: var(--mle-font-family);
                 padding-bottom: 5rem;
+            }
+
+            h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+                font-family: var(--mle-font-family);
             }
     
             .mle-unified-container {
@@ -66,7 +76,7 @@
                 padding: 0 1rem;
             }
     
-            h1 {
+            h1.demo-h1 {
                 color: #0d6efd;
                 font-size: 2.5rem;
                 margin-bottom: 2rem;
@@ -148,7 +158,7 @@
     </head>
     <body>
     <div class="mle-unified-container">
-        <h1>Laravel Media Library Extensions Component tests</h1>
+        <h1 class="demo-h1">Laravel Media Library Extensions Component tests</h1>
     
         <div class="mle-demo-controls">
             <div class="mle-demo-controls-group">

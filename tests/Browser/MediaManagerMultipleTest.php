@@ -178,7 +178,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
-    
+
     $this->waitForVisible($page, $imageEditorModalCloseButtonSelector)
         ->click($imageEditorModalCloseButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
@@ -187,7 +187,7 @@ it('can control mmm', function ($theme, $dataSource, $xhr, $storage) {
     $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
-    
+
     $page->click($imageEditorModalRotateCcwButtonSelector);
 
     if (! $xhr) {
@@ -301,7 +301,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $this->waitForVisible($page, $mediaModalSelector)
         // Wait until the active slide matches the clicked image
         ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']");
-    
+
     $this->waitForVisible($page, $mediaModalCloseButtonSelector)
         ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
@@ -331,7 +331,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $page->click($firstContainer.' [data-mle-media-preview-item]');
     $this->waitForVisible($page, $mediaModalSelector)
         ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$secondFilenameBase}']");
-    
+
     $this->waitForVisible($page, $mediaModalCloseButtonSelector)
         ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);
@@ -346,7 +346,7 @@ it('can use set-as-first and carousel remains synced', function ($theme, $dataSo
     $page->click($newSecondContainer.' [data-mle-media-preview-item]');
     $this->waitForVisible($page, $mediaModalSelector)
         ->assertPresent($mediaModalSelector." [data-mle-carousel-item].active [data-mle-media-preview-image][src*='{$newSecondFilenameBase}']");
-    
+
     $this->waitForVisible($page, $mediaModalCloseButtonSelector)
         ->click($mediaModalCloseButtonSelector);
     $this->waitForMissing($page, $mediaModalSelector);

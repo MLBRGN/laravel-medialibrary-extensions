@@ -159,7 +159,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
-    
+
     $this->waitForVisible($page, $imageEditorModalCloseButtonSelector)
         ->click($imageEditorModalCloseButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);
@@ -168,7 +168,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
-    
+
     $page->click($imageEditorModalRotateCcwButtonSelector);
 
     if (! $xhr) {
@@ -201,7 +201,7 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
     $page->click($editButtonSelector);
     $this->waitForVisible($page, $imageEditorModalSelector)
         ->assertDontSee(__('medialibrary-extensions::messages.could_not_initialize_image_editor'));
-    
+
     $this->waitForVisible($page, $imageEditorModalCancelButtonSelector)
         ->click($imageEditorModalCancelButtonSelector);
     $this->waitForMissing($page, $imageEditorModalSelector);

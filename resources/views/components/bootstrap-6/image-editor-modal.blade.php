@@ -24,26 +24,34 @@
     data-mle-image-editor-initialized="false"
 >
     @if($title)
-        <h1 class="mle-dialog-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
+        <div class="dialog-header">
+            <h1 class="mle-modal-title dialog-title" id="{{ $id }}-title">{{ $title }}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" data-mle-dialog-close aria-label="Close"></button>
+        </div>
+    @else
+        <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">Edit image</h1>
     @endif
-        <x-mle-partial-status-area
-            id="{{ $id }}"
-            :options="$getOptions()"
-        />
+   
+    <x-mle-partial-status-area
+        id="{{ $id }}"
+        :options="$getOptions()"
+    />
     <div class="mle-dialog-body mle-dialog-body dialog-body p-0">
-        <button
-            type="button"
-            class="mle-dialog-close-button"
-            data-mle-dialog-close
-            data-bs-dismiss="dialog"
-            aria-label="Sluit"
-            title="{{ __('medialibrary-extensions::messages.close') }}"
-        >
-            <x-mle-shared-icon
-                name="{{ config('medialibrary-extensions.icons.close') }}"
+        @if(!$title)
+            <button
+                type="button"
+                class="mle-dialog-close-button"
+                data-mle-dialog-close
+                data-bs-dismiss="dialog"
+                aria-label="Sluit"
                 title="{{ __('medialibrary-extensions::messages.close') }}"
-            />
-        </button>
+            >
+                <x-mle-shared-icon
+                    name="{{ config('medialibrary-extensions.icons.close') }}"
+                    title="{{ __('medialibrary-extensions::messages.close') }}"
+                />
+            </button>
+        @endif
         <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-media-manager-config value='@json($getConfig())'>
         {{-- instantiated when model opens, just in time --}}
         <div class="mle-image-editor" data-mle-image-editor-placeholder>

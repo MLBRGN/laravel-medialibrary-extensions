@@ -2,14 +2,14 @@
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
-use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 use Illuminate\View\ComponentAttributeBag;
+use Mlbrgn\MediaLibraryExtensions\View\Components\Partials\Status;
 
 beforeEach(function () {
     Config::set('medialibrary-extensions.frontend_theme', 'bootstrap-6');
 });
 
-//it('renders bootstrap-6 status with alert-success class', function () {
+// it('renders bootstrap-6 status with alert-success class', function () {
 //    $baseId = 'media-manager-123';
 //
 //    $statusKey = status_session_prefix();
@@ -31,9 +31,9 @@ beforeEach(function () {
 //
 //    expect($html)->toContain('alert-success');
 //    expect($html)->not()->toContain('theme-success');
-//});
+// });
 //
-//it('renders bootstrap-6 media-modal with correct dialog structure', function () {
+// it('renders bootstrap-6 media-modal with correct dialog structure', function () {
 //    $model = $this->getModelWithMedia(['image' => 1]);
 //
 //    $html = Blade::render('<x-mle-media-modal
@@ -55,9 +55,9 @@ beforeEach(function () {
 //        ->and($html)->toContain('dialog-xl')
 //        ->and($html)->toContain('dialog-centered')
 //        ->and($html)->toContain('dialog-fullscreen-lg-down');
-//});
+// });
 //
-//it('renders bootstrap-6 image-editor-modal with correct dialog structure', function () {
+// it('renders bootstrap-6 image-editor-modal with correct dialog structure', function () {
 //    $model = $this->getModelWithMedia(['image' => 1]);
 //    $medium = $model->getFirstMedia('image_collection');
 //
@@ -82,9 +82,9 @@ beforeEach(function () {
 //        ->and($html)->toContain('data-bs-dismiss="dialog"')
 //        ->and($html)->toContain('dialog-xl')
 //        ->and($html)->toContain('dialog-centered');
-//});
+// });
 //
-//it('renders bootstrap-6 image-editor-modal-temporary-upload with correct dialog structure', function () {
+// it('renders bootstrap-6 image-editor-modal-temporary-upload with correct dialog structure', function () {
 //    $model = $this->getModelWithMedia(['image' => 1]);
 //    $medium = $model->getFirstMedia('image_collection');
 //
@@ -110,4 +110,4 @@ beforeEach(function () {
 //        ->and($html)->toContain('data-bs-dismiss="dialog"')
 //        ->and($html)->toContain('dialog-xl')
 //        ->and($html)->toContain('dialog-centered');
-//});
+// });

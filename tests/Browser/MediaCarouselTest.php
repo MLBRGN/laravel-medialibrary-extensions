@@ -4,6 +4,7 @@
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 use Mlbrgn\MediaLibraryExtensions\Services\DataSourceResolver;
+use Pest\Browser\Execution;
 
 beforeEach(function () {
     config(['medialibrary-extensions.demo_pages_enabled' => true]);
@@ -130,18 +131,18 @@ it('can control standalone media carousel', function ($theme, $dataSource, $xhr,
         ->click($secondItemTriggerSelector)
         ->assertPresent($modalSelector)
         ->assertPresent($innerCarouselId);
-    
+
     // In Bootstrap 6, the active class might be updated asynchronously via scroll-snap tracking.
     // For other themes, it's usually set via JS synchronously or after a transition.
     // We use waitForExpectation as a more robust check that the correct slide is actually shown.
-    \Pest\Browser\Execution::instance()->waitForExpectation(fn() => $page->assertAttributeContains($innerSecondItemSelector, 'class', 'active'), 10000);
+    Execution::instance()->waitForExpectation(fn () => $page->assertAttributeContains($innerSecondItemSelector, 'class', 'active'), 10000);
 
     $page->assertAttributeDoesntContain($innerFirstItemSelector, 'class', 'active')
         // click next in modal (wrap around since only 2 items)
         ->click($innerNextButtonSelector)
         ->assertAttributeContains($innerFirstItemSelector, 'class', 'active')
         ->assertAttributeDoesntContain($innerSecondItemSelector, 'class', 'active');
-    
+
     $this->wait($page, 250); // wait for transition
 
     $page->click($innerPrevButtonSelector)

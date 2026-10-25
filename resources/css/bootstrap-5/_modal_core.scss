@@ -5,22 +5,29 @@
 .mle-component.mle-theme-bootstrap-5 {
 
     &.mle-modal {
-        --modal-padding:20px;
+        --bs-modal-padding:20px;
+        --bs-modal-margin:20px;
+        --bs-modal-width:100%;
+        --bs-modal-height:100%;// use var? bs does not have --dialog-height?
+        --bs-modal-border-radius: .75rem;
+        width:var(--bs-modal-width);
+        height:var(--bs-modal-height);
 
-        background:white;
-        position:fixed;
-        top:50%;
-        left:50%;
-        box-sizing:border-box;
-        transform: translate(-50%,-50%);
-        max-width:calc(100% - (2 * var(--modal-padding)));
-        max-height:calc(100% - (2 * var(--modal-padding)));
-        border-radius:.5em;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        max-width: calc(100% - var(--bs-modal-margin) * 2);
+        max-height: calc(100% - var(--bs-modal-margin) * 2);
+        border-radius: var(--bs-modal-border-radius);// todo use bs-default border radius
     }
 
     .mle-modal-body {
+        flex-grow: 1;
         width:100%;
-        height:100%;
+        height:auto;
+        min-height: 0;
     }
 
     .mle-modal-dialog {
@@ -30,46 +37,53 @@
         max-height:100%;
         margin:0;
     }
-
+    //
     .mle-modal-content {
-        width:100%;
-        height:100%;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
         padding:0;
         border: 0;
         box-sizing:border-box;
         overflow:hidden;
         border-radius:0 !important;
-    }
 
-    .mle-modal-close-button {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        z-index: 3;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        box-sizing: content-box;
-        width: 1em;
-        height: 1em;
-        padding: .25em;
-        background-color: rgb(from var(--mlbrgn-mle-control-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
-        color: var(--mlbrgn-mle-control-fg-color);
-        border-radius: .5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        .modal-header,
+        .modal-footer {
+            flex-shrink: 0;
+        }
     }
-
-    .mle-modal-close-button:hover {
-        background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
-        color: var(--mlbrgn-mle-control-hover-fg-color);
-    }
-
-    .mle-modal-close-button:focus-visible {
-        outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
-        outline-offset: 0;
-        border-radius:0.5em;
-    }
+    //
+    //.mle-modal-close-button {
+    //    position: absolute;
+    //    top: 1rem;
+    //    right: 1rem;
+    //    z-index: 3;
+    //    border: none;
+    //    font-size: 1.5rem;
+    //    cursor: pointer;
+    //    box-sizing: content-box;
+    //    width: 1em;
+    //    height: 1em;
+    //    padding: .25em;
+    //    background-color: rgb(from var(--mlbrgn-mle-control-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+    //    color: var(--mlbrgn-mle-control-fg-color);
+    //    border-radius: .5rem;
+    //    display: flex;
+    //    align-items: center;
+    //    justify-content: center;
+    //}
+    //
+    //.mle-modal-close-button:hover {
+    //    background-color: rgb(from var(--mlbrgn-mle-control-hover-bg-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+    //    color: var(--mlbrgn-mle-control-hover-fg-color);
+    //}
+    //
+    //.mle-modal-close-button:focus-visible {
+    //    outline: 4px solid rgb(from var(--mlbrgn-mle-control-focus-outline-color) r g b / var(--mlbrgn-mle-control-bg-opacity));
+    //    outline-offset: 0;
+    //    border-radius:0.5em;
+    //}
 
 }
