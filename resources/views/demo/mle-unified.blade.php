@@ -18,7 +18,7 @@
     $showMediaGallery = empty($sections) || in_array('gallery', $sections);
 @endphp
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="UTF-8">
         <title>Laravel Media Library Extensions Component tests</title>
