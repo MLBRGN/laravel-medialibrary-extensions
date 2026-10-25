@@ -30,7 +30,13 @@
             @if($title)
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="{{ $id }}-title">{{ $title }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-mle-modal-close aria-label="Close"></button>
+                    <button 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        data-mle-modal-close 
+                        aria-label="{{ __('medialibrary-extensions::messages.close') }}"
+                    ></button>
                 </div>
 {{--                <div class="modal-header">--}}
 {{--                    <h1 class="modal-title mle-modal-title" id="{{ $id }}-title">{{ $title }}</h1>--}}
@@ -47,16 +53,12 @@
                 @if(!$title)
                     <button
                         type="button"
-                        class="mle-modal-close-button"
+                        class="btn-close"
                         data-mle-modal-close
                         data-bs-dismiss="modal"
-                        aria-label="Sluit"
+                        aria-label="{{ __('medialibrary-extensions::messages.close') }}"
                         title="{{ __('medialibrary-extensions::messages.close') }}"
                     >
-                        <x-mle-shared-icon
-                            name="{{ config('medialibrary-extensions.icons.close') }}"
-                            title="{{ __('medialibrary-extensions::messages.close') }}"
-                        />
                     </button>
                 @endif
                 <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-media-manager-config value='@json($getConfig())'>

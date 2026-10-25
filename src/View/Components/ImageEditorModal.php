@@ -28,7 +28,7 @@ class ImageEditorModal extends BaseMediaComponent
         public Media|TemporaryUpload|null $singleMedia,
         public array $collections,
         array $options,
-        public string $title = 'no title',// TODO do i want this?
+        public string $title = '',
         public bool $disabled = false,
         public ?string $dataSource = 'default',
     ) {

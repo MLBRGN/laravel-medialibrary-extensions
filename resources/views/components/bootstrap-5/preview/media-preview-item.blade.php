@@ -24,7 +24,6 @@
             :single-media="$singleMedia"
             :collections="$collections"
             :options="$getOptions()"
-            title="Edit Image"
             :data-source="$getConfig('dataSource')"
         />
     @endif

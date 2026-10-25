@@ -26,7 +26,7 @@
     @if($title)
         <div class="dialog-header">
             <h1 class="mle-modal-title dialog-title" id="{{ $id }}-title">{{ $title }}</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="dialog" data-mle-dialog-close aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" data-mle-dialog-close aria-label="{{ __('medialibrary-extensions::messages.close') }}"></button>
         </div>
     @else
         <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">Edit image</h1>
@@ -39,10 +39,10 @@
         @if(!$title)
             <button
                 type="button"
-                class="mle-dialog-close-button"
+                class="mle-dialog-close-button btn-close"
                 data-mle-dialog-close
                 data-bs-dismiss="dialog"
-                aria-label="Sluit"
+                aria-label="{{ __('medialibrary-extensions::messages.close') }}"
                 title="{{ __('medialibrary-extensions::messages.close') }}"
             >
                 <x-mle-shared-icon

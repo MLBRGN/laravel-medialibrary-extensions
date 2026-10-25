@@ -10,6 +10,7 @@
         --bs-modal-width:100%;
         --bs-modal-height:100%;// use var? bs does not have --dialog-height?
         --bs-modal-border-radius: .75rem;
+
         width:var(--bs-modal-width);
         height:var(--bs-modal-height);
 
@@ -37,7 +38,7 @@
         max-height:100%;
         margin:0;
     }
-    //
+
     .mle-modal-content {
         display: flex;
         flex-direction: column;
@@ -54,7 +55,19 @@
             flex-shrink: 0;
         }
     }
-    //
+
+    // only style close button if no modal header
+    &:not(:has(.modal-header)) .btn-close {
+        position:absolute;
+        right:.75rem;
+        top:1rem;
+        padding:.75rem;
+    }
+
+    .modal-header .btn-close {
+        box-sizing:content-box;
+        margin-left: auto;
+    }
     //.mle-modal-close-button {
     //    position: absolute;
     //    top: 1rem;
