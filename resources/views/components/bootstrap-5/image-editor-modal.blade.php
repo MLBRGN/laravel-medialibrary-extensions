@@ -29,7 +29,7 @@
         <div class="mle-modal-content mle-image-editor-modal-content modal-content justify-content-center">
             @if($title)
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $title }}</h1>
+                    <h1 class="modal-title fs-5" id="{{ $id }}-title">{{ $title }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" data-mle-modal-close aria-label="Close"></button>
                 </div>
 {{--                <div class="modal-header">--}}

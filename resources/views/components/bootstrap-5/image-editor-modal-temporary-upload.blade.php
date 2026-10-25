@@ -27,25 +27,32 @@
     <div class="mle-modal-dialog mle-image-editor-modal-dialog modal-dialog">
         <div class="mle-modal-content mle-image-editor-modal-content modal-content justify-content-center">
             @if($title)
-                <h1 class="mle-modal-title mle-visually-hidden" id="{{ $getDomId() }}-title">{{ $title }}</h1>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="{{ $id }}-title">{{ $title }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-mle-modal-close aria-label="Close"></button>
+                </div>
+            @else
+                <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">Edit image</h1>
             @endif
             <x-mle-partial-status-area
                 id="{{ $id }}"
                 :options="$getOptions()"
             />
             <div class="mle-modal-body modal-body p-0">
-                <button
-                    type="button"
-                    class="mle-modal-close-button"
-                    data-mle-modal-close
-                    data-bs-dismiss="modal"
-                    aria-label="Sluit"
-                    title="{{ __('medialibrary-extensions::messages.close') }}">
-                    <x-mle-shared-icon
-                        name="{{ config('medialibrary-extensions.icons.close') }}"
-                        title="{{ __('medialibrary-extensions::messages.close') }}"
-                    />
-                </button>
+                @if(!$title)
+                    <button
+                        type="button"
+                        class="mle-modal-close-button"
+                        data-mle-modal-close
+                        data-bs-dismiss="modal"
+                        aria-label="Sluit"
+                        title="{{ __('medialibrary-extensions::messages.close') }}">
+                        <x-mle-shared-icon
+                            name="{{ config('medialibrary-extensions.icons.close') }}"
+                            title="{{ __('medialibrary-extensions::messages.close') }}"
+                        />
+                    </button>
+                @endif
                 <input id="config-{{ $id }}" type="hidden" class="mle-image-editor-modal-config" data-mle-media-manager-config value='@json($getConfig())'>
                 {{-- instantiated when model opens, just in time --}}
                 <div class="mle-image-editor" data-mle-image-editor-placeholder></div>

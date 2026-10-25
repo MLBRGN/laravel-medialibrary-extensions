@@ -10,7 +10,7 @@
 
         @if($selectable)
             <label 
-                class="mle-button-pseudo btn-icon-pseudo mle-checkbox-wrapper"
+                class="mle-button-pseudo btn-icon-pseudo mle-checkbox-wrapper btn-solid theme-primary"
                 data-mle-media-select-wrapper>
                 <input
                     type="{{ config('medialibrary-extensions.single_select') ? 'radio' : 'checkbox' }}"
@@ -34,7 +34,7 @@
             @if(isMediaType($medium, 'image') && !isMediaType($medium, 'youtube-video'))
                 <button
                     type="button"
-                    class="mle-button btn-icon btn-sm btn btn-primary"
+                    class="mle-button btn-icon btn-sm btn btn-primary btn-solid theme-primary"
                     data-bs-toggle="dialog"
                     data-bs-target="#{{ $id }}-iem-{{ $medium->id }}"
                     title="{{ __('medialibrary-extensions::messages.edit') }}"
@@ -52,7 +52,7 @@
         @if($getConfig('showSetAsFirstButton'))
             @if(isset($multiple) && $multiple === false)
                 <button type="button"
-                        class="mle-button btn-icon btn-sm btn btn-primary"
+                        class="mle-button btn-icon btn-sm btn btn-primary btn-solid theme-primary"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
                         data-mle-media-set-as-first-button
                         disabled
@@ -64,7 +64,7 @@
                 </button>
             @elseif($medium->getCustomProperty('priority') === 0)
                 <button type="button"
-                        class="mle-button btn-icon btn-sm btn btn-primary"
+                        class="mle-button btn-icon btn-sm btn btn-primary btn-solid theme-primary"
                         title="{{ __('medialibrary-extensions::messages.set-as-main') }}"
                         data-mle-media-set-as-first-button
                         disabled

@@ -23,22 +23,29 @@
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
             @if($title)
-                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $getDomId() }}-title">{{ $title }}</h1>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="{{ $id }}-title">{{ $title }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-mle-modal-close aria-label="Close"></button>
+                </div>
+            @else
+                <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">Media</h1>
             @endif
             <div class="mle-modal-body mle-media-modal-body modal-body p-0">
-                <button
-                    type="button"
-                    class="mle-modal-close-button mle-media-modal-close-button"
-                    data-mle-modal-close
-                    data-bs-dismiss="modal"
-                    aria-label="{{ __('medialibrary-extensions::messages.close') }}"
-                    title="{{ __('medialibrary-extensions::messages.close') }}"
-                >
-                    <x-mle-shared-icon
-                        name="{{ config('medialibrary-extensions.icons.close') }}"
+                @if(!$title)
+                    <button
+                        type="button"
+                        class="mle-modal-close-button mle-media-modal-close-button"
+                        data-mle-modal-close
+                        data-bs-dismiss="modal"
+                        aria-label="{{ __('medialibrary-extensions::messages.close') }}"
                         title="{{ __('medialibrary-extensions::messages.close') }}"
-                    />
-                </button>
+                    >
+                        <x-mle-shared-icon
+                            name="{{ config('medialibrary-extensions.icons.close') }}"
+                            title="{{ __('medialibrary-extensions::messages.close') }}"
+                        />
+                    </button>
+                @endif
                 {{-- important set expandableInModal to false otherwise endless inclusion --}}
                 <x-mle-media-carousel
 {{--                    class="mle-width-100 mle-height-100"--}}

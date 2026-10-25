@@ -28,7 +28,7 @@
     <div class="mle-modal-dialog mle-image-editor-modal-dialog">
         <div class="mle-modal-content mle-image-editor-modal-content">
             @if($title)
-                <h1 class="mle-modal-title mle-visually-hidden" id="{{ $getDomId() }}-title">{{ $title }}</h1>
+                <h1 class="mle-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <x-mle-partial-status-area
                 id="{{ $id }}"

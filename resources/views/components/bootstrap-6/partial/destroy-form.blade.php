@@ -65,7 +65,7 @@
     @endforeach
     <button
         type="{{ $getConfig('useXhr') ? 'button' : 'submit' }}"
-        class="mle-button mle-button-submit btn-icon btn-sm btn btn-primary"
+        class="mle-button mle-button-submit btn-icon btn-sm btn btn-primary btn-solid theme-primary"
         title="{{ __('medialibrary-extensions::messages.delete_medium') }}"
         data-mle-action="destroy-medium"
         data-mle-route="{{ $getConfig('routes.mediaDestroy') }}"

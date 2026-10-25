@@ -22,7 +22,7 @@
     <div class="mle-modal-dialog mle-media-modal-dialog">
         <div class="mle-modal-content mle-media-modal-content">
             @if($title)
-                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $getDomId() }}-title">{{ $title }}</h1>
+                <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="{{ $id }}-title">{{ $title }}</h1>
             @endif
             <div class="mle-modal-body mle-media-modal-body">
                 <button
