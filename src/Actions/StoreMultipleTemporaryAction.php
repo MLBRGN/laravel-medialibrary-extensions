@@ -129,7 +129,7 @@ class StoreMultipleTemporaryAction
 
         foreach ($preparedUploads as $prepared) {
             $originalName = $prepared->originalName;
-            $extension = pathinfo($originalName, PATHINFO_EXTENSION) ?: $prepared->file->getClientOriginalExtension();
+            $extension = $prepared->file->extension();
             $safeFilename = Str::slug(pathinfo($originalName, PATHINFO_FILENAME), '-').'.'.$extension;
 
             $directory = "{$basePath}";

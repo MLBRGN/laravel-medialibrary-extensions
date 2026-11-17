@@ -141,8 +141,9 @@ it('can control mms', function ($theme, $dataSource, $xhr, $storage) {
         ->assertButtonEnabled($deleteButtonSelector);
 
     // check media modal opening and presence of expected elements
-    $page->assertPresent($mediaPreviewImageSelector)
-        ->click($mediaPreviewImageSelector);
+    $page->assertPresent($mediaPreviewImageSelector);
+    $this->scrollIntoView($page, $mediaPreviewImageSelector);
+    $page->click($mediaPreviewImageSelector);
     $this->waitForVisible($page, $mediaModalSelector)
         ->assertPresent($mediaModalCloseButtonSelector)
         ->assertPresent($mediaModalCarouselSelector)

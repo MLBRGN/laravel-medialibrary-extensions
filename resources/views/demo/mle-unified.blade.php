@@ -46,7 +46,7 @@
         @endif
         <style>
             @if(app()->environment('testing'))
-            .modal.fade, .fade, dialog, .dialog {
+            .modal.fade, .fade, dialog, .dialog, .mle-demo-btn, .mle-button, .mle-button-pseudo, * {
                 transition: none !important;
                 animation: none !important;
             }

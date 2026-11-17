@@ -14,7 +14,12 @@
         width:var(--bs-dialog-width);
         height:var(--bs-dialog-height);
 
-        display: flex;
+        display: none;
+
+        &[open] {
+            display: flex;
+        }
+
         flex-direction: column;
         padding: 0;
         border: 0;
@@ -61,6 +66,7 @@
         position:absolute;
         right:1rem;
         top:1rem;
+        z-index: 10;
     }
 
     //.mle-dialog-close-button {

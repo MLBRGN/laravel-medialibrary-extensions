@@ -76,7 +76,7 @@ class StoreSingleTemporaryAction
                 PATHINFO_FILENAME
             ),
             '-'
-        ).'.'.$prepared->file->getClientOriginalExtension();
+        ).'.'.$prepared->file->extension();
 
         // Store file with a unique name to avoid collisions.
         $path = Storage::disk($disk)->putFile(

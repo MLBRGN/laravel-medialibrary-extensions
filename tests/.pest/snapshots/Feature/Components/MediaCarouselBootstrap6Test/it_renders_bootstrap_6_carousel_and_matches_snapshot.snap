@@ -64,21 +64,12 @@
         data-mle-dialog
     data-mle-media-modal
 >
-    <div class="mle-media-modal-body mle-dialog-body dialog-body p-0">
-        <button
-            type="button"
-            class="mle-dialog-close-button mle-media-modal-close-button"
-            data-mle-dialog-close
-            data-bs-dismiss="dialog"
-            aria-label="Close"
-            title="Close"
-        >
-            <span 
-        role="img" 
-        aria-label="Close" 
-        title="Close">?</span>
-        </button>
-        
+            <div class="dialog-header">
+            <h1 class="mle-modal-title dialog-title" id="media-carousel-bs6-title">Media carousel</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" data-mle-dialog-close aria-label="Close"></button>
+        </div>
+        <div class="mle-media-modal-body mle-dialog-body dialog-body p-0">
+                
         <div id="media-carousel-bs6-mod-crs"
      data-base-id="media-carousel-bs6"
      class="mle-component mle-theme-bootstrap-6 mle-media-carousel media-carousel mle-media-carousel-empty carousel carousel-overlay slide mle-width-100 mle-height-100" theme="bootstrap-6"

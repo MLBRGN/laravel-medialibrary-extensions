@@ -433,7 +433,7 @@ class BrowserTestCase extends Orchestra
 
                     'laravel-form-components' => $root.'/packages/mlbrgn/laravel-form-components/dist',
 
-                    'bootstrap' => $root.'/packages/mlbrgn/laravel-medialibrary-extensions/node_modules/bootstrap/dist',
+                    'bootstrap' => $root.'/node_modules/bootstrap/dist',
                 ];
 
                 abort_unless(isset($map[$package]), 404);

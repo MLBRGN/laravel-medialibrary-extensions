@@ -54,10 +54,16 @@ it('can visit demo page switch theme, XHR and DataSource', function () {
 
         // Theme switching
         ->click('@btn-theme-plain')
-        ->assertQueryStringHas('theme', 'plain')
-        ->click('@btn-theme-bootstrap-6')
-        ->assertQueryStringHas('theme', 'bootstrap-6')
-        ->click('@btn-theme-bootstrap-5')
+        ->assertQueryStringHas('theme', 'plain');
+
+    $this->scrollIntoView($page, '[data-test="btn-theme-bootstrap-6"]');
+    $page->click('@btn-theme-bootstrap-6')
+        ->assertQueryStringHas('theme', 'bootstrap-6');
+
+    $this->wait($page, 500);
+    $this->scrollIntoView($page, '[data-test="btn-theme-bootstrap-5"]');
+
+    $page->click('@btn-theme-bootstrap-5')
         ->assertQueryStringHas('theme', 'bootstrap-5')
 
         // DataSource switching

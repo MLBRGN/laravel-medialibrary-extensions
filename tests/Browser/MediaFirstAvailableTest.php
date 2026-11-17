@@ -60,8 +60,9 @@ it('can display media in media first available component', function ($theme, $da
         ->assertPresent($viewerSelector);
 
     // 5. Test modal expansion
-    $page->click($firstAvailableId)
-        ->assertPresent($modalSelector)
+    $page->click($firstAvailableId);
+    $this->waitForVisible($page, $modalSelector);
+    $this->waitForVisible($page, $modalCloseButtonSelector)
         ->click($modalCloseButtonSelector);
     $this->waitForMissing($page, $modalSelector);
 

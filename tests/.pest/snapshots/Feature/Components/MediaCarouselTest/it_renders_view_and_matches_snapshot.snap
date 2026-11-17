@@ -69,22 +69,18 @@
 >
     <div class="mle-media-modal-dialog mle-modal-dialog modal-dialog">
         <div class="mle-media-modal-content mle-modal-content modal-content justify-content-center">
-                            <h1 class="mle-modal-title mle-media-modal-title mle-visually-hidden" id="media-carousel-mod-title">Media carousel</h1>
+                            <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="media-carousel-title">Media carousel</h1>
+                    <button 
+                        type="button" 
+                        class="btn-close" 
+                        data-bs-dismiss="modal" 
+                        data-mle-modal-close 
+                        aria-label="Close"
+                    ></button>
+                </div>
                         <div class="mle-modal-body mle-media-modal-body modal-body p-0">
-                <button
-                    type="button"
-                    class="mle-modal-close-button mle-media-modal-close-button"
-                    data-mle-modal-close
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    title="Close"
-                >
-                    <span 
-        role="img" 
-        aria-label="Close" 
-        title="Close">?</span>
-                </button>
-                
+                                
                 <div id="media-carousel-mod-crs"
      data-base-id="media-carousel"
      class="mle-component mle-theme-bootstrap-5 mle-media-carousel media-carousel mle-media-carousel-empty carousel slide mle-width-100 mle-height-100" theme="bootstrap-5"

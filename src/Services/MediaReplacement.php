@@ -114,7 +114,7 @@ class MediaReplacement
         $oldUpload->delete();
 
         $safeFilename = sanitizeFilename(pathinfo($newFile->getClientOriginalName(), PATHINFO_FILENAME));
-        $extension = $newFile->getClientOriginalExtension();
+        $extension = $newFile->extension();
         $filename = "{$safeFilename}.{$extension}";
         $directory = "{$basePath}";
 

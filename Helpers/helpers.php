@@ -117,7 +117,7 @@ if (! function_exists('getMediaType')) {
     }
 }
 
-if (! function_exists('sanitize_filename')) {
+if (! function_exists('sanitizeFilename')) {
     function sanitizeFilename(string $name): string
     {
         return Str::slug($name, '_'); // converts to lowercase, replaces spaces/special chars with underscore

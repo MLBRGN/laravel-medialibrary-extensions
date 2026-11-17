@@ -48,6 +48,7 @@ class Assets extends Component
             ],
             'for' => $this->for, // keep track of which config belongs to what
             'theme' => $this->theme,
+            'debug' => config('medialibrary-extensions.debug'),
             'assetBasePath' => asset(
                 config('medialibrary-extensions.asset_path')
             ),

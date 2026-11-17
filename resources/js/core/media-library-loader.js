@@ -110,6 +110,12 @@ function loadMediaAssets(loader, manifest) {
         tasks.push(loadScript(`js/shared/media-lab-submitter.js`));
     }
 
+    Promise.all(tasks).then(() => {
+        if (debug) console.debug('[mle] all tasks completed for', theme);
+    }).catch(e => {
+        console.warn('[mle] some tasks failed for', theme, e);
+    });
+
     if (assets.debugToggle || debug) {
         tasks.push(loadScript(`js/shared/debug-toggle-listener.js`));
     }
