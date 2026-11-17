@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.9.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.12...2.9.0) (2026-11-17)
+
+
+### Features
+
+* add bootstrap-6 initial support ([a40742f](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/a40742fd134ebe2059f271e43f3831258b7b7d97))
+
+
+### Bug Fixes
+
+* make sure that imageSize is not false, otherwise code will crash in InteractsWithMediaExtended ([8b9cd13](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/8b9cd1388509ae2dc1037dbd9fff45ef19362e0b))
+* nested carousel navigation and bootstrap-6 re-implementation ([60a1335](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/60a13355175c4e444896fc851851333e6cc8387b))
+
 ## [2.8.12](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.11...2.8.12) (2026-10-18)
 
 
