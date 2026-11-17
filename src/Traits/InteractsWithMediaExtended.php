@@ -251,7 +251,13 @@ trait InteractsWithMediaExtended
         }
 
         // Get the original image dimensions
-        [$originalWidth, $originalHeight] = getimagesize($basePath);
+        $imageSize = getimagesize($basePath);
+
+        if ($imageSize === false) {
+            return;
+        }
+
+        [$originalWidth, $originalHeight] = $imageSize;
 
         if ($aspectRatio <= 0) {
             return; // Invalid input
