@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.1](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.9.0...2.9.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* s3 support ([75bf0c4](https://github.com/MLBRGN/laravel-medialibrary-extensions/commit/75bf0c4767bf1c943d408ca6150088bf9a9d57d8))
+
 ## [2.9.0](https://github.com/MLBRGN/laravel-medialibrary-extensions/compare/2.8.12...2.9.0) (2026-11-17)
 
 
