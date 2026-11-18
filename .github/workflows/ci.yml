@@ -49,7 +49,7 @@ jobs:
         run: npm run build
 
       - name: Run checks
-        run: composer test-ci-checks
+        run: composer test:ci-checks
 
   tests:
     name: P${{ matrix.php }}
@@ -97,4 +97,4 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
-        run: composer test-ci-tests
+        run: composer test:ci-tests
