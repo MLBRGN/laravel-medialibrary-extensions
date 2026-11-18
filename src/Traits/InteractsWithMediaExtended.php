@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace Mlbrgn\MediaLibraryExtensions\Traits;
@@ -20,13 +22,11 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Throwable;
 
 trait InteractsWithMediaExtended
 {
     use InteractsWithMedia;
-
-    /** Whether this model should store archived originals */
-    protected bool $storeOriginals = true;
     //    public array $htmlEditorFields = [];
 
     protected const ACTION_MAP = [
@@ -37,6 +37,9 @@ trait InteractsWithMediaExtended
 
     /** Used by Spatie when registering conversions on the instance */
     public bool $registerMediaConversionsUsingModelInstance = true;
+
+    /** Whether this model should store archived originals */
+    protected bool $storeOriginals = true;
 
     // ============================================================
     // Archived Original URL Helpers
@@ -60,16 +63,6 @@ trait InteractsWithMediaExtended
     ];
 
     protected static ?ImageManager $imageManager = null;
-
-    protected static function imageManager(): ImageManager
-    {
-        //        return self::$imageManager ??= new ImageManager(new Driver());
-        return self::$imageManager ??= new ImageManager(
-            extension_loaded('imagick')
-                ? new ImagickDriver
-                : new GdDriver
-        );
-    }
 
     // ============================================================
     // Boot logic for temporary uploads (unchanged)
@@ -167,6 +160,67 @@ trait InteractsWithMediaExtended
         });
     }
 
+    public static function allowsMediaUploads(): bool
+    {
+        return true;
+    }
+
+    public static function allowsMediaDeletes(): bool
+    {
+        return true;
+    }
+
+    public static function allowsMediaEdits(): bool
+    {
+        return true;
+    }
+
+    /*
+     * Determines whether the given user is authorized to perform
+     * the specified media action on this model.
+     *
+     * Authorization is resolved in the following order:
+     * 1. The model must support the requested action
+     *    (allowsMediaUploads(), allowsMediaEdits(), etc.).
+     * 2. If a Laravel policy exists for this model, it is used.
+     * 3. If no policy exists, authorization is granted by default.
+     */
+    //    public function canPerformMediaAction(
+    //        string $ability,
+    //        ?Authenticatable $user = null
+    //    ): bool {
+    //        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
+    //
+    //        if (! $supportsMethod) {
+    //            return false;
+    //        }
+    //
+    //        if (! static::$supportsMethod()) {
+    //            return false;
+    //        }
+    //
+    //        $policy = Gate::getPolicyFor($this);
+    //
+    //        if (! $policy) {
+    //            return true;
+    //        }
+    //
+    //        $policyMethod = $ability.'Media';
+    //
+    //        // if policy exists, but does not have the method, allow it
+    //        if (! method_exists($policy, $policyMethod)) {
+    //            return true;
+    //        }
+    //
+    //        return Gate::forUser($user)
+    //            ->allows($policyMethod, $this);
+    //    }
+
+    public static function isMediaUploadable(): bool
+    {
+        return static::allowsMediaUploads();
+    }
+
     public function getArchivedOriginalUrlAttribute(): ?string
     {
         $path = $this->id.'/'.$this->file_name;
@@ -185,49 +239,6 @@ trait InteractsWithMediaExtended
             : null;
     }
 
-    // ============================================================
-    // Helpers for safe media attach and archiving
-    // ============================================================
-
-    protected static function safeAddMedia(
-        $model,
-        $path,
-        $disk,
-        $filename,
-        $collection,
-        ?int $order = null,
-        $customProperties = []
-    ): ?Media {
-        try {
-            $media = $model
-                ->addMediaFromDisk($path, $disk)
-                ->preservingOriginal()
-                ->withCustomProperties($customProperties)
-                ->usingFileName($filename)
-                ->toMediaCollection($collection);
-
-            if ($order !== null) {
-                $media->order_column = $order;
-                $media->save();
-            }
-
-            return $media;
-        } catch (Exception $e) {
-            Log::error(__('medialibrary-extensions::messages.failed_to_attach_media', [
-                'message' => $e->getMessage(),
-            ]), [
-                'path' => $path,
-                'disk' => $disk,
-                'filename' => $filename,
-                'collection' => $collection,
-                'trace' => $e->getTraceAsString(),
-            ]);
-            throw $e;
-        }
-
-        return null;
-    }
-
     // TODO look if needed
     public function shouldStoreOriginals(): bool
     {
@@ -235,99 +246,6 @@ trait InteractsWithMediaExtended
         return property_exists($this, 'storeOriginals')
             ? $this->storeOriginals
             : config('medialibrary-extensions.store_originals', true);
-    }
-
-    protected function addResponsiveAspectRatioConversion(
-        Media $media,
-        array $collections,
-        float $aspectRatio,
-        string $aspectRatioName,
-        Fit $fit
-    ): void {
-        $basePath = $media->getPath();
-
-        if (! file_exists($basePath)) {
-            return;
-        }
-
-        // Get the original image dimensions
-        $imageSize = getimagesize($basePath);
-
-        if ($imageSize === false) {
-            return;
-        }
-
-        [$originalWidth, $originalHeight] = $imageSize;
-
-        if ($aspectRatio <= 0) {
-            return; // Invalid input
-        }
-
-        if (! $originalWidth || ! $originalHeight) {
-            return; // getImageSize failed or empty image
-        }
-
-        // Calculate target width and height based on the aspect ratio
-        $targetWidth = $originalWidth;
-        $targetHeight = (int) round($originalWidth / $aspectRatio);
-
-        // If the calculated height exceeds the original height, adjust it
-        if ($targetHeight > $originalHeight) {
-            $targetHeight = $originalHeight;
-            $targetWidth = (int) round($originalHeight * $aspectRatio);
-        }
-
-        // Define the maximum allowed resolution (e.g., 1920x1080)
-        $maxWidth = config('medialibrary-extensions.max_image_width', 1920);
-        $maxHeight = config('medialibrary-extensions.max_image_height', 1080);
-
-        // If the calculated width or height exceeds the max resolution, scale it down while maintaining the aspect ratio
-        if ($targetWidth > $maxWidth || $targetHeight > $maxHeight) {
-            // Calculate the scale ratio to fit within the max resolution
-            $scale = min($maxWidth / $targetWidth, $maxHeight / $targetHeight);
-
-            // Apply the scale to both width and height
-            $targetWidth = (int) round($targetWidth * $scale);
-            $targetHeight = (int) round($targetHeight * $scale);
-        }
-
-        if ($targetHeight === 0) {
-            return;
-        }
-
-        // Add the conversion with the calculated dimensions
-        $this
-            ->addMediaConversion("$aspectRatioName")
-            ->fit($fit, $targetWidth, $targetHeight) // Apply the resizing logic
-            ->format('webp') // Optional: Convert to WebP format
-            ->withResponsiveImages() // Enable responsive images
-            ->performOnCollections(...$collections); // Apply to the given collections
-    }
-
-    protected function addResponsive16x9Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
-    {
-        $this->addResponsiveAspectRatioConversion($media, $collections, 16 / 9, '16x9', $fit);
-    }
-
-    protected function addResponsive4x3Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
-    {
-        $this->addResponsiveAspectRatioConversion($media, $collections, 4 / 3, '4x3', $fit);
-    }
-
-    protected function addResponsive1x1Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
-    {
-        $this->addResponsiveAspectRatioConversion($media, $collections, 1, '1x1', $fit);
-    }
-
-    protected function addResponsive3x2Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
-    {
-        $this->addResponsiveAspectRatioConversion($media, $collections, 3 / 2, '3x2', $fit);
-    }
-
-    protected function addYouTubeCollection($name): MediaCollection
-    {
-        return $this
-            ->addMediaCollection($name);
     }
 
     // what conversions are defined for this media.
@@ -403,27 +321,26 @@ trait InteractsWithMediaExtended
 
     public function getBaseImageInfo(Media $media, ?array $requiredAspectRatio = null): array
     {
-        $path = $media->getPath();
+        $path = $media->getPathRelativeToRoot();
+        $disk = $media->disk;
 
-        if (! $path || ! file_exists($path)) {
+        if (! $path || ! Storage::disk($disk)->exists($path)) {
             return $this->emptyImageInfo();
         }
 
-        return $this->getImageInfo($path, null, 0.05, $requiredAspectRatio);
+        return $this->getImageInfo($path, $disk, 0.05, $requiredAspectRatio);
     }
 
     public function getImageInfo(string $path, ?string $disk = null, float $tolerance = 0.01, $requiredAspectRatio = null): array
     {
         try {
-            if ($disk) {
-                $absolutePath = Storage::disk($disk)->path($path);
-            } else {
-                $absolutePath = $path;
+            $stream = Storage::disk($disk)->readStream($path);
+            if (! $stream) {
+                return $this->emptyImageInfo();
             }
-            //            $manager = new ImageManager(new Driver());
 
-            $image = self::imageManager()->read($absolutePath);
-        } catch (\Throwable $e) {
+            $image = self::imageManager()->read($stream);
+        } catch (Throwable $e) {
             Log::error(__('medialibrary-extensions::messages.failed_to_read_image'.$e->getMessage()));
 
             return $this->emptyImageInfo();
@@ -514,6 +431,181 @@ trait InteractsWithMediaExtended
         ];
     }
 
+    public function getHtmlEditorFields(): array
+    {
+        return $this->htmlEditorFields ?? [];
+    }
+
+    /*
+      * Declares which media capabilities this model supports.
+      *
+      * These methods describe the model itself, not the current user.
+      * They are typically used to determine whether media features
+      * (buttons, routes, actions, etc.) should be available at all.
+      */
+    public function allowedMediaCollections(): array
+    {
+        return [];
+    }
+
+    public function isAllowedMediaCollection(string $collection): bool
+    {
+        $allowed = $this->allowedMediaCollections();
+
+        if ($allowed === []) {
+            return true;
+        }
+
+        return in_array($collection, $allowed, true);
+    }
+
+    protected static function imageManager(): ImageManager
+    {
+        //        return self::$imageManager ??= new ImageManager(new Driver());
+        return self::$imageManager ??= new ImageManager(
+            extension_loaded('imagick')
+                ? new ImagickDriver
+                : new GdDriver
+        );
+    }
+
+    // ============================================================
+    // Helpers for safe media attach and archiving
+    // ============================================================
+
+    protected static function safeAddMedia(
+        $model,
+        $path,
+        $disk,
+        $filename,
+        $collection,
+        ?int $order = null,
+        $customProperties = []
+    ): ?Media {
+        try {
+            $media = $model
+                ->addMediaFromDisk($path, $disk)
+                ->preservingOriginal()
+                ->withCustomProperties($customProperties)
+                ->usingFileName($filename)
+                ->toMediaCollection($collection);
+
+            if ($order !== null) {
+                $media->order_column = $order;
+                $media->save();
+            }
+
+            return $media;
+        } catch (Exception $e) {
+            Log::error(__('medialibrary-extensions::messages.failed_to_attach_media', [
+                'message' => $e->getMessage(),
+            ]), [
+                'path' => $path,
+                'disk' => $disk,
+                'filename' => $filename,
+                'collection' => $collection,
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
+
+        return null;
+    }
+
+    protected function addResponsiveAspectRatioConversion(
+        Media $media,
+        array $collections,
+        float $aspectRatio,
+        string $aspectRatioName,
+        Fit $fit
+    ): void {
+        $path = $media->getPathRelativeToRoot();
+        $disk = $media->disk;
+
+        if (! Storage::disk($disk)->exists($path)) {
+            return;
+        }
+
+        // Get the original image dimensions
+        try {
+            $image = self::imageManager()->read(Storage::disk($disk)->readStream($path));
+            $originalWidth = $image->width();
+            $originalHeight = $image->height();
+        } catch (Throwable $e) {
+            return;
+        }
+
+        if ($aspectRatio <= 0) {
+            return; // Invalid input
+        }
+
+        if (! $originalWidth || ! $originalHeight) {
+            return; // getImageSize failed or empty image
+        }
+
+        // Calculate target width and height based on the aspect ratio
+        $targetWidth = $originalWidth;
+        $targetHeight = (int) round($originalWidth / $aspectRatio);
+
+        // If the calculated height exceeds the original height, adjust it
+        if ($targetHeight > $originalHeight) {
+            $targetHeight = $originalHeight;
+            $targetWidth = (int) round($originalHeight * $aspectRatio);
+        }
+
+        // Define the maximum allowed resolution (e.g., 1920x1080)
+        $maxWidth = config('medialibrary-extensions.max_image_width', 1920);
+        $maxHeight = config('medialibrary-extensions.max_image_height', 1080);
+
+        // If the calculated width or height exceeds the max resolution, scale it down while maintaining the aspect ratio
+        if ($targetWidth > $maxWidth || $targetHeight > $maxHeight) {
+            // Calculate the scale ratio to fit within the max resolution
+            $scale = min($maxWidth / $targetWidth, $maxHeight / $targetHeight);
+
+            // Apply the scale to both width and height
+            $targetWidth = (int) round($targetWidth * $scale);
+            $targetHeight = (int) round($targetHeight * $scale);
+        }
+
+        if ($targetHeight === 0) {
+            return;
+        }
+
+        // Add the conversion with the calculated dimensions
+        $this
+            ->addMediaConversion("$aspectRatioName")
+            ->fit($fit, $targetWidth, $targetHeight) // Apply the resizing logic
+            ->format('webp') // Optional: Convert to WebP format
+            ->withResponsiveImages() // Enable responsive images
+            ->performOnCollections(...$collections); // Apply to the given collections
+    }
+
+    protected function addResponsive16x9Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
+    {
+        $this->addResponsiveAspectRatioConversion($media, $collections, 16 / 9, '16x9', $fit);
+    }
+
+    protected function addResponsive4x3Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
+    {
+        $this->addResponsiveAspectRatioConversion($media, $collections, 4 / 3, '4x3', $fit);
+    }
+
+    protected function addResponsive1x1Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
+    {
+        $this->addResponsiveAspectRatioConversion($media, $collections, 1, '1x1', $fit);
+    }
+
+    protected function addResponsive3x2Conversion(Media $media, array $collections, Fit $fit = Fit::Crop): void
+    {
+        $this->addResponsiveAspectRatioConversion($media, $collections, 3 / 2, '3x2', $fit);
+    }
+
+    protected function addYouTubeCollection($name): MediaCollection
+    {
+        return $this
+            ->addMediaCollection($name);
+    }
+
     // Default placeholder structure for missing or invalid images.
     protected function emptyImageInfo(): array
     {
@@ -541,95 +633,6 @@ trait InteractsWithMediaExtended
             'requiredValue' => null,
         ];
 
-    }
-
-    public function getHtmlEditorFields(): array
-    {
-        return $this->htmlEditorFields ?? [];
-    }
-
-    /*
-      * Declares which media capabilities this model supports.
-      *
-      * These methods describe the model itself, not the current user.
-      * They are typically used to determine whether media features
-      * (buttons, routes, actions, etc.) should be available at all.
-      */
-    public function allowedMediaCollections(): array
-    {
-        return [];
-    }
-
-    public static function allowsMediaUploads(): bool
-    {
-        return true;
-    }
-
-    public static function allowsMediaDeletes(): bool
-    {
-        return true;
-    }
-
-    public static function allowsMediaEdits(): bool
-    {
-        return true;
-    }
-
-    /*
-     * Determines whether the given user is authorized to perform
-     * the specified media action on this model.
-     *
-     * Authorization is resolved in the following order:
-     * 1. The model must support the requested action
-     *    (allowsMediaUploads(), allowsMediaEdits(), etc.).
-     * 2. If a Laravel policy exists for this model, it is used.
-     * 3. If no policy exists, authorization is granted by default.
-     */
-    //    public function canPerformMediaAction(
-    //        string $ability,
-    //        ?Authenticatable $user = null
-    //    ): bool {
-    //        $supportsMethod = self::ACTION_MAP[$ability] ?? null;
-    //
-    //        if (! $supportsMethod) {
-    //            return false;
-    //        }
-    //
-    //        if (! static::$supportsMethod()) {
-    //            return false;
-    //        }
-    //
-    //        $policy = Gate::getPolicyFor($this);
-    //
-    //        if (! $policy) {
-    //            return true;
-    //        }
-    //
-    //        $policyMethod = $ability.'Media';
-    //
-    //        // if policy exists, but does not have the method, allow it
-    //        if (! method_exists($policy, $policyMethod)) {
-    //            return true;
-    //        }
-    //
-    //        return Gate::forUser($user)
-    //            ->allows($policyMethod, $this);
-    //    }
-
-    public static function isMediaUploadable(): bool
-    {
-        return static::allowsMediaUploads();
-    }
-
-    public function isAllowedMediaCollection(string $collection): bool
-    {
-        $allowed = $this->allowedMediaCollections();
-
-        if ($allowed === []) {
-            return true;
-        }
-
-        return in_array($collection, $allowed, true);
     }
 
     protected function isValidUploadableModel(string $class): bool

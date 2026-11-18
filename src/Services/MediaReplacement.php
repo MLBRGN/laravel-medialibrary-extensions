@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
 /*
@@ -9,6 +11,7 @@ namespace Mlbrgn\MediaLibraryExtensions\Services;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Mlbrgn\MediaLibraryExtensions\Models\TemporaryUpload;
+use RuntimeException;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -28,7 +31,7 @@ class MediaReplacement
         $model = $oldMedia->model;
 
         if (! $model) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 "No owning model found for media [{$oldMedia->getKey()}]."
             );
         }
@@ -55,12 +58,12 @@ class MediaReplacement
             if ($newFile) {
                 $newMedia = $model
                     ->addMedia($newFile)
-                    ->toMediaCollection($collection);
+                    ->toMediaCollection($collection, $oldMedia->disk);
             } else {
                 $newMedia = $model
-                    ->addMedia($backup->getPath())
+                    ->addMediaFromDisk($oldMedia->getPathRelativeToRoot(), $oldMedia->disk)
                     ->preservingOriginal()
-                    ->toMediaCollection($collection);
+                    ->toMediaCollection($collection, $oldMedia->disk);
             }
 
             // Preserve metadata from the original media record.

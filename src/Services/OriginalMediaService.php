@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mlbrgn\MediaLibraryExtensions\Services;
 
 /*
@@ -36,11 +38,11 @@ class OriginalMediaService
         }
 
         // Stream the file instead of loading it entirely into memory.
-        $stream = fopen($media->getPath(), 'rb'); // rb = read and binary
+        $stream = Storage::disk($media->disk)->readStream($media->getPathRelativeToRoot());
 
         if (! $stream) {
             throw new RuntimeException(
-                "Unable to open media file [{$media->getPath()}]."
+                "Unable to open media file [{$media->getPathRelativeToRoot()}] on disk [{$media->disk}]."
             );
         }
 
